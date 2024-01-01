@@ -179,10 +179,14 @@
             <td>${item.GRADUATE_TYPE_TXT}</td>
             <td>${item.GRADE}</td>
             <td>
-              <img src="/images/ico/file.gif" onclick="fileDown('${item.degreeFile.file_path}${item.degreeFile.file_uuid}', '${item.degreeFile.file_org_name}.${item.degreeFile.file_ext}', 'recruit')">
+              <c:if test="${item.degreeFile ne null}">
+                <img src="/images/ico/file.gif" onclick="fileDown('${item.degreeFile.file_path}${item.degreeFile.file_uuid}', '${item.degreeFile.file_org_name}.${item.degreeFile.file_ext}', 'recruit')">
+              </c:if>
             </td>
             <td>
-              <img src="/images/ico/file.gif" onclick="fileDown('${item.sexualFile.file_path}${item.sexualFile.file_uuid}', '${item.sexualFile.file_org_name}.${item.sexualFile.file_ext}', 'recruit')">
+              <c:if test="${item.sexualFile ne null}">
+                <img src="/images/ico/file.gif" onclick="fileDown('${item.sexualFile.file_path}${item.sexualFile.file_uuid}', '${item.sexualFile.file_org_name}.${item.sexualFile.file_ext}', 'recruit')">
+              </c:if>
             </td>
           </tr>
         </c:forEach>

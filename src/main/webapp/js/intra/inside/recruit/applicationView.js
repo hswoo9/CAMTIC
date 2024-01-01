@@ -117,7 +117,7 @@ var appView = {
             data.USER_NAME_CN+
             '</td>' +
             '          <td rowspan="4">' +
-            '            <img id="imgPerson" src="' + data.photoFile.file_path + data.photoFile.file_uuid+
+            '            <img id="imgPerson" src="http://218.158.231.189' + data.photoFile.file_path + data.photoFile.file_uuid+
             '" border="0" style="height:110px;width:85px;">' +
             '          </td>' +
             '        </tr>' +
@@ -263,7 +263,11 @@ var appView = {
             html += '<td>' + item.CHARGE_WORK + '</td>';
             html += '<td>' + item.RETIRE_SALARY + '</td>';
             html += '<td>' + item.RETIRE_REASON + '</td>';
-            html += '<td><img src="/images/ico/file.gif" onclick="fileDown(\'' + item.careerFile.file_path + item.careerFile.file_uuid + '\', \'' + item.careerFile.file_org_name + '.' + item.careerFile.file_ext + '\')"></td>';
+            html += '<td>';
+            if(item.careerFile != null){
+                html += '<img src="/images/ico/file.gif" onclick="fileDown(\'' + item.careerFile.file_path + item.careerFile.file_uuid + '\', \'' + item.careerFile.file_org_name + '.' + item.careerFile.file_ext + '\')">';
+            }
+            html += '</td>';
             html += '</tr>';
 
             html += '<tr>';
