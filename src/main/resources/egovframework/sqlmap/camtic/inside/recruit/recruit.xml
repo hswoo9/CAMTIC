@@ -524,14 +524,14 @@
                     DEPT,
                     '(',
                     CASE WHEN MAX(SCHOOL_TYPE) = '1' THEN '고등학교'
-                        WHEN MAX(SCHOOL_TYPE) = '2' THEN '전문대학'
-                        WHEN MAX(SCHOOL_TYPE) = '3' OR MAX(SCHOOL_TYPE) = '4' THEN '대학교'
+                        WHEN MAX(SCHOOL_TYPE) = '2' THEN '학사'
+                        WHEN MAX(SCHOOL_TYPE) = '3' OR MAX(SCHOOL_TYPE) = '4' THEN '학사'
                         WHEN MAX(SCHOOL_TYPE) = '5' THEN '석사'
                         WHEN MAX(SCHOOL_TYPE) = '6' THEN '박사'
                     END,
                     CASE WHEN GRADUATE_TYPE = '1' THEN ''
                         WHEN GRADUATE_TYPE = '2' THEN ' 졸업예정'
-                        WHEN GRADUATE_TYPE = '2' THEN ' 수료'
+                        WHEN GRADUATE_TYPE = '3' THEN ' 수료'
                     END,
                     ')'
                 ) AS SCHOOL_NAME
