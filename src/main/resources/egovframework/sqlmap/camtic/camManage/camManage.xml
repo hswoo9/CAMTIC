@@ -410,7 +410,17 @@
     <select id="getEtaxList" parameterType="map" resultType="map">
         /* MariaDB  -  getEtaxList*/
         SELECT
-            A.*
+            A.ISS_NO, A.CO_CD, A.DIV_CD, A.TR_CD, A.ISS_DT, A.TAX_TY, A.ISU_DT, A.DIVREG_NB, A.DIVSUB_NB, A.DIV_NM,
+            A.DIVCEO_NM, A.TRREG_NB, A.TRSUB_NB, A.TR_NM, A.TRCEO_NM,
+            CAST(A.SUM_AM AS INT) AS SUM_AM,
+            CAST(A.SUP_AM AS INT) AS SUP_AM,
+            CAST(A.VAT_AM AS INT) AS VAT_AM,
+            A.ETAX_TY, A.ETAX_FG,
+            A.SEND_FG, A.DUMMY1, A.DUMMY2, A.ISS_YMD, A.ITEM_DC, A.ADDTAX_CD, A.ADDTAX_AM, A.ADDRTE_RT, A.EMAIL_DC, A.TRCHARGE_EMAIL,
+            A.INSERT_DT, A.ST_TR_CD, A.TR_FG, A.REG_NB, A.CEO_NM, A.BUSINESS, A.JONGMOK, A.ZIP, A.DIV_ADDR1, A.ADDR2,
+            A.TEL, A.FAX, A.BA_NB, A.INTER_DT, A.LIQ_WS, A.LIQ_RS, A.USE_YN, A.CLTTR_CD, A.JIRO_CD, A.DEPOSITOR,
+            A.TR_NMK, A.ATTR_NMK, A.BA_NB_TR, A.AREA_CD, A.GUGUN_CD, A.BANK_NM,
+            B.*
         FROM
             CAM_MNG.DJ_ETAX_INFO A
         LEFT JOIN

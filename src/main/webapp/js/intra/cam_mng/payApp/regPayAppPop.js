@@ -345,7 +345,9 @@ var regPay = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
                 buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \'payApp\', \'camticPayApp_'+data.PAY_APP_SN+'\', 2, \'reDrafting\');">재상신</button>';
             }else if(data.DOC_STATUS == "100"){
-                buttonHtml += '<button type="button" id="reCallBtn" style="margin-right: 5px;" class="k-button k-button-solid-primary" onclick="regPay.fn_revertModal(\''+data.DOC_ID+'\')">반려</button>';
+                if($("#auth").val() != 'user'){
+                    buttonHtml += '<button type="button" id="reCallBtn" style="margin-right: 5px;" class="k-button k-button-solid-primary" onclick="regPay.fn_revertModal(\''+data.DOC_ID+'\')">반려</button>';
+                }
                 buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'payApp'+data.PAY_APP_SN+'\', \'payApp\');">열람</button>';
                 $("#addBtn").hide();
                 $("#exnpAddBtn").show();
@@ -702,6 +704,13 @@ var regPay = {
         } else {
             $("#footerLine").attr("colspan", "8");
         }
+
+        var totAllCost = 0;
+        $(".totCost").each(function(){
+            totAllCost += Number(regPay.uncomma($(this).val()));
+        });
+
+        $("#totalAllCost").text(regPay.comma(totAllCost));
     },
 
     fn_popDateSetting : function(){
@@ -1046,6 +1055,7 @@ var regPay = {
         $("#row2").css("display", "");
         $("#row1").css("display", "none");
         $("#changeBtn").css("display", "none");
+        $("#modalSaveBtn").css("display", "");
     },
 
     fn_calCost: function(obj){
@@ -1096,7 +1106,7 @@ var regPay = {
         var url = "/project/pop/g20ProjectView.do?type=" + type;
 
         var name = "_blank";
-        var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 450, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

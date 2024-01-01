@@ -90,6 +90,7 @@
                             <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
                             <input type="hidden" id="pjtCd" value="${pjtData.PJT_CD}" />
+                            <input type="hidden" id="baseYear" value="" />
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPay.fn_projectPop('regPay')">검색</button>
                         </span>
                     </td>
@@ -376,6 +377,7 @@
         </tr>
         </thead>
     </table>
+<%--    <button type="button" onclick="regPay.fn_save('user')" id="modalSaveBtn" class="k-button k-button-solid-info" style="float: right; margin-left: 5px; margin-top:8px; font-size: 12px; display: none;">저장</button>--%>
     <button type="button" onclick="regPay.payAppDrafting()" class="k-button k-button-solid-info" style="float: right; margin-top:8px; font-size: 12px;">상신</button>
     <button type="button" class="k-button k-button-solid-base" id="changeBtn" style="float: right; margin-top:8px; margin-right: 5px; font-size: 12px;" onclick="regPay.fn_exnpDeChange()">지출예정일 변경</button>
 </div>
@@ -433,10 +435,11 @@
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }
 
-    function selectProject(sn, nm, cd){
+    function selectProject(sn, nm, cd, baseYear){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);
+        $("#baseYear").val(baseYear);
 
         var data = {
             pjtCd : cd

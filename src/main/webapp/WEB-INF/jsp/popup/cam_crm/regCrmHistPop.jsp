@@ -213,7 +213,7 @@
         $("#crmShareEmp").val(empSeqAr.substring(0, empSeqAr.length-1));
     }
 
-    function selectProject(sn, nm, cd){
+    function selectProject(sn, nm, cd, baseYear){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);

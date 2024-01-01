@@ -599,8 +599,8 @@
         WHERE
             A.PJT_NM LIKE '%' + #{pjtNm} + '%'
         AND
-            ((FR_DT BETWEEN 20230101 AND 20231231) OR (TO_DT BETWEEN 20230101 AND 20231231))
-        AND B.MGT_CD IS NOT NULL;
+            ((FR_DT BETWEEN #{baseYear} + '0101' AND #{baseYear} + '1231') OR (TO_DT BETWEEN #{baseYear} + '0101' AND #{baseYear} + '1231'))
+        AND B.MGT_CD IS NOT NULL
     </select>
 
     <select id="getEtaxList" parameterType="map" resultType="map">

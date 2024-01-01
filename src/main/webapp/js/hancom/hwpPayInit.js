@@ -11,7 +11,9 @@ var payInit = {
         hwpDocCtrl.putFieldText("DOC_NO", rs.DOC_NO);
         hwpDocCtrl.putFieldText("REG_DATE", rs.REG_DATE);
         hwpDocCtrl.putFieldText("REQ_DE", rs.REQ_DE.split("-")[0] + "년 " + rs.REQ_DE.split("-")[1] + "월 " + rs.REQ_DE.split("-")[2] + "일");
-        hwpDocCtrl.putFieldText("TO_DATE", fn_getNowDate(1));
+        hwpDocCtrl.putFieldText("TO_DATE", rs.REQ_DE.split("-")[0] + "년 " + rs.REQ_DE.split("-")[1] + "월 " + rs.REQ_DE.split("-")[2] + "일");
+
+        // hwpDocCtrl.putFieldText("TO_DATE", fn_getNowDate(1));
         hwpDocCtrl.putFieldText("REASON", rs.REASON);
         hwpDocCtrl.putFieldText("APP_TITLE", rs.APP_TITLE);
         hwpDocCtrl.putFieldText("APP_CONT", rs.APP_CONT);

@@ -22,6 +22,7 @@ var g20ProjectView = {
                 parameterMap: function(data){
                     data.type = $("#type").val();
                     data.pjtNm = $("#pjtNm").val();
+                    data.baseYear = $("#baseYear").val();
                     data.busnClass = $("#busnClass").val();
                     data.myEmpSeq = $("#myEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
@@ -55,6 +56,12 @@ var g20ProjectView = {
             },
             toolbar : [
                 {
+                    name : 'text',
+                    template : function (e){
+                        return '<label for="baseYear" class="k-label">기준연도</label> ' +
+                            '<input type="text" class="k-input" id="baseYear" style="width: 100px; margin-right: 5px;" onkeyup="g20ProjectView.fn_enterKey();"/>';
+                    }
+                }, {
                     name : 'text',
                     template : function (e){
                         return '<label for="pjtNm" class="k-label">프로젝트 명</label> ' +
@@ -194,6 +201,7 @@ var g20ProjectView = {
                 }
             ],
         }).data("kendoGrid");
+        customKendo.fn_datePicker("baseYear", "decade", "yyyy", new Date());
     },
 
     fn_enterKey: function(){
@@ -205,7 +213,8 @@ var g20ProjectView = {
     },
 
     fn_selectProject: function(key, name, cd){
-        opener.parent.selectProject(key, name, cd);
+        var baseYear = $("#baseYear").val();
+        opener.parent.selectProject(key, name, cd, baseYear);
 
         window.close();
     }

@@ -148,7 +148,11 @@ var exnpList = {
                             if(e.REQ_END_DE != null && e.REQ_END_DE != "" && e.REQ_END_DE != undefined){
                                 status = "승인";
                             } else {
-                                status = "미결";
+                                if(e.EVI_TYPE == 1 || e.EVI_TYPE == 2 || e.EVI_TYPE == 3){
+                                    status = "승인";
+                                } else {
+                                    status = "미결";
+                                }
                             }
                         } else {
                             status = "미결";
