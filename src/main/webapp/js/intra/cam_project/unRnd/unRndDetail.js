@@ -27,7 +27,7 @@ var unRndDetail = {
 
         var tooltip = $("#tooltip").kendoTooltip({
             filter: "span",
-            width: 400,
+            width: 525,
             position: "top",
             animation: {
                 open: {

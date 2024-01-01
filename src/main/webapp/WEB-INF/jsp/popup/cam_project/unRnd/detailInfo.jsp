@@ -41,6 +41,10 @@
         -webkit-transition:  -webkit-box-shadow .3s;
         transition:  box-shadow .3s;
     }
+
+    .k-tooltip {
+        font-size: 12px !important;
+    }
 </style>
 <input type="hidden" id="step" value="S2" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
