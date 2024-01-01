@@ -96,6 +96,14 @@ var normalArticleDetail = {
 		customKendo.fn_textBox(["articleReplyContent"]);
 
 		normalArticleDetail.getArticleReplyGrid();
+
+		var tables = document.querySelectorAll("#articleContentDiv table tr table[bgcolor='#afafaf']");
+		tables.forEach(function(table) {
+			var rows = table.querySelectorAll("td");
+			rows.forEach(function(row) {
+				row.style.border = "1px solid #afafaf";
+			});
+		});
 	},
 
 	boardAttachmentDown : function(){
