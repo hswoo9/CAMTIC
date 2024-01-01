@@ -331,7 +331,7 @@
           <th>활용능력</th>
           <th>증빙</th>
         </tr>
-        <c:forEach var="item" items="${data.certFile}">
+        <c:forEach var="item" items="${data.lang}">
           <tr>
             <td>${item.LANG_NAME}</td>
             <td>${item.ACQUISITION_DATE}</td>
