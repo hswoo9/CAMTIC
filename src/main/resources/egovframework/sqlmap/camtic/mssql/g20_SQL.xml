@@ -48,12 +48,12 @@
         ]]>
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
-                AND A.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                AND A.${searchKeyword} LIKE '%' + #{searchValue} + '%'
             </when>
             <otherwise>
                 <if test='searchValue != null and !"".equals(searchValue)'>
-                    AND (A.PJT_NM LIKE CONCAT('%', #{searchValue}, '%')
-                    OR A.PJT_CD LIKE CONCAT('%', #{searchValue}, '%'))
+                    AND (A.PJT_NM LIKE '%' + #{searchValue} + '%'
+                    OR A.PJT_CD LIKE '%' + #{searchValue} + '%')
                 </if>
             </otherwise>
         </choose>
@@ -89,7 +89,7 @@
                 ELSE '1'
                 END
             ) = '1'
-        AND A.PJT_CD LIKE CONCAT('%', #{pjtTmpCd} ,'%')
+        AND A.PJT_CD LIKE '%' + #{pjtTmpCd} + '%'
         ]]>
     </select>
 
@@ -231,7 +231,7 @@
         SELECT TR_CD, TR_NM, BA_NB, DEPOSITOR, JIRO_NM
         FROM ZA_TRADE_DAIKIN
         WHERE TR_FG = '5'
-          AND (TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR BA_NB LIKE CONCAT('%', #{searchValue}, '%'))
+          AND (TR_NM LIKE '%' + #{searchValue} + '%' OR BA_NB LIKE '%' + #{searchValue} + '%')
     </select>
 
     <select id="getCrmInfo" parameterType="map" resultType="map">
@@ -286,7 +286,7 @@
         FROM ZA_TRADE_DAIKIN
         WHERE TR_FG = '1'
             AND
-                (TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR REG_NB LIKE CONCAT('%', #{searchValue}, '%'))
+                (TR_NM LIKE '%' + #{searchValue} + '%' OR BA_NB LIKE '%' + #{searchValue} + '%' OR REG_NB LIKE '%' + #{searchValue} + '%')
     </select>
 
     <select id="getCardList" parameterType="map" resultType="map">
@@ -304,18 +304,18 @@
         ON A.CLTTR_CD = B.TR_CD
         WHERE A.TR_FG = '9'
             AND
-                (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR A.REG_NB LIKE CONCAT('%', #{searchValue}, '%'))
+                (A.TR_NM LIKE '%' + #{searchValue} + '%' OR A.BA_NB LIKE '%' + #{searchValue} + '%' OR A.REG_NB LIKE '%' + #{searchValue} + '%')
         <if test='cardName != null and !"".equals(cardName)'>
             AND
-                A.TR_NM LIKE CONCAT('%',#{cardName},'%')
+                A.TR_NM LIKE '%' + #{cardName} + '%'
         </if>
         <if test='"M".equals(cardVal)'>
             AND
-                A.TR_NM NOT LIKE CONCAT('%', '_개인카드', '%')
+                A.TR_NM NOT LIKE '%' + '_개인카드' + '%'
         </if>
         <if test='"P".equals(cardVal)'>
             AND
-            A.TR_NM LIKE CONCAT('%', '_개인카드', '%')
+            A.TR_NM LIKE '%' + '_개인카드' + '%'
         </if>
     </select>
 
@@ -330,9 +330,9 @@
             BANK_NM
         FROM VN_G20HEARNER_INFO
         WHERE
-            (PER_NM LIKE CONCAT('%', #{searchValue}, '%')
-        OR REG_NO LIKE CONCAT('%', #{searchValue}, '%')
-        OR ACCT_NO LIKE CONCAT('%', #{searchValue}, '%'))
+            (PER_NM LIKE '%' + #{searchValue} + '%'
+        OR REG_NO LIKE '%' + #{searchValue} + '%'
+        OR ACCT_NO LIKE '%' + #{searchValue} + '%')
         <if test='type == "9" or "9".equals(type)'>
             AND
             DATA_CD = 'G'
@@ -534,7 +534,7 @@
             </if>
             <if test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND
-                    ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+                    ${searchKeyword} LIKE '%' + #{searchValue} + '%'
             </if>
         ORDER BY A.FR_DT DESC
     </select>
@@ -584,7 +584,7 @@
         </if>
         <if test='searchKeyword != null and !"".equals(searchKeyword)'>
             AND
-            ${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
+            ${searchKeyword} LIKE '%' + #{searchValue} + '%'
         </if>
         GROUP BY A.PJT_CD
         ORDER BY A.FR_DT DESC
@@ -597,7 +597,7 @@
         ON
             A.PJT_CD = B.MGT_CD
         WHERE
-            A.PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
+            A.PJT_NM LIKE '%' + #{pjtNm} + '%'
         AND
             ((FR_DT BETWEEN 20230101 AND 20231231) OR (TO_DT BETWEEN 20230101 AND 20231231))
         AND B.MGT_CD IS NOT NULL;
@@ -628,7 +628,7 @@
         </if>
         <if test='searchValue != null and !"".equals("searchValue")'>
             AND
-                A.TR_NM LIKE CONCAT('%', #{searchValue} , '%')
+                A.TR_NM LIKE '%' + #{searchValue} + '%'
         </if>
         ORDER BY ISU_DT DESC
     </select>

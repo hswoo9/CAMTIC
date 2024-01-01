@@ -179,7 +179,7 @@ var regPay = {
             if(exnpData.COMPANION != 0){
                 $("#etc0").val(exnpData.EMP_NAME + " 외 "+exnpData.COMPANION+"명 개인여비");
             }else{
-                $("#etc0").val(exnpData.EMP_NAME);
+                $("#etc0").val(exnpData.EMP_NAME+" 개인여비");
             }
             $("#totCost0").val(regPay.comma(exnpData.PERSON_SUM));
             $("#supCost0").val(regPay.comma(exnpData.PERSON_SUM));
@@ -191,6 +191,81 @@ var regPay = {
             for(let i=0; i<cardList.length; i++){
                 const cardMap = cardList[i];
                 const index = i+1;
+
+                const parameters = {
+                    cardNo : cardMap.CARD_NO,
+                    authDate : cardMap.AUTH_DD,
+                    authNo : cardMap.AUTH_NO,
+                    authTime : cardMap.AUTH_HH,
+                    buySts : cardMap.BUY_STS
+                }
+                console.log("parameters");
+                console.log(parameters);
+
+
+                const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", parameters);
+                const data = iBrenchResult.cardInfo;
+                console.log(data);
+
+                $("#crmNm" + index).val(data.MER_NM);
+                $("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
+                $("#trCd" + index).val(data.TR_CD);
+                $("#totCost" + index).val(comma(data.AUTH_AMT));
+                $("#supCost" + index).val(comma(data.SUPP_PRICE));
+                $("#vatCost" + index).val(comma(data.SURTAX));
+                $("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
+                $("#card" + index).val(data.TR_NM);
+                $("#buySts" + index).val(data.BUY_STS);
+                $("#crmAccHolder" + index).val(data.DEPOSITOR);
+                $("#crmAccNo" + index).val(data.BA_NB);
+                $("#crmBnkNm" + index).val(data.JIRO_NM);
+                $("#regNo" + index).val(data.MER_BIZNO);
+                $("#authNo" + index).val(data.AUTH_NO);
+                $("#authDd" + index).val(data.AUTH_DD);
+                $("#authHh" + index).val(data.AUTH_HH);
+            }
+        }
+
+        if($("#reqType").val() == "snack"){
+            const snackInfoSn = $("#snackInfoSn").val();
+            const data = {
+                snackInfoSn : snackInfoSn
+            }
+            const result = customKendo.fn_customAjax("/inside/getSnackOne", data);
+            const snackData = result.data;
+
+            console.log(snackData);
+
+            const cardResult = customKendo.fn_customAjax("/snack/getCardList", data);
+            const cardList = cardResult.list;
+            console.log("cardList");
+            console.log(cardList);
+
+            let count = 0;
+            /** 개인여비 */
+            if(snackData.PAY_TYPE != null){
+                if(snackData.PAY_TYPE != "2"){
+                    $("#eviType0").data("kendoDropDownList").value(1);
+                    $("#etc0").val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
+                    $("#totCost0").val(regPay.comma(snackData.AMOUNT_SN));
+                    $("#supCost0").val(regPay.comma(snackData.AMOUNT_SN));
+                    count = 1;
+                }
+            }
+
+            /** 법인카드 사용내역 */
+            if(count == 0){
+                for(let i=(1+count); i < (cardList.length+count); i++) {
+                    regPayDet.addRow();
+                }
+            }else{
+                for(let i=(0+count); i < (cardList.length+count); i++) {
+                    regPayDet.addRow();
+                }
+            }
+            for(let i=0; i<cardList.length; i++){
+                const cardMap = cardList[i];
+                const index = i+count;
 
                 const parameters = {
                     cardNo : cardMap.CARD_NO,
