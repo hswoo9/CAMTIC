@@ -153,7 +153,9 @@ var formM = {
                 { label : "2년", value : "2" },
                 { label : "3년", value : "3" },
                 { label : "4년", value : "4" },
-                { label : "5년", value : "5" }
+                { label : "5년", value : "5" },
+                { label : "10년", value : "10" },
+                { label : "영구", value : "99" },
             ],
             layout : "horizontal",
             labelPosition : "after",

@@ -1135,7 +1135,8 @@
             LAST_APPROVE_DT = NOW(),
             DOC_PRESERVE_PERIOD = (
                 SELECT
-                    CASE WHEN COUNT(*) > 0 THEN DATE_FORMAT(DATE_ADD(DATE_ADD(NOW(), INTERVAL A.PRESERVE_PERIOD YEAR), INTERVAL -1 DAY), '%Y-%m-%d')
+                    CASE WHEN A.PRESERVE_PERIOD = '99' THEN DATE_FORMAT('9999-12-31', '%Y-%m-%d')
+                        WHEN COUNT(*) > 0 THEN DATE_FORMAT(DATE_ADD(DATE_ADD(NOW(), INTERVAL A.PRESERVE_PERIOD YEAR), INTERVAL -1 DAY), '%Y-%m-%d')
                     ELSE DATE_FORMAT(DATE_ADD(DATE_ADD(NOW(), INTERVAL 5 YEAR), INTERVAL -1 DAY), '%Y-%m-%d') END
                 FROM
                     DJ_CAMTIC.A_FORM_REQ_OPT A
