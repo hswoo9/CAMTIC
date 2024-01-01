@@ -33,6 +33,12 @@
 	.replyPadding {
 		padding-left: 25px !important;
 	}
+	#articleContentDiv table {
+		background-color: transparent;
+	}
+	#articleContentDiv table tr table:first-child {
+		border: 1px solid #afafaf;
+	}
 </style>
 <div class="mainCard">
 	<div class="panel">
