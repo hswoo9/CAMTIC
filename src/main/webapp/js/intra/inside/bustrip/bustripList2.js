@@ -85,8 +85,14 @@ var bustList = {
             },
             columns: [
                 {
+                    title: "출장구분",
+                    width: 50,
+                    template: function(row){
+                        return bustrip.fn_getTripCodeText(row);
+                    }
+                },{
                     title: "사업명",
-                    width: 200,
+                    width: 160,
                     template: function(row){
                         if(row.BUSN_NAME != null && row.BUSN_NAME != ""){
                             if(row.BUSN_NAME.toString().length > 30){
@@ -117,7 +123,7 @@ var bustList = {
                             return row.VISIT_CRM;
                         }
                     },
-                    width: 140
+                    width: 125
                 }, {
                     title: "출발일시",
                     template: function(row){
@@ -191,7 +197,7 @@ var bustList = {
                     }
                 }, {
                     title : "지급신청",
-                    width: 70,
+                    width: 80,
                     template : function (e){
                         if(e.RS_STATUS == 100 && e.EXP_STAT == 100){
                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
@@ -200,6 +206,12 @@ var bustList = {
                         }
                     },
                     footerTemplate: "출장완료 여비합계"
+                }, {
+                    title: "입금상태",
+                    width: 50,
+                    template : function (e){
+                        return "-";
+                    }
                 }, {
                     title : "여비금액",
                     width: 70,

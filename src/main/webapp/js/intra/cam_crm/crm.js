@@ -102,6 +102,10 @@ var crm = {
                     template : "<input type='checkbox' id='crm#=CRM_SN#' name='crmSn' value='#=CRM_SN#' style=\"top: 3px; position: relative\" />",
                     width: 30,
                 }, {
+                    title: "순번",
+                    template: "#= --record #",
+                    width: 35
+                }, {
                     field: "CRM_NM",
                     title: "업체명",
                     width: 120,
@@ -142,7 +146,10 @@ var crm = {
                         }
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 3);
+            }
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){

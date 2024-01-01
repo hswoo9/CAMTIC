@@ -153,7 +153,13 @@ var bustripMngList = {
                         }
                     },
                     width: 60
-                }
+                }, {
+                    title: "입금상태",
+                    width: 50,
+                    template : function (e){
+                        return "-";
+                    }
+                },
             ]
         }).data("kendoGrid");
     },
