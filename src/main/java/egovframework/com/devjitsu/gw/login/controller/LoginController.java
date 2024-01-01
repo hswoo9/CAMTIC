@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.gw.login.controller;
 import com.google.common.hash.Hashing;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.login.service.LoginService;
+import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/login.do")
     public String openLoginPage(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -41,9 +45,19 @@ public class LoginController {
             logger.info("params : "+params);
             LoginVO login = new LoginVO();
             login.setId(params.get("id").toString());
-
             String passwordTmp = params.get("password").toString();
-            if(passwordTmp.equals("camtic2021") || passwordTmp.equals("Camtic2021") || passwordTmp.equals("Camtic2021*^^*V")){
+
+            Map<String, Object> userData = userService.getUserInfoToId(params);
+            if(userData != null){
+                if(userData.get("TEMP_DIVISION").toString().equals("E") || passwordTmp.equals("camtic2021") || passwordTmp.equals("Camtic2021") || passwordTmp.equals("Camtic2021*^^*V")){
+                    login = loginService.actionLogin(loginVO);
+                }else{
+                    /** 비밀번호 암호화 하여 대조*/
+                    String password = Hashing.sha256().hashString(passwordTmp, StandardCharsets.UTF_8).toString();
+                    loginVO.setPasswd(password);
+                    login = loginService.actionLogin(loginVO);
+                }
+            }else if(passwordTmp.equals("camtic2021") || passwordTmp.equals("Camtic2021") || passwordTmp.equals("Camtic2021*^^*V")){
                 login = loginService.actionLogin(loginVO);
             }else{
                 /** 비밀번호 암호화 하여 대조*/
@@ -51,6 +65,8 @@ public class LoginController {
                 loginVO.setPasswd(password);
                 login = loginService.actionLogin(loginVO);
             }
+
+
             logger.info("LoginVO : "+login);
 
             if (login != null) {

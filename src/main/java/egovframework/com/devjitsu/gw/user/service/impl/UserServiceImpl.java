@@ -125,5 +125,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.getHistoryFileInfo(params);
     }
 
+    @Override
+    public Map<String, Object> getUserInfoToId(Map<String, Object> params) {return userRepository.getUserInfoToId(params);}
+
 
 }

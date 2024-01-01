@@ -346,4 +346,9 @@
         /* getUserEncryptionList */
         SELECT * FROM CAM_HR.DJ_EMP_INFO
     </select>
+
+    <select id="getUserInfoToId" parameterType="map" resultType="map">
+        /* getUserInfoToId */
+        SELECT * FROM CAM_HR.DJ_EMP_INFO WHERE LOGIN_ID = #{id}
+    </select>
 </mapper>

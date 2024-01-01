@@ -101,8 +101,8 @@
         <button class="w-btn w-btn-indigo" id="mvBtn2" style="font-size: 20px;" onclick="goIntra();">
             <a href="/indexB.do">캠스팟2.0</a>
         </button>
-        <button class="w-btn w-btn-indigo" id="mvBtn3" style="font-size: 20px;" onclick="goHome();">
-            <a href="/camtic">캠틱홈페이지</a>
+        <button class="w-btn w-btn-indigo" id="mvBtn3" style="font-size: 20px;">
+            <a href="http://www.camtic.or.kr/" target="_blank">캠틱홈페이지</a>
         </button>
         <hr class="invisible">
     </div>
@@ -112,7 +112,7 @@
         location.href = "/indexB.do";
     }
     function goHome() {
-        location.href = "/camtic";
+        location.href = "http://www.camtic.or.kr/";
     }
 </script>
 

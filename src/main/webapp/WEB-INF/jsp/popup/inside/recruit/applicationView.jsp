@@ -76,7 +76,7 @@
             ${data.USER_NAME_CN}
           </td>
           <td rowspan="4">
-            <img id="imgPerson" src="${data.photoFile.file_path}${data.photoFile.file_uuid}" border="0" style="height:110px;width:85px;">
+            <img id="imgPerson" src="http://218.158.231.189${data.photoFile.file_path}${data.photoFile.file_uuid}" border="0" style="height:110px;width:85px;">
           </td>
         </tr>
         <tr>
@@ -179,10 +179,10 @@
             <td>${item.GRADUATE_TYPE_TXT}</td>
             <td>${item.GRADE}</td>
             <td>
-              <img src="/images/ico/file.gif" onclick="fileDown('${item.degreeFile.file_path}${item.degreeFile.file_uuid}', '${item.degreeFile.file_org_name}.${item.degreeFile.file_ext}')">
+              <img src="/images/ico/file.gif" onclick="fileDown('${item.degreeFile.file_path}${item.degreeFile.file_uuid}', '${item.degreeFile.file_org_name}.${item.degreeFile.file_ext}', 'recruit')">
             </td>
             <td>
-              <img src="/images/ico/file.gif" onclick="fileDown('${item.sexualFile.file_path}${item.sexualFile.file_uuid}', '${item.sexualFile.file_org_name}.${item.sexualFile.file_ext}')">
+              <img src="/images/ico/file.gif" onclick="fileDown('${item.sexualFile.file_path}${item.sexualFile.file_uuid}', '${item.sexualFile.file_org_name}.${item.sexualFile.file_ext}', 'recruit')">
             </td>
           </tr>
         </c:forEach>
@@ -217,7 +217,7 @@
             <td>${item.RETIRE_SALARY}</td>
             <td>${item.RETIRE_REASON}</td>
             <td>
-              <img src="/images/ico/file.gif" onclick="fileDown('${item.careerFile.file_path}${item.careerFile.file_uuid}', '${item.careerFile.file_org_name}.${item.careerFile.file_ext}')">
+              <img src="/images/ico/file.gif" onclick="fileDown('${item.careerFile.file_path}${item.careerFile.file_uuid}', '${item.careerFile.file_org_name}.${item.careerFile.file_ext}', 'recruit')">
             </td>
           </tr>
           <tr>
@@ -270,7 +270,7 @@
           <th>증빙</th>
           <td>
             <c:if test="${data.armiFile ne null}">
-            <img src="/images/ico/file.gif" onclick="fileDown('${data.armiFile.file_path}${data.armiFile.file_uuid}', '${data.armiFile.file_org_name}.${data.armiFile.file_ext}')">
+            <img src="/images/ico/file.gif" onclick="fileDown('${data.armiFile.file_path}${data.armiFile.file_uuid}', '${data.armiFile.file_org_name}.${data.armiFile.file_ext}', 'recruit')">
             </c:if>
           </td>
         </tr>
@@ -307,7 +307,7 @@
             <td>${item.CERT_ISSUER}</td>
             <td>${item.CERT_CONTENT}</td>
             <td>
-              <img src="/images/ico/file.gif" onclick="fileDown('${item.certFile.file_path}${item.certFile.file_uuid}', '${item.certFile.file_org_name}.${item.certFile.file_ext}')">
+              <img src="/images/ico/file.gif" onclick="fileDown('${item.certFile.file_path}${item.certFile.file_uuid}', '${item.certFile.file_org_name}.${item.certFile.file_ext}', 'recruit')">
             </td>
           </tr>
         </c:forEach>
@@ -338,7 +338,7 @@
             <td>${item.ACQUISITION_SCORE}</td>
             <td>${item.LANG_CONTENT}</td>
             <td>
-              <img src="/images/ico/file.gif" onclick="fileDown('${item.langFile.file_path}${item.langFile.file_uuid}', '${item.langFile.file_org_name}.${item.langFile.file_ext}')">
+              <img src="/images/ico/file.gif" onclick="fileDown('${item.langFile.file_path}${item.langFile.file_uuid}', '${item.langFile.file_org_name}.${item.langFile.file_ext}', 'recruit')">
             </td>
           </tr>
         </c:forEach>

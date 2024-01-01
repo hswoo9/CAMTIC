@@ -55,4 +55,8 @@ public class UserRepository extends AbstractDAO {
     public List<Map<String, Object>> getUserEncryptionList(Map<String, Object> params) {
         return selectList("user.getUserEncryptionList", params);
     }
+
+    public Map<String, Object> getUserInfoToId(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("user.getUserInfoToId", params);
+    }
 }
