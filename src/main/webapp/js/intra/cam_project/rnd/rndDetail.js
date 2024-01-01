@@ -52,6 +52,18 @@ var rndDetail = {
                 $("#checkboxDiv").hide();
             }
         });
+
+        var tooltip = $("#tooltip").kendoTooltip({
+            filter: "span",
+            width: 400,
+            position: "top",
+            animation: {
+                open: {
+                    effects: "zoom",
+                    duration: 150
+                }
+            }
+        }).data("kendoTooltip");
     },
 
     fn_setData : function (){

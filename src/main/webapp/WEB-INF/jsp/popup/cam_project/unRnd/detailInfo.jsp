@@ -14,6 +14,33 @@
         white-space: nowrap;
         text-align: right;
     }
+
+    #tooltip span {
+        cursor: pointer;
+        display: block;
+        width: 20px;
+        height: 20px;
+        background-image: url("/images/ico/ico_alert.png");
+        background-size: 20px;
+        -moz-border-radius: 30px;
+        -webkit-border-radius: 30px;
+        border: none;
+        -moz-box-shadow: 0 0 0 1px rgba(0,0,0,0.5);
+        /*-webkit-box-shadow: 0 0 0 1px rgba(0,0,0,0.5);*/
+        /*box-shadow: 0 0 0 1px rgba(0,0,0,0.5);*/
+        -moz-transition:  -moz-box-shadow .3s;
+        -webkit-transition:  -webkit-box-shadow .3s;
+        transition:  box-shadow .3s;
+    }
+
+    #tooltip span:hover {
+        -moz-box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        -webkit-box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        -moz-transition:  -moz-box-shadow .3s;
+        -webkit-transition:  -webkit-box-shadow .3s;
+        transition:  box-shadow .3s;
+    }
 </style>
 <input type="hidden" id="step" value="S2" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
@@ -48,33 +75,20 @@
             <thead>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>과제책임자
+                    <span class="red-star">*</span>사업 목적/내용
                 </th>
                 <td colspan="3">
-                    <input type="text" id="mngDeptName" style="width: 20%" disabled>
-                    <input type="hidden" id="mngDeptSeq" disabled>
-                    <input type="text" id="mngEmpName" style="width: 15%" disabled>
-                    <input type="hidden" id="mngEmpSeq">
-                    <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch('mng');">
-                        검색
-                    </button>
+                    <textarea type="text" id="unRndObj" name="unRndObj" style="width: 100%"></textarea>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>법인사업비
+                    <span class="red-star">*</span>사업계획서
                 </th>
                 <td colspan="3">
-                    현금 : <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 15%;text-align: right" disabled/>
-                    현물 : <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 15%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>수주금액
-                </th>
-                <td colspan="3">
-                    <input type="text" id="totResCost" name="totResCost" style="width: 32%;text-align: right" value="0" disabled/>
+                    <label for="bsPlanFile" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="bsPlanFile" name="bsPlanFile" onchange="fileChange(this)" style="display: none">
+                    <span id="bsPlanFileName"></span>
                 </td>
             </tr>
             <tr>
@@ -104,26 +118,44 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>사업계획서
+                    <span class="red-star">*</span>법인사업비
                 </th>
                 <td colspan="3">
-                    <label for="bsPlanFile" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="bsPlanFile" name="bsPlanFile" onchange="fileChange(this)" style="display: none">
-                    <span id="bsPlanFileName"></span>
+                    현금 : <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 15%;text-align: right" disabled/>
+                    현물 : <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 15%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>사업 목적/내용
+                    <span class="red-star">*</span>수주금액
                 </th>
                 <td colspan="3">
-                    <textarea type="text" id="unRndObj" name="unRndObj" style="width: 100%"></textarea>
+                    <input type="text" id="totResCost" name="totResCost" style="width: 32%;text-align: right" value="0" disabled/>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>과제책임자
+                </th>
+                <td colspan="3">
+                    <input type="text" id="mngDeptName" style="width: 20%" disabled>
+                    <input type="hidden" id="mngDeptSeq" disabled>
+                    <input type="text" id="mngEmpName" style="width: 15%" disabled>
+                    <input type="hidden" id="mngEmpSeq">
+                    <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch('mng');">
+                        검색
+                    </button>
                 </td>
             </tr>
             <tr id="budgetExDiv" style="display: none">
                 <td colspan="4">
                     <br>
-                    <span id="budgetType"></span>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span id="budgetType"></span>
+                        <span id="tooltip">
+                            <span href="#" title="사업비 분리사용 유무에 따른 예산등록 금액 = 수주금액, 법인사업비(현금) / 현물 존재시 입력" id="projectTooltip"></span>
+                        </span>
+                    </div>
                     <div id="customBudgetGrid-1"></div>
                     <div id="customBudgetGrid0"></div>
                     <div id="customBudgetGrid1"></div>
