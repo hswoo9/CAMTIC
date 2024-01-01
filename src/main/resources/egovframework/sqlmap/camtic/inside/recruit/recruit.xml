@@ -519,7 +519,7 @@
                 DAS.APPLICATION_ID,
                 MAX(SCHOOL_TYPE) AS SCHOOL_TYPE,
                 CONCAT(
-                    SCHOOL_NAME,
+                    MAX(SCHOOL_NAME),
                     ' ',
                     DEPT,
                     '(',
