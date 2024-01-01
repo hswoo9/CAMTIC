@@ -26,11 +26,14 @@
         <ul class="headermenu">
           <li>
             <div id="noticePanel" class="btn-group">
-              <a href="#">
-                <button class="btn btn-notice" style="float:left; font-size:22px;" onclick="orgPopup();">
-                  <i class="fa fa-sitemap"></i>
-                </button>
-              </a>
+                <a href="http://218.158.231.23/camspot" target="_blank">
+                    <b style="color: white; float: left; position: relative; top: 25px; right: 10px;">기존 캠스팟 바로가기</b>
+                </a>
+                <a href="#">
+                    <button class="btn btn-notice" style="float:left; font-size:22px;" onclick="orgPopup();">
+                        <i class="fa fa-sitemap"></i>
+                    </button>
+                </a>
               <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0;">
                 <div class="fa fa-bell-o" onclick="openAlarm()">
                 </div>
