@@ -470,6 +470,13 @@ var bustripResultPop = {
         var name = "bustripExnpPop";
         var option = "width = 1100, height = 400, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    boardViewPop: function(){
+        let url = "/Inside/pop/boardViewPop.do";
+        const name = "boardViewPop";
+        const option = "width = 1420, height = 730, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }
 
