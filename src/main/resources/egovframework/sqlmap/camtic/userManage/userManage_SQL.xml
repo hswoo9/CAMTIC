@@ -223,6 +223,39 @@
             b.ACTIVE = 'Y'
         ORDER BY PROPOSAL_ID DESC;
     </select>
+    <select id="getStudyInfoList" parameterType="map" resultType="map">
+        /* getStudyInfoList */
+        SELECT
+            (
+                SELECT COUNT(-1)
+                FROM CAMPUS.DJ_EDU_RESULT SER
+                WHERE SER.REG_EMP_SEQ = HEI.EMP_SEQ AND SER.ACTIVE = 'Y' AND SER.STATUS = 100 AND SER.MNG_CHECK = 'Y'
+            ) AS PERSONAL_COUNT,
+            (
+                SELECT COUNT(-1) FROM CAMPUS.DJ_STUDY_JOURNAL SJ
+                                          LEFT JOIN CAMPUS.DJ_STUDY_RESULT_USER SRU ON SJ.STUDY_JOURNAL_SN = SRU.STUDY_JOURNAL_SN
+                                          LEFT JOIN CAMPUS.DJ_STUDY_INFO SSI ON SJ.STUDY_INFO_SN = SSI.STUDY_INFO_SN
+                WHERE SRU.STUDY_EMP_SEQ = HEI.EMP_SEQ AND SJ.ACTIVE = 'Y' AND SSI.ADD_STATUS = 'S'
+            ) AS STUDY_COUNT,
+            (
+                SELECT COUNT(-1) FROM CAMPUS.DJ_STUDY_PROPAG SP
+                                          LEFT JOIN CAMPUS.DJ_PROPAG_USER SPU ON SP.STUDY_PROPAG_SN = SPU.STUDY_PROPAG_SN
+                                          LEFT JOIN CAMPUS.DJ_STUDY_INFO SSI ON SP.STUDY_INFO_SN = SSI.STUDY_INFO_SN
+                WHERE SPU.PROPAG_EMP_SEQ = HEI.EMP_SEQ AND SP.ACTIVE = 'Y' AND SSI.ADD_STATUS = 'S'
+            ) AS PROPAG_COUNT,
+            (
+                SELECT COUNT(-1) FROM CAMPUS.DJ_OJT_USER SOU
+                                          LEFT JOIN CAMPUS.DJ_OJT_RESULT SOR ON SOR.OJT_RESULT_SN = SOU.OJT_RESULT_SN
+                                          LEFT JOIN CAMPUS.DJ_STUDY_INFO SSI ON SOR.STUDY_INFO_SN = SSI.STUDY_INFO_SN
+                WHERE SOU.OJT_EMP_SEQ = HEI.EMP_SEQ AND SOR.ACTIVE = 'Y' AND SSI.ADD_STATUS = 'S'
+            ) AS OJT_COUNT,
+            (SELECT COUNT(CCEU.REAR_EDU_TIME) FROM CAMPUS.DJ_COMMON_EDU CCE LEFT JOIN CAMPUS.DJ_COMMON_EDU_USER CCEU ON CCE.COMMON_EDU_SN = CCEU.COMMON_EDU_SN WHERE CCEU.REG_EMP_SEQ = HEI.EMP_SEQ AND CCE.STATUS = 100 AND CCEU.PART_YN = 'Y' AND CCEU.ACTIVE = 'Y') AS COMMON_EDU_COUNT
+        FROM
+            CAM_HR.DJ_EMP_INFO HEI
+        WHERE
+            HEI.EMP_SEQ =  #{empSeq}
+          AND WORK_STATUS_CODE = 'Y'
+    </select>
 
 
 <!--홈페이지 게시 포함

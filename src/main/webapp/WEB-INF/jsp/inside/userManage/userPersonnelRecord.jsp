@@ -687,11 +687,11 @@
                                         <th>OJT</th>
                                     </tr>
                                     <tr>
-                                        <td>0건</td>
-                                        <td>0건</td>
-                                        <td>0건</td>
-                                        <td><span style="cursor:pointer;">1건</span></td>
-                                        <td>0건</td>
+                                        <td>${sInfo.PERSONAL_COUNT}건</td>
+                                        <td>${sInfo.COMMON_EDU_COUNT}건</td>
+                                        <td>${sInfo.STUDY_COUNT}건</td>
+                                        <td>${sInfo.PROPAG_COUNT}건</td>
+                                        <td>${sInfo.OJT_COUNT}건</td>
                                     </tr>
                                     </thead>
                                 </table>
@@ -2092,7 +2092,6 @@
         });
     }
      */
-
 
     function userPrintPop(empSeq){
         /*let url = "/inside/pop/userPrintPop.do?empSeq="+$("#empSeq").val();*/

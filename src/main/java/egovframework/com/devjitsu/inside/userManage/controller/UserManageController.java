@@ -134,6 +134,7 @@ public class UserManageController {
         model.addAttribute("rList", userManageService.getRewardInfoList(map));
         model.addAttribute("dList", userManageService.getDutyInfoList(map));
         model.addAttribute("pList", userManageService.getProposalInfoList(map));
+        model.addAttribute("sInfo", userManageService.getStudyInfoList(map));
         /*model.addAttribute("RewordList", userManageService.getReward2InfoList(map));*/
 
         return "inside/userManage/userPersonnelRecord";

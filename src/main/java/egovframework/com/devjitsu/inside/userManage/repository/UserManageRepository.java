@@ -110,6 +110,9 @@ public class UserManageRepository extends AbstractDAO {
     public List<Map<String,Object>> getProposalInfoList(Map<String,Object> map) {
         return selectList("userManage.getProposalInfoList", map);
     }
+    public Map<String,Object> getStudyInfoList(Map<String,Object> map) {
+        return (Map<String, Object>) selectOne("userManage.getStudyInfoList", map);
+    }
 	public List<Map<String, Object>> getDeptList(Map<String, Object> params) {
 		return selectList("userManage.getDeptList", params);
 	}

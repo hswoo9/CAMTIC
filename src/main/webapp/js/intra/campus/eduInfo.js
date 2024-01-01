@@ -12,6 +12,7 @@ var eduInfo = {
             format : "yyyy",
             value : new Date()
         });
+        $("#eduYear").data("kendoDatePicker").bind("change", gridReload);
     },
 
     mainGrid: function(){
@@ -173,4 +174,8 @@ var eduInfo = {
     goEduInfoReq: function(){
         open_in_frame('/Campus/eduReq.do');
     }
+}
+
+function gridReload(){
+    eduInfo.mainGrid();
 }

@@ -182,6 +182,11 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
+    public Map<String, Object> getStudyInfoList(Map<String, Object> map) {
+        return userManageRepository.getStudyInfoList(map);
+    }
+
+    @Override
     public void setBasicInfo(Map<String, Object> params) {
         userManageRepository.setBasicInfo(params);
     }
