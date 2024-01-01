@@ -181,7 +181,7 @@ function fn_inputNumberFormat(obj){
 }
 
 function fileDown(filePath, fileName, stat){
-    if(stat == "recurit"){
+    if(stat == "recruit"){
         filePath = "http://218.158.231.189" + filePath;
     }
     kendo.saveAs({
