@@ -357,7 +357,7 @@ var regRnd = {
             alert("예상수주금액을 입력해주세요.");
             return;
         }
-        if(parameters.allBusnCost == ""){
+        if(parameters.allBusnCost == "" || parameters.allBusnCost == 0){
             alert("총 사업비를 입력해주세요.");
             return;
         }
@@ -443,7 +443,7 @@ var regRnd = {
             alert("예상수주금액을 입력해주세요.");
             return;
         }
-        if(parameters.allBusnCost == ""){
+        if(parameters.allBusnCost == "" || parameters.allBusnCost == 0){
             alert("총 사업비를 입력해주세요.");
             return;
         }

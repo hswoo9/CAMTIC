@@ -143,15 +143,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">요청서 파일</th>
+                    <%--<th scope="row" class="text-center th-color">요청서 파일</th>
                     <td>
                         <input type="hidden" id="file2Sn" name="file1Sn">
                         <label for="file2" id="file2Label" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file2" name="file2" onchange="prp.fileChange(this)" style="display: none">
                         <span id="file2Name"></span>
-                    </td>
+                    </td>--%>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>부가세</th>
-                    <td>
+                    <td colspan="3">
                         <span id="vat"></span>
                     </td>
                 </tr>
