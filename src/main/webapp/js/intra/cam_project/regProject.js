@@ -182,6 +182,20 @@ var regPrj = {
         if(setParameters.TEAM_STAT == "Y"){
             tabStrip.enable(tabStrip.tabGroup.children());
 
+            /** 실적관리는 수주부서 결과보고 완료시 오픈 */
+            tabStrip.disable(tabStrip.tabGroup.children().eq(4));
+            var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", {
+                pjtSn: setParameters.PNT_PJT_SN,
+            }).result.map;
+
+            if(resultMap != null){
+                console.log("resultMap")
+                console.log(resultMap)
+                if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && resultMap.STATUS == "100"){
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(4));
+                }
+            }
+
             /** 탭 두줄 */
             var parser = new DOMParser();
             var html = '<div style="width:100%;"></div>';
