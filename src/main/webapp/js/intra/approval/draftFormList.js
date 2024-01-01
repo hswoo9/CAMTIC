@@ -59,7 +59,15 @@ var draftFormList = {
             htmlStr += "       </tr>" +
                 "       <tr>" +
                 "           <th class=\"text-center th-color\">보존연한</th>" +
-                "           <td>" + (result.formInfoReqOpt.PRESERVE_PERIOD == null ? "5" : result.formInfoReqOpt.PRESERVE_PERIOD) + "년" +
+                "           <td>";
+            if(result.formInfoReqOpt.PRESERVE_PERIOD == null){
+                htmlStr += "    5년";
+            }else if(result.formInfoReqOpt.PRESERVE_PERIOD == "99"){
+                htmlStr += "    영구";
+            }else{
+                htmlStr += result.formInfoReqOpt.PRESERVE_PERIOD + "년";
+            }
+            htmlStr += "" +
                 "           </td>" +
                 "       </tr>" +
                 "   </tbody>" +
