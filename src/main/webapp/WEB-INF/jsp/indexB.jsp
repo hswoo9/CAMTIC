@@ -60,7 +60,7 @@
                     <div id="date" class="date"></div>
                     <div id="time" class="time" style="font-size:30px;"></div>
                 </div>
-                <div id="timeWork" style="float:right; margin-right:10px; text-align:left;" >
+                <div id="timeWork" style="display: none; float:right; margin-right:10px; text-align:left;" >
                     <p id="workingTime">출근 시간 &nbsp&nbsp 09:00:07</p>
                     <p id="workTime">퇴근 시간 &nbsp&nbsp --:--:--</p>
                 </div>
