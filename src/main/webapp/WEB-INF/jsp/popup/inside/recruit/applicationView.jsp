@@ -236,7 +236,7 @@
         </thead>
       </table>
 
-      <c:if test="${item.ARMI_YN eq 'Y'}">
+      <c:if test="${data.ARMI_YN eq 'Y'}">
       <table class="popTable table table-bordered mb-0 mt10">
         <colgroup>
           <col width="15%">

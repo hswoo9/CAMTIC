@@ -34,7 +34,7 @@ var recruitAdminPop = {
     },
 
     mainGrid : function(url, params) {
-        var record = 0;
+        //var record = 0;
         var datasource = customKendo.fn_gridDataSource2(url, params);
         console.log(datasource);
         $("#mainGrid").kendoGrid({
@@ -59,9 +59,10 @@ var recruitAdminPop = {
                 }, {
                     title: "순번",
                     width: 50,
-                    template : function(e){
+                    template: "#= --record #"
+                    /*template : function(e){
                         return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
-                    }
+                    }*/
                 }, {
                     field: "USER_NAME",
                     title: "성명",
@@ -181,6 +182,9 @@ var recruitAdminPop = {
                     }
                 }
             ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){

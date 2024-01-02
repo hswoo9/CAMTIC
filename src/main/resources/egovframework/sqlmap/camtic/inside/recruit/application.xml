@@ -560,6 +560,8 @@
             cam_inside.dj_application_main
         where
             RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        AND
+            SAVE_TYPE = 'S'
     </select>
 
     <select id="getChkEmail" parameterType="map" resultType="boolean">
