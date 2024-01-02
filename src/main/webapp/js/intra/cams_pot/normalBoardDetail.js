@@ -70,18 +70,20 @@ var normalArticleDetail = {
 							fileName = fileName.substring(0, lastDotIndex);
 						}
 
-						return fileName + "." + e.FILE_EXT + "(" + formatBytes(e.FILE_SIZE, 3) + ")";
-						/*
-						if(e.FILE_PATH.indexOf('/upload/camticOldFile/') == -1){
+						//return fileName + "." + e.FILE_EXT + "(" + formatBytes(e.FILE_SIZE, 3) + ")";
+						/*if(e.FILE_PATH.indexOf('/upload/camticOldFile/') == -1){
 							return fileName + "." + e.FILE_EXT + "(" + formatBytes(e.FILE_SIZE, 3) + ")";
 						}else{
 							$("#zipDownBtn").prop("disabled", true);
 							var filePath = e.FILE_PATH.substring(1);
 
-							return '<a style="cursor: pointer;" onclick="normalArticleDetail.fileDownOne(\'' + filePath + '\', \'' + fileName + '\')">'+ fileName + '.' + e.FILE_EXT + '(' + formatBytes(e.FILE_SIZE, 3) + ')</a>'
-							     + '<span style="color: red; padding-left: 5px;">이관된 첨부파일</span>';
-
+							return '<a style="cursor: pointer;" onclick="normalArticleDetail.fileDownOne(\'' + filePath + '\', \'' + fileName + '\')">'+ fileName + '.' + e.FILE_EXT + '(' + formatBytes(e.FILE_SIZE, 3) + ')</a>';
 						}*/
+
+						$("#zipDownBtn").css("display", "none");
+						var filePath = e.FILE_PATH.substring(1);
+
+						return '<a style="cursor: pointer;" onclick="normalArticleDetail.fileDownOne(\'' + filePath + '\', \'' + fileName + '\')">'+ fileName + '.' + e.FILE_EXT + '(' + formatBytes(e.FILE_SIZE, 3) + ')</a>';
 
 
 					}

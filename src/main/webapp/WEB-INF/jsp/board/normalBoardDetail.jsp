@@ -92,9 +92,9 @@
 				<div style="display: flex; justify-content: space-between; margin: 0 0 10px;">
 					<div class="spanft" style="font-weight: bold;">· 첨부파일</div>
 					<div class="btn-st" style="margin:0;">
-						<button id="zipDownBtn" type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="normalArticleDetail.boardAttachmentDown()">
+						<%--<button id="zipDownBtn" type="button" class="k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="normalArticleDetail.boardAttachmentDown()">
 							<span class="k-icon k-i-download k-button-icon"></span>
-						</button>
+						</button>--%>
 					</div>
 				</div>
 
