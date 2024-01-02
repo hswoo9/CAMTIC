@@ -79,7 +79,11 @@ const historyReq = {
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
             const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
-            $("#apntCd"+String(empSeq)).data("kendoDropDownList").value($("#apntCdAll").val());
+            let index = dataItem.INDEX;
+            //$("#apntCd"+String(empSeq)).data("kendoDropDownList").value($("#apntCdAll").val());
+            $("#apntCd"+empSeq +"_" +index).data("kendoDropDownList").value($("#apntCdAll").val());
+
+
         });
     },
 
@@ -174,6 +178,7 @@ const historyReq = {
     },
 
     editGrid: function(){
+
         $("#popMainGrid").kendoGrid({
             dataSource: historyReq.global.editDataSource,
             scrollable: true,
@@ -206,7 +211,14 @@ const historyReq = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReq.fn_saveApnt()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="">' +
+                            '	<span class="k-button-text">발령장 전송</span>' +
+                            '</button>';
+                    }
+                },{
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReq.fn_saveApnt();">' +
                             '	<span class="k-button-text">저장</span>' +
                             '</button>';
                     }
@@ -388,7 +400,16 @@ const historyReq = {
                         }
                     },
                     width: 120
-                },
+                }, {
+                    title : "발령장",
+                    width: 100,
+                    template : function (e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                            '	<span class="k-button-text">보기</span>' +
+                            '</button>';
+
+                    }
+                }
             ],
 
         }).data("kendoGrid");
@@ -821,5 +842,10 @@ const historyReq = {
         historyReq.global.userArr = [];
         historyReq.global.editDataSource.data = [];
         historyReq.editGrid();
+    },
+/*
+    openPrintPop(){
+
     }
+ */
 }
