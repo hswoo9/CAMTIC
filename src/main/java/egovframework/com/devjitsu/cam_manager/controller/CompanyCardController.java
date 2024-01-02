@@ -381,4 +381,17 @@ public class CompanyCardController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/card/setPrivateCard")
+    public String setShowCard(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            companyCardService.setPrivateCard(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

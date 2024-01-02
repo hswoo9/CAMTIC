@@ -169,4 +169,21 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     public void delGroupUser(Map<String, Object> params) {
         companyCardRepository.delGroupUser(params);
     }
+
+    @Override
+    public void setPrivateCard(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("arr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> map : itemArr){
+            if(params.get("stat").toString().equals("i")){
+                if(map.get("USE_YN").toString().equals("Y")){
+                    companyCardRepository.insPrivateCard(map);
+                }
+            } else {
+                companyCardRepository.delPrivateCard(map);
+            }
+
+        }
+    }
 }

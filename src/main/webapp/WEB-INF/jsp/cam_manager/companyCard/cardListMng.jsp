@@ -36,7 +36,7 @@
                     <tr>
                         <th class="text-center th-color">검색어</th>
                         <td colspan="5">
-                            <input type="text" id="searchValue" style="width: 240px;" onkeypress="if(window.event.keyCode==13){cardList.mainGrid();}"/>
+                            <input type="text" id="searchValue" style="width: 240px;" onkeypress="if(window.event.keyCode==13){cardListMng.mainGrid();}"/>
                             <br>* 명칭, 카드번호(ex. 끝4자리) 검색가능
                         </td>
                     </tr>
@@ -51,5 +51,5 @@
 </div><!-- col-md-9 -->
 
 <script>
-    cardList.fn_defaultScript();
+    cardListMng.fn_defaultScript();
 </script>
