@@ -1934,8 +1934,8 @@
         /*setUserReqDetailUpdate*/
         UPDATE CAM_HR.DJ_EMP_INFO
         SET EMP_NAME_KR = #{EMP_NAME_KR},
-        <if test="PASSCHANGE != null and PASSCHANGE != ''">
-            LOGIN_PASSWD = #{LOGIN_PASSWD},
+        <if test="password != null and !''.equals(password)">
+            LOGIN_PASSWD = #{password},
         </if>
         <if test="WEDDING_DAY != null and WEDDING_DAY != ''">
             WEDDING_DAY = #{WEDDING_DAY},

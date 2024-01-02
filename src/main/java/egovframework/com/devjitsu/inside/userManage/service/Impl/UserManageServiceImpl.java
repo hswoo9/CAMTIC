@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.userManage.service.Impl;
 
+import com.google.common.hash.Hashing;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -678,6 +680,11 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public Object setUserReqDetailUpdate(Map<String, Object> params) {
+        String passwordTmp = params.get("LOGIN_PASSWD").toString();
+        if(!passwordTmp.equals("")){
+            String password = Hashing.sha256().hashString(passwordTmp, StandardCharsets.UTF_8).toString();
+            params.put("password", password);
+        }
         return userManageRepository.setUserReqDetailUpdate(params);
     }
 

@@ -865,7 +865,14 @@ var regPay = {
         }
 
         if($("#reqType").val() == "bustrip"){
+            parameters.hrBizReqResultId = $("#hrBizReqResultId").val();
             parameters.linkKey = $("#hrBizReqResultId").val();
+            parameters.linkKeyType = "출장";
+        }
+
+        if($("#reqType").val() == "snack"){
+            parameters.snackInfoSn = $("#snackInfoSn").val();
+            parameters.linkKey = $("#snackInfoSn").val();
             parameters.linkKeyType = "출장";
         }
 
