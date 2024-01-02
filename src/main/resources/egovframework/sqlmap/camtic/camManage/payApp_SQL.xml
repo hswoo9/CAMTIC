@@ -1482,6 +1482,24 @@
             CLAIM_SN = #{claimSn}
     </update>
 
+    <update id="updPurcBustripByPayAppSn" parameterType="map">
+        /*updPurcBustripByPayAppSn*/
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+        SET
+            PAY_APP_SN = #{payAppSn}
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </update>
+
+    <update id="updPurcSnackByPayAppSn" parameterType="map">
+        /*updPurcSnackByPayAppSn*/
+        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        SET
+            PAY_APP_SN = #{payAppSn}
+        WHERE
+            SNACK_INFO_SN = #{snackInfoSn}
+    </update>
+
     <update id="updApprStatus" parameterType="map">
         /*updApprStatus*/
         UPDATE CAM_MNG.DJ_PAY_DEPO

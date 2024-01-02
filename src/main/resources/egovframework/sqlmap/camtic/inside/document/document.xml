@@ -153,7 +153,9 @@
                     CFI.file_size,
                     IFNULL(CFI.file_no, 0) AS file_no,
                     CFI.file_path,
-                    CFI.file_uuid
+                    CFI.file_uuid,
+        (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = ISI.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
+        (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = ISI.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS
                 FROM
                     CAM_INSIDE.DJ_SNACK_INFO ISI
                 LEFT JOIN

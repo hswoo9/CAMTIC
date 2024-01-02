@@ -160,8 +160,10 @@ var snackList = {
                     template : function(row){
                         if(row.STATUS == "100") {
                             return '<button type="button" class="k-button k-button-solid-base" onclick="snackList.fn_reqRegPopup('+row.SNACK_INFO_SN+')">지급신청</button>'
+                        }else if (row.PAY_APP_SN != null){
+                            return '<button type="button" class="k-button k-button-solid-info" onclick="snackList.fn_reqRegPopup('+row.PAY_APP_SN+', 2)">지급신청</button>'
                         }else{
-                            return "-";
+                            return '-';
                         }
                     },
                     width: 70
@@ -294,9 +296,13 @@ var snackList = {
         }
     },
 
-    fn_reqRegPopup : function (snackInfoSn){
-        var url = "/payApp/pop/regPayAppPop.do?snackInfoSn="+snackInfoSn+"&reqType=snack";
-        var name = "blank";
+    fn_reqRegPopup : function (key, type){
+        var url = "/payApp/pop/regPayAppPop.do?snackInfoSn="+key+"&reqType=snack";
+
+        if(type == 2){
+            var url = "/payApp/pop/regPayAppPop.do?payAppSn="+key;
+        }
+        var name = "regPayAppPop";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     }

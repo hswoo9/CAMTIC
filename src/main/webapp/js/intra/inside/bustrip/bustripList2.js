@@ -201,7 +201,9 @@ var bustList = {
                     template : function (e){
                         if(e.RS_STATUS == 100 && e.EXP_STAT == 100){
                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
-                        } else {
+                        }else if (e.PAY_APP_SN != null){
+                            return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">지급신청</button>'
+                        }else{
                             return '-';
                         }
                     },
@@ -264,8 +266,12 @@ var bustList = {
         window.open(url, name, option);
     },
 
-    fn_reqRegPopup : function (hrBizReqResultId){
-        var url = "/payApp/pop/regPayAppPop.do?hrBizReqResultId="+hrBizReqResultId+"&reqType=bustrip";
+    fn_reqRegPopup : function (key, type){
+        var url = "/payApp/pop/regPayAppPop.do?hrBizReqResultId="+key+"&reqType=bustrip";
+
+        if(type == 2){
+            var url = "/payApp/pop/regPayAppPop.do?payAppSn="+key;
+        }
         var name = "regPayAppPop";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
