@@ -136,17 +136,18 @@ var etaxList = {
                     template: function (e){
                         return '<div style="text-align: right;">'+comma(e.SUM_AM.toString().split(".")[0])+'</div>';
                     }
-                }, {
-                    title: "결의서",
-                    width: 50,
-                    template: function (e){
-                        if(e.DOC_ID != null && e.DOC_ID != "" && e.DOC_ID != undefined){
-                            return '결의서';
-                        } else {
-                            return '미결의';
-                        }
-                    }
                 }
+                // , {
+                //     title: "결의서",
+                //     width: 50,
+                //     template: function (e){
+                //         if(e.DOC_ID != null && e.DOC_ID != "" && e.DOC_ID != undefined){
+                //             return '결의서';
+                //         } else {
+                //             return '미결의';
+                //         }
+                //     }
+                // }
             ],
             dataBinding: function() {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();

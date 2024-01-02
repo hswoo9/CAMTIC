@@ -484,8 +484,7 @@
     <select id="getEtaxListAll" parameterType="map" resultType="map">
         /*getEtaxListAll*/
         SELECT
-            A.*,
-            (SELECT DOC_ID FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = B.PAY_APP_SN) AS DOC_ID
+            A.*
         FROM
             CAM_MNG.DJ_ETAX_INFO A
         LEFT JOIN
