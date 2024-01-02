@@ -236,6 +236,7 @@
         </thead>
       </table>
 
+      <c:if test="${item.ARMI_YN eq 'Y'}">
       <table class="popTable table table-bordered mb-0 mt10">
         <colgroup>
           <col width="15%">
@@ -288,6 +289,7 @@
         </tr>
         </thead>
       </table>
+      </c:if>
 
       <table class="popTable table table-bordered mb-0 mt10">
         <colgroup>
