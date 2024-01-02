@@ -1019,7 +1019,17 @@ var docView = {
         }
     },
 
+    /** 결재사인 입력 */
     initAppr : function(){
+        const formId = docView.global.rs.docInfo.FORM_ID;
+        console.log("formId");
+        console.log(formId);
+
+        if(String(formId) == "1"){
+            docView.initOfficialAppr();
+            return;
+        }
+
         let list = docView.global.rs.approveRoute;
         console.log("------------------------------- appr ---------------------------------");
         console.log(list);
@@ -1106,6 +1116,47 @@ var docView = {
                 }
             }
         }
+    },
+
+    initOfficialAppr: function(){
+        let list = docView.global.rs.approveRoute;
+        console.log("------------------------------- appr2 ---------------------------------");
+        console.log(list);
+
+        setTimeout(function() {
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].APPROVE_STAT_CODE == 10) {
+                    let field = "docAppr0";
+                    hwpDocCtrl.putFieldText(field, list[i].APPROVE_EMP_NAME);
+                }else if(list[i].APPROVE_STAT_CODE != null && list[i].APPROVE_DUTY_NAME == "팀장"){
+                    let field = "docAppr1";
+                    hwpDocCtrl.putFieldText(field, list[i].APPROVE_EMP_NAME);
+
+                }else if(list[i].APPROVE_STAT_CODE != null && (list[i].APPROVE_DUTY_NAME == "본부장" || list[i].APPROVE_DUTY_NAME == "사업부장" || list[i].APPROVE_DUTY_NAME == "센터장")){
+                    let field = "docAppr2";
+                    hwpDocCtrl.putFieldText(field, list[i].APPROVE_EMP_NAME);
+                }else if(list[i].APPROVE_STAT_CODE != null && list[i].APPROVE_DUTY_NAME == "원장"){
+                    let field = "docAppr3";
+                    hwpDocCtrl.putFieldText(field, list[i].APPROVE_EMP_NAME);
+                }
+            }
+            
+            const docInfo = docView.global.rs.docInfo;
+            console.log(docInfo);
+
+            hwpDocCtrl.putFieldText('DOC_NO', docInfo.DOC_NO);
+            hwpDocCtrl.putFieldText('DOC_DT', docInfo.DRAFT_DATE);
+            hwpDocCtrl.putFieldText('SECURITY_TYPE', docInfo.SECURITY_TYPE == "000" ? "공개" : "비공개");
+
+
+            const draftEmpSeq = docInfo.DRAFT_EMP_SEQ;
+
+            const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
+            hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
+            hwpDocCtrl.putFieldText('EMP_TEL', empInfo.OFFICE_TEL_NUM == undefined ? "" : ("/"+ empInfo.OFFICE_TEL_NUM));
+        }, 1500);
+
+
     }
 }
 
