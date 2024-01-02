@@ -167,18 +167,19 @@ public class G20ServiceImpl implements G20Service {
     @Override
     public List<Map<String, Object>> getCardAdminList(Map<String, Object> params) {
         List<Map<String, Object>> listMap = g20Repository.getCardList(params);
-        List<Map<String, Object>> listMap2 = companyCardRepository.getCardGroupCheck();
 
+        List<Map<String, Object>> privateListMap = companyCardRepository.getPrivateCardList(params);
 
         for(Map<String, Object> map : listMap){
             String trCd = map.get("TR_CD").toString();
 
-            if(listMap2.stream().anyMatch(x -> x.get("TR_CD").equals(trCd))) {
-                Map<String, Object> result = listMap2.stream().filter(x -> x.get("TR_CD").equals(trCd)).findAny().get();
+            if(privateListMap.stream().anyMatch(x -> x.get("TR_CD").equals(trCd))) {
+                Map<String, Object> result = privateListMap.stream().filter(x -> x.get("TR_CD").equals(trCd)).findAny().get();
 
-                map.put("groupId", result.get("GROUP_ID"));
+                map.put("USE_YN", 'N');
+            } else {
+                map.put("USE_YN", 'Y');
             }
-
         }
 
         return listMap;

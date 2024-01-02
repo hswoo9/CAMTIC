@@ -1,4 +1,4 @@
-var cardList = {
+var cardListMng = {
 
     global : {
         dropDownDataSource : "",
@@ -8,7 +8,7 @@ var cardList = {
 
     fn_defaultScript : function(){
         customKendo.fn_textBox(["searchValue"])
-        cardList.mainGrid();
+        cardListMng.mainGrid();
     },
 
     mainGrid : function(){
@@ -22,7 +22,7 @@ var cardList = {
                 },
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
-                    data.cardName = "법인카드"
+                    data.cardVal = "M"
                     return data;
                 }
             },
@@ -55,15 +55,15 @@ var cardList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardList.privatePop()">' +
-                            '	<span class="k-button-text">설정</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardListMng.fn_privatePop(\'d\')">' +
+                            '	<span class="k-button-text">공개</span>' +
                             '</button>';
                     }
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardList.fn_cancleGroup()">' +
-                            '	<span class="k-button-text">해제</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardListMng.fn_privatePop(\'i\')">' +
+                            '	<span class="k-button-text">비공개</span>' +
                             '</button>';
                     }
                 }
@@ -90,15 +90,13 @@ var cardList = {
                         }
                     }
                 }, {
-                    title: "비공개 사원",
+                    title: "공개여부",
                     width: 100,
                     template: function (e){
-                        if(e.groupId != null){
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardList.privateUserPop('+ e.groupId +')">' +
-                                '	<span class="k-button-text">조회</span>' +
-                                '</button>';
-                        }else{
-                            return '설정미완료';
+                        if(e.USE_YN == 'N'){
+                            return "비공개";
+                        } else {
+                            return "공개";
                         }
                     }
                 }
@@ -109,29 +107,38 @@ var cardList = {
         }).data("kendoGrid");
     },
 
-    privatePop : function (){
-        var saveFlag = true;
+    fn_privatePop : function (stat){
         var grid = $("#mainGrid").data("kendoGrid");
+        var arr = [];
 
         $("input[name='cardPk']").each(function(){
             if(this.checked){
 
                 var row = $(this).closest("tr");
                 var rowData = grid.dataItem(row);
-
-                if(rowData.groupId != null){
-                    alert("등록 된 설정이 있습니다.");
-                    saveFlag = false;
-                }
+                arr.push(rowData);
             }
         });
 
-        if(!saveFlag){return false;}
+        var parameters = {
+            arr : JSON.stringify(arr),
+            stat : stat
+        }
 
-        var url = "/card/cardPrivateMngPop.do";
-        var name = "그룹 선택";
-        var option = "width = 1300, height = 600, top = 200, left = 400, location = no";
-        var popup = window.open(url, name, option);
+        $.ajax({
+            url : "/card/setPrivateCard",
+            data : parameters,
+            dataType : "json",
+            type : "post",
+            success : function(rs){
+                if (rs.code == 200){
+                    console.log(rs);
+                    alert("저장되었습니다.");
+                    cardListMng.mainGrid();
+                }
+
+            }
+        });
     },
 
     fn_save : function (id){
@@ -160,7 +167,7 @@ var cardList = {
             success : function(rs){
                 if(rs.code == 200){
                     alert("저장되었습니다.");
-                    cardList.mainGrid();
+                    cardListMng.mainGrid();
                 }
             }
         });
@@ -180,6 +187,7 @@ var cardList = {
                     alert("설정이 미완료된 카드가 포함되어있습니다.");
                     saveFlag = false;
                 }else{
+
                 }
 
                 arr.push(rowData);
@@ -202,7 +210,7 @@ var cardList = {
             success : function(rs){
                 if(rs.code == 200){
                     alert("해제되었습니다.");
-                    cardList.mainGrid();
+                    cardListMng.mainGrid();
                 }
             }
         });

@@ -386,4 +386,41 @@
     <delete id="saveCardUserGroupSelCancle" parameterType="map">
         DELETE FROM CAM_MNG.DJ_CARD_USER_GROUP_SEL WHERE GROUP_ID = #{groupId} AND CARD_BA_NB = #{CARD_BA_NB} AND TR_CD = #{TR_CD}
     </delete>
+
+    <select id="getPrivateCardList" parameterType="map" resultType="map">
+        /*getPrivateCardList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_PRIV
+    </select>
+
+    <insert id="insPrivateCard" parameterType="map">
+        /*insPrivateCard*/
+        INSERT INTO CAM_MNG.DJ_CARD_PRIV
+            (
+                CARD_BA_NB,
+                CLTTR_CD,
+                TR_CD,
+                BA_NB,
+                DEPOSITOR,
+                TR_NM,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{CARD_BA_NB},
+                #{CLTTR_CD},
+                #{TR_CD},
+                #{BA_NB},
+                #{DEPOSITOR},
+                #{TR_NM},
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <delete id="delPrivateCard" parameterType="map">
+        /*delPrivateCard*/
+        DELETE FROM CAM_MNG.DJ_CARD_PRIV WHERE TR_CD = #{TR_CD}
+    </delete>
 </mapper>
