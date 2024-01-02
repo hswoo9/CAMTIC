@@ -40,4 +40,6 @@ public interface CompanyCardService {
     Map<String, Object> getCardUserGroupOne(Map<String, Object> param);
 
     void delGroupUser(Map<String, Object> params);
+
+    void setPrivateCard(Map<String, Object> params);
 }

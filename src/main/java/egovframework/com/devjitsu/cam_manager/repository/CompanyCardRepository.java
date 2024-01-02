@@ -112,4 +112,16 @@ public class CompanyCardRepository extends AbstractDAO {
     public void delGroupUserAll(Map<String, Object> params) {
         delete("card.delGroupUserAll", params);
     }
+
+    public void insPrivateCard(Map<String, Object> params) {
+        insert("card.insPrivateCard", params);
+    }
+
+    public List<Map<String, Object>> getPrivateCardList(Map<String, Object> params) {
+        return selectList("card.getPrivateCardList", params);
+    }
+
+    public void delPrivateCard(Map<String, Object> map) {
+        delete("card.delPrivateCard", map);
+    }
 }

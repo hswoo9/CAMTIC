@@ -145,6 +145,8 @@ var docuList = {
                     template: function(row){
                         if(row.REMARK_CN != "") {
                             return "<span onmouseover='docuList.showEtcDiv(\""+row.DOCUMENT_SN+"\")' onmouseout='docuList.hideEtcDiv(\""+row.DOCUMENT_SN+"\")'>보기</span>";
+                        } else {
+                            return "<span onmouseover='docuList.showEtcDiv(\""+row.DOCUMENT_SN+"\")' onmouseout='docuList.hideEtcDiv(\""+row.DOCUMENT_SN+"\")'></span>";
                         }
                     }
                 }, {
