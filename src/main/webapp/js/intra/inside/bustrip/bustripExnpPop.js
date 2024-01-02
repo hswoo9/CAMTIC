@@ -179,6 +179,7 @@ const bustripExnpReq = {
                 html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
                 html += '    <input type="hidden" class="buySts" value="'+e.BUY_STS+'" />';
 
+                html += '    <td style="text-align: center"><input type="checkbox" name="card" style="position: relative; top: 2px"/></td>';
                 html += '    <td>'+e.AUTH_DD.substring(0, 4) + '-' + e.AUTH_DD.substring(4, 6) + '-' + e.AUTH_DD.substring(6, 8)+'</td>';
                 html += '    <td>'+e.AUTH_NO+'</td>';
                 html += '    <td>'+e.MER_NM+'</td>';
@@ -604,4 +605,15 @@ const bustripExnpReq = {
         var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
         var popup = window.open(url, name, option);
     },
+
+    fn_ardHistoryDel : function(){
+        if($("input[name='card']:checked").length == 0){
+            alert("삭제할 카드내역을 선택해주세요."); return;
+        }
+
+        $.each($("input[name='card']:checked"), function(){
+            alert("저장을 해야 반영됩니다.");
+            $(this).closest("tr").remove();
+        });
+    }
 }

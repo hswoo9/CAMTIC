@@ -184,6 +184,7 @@
         <h3 class="card-title title_NM">법인카드 사용내역</h3>
         <div class="btn-st popButton">
             <input type="button" class="k-button k-button-solid-info" value="추가" onclick="snackReq.fn_paymentCardHistory()" />
+            <input type="button" class="k-button k-button-solid-error" style="margin-right: 5px" value="삭제" onclick="snackReq.fn_ardHistoryDel()" />
         </div>
     </div>
 
@@ -191,16 +192,18 @@
         <div class="table-responsive detail">
             <table class="teamGrid popTable table table-bordered mb-0" style="margin-top: 0px">
                 <colgroup>
+                    <col width="4%">
                     <col width="15%">
                     <col width="10%">
-                    <col width="20%">
-                    <col width="10%">
-                    <col width="20%">
+                    <col width="17%">
+                    <col width="11%">
+                    <col width="18%">
                     <col width="15%">
                     <col width="10%">
                 </colgroup>
                 <thead id="detailRow">
                 <tr>
+                    <th><input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll('checkAll', 'card');"/></th>
                     <th>승인일자</th>
                     <th>승인번호</th>
                     <th>사용처</th>
@@ -238,6 +241,7 @@
             html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
             html += '    <input type="hidden" class="buySts" value="'+e.BUY_STS+'" />';
 
+            html += '    <td style="text-align: center"><input type="checkbox" name="card" style="position: relative; top: 2px"/></td>';
             html += '    <td>'+e.AUTH_DD.substring(0, 4) + '-' + e.AUTH_DD.substring(4, 6) + '-' + e.AUTH_DD.substring(6, 8)+'</td>';
             html += '    <td>'+e.AUTH_NO+'</td>';
             html += '    <td>'+e.MER_NM+'</td>';
