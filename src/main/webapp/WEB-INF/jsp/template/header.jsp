@@ -25,6 +25,7 @@
       <div class="header-right">
         <ul class="headermenu">
           <li>
+            <div id="alarmBack" style="display: none; position: absolute;right: -300px; top: 0px; width: 200vw; z-index: 8000; height: 100vh;" onclick="openAlarm()"></div>
             <div id="noticePanel" class="btn-group">
                 <a href="http://218.158.231.23/camspot" target="_blank">
                     <b style="color: white; float: left; position: relative; top: 25px; right: 10px;">기존 캠스팟 바로가기</b>
@@ -34,11 +35,11 @@
                         <i class="fa fa-sitemap"></i>
                     </button>
                 </a>
-              <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0;">
+              <button class="btn btn-notice alert-notice" data-toggle="dropdown" style="border-left:0; z-index: 8001">
                 <div class="fa fa-bell-o" onclick="openAlarm()">
                 </div>
               </button>
-              <div id="noticeDropdown" class="dropdown-menu dm-notice pull-right">
+              <div id="noticeDropdown" class="dropdown-menu dm-notice pull-right" style="z-index: 8001">
                 <div role="tabpanel">
                   <!-- Nav tabs -->
                   <ul class="nav nav-tabs nav-justified" role="tablist">
@@ -148,8 +149,10 @@
 
   function openAlarm(){
     if($("#noticePanel").hasClass("open")){
+        $("#alarmBack").hide();
       $("#noticePanel").removeClass("open");
     }else{
+        $("#alarmBack").show();
       $("#noticePanel").addClass("open");
     }
   }
