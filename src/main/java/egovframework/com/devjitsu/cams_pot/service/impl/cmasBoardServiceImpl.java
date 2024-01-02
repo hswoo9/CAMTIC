@@ -107,6 +107,7 @@ public class cmasBoardServiceImpl implements camsBoardService {
             List<Map<String, Object>> list = mainLib.multiFileUpload(mpfList, filePath(params, server_dir));
             for(int i = 0 ; i < list.size() ; i++){
                 list.get(i).put("boardArticleId", params.get("boardArticleId"));
+                list.get(i).put("fileCd", params.get("boardId"));
                 list.get(i).put("filePath", filePath(params, baseDir));
                 list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
                 list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);

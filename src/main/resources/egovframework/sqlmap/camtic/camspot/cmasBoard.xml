@@ -334,6 +334,7 @@
         INSERT INTO CAM_BOARD.DJ_BOARD_ARTICLE_FILE
             (
                 BOARD_ARTICLE_ID,
+                FILE_CD,
                 FILE_UUID,
                 FILE_ORG_NAME,
                 FILE_PATH,
@@ -345,6 +346,7 @@
         <foreach collection="list" item="item" separator=",">
             (
                 #{item.boardArticleId},
+                #{item.fileCd},
                 #{item.fileUUID},
                 #{item.fileOrgName},
                 #{item.filePath},
