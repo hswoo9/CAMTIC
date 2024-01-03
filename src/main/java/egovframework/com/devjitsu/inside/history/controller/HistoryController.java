@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -294,5 +293,66 @@ public class HistoryController {
         }
         return "jsonView";
     }
+
+    private static final Map<String, Map<String, Object>> storage = new HashMap<>();
+    @RequestMapping(value = "/Inside/pop/saveMergedData", method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public Map<String, Object> saveMergedData(@RequestParam Map<String, Object> params) {
+
+        Map<String, Object> data = new HashMap<>();
+
+
+        data.putAll(params);
+        System.out.println("****params :****" +params);
+        System.out.println("****data :****" +data);
+
+        String identifier = generateIdentifier();
+        storage.put(identifier, data);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("identifier", identifier);
+        return response;
+
+    }
+
+    @RequestMapping("/Inside/pop/historyReqPrintPop.do")
+    public String historyReqPrintPop(@RequestParam("identifier") String identifier,
+                                     HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        model.addAttribute("hwpUrl", hwpUrl);
+
+        Map<String, Object> mergedData = storage.get(identifier);
+        model.addAttribute("data", new Gson().toJson(mergedData));
+
+        // 이제 mergedData를 사용할 수 있음
+        System.out.println("****mergedData :****" + mergedData);
+
+        Map<String, Object> params = new HashMap<>();
+
+        params.put("hwpUrl", hwpUrl);
+        params.put("identifier",identifier);
+        System.out.println("****params :****" + params);
+        model.addAttribute("params", new Gson().toJson(params));
+
+        // 기존 코드 생략
+        return "popup/inside/history/historyReqPrintPop";
+    }
+
+    private String generateIdentifier() {
+        // 간단한 예시로 UUID 사용
+        return UUID.randomUUID().toString();
+    }
+
+
 
 }

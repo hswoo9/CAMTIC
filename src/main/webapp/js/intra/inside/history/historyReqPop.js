@@ -404,7 +404,7 @@ const historyReq = {
                     title : "발령장",
                     width: 100,
                     template : function (e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.openPrintPop(' + e.EMP_SEQ + ', ' + e.INDEX +  ')">' +
                             '	<span class="k-button-text">보기</span>' +
                             '</button>';
 
@@ -831,21 +831,130 @@ const historyReq = {
     },
 
 
-    fn_delApntAll : function(){
-        if(!confirm("선택하신 데이터가 전부 삭제됩니다. 초기화 하시겠습니까?")){
+    fn_delApntAll : function() {
+        if (!confirm("선택하신 데이터가 전부 삭제됩니다. 초기화 하시겠습니까?")) {
             return;
         }
         const grid = $("#popMainGrid").data("kendoGrid");
-        $("#popMainGrid").find("input[name='checkUser']").each(function(){
+        $("#popMainGrid").find("input[name='checkUser']").each(function () {
             grid.removeRow($(this).closest('tr'));
         });
         historyReq.global.userArr = [];
         historyReq.global.editDataSource.data = [];
         historyReq.editGrid();
+
     },
-/*
-    openPrintPop(){
+
+    openPrintPop(empSeq, i){
+        let regEmpSeq = $("#regEmpSeq").val();
+        let regEmpName = $("#regEmpName").val();
+        let numberName = $("#numberName").val();
+        let relevantName = $("#relevantName").val();
+        let historyDate = $("#historyDate").val().replace(/-/g, "");
+        var empSeq = empSeq;
+        var teamDropdown = $('#afTeam'+empSeq+'_'+i).data("kendoDropDownList");
+        var deptDropdown = $('#afDept'+empSeq+'_'+i).data("kendoDropDownList");
+        var data = {
+            menuCd            : "history",
+            docFileName       : "발령장.hwp",
+            docId             : "historyHwp",
+
+            hisEmpSeq         : empSeq,
+
+            apntCd			  : $('#apntCd'+empSeq+'_'+i).data("kendoDropDownList").value(),
+            apntName		  : $('#apntCd'+empSeq+'_'+i).data("kendoDropDownList").text(),
+
+            afDeptSeq         : $('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value(),
+            afDeptName        : $('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afDept'+empSeq+'_'+i).data("kendoDropDownList").text(),
+
+            afTeamSeq         : $('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value(),
+            afTeamName        : $('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").text(),
+
+            afPositionCode    : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value(),
+            afPositionName    : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text(),
+
+            afDutyCode        : $('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").value(),
+            afDutyName        : $('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").text(),
+
+            afGradeName       : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text().split("/")[1].trim(),
+
+            afJobDetail       : $('#afJobDetail'+empSeq+'_'+i).val(),
+
+            deptSeq: teamDropdown ? teamDropdown.value() == "" ? deptDropdown ? deptDropdown.value() : "" : teamDropdown.value() : "",
+            //deptSeq           : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value() : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
+            position          : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text().split("/")[0].trim(),
+
+            afEtc             : $('#afEtc'+empSeq+'_'+i).val(),
+
+            empSeq: regEmpSeq,
+            regEmpName: regEmpName,
+            numberName: numberName,
+            relevantName: relevantName,
+            historyDate: historyDate
+
+        };
+
+
+        $.ajax({
+            url: '/user/getUserInfo',
+            method: 'POST',
+            data: {
+                empSeq: empSeq
+            },
+            success: function(response) {
+
+                console.log(response);
+
+                var list ={
+                    bfDeptSeq         : response.DEPT_SEQ,
+                    bfDeptName        : response.DEPT_NAME,
+                    bfTeamSeq         : response.TEAM_SEQ,
+                    bfTeamName        : response.TEAM_NAME,
+                    bfPositionCode    : "",
+                    bfPositionName    : response.POSITION_NAME,
+                    bfDutyCode        : "",
+                    bfDutyName        : response.DUTY_NAME,
+                    bfJobDetail       : response.JOB_DETAIL,
+
+                    empName           : response.EMP_NAME_KR
+
+
+                }
+
+                console.log("list",list);
+                var mergedData = Object.assign({}, data, list);
+                console.log("data",mergedData);
+
+                $.ajax({
+                    url: '/Inside/pop/saveMergedData',
+                    method: 'POST',
+                    data: mergedData,
+                    success: function(secondResponse) {
+                        console.log("Second ajax response", secondResponse);
+                        // 두 번째 ajax 요청 성공 후의 로직
+                        console.log("secondResponse : ",secondResponse);
+                        var identifier = secondResponse.identifier;
+
+                        // 팝업 열기
+                        var popupUrl = '/Inside/pop/historyReqPrintPop.do?identifier=' + identifier;
+                        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+                        window.open(popupUrl, 'historyReqPrintPop',option);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Second Ajax 요청 중 에러 발생:', status, error);
+                    }
+                });
+
+
+
+            },
+            error: function(xhr, status, error) {
+                console.error('Ajax 요청 중 에러 발생:', status, error);
+            }
+        });
+
+
 
     }
- */
+
 }
