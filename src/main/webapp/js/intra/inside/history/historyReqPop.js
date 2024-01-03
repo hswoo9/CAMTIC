@@ -211,14 +211,14 @@ const historyReq = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReq.fn_saveApnt();">' +
                             '	<span class="k-button-text">발령장 전송</span>' +
                             '</button>';
                     }
                 },{
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReq.fn_saveApnt();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReq.enablePrintButton()">' +
                             '	<span class="k-button-text">저장</span>' +
                             '</button>';
                     }
@@ -404,7 +404,7 @@ const historyReq = {
                     title : "발령장",
                     width: 100,
                     template : function (e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.openPrintPop(' + e.EMP_SEQ + ', ' + e.INDEX +  ')">' +
+                        return '<button type="button" id="printButton_' + e.INDEX + '" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.openPrintPop(' + e.EMP_SEQ + ', ' + e.INDEX +  ')" disabled>' +
                             '	<span class="k-button-text">보기</span>' +
                             '</button>';
 
@@ -415,6 +415,22 @@ const historyReq = {
         }).data("kendoGrid");
 
         historyReq.dataBinding();
+    },
+
+    enablePrintButton: function() {
+        let numberName = $("#numberName").val();
+        let relevantName = $("#relevantName").val();
+
+        if(numberName == "") {
+            alert("호수가 작성되지 않았습니다.");
+            return;
+        }else if(relevantName == "") {
+            alert("관련근거가 작성되지 않았습니다.");
+            return;
+        }
+
+        var printButton = $("#popMainGrid").find('[id^="printButton_"]');
+        printButton.prop('disabled', false);
     },
 
     dataBinding: function(){
@@ -854,6 +870,27 @@ const historyReq = {
         var empSeq = empSeq;
         var teamDropdown = $('#afTeam'+empSeq+'_'+i).data("kendoDropDownList");
         var deptDropdown = $('#afDept'+empSeq+'_'+i).data("kendoDropDownList");
+
+        if(numberName == "") {
+            alert("호수가 작성되지 않았습니다.");
+            return;
+        }else if(relevantName == "") {
+            alert("관련근거가 작성되지 않았습니다.");
+            return;
+        }
+
+        let flag = true;
+
+        if ($('#apntCd' + empSeq + "_" + i).data("kendoDropDownList").value() == "") {
+                alert("발령구분을 선택해주세요.");
+                flag = false;
+                return flag;
+            }
+
+        if (!flag) {
+            return;
+        }
+
         var data = {
             menuCd            : "history",
             docFileName       : "발령장.hwp",

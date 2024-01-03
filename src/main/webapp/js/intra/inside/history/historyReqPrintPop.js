@@ -80,6 +80,72 @@ const historyReqPrintPop = {
         }
     },
 
+    fn_save : function (){
+        console.log("save data",data);
+
+        var saveData ={
+            menuCd            : "history",
+            docFileName       : "발령장.hwp",
+            docId             : "historyHwp",
+
+            hisEmpSeq         : data.hisEmpSeq,
+            empName           : data.empName,
+            apntCd			  : data.apntCd,
+            apntName		  : data.apntName,
+
+            bfDeptSeq         : data.bfDeptSeq,
+            bfDeptName        : data.bfDeptName,
+            bfTeamSeq         : data.bfTeamSeq,
+            bfTeamName        : data.bfTeamName,
+            bfPositionCode    : "",
+            bfPositionName    : data.bfPositionName,
+            bfDutyCode        : "",
+            bfDutyName        : data.bfDutyName,
+            bfJobDetail       : data.bfJobDetail,
+
+            afDeptSeq         : data.afDeptSeq,
+            afDeptName        : data.afDeptName,
+
+            afTeamSeq         : data.afTeamSeq,
+            afTeamName        : data.afTeamName,
+
+            afPositionCode    : data.afPositionCode,
+            afPositionName    : data.afPositionName,
+
+            afDutyCode        : data.afDutyCode,
+            afDutyName        : data.afDutyName,
+
+            afGradeName       : data.afGradeName,
+
+            afJobDetail       : data.afJobDetail,
+
+            deptSeq           : data.deptSeq,
+
+            position          : data.position,
+
+            afEtc             : data.afEtc,
+
+            empSeq: data.empSeq,
+            regEmpName: data.regEmpName,
+            numberName: data.numberName,
+            relevantName: data.relevantName,
+            historyDate: data.historyDate,
+
+        };
+
+        console.log("saveData",saveData);
+
+        if(!confirm("인사발령을 진행하시겠습니까?")){
+            return;
+        }
+        let url = "/inside/setHistoryInsert";
+        customKendo.fn_customAjax(url, saveData);
+
+
+        alert("인사발령이 완료됐습니다.");
+        window.close();
+    },
+
     print: function() {
         historyReqPrintPop.global.hwpCtrl.PrintDocument();
         opener.gridReload();

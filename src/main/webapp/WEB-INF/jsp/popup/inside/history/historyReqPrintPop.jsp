@@ -21,7 +21,7 @@
     </div>
 
     <div id="docControlBtnDiv">
-        <button type='button' class='k-button k-button-solid k-button-solid-base'  style="height: 25px; font-size: 12px;" onclick="">
+        <button type='button' class='k-button k-button-solid k-button-solid-base'  style="height: 25px; font-size: 12px;" onclick="historyReqPrintPop.fn_save()">
             <span class='k-button-text'>발령장 발송</span>
         </button>
         <button type='button' class='k-button k-button-solid k-button-solid-base'  style="height: 25px; font-size: 12px;" onclick="historyReqPrintPop.saveHwp()">
