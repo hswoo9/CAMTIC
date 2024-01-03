@@ -43,7 +43,7 @@
                 <button type="button" id="stepBCanBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyReq.fn_openNextStep('C');">신청취소</button>
 
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="openStudyReq.saveBtn();">저장</button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="openStudyReq.windowClose()">닫기</button>
             </div>
         </div>
     <div class="table-responsive" style="margin-top: 40px;">

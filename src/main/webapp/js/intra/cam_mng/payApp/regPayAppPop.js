@@ -190,6 +190,8 @@ var regPay = {
             for(let i=1; i < cardList.length+1; i++) {
                 regPayDet.addRow();
             }
+            console.log("cardList");
+            console.log(cardList);
             for(let i=0; i<cardList.length; i++){
                 const cardMap = cardList[i];
                 const index = i+1;
@@ -209,6 +211,7 @@ var regPay = {
                 const data = iBrenchResult.cardInfo;
                 console.log(data);
 
+                $("#eviType" + index).data("kendoDropDownList").value(3);
                 $("#crmNm" + index).val(data.MER_NM);
                 $("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
                 $("#trCd" + index).val(data.TR_CD);
@@ -284,6 +287,7 @@ var regPay = {
                 const data = iBrenchResult.cardInfo;
                 console.log(data);
 
+                $("#eviType" + index).data("kendoDropDownList").value(3);
                 $("#crmNm" + index).val(data.MER_NM);
                 $("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
                 $("#trCd" + index).val(data.TR_CD);

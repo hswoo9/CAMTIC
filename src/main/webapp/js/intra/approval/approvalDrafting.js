@@ -191,6 +191,8 @@ var draft = {
                 hwpDocCtrl.putFieldText('doc_receivelist', "")
             }
         });
+
+        draft.initOfficialAppr();
     },
 
     getDocFormTemplate : function(){
@@ -1622,5 +1624,19 @@ var draft = {
         hwpDocCtrl.putFieldText('appr0', appArr[0]);
         hwpDocCtrl.putFieldText('appr1', appArr[1]);
         hwpDocCtrl.putFieldText('appr2', appArr[2]);
+    },
+
+    initOfficialAppr : function(){
+        /** 공문 양식일때 개인정보 입력 */
+        if($("#formId").val() == "1"){
+            const draftEmpSeq = $("#empSeq").val();
+            const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
+            console.log("empInfo");
+            console.log(empInfo);
+            setTimeout(function() {
+                hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
+                hwpDocCtrl.putFieldText('EMP_TEL', empInfo.OFFICE_TEL_NUM == undefined ? "" : ("/"+ empInfo.OFFICE_TEL_NUM));
+            }, 1500);
+        }
     }
 }

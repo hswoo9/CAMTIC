@@ -104,7 +104,7 @@
                     <td colspan="3">
                         <form style="padding: 0px 30px;">
                             <div class="card-header" style="padding: 5px;">
-                                <h3 class="card-title">첨부파일</h3>
+                                <h3 class="card-title">첨부파일 (견적서 必 첨부, 인터넷 구매등은 해당 화면 캡쳐하여 업로드)</h3>
                                 <div class="card-options">
                                     <div class="filebox">
                                         <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">

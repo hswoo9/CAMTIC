@@ -259,7 +259,7 @@
         let html = '';
         for(let i=0; i<list.length; i++){
             const e = list[i];
-            html += '<tr class="addData">';
+            html += '<tr class="cardData">';
             html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
             html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
             html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';

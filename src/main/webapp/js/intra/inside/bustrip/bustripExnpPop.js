@@ -172,7 +172,7 @@ const bustripExnpReq = {
 
             if(e != null){
                 let html = '';
-                html += '<tr class="addData">';
+                html += '<tr class="cardData">';
                 html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
                 html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
                 html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
@@ -454,7 +454,7 @@ const bustripExnpReq = {
             hrBizReqResultId : hrBizReqResultId
         }
         let cardArr = [];
-        $.each($(".addData"), function(i, v){
+        $.each($(".cardData"), function(i, v){
             const cardData = {};
             const cardNo = $(v).find('.cardNo').val();
             const authDate = $(v).find('.authDate').val();

@@ -199,7 +199,7 @@ var bustList = {
                     title : "지급신청",
                     width: 80,
                     template : function (e){
-                        if(e.RS_STATUS == 100 && e.EXP_STAT == 100){
+                        if(e.RS_STATUS == 100 && e.EXP_STAT == 100 && e.PAY_APP_SN == null){
                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
                         }else if (e.PAY_APP_SN != null){
                             return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">지급신청</button>'
