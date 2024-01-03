@@ -1125,7 +1125,7 @@ var docView = {
 
         setTimeout(function() {
             for (let i = 0; i < list.length; i++) {
-                if(list[i].APPROVE_STAT_CODE == 10) {
+                if(list[i].APPROVE_STAT_CODE == 10 || list[i].APPROVE_STAT_CODE == 101) {
                     let field = "docAppr0";
                     hwpDocCtrl.putFieldText(field, list[i].APPROVE_EMP_NAME);
                 }else if(list[i].APPROVE_STAT_CODE != null && list[i].APPROVE_DUTY_NAME == "팀장"){
@@ -1147,13 +1147,6 @@ var docView = {
             hwpDocCtrl.putFieldText('DOC_NO', docInfo.DOC_NO);
             hwpDocCtrl.putFieldText('DOC_DT', docInfo.DRAFT_DATE);
             hwpDocCtrl.putFieldText('SECURITY_TYPE', docInfo.SECURITY_TYPE == "000" ? "공개" : "비공개");
-
-
-            const draftEmpSeq = docInfo.DRAFT_EMP_SEQ;
-
-            const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
-            hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
-            hwpDocCtrl.putFieldText('EMP_TEL', empInfo.OFFICE_TEL_NUM == undefined ? "" : ("/"+ empInfo.OFFICE_TEL_NUM));
         }, 1500);
 
 
