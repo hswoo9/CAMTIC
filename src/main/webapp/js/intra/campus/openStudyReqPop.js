@@ -97,6 +97,7 @@ const openStudyReq = {
                 if(studyInfo.REG_EMP_SEQ == regEmpSeq){
                     $("#stepDBtn").show();
                     $("#stepNBtn").show();
+                    $("#empBtn").show();
                 }else{
                     $("#stepBReqBtn").show();
                 }
@@ -204,6 +205,7 @@ const openStudyReq = {
         }
         const result = customKendo.fn_customAjax(url, data);
         if(result.flag){
+            //result.params.[selectKey 명칭];
             alert("오픈스터디 저장이 완료되었습니다.");
             try {
                 opener.gridReload();
@@ -215,7 +217,8 @@ const openStudyReq = {
             }catch{
 
             }
-            window.close();
+            //window.close();
+            openStudy.openStudyReqPop("upd", data.pk);
         }
     },
 
@@ -334,5 +337,28 @@ const openStudyReq = {
     windowClose: function() {
         opener.gridReload();
         window.close();
+    },
+
+    userDataSet: function(arr) {
+        for (var i = 0; i < arr.length; i++) {
+            var data = {
+                regEmpSeq: arr[i].regEmpSeq,
+                regEmpName: arr[i].regEmpName,
+                regDeptName: arr[i].regDeptName,
+                regTeamSeq: arr[i].regTeamSeq,
+                regPositionName: arr[i].regPositionName,
+                regDutyName: arr[i].regDutyName,
+                pk: $("#pk").val()
+            };
+
+            console.log("보낼 데이터:", data);
+
+            const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
+
+            if (result.flag) {
+                alert("참여신청이 완료되었습니다.");
+                openStudyReq.windowClose();
+            }
+        }
     }
 }
