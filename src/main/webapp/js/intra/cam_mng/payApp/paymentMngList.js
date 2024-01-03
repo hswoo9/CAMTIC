@@ -133,8 +133,12 @@ var paymentMngList = {
                         return pjtNm;
                     }
                 }, {
-                    title: "신청일",
+                    title: "신청자",
                     width: 80,
+                    field: "EMP_NAME"
+                }, {
+                    title: "신청일",
+                    width: 70,
                     field: "APP_DE",
                     template: function(e){
 
@@ -161,7 +165,7 @@ var paymentMngList = {
                     field: "REQ_END_DE"
                 },{
                     title: "지출금액",
-                    width: 120,
+                    width: 110,
                     template: function(e){
                         var cost = e.TOT_COST;
                         if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
@@ -172,7 +176,7 @@ var paymentMngList = {
                     }
                 }, {
                     title: "상태",
-                    width: 60,
+                    width: 70,
                     template : function(e){
                         console.log(e);
                         var stat = "";
