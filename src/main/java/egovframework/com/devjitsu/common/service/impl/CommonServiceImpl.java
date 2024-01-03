@@ -55,16 +55,9 @@ public class CommonServiceImpl implements CommonService {
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || request.getServerName().contains("218.158.231.186")){
             path = "http://218.158.231.186" + path;
-            if((request.getServerName().contains("218.158.231.186") || path.startsWith("/upload"))){
-                path = "http://218.158.231.186/" + path;
-            }
         }else{
-
             if(!path.contains("http")){
                 path = "http://218.158.231.184" + path;
-                if((request.getServerName().contains("218.158.231.184") || path.startsWith("/upload"))){
-                    path = "http://218.158.231.184/" + path;
-                }
             }
         }
 
