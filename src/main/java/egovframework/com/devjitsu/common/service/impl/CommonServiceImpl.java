@@ -58,9 +58,6 @@ public class CommonServiceImpl implements CommonService {
         }else{
             if(!path.contains("http")){
                 path = "http://218.158.231.184" + path;
-                if((request.getServerName().contains("218.158.231.184") || path.startsWith("/upload"))){
-                    path = "http://218.158.231.184/" + path;
-                }
             }
         }
 
