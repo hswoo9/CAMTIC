@@ -158,7 +158,7 @@ var snackList = {
                 }, {
                     title : "지급신청",
                     template : function(row){
-                        if(row.STATUS == "100") {
+                        if(row.STATUS == "100" && row.PAY_APP_SN == null) {
                             return '<button type="button" class="k-button k-button-solid-base" onclick="snackList.fn_reqRegPopup('+row.SNACK_INFO_SN+')">지급신청</button>'
                         }else if (row.PAY_APP_SN != null){
                             return '<button type="button" class="k-button k-button-solid-info" onclick="snackList.fn_reqRegPopup('+row.PAY_APP_SN+', 2)">지급신청</button>'

@@ -1493,7 +1493,7 @@
 
     <update id="updPurcSnackByPayAppSn" parameterType="map">
         /*updPurcSnackByPayAppSn*/
-        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        UPDATE CAM_INSIDE.DJ_SNACK_INFO
         SET
             PAY_APP_SN = #{payAppSn}
         WHERE

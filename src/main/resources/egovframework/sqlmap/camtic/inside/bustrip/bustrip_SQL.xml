@@ -67,6 +67,7 @@
             B.STATUS AS RS_STATUS,
             A.PJT_SN,
             B.EXP_STAT,
+            B.PAY_APP_SN,
             IFNULL((
                 SELECT
                     SUM(REPLACE(TOT_COST, ',', '')) AS BUSTRIP_EXNP_SUM
