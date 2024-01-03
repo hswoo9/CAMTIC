@@ -192,6 +192,18 @@ public class PurcServiceImpl implements PurcService {
             purcRepository.updatePurcFinalApprStat(params);
             purcRepository.updatePurcListFinalApprStat(params);
         }
+        if("10".equals(docSts)){
+            /** STEP1. pjtSn 으로 purcFileList 호출 */
+            params.put("contentId", "purcReq_" + params.get("purcSn"));
+            List<Map<String, Object>> list = purcRepository.getPurcReqFileList(params);
+
+            if(list.size() > 0){
+                for(Map<String, Object> data : list){
+                    data.put("docId", params.get("docId"));
+                    purcRepository.setPurcFileDocNm(data);
+                }
+            }
+        }
     }
 
     @Override

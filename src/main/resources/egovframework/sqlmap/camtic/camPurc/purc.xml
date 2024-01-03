@@ -439,6 +439,15 @@
         ORDER BY REG_DATE DESC
     </select>
 
+    <update id="setPurcFileDocNm" parameterType="map">
+        /* setPurcFileDocNm */
+        UPDATE CAM_COMMON.DJ_FILE_INFO
+        SET
+            DOC_ID = #{docId}
+        WHERE
+            file_no = #{file_no}
+    </update>
+
     <update id="updatePurcApprStat" parameterType="map">
         /* updatePurcApprStat */
         UPDATE CAM_MNG.DJ_MNG_PURC

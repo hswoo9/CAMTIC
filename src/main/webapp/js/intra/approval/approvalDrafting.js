@@ -1337,9 +1337,9 @@ var draft = {
             });
 
             /** 구매요청서 */
-            let result5 = customKendo.fn_customAjax("/purc/getProjectReqFile", {
+            /*let result5 = customKendo.fn_customAjax("/purc/getProjectReqFile", {
                 pjtSn: data.pjtSn
-            });
+            });*/
 
             console.log(result2);
             let tempArr = [];
@@ -1385,11 +1385,11 @@ var draft = {
             tempArr[count] = result4.result.prodFileList;
             count ++;
 
-            const purcList = result5.list;
+            /*const purcList = result5.list;
             for(let i=0; i<purcList.length; i++){
                 tempArr[count] = purcList[i];
                 count ++;
-            }
+            }*/
 
 
             draft.getDocFileSet(tempArr);
@@ -1415,9 +1415,9 @@ var draft = {
             });
 
             /** 구매요청서 */
-            let result5 = customKendo.fn_customAjax("/purc/getProjectReqFile", {
+            /*let result5 = customKendo.fn_customAjax("/purc/getProjectReqFile", {
                 pjtSn: data.pjtSn
-            });
+            });*/
 
             console.log(result2);
             let tempArr = [];
@@ -1463,11 +1463,11 @@ var draft = {
             tempArr[count] = result4.result.prodFileList;
             count ++;
 
-            const purcList = result5.list;
+            /*const purcList = result5.list;
             for(let i=0; i<purcList.length; i++){
                 tempArr[count] = purcList[i];
                 count ++;
-            }
+            }*/
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
@@ -1491,9 +1491,9 @@ var draft = {
             });
 
             /** 구매요청서 */
-            let result5 = customKendo.fn_customAjax("/purc/getProjectReqFile", {
+            /*let result5 = customKendo.fn_customAjax("/purc/getProjectReqFile", {
                 pjtSn: data.pjtSn
-            });
+            });*/
 
             console.log(result2);
             let tempArr = [];
@@ -1539,11 +1539,11 @@ var draft = {
             tempArr[count] = result4.result.prodFileList;
             count ++;
 
-            const purcList = result5.list;
+            /*const purcList = result5.list;
             for(let i=0; i<purcList.length; i++){
                 tempArr[count] = purcList[i];
                 count ++;
-            }
+            }*/
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
@@ -1590,6 +1590,30 @@ var draft = {
             }
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
+        }
+
+
+
+        if(params.menuCd == "purc") {
+            data.purcSn = params.APPRO_KEY.split("_")[1];
+
+            let result = customKendo.fn_customAjax("/purc/getPurcReq.do", {
+                purcSn: data.purcSn
+            });
+            console.log("항목 리스트 조회");
+            console.log(result);
+            const fileList = result.data.purcFile;
+
+            if(fileList != null){
+                let attCount = 0;
+                let tempArr = [];
+                for(let j=0; j< fileList.length; j++){
+                    tempArr[attCount] = fileList[j];
+                    attCount++;
+                }
+                draft.getDocFileSet(tempArr);
+                draft.setKendoUpload();
+            }
         }
     },
 

@@ -604,13 +604,13 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             }
 
             /** STEP1. pjtSn 으로 purcFile 호출 */
-            List<Map<String, Object>> purcFiles = purcRepository.getProjectReqFile(params);
+            /*List<Map<String, Object>> purcFiles = purcRepository.getProjectReqFile(params);*/
 
             /** STEP2. purcFile에 데이터 있으면 update */
-            for(Map<String, Object> data : purcFiles){
+            /*for(Map<String, Object> data : purcFiles){
                 data.put("docId", params.get("docId"));
                 projectRepository.setPurcFileDocNm(data);
-            }
+            }*/
         }
     }
 
