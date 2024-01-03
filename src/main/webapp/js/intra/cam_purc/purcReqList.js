@@ -181,6 +181,19 @@ var prm = {
                         }
                         return html;
                     }
+                }, {
+                    title: "처리",
+                    width: 80,
+                    template : function(e){
+                        /** 구매요청서 작성시 삭제 버튼 생성*/
+                        let html = "";
+                        if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
+                            html += '<button type="button" class="k-button k-button-solid-error" onclick="prm.fn_delete(' + e.PURC_SN + ')">삭제</button>';
+                        }else{
+                            html += "-"
+                        }
+                        return html;
+                    }
                 }
             ],
             dataBinding: function(){
@@ -219,5 +232,15 @@ var prm = {
         var name = "blank";
         var option = "width = 1690, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_delete : function(purcSn){
+        if(!confirm("정말 삭제하시겠습니까?")){return;}
+
+        const result = customKendo.fn_customAjax("/purc/delPurcReq.do", {purcSn: purcSn});
+        if(result.flag){
+            alert("삭제되었습니다.");
+            prm.gridReload();
+        }
     }
 }
