@@ -300,7 +300,7 @@ var userPersonList = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.sendSmsPop()">' +
                             '	<span class="k-button-text">SMS 발송</span>' +
                             '</button>';
                     }
@@ -322,7 +322,7 @@ var userPersonList = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll"  onclick="userPersonList.fn_checkAll();" style="position : relative; top : 2px;"/>',
-                    template: "<input type='checkbox' id='' name='checkUser' value=''/>",
+                    template: "<input type='checkbox' name='checkUser' value='#=EMP_SEQ#'/>",
                     width: 50
                 }, {
                     field: "EMP_NAME_KR",
@@ -405,7 +405,7 @@ var userPersonList = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.sendSmsPop()">' +
                             '	<span class="k-button-text">SMS 발송</span>' +
                             '</button>';
                     }
@@ -427,7 +427,7 @@ var userPersonList = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll"  onclick="userPersonList.fn_checkAll();" style="position : relative; top : 2px;"/>',
-                    template: "<input type='checkbox' id='' name='checkUser' value=''/>",
+                    template: "<input type='checkbox' name='checkUser' value='#=EMP_SEQ#'/>",
                     width: 50
                 }, {
                     field: "EMP_NAME_KR",
@@ -603,6 +603,25 @@ var userPersonList = {
 
         var name = "recruitReqPop";
         var option = "width=1100, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    sendSmsPop : function(){
+        var joinSn = "";
+        $.each($("input[name='checkUser']:checked"), function(i){
+            if(i != 0){
+                joinSn += ",";
+            }
+            joinSn += $(this).val();
+        });
+
+        if($("input[name='checkUser']:checked").length == 0){
+            alert("SMS 발송 할 직원을 선택해주세요."); return;
+        }
+
+        var url = "/system/pop/messageSendPop.do?userList="+joinSn;
+        var name = "messageSendPop";
+        var option = "width=315, height=600, scrollbars=no, top=200, left=600, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
     },
 

@@ -46,7 +46,15 @@ public class messageController {
         return "jsonView";
     }
 
-
+    /** 문자 전송 팝업 */
+    @RequestMapping("/system/pop/messageSendPop.do")
+    public String userReqPopImage(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/system/message/messageSendPop";
+    }
 
 
     /** 문자 메세지 전송 */
