@@ -86,6 +86,7 @@ const openStudyReq = {
             if(step == "B"){
                 if(studyInfo.REG_EMP_SEQ == regEmpSeq){
                     $("#stepCBtn").show();
+                    $("#stepBReqBtn").show();
                 }else{
                     $("#stepBReqBtn").show();
                 }
@@ -303,5 +304,10 @@ const openStudyReq = {
         let url = "/Campus/pop/openStudyResultPop.do?pk="+$("#pk").val();
         const name = "_self";
         window.open(url, name);
+    },
+
+    windowClose: function() {
+        window.close();
+        opener.gridReload();
     }
 }
