@@ -23,19 +23,37 @@ var messageSendPop = {
             ("0" + now.getSeconds()).slice(-2);
 
         for (let i=0; i<userList.length; i++) {
-            const empSeq = userList[i];
-            const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: empSeq});
+            const type = $("#type").val();
+            if(type == "userList"){
+                const empSeq = userList[i];
+                const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: empSeq});
 
-            if(empInfo != null){
-                const dest_phone = empInfo.MOBILE_TEL_NUM;
-                const name = empInfo.EMP_NAME_KR;
-                const msg_content = $("#tBox_Msg").val();
-                const pkDate = sdf;
-                data.messages.push({
-                    dest_phone: name+"^"+dest_phone,
-                    msg_content: msg_content,
-                    pkDate: pkDate
-                });
+                if(empInfo != null){
+                    const dest_phone = empInfo.MOBILE_TEL_NUM;
+                    const name = empInfo.EMP_NAME_KR;
+                    const msg_content = $("#tBox_Msg").val();
+                    const pkDate = sdf;
+                    data.messages.push({
+                        dest_phone: name+"^"+dest_phone,
+                        msg_content: msg_content,
+                        pkDate: pkDate
+                    });
+                }
+            }else if(type == "lecture"){
+                const empSeq = userList[i];
+                const empInfo = customKendo.fn_customAjax("/projectUnRnd/getPersonData", {personSn: empSeq}).data;
+
+                if(empInfo != null){
+                    const dest_phone = empInfo.HP_NUM;
+                    const name = empInfo.NAME;
+                    const msg_content = $("#tBox_Msg").val();
+                    const pkDate = sdf;
+                    data.messages.push({
+                        dest_phone: name+"^"+dest_phone,
+                        msg_content: msg_content,
+                        pkDate: pkDate
+                    });
+                }
             }
         }
 

@@ -41,6 +41,7 @@
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-primary" onclick="lecturePop.personPrintPop()">수료증</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="lecturePop.sendSmsPop()">SMS 발송</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('Y')">접수처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('N')">취소처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('X')">불참처리</button>

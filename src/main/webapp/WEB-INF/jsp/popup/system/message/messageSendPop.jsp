@@ -24,6 +24,7 @@
 <body class="font-opensans" style="background-color:#fff;">
 
 <input type="hidden" id="userList" value="${params.userList}">
+<input type="hidden" id="type" value="${params.type}">
 
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
