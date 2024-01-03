@@ -26,6 +26,7 @@
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticPjtChange";
         approvalParams.approKey = "camticPjtChange_${params.pjtSn}";
+        approvalParams.budgetList = "${params.list}";
 
         linkageProcessOn(approvalParams);
     }

@@ -150,6 +150,12 @@ function makeParams(params, form, url){
 		form.append(docTitle);
 		url += "&docTitle="+encodeURI(params.docTitle);
 	}
+	if(params.budgetList){
+		var budgetList = $('<input type="hidden" name="budgetList"/>');
+		budgetList.val(params.budgetList);
+		form.append(budgetList);
+		url += "&budgetList="+encodeURI(params.budgetList);
+	}
 
 	return url;
 }

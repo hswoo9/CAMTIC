@@ -20,6 +20,7 @@
     <input type="hidden" id="menuCd" name="menuCd" value="pjtChange">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
+    <input type="hidden" id="list" name="list" />
 </form>
 
 <div style="padding: 10px">
@@ -37,6 +38,93 @@
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }
+
+    function openModal(){
+        $("#dialog").data("kendoWindow").open();
+    }
+
+    $("#dialog").kendoWindow({
+        title : "변경 예산 선택",
+        width: "700px",
+        visible: false,
+        modal: true,
+        position : {
+            top : 200,
+            left : 400
+        },
+        open : function (){
+            const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#pjtSn").val()});
+            const map = pjtInfo.rs;
+
+            const date = new Date();
+            const year = date.getFullYear().toString().substring(2,4);
+            const g20 = customKendo.fn_customAjax("/g20/getSubjectList", {
+                stat: "project",
+                gisu: "23",
+                fromDate: "20230101",
+                toDate: "20231231",
+                mgtSeq: map.PJT_CD,
+                opt01: "3",
+                opt02: "1",
+                opt03: "2",
+                temp: "2",
+                baseDate: "2023" + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
+                pjtSn: $("#pjtSn").val()
+            });
+
+            if(g20.list.length == 0){
+                alert("생성된 예산이 없습니다."); return;
+            }
+
+            var htmlStr =
+                '<div class="mb-10" style="text-align: right;">' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.changeDrafting()">작성</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#dialog \').data(\'kendoWindow\').close()">닫기</button>' +
+                '</div>' +
+                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
+                '	<colgroup>' +
+                '		<col width="5%">' +
+                '		<col width="20%">' +
+                '		<col width="20%">' +
+                '		<col width="20%">' +
+                '		<col width="20%">' +
+                '	</colgroup>' +
+                '	<thead>';
+
+            let largeText = "";
+            let mediumText = "";
+            for(let i=0; i<g20.list.length; i++){
+                const g20Map = g20.list[i];
+                console.log(g20Map);
+                if(g20Map.DIV_FG_NM == "장"){
+                    largeText = g20Map.BGT_NM;
+                }
+                if(g20Map.DIV_FG_NM == "관"){
+                    mediumText = g20Map.BGT_NM;
+                }
+                if(g20Map.DIV_FG_NM == "항"){
+                    htmlStr +=
+                        '		<tr>' +
+                        '			<td>' +
+                        '               <input type="checkbox" class="bgtCd" name="bgtCd" value="'+g20Map.BGT_CD+'" />' +
+                        '			</td>' +
+                        '			<td>' +largeText+'			</td>' +
+                        '			<td>' +mediumText+'			</td>' +
+                        '			<td>' +g20Map.BGT_NM+'			</td>' +
+                        '			<td>' +fn_numberWithCommas(g20Map.SUB_AM)+'			</td>' +
+                        '		</tr>';
+                }
+            }
+            htmlStr +=
+                '	</thead>' +
+                '</table>';
+
+            $("#dialog").html(htmlStr);
+        },
+        close: function () {
+            $("#dialog").empty();
+        }
+    });
 </script>
 </body>
 </html>

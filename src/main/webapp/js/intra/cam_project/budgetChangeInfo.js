@@ -35,7 +35,7 @@ var budgetChangeInfo = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeInfo.changeDrafting()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="openModal()">' +
                             '	<span class="k-button-text">세세목 변경서 작성</span>' +
                             '</button>';
                     }
@@ -97,6 +97,19 @@ var budgetChangeInfo = {
     },
 
     changeDrafting: function() {
+        if($("input[name='bgtCd']:checked").length == 0){
+            alert("변경할 예산을 선택해주세요."); return;
+        }
+
+        var joinSn = "";
+        $.each($("input[name='bgtCd']:checked"), function(i){
+            if(i != 0){
+                joinSn += ",";
+            }
+            joinSn += $(this).val();
+        });
+        $("#list").val(joinSn);
+
         $("#changeDraftFrm").one("submit", function() {
             var url = "/popup/cam_project/approvalFormPopup/changeApprovalPop.do";
             var name = "changeApprovalPop";
