@@ -151,7 +151,8 @@
             B.PJT_STR_DT AS STR_DT,
             B.PJT_END_DT AS END_DT,
             A.DELV_APPROVE_STAT AS STATUS,
-            B.PM_EMP_NM AS PM_NM
+            B.PM_EMP_NM AS ENGN_PM_NM,
+            A.PM AS PM_NM
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN
@@ -174,6 +175,7 @@
             STR_DT AS STR_DT,
             END_DT AS END_DT,
             STATUS AS STATUS,
+            PM_EMP_NAME AS PM_NM,
             PM_EMP_NAME AS PM_NM
         FROM
             CAM_PJT_MNG.DJ_CORP_PROJECT

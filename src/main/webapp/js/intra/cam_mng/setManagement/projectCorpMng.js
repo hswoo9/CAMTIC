@@ -73,9 +73,15 @@ var prjCorpMng = {
                     title: "종료일자",
                     width: 80,
                 },*/ {
-                    field: "PM_NM",
                     title: "PM",
                     width: 80,
+                    template: function(e){
+                        if(e.BUSN_CLASS == "D"){
+                            return e.ENGN_PM_NM;
+                        }else{
+                            return e.PM_NM;
+                        }
+                    }
                 }
             ],
             dataBinding: function(){
