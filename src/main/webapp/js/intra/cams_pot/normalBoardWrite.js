@@ -19,8 +19,6 @@ var normalArticleWrite = {
 			boardId : normalArticleWrite.global.params.boardId
 		}
 
-		console.log(normalArticleWrite.global.params.boardId);
-
 		var result = customKendo.fn_customAjax("/system/getBoardActive.do", normalArticleWrite.global.searchAjaxData);
 		if(result.flag){
 			if(result.rs.ATTACH_FILE_ACTIVE == "Y"){
@@ -69,6 +67,7 @@ var normalArticleWrite = {
 
 		if(normalArticleWrite.global.params.boardArticleId != null){
 			normalArticleWrite.global.searchAjaxData = {
+				boardId : normalArticleWrite.global.params.boardId,
 				boardArticleId : normalArticleWrite.global.params.boardArticleId
 			}
 
