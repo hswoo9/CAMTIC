@@ -67,7 +67,7 @@ const openStudyRes = {
             dataValueField: "value",
             dataSource: [
                 { text: "선택", value: "" },
-                { text: "강사", value: "1" },
+                { text: "지도자", value: "1" },
                 { text: "학습자", value: "2" }
             ]
         });
@@ -82,8 +82,19 @@ const openStudyRes = {
         let openStudyAmtText = $("#openStudyAmtText").val();
         let openStudyResult = $("#openStudyResult").val();
 
-        if(openStudyAmt == ""){ alert("소요비용이 작성되지 않았습니다."); return;}
-        if(openStudyAmtText == ""){ alert("소요비용 내역이 작성되지 않았습니다."); return;}
+        if(openStudyAmt != ""){
+            if(openStudyAmtText == ""){
+                alert("소요비용 내역이 작성되지 않았습니다.");
+                $("#openStudyAmtText").focus();
+                return;
+            }
+        }
+        //if(openStudyAmt == ""){ alert("소요비용이 작성되지 않았습니다."); return;}
+
+        if (openStudyAmt === "" || openStudyAmt === null) {
+            openStudyAmt = '0';
+        }
+
         if(openStudyResult == ""){ alert("학습결과가 작성되지 않았습니다."); return;}
 
         let data = {

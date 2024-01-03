@@ -142,6 +142,7 @@ public class CampusRepository extends AbstractDAO  {
     public void setOpenStudyInfoIns(Map<String, Object> params) { insert("campus.setOpenStudyInfoIns", params); }
     public void setOpenStudyInfoUpd(Map<String, Object> params) { update("campus.setOpenStudyInfoUpd", params); }
     public void setOpenNextStep(Map<String, Object> params) { update("campus.setOpenNextStep", params); }
+    public boolean getOpenStudyUserDoubleChk(Map<String, Object> params) {return (boolean) selectOne("campus.getOpenStudyUserDoubleChk", params);}
     public void setOpenStudyUser(Map<String, Object> params) { insert("campus.setOpenStudyUser", params); }
     public void setOpenStudyResultUpd(Map<String, Object> params) { update("campus.setOpenStudyResultUpd", params); }
     public void setOpenStudyUserResultUpd(Map<String, Object> params) { update("campus.setOpenStudyUserResultUpd", params); }
@@ -272,5 +273,9 @@ public class CampusRepository extends AbstractDAO  {
 
     public void setOjtResultUpdate(Map<String, Object> fileInsMap) {
         update("campus.setOjtResultUpdate", fileInsMap);
+    }
+
+    public Object getOpenStudyUserCount(Map<String, Object> params){
+        return (int) selectOne("campus.getOpenStudyUserCount", params);
     }
 }

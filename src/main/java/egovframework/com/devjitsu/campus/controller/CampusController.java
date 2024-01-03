@@ -1582,6 +1582,17 @@ public class CampusController {
         return "jsonView";
     }
 
+    /**
+     * 참여자 중복체크
+     * @param params
+     * @return
+     */
+    @RequestMapping("/campus/getOpenStudyUserDoubleChk")
+    public String getOpenStudyUserDoubleChk(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", campusService.getOpenStudyUserDoubleChk(params));
+        return "jsonView";
+    }
+
     /** 오픈스터디 참여자 등록 */
     @RequestMapping("/campus/setOpenStudyUser")
     public String setOpenStudyUser(@RequestParam Map<String, Object> params) {
@@ -1974,6 +1985,17 @@ public class CampusController {
             e.printStackTrace();
         }
         return "jsonView";
+    }
+
+    /** 오픈스터디 직원추가 팝업 */
+    @RequestMapping("/Campus/pop/openStudyAddEmpPop.do")
+    public String openStudyAddEmpPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/campus/openStudyAddEmpPop";
     }
 
 }

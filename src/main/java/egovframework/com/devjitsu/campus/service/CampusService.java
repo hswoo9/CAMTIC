@@ -110,6 +110,7 @@ public interface CampusService {
     void setOpenStudyInfoIns(Map<String, Object> params);
     void setOpenStudyInfoUpd(Map<String, Object> params);
     void setOpenNextStep(Map<String, Object> params);
+    boolean getOpenStudyUserDoubleChk(Map<String, Object> params);
     void setOpenStudyUser(Map<String, Object> params);
     void setOpenStudyResultUpd(Map<String, Object> params);
     void setOpenStudyCertReq(Map<String, Object> params);
