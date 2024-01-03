@@ -301,7 +301,6 @@ public class HistoryController {
 
         Map<String, Object> data = new HashMap<>();
 
-
         data.putAll(params);
         System.out.println("****params :****" +params);
         System.out.println("****data :****" +data);
@@ -334,7 +333,6 @@ public class HistoryController {
         Map<String, Object> mergedData = storage.get(identifier);
         model.addAttribute("data", new Gson().toJson(mergedData));
 
-        // 이제 mergedData를 사용할 수 있음
         System.out.println("****mergedData :****" + mergedData);
 
         Map<String, Object> params = new HashMap<>();
@@ -344,12 +342,10 @@ public class HistoryController {
         System.out.println("****params :****" + params);
         model.addAttribute("params", new Gson().toJson(params));
 
-        // 기존 코드 생략
         return "popup/inside/history/historyReqPrintPop";
     }
 
     private String generateIdentifier() {
-        // 간단한 예시로 UUID 사용
         return UUID.randomUUID().toString();
     }
 
