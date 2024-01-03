@@ -339,15 +339,6 @@ const openStudyReq = {
         window.close();
     },
 
-    /*openAddEmpPop : function() {
-        var pk = $("#pk").val();
-        let url = "/Campus/pop/openStudyAddEmpPop.do?pk="+pk;
-
-        const name = "openAddEmpPop";
-        const option = "width = 990, height = 548, top = 100, left = 400, location = no";
-        window.open(url, name, option);
-    }*/
-
     userDataSet: function(arr) {
         for (var i = 0; i < arr.length; i++) {
             var data = {
