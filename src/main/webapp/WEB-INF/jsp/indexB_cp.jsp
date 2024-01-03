@@ -42,7 +42,7 @@
                 <a href="#">
                     <c:choose>
                         <c:when test="${loginVO.picFilePath ne '' and loginVO.picFilePath ne null}">
-                            <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="height: 100px;text-align: center; margin: 0 20px; margin-bottom: 10px; width:100px;">
+                            <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="height: 110px;text-align: center; margin: 0 20px;">
                         </c:when>
                         <c:otherwise>
                             등록된 증명사진이 없습니다.
@@ -60,14 +60,14 @@
                     <div id="date" class="date"></div>
                     <div id="time" class="time" style="font-size:30px;"></div>
                 </div>
-                <div id="timeWork" style="float:right; margin-right:10px; text-align:left;" >
+                <div id="timeWork" style="display: none; float:right; margin-right:10px; text-align:left;" >
                     <p id="workingTime">출근 시간 &nbsp&nbsp 09:00:07</p>
                     <p id="workTime">퇴근 시간 &nbsp&nbsp --:--:--</p>
                 </div>
                 <div style="clear: both;"></div>
             </div>
             <div style="margin-top:10px;">
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신중 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus} 건</span></div>
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus} 건</span></div>
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus} 건</span></div>
             </div>
@@ -518,13 +518,15 @@
             html += '' +
                 '<li style="border-top:0; border-bottom:0;">' +
                 '<div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">' +
-                '<div style="display:flex;">' +
-                '<div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">오픈스터디</div>' +
+                '<div style="display:flex; width:280px;">' +
+                '<div style="font-weight:600; font-size:13px; width:150px;">오픈스터디</div>' +
                 '<div><a href="javascript:openStudyReqPop('+item.OPEN_STUDY_INFO_SN+')">' + item.OPEN_STUDY_NAME + '</a></div>' +
                 '</div>' +
-                '<div style="display:flex; margin-left:240px;">' +
+                '<div style="display:flex; width:100px;">' +
                 '<div>' + item.OPEN_STUDY_LOCATION + '</div>' +
-                '<div style="margin-left:40px;">' + item.MEMBER_COUNT_TOTAL + "명" + '</div>' +
+                '</div>' +
+                '<div style="display:flex; width:100px;">' +
+                '<div>' + item.MEMBER_COUNT_TOTAL + "명" + '</div>' +
                 '</div>' +
                 '<div style="margin: 0 10px;">' + item.OPEN_STUDY_DT + ' ' + item.START_TIME + ' ~ ' + item.OPEN_STUDY_DT + ' ' + item.END_TIME + '</div>'
             '</div>' +
@@ -587,7 +589,7 @@
                             '<div style="display:flex;">' +
                             '<div style="font-weight:600; font-size:13px;margin-right:10px; width:100px;">직원일정</div>' +
                             '<div style="width:80px;">' + scheduleType + '</div>' +
-                            '<div style="margin-left: 20px; display:flex;">' + article.REG_EMP_NAME + '</div>' +
+                            '<div style="margin-left: 20px; display:flex; width:150px;">' + article.REG_EMP_NAME + '</div>' +
                             '<div style="margin-left: 40px; display:flex;"><a href="javascript:fn_detailSchedule(' + article.SCHEDULE_BOARD_ID + ')">' + article.SCHEDULE_TITLE + '</a></div>' +
                             '</div>' +
                             '<div style="margin: 0 10px;">' + article.start + ' ~ ' + article.end + '</div>'

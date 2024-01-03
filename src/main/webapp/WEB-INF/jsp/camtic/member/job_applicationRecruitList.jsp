@@ -211,7 +211,7 @@
     }
 
     function cancelMyRecruit(recruitInfoSn, applicationId) {
-        if(confirm("입사 지원을 취소하시겠습니까?")){
+        if(confirm("입사 지원을 취소 하시겠습니까?")){
             $.ajax({
                 url: "/camtic/member/cancelMyRecruit",
                 data: {
@@ -221,7 +221,7 @@
                 dataType : "json",
                 async: false,
                 success: function(rs){
-                    alert("삭제되었습니다.")
+                    alert("취소 되었습니다.")
                     location.reload();
                 }
             })

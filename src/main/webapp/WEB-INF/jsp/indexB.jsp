@@ -518,13 +518,15 @@
             html += '' +
                 '<li style="border-top:0; border-bottom:0;">' +
                 '<div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">' +
-                '<div style="display:flex;">' +
-                '<div style="font-weight:600; font-size:13px; margin-right:10px; width:100px;">오픈스터디</div>' +
+                '<div style="display:flex; width:280px;">' +
+                '<div style="font-weight:600; font-size:13px; width:150px;">오픈스터디</div>' +
                 '<div><a href="javascript:openStudyReqPop('+item.OPEN_STUDY_INFO_SN+')">' + item.OPEN_STUDY_NAME + '</a></div>' +
                 '</div>' +
-                '<div style="display:flex; margin-left:240px;">' +
+                '<div style="display:flex; width:100px;">' +
                 '<div>' + item.OPEN_STUDY_LOCATION + '</div>' +
-                '<div style="margin-left:40px;">' + item.MEMBER_COUNT_TOTAL + "명" + '</div>' +
+                '</div>' +
+                '<div style="display:flex; width:100px;">' +
+                '<div>' + item.MEMBER_COUNT_TOTAL + "명" + '</div>' +
                 '</div>' +
                 '<div style="margin: 0 10px;">' + item.OPEN_STUDY_DT + ' ' + item.START_TIME + ' ~ ' + item.OPEN_STUDY_DT + ' ' + item.END_TIME + '</div>'
                 '</div>' +
@@ -587,7 +589,7 @@
                             '<div style="display:flex;">' +
                             '<div style="font-weight:600; font-size:13px;margin-right:10px; width:100px;">직원일정</div>' +
                             '<div style="width:80px;">' + scheduleType + '</div>' +
-                            '<div style="margin-left: 20px; display:flex;">' + article.REG_EMP_NAME + '</div>' +
+                            '<div style="margin-left: 20px; display:flex; width:150px;">' + article.REG_EMP_NAME + '</div>' +
                             '<div style="margin-left: 40px; display:flex;"><a href="javascript:fn_detailSchedule(' + article.SCHEDULE_BOARD_ID + ')">' + article.SCHEDULE_TITLE + '</a></div>' +
                             '</div>' +
                             '<div style="margin: 0 10px;">' + article.start + ' ~ ' + article.end + '</div>'
