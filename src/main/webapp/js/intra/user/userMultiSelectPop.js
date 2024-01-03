@@ -314,6 +314,7 @@ var userMultiSel = {
                 dutyName : $(this).find("#approveDutyName").val(),
                 deptSeq : $(this).find("#approveDeptSeq").val(),
                 deptName : $(this).find("#approveDeptName").val(),
+                regTeamSeq : $(this).find("#approveTeamId").val(),
                 loginId : $(this).find("#loginId").val()
             }
 
