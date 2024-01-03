@@ -605,6 +605,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public boolean getOpenStudyUserDoubleChk(Map<String, Object> params) {
+        return campusRepository.getOpenStudyUserDoubleChk(params);
+    }
+
+    @Override
     public void setOpenStudyUser(Map<String, Object> params) {
         campusRepository.setOpenStudyUser(params);
         List<Map<String, Object>> list = campusRepository.getOpenStudyUserList(params);

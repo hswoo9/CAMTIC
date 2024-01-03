@@ -291,13 +291,38 @@ const openStudyReq = {
             regDutyName: regDutyName,
             pk: $("#pk").val()
         }
+        if(openStudyReq.doubleChk()){
+            alert("중복된 참여는 불가능합니다.")
+            return;
+        }
 
-        let url = "/campus/setOpenStudyUser";
-        const result = customKendo.fn_customAjax(url, data);
+        const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
         if(result.flag){
             alert("참여신청이 완료되었습니다.");
             openStudyReq.openStudyUserSetting();
         }
+    },
+
+    doubleChk : function(){
+        let regEmpSeq = $("#regEmpSeq").val();
+        let regEmpName = $("#regEmpName").val();
+        let regDeptName = $("#regDeptName").val();
+        let regTeamSeq = $("#regTeamSeq").val();
+        let regPositionName = $("#regPositionName").val();
+        let regDutyName = $("#regDutyName").val();
+
+        let data = {
+            regEmpSeq: regEmpSeq,
+            regEmpName: regEmpName,
+            regDeptName: regDeptName,
+            regTeamSeq: regTeamSeq,
+            regPositionName: regPositionName,
+            regDutyName: regDutyName,
+            pk: $("#pk").val()
+        }
+
+        const result = customKendo.fn_customAjax("/campus/getOpenStudyUserDoubleChk", data);
+        return result.rs;
     },
 
     openStudyResultPop: function(){
@@ -307,7 +332,7 @@ const openStudyReq = {
     },
 
     windowClose: function() {
-        window.close();
         opener.gridReload();
+        window.close();
     }
 }

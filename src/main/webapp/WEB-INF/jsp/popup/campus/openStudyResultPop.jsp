@@ -53,7 +53,7 @@
                         <span class="red-star">*</span>소요비용(내역)
                     </th>
                     <td>
-                        <input type="text" id="openStudyAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 100px;"> ( <input type="text" id="openStudyAmtText" style="width: 500px;"> )
+                        <input type="text" id="openStudyAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 100px; text-align: right;">원( <input type="text" id="openStudyAmtText" style="width: 500px;"> )
                     </td>
                 </tr>
                 <tr>

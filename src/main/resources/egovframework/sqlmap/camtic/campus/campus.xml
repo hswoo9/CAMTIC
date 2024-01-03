@@ -2451,4 +2451,20 @@
         WHERE
             OJT_RESULT_SN = #{ojtResultSn}
     </delete>
+
+    <select id="getOpenStudyUserDoubleChk" parameterType="map" resultType="boolean">
+        /*getOpenStudyUserDoubleChk*/
+        SELECT
+            CASE WHEN COUNT(*) > 0 THEN 1
+                 ELSE 0
+                END
+        FROM
+            CAMPUS.DJ_OPENSTUDY_USER COSU
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B ON COSU.REG_EMP_SEQ = B.EMP_SEQ
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+          AND
+            COSU.REG_EMP_SEQ = #{regEmpSeq};
+    </select>
 </mapper>
