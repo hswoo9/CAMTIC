@@ -36,8 +36,8 @@
 <div class="sign-overlay"></div>
 <div class="signpanel"></div>
 
-<div class="signin" style="position:absolute; top:52%; left:65%; width:490px; background-color:transparent; text-align:left;">
-    <div style="font-size:21px; color:#ff3434;"><b>Youth & Dynamic</b></div>
+<div class="signin" style="position:absolute; top:51%; left:65%; width:490px; background-color:transparent; text-align:left;">
+    <div style="font-size:21px; font-weight: bold;"><span style="color:#ff3434;">Youth & Dynamic</span> <span style="color: dodgerblue;">함께 성장하는 행복한 일터</span></div>
     <div style="font-size:32px; color:#fff;"><i>젊은 캠틱, 역동적인 클러스터!</i></div>
 </div><!-- panel -->
 <div class="signin" style="position:absolute; top:82%; left:5%; width:300px; background-color:transparent;">
