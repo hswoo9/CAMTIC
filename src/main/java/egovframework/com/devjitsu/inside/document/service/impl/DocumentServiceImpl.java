@@ -260,12 +260,14 @@ public class DocumentServiceImpl implements DocumentService {
             documentRepository.setSnackCompanionInsert(params);
         }
 
-        List<Map<String, Object>> cardArr = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        if(params.get("payType").equals("2")) {
+            List<Map<String, Object>> cardArr = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
-        for(Map<String, Object> map : cardArr){
-            map.put("snackInfoSn", params.get("snackInfoSn"));
+            for(Map<String, Object> map : cardArr){
+                map.put("snackInfoSn", params.get("snackInfoSn"));
 
-            commonRepository.updFileOwnerCustom(map);
+                commonRepository.updFileOwnerCustom(map);
+            }
         }
 
         if(file.length > 0){
