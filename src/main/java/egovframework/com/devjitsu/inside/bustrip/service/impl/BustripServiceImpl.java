@@ -223,12 +223,21 @@ public class BustripServiceImpl implements BustripService {
             crmRepository.insCrmBustHist(histMap);
         }
 
-        if("10".equals(docSts) || "101".equals(docSts)){
+        if("10".equals(docSts)){
             List<Map<String, Object>> list = bustripRepository.getExnpFileNum(params);
             if(list.size() > 0){
                 for(Map<String, Object> data : list){
                     data.put("docId", params.get("docId"));
                     bustripRepository.setBustripFileNum(params);
+                }
+            }
+
+            List<Map<String, Object>> list2 = bustripRepository.getCardList(params);
+            if(list.size() > 0){
+                for(int i=0; i<list.size(); i++){
+                    if(list.get(i).get("FILE_NO") != null){
+                        bustripRepository.setBustripFileNum(list.get(i));
+                    }
                 }
             }
         }

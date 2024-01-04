@@ -1212,8 +1212,31 @@ var draft = {
             let result = customKendo.fn_customAjax("/bustrip/getResultFileList", {
                 hrBizReqResultId: data.hrBizReqResultId
             });
-            console.log(result);
-            draft.getDocFileSet(result.fileInfo);
+
+            const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", {
+                hrBizReqResultId: data.hrBizReqResultId
+            });
+
+            let tempArr = [];
+            let count = 0;
+            const bustripList = result.fileInfo;
+            const cardList = cardResult.list;
+
+            for(let i=0; i<bustripList.length; i++){
+                tempArr[count] = bustripList[i];
+                count ++;
+            }
+
+            for(let i=0; i<cardList.length; i++){
+                if(cardList[i].FILE_NO != null){
+                    const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
+                        fileNo: cardList[i].FILE_NO
+                    }).data;
+                    tempArr[count] = fileData;
+                    count ++;
+                }
+            }
+            draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
 
