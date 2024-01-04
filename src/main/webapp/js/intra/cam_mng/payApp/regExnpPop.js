@@ -79,6 +79,12 @@ var regExnp = {
             }
         }
 
+        if($("#payAppType").data("kendoRadioGroup").value() == "2"){
+            $("#trBank").text("입금계좌");
+        } else {
+            $("#trBank").text("출금계좌");
+        }
+
 
         customKendo.fn_datePicker("reqDe", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("reqExDe", 'month', "yyyy-MM-dd", new Date());
