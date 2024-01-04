@@ -117,7 +117,7 @@
     <div id="mainGrid3" style=""></div>
 </div>
 
-<c:if test="${isAdmin}">
+<c:if test="${params.mode eq 'mng'}">
 <div class="table-responsive" id="main3">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">

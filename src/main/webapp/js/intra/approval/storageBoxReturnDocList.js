@@ -186,7 +186,7 @@ var storageBoxReturn = {
                 docArr : JSON.stringify(storageBoxReturn.global.checkedDocArr),
             }
 
-            var result = customKendo.fn_customAjax("/approvalUser/setCheckedDocDel", storageBoxReturn.global.saveAjaxData);
+            var result = customKendo.fn_customAjax("/approvalUser/setCheckedDocDel.do", storageBoxReturn.global.saveAjaxData);
 
             if(result.flag){
                 alert("삭제되었습니다.");

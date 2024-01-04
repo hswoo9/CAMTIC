@@ -79,7 +79,8 @@ var myEdu = {
                     width: 200
                 },{
                     field: "EDU_NAME",
-                    title: "학습명"
+                    title: "학습명",
+                    width: 200
                 }, {
                     title: "학습기간",
                     template: "<span>#=START_DT# ~ #=END_DT#</span>",
@@ -117,7 +118,7 @@ var myEdu = {
                     title: "진행현황",
                     width: 180,
                     template: function(row){
-                        if(row.STATUS == "0") {
+                        if(row.STATUS == "0" || row.STATUS == "30" ) {
                             return "계획";
                         }else if(row.STATUS == "10") {
                             return "학습신청서 승인요청중";
@@ -132,7 +133,7 @@ var myEdu = {
                         }else if(row.STATUS == "100" && row.RES_STATUS == "100" && row.MNG_CHECK == "Y") {
                             return "이수완료";
                         }else {
-                            return "교육취소"
+                            return "교육취소";
                         }
                     }
                 }
@@ -179,7 +180,8 @@ var myEdu = {
                     width: 50
                 }, {
                     field: "STUDY_NAME",
-                    title: "학습조명"
+                    title: "학습조명",
+                    width: 350
                 }, {
                     field: "REG_EMP_NAME",
                     title: "조장",
@@ -191,18 +193,18 @@ var myEdu = {
                 }, {
                     field: "STUDY_LOCATION",
                     title: "교육장소",
-                    width: 200
+                    width: 250
                 },{
                     title: "학습시간",
                     template: "<span>#=STUDY_TIME#시간</span>",
-                    width: 200
+                    width: 100
                 },  {
                     title: "인정시간",
                     /*template: "<span>#=STUDY_TIME#시간</span>",*/
-                    width: 200
+                    width: 100
                 },{
                     title: "진행현황",
-                    width: 120,
+                    width: 180,
                     template: function(row){
                         let studyClass = row.STUDY_CLASS_SN;
                         if(studyClass == 1){
@@ -287,26 +289,31 @@ var myEdu = {
                     width: 50
                 }, {
                     field: "STUDY_NAME",
-                    title: "학습주제"
+                    title: "학습주제",
+                    width: 350
                 }, {
                     field: "REG_EMP_NAME",
                     title: "지도자",
-                    width: 100
+                    width: 150
                 }, {
                     title: "학습기간",
                     template: "<span>#=START_DT# ~ #=END_DT#</span>",
-                    width: 300
+                    width: 400
                 }, {
+                    title: "지도시간",
+                    template: "<span>#=PROPAG_TIME#시간</span>",
+                    width: 100
+                },{
                     title: "학습시간",
                     template: "<span>#=STUDY_TIME#시간</span>",
-                    width: 200
+                    width: 100
                 },  {
                     title: "인정시간",
                     /*template: "<span>#=STUDY_TIME#시간</span>",*/
-                    width: 200
+                    width: 100
                 },{
                     title: "진행현황",
-                    width: 120,
+                    width: 180,
                     template: function(row){
                         let studyClass = row.STUDY_CLASS_SN;
                         if(studyClass == 1){
@@ -347,10 +354,6 @@ var myEdu = {
                             }
                         }
                     }
-                },{
-                    title: "지도시간",
-                    template: "<span>#=PROPAG_TIME#시간</span>",
-                    width: 200
                 }
             ],
             dataBinding: function(){
@@ -455,7 +458,7 @@ var myEdu = {
                 }, {
                     field: "REG_EMP_NAME",
                     title: "지도자",
-                    width: 80
+                    width: 100
                 }, {
                     field: "OPEN_STUDY_DT",
                     title: "학습기간",
@@ -511,7 +514,8 @@ var myEdu = {
                     width: 200
                 }, {
                     field: "EDU_TITLE",
-                    title: "학습명"
+                    title: "학습명",
+                    width: 300
                 }, {
                     title: "학습기간",
                     template: "<span>#=START_DT# ~ #=END_DT#</span>",
@@ -523,11 +527,11 @@ var myEdu = {
                 }, {
                     title: "학습시간",
                     /*template: "<span>#=STUDY_TIME#시간</span>",*/
-                    width: 200
+                    width: 100
                 },  {
                     title: "인정시간",
                     /*template: "<span>#=STUDY_TIME#시간</span>",*/
-                    width: 200
+                    width: 100
                 }, /*{
                     title: "교육시간",
                     template: "<span>#=EDU_TIME#시간</span>",
@@ -538,7 +542,7 @@ var myEdu = {
                     width: 200
                 },*/ {
                     title: "진행현황",
-                    width: 80,
+                    width: 180,
                     template: function(row){
                         if(row.STATUS == 0){
                             return "계획";

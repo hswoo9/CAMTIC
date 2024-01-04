@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cams_pot.service.impl;
 
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cams_pot.service.camsBoardService;
+import egovframework.com.devjitsu.common.utiles.CommonUtil;
 import egovframework.com.devjitsu.hp.board.util.Pagination;
 import egovframework.com.devjitsu.hp.board.util.ArticlePage;
 import egovframework.com.devjitsu.hp.board.util.PagingResponse;
@@ -165,5 +166,32 @@ public class cmasBoardServiceImpl implements camsBoardService {
     private String filePath (Map<String, Object> params, String base_dir){
         String path = base_dir + "board" + "/" + params.get("boardArticleId") + "/";
         return path;
+    }
+
+    @Override
+    public Map<String, Object> getContentBoardFileOne(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            Map<String, Object> fileMap = new HashMap<>();
+            fileMap = camsBoardRepository.getContentBoardFileOne(params);
+
+            CommonUtil commonUtil = new CommonUtil();
+            boolean isDelete = commonUtil.deleteFile(new String[]{fileMap.get("file_uuid").toString()}, fileMap.get("file_path").toString());
+
+            if(isDelete){
+                camsBoardRepository.getContentBoardFileDelOne(params);
+            }else{
+                throw new Exception();
+            }
+
+            result.put("code", "200");
+            result.put("message", "파일이 삭제되었습니다.");
+        }catch (Exception e){
+            result.put("code", "500");
+            result.put("message", "파일 삭제 중 에러가 발생했습니다.");
+        }
+
+        return result;
     }
 }

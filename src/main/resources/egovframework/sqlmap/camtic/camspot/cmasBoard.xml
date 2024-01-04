@@ -581,4 +581,19 @@
         AND
             ARTICLE_REPLY_ID = #{articleReplyOriginId}
     </select>
+
+    <select id="getContentBoardFileOne" parameterType="map" resultType="map">
+        /* getContentBoardFileOne */
+        SELECT
+            *
+        FROM
+            CAM_BOARD.DJ_BOARD_ARTICLE_FILE
+        WHERE
+            FILE_NO = #{fileNo}
+    </select>
+
+    <delete id="getContentBoardFileDelOne" parameterType="map">
+        /* getContentBoardFileDelOne */
+        DELETE FROM CAM_BOARD.DJ_BOARD_ARTICLE_FILE WHERE FILE_NO = #{fileNo}
+    </delete>
 </mapper>

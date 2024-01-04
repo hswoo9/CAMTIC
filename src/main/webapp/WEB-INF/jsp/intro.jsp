@@ -88,11 +88,12 @@
 <div class="sign-overlay"></div>
 <div class="signpanel"></div>
 
-<div class="signin" style="position:absolute; top:49%; left:67%; width:399px; background-color:transparent; text-align:center;">
-    <div style="font-size:23px; color:#fff;">함께 성장하는 행복한 일터</div>
-    <div style="font-size:17px; color:#ffeb3b;"><i>성장하는 우리 Level UP</i></div>
-    <div style="font-size:17px; color:#ffeb3b;"><i>도약하는 캠틱 Jump UP</i></div>
+<div class="signin" style="position:absolute; top:48%; left:65%; width:490px; background-color:transparent; text-align:left;">
+    <div style="font-size:29px; color:dodgerblue;"><b>함께 성장하는 행복한 일터</b></div>
+    <div style="font-size:21px; color:#ff3434;"><b>Youth & Dynamic</b></div>
+    <div style="font-size:32px; color:#fff;"><i>젊은 캠틱, 역동적인 클러스터!</i></div>
 </div><!-- panel -->
+
 <div class="signin" style="position:absolute; top:82%; left:5%; width:300px; background-color:transparent;">
     <div><img src="/images/logo_han.png" alt="" style="width:200px;"/></div>
 </div><!-- panel -->

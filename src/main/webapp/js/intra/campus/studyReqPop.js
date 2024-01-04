@@ -28,30 +28,31 @@ const studyReq = {
         if(studyClass == 1){
             $(".study").show();
             $(".propag").hide();
-            $("#subjectCont").text("학습내용")
-            $("#titleCol").text("학습조명");
-            $("#subjectLoc").text("학습장소");
-            $("#subjectDe").text("학습기간");
-            $("#subjectStudyMoney").text("산출내역");
+            $("#subjectCont").html('<span class="red-star">*</span>학습내용');
+            /*$("#titleCol").text("학습조명");*/
+            $("#titleCol").html('<span class="red-star">*</span>학습조명');
+            $("#subjectLoc").html('<span class="red-star">*</span>학습장소');
+            $("#subjectDe").html('<span class="red-star">*</span>학습기간');
+            $("#subjectStudyMoney").html('<span class="red-star">*</span>산출내역');
 
             $(".subjectObj").show();
         }else if(studyClass == 2){
-            $("#titleCol").text("학습주제");
-            $("#subjectCont").text("학습내용")
-            $("#subjectLoc").text("학습장소");
-            $("#subjectDe").text("학습기간");
-            $("#subjectStudyMoney").text("비용내역");
+            $("#titleCol").html('<span class="red-star">*</span>학습주제');
+            $("#subjectCont").html('<span class="red-star">*</span>학습내용');
+            $("#subjectLoc").html('<span class="red-star">*</span>학습장소');
+            $("#subjectDe").html('<span class="red-star">*</span>학습기간');
+            $("#subjectStudyMoney").html('<span class="red-star">*</span>비용내역');
 
             $(".study").hide();
             $(".propag").show();
             $(".subjectObj").show();
         }else if(studyClass == 3){
-            $("#titleCol").text("지도명칭");
-            $("#subjectCont").text("지도목적");
+            $("#titleCol").html('<span class="red-star">*</span>지도명칭');
+            $("#subjectCont").html('<span class="red-star">*</span>지도목적');
 
-            $("#subjectLoc").text("지도장소");
-            $("#subjectDe").text("지도기간");
-            $("#subjectStudyMoney").text("비용내역");
+            $("#subjectLoc").html('<span class="red-star">*</span>지도장소');
+            $("#subjectDe").html('<span class="red-star">*</span>지도기간');
+            $("#subjectStudyMoney").html('<span class="red-star">*</span>비용내역');
 
             $(".study").hide();
             $(".propag").hide();
@@ -90,17 +91,20 @@ const studyReq = {
         if(studyClassSn == ""){ alert("내부학습 구분이 선택되지 않았습니다."); return; }
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(startDt == "" || endDt == ""){ alert("학습기간이 작성되지 않았습니다."); return; }
+        if(studyLocation == ""){ alert("학습장소가 작성되지 않았습니다."); return; }
 
         if($("#studyClass").data("kendoDropDownList").value() != 3){
             if(studyObject == ""){ alert("학습목표가 작성되지 않았습니다."); return; }
         }
 
-        if(studyMoney == ""){ alert("소모비용이 작성되지 않았습니다."); return; }
+        if(studyMoney == ""){ alert("소요비용이 작성되지 않았습니다."); return; }
         if(regDate == ""){ alert("신청날짜가 작성되지 않았습니다."); return; }
 
         if(studyClassSn == 1){
             if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
-            if(studyMoneyVal == ""){ alert("산출내역이 작성되지 않았습니다."); return; }
+            if(studyMoney != 0) {
+                if (studyMoneyVal == "") {alert("산출내역이 작성되지 않았습니다.");return;}
+            }
         }else if(studyClassSn == 2){
             if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
             if(readerUserSeq == ""){ alert("지도자가 선택되지 않았습니다."); return; }
@@ -108,10 +112,15 @@ const studyReq = {
             if(endTime == ""){ alert("학습시간이 작성되지 않았습니다."); return; }
             if(eduTerm == ""){ alert("총 회차가 작성되지 않았습니다."); return; }
             if(eduTime == ""){ alert("총 시간이 작성되지 않았습니다."); return; }
-            if(studyMoneyVal == ""){ alert("비용내역이 작성되지 않았습니다."); return; }
+            if(studyMoney != 0) {
+                if(studyMoneyVal == ""){ alert("비용내역이 작성되지 않았습니다."); return; }
+            }
         }else if(studyClassSn == 3){
             if(readerUserSeq == ""){ alert("지도자가 선택되지 않았습니다."); return; }
-            if(studyMoneyVal == ""){ alert("비용내역이 작성되지 않았습니다."); return; }
+            if(studyContent == ""){alert("지도목적이 작성되지 않았습니다."); return;}
+            if(studyMoney != 0) {
+                if (studyMoneyVal == "") {alert("비용내역이 작성되지 않았습니다.");return;}
+            }
         }
 
         let data = {
@@ -165,15 +174,26 @@ const studyReq = {
             alert(studyClassText+" 신청서 저장이 완료되었습니다.");
             opener.gridReload();
             var pk = result.studyUserSn;
-            studyViewPop(pk);
+           /* var classSn = result.studyClassSn;*/
+            studyViewPop(pk, studyClassSn );
         }else {
             alert("데이터 저장 중 에러가 발생했습니다.");
         }
     },
 }
 
-function studyViewPop(pk){
-    let url = "/Campus/pop/studyViewPop.do?mode=upd&pk="+pk;
+function studyViewPop(pk, studyClassSn){
+   /* let url = "/Campus/pop/studyViewPop.do?mode=upd&pk="+pk;*/
+    let url;
+    if(studyClassSn == 1){
+        url = "/Campus/pop/studyViewPop.do?mode=upd&pk="+pk; //학습조
+    }else if(studyClassSn == 2){
+        url = "/Campus/pop/propagViewPop.do?mode=upd&pk="+pk; //전파학습
+    }else if(studyClassSn == 3){
+        url = "/Campus/pop/ojtViewPop.do?mode=upd&pk="+pk; // OJT
+    }else{
+        return;
+    }
     const name = "studyReqPop";
     const option = "width = 920, height = 900, top = 100, left = 200, location = no";
     window.open(url, name, option);

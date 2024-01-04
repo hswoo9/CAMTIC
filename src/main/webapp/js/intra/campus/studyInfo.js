@@ -155,45 +155,47 @@ var studyInfo = {
                         let studyClass = row.STUDY_CLASS_SN;
                         if(studyClass == 1){
                             if(row.STATUS == 0){
-                                return "신청서 작성중"
+                                return "신청서 작성중";
                             }else if(row.STATUS == 10) {
-                                return "신청서 승인요청중"
+                                return "신청서 승인요청중";
                             }else if(row.STATUS == 100){
                                 if(row.ADD_STATUS == "Y"|| row.ADD_STATUS == "C"){
                                     return "학습완료";
                                 } else if (row.ADD_STATUS == "S") {
                                     return "이수완료";
                                 } else {
-                                    return "학습 진행중"
+                                    return "학습 진행중";
                                 }
+                            } else if(row.STATUS == 30){
+                                return  "신청서 반려됨";
                             }
                         }else if(studyClass == 2){
                             if(row.STATUS == 0){
-                                return "신청서 작성중"
+                                return "신청서 작성중";
                             }else if(row.STATUS == 10) {
-                                return "신청서 승인요청중"
+                                return "신청서 승인요청중";
                             }else if(row.STATUS == 30) {
-                                return "신청서 반려됨"
+                                return "신청서 반려됨";
                             }else if(row.STATUS == 100){
                                 if(row.ADD_STATUS == "Y"|| row.ADD_STATUS == "C"){
                                     return "학습완료";
                                 } else if (row.ADD_STATUS == "S") {
                                     return "이수완료";
                                 } else {
-                                    return "학습 진행중"
+                                    return "학습 진행중";
                                 }
                             }
                         }else if(studyClass == 3){
                             if(row.STATUS == 0){
-                                return "신청서 작성중"
+                                return "신청서 작성중";
                             }else if(row.STATUS == 10) {
-                                return "신청서 승인요청중"
+                                return "신청서 승인요청중";
                             }else if(row.STATUS == 30) {
-                                return "신청서 반려됨"
+                                return "신청서 반려됨";
                             }else if(row.STATUS == 100){
-                                return "OJT 진행중("+row.ST_CNT+"회)"
+                                return "OJT 진행중("+row.ST_CNT+"회)";
                             }else if(row.STATUS == 101){
-                                return "OJT완료"
+                                return "OJT완료";
                             }
                         }
                     }

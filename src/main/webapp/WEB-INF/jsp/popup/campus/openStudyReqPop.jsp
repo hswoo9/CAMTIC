@@ -34,7 +34,6 @@
         <div class="card-header pop-header barFixed">
             <h3 class="card-title title_NM">오픈스터디 등록</h3>
             <div class="btn-st popButton">
-                <button type="button" id="empBtn" style="display: none" class="k-button k-button-solid-info" onclick="fn_userMultiSelectPop()">직원추가</button>
                 <button type="button" id="stepDBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyReq.openStudyResultPop();">모임완료</button>
                 <button type="button" id="stepCBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyReq.fn_openNextStep('C');">모임확정</button>
                 <button type="button" id="stepNBtn" style="display: none" class="k-button k-button-solid-error" onclick="openStudyReq.fn_openNextStep('N');">모임취소</button>
@@ -111,34 +110,6 @@
 
 <script>
     openStudyReq.init();
-
-    function userDataSet(arr) {
-        var successCount = 0;
-
-        for (var i = 0; i < arr.length; i++) {
-            var data = {
-                regEmpSeq: arr[i].empSeq,
-                regEmpName: arr[i].empName,
-                regDeptName: arr[i].deptName,
-                regTeamSeq: arr[i].deptSeq,
-                regPositionName: arr[i].positionName,
-                regDutyName: arr[i].dutyName,
-                pk: $("#pk").val()
-            };
-
-            const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
-
-            if (result.flag) {
-                successCount++;
-            }
-        }
-        if (successCount > 0) {
-            alert(successCount + "명의 참여신청이 완료되었습니다.");
-            gridReload();
-            location.reload();
-        }
-
-    }
 </script>
 </body>
 </html>

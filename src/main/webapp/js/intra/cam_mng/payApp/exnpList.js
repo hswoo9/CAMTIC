@@ -107,7 +107,7 @@ var exnpList = {
                 }, {
                     title: "지출예정일",
                     width: 70,
-                    field: "DT3"
+                    field: "PAY_EXNP_DE"
                 }, {
                     title: "지출완료일",
                     width: 70,
