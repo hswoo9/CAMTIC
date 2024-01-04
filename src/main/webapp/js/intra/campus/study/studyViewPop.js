@@ -216,10 +216,10 @@ const studyView = {
             return;
         }
 
-        if(studyView.global.mngEmpSeq != $("#regEmpSeq").val()){
+        /*if(studyView.global.mngEmpSeq != $("#regEmpSeq").val()){
             alert("승인요청은 조장만 가능합니다.");
             return;
-        }
+        }*/
 
         var result = customKendo.fn_customAjax("/campus/studyReq", data);
 
