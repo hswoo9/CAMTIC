@@ -68,6 +68,9 @@
             <div style="display:flex; justify-content: space-between;">
                 <div><input type="checkbox" name="" value="" style="margin-right:5px;"><a href="" class="forgot">아이디저장</a></div>
                 <div><a href="" class="forgot">비밀번호찾기</a></div>
+                <div>
+                    <a href="#" class="forgot" onclick="login.openPopup();">단기직원 정보등록</a>
+                </div>
             </div>
             <input type="hidden" name="message" id="message" value="${message}" />
         </form>

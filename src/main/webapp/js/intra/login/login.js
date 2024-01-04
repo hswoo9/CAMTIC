@@ -23,6 +23,13 @@ var login = {
         }
     },
 
+    openPopup: function (){
+        var url = "/inside/recruitTmpAgreePop";
+        var name = "recruitTmpAgreePop";
+        var option = "width=1000, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    },
+
     actionLoginBack: function() {
         if ($("#id").val() == "") {
             alert("아이디를 입력하세요");

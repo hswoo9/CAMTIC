@@ -251,7 +251,7 @@ var customBudgetPop = {
             var dataItemC = $("#customBudgetGridC").data("kendoGrid").dataItem($(this).closest("tr"));
 
             $.each($("#tempBudgetGrid").data("kendoGrid").dataSource.data(), function(){
-                if(this.CB_CODE_ID_3 == dataItemC.CB_CODE){
+                if(this.CB_CODE_ID_1 == dataItemA.CB_CODE && this.CB_CODE_ID_2 == dataItemB.CB_CODE && this.CB_CODE_ID_3 == dataItemC.CB_CODE){
                     ck = 1;
                 }
             });
@@ -268,6 +268,7 @@ var customBudgetPop = {
                     CB_CODE_NAME_3 : dataItemC.CB_CODE_NM,
                     CB_BUDGET : 0,
                 })
+            }else{
             }
         });
     },

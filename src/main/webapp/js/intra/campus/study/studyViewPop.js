@@ -82,13 +82,16 @@ const studyView = {
             /** 학습일지 추가 버튼은 안보임 */
             $("#journalPopBtn").hide();
 
-        }else if(studyView.global.mngEmpSeq == $("#regEmpSeq").val()){
+        }else /*if(studyView.global.mngEmpSeq == $("#regEmpSeq").val())*/{
             /** 학습자 중에 조장만 수정 및 승인요청, 승인취소 가능 */
             if($("#status").val() == 0 || $("#status").val() == 30){
                 $("#studyReqBtn").show();
                 $("#studyModBtn").show();
+                $("#studyCloseBtn").show();
             }else if($("#status").val() == 10) {
                 $("#studyCancelBtn").show();
+            }else if($("#status").val() == 100 && $("#addStatus").val() == "N"){
+                $("#compBtn").show();
             }
         }
     },
@@ -171,12 +174,11 @@ const studyView = {
                     title: "간사검토",
                     width: 100,
                     template: function(row){
-                        if(row.CAPTAIN_APPOVAL_YN == 'Y' && row.ASSISTANT_APPOVAL_YN == 'Y' && $("#addStatus").val() == "N"){
+                        /*if(row.CAPTAIN_APPOVAL_YN == 'Y' && row.ASSISTANT_APPOVAL_YN == 'Y' && $("#addStatus").val() == "N"){
                             $("#compBtn").css("display", "");
                         } else {
                             $("#compBtn").css("display", "none");
-                        }
-
+                        }*/
                         if(row.ASSISTANT_APPOVAL_YN == 'Y'){
                             return "검토완료";
                         }else{
@@ -201,8 +203,6 @@ const studyView = {
             const dataItem = grid.dataItem($(this).closest("tr"));
             studyView.studyJournalPop(2, dataItem.STUDY_INFO_SN, dataItem.STUDY_JOURNAL_SN);
         });
-
-
     },
 
     studyReq: function(status){
@@ -210,6 +210,16 @@ const studyView = {
             studyInfoSn : $("#pk").val(),
             status : status
         }
+
+        if (!studyView.global.studyUserList.some(item => item.STUDY_CLASS_TEXT === '조장') || !studyView.global.studyUserList.some(item => item.STUDY_CLASS_TEXT === '간사')) {
+            alert('조장 및 간사를 선택해주세요.');
+            return;
+        }
+
+        /*if(studyView.global.mngEmpSeq != $("#regEmpSeq").val()){
+            alert("승인요청은 조장만 가능합니다.");
+            return;
+        }*/
 
         var result = customKendo.fn_customAjax("/campus/studyReq", data);
 
@@ -294,24 +304,56 @@ const studyView = {
     },
 
     fn_studyComplete : function (){
+
         var data = {
             studyInfoSn : $("#pk").val()
         }
 
         $.ajax({
-            url : "/campus/setStudyInfoComplete",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success: function(rs){
-                if(rs.code == 200){
-                    alert(rs.msg);
-                    studyView.fn_resultDocPop();
-                    location.reload();
+            url: "/campus/getStudyJournalList",
+            data: data,
+            type: "post",
+            dataType: "json",
+            success: function (journalResult) {
+
+                var journalList = journalResult.list;
+                
+                if (journalList.length === 0) {
+                    alert("학습일지를 작성해주세요.");
+                    return;
                 }
-            }
-        });
-    },
+                for (var i = 0; i < journalList.length; i++) {
+                    var row = journalList[i];
+
+                    if (row.CAPTAIN_APPOVAL_YN == 'N') {
+                        alert("학습일지를 검토해주세요.");
+                        return;
+                    }
+
+                    if (row.ASSISTANT_APPOVAL_YN == 'N') {
+                        alert("학습일지를 검토해주세요.");
+                        return;
+                    }
+                }
+
+
+            $.ajax({
+                url : "/campus/setStudyInfoComplete",
+                data : data,
+                type : "post",
+                dataType : "json",
+                success: function(rs){
+                    if(rs.code == 200){
+                        alert(rs.msg);
+                        studyView.fn_resultDocPop();
+                        location.reload();
+                    }
+                }
+            });
+        }
+
+    });
+},
 
     fn_resultDocPop : function (){
         let url = "/campus/pop/resultDocPop.do?pk="+$("#pk").val();

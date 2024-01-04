@@ -1276,5 +1276,16 @@ public class RecruitController {
 
         return resultMap;
     }
+    @RequestMapping("/inside/recruitTmpAgreePop")
+    public String openRecruitTmpAgree (){
+        return "popup/inside/recruit/recruitTmpAgreePop";
+    }
+
+    @RequestMapping("/inside/recruitTmpForm.do")
+    public String openRecruitTmpForm(@RequestParam Map<String, Object> params, Model model){
+        System.out.println("params :" +params);
+        model.addAttribute("params",params);
+        return "popup/inside/recruit/recruitTmpform";
+    }
 
 }

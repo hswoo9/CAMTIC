@@ -28,6 +28,7 @@
             <div class="btn-st popButton">
                 <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyRes.fn_openStudyCertReq(100);">승인</button>
                 <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="openStudyRes.fn_openStudyCertReq(30);">반려</button>
+                <button type="button" id="modBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyRes.fn_openStudyModify();">수정</button>
                 <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyRes.fn_openStudyCertReq(10);">승인요청</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
@@ -35,7 +36,7 @@
         <div class="card-header" style="padding-top:25px;">
             <div class="col-lg-12" style="margin:0 auto;">
                 <div class="table-responsive">
-                    <div class="popupTitleSt">신청인(지도자)</div>
+                    <div class="popupTitleSt">신청인</div>
                     <form id="table-responsive">
                         <table class="popTable table table-bordered mb-0">
                             <colgroup>

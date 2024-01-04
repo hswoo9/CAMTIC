@@ -431,6 +431,8 @@ const historyReq = {
 
         var printButton = $("#popMainGrid").find('[id^="printButton_"]');
         printButton.prop('disabled', false);
+
+        alert("저장되었습니다.");
     },
 
     dataBinding: function(){

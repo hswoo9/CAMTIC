@@ -104,13 +104,13 @@
                 </td>
             </tr>
             <tr>
-                <th><span class="red-star">*</span>소요비용</th>
+                <th>소요비용</th>
                 <td>
                     <input type="text" id="studyMoney" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 150px" value="0"> 원
                 </td>
             </tr>
             <tr>
-                <th id="subjectStudyMoney"><span class="red-star">*</span>산출내역</th>
+                <th id="subjectStudyMoney">산출내역</th>
                 <td>
                     <textarea id="studyMoneyVal" style="width: 800px; height: 100px"></textarea>
                 </td>

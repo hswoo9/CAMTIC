@@ -33,7 +33,7 @@ const studyReq = {
             $("#titleCol").html('<span class="red-star">*</span>학습조명');
             $("#subjectLoc").html('<span class="red-star">*</span>학습장소');
             $("#subjectDe").html('<span class="red-star">*</span>학습기간');
-            $("#subjectStudyMoney").html('<span class="red-star">*</span>산출내역');
+            $("#subjectStudyMoney").html('산출내역');
 
             $(".subjectObj").show();
         }else if(studyClass == 2){
@@ -41,7 +41,7 @@ const studyReq = {
             $("#subjectCont").html('<span class="red-star">*</span>학습내용');
             $("#subjectLoc").html('<span class="red-star">*</span>학습장소');
             $("#subjectDe").html('<span class="red-star">*</span>학습기간');
-            $("#subjectStudyMoney").html('<span class="red-star">*</span>비용내역');
+            $("#subjectStudyMoney").html('비용내역');
 
             $(".study").hide();
             $(".propag").show();
@@ -52,7 +52,7 @@ const studyReq = {
 
             $("#subjectLoc").html('<span class="red-star">*</span>지도장소');
             $("#subjectDe").html('<span class="red-star">*</span>지도기간');
-            $("#subjectStudyMoney").html('<span class="red-star">*</span>비용내역');
+            $("#subjectStudyMoney").html('비용내역');
 
             $(".study").hide();
             $(".propag").hide();

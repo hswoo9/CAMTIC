@@ -75,6 +75,7 @@ public class HistoryController {
         }
 
         params.put("hwpUrl", hwpUrl);
+        System.out.println("****params : "+params);
         model.addAttribute("apntSn", params.get("apntSn"));
         model.addAttribute("hwpUrl", hwpUrl);
         model.addAttribute("params", new Gson().toJson(params));

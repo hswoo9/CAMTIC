@@ -91,9 +91,9 @@ const openStudyRes = {
         }
         //if(openStudyAmt == ""){ alert("소요비용이 작성되지 않았습니다."); return;}
 
-        if (openStudyAmt === "" || openStudyAmt === null) {
+        /*if (openStudyAmt === "" || openStudyAmt === null) {
             openStudyAmt = '0';
-        }
+        }*/
 
         if(openStudyResult == ""){ alert("학습결과가 작성되지 않았습니다."); return;}
 
@@ -128,8 +128,15 @@ const openStudyRes = {
         const result = customKendo.fn_customAjax(url, data);
         if(result.flag){
             alert("결과보고 데이터 저장이 완료되었습니다.");
-            opener.gridReload();
+            openStudyRes.openStudyResPop(data.pk);
             window.close();
         }
+    },
+
+    openStudyResPop : function(pk) {
+        let url = "/Campus/pop/openStudyResPop.do?mode=upd&pk="+pk;
+        const name = "openStudyResPop";
+        const option = "width = 1230, height = 935, top = 100, left = 400, location = no";
+        window.open(url, name, option);
     }
 }

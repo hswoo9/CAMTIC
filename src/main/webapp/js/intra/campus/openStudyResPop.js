@@ -26,7 +26,8 @@ const openStudyRes = {
         $("#openStudyLocationTd").text(openStudyInfo.OPEN_STUDY_LOCATION);
         $("#openStudyDetailTd").text(openStudyInfo.OPEN_STUDY_DETAIL);
         $("#openStudyResultTd").text(openStudyInfo.OPEN_STUDY_RESULT);
-        $("#openStudyAmtTd").text(openStudyInfo.OPEN_STUDY_AMT);
+        //$("#openStudyAmtTd").text(openStudyInfo.OPEN_STUDY_AMT);
+        $("#openStudyAmtTd").text(openStudyInfo.OPEN_STUDY_AMT.toLocaleString() + '원');
         $("#openStudyAmtTextTd").text(openStudyInfo.OPEN_STUDY_AMT_TEXT);
         $("#regDateTd").text(openStudyInfo.REG_DATE);
         $("#regDeptTd").text(openStudyInfo.deptNm + " " + openStudyInfo.teamNm);
@@ -44,6 +45,7 @@ const openStudyRes = {
         if(mode == "upd"){
             if(status == 0 || status == 30){
                 $("#appBtn").show();
+                $("#modBtn").show();
             }
         }
         if(mode == "mng"){
@@ -189,6 +191,7 @@ const openStudyRes = {
         if(result.flag){
             if(status == 10){
                 alert("승인 요청이 완료되었습니다.");
+                window.close();
             }else if(status == 100){
                 alert("승인되었습니다.");
             }else if(status == 30){
@@ -197,5 +200,32 @@ const openStudyRes = {
             opener.gridReload();
             window.close();
         }
-    }
+    },
+
+    fn_openStudyModify: function(){
+        if(confirm("수정하시겠습니까?")) {
+            let data = {
+                pk: $("#pk").val(),
+                regEmpSeq: $("#regEmpSeq").val(),
+                regEmpName: $("#regEmpName").val(),
+                step : "C"
+            }
+
+            var result = customKendo.fn_customAjax("/campus/setOpenNextStep", data);
+
+            if (result.flag) {
+                console.log(data.pk);
+                openStudyRes.openStudyResultPop(data.pk);
+                window.close();
+            }
+        }
+    },
+
+    openStudyResultPop: function(pk){
+        let url = "/Campus/pop/openStudyResultPop.do?pk="+pk;
+        const name = "_blank";
+        const option = "width = 990, height = 748, top = 100, left = 400, location = no";
+
+        window.open(url, name, option);
+    },
 }
