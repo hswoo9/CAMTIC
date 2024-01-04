@@ -32,6 +32,8 @@ var snackReq = {
         $("#useDt").attr("readonly", true);
         $("#userText").data("kendoTextBox").readonly(true);
 
+        console.log(snackData);
+
         if(!isNaN(snackData.STATUS)) {
             let data = snackData;
             $("#useDt").val(data.USE_DT);
@@ -75,28 +77,30 @@ var snackReq = {
                 snackReq.enableSetting(false);
             }
 
-            if(data.FR_FILE_NO != '' && data.FR_FILE_NO != null){
-                var values = data.FR_FILE_NO.split(',');
-                var result = values.map(function(value) {
+            var values = "";
+            var result = "";
+            var finalResult = "";
+
+            if(data.FR_FILE_NO != '' && data.FR_FILE_NO != null) {
+                values = data.FR_FILE_NO.split(',');
+                result = values.map(function (value) {
                     return "'" + value + "'";
                 });
-                var finalResult = result.join(',');
-
-                var snackData = {
-                    snackInfoSn: $("#snackInfoSn").val(),
-                    fileNo: finalResult.slice(1, -1)
-                };
-
-                var returnData = customKendo.fn_customAjax("/snack/getFileList", snackData);
-                var returnFileArr = returnData.fileList;
-
-                console.log(returnFileArr);
-                for(let x=0; x < returnFileArr.length; x++){
-                    console.log(x);
-                    snackReq.settingTempFileDataInit(returnFileArr[x], 'result');
-                }
-                //snackReq.settingTempFileDataInit(data.FR_FILE_NO, 'result');
+                finalResult = result.join(',');
             }
+
+            var snackData = {
+                snackInfoSn: $("#snackInfoSn").val(),
+                fileNo: finalResult.slice(1, -1)
+            };
+
+            var returnData = customKendo.fn_customAjax("/snack/getFileList", snackData);
+            var returnFileArr = returnData.fileList;
+
+            for(let x=0; x < returnFileArr.length; x++){
+                snackReq.settingTempFileDataInit(returnFileArr[x], 'result');
+            }
+            //snackReq.settingTempFileDataInit(data.FR_FILE_NO, 'result');
             snackReq.global.snackData = data;
 
             var parameters = {
@@ -143,6 +147,8 @@ var snackReq = {
                     $("#detailRow").append(html);
                 }
             }
+        }else{
+
         }
 
     },

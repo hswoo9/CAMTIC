@@ -413,7 +413,6 @@ var regPay = {
 
                 const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", parameters);
                 const data = iBrenchResult.cardInfo;
-                console.log(data);
 
                 $("#eviType" + index).data("kendoDropDownList").value(3);
                 $("#crmNm" + index).val(data.MER_NM);
@@ -434,7 +433,7 @@ var regPay = {
                 $("#authHh" + index).val(data.AUTH_HH);
 
                 const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
-                    searchValue: cardMap.CARD_NO.slice(-4)
+                    searchValue: cardMap.TR_NM
                 }).list
                 console.log("g20CardList");
                 console.log(g20CardList);
