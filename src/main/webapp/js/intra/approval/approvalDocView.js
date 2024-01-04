@@ -1118,29 +1118,46 @@ var docView = {
     },
 
     initOfficialAppr: function(){
-        let list = docView.global.rs.approveRoute;
+        let list =docView.global.rs.approveRoute;
         console.log("------------------------------- appr2 ---------------------------------");
         console.log(list);
 
         setTimeout(function() {
             for (let i = 0; i < list.length; i++) {
-                if(list[i].APPROVE_STAT_CODE == 10 || list[i].APPROVE_STAT_CODE == 101) {
-                    let field = "docAppr0";
-                    hwpDocCtrl.putFieldText(field, list[i].APPROVE_EMP_NAME);
-                }else if(list[i].APPROVE_STAT_CODE != null && list[i].APPROVE_DUTY_NAME == "팀장"){
-                    let field = "docAppr1";
-                    hwpDocCtrl.putFieldText(field, list[i].APPROVE_EMP_NAME);
+                const map = list[i];
 
-                }else if(list[i].APPROVE_STAT_CODE != null && (list[i].APPROVE_DUTY_NAME == "본부장" || list[i].APPROVE_DUTY_NAME == "사업부장" || list[i].APPROVE_DUTY_NAME == "센터장")){
+                if(map.APPROVE_STAT_CODE == null){
+                    continue;
+                }
+
+                if(map.APPROVE_STAT_CODE == 10 || (String(map.DRAFT_EMP_SEQ) == String(map.LAST_APPROVE_EMP_SEQ))){
+                    let field = "docAppr0";
+                    let field2 = "docAppr1010";
+                    hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
+                    if(map.APPROVE_STAT_CODE == 101){
+                        hwpDocCtrl.putFieldText(field2, "전결");
+                    }
+                }else if(map.APPROVE_DUTY_NAME == "팀장"){
+                    let field = "docAppr1";
+                    let field2 = "docAppr1011";
+                    hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
+                    if(map.APPROVE_STAT_CODE == 101){
+                        hwpDocCtrl.putFieldText(field2, "전결");
+                    }
+                }else if(map.APPROVE_DUTY_NAME == "본부장" || map.APPROVE_DUTY_NAME == "사업부장" || map.APPROVE_DUTY_NAME == "센터장"){
                     let field = "docAppr2";
-                    hwpDocCtrl.putFieldText(field, list[i].APPROVE_EMP_NAME);
-                }else if(list[i].APPROVE_STAT_CODE != null && list[i].APPROVE_DUTY_NAME == "원장"){
+                    let field2 = "docAppr1012";
+                    hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
+                    if(map.APPROVE_STAT_CODE == 101){
+                        hwpDocCtrl.putFieldText(field2, "전결");
+                    }
+                }else if(map.APPROVE_DUTY_NAME == "원장"){
                     let field = "docAppr3";
-                    hwpDocCtrl.putFieldText(field, list[i].APPROVE_EMP_NAME);
+                    hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
                 }
             }
-            
-            const docInfo = docView.global.rs.docInfo;
+
+            const docInfo =docView.global.rs.docInfo;
             console.log(docInfo);
 
             hwpDocCtrl.putFieldText('DOC_NO', docInfo.DOC_NO);

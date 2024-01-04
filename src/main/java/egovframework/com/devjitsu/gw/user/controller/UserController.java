@@ -73,7 +73,7 @@ public class UserController {
 
     //유저 다수 선택 팝업
     @RequestMapping("/user/pop/userMultiSelectPop.do")
-    public String userMultiSelectPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String userMultiSelectPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);

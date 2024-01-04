@@ -1965,6 +1965,7 @@
         ADDR_DETAIL = #{ADDR_DETAIL},
         OFFICE_TEL_NUM = #{OFFICE_TEL_NUM},
         MOBILE_TEL_NUM = #{MOBILE_TEL_NUM},
+        HOME_TEL_NUM = #{HOME_TEL_NUM},
         EMAIL_ADDR = #{EMAIL_ADDR},
         CAR_NUM = #{CAR_NUM},
         EMP_NAME_CN = #{EMP_NAME_CN},
