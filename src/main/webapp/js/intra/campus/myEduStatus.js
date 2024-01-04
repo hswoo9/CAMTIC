@@ -76,7 +76,32 @@ var myEdu = {
                 },  {
                     field: "",
                     title: "학습방법",
-                    width: 200
+                    width: 200,
+                    template: function(row){
+                        if(row.EDU_FORM_TYPE == "1") {
+                            return "교육기관 참가교육";
+                        }else if(row.EDU_FORM_TYPE == "2") {
+                            return "온라인 학습";
+                        }else if(row.EDU_FORM_TYPE == "3") {
+                            return "세미나/포럼/학술대회";
+                        }else if(row.EDU_FORM_TYPE == "4") {
+                            return "박람회/기술대전 참관";
+                        }else if(row.EDU_FORM_TYPE == "5") {
+                            return "도서학습";
+                        }else if(row.EDU_FORM_TYPE == "6") {
+                            return "논문/학술지 독서";
+                        }else if(row.EDU_FORM_TYPE == "7") {
+                            return "국내/외 논문 저술";
+                        }else if(row.EDU_FORM_TYPE == "8") {
+                            return "직무관련 저술";
+                        }else if(row.EDU_FORM_TYPE == "9") {
+                            return "국내외 현장견학";
+                        }else if(row.EDU_FORM_TYPE == "10") {
+                            return "자격증 취득";
+                        }else {
+                            return "데이터 오류";
+                        }
+                    }
                 },{
                     field: "EDU_NAME",
                     title: "학습명",
