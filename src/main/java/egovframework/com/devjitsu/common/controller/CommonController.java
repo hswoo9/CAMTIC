@@ -359,4 +359,10 @@ public class CommonController {
     public void setPasswordEncryption(@RequestParam Map<String, Object> params){
         commonService.setPasswordEncryption(params);
     }
+
+    @RequestMapping ("/common/getFileInfo")
+    public String getFileInfo (@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("data", commonService.getFileInfo(params));
+        return "jsonView";
+    }
 }

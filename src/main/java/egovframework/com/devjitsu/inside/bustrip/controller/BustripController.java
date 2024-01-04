@@ -673,6 +673,14 @@ public class BustripController {
         return "jsonView";
     }
 
+    /** 여비 첨부파일 전체조회 */
+    @RequestMapping("/bustrip/getExnpFileNum")
+    public String getExnpFileNum(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getExnpFileNum(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /** 하나의 프로젝트에 대한 모든 출장여비 합계 pjtSn */
     @RequestMapping("/bustrip/getBustripExnpSum")
     public String getPurcSum(@RequestParam Map<String, Object> params, Model model){
@@ -744,8 +752,8 @@ public class BustripController {
     @RequestMapping("/bustrip/getPersonalExnpData")
     public String getPersonalExnpData(@RequestParam Map<String, Object> params, Model model){
 
-        Map<String, Object> data = bustripService.getPersonalExnpData(params);
-        model.addAttribute("data", data);
+        List<Map<String, Object>> list = bustripService.getPersonalExnpData(params);
+        model.addAttribute("list", list);
 
         return "jsonView";
     }

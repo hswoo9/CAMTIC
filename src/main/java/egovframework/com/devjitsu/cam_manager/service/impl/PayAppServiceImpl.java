@@ -53,6 +53,11 @@ public class PayAppServiceImpl implements PayAppService {
             // 출장 지급신청 Key Insert
             payAppRepository.updPurcBustripByPayAppSn(params);
         }
+        // 영수증, 전표등 있을 시 첨부파일 복사
+        if(params.containsKey("bList")){
+            // 출장 지급신청 Key Insert
+            payAppRepository.updBustripExnpFileCopy(params);
+        }
         // 식대대장 지급신청시 snackInfoSn Key 가져옴
         if(params.containsKey("snackInfoSn")){
             // 식대대장 지급신청 Key Insert

@@ -129,6 +129,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getExnpFileNum(Map<String, Object> params) {
+        return bustripRepository.getExnpFileNum(params);
+    }
+
+    @Override
     public Map<String, Object> getBustripOne(Map<String, Object> params) {
         return bustripRepository.getBustripResultInfoR(params);
     }
@@ -428,7 +433,7 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
-    public Map<String, Object> getPersonalExnpData(Map<String, Object> params) {
+    public List<Map<String, Object>> getPersonalExnpData(Map<String, Object> params) {
         return bustripRepository.getPersonalExnpData(params);
     }
 }

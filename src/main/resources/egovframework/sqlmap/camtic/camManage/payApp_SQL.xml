@@ -1493,6 +1493,40 @@
             HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </update>
 
+    <update id="updBustripExnpFileCopy" parameterType="map">
+        /*updBustripExnpFileCopy*/
+        /* setDelvFileCopy */
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+        (
+            FILE_CD,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            CONTENT_ID,
+            FR_KEY,
+            REG_EMP_SEQ
+        )
+        SELECT
+            'payApp',
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            #{payAppSn},
+            FR_KEY,
+            REG_EMP_SEQ
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE FILE_NO in (${bList})
+    </update>
+
     <update id="updPurcSnackByPayAppSn" parameterType="map">
         /*updPurcSnackByPayAppSn*/
         UPDATE CAM_INSIDE.DJ_SNACK_INFO

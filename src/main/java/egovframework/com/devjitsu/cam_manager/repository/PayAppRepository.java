@@ -247,6 +247,10 @@ public class PayAppRepository extends AbstractDAO {
         update("payApp.updPurcBustripByPayAppSn", params);
     }
 
+    public void updBustripExnpFileCopy(Map<String, Object> params) {
+        insert("payApp.updBustripExnpFileCopy", params);
+    }
+
     public void updPurcSnackByPayAppSn(Map<String, Object> params) {
         update("payApp.updPurcSnackByPayAppSn", params);
     }

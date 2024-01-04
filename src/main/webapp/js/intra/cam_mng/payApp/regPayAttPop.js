@@ -3,6 +3,7 @@ const regPayAtt = {
     fn_DefaultScript: function(){
         var parameterArray = [];
         if($("#type").val() != "exnp"){
+            console.log(opener.parent.regPay.global.fileArray);
             parameterArray = opener.parent.regPay.global.fileArray;
         } else {
             parameterArray = opener.parent.regExnp.global.fileArray
@@ -73,6 +74,12 @@ const regPayAtt = {
             fileArray = opener.parent.regExnp.global.fileArray
         }
 
+        /** 출장일 경우 다른 방식으로 파일 추가함 */
+        if(opener.parent.$("#reqType").val() == "bustrip"){
+            regPayAtt.fn_bustripAddFile();
+            return;
+        }
+
         let size = 0;
         if(fileArray.length > 0){
             $("#fileGrid").find(".addFile").remove();
@@ -102,6 +109,36 @@ const regPayAtt = {
                 if($("#type").val() != "exnp"){
                     html += '   <td>';
                     html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fnUploadFile(' + i + ')">'
+                    html += '   </td>';
+                }
+                html += '</tr>';
+            }
+            $("#fileGrid").append(html);
+        }
+    },
+
+    fn_bustripAddFile : function(){
+        var fileArray = [];
+        fileArray = opener.parent.regPay.global.fileArray;
+
+        let size = 0;
+        if(fileArray.length > 0){
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+
+            for (var i = 0; i < fileArray.length; i++) {
+                size = fCommon.bytesToKB(fileArray[i].file_size);
+                var fileName = fileArray[i].file_org_name;
+                var fileExt = fileArray[i].file_ext;
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td style="text-align: left">' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '   </td>';
+                if($("#type").val() != "exnp"){
+                    html += '   <td>';
                     html += '   </td>';
                 }
                 html += '</tr>';

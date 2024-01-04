@@ -14,6 +14,11 @@
 </style>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripExnpPop.js?v=${today}"></script>
+<!-- 공통팝업 호출 -->
+
+<script type="text/javascript" src ="<c:url value='/js/html2canvas.min.js' />"></script>
+<script type="text/javascript" src ="<c:url value='/js/es6-promise.auto.js' />"></script>
+<script type="text/javascript" src ="<c:url value='/js/jspdf.min.js' />"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -244,6 +249,73 @@
         </div>
     </form>
 </div>
+
+<div class="pop_wrap creditSlip" id="capture" style="display: none; margin-top: 200px">
+    <div class="card-header pop_head">
+        <h3 class="card-title title_NM"><span style="color: black; margin-left: 11px;">카드승인전표</span>  <!--카드승인전표--></h3>
+        <%--			<a href="#n" class="clo"><img src="../../../Images/btn/btn_pop_clo02.png" alt="" /></a>--%>
+    </div>
+
+    <div class="pop_con mr25 ml25" style="">
+        <div class="com_ta4 bgnth hover_no">
+            <table>
+                <colgroup>
+                    <col width="100"/>
+                    <col />
+                </colgroup>
+                <tr>
+                    <td class="ri">카드번호  <!--카드번호--></td>
+                    <td class="fwb le" id="cardNum">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">승인일시 <!--승인일시--></td>
+                    <td class="fwb le" id="authDate"> </td>
+                </tr>
+                <tr>
+                    <td class="ri">승인번호  <!--승인번호--></td>
+                    <td class="fwb le" id="authNum">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">가맹점명  <!--가맹점명--></td>
+                    <td class="fwb le" id="tradeName">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">사업자번호  <!--사업자번호--></td>
+                    <td class="fwb le" id="tradeSeq">  </td>
+                </tr>
+                <tr id="tr_mccName">
+                    <td class="ri">업종  <!--업종--></td>
+                    <td class="fwb le" id="mccName">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">주소  <!--주소--></td>
+                    <td class="fwb le lh18 vt" style="height:35px;" id="addr">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">전화번호  <!--전화번호--></td>
+                    <td class="fwb le" id="tel">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">공급가액  <!--공급가액--></td>
+                    <td class="fwb le" id="stdAmt">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">부가세  <!--부가세--></td>
+                    <td class="fwb le" id="vatAmt">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">서비스금액  <!--서비스금액--></td>
+                    <td class="fwb le" id="serAmt">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">금액  <!--금액--></td>
+                    <td class="fwb le" id="amt">  </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div><!--// pop_con -->
+</div><!--// pop_wrap -->
 <script>
     const hrBizReqResultId = '${params.hrBizReqResultId}';
     const tripDayFr = '${rs.TRIP_DAY_FR}';
@@ -252,12 +324,17 @@
 
     bustripExnpReq.init('${type}');
 
+    let index = 0;
+
     function cardHistSet(list){
         console.log("list");
         console.log(list);
 
         let html = '';
         for(let i=0; i<list.length; i++){
+            html = '';
+            index ++;
+
             const e = list[i];
             html += '<tr class="cardData">';
             html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
@@ -265,6 +342,7 @@
             html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
             html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
             html += '    <input type="hidden" class="buySts" value="'+e.BUY_STS+'" />';
+            html += '    <input type="hidden" id="fileNo'+index+'" class="fileNo"/>';
 
             html += '    <td style="text-align: center"><input type="checkbox" name="card" style="position: relative; top: 2px"/></td>';
             html += '    <td>'+e.AUTH_DD.substring(0, 4) + '-' + e.AUTH_DD.substring(4, 6) + '-' + e.AUTH_DD.substring(6, 8)+'</td>';
@@ -275,9 +353,143 @@
             html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
             html += '    <td style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
             html += '</tr>';
+            $("#detailRow").append(html);
+            fn_setCardInfo(e.AUTH_NO, e.AUTH_DD, e.AUTH_HH, e.CARD_NO, e.BUY_STS, index);
+        }
+    }
+
+    function fn_setCardInfo(authNo, authDate, authTime, cardNo, buySts, index){
+
+        var data = {
+            authNo : authNo,
+            authDate : authDate,
+            authTime : authTime,
+            cardNo : cardNo,
+            buySts : buySts
         }
 
-        $("#detailRow").append(html);
+        $.ajax({
+            url : "/cam_mng/companyCard/useCardDetail",
+            data : data,
+            type : "post",
+            dataType: "json",
+            async : false,
+            success : function(rs){
+                var cardInfo = rs.cardInfo;
+                var cardNum = cardInfo.CARD_NO;
+                var authDate = cardInfo.AUTH_DD;
+                var authTime = cardInfo.AUTH_HH;
+                var authNum = cardInfo.AUTH_NO;
+                var tradeName = cardInfo.MER_NM;
+                var tradeSeq = cardInfo.MER_BIZNO;
+                var addr = cardInfo.MER_ADR1;
+                var tel = cardInfo.MER_TELNO;
+                var georaeStat = cardInfo.georaeStat;
+                var stdAmt = cardInfo.SUPP_PRICE;
+                var vatAmt = cardInfo.SURTAX;
+                var serAmt = cardInfo.SVC_AMT;
+                var amt = cardInfo.SUPP_PRICE + cardInfo.SURTAX;
+
+                var mccName = cardInfo.BIZTYPE_NM;
+                if(!mccName){
+                    $('#tr_mccName').remove();
+                }
+
+                $('#cardNum').html(fnGetCardCode(cardNum));
+                $('#authDate').html(fnGetAuthDate(authDate, authTime));
+                $('#mccName').html(mccName);
+                $('#authNum').html(authNum);
+                $('#tradeName').html(tradeName);
+                $('#tradeSeq').html(tradeSeq);
+                $('#addr').html(addr);
+                $('#tel').html(tel);
+
+                $('#stdAmt').html( fnGetCurrencyCode( fnMinusAmtCheck(georaeStat, stdAmt), 0 ) );
+                $('#vatAmt').html( fnGetCurrencyCode( fnMinusAmtCheck(georaeStat, vatAmt), 0 ) );
+                $('#serAmt').html( fnGetCurrencyCode( fnMinusAmtCheck(georaeStat, serAmt), 0 ) );
+                $('#amt').html( fnGetCurrencyCode( fnMinusAmtCheck(georaeStat, amt), 0 ) );
+
+                if(georaeStat === '0'){
+                    $('#stdAmt, #vatAmt, #serAmt, #amt').css('color', 'red');
+                }
+
+                $("#capture").css("display", "");
+                html2canvas(document.querySelector("#capture")).then(function(canvas) {
+
+                    // jsPDF 객체 생성 생성자에는 가로, 세로 설정, 페이지 크기 등등 설정할 수 있다. 자세한건 문서 참고. // 현재 파라미터는 기본값이다 굳이 쓰지 않아도 되는데 저것이 기본값이라고 보여준다
+                    var doc = new jsPDF('p', 'mm', 'a4'); // html2canvas의 canvas를 png로 바꿔준다.
+                    var imgData = canvas.toDataURL('image/png'); //Image 코드로 뽑아내기 // image 추가
+                    imgData = imgData.replace("data:image/png;base64,", "");
+                    data.imgValue = 'card';
+                    data.imgSrc = imgData;
+                    data.empSeq = $("#empSeq").val()
+                    $.ajax({
+                        type : "POST",
+                        data : data,
+                        dataType : "text",
+                        url : "/mng/imgSaveTest",
+                        async : false,
+                        success : function(data) {
+                            var data = JSON.parse(data);
+                            var fileNo = data.result.fileNo;
+
+                            $("#fileNo" + index).val(fileNo);
+                        },
+                        error : function(a, b, c) {
+                            alert("error");
+                        }
+                    });
+                });
+
+            }
+        });
+    }
+
+    function fnMinusAmtCheck(georaeStat, amtValue){
+        if(georaeStat === '0'){
+            /* 승인 취소 건 */
+            if(amtValue.indexOf('-') < 0){
+                if(Number(amtValue.replace(/,/g, '')) != 0){
+                    amtValue = '-' + amtValue;
+                }
+            }
+        }
+
+        return amtValue;
+    }
+
+    /*  [공통함수] 날짜 표기 형태 리턴
+    Params / 날짜, 시간
+    valeu      : 통화 코드 적용 밸류
+    -----------------------------------------------------*/
+    function fnGetAuthDate(date, time){
+        var authDate = date.replace(/[^0-9]/g,'');
+        var authTime = time.replace(/[^0-9]/g,'');
+
+        return authDate.substring(0, 4) + '-'+ authDate.substring(4, 6) + '-'+ authDate.substring(6, 8)
+            + ' ' +authTime.substring(0, 2) + ':'+ authTime.substring(2, 4) + ':'+ authTime.substring(4, 6);
+    }
+
+    /*  [공통함수] 카드 번호 표기 형태 리턴
+    Params / 카드 번호
+    valeu      : 통화 코드 적용 밸류
+    -----------------------------------------------------*/
+    function fnGetCardCode(val){
+        var cardNum = val.replace(/[^0-9]/g,'');
+        return cardNum.substring(0, 4) + '-'+ cardNum.substring(4, 8) + '-'+ cardNum.substring(8, 12) + '-'+ cardNum.substring(12, 16);
+    }
+
+    /*  [공통함수] 통화 코드 적용
+    일천 단위에 통화코드 ','적용.
+    Params /
+    valeu      : 통화 코드 적용 밸류
+    -----------------------------------------------------*/
+    function fnGetCurrencyCode(value, defaultVal) {
+        value = '' + value || '';
+        value = '' + value.split('.')[0];
+        value = value.replace(/[^0-9\-]/g, '') || (defaultVal != undefined ? defaultVal : '0');
+        var returnVal = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return returnVal;
     }
 </script>
 </body>

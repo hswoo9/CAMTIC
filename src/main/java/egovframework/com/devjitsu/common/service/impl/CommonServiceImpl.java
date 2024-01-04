@@ -385,4 +385,10 @@ public class CommonServiceImpl implements CommonService {
             commonRepository.setPasswordEncryption(data);
         }
     }
+
+    @Override
+    public Map<String, Object> getFileInfo(Map<String, Object> params) {
+        return commonRepository.getContentFileOne(params);
+    }
+
 }

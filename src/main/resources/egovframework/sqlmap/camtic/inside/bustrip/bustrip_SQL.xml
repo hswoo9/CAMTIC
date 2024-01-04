@@ -1218,7 +1218,7 @@
     <select id="getExnpFileNum" parameterType="map" resultType="map">
         /* getExnpFileNum */
         SELECT
-            FILE_NO
+            *
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
@@ -1256,7 +1256,8 @@
                 AUTH_DD,
                 AUTH_NO,
                 AUTH_HH,
-                BUY_STS
+                BUY_STS,
+                FILE_NO
             )
         VALUES
             (
@@ -1265,7 +1266,8 @@
                 #{authDate},
                 #{authNum},
                 #{authTime},
-                #{buySts}
+                #{buySts},
+                #{fileNo}
             )
     </insert>
 
@@ -1285,26 +1287,31 @@
 
     <select id="getPersonalExnpData" parameterType="map" resultType="map">
         /* getPersonalExnpData */
-        SELECT
-            (
-                (CASE WHEN IHBE.OIL_CORP_YN = 'N' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
-                (CASE WHEN IHBE.TRAF_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
-                (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
-                (CASE WHEN IHBE.TOLL_CORP_YN = 'N' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
-                REPLACE(IHBE.DAY_COST, ',', '')+
-                (CASE WHEN IHBE.EAT_CORP_YN = 'N' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
-                (CASE WHEN IHBE.PARKING_CORP_YN = 'N' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
-                (CASE WHEN IHBE.ETC_CORP_YN = 'N' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
-            ) AS PERSON_SUM,
-            IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE IHBE.HR_BIZ_REQ_RESULT_ID = SHBC.HR_BIZ_REQ_RESULT_ID), 0) AS COMPANION,
-            BRR.*
-        FROM
-            CAM_INSIDE.DJ_HR_BIZ_EXNP IHBE
-        LEFT JOIN
-            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT BRR ON IHBE.HR_BIZ_REQ_RESULT_ID = BRR.HR_BIZ_REQ_RESULT_ID
+        SELECT * FROM
+        (
+            SELECT
+                IHBE.EMP_NAME AS EXNP_NAME,
+                (
+                    (CASE WHEN IHBE.OIL_CORP_YN = 'N' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TOLL_CORP_YN = 'N' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                    REPLACE(IHBE.DAY_COST, ',', '')+
+                    (CASE WHEN IHBE.EAT_CORP_YN = 'N' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.PARKING_CORP_YN = 'N' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.ETC_CORP_YN = 'N' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+                ) AS PERSON_SUM,
+                IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE IHBE.HR_BIZ_REQ_RESULT_ID = SHBC.HR_BIZ_REQ_RESULT_ID), 0) AS COMPANION,
+                BRR.*
+            FROM
+                CAM_INSIDE.DJ_HR_BIZ_EXNP IHBE
+            LEFT JOIN
+                CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT BRR ON IHBE.HR_BIZ_REQ_RESULT_ID = BRR.HR_BIZ_REQ_RESULT_ID
+            WHERE
+                IHBE.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+        ) RE
         WHERE
-            IHBE.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
-        GROUP BY HR_BIZ_REQ_RESULT_ID
+            RE.PERSON_SUM != 0 AND RE.PERSON_SUM IS NOT NULL
     </select>
 </mapper>
 

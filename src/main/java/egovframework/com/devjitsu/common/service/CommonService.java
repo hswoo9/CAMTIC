@@ -81,4 +81,5 @@ public interface CommonService {
 
     /** 암호화 */
     void setPasswordEncryption(Map<String, Object> params);
+    Map<String, Object> getFileInfo(Map<String, Object> params);
 }

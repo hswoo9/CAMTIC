@@ -1644,7 +1644,7 @@ var draft = {
             let count = 0;
             for(let i=0; i<list.length; i++){
                 const map = list[i];
-                if(map.approveType == "0"){
+                if(map.approveType == "0" || map.approveType == "2"){
                     count += 1;
 
                     if(map.approveDutyName == "팀장"){

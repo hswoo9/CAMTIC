@@ -80,6 +80,8 @@ public interface BustripService {
 
     List<Map<String, Object>> getExnpFile(Map<String, Object> params);
 
+    List<Map<String, Object>> getExnpFileNum(Map<String, Object> params);
+
     Map<String, Object> getBustripExnpSum(Map<String, Object> params);
     void delBustripCost(Map<String, Object> params);
 
@@ -88,5 +90,5 @@ public interface BustripService {
 
     List<Map<String, Object>> getCardList(Map<String, Object> params);
 
-    Map<String, Object> getPersonalExnpData(Map<String, Object> params);
+    List<Map<String, Object>> getPersonalExnpData(Map<String, Object> params);
 }
