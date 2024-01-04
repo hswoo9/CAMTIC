@@ -792,19 +792,6 @@ var draft = {
         }
 
         async function asyncCall() {
-            if(!$(e).hasClass("draft") && !$(e).hasClass("temp")){
-                hwpDocCtrl.putFieldsText(
-                    ["approval_st"],
-                    8,
-                    "\n"
-                )
-            }
-
-            if(!$(e).hasClass("temp")){
-                hwpDocCtrl.putFieldText('approval_st' + draft.global.approversArr.find(element => element.approveEmpSeq === $("#empSeq").val()).approveOrder, draft.global.dataType.nowCom + "(결재)");
-            }
-
-
             hwpDocCtrl.global.HwpCtrl.GetTextFile("HTML", "", function(data) {
                 draft.global.htmlFileTextData = data;
             })
@@ -1094,7 +1081,6 @@ var draft = {
 
     docApprove : function(){
         draft.loading();
-        hwpDocCtrl.putFieldText('approval_st' + $("#approveOrder").val(), draft.global.dataType.nowCom + "(" + $("#approveCodeNm").val() + ")");
 
         hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
             draft.global.hwpFileTextData = data;

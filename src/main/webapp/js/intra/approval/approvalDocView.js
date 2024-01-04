@@ -412,7 +412,6 @@ var docView = {
                 }
             }
         }else{
-            hwpDocCtrl.putFieldText('approval_st' + order, text);
         }
 
 
