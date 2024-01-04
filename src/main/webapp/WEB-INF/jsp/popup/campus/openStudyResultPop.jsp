@@ -25,8 +25,9 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">오픈스터디 결과보고</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="openStudyRes.saveBtn();">모임완료</button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">취소</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="openUserMultiSelectPop()">직원추가</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="openStudyRes.saveBtn();">저장</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
         </div>
         <form id="table-responsive" style="padding: 20px 30px;">
@@ -83,6 +84,46 @@
 
 <script>
     openStudyRes.init();
+
+    function userDataSet(arr) {
+        var successCount = 0;
+        var arrLength = arr.length;
+
+        for (var i = 0; i < arrLength; i++) {
+            var data = {
+                regEmpSeq: arr[i].empSeq,
+                regEmpName: arr[i].empName,
+                regDeptName: arr[i].deptName,
+                regTeamSeq: arr[i].deptSeq,
+                regPositionName: arr[i].positionName,
+                regDutyName: arr[i].dutyName,
+                pk: $("#pk").val()
+            };
+
+            const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
+
+            if (result.flag) {
+                successCount++;
+            }
+
+            if (successCount === arrLength) {
+                closeUserMultiSelectPop();
+                alert("참여신청이 완료되었습니다.");
+                debugger;
+                location.reload();
+            }
+        }
+    }
+
+    function openUserMultiSelectPop() {
+        childWindow =  window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    }
+
+    function closeUserMultiSelectPop() {
+        if (childWindow && !childWindow.closed) {
+            childWindow.close();
+        }
+    }
 </script>
 </body>
 </html>

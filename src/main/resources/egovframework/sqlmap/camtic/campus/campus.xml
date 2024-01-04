@@ -1740,6 +1740,9 @@
                 #{regEmpSeq},
                 #{regEmpName}
             )
+        <selectKey keyProperty="openStudyKey" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_OPENSTUDY_INFO'
+        </selectKey>
     </insert>
 
     <update id="setOpenStudyInfoUpd" parameterType="map">

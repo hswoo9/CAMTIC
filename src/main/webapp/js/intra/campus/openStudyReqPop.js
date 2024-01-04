@@ -97,7 +97,6 @@ const openStudyReq = {
                 if(studyInfo.REG_EMP_SEQ == regEmpSeq){
                     $("#stepDBtn").show();
                     $("#stepNBtn").show();
-                    $("#empBtn").show();
                 }else{
                     $("#stepBReqBtn").show();
                 }
@@ -204,8 +203,9 @@ const openStudyReq = {
             url = "/campus/setOpenStudyInfoUpd";
         }
         const result = customKendo.fn_customAjax(url, data);
+        result.pk;
+        console.log("파람스 피케이?",result.pk);
         if(result.flag){
-            //result.params.[selectKey 명칭];
             alert("오픈스터디 저장이 완료되었습니다.");
             try {
                 opener.gridReload();
@@ -218,8 +218,18 @@ const openStudyReq = {
 
             }
             //window.close();
-            openStudy.openStudyReqPop("upd", data.pk);
+            openStudyReq.openStudyReqPop("upd", result.pk);
         }
+    },
+
+    openStudyReqPop : function(mode, pk) {
+        let url = "/Campus/pop/openStudyReqPop.do?mode="+mode;
+        if(mode == "upd" || mode == "mng"){
+            url += "&pk="+pk;
+        }
+        const name = "openStudyReqPop";
+        const option = "width = 990, height = 548, top = 100, left = 400, location = no";
+        window.open(url, name, option);
     },
 
     fn_openNextStep: function(step){
@@ -339,7 +349,7 @@ const openStudyReq = {
         window.close();
     },
 
-    userDataSet: function(arr) {
+    /*userDataSet: function(arr) {
         for (var i = 0; i < arr.length; i++) {
             var data = {
                 regEmpSeq: arr[i].regEmpSeq,
@@ -360,5 +370,5 @@ const openStudyReq = {
                 openStudyReq.windowClose();
             }
         }
-    }
+    }*/
 }
