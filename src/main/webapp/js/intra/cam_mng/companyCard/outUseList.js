@@ -124,12 +124,6 @@ var outUseList = {
                         return '<div style="text-align: right;">' + comma(e.SURTAX) + '</div>';
                     }
                 }, {
-                    title: "결의상태",
-                    width: 80,
-                    template : function(e){
-                        return "미결의"
-                    }
-                }, {
                     title : "사용자",
                     field: "USE_MEM",
                 }
