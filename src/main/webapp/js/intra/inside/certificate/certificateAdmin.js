@@ -193,11 +193,7 @@ var certificateAdmin = {
                 }, {
                     title: "발급자",
                     template : function(row){
-                        if(row.ISSUE == "Y") {
-                            return "관리자";
-                        }else {
-                            return ""
-                        }
+                        return row.APPROVAL_EMP_NAME;
                     },
                     width: 100
                 }, {

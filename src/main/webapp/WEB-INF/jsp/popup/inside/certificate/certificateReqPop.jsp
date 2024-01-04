@@ -62,28 +62,28 @@
                 <tr>
                     <th>사번</th>
                     <td>
-                        <input type="text" id="regErpSn" value="${LoginVO.erpEmpCd}" style="width: 80%;">
+                        <input type="text" id="regErpSn" value="${params.mode eq 'mng' ? data.ERP_EMP_SEQ : LoginVO.erpEmpCd}" style="width: 80%;">
                     </td>
                     <th>성명</th>
                     <td>
-                        <input type="text" id="regtrName" value="${LoginVO.name}" style="width: 80%;">
+                        <input type="text" id="regtrName" value="${params.mode eq 'mng' ? data.EMP_NAME_KR : LoginVO.name}" style="width: 80%;">
                     </td>
                 </tr>
                 <tr>
                     <th>부서명</th>
                     <td>
-                        <input type="text" id="regDeptName" value="${LoginVO.orgnztNm}" style="width: 80%;">
+                        <input type="text" id="regDeptName" value="${params.mode eq 'mng' ? data.DEPT_NAME : LoginVO.orgnztNm}" style="width: 80%;">
                     </td>
                     <th>직위</th>
                     <c:choose>
                     <c:when test="${not empty LoginVO.positionNm}">
                         <td>
-                        <input type="text" id="regPositionName" value="${LoginVO.positionNm}" style="width: 80%;">
+                        <input type="text" id="regPositionName" value="${params.mode eq 'mng' ? data.POSITION_NAME :LoginVO.positionNm}" style="width: 80%;">
                         </td>
                     </c:when>
                     <c:otherwise>
                         <td>
-                        <input type="text" id="regDutyName" value="${LoginVO.dutyNm}" style="width: 80%;">
+                        <input type="text" id="regDutyName" value="${params.mode eq 'mng' ? data.POSITION_NAME :LoginVO.dutyNm}" style="width: 80%;">
                         </td>
                     </c:otherwise>
                     </c:choose>

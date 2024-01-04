@@ -40,7 +40,7 @@
         </div>
 
         <div id="docControlBtnDiv">
-            <c:if test="${manager}">
+            <c:if test="${manager && params2.isAdmin eq 'Y'}">
                 <button type='button' class='k-button k-button-solid k-button-solid-base'  style="height: 25px; font-size: 12px;" onclick="certifiPrintPop.saveHwp()">
                     <span class='k-button-text'>한글파일 다운로드</span>
                 </button>

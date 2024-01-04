@@ -149,6 +149,7 @@ public class CertificateController {
         model.addAttribute("userProofSn", params.get("userProofSn"));
         model.addAttribute("hwpUrl", hwpUrl);
         model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("params2", params);
         model.addAttribute("data", data);;
 
         return "popup/inside/certificate/certifiPrintPop";

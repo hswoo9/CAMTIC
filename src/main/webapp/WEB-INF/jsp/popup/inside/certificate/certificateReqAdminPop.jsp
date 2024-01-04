@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/certificate/certificateReqAdminPop.js?v=2"></script>
+<script type="text/javascript" src="/js/intra/inside/certificate/certificateReqAdminPop.js?v=3"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="empName" value="${loginVO.name}"/>
