@@ -36,7 +36,7 @@
         <div class="card-header" style="padding-top:25px;">
             <div class="col-lg-12" style="margin:0 auto;">
                 <div class="table-responsive">
-                    <div class="popupTitleSt">신청인(지도자)</div>
+                    <div class="popupTitleSt">신청인</div>
                     <form id="table-responsive">
                         <table class="popTable table table-bordered mb-0">
                             <colgroup>
