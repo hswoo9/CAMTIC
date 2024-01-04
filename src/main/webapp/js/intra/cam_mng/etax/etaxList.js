@@ -3,7 +3,7 @@ var etaxList = {
     fn_defaultScript: function (){
 
         var date = new Date();
-        date.setMonth(date.getMonth() - 6);
+        date.setMonth(date.getMonth() - 1);
         customKendo.fn_datePicker("strDt", "depth", "yyyy-MM-dd", date);
         customKendo.fn_datePicker("endDt", "depth", "yyyy-MM-dd", new Date());
 
