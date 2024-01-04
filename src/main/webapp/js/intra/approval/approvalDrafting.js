@@ -1606,7 +1606,7 @@ var draft = {
     setHwpApprovalLinePut : function(){
         console.log("----- 양식 결재선 세팅 -----");
         console.log(draft.global.approversArr);
-        let list = draft.global.approversArr;
+        let list =draft.global.approversArr;
 
         let empData;
         for(let i=0; i<list.length; i++){
@@ -1621,11 +1621,11 @@ var draft = {
 
         let appArr = [];
         if(empData != null){
-            /** 부서장 전결 */
+            /**부서장 전결*/
             if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장"){
                 appArr = ["", "전결", ""];
 
-                /** 팀장 전결 */
+                /**팀장 전결*/
             }else if(empData.approveDutyName == "팀장"){
                 appArr = ["전결", "공란", ""];
             }
@@ -1634,19 +1634,29 @@ var draft = {
         hwpDocCtrl.putFieldText('appr0', appArr[0]);
         hwpDocCtrl.putFieldText('appr1', appArr[1]);
         hwpDocCtrl.putFieldText('appr2', appArr[2]);
+
+        if($("#formId").val() == "1"){
+            /**공문 양식일때 개인정보 입력*/
+            let appArr = ["기안자", "팀 장", "부서장", "원 장"];
+            let list =draft.global.approversArr;
+
+            for(let i=0; i<list.length; i++){
+                hwpDocCtrl.putFieldText('docApprNm'+i, appArr[i]);
+            }
+        }
     },
 
     initOfficialAppr : function(){
-        /** 공문 양식일때 개인정보 입력 */
         if($("#formId").val() == "1"){
-            const draftEmpSeq = $("#empSeq").val();
-            const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
+            const draftEmpSeq =$("#empSeq").val();
+            const empInfo =customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
             console.log("empInfo");
             console.log(empInfo);
             setTimeout(function() {
                 hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
                 hwpDocCtrl.putFieldText('EMP_TEL', empInfo.OFFICE_TEL_NUM == undefined ? "" : ("/"+ empInfo.OFFICE_TEL_NUM));
-            }, 1500);
+                hwpDocCtrl.putFieldText('EMP_FAX', empInfo.HOME_TEL_NUM == undefined ? "" : ("/"+ empInfo.HOME_TEL_NUM));
+            }, 1600);
         }
     }
 }

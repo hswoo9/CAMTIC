@@ -153,6 +153,8 @@
             DOC_TYPE = #{docType}
           AND
             DEPT_SEQ = #{deptSeq}
+          AND
+            APPLY_YEAR = DATE_FORMAT(NOW(), '%Y')
     </select>
 
     <update id="setDeptDocNumUpd" parameterType="map">
@@ -164,6 +166,8 @@
             DOC_TYPE = #{docType}
           AND
             DEPT_SEQ = #{deptSeq}
+          AND
+            APPLY_YEAR = DATE_FORMAT(NOW(), '%Y')
     </update>
 
     <select id="getApprovalDocNoChk" parameterType="map" resultType="String">
