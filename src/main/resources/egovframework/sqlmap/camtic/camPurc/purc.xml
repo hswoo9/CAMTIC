@@ -367,6 +367,10 @@
             MPI.CLAIM_STAT,
             CI.CRM_SN,
             CI.CRM_NM,
+            CI.CRM_NO_TMP,
+            CI.CRM_BN,
+            CI.CRM_BN_NUM,
+            CI.BN_DEPO,
             FORMAT(PURC_ITEM_UNIT_PRICE , 0) AS PURC_ITEM_UNIT_PRICE_COMMA,
             FORMAT(PURC_ITEM_AMT , 0) AS PURC_ITEM_AMT_COMMA
         FROM
@@ -416,7 +420,7 @@
     </select>
 
     <select id="getPurcItemAmtTotal" parameterType="map" resultType="map">
-        /* getPurcItemList */
+        /* getPurcItemAmtTotal */
         SELECT
             IFNULL(FORMAT(SUM(PURC_ITEM_AMT) , 0), 0) AS TOTAL_SUM_COMMA
         FROM

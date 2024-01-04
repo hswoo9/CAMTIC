@@ -20,6 +20,9 @@ const regPayAtt = {
             }
         }
 
+        if($("#purcSn").val() != ""){
+            regPayAtt.fn_purcInspFile();
+        }
     },
 
     fileChange : function (){
@@ -183,6 +186,52 @@ const regPayAtt = {
             }
             $("#fileGrid").append(html);
         }
+    },
+
+    fn_purcInspFile : function(){
+        $.ajax({
+            url : "/purc/getPurcReqFileList.do",
+            data : {
+                purcSn : $("#purcSn").val()
+            },
+            type : "post",
+            dataType : "json",
+            async: false,
+            success : function(rs){
+                var e = rs.list;
+                var html = '';
+
+                if(e.length > 0){
+                    for(var i = 0; i < e.length; i++){
+                        html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                        html += '   <td style="text-align: left">'+e[i].file_org_name+'</td>';
+                        html += '   <td>'+ e[i].file_ext +'</td>';
+                        html += '   <td>'+ e[i].file_size +'</td>';
+                        html += '   <td>';
+                        if(e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "jpeg"){
+                            html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">' +
+                                '			    <span class="k-button-text">뷰어</span>' +
+                                '		    </button>';
+                        }
+                        html += '   </td>';
+                        html += '   <td></td>';
+                        html += '</tr>';
+                    }
+
+                    var fileArray = [];
+                    if($("#type").val() != "exnp"){
+                        fileArray = opener.parent.regPay.global.fileArray;
+                    } else {
+                        fileArray = opener.parent.regExnp.global.fileArray;
+                    }
+                    if (fileArray.length > 0) {
+                        $("#fileGrid").append(html);
+                    } else {
+                        $("#fileGrid").html(html);
+                    }
+                }
+            }
+        });
     },
 
     fnUploadFile : function(e) {

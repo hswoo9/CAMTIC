@@ -135,6 +135,12 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
+    public List<Map<String, Object>> getPurcReqFileList(Map<String, Object> params) {
+        params.put("contentId", "inspect_" + params.get("purcSn"));
+        return purcRepository.getPurcReqFileList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getPurcItemList(Map<String, Object> params) {
         return purcRepository.getPurcItemList(params);
     }

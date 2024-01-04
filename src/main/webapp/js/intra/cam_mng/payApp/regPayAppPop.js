@@ -141,6 +141,10 @@ var regPay = {
                 $("#eviType" + i).data("kendoDropDownList").value(1);
                 $("#crmNm" + i).val(ls[i].CRM_NM);
                 $("#crmSn" + i).val(ls[i].CRM_SN);
+                $("#regNo" + i).val(ls[i].CRM_NO_TMP);
+                $("#crmBnkNm" + i).val(ls[i].CRM_BN);
+                $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM);
+                $("#crmAccHolder" + i).val(ls[i].BN_DEPO);
                 $("#totCost" + i).val(regPay.comma(ls[i].PURC_ITEM_AMT));
                 $("#supCost" + i).val(regPay.comma(ls[i].PURC_ITEM_AMT));
             }
@@ -1655,8 +1659,11 @@ var regPayDet = {
     },
 
     fn_regPayAttPop : function (){
-
         var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + $("#payAppSn").val();
+        if($("#reqType").val() == "purc"){
+            url += "&purcSn=" + $("#purcSn").val();
+        }
+
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
