@@ -444,7 +444,13 @@ var regPay = {
 
         var dataSource = customKendo.fn_customAjax("/setManagement/getExnpDeChangeRs");
 
-        customKendo.fn_dropDownList("exnpIss", dataSource.list, "TITLE", "CHNG_RS_SN", 2)
+        customKendo.fn_dropDownList("exnpIss", dataSource.list, "TITLE", "CHNG_RS_SN", 2);
+
+        var totAllCost = 0;
+        $(".totCost").each(function(){
+            totAllCost += Number(regPay.uncomma($(this).val()));
+        });
+        $("#totalAllCost").text(regPay.comma(totAllCost));
     },
 
     fn_reasonClickModal : function(e){
