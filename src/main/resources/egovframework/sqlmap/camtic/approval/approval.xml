@@ -143,8 +143,8 @@
         SELECT
             DEPT_SEQ AS deptSeq,
             DOC_TYPE AS docType,
-            CASE WHEN DEPT_NICK_NAME_USE = 'Y' THEN CONCAT(DEPT_NICK_NAME, '-', APPLY_YEAR, RIGHT(CONCAT('000', DOC_NUM), 4))
-                 ELSE CONCAT(DEPT_NAME, '-', APPLY_YEAR, RIGHT(CONCAT('000', DOC_NUM), 4))
+            CASE WHEN DEPT_NICK_NAME_USE = 'Y' THEN CONCAT(DEPT_NICK_NAME, RIGHT(APPLY_YEAR, 2), '-', RIGHT(CONCAT('000', DOC_NUM), 4))
+                 ELSE CONCAT(DEPT_NAME, RIGHT(APPLY_YEAR, 2), '-', RIGHT(CONCAT('000', DOC_NUM), 4))
                 END docNo,
             CAST((DOC_NUM + 1) AS CHAR) AS nextDocNo
         FROM
