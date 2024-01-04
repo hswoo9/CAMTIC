@@ -180,12 +180,22 @@
                 </tr>
                 <tr>
                     <th>이메일</th>
-                    <td colspan="3">
+                    <td>
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
                             <input type="text" id="emailAddr" style="width: 30%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
                             <input type="text" id="emailAddr" style="width: 30%;" value="${uprinfList.EMAIL_ADDR}">
+                        </c:if>
+                    </td>
+
+                    <th>팩스번호</th>
+                    <td>
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <input type="text" id="homeTelNum" style="width: 30%;">
+                        </c:if>
+                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                            <input type="text" id="homeTelNum" style="width: 30%;" value="${uprinfList.HOME_TEL_NUM}">
                         </c:if>
                     </td>
                 </tr>
