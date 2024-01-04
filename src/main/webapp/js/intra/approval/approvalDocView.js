@@ -1159,6 +1159,27 @@ var docView = {
                         hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
                     }
                 }
+
+                if(map.APPROVE_STAT_CODE == 100 || map.APPROVE_STAT_CODE == 101){
+                    const docInfo =docView.global.rs.docInfo;
+
+                    /** 외부시행문서 일경우 직인 */
+                    if(docInfo.DOC_GBN == "001"){
+                        if(hwpDocCtrl.global.HwpCtrl.FieldExist("인")){
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('인', true, true, false);
+                            hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
+                                "SelectedCell",
+                                "http://" + location.host + "/upload/journeyman/companySignature.png",
+                                1,
+                                6,
+                                0,
+                                0,
+                                0,
+                                0
+                            );
+                        }
+                    }
+                }
             }
 
             const docInfo =docView.global.rs.docInfo;
