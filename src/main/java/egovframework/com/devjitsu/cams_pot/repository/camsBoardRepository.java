@@ -65,4 +65,12 @@ public class camsBoardRepository extends AbstractDAO {
 /*    public Object getRecentBoardArticleListCnt(ArticlePage articlePage) {
         return (int) selectOne("camsBoard.getRecentBoardArticleListCnt", articlePage);
     }*/
+
+    public Map<String, Object> getContentBoardFileOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("camsBoard.getContentBoardFileOne", params);
+    }
+
+    public void getContentBoardFileDelOne(Map<String, Object> params) {
+        delete("camsBoard.getContentBoardFileDelOne", params);
+    }
 }

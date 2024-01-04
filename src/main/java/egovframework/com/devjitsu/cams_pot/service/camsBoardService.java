@@ -34,4 +34,6 @@ public interface camsBoardService {
     void setArticleReplyActiveUpd(Map<String, Object> params);
 
     Object getBoardArticleListCnt(ArticlePage articlePage);
+
+    Map<String, Object> getContentBoardFileOne(Map<String, Object> params);
 }

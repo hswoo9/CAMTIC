@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
@@ -237,6 +238,12 @@ public class camsBoardController {
     @RequestMapping("/board/setArticleReplyActiveUpd.do")
     public String setArticleReplyActiveUpd(@RequestParam Map<String, Object> params){
         camsBoardService.setArticleReplyActiveUpd(params);
+        return "jsonView";
+    }
+
+    @RequestMapping(value = "/board/commonBoardFileDel")
+    public String commonBoardFileDel(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        model.addAttribute("rs", camsBoardService.getContentBoardFileOne(params));
         return "jsonView";
     }
 }
