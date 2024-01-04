@@ -54,6 +54,7 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script>
     let params = JSON.parse('${params}');
+
     historyReq.init();
 </script>
 </body>

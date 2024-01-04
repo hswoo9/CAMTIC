@@ -21,7 +21,7 @@
         </div>
 
         <div id="docControlBtnDiv">
-            <button type='button' class='k-button k-button-solid k-button-solid-base'  style="height: 25px; font-size: 12px;" onclick="historyPrintPop.saveHwp()">
+            <button type='button' class='k-button k-button-solid k-button-solid-base' id="downloadButton"  style="height: 25px; font-size: 12px;" onclick="historyPrintPop.saveHwp()">
                 <span class='k-button-text'>한글파일 다운로드</span>
             </button>
             <button type='button' class='k-button k-button-solid k-button-solid-base' id="docApprovalPDFDownBtn"  style="width: 70px; height: 25px; font-size: 12px;" onclick="historyPrintPop.print()">
@@ -38,7 +38,12 @@
 <script type="text/javascript">
     let params = JSON.parse('${params}');
     let data = JSON.parse('${data}');
+
     historyPrintPop.init();
+
+    if (params.type === 'Y') {
+        document.getElementById('downloadButton').style.display = 'none';
+    }
 </script>
 </body>
 </html>
