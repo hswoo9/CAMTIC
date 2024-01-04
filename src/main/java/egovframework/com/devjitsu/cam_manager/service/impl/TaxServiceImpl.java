@@ -46,7 +46,7 @@ public class TaxServiceImpl implements TaxService {
 
         Map<String, Object> params = new HashMap<>();
 
-        params.put("strDate", "2023-01-01");
+        params.put("strDate", strDate);
         params.put("endDate", endDate);
 
         List<Map<String, Object>> list = new ArrayList<>();
