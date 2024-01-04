@@ -109,6 +109,7 @@ public interface CampusService {
 
     /** 오픈스터디 시작 */
     void setOpenStudyInfoIns(Map<String, Object> params);
+    List<Map<String, Object>> getRealEduTimeCheck(Map<String, Object> params);
     void setOpenStudyInfoUpd(Map<String, Object> params);
     void setOpenNextStep(Map<String, Object> params);
     boolean getOpenStudyUserDoubleChk(Map<String, Object> params);

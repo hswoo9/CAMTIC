@@ -2449,6 +2449,26 @@
             )
     </select>
 
+    <select id="getRealEduTimeCheck" parameterType="map" resultType="map">
+        /*getRealEduTimeCheck*/
+        SELECT
+            2 - SUM(ou.REAL_EDU_TIME) AS aaa,
+            ou.REG_EMP_NAME
+        FROM CAMPUS.dj_openstudy_info oi
+                 LEFT JOIN CAMPUS.dj_openstudy_USER ou ON oi.OPEN_STUDY_INFO_SN = ou.OPEN_STUDY_INFO_SN
+        WHERE
+            DATE_FORMAT(oi.OPEN_STUDY_DT, '%Y%M') = DATE_FORMAT(NOW(), '%Y%M')
+          AND WEEK(oi.open_study_dt, 7) = WEEK(NOW(), 7)
+          AND ou.REG_EMP_SEQ IN(
+            SELECT
+                REG_EMP_SEQ
+            FROM
+                CAMPUS.dj_openstudy_USER
+            WHERE OPEN_STUDY_INFO_SN = #{pk}
+        )
+        GROUP BY ou.REG_EMP_SEQ;
+    </select>
+
     <delete id="deleteStudyResultUser" parameterType="map">
         /*deleteStudyResultUser*/
         DELETE

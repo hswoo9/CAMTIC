@@ -1574,6 +1574,16 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 오픈스터디 인정시간 체크*/
+    @RequestMapping("/campus/getRealEduTimeCheck")
+    public String getRealEduTimeCheck(@RequestParam Map<String, Object> params, Model model) {
+        params.put("pk", params.get("pk"));
+        List<Map<String, Object>> list = campusService.getRealEduTimeCheck(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /** 오픈스터디 수정 */
     @RequestMapping("/campus/setOpenStudyInfoUpd")
     public String setOpenStudyInfoUpd(@RequestParam Map<String, Object> params) {

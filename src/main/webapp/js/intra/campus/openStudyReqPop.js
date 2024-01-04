@@ -163,7 +163,7 @@ const openStudyReq = {
         if(openStudyDetail == ""){ alert("진행내용이 작성되지 않았습니다."); return;}
         if(openStudyLocation == ""){ alert("장소가 작성되지 않았습니다."); return;}
 
-        let eduTime = 0;
+        //let eduTime = 0;
         var now = new Date();
         var year = now.getFullYear();
         var month = now.getMonth()+1;
@@ -177,14 +177,6 @@ const openStudyReq = {
         var diffSec = afDate.getTime() - bfDate.getTime();
         var diffMin = diffSec / 1000 / 60 / 60;
 
-        /** 건당 최대 2시간 */
-        if(diffMin > 2){
-            eduTime = 2
-        }else{
-            eduTime = diffMin;
-        }
-        let realEduTime = eduTime;
-
         let data = {
             openStudyName: openStudyName,
             openStudyDt: openStudyDt,
@@ -192,6 +184,7 @@ const openStudyReq = {
             endTime: endTime,
             openStudyDetail: openStudyDetail,
             openStudyLocation: openStudyLocation,
+            eduTime: diffMin,
             realEduTime: realEduTime,
             regEmpSeq: regEmpSeq,
             regEmpName: regEmpName
