@@ -44,19 +44,19 @@
             </colgroup>
             <thead>
             <tr>
-                <th>구분</th>
+                <th><span class="red-star">*</span>구분</th>
                 <td>
                     <input type="text" id="studyClass" style="width: 800px">
                 </td>
             </tr>
             <tr>
-                <th id="titleCol">학습조명</th>
+                <th id="titleCol"><span class="red-star">*</span>학습조명</th>
                 <td>
                     <input type="text" id="studyName" style="width: 800px">
                 </td>
             </tr>
             <tr class="propag ojt" style="display: none">
-                <th>지 도 자</th>
+                <th><span class="red-star">*</span>지 도 자</th>
                 <td>
                     <input type="text" id="readerUserName" style="width: 600px">
                     <input type="hidden" id="readerUserSeq">
@@ -64,7 +64,7 @@
                 </td>
             </tr>
             <tr>
-                <th>학 습 자</th>
+                <th><span class="red-star">*</span>학 습 자</th>
                 <td>
                     <input type="text" id="studyUserName" style="width: 600px">
                     <input type="hidden" id="studyUserSeq">
@@ -72,7 +72,7 @@
                 </td>
             </tr>
             <tr>
-                <th id="subjectDe">학습기간</th>
+                <th id="subjectDe"><span class="red-star">*</span>학습기간</th>
                 <td>
                     <div style="float: left"><input type="text" id="startDt" style="width: 150px"> ~ <input type="text" id="endDt" style="width: 150px"></div>
 
@@ -86,31 +86,31 @@
                 </td>
             </tr>
             <tr>
-                <th id="subjectLoc">학습장소</th>
+                <th id="subjectLoc"><span class="red-star">*</span>학습장소</th>
                 <td>
                     <input type="text" id="studyLocation" style="width: 800px">
                 </td>
             </tr>
             <tr class="subjectObj">
-                <th>학습목표</th>
+                <th><span class="red-star">*</span>학습목표</th>
                 <td>
                     <textarea type="text" id="studyObject" style="width: 800px; height: 100px"></textarea>
                 </td>
             </tr>
             <tr class="notOjt">
-                <th id="subjectCont">학습내용</th>
+                <th id="subjectCont"><span class="red-star">*</span>학습내용</th>
                 <td>
                     <textarea type="text" id="studyContent" style="width: 800px; height: 100px"></textarea>
                 </td>
             </tr>
             <tr>
-                <th>소요비용</th>
+                <th><span class="red-star">*</span>소요비용</th>
                 <td>
                     <input type="text" id="studyMoney" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 150px" value="0"> 원
                 </td>
             </tr>
             <tr>
-                <th id="subjectStudyMoney">산출내역</th>
+                <th id="subjectStudyMoney"><span class="red-star">*</span>산출내역</th>
                 <td>
                     <textarea id="studyMoneyVal" style="width: 800px; height: 100px"></textarea>
                 </td>

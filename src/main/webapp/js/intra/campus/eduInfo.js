@@ -129,7 +129,7 @@ var eduInfo = {
                     title: "진행현황",
                     width: 180,
                     template: function(row){
-                        if(row.STATUS == "0") {
+                        if(row.STATUS == "0" || row.STATUS == "30" ) {
                             return "계획";
                         }else if(row.STATUS == "10") {
                             return "학습신청서 승인요청중";
@@ -144,7 +144,7 @@ var eduInfo = {
                         }else if(row.STATUS == "100" && row.RES_STATUS == "100" && row.MNG_CHECK == "Y") {
                             return "이수완료";
                         }else {
-                            return "교육취소"
+                            return "교육취소";
                         }
                     }
                 }

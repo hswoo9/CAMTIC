@@ -23,7 +23,7 @@
     <h3 class="card-title title_NM">교육수강 신청서 조회</h3>
     <div class="btn-st popButton">
       <c:choose>
-        <c:when test="${data.STATUS == 0}">
+        <c:when test="${data.STATUS == 0 || data.STATUS == 30}">
           <input type="button" class="k-button k-button-solid-info usrBtn" value="결재요청" onclick="eduInfoViewPop.campusDrafting();"/>
         </c:when>
         <c:when test="${data.STATUS == 10}">
