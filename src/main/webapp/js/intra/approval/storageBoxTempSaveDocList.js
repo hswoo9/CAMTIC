@@ -157,7 +157,7 @@ var storageBoxTemp = {
 
             console.log(storageBoxTemp.global.checkedDocArr);
 
-            var result = customKendo.fn_customAjax("/approvalUser/setCheckedDocDel", storageBoxTemp.global.saveAjaxData);
+            var result = customKendo.fn_customAjax("/approvalUser/setCheckedDocDel.do", storageBoxTemp.global.saveAjaxData);
 
             if(result.flag){
                 alert("삭제되었습니다.");
