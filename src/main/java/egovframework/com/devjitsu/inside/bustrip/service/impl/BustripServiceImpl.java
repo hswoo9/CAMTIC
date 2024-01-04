@@ -226,15 +226,10 @@ public class BustripServiceImpl implements BustripService {
         if("10".equals(docSts) || "101".equals(docSts)){
             List<Map<String, Object>> list = bustripRepository.getExnpFileNum(params);
             if(list.size() > 0){
-                String text = "";
-                for(int i=0; i<list.size(); i++){
-                    if(i != 0){
-                        text += ",";
-                    }
-                    text += list.get(i).get("FILE_NO").toString();
+                for(Map<String, Object> data : list){
+                    data.put("docId", params.get("docId"));
+                    bustripRepository.setBustripFileNum(params);
                 }
-                params.put("text", text);
-                bustripRepository.setBustripFileNum(params);
             }
         }
     }

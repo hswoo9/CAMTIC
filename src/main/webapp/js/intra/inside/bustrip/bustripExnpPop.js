@@ -470,6 +470,7 @@ const bustripExnpReq = {
             cardData.authNum = authNum;
             cardData.authTime = authTime;
             cardData.buySts = buySts;
+            cardData.fileNo = fileNo;
 
             cardArr.push(cardData);
         });

@@ -1178,7 +1178,7 @@
         SET
             DOC_ID = #{docId}
         WHERE
-            file_no in (${text})
+            file_no = #{file_no}
     </update>
 
     <delete id="delBustripCompanion" parameterType="map">
