@@ -114,7 +114,7 @@ var normalArticleWrite = {
 		$("#files").kendoUpload({
 			async : {
 				saveUrl : getContextPath() + "/board/setBoardAttachFileInit.do",
-				removeUrl : getContextPath() + "/common/commonFileDel.do",
+				removeUrl : getContextPath() + "/board/commonBoardFileDel",
 				autoUpload : false
 			},
 			files : normalArticleWrite.global.fileUploaded,
@@ -134,7 +134,14 @@ var normalArticleWrite = {
 	},
 
 	onRemove : function(e){
-		onRemove(e, "board");
+		if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+			e.data = {
+				fileNo : e.files[0].fileNo
+			};
+			customKendo.fn_customAjax("/board/commonBoardFileDel", e.data);
+		}else{
+			e.preventDefault();
+		}
 	},
 
 	onSuccess : function(e){
