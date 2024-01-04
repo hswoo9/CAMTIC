@@ -1,7 +1,9 @@
 var snackReq = {
     global: {
         userArr: [],
-        snackData: {}
+        snackData: {},
+        attFiles : new Array(),
+        addAttFiles : new Array()
     },
 
     init: function() {
@@ -9,7 +11,7 @@ var snackReq = {
     },
 
     dataSet: function(snackData) {
-        customKendo.fn_textBox(["useHour", "useMin", "userText", "corporCard", "areaName", "usAmount", "useReason"]);
+        customKendo.fn_textBox(["userText", "corporCard", "areaName", "usAmount", "useReason"]);
         customKendo.fn_datePicker("useDt", 'month', "yyyy-MM-dd", new Date());
         let snackTypeDataSource = [
             {text: "야간 식대", value: "1"},
@@ -19,8 +21,7 @@ var snackReq = {
         customKendo.fn_dropDownList("snackType", snackTypeDataSource, "text", "value", 2);
         let payTypeDataSource = [
             {text: "개인", value: "1"},
-            {text: "법인", value: "2"},
-            {text: "외상", value: "3"}
+            {text: "법인", value: "2"}
         ]
         customKendo.fn_dropDownList("payType", payTypeDataSource, "text", "value", 2);
         let chargeUserDataSource = []
@@ -34,8 +35,8 @@ var snackReq = {
         if(!isNaN(snackData.STATUS)) {
             let data = snackData;
             $("#useDt").val(data.USE_DT);
-            $("#useHour").val(data.USE_TIME.split(':')[0]);
-            $("#useMin").val(data.USE_TIME.split(':')[1]);
+            /*$("#useHour").val(data.USE_TIME.split(':')[0]);
+            $("#useMin").val(data.USE_TIME.split(':')[1]);*/
             $("#snackType").data("kendoDropDownList").value(data.SNACK_TYPE);
             $("#userSn").val(data.USER_SN);
             $("#userText").val(data.USER_TEXT);
@@ -43,6 +44,8 @@ var snackReq = {
             $("#areaName").val(data.AREA_NAME);
             $("#usAmount").val(data.AMOUNT_SN.toString().toMoney());
             $("#useReason").val(data.USE_REASON);
+
+            snackReq.fn_changePayType(data.PAY_TYPE);
 
             let userSn = snackData.USER_SN;
             let userSnArr = userSn.split(',');
@@ -81,6 +84,11 @@ var snackReq = {
             const cardResult = customKendo.fn_customAjax("/snack/getCardList", parameters);
             const cardList = cardResult.list;
 
+            if(cardList != null){
+                $("#corporCard").val(cardList[0].TR_NM);
+                $("#cardSearch").prop("disabled", false);
+            }
+
             for(let i=0; i<cardList.length; i++){
                 const cardMap = cardList[i];
 
@@ -115,6 +123,7 @@ var snackReq = {
                 }
             }
         }
+
     },
 
     settingTempFileDataInit : function(e, p){
@@ -169,8 +178,8 @@ var snackReq = {
 
         //폼 데이터
         let useDt = $("#useDt").val();
-        let useHour = $("#useHour").val();
-        let useMin = $("#useMin").val();
+        /*let useHour = $("#useHour").val();
+        let useMin = $("#useMin").val();*/
         let snackType = $("#snackType").val();
         let snackTypeText = $("#snackType").data("kendoDropDownList").text();
         let userSn = $("#userSn").val();
@@ -187,31 +196,32 @@ var snackReq = {
         let checkAmt = 0;
         $.each($('.addData'), function(i, v){
             let empSeq = $(v).find('.amtEmpSeq').val();
+
             let amtInfo = {
                 amtEmpSeq					: $(v).find('.amtEmpSeq').val(),
                 amtEmpName			     	: $(v).find('.amtEmpName').text(),
-                amt         				: $(v).find('#amt'+empSeq).val().replace(/,/g, "").replace(/(^0+)/, "")
+                amt         				: $(v).find('#amt'+empSeq).val().replace(/,/g, "").replace(/(^0+)/, "") == '' ? 0 : $(v).find('#amt'+empSeq).val().replace(/,/g, "").replace(/(^0+)/, "")
             }
             amtUserArr.push(amtInfo);
-            checkAmt += Number($(v).find('#amt'+empSeq).val().replace(/,/g, "").replace(/(^0+)/, ""))
+            checkAmt += Number($(v).find('#amt'+empSeq).val().replace(/,/g, "").replace(/(^0+)/, ""));
         });
 
-        if(checkAmt != usAmount){
+        /*if(checkAmt != usAmount){
             alert("이용금액을 정확하게 기입해주세요.");
             return;
-        }
-        if(useDt == "" || useHour == "" || useMin == "") {
+        }*/
+        if(useDt == "") {
             alert("이용일시가 작성되지 않았습니다.");
             return;
         }
-        if(useHour >= 24) {
+        /*if(useHour >= 24) {
             alert("이용시간이 잘못 기입되었습니다.");
             return;
         }
         if(useMin >= 60) {
             alert("이용시간이 잘못 기입되었습니다.");
             return;
-        }
+        }*/
         if(snackTypeText == "") {
             alert("식대구분이 선택되지 않았습니다.");
             return;
@@ -238,10 +248,10 @@ var snackReq = {
             return;
         }
 
-        if(fCommon.global.attFiles.length >= 2) {
+        /*if(fCommon.global.attFiles.length >= 2) {
             alert("영수증 파일은 1개만 첨부 가능합니다.");
             return;
-        }
+        }*/
 
         var formData = new FormData();
         if($("#snackInfoSn").val() != null && $("#snackInfoSn").val() != ""){
@@ -253,8 +263,8 @@ var snackReq = {
         formData.append("regDeptName", regDeptName);
         formData.append("regTeamName", regTeamName);
         formData.append("useDt", useDt);
-        formData.append("useHour", useHour);
-        formData.append("useMin", useMin);
+        /*formData.append("useHour", useHour);
+        formData.append("useMin", useMin);*/
         formData.append("snackType", snackType);
         formData.append("snackTypeText", snackTypeText);
         formData.append("chargeUser", chargeUser);
@@ -270,11 +280,13 @@ var snackReq = {
         formData.append("amtUser", JSON.stringify(amtUserArr));
 
         //증빙파일 첨부파일
-        if(fCommon.global.attFiles != null){
-            for(var i = 0; i < fCommon.global.attFiles.length; i++){
-                formData.append("snackFile", fCommon.global.attFiles[i]);
+        if(snackReq.global.addAttFiles != null){
+            for(var i = 0; i < snackReq.global.addAttFiles.length; i++){
+                formData.append("snackFile", snackReq.global.addAttFiles[i]);
             }
         }
+
+        var fileNoArr = [];
 
         /** Ibrench 선택 내역 */
         let cardArr = [];
@@ -283,17 +295,23 @@ var snackReq = {
             const cardNo = $(v).find('.cardNo').val();
             const authDate = $(v).find('.authDate').val();
             const authNum = $(v).find('.authNum').val();
+            const fileNo = $(v).find('.fileNo').val();
             const authTime = $(v).find('.authTime').val();
             const buySts = $(v).find('.buySts').val();
 
             cardData.cardNo = cardNo;
             cardData.authDate = authDate;
             cardData.authNum = authNum;
+            cardData.fileNo = fileNo;
             cardData.authTime = authTime;
             cardData.buySts = buySts;
+            cardData.trNm = $("#corporCard").val();
 
+            fileNoArr.push(fileNo);
             cardArr.push(cardData);
         });
+
+        formData.append("fileNo", fileNoArr.join(","));
 
         if(cardArr.length != 0){
             formData.append("cardArr", JSON.stringify(cardArr));
@@ -361,8 +379,8 @@ var snackReq = {
     },
 
     enableSetting: function(boolean){
-        $("#useHour").data("kendoTextBox").enable(boolean);
-        $("#useMin").data("kendoTextBox").enable(boolean);
+        /*$("#useHour").data("kendoTextBox").enable(boolean);
+        $("#useMin").data("kendoTextBox").enable(boolean);*/
         $("#userText").data("kendoTextBox").enable(boolean);
         $("#corporCard").data("kendoTextBox").enable(boolean);
         $("#areaName").data("kendoTextBox").enable(boolean);
@@ -472,8 +490,21 @@ var snackReq = {
         $("#chargeUser").data("kendoDropDownList").enable(true);
     },
 
-    fn_paymentCardHistory : function (){
-        var url = "/mng/pop/paymentCardHistory.do?type=3&index=2&reqType=snack";
+    fn_paymentCardHistory : function (e){
+        var cardNameFlag = $("#corporCard").val();
+
+        var payType = $("#payType").val();
+
+        if(e != "" && e != null){
+            if(cardNameFlag == ''){
+                alert("조회할 카드를 선택 후 추가하십시요.");
+                return false;
+            }
+
+            payType = e;
+        }
+
+        var url = "/mng/pop/paymentCardHistory.do?type=3&index=2&reqType=snack&requestType=" + payType + "&cardBaNb=" + $("#cardBaNb").val();
 
         var name = "_blank";
         var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
@@ -489,6 +520,125 @@ var snackReq = {
             alert("저장을 해야 반영됩니다.");
             $(this).closest("tr").remove();
         });
+    },
+
+    fn_changePayType : function (e){
+        if(e != ''){
+            $("#cardSearch").prop("disabled", false);
+
+            if(e == 2){
+                $("#cardHistoryDisplay").css("display", "");
+                $("#corporCard").prop("disabled", true);
+                $("#usAmount").prop("disabled", true);
+            }else{
+                $("#cardHistoryDisplay").css("display", "none");
+                $("#corporCard").prop("disabled", false);
+                $("#usAmount").prop("disabled", false);
+            }
+        }
+
+    },
+
+    fn_tempFileSet : function (arr){
+        snackReq.global.attFiles = arr;
+        snackReq.addFileInfoTable();
+    },
+
+    addFileInfoTable : function(){
+        var diffSize = snackReq.global.attFiles.length;
+        let size = 0;
+        for(var x = 0; x < $("input[name='fileList']")[0].files.length; x++){
+            snackReq.global.addAttFiles.push($("input[name='fileList']")[0].files[x]);
+        }
+
+        if(snackReq.global.attFiles.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i < snackReq.global.attFiles.length; i++) {
+                size = snackReq.bytesToKB(snackReq.global.attFiles[i].fileSize);
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td>' + snackReq.global.attFiles[i].fileOrgName + ' <span style="color: dodgerblue;">[영수증 파일]</span></td>';
+                html += '   <td>' + snackReq.global.attFiles[i].fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="snackReq.commonFileDel(' + snackReq.global.attFiles[i].fileNo + ', this, '+ i +')">';
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }
+
+        if(snackReq.global.addAttFiles.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+
+            var html = '';
+            for (var j = 0; j < snackReq.global.addAttFiles.length; j++) {
+                size = snackReq.bytesToKB(snackReq.global.addAttFiles[j].size);
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile'+ (diffSize + j)+'">';
+                html += '   <td>' + snackReq.global.addAttFiles[j].name.split(".")[0] + '</td>';
+                html += '   <td>' + snackReq.global.addAttFiles[j].name.split(".")[1] + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="snackReq.fnUploadFile(' + (diffSize + j) + ', this, '+ j +')">';
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }
+    },
+
+    fnUploadFile : function(e, v, inx) {
+        $(v).closest("tr").remove();
+        snackReq.global.addAttFiles.splice(inx, 1);
+
+        if($("#fileGrid").find("tr").length == 0){
+            $("#fileGrid").html('<tr class="defultTr">' +
+                '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
+                '</tr>');
+        }
+        console.log(snackReq.global.attFiles);
+        console.log(snackReq.global.addAttFiles);
+    },
+
+    commonFileDel: function(e, v, inx){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).closest("tr").remove();
+                        snackReq.global.attFiles.splice(inx, 1);
+                        if($("#fileGrid").find("tr").length == 0){
+                            $("#fileGrid").html('<tr class="defultTr">' +
+                                '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
+                                '</tr>');
+                        }
+                    }
+                }
+            });
+        }
+
+        console.log(snackReq.global.attFiles);
+        console.log(snackReq.global.addAttFiles);
+    },
+
+    bytesToKB : function (bytes) {
+        const sizes = ['KB'];
+        if (bytes === 0) return '0 KB';
+
+        const kilobytes = bytes / 1024;
+        return `${kilobytes.toFixed(2)} KB`;
     }
 }
 

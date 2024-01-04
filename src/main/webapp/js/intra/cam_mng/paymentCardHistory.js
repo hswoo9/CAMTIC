@@ -20,6 +20,8 @@ var payCardHist = {
         });
         customKendo.fn_textBox(["searchValue"]);
 
+        const requestType = $("#requestType").val();
+
         payCardHist.gridReload();
 
 
@@ -35,6 +37,27 @@ var payCardHist = {
         if(reqType == "bustrip" || reqType == "snack"){
             $("#saveBtn").hide();
             $("#saveBtnBustrip").show();
+        }
+
+        if(requestType != "" && requestType != null && requestType != undefined){
+            $("input[name='radio']").prop("disabled", true);
+
+            if(requestType == 1){
+                $("#radio3").prop("checked", true);
+                payCardHist.cardMainGridReload('P');
+            }else if(requestType == 2){
+                $("#radio2").prop("checked", true);
+                payCardHist.cardMainGridReload('M');
+            }else if(requestType == 3){
+                $("#radio1").prop("checked", true);
+
+                if($("#cardBaNb").val() != ''){
+                    $("#searchValue").prop("disabled", true);
+                    $("#searchValue").val($("#cardBaNb").val());
+                }
+
+                payCardHist.gridReload();
+            }
         }
     },
 
@@ -361,10 +384,15 @@ var payCardHist = {
                 data = grid.dataItem($(this));
                 list.push(data);
             }
-        })
+        });
 
-        console.log(data);
-        opener.parent.cardHistSet(list);
+        console.log(list);
+        if($("#requestType").val() == 3){
+            opener.parent.fn_setCardInfo(list);
+        }else{
+            opener.parent.cardHistSet(list);
+        }
+
         window.close();
     },
 

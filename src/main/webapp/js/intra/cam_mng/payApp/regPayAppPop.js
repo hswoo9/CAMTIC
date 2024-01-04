@@ -367,6 +367,13 @@ var regPay = {
             console.log("cardList");
             console.log(cardList);
 
+
+
+            var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
+            var fileList = fileResult.fileList;
+
+            regPay.global.fileArray = fileList;
+
             let count = 0;
             /** 개인여비 */
             if(snackData.PAY_TYPE != null){

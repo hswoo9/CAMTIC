@@ -518,6 +518,16 @@
             FILE_PATH = #{filePath} AND FILE_CD = 'useCard'
     </update>
 
+    <update id="updFileOwnerCustom" parameterType="map">
+        /*updFileOwnerCustom*/
+        UPDATE
+            CAM_COMMON.DJ_FILE_INFO
+        SET
+            CONTENT_ID = #{snackInfoSn}
+        WHERE
+            FILE_NO = #{fileNo} AND FILE_CD = 'useCard'
+    </update>
+
     <update id="updFileOwnerNull" parameterType="map">
         /*updFileOwnerNull*/
         UPDATE

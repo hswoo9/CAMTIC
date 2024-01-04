@@ -630,7 +630,8 @@
                 REG_EMP_NAME,
                 REG_DEPT_NAME,
                 REG_TEAM_NAME,
-                STATUS
+                STATUS,
+                FR_FILE_NO
             )
         VALUES
             (
@@ -652,7 +653,8 @@
                 #{empName},
                 #{regDeptName},
                 #{regTeamName},
-                '0'
+                '0',
+                #{fileNo}
             )
         <selectKey keyProperty="snackInfoSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_SNACK_INFO'
@@ -676,7 +678,8 @@
             AREA_SEQ = #{areaSn},
             AREA_NAME = #{areaName},
             AMOUNT_SN = #{usAmount},
-            USE_REASON = #{useReason}
+            USE_REASON = #{useReason},
+            FR_FILE_NO = #{fileNo}
         WHERE
             SNACK_INFO_SN = #{snackInfoSn}
     </update>
@@ -710,7 +713,8 @@
                 AUTH_DD,
                 AUTH_NO,
                 AUTH_HH,
-                BUY_STS
+                BUY_STS,
+                TR_NM
             )
         VALUES
             (
@@ -719,7 +723,8 @@
                 #{authDate},
                 #{authNum},
                 #{authTime},
-                #{buySts}
+                #{buySts},
+                #{trNm}
             )
     </insert>
 
@@ -1086,6 +1091,17 @@
         FROM
             CAM_INSIDE.DJ_SNACK_CARD_HIST
         WHERE SNACK_INFO_SN = #{snackInfoSn}
+    </select>
+
+    <select id="getFileList" parameterType="map" resultType="map">
+        /* getFileList */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTEN_ID = #{snackInfoSn}
+        AND (FILE_CD = 'useCard' or FILE_CD = 'snack')
     </select>
 
 </mapper>

@@ -150,6 +150,8 @@
     </div><!--// pop_con -->
 </div><!--// pop_wrap -->
 
+<input type="hidden" id="requestType" value="${params.requestType}" />
+<input type="hidden" id="cardBaNb" value="${params.cardBaNb}" />
 <script>
     payCardHist.fn_defaultScript();
 

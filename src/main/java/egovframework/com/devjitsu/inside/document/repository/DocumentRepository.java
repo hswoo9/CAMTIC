@@ -152,4 +152,7 @@ public class DocumentRepository extends AbstractDAO {
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
         return selectList("document.getCardList", params);
     }
+    public List<Map<String, Object>> getFileList(Map<String, Object> params) {
+        return selectList("document.getFileList", params);
+    }
 }

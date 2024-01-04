@@ -269,7 +269,7 @@ var snackList = {
         }
         const url = "/Inside/pop/snackPop.do"+urlParams;
         const name = "popup test";
-        const option = "width = 1000, height = 700, top = 100, left = 200, location = no";
+        const option = "width = 1000, height = 800, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 

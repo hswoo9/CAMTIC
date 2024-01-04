@@ -548,6 +548,12 @@ public class DocumentController {
     }
 */
 
+    @RequestMapping("/snack/getFileList")
+    public String getFileList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = documentService.getFileList(params);
+        model.addAttribute("fileList", list);
+        return "jsonView";
+    }
 
 
 }

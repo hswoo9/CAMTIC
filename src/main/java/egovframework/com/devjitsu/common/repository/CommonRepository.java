@@ -82,6 +82,10 @@ public class CommonRepository extends AbstractDAO {
         update("common.updFileOwner", map);
     }
 
+    public void updFileOwnerCustom(Map<String, Object> map) {
+        update("common.updFileOwnerCustom", map);
+    }
+
     public void updFileOwnerNull(Map<String, Object> params) {
         update("common.updFileOwnerNull", params);
     }

@@ -6,6 +6,15 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+
+<style>
+    #loadingDiv {position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: white; z-index: 9999; opacity: 1; transition: 0.5s ease;}
+    #loadingDiv #loadingSpinner{position: absolute; top: 50%; left: 42%; margin: -40px 0 0 -40px;}
+</style>
+
+<script type="text/javascript" src ="<c:url value='/js/html2canvas.min.js' />"></script>
+<script type="text/javascript" src ="<c:url value='/js/es6-promise.auto.js' />"></script>
+<script type="text/javascript" src ="<c:url value='/js/jspdf.min.js' />"></script>
 <script type="text/javascript" src="/js/intra/inside/document/snackPop.js?v=${today}"/></script>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -64,7 +73,7 @@
                     <span class="red-star">*</span>이용 일시
                 </th>
                 <td>
-                    <input id="useDt" type="date" style="width: 50%;"> <input id="useHour" type="text" style="width: 40px;" maxlength="2" oninput="onlyNumber(this);">시 <input id="useMin" type="text" style="width: 40px;" maxlength="2" oninput="onlyNumber(this);">분
+                    <input id="useDt" type="date" style="width: 65%;"> <%--<input id="useHour" type="text" style="width: 40px;" maxlength="2" oninput="onlyNumber(this);">시 <input id="useMin" type="text" style="width: 40px;" maxlength="2" oninput="onlyNumber(this);">분--%>
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>식대 구분
@@ -88,7 +97,7 @@
                     <span class="red-star">*</span>결제 구분
                 </th>
                 <td colspan>
-                    <input type="text" id="payType" style="width: 100%; margin-right:10px;">
+                    <input type="text" id="payType" style="width: 100%; margin-right:10px;" onchange="snackReq.fn_changePayType(this.value)">
                 </td>
             </tr>
             <tr>
@@ -99,11 +108,11 @@
                     <input type="text" id="chargeUser" style="width: 100%;">
                 </td>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>법인카드
+                    <span class="red-star">*</span>카드선택
                 </th>
                 <td>
-                    <input type="text" id="corporCard" style="width: 75%; text-align: right;">
-                    <button type="button" id="cardSearch" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:20%; height:27px; line-height:0;" onclick="">
+                    <input type="text" id="corporCard" style="width: 75%;" /> <input type="hidden" id="cardBaNb" value="" />
+                    <button type="button" id="cardSearch" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:20%; height:27px; line-height:0;" onclick="snackReq.fn_paymentCardHistory()">
                         검색
                     </button>
                 </td>
@@ -113,10 +122,10 @@
                     <span class="red-star">*</span>주문처
                 </th>
                 <td colspan>
-                    <input type="text" id="areaName" style="width: 65%;">
-                    <button type="button" id="restaurantSearch" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:30%; height:27px; line-height:0;" onclick="">
+                    <input type="text" id="areaName" style="width: 100%;">
+                    <%--<button type="button" id="restaurantSearch" disabled class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:30%; height:27px; line-height:0;" onclick="">
                         음식점 선택
-                    </button>
+                    </button>--%>
                 </td>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>이용 금액
@@ -152,7 +161,7 @@
                                 <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
                                 <span class="k-button-text">파일첨부</span>
                             </button>
-                            <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                            <input type="file" id="fileList" name="fileList" onchange="snackReq.addFileInfoTable();" multiple style="display: none"/>
                         </div>
                     </div>
                 </div>
@@ -180,62 +189,273 @@
         </div>
     </div>
 
-    <div class="card-header pop-header" style="margin-top: 15px">
-        <h3 class="card-title title_NM">법인카드 사용내역</h3>
-        <div class="btn-st popButton">
-            <input type="button" class="k-button k-button-solid-info" value="추가" onclick="snackReq.fn_paymentCardHistory()" />
-            <input type="button" class="k-button k-button-solid-error" style="margin-right: 5px" value="삭제" onclick="snackReq.fn_ardHistoryDel()" />
+    <div id="cardHistoryDisplay" style="display: none;">
+        <div class="card-header pop-header" style="margin-top: 15px">
+            <h3 class="card-title title_NM">법인카드 사용내역</h3>
+            <div class="btn-st popButton">
+                <input type="button" id="histAddBtn" class="k-button k-button-solid-info" value="추가" onclick="snackReq.fn_paymentCardHistory('3')" />
+                <input type="button" id="histDelBtn" class="k-button k-button-solid-error" style="margin-right: 5px" value="삭제" onclick="snackReq.fn_ardHistoryDel()" />
+            </div>
         </div>
-    </div>
 
-    <form id="hist" style="padding: 20px 30px;">
-        <div class="table-responsive detail">
-            <table class="teamGrid popTable table table-bordered mb-0" style="margin-top: 0px">
-                <colgroup>
-                    <col width="4%">
-                    <col width="15%">
-                    <col width="10%">
-                    <col width="17%">
-                    <col width="11%">
-                    <col width="18%">
-                    <col width="15%">
-                    <col width="10%">
-                </colgroup>
-                <thead id="detailRow">
-                <tr>
-                    <th><input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll('checkAll', 'card');"/></th>
-                    <th>승인일자</th>
-                    <th>승인번호</th>
-                    <th>사용처</th>
-                    <th>사업자번호</th>
-                    <th>카드명</th>
-                    <th>카드번호</th>
-                    <th>금액</th>
-                </tr>
-                </thead>
-            </table>
-        </div>
-    </form>
+        <form id="hist" style="padding: 20px 30px;">
+            <div class="table-responsive detail">
+                <table class="teamGrid popTable table table-bordered mb-0" style="margin-top: 0px">
+                    <colgroup>
+                        <col width="4%">
+                        <col width="15%">
+                        <col width="10%">
+                        <col width="17%">
+                        <col width="11%">
+                        <col width="18%">
+                        <col width="15%">
+                        <col width="10%">
+                    </colgroup>
+                    <thead id="detailRow">
+                    <tr>
+                        <th><input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll('checkAll', 'card');"/></th>
+                        <th>승인일자</th>
+                        <th>승인번호</th>
+                        <th>사용처</th>
+                        <th>사업자번호</th>
+                        <th>카드명</th>
+                        <th>카드번호</th>
+                        <th>금액</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </form>
+    </div>
 </div>
 
+<div class="pop_wrap creditSlip" id="capture" style="display: none; margin-top: 200px">
+    <div class="card-header pop_head">
+        <h3 class="card-title title_NM"><span style="color: black; margin-left: 11px;">카드승인전표</span>  <!--카드승인전표--></h3>
+        <%--			<a href="#n" class="clo"><img src="../../../Images/btn/btn_pop_clo02.png" alt="" /></a>--%>
+    </div>
+
+    <div class="pop_con mr25 ml25" style="">
+        <div class="com_ta4 bgnth hover_no">
+            <table>
+                <colgroup>
+                    <col width="100"/>
+                    <col />
+                </colgroup>
+                <tr>
+                    <td class="ri">카드번호  <!--카드번호--></td>
+                    <td class="fwb le" id="cardNum">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">승인일시 <!--승인일시--></td>
+                    <td class="fwb le" id="authDate"> </td>
+                </tr>
+                <tr>
+                    <td class="ri">승인번호  <!--승인번호--></td>
+                    <td class="fwb le" id="authNum">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">가맹점명  <!--가맹점명--></td>
+                    <td class="fwb le" id="tradeName">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">사업자번호  <!--사업자번호--></td>
+                    <td class="fwb le" id="tradeSeq">  </td>
+                </tr>
+                <tr id="tr_mccName">
+                    <td class="ri">업종  <!--업종--></td>
+                    <td class="fwb le" id="mccName">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">주소  <!--주소--></td>
+                    <td class="fwb le lh18 vt" style="height:35px;" id="addr">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">전화번호  <!--전화번호--></td>
+                    <td class="fwb le" id="tel">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">공급가액  <!--공급가액--></td>
+                    <td class="fwb le" id="stdAmt">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">부가세  <!--부가세--></td>
+                    <td class="fwb le" id="vatAmt">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">서비스금액  <!--서비스금액--></td>
+                    <td class="fwb le" id="serAmt">  </td>
+                </tr>
+                <tr>
+                    <td class="ri">금액  <!--금액--></td>
+                    <td class="fwb le" id="amt">  </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div><!--// pop_con -->
+</div><!--// pop_wrap -->
+
+<div id="loadingDiv">
+    <div id="loadingSpinner" class="d-flex justify-content-center">
+        <div class="spinner-border" role="status" style="color: #007bff!important">
+
+        </div>
+        <span id="loadingText">
+
+            </span>
+    </div>
+</div>
 
 <script>
     let snackData = {};
     <c:if test="${flag eq 'true'}">
         snackData = JSON.parse('${data}');
     </c:if>
+    $("#loadingDiv").hide();
     snackReq.init(snackData);
 
+    //카드 선택
+    function fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx){
+        $("#cardBaNb").val(cardBaNb);
+        if(trNm != "" && trNm != null && trNm != undefined){
+            $("#corporCard").val(trNm);
+        }else{
+            alert("선택한 카드의 카드명이 존재하지 않습니다.");
+        }
+    }
 
-    function cardHistSet(list){
-        console.log("list");
-        console.log(list);
+    function fn_setCardInfo(list){
+        var fileNoArr = [];
 
-        let html = '';
-        for(let i=0; i<list.length; i++){
+        for(var i=0; i<list.length; i++) {
             const e = list[i];
+
+            let  data = {
+                cardNo: e.CARD_NO,
+                authDate: e.AUTH_DD,
+                authTime: e.AUTH_HH,
+                authNo: e.AUTH_NO,
+                buySts: e.BUY_STS
+            };
+
+            $.ajax({
+                url: "/cam_mng/companyCard/useCardDetail",
+                data: data,
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (rs) {
+                    var cardInfo = rs.cardInfo;
+                    var cardNum = cardInfo.CARD_NO;
+                    var authDate = cardInfo.AUTH_DD;
+                    var authTime = cardInfo.AUTH_HH;
+                    var authNum = cardInfo.AUTH_NO;
+                    <%--                <c:set var="search" value="'" />--%>
+                    <%--                <c:set var="replace" value="`" />--%>
+                    <%--                <c:set var="cardTradeName" value="${fn:replace(cardInfo.mercName, search, replace)}"/>--%>
+                    var tradeName = cardInfo.MER_NM;
+                    var tradeSeq = cardInfo.MER_BIZNO;
+                    var addr = cardInfo.MER_ADR1;
+                    var tel = cardInfo.MER_TELNO;
+                    var georaeStat = cardInfo.georaeStat;
+                    var stdAmt = cardInfo.SUPP_PRICE;
+                    var vatAmt = cardInfo.SURTAX;
+                    var serAmt = cardInfo.SVC_AMT;
+                    var amt = cardInfo.SUPP_PRICE + cardInfo.SURTAX;
+
+                    var mccName = cardInfo.BIZTYPE_NM;
+                    if (!mccName) {
+                        $('#tr_mccName').remove();
+                    } else if (mccName) {
+                        // window.resizeTo(445, 600);
+                    }
+
+                    $('#cardNum').html('');
+                    $('#authDate').html('');
+                    $('#mccName').html('');
+                    $('#authNum').html('');
+                    $('#tradeName').html('');
+                    $('#tradeSeq').html('');
+                    $('#addr').html('');
+                    $('#tel').html('');
+
+                    $('#stdAmt').html('');
+                    $('#vatAmt').html('');
+                    $('#serAmt').html('');
+                    $('#amt').html('');
+
+
+                    $('#cardNum').html(fnGetCardCode(cardNum));
+                    $('#authDate').html(fnGetAuthDate(authDate, authTime));
+                    $('#mccName').html(mccName);
+                    $('#authNum').html(authNum);
+                    $('#tradeName').html(tradeName);
+                    $('#tradeSeq').html(tradeSeq);
+                    $('#addr').html(addr);
+                    $('#tel').html(tel);
+
+                    $('#stdAmt').html(fnGetCurrencyCode(fnMinusAmtCheck(georaeStat, stdAmt), 0));
+                    $('#vatAmt').html(fnGetCurrencyCode(fnMinusAmtCheck(georaeStat, vatAmt), 0));
+                    $('#serAmt').html(fnGetCurrencyCode(fnMinusAmtCheck(georaeStat, serAmt), 0));
+                    $('#amt').html(fnGetCurrencyCode(fnMinusAmtCheck(georaeStat, amt), 0));
+
+                    if (georaeStat === '0') {
+                        $('#stdAmt, #vatAmt, #serAmt, #amt').css('color', 'red');
+                    }
+
+                    $("#capture").css("display", "");
+                    html2canvas(document.querySelector("#capture")).then(function (canvas) {
+
+                        // jsPDF 객체 생성 생성자에는 가로, 세로 설정, 페이지 크기 등등 설정할 수 있다. 자세한건 문서 참고. // 현재 파라미터는 기본값이다 굳이 쓰지 않아도 되는데 저것이 기본값이라고 보여준다
+                        var doc = new jsPDF('p', 'mm', 'a4'); // html2canvas의 canvas를 png로 바꿔준다.
+                        var imgData = canvas.toDataURL('image/png'); //Image 코드로 뽑아내기 // image 추가
+                        imgData = imgData.replace("data:image/png;base64,", "");
+                        data.imgValue = 'card';
+                        data.imgSrc = imgData;
+                        data.empSeq = $("#regEmpSeq").val();
+                        $.ajax({
+                            type: "POST",
+                            data: data,
+                            dataType: "text",
+                            url: "/mng/imgSaveTest",
+                            async: false,
+                            success: function (data) {
+                                var data = JSON.parse(data);
+                                var fileNo = data.result;
+                                fileNoArr.push(fileNo);
+                            },
+                            error: function (a, b, c) {
+                                alert("error");
+                            }
+                        });
+                    });
+
+                    $("#capture").css("display", "none");
+                }
+            });
+        }
+
+        $("#loadingDiv").show();
+        $("#loadingText").text("영수증 파일 업로드 중입니다.");
+
+        //ajax가 비동기로 처리되어서 강제지연
+        setTimeout(() => fn_cardHistSet(list, fileNoArr), 2000);
+
+
+
+    }
+
+    function fn_cardHistSet(list, arr) {
+
+        let totalAmt = 0;
+        let html = '';
+        for(var j=0; j<list.length; j++){
+            const e = list[j];
+            const fileNo = arr[j].fileNo;
             html += '<tr class="cardData">';
             html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
+            html += '    <input type="hidden" class="fileNo" value="'+fileNo+'" />';
             html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
             html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
             html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
@@ -250,9 +470,71 @@
             html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
             html += '    <td style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
             html += '</tr>';
+
+            totalAmt += e.AUTH_AMT;
         }
 
+        $("#usAmount").val(fn_numberWithCommas(totalAmt));
         $("#detailRow").append(html);
+
+        snackReq.fn_tempFileSet(arr);
+
+        $("#loadingDiv").hide();
+    }
+
+    function fnMinusAmtCheck(georaeStat, amtValue){
+        if(georaeStat === '0'){
+            /* 승인 취소 건 */
+            if(amtValue.indexOf('-') < 0){
+                if(Number(amtValue.replace(/,/g, '')) != 0){
+                    amtValue = '-' + amtValue;
+                }
+            }
+        }
+
+        return amtValue;
+    }
+
+    /*  [공통함수] 날짜 표기 형태 리턴
+    Params / 날짜, 시간
+    valeu      : 통화 코드 적용 밸류
+    -----------------------------------------------------*/
+    function fnGetAuthDate(date, time){
+        var authDate = date.replace(/[^0-9]/g,'');
+        var authTime = time.replace(/[^0-9]/g,'');
+
+        return authDate.substring(0, 4) + '-'+ authDate.substring(4, 6) + '-'+ authDate.substring(6, 8)
+            + ' ' +authTime.substring(0, 2) + ':'+ authTime.substring(2, 4) + ':'+ authTime.substring(4, 6);
+    }
+
+    /*  [공통함수] 카드 번호 표기 형태 리턴
+    Params / 카드 번호
+    valeu      : 통화 코드 적용 밸류
+    -----------------------------------------------------*/
+    function fnGetCardCode(val){
+        var cardNum = val.replace(/[^0-9]/g,'');
+        return cardNum.substring(0, 4) + '-'+ cardNum.substring(4, 8) + '-'+ cardNum.substring(8, 12) + '-'+ cardNum.substring(12, 16);
+    }
+
+    /*  [공통함수] 통화 코드 적용
+    일천 단위에 통화코드 ','적용.
+    Params /
+    valeu      : 통화 코드 적용 밸류
+    -----------------------------------------------------*/
+    function fnGetCurrencyCode(value, defaultVal) {
+        value = '' + value || '';
+        value = '' + value.split('.')[0];
+        value = value.replace(/[^0-9\-]/g, '') || (defaultVal != undefined ? defaultVal : '0');
+        var returnVal = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return returnVal;
+    }
+
+    function bytesToKB(bytes) {
+        const sizes = ['KB'];
+        if (bytes === 0) return '0 KB';
+
+        const kilobytes = bytes / 1024;
+        return `${kilobytes.toFixed(2)} KB`;
     }
 </script>
 </body>

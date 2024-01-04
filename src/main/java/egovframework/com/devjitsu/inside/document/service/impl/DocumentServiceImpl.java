@@ -260,6 +260,14 @@ public class DocumentServiceImpl implements DocumentService {
             documentRepository.setSnackCompanionInsert(params);
         }
 
+        List<Map<String, Object>> cardArr = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> map : cardArr){
+            map.put("snackInfoSn", params.get("snackInfoSn"));
+
+            commonRepository.updFileOwnerCustom(map);
+        }
+
         if(file.length > 0){
             MainLib mainLib = new MainLib();
             List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
@@ -478,5 +486,9 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
         return documentRepository.getCardList(params);
+    }
+    @Override
+    public List<Map<String, Object>> getFileList(Map<String, Object> params) {
+        return documentRepository.getFileList(params);
     }
 }
