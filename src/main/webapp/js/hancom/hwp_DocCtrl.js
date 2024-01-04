@@ -320,11 +320,6 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('address', true, true, false);
                     hwpDocCtrl.putFieldText('address', ResultData.ADDR);
 
-                    //발급종류 (경력or재직)
-                    const proofType = ResultData.PROOF_TYPE == 1 ? "재직 사항" : "경력 사항";
-                    hwpDocCtrl.global.HwpCtrl.MoveToField('proofType', true, true, false);
-                    hwpDocCtrl.putFieldText('proofType', proofType);
-
                     //소속
                     hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
                     hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_FULL_NAME);

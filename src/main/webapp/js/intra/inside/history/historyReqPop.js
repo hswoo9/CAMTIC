@@ -307,7 +307,14 @@ const historyReq = {
                         }, {
                             field: "JOB_DETAIL",
                             title: "직무",
-                            width: 200
+                            width: 200,
+                            template: function(row){
+                                if(row.JOB_DETAIL != null && row.JOB_DETAIL != "" && row.JOB_DETAIL != "undefined"){
+                                    return row.JOB_DETAIL;
+                                }else{
+                                    return "";
+                                }
+                            }
                         },
                     ]
                 }, {
@@ -379,9 +386,15 @@ const historyReq = {
                             title: "직무",
                             template: function (e){
                                 if(e.AF_JOB_DETAIL != null) {
+                                    if(e.AF_JOB_DETAIL == "undefined" || e.AF_JOB_DETAIL == null) {
+                                        e.AF_JOB_DETAIL = "";
+                                    }
                                     return '<input type="hidden" id="bfJobDetail" name="bfJobDetail" class="bfJobDetail" value="' + e.JOB_DETAIL + '">' +
                                         '<input type="text" id="afJobDetail'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afJobDetail" class="formData afJobDetail" value="' + e.AF_JOB_DETAIL + '">';
                                 }else{
+                                    if(e.JOB_DETAIL == "undefined" || e.JOB_DETAIL == null) {
+                                        e.JOB_DETAIL = "";
+                                    }
                                     return '<input type="hidden" id="bfJobDetail" name="bfJobDetail" class="bfJobDetail" value="' + e.JOB_DETAIL + '">' +
                                         '<input type="text" id="afJobDetail'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afJobDetail" class="formData afJobDetail" value="' + e.JOB_DETAIL + '">';
                                 }
