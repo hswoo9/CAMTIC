@@ -206,6 +206,7 @@
             ISI.REG_EMP_SEQ,
             ISI.REG_EMP_NAME,
             ISI.STATUS,
+            ISI.FR_FILE_NO,
             HEI.EMP_NAME_KR,
             HEI.DEPT_NAME,
             HEI.DEPT_TEAM_NAME,
@@ -1100,8 +1101,8 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            CONTEN_ID = #{snackInfoSn}
-        AND (FILE_CD = 'useCard' or FILE_CD = 'snack')
+          CONTENT_ID = #{snackInfoSn} AND (FILE_CD = 'useCard' or FILE_CD = 'snack')
+          OR FILE_NO IN (#{fileNo})
     </select>
 
 </mapper>

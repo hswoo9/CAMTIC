@@ -194,6 +194,8 @@ public class DocumentController {
     //야근/휴일식대대장 팝업창
     @RequestMapping("/Inside/pop/snackPop.do")
     public String snackPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        Map<String, Object> map = new HashMap<>();
+
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());

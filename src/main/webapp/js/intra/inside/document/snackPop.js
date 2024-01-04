@@ -75,7 +75,28 @@ var snackReq = {
                 snackReq.enableSetting(false);
             }
 
-            snackReq.settingTempFileDataInit(data, 'result');
+            if(data.FR_FILE_NO != '' && data.FR_FILE_NO != null){
+                var values = data.FR_FILE_NO.split(',');
+                var result = values.map(function(value) {
+                    return "'" + value + "'";
+                });
+                var finalResult = result.join(',');
+
+                var snackData = {
+                    snackInfoSn: $("#snackInfoSn").val(),
+                    fileNo: finalResult.slice(1, -1)
+                };
+
+                var returnData = customKendo.fn_customAjax("/snack/getFileList", snackData);
+                var returnFileArr = returnData.fileList;
+
+                console.log(returnFileArr);
+                for(let x=0; x < returnFileArr.length; x++){
+                    console.log(x);
+                    snackReq.settingTempFileDataInit(returnFileArr[x], 'result');
+                }
+                //snackReq.settingTempFileDataInit(data.FR_FILE_NO, 'result');
+            }
             snackReq.global.snackData = data;
 
             var parameters = {
@@ -132,13 +153,14 @@ var snackReq = {
 
         if(p == "result"){
             if(e.file_no > 0){
+                $(".defultTr").hide();
                 $(".resultTh").hide();
                 html += '<tr style="text-align: center">';
                 html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
                 html += '   <td>'+ e.file_ext +'</td>';
                 html += '   <td>'+ e.file_size +'</td>';
                 html += '</tr>';
-                $("#fileGrid").html(html);
+                $("#fileGrid").append(html);
             }else{
                 $("#fileGrid").html('<tr>' +
                     '	<td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>' +
@@ -243,7 +265,7 @@ var snackReq = {
             return;
         }
 
-        if(fCommon.global.attFiles.length < 1) {
+        if((snackReq.global.attFiles.length + snackReq.global.addAttFiles.length) < 1) {
             alert("영수증이 첨부되지 않았습니다.");
             return;
         }

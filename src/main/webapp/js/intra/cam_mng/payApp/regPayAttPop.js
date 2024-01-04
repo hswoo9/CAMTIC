@@ -78,7 +78,7 @@ const regPayAtt = {
         }
 
         /** 출장일 경우 다른 방식으로 파일 추가함 */
-        if(opener.parent.$("#reqType").val() == "bustrip"){
+        if(opener.parent.$("#reqType").val() == "bustrip" || opener.parent.$("#reqType").val() == "snack"){
             regPayAtt.fn_bustripAddFile();
             return;
         }

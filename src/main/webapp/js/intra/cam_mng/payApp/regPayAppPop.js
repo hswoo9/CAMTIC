@@ -368,7 +368,6 @@ var regPay = {
             console.log(cardList);
 
 
-
             var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
             var fileList = fileResult.fileList;
 
@@ -396,6 +395,7 @@ var regPay = {
                     regPayDet.addRow();
                 }
             }
+
             for(let i=0; i<cardList.length; i++){
                 const cardMap = cardList[i];
                 const index = i+count;
@@ -432,6 +432,48 @@ var regPay = {
                 $("#authNo" + index).val(data.AUTH_NO);
                 $("#authDd" + index).val(data.AUTH_DD);
                 $("#authHh" + index).val(data.AUTH_HH);
+
+                const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
+                    searchValue: cardMap.CARD_NO.slice(-4)
+                }).list
+                console.log("g20CardList");
+                console.log(g20CardList);
+
+                if(g20CardList.length > 0){
+                    const f = g20CardList[0];
+                    var trCd = f.TR_CD;
+                    var trNm = f.TR_NM;
+                    var cardBaNb = f.CARD_BA_NB;
+                    var jiro = f.JIRO_NM;
+                    var baNb = f.BA_NB;
+                    var depositor = f.DEPOSITOR;
+
+                    if(trNm == null || trNm == "" || trNm == "undefined"){
+                        trNm = "";
+                    }
+                    if(cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined"){
+                        cardBaNb = "";
+                    }
+                    if(baNb == null || baNb == "" || baNb == "undefined"){
+                        baNb = "";
+                    }
+                    if(jiro == null || jiro == "" || jiro == "undefined"){
+                        jiro = "";
+                    }
+                    if(depositor == null || depositor == "" || depositor == "undefined"){
+                        depositor = "";
+                    }
+                    if(trCd == null || trCd == "" || trCd == "undefined"){
+                        trCd = "";
+                    }
+
+                    $("#card" + index).val(trNm);
+                    $("#cardNo" + index).val(cardBaNb);
+                    $("#trCd" + index).val(trCd);
+                    $("#crmBnkNm" + index).val(jiro);
+                    $("#crmAccNo" + index).val(baNb);
+                    $("#crmAccHolder" + index).val(depositor);
+                }
             }
         }
 
@@ -1040,8 +1082,6 @@ var regPay = {
             alert("출금계좌를 선택해주세요.");
             return;
         }
-
-
 
 
         var itemArr = new Array()
@@ -1675,6 +1715,9 @@ var regPayDet = {
         var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + $("#payAppSn").val();
         if($("#reqType").val() == "purc"){
             url += "&purcSn=" + $("#purcSn").val();
+        }
+        if($("#reqType").val() == "snack"){
+            url += "&snackInfoSn=" + $("#snackInfoSn").val();
         }
 
         var name = "_blank";
