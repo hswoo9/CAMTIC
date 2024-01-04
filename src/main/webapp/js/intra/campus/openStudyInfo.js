@@ -97,6 +97,7 @@ var openStudy = {
                     title: "학습시간",
                     width: 80
                 }, {
+                    field: "REAL_EDU_TIME",
                     title: "인정시간",
                     /*template: "<span>#=STUDY_TIME#시간</span>",*/
                     width: 80
