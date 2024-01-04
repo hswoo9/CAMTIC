@@ -44,10 +44,10 @@ var certificateReqPop = {
             alert("발급구분이 선택되지 않았습니다.");
             return;
         }
-        if(submissionName == "") {
+        /*if(submissionName == "") {
             alert("제출처가 작성되지 않았습니다.");
             return;
-        }
+        }*/
         /*if(firstRrnName == "") {
             alert("주민등록번호 앞자리가 작성되지 않았습니다.");
             return;

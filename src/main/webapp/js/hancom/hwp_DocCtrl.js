@@ -320,6 +320,11 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('address', true, true, false);
                     hwpDocCtrl.putFieldText('address', ResultData.ADDR);
 
+                    //발급종류 (경력or재직)
+                    const proofType = ResultData.PROOF_TYPE == 1 ? "재직 사항" : "경력 사항";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('proofType', true, true, false);
+                    hwpDocCtrl.putFieldText('proofType', proofType);
+
                     //소속
                     hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
                     hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_FULL_NAME);
@@ -346,6 +351,11 @@ var hwpDocCtrl = {
                     //용도
                     hwpDocCtrl.global.HwpCtrl.MoveToField('usageName', true, true, false);
                     hwpDocCtrl.putFieldText('usageName', ResultData.USAGE_NAME);
+
+                    //신청문구
+                    const proofContent = ResultData.PROOF_TYPE == 1 ? "상기자는 위와 같이 재직중임을 증명합니다." : "위와 같이 근무경력을 증명합니다.";
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('proofContent', true, true, false);
+                    hwpDocCtrl.putFieldText('proofContent', proofContent);
 
                     //요청일
                     let toDate = year+"년 "+month+"월 "+date+"일";
