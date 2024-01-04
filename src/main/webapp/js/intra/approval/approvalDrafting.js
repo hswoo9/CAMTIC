@@ -1637,11 +1637,28 @@ var draft = {
 
         if($("#formId").val() == "1"){
             /**공문 양식일때 개인정보 입력*/
-            let appArr = ["기안자", "팀 장", "부서장", "원 장"];
-            let list =draft.global.approversArr;
 
+            hwpDocCtrl.putFieldText('docApprNm0', "기안자");
+
+            let list = draft.global.approversArr;
+            let count = 0;
             for(let i=0; i<list.length; i++){
-                hwpDocCtrl.putFieldText('docApprNm'+i, appArr[i]);
+                const map = list[i];
+                if(map.approveType == "0"){
+                    count += 1;
+
+                    if(map.approveDutyName == "팀장"){
+                        hwpDocCtrl.putFieldText('docApprNm1', "팀 장");
+                    }
+                    if((map.approveDutyName == "본부장") || map.approveDutyName == "사업부장" || map.approveDutyName == "센터장"){
+                        hwpDocCtrl.putFieldText('docApprNm2', "부서장");
+                    }
+                    if(map.approveDutyName == "원장"){
+                        hwpDocCtrl.putFieldText('docApprNm3', "원 장");
+                    }
+                }else{
+                    hwpDocCtrl.putFieldText('docDApprNm', "협조자");
+                }
             }
         }
     },
