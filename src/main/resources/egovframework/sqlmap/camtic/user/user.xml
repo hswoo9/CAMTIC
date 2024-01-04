@@ -33,7 +33,8 @@
             HEI.DUTY_NAME,
             HEI.OFFICE_TEL_NUM,
             HEI.EMAIL_ADDR,
-            HEI.MOBILE_TEL_NUM
+            HEI.MOBILE_TEL_NUM ,
+            HEI.HOME_TEL_NUM
         FROM
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN
