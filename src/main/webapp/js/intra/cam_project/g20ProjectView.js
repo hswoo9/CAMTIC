@@ -22,7 +22,7 @@ var g20ProjectView = {
                 parameterMap: function(data){
                     data.type = $("#type").val();
                     data.pjtNm = $("#pjtNm").val();
-                    data.baseYear = $("#baseYear").val() == undefined ? new Date().getFullYear().toString() : new Date().getFullYear().toString();
+                    data.baseYear = $("#baseYear").val() == undefined ? new Date().getFullYear().toString() : $("#baseYear").val();
                     data.busnClass = $("#busnClass").val();
                     data.myEmpSeq = $("#myEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
