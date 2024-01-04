@@ -141,10 +141,6 @@
                     <td <%--colspan="3"--%>>
                         <input type="text" id="regDate" style="width: 50%;">
                     </td>
-                    <th id="homePageActiveTh"><%--홈페이지 게시--%></th>
-                    <td>
-                        <%--<span type="text" id="homePageActive" name="homePageActive" style="width: 100%;"></span>--%>
-                    </td>
                 </tr>
                 <tr class="caseA" style="display: none">
                     <th>입사 일자</th>
@@ -179,7 +175,6 @@
                         <span id="lunarBirthDay"></span>
                     </td>
                 </tr>
-                <tr>
                 <tr>
                     <th>계좌정보</th>
                     <td colspan="3">
