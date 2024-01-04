@@ -152,6 +152,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public Map<String, Object> getOpenStudyResultList(Map<String, Object> params){
+        return campusRepository.getOpenStudyResultList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getCommonEduStatList(Map<String, Object> params){
         return campusRepository.getCommonEduStatList(params);
     }

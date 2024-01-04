@@ -203,8 +203,6 @@ const openStudyReq = {
             url = "/campus/setOpenStudyInfoUpd";
         }
         const result = customKendo.fn_customAjax(url, data);
-        result.pk;
-        console.log("파람스 피케이?",result.pk);
         if(result.flag){
             alert("오픈스터디 저장이 완료되었습니다.");
             try {
@@ -313,6 +311,7 @@ const openStudyReq = {
         if(result.flag){
             alert("참여신청이 완료되었습니다.");
             openStudyReq.openStudyUserSetting();
+            window.opener.location.reload();
         }
     },
 
@@ -343,32 +342,4 @@ const openStudyReq = {
         const name = "_self";
         window.open(url, name);
     },
-
-    windowClose: function() {
-        opener.gridReload();
-        window.close();
-    },
-
-    /*userDataSet: function(arr) {
-        for (var i = 0; i < arr.length; i++) {
-            var data = {
-                regEmpSeq: arr[i].regEmpSeq,
-                regEmpName: arr[i].regEmpName,
-                regDeptName: arr[i].regDeptName,
-                regTeamSeq: arr[i].regTeamSeq,
-                regPositionName: arr[i].regPositionName,
-                regDutyName: arr[i].regDutyName,
-                pk: $("#pk").val()
-            };
-
-            console.log("보낼 데이터:", data);
-
-            const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
-
-            if (result.flag) {
-                alert("참여신청이 완료되었습니다.");
-                openStudyReq.windowClose();
-            }
-        }
-    }*/
 }

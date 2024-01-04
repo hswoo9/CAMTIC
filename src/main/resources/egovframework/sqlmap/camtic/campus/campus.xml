@@ -656,6 +656,16 @@
         </if>
     </select>
 
+    <select id="getOpenStudyResultList" resultType="map" parameterType="map">
+        /* getOpenStudyResultList */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_OPENSTUDY_INFO
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </select>
+
     <select id="getCommonEduStatList" resultType="map" parameterType="map">
         /* getCommonEduStatList */
         SELECT
@@ -2470,4 +2480,19 @@
           AND
             COSU.REG_EMP_SEQ = #{regEmpSeq};
     </select>
+
+    <update id="setOpenStudyModify" parameterType="map">
+        /* setOpenStudyModify */
+        UPDATE
+        CAMPUS.DJ_OPENSTUDY_INFO
+        SET
+        STATUS = #{status}
+        <if test='"100".equals(status)'>
+            , APPROVAL_EMP_SEQ = #{regEmpSeq}
+            , APPROVAL_EMP_NAME = #{regEmpName}
+            , APPROVAL_RESULT_DATE = NOW()
+        </if>
+        WHERE
+        STEP = #{step}
+    </update>
 </mapper>

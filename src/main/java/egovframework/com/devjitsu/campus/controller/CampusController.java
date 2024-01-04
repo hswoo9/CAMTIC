@@ -724,9 +724,13 @@ public class CampusController {
     public String openStudyResultPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        Map<String, Object> data = campusService.getOpenStudyResultList(params);
+
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
+        model.addAttribute("data", data);
         return "popup/campus/openStudyResultPop";
     }
 
@@ -1320,6 +1324,7 @@ public class CampusController {
     @RequestMapping("/campus/getOpenStudyInfoOne")
     public String getOpenStudyInfoOne(@RequestParam Map<String, Object> params, Model model) {
         Map<String, Object> data = campusService.getOpenStudyInfoOne(params);
+
         model.addAttribute("data", data);
         return "jsonView";
     }

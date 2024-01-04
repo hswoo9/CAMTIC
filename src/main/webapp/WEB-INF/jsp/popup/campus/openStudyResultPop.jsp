@@ -54,7 +54,7 @@
                         <span class="red-star">*</span>소요비용(내역)
                     </th>
                     <td>
-                        <input type="text" id="openStudyAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 100px; text-align: right;">원( <input type="text" id="openStudyAmtText" style="width: 500px;"> )
+                        <input type="text" id="openStudyAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 100px; text-align: right;" value="${data.OPEN_STUDY_AMT}">원( <input type="text" id="openStudyAmtText" style="width: 500px;" value="${data.OPEN_STUDY_AMT_TEXT}"> )
                     </td>
                 </tr>
                 <tr>
@@ -62,7 +62,7 @@
                         <span class="red-star">*</span>학습결과
                     </th>
                     <td>
-                        <input type="text" id="openStudyResult" style="width: 600px;">
+                        <input type="text" id="openStudyResult" style="width: 600px;" value="${data.OPEN_STUDY_RESULT}">
                     </td>
                 </tr>
                 </thead>
@@ -86,7 +86,8 @@
     openStudyRes.init();
 
     function userDataSet(arr) {
-        var successCount = 0;
+        closeUserMultiSelectPop();
+
         var arrLength = arr.length;
 
         for (var i = 0; i < arrLength; i++) {
@@ -102,15 +103,11 @@
 
             const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
 
-            if (result.flag) {
-                successCount++;
-            }
-
-            if (successCount === arrLength) {
-                closeUserMultiSelectPop();
+            if (i == arrLength - 1) {
                 alert("참여신청이 완료되었습니다.");
-                debugger;
-                location.reload();
+
+                openStudyRes.openStudyUserSetting();
+                // location.reload();
             }
         }
     }
@@ -121,7 +118,7 @@
 
     function closeUserMultiSelectPop() {
         if (childWindow && !childWindow.closed) {
-            childWindow.close();
+
         }
     }
 </script>
