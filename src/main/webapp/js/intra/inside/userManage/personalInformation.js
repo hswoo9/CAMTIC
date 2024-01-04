@@ -9,7 +9,8 @@ var personalInformation = {
     },
 
     dataSet : function(){
-        $("#empSeq, #dept, #deptPartName, #gradeName, #myComent, #empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #jobDetailCaseB, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
+
+        $("#empSeq, #dept, #deptPartName, #gradeName, #myComent, #empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #jobDetailCaseB, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #homeTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
         $("#contract, #qualification, #degreeT, #career, #military, #significant").kendoTextArea({
             rows : 5
         });
@@ -179,7 +180,7 @@ var personalInformation = {
             }
         });
 
-        $("#officeTelNum, #mobileTelNum, #emgTelNum").keyup(function(){
+        $("#officeTelNum, #mobileTelNum, #emgTelNum, #homeTelNum").keyup(function(){
             var val = $(this).val().replace(/[^0-9]/g, '');
             if(val.length > 3 && val.length < 6){
                 var tmp = val.substring(0,2)
@@ -849,6 +850,7 @@ var personalInformation = {
             ADDR_DETAIL : $("#addrDetail").val(), //거주지 지번주소
             OFFICE_TEL_NUM : $("#officeTelNum").val(), //전화번호
             MOBILE_TEL_NUM : $("#mobileTelNum").val(), //전화번호
+            HOME_TEL_NUM  : $("#homeTelNum").val(), //팩스번호
             EMAIL_ADDR : $("#emailAddr").val(), //이메일
             JOIN_DAY : $("#regDate").val(), // 입사일자
             POSITION_CODE : $("#position").val(), // 직급 / 등급
