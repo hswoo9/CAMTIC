@@ -610,6 +610,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setOpenStudyRealEduTimeUpd(Map<String, Object> params) {
+        campusRepository.setOpenStudyRealEduTimeUpd(params);
+    }
+
+    @Override
     public void setOpenStudyInfoUpd(Map<String, Object> params) {
         campusRepository.setOpenStudyInfoUpd(params);
     }

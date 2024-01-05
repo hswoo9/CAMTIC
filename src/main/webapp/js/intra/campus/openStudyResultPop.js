@@ -82,8 +82,8 @@ const openStudyRes = {
         let openStudyAmtText = $("#openStudyAmtText").val();
         let openStudyResult = $("#openStudyResult").val();
 
-        if(openStudyAmt != ""){
-            if(openStudyAmtText == ""){
+        if(openStudyAmt != 0 && openStudyAmt != null) {
+            if (openStudyAmtText == "") {
                 alert("소요비용 내역이 작성되지 않았습니다.");
                 $("#openStudyAmtText").focus();
                 return;

@@ -142,6 +142,8 @@ public class CampusRepository extends AbstractDAO  {
     public void setResultPropagUserUpd(Map<String, Object> params) { update("campus.setResultPropagUserUpd", params); }
     public void setStudyPropagInsert(Map<String, Object> params) { insert("campus.setStudyPropagInsert", params); }
     public void setOpenStudyInfoIns(Map<String, Object> params) { insert("campus.setOpenStudyInfoIns", params); }
+
+    public void setOpenStudyRealEduTimeUpd(Map<String, Object> params) { update("campus.setOpenStudyRealEduTimeUpd", params); }
     public void setOpenStudyInfoUpd(Map<String, Object> params) { update("campus.setOpenStudyInfoUpd", params); }
     public List<Map<String, Object>> getRealEduTimeCheck(Map<String, Object> params) { return selectList("campus.getRealEduTimeCheck", params); }
     public void setOpenNextStep(Map<String, Object> params) { update("campus.setOpenNextStep", params); }
