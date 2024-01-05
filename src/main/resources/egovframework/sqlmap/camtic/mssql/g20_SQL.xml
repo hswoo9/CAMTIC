@@ -711,7 +711,7 @@
             SBANK C
         ON B.JIRO_CD = C.BANK_CD
         WHERE
-            A.INSERT_DT BETWEEN #{strDate} AND #{endDate}
+            A.ISS_YMD BETWEEN #{strDate} AND #{endDate}
     </select>
 
     <select id="getExnpCheck" parameterType="map" resultType="int">
