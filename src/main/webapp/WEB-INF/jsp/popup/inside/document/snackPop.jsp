@@ -485,7 +485,7 @@
                     }
 
                     $("#capture").css("display", "");
-                    /*html2canvas(document.querySelector("#capture")).then(function (canvas) {
+                    html2canvas(document.querySelector("#capture")).then(function (canvas) {
 
                         // jsPDF 객체 생성 생성자에는 가로, 세로 설정, 페이지 크기 등등 설정할 수 있다. 자세한건 문서 참고. // 현재 파라미터는 기본값이다 굳이 쓰지 않아도 되는데 저것이 기본값이라고 보여준다
                         var doc = new jsPDF('p', 'mm', 'a4'); // html2canvas의 canvas를 png로 바꿔준다.
@@ -509,18 +509,18 @@
                                 alert("error");
                             }
                         });
-                    });*/
+                    });
 
-                    /*$("#capture").css("display", "none");*/
+                    $("#capture").css("display", "none");
                 }
             });
         }
 
-        /*$("#loadingDiv").show();
-        $("#loadingText").text("영수증 파일 업로드 중입니다.");*/
+        $("#loadingDiv").show();
+        $("#loadingText").text("영수증 파일 업로드 중입니다.");
 
         //ajax가 비동기로 처리되어서 강제지연
-        /*setTimeout(() => fn_cardHistSet(list, fileNoArr), 2000);*/
+        setTimeout(() => fn_cardHistSet(list, fileNoArr), 2000);
 
 
 
@@ -559,7 +559,7 @@
 
         snackReq.fn_tempFileSet(arr);
 
-        /*$("#loadingDiv").hide();*/
+        $("#loadingDiv").hide();
     }
 
     function fnMinusAmtCheck(georaeStat, amtValue){
