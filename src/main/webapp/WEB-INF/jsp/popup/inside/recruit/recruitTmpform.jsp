@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
-<script type="text/javascript" src="/js/intra/inside/userManage/userReqPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/recruit/recruitTmpForm.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
 
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
@@ -20,7 +20,7 @@
             <h3 class="card-title title_NM">단기간 근무직원 인사정보 등록</h3>
             <div>
                 <input type="hidden" id="chkType" value="${params.chkType}"/>
-                <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="">저장</button>
+                <button type="button" class="k-button k-button-solid-info" style="margin-top: 8px;" onclick="recruitTmp.userReqSave();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;margin-top: 8px;" onclick="window.close();">닫기</button>
             </div>
         </div>
@@ -192,7 +192,7 @@
                     <td colspan="3">
                         <div style="display: flex">
                             <input type="text" id="zipCode" style="width: 15%; margin-right:10px;">
-                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="userReqPop.addrSearch();"/>
+                            <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="recruitTmp.addrSearch();"/>
                         </div>
                         <div style="display: flex" class="mt5">
                             <input id="addr" style="width: 95%;">
@@ -220,10 +220,10 @@
                 <tr>
                     <th>차량소유</th>
                     <td colspan="3">
-                        <input type="checkbox" id="carActive"> 차량을 소유하고 있음
+                        <input type="checkbox" id="carActive" onclick="onDisplay()"> 차량을 소유하고 있음
                     </td>
                 </tr>
-                <tr>
+                <tr class="carNum" style="display: none">
                     <th>차량번호</th>
                     <td colspan="3">
                         <input type="text" id="carNum1" style="width: 30%;">
@@ -317,6 +317,37 @@
         </form>
     </div><!--table-responsive-->
 </div><!--col-lg-12-->
+<script>
+    recruitTmp.defaultScript();
+    var code = $("#chkType").val();
+
+        $(function(){
+            if(code =='1'){
+                $("#divis").data("kendoDropDownList").value('1');
+                $("#divis").data("kendoDropDownList").trigger("change");
+                $("#divisDet").data("kendoDropDownList").value('6');
+                $("#divisDet").data("kendoDropDownList").trigger("change");
+            }else if(code == '2'){
+                $("#divis").data("kendoDropDownList").value('3');
+                $("#divis").data("kendoDropDownList").trigger("change");
+            }else if(code =='3'){
+                $("#divis").data("kendoDropDownList").value('2');
+                $("#divis").data("kendoDropDownList").trigger("change");
+            }
+
+        });
+
+    function onDisplay() {
+
+        if($("#carActive").is(":checked")){
+            $('.carNum').css("display","");
+        } else {
+            $('.carNum').css("display","none");
+
+        }
+    }
+
+</script>
 
 </body>
 
