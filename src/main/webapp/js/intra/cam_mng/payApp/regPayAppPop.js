@@ -357,15 +357,20 @@ var regPay = {
             const data = {
                 snackInfoSn : snackInfoSn
             }
+
             const result = customKendo.fn_customAjax("/inside/getSnackOne", data);
             const snackData = result.data;
 
-            console.log(snackData);
-
             const cardResult = customKendo.fn_customAjax("/snack/getCardList", data);
             const cardList = cardResult.list;
-            console.log("cardList");
-            console.log(cardList);
+
+            var pData = {
+                pjtNm : "법인운영",
+                baseYear : snackData.USE_DT.toString().substring(0, 4)
+            }
+            const projectResult = customKendo.fn_customAjax("/project/getG20ProjectList", pData);
+            console.log(projectResult)
+            selectProject(projectResult.list[0].PJT_SN, projectResult.list[0].PJT_NM, projectResult.list[0].PJT_CD);
 
 
             var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
@@ -407,9 +412,6 @@ var regPay = {
                     authTime : cardMap.AUTH_HH,
                     buySts : cardMap.BUY_STS
                 }
-                console.log("parameters");
-                console.log(parameters);
-
 
                 const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", parameters);
                 const data = iBrenchResult.cardInfo;
@@ -435,8 +437,6 @@ var regPay = {
                 const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
                     searchValue: cardMap.TR_NM
                 }).list
-                console.log("g20CardList");
-                console.log(g20CardList);
 
                 if(g20CardList.length > 0){
                     const f = g20CardList[0];
