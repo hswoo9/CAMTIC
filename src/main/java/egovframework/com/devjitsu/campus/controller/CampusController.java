@@ -600,11 +600,12 @@ public class CampusController {
 
     /** 학습조 신청 팝업 */
     @RequestMapping("/Campus/pop/studyReqPop.do")
-    public String studyReqPop(HttpServletRequest request, Model model) {
+    public String studyReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/campus/studyReqPop";
     }
 
@@ -1475,6 +1476,13 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 학습조 수정 */
+    @RequestMapping("/campus/setStudyInfoModify")
+    public String setStudyInfoModify(@RequestParam Map<String, Object> params, Model model) {
+        campusService.setStudyInfoModify(params);
+        return "jsonView";
+    }
+
     /** 학습조 조장, 간사 지정 */
     @RequestMapping("/campus/setStudyUserMngUpdate")
     public String setStudyUserMngUpdate(@RequestParam Map<String, Object> params) {
@@ -1581,6 +1589,13 @@ public class CampusController {
         List<Map<String, Object>> list = campusService.getRealEduTimeCheck(params);
 
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 오픈스터디 인정시간 수정*/
+    @RequestMapping("/campus/setOpenStudyRealEduTimeUpd")
+    public String setOpenStudyRealEduTimeUpd(@RequestParam Map<String, Object> params) {
+        campusService.setOpenStudyRealEduTimeUpd(params);
         return "jsonView";
     }
 

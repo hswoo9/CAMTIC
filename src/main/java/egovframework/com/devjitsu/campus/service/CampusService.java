@@ -91,6 +91,7 @@ public interface CampusService {
 
     /** 학습조 시작 */
     Map<String, Object> setStudyInfoInsert(Map<String, Object> params);
+    void setStudyInfoModify(Map<String, Object> params);
     void setStudyUserMngUpdate(Map<String, Object> params);
     void studyReq(Map<String, Object> params);
     void setStudyJournalInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
@@ -110,6 +111,7 @@ public interface CampusService {
     /** 오픈스터디 시작 */
     void setOpenStudyInfoIns(Map<String, Object> params);
     List<Map<String, Object>> getRealEduTimeCheck(Map<String, Object> params);
+    void setOpenStudyRealEduTimeUpd(Map<String, Object> params);
     void setOpenStudyInfoUpd(Map<String, Object> params);
     void setOpenNextStep(Map<String, Object> params);
     boolean getOpenStudyUserDoubleChk(Map<String, Object> params);

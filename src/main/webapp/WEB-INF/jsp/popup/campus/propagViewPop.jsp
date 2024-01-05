@@ -35,6 +35,7 @@
     <div class="card-header pop-header barFixed">
         <h3 class="card-title title_NM">전파학습 신청서 조회</h3>
         <div class="btn-st popButton">
+            <button type="button" id="modBtn" style="display: none" class="k-button k-button-solid-primary" onclick="propagView.fn_propagMod();">수정</button>
             <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(100);">승인</button>
             <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="propagView.fn_propagCertReq(30);">반려</button>
             <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-error" onclick="propagView.fn_propagCertReq(0);">요청취소</button>

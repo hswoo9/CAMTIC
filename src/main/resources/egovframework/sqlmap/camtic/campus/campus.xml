@@ -1292,6 +1292,29 @@
         </selectKey>
     </insert>
 
+    <update id="setStudyInfoModify"  parameterType="map">
+       /* setStudyInfoModify */
+       UPDATE
+           CAMPUS.DJ_STUDY_INFO
+       SET
+           STUDY_NAME = #{studyName},
+           START_DT = #{startDt},
+           END_DT = #{endDt},
+           START_TIME = #{startTime},
+           END_TIME = #{endTime},
+           EDU_TERM = #{eduTerm},
+           EDU_TIME = #{eduTime},
+           STUDY_LOCATION = #{studyLocation},
+           STUDY_OBJECT = #{studyObject},
+           STUDY_CONTENT = #{studyContent},
+           STUDY_MONEY = #{studyMoney},
+           STUDY_MONEY_VAL = #{studyMoneyVal}
+       WHERE
+            STUDY_INFO_SN = #{pk}
+
+    </update>
+
+
     <insert id="setStudyUserInsert" parameterType="map">
         /* setStudyUserInsert */
         INSERT INTO CAMPUS.DJ_STUDY_USER
@@ -2452,21 +2475,39 @@
     <select id="getRealEduTimeCheck" parameterType="map" resultType="map">
         /*getRealEduTimeCheck*/
         SELECT
-            2 - SUM(ou.REAL_EDU_TIME) AS aaa,
-            ou.REG_EMP_NAME
-        FROM CAMPUS.dj_openstudy_info oi
-                 LEFT JOIN CAMPUS.dj_openstudy_USER ou ON oi.OPEN_STUDY_INFO_SN = ou.OPEN_STUDY_INFO_SN
+            ou.REG_EMP_NAME,
+            ou.REG_EMP_SEQ,
+            2 - round(SUM(ou.REAL_EDU_TIME),1) AS remainEduTime,
+            (
+            SELECT sub.USER_CLASS
+            FROM CAMPUS.dj_openstudy_USER sub
+            WHERE sub.REG_EMP_SEQ = ou.REG_EMP_SEQ
+            AND sub.OPEN_STUDY_INFO_SN = #{pk}
+            AND sub.PART_YN = 'Y'
+            )AS userClass,
+            (
+            SELECT edu_time
+            FROM CAMPUS.dj_openstudy_INFO
+            WHERE OPEN_STUDY_INFO_SN = #{pk}
+            ) AS eduTime
+        FROM
+            CAMPUS.dj_openstudy_info oi
+        LEFT JOIN CAMPUS.dj_openstudy_USER ou ON oi.OPEN_STUDY_INFO_SN = ou.OPEN_STUDY_INFO_SN
         WHERE
             DATE_FORMAT(oi.OPEN_STUDY_DT, '%Y%M') = DATE_FORMAT(NOW(), '%Y%M')
           AND WEEK(oi.open_study_dt, 7) = WEEK(NOW(), 7)
           AND ou.REG_EMP_SEQ IN(
             SELECT
-                REG_EMP_SEQ
+                sub.REG_EMP_SEQ
             FROM
-                CAMPUS.dj_openstudy_USER
-            WHERE OPEN_STUDY_INFO_SN = #{pk}
+                CAMPUS.dj_openstudy_USER sub
+            WHERE
+                sub.OPEN_STUDY_INFO_SN = #{pk}
+            AND
+                sub.PART_YN = 'Y'
         )
-        GROUP BY ou.REG_EMP_SEQ;
+        GROUP BY
+            ou.REG_EMP_SEQ;
     </select>
 
     <delete id="deleteStudyResultUser" parameterType="map">
@@ -2501,18 +2542,18 @@
             COSU.REG_EMP_SEQ = #{regEmpSeq};
     </select>
 
-    <update id="setOpenStudyModify" parameterType="map">
-        /* setOpenStudyModify */
+    <update id="setOpenStudyRealEduTimeUpd" parameterType="map">
+        /* setOpenStudyRealEduTimeUpd */
         UPDATE
-        CAMPUS.DJ_OPENSTUDY_INFO
+            CAMPUS.DJ_OPENSTUDY_USER
         SET
-        STATUS = #{status}
-        <if test='"100".equals(status)'>
-            , APPROVAL_EMP_SEQ = #{regEmpSeq}
-            , APPROVAL_EMP_NAME = #{regEmpName}
-            , APPROVAL_RESULT_DATE = NOW()
-        </if>
+            REAL_EDU_TIME = #{realEduTime}
         WHERE
-        STEP = #{step}
+            REG_EMP_SEQ = #{regEmpSeq}
+          AND
+            user_class = #{userClass}
+          and
+            open_study_info_sn = #{pk}
     </update>
+
 </mapper>

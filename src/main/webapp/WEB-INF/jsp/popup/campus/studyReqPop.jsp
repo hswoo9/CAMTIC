@@ -23,6 +23,7 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="pk" value="${params.pk}"/>
 <input type="hidden" id="suerSelType" value="0">
 <div class="table-responsive">
     <div class="card-header pop-header">
@@ -133,5 +134,62 @@
 
 <script>
     studyReq.init();
+
+    $(function (){
+        if($("#pk").val() != ""){
+            $.ajax({
+                url : "/campus/getStudyInfoOne",
+                data : {
+                    pk : $("#pk").val()
+                },
+                type: "post",
+                dataType : "json",
+                success :function(rs){
+                    $("#studyClass").data("kendoDropDownList").value(rs.data.STUDY_CLASS_SN);
+                    studyReq.dataSet();
+                    $("#studyName").val(rs.data.STUDY_NAME);
+                    $("#startDt").val(rs.data.START_DT);
+                    $("#endDt").val(rs.data.END_DT);
+                    $("#startTime").val(rs.data.START_TIME);
+                    $("#endTime").val(rs.data.END_TIME);
+                    $("#eduTerm").val(rs.data.EDU_TERM);
+                    $("#eduTime").val(rs.data.EDU_TIME);
+                    $("#studyLocation").val(rs.data.STUDY_LOCATION);
+                    $("#studyObject").val(rs.data.STUDY_OBJECT);
+                    $("#studyContent").val(rs.data.STUDY_CONTENT);
+                    $("#studyMoney").val(rs.data.STUDY_MONEY);
+                    $("#studyMoneyVal").val(rs.data.STUDY_MONEY_VAL);
+                    /*$("#regDate").val(comma(rs.data.REG_DATE));*/
+                }
+            })
+            $.ajax({
+                url : '/campus/getStudyUserList',
+                data : {
+                    pk : $("#pk").val(),
+                    studyClassSn : 4
+                },
+                type: "post",
+                dataType : "json",
+                success :function(rs) {
+                    $("#readerUserName").val(rs.list.STUDY_EMP_NAME);
+                    $("#readerUserSeq").val(rs.list.STUDY_EMP_SEQ);
+
+                }
+            })
+            $.ajax({
+                url : '/campus/getStudyUserList',
+                data : {
+                    pk : $("#pk").val(),
+                    studyClassSn : 5
+                },
+                type: "post",
+                dataType : "json",
+                success :function(rs) {
+                    $("#studyUserName").val(rs.list.STUDY_EMP_NAME);
+                    $("#studyUserSeq").val(rs.list.STUDY_EMP_SEQ);
+                }
+            })
+        }
+    });
 </script>
 </body>

@@ -361,6 +361,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setStudyInfoModify(Map<String, Object> params) {
+        campusRepository.setStudyInfoModify(params);
+    }
+
+    @Override
     public void setStudyUserMngUpdate(Map<String, Object> params) {
         campusRepository.setStudyUserMngUpdate(params);
     }
@@ -602,6 +607,11 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public List<Map<String, Object>> getRealEduTimeCheck(Map<String, Object> params) {
         return campusRepository.getRealEduTimeCheck(params);
+    }
+
+    @Override
+    public void setOpenStudyRealEduTimeUpd(Map<String, Object> params) {
+        campusRepository.setOpenStudyRealEduTimeUpd(params);
     }
 
     @Override

@@ -186,6 +186,63 @@ const openStudyRes = {
             status : status
         }
 
+        if (status == 100) {
+            const resultCheck = customKendo.fn_customAjax("/campus/getRealEduTimeCheck?pk=" + data.pk);
+            console.log("resultCheck : " + resultCheck.list);
+            console.log("resultCheckCnt : " + resultCheck.list.length);
+
+            if (resultCheck.list) {
+                for (let i = 0; i < resultCheck.list.length; i++) {
+                    let realEduTime = 0;
+
+                    const eduTimeFloat = parseFloat(resultCheck.list[i].eduTime);
+                    const remainEduFloat = parseFloat(resultCheck.list[i].remainEduTime);
+
+                    if (resultCheck.list[i].userClass == '1') {
+                        if (remainEduFloat == 0) {
+                            alert("주에 학습시간이 2시간을 초과해 인정시간이 0시간으로 인정됩니다.")
+                            realEduTime = 0;
+                            console.log(realEduTime);
+                        } else if (remainEduFloat == eduTimeFloat * 2) {
+                            realEduTime = eduTimeFloat;
+                            console.log(realEduTime);
+                        } else if (remainEduFloat < eduTimeFloat * 2) {
+                            realEduTime = remainEduFloat;
+                            console.log(realEduTime);
+                        } else if (remainEduFloat > eduTimeFloat * 2) {
+                            realEduTime = eduTimeFloat * 2;
+                            console.log(realEduTime);
+                        }
+                    } else {
+                        if (remainEduFloat == 0) {
+                            alert("주에 학습시간이 2시간을 초과해 인정시간이 0시간으로 인정됩니다.")
+                            realEduTime = 0;
+                            console.log(realEduTime);
+                        } else if (remainEduFloat == eduTimeFloat) {
+                            realEduTime = eduTimeFloat;
+                            console.log(realEduTime);
+                        } else if (remainEduFloat < eduTimeFloat) {
+                            realEduTime = remainEduFloat;
+                            console.log(realEduTime);
+                        } else if (remainEduFloat > eduTimeFloat) {
+                            realEduTime = eduTimeFloat;
+                            console.log(realEduTime);
+                        }
+                    }
+                    let updateData = {
+                        pk: data.pk,
+                        regEmpSeq: resultCheck.list[i].REG_EMP_SEQ,
+                        userClass: resultCheck.list[i].userClass,
+                        realEduTime: realEduTime
+                    };
+
+                    customKendo.fn_customAjax("/campus/setOpenStudyRealEduTimeUpd", updateData);
+                }
+                debugger;
+            }
+        }
+
+
         var result = customKendo.fn_customAjax("/campus/setOpenStudyCertReq", data);
 
         if(result.flag){
