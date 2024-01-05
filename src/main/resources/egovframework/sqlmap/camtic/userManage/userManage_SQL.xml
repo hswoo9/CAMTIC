@@ -677,7 +677,7 @@
             AND
                 TEMP_DIVISION = "Y"
         </if>
-        ORDER BY SORT
+        ORDER BY EMP_NAME_KR
     </select>
     <select id="getEmpInfoDetailList" parameterType="map" resultType="map">
         select
