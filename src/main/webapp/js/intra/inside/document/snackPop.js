@@ -44,6 +44,8 @@ var snackReq = {
             $("#areaName").val(data.AREA_NAME);
             $("#usAmount").val(data.AMOUNT_SN.toString().toMoney());
             $("#useReason").val(data.USE_REASON);
+            $("#corporCard").val(data.CARD_TEXT);
+            $("#cardBaNb").val(data.CARD_SN)
 
             snackReq.fn_changePayType(data.PAY_TYPE);
 
@@ -223,6 +225,9 @@ var snackReq = {
         let amtUserArr = new Array();
         let checkAmt = 0;
         let status = 100;
+        let cardText = $("#corporCard").val();
+        let cardSn = $("#cardBaNb").val()
+
         $.each($('.addData'), function(i, v){
             let empSeq = $(v).find('.amtEmpSeq').val();
 
@@ -309,6 +314,10 @@ var snackReq = {
         formData.append("amtUser", JSON.stringify(amtUserArr));
 
         formData.append("status", status);
+
+        formData.append("cardText", cardText);
+        formData.append("cardSn", cardSn);
+
         //증빙파일 첨부파일
         if(snackReq.global.addAttFiles != null){
             for(var i = 0; i < snackReq.global.addAttFiles.length; i++){
