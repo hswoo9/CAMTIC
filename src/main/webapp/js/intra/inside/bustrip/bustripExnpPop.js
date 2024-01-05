@@ -229,6 +229,8 @@ const bustripExnpReq = {
                     $("#dayCost"+String(dayCostArr[i].empSeq)).val(0);
                 }else{
                     if(bustripInfo.TRIP_CODE == "3") {
+
+                        /** 대중교통 */
                         if(bustripInfo.USE_TRSPT == "0"){
                             for(let j=0; j<costList.length; j++){
                                 if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "1"){
@@ -237,6 +239,7 @@ const bustripExnpReq = {
                             }
                         }
 
+                        /** 자가(운행시) */
                         if(bustripInfo.USE_TRSPT == "10" && String(bustripInfo.DRIVER_EMP_SEQ) == String(dayCostArr[i].empSeq)){
                             for(let j=0; j<costList.length; j++){
                                 if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "2"){
@@ -245,6 +248,7 @@ const bustripExnpReq = {
                             }
                         }
 
+                        /** 자가(동행시) */
                         if(bustripInfo.USE_TRSPT == "10" && String(bustripInfo.DRIVER_EMP_SEQ) != String(dayCostArr[i].empSeq)){
                             for(let j=0; j<costList.length; j++){
                                 if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "3"){
@@ -253,6 +257,7 @@ const bustripExnpReq = {
                             }
                         }
 
+                        /** 법인차량 */
                         if(bustripInfo.USE_TRSPT != "0" && bustripInfo.USE_TRSPT != "10"){
                             for(let j=0; j<costList.length; j++){
                                 if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "4"){

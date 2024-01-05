@@ -55,7 +55,7 @@ var orgChart = {
                     } else {
                         data.sEmpName = $("#sEmpName").val();
                     }
-                    data.notDivision = "2";
+                    data.fullTime2 = "1";
                     return data;
                 }
             },
@@ -68,6 +68,10 @@ var orgChart = {
                 },
             },
             pageSize: 10,
+            sort: [
+                { field: "DUTY_NAME", dir: "desc", compare: orgChart.dutyNameCompare() },
+                { field: "EMP_NAME_KR", dir: "asc" }
+            ]
         });
 
         $("#deptUserGrid").kendoGrid({
@@ -130,5 +134,15 @@ var orgChart = {
         var name = "myPop";
         var option = "width = 900, height = 480, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
-    }
+    },
+
+    dutyNameCompare : function (a,b){
+        if (a && !b) {
+            return -1; // a를 b보다 앞으로 위치시키기
+        } else if (!a && b) {
+            return 1; // b를 a보다 앞으로 위치시키기
+        } else {
+            return 0; // 그 외에는 변경 없음
+        }
+    },
 }
