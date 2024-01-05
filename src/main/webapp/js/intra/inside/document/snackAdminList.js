@@ -150,7 +150,7 @@ var snackAdminList = {
                         }
 
                     }
-                }, {
+                }, /*{
                     field: "",
                     title: "비고",
                     template : function(e){
@@ -164,7 +164,7 @@ var snackAdminList = {
                         }
                     },
                     width: 100
-                }, {
+                }, */{
                     title: "지급신청서",
                     template : function(e){
                         return '미작성';
