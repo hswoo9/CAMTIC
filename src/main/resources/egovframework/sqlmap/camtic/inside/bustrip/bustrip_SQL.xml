@@ -798,12 +798,12 @@
         WHERE
             IHBE.EMP_SEQ = #{empSeq}
         <![CDATA[
-        AND DATE_FORMAT(IHBR.TRIP_DAY_FR, '%Y%M%D') <= DATE_FORMAT(
+        AND DATE_FORMAT(IHBR.TRIP_DAY_FR, '%Y%m%d') <= DATE_FORMAT(
                 (SELECT TRIP_DAY_FR FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT SIHBR WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId})
-            , '%Y%M%D')
-        AND DATE_FORMAT(IHBR.TRIP_DAY_TO, '%Y%M%D') >= DATE_FORMAT(
+            , '%Y%m%d')
+        AND DATE_FORMAT(IHBR.TRIP_DAY_TO, '%Y%m%d') >= DATE_FORMAT(
                 (SELECT TRIP_DAY_TO FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT SIHBR WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId})
-            , '%Y%M%D')
+            , '%Y%m%d')
         ]]>
         AND IHBE.HR_BIZ_REQ_RESULT_ID != #{hrBizReqResultId}
     </select>
@@ -821,10 +821,10 @@
             <![CDATA[
                 AND DATE_FORMAT(IHCI.START_DT, '%Y%m%d') <= DATE_FORMAT(
                     (SELECT SIHBR.TRIP_DAY_FR FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT SIHBR WHERE SIHBR.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId})
-                , '%Y%M%D')
+                , '%Y%m%d')
                 AND DATE_FORMAT(IHCI.END_DT, '%Y%m%d') >= DATE_FORMAT(
                     (SELECT SIHBR.TRIP_DAY_TO FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT SIHBR WHERE SIHBR.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId})
-                , '%Y%M%D')
+                , '%Y%m%d')
                 AND IHCI.TRIP_CODE = (SELECT SIHBR.TRIP_CODE FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT SIHBR WHERE SIHBR.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId})
             ]]>
         </if>

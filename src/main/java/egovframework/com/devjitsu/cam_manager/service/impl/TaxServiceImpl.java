@@ -41,8 +41,8 @@ public class TaxServiceImpl implements TaxService {
         LocalDate firstDate = localDate.withDayOfMonth(1);
         LocalDate lastDate = localDate.withDayOfMonth(localDate.lengthOfMonth());
 
-        strDate = firstDate.toString();
-        endDate = lastDate.toString();
+        strDate = firstDate.toString().replaceAll("-", "");
+        endDate = lastDate.toString().replaceAll("-", "");
 
         Map<String, Object> params = new HashMap<>();
 

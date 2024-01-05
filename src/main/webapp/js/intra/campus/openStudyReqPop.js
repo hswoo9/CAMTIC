@@ -176,6 +176,9 @@ const openStudyReq = {
         var afDate = new Date(year, month, day, hour2, min2);
         var diffSec = afDate.getTime() - bfDate.getTime();
         var diffMin = diffSec / 1000 / 60 / 60;
+        var eduTime = diffMin.toFixed(1);
+
+        console.log(diffMin);
 
         let data = {
             openStudyName: openStudyName,
@@ -184,8 +187,7 @@ const openStudyReq = {
             endTime: endTime,
             openStudyDetail: openStudyDetail,
             openStudyLocation: openStudyLocation,
-            eduTime: diffMin,
-            realEduTime: realEduTime,
+            eduTime: eduTime,
             regEmpSeq: regEmpSeq,
             regEmpName: regEmpName
         }
