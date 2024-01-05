@@ -361,6 +361,8 @@ var regPay = {
             const result = customKendo.fn_customAjax("/inside/getSnackOne", data);
             const snackData = result.data;
 
+
+
             const cardResult = customKendo.fn_customAjax("/snack/getCardList", data);
             const cardList = cardResult.list;
 
@@ -369,9 +371,7 @@ var regPay = {
                 baseYear : snackData.USE_DT.toString().substring(0, 4)
             }
             const projectResult = customKendo.fn_customAjax("/project/getG20ProjectList", pData);
-            console.log(projectResult)
             selectProject(projectResult.list[0].PJT_SN, projectResult.list[0].PJT_NM, projectResult.list[0].PJT_CD);
-
 
             var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
             var fileList = fileResult.fileList;
@@ -382,7 +382,14 @@ var regPay = {
             /** 개인여비 */
             if(snackData.PAY_TYPE != null){
                 if(snackData.PAY_TYPE != "2"){
-                    $("#eviType0").data("kendoDropDownList").value(1);
+                    const cData = {
+                        searchValue : snackData.CARD_SN
+                    }
+
+                    var cResult = customKendo.fn_customAjax("/g20/getCardList", cData);
+                    var cr = cResult.list[0];
+                    fn_selCardInfo(cr.TR_CD, cr.TR_NM, cr.CARD_BA_NB, cr.JIRO_NM, cr.CLTTR_CD, cr.BA_NB, cr.DEPOSITOR, 0);
+                    $("#eviType0").data("kendoDropDownList").value(3);
                     $("#etc0").val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
                     $("#totCost0").val(regPay.comma(snackData.AMOUNT_SN));
                     $("#supCost0").val(regPay.comma(snackData.AMOUNT_SN));
