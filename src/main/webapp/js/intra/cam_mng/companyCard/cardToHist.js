@@ -118,7 +118,7 @@ var cardToHist = {
                     title: "사용처",
                     field: "MER_NM",
                     width: 250
-                }, {
+                },/* {
                     title: "사업자번호",
                     field : "MER_BIZNO",
                     width: 120,
@@ -135,8 +135,8 @@ var cardToHist = {
                     template : function (e){
                         return e.CARD_NO.substring(0,4) + "-" + e.CARD_NO.substring(4,8) + "-" + e.CARD_NO.substring(8,12) + "-" + e.CARD_NO.substring(12,16);
                     }
-                }, {
-                    title: "금액",
+                }, */{
+                    title: "사용금액",
                     width: 120,
                     template : function(e){
                         return '<div style="text-align: right;">' + comma(e.AUTH_AMT) + '</div>';
@@ -170,6 +170,7 @@ var cardToHist = {
             dataType : "json",
             success : function(rs){
                 alert("사용이력이 추가되었습니다.");
+                opener.statementList.onDataBoundSelect($("#cardToSn").val());
                 window.close();
             }
         });

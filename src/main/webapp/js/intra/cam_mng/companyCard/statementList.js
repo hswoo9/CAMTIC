@@ -179,14 +179,14 @@ var statementList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="statementList.fn_regCardToPop()">' +
-                            '	<span class="k-button-text">등록</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="statementList.fn_addCardHist($(\'#cardToSn\').val())">' +
+                            '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="statementList.mainGrid()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="statementList.mainHistGrid();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -277,6 +277,22 @@ var statementList = {
         });
     },
 
+    onDataBoundSelect: function(sn){
+        $("#cardToSn").val(sn);
+        var grid = $("#mainGrid").data("kendoGrid");
+
+        if (grid.tbody) {
+            grid.tbody.find("tr").each(function (){
+                var dataItem = grid.dataItem(this);
+
+                if(dataItem.CARD_TO_SN == sn){
+                    $(this).css("background-color", "#a7e1fc");
+                    statementList.mainHistGrid();
+                }
+            })
+        }
+    },
+
     fn_regCardToPop : function(key){
         var url = "/card/regCardToPop.do";
 
@@ -337,7 +353,7 @@ var statementList = {
         var url = "/card/pop/cardToHist.do?cardToSn=" + key;
 
         var name = "_blank";
-        var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
+        var option = "width = 1000, height = 700, top = 100, left = 300, location = no"
         var popup = window.open(url, name, option);
     },
 
