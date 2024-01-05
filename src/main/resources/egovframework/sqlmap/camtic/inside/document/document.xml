@@ -632,7 +632,9 @@
                 REG_DEPT_NAME,
                 REG_TEAM_NAME,
                 STATUS,
-                FR_FILE_NO
+                FR_FILE_NO,
+                CARD_TEXT,
+                CARD_SN
             )
         VALUES
             (
@@ -655,7 +657,9 @@
                 #{regDeptName},
                 #{regTeamName},
                 '100',
-                #{fileNo}
+                #{fileNo},
+                #{cardText},
+                #{cardSn}
             )
         <selectKey keyProperty="snackInfoSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_SNACK_INFO'
