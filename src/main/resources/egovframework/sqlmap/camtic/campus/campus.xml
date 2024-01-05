@@ -1744,7 +1744,7 @@
                 #{openStudyDt},
                 #{startTime},
                 #{endTime},
-                #{realEduTime},
+                #{eduTime},
                 #{openStudyDetail},
                 #{openStudyLocation},
                 #{regEmpSeq},
