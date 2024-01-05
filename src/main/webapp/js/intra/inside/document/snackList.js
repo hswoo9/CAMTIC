@@ -137,25 +137,27 @@ var snackList = {
                         }
 
                     }
-                }, {
-                    title: "처리 상태",
-                    template : function(row){
-                        if(row.STATUS == "10") {
-                            return "대기";
-                        }else if(row.STATUS == "100") {
-                            return "승인";
-                        }else if(row.STATUS == "30") {
-                            return "반려";
-                        }else if(row.STATUS == "0") {
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="snackList.fn_apprRequest('+row.SNACK_INFO_SN+')">' +
-                                   '	<span class="k-button-text">승인요청</span>' +
-                                   '</button>';
-                        } else {
-                            return "데이터 오류"
-                        }
-                    },
-                    width: 70
-                }, {
+                },
+                // , {
+                //     title: "처리 상태",
+                //     template : function(row){
+                //         if(row.STATUS == "10") {
+                //             return "대기";
+                //         }else if(row.STATUS == "100") {
+                //             return "승인";
+                //         }else if(row.STATUS == "30") {
+                //             return "반려";
+                //         }else if(row.STATUS == "0") {
+                //             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="snackList.fn_apprRequest('+row.SNACK_INFO_SN+')">' +
+                //                    '	<span class="k-button-text">승인요청</span>' +
+                //                    '</button>';
+                //         } else {
+                //             return "데이터 오류"
+                //         }
+                //     },
+                //     width: 70
+                // },
+                {
                     title : "지급신청",
                     template : function(row){
                         if(row.STATUS == "100" && row.PAY_APP_SN == null) {

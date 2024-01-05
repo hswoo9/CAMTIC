@@ -32,8 +32,6 @@ var snackReq = {
         $("#useDt").attr("readonly", true);
         $("#userText").data("kendoTextBox").readonly(true);
 
-        console.log(snackData);
-
         if(!isNaN(snackData.STATUS)) {
             let data = snackData;
             $("#useDt").val(data.USE_DT);
@@ -109,7 +107,9 @@ var snackReq = {
             const cardResult = customKendo.fn_customAjax("/snack/getCardList", parameters);
             const cardList = cardResult.list;
 
-            if(cardList != null){
+            console.log(cardList);
+
+            if(cardList.length != 0){
                 $("#corporCard").val(cardList[0].TR_NM);
                 $("#cardSearch").prop("disabled", false);
             }
@@ -222,6 +222,7 @@ var snackReq = {
         let useReason = $("#useReason").val();
         let amtUserArr = new Array();
         let checkAmt = 0;
+        let status = 100;
         $.each($('.addData'), function(i, v){
             let empSeq = $(v).find('.amtEmpSeq').val();
 
@@ -307,6 +308,7 @@ var snackReq = {
         formData.append("userText", userText);
         formData.append("amtUser", JSON.stringify(amtUserArr));
 
+        formData.append("status", status);
         //증빙파일 첨부파일
         if(snackReq.global.addAttFiles != null){
             for(var i = 0; i < snackReq.global.addAttFiles.length; i++){
@@ -377,7 +379,6 @@ var snackReq = {
             enctype : 'multipart/form-data',
             async : false,
             success : function(result){
-                console.log(result);
                 alert("식대 사용 등록 저장이 완료되었습니다.");
                 opener.gridReload();
                 window.close();
