@@ -1292,6 +1292,29 @@
         </selectKey>
     </insert>
 
+    <update id="setStudyInfoModify"  parameterType="map">
+       /* setStudyInfoModify */
+       UPDATE
+           CAMPUS.DJ_STUDY_INFO
+       SET
+           STUDY_NAME = #{studyName},
+           START_DT = #{startDt},
+           END_DT = #{endDt},
+           START_TIME = #{startTime},
+           END_TIME = #{endTime},
+           EDU_TERM = #{eduTerm},
+           EDU_TIME = #{eduTime},
+           STUDY_LOCATION = #{studyLocation},
+           STUDY_OBJECT = #{studyObject},
+           STUDY_CONTENT = #{studyContent},
+           STUDY_MONEY = #{studyMoney},
+           STUDY_MONEY_VAL = #{studyMoneyVal}
+       WHERE
+            STUDY_INFO_SN = #{pk}
+
+    </update>
+
+
     <insert id="setStudyUserInsert" parameterType="map">
         /* setStudyUserInsert */
         INSERT INTO CAMPUS.DJ_STUDY_USER

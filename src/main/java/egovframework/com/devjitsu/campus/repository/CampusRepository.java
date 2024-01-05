@@ -124,6 +124,7 @@ public class CampusRepository extends AbstractDAO  {
     public void setMngCheckUpd(Map<String, Object> params) { update("campus.setMngCheckUpd", params); }
 
     public void setStudyInfoInsert(Map<String, Object> params) { insert("campus.setStudyInfoInsert", params); }
+    public void setStudyInfoModify(Map<String, Object> params) {update("campus.setStudyInfoModify", params); }
 
     public void setStudyUserInsert(Map<String, Object> params) { insert("campus.setStudyUserInsert", params); }
     public void setStudyUserMngUpdate(Map<String, Object> params) { update("campus.setStudyUserMngReset", params); update("campus.setStudyUserMngUpdate", params); }
@@ -280,4 +281,5 @@ public class CampusRepository extends AbstractDAO  {
     public Object getOpenStudyUserCount(Map<String, Object> params){
         return (int) selectOne("campus.getOpenStudyUserCount", params);
     }
+
 }

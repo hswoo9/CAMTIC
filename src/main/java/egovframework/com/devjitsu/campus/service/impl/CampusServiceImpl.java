@@ -361,6 +361,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setStudyInfoModify(Map<String, Object> params) {
+        campusRepository.setStudyInfoModify(params);
+    }
+
+    @Override
     public void setStudyUserMngUpdate(Map<String, Object> params) {
         campusRepository.setStudyUserMngUpdate(params);
     }

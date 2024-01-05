@@ -63,6 +63,7 @@ const studyReq = {
     },
 
     saveBtn: function(){
+        let studyInfoSn = $("#pk").val();
         let studyClassSn = $("#studyClass").val();
         let studyClassText = $("#studyClass").data("kendoDropDownList").text();
         let studyName = $("#studyName").val();
@@ -89,7 +90,7 @@ const studyReq = {
 
         if(studyName == ""){ alert(studyClassText+"명이 작성되지 않았습니다."); return; }
         if(studyClassSn == ""){ alert("내부학습 구분이 선택되지 않았습니다."); return; }
-        if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
+        /*if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }*/
         if(startDt == "" || endDt == ""){ alert("학습기간이 작성되지 않았습니다."); return; }
         if(studyLocation == ""){ alert("학습장소가 작성되지 않았습니다."); return; }
 
@@ -107,7 +108,7 @@ const studyReq = {
             }
         }else if(studyClassSn == 2){
             if(studyContent == ""){ alert("학습내용이 작성되지 않았습니다."); return; }
-            if(readerUserSeq == ""){ alert("지도자가 선택되지 않았습니다."); return; }
+            /*if(readerUserSeq == ""){ alert("지도자가 선택되지 않았습니다."); return; }*/
             if(startTime == ""){ alert("학습시간이 작성되지 않았습니다."); return; }
             if(endTime == ""){ alert("학습시간이 작성되지 않았습니다."); return; }
             if(eduTerm == ""){ alert("총 회차가 작성되지 않았습니다."); return; }
@@ -124,6 +125,7 @@ const studyReq = {
         }
 
         let data = {
+            pk: studyInfoSn,
             studyClassSn: studyClassSn,
             studyClassText: studyClassText,
             studyName: studyName,
@@ -164,22 +166,34 @@ const studyReq = {
             data.readerUserSeq = readerUserSeq;
         }
 
-        if(!confirm(studyClassText+" 신청서를 저장하시겠습니까?")){
-            return;
-        }
-
-        let url = "/campus/setStudyInfoInsert";
-        const result = customKendo.fn_customAjax(url, data);
-        if(result.flag){
-            alert(studyClassText+" 신청서 저장이 완료되었습니다.");
-            opener.gridReload();
-            var pk = result.studyUserSn;
-           /* var classSn = result.studyClassSn;*/
-            studyViewPop(pk, studyClassSn );
+        if($("#pk").val() != ""){
+            if(!confirm(studyClassText+" 신청서를 수정하시겠습니까?")){
+                return;
+            }
+            let url = "/campus/setStudyInfoModify";
+            const result = customKendo.fn_customAjax(url, data);
+            if(result.flag){
+                alert(studyClassText+" 신청서 수정이 완료되었습니다.");
+                studyViewPop(studyInfoSn, studyClassSn);
+            }else {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+            }
         }else {
-            alert("데이터 저장 중 에러가 발생했습니다.");
+            if(!confirm(studyClassText+" 신청서를 저장하시겠습니까?")){
+                return;
+            }
+            let url = "/campus/setStudyInfoInsert";
+            const result = customKendo.fn_customAjax(url, data);
+            if(result.flag){
+                alert(studyClassText+" 신청서 저장이 완료되었습니다.");
+                opener.gridReload();
+                var pk = result.studyUserSn;
+                studyViewPop(pk, studyClassSn);
+            }else {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+            }
         }
-    },
+    }
 }
 
 function studyViewPop(pk, studyClassSn){

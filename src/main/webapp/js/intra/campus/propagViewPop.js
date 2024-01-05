@@ -61,6 +61,7 @@ const propagView = {
         if(mode == "upd"){
             if(status == "0" || status == "30"){
                 $("#appBtn").show();
+                $("#modBtn").show();
             }else if(status == "10"){
                 $("#canBtn").show();
             }
@@ -378,6 +379,13 @@ const propagView = {
             option = "width = 1200, height = 900, top = 100, left = 200, location = no";
         }
 
+        window.open(url, name, option);
+    },
+
+    fn_propagMod: function(){
+        let url = "/Campus/pop/studyReqPop.do?mode=upd&pk="+$("#pk").val();
+        let name = "studyReqPop";
+        let option = "width = 1170, height = 900, top = 100, left = 200, location = no";
         window.open(url, name, option);
     }
 }
