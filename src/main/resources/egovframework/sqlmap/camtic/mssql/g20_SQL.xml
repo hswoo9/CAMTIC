@@ -409,6 +409,7 @@
                 DUMMY1,
                 DUMMY2,
                 DUMMY3,
+                ACISU_DT,
                 DIV_CD2
             )
         VALUES
@@ -468,6 +469,7 @@
                 #{DUMMY1},
                 #{DUMMY2},
                 #{DUMMY3},
+                #{IN_DT},
                 #{DIV_CD2}
             )
     </insert>

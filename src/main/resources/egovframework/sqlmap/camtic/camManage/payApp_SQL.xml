@@ -596,7 +596,7 @@
             REPLACE(A.TR_DE, "-", "") AS IN_DT,
             REPLACE(A.TR_DE, "-", "") AS TAX_DT,
             REPLACE(D.APP_DE, "-", "") AS REG_DT,
-            REPLACE(D.PAY_EXNP_DE, "-", "") AS EXEC_DT,
+            REPLACE(B.DT3, "-", "") AS EXEC_DT,
             DATE_FORMAT(now(), '%Y%m%d') AS TXT_DONE_DT,
             IFNULL(A.PMR_NO, "") AS RPMR_NO,
             A.TR_DE AS CNT_DT,
