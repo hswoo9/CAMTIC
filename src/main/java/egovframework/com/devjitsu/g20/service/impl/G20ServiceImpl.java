@@ -125,7 +125,7 @@ public class G20ServiceImpl implements G20Service {
     @Override
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
         List<Map<String, Object>> listMap = g20Repository.getCardList(params);
-        List<Map<String, Object>> privateMap = companyCardRepository.getCardGroupPrivateCheck(params);
+        List<Map<String, Object>> privateMap = companyCardRepository.getPrivateCardList(params);
         int privateCnt = privateMap.size();
         int cnt = 0;
 

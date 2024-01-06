@@ -77,16 +77,32 @@ var etaxList = {
                 {
                     template: "#= ++record #",
                     title: "번호",
-                    width : 50
+                    width : 30
                 }, {
                     title: "사업장",
-                    width: 120,
+                    width: 80,
                     template: function (e){
                         return e.DIV_NM;
                     }
                 }, {
                     title: "구분",
-                    width: 80,
+                    width: 40,
+                    template: function (e){
+                        if(e.TAX_TY == 1){
+                            return "매출";
+                        } else if(e.TAX_TY == 2){
+                            return "매입";
+                        } else if(e.TAX_TY == 3){
+                            return "면세매출";
+                        } else if(e.TAX_TY == 4){
+                            return "면세매입";
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "분류",
+                    width: 40,
                     template: function (e){
                         if(e.ETAX_TY == 1){
                             return "일반";
@@ -98,19 +114,33 @@ var etaxList = {
                     }
                 }, {
                     title: "작성일자",
-                    width: 120,
+                    width: 60,
                     template: function (e){
                         return e.ISU_DT.substring(0,4) + "-" + e.ISU_DT.substring(4,6) + "-" + e.ISU_DT.substring(6,8);
                     }
                 }, {
-                    title: "거래처명",
-                    width: 200,
+                    title: "발급일자",
+                    width: 60,
                     template: function (e){
-                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/>' + e.TR_NM;
+                        return e.ISS_DT.substring(0,4) + "-" + e.ISS_DT.substring(4,6) + "-" + e.ISS_DT.substring(6,8);
                     }
                 }, {
-                    title: "사업자번호",
+                    title: "전송일자",
+                    width: 60,
+                    template: function (e){
+                        return e.ISS_YMD.substring(0,4) + "-" + e.ISS_YMD.substring(4,6) + "-" + e.ISS_YMD.substring(6,8);
+                    }
+                }, {
+                    title: "코드",
+                    width: 40,
+                    field: "TR_CD",
+                }, {
+                    title: "거래처명",
                     width: 100,
+                    field: "TR_NM",
+                }, {
+                    title: "사업자번호",
+                    width: 80,
                     template: function (e){
                         if(e.TRREG_NB != null){
                             return e.TRREG_NB.toString().substring(0,3) + "-" + e.TRREG_NB.toString().substring(3,5) + "-" + e.TRREG_NB.toString().substring(5,10);
@@ -120,34 +150,32 @@ var etaxList = {
                     }
                 }, {
                     title: "공급가액",
-                    width: 100,
+                    width: 60,
                     template: function (e){
                         return '<div style="text-align: right;">'+comma(e.SUP_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "세액",
-                    width: 100,
+                    width: 60,
                     template: function (e){
                         return '<div style="text-align: right;">'+comma(e.VAT_AM.toString().split(".")[0])+'</div>';
                     }
                 }, {
                     title: "합계금액",
-                    width: 100,
+                    width: 60,
                     template: function (e){
+                        console.log(e);
                         return '<div style="text-align: right;">'+comma(e.SUM_AM.toString().split(".")[0])+'</div>';
                     }
+                }, {
+                    title: "승인번호",
+                    width: 120,
+                    field: "ISS_NO",
+                }, {
+                    title: "품목명",
+                    width: 120,
+                    field: "ITEM_DC"
                 }
-                // , {
-                //     title: "결의서",
-                //     width: 50,
-                //     template: function (e){
-                //         if(e.DOC_ID != null && e.DOC_ID != "" && e.DOC_ID != undefined){
-                //             return '결의서';
-                //         } else {
-                //             return '미결의';
-                //         }
-                //     }
-                // }
             ],
             dataBinding: function() {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();

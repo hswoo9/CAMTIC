@@ -315,8 +315,9 @@
         </if>
         <if test='"P".equals(cardVal)'>
             AND
-            A.TR_NM LIKE '%' + '_개인카드' + '%'
+                A.TR_NM LIKE '%' + '_개인카드' + '%'
         </if>
+        ORDER BY A.INSERT_DT DESC
     </select>
 
     <select id="getOtherList" parameterType="map" resultType="map">
@@ -335,7 +336,7 @@
         OR ACCT_NO LIKE '%' + #{searchValue} + '%')
         <if test='type == "9" or "9".equals(type)'>
             AND
-            DATA_CD = 'G'
+            DATA_CD = 'G' AND REG_NO != ''
         </if>
         <if test='type == "5" or "5".equals(type)'>
             AND
