@@ -4,6 +4,7 @@ var cardListMng = {
         dropDownDataSource : "",
         searchAjaxData : "",
         saveAjaxData : "",
+        parameters : "",
     },
 
     fn_defaultScript : function(){
@@ -42,7 +43,7 @@ var cardListMng = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 509,
+            height: 570,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -53,6 +54,20 @@ var cardListMng = {
             },
             toolbar: [
                 {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="">' +
+                            '	<span class="k-button-text">소지자 변경</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="cardListMng.fn_setCardManager()">' +
+                            '	<span class="k-button-text">담당자 지정</span>' +
+                            '</button>';
+                    }
+                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="cardListMng.syncCardG20Data()">' +
@@ -81,32 +96,56 @@ var cardListMng = {
                     template : "<input type='checkbox' id='cardPk#=CARD_BA_NB#' name='cardPk' class='cardPk' value='#=CARD_BA_NB#'/>",
                     width: 50
                 }, {
-                    title: "카드명",
-                    width: 500,
-                    template: function (e){
-                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
-                    }
-                }, {
-                    title: "카드번호",
-                    width: 500,
-                    template: function (e){
-                        if(e.CARD_BA_NB != null){
-                            return e.CARD_BA_NB;
-                        } else {
-                            return "";
+                    title : "G20",
+                    columns : [
+                        {
+                            title: "카드명",
+                            width: 400,
+                            template: function (e){
+                                return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
+                            }
+                        }, {
+                            title: "카드번호",
+                            width: 250,
+                            template: function (e) {
+                                if (e.CARD_BA_NB != null) {
+                                    return e.CARD_BA_NB;
+                                } else {
+                                    return "";
+                                }
+                            }
                         }
-                    }
+                    ]
                 }, {
-                    title: "공개여부",
-                    width: 100,
-                    template: function (e){
-                        console.log(e);
-                        if(e.USE_YN == 'Y'){
-                            return "공개";
-                        } else {
-                            return "비공개";
+                    title: "설정",
+                    columns : [
+                        {
+                            title : "담당자",
+                            columns : [
+                                {
+                                    title : "부서/팀",
+                                    field : "DEPT_NAME",
+                                }, {
+                                    title : "이름",
+                                    field : "MNG_NAME",
+                                }
+                            ]
+                        }, {
+                            title : "소지자",
+                            field : ""
+                        }, {
+                            title: "공개여부",
+                            width: 100,
+                            template: function (e){
+                                console.log(e);
+                                if(e.USE_YN == 'Y'){
+                                    return "공개";
+                                } else {
+                                    return "비공개";
+                                }
+                            }
                         }
-                    }
+                    ]
                 }
             ],
             dataBinding: function() {
@@ -254,6 +293,34 @@ var cardListMng = {
                 $("#my-spinner").hide();
             }
         });
+    },
+
+    fn_setCardManager : function (){
+
+        var grid = $("#mainGrid").data("kendoGrid");
+        var arr = [];
+
+        if($("input[name='cardPk']:checked").length == 0){
+            alert("카드를 선택해주세요.");
+            return false;
+        }
+
+        $("input[name='cardPk']").each(function(){
+            if(this.checked){
+
+                var row = $(this).closest("tr");
+                var rowData = grid.dataItem(row);
+                arr.push(rowData);
+            }
+        });
+
+        var parameters = {
+            arr : JSON.stringify(arr)
+        };
+
+        cardListMng.global.parameters = parameters;
+
+        userSearch();
     }
 
 }

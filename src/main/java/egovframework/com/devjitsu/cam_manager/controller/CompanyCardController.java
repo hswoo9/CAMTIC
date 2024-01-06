@@ -394,4 +394,17 @@ public class CompanyCardController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/card/setCardManager")
+    public String setCardManager(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            companyCardService.setCardManager(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

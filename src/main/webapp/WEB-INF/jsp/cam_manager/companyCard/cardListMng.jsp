@@ -13,6 +13,11 @@
     #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
     #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
 
+    .k-grid-content td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 </style>
 
 
@@ -62,7 +67,27 @@
         </div>
     </div>
 </div><!-- col-md-9 -->
-
 <script>
     cardListMng.fn_defaultScript();
+
+    function userPayMngPop(empSeq, empName, deptSeq, deptName){
+        cardListMng.global.parameters.empSeq = empSeq;
+        cardListMng.global.parameters.empName = empName;
+        cardListMng.global.parameters.deptSeq = deptSeq;
+        cardListMng.global.parameters.deptName = deptName;
+
+        $.ajax({
+            url : "/card/setCardManager",
+            data : cardListMng.global.parameters,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("담당자 지정이 완료되었습니다.");
+                    cardListMng.mainGrid();
+                }
+            }
+        });
+
+    }
 </script>

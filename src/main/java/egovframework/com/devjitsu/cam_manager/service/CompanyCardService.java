@@ -42,4 +42,6 @@ public interface CompanyCardService {
     void delGroupUser(Map<String, Object> params);
 
     void setPrivateCard(Map<String, Object> params);
+
+    void setCardManager(Map<String, Object> params);
 }

@@ -186,4 +186,25 @@ public class CompanyCardServiceImpl implements CompanyCardService {
 
         }
     }
+
+    @Override
+    public void setCardManager(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("arr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> map : itemArr){
+            map.put("MNG_SEQ", params.get("empSeq"));
+            map.put("MNG_NAME", params.get("empName"));
+            map.put("MNG_DEPT_SEQ", params.get("deptSeq"));
+
+
+            Map<String, Object> tempMap = companyCardRepository.getCardManagerData(map);
+
+            if(tempMap == null){
+                companyCardRepository.insCardManager(map);
+            } else {
+                companyCardRepository.updCardManager(map);
+            }
+        }
+    }
 }

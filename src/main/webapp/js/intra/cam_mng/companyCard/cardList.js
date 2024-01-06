@@ -54,30 +54,65 @@ var cardList = {
             },
             columns: [
                 {
-                    template: "#= ++record #",
-                    title: "번호",
-                    width : 50
-                }, {
-                    title: "카드명",
-                    width: 300,
-                    template: function (e){
-                        return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
-                    }
-                }, {
-                    title: "카드번호",
-                    width: 250,
-                    template: function (e){
-                        if(e.CARD_BA_NB != null){
-                            return e.CARD_BA_NB;
-                        } else {
-                            return "";
+                    title : "G20",
+                    columns : [
+                        {
+                            title: "카드명",
+                            width: 300,
+                            template: function (e){
+                                return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
+                            }
+                        }, {
+                            title: "카드번호",
+                            width: 250,
+                            template: function (e) {
+                                if (e.CARD_BA_NB != null) {
+                                    return e.CARD_BA_NB;
+                                } else {
+                                    return "";
+                                }
+                            }
                         }
-                    }
-                },
-            ],
-            dataBinding: function() {
-                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
-            }
+                    ]
+                }, {
+                    title: "반출/사용",
+                    columns : [
+                        {
+                            title : "반출여부",
+                            template: function (e){
+                                var rtYn = "";
+                                if(e.RT_YN == "N"){
+                                    rtYn = "반출중";
+                                } else {
+                                    rtYn = "미반출";
+                                }
+
+                                return rtYn;
+                            }
+                        }, {
+                            title : "반출자",
+                            field : "USE_EMP_NAME",
+                        }
+                    ]
+                }, {
+                    title: "카드목록(관리자)",
+                    columns : [
+                        {
+                            title : "담당자",
+                            columns : [
+                                {
+                                    title : "부서/팀",
+                                    field : "DEPT_NAME",
+                                }, {
+                                    title : "이름",
+                                    field : "MNG_NAME",
+                                }
+                            ]
+                        }
+                    ]
+                }
+
+            ]
         }).data("kendoGrid");
     }
 }

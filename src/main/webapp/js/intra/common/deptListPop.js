@@ -188,7 +188,7 @@ var deptListPop = {
                     opener.parent.$("#positionName").val(row.POSITION_NAME);
                 }
                 try {
-                    opener.parent.userPayMngPop(row.EMP_SEQ);
+                    opener.parent.userPayMngPop(row.EMP_SEQ, row.EMP_NAME_KR, row.DEPT_SEQ, row.DEPT_NAME);
                 }catch{
 
                 }
