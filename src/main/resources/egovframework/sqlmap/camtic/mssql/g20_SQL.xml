@@ -303,8 +303,10 @@
         LEFT JOIN ZA_TRADE_DAIKIN B
         ON A.CLTTR_CD = B.TR_CD
         WHERE A.TR_FG = '9'
+        <if test='searchValue != null and !"".equals(searchValue)'>
             AND
                 (A.TR_NM LIKE '%' + #{searchValue} + '%' OR A.BA_NB LIKE '%' + #{searchValue} + '%' OR A.REG_NB LIKE '%' + #{searchValue} + '%')
+        </if>
         <if test='cardName != null and !"".equals(cardName)'>
             AND
                 A.TR_NM LIKE '%' + #{cardName} + '%'

@@ -423,4 +423,27 @@
         /*delPrivateCard*/
         DELETE FROM CAM_MNG.DJ_CARD_PRIV WHERE TR_CD = #{TR_CD}
     </delete>
+
+    <select id="getCorpCardList" parameterType="map" resultType="map">
+        /*getCorpCardList*/
+        SELECT
+            A.*,
+            IFNULL(B.TR_CD, 'Y') as USE_YN
+        FROM
+            CAM_MNG.DJ_CARD_INFO A
+        LEFT JOIN
+            CAM_MNG.DJ_CARD_PRIV B
+        ON
+            A.TR_CD = B.TR_CD AND A.CARD_BA_NB = B.CARD_BA_NB
+        WHERE
+            A.TR_NM NOT LIKE '%개인카드%'
+        <if test='searchValue != null and !"".equals(searchValue)'>
+            AND
+                (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR A.CARD_BA_NB LIKE CONCAT('%', #{searchValue}, '%'))
+        </if>
+        <if test='auth == "user" or "user".equals(auth)'>
+            AND
+                B.TR_CD IS NULL
+        </if>
+    </select>
 </mapper>

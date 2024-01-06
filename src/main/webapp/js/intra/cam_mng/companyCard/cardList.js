@@ -23,6 +23,7 @@ var cardList = {
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
                     data.cardVal = 'M';
+                    data.auth = "user";
                     return data;
                 }
             },

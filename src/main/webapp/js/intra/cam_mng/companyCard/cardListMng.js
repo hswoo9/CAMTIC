@@ -53,6 +53,13 @@ var cardListMng = {
             },
             toolbar: [
                 {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="cardListMng.syncCardG20Data()">' +
+                            '	<span class="k-button-text">G20 동기화</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="cardListMng.fn_privatePop(\'d\')">' +
@@ -93,10 +100,11 @@ var cardListMng = {
                     title: "공개여부",
                     width: 100,
                     template: function (e){
-                        if(e.USE_YN == 'N'){
-                            return "비공개";
-                        } else {
+                        console.log(e);
+                        if(e.USE_YN == 'Y'){
                             return "공개";
+                        } else {
+                            return "비공개";
                         }
                     }
                 }
@@ -222,6 +230,30 @@ var cardListMng = {
         var name = "비공개 사원";
         var option = "width = 1300, height = 600, top = 200, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    syncCardG20Data : function () {
+        var data = {};
+        $.ajax({
+            url : "/g20/setCardList",
+            data : data,
+            type : "post",
+            dataType : "json",
+            beforeSend : function(request){
+                $("#my-spinner").show();
+            },
+            success :function (rs){
+                if(rs.code == 200){
+                    alert("완료되었습니다.");
+                    $("#mainGrid").data("kendoGrid").dataSource.read();
+                    $("#my-spinner").hide();
+                }
+            },
+            error : function(e){
+                alert("오류가 발생하였습니다.");
+                $("#my-spinner").hide();
+            }
+        });
     }
 
 }

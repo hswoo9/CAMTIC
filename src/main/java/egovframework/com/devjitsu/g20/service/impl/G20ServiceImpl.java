@@ -124,63 +124,14 @@ public class G20ServiceImpl implements G20Service {
 
     @Override
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
-        List<Map<String, Object>> listMap = g20Repository.getCardList(params);
-        List<Map<String, Object>> privateMap = companyCardRepository.getPrivateCardList(params);
-        int privateCnt = privateMap.size();
-        int cnt = 0;
-
-
-        /*List<Map<String, Object>> itemsToRemove = new ArrayList<>();
-        for(Map<String, Object> map : listMap){
-            String trCd = map.get("TR_CD").toString();
-
-            if(privateMap.stream().anyMatch(x -> x.get("TR_CD").equals(trCd))) {
-                itemsToRemove.add(map);
-                cnt ++;
-            }
-
-            if(privateCnt == cnt){
-                break;
-            }
-        }*/
-        //listMap.removeAll(itemsToRemove);
-
-        Iterator<Map<String, Object>> iterator = listMap.iterator();
-
-        while (iterator.hasNext()) {
-            Map<String, Object> map = iterator.next();
-            String trCd = map.get("TR_CD").toString();
-
-            if (privateMap.stream().anyMatch(x -> x.get("TR_CD").equals(trCd))) {
-                iterator.remove();
-                cnt++;
-
-                if (privateCnt == cnt) {
-                    break;
-                }
-            }
-        }
+        List<Map<String, Object>> listMap = companyCardRepository.getCorpCardList(params);
 
         return listMap;
     }
 
     @Override
     public List<Map<String, Object>> getCardAdminList(Map<String, Object> params) {
-        List<Map<String, Object>> listMap = g20Repository.getCardList(params);
-
-        List<Map<String, Object>> privateListMap = companyCardRepository.getPrivateCardList(params);
-
-        for(Map<String, Object> map : listMap){
-            String trCd = map.get("TR_CD").toString();
-
-            if(privateListMap.stream().anyMatch(x -> x.get("TR_CD").equals(trCd))) {
-                Map<String, Object> result = privateListMap.stream().filter(x -> x.get("TR_CD").equals(trCd)).findAny().get();
-
-                map.put("USE_YN", 'N');
-            } else {
-                map.put("USE_YN", 'Y');
-            }
-        }
+        List<Map<String, Object>> listMap = companyCardRepository.getCorpCardList(params);
 
         return listMap;
     }

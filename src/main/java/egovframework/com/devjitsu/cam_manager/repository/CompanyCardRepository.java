@@ -124,4 +124,8 @@ public class CompanyCardRepository extends AbstractDAO {
     public void delPrivateCard(Map<String, Object> map) {
         delete("card.delPrivateCard", map);
     }
+
+    public List<Map<String, Object>> getCorpCardList(Map<String, Object> params) {
+        return selectList("card.getCorpCardList", params);
+    }
 }

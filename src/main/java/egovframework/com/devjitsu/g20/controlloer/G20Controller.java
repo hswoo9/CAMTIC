@@ -158,11 +158,17 @@ public class G20Controller {
 
     @RequestMapping("/g20/setCardList")
     public String setCardList(@RequestParam Map<String, Object> params, Model model){
-        List<Map<String, Object>> list = g20Service.getCardList(params);
+        try{
+            List<Map<String, Object>> list = g20Service.getCardList(params);
 
-        g20Service.setDjCardList(list);
+            g20Service.setDjCardList(list);
 
-        model.addAttribute("list", list);
+            model.addAttribute("code", 200);
+            model.addAttribute("list", list);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         return "jsonView";
     }
 
