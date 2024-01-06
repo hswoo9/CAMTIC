@@ -45,7 +45,7 @@ var snackReq = {
             $("#usAmount").val(data.AMOUNT_SN.toString().toMoney());
             $("#useReason").val(data.USE_REASON);
             $("#corporCard").val(data.CARD_TEXT);
-            $("#cardBaNb").val(data.CARD_SN)
+            $("#cardBaNb").val(data.CARD_SN);
 
             snackReq.fn_changePayType(data.PAY_TYPE);
 
@@ -77,6 +77,10 @@ var snackReq = {
                 snackReq.enableSetting(false);
             }
 
+            if(snackData.STATUS != 100){
+                $("#cardSearch").attr("disabled", false);
+            }
+
             var values = "";
             var result = "";
             var finalResult = "";
@@ -89,16 +93,20 @@ var snackReq = {
                 finalResult = result.join(',');
             }
 
-            var snackData = {
+            var snackSubmitData = {
                 snackInfoSn: $("#snackInfoSn").val(),
                 fileNo: finalResult.slice(1, -1)
             };
 
-            var returnData = customKendo.fn_customAjax("/snack/getFileList", snackData);
+            var returnData = customKendo.fn_customAjax("/snack/getFileList", snackSubmitData);
             var returnFileArr = returnData.fileList;
 
             for(let x=0; x < returnFileArr.length; x++){
-                snackReq.settingTempFileDataInit(returnFileArr[x], 'result');
+                if(snackData.STATUS == 100 && $("#mode").val() == "infoPop") {
+                    snackReq.settingTempFileDataInit(returnFileArr[x], 'result');
+                }else{
+                    snackReq.settingTempFileDataInit(returnFileArr[x], 'mod');
+                }
             }
             //snackReq.settingTempFileDataInit(data.FR_FILE_NO, 'result');
             snackReq.global.snackData = data;
@@ -109,12 +117,10 @@ var snackReq = {
             const cardResult = customKendo.fn_customAjax("/snack/getCardList", parameters);
             const cardList = cardResult.list;
 
-            console.log(cardList);
-
-            if(cardList.length != 0){
+            /*if(cardList.length != 0){
                 $("#corporCard").val(cardList[0].TR_NM);
                 $("#cardSearch").prop("disabled", false);
-            }
+            }*/
 
             for(let i=0; i<cardList.length; i++){
                 const cardMap = cardList[i];
@@ -176,7 +182,7 @@ var snackReq = {
             }
         } else {
             if(e.file_no > 0){
-                $(".resultTh").show();
+                $(".defultTr").hide();
                 html += '<tr style="text-align: center">';
                 html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
                 html += '   <td>'+ e.file_ext +'</td>';
@@ -187,7 +193,7 @@ var snackReq = {
                     '		</button>';
                 html += '   </td>';
                 html += '</tr>';
-                $("#fileGrid").html(html);
+                $("#fileGrid").append(html);
             }else{
                 $("#fileGrid").html('<tr>' +
                     '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +

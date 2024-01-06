@@ -719,8 +719,7 @@
                 AUTH_DD,
                 AUTH_NO,
                 AUTH_HH,
-                BUY_STS,
-                TR_NM
+                BUY_STS
             )
         VALUES
             (
@@ -729,8 +728,7 @@
                 #{authDate},
                 #{authNum},
                 #{authTime},
-                #{buySts},
-                #{trNm}
+                #{buySts}
             )
     </insert>
 
