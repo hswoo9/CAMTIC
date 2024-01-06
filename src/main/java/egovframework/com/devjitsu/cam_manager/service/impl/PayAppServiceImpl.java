@@ -397,15 +397,16 @@ public class PayAppServiceImpl implements PayAppService {
 
 
         if(list.size() != 0){
-            int docNumber = 0;          // 전체 지출결의서 CNT
-            docNumber = payAppRepository.getCountDoc(list.get(0));
-            int userSq = docNumber + 1;
-
             Map<String, Object> loginMap = payAppRepository.getEmpInfo(params);
             Map<String, Object> execMap = new HashMap<>();
-
             int i = 0;
+
             for(Map<String, Object> data : list) {
+
+                int docNumber = 0;          // 전체 지출결의서 CNT
+                docNumber = payAppRepository.getCountDoc(list.get(i));
+                int userSq = docNumber + 1;
+
                 int exnpDocNumber = 0;      // 같은 지출결의서 CNT
                 exnpDocNumber = payAppRepository.getExnpCountDoc(data);
                 data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
@@ -466,11 +467,21 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("VAT_FG", "2");
                     data.put("TR_FG", "1");
 
+                    if(!data.get("RPMR_NO").toString().equals("")){
+                        data.put("SET_FG", "1");
+                        data.put("VAT_FG", "1");
+                        data.put("TR_FG", "3");
+                    }
                 } else if(data.get("EVID_TYPE").toString().equals("3")){
                     data.put("SET_FG", "4");
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "3");
 
+                    if(!data.get("RPMR_NO").toString().equals("")){
+                        data.put("SET_FG", "1");
+                        data.put("VAT_FG", "3");
+                        data.put("TR_FG", "3");
+                    }
                 } else if(data.get("EVID_TYPE").toString().equals("4")){
                     data.put("SET_FG", "1");
                     data.put("VAT_FG", "3");
@@ -496,9 +507,14 @@ public class PayAppServiceImpl implements PayAppService {
                 }
 
                 if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3")) && type.equals("resolution")) {
-                    if(data.get("DOCU_FG").toString().equals("1")){
+                    if (data.get("DOCU_FG").toString().equals("1")) {
                         data.put("DOCU_FG", "99");
                     }
+
+                    data.put("IN_DT_TMP", data.get("IN_DT"));
+                    data.put("IN_DT", data.get("EXEC_DT"));
+                } else {
+                    data.put("IN_DT_TMP", data.get("IN_DT"));
                 }
 
 
@@ -517,6 +533,7 @@ public class PayAppServiceImpl implements PayAppService {
                 }
             }
         }
+
     }
 
     private void updateG20IncpFinalAppr(Map<String, Object> params, String type){

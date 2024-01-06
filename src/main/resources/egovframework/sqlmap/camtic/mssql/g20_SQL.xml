@@ -469,7 +469,7 @@
                 #{DUMMY1},
                 #{DUMMY2},
                 #{DUMMY3},
-                #{IN_DT},
+                #{IN_DT_TMP},
                 #{DIV_CD2}
             )
     </insert>
@@ -480,7 +480,7 @@
             #{CO_CD},
             #{IN_DT},
             #{PMR_NO},
-            #{IN_DT},
+            #{IN_DT_TMP},
             '',
             '',
             #{EMP_CD},
