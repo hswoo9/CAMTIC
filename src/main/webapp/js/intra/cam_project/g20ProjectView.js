@@ -4,6 +4,7 @@ var g20ProjectView = {
     fn_defaultScript : function(){
 
         g20ProjectView.fn_popMainGrid();
+        g20ProjectView.gridReload();
     },
 
     gridReload: function(){
