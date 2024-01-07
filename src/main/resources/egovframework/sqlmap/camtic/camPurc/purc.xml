@@ -398,6 +398,7 @@
         /*getPurcClaimItemData*/
         SELECT
             PC.CLAIM_DE,
+            PC.PURC_SN,
             PCI.*
         FROM
             CAM_MNG.DJ_PURC_CLAIM PC
@@ -948,6 +949,40 @@
             PROD_SN = #{astInfoSn}
         WHERE
             CLAIM_ITEM_SN = #{itemSn}
+    </update>
+
+    <update id="updPurcReqFileCopy" parameterType="map">
+        /*updPurcReqFileCopy*/
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+        (
+            FILE_CD,
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            CONTENT_ID,
+            FR_KEY,
+            REG_EMP_SEQ
+        )
+        SELECT
+            'asset',
+            FILE_UUID,
+            FILE_ORG_NAME,
+            FILE_PATH,
+            FILE_DOWN_PATH,
+            FILE_SIZE,
+            FILE_EXT,
+            EMP_SEQ,
+            CONCAT('ast_', #{astInfoSn}),
+            FR_KEY,
+            REG_EMP_SEQ
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{contentId}
     </update>
 
     <update id="updItemUnAssetStat" parameterType="map">

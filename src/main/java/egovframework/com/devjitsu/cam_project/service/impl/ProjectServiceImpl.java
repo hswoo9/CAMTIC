@@ -596,6 +596,11 @@ public class ProjectServiceImpl implements ProjectService {
                 try{
                     /** 사업비 분리 : 테이블 조회해서 데이터 없으면 단일(0)으로 생성, 있으면 for문 */
                     params.put("pjtTmpCd", pjtMap.get("PJT_TMP_CD"));
+                    params.put("pProjectNM", pjtMap.get("PJT_NM"));
+                    params.put("pProjectNMEx", pjtMap.get("BS_TITLE"));
+                    params.put("pSDate", pjtMap.get("G20_STR_DT"));
+                    params.put("pEDate", pjtMap.get("G20_END_DT"));
+                    params.put("pType", "I");
 
                     List<Map<String, Object>> list = projectRndRepository.getAccountInfo(params);
 
@@ -613,7 +618,7 @@ public class ProjectServiceImpl implements ProjectService {
                         for(int i = 0 ; i < list.size() ; i++){
                             params.put("pProjectCD", pjtCd + cntCode + list.get(i).get("IS_TYPE"));
                             if(i == 0){
-                                params.put("pjtCd", pjtMap.get("PJT_TMP_CD"));
+                                params.put("pjtCd", pjtMap.get("pProjectCD"));
                                 projectRepository.updProjectCode(params);
                             }
                             // G20 프로젝트 추가

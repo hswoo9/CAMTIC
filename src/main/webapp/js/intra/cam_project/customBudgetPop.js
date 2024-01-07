@@ -390,6 +390,14 @@ var customBudgetPop = {
             }
             arr.push(data);
         })
+
+        if($("#path").val() == "rndDetail"){
+            opener.parent.rndDetail.cbGridAddRow(arr, $("#ac").val());
+        }else{
+            opener.parent.unRndDetail.cbGridAddRow(arr, $("#ac").val());
+        }
+
+        window.close();
     },
 
     setCustomBudgetDel : function(){

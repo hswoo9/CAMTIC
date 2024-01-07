@@ -141,7 +141,8 @@ public class AssetController {
     public String setAssetInfo(@RequestParam Map<String,Object> params,Model model, MultipartHttpServletRequest request) {
         params.put("regEmpIp", request.getRemoteAddr());
 
-        assetService.setAssetInfo(params, request, SERVER_DIR, BASE_DIR);
+        MultipartFile[] file = request.getFiles("file1").toArray(new MultipartFile[0]);
+        assetService.setAssetInfo(params, request, file, SERVER_DIR, BASE_DIR);
 
         model.addAttribute("params", params);
 

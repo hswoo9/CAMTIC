@@ -7,6 +7,10 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/asset/addAssetPop.js?v=${today}"/></script>
+<style>
+    tj {background-color: #8fa1c04a}
+    td {background-color: white}
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
@@ -24,6 +28,7 @@
             <input type="hidden" id="astInfoSn" name="astInfoSn" value="${params.astInfoSn}">
             <input type="hidden" id="mod" name="mod" value="${params.modify}">
             <input type="hidden" id="itemSn" value="${params.itemSn}"/>
+            <input type="hidden" id="purcSn" value=""/>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="18%">
@@ -157,11 +162,45 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">자산 사진</th>
-                    <td colspan="3" style="padding:5px;">
-                        <label for="astFile" class="k-button k-button-solid-base">파일첨부</label>
-                        <input type="file" id="astFile" name="astFile" onchange="addAssetPop.fileChange(this)" style="display: none">
-                        <span id="astFileName"></span>
+                    <th scope="row" class="text-center th-color">자산사진</th>
+                    <td colspan="3">
+                        <form style="padding: 0px 30px;">
+                            <div class="card-header" style="padding: 5px;">
+                                <h3 class="card-title">첨부파일</h3>
+                                <div class="card-options">
+                                    <div class="filebox">
+                                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                                            <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                                            <span class="k-button-text">파일첨부</span>
+                                        </button>
+                                        <input type="file" id="fileList" name="fileList" onchange="addAssetPop.addFileInfoTable();" multiple style="display: none"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="popTable table table-bordered mb-0">
+                                    <colgroup>
+                                        <col width="50%">
+                                        <col width="10%">
+                                        <col width="30%">
+                                        <col width="10%">
+                                    </colgroup>
+                                    <thead>
+                                    <tr class="text-center th-color">
+                                        <th>파일명</th>
+                                        <th>확장자</th>
+                                        <th>용량</th>
+                                        <th>기타</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="fileGrid">
+                                    <tr class="defultTr">
+                                        <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
                     </td>
                 </tr>
                 </thead>

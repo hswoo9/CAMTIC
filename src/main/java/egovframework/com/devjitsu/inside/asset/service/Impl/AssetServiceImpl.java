@@ -16,8 +16,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
+import java.awt.font.GlyphVector;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
@@ -53,7 +58,7 @@ public class AssetServiceImpl implements AssetService {
 
     @Override
     @Transactional
-    public void setAssetInfo(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
+    public void setAssetInfo(Map<String, Object> params, MultipartHttpServletRequest request, MultipartFile[] file, String server_dir, String base_dir) {
         params.put("astNo", params.get("astNo") + "-" + assetRepository.getAssetInfoBarcordMax(params));
         if(StringUtils.isEmpty(params.get("astInfoSn"))){
             assetRepository.setAssetInfo(params);
@@ -69,7 +74,6 @@ public class AssetServiceImpl implements AssetService {
         Map<String, Object> fileInsMap = new HashMap<>();
 
         MultipartFile relatedFile = request.getFile("relatedFile");
-        MultipartFile astFile = request.getFile("astFile");
 
         if(relatedFile != null){
             if(!relatedFile.isEmpty()){
@@ -87,25 +91,30 @@ public class AssetServiceImpl implements AssetService {
             }
         }
 
-        if(astFile != null){
-            if(!astFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(astFile, filePath(params, server_dir));
-                fileInsMap.put("astInfoSn", params.get("astInfoSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("empSeq", params.get("regEmpSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
-
-                fileInsMap.put("astFileNo", fileInsMap.get("file_no"));
-                assetRepository.setAstFileNoUpd(fileInsMap);
+        /**  ast **/
+        if(file.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "ast_" + params.get("astInfoSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
             }
+            commonRepository.insFileInfo(list);
         }
 
         /** 구매에서 자산처리한 데이터 등록할때 key 값 업데이트 */
         if(params.containsKey("itemSn")){
             purcRepository.updPurcClaimItemStat(params);
+        }
+
+        /** 구매에서 올린 검수사진 copy */
+        if(params.containsKey("purcSn")){
+            // 출장 지급신청 Key Insert
+            params.put("contentId", "inspect_" + params.get("purcSn"));
+            purcRepository.updPurcReqFileCopy(params);
         }
     }
 
@@ -120,7 +129,9 @@ public class AssetServiceImpl implements AssetService {
 
         Map<String, Object> searchMap = new HashMap<>();
         searchMap.put("fileNo", returnMap.get("AST_FILE_NO"));
-        returnMap.put("astFile", commonRepository.getContentFileOne(searchMap));
+        searchMap.put("fileCd", "asset");
+        searchMap.put("contentId", "inspect_" + returnMap.get("AST_INFO_SN").toString());
+        returnMap.put("astFile", commonRepository.getFileList(searchMap));
         searchMap.put("fileNo", returnMap.get("RELATED_FILE_NO"));
         returnMap.put("relatedFile", commonRepository.getContentFileOne(searchMap));
 
@@ -137,9 +148,12 @@ public class AssetServiceImpl implements AssetService {
 
         Map<String, Object> searchMap = new HashMap<>();
         searchMap.put("fileNo", returnMap.get("AST_FILE_NO"));
-        returnMap.put("astFile", commonRepository.getContentFileOne(searchMap));
+        searchMap.put("fileCd", "asset");
+        searchMap.put("contentId", "ast_" + returnMap.get("AST_INFO_SN").toString());
+        returnMap.put("astFile", commonRepository.getFileList(searchMap));
         searchMap.put("fileNo", returnMap.get("RELATED_FILE_NO"));
         returnMap.put("relatedFile", commonRepository.getContentFileOne(searchMap));
+        searchMap.put("contentId", "ast_" + params.get("AST_INFO_SN"));
 
         return returnMap;
     }
