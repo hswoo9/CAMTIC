@@ -9,9 +9,26 @@ var prjBgtMng = {
     },
 
     fn_defaultScript : function (){
-        customKendo.fn_datePicker("frDt", '', "yyyy-MM-dd", new Date(prjBgtMng.global.now.getFullYear() + '-01-01'));
-        customKendo.fn_datePicker("toDt", '', "yyyy-MM-dd", new Date(prjBgtMng.global.now.getFullYear() + '-12-31'));
-        customKendo.fn_textBox(["deptName", "searchText"]);
+        customKendo.fn_textBox(["searchText"]);
+        customKendo.fn_datePicker("year", 'decade', "yyyy", new Date());
+
+        var bcDsData = {
+            cmGroupCode : "BUSN_CLASS"
+        };
+        var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
+        bcDs.rs.pop(); // 법인 삭제
+        customKendo.fn_dropDownList("busnClass", bcDs.rs, "CM_CODE_NM", "CM_CODE");
+        $("#searchValue2").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "프로젝트코드", value: "1" },
+                { text: "프로젝트명", value: "2" },
+                { text: "담당자", value: "3" }
+            ],
+            index: 0
+        });
 
         prjBgtMng.gridReload();
     },
@@ -32,6 +49,12 @@ var prjBgtMng = {
                 parameterMap: function(data) {
                     data.pjtFromDate = $("#frDt").val();
                     data.pjtToDate = $("#toDt").val();
+
+                    data.busnClass = $("#busnClass").val();
+
+                    data.searchValue2 = $("#searchValue2").val();
+                    data.searchText = $("#searchText").val();
+
                     return data;
                 }
             },

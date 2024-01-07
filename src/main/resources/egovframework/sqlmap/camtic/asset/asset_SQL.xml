@@ -1558,13 +1558,13 @@
         (
             eqipmn_mst_sn, use_pd_str_de, user_name, user_sn,
             oper_cn, use_time, use_amt, prtpco_gbn_name, prtpco_gbn_sn, prtpco_sn, client_prtpco_name,
-            reg_de, actvt_yn, create_dt, crtr_sn ,end_stat
+            reg_de, actvt_yn, create_dt, crtr_sn ,end_stat, str_time, end_time, per_amt, per_reason, pjt_sn
         )
         VALUES
             (
                 #{eqipmnMstSn}, #{usePdStrDe}, #{userName}, #{userSn},
                 #{operCn}, #{useTime}, #{useAmt}, #{prtpcoGbnName}, #{prtpcoGbnSn}, #{prtpcoSn}, #{clientPrtpcoName},
-                #{regDe},'Y', NOW(), #{crtrSn} ,'N'
+                #{regDe},'Y', NOW(), #{crtrSn} ,'N', #{time1}, #{time2}, #{perAmt}, #{perReason}, #{pjtSn}
             )
     </insert>
 
@@ -1573,7 +1573,9 @@
         /*getEqipmnNameList*/
         SELECT
             eqipmn_name AS TEXT,
-            eqipmn_mst_sn AS VALUE
+            eqipmn_mst_sn AS VALUE,
+            regtr_sn AS EMP_SEQ,
+            HOURLY_USAGE_FEE AS HOURLY_USAGE_FEE
         FROM
             CAM_INSIDE.DJ_EQIPMN_MST
         WHERE

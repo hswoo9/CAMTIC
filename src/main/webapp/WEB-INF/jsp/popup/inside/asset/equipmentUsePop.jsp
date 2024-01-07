@@ -40,10 +40,10 @@
                 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
                 <table class="popTable table table-bordered mb-0" style="margin-top: 10px;">
                     <colgroup>
-                        <col width="20%">
-                        <col width="30%">
-                        <col width="20%">
-                        <col width="30%">
+                        <col width="15%">
+                        <col width="35%">
+                        <col width="15%">
+                        <col width="35%">
                     </colgroup>
                     <thead>
                     <%--<tr>
@@ -53,16 +53,35 @@
                         <th scope="row" class="text-center th-color">
                             <span class="red-star">*</span>장비명
                         </th>
-                        <td colspan="3"><input type="text" id="eqipmnGbnName" style="width: 30%;">
+                        <td colspan="3">
+                            <input type="text" id="eqipmnGbnName" style="width: 30%;">
                             <input type="text" id="eqipmnName" style="width: 60%;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">
+                            관련사업
+                        </th>
+                        <td colspan="3">
+                            <input type="text" id="busnName" name="busnName" style="width: 80%;" disabled />
+                            <input type="hidden" id="pjtSn" />
+                            <input type="hidden" id="pjtCd" name="pjtCd">
+                            <button type="button" class="k-button k-button-solid-info" onclick="equipmentUsePop.fn_projectPop()" id="projectAddBtn">사업선택</button>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">
                             <span class="red-star">*</span>사용일자
                         </th>
-                        <td colspan="3">
-                            <input id="usePdStrDe" type="date" style="width: 34.4%;">
+                        <td>
+                            <input id="usePdStrDe" type="date" style="width: 40%;">
+                            <input id="time1" style="width: 26%" onchange="equipmentUsePop.fn_calTime()"> ~
+                            <input id="time2" style="width: 26%" onchange="equipmentUsePop.fn_calTime()">
+                        </td>
+                        <th scope="row" class="text-center th-color">
+                            사용시간
+                        </th>
+                        <td><input type="text" id="useTime" maxlength="3" oninput="onlyNumber(this);" onkeyup="equipmentUsePop.fn_EqipmnHUF(this.value)" style="text-align: right; width: 65%;" disabled> 시간
                         </td>
                     </tr>
                     <tr>
@@ -71,6 +90,7 @@
                         </th>
                         <td colspan="3">
                             <input type="text" id="userName" style="width: 30%;" disabled="disabled">
+                            <input type="hidden" id="userSn" style="width: 30%;" disabled="disabled">
                             <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0;" onclick="userSearch();">
                                 검색
                             </button>
@@ -84,30 +104,19 @@
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">
-                            <span class="red-star">*</span>사용시간
-                        </th>
-                        <td colspan><input type="text" id="useTime" maxlength="3" oninput="onlyNumber(this);" onkeyup="equipmentUsePop.fn_EqipmnHUF(this.value)" style="width: 65%;"> 시간
-                        </td>
-                        <th scope="row" class="text-center th-color">
                             사용대금
                         </th>
-                        <td><input type="text" id="useAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 90%; text-align: right;">원
+                        <td>
+                            <input type="text" id="useAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 90%; text-align: right;">원
                             <input type="hidden" id="hourlyUsageFee" value="" />
                         </td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color"><span class="red-star"></span>의뢰업체</th>
-                        <td colspan="3"><input type="text" id="clientPrtpcoName" disabled style="width: 30%;">
-                            <button type="button" id="search1" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0;" onclick="equipmentUsePop.fn_popCamCrmList()">
-                                검색
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
                         <th scope="row" class="text-center th-color">
-                            <span class="red-star">*</span>업체구분
+                            할인금액
                         </th>
-                        <td colspan="3"><input type="text" id="prtpcoGbnName" style="width: 34.4%;">
+                        <td>
+                            사유 : <input id="perReason" style="width: 30%"/>
+                            <input type="text" id="perAmt" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 52%; text-align: right;" value="0">원
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">
@@ -130,6 +139,11 @@
 
     function userSearch() {
         window.open("/common/deptListPop.do","조직도","width=750,height=650");
+    }
+
+    function selectProject(key, name){
+        $("#busnName").val(name);
+        $("#pjtSn").val(key);
     }
 
 </script>

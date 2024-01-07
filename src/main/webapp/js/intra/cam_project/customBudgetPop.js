@@ -145,6 +145,7 @@ var customBudgetPop = {
         grid.element.off('dbclick');
 
         grid.tbody.find("tr").click(function (e) {
+            $("#mediumValue").val("");
             var dataItem = grid.dataItem($(this).closest("tr"));
             customBudgetPop.global.cbCodeIdA = dataItem.CB_CODE_ID;
             $(".cBudgetB.addBudgetB").attr("cbUpperCode", customBudgetPop.global.cbCodeIdA);
@@ -159,12 +160,15 @@ var customBudgetPop = {
         grid.element.off('dbclick');
 
         grid.tbody.find("tr").click(function (e) {
+            $("#smallValue").val("");
             var dataItem = grid.dataItem($(this).closest("tr"));
             customBudgetPop.global.cbCodeIdB = dataItem.CB_CODE_ID;
             $(".cBudgetC.addBudgetC").attr("cbUpperCode", customBudgetPop.global.cbCodeIdB);
             customBudgetPop.cbAddRow("customBudgetGridB");
             customBudgetPop.global.cBudgetB = $(this);
         });
+
+        $("#smallValue").val("");
     },
 
     gridReload2 : function(grid){
@@ -297,14 +301,14 @@ var customBudgetPop = {
                             '	<span class="k-button-text">반영</span>' +
                             '</button>';
                     }
-                }, /*{
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="customBudgetPop.setCustomBudgetDel()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
-                }*/
+                }
             ],
             editable : function (){
                 return true;
@@ -386,14 +390,6 @@ var customBudgetPop = {
             }
             arr.push(data);
         })
-
-        if($("#path").val() == "rndDetail"){
-            opener.parent.rndDetail.cbGridAddRow(arr, $("#ac").val());
-        }else{
-            opener.parent.unRndDetail.cbGridAddRow(arr, $("#ac").val());
-        }
-
-        window.close();
     },
 
     setCustomBudgetDel : function(){

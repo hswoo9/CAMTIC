@@ -54,6 +54,7 @@ public class setManagementController {
     public String projectBgtManagement(Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
 
         return "cam_manager/setManagement/projectBgtManagement";

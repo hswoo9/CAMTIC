@@ -57,6 +57,21 @@
                 </if>
             </otherwise>
         </choose>
+        <if test='busnClass != null and !"".equals(busnClass)'>
+            AND A.PJT_CD LIKE #{busnClass} + '%')
+        </if>
+        <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+                A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='"2".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+                A.PJT_NM LIKE CONCAT('%', #{searchText}, '%')
+        </if>
+        <if test='"3".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+            AND
+                C.KOR_NM LIKE CONCAT('%', #{searchText}, '%')
+        </if>
     </select>
 
     <select id="getProjectCount" parameterType="map" resultType="int">
