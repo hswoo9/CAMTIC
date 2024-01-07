@@ -139,7 +139,6 @@ var hwpDocCtrl = {
                     }
                 },
                 error: function(e) {
-                    console.log(e);
                     alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
                     window.close();
                 }
@@ -160,7 +159,6 @@ var hwpDocCtrl = {
                 dataType : "json",
                 async: false,
                 success : function(result){
-                    console.log(result.data);
                     const ResultData = result.data;
 
                     let today = new Date();
@@ -285,7 +283,6 @@ var hwpDocCtrl = {
                 dataType : "json",
                 async: false,
                 success : function(result){
-                    console.log(result.data);
                     const ResultData = result.data;
 
                     let today = new Date();

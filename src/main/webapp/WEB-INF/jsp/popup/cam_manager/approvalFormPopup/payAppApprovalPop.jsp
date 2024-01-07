@@ -100,7 +100,6 @@
         payAppSn: ${params.payAppSn}
     });
     const rs = result.map;
-    console.log(rs);
 
     let formId = "147";
     if(rs.PJT_CD.substring(0,1) == "M" ){
