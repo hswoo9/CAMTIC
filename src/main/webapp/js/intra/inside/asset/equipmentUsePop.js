@@ -60,6 +60,7 @@ var equipmentUsePop = {
         customKendo.fn_timePicker("time2", '10', "HH:mm", "18:00");
         $("#usePdStrDe, #time1, #time2").attr("readonly", true);
 
+        //장비명 드롭박스 리스트
         $.ajax({
             url : "/asset/getEqipmnList",
             type : "post",

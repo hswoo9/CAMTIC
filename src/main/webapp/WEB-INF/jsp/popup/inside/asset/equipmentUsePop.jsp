@@ -81,7 +81,8 @@
                         <th scope="row" class="text-center th-color">
                             사용시간
                         </th>
-                        <td><input type="text" id="useTime" maxlength="3" oninput="onlyNumber(this);" onkeyup="equipmentUsePop.fn_EqipmnHUF(this.value)" style="text-align: right; width: 65%;" disabled> 시간
+                        <td>
+                            <input type="text" id="useTime" maxlength="3" oninput="onlyNumber(this);" onkeyup="equipmentUsePop.fn_EqipmnHUF(this.value)" style="text-align: right; width: 65%;" disabled> 시간
                         </td>
                     </tr>
                     <tr>

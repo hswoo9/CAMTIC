@@ -1729,7 +1729,8 @@
             user_name = #{userName}, user_sn = #{userSn},
             oper_cn = #{operCn}, use_time = #{useTime}, use_amt = #{useAmt},
             prtpco_gbn_name = #{prtpcoGbnName}, prtpco_gbn_sn = #{prtpcoGbnSn},
-            reg_de = #{regDe}, updt_dt = NOW(), updusr_sn = #{updusrSn}
+            reg_de = #{regDe}, updt_dt = NOW(), updusr_sn = #{updusrSn},
+            str_time = #{time1}, end_time = #{time2}, per_amt = #{perAmt}, per_reason = #{perReason}, pjt_sn = #{pjtSn}
         WHERE
             eqipmn_use_sn = #{pk}
     </update>
@@ -1789,14 +1790,22 @@
             A.use_amt as USE_AMT,
             A.client_prtpco_name as CLIENT_PRTPCO_NAME,
             A.prtpco_gbn_name as PRTPCO_GBN_NAME,
-            A.prtpco_gbn_sn as PRTPCO_GBN_SN,
+            A.str_time as STR_TIME,
+            A.end_time as END_TIME,
+            A.per_amt as PER_AMT,
+            A.per_reason as PER_REASON,
+            A.pjt_sn as PJT_SN,
+            C.PJT_NM,
             A.actvt_yn as ACTVT_YN,
             DATE_FORMAT(A.reg_de, '%Y-%m-%d') as REG_DE
         FROM
             cam_inside.dj_eqipmn_use A
-                LEFT JOIN
+        LEFT JOIN
             cam_inside.dj_eqipmn_mst B
             ON A.eqipmn_mst_sn = B.eqipmn_mst_sn
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+            ON C.PJT_SN = A.PJT_SN
         WHERE
             A.eqipmn_use_sn = #{pk}
     </select>
