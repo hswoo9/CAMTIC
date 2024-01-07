@@ -10,9 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -150,6 +153,44 @@ public class SalaryManageController {
         } catch(Exception e){
             e.printStackTrace();
         }
+        return "jsonView";
+    }
+
+    /**
+     * 급여관리 엑셀 업로드 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/pop/esmExcelUploadPop.do")
+    public String esmloyExcelUploadPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/inside/salaryManage/esmExcelUploadPop";
+    }
+
+    /**
+     * 급여관리 양식 다운로드
+     * @param request
+     * @return
+     */
+    @RequestMapping("/esm/esmRegTemplateDown.do")
+    public void crmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        salaryManageService.esmRegTemplateDown(request, response);
+    }
+
+    /**
+     * 급여관리 엑셀 업로드
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/esm/esmExcelUpload.do")
+    public String esmExcelUpload(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception{
+        salaryManageService.esmExcelUpload(params, request);
         return "jsonView";
     }
 
