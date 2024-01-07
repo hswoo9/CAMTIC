@@ -243,25 +243,27 @@ public class SalaryManageServiceImpl implements SalaryManageService {
             col6 = row.getCell(6);
             col7 = row.getCell(7);
 
-            Date now = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String nowString = sdf.format(now);
-
             if(row != null){
                 if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") ||
                         cellValueToString(col3).equals("") || cellValueToString(col4).equals("") || cellValueToString(col5).equals("") ||
                         cellValueToString(col6).equals("") || cellValueToString(col7).equals("")){
                     return;
                 } else {
-                    salaryMap.put("socialRateSn", "");
-                    salaryMap.put("empSeq", cellValueToString(row.getCell(0)));
-                    salaryMap.put("empName", cellValueToString(row.getCell(1)));
-                    salaryMap.put("startDt", cellValueToString(row.getCell(2)));
-                    salaryMap.put("endDt", cellValueToString(row.getCell(3)));
-                    salaryMap.put("basicSalary", cellValueToString(row.getCell(4)));
-                    salaryMap.put("foodPay", cellValueToString(row.getCell(5)));
-                    salaryMap.put("extraPay", cellValueToString(row.getCell(6)));
-                    salaryMap.put("bonus", cellValueToString(row.getCell(7)));
+                    Map<String, Object> dataMap = new HashMap<>();
+                    dataMap.put("startDt", cellValueToString(col2));
+                    dataMap.put("endDt", cellValueToString(col3));
+
+                    int socialRateSn = Integer.parseInt(String.valueOf(salaryManageRepository.getsocialRateSn(dataMap)));
+
+                    salaryMap.put("socialRateSn", socialRateSn);
+                    salaryMap.put("empSeq", cellValueToString(col0));
+                    salaryMap.put("empName", cellValueToString(col1));
+                    salaryMap.put("startDt", cellValueToString(col2));
+                    salaryMap.put("endDt", cellValueToString(col3));
+                    salaryMap.put("basicSalary", cellValueToString(col4));
+                    salaryMap.put("foodPay", cellValueToString(col5));
+                    salaryMap.put("extraPay", cellValueToString(col6));
+                    salaryMap.put("bonus", cellValueToString(col7));
                     salaryMap.put("loginEmpSeq", params.get("empSeq"));
                     salaryManageRepository.insSalaryManage(salaryMap);
                 }

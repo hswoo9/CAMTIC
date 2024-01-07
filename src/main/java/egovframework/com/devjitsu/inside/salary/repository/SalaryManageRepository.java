@@ -46,5 +46,9 @@ public class SalaryManageRepository extends AbstractDAO  {
     public void insSalaryManageList(List<Map<String, Object>> newList) {
         insert("salaryManage.insSalaryManageList", newList);
     }
+
+    public int getsocialRateSn(Map<String, Object> map) {
+        return (int) selectOne("salaryManage.getsocialRateSn", map);
+    }
 }
 
