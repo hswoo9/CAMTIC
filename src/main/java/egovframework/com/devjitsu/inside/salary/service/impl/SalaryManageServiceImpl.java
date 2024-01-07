@@ -4,12 +4,28 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.inside.salary.repository.SalaryManageRepository;
 import egovframework.com.devjitsu.inside.salary.service.SalaryManageService;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -161,5 +177,158 @@ public class SalaryManageServiceImpl implements SalaryManageService {
     @Override
     public void delSalaryManage(Map<String, Object> params) {
         salaryManageRepository.delSalaryManage(params);
+    }
+
+    @Override
+    public void esmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String localPath = "/downloadFile/";
+        String fileName = "급여관리 등록 양식.xlsx";
+        String viewFileNm = "급여관리 등록 양식.xlsx";
+        File reFile = new File(request.getSession().getServletContext().getRealPath(localPath + fileName));
+
+        try {
+            if (reFile.exists() && reFile.isFile()) {
+                response.setContentType("application/octet-stream; charset=utf-8");
+                response.setContentLength((int) reFile.length());
+                String browser = getBrowser(request);
+                String disposition = setDisposition(viewFileNm, browser);
+                response.setHeader("Content-Disposition", disposition);
+                response.setHeader("Content-Transfer-Encoding", "binary");
+                OutputStream out = response.getOutputStream();
+                FileInputStream fis = null;
+                fis = new FileInputStream(reFile);
+                FileCopyUtils.copy(fis, out);
+                if (fis != null)
+                    fis.close();
+                out.flush();
+                out.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void esmExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception {
+        MultipartFile fileNm = request.getFile("salaryManageFile");
+
+        File dest = new File(fileNm.getOriginalFilename());
+        fileNm.transferTo(dest);
+
+        XSSFRow row;
+        XSSFCell col0;
+        XSSFCell col1;
+        XSSFCell col2;
+        XSSFCell col3;
+        XSSFCell col4;
+        XSSFCell col5;
+        XSSFCell col6;
+        XSSFCell col7;
+
+        FileInputStream inputStream = new FileInputStream(dest);
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        int rows = sheet.getPhysicalNumberOfRows();
+
+        for(int i=5; i < rows; i++){
+            Map<String, Object> salaryMap = new HashMap<>();
+
+            row = sheet.getRow(i);
+            col0 = row.getCell(0);
+            col1 = row.getCell(1);
+            col2 = row.getCell(2);
+            col3 = row.getCell(3);
+            col4 = row.getCell(4);
+            col5 = row.getCell(5);
+            col6 = row.getCell(6);
+            col7 = row.getCell(7);
+
+            Date now = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String nowString = sdf.format(now);
+
+            if(row != null){
+                if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") ||
+                        cellValueToString(col3).equals("") || cellValueToString(col4).equals("") || cellValueToString(col5).equals("") ||
+                        cellValueToString(col6).equals("")){
+                    return;
+                } else {
+                    salaryMap.put("socialRateSn", "");
+                    salaryMap.put("empSeq", cellValueToString(row.getCell(0)));
+                    salaryMap.put("empName", cellValueToString(row.getCell(1)));
+                    salaryMap.put("startDt", cellValueToString(row.getCell(2)));
+                    salaryMap.put("endDt", cellValueToString(row.getCell(3)));
+                    salaryMap.put("basicSalary", cellValueToString(row.getCell(4)));
+                    salaryMap.put("foodPay", cellValueToString(row.getCell(5)));
+                    salaryMap.put("extraPay", cellValueToString(row.getCell(6)));
+                    salaryMap.put("bonus", cellValueToString(row.getCell(7)));
+                    salaryMap.put("loginEmpSeq", params.get("empSeq"));
+                    salaryManageRepository.insSalaryManage(params);
+                }
+            }
+        }
+    }
+
+    public String cellValueToString(XSSFCell cell){
+        String txt = "";
+
+        try {
+            if(cell.getCellType() == XSSFCell.CELL_TYPE_STRING){
+                txt = cell.getStringCellValue();
+            }else if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC){
+                if( DateUtil.isCellDateFormatted(cell)) {
+                    Date date = cell.getDateCellValue();
+                    txt = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                }else{
+                    txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
+                }
+            }else if(cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA){
+                txt = cell.getCellFormula();
+            }
+        } catch (Exception e) {
+
+        }
+        return txt;
+    }
+
+    private String getBrowser(HttpServletRequest request) {
+        String header = request.getHeader("User-Agent");
+        if (header.indexOf("MSIE") > -1) { // IE 10 �씠�븯
+            return "MSIE";
+        } else if (header.indexOf("Trident") > -1) { // IE 11
+            return "MSIE";
+        } else if (header.indexOf("Chrome") > -1) {
+            return "Chrome";
+        } else if (header.indexOf("Opera") > -1) {
+            return "Opera";
+        }
+        return "Firefox";
+    }
+
+    private String setDisposition(String filename, String browser) throws Exception {
+        String dispositionPrefix = "attachment; filename=";
+        String encodedFilename = null;
+
+        if (browser.equals("MSIE")) {
+            encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+        } else if (browser.equals("Firefox")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "ISO-8859-1") + "\"";
+        } else if (browser.equals("Opera")) {
+            encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+        } else if (browser.equals("Chrome")) {
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < filename.length(); i++) {
+                char c = filename.charAt(i);
+                if (c > '~') {
+                    sb.append(URLEncoder.encode("" + c, "UTF-8"));
+                } else {
+                    sb.append(c);
+                }
+            }
+            encodedFilename = sb.toString();
+        } else {
+
+        }
+        return dispositionPrefix + encodedFilename;
     }
 }

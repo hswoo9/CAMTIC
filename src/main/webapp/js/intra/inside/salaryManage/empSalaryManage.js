@@ -93,6 +93,23 @@ var esm = {
             },
             toolbar : [
                 {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="esm.templateExcelFormDown()">' +
+                            '	<span class="k-button-text">고객등록양식 다운로드</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="esm.fn_crmExcelUploadPop()">' +
+                            '	<span class="k-button-text">고객등록양식 업로드</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="userSearch()">' +
@@ -106,9 +123,6 @@ var esm = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }, {
-                    name : 'excel',
-                    text: '엑셀다운로드'
                 }
             ],
             noRecords: {
@@ -313,6 +327,19 @@ var esm = {
         }
 
         esm.mainGrid("/salaryManage/getEmpSalaryManageList.do", esm.global.searchAjaxData);
+    },
+
+    templateExcelFormDown : function(){
+        kendo.saveAs({
+            dataURI: "/esm/esmRegTemplateDown.do"
+        });
+    },
+
+    fn_crmExcelUploadPop : function (){
+        var url = "/inside/pop/esmExcelUploadPop.do";
+        var name = "_blank";
+        var option = "width = 500, height = 230, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 }
 
