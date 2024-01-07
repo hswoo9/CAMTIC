@@ -250,7 +250,7 @@ public class SalaryManageServiceImpl implements SalaryManageService {
             if(row != null){
                 if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") ||
                         cellValueToString(col3).equals("") || cellValueToString(col4).equals("") || cellValueToString(col5).equals("") ||
-                        cellValueToString(col6).equals("")){
+                        cellValueToString(col6).equals("") || cellValueToString(col7).equals("")){
                     return;
                 } else {
                     salaryMap.put("socialRateSn", "");
@@ -263,7 +263,7 @@ public class SalaryManageServiceImpl implements SalaryManageService {
                     salaryMap.put("extraPay", cellValueToString(row.getCell(6)));
                     salaryMap.put("bonus", cellValueToString(row.getCell(7)));
                     salaryMap.put("loginEmpSeq", params.get("empSeq"));
-                    salaryManageRepository.insSalaryManage(params);
+                    salaryManageRepository.insSalaryManage(salaryMap);
                 }
             }
         }
