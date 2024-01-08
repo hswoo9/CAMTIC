@@ -1339,7 +1339,14 @@
             )
         VALUES
             (
-                #{studyUserSn},
+                <choose>
+                    <when test='studyUserSn != null and studyUserSn != ""'>
+                        #{studyUserSn},
+                    </when>
+                    <otherwise>
+                        #{pk},
+                    </otherwise>
+                </choose>
                 <if test='studyClassSn != null and studyClassSn != ""'>
                     #{studyClassSn},
                 </if>
@@ -2577,9 +2584,9 @@
     <update id="setOpenStudyRealEduTimeUpd" parameterType="map">
         /* setOpenStudyRealEduTimeUpd */
         UPDATE
-            CAMPUS.DJ_OPENSTUDY_USER
+            CAMPUS.DJ_STUDY_USER
         SET
-            REAL_EDU_TIME = #{realEduTime}
+            STUDY_INFO_SN = #{realEduTime}
         WHERE
             REG_EMP_SEQ = #{regEmpSeq}
           AND
@@ -2587,5 +2594,14 @@
           and
             open_study_info_sn = #{pk}
     </update>
+
+    <delete id="setStudyUserDelete" parameterType="map">
+        /*setStudyUserDelete*/
+        DELETE
+        FROM
+            CAMPUS.DJ_STUDY_USER
+        WHERE
+            STUDY_INFO_SN = #{pk}
+    </delete>
 
 </mapper>
