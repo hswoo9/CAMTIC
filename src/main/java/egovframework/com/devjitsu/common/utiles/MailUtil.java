@@ -49,6 +49,11 @@ public class MailUtil {
         //MimeMessage 생성 & 메일 세팅
         Message mimeMessage = new MimeMessage(session);
         mimeMessage.setFrom(new InternetAddress(email)); // 발신자
+
+        /** 다중 보낼때
+         * recipient 에 스트링 배열
+         mimeMessage.addRecipients(Message.RecipientType.TO, new InternetAddress(recipient));
+         */
         mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
         mimeMessage.setSubject(subject); // 제목

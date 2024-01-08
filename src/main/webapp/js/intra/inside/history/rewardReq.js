@@ -81,36 +81,45 @@ var rewardReq = {
                 {
                     title: "순번",
                     template: "#= --record #",
-                    width: 50
+                    width: 40
                 }, {
                     field: "EMP_NAME",
                     title: "성명",
-                    width: 100,
+                    width: 90,
                     template: function(row){
                         return "<span style='font-weight: bold' class='hover' onclick='rewardReq.rewardReqBatchPop(\"upd\", "+row.REWORD_ID+");'>"+row.EMP_NAME+"</span>";
                     }
                 }, {
                     field: "REWORD_TYPE_NAME",
                     title: "내/외부",
-                    width: 100
+                    width: 170
                 }, {
                     field: "REWORD_NAME",
                     title: "포상 구분",
-                    width: 150
+                    width: 120
                 }, {
                     field: "REWORD_DAY",
                     title: "포상일자",
                     width: 100
                 }, {
                     field: "RWD_OFM",
-                    title: "공적사항"
+                    title: "공적사항",
+                    template: function(e){
+                        var rwdOfm = e.RWD_OFM;
+                        var rwdOfmEx = rwdOfm;
+                        if(rwdOfm.toString().length > 36){
+                            rwdOfmEx = rwdOfm.toString().substring(0, 36)+ "...";
+                        }
+
+                        return rwdOfmEx;
+                    }
                 }, {
                     field: "RWD_ST_COMP",
                     title: "시행처",
                     width: 200
                 }, {
                     title: "관련파일",
-                    width: 150,
+                    width: 100,
                     template: function(row){
                         if(row.file_no > 0){
                             return '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">보기</span>';
@@ -124,7 +133,7 @@ var rewardReq = {
                     title: "비고",
                     width: 150
                 }, {
-                    field: "APPROVE_EMP_NAME",
+                    field: "REG_EMP_NAME",
                     title: "기록인",
                     width: 100
                 }

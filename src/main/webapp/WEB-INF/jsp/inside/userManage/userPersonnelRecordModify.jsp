@@ -923,9 +923,6 @@
                                         <col width="11%">
                                         <col width="18%">
                                         <col width="13%">
-                                        <col width="9%">
-                                        <col width="9%">
-                                        <col width="8%">
                                     </colgroup>
                                     <thead class="getInterviewCardList ">
                                     <tr>
@@ -935,9 +932,6 @@
                                         <th>피면담자</th>
                                         <th>면담일시</th>
                                         <th>면담자</th>
-                                        <th>차상급자</th>
-                                        <th>차차상급자</th>
-                                        <th>상태</th>
                                     </tr>
 
 
@@ -1435,9 +1429,6 @@
                         /*row.append($("<td class='card_interview_date'></td>").text(card.card_interview_date));*/
                         row.append($("<td class='card_interview_date' onClick='cardDetailPop(" + card.card_number + ")'></td>").text(card.card_interview_date+' '+ card.stime + '~' + card.etime));
                         row.append($("<td class='card_interviewer'></td>").text(card.card_interviewer));
-                        row.append($("<td class='card_superior_person'></td>").text(card.card_superior_person));
-                        row.append($("<td class='card_superior_person2'></td>").text(card.card_superior_person2));
-                        row.append($("<td class='card_status'></td>").text(card.card_status));
 
                         $(".getInterviewCardList").append(row); // 생성한 행을 테이블에 추가
                     }

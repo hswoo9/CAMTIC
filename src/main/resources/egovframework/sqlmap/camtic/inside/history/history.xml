@@ -218,7 +218,8 @@
             CFI.file_size,
             IFNULL(CFI.file_no, 0) AS file_no,
             CFI.file_path,
-            CFI.file_uuid
+            CFI.file_uuid,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE HER.REG_EMP_SEQ = EMP_SEQ) AS REG_EMP_NAME
         FROM
             CAM_HR.DJ_EMP_REWORD HER
         LEFT JOIN

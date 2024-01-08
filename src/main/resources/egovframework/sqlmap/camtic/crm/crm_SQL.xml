@@ -1461,5 +1461,6 @@
             CAM_COMMON.DJ_FILE_INFO
         WHERE
             FR_KEY = #{mouArgSn}
+        AND file_cd = 'crm'
     </select>
 </mapper>
