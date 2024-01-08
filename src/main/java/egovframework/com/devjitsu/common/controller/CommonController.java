@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.common.controller;
 
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.common.utiles.MailUtil;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -49,6 +51,22 @@ public class CommonController {
 
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
+
+
+    @Value("#{properties['Dev.Mail.SMTPName']}")
+    private String SMTPName;
+    @Value("#{properties['Dev.Mail.SMTPMail']}")
+    private String SMTPMail;
+    @Value("#{properties['Dev.Mail.SMTPServer']}")
+    private String SMTPServer;
+    @Value("#{properties['Dev.Mail.SMTPPort']}")
+    private int SMTPPort;
+    @Value("#{properties['Dev.Mail.SMTPID']}")
+    private String SMTPID;
+    @Value("#{properties['Dev.Mail.SMTPPW']}")
+    private String SMTPPW;
+    @Value("#{properties['Dev.Mail.MailPath']}")
+    private String MailPath;
 
     @RequestMapping(value = "/common/fileDownload.do")
     public void fileDownload(@RequestParam Map<String, Object> params, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -363,6 +381,16 @@ public class CommonController {
     @RequestMapping ("/common/getFileInfo")
     public String getFileInfo (@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("data", commonService.getFileInfo(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/test/testMail")
+    public String testMail(Model model) throws MessagingException {
+
+        MailUtil mailUtil = new MailUtil();
+        mailUtil.sendMail(SMTPServer, SMTPPort, SMTPID, SMTPPW);
+
+        model.addAttribute("rs", "SUCCESS");
         return "jsonView";
     }
 }
