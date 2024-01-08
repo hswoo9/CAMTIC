@@ -119,11 +119,11 @@ var eduInfo = {
                     width: 100
                 }, {
                     title: "학습시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    template: "<span>#=TERM_TIME#시간</span>",
                     width: 100
                 },  {
                     title: "인정시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    template: "<span>#=REAL_EDU_TIME#시간</span>",
                     width: 100
                 }, {
                     title: "진행현황",

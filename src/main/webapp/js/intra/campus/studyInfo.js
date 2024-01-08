@@ -118,9 +118,26 @@ var studyInfo = {
                     title: "교육장소",
                     width: 300
                 },{
+                    field: "EDU_TIME_TOTAL",
                     title: "학습시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
-                    width: 100
+                    width: 100,
+                    template : function (e){
+                        if(e.STUDY_CLASS_SN == "3"){
+                            if(e.ST_SUM != "" && e.ST_SUM != null){
+                                return e.ST_SUM;
+                            } else {
+                                return "0";
+                            }
+                        } else if(e.STUDY_CLASS_SN == "2"){
+                            return e.PROPAG_SUM == null ? "0" : e.PROPAG_SUM;
+                        } else {
+                            if(e.EDU_TIME_TOTAL != "" && e.EDU_TIME_TOTAL != null){
+                                return e.EDU_TIME_TOTAL;
+                            } else {
+                                return "0";
+                            }
+                        }
+                    }
                 },  {
                     title: "인정시간",
                     /*template: "<span>#=STUDY_TIME#시간</span>",*/
