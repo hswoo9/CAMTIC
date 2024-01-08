@@ -1,12 +1,17 @@
 package egovframework.com.devjitsu.common.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.common.utiles.Coordinates;
 import egovframework.com.devjitsu.common.utiles.MailUtil;
+import egovframework.com.devjitsu.common.utiles.MapUtil;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
 import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +32,7 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -391,6 +397,18 @@ public class CommonController {
         mailUtil.sendMail(SMTPServer, SMTPPort, SMTPID, SMTPPW);
 
         model.addAttribute("rs", "SUCCESS");
+        return "jsonView";
+    }
+
+    @RequestMapping("/test/testMap")
+    public String testMap(@RequestParam Map<String, Object> params, Model model) {
+        MapUtil mapUtil = new MapUtil();
+        JSONArray doc = mapUtil.getCoordinate(params);
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> docListMap = gson.fromJson(doc.toString(), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+        model.addAttribute("route", docListMap);
         return "jsonView";
     }
 }
