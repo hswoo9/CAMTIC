@@ -1317,8 +1317,8 @@ public class CampusController {
     @RequestMapping("/campus/getOpenStudyInfoList")
     public String getOpenStudyInfoList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        params.put( "empSeq", login.getUniqId( ) );
+        LoginVO login = (LoginVO)session.getAttribute("LoginVO");
+        params.put("empSeq",login.getUniqId());
         List<Map<String, Object>> list = campusService.getOpenStudyInfoList(params);
         model.addAttribute("loginVO", login);
         model.addAttribute("list", list);
