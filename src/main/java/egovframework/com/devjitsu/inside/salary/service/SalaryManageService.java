@@ -23,6 +23,6 @@ public interface SalaryManageService {
 
     void delSalaryManage(Map<String, Object> params);
 
-    void esmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    void esmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws Exception;
     void esmExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
 }
