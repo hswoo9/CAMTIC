@@ -10,7 +10,8 @@ var prjBgtMng = {
 
     fn_defaultScript : function (){
         customKendo.fn_textBox(["searchText"]);
-        customKendo.fn_datePicker("year", 'decade', "yyyy", new Date());
+        customKendo.fn_datePicker("frDt", '', "yyyy-MM-dd", new Date(prjBgtMng.global.now.getFullYear() + '-01-01'));
+        customKendo.fn_datePicker("toDt", '', "yyyy-MM-dd", new Date(prjBgtMng.global.now.getFullYear() + '-12-31'));
 
         var bcDsData = {
             cmGroupCode : "BUSN_CLASS"
