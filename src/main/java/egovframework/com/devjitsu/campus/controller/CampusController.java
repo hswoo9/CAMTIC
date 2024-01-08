@@ -1480,6 +1480,7 @@ public class CampusController {
     @RequestMapping("/campus/setStudyInfoModify")
     public String setStudyInfoModify(@RequestParam Map<String, Object> params, Model model) {
         campusService.setStudyInfoModify(params);
+        model.addAttribute("studyUserSn", params.get("studyUserSn"));
         return "jsonView";
     }
 
