@@ -344,6 +344,14 @@ var userPersonList = {
                     },
                     width : 100
                 }, {
+                    title: "인사기록카드",
+                    template : function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.userPersonnelRecord(' + e.EMP_SEQ + ')">' +
+                            '	<span class="k-button-text">인사기록카드<span>' +
+                            '</button>';
+                    },
+                    width : 140
+                }, {
                     field: "DEPT_NAME1",
                     title: "부서(실)"
                 }, {
@@ -363,13 +371,6 @@ var userPersonList = {
                 }, {
                     field: "JOIN_DAY2",
                     title: "입사일"
-                }, {
-                    title: "인사기록카드",
-                    template : function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.userPersonnelRecord(' + e.EMP_SEQ + ')">' +
-                            '	<span class="k-button-text">인사기록카드<span>' +
-                            '</button>';
-                    }
                 }]
         }).data("kendoGrid");
     },
@@ -449,6 +450,14 @@ var userPersonList = {
                     },
                     width : 100
                 }, {
+                    title: "인사기록카드",
+                    template : function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.userPersonnelRecord(' + e.EMP_SEQ + ')">' +
+                            '	<span class="k-button-text">인사기록카드<span>' +
+                            '</button>';
+                    },
+                    width: 140
+                }, {
                     field: "DEPT_NAME1",
                     title: "부서(실)"
                 }, {
@@ -468,13 +477,6 @@ var userPersonList = {
                 }, {
                     title: "퇴사일",
                     field: "RESIGN_DAY",
-                }, {
-                    title: "인사기록카드",
-                    template : function(e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList.userPersonnelRecord(' + e.EMP_SEQ + ')">' +
-                            '	<span class="k-button-text">인사기록카드<span>' +
-                            '</button>';
-                    }
                 }]
         }).data("kendoGrid");
     },
