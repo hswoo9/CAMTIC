@@ -171,9 +171,17 @@
                 type: "post",
                 dataType : "json",
                 success :function(rs) {
-                    $("#readerUserName").val(rs.list.STUDY_EMP_NAME);
-                    $("#readerUserSeq").val(rs.list.STUDY_EMP_SEQ);
 
+                    var studyUserNames = rs.list.map(function (item) {
+                        return item.STUDY_EMP_NAME;
+                    }).join(',');
+
+                    var studyUserSeqs = rs.list.map(function (item) {
+                        return item.STUDY_EMP_SEQ;
+                    }).join(',');
+
+                    $("#readerUserName").val(studyUserNames);
+                    $("#readerUserSeq").val(studyUserSeqs);
                 }
             })
             $.ajax({
@@ -185,8 +193,17 @@
                 type: "post",
                 dataType : "json",
                 success :function(rs) {
-                    $("#studyUserName").val(rs.list.STUDY_EMP_NAME);
-                    $("#studyUserSeq").val(rs.list.STUDY_EMP_SEQ);
+
+                    var studyUserNames = rs.list.map(function (item) {
+                        return item.STUDY_EMP_NAME;
+                    }).join(',');
+
+                    var studyUserSeqs = rs.list.map(function (item) {
+                        return item.STUDY_EMP_SEQ;
+                    }).join(',');
+
+                    $("#studyUserName").val(studyUserNames);
+                    $("#studyUserSeq").val(studyUserSeqs);
                 }
             })
         }

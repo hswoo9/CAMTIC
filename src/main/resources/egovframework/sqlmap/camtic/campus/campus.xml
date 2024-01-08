@@ -1436,7 +1436,10 @@
             STUDY_RESULT_END_TIME = #{studyResultEndTime},
             STUDY_RESULT_LOCATE = #{studyResultLocate},
             STUDY_RESULT_CONTENT = #{studyResultContent},
-            STUDY_RESULT_AMT = #{studyResultAmt}
+            STUDY_RESULT_AMT = #{studyResultAmt},
+            STUDY_EMP_SEQ = #{studyEmpSeq},
+            STUDY_EMP_NAME = #{studyEmpName},
+            STUDY_RESULT_TIME = #{studyResultTime}
         WHERE
             STUDY_RESULT_SN = #{studyResultSn}
 
