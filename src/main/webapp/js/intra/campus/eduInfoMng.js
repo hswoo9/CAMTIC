@@ -182,7 +182,7 @@ var eduInfoMng = {
     eduInfoViewPop: function(eduInfoId){
         let url = "/Campus/pop/eduInfoViewPop.do?eduInfoId="+eduInfoId+"&isAdmin=Y";
         const name = "popup";
-        const option = "width = 965, height = 900, top = 100, left = 200, location = no";
+        const option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 

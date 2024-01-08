@@ -45,6 +45,11 @@ var srm = {
     addRow : function(e){
         var html = "";
 
+        if($(".newRateInfo").length > 0){
+            alert("최대 1개만 추가 및 저장이 가능합니다.");
+            return false;
+        }
+
         html = "" +
             '<tr class="rateInfo ' + e + 'RateInfo" id="rate' + srm.global.rateIndex + '">' +
                 '<td>' +
@@ -85,11 +90,11 @@ var srm = {
             "healthInsurance" + srm.global.rateIndex, "longCareInsurance" + srm.global.rateIndex,
             "employInsurance" + srm.global.rateIndex, "accidentInsurance" + srm.global.rateIndex])
 
-        if(e == "new"){
+        /*if(e == "new"){
             var lastEndDe = new Date($("#endDate" + (srm.global.rateIndex - 1)).val());
             lastEndDe.setDate(lastEndDe.getDate() + 1);
             $("#startDate" + srm.global.rateIndex).val(lastEndDe.getFullYear() + "-" + String(lastEndDe.getMonth() + 1).padStart(2, "0") + "-" + String(lastEndDe.getDate()).padStart(2, "0"));
-        }
+        }*/
         $("#endDate" + srm.global.rateIndex).val("");
         $(".numberInput").keyup(function(){
             $(this).val(srm.comma(srm.uncomma($(this).val())));
@@ -117,6 +122,10 @@ var srm = {
         if(confirm("저장하시겠습니까?")){
             var newRateArr = new Array();
             var oldRateArr = new Array();
+            var trSize = $(".rateInfo").length;
+            var newTrSize = $(".newRateInfo").length;
+            var oldTrSize = $(".oldRateInfo").length;
+
             $.each($(".rateInfo"), function(i, v){
                 var arrData = {
                     socialRateSn : $(this).find("#socialRateSn" + i).val(),
@@ -136,17 +145,35 @@ var srm = {
                         alert("적용시작 날짜를 선택해주세요.");
                         return;
                     }
-                    if(arrData.endDate == ""){
-                        alert("적용종료 날짜를 선택해주세요.");
-                        return;
-                    }
 
+                    if(trSize == (i+1)){
+                        arrData.endDate = '9999-12-31';
+                    }else{
+                        if(arrData.endDate == ""){
+                            alert("적용종료 날짜를 선택해주세요.");
+                            return;
+                        }
+                    }
                     newRateArr.push(arrData);
                 }else{
+                    if(newTrSize > 0 &&  oldTrSize == (i+1)){
+                        var dateString = $("#startDate" + (i+1)).val();
+                        var dateObject = new Date(dateString);
+                        var yesterday = new Date(dateObject.setDate(dateObject.getDate() - 1));
+
+                        const year = yesterday.getFullYear();
+                        const month = (yesterday.getMonth() + 1).toString().padStart(2, '0');
+                        const day = yesterday.getDate().toString().padStart(2, '0');
+
+                        var formattedDate = year + '-' + month + '-' + day;
+
+                        arrData.endDate = formattedDate;
+                    }
+
                     oldRateArr.push(arrData);
                 }
 
-            })
+            });
 
             if(dateCheck(newRateArr, oldRateArr)){
                 srm.global.saveAjaxData = {

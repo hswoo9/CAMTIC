@@ -351,6 +351,20 @@
         ORDER BY SOCIAL_RATE_SN
         LIMIT 1
     </select>
+
+    <select id="getExcelEmpInfoList" parameterType="map" resultType="map">
+        SELECT
+            EMP_SEQ
+            ,EMP_NAME_KR
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            ACTIVE = 'Y'
+        AND
+            WORK_STATUS_CODE = 'Y'
+        AND
+            DEPT_SEQ IS NOT NULL
+    </select>
 </mapper>
 
 

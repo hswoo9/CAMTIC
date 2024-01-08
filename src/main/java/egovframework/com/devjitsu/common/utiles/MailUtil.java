@@ -1,7 +1,5 @@
 package egovframework.com.devjitsu.common.utiles;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.MailMessage;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -15,7 +13,6 @@ import java.util.Properties;
 public class MailUtil {
 
     public void sendMail(String SMTPServer, int SMTPPort, String SMTPID, String SMTPPW) throws AddressException, MessagingException {
-
         String host = SMTPServer;
         int port = SMTPPort;
 
@@ -30,30 +27,38 @@ public class MailUtil {
         Properties props = System.getProperties();
         // smtp 서버
         props.put("mail.smtp.host", host);
+//        props.put("mail.transport.protocol", "smtp");
         // smtp 포트
         props.put("mail.smtp.port", port);
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.enable", "true");
-        props.put("mail.smtp.ssl.trust", host);
+        props.put("mail.debug", "true");
+//        props.put("mail.smtp.auth", "false");
+//        props.put("mail.smtp.starttls.enable", "false");
+//        props.put("mail.smtp.ssl.trust", host);
 
 
-        Session session = Session.getInstance(props,  new javax.mail.Authenticator() {
-            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-                return new javax.mail.PasswordAuthentication(email, password);
-            }
-        });
+//        Session session = Session.getInstance(props,  new javax.mail.Authenticator() {
+//            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+//                return new javax.mail.PasswordAuthentication(email, password);
+//            }
+//        });
+//
+//        session.setDebug(true);
 
-        session.setDebug(true);
+        Session session = Session.getDefaultInstance(props);
 
         //MimeMessage 생성 & 메일 세팅
         Message mimeMessage = new MimeMessage(session);
         mimeMessage.setFrom(new InternetAddress(email)); // 발신자
-        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
         mimeMessage.setSubject(subject); // 제목
-        mimeMessage.setText(contents); // 내용
+        mimeMessage.setContent(contents, "text/html; charset=utf-8"); // 내용
 
+        Transport transport = session.getTransport("smtp");
+        transport.connect(host, "", "");
+        transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+        transport.close();
+//        Transport.send(mimeMessage);
 
-        Transport.send(mimeMessage);
     }
 }

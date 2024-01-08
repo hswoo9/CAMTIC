@@ -119,11 +119,11 @@ var eduInfo = {
                     width: 100
                 }, {
                     title: "학습시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    template: "<span>#=TERM_TIME#시간</span>",
                     width: 100
                 },  {
                     title: "인정시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    template: "<span>#=REAL_EDU_TIME#시간</span>",
                     width: 100
                 }, {
                     title: "진행현황",
@@ -167,7 +167,7 @@ var eduInfo = {
     eduInfoViewPop: function(eduInfoId){
         let url = "/Campus/pop/eduInfoViewPop.do?eduInfoId="+eduInfoId;
         const name = "popup";
-        const option = "width = 965, height = 900, top = 100, left = 200, location = no";
+        const option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 

@@ -41,6 +41,8 @@ public interface CampusService {
     List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params);
     Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params);
     List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params);
+
+    List<Map<String, Object>> getOpenStudyUserList2(Map<String, Object> params);
     Map<String, Object> getOpenStudyResultList(Map<String, Object> params);
     /** 오픈스터디 끝 */
 
@@ -85,6 +87,7 @@ public interface CampusService {
 
     /** 개인학습 시작 */
     Map<String, Object> setEduInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void setEduInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
     void setEduResultInsert(Map<String, Object> params);
     void setMngCheckUpd(Map<String, Object> params);
     /** 개인학습 끝 */

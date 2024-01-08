@@ -178,7 +178,7 @@ public class SalaryManageController {
      * @return
      */
     @RequestMapping("/esm/esmRegTemplateDown.do")
-    public void crmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void crmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws Exception {
         salaryManageService.esmRegTemplateDown(request, response);
     }
 

@@ -9,8 +9,14 @@ const eduReq = {
     },
 
     saveEduInfo: function(){
-        if(!confirm("교육수강 신청서를 저장하시겠습니까?")){
-            return;
+        if($("#eduInfoId").val() == "") {
+            if (!confirm("교육수강 신청서를 저장하시겠습니까?")) {
+                return;
+            }
+        }else if($("#eduInfoId").val() != ""){
+            if (!confirm("교육수강 신청서를 수정하시겠습니까?")) {
+                return;
+            }
         }
 
         let empSeq = $("#empSeq").val();
@@ -51,6 +57,7 @@ const eduReq = {
         let treaUser = "";
         let bookUnit = $("#bookUnit").val();
         let compType = "";
+        let eduInfoId =  $("#eduInfoId").val();
 
         if(eduCategoryDetailName == ""){
             alert("목표기술서가 선택되지 않았습니다.");
@@ -167,7 +174,8 @@ const eduReq = {
             treaType: treaType,
             treaUser: treaUser,
             bookUnit: bookUnit,
-            compType: compType
+            compType: compType,
+            eduInfoId: eduInfoId
         }
 
         var fd = new FormData();
@@ -181,6 +189,8 @@ const eduReq = {
 
         if($("#eduInfoId").val() == ""){
             eduReq.setEduInfoInsert(fd);
+        }else if($("#eduInfoId").val() != ""){
+            eduReq.setEduInfoModify(fd);
         }else {
             eduReq.setEduInfoUpdate(data);
         }
@@ -206,6 +216,31 @@ const eduReq = {
             },
             error: function(){
                 alert("데이터 저장 중 에러가 발생했습니다.");
+                window.close();
+            }
+        });
+    },
+
+    setEduInfoModify: function (data){
+        $.ajax({
+            url: "/campus/setEduInfoModify",
+            data: data,
+            type: "post",
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            enctype: 'multipart/form-data',
+            async: false,
+            success: function(result){
+                var eduInfoId = result.eduInfoId;
+                alert("교육수강 신청서 수정이 완료되었습니다.");
+                opener.parent.open_in_frame("/Campus/eduInfo.do");
+                eduReq.eduInfoViewPop(eduInfoId);
+                window.close();
+
+            },
+            error: function(){
+                alert("데이터 수정 중 에러가 발생했습니다.");
                 window.close();
             }
         });
@@ -374,7 +409,7 @@ const eduReq = {
     eduInfoViewPop: function(eduInfoId){
         let url = "/Campus/pop/eduInfoViewPop.do?eduInfoId="+eduInfoId;
         const name = "popup";
-        const option = "width = 965, height = 900, top = 100, left = 200, location = no";
+        const option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
         window.open(url, name, option);
     }
 

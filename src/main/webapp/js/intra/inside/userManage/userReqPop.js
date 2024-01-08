@@ -1048,8 +1048,10 @@ var userReqPop = {
 
         if($("#targetEmpSeq").val() != ""){
             urlType = "/userManage/setUserReqDetailUpdate";
+            opener.userPersonList.fn_reloadOpner();
         }else{
             urlType = "/userManage/setUserReqDetailInsert";
+            opener.userPersonList.fn_reloadOpner();
         }
 
         $.ajax({
@@ -1061,6 +1063,7 @@ var userReqPop = {
             success : function (result){
                 window.close();
                 opener.userPersonList.gridReload();
+                opener.userPersonList.fn_reloadOpner();
             },
             complete : function (){
                 if($("#targetEmpSeq").val() != ""){
@@ -1076,6 +1079,7 @@ var userReqPop = {
                     window.close();
                 }
                 opener.userPersonList.gridReload();
+                opener.userPersonList.fn_reloadOpner();
             },
 
         })

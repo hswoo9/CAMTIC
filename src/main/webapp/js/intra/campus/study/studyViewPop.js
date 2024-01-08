@@ -373,5 +373,12 @@ const studyView = {
         }
 
         window.open(url, name, option);
+    },
+
+    studyUpdatePop: function(){
+        let url = "/Campus/pop/studyReqPop.do?mode=upd&pk="+$("#pk").val();
+        let name = "studyReqPop";
+        let option = "width = 1170, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }

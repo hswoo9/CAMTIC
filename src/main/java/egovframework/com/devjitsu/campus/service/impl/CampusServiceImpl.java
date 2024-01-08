@@ -152,6 +152,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getOpenStudyUserList2(Map<String, Object> params){
+        return campusRepository.getOpenStudyUserList2(params);
+    }
+
+    @Override
     public Map<String, Object> getOpenStudyResultList(Map<String, Object> params){
         return campusRepository.getOpenStudyResultList(params);
     }
@@ -303,6 +308,31 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setEduInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
+        campusRepository.setEduInfoModify(params);
+        params.put("menuCd", "eduReq");
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile eduFile = request.getFile("eduFile");
+
+        if(eduFile != null){
+            if(!eduFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(eduFile, filePath(params, serverDir));
+                fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
+                fileInsMap.put("crmSn", params.get("rsSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+            }
+        }
+    }
+
+    @Override
     public void setEduResultInsert(Map<String, Object> params) {
         campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultInsert(params);
@@ -362,7 +392,47 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public void setStudyInfoModify(Map<String, Object> params) {
+        int studyClass = Integer.parseInt(params.get("studyClassSn").toString());
         campusRepository.setStudyInfoModify(params);
+        campusRepository.setStudyUserDelete(params);
+
+        if(params.get("studyUserSeq") != null && !params.get("studyUserSeq").equals("")){
+            String studyUserSeq = params.get("studyUserSeq").toString();
+            String[] studyUserSeqArr = studyUserSeq.split(",");
+
+            for(String str: studyUserSeqArr){
+                params.put("empSeq", str);
+                Map<String, Object> userMap = userRepository.getUserInfo(params);
+                params.put("studyEmpName", userMap.get("EMP_NAME_KR"));
+                params.put("studyDeptName", userMap.get("deptNm"));
+                params.put("studyTeamName", userMap.get("teamNm"));
+                params.put("studyPositionName", userMap.get("POSITION_NAME"));
+                params.put("studyDutyName", userMap.get("DUTY_NAME"));
+                if(studyClass == 2 || studyClass == 3){
+                    params.put("studyClassSn", 5);
+                    params.put("studyClassText", "학습자");
+                }
+                campusRepository.setStudyUserInsert(params);
+            }
+        }
+
+        if((studyClass == 2 || studyClass == 3) && params.get("readerUserSeq") != null && !params.get("readerUserSeq").equals("")){
+            String readerUserSeq = params.get("readerUserSeq").toString();
+            String[] readerUserSeqArr = readerUserSeq.split(",");
+
+            for(String str: readerUserSeqArr){
+                params.put("empSeq", str);
+                Map<String, Object> userMap = userRepository.getUserInfo(params);
+                params.put("studyEmpName", userMap.get("EMP_NAME_KR"));
+                params.put("studyDeptName", userMap.get("deptNm"));
+                params.put("studyTeamName", userMap.get("teamNm"));
+                params.put("studyPositionName", userMap.get("POSITION_NAME"));
+                params.put("studyDutyName", userMap.get("DUTY_NAME"));
+                params.put("studyClassSn", 4);
+                params.put("studyClassText", "지도자");
+                campusRepository.setStudyUserInsert(params);
+            }
+        }
     }
 
     @Override

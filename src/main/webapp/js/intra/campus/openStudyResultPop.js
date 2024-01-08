@@ -20,7 +20,7 @@ const openStudyRes = {
         openStudyRes.global.openStudyInfo = openStudyInfo;
 
             $("#openStudyNameTd").text(openStudyInfo.OPEN_STUDY_NAME);
-            $("#openStudyDtTd").text(openStudyInfo.OPEN_STUDY_DT+" "+openStudyInfo.START_TIME+" ~ "+openStudyInfo.END_TIME);
+            $("#openStudyDtTd").text(openStudyInfo.OPEN_STUDY_DT+" / "+openStudyInfo.START_TIME+" ~ "+openStudyInfo.END_TIME);
 
             openStudyRes.openStudyUserSetting();
     },
@@ -29,7 +29,7 @@ const openStudyRes = {
         let data = {
             pk: $("#pk").val()
         }
-        const result = customKendo.fn_customAjax("/campus/getOpenStudyUserList", data);
+        const result = customKendo.fn_customAjax("/campus/getOpenStudyUserList2", data);
         openStudyRes.global.openStudyUser = result.list;
         let list = openStudyRes.global.openStudyUser;
 

@@ -175,9 +175,9 @@
                             <div class="subTitSt">· 학력 사항</div>
                             <c:if test="${uprList.empSeq eq loginVO.uniqId}">
                             <div id="eduInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addDegreeBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateDegreeBtn()"/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delDegreeBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록 요청" onclick="addDegreeBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정 요청" onclick="updateDegreeBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제 요청" onclick="delDegreeBtn()"/>
                             </div>
                             </c:if>
                         </div>
@@ -292,9 +292,9 @@
                             <div class="subTitSt">· 경력 사항</div>
                             <c:if test="${uprList.empSeq eq loginVO.uniqId}">
                             <div id="careerInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addCareerBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateCareerBtn()"/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delCareerBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록 요청" onclick="addCareerBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정 요청" onclick="updateCareerBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제 요청" onclick="delCareerBtn()"/>
                             </div>
                             </c:if>
                         </div>
@@ -367,8 +367,8 @@
                             <div class="subTitSt">· 병력 사항</div>
                             <c:if test="${uprList.empSeq eq loginVO.uniqId}">
                             <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addMilitaryBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateMilitaryBtn('${mInfo.MSI_INFO_ID}')"/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록 요청" onclick="addMilitaryBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정 요청" onclick="updateMilitaryBtn('${mInfo.MSI_INFO_ID}')"/>
                             </div>
                             </c:if>
                         </div>
@@ -418,9 +418,9 @@
                             <div class="subTitSt">· 가족 사항</div>
                             <c:if test="${uprList.empSeq eq loginVO.uniqId}">
                             <div id="familyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addFamilyBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateFamilyBtn()"/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delFamilyBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록 요청" onclick="addFamilyBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정 요청" onclick="updateFamilyBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제 요청" onclick="delFamilyBtn()"/>
                             </div>
                             </c:if>
                         </div>
@@ -473,9 +473,9 @@
                             <div class="subTitSt">· 보유 면허</div>
                             <c:if test="${uprList.empSeq eq loginVO.uniqId}">
                             <div id="certificateInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addLicenseBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateLicenseBtn()"/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delLicenseBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록 요청" onclick="addLicenseBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정 요청" onclick="updateLicenseBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제 요청" onclick="delLicenseBtn()"/>
                             </div>
                             </c:if>
                         </div>
@@ -538,9 +538,9 @@
                             <div class="subTitSt">· 직무 사항</div>
                             <c:if test="${uprList.empSeq eq loginVO.uniqId}">
                             <div id="dutiesInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addJobBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateJobBtn()"/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delJobBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록 요청" onclick="addJobBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정 요청" onclick="updateJobBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제 요청" onclick="delJobBtn()"/>
                             </div>
                             </c:if>
                         </div>
@@ -624,9 +624,9 @@
                             <div class="subTitSt">· 상벌 사항</div>
                             <c:if test="${uprList.empSeq eq loginVO.uniqId}">
                             <div id="rewardpunishmentInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addRewardBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateRewardBtn()"/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delRewardBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록 요청" onclick="addRewardBtn(empSeq.value)"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정 요청" onclick="updateRewardBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제 요청" onclick="delRewardBtn()"/>
                             </div>
                             </c:if>
                         </div>
@@ -895,9 +895,9 @@
                             <div class="subTitSt">· 제안 제도</div>
                             <c:if test="${uprList.empSeq eq loginVO.uniqId}">
                             <div id="proposalInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
-                                <input type="button" class="k-button k-button-solid-info" value="등록" onclick="addProposalBtn()"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="updateProposalBtn()"/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="delProposalBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="등록 요청" onclick="addProposalBtn()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="수정 요청" onclick="updateProposalBtn()"/>
+                                <input type="button" class="k-button k-button-solid-error" value="삭제 요청" onclick="delProposalBtn()"/>
                             </div>
                             </c:if>
                         </div>
