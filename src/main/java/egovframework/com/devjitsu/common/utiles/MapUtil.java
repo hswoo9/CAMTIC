@@ -20,7 +20,7 @@ public class MapUtil {
     public JSONArray getCoordinate(Map<String, Object> params){
         RestTemplate restTemplate = new RestTemplate();
 
-        String apiKey = "KakaoAK " + ""; // Kakao API KEY
+        String apiKey = "KakaoAK " + ""; // REST API KEY
         String address = params.get("addr").toString();
 
         // 요청 헤더에 만들기, Authorization 헤더 설정하기
