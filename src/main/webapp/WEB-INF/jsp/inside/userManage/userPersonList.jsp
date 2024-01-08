@@ -68,7 +68,7 @@
                                     top: -1px;
                                 }
                             </style>
-                            <div class="mt10">
+                            <div id="selectDivision" class="mt10">
                                 <input type="checkbox" class="detailSearch" division="0" id="dsA" checked>
                                 <label for="dsA">정규직원 [${countMap.dsA}]</label>
                                 <input type="checkbox" class="detailSearch" division="4" divisionSub="1" style="margin-left: 10px;" id="dsB" checked>

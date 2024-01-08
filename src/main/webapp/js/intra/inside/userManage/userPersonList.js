@@ -799,6 +799,22 @@ var userPersonList = {
     userPersonnelRecord : function(empSeq){
         open_in_frame('/Inside/userPersonnelRecord.do?empSeq='+ empSeq + '&admin=Y');
         /*open_in_frame('/Inside/userPersonnelRecord.do?empSeq='+ empSeq)*/
+    },
+
+    fn_reloadOpner: function(){
+        $.ajax({
+            type: "POST",
+            url: "/Inside/userPersonList.do", // 요청을 처리하는 컨트롤러의 URL
+            success: function(data) {
+                // 서버에서 전송된 HTML을 사용하여 selectDivision을 업데이트합니다.
+                console.log("division 재요청 성공")
+                var specificDivInOpner = document.getElementById("selectDivision");
+                specificDivInOpner.innerHTML = $(data).find("#selectDivision").html();
+            },
+            error: function() {
+                console.log("Error occurred while reloading selectDivision.");
+            }
+        });
     }
 
 }
