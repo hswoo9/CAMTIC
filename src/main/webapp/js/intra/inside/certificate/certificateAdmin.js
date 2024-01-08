@@ -191,9 +191,19 @@ var certificateAdmin = {
                     },
                     width: 100
                 }, {
+                    field: "APPROVAL_EMP_NAME",
                     title: "발급자",
                     template : function(row){
-                        return row.APPROVAL_EMP_NAME;
+                        //return row.APPROVAL_EMP_NAME;
+                        if (row.APPROVAL_EMP_NAME == null) {
+                            return '-';
+                        } else if(row.APPROVAL_EMP_NAME == '') {
+                            return '-';
+                        }else if(row.APPROVAL_EMP_NAME == 'undefined'){
+                            return '-';
+                        }else{
+                            return row.APPROVAL_EMP_NAME;
+                        }
                     },
                     width: 100
                 }, {
