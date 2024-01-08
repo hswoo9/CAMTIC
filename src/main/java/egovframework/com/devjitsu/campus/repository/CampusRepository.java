@@ -289,4 +289,6 @@ public class CampusRepository extends AbstractDAO  {
     public Object getOpenStudyUserCount(Map<String, Object> params){
         return (int) selectOne("campus.getOpenStudyUserCount", params);
     }
+
+    public void setStudyUserDelete(Map<String, Object> params) {delete("campus.setStudyUserDelete", params);}
 }
