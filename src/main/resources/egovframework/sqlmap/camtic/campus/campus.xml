@@ -469,7 +469,8 @@
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
             HEI.POSITION_NAME AS positionNm,
             HEI.DUTY_NAME AS dutyNm,
-            HEI.JOB_DETAIL AS jobDetailNm
+            HEI.JOB_DETAIL AS jobDetailNm,
+            DATE_FORMAT(CSI.REG_DATE,'%Y-%m-%d') AS regDate
         FROM
             CAMPUS.DJ_STUDY_INFO CSI
         LEFT JOIN

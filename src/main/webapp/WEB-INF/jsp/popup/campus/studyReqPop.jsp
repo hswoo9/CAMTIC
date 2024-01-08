@@ -157,9 +157,9 @@
                     $("#studyLocation").val(rs.data.STUDY_LOCATION);
                     $("#studyObject").val(rs.data.STUDY_OBJECT);
                     $("#studyContent").val(rs.data.STUDY_CONTENT);
-                    $("#studyMoney").val(rs.data.STUDY_MONEY);
+                    $("#studyMoney").val(comma(rs.data.STUDY_MONEY));
                     $("#studyMoneyVal").val(rs.data.STUDY_MONEY_VAL);
-                    /*$("#regDate").val(comma(rs.data.REG_DATE));*/
+                    $("#regDate").val(rs.data.regDate);
                 }
             })
             $.ajax({
