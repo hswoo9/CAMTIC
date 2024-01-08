@@ -27,8 +27,8 @@
           <li>
             <div id="alarmBack" style="display: none; position: absolute;right: -300px; top: 0px; width: 200vw; z-index: 8000; height: 100vh;" onclick="openAlarm()"></div>
             <div id="noticePanel" class="btn-group">
-                <a href="http://218.158.231.23/camspot" target="_blank">
-                    <b style="color: white; float: left; position: relative; top: 25px; right: 10px;">기존 캠스팟 바로가기</b>
+                <a href="#">
+                    <b style="color: white; float: left; position: relative; top: 25px; right: 10px;" onclick="pastPage()">기존 캠스팟 바로가기</b>
                 </a>
                 <a href="#">
                     <button class="btn btn-notice" style="float:left; font-size:22px;" onclick="orgPopup();">
@@ -300,6 +300,17 @@
   function openPopup(url) {
     window.open(url, 'popup', 'width=1100, height=1100, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no');
 
+  }
+
+  function pastPage(){
+      const id = "${loginVO.id}";
+      let url = "http://pre.camtic.or.kr/CAMsPot";
+      if(id != ""){
+        url = "http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id;
+      }
+      var name = "_blank";
+      var option = "";
+      var popup = window.open(url, name, option);
   }
 
 </script>
