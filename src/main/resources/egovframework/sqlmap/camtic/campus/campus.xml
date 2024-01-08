@@ -611,7 +611,8 @@
                     COSI.*,
                     IFNULL((SELECT SCOU.REG_EMP_NAME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN limit 1), '') AS MEMBER,
                     IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME)-1 FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT,
-                    IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME) FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT_TOTAL
+                    IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME) FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT_TOTAL,
+                    IFNULL((SELECT SCOU.REAL_EDU_TIME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN AND PART_YN = 'Y' AND REG_EMP_SEQ = #{empSeq}), '-') AS REAL_EDU_TIME
                 FROM
                     CAMPUS.DJ_OPENSTUDY_INFO COSI,
                     (SELECT @ROWNUM := 0) TMP
@@ -655,6 +656,23 @@
         LEFT JOIN CAM_HR.DJ_EMP_INFO B ON COSU.REG_EMP_SEQ = B.EMP_SEQ
         WHERE
             OPEN_STUDY_INFO_SN = #{pk}
+        AND PART_YN = 'Y'
+        <if test='userClass != null and !"".equals(userClass)'>
+            AND USER_CLASS = #{userClass}
+        </if>
+    </select>
+
+    <select id="getOpenStudyUserList2" resultType="map" parameterType="map">
+        /* getOpenStudyUserList2 */
+        SELECT
+        COSU.*,
+        DATE_FORMAT(COSU.REG_DT, '%Y-%m-%d %H:%i:%s') AS REG_DATE,
+        CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ)) AS DEPT_FULL_NAME
+        FROM
+        CAMPUS.DJ_OPENSTUDY_USER COSU
+        LEFT JOIN CAM_HR.DJ_EMP_INFO B ON COSU.REG_EMP_SEQ = B.EMP_SEQ
+        WHERE
+        OPEN_STUDY_INFO_SN = #{pk}
         <if test='userClass != null and !"".equals(userClass)'>
             AND USER_CLASS = #{userClass}
         </if>
@@ -1826,7 +1844,7 @@
             OPEN_STUDY_DT = #{openStudyDt},
             START_TIME = #{startTime},
             END_TIME = #{endTime},
-            EDU_TIME = #{realEduTime},
+            EDU_TIME = #{eduTime},
             OPEN_STUDY_DETAIL = #{openStudyDetail},
             OPEN_STUDY_LOCATION = #{openStudyLocation}
         WHERE
@@ -2533,9 +2551,7 @@
             CAMPUS.dj_openstudy_info oi
         LEFT JOIN CAMPUS.dj_openstudy_USER ou ON oi.OPEN_STUDY_INFO_SN = ou.OPEN_STUDY_INFO_SN
         WHERE
-            DATE_FORMAT(oi.OPEN_STUDY_DT, '%Y%M') = DATE_FORMAT(NOW(), '%Y%M')
-          AND WEEK(oi.open_study_dt, 7) = WEEK(NOW(), 7)
-          AND ou.REG_EMP_SEQ IN(
+          ou.REG_EMP_SEQ IN(
             SELECT
                 sub.REG_EMP_SEQ
             FROM
@@ -2545,6 +2561,7 @@
             AND
                 sub.PART_YN = 'Y'
         )
+        AND WEEK(oi.open_study_dt, 7) = (SELECT WEEK(open_study_dt, 7) FROM CAMPUS.dj_openstudy_info WHERE OPEN_STUDY_INFO_SN = #{pk})
         GROUP BY
             ou.REG_EMP_SEQ;
     </select>

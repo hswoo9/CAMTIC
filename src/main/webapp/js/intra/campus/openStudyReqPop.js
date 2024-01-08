@@ -176,7 +176,12 @@ const openStudyReq = {
         var afDate = new Date(year, month, day, hour2, min2);
         var diffSec = afDate.getTime() - bfDate.getTime();
         var diffMin = diffSec / 1000 / 60 / 60;
-        var eduTime = diffMin.toFixed(1);
+        //var eduTime = diffMin.toFixed(1);
+
+        var eduTime = diffMin;
+        if (eduTime % 1 !== 0) {
+            eduTime = eduTime.toFixed(1);
+        }
 
         console.log(diffMin);
 
@@ -211,7 +216,11 @@ const openStudyReq = {
 
             }
             //window.close();
-            openStudyReq.openStudyReqPop("upd", result.pk);
+            if(mode == "upd"){
+                openStudyReq.openStudyReqPop("upd", data.pk);
+            }else{
+                openStudyReq.openStudyReqPop("upd", result.pk);
+            }
         }
     },
 
@@ -227,7 +236,7 @@ const openStudyReq = {
 
     fn_openNextStep: function(step){
         if(step == "B"){
-            if(!confirm("참여자를 모집하시겠습니까? \n 모집중에는 내용을 변경할 수 없습니다.")){
+            if(!confirm("참여자를 모집하시겠습니까? \n모집중에는 내용을 변경할 수 없습니다.")){
                 return;
             }
         }else if(step == "C"){
@@ -305,8 +314,17 @@ const openStudyReq = {
         const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
         if(result.flag){
             alert("참여신청이 완료되었습니다.");
-            openStudyReq.openStudyUserSetting();
-            window.opener.location.reload();
+            try {
+                opener.gridReload();
+            }catch{
+
+            }
+            try{
+                location.reload();
+            }catch{
+
+            }
+            //openStudyReq.openStudyUserSetting();
         }
     },
 
