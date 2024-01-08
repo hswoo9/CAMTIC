@@ -32,7 +32,7 @@
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;" id="cardToTitle">
-                    반출/사용 등록
+                    반출요청서
                 </span>
         </h3>
         <div id="purcBtnDiv" class="btn-st popButton" style="font-size: 12px;">
@@ -53,56 +53,59 @@
             <thead>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>카드
+                    <span class="red-star">*</span>반출자
+                </th>
+                <td>
+                    <input type="hidden" id="empSeq" value="${loginVO.uniqId}" />
+                    <input type="text" id="empName" value="${loginVO.name}" disabled>
+<%--                    <button type="button" class="k-button k-button-solid-base" onclick="userSearch()">검색</button>--%>
+                </td>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>카드선택
                 </th>
                 <td colspan="3">
                     <input type="hidden" id="trCd" style="">
-                    <input type="text" id="trNm" disabled style="width: 30%">
-                    <button type="button" class="k-button k-button-solid-base" onclick="fn_popRegDet(3, 0)">검색</button>
+                    <input type="text" id="trNm" disabled style="width: 70%">
+                    <input type="hidden" id="cardBaNb" disabled style="width: 100%;">
+                    <button type="button" class="k-button k-button-solid-base" onclick="fn_popRegDet(8, 0)">검색</button>
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>반출일자
+                    <span class="red-star">*</span>반출일시
                 </th>
                 <td>
-                    <input type="text" id="cardToDe" value="">
+                    <input type="text" id="cardToDe" value="" style="width: 48%;">
+                    <input type="text" name="cardToTime" id="cardToTime" style="width: 48%">
                 </td>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>신청자
+                    <span class="red-star">*</span>반납예정일시
                 </th>
                 <td>
-                    <input type="hidden" id="empSeq" />
-                    <input type="text" id="empName" value="" disabled style="width: 70%;" >
-                    <button type="button" class="k-button k-button-solid-base" onclick="userSearch()">검색</button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>은행명
-                </th>
-                <td>
-                    <input type="text" id="jiroNm" value="" disabled style="width: 100%;">
-                </td>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>계좌번호
-                </th>
-                <td>
-                    <input type="text" id="baNb" value="" disabled style="width: 100%;">
+                    <input type="text" id="cardFromDe" value="" style="width: 48%;">
+                    <input type="text" name="cardFromTime" id="cardFromTime" style="width: 48%;">
                 </td>
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>소유자
+                    <span class="red-star">*</span>반출목적
                 </th>
-                <td>
-                    <input type="text" id="depositor" disabled style="width: 100%;" >
+                <td colspan="3">
+                    <input type="text" id="cardToPurpose" value="" style="width: 20%;">
                 </td>
+            </tr>
+            <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>카드번호
+                    <span class="red-star">*</span>관련사업
                 </th>
-                <td>
-                    <input type="text" id="cardBaNb" disabled style="width: 100%;">
+                <td colspan="3">
+                    <input type="text" id="businessYn" style="width: 20%;" onchange="fn_businessChk()">
+                    <span id="busWrap" style="display: none;">
+                        <input type="text" id="pjtNm" value="" style="width: 70%;" disabled>
+                        <input type="hidden" id="pjtSn" value="" />
+                        <input type="hidden" id="pjtCd" value="" />
+                        <button type="button" class="k-button k-button-solid-base" onclick="fn_projectPop()">검색</button>
+                    </span>
                 </td>
             </tr>
             </thead>
@@ -112,9 +115,39 @@
 
 <script>
     $(function(){
-        customKendo.fn_textBox(["trNm", "jiroNm", "baNb", "depositor", "cardBaNb", "empName"]);
+        customKendo.fn_textBox(["trNm", "pjtNm", "empName"]);
         customKendo.fn_datePicker("cardToDe", "depth", "yyyy-MM-dd", new Date());
-        
+        customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());
+
+        $("#cardToTime, #cardFromTime").kendoTimePicker({
+            format: "HH:mm",
+            interval : 10,
+            value : "09:00"
+        });
+
+        $("#cardToPurpose").kendoDropDownList({
+            dataSource : [
+                {text : "선택하세요", value : ""},
+                {text : "출장", value : "출장"},
+                {text : "야근휴일식대", value : "야근휴일식대"},
+                {text : "회의비", value : "회의비"},
+                {text : "영업활동비", value : "영업활동비"},
+                {text : "기타", value : "기타"},
+            ],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+
+        $("#businessYn").kendoDropDownList({
+            dataSource : [
+                {text : "선택하세요", value : ""},
+                {text : "해당없음", value : "N"},
+                {text : "사업선택", value : "Y"},
+            ],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+
         var data = {
             cardToSn : $("#cardToSn").val()
         }
@@ -146,6 +179,14 @@
             });
         }
     });
+
+    function fn_businessChk() {
+        if($("#businessYn").val() == "Y"){
+            $("#busWrap").show();
+        } else {
+            $("#busWrap").hide();
+        }
+    }
 
     function userSearch() {
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
@@ -191,13 +232,18 @@
         var parameters = {
             trCd : $("#trCd").val(),
             trNm: $("#trNm").val(),
-            cardToDe: $("#cardToDe").val(),
+            cardToDe: $("#cardToDe").val(),             // 반출날짜
+            cardToTime: $("#cardToTime").val(),         // 반출시간
+            cardFromDe: $("#cardFromDe").val(),           // 반납예정날짜
+            cardFromTime: $("#cardFromTime").val(),   // 반납예정시간
             empSeq: $("#empSeq").val(),
             empName: $("#empName").val(),
-            jiroNm: $("#jiroNm").val(),
-            baNb: $("#baNb").val(),
-            depositor: $("#depositor").val(),
-            cardBaNb: $("#cardBaNb").val(),
+            cardBaNb: $("#cardBaNb").val(),     // 카드번호
+            cardToPurpose : $("#cardToPurpose").val(),  // 반출목적
+            businessYn : $("#businessYn").val(),  // 관련사업유무
+            pjtSn : $("#pjtSn").val(),
+            pjtCd : $("#pjtCd").val(),
+            pjtNm : $("#pjtNm").val(),
             regEmpSeq : $("#regEmpSeq").val()
         }
         if(parameters.trNm == ""){
@@ -207,6 +253,21 @@
 
         if(parameters.empName == ""){
             alert("신청자를 선택해주세요.");
+            return;
+        }
+
+        if(parameters.cardToPurpose == ""){
+            alert("반출목적을 선택해주세요.");
+            return;
+        }
+
+        if(parameters.businessYn == ""){
+            alert("관련사업을 선택해주세요.");
+            return;
+        }
+
+        if(parameters.businessYn == "Y" && parameters.pjtCd == ""){
+            alert("관련사업을 선택해주세요.");
             return;
         }
 
@@ -269,5 +330,19 @@
                 }
             }
         })
+    }
+
+    function fn_projectPop (){
+        var url = "/project/pop/g20ProjectView.do?";
+
+        var name = "_blank";
+        var option = "width = 1100, height = 450, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
+
+    function selectProject(sn, nm, cd, baseYear){
+        $("#pjtSn").val(sn);
+        $("#pjtNm").val(nm);
+        $("#pjtCd").val(cd);
     }
 </script>

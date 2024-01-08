@@ -56,14 +56,14 @@ var cardListMng = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="cardListMng.fn_setCardManager(\'cardHolder\')">' +
                             '	<span class="k-button-text">소지자 변경</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="cardListMng.fn_setCardManager()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="cardListMng.fn_setCardManager(\'cardMng\')">' +
                             '	<span class="k-button-text">담당자 지정</span>' +
                             '</button>';
                     }
@@ -132,7 +132,18 @@ var cardListMng = {
                             ]
                         }, {
                             title : "소지자",
-                            field : ""
+                            field : "HOLDER_NAME",
+                            template: function (e){
+                                if(e.HOLDER_NAME != null){
+                                    return e.HOLDER_NAME;
+                                } else {
+                                    if(e.MNG_NAME != null){
+                                        return e.MNG_NAME;
+                                    } else {
+                                        return "";
+                                    }
+                                }
+                            }
                         }, {
                             title: "공개여부",
                             width: 100,
@@ -295,7 +306,7 @@ var cardListMng = {
         });
     },
 
-    fn_setCardManager : function (){
+    fn_setCardManager : function (type){
 
         var grid = $("#mainGrid").data("kendoGrid");
         var arr = [];
@@ -320,7 +331,7 @@ var cardListMng = {
 
         cardListMng.global.parameters = parameters;
 
-        userSearch();
+        window.open("/common/deptListPop.do?type="+type, "조직도", "width=750, height=650");
     }
 
 }

@@ -196,6 +196,7 @@ public class CompanyCardServiceImpl implements CompanyCardService {
             map.put("MNG_SEQ", params.get("empSeq"));
             map.put("MNG_NAME", params.get("empName"));
             map.put("MNG_DEPT_SEQ", params.get("deptSeq"));
+            map.put("MNG_DEPT_NAME", params.get("deptName"));
 
 
             Map<String, Object> tempMap = companyCardRepository.getCardManagerData(map);
@@ -204,6 +205,27 @@ public class CompanyCardServiceImpl implements CompanyCardService {
                 companyCardRepository.insCardManager(map);
             } else {
                 companyCardRepository.updCardManager(map);
+            }
+        }
+    }
+
+    @Override
+    public void setCardHolder(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("arr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> map : itemArr){
+            map.put("HOLDER_SEQ", params.get("empSeq"));
+            map.put("HOLDER_NAME", params.get("empName"));
+            map.put("HOLDER_DEPT_SEQ", params.get("deptSeq"));
+            map.put("HOLDER_DEPT_NAME", params.get("deptName"));
+
+            Map<String, Object> tempMap = companyCardRepository.getCardHolderData(map);
+
+            if(tempMap == null){
+                companyCardRepository.insCardHolder(map);
+            } else {
+                companyCardRepository.updCardHolder(map);
             }
         }
     }

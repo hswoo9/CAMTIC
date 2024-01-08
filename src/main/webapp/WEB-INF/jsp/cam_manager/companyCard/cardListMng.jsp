@@ -90,4 +90,25 @@
         });
 
     }
+
+    function userPayHolderPop(empSeq, empName, deptSeq, deptName){
+        cardListMng.global.parameters.empSeq = empSeq;
+        cardListMng.global.parameters.empName = empName;
+        cardListMng.global.parameters.deptSeq = deptSeq;
+        cardListMng.global.parameters.deptName = deptName;
+
+        $.ajax({
+            url : "/card/setCardHolder",
+            data : cardListMng.global.parameters,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("카드 소지자가 변경되었습니다.");
+                    cardListMng.mainGrid();
+                }
+            }
+        });
+
+    }
 </script>

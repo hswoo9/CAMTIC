@@ -151,6 +151,24 @@ var deptListPop = {
                 var row = $('#userList').data("kendoGrid").dataItem(tr);
                 opener.parent.userPopupClose(row);
                 window.close();
+            }else if($("#type").val() == "cardMng"){
+                var tr = $(e).closest("tr");
+                var row = $('#userList').data("kendoGrid").dataItem(tr);
+                try {
+                    opener.parent.userPayMngPop(row.EMP_SEQ, row.EMP_NAME_KR, row.DEPT_SEQ, row.DEPT_NAME);
+                    window.close();
+                }catch{
+
+                }
+            }else if($("#type").val() == "cardHolder"){
+                var tr = $(e).closest("tr");
+                var row = $('#userList').data("kendoGrid").dataItem(tr);
+                try {
+                    opener.parent.userPayHolderPop(row.EMP_SEQ, row.EMP_NAME_KR, row.DEPT_SEQ, row.DEPT_NAME);
+                    window.close();
+                }catch{
+
+                }
             }else {
                 var tr = $(e).closest("tr");
                 var row = $('#userList').data("kendoGrid").dataItem(tr);
@@ -187,11 +205,7 @@ var deptListPop = {
                     opener.parent.$("#jobDetail").val(row.JOB_DETAIL);
                     opener.parent.$("#positionName").val(row.POSITION_NAME);
                 }
-                try {
-                    opener.parent.userPayMngPop(row.EMP_SEQ, row.EMP_NAME_KR, row.DEPT_SEQ, row.DEPT_NAME);
-                }catch{
 
-                }
                 window.close();
             }
         }

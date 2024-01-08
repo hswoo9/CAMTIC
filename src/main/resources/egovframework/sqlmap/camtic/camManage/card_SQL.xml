@@ -9,7 +9,9 @@
             A.*,
             B.*,
             C.*,
-            CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), " ", E.USE_EMP_NAME) AS USE_MEM
+            REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), '|', ' ') AS USE_DEPT_NAME,
+            CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), " ", E.USE_EMP_NAME) AS USE_MEM,
+            E.USE_EMP_NAME
         FROM
             CAM_HR.ERP_HIST_CORPCD_USE A
         LEFT JOIN
@@ -99,6 +101,15 @@
         /*getCardTOData*/
         SELECT
             A.*,
+            SUBSTRING_INDEX(A.CARD_BA_NB,'-',-1) AS LAST_CARD_NUM,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_CARD_TO_HIST WHERE CARD_TO_SN = A.CARD_TO_SN) AS REG_HISTORY,
+            (
+                SELECT sB.MER_NM FROM CAM_MNG.DJ_CARD_TO_HIST sA
+                LEFT JOIN CAM_HR.ERP_HIST_CORPCD_USE sB
+                ON sA.AUTH_NO = sB.AUTH_NO AND sA.AUTH_DD = sB.AUTH_DD AND sA.AUTH_HH = sB.AUTH_HH AND sA.BUY_STS = sB.BUY_STS AND sA.CARD_NO = REPLACE(sB.CARD_NO, "-", "")
+                WHERE sA.CARD_TO_SN = A.CARD_TO_SN
+                ORDER BY sA.CARD_TO_HIST_SN DESC LIMIT 1
+            ) AS LAST_MER_NM,
             (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) AS TEAM_NAME
         FROM
             CAM_MNG.DJ_CARD_TO A
@@ -107,6 +118,7 @@
         ON
             A.USE_EMP_SEQ = B.EMP_SEQ
         WHERE DEL_YN = 'N'
+        ORDER BY CARD_TO_SN DESC
     </select>
 
     <insert id="saveRegCardTo" parameterType="map">
@@ -122,6 +134,14 @@
                 USE_EMP_SEQ,
                 USE_EMP_NAME,
                 CARD_TO_DE,
+                CARD_TO_TIME,
+                CARD_FROM_DE,
+                CARD_FROM_TIME,
+                CARD_TO_PURPOSE,
+                BUSINESS_YN,
+                PJT_SN,
+                PJT_CD,
+                PJT_NM,
                 REG_EMP_SEQ
             )
         VALUES
@@ -135,6 +155,14 @@
                 #{empSeq},
                 #{empName},
                 #{cardToDe},
+                #{cardToTime},
+                #{cardFromDe},
+                #{cardFromTime},
+                #{cardToPurpose},
+                #{businessYn},
+                #{pjtSn},
+                #{pjtCd},
+                #{pjtNm},
                 #{regEmpSeq}
             )
     </insert>
@@ -440,6 +468,10 @@
             D.MNG_NAME,
             D.MNG_DEPT_SEQ,
             D.MNG_DEPT_NAME,
+            D.HOLDER_SEQ,
+            D.HOLDER_NAME,
+            D.HOLDER_DEPT_SEQ,
+            D.HOLDER_DEPT_NAME,
             REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = D.MNG_SEQ)), '|', ' ') AS DEPT_NAME
         FROM
             CAM_MNG.DJ_CARD_INFO A
@@ -476,6 +508,9 @@
         <if test='auth == "user" or "user".equals(auth)'>
             AND
                 B.TR_CD IS NULL
+        </if>
+        <if test='"8".equals(searchType)'>
+            AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL)
         </if>
     </select>
 
@@ -524,6 +559,54 @@
         WHERE
             CARD_BA_NB = #{CARD_BA_NB}
         AND
+            TR_CD = #{TR_CD}
+    </update>
+
+    <select id="getCardHolderData" parameterType="map" resultType="map">
+        /*getCardHolderData*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_MANAGER
+        WHERE
+            CARD_BA_NB = #{CARD_BA_NB}
+          AND
+            TR_CD = #{TR_CD}
+    </select>
+
+    <insert id="insCardHolder" parameterType="map">
+        /*insCardHolder*/
+        INSERT INTO CAM_MNG.DJ_CARD_MANAGER
+        (
+            CARD_BA_NB,
+            TR_CD,
+            HOLDER_SEQ,
+            HOLDER_NAME,
+            HOLDER_DEPT_SEQ,
+            HOLDER_DEPT_NAME
+        )
+        VALUES
+            (
+                #{CARD_BA_NB},
+                #{TR_CD},
+                #{HOLDER_SEQ},
+                #{HOLDER_NAME},
+                #{HOLDER_DEPT_SEQ},
+                #{HOLDER_DEPT_NAME}
+            )
+    </insert>
+
+    <update id="updCardHolder" parameterType="map">
+        /*updCardHolder*/
+        UPDATE CAM_MNG.DJ_CARD_MANAGER
+        SET
+            HOLDER_SEQ = #{HOLDER_SEQ},
+            HOLDER_NAME = #{HOLDER_NAME},
+            HOLDER_DEPT_SEQ = #{HOLDER_DEPT_SEQ},
+            HOLDER_DEPT_NAME = #{HOLDER_DEPT_NAME}
+        WHERE
+            CARD_BA_NB = #{CARD_BA_NB}
+          AND
             TR_CD = #{TR_CD}
     </update>
 </mapper>
