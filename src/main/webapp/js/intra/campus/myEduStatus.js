@@ -132,12 +132,14 @@ var myEdu = {
                     title: "목표레벨",
                     width: 100
                 },  {
-                    field: "",
+                    /*field: "TERM_TIME",*/
                     title: "학습시간",
+                    template: "<span>#=TERM_TIME#시간</span>",
                     width: 100
                 },{
-                    field: "REAL_EDU_TIME",
+                    /*field: "REAL_EDU_TIME",*/
                     title: "인정시간",
+                    template: "<span>#=REAL_EDU_TIME#시간</span>",
                     width: 100
                 }, {
                     title: "진행현황",

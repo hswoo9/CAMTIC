@@ -24,9 +24,14 @@
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회년도</th>
-                        <td colspan="3">
+                        <td>
                             <input type="text" id="eduYear" style="width: 140px;">
                         </td>
+                        <th class="text-center th-color">학습구분</th>
+                        <td>
+                            <input type="text" id="studyClass" style="width: 170px;">
+                        </td>
+
                     </tr>
                 </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>

@@ -120,6 +120,9 @@
                 <if test='empSeq != null and empSeq != ""'>
                     AND EI.REG_EMP_SEQ = #{empSeq}
                 </if>
+                <if test='studyClass != null and !"".equals(studyClass)'>
+                    AND EDU_FORM_TYPE = #{studyClass}
+                </if>
                 AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear})
                 ORDER BY EI.EDU_INFO_ID
             ) RE

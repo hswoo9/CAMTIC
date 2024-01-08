@@ -160,52 +160,78 @@
                     $("#studyMoney").val(comma(rs.data.STUDY_MONEY));
                     $("#studyMoneyVal").val(rs.data.STUDY_MONEY_VAL);
                     $("#regDate").val(rs.data.regDate);
+
+                    if(rs.data.STUDY_CLASS_SN == 2 ) {
+                        $.ajax({
+                            url: '/campus/getStudyUserList',
+                            data: {
+                                pk: $("#pk").val(),
+                                studyClassSn: 4
+                            },
+                            type: "post",
+                            dataType: "json",
+                            success: function (rs) {
+
+                                var studyUserNames = rs.list.map(function (item) {
+                                    return item.STUDY_EMP_NAME;
+                                }).join(',');
+
+                                var studyUserSeqs = rs.list.map(function (item) {
+                                    return item.STUDY_EMP_SEQ;
+                                }).join(',');
+
+                                $("#readerUserName").val(studyUserNames);
+                                $("#readerUserSeq").val(studyUserSeqs);
+                            }
+                        })
+                        $.ajax({
+                            url: '/campus/getStudyUserList',
+                            data: {
+                                pk: $("#pk").val(),
+                                studyClassSn: 5
+                            },
+                            type: "post",
+                            dataType: "json",
+                            success: function (rs) {
+
+                                var studyUserNames = rs.list.map(function (item) {
+                                    return item.STUDY_EMP_NAME;
+                                }).join(',');
+
+                                var studyUserSeqs = rs.list.map(function (item) {
+                                    return item.STUDY_EMP_SEQ;
+                                }).join(',');
+
+                                $("#studyUserName").val(studyUserNames);
+                                $("#studyUserSeq").val(studyUserSeqs);
+                            }
+                        })
+                    }else if(rs.data.STUDY_CLASS_SN == 1){
+                        $.ajax({
+                            url: '/campus/getStudyUserList',
+                            data: {
+                                pk: $("#pk").val()
+                            },
+                            type: "post",
+                            dataType: "json",
+                            success: function (rs) {
+
+                                var studyUserNames = rs.list.map(function (item) {
+                                    return item.STUDY_EMP_NAME;
+                                }).join(',');
+
+                                var studyUserSeqs = rs.list.map(function (item) {
+                                    return item.STUDY_EMP_SEQ;
+                                }).join(',');
+
+                                $("#studyUserName").val(studyUserNames);
+                                $("#studyUserSeq").val(studyUserSeqs);
+                            }
+                        })
+                    }
                 }
             })
-            $.ajax({
-                url : '/campus/getStudyUserList',
-                data : {
-                    pk : $("#pk").val(),
-                    studyClassSn : 4
-                },
-                type: "post",
-                dataType : "json",
-                success :function(rs) {
 
-                    var studyUserNames = rs.list.map(function (item) {
-                        return item.STUDY_EMP_NAME;
-                    }).join(',');
-
-                    var studyUserSeqs = rs.list.map(function (item) {
-                        return item.STUDY_EMP_SEQ;
-                    }).join(',');
-
-                    $("#readerUserName").val(studyUserNames);
-                    $("#readerUserSeq").val(studyUserSeqs);
-                }
-            })
-            $.ajax({
-                url : '/campus/getStudyUserList',
-                data : {
-                    pk : $("#pk").val(),
-                    studyClassSn : 5
-                },
-                type: "post",
-                dataType : "json",
-                success :function(rs) {
-
-                    var studyUserNames = rs.list.map(function (item) {
-                        return item.STUDY_EMP_NAME;
-                    }).join(',');
-
-                    var studyUserSeqs = rs.list.map(function (item) {
-                        return item.STUDY_EMP_SEQ;
-                    }).join(',');
-
-                    $("#studyUserName").val(studyUserNames);
-                    $("#studyUserSeq").val(studyUserSeqs);
-                }
-            })
         }
     });
 </script>

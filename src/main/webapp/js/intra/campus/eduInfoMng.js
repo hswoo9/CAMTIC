@@ -12,6 +12,22 @@ var eduInfoMng = {
             format : "yyyy",
             value : new Date()
         });
+
+        let studyDataSource = [
+            { text: "교육기관 참가교육", value: "1" },
+            { text: "온라인 학습", value: "2" },
+            { text: "세미나/포럼/학술대회", value: "3" },
+            { text: "박람회/기술대전 참관", value: "4" },
+            { text: "도서학습", value: "5" },
+            { text: "논문/학술지 독서", value: "6" },
+            { text: "국내/외 논문 저술", value: "7" },
+            { text: "직무관련 저술", value: "8" },
+            { text: "국내외 현장견학", value: "9" },
+            { text: "자격증 취득", value: "10" }
+        ]
+        customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value", 2);
+        $("#studyClass").data("kendoDropDownList").bind("change", gridReload);
+
     },
 
     mainGrid: function(){
@@ -24,6 +40,7 @@ var eduInfoMng = {
                     type: "post"
                 },
                 parameterMap: function(data) {
+                    data.studyClass = $("#studyClass").val();
                     data.eduYear = $("#eduYear").val();
                     return data;
                 }
