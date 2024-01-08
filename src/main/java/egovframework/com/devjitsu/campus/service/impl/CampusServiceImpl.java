@@ -308,6 +308,31 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setEduInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
+        campusRepository.setEduInfoModify(params);
+        params.put("menuCd", "eduReq");
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile eduFile = request.getFile("eduFile");
+
+        if(eduFile != null){
+            if(!eduFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(eduFile, filePath(params, serverDir));
+                fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
+                fileInsMap.put("crmSn", params.get("rsSn"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+            }
+        }
+    }
+
+    @Override
     public void setEduResultInsert(Map<String, Object> params) {
         campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultInsert(params);

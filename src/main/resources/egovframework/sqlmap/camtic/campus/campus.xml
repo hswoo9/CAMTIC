@@ -1194,6 +1194,64 @@
         </selectKey>
     </insert>
 
+    <update id="setEduInfoModify" parameterType="map">
+        UPDATE
+            CAMPUS.DJ_EDU_INFO
+        SET
+            EDU_CATEGORY_DETAIL_ID =#{eduCategoryDetailId},
+            EDU_CATEGORY_DETAIL_NAME =#{eduCategoryDetailName},
+            LEVEL_ID=#{levelId},
+            DUTY_CLASS=#{dutyClass},
+            EDU_NAME=#{eduName},
+            EDU_OBJECT=#{eduObject},
+            EDU_CONTENT=#{eduContent},
+            START_DT=#{startDt},
+            END_DT=#{endDt},
+            TERM_DAY=ifnull(#{termDay}, 0),
+            TERM_TIME=ifnull(#{termTime}, 0),
+            CARE_NAME=#{careName},
+            CARE_LOCATION=#{careLocation},
+            CARE_TEL_NUM=#{firstCareTelNum},
+            <if test='eduMoney != null and eduMoney != ""'>
+                EDU_MONEY=#{eduMoney},
+            </if>
+            EDU_MONEY_TYPE=#{eduMoneyType},
+            <if test='returnMoney != null and returnMoney != ""'>
+                RETURN_MONEY=#{returnMoney},
+            </if>
+            RETURN_DOC=#{returnDoc},
+            ATTACH_DOC_NAME=#{attachDocName},
+            <if test='eduFormType == "3"'>
+                OBJECT_FORUM_TYPE=#{objectForumType},
+                <if test='objectForumType == "1"'>
+                    OBJECT_FORUM_VAL=#{objectForumVal},
+                </if>
+            </if>
+            <if test='eduFormType == "5"'>
+                BOOK_WRITER_NAME=#{bookWriter},
+                BOOK_PAGE_VAL=#{bookPage},
+                BOOK_PULISH_NAME=#{bookPulish},
+            </if>
+            <if test='eduFormType == "6"'>
+                TREA_ORIGIN=#{treaOrigin},
+                TREA_UNIT=#{treaUnit},
+            </if>
+            <if test='eduFormType == "7"'>
+                TREA_TYPE=#{treaType},
+                TREA_USER=#{treaUser},
+            </if>
+            <if test='eduFormType == "8"'>
+                BOOK_UNIT=#{bookUnit},
+            </if>
+            <if test='eduFormType == "10"'>
+                COMP_TYPE=#{compType},
+            </if>
+            REG_DT=#{regDate}
+        WHERE
+            EDU_INFO_ID = #{eduInfoId}
+
+    </update>
+
     <update id="setEduInfoUpdate" parameterType="map">
         /* setEduInfoUpdate */
         UPDATE

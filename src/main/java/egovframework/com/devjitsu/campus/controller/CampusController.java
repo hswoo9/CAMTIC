@@ -1466,6 +1466,19 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 교육수강신청서 수정 */
+    @RequestMapping("/campus/setEduInfoModify")
+    public String setEduInfoModify(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        try{
+            campusService.setEduInfoModify(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("eduInfoId", params.get("eduInfoId"));
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     /** 학습결과보고서 저장 */
     @RequestMapping("/campus/setEduResultInsert")
     public String setEduResultInsert(@RequestParam Map<String, Object> params) {

@@ -87,6 +87,7 @@ public interface CampusService {
 
     /** 개인학습 시작 */
     Map<String, Object> setEduInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void setEduInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
     void setEduResultInsert(Map<String, Object> params);
     void setMngCheckUpd(Map<String, Object> params);
     /** 개인학습 끝 */
