@@ -1093,8 +1093,19 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setStudyResultModify(Map<String, Object> params) {
+        campusRepository.setStudyResultModify(params);
+    }
+
+    @Override
     public void setStudyResult(Map<String, Object> params) {
         campusRepository.setStudyResult(params);
+      /*  campusRepository.setStudyResultComplete(params);*/
+    }
+
+    @Override
+    public void setStudyResultY(Map<String, Object> params) {
+        campusRepository.setStudyResultY(params);
 
         campusRepository.setStudyResultComplete(params);
     }

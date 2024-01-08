@@ -34,7 +34,6 @@
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="status" value="${data.STATUS}"/>
 <input type="hidden" id="studyResultSn" value="${resultData.STUDY_RESULT_SN}" />
-
 <input type="hidden" id="addStatus" value="${data.ADD_STATUS}"/>
 <div class="col-lg-12" style="padding:0;">
 <div class="card-header pop-header barFixed">
@@ -211,5 +210,15 @@
 </div>
 <script>
     studyView.init();
+
+    $(function (){
+        if($("#mode").val() == "mng"){
+            if($("#addStatus").val() == "C"){
+                $("#resultBtn").css("display", "");
+            }else{
+                $("#resultBtn").css("display", "none");
+            }
+        }
+    });
 </script>
 </body>

@@ -236,9 +236,15 @@ public class CampusRepository extends AbstractDAO  {
         update("campus.setPropagInfoComplete", params);
     }
 
+    public void setStudyResultModify(Map<String, Object> params) {
+        insert("campus.setStudyResultModify", params);
+    }
+
     public void setStudyResult(Map<String, Object> params) {
         insert("campus.setStudyResult", params);
     }
+
+    public void setStudyResultY(Map<String, Object> params) {update("campus.setStudyResultY", params);}
 
     public Map<String, Object> getStudyResultData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("campus.getStudyResultData", params);
@@ -283,5 +289,4 @@ public class CampusRepository extends AbstractDAO  {
     public Object getOpenStudyUserCount(Map<String, Object> params){
         return (int) selectOne("campus.getOpenStudyUserCount", params);
     }
-
 }

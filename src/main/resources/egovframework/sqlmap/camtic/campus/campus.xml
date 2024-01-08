@@ -1427,6 +1427,20 @@
         </selectKey>
     </insert>
 
+    <update id="setStudyResultModify" parameterType="map">
+        UPDATE
+            CAMPUS.DJ_STUDY_RESULT
+        SET
+            STUDY_RESULT_DT = #{studyResultDt},
+            STUDY_RESULT_START_TIME = #{studyResultStartTime},
+            STUDY_RESULT_END_TIME = #{studyResultEndTime},
+            STUDY_RESULT_LOCATE = #{studyResultLocate},
+            STUDY_RESULT_CONTENT = #{studyResultContent},
+            STUDY_RESULT_AMT = #{studyResultAmt}
+        WHERE
+            STUDY_RESULT_SN = #{studyResultSn}
+
+    </update>
     <insert id="setStudyResult" parameterType="map">
         /*setStudyResult*/
         INSERT INTO CAMPUS.DJ_STUDY_RESULT
@@ -1442,7 +1456,8 @@
                 STUDY_RESULT_LOCATE,
                 STUDY_RESULT_CONTENT,
                 STUDY_RESULT_AMT,
-                REG_EMP_NAME
+                REG_EMP_NAME,
+                ACTIVE
             )
         VALUES
             (
@@ -1457,12 +1472,22 @@
                 #{studyResultLocate},
                 #{studyResultContent},
                 #{studyResultAmt},
-                #{regEmpName}
+                #{regEmpName},
+                'N'
             )
         <selectKey keyProperty="studyResultSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_STUDY_RESULT'
         </selectKey>
     </insert>
+
+    <update id="setStudyResultY" parameterType="map">
+        UPDATE
+            CAMPUS.DJ_STUDY_RESULT
+        SET
+            ACTIVE = 'Y'
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
 
     <delete id="deleteStudyJournal" parameterType="map">
         /* deleteStudyJournal */

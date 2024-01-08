@@ -28,7 +28,9 @@
         </h3>
         <div class="btn-st popButton">
             <input type="button" id="apprBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인" onclick="fn_approval();"/>
-            <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="fn_save();"/>
+            <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="fn_saveing();"/>
+            <input type="button" id="modBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-primary" value="수정" onclick="fn_saveing();"/>
+            <input type="button" id="approvalBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="결재요청" onclick="fn_save();"/>
             <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
         </div>
     </div>
@@ -146,7 +148,30 @@
         $("#main2").css("display", "");
 
         $("#saveBtn").css("display", "none");
+
+        if($("#resultMode").val() == "upd") {
+            $("#approvalBtn").css("display", "");
+            $("#modBtn").css("display", "");
+        }
         studyUserSetting();
+
+        if($("#resultMode").val() == "upd"){
+            var studyParam ={
+                pk : $("#pk").val()
+            }
+            var rs = customKendo.fn_customAjax("/campus/getStudyInfoOne", studyParam);
+            console.log(rs);
+            if(rs.data.ADD_STATUS == "C"){
+                $("#approvalBtn").css("display", "none");
+                $("#modBtn").css("display", "none");
+
+                $("input[type='text']").prop("disabled", true);
+                $("#selMemBtn").prop("disabled", true);
+                $("textarea").prop("disabled", true);
+                $("button").prop("disabled", true);
+            }
+        }
+
     } else {
         $.ajax({
             url : "/campus/getStudyJournalList",
@@ -225,8 +250,8 @@
         return str.replace(/[^\d]+/g, '');
     }
 
-    function fn_save(){
-
+    function  fn_saveing(){
+        let studyResultSn = $("#studyResultSn").val();
         let studyInfoSn = $("#pk").val();
         let studyNameTd = $("#studyNameTd").text();
         let journalDt = $("#journalDt").val();
@@ -287,6 +312,7 @@
         }
 
         let data = {
+            studyResultSn: studyResultSn,
             studyInfoSn: studyInfoSn,
             studyName: studyNameTd,
             studyEmpSeq : studyUserSeq,
@@ -302,16 +328,53 @@
             regEmpSeq : regEmpSeq
         }
 
+        if(studyResultSn != ""){
+
+            $.ajax({
+                url: "/campus/setStudyResultModify",
+                data: data,
+                type: "post",
+                dataType: "json",
+                success: function (rs) {
+                    if (rs.code == 200) {
+                        alert("수정되었습니다.");
+                        /*opener.location.reload();
+                        location.href = "/campus/pop/resultDocPop.do?pk=" + rs.params.studyInfoSn + "&studyResultSn=" + rs.params.studyResultSn;*/
+                    }
+                }
+            })
+        }else{
+            $.ajax({
+                url: "/campus/setStudyResult",
+                data: data,
+                type: "post",
+                dataType: "json",
+                success: function (rs) {
+                    if (rs.code == 200) {
+                        alert("저장되었습니다.");
+                        opener.location.reload();
+                        location.href = "/campus/pop/resultDocPop.do?pk=" + rs.params.studyInfoSn + "&studyResultSn=" + rs.params.studyResultSn;
+                    }
+                }
+            })
+        }
+    }
+
+    function fn_save(){
+        let studyInfoSn = $("#pk").val();
+        let data = {
+            studyInfoSn: studyInfoSn
+        }
         $.ajax({
-            url : "/campus/setStudyResult",
+            url : "/campus/setStudyResultY",
             data: data,
             type : "post",
             dataType : "json",
             success : function (rs){
                 if(rs.code == 200){
-                    alert("저장되었습니다.");
+                    alert("승인요청되었습니다.");
                     opener.location.reload();
-                    location.href = "/campus/pop/resultDocPop.do?pk=" + rs.params.studyInfoSn + "&studyResultSn=" + rs.params.studyResultSn;
+                    window.close();
                 }
             }
         })

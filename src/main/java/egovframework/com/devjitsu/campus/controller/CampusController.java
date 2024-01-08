@@ -1961,11 +1961,39 @@ public class CampusController {
         return "popup/campus/resultPropagDocPop";
     }
 
+    @RequestMapping("/campus/setStudyResultModify")
+    public String setStudyResultModify(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            campusService.setStudyResultModify(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/campus/setStudyResult")
     public String setStudyResult(@RequestParam Map<String, Object> params, Model model) {
 
         try{
             campusService.setStudyResult(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/setStudyResultY")
+    public String setStudyResultY(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            campusService.setStudyResultY(params);
             model.addAttribute("code", 200);
             model.addAttribute("params", params);
         } catch(Exception e){

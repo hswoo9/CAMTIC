@@ -164,7 +164,11 @@ public interface CampusService {
 
     void setPropagInfoComplete(Map<String, Object> params);
 
+    void setStudyResultModify(Map<String, Object> params);
+
     void setStudyResult(Map<String, Object> params);
+
+    void setStudyResultY(Map<String, Object> params);
 
     Map<String, Object> getStudyResultData(Map<String, Object> params);
 
@@ -177,5 +181,9 @@ public interface CampusService {
     void deleteOjtResult(Map<String, Object> params);
 
     void setStudyResultComplete(Map<String, Object> params);
+
+
+
+
     /** 전자결재 끝 */
 }
