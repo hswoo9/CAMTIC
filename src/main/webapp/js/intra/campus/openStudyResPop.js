@@ -22,7 +22,7 @@ const openStudyRes = {
         openStudyRes.global.openStudyInfo = openStudyInfo;
 
         $("#openStudyNameTd").text(openStudyInfo.OPEN_STUDY_NAME);
-        $("#openStudyDtTd").text(openStudyInfo.OPEN_STUDY_DT+" "+openStudyInfo.START_TIME+" ~ "+openStudyInfo.END_TIME);
+        $("#openStudyDtTd").text(openStudyInfo.OPEN_STUDY_DT+" / "+openStudyInfo.START_TIME+" ~ "+openStudyInfo.END_TIME);
         $("#openStudyLocationTd").text(openStudyInfo.OPEN_STUDY_LOCATION);
         $("#openStudyDetailTd").text(openStudyInfo.OPEN_STUDY_DETAIL);
         $("#openStudyResultTd").text(openStudyInfo.OPEN_STUDY_RESULT);
@@ -42,10 +42,15 @@ const openStudyRes = {
     buttonSet: function(){
         let mode = $("#mode").val();
         let status = openStudyRes.global.openStudyInfo.STATUS;
+        let studyInfo = openStudyRes.global.openStudyInfo;
+        let regEmpSeq = $("#regEmpSeq").val();
+
         if(mode == "upd"){
-            if(status == 0 || status == 30){
-                $("#appBtn").show();
-                $("#modBtn").show();
+            if(studyInfo.REG_EMP_SEQ == regEmpSeq){
+                if(status == 0 || status == 30){
+                    $("#appBtn").show();
+                    $("#modBtn").show();
+                }
             }
         }
         if(mode == "mng"){
@@ -192,6 +197,9 @@ const openStudyRes = {
             console.log("resultCheckCnt : " + resultCheck.list.length);
 
             if (resultCheck.list) {
+
+                let showAlert = true;
+
                 for (let i = 0; i < resultCheck.list.length; i++) {
                     let realEduTime = 0;
 
@@ -199,36 +207,28 @@ const openStudyRes = {
                     const remainEduFloat = parseFloat(resultCheck.list[i].remainEduTime);
 
                     if (resultCheck.list[i].userClass == '1') {
-                        if (remainEduFloat == 0) {
-                            alert("주에 학습시간이 2시간을 초과해 인정시간이 0시간으로 인정됩니다.")
-                            realEduTime = 0;
-                            console.log(realEduTime);
-                        } else if (remainEduFloat == eduTimeFloat * 2) {
+                        if (remainEduFloat == eduTimeFloat * 2) {
                             realEduTime = eduTimeFloat;
-                            console.log(realEduTime);
                         } else if (remainEduFloat < eduTimeFloat * 2) {
                             realEduTime = remainEduFloat;
-                            console.log(realEduTime);
                         } else if (remainEduFloat > eduTimeFloat * 2) {
                             realEduTime = eduTimeFloat * 2;
-                            console.log(realEduTime);
                         }
-                    } else {
-                        if (remainEduFloat == 0) {
-                            alert("주에 학습시간이 2시간을 초과해 인정시간이 0시간으로 인정됩니다.")
-                            realEduTime = 0;
-                            console.log(realEduTime);
-                        } else if (remainEduFloat == eduTimeFloat) {
+                    }else {
+                        if (remainEduFloat == eduTimeFloat) {
                             realEduTime = eduTimeFloat;
-                            console.log(realEduTime);
                         } else if (remainEduFloat < eduTimeFloat) {
                             realEduTime = remainEduFloat;
-                            console.log(realEduTime);
                         } else if (remainEduFloat > eduTimeFloat) {
                             realEduTime = eduTimeFloat;
-                            console.log(realEduTime);
                         }
                     }
+                    if (remainEduFloat == 0 && showAlert) {
+                        realEduTime = 0;
+                        alert("주에 학습시간이 2시간을 초과해 인정시간이 0시간으로 인정됩니다.");
+                        showAlert = false;
+                    }
+
                     let updateData = {
                         pk: data.pk,
                         regEmpSeq: resultCheck.list[i].REG_EMP_SEQ,
@@ -254,7 +254,16 @@ const openStudyRes = {
             }else if(status == 30){
                 alert("반려되었습니다.");
             }
-            opener.gridReload();
+            try {
+                opener.gridReload();
+            }catch{
+
+            }
+            try{
+                location.reload();
+            }catch{
+
+            }
             window.close();
         }
     },

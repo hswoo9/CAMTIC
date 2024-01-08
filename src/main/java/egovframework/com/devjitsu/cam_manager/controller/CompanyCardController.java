@@ -407,4 +407,17 @@ public class CompanyCardController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/card/setCardHolder")
+    public String setCardHolder(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            companyCardService.setCardHolder(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

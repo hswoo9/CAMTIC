@@ -15,6 +15,8 @@ var payDetView = {
             payDetView.empMainGrid();
         } else if ($("#type").val() == 5){
             payDetView.otherMainGrid();
+        } else if ($("#type").val() == 8){
+            payDetView.cardMainGrid();
         } else if ($("#type").val() == 9){
             payDetView.otherMainGrid();
         }
@@ -32,6 +34,8 @@ var payDetView = {
             $("#empMainGrid").data("kendoGrid").dataSource.read();
         } else if ($("#type").val() == 5){
             $("#otherMainGrid").data("kendoGrid").dataSource.read();
+        } else if ($("#type").val() == 8){
+            $("#cardMainGrid").data("kendoGrid").dataSource.read();
         } else if ($("#type").val() == 9){
             $("#otherMainGrid").data("kendoGrid").dataSource.read();
         }
@@ -274,6 +278,7 @@ var payDetView = {
                 },
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
+                    data.searchType = $("#type").val();
                     return data;
                 }
             },

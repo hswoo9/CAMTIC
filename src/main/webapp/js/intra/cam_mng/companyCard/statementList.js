@@ -70,34 +70,66 @@ var statementList = {
                 }
             ],
             columns: [
-                {
+                /*{
                     title: "순번",
                     template: "#= --record #",
                     width: 50
-                }, {
-                    field: "TEAM_NAME",
-                    title: "팀",
+                },*/ /*{
+                    field: "",
+                    title: "카드구분",
                     width: 100
-                }, {
-                    field: "USE_EMP_NAME",
-                    title: "이름",
+                },*/ {
+                    field: "LAST_CARD_NUM",
+                    title: "카드번호",
                     width: 100
-                }, {
-                    field: "TR_NM",
-                    title: "카드명",
-                    width: 300
                 }, {
                     field: "CARD_TO_DE",
-                    title: "사용일자",
-                    width: 120
+                    title: "반출일자",
+                    width: 100,
+                    template: function(e){
+                        return e.CARD_TO_DE;
+                    }
                 }, {
-                    field: "CARD_FROM_DE",
-                    title: "반납일자",
-                    width: 120
+                    field: "USE_EMP_NAME",
+                    title: "반출자",
+                    width: 100
                 }, {
-                    field: "CARD_BA_NB",
-                    title: "카드번호",
+                    field: "",
+                    title: "사용내역등록",
+                    width: 100,
+                    template: function(e){
+                        if(e.REG_HISTORY > 0){
+                            return "등록";
+                        } else {
+                            return "미등록";
+                        }
+                    }
+                }, {
+                    field: "",
+                    title: "사용내역",
                     width: 300,
+                    template: function(e){
+                        if(e.REG_HISTORY > 0){
+                            if(e.REG_HISTORY == 1){
+                                return e.LAST_MER_NM;
+                            } else {
+                                return e.LAST_MER_NM + "외 " + Number(e.REG_HISTORY - 1) + "건";
+                            }
+                        } else {
+                            return "미등록";
+                        }
+                    }
+                }, {
+                    field: "",
+                    title: "반납일시",
+                    width: 100,
+                    template: function(e){
+                        if(e.REG_HISTORY > 0 && e.RT_YN == 'Y'){
+                            return e.CARD_FROM_DE
+                        } else {
+                            return "";
+                        }
+                    }
                 }, {
                     title: "사용이력등록",
                     width: 120,
@@ -176,14 +208,14 @@ var statementList = {
                 template: "데이터가 존재하지 않습니다."
             },
             toolbar : [
-                {
+                /*{
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="statementList.fn_addCardHist($(\'#cardToSn\').val())">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
-                }, {
+                },*/ {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="statementList.mainHistGrid();">' +
@@ -300,7 +332,7 @@ var statementList = {
             url += "?cardToSn=" + key;
         }
         var name = "_blank";
-        var option = "width = 700, height = 500, top = 200, left = 400, location = no"
+        var option = "width = 900, height = 400, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

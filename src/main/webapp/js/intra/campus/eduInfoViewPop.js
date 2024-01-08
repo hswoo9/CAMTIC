@@ -59,6 +59,15 @@ var eduInfoViewPop = {
         }).trigger("submit");
     },
 
+    campusModify: function (){
+        /*let url = "/Campus/pop/studyReqPop.do?mode=upd&pk="+$("#pk").val();*/
+        let url = "/Campus/pop/eduReqPop.do?eduInfoId="+$('#eduInfoId').val()+"&eduFormType="+$('#eduFormType').val();
+        const name = "popup";
+        const option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+
     eduResultReqPop: function() {
         var url = "/Campus/pop/eduResultReqPop.do?eduInfoId="+eduInfoViewPop.global.eduInfoId;
         var name = "_self";

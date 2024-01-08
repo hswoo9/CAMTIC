@@ -44,4 +44,6 @@ public interface CompanyCardService {
     void setPrivateCard(Map<String, Object> params);
 
     void setCardManager(Map<String, Object> params);
+
+    void setCardHolder(Map<String, Object> params);
 }

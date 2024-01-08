@@ -90,7 +90,7 @@ var openStudy = {
                     title: "학습기간",
                     width: 250,
                     template: function(row){
-                        return row.OPEN_STUDY_DT + " " + row.START_TIME + " ~ " + row.END_TIME
+                        return row.OPEN_STUDY_DT + " / " + row.START_TIME + " ~ " + row.END_TIME
                     }
                 }, {
                     field: "EDU_TIME",

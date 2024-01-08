@@ -38,7 +38,7 @@
                         <c:when test="${params.type eq '2' }">
                             거래처 선택
                         </c:when>
-                        <c:when test="${params.type eq '3' }">
+                        <c:when test="${params.type eq '3' || params.type eq '8'}">
                             신용카드 선택
                         </c:when>
                         <c:when test="${params.type eq '4' }">
@@ -78,7 +78,7 @@
                         * 명칭, 사업(주민)자번호, 계좌(카드)번호 검색 가능</span>
                         <button type="button" style="font-size: 12px; float: right" class="k-button k-button-sm k-button-solid-info" id="addBtn" onclick="payDetView.fn_popAddData('${params.type}')">거래처 등록</button>
                     </c:when>
-                    <c:when test="${params.type eq '3' }">
+                    <c:when test="${params.type eq '3' || params.type eq '8' }">
                         * 명칭, 카드번호(ex. 끝4자리) 검색가능</span>
                     </c:when>
                     <c:when test="${params.type eq '4' }">
@@ -103,7 +103,7 @@
             <c:when test="${params.type eq '2' }">
                 <div id="clientMainGrid" style="margin-top:12px"></div>
             </c:when>
-            <c:when test="${params.type eq '3' }">
+            <c:when test="${params.type eq '3' || params.type eq '8' }">
                 <div id="cardMainGrid" style="margin-top:12px"></div>
             </c:when>
             <c:when test="${params.type eq '4' }">

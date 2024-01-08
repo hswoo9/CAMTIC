@@ -24,6 +24,7 @@
     <div class="btn-st popButton">
       <c:choose>
         <c:when test="${data.STATUS == 0 || data.STATUS == 30}">
+          <input type="button" class="k-button k-button-solid-info usrBtn" value="수정" onclick="eduInfoViewPop.campusModify();"/>
           <input type="button" class="k-button k-button-solid-info usrBtn" value="결재요청" onclick="eduInfoViewPop.campusDrafting();"/>
         </c:when>
         <c:when test="${data.STATUS == 10}">
@@ -72,7 +73,7 @@
           <div class="mt20">
             <b>학습방법 : <span id="">${data.EDU_FORM_NAME}</span></b>
           </div>
-          <table class="table table-bordered" id="eduReqTable" style="width: 888px;">
+          <table class="table table-bordered" id="eduReqTable" style="width: 1000px;">
             <colgroup>
               <col width="134px">
               <col width="314px">

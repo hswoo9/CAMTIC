@@ -1315,8 +1315,12 @@ public class CampusController {
 
     /** 오픈스터디 리스트 */
     @RequestMapping("/campus/getOpenStudyInfoList")
-    public String getOpenStudyInfoList(@RequestParam Map<String, Object> params, Model model) {
+    public String getOpenStudyInfoList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO)session.getAttribute("LoginVO");
+        params.put("empSeq",login.getUniqId());
         List<Map<String, Object>> list = campusService.getOpenStudyInfoList(params);
+        model.addAttribute("loginVO", login);
         model.addAttribute("list", list);
         return "jsonView";
     }
@@ -1334,6 +1338,14 @@ public class CampusController {
     @RequestMapping("/campus/getOpenStudyUserList")
     public String getOpenStudyUserList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = campusService.getOpenStudyUserList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 오픈스터디 참여자 리스트(결과보고 작성 페이지) */
+    @RequestMapping("/campus/getOpenStudyUserList2")
+    public String getOpenStudyUserList2(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getOpenStudyUserList2(params);
         model.addAttribute("list", list);
         return "jsonView";
     }
@@ -1446,6 +1458,19 @@ public class CampusController {
             campusService.setEduInfoInsert(params, request, SERVER_DIR, BASE_DIR);
             /*Integer eduInfoId = campusService.setEduInfoInsert(params, request, SERVER_DIR, BASE_DIR);*/
             /*model.addAttribute("eduInfoId", eduInfoId);*/
+            model.addAttribute("eduInfoId", params.get("eduInfoId"));
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 교육수강신청서 수정 */
+    @RequestMapping("/campus/setEduInfoModify")
+    public String setEduInfoModify(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        try{
+            campusService.setEduInfoModify(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("eduInfoId", params.get("eduInfoId"));
             model.addAttribute("code", 200);
         } catch(Exception e){
@@ -1602,7 +1627,7 @@ public class CampusController {
 
     /** 오픈스터디 수정 */
     @RequestMapping("/campus/setOpenStudyInfoUpd")
-    public String setOpenStudyInfoUpd(@RequestParam Map<String, Object> params) {
+    public String setOpenStudyInfoUpd(@RequestParam Map<String, Object> params,Model model) {
         campusService.setOpenStudyInfoUpd(params);
         return "jsonView";
     }

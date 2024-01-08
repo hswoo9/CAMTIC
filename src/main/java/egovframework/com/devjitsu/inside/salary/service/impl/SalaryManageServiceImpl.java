@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.inside.salary.repository.SalaryManageRepository;
 import egovframework.com.devjitsu.inside.salary.service.SalaryManageService;
-import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -20,10 +20,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -180,32 +177,56 @@ public class SalaryManageServiceImpl implements SalaryManageService {
     }
 
     @Override
-    public void esmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void esmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String localPath = "/downloadFile/";
         String fileName = "급여관리 등록 양식.xlsx";
-        String viewFileNm = "급여관리 등록 양식.xlsx";
         File reFile = new File(request.getSession().getServletContext().getRealPath(localPath + fileName));
 
-        try {
-            if (reFile.exists() && reFile.isFile()) {
-                response.setContentType("application/octet-stream; charset=utf-8");
-                response.setContentLength((int) reFile.length());
-                String browser = getBrowser(request);
-                String disposition = setDisposition(viewFileNm, browser);
-                response.setHeader("Content-Disposition", disposition);
-                response.setHeader("Content-Transfer-Encoding", "binary");
-                OutputStream out = response.getOutputStream();
-                FileInputStream fis = null;
-                fis = new FileInputStream(reFile);
-                FileCopyUtils.copy(fis, out);
-                if (fis != null)
-                    fis.close();
-                out.flush();
-                out.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        Workbook workbook = new XSSFWorkbook(reFile);
+
+        List<Map<String, Object>> dataList = salaryManageRepository.getExcelEmpInfoList();
+
+        addDataToWorkbook(workbook, dataList);
+
+        downloadExcel(response, workbook, "급여관리_등록_양식.xlsx", request);
+    }
+
+    private void addDataToWorkbook(Workbook workbook, List<Map<String, Object>> dataList) {
+        Sheet sheet = workbook.getSheet("Sheet1");
+
+        int lastRowNum = sheet.getLastRowNum();
+
+        for (int i = 0; i < dataList.size(); i++) {
+            Row row = sheet.createRow(lastRowNum + 1 + i);
+
+            Cell cell1 = row.createCell(0);
+            cell1.setCellValue(String.valueOf(dataList.get(i).get("EMP_SEQ")));
+
+            Cell cell2 = row.createCell(1);
+            cell2.setCellValue(String.valueOf(dataList.get(i).get("EMP_NAME_KR")));
         }
+    }
+
+    private void downloadExcel(HttpServletResponse response, Workbook workbook, String fileName, HttpServletRequest request) throws Exception {
+        try (FileOutputStream out = new FileOutputStream(fileName)) {
+            workbook.write(out);
+        }
+
+        File file = new File(fileName);
+
+        response.setContentType("application/octet-stream; charset=utf-8");
+        response.setContentLength((int) file.length());
+        String browser = getBrowser(request);
+        String disposition = setDisposition(fileName, browser);
+        response.setHeader("Content-Disposition", disposition);
+        response.setHeader("Content-Transfer-Encoding", "binary");
+
+        try (OutputStream out = response.getOutputStream();
+             FileInputStream fis = new FileInputStream(file)) {
+            FileCopyUtils.copy(fis, out);
+        }
+
+        file.delete();
     }
     @Override
     public void esmExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception {

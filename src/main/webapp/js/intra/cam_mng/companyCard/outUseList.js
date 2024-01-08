@@ -65,6 +65,59 @@ var outUseList = {
             },
             columns: [
                 {
+                    title: "I-branch<br>법인카드 사용내역(실시간)",
+                    columns: [
+                        {
+                            field: "TR_NM",
+                            title: "카드명",
+                            width: 200,
+                        }, {
+                            field: "CARD_BA_NB",
+                            title: "카드번호",
+                            width: 100,
+                        }, {
+                            field: "",
+                            title: "결제일자",
+                            width: 80,
+                            template : function (e){
+                                return e.AUTH_DD.substring(0, 4) + "-" + e.AUTH_DD.substring(4, 6) + "-" + e.AUTH_DD.substring(6, 8)
+                            }
+                        }, {
+                            field: "MER_NM",
+                            title: "거래처",
+                            width: 150,
+                            template : function (e){
+                                return '<div style="cursor: pointer; font-weight: bold" onclick="outUseList.fn_useCardDetailPop(\''+e.AUTH_NO+'\', \''+e.AUTH_DD+'\', \''+e.AUTH_HH+'\', \''+e.CARD_NO+'\', \''+e.BUY_STS+'\')">'+e.MER_NM+'</div>'
+                            }
+                        }, {
+                            field: "AUTH_AMT",
+                            title: "금액",
+                            width: 100,
+                            template : function (e){
+                                return '<div style="text-align: right;">' + comma(e.AUTH_AMT) + '</div>';
+                            }
+                        }
+                    ]
+                }, {
+                    title: "사용내역등록",
+                    columns: [
+                        {
+                            title: "사용자",
+                            columns: [
+                                {
+                                    title : "부서/팀",
+                                    field : "USE_DEPT_NAME",
+                                    width: 100,
+                                }, {
+                                    title : "이름",
+                                    field : "USE_EMP_NAME",
+                                    width: 80,
+                                }
+                            ]
+                        }
+                    ]
+                }
+                /*{
                     title: "구분",
                     width: 50,
                     template: function (){
@@ -126,7 +179,7 @@ var outUseList = {
                 }, {
                     title : "사용자",
                     field: "USE_MEM",
-                }
+                }*/
             ]
         }).data("kendoGrid");
     },
