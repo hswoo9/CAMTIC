@@ -51,9 +51,13 @@
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">기간</th>
-                        <td colspan="3">
+                        <td>
                             <input type="text" id="strDt" style="width: 150px;"> ~
                             <input type="text" id="endDt" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="taxGubun" style="width: 150px;">
                         </td>
                     </tr>
                 </table>
