@@ -34,7 +34,7 @@ var eduInfoMng = {
 
         $("#kindContent").kendoTextBox();
 
-        let statusDataSource = [
+        /*let statusDataSource = [
             { text: "계획", value: "0" },
             { text: "학습신청서 승인요청중", value: "10" },
             { text: "신청완료", value: "100" },
@@ -42,7 +42,7 @@ var eduInfoMng = {
             { text: "미수료", value: "4" },
             { text: "이수완료", value: "5" }
         ]
-        customKendo.fn_dropDownList("status", statusDataSource, "text", "value");
+        customKendo.fn_dropDownList("status", statusDataSource, "text", "value");*/
 
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);

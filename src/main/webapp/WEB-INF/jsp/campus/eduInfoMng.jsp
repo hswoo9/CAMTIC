@@ -34,10 +34,10 @@
                         <td>
                             <input type="text" id="studyClass" style="width: 170px;">
                         </td>
-                        <th class="text-center th-color">상태</th>
+                        <%--<th class="text-center th-color">상태</th>
                         <td>
                             <input type="text" id="status" style="width: 150px;">
-                        </td>
+                        </td>--%>
                         <th class="text-center th-color">성명</th>
                         <td>
                             <input type="text" id="kindContent" style="width: 150px;">
