@@ -7,6 +7,9 @@ var openStudyResMng = {
 
     dataSet: function(){
         customKendo.fn_datePicker("eduYear", "decade", "yyyy", new Date());
+        $("#eduYear").on("change", function() {
+            openStudyResMng.mainGrid();
+        });
     },
 
     mainGrid: function(){

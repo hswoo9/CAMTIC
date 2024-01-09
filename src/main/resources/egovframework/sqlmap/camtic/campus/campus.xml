@@ -621,6 +621,9 @@
                 <if test='step != null and !"".equals(step)'>
                     AND STEP = #{step}
                 </if>
+                <if test='eduYear!= null and !"".equals(eduYear)'>
+                    AND DATE_FORMAT(COSI.open_study_dt, '%Y') = #{eduYear}
+                </if>
                 ORDER BY COSI.REG_DT
             ) RE
         ORDER BY RE.OPEN_STUDY_INFO_SN DESC
