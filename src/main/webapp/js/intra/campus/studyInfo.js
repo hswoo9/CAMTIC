@@ -27,6 +27,7 @@ var studyInfo = {
                     type : "post"
                 },
                 parameterMap: function(data) {
+                    data.empSeq = $("#empSeq").val();
                     data.studyClass = $("#studyClass").val();
                     data.applyYear = $("#applyYear").val();
                     return data;

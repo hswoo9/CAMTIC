@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${toDate}"/></script>
 <script type="text/javascript" src="/js/intra/campus/studyInfo.js?v=${toDate}"/></script>
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
