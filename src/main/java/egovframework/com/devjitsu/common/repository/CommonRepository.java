@@ -55,7 +55,7 @@ public class CommonRepository extends AbstractDAO {
         return selectList("common.getFileList", params);
     }
     public List<Map<String, Object>> getSearchMenu(Map<String, Object> params){
-        return selectList("common.getSearchMenus", params);
+        return selectList("common.getSearchMenu", params);
     }
 
     public void setFavoriteMenuInsert(Map<String, Object> params) { insert("common.setFavoriteMenuInsert", params);}

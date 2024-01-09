@@ -368,58 +368,16 @@
             on M.MENU_ID = MAGU.MENU_ID
         WHERE
             ACTIVE = 'Y'
-          AND
-            M.MENU_DEPTH NOT IN (0,1)
-          AND
+        AND
+            M.MENU_DEPTH NOT IN (0, 1)
+        AND
+            (
+                M.MENU_DEPTH != 2 OR (M.MENU_DEPTH = 2 AND M.MENU_CHILDREN_YN = 'N')
+            )
+        AND
             M.MENU_NAME_PATH LIKE CONCAT('%', #{menuName}, '%')
         GROUP BY MENU_ID
         ORDER BY MENU_FULL_PATH
-    </select>
-
-    <select id="getSearchMenus" parameterType="map" resultType="map">
-        SELECT
-            M.MENU_ID,
-            M.UPPER_MENU_ID,
-            M.MENU_NAME,
-            M.MENU_TYPE,
-            M.SORT,
-            M.MENU_DEPTH,
-            M.MENU_PATH,
-            M.MENU_ICON,
-            M.ACTIVE,
-            M.LANG,
-            M.MENU_NAME TEXT,
-            M.MENU_NAME_PATH,
-            M.MENU_ID_PATH,
-            M.MENU_CHILDREN_YN,
-            M.MENU_FULL_PATH,
-            FM.FV_MENU_ID
-        FROM
-            CAM_COMMON.DJ_MENU_INFO M
-                JOIN
-            (
-                SELECT
-                    MENU_ID
-                FROM
-                    CAM_COMMON.DJ_MENU_AUTHORITY_GROUP MAG
-                        JOIN
-                    CAM_COMMON.DJ_MENU_ALLOW_ACCESS MAA
-                    ON MAA.AUTHORITY_GROUP_ID = MAG.AUTHORITY_GROUP_ID
-                        JOIN
-                    CAM_COMMON.DJ_MENU_AUTHORITY_GRANT MAGU
-                    ON MAG.AUTHORITY_GROUP_ID = MAGU.AUTHORITY_GROUP_ID AND EMP_SEQ = #{empSeq} AND MAGU.ACTIVE = 'Y'
-            ) MAGU
-            ON M.MENU_ID = MAGU.MENU_ID
-                LEFT JOIN CAM_COMMON.DJ_FAVORITE_MENU FM
-                          ON M.MENU_ID = FM.MENU_ID AND FM.REG_EMP_SEQ = #{empSeq}
-        WHERE
-            ACTIVE = 'Y'
-          AND
-            menu_depth IN (2,3,4)
-          AND
-            M.MENU_NAME_PATH LIKE CONCAT('%', #{menuName}, '%')
-        GROUP BY MENU_ID
-        ORDER BY MENU_FULL_PATH;
     </select>
 
     <insert id="setFavoriteMenuInsert" parameterType="map">
