@@ -157,9 +157,6 @@
                     AND
                         ER.STATUS = #{resStatus}
                 </if>
-        <if test='resStatus == null or "".equals(resStatus)'>
-            AND ER.STATUS = 1
-        </if>
                 <if test='mngCheck != null and !"".equals(mngCheck)'>
                     AND
                         ER.MNG_CHECK = #{mngCheck}
@@ -230,6 +227,7 @@
             HEI.DEPT_NAME,
             HEI.DEPT_TEAM_NAME,
             HEI.POSITION_NAME,
+            HEI.JOB_DETAIL,
             DI.DOC_ID,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD,

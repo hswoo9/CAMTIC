@@ -177,6 +177,9 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
                     hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
 
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('jobDetail', true, true, false);
+                    hwpDocCtrl.putFieldText('jobDetail', ResultData.JOB_DETAIL);
+
                     hwpDocCtrl.global.HwpCtrl.MoveToField('eduName', true, true, false);
                     hwpDocCtrl.putFieldText('eduName', ResultData.EDU_NAME);
 
