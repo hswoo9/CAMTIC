@@ -235,9 +235,6 @@ const eduReq = {
             success: function(result){
                 var eduInfoId = result.eduInfoId;
                 alert("교육수강 신청서 수정이 완료되었습니다.");
-                /*opener.open_in_frame("/Campus/eduInfo.do");*/
-                opener.parent.gridReload();
-                //window.opener.location.reload();
                 eduReq.eduInfoViewPop(eduInfoId);
             },
             error: function(){

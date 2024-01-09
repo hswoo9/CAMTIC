@@ -31,7 +31,7 @@
           <input type="button" class="k-button k-button-solid-info usrBtn" value="회수" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');"/>
         </c:when>
         <c:when test="${data.STATUS == 100}">
-          <input type="button" class="k-button k-button-solid-info" value="학습신청서 결재조회" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
+          <input type="button" class="k-button k-button-solid-info" value="학습신청서 열람" onclick="approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
           <c:choose>
             <c:when test="${data.RES_STATUS == 1}">
               <input type="button" class="k-button k-button-solid-info usrBtn" value="결과보고서 작성" onclick="eduInfoViewPop.eduResultReqPop();"/>

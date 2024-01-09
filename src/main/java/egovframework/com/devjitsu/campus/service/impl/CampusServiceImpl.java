@@ -1008,7 +1008,7 @@ public class CampusServiceImpl implements CampusService {
             params.put("status", "10");
             campusRepository.updateEduResultApprStat(params);
         }else if("30".equals(docSts)) { // 반려
-            params.put("status", "30");
+            params.put("status", "0");
             campusRepository.updateEduResultApprStat(params);
         }else if("30".equals(docSts)) { // 회수
             params.put("status", "40");
