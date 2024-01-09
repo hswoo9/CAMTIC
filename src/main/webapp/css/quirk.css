@@ -9275,6 +9275,13 @@ blockquote {
   left: 64px;
   width: 230px;
 }
+.searchpanel2 {
+  position: absolute;
+  top: 16px;
+  left: 324px;
+  width: 230px;
+  font-size: 24px;
+}
 @media (max-width: 480px) {
   .searchpanel {
     display: none;

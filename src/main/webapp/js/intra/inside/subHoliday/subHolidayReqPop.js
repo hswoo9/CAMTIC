@@ -35,7 +35,7 @@ var subHolidayReqPop = {
         subHolidayReqPop.fn_defaultScriptTopTable();
         subHolidayReqPop.dataSet();
 
-        $("#empSeq, #empName, #deptName, #dutyName").kendoTextBox({
+        $("#erpEmpCd, #empName, #deptName, #dutyName").kendoTextBox({
             enable: false
         });
 
@@ -869,6 +869,7 @@ var subHolidayReqPop = {
             const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: result.data.APPLY_SEQ});
             if(empInfo != null){
                 $("#empSeq").val(empInfo.EMP_SEQ);
+                $("#erpEmpCd").val(empInfo.ERP_EMP_SEQ);
                 $("#empName").val(empInfo.EMP_NAME_KR);
                 $("#deptName").val(empInfo.DEPT_NAME);
                 let spot = ""

@@ -551,7 +551,7 @@
         FROM
             CAM_INSIDE.DJ_HOLIDAY DH
         WHERE
-            DH.ACTIVE = "Y" AND DH.EMP_SEQ = #{loginEmpSeq}
+            DH.ACTIVE = "Y" AND DH.EMP_SEQ = #{loginEmpSeq} AND APPLY_YEAR = #{year}
     </select>
 
     <update id="setUserVacList" parameterType="java.util.List" flushCache="true">

@@ -19,8 +19,13 @@
           <span class="input-group-btn">
             <button class="btn btn-default" type="button" onclick="fn_searchMenu();"><i class="fa fa-search" ></i></button>
           </span>
-      </div>
+        </div>
       </div><!-- input-group -->
+        <div class="searchpanel2" style="display: none">
+            <div class="input-group" style="float: left">
+                <span><b style="color: white">테스트 서버</b></span>
+            </div>
+        </div>
 
       <div class="header-right">
         <ul class="headermenu">
@@ -115,7 +120,15 @@
 
   $(document).ready(function(){
       connectWS();
+      showTestServer();
   })
+
+  function showTestServer(){
+      const serverName = "${pageContext.request.serverName}";
+      if(serverName == "218.158.231.186"){
+          $(".searchpanel2").show();
+      }
+  }
 
   function connectWS(){
     sock = new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");

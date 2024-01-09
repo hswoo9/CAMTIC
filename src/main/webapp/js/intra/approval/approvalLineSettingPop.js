@@ -140,20 +140,20 @@ var lineSettingPop = {
                 {
                     field: "DEPT_NAME",
                     title: "부서",
-                    width: "100px",
+                    width: "130px",
                 }, {
                     field: "DUTY_NAME",
                     title: "직위",
-                    width: "100px",
+                    width: "90px",
                     template: function (row) {
                         return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
                     }
                 }, {
                     field: "EMP_NAME_KR",
                     title: "이름",
-                    width: "100px",
+                    width: "80px",
                 }, {
-                    width: "70px",
+                    width: "60px",
                     template: lineSettingPop.global.approveAddBtn,
                 }],
         }).data("kendoGrid");

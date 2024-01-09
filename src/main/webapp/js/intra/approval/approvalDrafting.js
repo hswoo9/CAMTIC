@@ -357,7 +357,7 @@ var draft = {
     approvalLinePop : function(){
         draft.global.windowPopUrl = "/approval/approvalLineSettingPop.do";
         draft.global.popName = "approvalLineSetting";
-        draft.global.popStyle ="width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        draft.global.popStyle ="width=1550, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
 
         window.open(draft.global.windowPopUrl, draft.global.popName, draft.global.popStyle);
     },

@@ -80,7 +80,7 @@ var readerPop = {
                     } else {
                         data.sEmpName = $("#sEmpName").val();
                     }
-                    data.fullTime = "1";
+                    data.fullTime2 = "1";
                     data.DEPT_SEQ = dept;
                     return data;
                 }

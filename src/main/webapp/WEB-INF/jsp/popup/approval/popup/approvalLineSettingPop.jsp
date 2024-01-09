@@ -35,7 +35,7 @@
 				</div>
 			</td>
 			<td>
-				<div id="apprLineUserInfoTabStrip" style="width: 420px;">
+				<div id="apprLineUserInfoTabStrip" style="width: 500px;">
 					<ul>
 						<li class="k-state-active">
 							직원 정보
@@ -45,14 +45,14 @@
 							<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){lineSettingPop.treeViewReload();}">
 						</div>
 					</ul>
-					<div style="height:447px;width: 410px;">
+					<div style="height:447px;width: 490px;">
 						<div id="userList">
 						</div>
 					</div>
 				</div>
 			</td>
 			<td>
-				<div id="apprLineTypeTabStrip" style="width: 600px;">
+				<div id="apprLineTypeTabStrip" style="width: 700px;">
 					<ul>
 						<li class="k-state-active">
 							결재선 지정
