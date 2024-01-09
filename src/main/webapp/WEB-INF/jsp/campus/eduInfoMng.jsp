@@ -16,20 +16,31 @@
         <div class="panel-body">
             <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="40%">
-                        <col width="10%">
-                        <col width="40%">
-                    </colgroup>
+
                     <tr>
                         <th class="text-center th-color">조회년도</th>
                         <td>
                             <input type="text" id="eduYear" style="width: 140px;">
                         </td>
+                        <th class="text-center th-color">부서</th>
+                        <td>
+                            <input type="text" id="deptComp" style="width: 160px;">
+                        </td>
+                        <th class="text-center th-color">팀</th>
+                        <td>
+                            <input type="text" id="deptTeam" style="width: 160px;">
+                        </td>
                         <th class="text-center th-color">학습구분</th>
                         <td>
                             <input type="text" id="studyClass" style="width: 170px;">
+                        </td>
+                        <th class="text-center th-color">상태</th>
+                        <td>
+                            <input type="text" id="status" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">성명</th>
+                        <td>
+                            <input type="text" id="kindContent" style="width: 150px;">
                         </td>
 
                     </tr>

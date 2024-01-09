@@ -13,6 +13,7 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <%--<input type="hidden" id="eduInfoId" value=""/>--%>
 <input type="hidden" id="eduFormType" value="${data.eduFormType}"/>
 <input type="hidden" id="eduInfoId" value="${data.eduInfoId}"/>

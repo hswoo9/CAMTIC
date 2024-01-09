@@ -5,6 +5,8 @@ var eduInfoMng = {
     },
 
     dataSet: function(){
+        var data = {};
+
         $("#eduYear").kendoDatePicker({
             start: "decade",
             depth: "decade",
@@ -25,9 +27,38 @@ var eduInfoMng = {
             { text: "국내외 현장견학", value: "9" },
             { text: "자격증 취득", value: "10" }
         ]
-        customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value", 2);
-        $("#studyClass").data("kendoDropDownList").bind("change", gridReload);
+        customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value");
+        $("#studyClass").data("kendoDropDownList").bind("change", eduInfoMng.gridReload);
+        $("#studyClass").data("kendoDropDownList").select(0);
+        $("#studyClass").data("kendoDropDownList").trigger("change");
 
+        $("#kindContent").kendoTextBox();
+
+        let statusDataSource = [
+            { text: "계획", value: "0" },
+            { text: "학습신청서 승인요청중", value: "10" },
+            { text: "신청완료", value: "100" },
+            { text: "수료", value: "3" },
+            { text: "미수료", value: "4" },
+            { text: "이수완료", value: "5" }
+        ]
+        customKendo.fn_dropDownList("status", statusDataSource, "text", "value");
+
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("deptComp", deptDsA.rs, "dept_name", "dept_seq");
+        $("#deptComp").data("kendoDropDownList").bind("change", eduInfoMng.fn_chngDeptComp);
+        $("#deptComp").data("kendoDropDownList").select(0);
+        $("#deptComp").data("kendoDropDownList").trigger("change");
+    },
+
+    fn_chngDeptComp : function (){
+        var data = {};
+        data.deptLevel = 2;
+        data.parentDeptSeq = this.value();
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("deptTeam", ds.rs, "dept_name", "dept_seq");
     },
 
     mainGrid: function(){
@@ -41,6 +72,9 @@ var eduInfoMng = {
                 },
                 parameterMap: function(data) {
                     data.studyClass = $("#studyClass").val();
+                    data.deptComp = $("#deptComp").val();
+                    data.deptTeam = $("#deptTeam").val();
+                    data.kindContent = $("#kindContent").val();
                     data.eduYear = $("#eduYear").val();
                     return data;
                 }
@@ -69,6 +103,13 @@ var eduInfoMng = {
             },
             toolbar: [
                 {
+                    name: 'button',
+                    template: function (e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="eduInfoMng.mainGrid();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },{
                     name: 'button',
                     template: function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="eduInfoMng.setMngCheck(\'Y\');">' +

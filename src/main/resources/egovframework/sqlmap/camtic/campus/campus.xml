@@ -120,8 +120,33 @@
                 <if test='empSeq != null and empSeq != ""'>
                     AND EI.REG_EMP_SEQ = #{empSeq}
                 </if>
+                <if test='deptComp != null and !"".equals(deptComp)'>
+                    AND
+                    EI.DEPT_SEQ = #{deptComp}
+                    <if test='deptTeam == deptTeam or "".equals(deptTeam)'>
+                        OR
+                            EI.DEPT_SEQ IN (
+                        SELECT
+                            DEPT_SEQ
+                        FROM
+                            CAM_HR.DJ_DEPT_INFO
+                        WHERE
+                            DEPT_SEQ = #{deptComp}
+                        OR
+                            PARENT_DEPT_SEQ = #{deptComp}
+                        )
+                    </if>
+                </if>
+                <if test='deptTeam != null and !"".equals(deptTeam)'>
+                    AND
+                    EI.DEPT_SEQ = #{deptTeam}
+                </if>
                 <if test='studyClass != null and !"".equals(studyClass)'>
                     AND EDU_FORM_TYPE = #{studyClass}
+                </if>
+                <if test='kindContent != null and !"".equals(kindContent)'>
+                AND
+                EI.REG_EMP_NAME like concat('%', #{kindContent} ,'%')
                 </if>
                 AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear})
                 ORDER BY EI.EDU_INFO_ID
@@ -1085,6 +1110,7 @@
                 REG_EMP_SEQ,
                 REG_EMP_NAME,
                 DEPT_NAME,
+                DEPT_SEQ,
                 EDU_CATEGORY_DETAIL_ID,
                 EDU_CATEGORY_DETAIL_NAME,
                 LEVEL_ID,
@@ -1141,6 +1167,7 @@
                 #{empSeq},
                 #{empName},
                 #{deptName},
+                #{deptSeq},
                 #{eduCategoryDetailId},
                 #{eduCategoryDetailName},
                 #{levelId},
