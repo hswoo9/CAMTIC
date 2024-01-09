@@ -40,6 +40,7 @@
                 <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(100);">승인</button>
                 <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="ojtView.fn_ojtCertReq(30);">반려</button>
                 <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(0);">취소</button>
+                <input type="button" id="studyModBtn" style="display: none" class="k-button k-button-solid-primary" value="수정" onclick="ojtView.fn_ojtUpdatePop();"/>
                 <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(10);">승인요청</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>

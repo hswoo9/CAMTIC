@@ -7,7 +7,15 @@ var etaxList = {
         customKendo.fn_datePicker("strDt", "depth", "yyyy-MM-dd", date);
         customKendo.fn_datePicker("endDt", "depth", "yyyy-MM-dd", new Date());
 
-
+        $("#taxGubun").kendoDropDownList({
+            dataSource : [
+                {text : "전체", value : ""},
+                {text : "세금계산서", value : "1"},
+                {text : "계산서", value : "2"},
+            ],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
 
         etaxList.mainGrid();
     },
@@ -28,6 +36,7 @@ var etaxList = {
                 parameterMap: function(data) {
                     data.strDt = $("#strDt").val().toString().replace(/-/g, "");
                     data.endDt = $("#endDt").val().toString().replace(/-/g, "");
+                    data.type = $("#taxGubun").val();
                     return data;
                 }
             },

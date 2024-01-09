@@ -66,9 +66,10 @@ const ojtView = {
                     pk: $("#pk").val()
                 }).list.length;
 
-                if(count >= 1){
                     $("#appBtn").show();
-                }
+                    $("#studyModBtn").show();
+
+
             }else if(status == 10){
                 $("#canBtn").show();
             }else if(status == 100){
@@ -77,6 +78,7 @@ const ojtView = {
             }
         }
         if(mode == "mng"){
+            $("#studyModBtn").hide();
             $("#saveBtn").hide();
             $("#ojtPlanAddBtn").hide();
             if(status == 10){
@@ -207,13 +209,13 @@ const ojtView = {
     },
 
     fn_ojtCertReq: function(status){
-        // if(status == 10 && ojtView.global.ojtPlanLength == 0){
-        //     alert("지도계획이 작성되지 않았습니다"); return;
-        // }
+         /*if(status == 10 && ojtView.global.ojtPlanLength == 0){
+             alert("지도계획이 작성되지 않았습니다"); return;
+         }
 
-        // if(status == 100 && ojtView.global.ojtResultLength == 0){
-        //     alert("학습일지가 작성되지 않았습니다"); return;
-        // }
+         if(status == 100 && ojtView.global.ojtResultLength == 0){
+             alert("학습일지가 작성되지 않았습니다"); return;
+         }*/
 
         let data = {
             studyInfoSn : $("#pk").val(),
@@ -271,7 +273,7 @@ const ojtView = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 508,
+            height: 250,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -459,5 +461,11 @@ const ojtView = {
         }
 
         window.open(url, name, option);
+    },
+    fn_ojtUpdatePop: function (){
+            let url = "/Campus/pop/studyReqPop.do?mode=upd&pk="+$("#pk").val();
+            let name = "studyReqPop";
+            let option = "width = 1170, height = 900, top = 100, left = 200, location = no";
+            window.open(url, name, option);
     }
 }

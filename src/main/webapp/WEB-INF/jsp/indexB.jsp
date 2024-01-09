@@ -495,9 +495,6 @@
         $.ajax({
             url: '/campus/getOpenStudyInfoList',
             type: 'GET',
-            data: {
-                OPEN_STUDY_INFO_SN: e
-            },
             success: function (data) {
                 const filteredData = data.list.filter(item => item.STEP === 'B');
                 const sortedData = filteredData.sort((a, b) => b.SN - a.SN);

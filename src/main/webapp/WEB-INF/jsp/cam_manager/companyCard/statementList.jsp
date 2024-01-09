@@ -31,6 +31,37 @@
         </div>
         <div class="panel-body">
             <div>
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="30%">
+                    </colgroup>
+                    <tr>
+                        <th class="text-center th-color">반출일자</th>
+                        <td>
+                            <input type="text" id="startDt" class="searchInput" style="width: 110px;" onchange="dateValidationCheck('startDt', this.value)">
+                            ~
+                            <input type="text" id="endDt" class="searchInput" style="width: 110px;" onchange="dateValidationCheck('endDt', this.value)">
+                        </td>
+                        <th class="text-center th-color">사용내역등록여부</th>
+                        <td>
+                            <input type="text" id="regHistYn" style="width: 160px;" onchange="statementList.mainGrid();"/>
+                        </td>
+                        <th class="text-center th-color">검색어</th>
+                        <td>
+                            <input type="text" id="searchKeyword" style="width: 120px;">
+                            <input type="text" id="searchValue" style="width: 240px;" onkeypress="if(window.event.keyCode==13){statementList.mainGrid();}"/>
+                            <br>* 카드번호는 끝4자리 검색
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div>
                 <div id="mainGrid" style="margin:20px 0;"></div>
 
                 <div id="mainHistGrid" style="margin:20px 0;"></div>
@@ -59,4 +90,19 @@
     });
 
     customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());
+
+    function dateValidationCheck(id, val){
+        var sDt = new Date($("#startDt").val());
+        var nDt = new Date($("#endDt").val());
+
+        if(id == "startDt"){
+            if(sDt > nDt){
+                $("#endDt").val(val);
+            }
+        }else{
+            if(sDt > nDt){
+                $("#startDt").val(val);
+            }
+        }
+    }
 </script>

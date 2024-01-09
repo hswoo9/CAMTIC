@@ -38,9 +38,7 @@ const propagView = {
                 let count = customKendo.fn_customAjax("/campus/getStudyPropagList", {
                     studyInfoSn: $("#pk").val()
                 }).list.length;
-                if(count > 0){
                     $("#compBtn").show();
-                }
             }else{
                 $("#resultBtn").show();
             }
@@ -349,18 +347,36 @@ const propagView = {
         }
 
         $.ajax({
-            url : "/campus/setStudyInfoComplete",
-            data : data,
-            type : "post",
-            dataType : "json",
-            success: function(rs){
-                if(rs.code == 200){
-                    alert(rs.msg);
-                    location.reload();
+                url: "/campus/getStudyPropagList",
+                data: data,
+                type: "post",
+                dataType: "json",
+                success: function (journalResult) {
+
+                    var journalList = journalResult.list;
+
+                    if (journalList.length === 0) {
+                        alert("학습일지를 작성해주세요.");
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "/campus/setStudyInfoComplete",
+                        data: data,
+                        type: "post",
+                        dataType: "json",
+                        success: function (rs) {
+
+                            if (rs.code == 200) {
+                                alert(rs.msg);
+                                propagView.fn_resultDocPop();
+                                location.reload();
+                            }
+                        }
+                    });
                 }
-            }
         });
-    },
+            },
 
     fn_resultDocPop : function (){
         let url = "/campus/pop/resultPropagDocPop.do?pk="+$("#pk").val();

@@ -93,6 +93,12 @@ var regPayDepo = {
         if($("#paramPjtSn").val() != "" && !regPayDepo.global.setFlag){
             regPayDepo.fn_setProjectData();
         }
+
+        if(opener.parent.$("#taxGubun").val() == "2"){
+            $("#eviType").data("kendoDropDownList").value(2)
+        } else if(opener.parent.$("#taxGubun").val() == "3"){
+            $("#eviType").data("kendoDropDownList").value(5)
+        }
     },
 
     fn_manageSetData : function (){
@@ -175,8 +181,14 @@ var regPayDepo = {
 
                 $("#payDepoReqUser").val(rs.DEPO_EMP_NAME);
 
-                if(rs != null && rs != ''){
+                if(rs != null && rs != '' && rs.file_org_name != null && rs.file_org_name != '' && rs.file_org_name != undefined){
                     $("#fileName").text(rs.file_org_name + "." +rs.file_ext);
+
+                    if(rs.file_ext == "pdf" || rs.file_ext == "PDF" || rs.file_ext == "jpg" || rs.file_ext == "JPG" || rs.file_ext == "png" || rs.file_ext == "PNG"){
+                        $("#viewerBtn").css("display", "");
+
+                        $("#viewerBtn").attr("onclick", "regPayDepo.fileViewer(\""+rs.file_path + rs.file_uuid + "\");")
+                    }
                 }
 
 
@@ -278,9 +290,14 @@ var regPayDepo = {
             fd.append(key, parameters[key]);
         }
 
-        if($("#files")[0].files.length == 1){
-            fd.append("files", $("#files")[0].files[0]);
+        if($("#fileSn").val() != ""){
+            fd.append("fileSn", $("#fileSn").val());
+        } else {
+            if($("#files")[0].files.length == 1){
+                fd.append("files", $("#files")[0].files[0]);
+            }
         }
+
 
 
         $.ajax({
@@ -322,7 +339,7 @@ var regPayDepo = {
         regPayDepo.global.crmSnId = crmSnId;
         regPayDepo.global.crmNmId = crmNmId;
 
-        var url = "/crm/pop/popCrmList.do";
+        var url = "/crm/pop/popCrmList.do?status=payDepo";
         var name = "_blank";
         var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
@@ -405,11 +422,10 @@ var regPayDepo = {
         $("#bnkNm").val(jiroNm);
     },
 
-    fn_popCamCrmList : function(){
-        var url = "/crm/pop/popCrmList.do";
+    fileViewer : function (path, name){
         var name = "_blank";
-        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
-        var popup = window.open(url, name, option);
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open("http://218.158.231.186" + path, name, option);
     },
 
 }

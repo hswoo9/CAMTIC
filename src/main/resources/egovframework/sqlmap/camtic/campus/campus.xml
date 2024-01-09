@@ -120,12 +120,50 @@
                 <if test='empSeq != null and empSeq != ""'>
                     AND EI.REG_EMP_SEQ = #{empSeq}
                 </if>
+                <if test='deptComp != null and !"".equals(deptComp)'>
+                    AND
+                    EI.DEPT_SEQ = #{deptComp}
+                    <if test='deptTeam == deptTeam or "".equals(deptTeam)'>
+                        OR
+                            EI.DEPT_SEQ IN (
+                        SELECT
+                            DEPT_SEQ
+                        FROM
+                            CAM_HR.DJ_DEPT_INFO
+                        WHERE
+                            DEPT_SEQ = #{deptComp}
+                        OR
+                            PARENT_DEPT_SEQ = #{deptComp}
+                        )
+                    </if>
+                </if>
+                <if test='deptTeam != null and !"".equals(deptTeam)'>
+                    AND
+                        EI.DEPT_SEQ = #{deptTeam}
+                </if>
                 <if test='studyClass != null and !"".equals(studyClass)'>
-                    AND EDU_FORM_TYPE = #{studyClass}
+                    AND
+                       EDU_FORM_TYPE = #{studyClass}
+                </if>
+                <if test='kindContent != null and !"".equals(kindContent)'>
+                    AND
+                        EI.REG_EMP_NAME like concat('%', #{kindContent} ,'%')
+                </if>
+                <if test='status != null and !"".equals(status)'>
+                    AND
+                        EI.STATUS = #{status}
+                </if>
+                <if test='mngCheck != null and !"".equals(mngCheck)'>
+                    AND
+                        ER.MNG_CHECK = #{mngCheck}
                 </if>
                 AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear})
                 ORDER BY EI.EDU_INFO_ID
             ) RE
+            <if test='resStatus != null and !"".equals(resStatus)'>
+                WHERE
+                    RE.RES_STATUS = #{resStatus}
+            </if>
         ORDER BY RE.EDU_INFO_ID DESC
     </select>
 
@@ -189,6 +227,7 @@
             HEI.DEPT_NAME,
             HEI.DEPT_TEAM_NAME,
             HEI.POSITION_NAME,
+            HEI.JOB_DETAIL,
             DI.DOC_ID,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD,
@@ -461,6 +500,14 @@
                     AND STUDY_CLASS_SN = #{studyClass}
                 </if>
             ) RE
+            <if test='empSeq !=null and !"".equals(empSeq)'>
+            WHERE
+                RE.STUDY_INFO_SN IN (
+                    SELECT STUDY_INFO_SN
+                    FROM CAMPUS.DJ_STUDY_USER
+                    WHERE STUDY_EMP_SEQ = #{empSeq}
+                )
+            </if>
         ORDER BY RE.ROW_NUM DESC
     </select>
 
@@ -1085,6 +1132,7 @@
                 REG_EMP_SEQ,
                 REG_EMP_NAME,
                 DEPT_NAME,
+                DEPT_SEQ,
                 EDU_CATEGORY_DETAIL_ID,
                 EDU_CATEGORY_DETAIL_NAME,
                 LEVEL_ID,
@@ -1141,6 +1189,7 @@
                 #{empSeq},
                 #{empName},
                 #{deptName},
+                #{deptSeq},
                 #{eduCategoryDetailId},
                 #{eduCategoryDetailName},
                 #{levelId},

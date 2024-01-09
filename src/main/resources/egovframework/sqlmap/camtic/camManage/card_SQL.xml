@@ -47,6 +47,16 @@
             AND (B.TR_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
                 OR A.CARD_NO LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%'))
         </if>
+        <if test='regHistYn != null and !"".equals(regHistYn)'>
+            <choose>
+                <when test='"Y".equals(regHistYn)'>
+                    AND E.USE_EMP_NAME IS NOT NULL
+                </when>
+                <otherwise>
+                    AND E.USE_EMP_NAME IS NULL
+                </otherwise>
+            </choose>
+        </if>
         AND
             C.USE_CARD_SN IS NULL
         ORDER BY A.AUTH_DD DESC
@@ -118,6 +128,34 @@
         ON
             A.USE_EMP_SEQ = B.EMP_SEQ
         WHERE DEL_YN = 'N'
+        <![CDATA[
+            AND
+                DATE_FORMAT(#{startDt}, '%Y%m%d') <= DATE_FORMAT(A.CARD_TO_DE, '%Y%m%d')
+            AND
+                DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(A.CARD_TO_DE, '%Y%m%d')
+        ]]>
+        <if test='searchKeyword != null and !"".equals(searchKeyword)'>
+            <choose>
+                <when test='"CARD_NUM".equals(searchKeyword)'>
+                    AND
+                        SUBSTRING_INDEX(A.CARD_BA_NB,'-',-1) LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test='"USER_NAME".equals(searchKeyword)'>
+                    AND
+                        A.USE_EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test='regHistYn != null and !"".equals(regHistYn)'>
+            <choose>
+                <when test='"Y".equals(regHistYn)'>
+                    AND (SELECT COUNT(*) FROM CAM_MNG.DJ_CARD_TO_HIST WHERE CARD_TO_SN = A.CARD_TO_SN) <![CDATA[>]]> 0
+                </when>
+                <otherwise>
+                    AND (SELECT COUNT(*) FROM CAM_MNG.DJ_CARD_TO_HIST WHERE CARD_TO_SN = A.CARD_TO_SN) = 0
+                </otherwise>
+            </choose>
+        </if>
         ORDER BY CARD_TO_SN DESC
     </select>
 
@@ -511,6 +549,16 @@
         </if>
         <if test='"8".equals(searchType)'>
             AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL)
+        </if>
+        <if test='rtYn != null and !"".equals(rtYn)'>
+            <choose>
+                <when test='"N".equals(rtYn)'>
+                    AND C.RT_YN = 'N'
+                </when>
+                <otherwise>
+                    AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL)
+                </otherwise>
+            </choose>
         </if>
     </select>
 

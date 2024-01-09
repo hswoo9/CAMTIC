@@ -5,6 +5,8 @@ var eduInfoMng = {
     },
 
     dataSet: function(){
+        var data = {};
+
         $("#eduYear").kendoDatePicker({
             start: "decade",
             depth: "decade",
@@ -25,9 +27,74 @@ var eduInfoMng = {
             { text: "국내외 현장견학", value: "9" },
             { text: "자격증 취득", value: "10" }
         ]
-        customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value", 2);
-        $("#studyClass").data("kendoDropDownList").bind("change", gridReload);
+        customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value");
+        $("#studyClass").data("kendoDropDownList").bind("change", eduInfoMng.gridReload);
+        $("#studyClass").data("kendoDropDownList").select(0);
+        $("#studyClass").data("kendoDropDownList").trigger("change");
 
+        $("#kindContent").kendoTextBox();
+
+        let statusDataSource = [
+            { text: "계획", value: "0" },
+            { text: "학습신청서승인요청중", value: "10"},
+            { text: "신청완료", value: "100"},
+            { text: "결과보고서작성완료", value: "100" },
+            { text: "결과보고서승인요청중", value: "100"},
+            { text: "교육완료", value: "100"},
+            { text: "이수완료", value: "100"}
+        ]
+        customKendo.fn_dropDownList("status", statusDataSource, "text", "value");
+        $("#status").data("kendoDropDownList").bind("change", eduInfoMng.fn_resStatus);
+        $("#status").data("kendoDropDownList").select(0);
+        $("#status").data("kendoDropDownList").trigger("change");
+
+
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("deptComp", deptDsA.rs, "dept_name", "dept_seq");
+        $("#deptComp").data("kendoDropDownList").bind("change", eduInfoMng.fn_chngDeptComp);
+        $("#deptComp").data("kendoDropDownList").select(0);
+        $("#deptComp").data("kendoDropDownList").trigger("change");
+    },
+
+fn_resStatus: function () {
+    let selectedText = $("#status").data("kendoDropDownList").text();
+
+        switch (selectedText) {
+            case "신청완료":
+                $("#resStatus").val("1");
+                $("#mngCheck").val("");
+                break;
+            case "결과보고서작성완료":
+                $("#resStatus").val("0");
+                $("#mngCheck").val("");
+                break;
+            case "결과보고서승인요청중":
+                $("#resStatus").val("10");
+                $("#mngCheck").val("");
+                break;
+            case "교육완료":
+                $("#resStatus").val("100");
+                $("#mngCheck").val("N");
+                break;
+            case "이수완료":
+                $("#resStatus").val("100");
+                $("#mngCheck").val("Y");
+                break;
+            default:
+                $("#resStatus").val("");
+                $("#mngCheck").val("");
+                break;
+        }
+    },
+
+fn_chngDeptComp : function (){
+        var data = {};
+        data.deptLevel = 2;
+        data.parentDeptSeq = this.value();
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("deptTeam", ds.rs, "dept_name", "dept_seq");
     },
 
     mainGrid: function(){
@@ -40,7 +107,13 @@ var eduInfoMng = {
                     type: "post"
                 },
                 parameterMap: function(data) {
+                    data.status = $("#status").val();
+                    data.resStatus =$("#resStatus").val();
+                    data.mngCheck =$("#mngCheck").val();
                     data.studyClass = $("#studyClass").val();
+                    data.deptComp = $("#deptComp").val();
+                    data.deptTeam = $("#deptTeam").val();
+                    data.kindContent = $("#kindContent").val();
                     data.eduYear = $("#eduYear").val();
                     return data;
                 }
@@ -69,6 +142,13 @@ var eduInfoMng = {
             },
             toolbar: [
                 {
+                    name: 'button',
+                    template: function (e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="eduInfoMng.mainGrid();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                },{
                     name: 'button',
                     template: function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="eduInfoMng.setMngCheck(\'Y\');">' +
@@ -118,7 +198,7 @@ var eduInfoMng = {
                         }else if(row.EDU_FORM_TYPE == "10") {
                             return "자격증 취득";
                         }else {
-                            return "데이터 오류"
+                            return "데이터 오류";
                         }
                     }
                 }, {
@@ -162,7 +242,7 @@ var eduInfoMng = {
                         }else if(row.STATUS == "100" && row.RES_STATUS == "100" && row.MNG_CHECK == "Y") {
                             return "이수완료";
                         }else {
-                            return "교육취소"
+                            return "교육취소";
                         }
                     }
                 }

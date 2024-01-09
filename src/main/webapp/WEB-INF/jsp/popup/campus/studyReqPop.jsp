@@ -161,7 +161,7 @@
                     $("#studyMoneyVal").val(rs.data.STUDY_MONEY_VAL);
                     $("#regDate").val(rs.data.regDate);
 
-                    if(rs.data.STUDY_CLASS_SN == 2 ) {
+                    if(rs.data.STUDY_CLASS_SN == 2 || rs.data.STUDY_CLASS_SN == 3) {
                         $.ajax({
                             url: '/campus/getStudyUserList',
                             data: {

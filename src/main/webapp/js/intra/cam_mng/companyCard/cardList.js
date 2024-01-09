@@ -7,6 +7,15 @@ var cardList = {
     },
 
     fn_defaultScript : function(){
+        $("#rtYn").kendoDropDownList({
+            dataSource : [
+                {text : "선택하세요", value : ""},
+                {text : "반출중", value : "N"},
+                {text : "미반출", value : "Y"},
+            ],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
         customKendo.fn_textBox(["searchValue"])
         cardList.mainGrid();
     },
@@ -24,6 +33,7 @@ var cardList = {
                     data.searchValue = $("#searchValue").val();
                     data.cardVal = 'M';
                     data.auth = "user";
+                    data.rtYn = $("#rtYn").val();
                     return data;
                 }
             },

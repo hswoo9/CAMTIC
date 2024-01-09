@@ -133,7 +133,6 @@ var regIncm = {
         var ls = result.list;
 
         regIncm.payAppBtnSet(rs);
-        console.log(ls);
 
         $("#appDe").val(rs.APP_DE);
         $("#pjtNm").val(rs.PJT_NM);
