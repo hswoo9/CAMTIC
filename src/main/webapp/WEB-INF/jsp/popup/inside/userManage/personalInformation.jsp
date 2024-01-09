@@ -39,7 +39,8 @@
                 <tr>
                     <th>사번</th>
                     <td>
-                        <input type="text" id="empSeq" style="width: 50%;" value="${uprinfList.EMP_SEQ}" disabled="disabled">
+                        <input type="text" id="erpEmpSeq" style="width: 50%;" value="${uprinfList.ERP_EMP_SEQ}" disabled="disabled">
+                        <input type="hidden" id="empSeq" value="${uprinfList.EMP_SEQ}">
                     </td>
                     <th>이름</th>
                     <td>
