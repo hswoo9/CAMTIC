@@ -9,6 +9,25 @@ var statementList = {
 
 
     fn_defaultScript : function (){
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date().getFullYear()+"-01-01");
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date().getFullYear()+"-12-31");
+        statementList.global.dropDownDataSource = [
+            { text : "카드번호", value : "CARD_NUM" },
+            { text : "반출자", value : "USER_NAME" },
+        ]
+        customKendo.fn_dropDownList("searchKeyword", statementList.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", statementList.mainGrid());
+
+        $("#regHistYn").kendoDropDownList({
+            dataSource : [
+                {text : "선택하세요", value : ""},
+                {text : "등록", value : "Y"},
+                {text : "미등록", value : "N"},
+            ],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+
         statementList.mainGrid();
     },
 
@@ -22,7 +41,11 @@ var statementList = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-
+                    data.regHistYn = $("#regHistYn").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
                     return data;
                 }
             },
