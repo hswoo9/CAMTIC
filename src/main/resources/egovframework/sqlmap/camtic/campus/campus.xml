@@ -486,6 +486,14 @@
                     AND STUDY_CLASS_SN = #{studyClass}
                 </if>
             ) RE
+            <if test='empSeq !=null and !"".equals(empSeq)'>
+            WHERE
+                RE.STUDY_INFO_SN IN (
+                    SELECT STUDY_INFO_SN
+                    FROM CAMPUS.DJ_STUDY_USER
+                    WHERE STUDY_EMP_SEQ = #{empSeq}
+                )
+            </if>
         ORDER BY RE.ROW_NUM DESC
     </select>
 
