@@ -330,13 +330,21 @@ var hwpDocCtrl = {
 
                     //근무기간
                     let joinDay = ResultData.JOIN_DAY.split("-");
-                    let joinDayText = joinDay[0]+"년"+joinDay[1]+"월"+joinDay[2]+"일";
-                    let regDe = ResultData.REG_DE.split("-");
-                    let regDeText = regDe[0]+"년"+regDe[1]+"월"+regDe[2]+"일";
-                    let betDay = betweenDay(ResultData.JOIN_DAY.replace("-",""), ResultData.REG_DE.replace("-",""));
+                    let joinDayText = joinDay[0] + "년" + joinDay[1] + "월" + joinDay[2] + "일";
+
+                    let endDate = ResultData.REG_DE;
+                    if (ResultData.WORK_STATUS_CODE === 'N') {
+                        endDate = ResultData.RESIGN_DAY;
+                    }
+
+                    let regDe = endDate.split("-");
+                    let regDeText = regDe[0] + "년" + regDe[1] + "월" + regDe[2] + "일";
+
+                    let betDay = betweenDay(ResultData.JOIN_DAY.replace("-", ""), endDate.replace("-", ""));
                     let betYear = Math.floor(betDay / 12);
                     let betMonth = betDay % 12;
-                    let tenureText = joinDayText+"부터"+regDeText+"까지("+betYear+"년"+betMonth+"개월)";
+                    let tenureText = joinDayText + "부터" + regDeText + "까지(" + betYear + "년" + betMonth + "개월)";
+
                     hwpDocCtrl.global.HwpCtrl.MoveToField('tenure', true, true, false);
                     hwpDocCtrl.putFieldText('tenure', tenureText);
 

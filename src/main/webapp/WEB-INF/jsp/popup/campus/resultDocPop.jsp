@@ -306,6 +306,7 @@
             applyDt: journalDt,
         }).data.REAL_EDU_TIME;
 
+
         let realEduTime = eduTime;
         if(realEduTimeYear + realEduTime > 2){
             realEduTime = 2 - realEduTimeYear;
