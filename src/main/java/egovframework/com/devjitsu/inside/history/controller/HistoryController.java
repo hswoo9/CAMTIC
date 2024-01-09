@@ -247,8 +247,9 @@ public class HistoryController {
      * @return
      */
     @RequestMapping("/inside/setHistoryInsert")
-    public String setHistoryInsert(@RequestParam Map<String, Object> params) {
+    public String setHistoryInsert(@RequestParam Map<String, Object> params,Model model) {
         historyService.setHistoryInsert(params, BASE_DIR);
+        model.addAttribute("apntSn",params.get("apntSn"));
         userService.setUserInfoUpdate(params);
         return "jsonView";
     }

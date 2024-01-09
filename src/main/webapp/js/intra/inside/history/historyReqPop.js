@@ -20,7 +20,7 @@ const historyReq = {
         historyReq.fn_selEmp();
         customKendo.fn_textBox(["searchVal", "numberName", "relevantName"]);
         customKendo.fn_datePicker("historyDate", "month", "yyyy-MM-dd", new Date());
-        $("#historyDate").data("kendoDatePicker").enable(false);
+        $("#historyDate").data("kendoDatePicker").enable(true);
 
         $("#apntCdAll").kendoDropDownList({
             dataTextField: "text",
@@ -211,14 +211,14 @@ const historyReq = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReq.fn_saveApnt();">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="">' +
                             '	<span class="k-button-text">발령장 전송</span>' +
                             '</button>';
                     }
                 },{
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReq.enablePrintButton()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReq.fn_saveApnt();">' +
                             '	<span class="k-button-text">저장</span>' +
                             '</button>';
                     }
@@ -429,7 +429,7 @@ const historyReq = {
 
         historyReq.dataBinding();
     },
-
+    /*
     enablePrintButton: function() {
         let numberName = $("#numberName").val();
         let relevantName = $("#relevantName").val();
@@ -447,6 +447,7 @@ const historyReq = {
 
         alert("저장되었습니다.");
     },
+     */
 
     dataBinding: function(){
         $(document).on("focusout change", ".formData", function(){
@@ -751,10 +752,14 @@ const historyReq = {
             }
         });
 
+
         alert("인사발령이 완료됐습니다.");
         opener.historyList.gridReload();
         historyReq.editGrid();
         historyReq.fn_popGridSetting();
+
+        var printButton = $("#popMainGrid").find('[id^="printButton_"]');
+        printButton.prop('disabled', false);
         //window.close();
     },
 
@@ -982,7 +987,7 @@ const historyReq = {
                     method: 'POST',
                     data: mergedData,
                     success: function(secondResponse) {
-                        console.log("Second ajax response", secondResponse);
+                        console.log("Second ajax response", secondResponse.apntSn);
                         // 두 번째 ajax 요청 성공 후의 로직
                         console.log("secondResponse : ",secondResponse);
                         var identifier = secondResponse.identifier;
