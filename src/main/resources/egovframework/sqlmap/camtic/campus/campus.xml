@@ -153,10 +153,6 @@
                     AND
                         EI.STATUS = #{status}
                 </if>
-                <if test='resStatus != null and !"".equals(resStatus)'>
-                    AND
-                        ER.STATUS = #{resStatus}
-                </if>
                 <if test='mngCheck != null and !"".equals(mngCheck)'>
                     AND
                         ER.MNG_CHECK = #{mngCheck}
@@ -164,6 +160,10 @@
                 AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear})
                 ORDER BY EI.EDU_INFO_ID
             ) RE
+            <if test='resStatus != null and !"".equals(resStatus)'>
+                WHERE
+                    RE.RES_STATUS = #{resStatus}
+            </if>
         ORDER BY RE.EDU_INFO_ID DESC
     </select>
 

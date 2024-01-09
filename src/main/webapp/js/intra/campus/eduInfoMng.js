@@ -61,14 +61,17 @@ fn_resStatus: function () {
     let selectedText = $("#status").data("kendoDropDownList").text();
 
         switch (selectedText) {
-            /*case "신청완료":
+            case "신청완료":
                 $("#resStatus").val("1");
-                break;*/
+                $("#mngCheck").val("");
+                break;
             case "결과보고서작성완료":
                 $("#resStatus").val("0");
+                $("#mngCheck").val("");
                 break;
             case "결과보고서승인요청중":
                 $("#resStatus").val("10");
+                $("#mngCheck").val("");
                 break;
             case "교육완료":
                 $("#resStatus").val("100");
@@ -82,7 +85,6 @@ fn_resStatus: function () {
                 $("#resStatus").val("");
                 $("#mngCheck").val("");
                 break;
-
         }
     },
 
