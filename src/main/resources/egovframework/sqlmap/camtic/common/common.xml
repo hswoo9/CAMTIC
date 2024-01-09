@@ -369,6 +369,8 @@
         WHERE
             ACTIVE = 'Y'
           AND
+            M.MENU_DEPTH NOT IN (0,1)
+          AND
             M.MENU_NAME_PATH LIKE CONCAT('%', #{menuName}, '%')
         GROUP BY MENU_ID
         ORDER BY MENU_FULL_PATH
