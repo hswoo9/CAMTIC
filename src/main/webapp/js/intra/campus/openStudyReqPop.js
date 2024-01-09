@@ -108,7 +108,7 @@ const openStudyReq = {
         let data = {
             pk: $("#pk").val()
         }
-        const result = customKendo.fn_customAjax("/campus/getOpenStudyUserList", data);
+        const result = customKendo.fn_customAjax("/campus/getOpenStudyUserList2", data);
         openStudyReq.global.openStudyUser = result.list;
         let list = openStudyReq.global.openStudyUser;
 

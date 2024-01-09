@@ -81,7 +81,7 @@ var incomeList = {
                     width: 200,
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
-                        return pjtNm + "...";
+                        return e.PJT_NM;
                     }
                 }, {
                     title: "세출과목",
@@ -112,7 +112,11 @@ var incomeList = {
                             if(e.REQ_END_DE != null && e.REQ_END_DE != "" && e.REQ_END_DE != undefined){
                                 status = "승인";
                             } else {
-                                status = "미결";
+                                if(e.EVID_TYPE == "7"){
+                                    status = "승인";
+                                } else {
+                                    status = "미결";
+                                }
                             }
                         } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
                             status = "결재중"

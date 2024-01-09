@@ -802,13 +802,18 @@
         /* getIncpList */
         SELECT
             A.*,
+            C.EVID_TYPE,
             B.EMP_NAME_KR AS EMP_NAME,
             (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET WHERE PAY_INCP_SN = A.PAY_INCP_SN) AS TOT_COST
         FROM
             CAM_MNG.DJ_PAY_INCP A
-                LEFT JOIN
+        LEFT JOIN
             CAM_HR.DJ_EMP_INFO B
-            ON A.EXNP_EMP_SEQ = B.EMP_SEQ
+        ON A.EXNP_EMP_SEQ = B.EMP_SEQ
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_INCP_DET C
+        ON
+            A.PAY_INCP_SN = C.PAY_INCP_SN
         ORDER BY A.PAY_INCP_SN DESC
     </select>
 
@@ -1056,6 +1061,7 @@
         (
             PJT_NM,
             PJT_SN,
+            PJT_CD,
             BUDGET_NM,
             BUDGET_SN,
             BUSN_CD,
@@ -1078,6 +1084,7 @@
         (
             #{pjtNm},
             #{pjtSn},
+            #{pjtCd},
             #{budgetNm},
             #{budgetSn},
             #{busnCd},
@@ -1107,6 +1114,7 @@
         SET
             PJT_NM = #{pjtNm},
             PJT_SN = #{pjtSn},
+            PJT_CD = #{pjtCd},
             APP_DE = #{appDe},
             APP_CONT = #{appCont},
             BUDGET_SN = #{budgetSn},
@@ -1230,7 +1238,7 @@
             B.BUSN_CD AS DIV_CD2,
             B.G20_DEPT_CD AS DEPT_CD,
             B.G20_EMP_CD AS EMP_CD,
-            C.PJT_CD AS MGT_CD,
+            B.PJT_CD AS MGT_CD,
             "" AS BOTTOM_CD,
             "5" AS DOCU_FG,
             B.APP_CONT AS RMK_DC,

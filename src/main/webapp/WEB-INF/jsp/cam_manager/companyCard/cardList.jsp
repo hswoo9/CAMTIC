@@ -27,15 +27,17 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="25%">
+                        <col width="40%">
                         <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="25%">
+                        <col width="40%">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">반출여부</th>
+                        <td>
+                            <input type="text" id="rtYn" style="width: 160px;" onchange="cardList.mainGrid();"/>
+                        </td>
                         <th class="text-center th-color">검색어</th>
-                        <td colspan="5">
+                        <td>
                             <input type="text" id="searchValue" style="width: 240px;" onkeypress="if(window.event.keyCode==13){cardList.mainGrid();}"/>
                             <br>* 명칭, 카드번호(ex. 끝4자리) 검색가능
                         </td>

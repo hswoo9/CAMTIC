@@ -96,12 +96,16 @@
                     <th scope="row" class="text-center th-color">사업자등록증</th>
                     <td colspan="2">
                         <div style="max-width: 100% !important;">
-                            <div style="width:100%;" >
+                            <div style="width:80%;" >
+                                <input type="hidden" id="fileSn" name="fileSn" value="" />
                                 <label for="files" class="k-button k-button-solid-base">파일첨부</label>
                                 <input type="file" id="files" name="files" onchange="fileChange(this)" style="display: none">
                                 <span id="fileName"></span>
+
+                                <button type="button" class="k-button k-button-solid-base" id="viewerBtn" style="display:none; float: right">보기</button>
                             </div>
                         </div>
+
                     </td>
                 </tr>
                 <tr>
@@ -205,6 +209,7 @@
     }
 
     function fileChange(e){
+        $("#fileSn").val("");
         $(e).next().text($(e)[0].files[0].name);
     }
 </script>

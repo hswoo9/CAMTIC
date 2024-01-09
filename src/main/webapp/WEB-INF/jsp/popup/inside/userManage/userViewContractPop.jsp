@@ -17,15 +17,15 @@
             <c:if test="${params.empSeq != null && params.empSeq != ''}">
                 <h3 class="card-title title_NM">직원 기본정보</h3>
                 <div class="btn-st popButton">
-                    <c:if test="${isAdmin}">
-                        <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
-                            <button type="button" class="k-button k-button-solid-info" onclick="userViewContractPop.userImageReqPop('${params.empSeq}')">이미지 관리</button>
-                            <button type="button" class="k-button k-button-solid-info" onclick="userViewContractPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
-                            <button type="button" class="k-button k-button-solid-info" onclick="userViewContractPop.moveToUserReqPop('${params.empSeq}')">편집</button>
-                            <button type="button" class="k-button k-button-solid-error" onclick="userViewContractPop.userResignation('${params.empSeq}')">퇴사처리</button>
-                            <button type="button" class="k-button k-button-solid-error" onclick="userViewContractPop.setUserDel('${params.empSeq}')">삭제</button>
-                        </c:if>
+                    <%--<c:if test="${isAdmin}">--%>
+                    <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
+                        <button type="button" class="k-button k-button-solid-info" onclick="userViewContractPop.userImageReqPop('${params.empSeq}')">이미지 관리</button>
+                        <button type="button" class="k-button k-button-solid-info" onclick="userViewContractPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>
+                        <button type="button" class="k-button k-button-solid-info" onclick="userViewContractPop.moveToUserReqPop('${params.empSeq}')">편집</button>
+                        <button type="button" class="k-button k-button-solid-error" onclick="userViewContractPop.userResignation('${params.empSeq}')">퇴사처리</button>
+                        <button type="button" class="k-button k-button-solid-error" onclick="userViewContractPop.setUserDel('${params.empSeq}')">삭제</button>
                     </c:if>
+                    <%--</c:if>--%>
                     <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">
                         <button type="button" class="k-button k-button-solid-info" onclick="userViewContractPop.userImageReqPop('${params.empSeq}')">이미지 관리</button>
                         <button type="button" class="k-button k-button-solid-info" onclick="userViewContractPop.certificateReqPop('${params.empSeq}')">증명서 발급</button>

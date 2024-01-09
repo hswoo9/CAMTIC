@@ -122,6 +122,8 @@ public class CrmController {
     @RequestMapping("/crm/getCrmData")
     public String getCrmData(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("rs", crmService.getCrmData(params));
+        model.addAttribute("rsFile", crmService.getCrmAccounting(params));
+
         return "jsonView";
     }
 

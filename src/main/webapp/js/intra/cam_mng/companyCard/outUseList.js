@@ -8,6 +8,16 @@ var outUseList = {
 
     fn_defaultScript : function (){
 
+        $("#regHistYn").kendoDropDownList({
+            dataSource : [
+                {text : "선택하세요", value : ""},
+                {text : "등록", value : "Y"},
+                {text : "미등록", value : "N"},
+            ],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+
         outUseList.mainGrid();
     },
 
@@ -25,6 +35,8 @@ var outUseList = {
                     type : "post"
                 },
                 parameterMap: function(data) {
+                    data.regHistYn = $("#regHistYn").val();
+                    data.searchValue = $("#searchValue").val();
                     return data;
                 }
             },
