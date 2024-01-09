@@ -3,7 +3,7 @@ var userPartRate = {
 
     fn_defaultScript : function (){
         var currentYear = new Date().getFullYear();
-        var startYear = $("#startYear").val();
+        var startYear = $("#pjtStrDt").val();
         var startIndex = 10;
 
         var yearList = [];
