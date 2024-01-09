@@ -1146,6 +1146,17 @@ public class PayAppServiceImpl implements PayAppService {
 
         MultipartFile files = request.getFile("files");
         params.put("menuCd", "payDepo");
+
+        if(params.containsKey("fileSn")){
+            Map<String, Object> fileMap = commonRepository.getFileData(params);
+
+            fileMap.put("file_no", fileMap.get("file_no"));
+            fileMap.put("payDepoSn", params.get("payDepoSn"));
+
+            payAppRepository.updPayDepoFile(fileMap);
+        }
+
+
         if(files != null){
             if(!files.isEmpty()){
                 fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));

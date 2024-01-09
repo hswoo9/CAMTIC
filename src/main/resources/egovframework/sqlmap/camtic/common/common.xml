@@ -636,4 +636,14 @@
         WHERE
             EMP_SEQ = #{EMP_SEQ}
     </update>
+
+    <select id="getFileData" parameterType="map" resultType="map">
+        /*getFileData*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{fileSn}
+    </select>
 </mapper>

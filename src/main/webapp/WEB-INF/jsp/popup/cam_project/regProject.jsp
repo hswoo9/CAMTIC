@@ -199,6 +199,7 @@
                         <span class="red-star"></span>과세구분
                     </th>
                     <td>
+                        <input type="hidden" id="taxGubun" value="${data.TAX_GUBUN}" />
                         <c:if test="${data.TAX_GUBUN == '1'}">과세</c:if>
                         <c:if test="${data.TAX_GUBUN == '2'}">면세</c:if>
                         <c:if test="${data.TAX_GUBUN == '3'}">비과세</c:if>
