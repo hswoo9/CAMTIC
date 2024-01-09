@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,14 +31,39 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping("/login.do")
-    public String openLoginPage(HttpServletRequest request) {
+    public String openLoginPage(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         session.removeAttribute("menuNm");
+        model.addAttribute("params", params);
         return "login";
     }
 
     @RequestMapping("/loginAccess")
     public String loginAccess(@RequestParam Map<String, Object> params, @ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, ModelMap model) throws Exception {
+
+        if(params.containsKey("NEWCAMTICS")){
+            /** 임시) 구 캠스팟에서 링크 이동시 자동 로그인 (오픈 시 삭제 예정) */
+            boolean isAdmin = false;
+            LoginVO login = new LoginVO();
+
+            login.setId(params.get("NEWCAMTICS").toString());
+            login = loginService.actionLogin(loginVO);
+
+            if (login != null) {
+                if(login.getUniqId().equals("1")){
+                    isAdmin = true;
+                    login.setUserSe("ADMIN");
+                }
+
+                request.getSession().setAttribute("LoginVO", login);
+                request.getSession().setAttribute("isAdmin", isAdmin);
+
+                return "redirect:intro.do";
+            }else {
+                model.addAttribute("message", "Login failed.");
+                return "forward:login.do";
+            }
+        }
 
         if (params != null && params.get("id") != null && !params.get("id").equals("")) {
 

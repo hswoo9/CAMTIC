@@ -1575,4 +1575,18 @@ public class ProjectController {
         model.addAttribute("map", map);
         return "jsonView";
     }
+
+    @RequestMapping("/project/getProjectByDocId")
+    public String getProjectByDocId(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = projectService.getProjectByDocId(params);
+        model.addAttribute("map", map);
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/getProjectByDocId2")
+    public String getProjectByDocId2(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = projectService.getProjectByDocId2(params);
+        model.addAttribute("map", map);
+        return "jsonView";
+    }
 }

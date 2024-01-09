@@ -4,6 +4,13 @@ var login = {
     },
 
     init: function() {
+        if($("#NEWCAMTICS").val() != ""){
+            $("#id").val($("#NEWCAMTICS").val())
+            var loginUrl = "/loginAccess";
+            document.loginForm.action= loginUrl;
+            document.loginForm.submit();
+        }
+
         if ($("#message").val() != "") {
             alert($("#message").val());
         }

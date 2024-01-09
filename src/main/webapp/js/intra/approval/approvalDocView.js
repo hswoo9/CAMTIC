@@ -44,8 +44,16 @@ var docView = {
         docView.setKendo();
 
         docView.initBtn();
-        docView.initData();
-        docView.initAppr();
+
+        /** 프로젝트 */
+        docView.initProject();
+
+        /** 전자결재 공용 */
+
+        setTimeout(function() {
+            docView.initData();
+            docView.initAppr();
+        }, 1500);
     },
 
     readPermissionChk : function(loginVO, params){
@@ -1197,6 +1205,30 @@ var docView = {
         }, 1500);
 
 
+    },
+
+    initProject: function(){
+        const formId = docView.global.rs.docInfo.FORM_ID;
+        /** 수주 보고일경우 DOC_ID 역추적 해서 프로젝트코드 덮어 씌움 **/
+        if(formId == "141" || formId == "149"){
+            var rndResult = customKendo.fn_customAjax("/project/getProjectByDocId", {docId: docView.global.rs.docInfo.DOC_ID});
+            if(rndResult.map != null){
+                if(rndResult.map.PJT_CD != null){
+                    setTimeout(function() {
+                        hwpDocCtrl.putFieldText('PJT_CD', rndResult.map.PJT_CD.toString().substring(0, 9));
+                    }, 1500);
+                }
+            }
+
+            var unRndResult = customKendo.fn_customAjax("/project/getProjectByDocId2", {docId: docView.global.rs.docInfo.DOC_ID});
+            if(unRndResult.map != null){
+                if(unRndResult.map.PJT_CD != null){
+                    setTimeout(function() {
+                        hwpDocCtrl.putFieldText('PJT_CD', unRndResult.map.PJT_CD.toString().substring(0, 9));
+                    }, 1500);
+                }
+            }
+        }
     }
 }
 

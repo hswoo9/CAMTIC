@@ -93,7 +93,7 @@
                         <th class="text-center th-color">검색</th>
                         <td colspan="4">
                             <input type="text" id="searchValue2" style="width: 150px;">
-                            <input type="text" id="searchText" onkeypress="if(event.keyCode==13){ prjDepositMng.gridSearch(); }" style="width: 200px;">
+                            <input type="text" id="searchText" onkeypress="if(event.keyCode==13){ prjBgtMng.gridReload(); }" style="width: 200px;">
                         </td>
                     </tr>
                 </table>

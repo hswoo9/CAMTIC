@@ -3068,6 +3068,42 @@
             TEAM_STAT = 'N';
     </select>
 
+    <select id="getProjectByDocId" parameterType="map" resultType="map">
+        /*getProjectByDocId*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.STR_DT, '%Y-%m-%d') AS PJT_START_DT,
+            DATE_FORMAT(A.END_DT, '%Y-%m-%d') AS PJT_END_DT,
+            DATE_FORMAT(A.END_EXP_DT, '%Y-%m-%d') AS PJT_EXP_END_DT,
+            DATE_FORMAT(A.END_EXP_DT, '%Y-%m-%d') AS END_EXP_DT_FORMAT
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_RND B ON A.PJT_SN = B.PJT_SN
+        WHERE
+            B.DOC_ID = #{docId}
+          AND
+            A.TEAM_STAT = 'N';
+    </select>
+
+    <select id="getProjectByDocId2" parameterType="map" resultType="map">
+        /*getProjectByDocId2*/
+        SELECT
+            A.*,
+            DATE_FORMAT(A.STR_DT, '%Y-%m-%d') AS PJT_START_DT,
+            DATE_FORMAT(A.END_DT, '%Y-%m-%d') AS PJT_END_DT,
+            DATE_FORMAT(A.END_EXP_DT, '%Y-%m-%d') AS PJT_EXP_END_DT,
+            DATE_FORMAT(A.END_EXP_DT, '%Y-%m-%d') AS END_EXP_DT_FORMAT
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_UNRND B ON A.PJT_SN = B.PJT_SN
+        WHERE
+            B.DOC_ID = #{docId}
+          AND
+            A.TEAM_STAT = 'N';
+    </select>
+
     <select id="getDepositList" parameterType="map" resultType="map">
         /*getDepositList*/
         SELECT

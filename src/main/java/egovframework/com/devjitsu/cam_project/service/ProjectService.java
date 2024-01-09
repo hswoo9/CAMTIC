@@ -193,6 +193,10 @@ public interface ProjectService {
 
     Map<String, Object> getProjectByPjtCd(Map<String, Object> params);
 
+    Map<String, Object> getProjectByDocId(Map<String, Object> params);
+
+    Map<String, Object> getProjectByDocId2(Map<String, Object> params);
+
     List<Map<String, Object>> getDepositList(Map<String, Object> params);
 
     List<Map<String, Object>> getG20ProjectList(Map<String, Object> params);

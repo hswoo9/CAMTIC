@@ -618,7 +618,7 @@ public class ProjectServiceImpl implements ProjectService {
                         for(int i = 0 ; i < list.size() ; i++){
                             params.put("pProjectCD", pjtCd + cntCode + list.get(i).get("IS_TYPE"));
                             if(i == 0){
-                                params.put("pjtCd", pjtMap.get("pProjectCD"));
+                                params.put("pjtCd", params.get("pProjectCD"));
                                 projectRepository.updProjectCode(params);
                             }
                             // G20 프로젝트 추가
@@ -1562,6 +1562,16 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Map<String, Object> getProjectByPjtCd(Map<String, Object> params) {
         return projectRepository.getProjectByPjtCd(params);
+    }
+
+    @Override
+    public Map<String, Object> getProjectByDocId(Map<String, Object> params) {
+        return projectRepository.getProjectByDocId(params);
+    }
+
+    @Override
+    public Map<String, Object> getProjectByDocId2(Map<String, Object> params) {
+        return projectRepository.getProjectByDocId2(params);
     }
 
     @Override

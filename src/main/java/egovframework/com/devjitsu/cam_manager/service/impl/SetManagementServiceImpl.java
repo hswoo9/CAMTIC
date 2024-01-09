@@ -61,12 +61,27 @@ public class SetManagementServiceImpl implements SetManagementService {
 
     @Override
     public void setRequest(Map<String, Object> params) {
+        setManagementRepository.setRequest(params);
+    }
+
+    @Override
+    public void setApprove(Map<String, Object> params) {
+        Map<String, Object> pjtMap = setManagementRepository.getCorpProjectData(params);
+        params.put("pjtTmpCd", pjtMap.get("CORP_PJT_CD"));
+        params.put("pProjectNM", pjtMap.get("CORP_PJT_NM"));
+        params.put("pProjectNMEx", pjtMap.get("CORP_PJT_SUB_NM"));
+        params.put("pSDate", pjtMap.get("STR_DT"));
+        params.put("pEDate", pjtMap.get("END_DT"));
+        params.put("pType", "I");
+
         /** 사업비 분리 : 테이블 조회해서 데이터 없으면 단일(0)으로 생성, 있으면 for문 */
         params.put("pjtSn", params.get("corpPjtSn").toString());
         List<Map<String, Object>> list = projectRndRepository.getAccountInfo(params);
+
         int pjtCnt = g20Repository.getProjectCount(params);
-        String pjtCd = params.get("pjtCd").toString();
+        String pjtCd = pjtMap.get("CORP_PJT_CD").toString();
         String cntCode = String.format("%02d", (pjtCnt + 1));
+
         if(list.size() == 0){
             params.put("pjtCd", pjtCd + cntCode + "0");
             params.put("pProjectCD", params.get("pjtCd"));
@@ -84,10 +99,8 @@ public class SetManagementServiceImpl implements SetManagementService {
                 g20Repository.insProject(params);
             }
         }
-    }
 
-    @Override
-    public void setApprove(Map<String, Object> params) {
+        // 결재 완료 처리
         setManagementRepository.setApprove(params);
     }
 

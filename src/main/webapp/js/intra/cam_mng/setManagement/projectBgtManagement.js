@@ -53,7 +53,7 @@ var prjBgtMng = {
 
                     data.busnClass = $("#busnClass").val();
 
-                    data.searchValue2 = $("#searchValue2").val();
+                    data.searchValue2 = $("#searchValue2").data("kendoDropDownList").value();
                     data.searchText = $("#searchText").val();
 
                     return data;

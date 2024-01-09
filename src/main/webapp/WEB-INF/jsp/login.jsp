@@ -53,6 +53,7 @@
                 </div>
                 <div class="input-group">
                     <span class="input-group-addon"></span>
+                    <input type="hidden" id="NEWCAMTICS" name="NEWCAMTICS" value="${params.NEWCAMTICS}" />
                     <input type="text" id="id" name="id" class="form-control" placeholder="아이디를 입력하세요." value="">
                 </div>
             </div>
