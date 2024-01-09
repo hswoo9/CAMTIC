@@ -163,16 +163,29 @@ const studyJournal = {
         // }
 
         /** 주당 최대 2시간 체크 */
-        let realEduTimeYear = customKendo.fn_customAjax("/campus/getRealEduTimeStudyWeekly", {
+        /*let realEduTimeYear = customKendo.fn_customAjax("/campus/getRealEduTimeStudyWeekly", {
             studyInfoSn: studyInfoSn,
             empSeq: empSeq,
-            applyDt: journalDt,
+            applyDt: journalDt
         }).data.REAL_EDU_TIME;
 
         let realEduTime = eduTime;
         // if(realEduTimeYear + realEduTime > 2){
         //     realEduTime = 2 - realEduTimeYear;
-        // }
+        // }*/
+
+        /** 주당 최대 2시간 체크 */
+        let realEduTimeYear = customKendo.fn_customAjax("/campus/getRealEduTimeStudyWeekly", {
+            studyInfoSn: studyInfoSn,
+            empSeq: empSeq,
+            applyDt: journalDt
+        }).data.REAL_EDU_TIME;
+
+
+        let realEduTime = eduTime;
+        if(realEduTimeYear + realEduTime > 2){
+            realEduTime = 2 - realEduTimeYear;
+        }
 
         let data = {
             studyInfoSn: studyInfoSn,
