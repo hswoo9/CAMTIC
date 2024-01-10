@@ -119,29 +119,49 @@ const recruitPrintPop = {
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="5.5" style="border-collapse: collapse; margin: 0px;">';
         html += '               <tr>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 55px;"><p style="font-size:12px;"><b>번호</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;"><b>성명</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>연령</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>성별</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 150px;"><p style="font-size:12px;"><b>학력</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;"><b>경력</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;"><b>직무관련\n자격/면혀증</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;"><b>외국어\n점수</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;"><b>비고</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 55px;"><p style="font-size:12px;font-family:바탕체;"><b>번호</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;font-family:바탕체;"><b>성명</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;font-family:바탕체;"><b>연령</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;font-family:바탕체;"><b>성별</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 150px;"><p style="font-size:12px;font-family:바탕체;"><b>학력</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;font-family:바탕체;"><b>경력</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;font-family:바탕체;"><b>직무관련\n자격/면혀증</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;font-family:바탕체;"><b>외국어\n점수</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;font-family:바탕체;"><b>비고</b></p></td>';
         html += '               </tr>';
         for(let i=0;  i < recruitArray.length; i++){
-            const map =recruitArray[i];
+            const map = recruitArray[i];
             console.log("map", map);
+
+            const rs = customKendo.fn_customAjax("/inside/applicationCareer", {applicationId : map.APPLICATION_ID});
+            console.log("rs", rs);
+            const list = rs.career;
+
+            let careerSum = 0;
+            for(let j=0; j<list.length; j++){
+                const jMap = list[j];
+                careerSum += Number(jMap.DIFF);
+            }
+
+            let certHtml = '';
+            const certArr = map.CERT_AREA.split(", ");
+            for(let j=0; j<certArr.length; j++){
+                if(j!=0){
+                    certHtml += '<br>';
+                }
+                certHtml += '·'+certArr[j];
+            }
+
             html += '               <tr>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (i+1 || '') +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ (map.USER_NAME || '') +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.AGE || '')+'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.GENDER || '')+'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.SCHOOL_NAME || '')+'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.WORK_DATE || '')+'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.CERT_AREA|| '')+'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+(map.LANG_NAME || '')+'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:바탕체;">'+ (i+1 || '') +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:바탕체;">'+ (map.USER_NAME || '') +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:바탕체;">'+(map.AGE || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:바탕체;">'+(map.GENDER || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:바탕체;">'+(map.SCHOOL_NAME || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:바탕체;">'+Math.floor(careerSum/12)+'년 '+(careerSum%12)+'개월'+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;font-family:바탕체;">'+certHtml+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:바탕체;">'+(map.LANG_NAME || '')+'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:바탕체;"></p></td>';
             html += '               </tr>';
         }
         html += '           </table>';
