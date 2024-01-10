@@ -2733,9 +2733,9 @@
     <update id="setOpenStudyRealEduTimeUpd" parameterType="map">
         /* setOpenStudyRealEduTimeUpd */
         UPDATE
-            CAMPUS.DJ_STUDY_USER
+            CAMPUS.DJ_OPENSTUDY_USER
         SET
-            STUDY_INFO_SN = #{realEduTime}
+            REAL_EDU_TIME = #{realEduTime}
         WHERE
             REG_EMP_SEQ = #{regEmpSeq}
           AND
