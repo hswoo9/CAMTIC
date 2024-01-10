@@ -75,6 +75,7 @@ public class CampusRepository extends AbstractDAO  {
 
     public List<Map<String, Object>> getOpenStudyInfoStatList(Map<String, Object> params) { return selectList("campus.getOpenStudyInfoStatList", params); }
     public List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params) { return selectList("campus.getOpenStudyInfoList", params); }
+    public List<Map<String, Object>> getOpenStudyInfoAdminList(Map<String, Object> params) { return selectList("campus.getOpenStudyInfoAdminList", params); }
     public Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOpenStudyInfoOne", params); }
     public List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params) { return selectList("campus.getOpenStudyUserList", params); }
     public List<Map<String, Object>> getOpenStudyUserList2(Map<String, Object> params) { return selectList("campus.getOpenStudyUserList2", params); }

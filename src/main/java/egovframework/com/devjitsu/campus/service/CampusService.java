@@ -39,6 +39,7 @@ public interface CampusService {
     /** 오픈스터디 시작 */
     List<Map<String, Object>> getOpenStudyInfoStatList(Map<String, Object> params);
     List<Map<String, Object>> getOpenStudyInfoList(Map<String, Object> params);
+    List<Map<String, Object>> getOpenStudyInfoAdminList(Map<String, Object> params);
     Map<String, Object> getOpenStudyInfoOne(Map<String, Object> params);
     List<Map<String, Object>> getOpenStudyUserList(Map<String, Object> params);
 

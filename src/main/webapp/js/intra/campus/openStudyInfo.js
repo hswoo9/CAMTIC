@@ -17,7 +17,7 @@ var openStudy = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/campus/getOpenStudyInfoList',
+                    url : '/campus/getOpenStudyInfoAdminList',
                     dataType : "json",
                     type : "post"
                 },

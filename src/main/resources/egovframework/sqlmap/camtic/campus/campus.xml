@@ -661,29 +661,65 @@
     <select id="getOpenStudyInfoList" resultType="map" parameterType="map">
         /* getOpenStudyInfoList */
         SELECT
+        RE.*
+        FROM
+        (
+        SELECT
+        @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+        COSI.*,
+        IFNULL((SELECT SCOU.REG_EMP_NAME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN limit 1), '') AS MEMBER,
+        IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME)-1 FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT,
+        IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME) FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT_TOTAL,
+        IFNULL((SELECT SCOU.REAL_EDU_TIME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN AND PART_YN = 'Y' AND REG_EMP_SEQ = #{empSeq}), '-') AS REAL_EDU_TIME
+        FROM
+        CAMPUS.DJ_OPENSTUDY_INFO COSI,
+        (SELECT @ROWNUM := 0) TMP
+        WHERE
+        1=1
+        <if test='step != null and !"".equals(step)'>
+            AND STEP = #{step}
+        </if>
+        <if test='eduYear!= null and !"".equals(eduYear)'>
+            AND DATE_FORMAT(COSI.open_study_dt, '%Y') = #{eduYear}
+        </if>
+        ORDER BY COSI.REG_DT
+        ) RE
+        ORDER BY RE.OPEN_STUDY_INFO_SN DESC
+    </select>
+
+    <select id="getOpenStudyInfoAdminList" resultType="map" parameterType="map">
+        /* getOpenStudyInfoAdminList */
+        SELECT
             RE.*
         FROM
             (
-                SELECT
-                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    COSI.*,
-                    IFNULL((SELECT SCOU.REG_EMP_NAME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN limit 1), '') AS MEMBER,
-                    IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME)-1 FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT,
-                    IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME) FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT_TOTAL,
-                    IFNULL((SELECT SCOU.REAL_EDU_TIME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN AND PART_YN = 'Y' AND REG_EMP_SEQ = #{empSeq}), '-') AS REAL_EDU_TIME
-                FROM
-                    CAMPUS.DJ_OPENSTUDY_INFO COSI,
-                    (SELECT @ROWNUM := 0) TMP
-                WHERE
-                    1=1
-                <if test='step != null and !"".equals(step)'>
-                    AND STEP = #{step}
-                </if>
-                <if test='eduYear!= null and !"".equals(eduYear)'>
-                    AND DATE_FORMAT(COSI.open_study_dt, '%Y') = #{eduYear}
-                </if>
-                ORDER BY COSI.REG_DT
-            ) RE
+            SELECT
+            @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
+            COSI.*,
+            IFNULL((SELECT SCOU.REG_EMP_NAME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN limit 1), '') AS MEMBER,
+            IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME)-1 FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT,
+            IFNULL((SELECT COUNT(SCOU.REG_EMP_NAME) FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN), 0) AS MEMBER_COUNT_TOTAL,
+            IFNULL((SELECT SCOU.REAL_EDU_TIME FROM CAMPUS.DJ_OPENSTUDY_USER SCOU WHERE COSI.OPEN_STUDY_INFO_SN = OPEN_STUDY_INFO_SN AND PART_YN = 'Y' AND REG_EMP_SEQ = #{empSeq}), '-') AS REAL_EDU_TIME
+        FROM
+            CAMPUS.DJ_OPENSTUDY_INFO COSI
+        JOIN
+            CAMPUS.DJ_OPENSTUDY_USER COSU ON COSI.OPEN_STUDY_INFO_SN = COSU.OPEN_STUDY_INFO_SN
+        JOIN
+            (SELECT @ROWNUM := 0) TMP
+        WHERE 1=1
+        <if test='step != null and !"".equals(step)'>
+            AND STEP = #{step}
+        </if>
+        <if test='eduYear!= null and !"".equals(eduYear)'>
+            AND DATE_FORMAT(COSI.open_study_dt, '%Y') = #{eduYear}
+        </if>
+        AND
+            COSU.REG_EMP_SEQ = #{empSeq}
+        AND
+            COSU.PART_YN = 'Y'
+        ORDER BY
+            COSI.REG_DT
+        ) RE
         ORDER BY RE.OPEN_STUDY_INFO_SN DESC
     </select>
 
