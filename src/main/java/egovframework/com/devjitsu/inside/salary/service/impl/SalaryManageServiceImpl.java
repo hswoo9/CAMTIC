@@ -200,7 +200,7 @@ public class SalaryManageServiceImpl implements SalaryManageService {
             Row row = sheet.createRow(lastRowNum + 1 + i);
 
             Cell cell1 = row.createCell(0);
-            cell1.setCellValue(String.valueOf(dataList.get(i).get("EMP_SEQ")));
+            cell1.setCellValue(String.valueOf(dataList.get(i).get("ERP_EMP_SEQ")));
 
             Cell cell2 = row.createCell(1);
             cell2.setCellValue(String.valueOf(dataList.get(i).get("EMP_NAME_KR")));
@@ -276,8 +276,12 @@ public class SalaryManageServiceImpl implements SalaryManageService {
 
                     int socialRateSn = Integer.parseInt(String.valueOf(salaryManageRepository.getsocialRateSn(dataMap)));
 
+                    dataMap.put("erpEmpSeq", cellValueToString(col0));
+
+                    int empSeq = Integer.parseInt(String.valueOf(salaryManageRepository.getExcelEmpSeq(dataMap)));
+
                     salaryMap.put("socialRateSn", socialRateSn);
-                    salaryMap.put("empSeq", cellValueToString(col0));
+                    salaryMap.put("empSeq", empSeq);
                     salaryMap.put("empName", cellValueToString(col1));
                     salaryMap.put("startDt", cellValueToString(col2));
                     salaryMap.put("endDt", cellValueToString(col3));

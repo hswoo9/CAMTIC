@@ -1327,6 +1327,18 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 오픈스터디 리스트 (관리자) */
+    @RequestMapping("/campus/getOpenStudyInfoAdminList")
+    public String getOpenStudyInfoAdminList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO)session.getAttribute("LoginVO");
+        params.put("empSeq",login.getUniqId());
+        List<Map<String, Object>> list = campusService.getOpenStudyInfoAdminList(params);
+        model.addAttribute("loginVO", login);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /** 오픈스터디 단일 데이터  */
     @RequestMapping("/campus/getOpenStudyInfoOne")
     public String getOpenStudyInfoOne(@RequestParam Map<String, Object> params, Model model) {
