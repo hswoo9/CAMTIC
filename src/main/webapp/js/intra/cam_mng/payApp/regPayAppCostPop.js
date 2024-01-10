@@ -675,7 +675,6 @@ var regPayDet = {
     },
 
     fn_regPayAttPop : function (){
-
         var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + $("#payAppSn").val();
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";

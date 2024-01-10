@@ -210,6 +210,17 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regPayAttPop";
     }
 
+    @RequestMapping("/payApp/pop/regIncmAttPop.do")
+    public String regIncmAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/payApp/regIncmAttPop";
+    }
+
     /** 프로젝트 비용처리용 지급신청서 조회 팝업 */
     @RequestMapping("/payApp/pop/regPayAppCostPop.do")
     public String regPayAppCostPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -904,6 +915,15 @@ public class PayAppController {
         }
 
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/pay/payDepoFileList")
+    public String payDepoFileList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> listMap = payAppService.getPayDepoFileList(params);
+
+        model.addAttribute("listMap", listMap);
         return "jsonView";
     }
 }

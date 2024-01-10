@@ -1262,4 +1262,16 @@ public class PayAppServiceImpl implements PayAppService {
         payAppRepository.insPayAppRevert(params);
 
     }
+
+    @Override
+    public List<Map<String, Object>> getPayDepoFileList(Map<String, Object> params) {
+        List<Map<String, Object>> listMap = new ArrayList<>();
+
+        if(params.containsKey("payDepoSn")){
+            listMap = payAppRepository.getPayDepoFileList(params);
+        } else if(params.containsKey("payIncpSn")){
+            listMap = payAppRepository.getPayIncpFileList(params);
+        }
+        return listMap;
+    }
 }
