@@ -35,15 +35,8 @@ var recruitDrafting = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="recruitDrafting.normalDrafting()">' +
-                            '	<span class="k-button-text">일반 기안문 작성</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="recruitDrafting.officialDrafting()">' +
-                            '	<span class="k-button-text">공문 작성</span>' +
+                            '	<span class="k-button-text">일반 기안문 작성</span>' +
                             '</button>';
                     }
                 }, {
