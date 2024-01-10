@@ -550,5 +550,14 @@
             APNT_SN = #{apntSn}
     </update>
 
+    <update id="setTmpActiveUpdate" parameterType="map">
+        /*setTmpActiveUpdate*/
+        UPDATE CAM_HR.DJ_APNT_INFO
+        SET
+            TMP_ACTIVE = 'Y'
+        WHERE
+            APNT_SN = #{apntSn}
+    </update>
+
 
 </mapper>

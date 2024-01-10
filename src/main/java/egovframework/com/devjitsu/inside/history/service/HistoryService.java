@@ -62,4 +62,6 @@ public interface HistoryService {
     void setRewardInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     void modAf(Map<String, Object> params);
+
+    void setTmpActiveUpdate(Map<String, Object> params);
 }

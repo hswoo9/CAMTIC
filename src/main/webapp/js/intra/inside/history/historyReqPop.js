@@ -211,7 +211,7 @@ const historyReq = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="historyReq.fn_sendApnt();">' +
                             '	<span class="k-button-text">발령장 전송</span>' +
                             '</button>';
                     }
@@ -417,7 +417,7 @@ const historyReq = {
                     title : "발령장",
                     width: 100,
                     template : function (e){
-                        return '<button type="button" id="printButton_' + e.INDEX + '" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.openPrintPop(' + e.EMP_SEQ + ', ' + e.INDEX +  ')" disabled>' +
+                        return '<button type="button" id="printButton_' + e.INDEX + '" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="historyReq.openPrintPop(\'' + e.EMP_SEQ + '\', \'' + e.INDEX + '\')" disabled>' +
                             '	<span class="k-button-text">보기</span>' +
                             '</button>';
 
@@ -429,25 +429,7 @@ const historyReq = {
 
         historyReq.dataBinding();
     },
-    /*
-    enablePrintButton: function() {
-        let numberName = $("#numberName").val();
-        let relevantName = $("#relevantName").val();
 
-        if(numberName == "") {
-            alert("호수가 작성되지 않았습니다.");
-            return;
-        }else if(relevantName == "") {
-            alert("관련근거가 작성되지 않았습니다.");
-            return;
-        }
-
-        var printButton = $("#popMainGrid").find('[id^="printButton_"]');
-        printButton.prop('disabled', false);
-
-        alert("저장되었습니다.");
-    },
-     */
 
     dataBinding: function(){
         $(document).on("focusout change", ".formData", function(){
@@ -745,7 +727,11 @@ const historyReq = {
 
             if(data.apntSn == ""){
                 let url = "/inside/setHistoryInsert";
-                customKendo.fn_customAjax(url, data);
+                var apntSn = customKendo.fn_customAjax(url, data);
+                $(v).find('#apntSn' + empSeq + '_' + i).val(apntSn.apntSn);
+                console.log("apntSn",apntSn.apntSn);
+
+                $('#printButton_' + i).prop('disabled', false);
             }else{
                 let url = "/inside/setHistoryUpdate";
                 customKendo.fn_customAjax(url, data);
@@ -755,12 +741,54 @@ const historyReq = {
 
         alert("인사발령이 완료됐습니다.");
         opener.historyList.gridReload();
-        historyReq.editGrid();
-        historyReq.fn_popGridSetting();
+        //historyReq.editGrid();
+        //historyReq.fn_popGridSetting();
 
-        var printButton = $("#popMainGrid").find('[id^="printButton_"]');
-        printButton.prop('disabled', false);
+        //var printButton = $("#popMainGrid").find('[id^="printButton_"]');
+        //printButton.prop('disabled', false);
         //window.close();
+    },
+
+    fn_sendApnt : function(){
+        const grid = $("#popMainGrid").data("kendoGrid");
+
+        let flag = true;
+        $.each($('#popMainGrid .k-master-row'), function(i, v) {
+            const dataItem = grid.dataItem($(this).closest("tr"));
+            let empSeq = dataItem.EMP_SEQ;
+
+            if ($(v).find('#apntSn' + empSeq + '_' + i).val() == "") {
+                alert("저장 후 전송 가능합니다.");
+                flag = false;
+                return flag;
+            }
+        });
+
+        if (!flag) {
+            return;
+        }
+        if(!confirm("발령장 전송을 진행하시겠습니까?")){
+            return;
+        }
+        
+        $.each($('#popMainGrid .k-master-row'), function(i, v){
+            const dataItem = grid.dataItem($(this).closest("tr"));
+            let empSeq = dataItem.EMP_SEQ;
+           
+            var apntSn = $(v).find('#apntSn' + empSeq + '_' + i).val();
+            console.log("SendempSeq",empSeq);
+            console.log("SendempapntSn",apntSn);
+            console.log("-------------");
+
+            var data = {
+                apntSn : apntSn
+            }
+
+            let url = "/inside/pop/setTmpActiveUpdate.do";
+            customKendo.fn_customAjax(url, data);
+        });
+
+        alert("발령장 전송이 완료되었습니다.");
     },
 
     fn_SetHtml : function(arr){
@@ -881,137 +909,14 @@ const historyReq = {
 
     },
 
-    openPrintPop(empSeq, i){
-        let regEmpSeq = $("#regEmpSeq").val();
-        let regEmpName = $("#regEmpName").val();
-        let numberName = $("#numberName").val();
-        let relevantName = $("#relevantName").val();
-        let historyDate = $("#historyDate").val().replace(/-/g, "");
-        var empSeq = empSeq;
-        var teamDropdown = $('#afTeam'+empSeq+'_'+i).data("kendoDropDownList");
-        var deptDropdown = $('#afDept'+empSeq+'_'+i).data("kendoDropDownList");
-
-        if(numberName == "") {
-            alert("호수가 작성되지 않았습니다.");
-            return;
-        }else if(relevantName == "") {
-            alert("관련근거가 작성되지 않았습니다.");
-            return;
-        }
-
-        let flag = true;
-
-        if ($('#apntCd' + empSeq + "_" + i).data("kendoDropDownList").value() == "") {
-                alert("발령구분을 선택해주세요.");
-                flag = false;
-                return flag;
-            }
-
-        if (!flag) {
-            return;
-        }
-
-        var data = {
-            menuCd            : "history",
-            docFileName       : "발령장.hwp",
-            docId             : "historyHwp",
-
-            hisEmpSeq         : empSeq,
-
-            apntCd			  : $('#apntCd'+empSeq+'_'+i).data("kendoDropDownList").value(),
-            apntName		  : $('#apntCd'+empSeq+'_'+i).data("kendoDropDownList").text(),
-
-            afDeptSeq         : $('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value(),
-            afDeptName        : $('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afDept'+empSeq+'_'+i).data("kendoDropDownList").text(),
-
-            afTeamSeq         : $('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value(),
-            afTeamName        : $('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").text(),
-
-            afPositionCode    : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value(),
-            afPositionName    : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text(),
-
-            afDutyCode        : $('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").value(),
-            afDutyName        : $('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").text(),
-
-            afGradeName       : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text().split("/")[1].trim(),
-
-            afJobDetail       : $('#afJobDetail'+empSeq+'_'+i).val(),
-
-            deptSeq: teamDropdown ? teamDropdown.value() == "" ? deptDropdown ? deptDropdown.value() : "" : teamDropdown.value() : "",
-            //deptSeq           : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value() : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
-            position          : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text().split("/")[0].trim(),
-
-            afEtc             : $('#afEtc'+empSeq+'_'+i).val(),
-
-            empSeq: regEmpSeq,
-            regEmpName: regEmpName,
-            numberName: numberName,
-            relevantName: relevantName,
-            historyDate: historyDate
-
-        };
-
-
-        $.ajax({
-            url: '/user/getUserInfo',
-            method: 'POST',
-            data: {
-                empSeq: empSeq
-            },
-            success: function(response) {
-
-                console.log(response);
-
-                var list ={
-                    bfDeptSeq         : response.DEPT_SEQ,
-                    bfDeptName        : response.DEPT_NAME,
-                    bfTeamSeq         : response.TEAM_SEQ,
-                    bfTeamName        : response.TEAM_NAME,
-                    bfPositionCode    : "",
-                    bfPositionName    : response.POSITION_NAME,
-                    bfDutyCode        : "",
-                    bfDutyName        : response.DUTY_NAME,
-                    bfJobDetail       : response.JOB_DETAIL,
-
-                    empName           : response.EMP_NAME_KR
-
-
-                }
-
-                console.log("list",list);
-                var mergedData = Object.assign({}, data, list);
-                console.log("data",mergedData);
-
-                $.ajax({
-                    url: '/Inside/pop/saveMergedData',
-                    method: 'POST',
-                    data: mergedData,
-                    success: function(secondResponse) {
-                        console.log("Second ajax response", secondResponse.apntSn);
-                        // 두 번째 ajax 요청 성공 후의 로직
-                        console.log("secondResponse : ",secondResponse);
-                        var identifier = secondResponse.identifier;
-
-                        // 팝업 열기
-                        var popupUrl = '/Inside/pop/historyReqPrintPop.do?identifier=' + identifier;
-                        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-                        window.open(popupUrl, 'historyReqPrintPop',option);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Second Ajax 요청 중 에러 발생:', status, error);
-                    }
-                });
-
-
-
-            },
-            error: function(xhr, status, error) {
-                console.error('Ajax 요청 중 에러 발생:', status, error);
-            }
-        });
-
-
-
+    openPrintPop : function (empSeq, index){
+        console.log($('#apntSn' + empSeq + '_' + index).val());
+        var apntSn = $('#apntSn' + empSeq + '_' + index).val();
+        console.log("PopApntSn",apntSn);
+        var url = "/Inside/pop/historyPrintPop.do?apntSn="+apntSn+"&type=N";
+        var name = "historyPrintPop";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 
 }
