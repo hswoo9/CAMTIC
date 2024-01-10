@@ -9,14 +9,19 @@
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/campus/study/studyJournalPop.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/campus/study/studyViewPop.js?v=${today}"></script>
-
+<style>
+    input {
+        border: 1px solid #bbb;
+        line-height: 25px;
+        border-radius: 3px;
+    }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 
 <input type="hidden" id="pk" value="${params.pk}"/>
 <input type="hidden" id="studyResultSn" value="${params.studyResultSn}" />
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
-
 <input type="hidden" id="resultMode" value="${params.mode}" />
 
 <div class="table-responsive">
@@ -31,9 +36,19 @@
             <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="승인요청" onclick="fn_save();"/>
             <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
         </div>
+        <%--<div class="btn-st popButton">
+            <input type="button" id="apprBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인" onclick="fn_approval();"/>
+            <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="fn_saveing();"/>
+            <input type="button" id="modBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-primary" value="수정" onclick="fn_saveing();"/>
+            <input type="button" id="approvalBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인요청" onclick="fn_save();"/>
+            <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
+        </div>--%>
+
+
+
     </div>
     <form id="ojtResultForm">
-        <table class="popTable table table-bordered mb-0">
+        <table class="table table-bordered mt20">
             <colgroup>
                 <col width="20%">
                 <col width="80%">
@@ -45,11 +60,15 @@
             </tr>
             <tr>
                 <th>지도기간</th>
-                <td id="ojtDtTd"></td>
+                <td>
+                    <input type="text" id="START_DT" style="width: 150px"> ~ <input type="text" id="END_DT" style="width: 150px">
+                </td>
             </tr>
             <tr>
                 <th>지도장소</th>
-                <td id="ojtLocationTd"></td>
+                <td >
+                    <input type="text" id="ojtLocationTd" style="width: 400px">
+                </td>
             </tr>
             <tr style="display: none;">
                 <th>학습목표</th>
@@ -57,19 +76,27 @@
             </tr>
             <tr>
                 <th>지도목적</th>
-                <td id="ojtContentTd"></td>
+                <td >
+                    <input type="text" id="ojtContentTd" style="width: 400px">
+                </td>
             </tr>
             <tr>
                 <th>소요비용</th>
-                <td id="ojtAmtTd"></td>
+                <td>
+                    <input type="text" id="ojtAmtTd" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 150px; text-align: right" value="0"> 원
+                </td>
             </tr>
             <tr>
                 <th>비용내역</th>
-                <td id="ojtAmtTextTd"></td>
+                <td >
+                    <input type="text" id="ojtAmtTextTd" style="width: 400px">
+                </td>
             </tr>
             <tr>
                 <th>결과보고일</th>
-                <td id="regDateTd"></td>
+                <td>
+                    <input type="text" id="regDateTd" style="width: 150px">
+                </td>
             </tr>
 
             </thead>
@@ -96,6 +123,11 @@
 
 <script>
     $(function (){
+
+        customKendo.fn_datePicker("START_DT", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("END_DT", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("regDateTd", "month", "yyyy-MM-dd", new Date());
+
         let ojtInfo = customKendo.fn_customAjax("/campus/getStudyInfoOne", {
             pk: $("#pk").val()
         }).data;
@@ -103,13 +135,14 @@
         console.log(ojtInfo);
 
         $("#ojtNameTd").text(ojtInfo.STUDY_NAME);
-        $("#ojtDtTd").text(ojtInfo.START_DT+" ~ "+ojtInfo.END_DT);
-        $("#ojtLocationTd").text(ojtInfo.STUDY_LOCATION);
-        $("#ojtObjectTd").text(ojtInfo.STUDY_OBJECT);
-        $("#ojtContentTd").text(ojtInfo.STUDY_CONTENT);
-        $("#ojtAmtTd").text(fn_numberWithCommas(ojtInfo.STUDY_MONEY));
-        $("#ojtAmtTextTd").text(ojtInfo.STUDY_MONEY_VAL);
-        $("#regDateTd").text(ojtInfo.REG_DT);
+        $("#START_DT").val(ojtInfo.START_DT);
+        $("#END_DT").val(ojtInfo.END_DT);
+        $("#ojtLocationTd").val(ojtInfo.STUDY_LOCATION);
+        $("#ojtObjectTd").val(ojtInfo.STUDY_OBJECT);
+        $("#ojtContentTd").val(ojtInfo.STUDY_CONTENT);
+        $("#ojtAmtTd").val(fn_numberWithCommas(ojtInfo.STUDY_MONEY));
+        $("#ojtAmtTextTd").val(ojtInfo.STUDY_MONEY_VAL);
+        $("#regDateTd").val(ojtInfo.REG_DT);
 
         if(ojtInfo.ADD_STATUS == "C" || ojtInfo.ADD_STATUS == "S"){
             $("#saveBtn").hide();
@@ -144,8 +177,6 @@
                 }
             }
         })
-
-
     }
 
     function fn_approval(){
