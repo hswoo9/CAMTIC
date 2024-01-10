@@ -103,7 +103,7 @@
                 </if>
             </when>
             <otherwise>
-                <if test='searchValue != null and !"".equals(searchValue)'>
+                <if test='searchValue == null or "".equals(searchValue)'>
                     AND (A.PJT_CD LIKE '%' + #{searchText} + '%'
                     OR A.PJT_NM LIKE '%' + #{searchText} + '%'
                     OR C.KOR_NM LIKE '%' + #{searchText} + '%')
