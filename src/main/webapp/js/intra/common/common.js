@@ -351,3 +351,14 @@ function fn_per(A, B, C){
 
     return Number.isInteger(per) ? (per + "%") : (per.toFixed(C) + "%");
 }
+
+/** 문자가 장문일때 짜르고 ... 찍기 */
+function titleCut(text, cutLength){
+    let returnText;
+    if(text.toString().length > cutLength){
+        returnText = text.toString().substring(0, cutLength)+ "...";
+    }else{
+        returnText = text;
+    }
+    return returnText;
+}

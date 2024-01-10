@@ -109,7 +109,7 @@ var docuOrderList = {
                     width: "5%"
                 }, {
                     title: "계약 번호",
-                    width: "10%",
+                    width: "6%",
                     template: function(row) {
                         return row.DOCU_YEAR_SN+"-"+row.DOCU_NO;
                     }
@@ -120,18 +120,21 @@ var docuOrderList = {
                 }, {
                     field: "DOCU_DE",
                     title: "계약 일시",
-                    width: "10%"
+                    width: "8%"
                 }, {
                     field: "PROJECT_NAME",
                     title: "계약명",
-                    width: "15%"
+                    width: "23%",
+                    template : function(row) {
+                        return titleCut(row.PROJECT_NAME, 28);
+                    }
                 }, {
                     field: "PROJECT_MONEY",
                     title: "계약 금액",
                     width: "10%"
                 }, {
                     title: "계약 기간",
-                    width: "15%",
+                    width: "13%",
                     template: function(row) {
                         return row.START_DE+" ~ "+row.END_DE;
                     }

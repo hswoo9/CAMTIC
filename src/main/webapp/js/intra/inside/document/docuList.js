@@ -109,7 +109,7 @@ var docuContractList = {
                     width: "5%"
                 }, {
                     title: "계약 번호",
-                    width: "10%",
+                    width: "8%",
                     template: function(row) {
                         return row.DOCU_NO;
                     }
@@ -120,11 +120,14 @@ var docuContractList = {
                 }, {
                     field: "PROJECT_NAME",
                     title: "계약건명",
-                    width: "25%"
+                    width: "29%",
+                    template : function(row) {
+                        return titleCut(row.PROJECT_NAME, 36);
+                    }
                 }, {
                     field: "PROJECT_MONEY",
                     title: "계약 금액",
-                    width: "10%",
+                    width: "8%",
                     attributes: { style: "text-align: right" },
                     template : function(e) {
                         if(e.PROJECT_MONEY != null){
