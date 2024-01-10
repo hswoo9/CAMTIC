@@ -1847,4 +1847,18 @@
                        FROM CAM_MNG.DJ_PAY_DEPO
                        WHERE PAY_INCP_SN = #{payIncpSn})
     </select>
+
+    <select id="getPayExnpFileList" parameterType="map" resultType="map">
+        /*getPayExnpFileList*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            (CONTENT_ID = #{payAppSn} AND FILE_CD = 'payApp')
+        OR FILE_NO IN
+        (
+            SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}
+        )
+    </select>
 </mapper>

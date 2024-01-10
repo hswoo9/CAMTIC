@@ -210,6 +210,17 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regPayAttPop";
     }
 
+    @RequestMapping("/payApp/pop/regReListFilePop.do")
+    public String regReListFilePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/payApp/regReListFilePop";
+    }
+
     @RequestMapping("/payApp/pop/regIncmAttPop.do")
     public String regIncmAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -926,4 +937,13 @@ public class PayAppController {
         model.addAttribute("listMap", listMap);
         return "jsonView";
     }
+
+    @RequestMapping("/pay/payExnpFileList")
+    public String payExnpFileList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> listMap = payAppService.getPayExnpFileList(params);
+
+        model.addAttribute("listMap", listMap);
+        return "jsonView";
+    }
+
 }
