@@ -143,6 +143,7 @@
                     <th scope="row" class="text-center th-color">발행유형</th>
                     <td colspan="2">
                         <input type="text" id="eviType" style="width: 40%" />
+                        <input type="hidden" id="taxChGubun" />
                     </td>
                     <th scope="row" class="text-center th-color">메일주소</th>
                     <td colspan="2">

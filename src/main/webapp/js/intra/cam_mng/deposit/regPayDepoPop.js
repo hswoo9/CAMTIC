@@ -88,6 +88,16 @@ var regPayDepo = {
             }
         });
 
+        $("#taxChGubun").val(opener.parent.$("#taxGubun").val());
+
+        if($("#taxChGubun").val() == "1"){
+            $("#eviType").data("kendoDropDownList").value(1);
+        } else if($("#taxChGubun").val() == "2"){
+            $("#eviType").data("kendoDropDownList").value(2);
+        } else if($("#taxChGubun").val() == "3"){
+            $("#eviType").data("kendoDropDownList").value(5);
+        }
+
         if($("#payDepoSn").val() != ""){
             regPayDepo.fn_setData();
             $("#payDepReqUserTh").css("display", "");
@@ -188,6 +198,8 @@ var regPayDepo = {
                 $("#regNo").val(rs.REG_NO);
                 $("#payDepoReqUser").val(rs.DEPO_EMP_NAME);
 
+                $("#taxChGubun").val(rs.TAX_CH_GUBUN ? rs.TAX_CH_GUBUN : opener.parent.$("#taxGubun").val());
+
                 if(rs != null && rs != '' && rs.file_org_name != null && rs.file_org_name != '' && rs.file_org_name != undefined){
                     $("#fileName").text(rs.file_org_name + "." +rs.file_ext);
 
@@ -261,7 +273,7 @@ var regPayDepo = {
             crmSn : $("#crmSn").val(),
             eviType : $("#eviType").val(),
             email : $("#email").val(),
-
+            taxChGubun : $("#taxChGubun").val(),
             depoAmt : regPayDepo.uncomma($("#depoAmt").val()),
             gubun : $("#gubun").val(),
             depoStat : $("#depoStat").val(),
