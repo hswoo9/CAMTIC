@@ -105,4 +105,10 @@ public class HistoryServiceImpl implements HistoryService {
     public void modAf(Map<String, Object> params) {
         historyRepository.modAf(params);
     }
+
+    @Override
+    public void setTmpActiveUpdate(Map<String,Object> params) {
+        historyRepository.setTmpActiveUpdate(params);
+    }
+
 }

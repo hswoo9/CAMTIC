@@ -216,7 +216,7 @@
     <div class="col-md-6 col-sm-6" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
-                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 30px;" onclick="open_in_frame('/bustrip/bustripList.do')"><i class="fa fa-tasks" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">출장신청</span></a></h3>
+                <h3 class="panel-title" style="color:#505b72; text-align:center; font-weight:600;"><a href="#" style="margin-right: 30px;" onclick="open_in_frame('/bustrip/bustripList2.do')"><i class="fa fa-tasks" style="font-size:20px;padding:11px 11px 11px 0;"></i><span style="font-size:13px;">출장신청</span></a></h3>
             </div>
         </div><!-- panel -->
     </div>
@@ -462,7 +462,7 @@
                             '<li style="border-top:0; border-bottom:0;">' +
                             '<p style="padding: 10px 10px 0px; display:flex;">' +
                             '<span style="width:120px;">' + article.board_NAME + '</span><span style="margin-right:20px;">|</span>' +
-                            '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '\')">' +
+                            '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '&boardId=' + article.board_ID + '\')">' +
                             article.board_ARTICLE_TITLE + '[' + article.reply_CNT + ']' +
                             '</a>' +
                             '<span style="position:absolute; right:10px;">' + dt + '</span>' +
@@ -472,7 +472,7 @@
                         html += '' +
                             '<li style="border-top:0; border-bottom:0;">' +
                             '<p style="padding: 10px 10px 0px;">' +
-                            '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '\')">' +
+                            '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '&boardId=' + article.board_ID + '\')">' +
                             article.board_ARTICLE_TITLE +
                             '</a>' +
                             '<span style="position:absolute; right:10px;">' + dt + '</span>' +

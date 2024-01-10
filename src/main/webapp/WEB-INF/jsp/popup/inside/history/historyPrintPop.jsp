@@ -21,6 +21,9 @@
         </div>
 
         <div id="docControlBtnDiv">
+            <button type='button' id="sendApntButton" class='k-button k-button-solid k-button-solid-base'  style="height: 25px; font-size: 12px;" onclick="historyPrintPop.sendApnt()">
+                <span class='k-button-text'>발령장 발송</span>
+            </button>
             <button type='button' class='k-button k-button-solid k-button-solid-base' id="downloadButton"  style="height: 25px; font-size: 12px;" onclick="historyPrintPop.saveHwp()">
                 <span class='k-button-text'>한글파일 다운로드</span>
             </button>
@@ -42,7 +45,11 @@
     historyPrintPop.init();
 
     if (params.type === 'Y') {
+        document.getElementById('sendApntButton').style.display = 'none';
         document.getElementById('downloadButton').style.display = 'none';
+    }
+    if (params.type === 'N') {
+        document.getElementById('sendApntButton').style.display = 'none';
     }
 </script>
 </body>
