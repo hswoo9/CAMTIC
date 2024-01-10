@@ -283,7 +283,8 @@ const eduReq = {
             depth: "month",
             start: "month",
             culture : "ko-KR",
-            format : "yyyy-MM-dd"
+            format : "yyyy-MM-dd",
+            value : new Date()
         });
         $("#termDay").kendoTextBox();
         $("#termTime").kendoTextBox();

@@ -191,8 +191,7 @@
             <tr>
               <th>${eduDateVar}</th>
               <td colspan="3">
-                <input type="text" id="startDt" style="width: 150px">~
-                <input type="text" id="endDt" style="width: 150px">
+                <input type="text" id="startDt" style="width: 150px"> ~ <input type="text" id="endDt" style="width: 150px">
                 <c:choose>
                   <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3 || eduFormType == 4 || eduFormType == 5 || eduFormType == 6 || eduFormType == 9 || eduFormType == 11}">
                     (총 <input type="text" id="termDay" style="width: 50px"> 일 <input type="text" id="termTime" style="width: 50px"> 시간)

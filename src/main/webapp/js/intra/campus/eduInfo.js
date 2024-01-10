@@ -159,8 +159,17 @@ var eduInfo = {
         const grid = this;
         grid.tbody.find("tr").dblclick(function (e) {
             const dataItem = grid.dataItem($(this));
-            const eduInfoId = dataItem.EDU_INFO_ID;
-            eduInfo.eduInfoViewPop(eduInfoId);
+            const RES_STATUS = dataItem.RES_STATUS;
+
+            if(RES_STATUS == "0" || RES_STATUS == "10" || RES_STATUS == "100"){
+                const dataItem = grid.dataItem($(this));
+                const eduInfoId = dataItem.EDU_INFO_ID;
+                eduInfo.eduResultViewPop(eduInfoId);
+            }else{
+                const dataItem = grid.dataItem($(this));
+                const eduInfoId = dataItem.EDU_INFO_ID;
+                eduInfo.eduInfoViewPop(eduInfoId);
+            }
         });
     },
 
@@ -168,6 +177,13 @@ var eduInfo = {
         let url = "/Campus/pop/eduInfoViewPop.do?eduInfoId="+eduInfoId;
         const name = "popup";
         const option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    eduResultViewPop: function(eduInfoId) {
+        let url = "/Campus/pop/eduResultViewPop.do?eduInfoId="+eduInfoId;
+        const name = "popup";
+        const option = "width = 1000, height = 800, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 
