@@ -130,6 +130,14 @@
                         </span>
                     </td>
                 </tr>
+                <tr id="project">
+                    <th scope="row" class="text-center th-color">
+                        수익사업
+                    </th>
+                    <td colspan="3">
+                        <input type="text" id="profitCode" name="profitCode" style="width: 40%"/>
+                    </td>
+                </tr>
                 </thead>
             </table>
         </div>
