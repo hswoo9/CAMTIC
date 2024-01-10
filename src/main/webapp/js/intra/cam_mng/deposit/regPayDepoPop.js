@@ -16,6 +16,13 @@ var regPayDepo = {
         customKendo.fn_datePicker("appDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("payIncpDe", "month", "yyyy-MM-dd", new Date());
 
+
+        $("#payIncpDe").change(function(){
+            if($("#gubun").data("kendoDropDownList").value() == "b"){
+                $("#appDe").val($("#payIncpDe").val());
+            }
+        });
+
         if($("#appDe").val() != null && $("#getDelvDe").val() != ""){
             $("#appDe").val($("#getDelvDe").val());
         }
