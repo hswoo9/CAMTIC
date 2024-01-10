@@ -33,6 +33,10 @@ public class ProjectTeamRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("projectTeam.getTeamData", params);
     }
 
+    public Map<String, Object> getLastVerTeamData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("projectTeam.getLastVerTeamData", params);
+    }
+
     public void setTeamAddVersion(Map<String, Object> params) {
         insert("projectTeam.setTeamAddVersion", params);
     }

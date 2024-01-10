@@ -64,6 +64,11 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     }
 
     @Override
+    public Map<String, Object> getLastVerTeamData(Map<String, Object> params) {
+        return projectTeamRepository.getLastVerTeamData(params);
+    }
+
+    @Override
     public void setTeamAddVersion(Map<String, Object> params) {
         if(!params.containsKey("ck")){
             projectTeamRepository.setTeamAddVersion(params);
