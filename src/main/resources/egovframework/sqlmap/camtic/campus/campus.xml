@@ -1346,6 +1346,17 @@
             )
     </insert>
 
+    <update id="setEduResultModify" parameterType="map">
+        UPDATE
+            CAMPUS.DJ_EDU_RESULT
+        SET
+            EDU_TEACHER_NAME = #{eduTeacherName},
+            EDU_POINT = #{eduPoint},
+            FBLIST = #{FBList}
+        WHERE
+            EDU_INFO_ID = #{eduInfoId}
+    </update>
+
     <update id="setMngCheckUpd" parameterType="map">
         /* setMngCheckUpd */
         UPDATE

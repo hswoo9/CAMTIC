@@ -50,19 +50,19 @@
                 <td id="studyNameTd">${data.STUDY_NAME}</td>
             </tr>
             <tr>
-                <th>학습일시</th>
+                <th><span class="red-star">*</span>학습일시</th>
                 <td>
                     <input type="text" id="journalDt" style="width: 150px"> <input type="text" id="journalStartTime" style="width: 100px"> ~ <input type="text" id="journalEndTime" style="width: 100px">
                 </td>
             </tr>
             <tr>
-                <th>학습장소</th>
+                <th><span class="red-star">*</span>학습장소</th>
                 <td>
                     <input type="text" id="studyLocation" style="width: 400px">
                 </td>
             </tr>
             <tr>
-                <th>지 도 자</th>
+                <th><span class="red-star">*</span>지 도 자</th>
                 <td>
                     <input type="text" id="readerUserName" style="width: 400px">
                     <input type="hidden" id="readerUserSeq">
@@ -70,7 +70,7 @@
                 </td>
             </tr>
             <tr>
-                <th>학 습 자</th>
+                <th><span class="red-star">*</span>학 습 자</th>
                 <td>
                     <input type="text" id="studyUserName" style="width: 400px">
                     <input type="hidden" id="studyUserSeq">
@@ -78,7 +78,7 @@
                 </td>
             </tr>
             <tr>
-                <th>내용저장 방법</th>
+                <th><span class="red-star">*</span>내용저장 방법</th>
                 <td>
                     <span type="text" id="studySaveType" style="width: 400px;"></span>
                 </td>
