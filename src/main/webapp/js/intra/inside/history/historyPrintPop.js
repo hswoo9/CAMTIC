@@ -107,5 +107,23 @@ const historyPrintPop = {
             fontawesome      : "fa fa-spinner fa-pulse fa-fw",
             fontawesomeColor : "#FFFFFF",
         });
+    },
+
+    sendApnt: function () {
+        var apntSn = params.apntSn;
+        console.log("apntSn",apntSn);
+
+        if(!confirm("발령장 전송을 진행하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            apntSn : apntSn
+        }
+
+        let url = "/inside/pop/setTmpActiveUpdate.do";
+        customKendo.fn_customAjax(url, data);
+
+        alert("발령장 전송이 완료되었습니다.")
     }
 }

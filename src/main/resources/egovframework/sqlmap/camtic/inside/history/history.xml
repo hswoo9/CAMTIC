@@ -68,6 +68,7 @@
             </if>
             <if test='empSeq != null and !"".equals(empSeq)'>
                 AND HAI.EMP_SEQ = #{empSeq}
+                AND HAI.TMP_ACTIVE = 'Y'
             </if>
         ORDER BY HAI.APNT_SN DESC
     </select>
@@ -97,6 +98,7 @@
         CAM_COMMON.DJ_FILE_INFO CFI ON HAI.APNT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'history'
         WHERE
         1=1
+          AND HAI.TMP_ACTIVE = 'Y'
         <if test='historyType != null and !"".equals(historyType)'>
             AND HAI.APNT_CD = #{historyType}
         </if>
