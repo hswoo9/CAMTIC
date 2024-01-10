@@ -74,6 +74,45 @@
         </if>
     </select>
 
+    <select id="getProjectViewList" resultType="java.util.Map" parameterType="java.util.Map">
+        <![CDATA[
+        SELECT
+            A.*,
+            left(A.FR_DT,4) AS mYEAR,
+            CASE WHEN A.FR_DT IN ('00000000', '99991231') THEN '' ELSE CONVERT(NVARCHAR(10), CONVERT(DATETIME, A.FR_DT), 120) END AS pjtFromDate,
+            CASE WHEN A.TO_DT IN ('00000000', '99991231') THEN '' ELSE CONVERT(NVARCHAR(10), CONVERT(DATETIME, A.TO_DT), 120) END AS pjtToDate,
+	        CONVERT(CHAR(19), A.INSERT_DT, 20) AS REG_DT
+        FROM DZICUBE.dbo.SPJT A
+        LEFT JOIN DZICUBE.dbo.SEMP C WITH(NOLOCK) ON (C.CO_CD = '1212' AND A.EMP_CD = C.EMP_CD)
+        WHERE 1=1
+        AND ((A.FR_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}) OR (A.TO_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}))
+        ]]>
+        <choose>
+            <when test='searchValue2 != null and !"".equals(searchValue2)'>
+                <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+                    AND
+                    A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
+                </if>
+                <if test='"2".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+                    AND
+                    A.PJT_NM LIKE CONCAT('%', #{searchText}, '%')
+                </if>
+                <if test='"3".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
+                    AND
+                    C.KOR_NM LIKE CONCAT('%', #{searchText}, '%')
+                </if>
+            </when>
+            <otherwise>
+                <if test='searchValue != null and !"".equals(searchValue)'>
+                    AND (A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
+                    OR A.PJT_NM LIKE CONCAT('%', #{searchText}, '%')
+                    OR C.KOR_NM LIKE CONCAT('%', #{searchText}, '%'))
+                </if>
+            </otherwise>
+        </choose>
+        ORDER BY A.INSERT_DT DESC, FR_DT DESC
+    </select>
+
     <select id="getProjectCount" parameterType="map" resultType="int">
         <![CDATA[
         SELECT

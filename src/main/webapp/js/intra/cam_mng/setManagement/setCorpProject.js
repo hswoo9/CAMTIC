@@ -18,6 +18,22 @@ var setCorpPjt = {
             }
         });
 
+        $("#profitCode").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: ""},
+                { text: "1000", value: "1000" },
+                { text: "2000", value: "2000" },
+                { text: "3000", value: "3000" },
+                { text: "4000", value: "4000" },
+                { text: "5000", value: "5000" },
+                { text: "6000", value: "6000" },
+                { text: "7000", value: "7000" },
+            ],
+            value : 1000
+        });
+
         setCorpPjt.fn_setData();
     },
 
@@ -50,7 +66,7 @@ var setCorpPjt = {
                 $("#empName").val(rs.PM_EMP_NAME);
                 $("#empSeq").val(rs.PM_EMP_SEQ);
                 $("#deptSeq").val(rs.PM_DEPT_SEQ);
-
+                $("#profitCode").data("kendoDropDownList").value(rs.PROFIT_CODE);
                 setCorpPjt.fn_btnSet(rs);
             }
         });
@@ -70,6 +86,7 @@ var setCorpPjt = {
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
             regEmpSeq : $("#regEmpSeq").val(),
+            profitCode : $("#profitCode").data("kendoDropDownList").value()
         }
 
         if($("#corpPjtSn").val() != ""){

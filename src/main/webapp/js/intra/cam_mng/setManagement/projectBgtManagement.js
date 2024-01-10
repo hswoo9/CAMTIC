@@ -43,7 +43,7 @@ var prjBgtMng = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/g20/getProjectList',
+                    url : '/g20/getProjectViewList',
                     dataType : "json",
                     type : "post"
                 },
@@ -104,16 +104,20 @@ var prjBgtMng = {
                     template: "#= --record #",
                     width: 30
                 }, {
-                    field: "pjtSeq",
+                    field: "PJT_CD",
                     title: "프로젝트 코드",
                     width: 80
                 }, {
-                    field: "pjtName",
+                    field: "PJT_NM",
                     title: "프로젝트 명",
                     width: 400,
                     template: function(e){
-                       return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjBgtMng.fn_projectPopView(\'' + e.pjtSeq + '\')";>' + e.pjtName + '</a>'
+                       return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjBgtMng.fn_projectPopView(\'' + e.PJT_CD + '\')";>' + e.PJT_NM + '</a>'
                     }
+                }, {
+                    field: "REG_DT",
+                    title: "등록일자",
+                    width: 80,
                 }, {
                     field: "pjtFromDate",
                     title: "시작일자",

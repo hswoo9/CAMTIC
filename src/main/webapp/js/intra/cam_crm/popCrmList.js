@@ -123,6 +123,7 @@ var popCrmList = {
                 opener.parent.$("#fileName").text(rsFile.FILE1_NAME);
                 opener.parent.$("#crmSn").val(rs.CRM_SN);
                 opener.parent.$("#crmNm").val(rs.CRM_NM);
+                opener.parent.$("#regNo").val(rs.CRM_NO);
             }
         }
         
