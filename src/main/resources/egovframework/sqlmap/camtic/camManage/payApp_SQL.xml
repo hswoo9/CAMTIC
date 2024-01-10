@@ -1146,6 +1146,7 @@
             VAT_COST,
             CARD,
             CARD_NO,
+            REG_NO,
             ETC,
             ISS
         )
@@ -1161,6 +1162,7 @@
             #{vatCost},
             #{card},
             #{cardNo},
+            #{regNo},
             #{etc},
             #{iss}
         )
