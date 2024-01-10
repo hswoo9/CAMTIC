@@ -24,6 +24,8 @@
     <div class="btn-st popButton">
         <c:choose>
           <c:when test="${data.RES_STATUS == 0}">
+            <input type="button" id="studyModBtn" class="k-button k-button-solid-primary" value="수정" onclick="eduResultViewPop.resultUpdatePop();"/>
+            <input type="button" class="k-button k-button-solid-info" value="학습신청서 열람" onclick="eduResultViewPop.approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
             <input type="button" class="k-button k-button-solid-info" value="결재요청" onclick="eduResultViewPop.campusResDrafting();"/>
           </c:when>
           <c:when test="${data.RES_STATUS == 10}">

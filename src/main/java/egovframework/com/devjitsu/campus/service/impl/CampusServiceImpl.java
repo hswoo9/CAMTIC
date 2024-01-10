@@ -339,6 +339,12 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setEduResultModify(Map<String, Object> params) {
+        campusRepository.setEduInfoUpdate(params);
+        campusRepository.setEduResultModify(params);
+    }
+
+    @Override
     public void setMngCheckUpd(Map<String, Object> params) {
         campusRepository.setMngCheckUpd(params);
     }

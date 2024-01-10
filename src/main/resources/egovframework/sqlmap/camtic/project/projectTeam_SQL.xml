@@ -81,6 +81,17 @@
         WHERE TM_SN = #{tmSn}
     </select>
 
+    <select id="getLastVerTeamData" parameterType="map" resultType="map">
+        /* getLastVerTeamData */
+        SELECT
+            PTV.*,
+            DATE_FORMAT(PTV.REG_DT, '%Y-%m-%d') AS REG_DATE
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM_VERSION PTV
+        WHERE PTV.PJT_SN = #{pjtSn}
+        ORDER BY TEAM_VERSION_SN LIMIT 1
+    </select>
+
     <insert id="setTeamAddVersion" parameterType="map">
         /* setTeamAddVersion */
         INSERT INTO CAM_PJT_MNG.DJ_PJT_TEAM_VERSION

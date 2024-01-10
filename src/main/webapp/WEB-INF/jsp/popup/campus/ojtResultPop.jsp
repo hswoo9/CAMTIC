@@ -49,13 +49,13 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <th>지도일시</th>
+                                <th><span class="red-star">*</span>지도일시</th>
                                 <td>
                                     <input type="text" id="ojtDt" style="width: 150px"> <input type="text" id="startTime" style="width: 100px"> ~ <input type="text" id="endTime" style="width: 100px">
                                 </td>
                             </tr>
                             <tr>
-                                <th>지 도 자</th>
+                                <th><span class="red-star">*</span>지 도 자</th>
                                 <td>
                                     <input type="text" id="readerUserName" style="width: 600px">
                                     <input type="hidden" id="readerUserSeq">
@@ -63,7 +63,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>학 습 자</th>
+                                <th><span class="red-star">*</span>학 습 자</th>
                                 <td>
                                     <input type="text" id="studyUserName" style="width: 600px">
                                     <input type="hidden" id="studyUserSeq">
@@ -71,13 +71,13 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>지도장소</th>
+                                <th><span class="red-star">*</span>지도장소</th>
                                 <td>
                                     <input type="text" id="location" style="width: 800px">
                                 </td>
                             </tr>
                             <tr>
-                                <th>내용저장 방법</th>
+                                <th><span class="red-star">*</span>내용저장 방법</th>
                                 <td>
                                     <span type="text" id="studySaveType" style="width: 400px;"></span>
                                 </td>

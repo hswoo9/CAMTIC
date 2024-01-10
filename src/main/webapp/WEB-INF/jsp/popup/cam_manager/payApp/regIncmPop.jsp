@@ -157,13 +157,14 @@
                         </c:if>
                         <col style="width: 6%;">
                         <col style="width: 6%;">
+                        <col style="width: 6%;">
                         <col style="width: 5%;">
                         <col style="width: 6%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
-                        <col style="width: 5%;">
+                        <col style="width: 5%; display: none">
                         <col style="width: 3%;">
                     </colgroup>
                     <thead>
@@ -173,13 +174,14 @@
                         </c:if>
                         <th>증빙유형</th>
                         <th>상호</th>
+                        <th>사업자등록번호</th>
                         <th>비고</th>
                         <th>거래일</th>
                         <th>총액</th>
                         <th>공급가액</th>
                         <th>세액</th>
                         <th>신용카드</th>
-                        <th>반제결의</th>
+                        <th style="display: none;">반제결의</th>
                         <th>명령</th>
                     </tr>
                     </thead>
@@ -195,6 +197,9 @@
                         <td>
                             <input type="text" id="crmNm0" class="crmNm">
                             <input type="hidden" id="trCd0" class="trCd">
+                        </td>
+                        <td>
+                            <input type="text" id="regNo0" class="regNo">
                         </td>
                         <td>
                             <input type="text" id="etc0" class="etc">
@@ -215,7 +220,7 @@
                             <input type="text" disabled id="card0" class="card">
                             <input type="hidden" id="cardNo0" class="cardNo">
                         </td>
-                        <td>
+                        <td style="display: none;">
                             <input type="text" id="iss0" class="iss" style="display: none;">
                         </td>
                         <td>
