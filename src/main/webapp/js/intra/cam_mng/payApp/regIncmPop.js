@@ -182,6 +182,9 @@ var regIncm = {
                 '       <input type="hidden" id="trCd' + regIncmDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
                 '   </td>' +
                 '   <td>' +
+                '       <input type="text" id="regNo' + regIncmDet.global.itemIndex + '" value="'+item.REG_NO+'" class="regNo">' +
+                '   </td>' +
+                '   <td>' +
                 '       <input type="text" id="etc' + regIncmDet.global.itemIndex + '" value="'+item.ETC+'" class="etc">' +
                 '   </td>' +
 
@@ -267,7 +270,7 @@ var regIncm = {
                 , "crmAccHolder" + regIncmDet.global.itemIndex, "iss" + regIncmDet.global.itemIndex
                 , "crmAccNo" + regIncmDet.global.itemIndex, "totCost" + regIncmDet.global.itemIndex
                 , "supCost" + regIncmDet.global.itemIndex, "vatCost" + regIncmDet.global.itemIndex
-                ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex]);
+                ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex, "regNo" + regIncmDet.global.itemIndex]);
 
             customKendo.fn_datePicker("trDe" + regIncmDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
@@ -295,7 +298,12 @@ var regIncm = {
             dataType: "json",
             success: function (rs) {
                 var rs = rs.data;
+                rs.crmNo = rs.REG_NO.toString().replace(/-/g, "");
+                var g20Result = customKendo.fn_customAjax("/g20/getCrmInfo", rs);
 
+                $("#crmNm0").val(g20Result.map.TR_NM ? g20Result.map.TR_NM : "");
+                $("#trCd0").val(g20Result.map.TR_CD ? g20Result.map.TR_NM : "");
+                $("#regNo0").val(rs.REG_NO);
                 $("#appDe").val(rs.PAY_INCP_DE);
 
                 $("#pjtNm").val(rs.AFT_PJT_NM);
@@ -596,7 +604,7 @@ var regIncmDet = {
         });
 
         customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
-            ,"card0", "etc0", "iss0", "budgetNm0"]);
+            ,"card0", "etc0", "iss0", "budgetNm0", "regNo0"]);
 
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
@@ -627,6 +635,9 @@ var regIncmDet = {
             '       <input type="hidden" id="trCd' + regIncmDet.global.itemIndex + '" class="trCd">' +
             '   </td>' +
             '   <td>' +
+            '       <input type="text" id="regNo' + regIncmDet.global.itemIndex + '" class="regNo">' +
+            '   </td>' +
+            '   <td>' +
             '       <input type="text" id="etc' + regIncmDet.global.itemIndex + '" class="etc">' +
             '   </td>' +
 
@@ -647,7 +658,7 @@ var regIncmDet = {
             '       <input type="hidden" id="cardNo' + regIncmDet.global.itemIndex + '" class="cardNo">' +
             '   </td>' +
 
-            '   <td>' +
+            '   <td style="display: none;">' +
             '       <input type="text" id="iss' + regIncmDet.global.itemIndex + '" class="iss">' +
             '   </td>' +
 
@@ -699,7 +710,7 @@ var regIncmDet = {
             , "crmAccHolder" + regIncmDet.global.itemIndex, "iss" + regIncmDet.global.itemIndex
             , "crmAccNo" + regIncmDet.global.itemIndex, "totCost" + regIncmDet.global.itemIndex
             , "supCost" + regIncmDet.global.itemIndex, "vatCost" + regIncmDet.global.itemIndex
-            ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex]);
+            ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex, "regNo" + regIncmDet.global.itemIndex]);
 
         customKendo.fn_datePicker("trDe" + regIncmDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
