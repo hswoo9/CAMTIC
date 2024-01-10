@@ -3111,7 +3111,8 @@
             B.PJT_NM,
             B.DOC_ID,
             B.DOC_STATUS,
-            B.PAY_EXNP_DE
+            B.PAY_EXNP_DE,
+            (SELECT DOC_NO FROM dj_camtic.a_doc_info where DOC_ID = B.DOC_ID) AS DOC_NO
         FROM
             CAM_MNG.DJ_PAY_DEPO A
         LEFT JOIN

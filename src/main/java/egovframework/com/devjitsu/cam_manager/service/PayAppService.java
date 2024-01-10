@@ -90,4 +90,6 @@ public interface PayAppService {
     void setProjectBudgetInfo(Map<String, Object> params);
 
     void payAppRevert(Map<String, Object> params);
+
+    List<Map<String, Object>> getPayDepoFileList(Map<String, Object> params);
 }

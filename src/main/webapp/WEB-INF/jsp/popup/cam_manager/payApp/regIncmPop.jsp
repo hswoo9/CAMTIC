@@ -129,6 +129,14 @@
 
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">첨부파일</th>
+                    <td colspan="4">
+                        <div>
+                            <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regIncm.fn_regIncmAttPop()">첨부</button>
+                        </div>
+                    </td>
+                </tr>
                 </thead>
             </table>
 

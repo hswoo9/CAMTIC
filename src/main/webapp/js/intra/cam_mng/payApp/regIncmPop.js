@@ -560,6 +560,20 @@ var regIncm = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_regIncmAttPop : function (){
+        var url = "/payApp/pop/regIncmAttPop.do";
+
+        if($("#payIncpSn").val() != ""){
+            url += "?payIncpSn=" + $("#payIncpSn").val();
+        } else if ($("#payDepoSn").val() != ""){
+            url += "?payDepoSn=" + $("#payDepoSn").val();
+        }
+
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
     }
 }
 

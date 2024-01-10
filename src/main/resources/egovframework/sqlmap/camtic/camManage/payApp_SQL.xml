@@ -1334,7 +1334,8 @@
             B.PJT_NM,
             B.DOC_ID,
             B.DOC_STATUS,
-            B.PAY_EXNP_DE
+            B.PAY_EXNP_DE,
+            (SELECT DOC_NO FROM dj_camtic.a_doc_info where DOC_ID = B.DOC_ID) AS DOC_NO
         FROM
             CAM_MNG.DJ_PAY_DEPO A
         LEFT JOIN
@@ -1828,4 +1829,22 @@
                 #{TAX_TY}
             )
     </insert>
+
+    <select id="getPayDepoFileList" parameterType="map" resultType="map">
+        /* getPayDepoFileList */
+        SELECT * FROM CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = (SELECT FILE_NO
+                       FROM CAM_MNG.DJ_PAY_DEPO
+                       WHERE PAY_DEPO_SN = #{payDepoSn})
+    </select>
+
+    <select id="getPayIncpFileList" parameterType="map" resultType="map">
+        /* getPayIncpFileList */
+        SELECT * FROM CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = (SELECT FILE_NO
+                       FROM CAM_MNG.DJ_PAY_DEPO
+                       WHERE PAY_INCP_SN = #{payIncpSn})
+    </select>
 </mapper>
