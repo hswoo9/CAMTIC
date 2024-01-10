@@ -271,6 +271,29 @@ var hwpInit = {
 
         const mem = result.result.projectMemberInfo;
         const befMem = result.result2.projectMemberInfo;
+
+        var fieldsToCheck = ['PJT_STR_DT', 'PJT_END_DT', 'MON_DIFF', 'TOT_RATE', 'TOT_PAY_BUDG', 'CHNG_SAL'];
+
+        if (mem.length !== befMem.length) {
+            console.log("두 리스트의 길이가 다릅니다.");
+        }else {
+            for (var x = 0; x < mem.length; x++) {
+                var checkFlag = true;
+
+                for (var y = 0; y < fieldsToCheck.length; y++) {
+                    if (mem[x][fieldsToCheck[y]] !== befMem[x][fieldsToCheck[y]]) {
+                        checkFlag = false;
+                        break;
+                    }
+                }
+                if(checkFlag){
+                    mem.splice(x, 1);
+                    befMem.splice(x, 1);
+                    x--;
+                }
+            }
+        }
+
         let html = '';
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';

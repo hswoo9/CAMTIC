@@ -295,6 +295,8 @@ var regIncm = {
             dataType: "json",
             success: function (rs) {
                 var rs = rs.data;
+
+                console.log(rs);
                 $("#appDe").val(rs.PAY_INCP_DE);
 
                 $("#pjtNm").val(rs.AFT_PJT_NM);
@@ -312,6 +314,9 @@ var regIncm = {
                 $("#supCost0").val(regIncm.comma(rs.DEPO_AMT));
                 $("#totCost0").val(regIncm.comma(rs.DEPO_AMT));
                 $("#supCost0").trigger("keyup");
+
+                rs.PROFIT_CODE ? $("#busnCd").data("kendoDropDownList").value(rs.PROFIT_CODE) : $("#busnCd").data("kendoDropDownList").value("");
+                rs.PROFIT_CODE ? $("#busnExCd").data("kendoDropDownList").value(rs.PROFIT_CODE) : $("#busnExCd").data("kendoDropDownList").value("");
             }
         });
     },

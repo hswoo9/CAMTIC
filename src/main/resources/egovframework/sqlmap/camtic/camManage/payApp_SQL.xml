@@ -1365,6 +1365,7 @@
                 BUDGET_SN,
                 CRM_NM,
                 CRM_SN,
+                REG_NO,
                 EVI_TYPE,
                 EMAIL,
                 DEPO_MANAGER,
@@ -1376,6 +1377,7 @@
                 ACC_NO,
                 DEPO_AMT,
                 GUBUN,
+                TAX_CH_GUBUN,
                 DEPO_STAT,
                 REG_EMP_SEQ
             )
@@ -1392,6 +1394,7 @@
                 #{budgetSn},
                 #{crmNm},
                 #{crmSn},
+                #{regNo},
                 #{eviType},
                 #{email},
                 #{depoManager},
@@ -1403,6 +1406,7 @@
                 #{accNo},
                 #{depoAmt},
                 #{gubun},
+                #{taxChGubun},
                 #{depoStat},
                 #{regEmpSeq}
             )
@@ -1435,6 +1439,7 @@
             BUDGET_SN = #{budgetSn},
             CRM_NM = #{crmNm},
             CRM_SN = #{crmSn},
+            REG_NO = #{regNo},
             EVI_TYPE = #{eviType},
             EMAIL = #{email},
             DEPO_MANAGER = #{depoManager},
@@ -1447,6 +1452,7 @@
             DEPO_AMT = #{depoAmt},
             GUBUN = #{gubun},
             DEPO_STAT = #{depoStat},
+            TAX_CH_GUBUN = #{taxChGubun},
             MOD_DT = NOW(),
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
@@ -1459,7 +1465,8 @@
             A.*,
             B.*,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS DEPO_EMP_NAME,
-            C.*
+            C.*,
+            (SELECT PROFIT_CODE FROM CAM_PJT_MNG.DJ_CORP_PROJECT WHERE CORP_PJT_CD = A.PJT_CD) AS PROFIT_CODE
         FROM
             CAM_MNG.DJ_PAY_DEPO A
         LEFT JOIN

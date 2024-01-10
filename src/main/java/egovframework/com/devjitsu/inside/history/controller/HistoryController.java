@@ -351,6 +351,13 @@ public class HistoryController {
         return UUID.randomUUID().toString();
     }
 
+    @RequestMapping("/inside/pop/setTmpActiveUpdate.do")
+    public String setTmpActiveUpdate(@RequestParam Map<String, Object> params) {
+
+            historyService.setTmpActiveUpdate(params);
+
+        return "jsonView";
+    }
 
 
 }
