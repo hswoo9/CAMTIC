@@ -253,7 +253,8 @@
             EI.DEPT_NAME,
             EI.DEPT_TEAM_NAME,
             EI.POSITION_CODE,
-            EI.POSITION_NAME,
+            IFNULL(EI.POSITION_NAME, '') AS POSITION_NAME,
+            IFNULL(EI.DUTY_NAME, '') AS DUTY_NAME,
             EI.DUTY_CODE
         FROM
             CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SUH

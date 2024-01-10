@@ -234,6 +234,7 @@ var bustripList = {
             traditional: true,
             dataType: "json",
             success : function(){
+                alert("취소되었습니다.");
                 gridReload();
             }
         });

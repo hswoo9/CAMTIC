@@ -40,7 +40,6 @@ var snackAdminList = {
                 parameterMap: function(data) {
                     data.startDt = $("#startDt").val();
                     data.endDt = $("#endDt").val();
-                    data.empSeq = $("#regEmpSeq").val();
                     data.mealsDivision = $("#mealsDivision").val();
                     data.payDivision = $("#payDivision").val();
                     data.approval = $("#approval").val();
