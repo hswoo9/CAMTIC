@@ -55,6 +55,14 @@ public class G20Controller {
         return "jsonView";
     }
 
+
+    @RequestMapping("/g20/getProjectViewList")
+    public String getProjectViewList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = g20Service.getProjectViewList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     @RequestMapping("/g20/getSubjectList")
     public String getSubjectList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
