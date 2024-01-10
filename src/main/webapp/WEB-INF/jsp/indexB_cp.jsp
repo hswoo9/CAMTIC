@@ -273,8 +273,11 @@
             <div class="panel-body">
                 <div style="text-align:center;">
                     <a class="contentLink" href="javascript:detailPageMove()">
-                        <img id="recentImage" alt="" style="width:300px; height:244px; cursor:pointer;">
+                        <img id="recentImage" alt="" width="350" height="220" style="cursor:pointer;">
                     </a>
+                </div>
+                <div style="margin-top: 10px;text-align: center;">
+                    <span id="recentImageTitle" style="font-weight: bold;"></span>
                 </div>
             </div>
         </div>
@@ -617,7 +620,8 @@
                 watchBoardId = data.rs.WATCH_BOARD_ID;
                 if (data.rs.file_path && data.rs.file_uuid) {
                     var imageUrl = data.rs.file_path + data.rs.file_uuid;
-
+                    var title = data.rs.BOARD_ARTICLE_TITLE;
+                    $("#recentImageTitle").text(title);
                     $("#recentImage").attr("src", imageUrl);
                 }
             }

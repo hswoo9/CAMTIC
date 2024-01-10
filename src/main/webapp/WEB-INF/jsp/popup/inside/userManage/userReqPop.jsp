@@ -73,7 +73,7 @@
                             <input type="text" id="loginId" style="width: 50%;" value="${uprinfList.LOGIN_ID}" disabled="disabled">
                         </c:if>
                     </td>
-                    <th><span class="red-star">*</span>주민등록번호</th>
+                    <th>주민등록번호</th>
                     <td>
                         <input type="text" id="resRegisNum1" style="width: 30%;" value="${fn:split(uprinfList.RES_REGIS_NUM, "-")[0]}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="6"> - <input type="text" id="resRegisNum2" value="${fn:split(uprinfList.RES_REGIS_NUM, "-")[1]}" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="7" style="width: 30%;">
                     </td>

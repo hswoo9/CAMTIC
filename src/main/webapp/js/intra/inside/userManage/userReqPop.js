@@ -1016,10 +1016,10 @@ var userReqPop = {
             }
         }
 
-        if($("#resRegisNum1").val().length != 6 || $("#resRegisNum2").val().length != 7){
+        /*if($("#resRegisNum1").val().length != 6 || $("#resRegisNum2").val().length != 1){
             alert("주민등록번호의 입력이 잘못되었습니다.");
             return;
-        }
+        }*/
 
         if($("#loginPasswd").val() != $("#checkPasswd").val()){
             alert("비밀번호가 맞지 않습니다. 확인해주세요.");
