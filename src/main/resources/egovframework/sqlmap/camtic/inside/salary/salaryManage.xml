@@ -366,6 +366,8 @@
             DEPT_SEQ IS NOT NULL
         AND
             ERP_EMP_SEQ != ''
+        AND
+            EMP_NAME_KR NOT IN ('관리자', '부관리자')
     </select>
 
     <select id="getExcelEmpSeq" parameterType="map" resultType="int">
