@@ -34,6 +34,11 @@ public class G20ServiceImpl implements G20Service {
     }
 
     @Override
+    public List<Map<String, Object>> getProjectViewList(Map<String, Object> params) {
+        return g20Repository.getProjectViewList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getSubjectList(Map<String, Object> params) {
          List<Map<String, Object>> listMap = g20Repository.getCommonGisuInfo(params);
 

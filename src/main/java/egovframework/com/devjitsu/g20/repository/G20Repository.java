@@ -13,6 +13,10 @@ public class G20Repository extends AbstractDAO {
         return selectListMs("g20.getProjectList", params);
     }
 
+    public List<Map<String, Object>> getProjectViewList(Map<String, Object> params) {
+        return selectListMs("g20.getProjectViewList", params);
+    }
+
     public List<Map<String, Object>> getCommonGisuInfo(Map<String, Object> params) {
         return selectListMs("g20.getCommonGisuInfo", params);
     }
