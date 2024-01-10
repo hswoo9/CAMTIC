@@ -113,7 +113,8 @@
             STR_DT,
             END_DT,
             SBJ_SEP,
-            REG_EMP_SEQ
+            REG_EMP_SEQ,
+            PROFIT_CODE
         ) VALUES (
             #{empSeq},
             #{empName},
@@ -125,7 +126,8 @@
             #{strDt},
             #{endDt},
             #{sbjSep},
-            #{regEmpSeq}
+            #{regEmpSeq},
+            #{profitCode}
         )
         <selectKey keyProperty="corpPjtSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_CORP_PROJECT'
@@ -207,7 +209,8 @@
             STR_DT = #{strDt},
             END_DT = #{endDt},
             SBJ_SEP = #{sbjSep},
-            MOD_EMP_SEQ = #{regEmpSeq}
+            MOD_EMP_SEQ = #{regEmpSeq},
+            PROFIT_CODE = #{profitCode}
         WHERE
             CORP_PJT_SN = #{corpPjtSn}
     </update>
