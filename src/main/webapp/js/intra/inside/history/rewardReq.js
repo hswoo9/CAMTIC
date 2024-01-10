@@ -179,13 +179,33 @@ var rewardReq = {
             index: 0,
             width: 300,
             change: function(e) {
-                var selectedValue = this.text();
-                let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeListReward", { cmGroupCodeId: "32", specificValue: selectedValue });
-                customKendo.fn_dropDownList("rewardName", rewardDataSource, "CM_CODE_NM", "CM_CODE", "2");
+                //var selectedValue = this.text();
+                //let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeListReward", { cmGroupCodeId: "32", specificValue: selectedValue });
+                //console.log("rewardDataSource",rewardDataSource);
+                //customKendo.fn_dropDownList("rewardName", rewardDataSource, "CM_CODE_NM", "CM_CODE", "2");
+                if(this.value()){
+                    let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
+                    rewardDataSource = rewardDataSource.filter(e => e.CM_CODE_DESC.indexOf(this.text()) > -1);
+                    rewardDataSource.unshift({CM_CODE_NM : "선택하세요", CM_CODE : ""});
+                    $("#rewardName").kendoDropDownList({
+                        dataTextField: "CM_CODE_NM",
+                        dataValueField: "CM_CODE",
+                        dataSource: rewardDataSource,
+                        index: 0
+                    });
+                }
             }
         });
 
-        customKendo.fn_dropDownList("rewardName", [], "CM_CODE_NM", "CM_CODE", "2");
+        //customKendo.fn_dropDownList("rewardName", [], "CM_CODE_NM", "CM_CODE", "2");
+        $("#rewardName").kendoDropDownList({
+            dataTextField: "CM_CODE_NM",
+            dataValueField: "CM_CODE",
+            dataSource: [{
+                CM_CODE_NM : "선택하세요", CM_CODE : ""
+            }],
+            index: 0
+        });
 
         $("#searchType").kendoDropDownList({
             dataTextField: "text",
