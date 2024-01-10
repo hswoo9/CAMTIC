@@ -90,6 +90,7 @@
                     <th scope="row" class="text-center th-color">업체선택</th>
                     <td colspan="2">
                         <input type="hidden" id="crmSn" class="crmSn" value="">
+                        <input type="hidden" id="regNo" class="regNo" value="">
                         <input type="text" id="crmNm" disabled class="crmNm" value="" style="width: 80%">
                         <button type="button" id="crmSelBtn" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDepo.fn_popCamCrmList();">업체선택</button>
                     </td>

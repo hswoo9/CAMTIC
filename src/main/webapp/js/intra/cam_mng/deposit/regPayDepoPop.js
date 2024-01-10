@@ -178,7 +178,7 @@ var regPayDepo = {
                 $("#eviType").data("kendoDropDownList").value(rs.EVI_TYPE);
                 $("#crmNm").val(rs.CRM_NM);
                 $("#crmSn").val(rs.CRM_SN);
-
+                $("#regNo").val(rs.REG_NO);
                 $("#payDepoReqUser").val(rs.DEPO_EMP_NAME);
 
                 if(rs != null && rs != '' && rs.file_org_name != null && rs.file_org_name != '' && rs.file_org_name != undefined){
@@ -258,6 +258,7 @@ var regPayDepo = {
             depoAmt : regPayDepo.uncomma($("#depoAmt").val()),
             gubun : $("#gubun").val(),
             depoStat : $("#depoStat").val(),
+            regNo : $("#regNo").val(),
 
             regEmpSeq : $("#regEmpSeq").val()
         };
