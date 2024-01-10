@@ -18,7 +18,7 @@ const ojtView = {
             pk: $("#pk").val()
         }).data;
         ojtView.global.ojtInfo = ojtInfo;
-
+        $("#status").val(ojtInfo.STATUS);
         $("#ojtNameTd").text(ojtInfo.STUDY_NAME);
         $("#ojtDtTd").text(ojtInfo.START_DT+" ~ "+ojtInfo.END_DT);
         $("#ojtLocationTd").text(ojtInfo.STUDY_LOCATION);
@@ -219,26 +219,118 @@ const ojtView = {
 
         let data = {
             studyInfoSn : $("#pk").val(),
+            pk: $("#pk").val(),
+            statusNow: $("#status").val(),
             status : status
         }
 
-        customKendo.fn_customAjax("/campus/setStudyInfoComplete", data);
-        var result = customKendo.fn_customAjax("/campus/studyReq", data);
+        if(data.statusNow == 100){
+            $.ajax({
+                url: "/campus/getOjtResultList",
+                data: data,
+                type: "post",
+                dataType: "json",
+                success: function (ojtResult) {
 
-        if(result.flag){
-            if(status == 10){
-                alert("승인 요청이 완료되었습니다.");
-            }else if(status == 100){
-                alert("승인되었습니다.");
-            }else if(status == 30){
-                alert("반려되었습니다.");
-            }else if(status == 0){
-                alert("승인요청이 취소되었습니다.");
-            }else if(status == 101){
-                alert("지도 완료되었습니다.");
+                    var ojtResultList = ojtResult.list;
+
+                    if (ojtResultList.length === 0) {
+                        alert("학습일지를 작성해주세요.");
+                        return;
+                    }
+
+                    customKendo.fn_customAjax("/campus/setStudyInfoComplete", data);
+                    var result = customKendo.fn_customAjax("/campus/studyReq", data);
+
+                    if (result.flag) {
+                        if (status == 10) {
+                            alert("승인 요청이 완료되었습니다.");
+                            window.close();
+                        } else if (status == 100) {
+                            alert("승인되었습니다.");
+                            window.close();
+                        } else if (status == 30) {
+                            alert("반려되었습니다.");
+                            window.close();
+                        } else if (status == 0) {
+                            alert("승인요청이 취소되었습니다.");
+                            window.close();
+                        } else if (status == 101) {
+                            alert("지도 완료되었습니다.");
+                            ojtView.fn_resultPop();
+
+                        }
+                        opener.gridReload();
+
+                    }
+                }
+            });
+        }else if(data.statusNow == 0) {
+            $.ajax({
+                url: "/campus/getOjtPlanList",
+                data: data,
+                type: "post",
+                dataType: "json",
+                success: function (ojtPlan) {
+
+                    var ojtPlanList = ojtPlan.list;
+
+                    if (ojtPlanList.length === 0) {
+                        alert("지도내용을 작성해주세요.");
+                        return;
+                    }
+
+                    customKendo.fn_customAjax("/campus/setStudyInfoComplete", data);
+                    var result = customKendo.fn_customAjax("/campus/studyReq", data);
+
+                    if (result.flag) {
+                        if (status == 10) {
+                            alert("승인 요청이 완료되었습니다.");
+                            window.close();
+                        } else if (status == 100) {
+                            alert("승인되었습니다.");
+                            window.close();
+                        } else if (status == 30) {
+                            alert("반려되었습니다.");
+                            window.close();
+                        } else if (status == 0) {
+                            alert("승인요청이 취소되었습니다.");
+                            window.close();
+                        } else if (status == 101) {
+                            alert("지도 완료되었습니다.");
+                            ojtView.fn_resultPop();
+
+                        }
+                        opener.gridReload();
+
+                    }
+                }
+            });
+        }else{
+            customKendo.fn_customAjax("/campus/setStudyInfoComplete", data);
+            var result = customKendo.fn_customAjax("/campus/studyReq", data);
+
+            if (result.flag) {
+                if (status == 10) {
+                    alert("승인 요청이 완료되었습니다.");
+                    window.close();
+                } else if (status == 100) {
+                    alert("승인되었습니다.");
+                    window.close();
+                } else if (status == 30) {
+                    alert("반려되었습니다.");
+                    window.close();
+                } else if (status == 0) {
+                    alert("승인요청이 취소되었습니다.");
+                    window.close();
+                } else if (status == 101) {
+                    alert("지도 완료되었습니다.");
+                    ojtView.fn_resultPop();
+
+                }
+                opener.gridReload();
+
             }
-            opener.gridReload();
-            window.close();
         }
     },
 

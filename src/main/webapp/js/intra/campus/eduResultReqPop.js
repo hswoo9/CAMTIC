@@ -34,7 +34,7 @@ var eduResultReqPop = {
         if(!confirm("교육수강 신청서를 저장하시겠습니까?")){
             return;
         }
-
+        let mode = $("#mode").val();
         let empSeq = $("#empSeq").val();
         let termDay = "";
         let termTime = "";
@@ -89,8 +89,12 @@ var eduResultReqPop = {
             eduInfoId : eduInfoId,
             eduFormType : eduFormType
         }
+        if(mode == "upd"){
+            eduResultReqPop.setEduResultModify(data);
+        }else{
+            eduResultReqPop.setEduResultInsert(data);
+        }
 
-        eduResultReqPop.setEduResultInsert(data);
     },
 
     setEduResultInsert: function(data) {
@@ -110,5 +114,24 @@ var eduResultReqPop = {
                 alert("데이터 저장 중 에러가 발생했습니다.");
             }
         });
+    },
+
+    setEduResultModify: function(data) {
+        $.ajax({
+            url : "/campus/setEduResultModify",
+            data : data,
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                alert("교육 결과보고서 수정이 완료되었습니다.");
+                opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
+                window.close();
+            },
+            error : function() {
+                alert("데이터 수정 중 에러가 발생했습니다.");
+            }
+        });
+
     }
 }

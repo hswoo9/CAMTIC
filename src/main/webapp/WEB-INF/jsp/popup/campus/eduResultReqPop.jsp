@@ -28,6 +28,7 @@
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="eduInfoId" value="${data.EDU_INFO_ID}"/>
 <input type="hidden" id="eduFormType" value="${data.EDU_FORM_TYPE}"/>
+<input type="hidden" id="mode" value="${params.mode}"/>
 <div class="card-header pop-header">
   <h3 class="card-title title_NM">교육 결과보고서 작성</h3>
   <div class="btn-st popButton">
@@ -171,9 +172,16 @@
                   </c:choose>
                   <c:choose>
                     <c:when test="${eduFormType == 1 || eduFormType == 2}">
-                      <th>강사</th>
+                      <th><span class="red-star">*</span>강사</th>
                       <td>
-                        <input type="text" id="eduTeacherName" style="width: 200px">
+                        <c:choose>
+                          <c:when test="${params.mode == 'upd'}">
+                            <input type="text" id="eduTeacherName" style="width: 200px" value="${data.EDU_TEACHER_NAME}">
+                          </c:when>
+                          <c:otherwise>
+                            <input type="text" id="eduTeacherName" style="width: 200px">
+                          </c:otherwise>
+                        </c:choose>
                       </td>
                     </c:when>
                     <c:when test="${eduFormType == 3}">
@@ -258,9 +266,16 @@
                 </td>
               </tr>
               <tr>
-                <th>직무연계 포인트</th>
+                <th><span class="red-star">*</span>직무연계 포인트</th>
                 <td colspan="3">
-                  <textarea id="eduPoint" style="width: 700px; height: 100px"></textarea>
+                  <c:choose>
+                    <c:when test="${params.mode == 'upd'}">
+                      <textarea id="eduPoint" style="width: 700px; height: 100px">${data.EDU_POINT}</textarea>
+                    </c:when>
+                    <c:otherwise>
+                      <textarea id="eduPoint" style="width: 700px; height: 100px"></textarea>
+                    </c:otherwise>
+                  </c:choose>
                 </td>
               </tr>
             </thead>

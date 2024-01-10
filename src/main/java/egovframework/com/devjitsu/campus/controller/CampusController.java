@@ -356,6 +356,7 @@ public class CampusController {
         model.addAttribute("data", data);
         String EDU_FORM_TYPE = data.get("EDU_FORM_TYPE").toString();
         model.addAttribute("eduFormType", EDU_FORM_TYPE);
+        model.addAttribute("params", params);
 
         String directory = "";
         int eduFormType = Integer.parseInt(EDU_FORM_TYPE);
@@ -1483,6 +1484,13 @@ public class CampusController {
     @RequestMapping("/campus/setEduResultInsert")
     public String setEduResultInsert(@RequestParam Map<String, Object> params) {
         campusService.setEduResultInsert(params);
+        return "jsonView";
+    }
+
+    /** 학습결과보고서 수정 */
+    @RequestMapping("/campus/setEduResultModify")
+    public String setEduResultModify(@RequestParam Map<String, Object> params) {
+        campusService.setEduResultModify(params);
         return "jsonView";
     }
 

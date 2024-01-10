@@ -17,17 +17,21 @@ var userPartRate = {
             startIndex = startIndex + startYear;
         }
 
+        var adminYn = $("#adminYn").val();
+
         $("#year").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: yearList,
             index: startIndex,
             change: function (e) {
-                userPartRate.fn_setData();
+                if(adminYn != ""){
+                    userPartRate.fn_setDataAdmin();
+                }else{
+                    userPartRate.fn_setData();
+                }
             }
         });
-
-        var adminYn = $("#adminYn").val();
 
         if(adminYn != ""){
             userPartRate.fn_setDataAdmin();
@@ -41,6 +45,7 @@ var userPartRate = {
 
 
     fn_setData : function (type){
+        console.log("projectRate");
         var selStartDate = $("#year").data("kendoDropDownList").value() + "-01-01";
         var selEndDate = $("#year").data("kendoDropDownList").value() + "-12-31";
 
@@ -119,12 +124,18 @@ var userPartRate = {
                 var pmCnt = 0;
                 var sbjStatCnt = 0;
                 for (var i = 0; i < rs.length; i++) {
-                    var pjtStatus = "진행";
+                    var pjtStatus = "예정";
 
-                    if(rs[i].MNG_STAT != 'C'){
-                        pjtStatus = "예정";
+                    var today = new Date();
+                    var endDay = new Date(rs[i].PART_DET_END_DT);
+
+                    if(rs[i].MNG_STAT == 'C'){
+                        pjtStatus = "진행";
+
+                        if(endDay < today){
+                            pjtStatus = "기간종료";
+                        }
                     }
-
                     /*var checkIngArr = ['Y', 'E', 'E1', 'E2', 'R', 'S'];
                     if(checkIngArr.indexOf(rs[i].PJT_STEP) > -1){
                         pjtStatus = "예정";
@@ -234,6 +245,7 @@ var userPartRate = {
     },
 
     fn_setDataAdmin : function (type){
+        console.log("insideRate");
         var selStartDate = $("#year").data("kendoDropDownList").value() + "-01-01";
         var selEndDate = $("#year").data("kendoDropDownList").value() + "-12-31";
 
@@ -301,10 +313,17 @@ var userPartRate = {
                 var pmCnt = 0;
                 var sbjStatCnt = 0;
                 for (var i = 0; i < rs.length; i++) {
-                    var pjtStatus = "진행";
+                    var pjtStatus = "예정";
 
-                    if(rs[i].MNG_STAT != 'C'){
-                        pjtStatus = "예정";
+                    var today = new Date();
+                    var endDay = new Date(rs[i].PART_DET_END_DT);
+
+                    if(rs[i].MNG_STAT == 'C'){
+                        pjtStatus = "진행";
+
+                        if(endDay < today){
+                            pjtStatus = "기간종료";
+                        }
                     }
 
                     /*var checkIngArr = ['Y', 'E', 'E1', 'E2', 'R', 'S'];

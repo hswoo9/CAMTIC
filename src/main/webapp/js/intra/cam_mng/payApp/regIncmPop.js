@@ -178,8 +178,12 @@ var regIncm = {
                 '       <input type="text" id="eviType' + regIncmDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="crmNm' + regIncmDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" id="plusIcon' + regIncmDet.global.itemIndex + '"  onclick="regIncmDet.fn_popRegDet(1, '+regIncmDet.global.itemIndex+')"></i>' +
+                '       <input type="text" style="width: 70%" id="crmNm' + regIncmDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
                 '       <input type="hidden" id="trCd' + regIncmDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="regNo' + regIncmDet.global.itemIndex + '" value="'+item.REG_NO+'" class="regNo">' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="etc' + regIncmDet.global.itemIndex + '" value="'+item.ETC+'" class="etc">' +
@@ -202,7 +206,7 @@ var regIncm = {
                 '       <input type="hidden" id="cardNo' + regIncmDet.global.itemIndex + '" value="'+item.CARD_NO+'" class="cardNo">' +
                 '   </td>' +
 
-                '   <td>' +
+                '   <td style="display: none;">' +
                 '       <input type="text" id="iss' + regIncmDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss" style="display: none;">' +
                 '   </td>' +
 
@@ -267,7 +271,7 @@ var regIncm = {
                 , "crmAccHolder" + regIncmDet.global.itemIndex, "iss" + regIncmDet.global.itemIndex
                 , "crmAccNo" + regIncmDet.global.itemIndex, "totCost" + regIncmDet.global.itemIndex
                 , "supCost" + regIncmDet.global.itemIndex, "vatCost" + regIncmDet.global.itemIndex
-                ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex]);
+                ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex, "regNo" + regIncmDet.global.itemIndex]);
 
             customKendo.fn_datePicker("trDe" + regIncmDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
@@ -295,8 +299,14 @@ var regIncm = {
             dataType: "json",
             success: function (rs) {
                 var rs = rs.data;
-
                 console.log(rs);
+                rs.crmNo = rs.REG_NO.toString().replace(/-/g, "");
+                var g20Result = customKendo.fn_customAjax("/g20/getCrmInfo", rs);
+
+                $("#crmNm0").val(g20Result.map.TR_NM ? g20Result.map.TR_NM : "");
+                $("#trCd0").val(g20Result.map.TR_CD ? g20Result.map.TR_NM : "");
+                $("#regNo0").val(rs.REG_NO.toString().replace(/-/g, ""));
+                $("#trDe0").val(rs.PAY_INCP_DE);
                 $("#appDe").val(rs.PAY_INCP_DE);
 
                 $("#pjtNm").val(rs.AFT_PJT_NM);
@@ -317,6 +327,32 @@ var regIncm = {
 
                 rs.PROFIT_CODE ? $("#busnCd").data("kendoDropDownList").value(rs.PROFIT_CODE) : $("#busnCd").data("kendoDropDownList").value("");
                 rs.PROFIT_CODE ? $("#busnExCd").data("kendoDropDownList").value(rs.PROFIT_CODE) : $("#busnExCd").data("kendoDropDownList").value("");
+
+                console.log(rs);
+
+                if(rs.TAX_CH_GUBUN == "1"){             // 과세
+                    if(rs.EVI_TYPE == 1){               // 세금계산서
+                        if(rs.GUBUN == "a"){            // 청구
+                            $("#eviType0").data("kendoDropDownList").value(1);
+                        } else if(rs.GUBUN == "b"){     // 영수
+                            $("#eviType0").data("kendoDropDownList").value(2);
+                        }
+                    } else if (rs.EVI_TYPE == 3){       // 신용카드
+                        $("#eviType0").data("kendoDropDownList").value(5);
+                    }
+                } else if(rs.TAX_CH_GUBUN == "2"){      // 면세
+                    if (rs.EVI_TYPE == 2){              // 계산서
+                        if(rs.GUBUN == "a"){            // 청구
+                            $("#eviType0").data("kendoDropDownList").value(3);
+                        } else if(rs.GUBUN == "b"){     // 영수
+                            $("#eviType0").data("kendoDropDownList").value(4);
+                        }
+                    } else if (rs.EVI_TYPE == 3){       // 신용카드
+                        $("#eviType0").data("kendoDropDownList").value(6);
+                    }
+                } else if(rs.TAX_CH_GUBUN == "3"){      // 비과세
+                    $("#eviType0").data("kendoDropDownList").value(7);
+                }
             }
         });
     },
@@ -386,6 +422,7 @@ var regIncm = {
                 card : $("#card" + index).val(),
                 cardNo : $("#cardNo" + index).val(),
                 etc : $("#etc" + index).val(),
+                regNo: $("#regNo" + index).val(),
                 iss : $("#iss" + index).val(),
             }
 
@@ -571,7 +608,7 @@ var regIncmDet = {
         });
 
         customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
-            ,"card0", "etc0", "iss0", "budgetNm0"]);
+            ,"card0", "etc0", "iss0", "budgetNm0", "regNo0"]);
 
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
@@ -598,8 +635,12 @@ var regIncmDet = {
             '       <input type="text" id="eviType' + regIncmDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="crmNm' + regIncmDet.global.itemIndex + '" class="crmNm">' +
+            '       <i class="k-i-plus k-icon" style="cursor: pointer" id="plusIcon' + regIncmDet.global.itemIndex + '"  onclick="regIncmDet.fn_popRegDet(1, '+regIncmDet.global.itemIndex+')"></i>' +
+            '       <input type="text" style="width: 70%" id="crmNm' + regIncmDet.global.itemIndex + '" class="crmNm">' +
             '       <input type="hidden" id="trCd' + regIncmDet.global.itemIndex + '" class="trCd">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="regNo' + regIncmDet.global.itemIndex + '" class="regNo">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="etc' + regIncmDet.global.itemIndex + '" class="etc">' +
@@ -622,7 +663,7 @@ var regIncmDet = {
             '       <input type="hidden" id="cardNo' + regIncmDet.global.itemIndex + '" class="cardNo">' +
             '   </td>' +
 
-            '   <td>' +
+            '   <td style="display: none;">' +
             '       <input type="text" id="iss' + regIncmDet.global.itemIndex + '" class="iss">' +
             '   </td>' +
 
@@ -674,7 +715,7 @@ var regIncmDet = {
             , "crmAccHolder" + regIncmDet.global.itemIndex, "iss" + regIncmDet.global.itemIndex
             , "crmAccNo" + regIncmDet.global.itemIndex, "totCost" + regIncmDet.global.itemIndex
             , "supCost" + regIncmDet.global.itemIndex, "vatCost" + regIncmDet.global.itemIndex
-            ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex]);
+            ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex, "regNo" + regIncmDet.global.itemIndex]);
 
         customKendo.fn_datePicker("trDe" + regIncmDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
