@@ -195,7 +195,8 @@
                             <input type="text" id="eviType0" class="eviType" style="width: 100%">
                         </td>
                         <td>
-                            <input type="text" id="crmNm0" class="crmNm">
+                            <i class="k-i-plus k-icon" style="cursor: pointer" id="plusIcon0"  onclick="regIncmDet.fn_popRegDet(1, 0)"></i>
+                            <input type="text" style="width: 70%" id="crmNm0" class="crmNm">
                             <input type="hidden" id="trCd0" class="trCd">
                         </td>
                         <td>

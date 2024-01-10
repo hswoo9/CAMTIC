@@ -178,7 +178,8 @@ var regIncm = {
                 '       <input type="text" id="eviType' + regIncmDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="crmNm' + regIncmDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" id="plusIcon' + regIncmDet.global.itemIndex + '"  onclick="regIncmDet.fn_popRegDet(1, '+regIncmDet.global.itemIndex+')"></i>' +
+                '       <input type="text" style="width: 70%" id="crmNm' + regIncmDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
                 '       <input type="hidden" id="trCd' + regIncmDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
                 '   </td>' +
                 '   <td>' +
@@ -205,7 +206,7 @@ var regIncm = {
                 '       <input type="hidden" id="cardNo' + regIncmDet.global.itemIndex + '" value="'+item.CARD_NO+'" class="cardNo">' +
                 '   </td>' +
 
-                '   <td>' +
+                '   <td style="display: none;">' +
                 '       <input type="text" id="iss' + regIncmDet.global.itemIndex + '" value="'+item.ISS+'"  class="iss" style="display: none;">' +
                 '   </td>' +
 
@@ -298,12 +299,14 @@ var regIncm = {
             dataType: "json",
             success: function (rs) {
                 var rs = rs.data;
+                console.log(rs);
                 rs.crmNo = rs.REG_NO.toString().replace(/-/g, "");
                 var g20Result = customKendo.fn_customAjax("/g20/getCrmInfo", rs);
 
                 $("#crmNm0").val(g20Result.map.TR_NM ? g20Result.map.TR_NM : "");
                 $("#trCd0").val(g20Result.map.TR_CD ? g20Result.map.TR_NM : "");
-                $("#regNo0").val(rs.REG_NO);
+                $("#regNo0").val(rs.REG_NO.toString().replace(/-/g, ""));
+                $("#trDe0").val(rs.PAY_INCP_DE);
                 $("#appDe").val(rs.PAY_INCP_DE);
 
                 $("#pjtNm").val(rs.AFT_PJT_NM);
@@ -419,6 +422,7 @@ var regIncm = {
                 card : $("#card" + index).val(),
                 cardNo : $("#cardNo" + index).val(),
                 etc : $("#etc" + index).val(),
+                regNo: $("#regNo" + index).val(),
                 iss : $("#iss" + index).val(),
             }
 
@@ -631,7 +635,8 @@ var regIncmDet = {
             '       <input type="text" id="eviType' + regIncmDet.global.itemIndex + '" class="eviType" style="width: 100%">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="crmNm' + regIncmDet.global.itemIndex + '" class="crmNm">' +
+            '       <i class="k-i-plus k-icon" style="cursor: pointer" id="plusIcon' + regIncmDet.global.itemIndex + '"  onclick="regIncmDet.fn_popRegDet(1, '+regIncmDet.global.itemIndex+')"></i>' +
+            '       <input type="text" style="width: 70%" id="crmNm' + regIncmDet.global.itemIndex + '" class="crmNm">' +
             '       <input type="hidden" id="trCd' + regIncmDet.global.itemIndex + '" class="trCd">' +
             '   </td>' +
             '   <td>' +

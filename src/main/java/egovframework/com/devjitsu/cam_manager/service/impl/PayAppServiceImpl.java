@@ -542,9 +542,9 @@ public class PayAppServiceImpl implements PayAppService {
         Map<String, Object> pkMap = payAppRepository.getIncpData(params);
 
         if(type.equals("resolution")){
-            params.put("evidTypeArr", "1,2,3,4,5,6");
+            params.put("evidTypeArr", "1,3,5,6");
         }else{
-            params.put("evidTypeArr", "7");
+            params.put("evidTypeArr", "2,4,7");
         }
         list = payAppRepository.getIncpG20List(params);
 
