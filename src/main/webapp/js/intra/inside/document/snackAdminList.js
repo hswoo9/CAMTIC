@@ -126,10 +126,10 @@ var snackAdminList = {
                     width: 100,
                     template: function(row){
                         sum += Number(row.AMOUNT_SN);
-                        return fn_numberWithCommas(row.AMOUNT_SN);
+                        return "<div style='text-align: right'>" + fn_numberWithCommas(row.AMOUNT_SN) + "</div>";
                     },
                     footerTemplate: function(){
-                        return "총계 : "+fn_numberWithCommas(sum)+" 원";
+                        return "<div style='text-align: right'><span id='total'></span></div>";
                     }
                 }, {
                     field: "PAY_TYPE_TEXT",
@@ -171,7 +171,12 @@ var snackAdminList = {
                     },
                     width: 80
                 }
-            ]
+            ],
+            dataBound: function(){
+
+                $("#total").text("총계 :" + fn_numberWithCommas(sum) + " 원");
+                sum = 0;
+            }
         }).data("kendoGrid");
     },
 

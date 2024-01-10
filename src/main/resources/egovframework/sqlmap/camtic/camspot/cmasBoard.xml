@@ -82,6 +82,7 @@
             BA.BOARD_ARTICLE_VIEW_COUNT,
             BA.BOARD_ARTICLE_GROUP,
             BA.BOARD_ARTICLE_LEVEL,
+            BA.BOARD_ID,
             EI.EMP_SEQ,
             EI.EMP_NAME_KR,
             BA.PUBLIC_YN,
