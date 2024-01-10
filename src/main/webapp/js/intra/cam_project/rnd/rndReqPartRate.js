@@ -64,7 +64,7 @@ var rndRPR = {
 
             if(userName != ""){
                 // $("#joinMemberPart").val(userName);
-                $("#joinMemberSn").val(userSn);
+                //$("#joinMemberSn").val(userSn);
             }
             $("#saveRateBtn").css("display", "");
 
