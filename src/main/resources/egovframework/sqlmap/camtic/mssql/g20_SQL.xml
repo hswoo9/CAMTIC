@@ -62,15 +62,15 @@
         </if>
         <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-                A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
+                A.PJT_CD LIKE '%' + #{searchText} + '%'
         </if>
         <if test='"2".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-                A.PJT_NM LIKE CONCAT('%', #{searchText}, '%')
+                A.PJT_NM LIKE '%' + #{searchText} + '%'
         </if>
         <if test='"3".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-                C.KOR_NM LIKE CONCAT('%', #{searchText}, '%')
+                C.KOR_NM LIKE '%' + #{searchText} + '%'
         </if>
     </select>
 
@@ -91,22 +91,22 @@
             <when test='searchValue2 != null and !"".equals(searchValue2)'>
                 <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
                     AND
-                    A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
+                    A.PJT_CD LIKE '%' + #{searchText} + '%'
                 </if>
                 <if test='"2".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
                     AND
-                    A.PJT_NM LIKE CONCAT('%', #{searchText}, '%')
+                    A.PJT_NM LIKE '%' + #{searchText} + '%'
                 </if>
                 <if test='"3".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
                     AND
-                    C.KOR_NM LIKE CONCAT('%', #{searchText}, '%')
+                    C.KOR_NM LIKE '%' + #{searchText} + '%'
                 </if>
             </when>
             <otherwise>
                 <if test='searchValue != null and !"".equals(searchValue)'>
-                    AND (A.PJT_CD LIKE CONCAT('%', #{searchText}, '%')
-                    OR A.PJT_NM LIKE CONCAT('%', #{searchText}, '%')
-                    OR C.KOR_NM LIKE CONCAT('%', #{searchText}, '%'))
+                    AND (A.PJT_CD LIKE '%' + #{searchText} + '%'
+                    OR A.PJT_NM LIKE '%' + #{searchText} + '%'
+                    OR C.KOR_NM LIKE '%' + #{searchText} + '%')
                 </if>
             </otherwise>
         </choose>
