@@ -54,5 +54,9 @@ public class SalaryManageRepository extends AbstractDAO  {
     public List<Map<String, Object>> getExcelEmpInfoList() {
         return selectList("salaryManage.getExcelEmpInfoList");
     }
+
+    public int getExcelEmpSeq(Map<String, Object> dataMap) {
+        return (int) selectOne("salaryManage.getExcelEmpSeq", dataMap);
+    }
 }
 

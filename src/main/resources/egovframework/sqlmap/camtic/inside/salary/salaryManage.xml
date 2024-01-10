@@ -354,7 +354,7 @@
 
     <select id="getExcelEmpInfoList" parameterType="map" resultType="map">
         SELECT
-            EMP_SEQ
+            ERP_EMP_SEQ
             ,EMP_NAME_KR
         FROM
             CAM_HR.DJ_EMP_INFO
@@ -364,6 +364,18 @@
             WORK_STATUS_CODE = 'Y'
         AND
             DEPT_SEQ IS NOT NULL
+        AND
+            ERP_EMP_SEQ != ''
+    </select>
+
+    <select id="getExcelEmpSeq" parameterType="map" resultType="int">
+        SELECT
+            EMP_SEQ
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            ERP_EMP_SEQ = #{erpEmpSeq}
+        LIMIT 1
     </select>
 </mapper>
 
