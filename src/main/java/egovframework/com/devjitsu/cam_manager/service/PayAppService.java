@@ -92,4 +92,6 @@ public interface PayAppService {
     void payAppRevert(Map<String, Object> params);
 
     List<Map<String, Object>> getPayDepoFileList(Map<String, Object> params);
+
+    List<Map<String, Object>> getPayExnpFileList(Map<String, Object> params);
 }

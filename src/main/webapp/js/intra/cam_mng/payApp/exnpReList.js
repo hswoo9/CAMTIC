@@ -127,6 +127,16 @@ var exnpReList = {
                             return "승인"
                         }
                     }
+                }, {
+                    title: "첨부",
+                    width: 60,
+                    template: function(e){
+                        if(e.RE_STAT == "N"){
+                            return ""
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="exnpReList.fn_regPayAttPop('+e.PAY_APP_SN+', '+e.EXNP_SN+')">첨부</button>';
+                        }
+                    }
                 }
             ],
             dataBinding: function(){
@@ -177,5 +187,12 @@ var exnpReList = {
 
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
+
+    fn_regPayAttPop : function (key, exnpKey){
+        var url = "/payApp/pop/regReListFilePop.do?payAppSn=" + key + "&exnpSn=" + exnpKey;
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
+    }
 
 }
