@@ -40,13 +40,25 @@ var appView = {
                 html += '</tr></thead></table>';
 
                 $("#applicationList").append(html);
-
             },
             error: function(error){
                 console.log("ajax 요청 중 오류가 발생하였습니다.",error);
             }
-
         });
+
+        appView.getCareerSum();
+    },
+
+    getCareerSum : function(){
+        /** 개월수 총합 계산 */
+        let sum = 0;
+        let sumText = "";
+        $(".careerDiff").each(function(){
+            const mm = $(this).val();
+            sum += Number(mm);
+        });
+        sumText = Math.floor(sum/12)+"년"+(sum%12)+"개월";
+        $("#totCareer").text(sumText);
     },
 
     getNewData : function (e){
@@ -64,12 +76,12 @@ var appView = {
                 console.log("js data : ",responseData);
                 $("#mainGrid *").remove();
                 appView.changeMainGrid(responseData);
+                appView.getCareerSum();
             },
             error: function (error){
                 console.error("Error fetching data:", error);
             }
         });
-
     },
 
     changeMainGrid : function(e){
@@ -234,7 +246,8 @@ var appView = {
                 '      </table>' +
                 '</thead>' +
                 '      </table>' +
-                '      <table class="popTable table table-bordered mb-0 mt10 text-center">' +
+                '<div class="mb-0 mt10" style="text-align: right"><b>※ 총 경력 : <span id="totCareer"></span></b></div>' +
+                '      <table class="popTable table table-bordered text-center" style="margin-top: 0">' +
                 '        <colgroup>' +
                 '          <col width="15%">' +
                 '          <col>' +
@@ -258,7 +271,9 @@ var appView = {
 
             html += '<tr>';
             html += '<td>' + item.CAREER_ORG_NAME + '</td>';
-            html += '<td>' + item.WORK_ST_DT + ' ~ ' + item.WORK_EN_DT + '</td>';
+            html += '<td>' + item.WORK_ST_DT + ' ~ ' + item.WORK_EN_DT + '<br>('+item.DIFF_YEAR+'년 '+item.DIFF_MONTH+'개월)' +
+                '<input type="hidden" class="careerDiff" value="'+item.DIFF+'">'+
+                '</td>';
             html += '<td>' + item.POSITION + '</td>';
             html += '<td>' + item.CHARGE_WORK + '</td>';
             html += '<td>' + item.RETIRE_SALARY + '</td>';

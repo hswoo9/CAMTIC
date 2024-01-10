@@ -376,9 +376,12 @@
     <select id="getApplicationCareer" parameterType="map" resultType="map">
         /* getApplicationCareer */
         SELECT
-            *
+            A.*,
+            TIMESTAMPDIFF(MONTH, WORK_ST_DT, DATE_ADD(DATE_FORMAT(WORK_EN_DT, '%Y%m%d'), INTERVAL 1 MONTH)) AS DIFF,
+            TRUNCATE(TIMESTAMPDIFF(MONTH, WORK_ST_DT, DATE_ADD(DATE_FORMAT(WORK_EN_DT, '%Y%m%d'), INTERVAL 1 MONTH)) / 12, 0) AS DIFF_YEAR,
+            TIMESTAMPDIFF(MONTH, WORK_ST_DT, DATE_ADD(DATE_FORMAT(WORK_EN_DT, '%Y%m%d'), INTERVAL 1 MONTH)) % 12 AS DIFF_MONTH
         FROM
-            CAM_INSIDE.DJ_APPLICATION_CAREER
+            CAM_INSIDE.DJ_APPLICATION_CAREER A
         WHERE
             APPLICATION_ID = #{applicationId}
     </select>

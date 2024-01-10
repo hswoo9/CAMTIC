@@ -193,7 +193,8 @@
         </thead>
       </table>
 
-      <table class="popTable table table-bordered mb-0 mt10 text-center">
+      <div class="mb-0 mt10" style="text-align: right"><b>※ 총 경력 : <span id="totCareer"></span></b></div>
+      <table class="popTable table table-bordered text-center" style="margin-top: 0">
         <colgroup>
           <col width="15%">
           <col>
@@ -215,7 +216,9 @@
         <c:forEach var="item" items="${data.career}">
           <tr>
             <td>${item.CAREER_ORG_NAME}</td>
-            <td>${item.WORK_ST_DT} ~ ${item.WORK_EN_DT}</td>
+            <td>${item.WORK_ST_DT} ~ ${item.WORK_EN_DT}<br>(${item.DIFF_YEAR}년 ${item.DIFF_MONTH}개월)
+              <input type="hidden" class="careerDiff" value="${item.DIFF}">
+            </td>
             <td>${item.POSITION}</td>
             <td>${item.CHARGE_WORK}</td>
             <td>${item.RETIRE_SALARY}</td>
