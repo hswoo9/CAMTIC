@@ -250,12 +250,32 @@ fn_chngDeptComp : function (){
         }).data("kendoGrid");
     },
 
+    /*onDataBound: function(){
+        const grid = this;
+        grid.tbody.find("tr").dblclick(function (e) {
+
+
+            const dataItem = grid.dataItem($(this));
+            const eduInfoId = dataItem.EDU_INFO_ID;
+            eduInfoMng.eduInfoViewPop(eduInfoId);
+        });
+    },
+*/
     onDataBound: function(){
         const grid = this;
         grid.tbody.find("tr").dblclick(function (e) {
             const dataItem = grid.dataItem($(this));
-            const eduInfoId = dataItem.EDU_INFO_ID;
-            eduInfoMng.eduInfoViewPop(eduInfoId);
+            const RES_STATUS = dataItem.RES_STATUS;
+
+            if(RES_STATUS == "0" || RES_STATUS == "10" || RES_STATUS == "100"){
+                const dataItem = grid.dataItem($(this));
+                const eduInfoId = dataItem.EDU_INFO_ID;
+                eduInfoMng.eduResultViewPop(eduInfoId);
+            }else{
+                const dataItem = grid.dataItem($(this));
+                const eduInfoId = dataItem.EDU_INFO_ID;
+                eduInfoMng.eduInfoViewPop(eduInfoId);
+            }
         });
     },
 
@@ -263,6 +283,15 @@ fn_chngDeptComp : function (){
         let url = "/Campus/pop/eduInfoViewPop.do?eduInfoId="+eduInfoId+"&isAdmin=Y";
         const name = "popup";
         const option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    eduResultViewPop: function(eduInfoId) {
+        let mode = "mng";
+        let url = "/Campus/pop/eduResultViewPop.do?eduInfoId="+eduInfoId;
+        url += "&mode="+mode;
+        const name = "popup";
+        const option = "width = 1000, height = 800, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 
