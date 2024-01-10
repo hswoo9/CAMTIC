@@ -354,7 +354,7 @@
                     if (rs.code == 200) {
                         alert("저장되었습니다.");
                         opener.location.reload();
-                        location.href = "/campus/pop/resultDocPop.do?pk=" + rs.params.studyInfoSn + "&studyResultSn=" + rs.params.studyResultSn;
+                        location.href = "/campus/pop/resultDocPop.do?pk=" + rs.params.studyInfoSn + "&mode=upd&&studyResultSn=" + rs.params.studyResultSn;
                     }
                 }
             })

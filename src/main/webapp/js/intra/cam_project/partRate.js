@@ -190,7 +190,7 @@ var partRate = {
                 memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" value="'+partRate.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'"></td>';
                 memHtml += '   <td><input type="text" id="memPayRate'+i+'" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
                 memHtml += '   <td><input type="text" id="memTotPayBudget'+i+'" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
-                memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
+                memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this, true);" oninput="this.value = this.value.replace(/[^\\d.]/g, \'\').replace(/(\\..*?)\\./g, \'$1\');"></td>';
                 memHtml += '   <td><input type="text" id="memTotItemBudget'+i+'" name="totItemBudget" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this, false);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';      // 인건비 현물 총액
                 memHtml += '   <td><input type="text" id="memTotRate'+i+'" name="totRate" style="text-align: right" disabled value="0"></td>';      // 총 참여율(%)
                 memHtml += '   <td><input type="text" id="memPayTotal'+i+'" name="payTotal" style="text-align: right" value="0" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"></td>';
@@ -281,7 +281,6 @@ var partRate = {
 
         $("#partRateMember").append(lastHtml);
 
-
         customKendo.fn_textBox(["allPayTotal", "payTotal", "itemTotal"]);
 
         var itemBdgt = 0;
@@ -316,7 +315,7 @@ var partRate = {
             customFlag = false;
         }
 
-        if(e != null && e != "" && e != undefined){
+        if(e != null && e != "" && e != undefined && !x){
             inputNumberFormat(e);
         }
 
@@ -326,7 +325,6 @@ var partRate = {
             partRate.global.flag = false;
             return;
         }
-
 
         $("#memMon" + i).val(partRate.fn_monDiff($("#memStrDt" + i).val(), $("#memEndDt" + i).val()));                                  // 참여개월 계산
 
@@ -342,7 +340,8 @@ var partRate = {
         }
 
         if(!customFlag) {
-            $("#memItemRate" + i).val(Math.round(Number(uncomma($("#memTotItemBudget" + i).val())) / Number(uncomma($("#memPayTotal" + i).val())) * memTotRate));
+            //$("#memItemRate" + i).val(Math.round(Number(uncomma($("#memTotItemBudget" + i).val())) / Number(uncomma($("#memPayTotal" + i).val())) * memTotRate));
+            $("#memItemRate" + i).val(Number(uncomma($("#memTotItemBudget" + i).val())) / Number(uncomma($("#memPayTotal" + i).val())) * memTotRate);
         }
 
         var memPayRate = Math.round(($("#memTotRate" + i).val() - $("#memItemRate" + i).val()) * 10) / 10;
@@ -351,6 +350,7 @@ var partRate = {
         }
 
         var memTotPayBudget = comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) / ($("#memTotRate" + i).val() / $("#memPayRate" + i).val())));
+        var memTotItemBudget = comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) / ($("#memTotRate" + i).val() / $("#memItemRate" + i).val())));
         if($("#memItemRate" + i).val() == 0){
             $("#memTotPayBudget" + i).val(comma($("#memPayTotal" + i).val()));
         } else {
@@ -358,12 +358,12 @@ var partRate = {
                 $("#memTotPayBudget" + i).val(memTotPayBudget);
             }
         }
+        
+        //$("#memTotItemBudget" + i).val(comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotPayBudget" + i).val())))));
+        $("#memTotItemBudget" + i).val(memTotItemBudget);
 
         var calData = $("#memTotPayBudget" + i);
         calData.val(comma(Math.round( Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotItemBudget" + i).val())) )));
-
-        $("#memTotItemBudget" + i).val(comma(Math.round(Number(uncomma($("#memPayTotal" + i).val())) - Number(uncomma($("#memTotPayBudget" + i).val())))));
-        //$("#memTotItemBudget" + i).val(comma(Math.round(  Number(uncomma($("#memTotItemBudget" + i).val())) / Number(uncomma($("#memPayTotal" + i).val())) )));
 
         //여기서부터 합계 계산
         var totPay = 0;

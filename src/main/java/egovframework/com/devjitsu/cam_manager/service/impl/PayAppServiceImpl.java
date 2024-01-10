@@ -1274,4 +1274,9 @@ public class PayAppServiceImpl implements PayAppService {
         }
         return listMap;
     }
+
+    @Override
+    public List<Map<String, Object>> getPayExnpFileList(Map<String, Object> params) {
+        return payAppRepository.getPayExnpFileList(params);
+    }
 }

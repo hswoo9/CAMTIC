@@ -467,6 +467,7 @@ public class CampusController {
         model.addAttribute("data", data);
         String EDU_FORM_TYPE = data.get("EDU_FORM_TYPE").toString();
         model.addAttribute("eduFormType", EDU_FORM_TYPE);
+        model.addAttribute("params", params);
 
         String directory = "";
         int eduFormType = Integer.parseInt(EDU_FORM_TYPE);

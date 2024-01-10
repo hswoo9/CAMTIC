@@ -18,20 +18,26 @@
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
+<input type="hidden" id="mode" value="${params.mode}"/>
 <div class="col-lg-12" style="padding:0;">
   <div class="card-header pop-header">
     <h3 class="card-title title_NM">교육 결과보고서 조회</h3>
     <div class="btn-st popButton">
         <c:choose>
           <c:when test="${data.RES_STATUS == 0}">
-            <input type="button" id="studyModBtn" class="k-button k-button-solid-primary" value="수정" onclick="eduResultViewPop.resultUpdatePop();"/>
+            <c:if test="${params.mode != 'mng'}">
+             <input type="button" id="studyModBtn" class="k-button k-button-solid-primary" value="수정" onclick="eduResultViewPop.resultUpdatePop();"/>
+            </c:if>
             <input type="button" class="k-button k-button-solid-info" value="학습신청서 열람" onclick="eduResultViewPop.approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
-            <input type="button" class="k-button k-button-solid-info" value="결재요청" onclick="eduResultViewPop.campusResDrafting();"/>
+            <c:if test="${params.mode != 'mng'}">
+              <input type="button" class="k-button k-button-solid-info" value="결재요청" onclick="eduResultViewPop.campusResDrafting();"/>
+            </c:if>
           </c:when>
           <c:when test="${data.RES_STATUS == 10}">
             <input type="button" class="k-button k-button-solid-info" value="회수" onclick="docApprovalRetrieve('${data.RES_DOC_ID}', '${data.RES_APPRO_KEY}', 1, 'retrieve');"/>
           </c:when>
           <c:when test="${data.RES_STATUS == 100}">
+            <input type="button" class="k-button k-button-solid-info" value="학습신청서 열람" onclick="eduResultViewPop.approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
             <input type="button" class="k-button k-button-solid-info" value="결과보고서 결재조회" onclick="approveDocView('${data.RES_DOC_ID}', '${data.RES_APPRO_KEY}', '${data.RES_DOC_MENU_CD}');"/>
           </c:when>
         </c:choose>
