@@ -282,7 +282,7 @@ var delvInfo = {
             alert("협업 등록 후 전자결재 상신이 가능합니다."); return;
         }
 
-        /*var pjCode = $("#pjCode").val();
+        var pjCode = $("#pjCode").val();
         var supDep = $("#supDep").val();
         var supDepSub = $("#supDepSub").val();
         var pjtStat = $("#pjtStat").val();
@@ -338,6 +338,6 @@ var delvInfo = {
                     this.target = '_self';
                 }).trigger("submit");
             }
-        });*/
+        });
     }
 }
