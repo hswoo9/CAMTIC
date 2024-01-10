@@ -296,7 +296,6 @@ var regIncm = {
             success: function (rs) {
                 var rs = rs.data;
 
-                console.log(rs);
                 $("#appDe").val(rs.PAY_INCP_DE);
 
                 $("#pjtNm").val(rs.AFT_PJT_NM);
@@ -317,6 +316,32 @@ var regIncm = {
 
                 rs.PROFIT_CODE ? $("#busnCd").data("kendoDropDownList").value(rs.PROFIT_CODE) : $("#busnCd").data("kendoDropDownList").value("");
                 rs.PROFIT_CODE ? $("#busnExCd").data("kendoDropDownList").value(rs.PROFIT_CODE) : $("#busnExCd").data("kendoDropDownList").value("");
+
+                console.log(rs);
+
+                if(rs.TAX_CH_GUBUN == "1"){             // 과세
+                    if(rs.EVI_TYPE == 1){               // 세금계산서
+                        if(rs.GUBUN == "a"){            // 청구
+                            $("#eviType0").data("kendoDropDownList").value(1);
+                        } else if(rs.GUBUN == "b"){     // 영수
+                            $("#eviType0").data("kendoDropDownList").value(2);
+                        }
+                    } else if (rs.EVI_TYPE == 3){       // 신용카드
+                        $("#eviType0").data("kendoDropDownList").value(5);
+                    }
+                } else if(rs.TAX_CH_GUBUN == "2"){      // 면세
+                    if (rs.EVI_TYPE == 2){              // 계산서
+                        if(rs.GUBUN == "a"){            // 청구
+                            $("#eviType0").data("kendoDropDownList").value(3);
+                        } else if(rs.GUBUN == "b"){     // 영수
+                            $("#eviType0").data("kendoDropDownList").value(4);
+                        }
+                    } else if (rs.EVI_TYPE == 3){       // 신용카드
+                        $("#eviType0").data("kendoDropDownList").value(6);
+                    }
+                } else if(rs.TAX_CH_GUBUN == "3"){      // 비과세
+                    $("#eviType0").data("kendoDropDownList").value(7);
+                }
             }
         });
     },
