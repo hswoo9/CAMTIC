@@ -98,7 +98,7 @@ var regisList = {
                 }, {
                     field: "SHIPMENT_DATE",
                     title: "접수 일자",
-                    width: "10%"
+                    width: "8%"
                 }, {
                     field: "RECEIVE_NAME",
                     title: "발신 기관",
@@ -106,34 +106,34 @@ var regisList = {
                 }, {
                     field: "EFFECTIVE_DATE",
                     title: "시행 일자",
-                    width: "10%"
+                    width: "8%"
                 }, {
                     title: "접수 번호",
-                    width: "10%",
+                    width: "8%",
                     template: function(row){
                         return row.DOCUMENT_FIRST_NUMBER+"-"+row.DOCUMENT_SECOND_NUMBER;
                     }
                 }, {
                     title: "제목",
-                    width: "20%",
+                    width: "35%",
                     template : function(row) {
                         if (row.DEL_STS == 1) {
-                            return "<span style='text-decoration: none;' >"+row.DOCUMENT_TITLE_NAME+"</span>";
+                            return "<span style='text-decoration: none;' >"+titleCut(row.DOCUMENT_TITLE_NAME, 48)+"</span>";
                         }else if(row.DEL_STS == 10){
-                            return "<span style='text-decoration: line-through; cursor: pointer;' onclick=\"regisList.tmpDelCancel('" +row.DOCUMENT_SN + "', '" + row.DEL_STS + "', '" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">"+row.DOCUMENT_TITLE_NAME+"</span>";
+                            return "<span style='text-decoration: line-through; cursor: pointer;' onclick=\"regisList.tmpDelCancel('" +row.DOCUMENT_SN + "', '" + row.DEL_STS + "', '" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">"+titleCut(row.DOCUMENT_TITLE_NAME, 48)+"</span>";
                         }
                     }
                 }, {
                     field: "MANAGER_NAME",
                     title: "접수자",
-                    width: "10%"
+                    width: "8%"
                 }, {
                     field: "DEPT_PART_TEXT",
                     title: "담당부서",
                     width: "10%"
                 }, {
                     title: "비고",
-                    width: "10%",
+                    width: "7%",
                     template: function(row){
                         if(row.ETC_CN != "") {
                             return "<span onmouseover='docuList.showEtcDiv(\""+row.DOCUMENT_SN+"\")' onmouseout='docuList.hideEtcDiv(\""+row.DOCUMENT_SN+"\")'>보기</span>";

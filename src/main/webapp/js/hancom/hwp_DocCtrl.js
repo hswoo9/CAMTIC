@@ -54,7 +54,7 @@ var hwpDocCtrl = {
 
                     if(ResultData.SUBHOLIDAY_CODE_ID != "11") {
 
-                        hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
+                        hwpDocCtrl.putFieldText('positionName', ResultData.DUTY_NAME == "" ? ResultData.POSITION_NAME : ResultData.DUTY_NAME);
 
                         hwpDocCtrl.putFieldText('holidayDate', ResultData.SUBHOLIDAY_ST_DT+" "+ResultData.SUBHOLIDAY_ST_TIME+" "+ResultData.SUBHOLIDAY_EN_DT+" "+ResultData.SUBHOLIDAY_EN_TIME);
 

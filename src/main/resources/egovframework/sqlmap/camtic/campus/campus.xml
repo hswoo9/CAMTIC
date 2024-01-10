@@ -109,9 +109,12 @@
                     EI.TREA_TYPE,
                     EI.TREA_USER,
                     EI.BOOK_UNIT,
+                    HEI.POSITION_NAME,
                     IFNULL(ER.REAL_EDU_TIME, 0) AS REAL_EDU_TIME
                 FROM
                     CAMPUS.DJ_EDU_INFO EI
+                LEFT JOIN
+                    CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = EI.REG_EMP_SEQ
                 LEFT JOIN
                     CAMPUS.DJ_EDU_RESULT ER ON EI.EDU_INFO_ID = ER.EDU_INFO_ID,
                 (SELECT @ROWNUM := 0) TMP
@@ -157,6 +160,14 @@
                     AND
                         ER.MNG_CHECK = #{mngCheck}
                 </if>
+<if test='position != null and !"".equals(position)'>
+    AND
+        HEI.POSITION_NAME = #{position}
+</if>
+<if test='duty != null and !"".equals(duty)'>
+    AND
+        HEI.POSITION_NAME = #{duty}
+</if>
                 AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear})
                 ORDER BY EI.EDU_INFO_ID
             ) RE
@@ -2722,9 +2733,9 @@
     <update id="setOpenStudyRealEduTimeUpd" parameterType="map">
         /* setOpenStudyRealEduTimeUpd */
         UPDATE
-            CAMPUS.DJ_STUDY_USER
+            CAMPUS.DJ_OPENSTUDY_USER
         SET
-            STUDY_INFO_SN = #{realEduTime}
+            REAL_EDU_TIME = #{realEduTime}
         WHERE
             REG_EMP_SEQ = #{regEmpSeq}
           AND

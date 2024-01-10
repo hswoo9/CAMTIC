@@ -16,7 +16,6 @@
         <div class="panel-body">
             <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
-
                     <tr>
                         <th class="text-center th-color">조회년도</th>
                         <td>
@@ -30,6 +29,16 @@
                         <td>
                             <input type="text" id="deptTeam" style="width: 160px;">
                         </td>
+                        <th class="text-center th-color">직책</th>
+                        <td>
+                            <input type="text" id="duty" style="width: 160px;">
+                        </td>
+                        <th class="text-center th-color">직급</th>
+                        <td>
+                            <input type="text" id="position" style="width: 160px;">
+                        </td>
+                    </tr>
+                    <tr>
                         <th class="text-center th-color">학습구분</th>
                         <td>
                             <input type="text" id="studyClass" style="width: 170px;">
@@ -41,7 +50,7 @@
                             <input type="hidden" id="mngCheck">
                         </td>
                         <th class="text-center th-color">성명</th>
-                        <td>
+                        <td colspan="5">
                             <input type="text" id="kindContent" style="width: 150px;">
                         </td>
 

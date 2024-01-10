@@ -64,6 +64,13 @@ var bustList = {
                             '	<span class="k-button-text">신청</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'button',
+                    template : function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bustripList.fn_delBtn()">' +
+                            '	<span class="k-button-text">신청취소</span>' +
+                            '</button>';
+                    }
                 }
             ],
             dataBound : function(e){
@@ -85,6 +92,16 @@ var bustList = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'bstCheck\');" class=""/>',
+                    template: function(row){
+                        if(row.STATUS == 0){
+                            return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_ID+"' style='position: relative; top:3px' class='bstCheck'/>"
+                        }else{
+                            return "";
+                        }
+                    },
+                    width: 30
+                }, {
                     title: "출장구분",
                     width: 50,
                     template: function(row){

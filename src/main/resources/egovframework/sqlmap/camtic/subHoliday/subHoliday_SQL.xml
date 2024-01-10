@@ -253,7 +253,8 @@
             EI.DEPT_NAME,
             EI.DEPT_TEAM_NAME,
             EI.POSITION_CODE,
-            EI.POSITION_NAME,
+            IFNULL(EI.POSITION_NAME, '') AS POSITION_NAME,
+            IFNULL(EI.DUTY_NAME, '') AS DUTY_NAME,
             EI.DUTY_CODE
         FROM
             CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SUH
@@ -331,11 +332,11 @@
         /*1(연차), 3(오전반차), 4(오후반차), 5(병가), 6(공가), 7(경조휴가), 8(출산휴가), 9(대체휴가), 10(근속포상휴가), 11(휴일근로)*/
 
         SELECT VUI.emp_seq,
-               VUI.emp_name_kr,
-               VUI.dept_name,
-               VUI.position_name,
-               VUI.dept_team_name,
-               VUI.duty_name,
+               VUI.EMP_NAME_KR,
+               (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE VUI.DEPT_NAME END) AS DEPT_NAME,
+               (CASE WHEN HDI.DEPT_LEVEL = 2 THEN VUI.DEPT_NAME ELSE "" END) AS TEAM_NAME,
+               VUI.DUTY_NAME,
+                VUI.POSITION_NAME,
                Date_format(VUI.join_day, '%Y-%m-%d') AS JOIN_DAY,
                VUI.active,
                VC.apply_year,
@@ -417,23 +418,23 @@
              WHEN VUH.subholiday_code_id = 11 THEN 1
              ELSE 0
            END) AS HOLIDAYWORK
-        FROM   cam_inside.dj_holiday VC
-        LEFT JOIN cam_hr.dj_emp_info VUI
-        ON VC.emp_seq = VUI.emp_seq
-        LEFT JOIN cam_inside.dj_subholiday_use_hist VUH
-        ON VUI.emp_seq = VUH.reg_emp_seq AND VUH.ACTIVE = 'Y'
-        WHERE  VUH.subholiday_code_id IN ( 1, 3, 4, 5, 6, 7, 8, 9, 10, 11 )
-        <if test='holidayYear != null and !"".equals(holidayYear)'>
-            AND VC.APPLY_YEAR = #{holidayYear}
+        FROM cam_hr.dj_emp_info VUI
+
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON VUI.DEPT_SEQ = HDI.DEPT_SEQ
+
+        LEFT JOIN cam_inside.dj_holiday VC ON VC.emp_seq = VUI.emp_seq AND VC.APPLY_YEAR = #{holidayYear}
+
+        LEFT JOIN cam_inside.dj_subholiday_use_hist VUH ON VUI.emp_seq = VUH.reg_emp_seq AND VUH.ACTIVE = 'Y' AND LEFT(VUH.SUBHOLIDAY_ST_DT, 4) = #{holidayYear} AND VUH.subholiday_code_id IN ( 1, 3, 4, 5, 6, 7, 8, 9, 10, 11 )
+        <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
+            AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
         </if>
+
+        WHERE 1=1
         <if test='deptName != null and !"".equals(deptName)'>
             AND VUI.DEPT_NAME = #{deptName}
         </if>
         <if test='deptTeamName != null and !"".equals(deptTeamName)'>
             AND VUI.DEPT_NAME = #{deptTeamName}
-        </if>
-        <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
-            AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
         </if>
         <if test='searchVal != null and !"".equals(searchVal)'>
             AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
@@ -448,23 +449,7 @@
             AND
             TEMP_DIVISION = "Y"
         </if>
-        GROUP BY VUI.emp_seq,
-            VUI.emp_name_kr,
-            VUI.dept_name,
-            VUI.position_name,
-            VUI.duty_name,
-            Date_format(VUI.join_day, '%Y-%m-%d'),
-            VUI.active,
-            VC.apply_year,
-            Concat(VC.apply_year, '-01-01'),
-            Concat(VC.apply_year, '-12-31'),
-            VC.grant_day,
-            VC.mdtn_day,
-            VC.extra_day,
-            VC.use_day,
-            ( ( VC.grant_day + VC.mdtn_day + VC.extra_day ) - ( VC.use_day ) ),
-            VC.active,
-            VC.holiday_id
+        GROUP BY VUI.EMP_SEQ
     </select>
 
     <update id="updateApprStat" parameterType="map">

@@ -48,6 +48,34 @@ var eduInfoMng = {
         $("#status").data("kendoDropDownList").select(0);
         $("#status").data("kendoDropDownList").trigger("change");
 
+        let positionCode = [
+            {text: "수석행정원 / 1급", value: "수석행정원"},
+            {text: "수석매니저 / 1급", value: "수석매니저"},
+            {text: "수석연구원 / 1급", value: "수석연구원"},
+            {text: "책임행정원 / 2급", value: "책임행정원"},
+            {text: "책임매니저 / 2급", value: "책임매니저"},
+            {text: "책임연구원 / 2급", value: "책임연구원"},
+            {text: "선임연구원 / 3급", value: "선임연구원"},
+            {text: "선임매니저 / 3급", value: "선임매니저"},
+            {text: "선임행정원 / 3급", value: "선임행정원"},
+            {text: "주임매니저 / 4급", value: "주임매니저"},
+            {text: "행정원 / 4급", value: "행정원"},
+            {text: "주임행정원 / 4급", value: "주임행정원"},
+            {text: "매니저 / 4급", value: "매니저"},
+            {text: "주임연구원 / 4급", value: "주임연구원"},
+            {text: "연구원 / 4급", value: "연구원"}
+        ]
+        customKendo.fn_dropDownList("position", positionCode, "text", "value");
+
+        let dutyCode = [
+            {text: "원장", value: "1"},
+            {text: "본부장", value: "2"},
+            {text: "사업부장", value: "3"},
+            {text: "센터장", value: "4"},
+            {text: "팀장", value: "5"}
+        ]
+        customKendo.fn_dropDownList("duty", dutyCode, "text", "value");
+
 
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
@@ -107,6 +135,8 @@ fn_chngDeptComp : function (){
                     type: "post"
                 },
                 parameterMap: function(data) {
+                    data.position = $("#position").val();
+                    data.duty = $("#duty").val();
                     data.status = $("#status").val();
                     data.resStatus =$("#resStatus").val();
                     data.mngCheck =$("#mngCheck").val();
