@@ -129,41 +129,41 @@ var esm = {
                 template: "데이터가 존재하지 않습니다."
             },
             columns: [
-                {
+                /*{
                     title: "순번",
                     width: 50,
                     template: "#= --record #",
-                }, {
+                }, */{
                     field : "EMP_NAME_KR",
                     title : "이름",
-                    width: 80,
+                    width: 50,
                 }, {
                     field : "RES_REGIS_NUM",
                     title : "주민등록번호",
-                    width: 150,
+                    width: 70,
                 }, {
                     field : "JOIN_DAY",
                     title : "입사일",
-                    width: 120,
+                    width: 70,
                 }, {
                     field : "DIVISION",
                     title : "직원유형",
-                    width: 120,
+                    width: 50,
                 }, {
                     field : "DEPT_NAME",
                     title : "부서/팀",
-                    width: 300,
+                    width: 200,
                 }, {
                     title : "기본급여 적용기간",
                     columns : [
                         {
                             field: "START_DT",
                             title: "시작일",
-                            width: 120,
+                            width: 70,
                         }, {
                             field: "END_DT",
                             title: "종료일",
-                            width: 120,
+                            width: 70,
                         }
                     ]
                 }, {
@@ -172,21 +172,21 @@ var esm = {
                         {
                             field: "BASIC_SALARY",
                             title: "기본급",
-                            width: 150,
+                            width: 50,
                             template : function(e){
                                 return e.BASIC_SALARY.toString().toMoney();
                             }
                         }, {
                             field: "EXTRA_PAY",
                             title: "수당",
-                            width: 150,
+                            width: 50,
                             template : function(e){
                                 return e.EXTRA_PAY.toString().toMoney();
                             }
                         }, {
                             field: "BONUS",
                             title: "상여",
-                            width: 150,
+                            width: 50,
                             template : function(e){
                                 return e.BONUS.toString().toMoney();
                             }
@@ -194,7 +194,7 @@ var esm = {
                     ]
                 }, {
                     title : "국민연금",
-                    width: 150,
+                    width: 50,
                     template : function(e){
                         /** 국민연금 = (기본급 + 상여금)/ 국민연금요율(%) */
                         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
@@ -208,15 +208,15 @@ var esm = {
                     }
                 }, {
                     title : "건강보험",
-                    width: 150,
+                    width: 50,
                     template : function(e){
                         /** 건강보험 = (기본급 + 상여금) / 건강보험요율(%)*/
                         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
                         return (Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10).toString().toMoney()
                     }
                 }, {
-                    title : "장기요양보험",
-                    width: 150,
+                    title : "장기요양<br>보험",
+                    width: 50,
                     template : function(e){
                         /** 장기요양보험 = (건강보험합계 / 장기요양보험요율(%))*/
                         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
@@ -226,7 +226,7 @@ var esm = {
                     }
                 }, {
                     title : "고용보험",
-                    width: 150,
+                    width: 50,
                     template : function(e){
                         /** 고용보험 = (기본급 + 상여금) / 고용보험요율(%)*/
                         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
@@ -235,7 +235,7 @@ var esm = {
                 }, {
                     field : "",
                     title : "산재보험",
-                    width: 150,
+                    width: 50,
                     template : function(e){
                         /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
                         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
@@ -243,7 +243,7 @@ var esm = {
                     }
                 }, {
                     title : "사대보험<br>사업자부담분",
-                    width: 150,
+                    width: 70,
                     template : function(e){
                         /** 사대보험 사업자부담분 = 국민연금 + 건강보험 + 장기요양보험 +고용보험 + 산재보험 */
 
@@ -267,8 +267,8 @@ var esm = {
                         return (nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance).toString().toMoney();
                     }
                 }, {
-                    title : "퇴직금 추계액",
-                    width: 150,
+                    title : "퇴직금<br>추계액",
+                    width: 50,
                     template : function(e){
                         /** 퇴직금 추계액 = (기본급 + 수당 + 상여)/12 */
                         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
@@ -276,7 +276,7 @@ var esm = {
                     }
                 }, {
                     title : "기준급여",
-                    width: 150,
+                    width: 50,
                     template : function(e){
                         /** 기준급여 = (기본급 + 수당 + 상여 + 사업자부담분 + 퇴직금추계액) */
                         /** 기본급 */
