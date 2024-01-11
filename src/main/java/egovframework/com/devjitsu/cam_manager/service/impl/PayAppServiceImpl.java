@@ -1286,4 +1286,41 @@ public class PayAppServiceImpl implements PayAppService {
     public List<Map<String, Object>> getRegIncmReData(Map<String, Object> params) {
         return payAppRepository.getRegIncmReData(params);
     }
+
+    @Override
+    public Map<String, Object> setIncpRe(Map<String, Object> params) {
+        Map<String, Object> map = new HashMap<>();
+        map = payAppRepository.getPayIncpReqData(params);
+        List<Map<String, Object>> list = payAppRepository.getPayIncpDetailData(params);
+
+
+        map.put("TR_DE", params.get("inDt"));
+        map.put("TOT_AMT", params.get("totAmt"));
+        map.put("SUP_AMT", params.get("supAmt"));
+        map.put("VAT_AMT", params.get("vatAmt"));
+        map.put("EVID_TYPE", list.get(0).get("EVID_TYPE"));
+        map.put("TR_CD", list.get(0).get("TR_CD"));
+        map.put("CRM_NM", list.get(0).get("CRM_NM"));
+        map.put("REG_NO", list.get(0).get("CRM_NM"));
+        map.put("CRM_BNK_NM", list.get(0).get("CRM_NM"));
+        map.put("CRM_ACC_NO", list.get(0).get("CRM_NM"));
+        map.put("CRM_ACC_HOLDER", list.get(0).get("CRM_NM"));
+        map.put("CARD", list.get(0).get("CARD"));
+        map.put("CARD_NO", list.get(0).get("CARD_NO"));
+        map.put("ETC", list.get(0).get("ETC"));
+        map.put("ISS", list.get(0).get("ISS"));
+
+        if(params.containsKey("payIncpReSn")){
+            payAppRepository.updIncpRe(map);
+        } else {
+            payAppRepository.insIncpRe(map);
+        }
+
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getPayIncpReData(Map<String, Object> params) {
+        return payAppRepository.getPayIncpReData(params);
+    }
 }

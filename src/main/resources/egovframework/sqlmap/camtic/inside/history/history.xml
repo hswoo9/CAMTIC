@@ -562,5 +562,15 @@
             APNT_SN = #{apntSn}
     </update>
 
+    <update id="setInRewardAddFileNoUpdNoTmp" parameterType="map">
+        /* setInRewardAddFileNoUpdNoTmp */
+        UPDATE
+            CAM_HR.DJ_EMP_REWORD
+        SET
+            REWARD_ADD_NO = #{rewardAddFileNo}
+        WHERE
+            REWORD_ID = #{rewordId}
+    </update>
+
 
 </mapper>

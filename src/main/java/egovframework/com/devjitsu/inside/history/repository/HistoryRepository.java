@@ -58,4 +58,7 @@ public class HistoryRepository extends AbstractDAO {
     public void modAf(Map<String, Object> params) {
         update("history.modAf", params);
     }
+
+    //포상관리 첨부파일
+    public void setInRewardAddFileNoUpdNoTmp(Map<String, Object> params) { insert("history.setInRewardAddFileNoUpdNoTmp", params);}
 }

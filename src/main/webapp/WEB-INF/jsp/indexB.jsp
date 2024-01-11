@@ -496,7 +496,7 @@
     //주요일정 > 오픈스터디
     function getOpenStudy(e) {
         $.ajax({
-            url: '/campus/getOpenStudyInfoList',
+            url: '/campus/getOpenStudyInfoAdminList',
             type: 'GET',
             success: function (data) {
                 const filteredData = data.list.filter(item => item.STEP === 'B');

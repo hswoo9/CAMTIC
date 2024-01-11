@@ -83,6 +83,7 @@ var regIncm = {
 
     payAppBtnSet: function (data){
         let buttonHtml = "";
+        console.log(data)
         if($("#status").val() != "rev"){
             if(data != null){
                 if(data.DOC_STATUS == "0"){
@@ -94,6 +95,7 @@ var regIncm = {
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_save()">저장</button>';
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \''+data.DOC_MENU_CD+'\', \''+data.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
+                    buttonHtml += '<button type="button" id="viewIncpReBtn" style="margin-right: 5px; display:none" class="k-button k-button-solid-info" onclick="regIncm.fn_regIncpRePop('+data.PAY_INCP_SN+')">반제결의서 작성</button>';
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_regExnpRePop('+data.PAY_INCP_SN+')">반납결의서 작성</button>';
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_regExnpAltPop('+data.PAY_INCP_SN+')">대체결의서 작성</button>';
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', \''+data.DOC_MENU_CD+'\');">열람</button>';
@@ -133,8 +135,11 @@ var regIncm = {
         var rs = result.map;
         var ls = result.list;
 
+        regIncm.payAppBtnSet(rs);
+
         if(rs.DOC_STATUS == 100 && (ls[0].EVID_TYPE == "1" || ls[0].EVID_TYPE == "3" || ls[0].EVID_TYPE == "5" || ls[0].EVID_TYPE == "6")){
             $("#reIncpTable").css("display", "");
+            $("#viewIncpReBtn").css("display", "");
             var totAmt = 0; // 총금액
             var dgAmt = 0;  // 대기금액
             var scAmt = 0;  // 완료금액
@@ -168,7 +173,6 @@ var regIncm = {
             $("#reIncpBody").html(html);
         }
 
-        regIncm.payAppBtnSet(rs);
 
         $("#appDe").val(rs.APP_DE);
         $("#pjtNm").val(rs.PJT_NM);
@@ -609,6 +613,13 @@ var regIncm = {
 
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    fn_regIncpRePop : function(key){
+        var url = "/payApp/pop/regIncpRePop.do?payIncpSn=" + key + "&type=new";
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 }

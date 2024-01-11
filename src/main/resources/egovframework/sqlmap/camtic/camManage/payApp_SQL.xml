@@ -823,15 +823,37 @@
             I.*,
             DI.APPRO_KEY AS APPRO_KEY,
             DI.DOC_MENU_CD AS DOC_MENU_CD,
-            IFNULL(SUM(ID.TOT_COST), 0) AS TOT_COST
+            IFNULL(SUM(ID.TOT_COST), 0) AS TOT_COST,
+            '' AS PAY_INCP_RE_SN
         FROM
             CAM_MNG.DJ_PAY_INCP_DET ID
-        LEFT JOIN CAM_MNG.DJ_PAY_INCP I ON ID.PAY_INCP_SN = I.PAY_INCP_SN
-        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON I.DOC_ID = DI.DOC_ID
+        LEFT JOIN CAM_MNG.DJ_PAY_INCP I
+            ON ID.PAY_INCP_SN = I.PAY_INCP_SN
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
+            ON I.DOC_ID = DI.DOC_ID
         WHERE I.DOC_STATUS = '100'
-          AND ID.EVID_TYPE IN (1, 3, 5, 6)
+        AND ID.EVID_TYPE NOT IN (1, 3, 5, 6)
         GROUP BY I.PAY_INCP_SN
-        ORDER BY I.PAY_INCP_SN DESC
+        UNION ALL
+        SELECT
+            B.PAY_INCP_SN, A.PJT_NM, A.PJT_SN, A.PJT_CD, B.BUDGET_SN,
+            B.BUDGET_NM, A.APP_DE, A.PAY_EXNP_DE, A.BUSN_CD, A.BUSN_EX_CD,
+            A.EXNP_EMP_SEQ, A.G20_EMP_CD, A.G20_DEPT_CD, A.APP_CONT, A.BNK_SN,
+            A.ACC_NM, A.ACC_NO, A.BNK_NM, A.PAY_APP_STAT, A.GUBUN, A.DOC_ID, A.DOC_STATUS,
+            A.APPROVAL_EMP_SEQ, A.APPROVAL_DATE, A.REG_DT, A.REG_EMP_SEQ, A.MOD_DT,
+            A.MOD_EMP_SEQ, B.RE_STAT,
+            DI.APPRO_KEY AS APPRO_KEY,
+            DI.DOC_MENU_CD AS DOC_MENU_CD,
+            IFNULL(B.TOT_COST, 0) AS TOT_COST,
+            B.PAY_INCP_RE_SN
+        FROM
+            CAM_MNG.DJ_PAY_INCP_RE B
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_INCP A
+        ON
+            B.PAY_INCP_SN = A.PAY_INCP_SN
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
+        ON A.DOC_ID = DI.DOC_ID
     </select>
 
     <update id="updPayAppDetailStatus" parameterType="map">
@@ -1870,5 +1892,69 @@
             CAM_MNG.DJ_PAY_INCP_RE
         WHERE
             PAY_INCP_SN = #{payIncpSn}
+    </select>
+
+    <insert id="insIncpRe" parameterType="map">
+        /*insIncpRe*/
+        INSERT INTO CAM_MNG.DJ_PAY_INCP_RE
+            (
+                PAY_INCP_SN,
+                BUDGET_SN,
+                BUDGET_NM,
+                EVID_TYPE,
+                TR_CD,
+                CRM_NM,
+                REG_NO,
+                CRM_BNK_NM,
+                CRM_ACC_NO,
+                CRM_ACC_HOLDER,
+                TR_DE,
+                TOT_COST,
+                SUP_COST,
+                VAT_COST,
+                CARD,
+                CARD_NO,
+                ETC,
+                ISS
+            )
+        VALUES
+            (
+                #{PAY_INCP_SN},
+                #{BUDGET_SN},
+                #{BUDGET_NM},
+                #{EVID_TYPE},
+                #{TR_CD},
+                #{CRM_NM},
+                #{REG_NO},
+                #{CRM_BNK_NM},
+                #{CRM_ACC_NO},
+                #{CRM_ACC_HOLDER},
+                #{TR_DE},
+                #{TOT_AMT},
+                #{SUP_AMT},
+                #{VAT_AMT},
+                #{CARD},
+                #{CARD_NO},
+                #{ETC},
+                #{ISS}
+            )
+        <selectKey keyProperty="payIncpReSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PAY_INCP_RE'
+        </selectKey>
+    </insert>
+
+    <update id="updIncpRe" parameterType="map">
+        /*updIncpRe*/
+
+    </update>
+
+    <select id="getPayIncpReData" parameterType="map" resultType="map">
+        /*getPayIncpReData*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_INCP_RE
+        WHERE
+            PAY_INCP_RE_SN = #{payIncpReSn}
     </select>
 </mapper>

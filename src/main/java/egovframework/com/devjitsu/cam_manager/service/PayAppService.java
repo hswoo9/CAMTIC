@@ -96,4 +96,9 @@ public interface PayAppService {
     List<Map<String, Object>> getPayExnpFileList(Map<String, Object> params);
 
     List<Map<String, Object>> getRegIncmReData(Map<String, Object> params);
+
+    Map<String, Object> setIncpRe(Map<String, Object> params);
+
+    Map<String, Object> getPayIncpReData(Map<String, Object> params);
+
 }
