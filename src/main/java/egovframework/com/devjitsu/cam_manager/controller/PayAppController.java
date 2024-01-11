@@ -946,4 +946,14 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/pay/regIncmReData")
+    public String regIncmReData(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> listMap = payAppService.getRegIncmReData(params);
+
+        model.addAttribute("list", listMap);
+
+        return "jsonView";
+    }
+
 }

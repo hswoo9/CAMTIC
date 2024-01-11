@@ -140,6 +140,27 @@
                 </thead>
             </table>
 
+
+            <table class="popTable table table-bordered mb-0" id="reIncpTable" style="display: none;">
+                <colgroup>
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>총액</th>
+                    <th>반제결의 승인금액</th>
+                    <th>반제결의 대기금액</th>
+                    <th>잔액</th>
+                </tr>
+                </thead>
+                <tbody id="reIncpBody">
+
+                </tbody>
+            </table>
+
             <span id="totalPay" style="float: right; font-size: 16px; font-weight: bold; display: none; height: 35px;margin-top: 10px;">총 금액 : </span>
             <c:if test="${params.stat == 'v'}">
                 <span id="claimGroup" style="font-size:12px;">

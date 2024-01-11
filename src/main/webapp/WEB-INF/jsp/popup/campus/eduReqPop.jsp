@@ -11,7 +11,8 @@
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="empName" value="${loginVO.name}"/>
-<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<%--<input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>--%>
+<input type="hidden" id="deptName" value="${loginVO.deptNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <%--<input type="hidden" id="eduInfoId" value=""/>--%>
@@ -42,7 +43,7 @@
             <thead>
             <tr>
               <th>소 속</th>
-              <td id="userDept">${loginVO.deptNm} ${loginVO.orgnztNm}</td>
+              <td id="userDept">${loginVO.deptNm} ${loginVO.teamNm}</td>
               <th>직 위</th>
               <td id="userPosition">${loginVO.dutyNm eq '' ? loginVO.positionNm : loginVO.dutyNm}</td>
               <th>성 명</th>
