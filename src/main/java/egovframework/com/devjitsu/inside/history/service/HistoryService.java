@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.inside.history.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 import java.util.Map;

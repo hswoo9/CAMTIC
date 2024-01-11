@@ -8,10 +8,12 @@ import egovframework.com.devjitsu.common.utiles.ConvertUtil;
 import egovframework.com.devjitsu.common.utiles.EgovStringUtil;
 import egovframework.com.devjitsu.inside.history.repository.HistoryRepository;
 import egovframework.com.devjitsu.inside.history.service.HistoryService;
+import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +29,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Autowired
     private HistoryRepository historyRepository;
+    private UserManageRepository userManageRepository;
 
     @Override
     public List<Map<String, Object>> getHistoryList(Map<String, Object> params) {
@@ -96,10 +99,13 @@ public class HistoryServiceImpl implements HistoryService {
                 list.get(i).put("filePath", filePath(params, base_dir));
                 list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
                 list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                System.out.println("file_no"+list.get(i).get("file_no"));
             }
             commonRepository.insFileInfo(list);
         }
+
     }
+
 
     @Override
     public void modAf(Map<String, Object> params) {

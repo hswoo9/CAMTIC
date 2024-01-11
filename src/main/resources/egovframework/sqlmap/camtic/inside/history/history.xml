@@ -230,6 +230,7 @@
             CAM_COMMON.DJ_FILE_INFO CFI ON HER.REWORD_ID = CFI.CONTENT_ID AND CFI.FILE_CD = 'reward'
         WHERE
             DATE_FORMAT(HER.REWORD_DAY, '%Y-%m-%d') BETWEEN DATE_FORMAT(#{start_date}, '%Y-%m-%d') AND DATE_FORMAT(#{end_date}, '%Y-%m-%d')
+            AND HER.REWARD_REGISTYN = 'N'
             <if test='rewardTypeA != null and !"".equals(rewardTypeA)'>
                 AND HER.REWORD_TYPE = #{rewardTypeA}
             </if>
