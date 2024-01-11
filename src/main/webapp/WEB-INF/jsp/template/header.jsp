@@ -33,6 +33,12 @@
             <div id="alarmBack" style="display: none; position: absolute;right: -300px; top: 0px; width: 200vw; z-index: 8000; height: 100vh;" onclick="openAlarm()"></div>
             <div id="noticePanel" class="btn-group">
                 <a href="#">
+                    <button class="btn btn-notice" style="color: white; float:left; font-size:12px; position: relative; top: 18px; right: 20px;
+                                                          border-radius: 5px; border:1px solid #ddd; height: 30px; padding: 5px;" onclick="goMenual();">
+                        캠스팟2.0매뉴얼
+                    </button>
+                </a>
+                <a href="#">
                     <b style="color: white; float: left; position: relative; top: 25px; right: 10px;" onclick="pastPage()">기존 캠스팟 바로가기</b>
                 </a>
                 <a href="#">
@@ -321,6 +327,13 @@
       if(id != ""){
         url = "http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id;
       }
+      var name = "_blank";
+      var option = "";
+      var popup = window.open(url, name, option);
+  }
+
+  function goMenual(){
+      let url = "https://scribehow.com/page/_20___bs_k0FYzTiWbC4n6izGVSw";
       var name = "_blank";
       var option = "";
       var popup = window.open(url, name, option);

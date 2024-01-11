@@ -312,7 +312,13 @@ var hwpDocCtrl = {
 
                     //생년월일
                     let birthDay = ResultData.BDAY.split("-");
-                    let birthDayText = birthDay[0]+"년 "+birthDay[1]+"월 "+birthDay[2]+"일";
+                    let birthDayText = "";
+                    if(birthDay.length < 2){
+                        birthDayText = "- 년 "+"- 월 "+" - 일";
+                    }else{
+                        birthDayText = birthDay[0]+"년 "+birthDay[1]+"월 "+birthDay[2]+"일";
+                    }
+                    
                     hwpDocCtrl.global.HwpCtrl.MoveToField('birth', true, true, false);
                     hwpDocCtrl.putFieldText('birth', birthDayText);
 
