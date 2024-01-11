@@ -191,14 +191,6 @@ var subHolidayStat = {
                     }
                 },
                 {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayStat.subHolidayReqBatchPop();">' +
-                            '	<span class="k-button-text">연가일괄등록</span>' +
-                            '</button>';
-                    }
-                },
-                {
                     name: 'excel',
                     text: '엑셀다운로드'
                 }
@@ -379,12 +371,5 @@ var subHolidayStat = {
         subHolidayStat.fn_makerGrid('/subHoliday/getUserVacListStat.do',subHolidayStat.global.searchAjaxData);
 
         // $("#mainGrid").data("kendoGrid").dataSource.read();
-    },
-
-    subHolidayReqBatchPop : function() {
-        var url = "/subHoliday/subHolidayReqBatchPop.do";
-        var name = "subHolidayReqBatchPop";
-        var option = "width=1030, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
     }
 }

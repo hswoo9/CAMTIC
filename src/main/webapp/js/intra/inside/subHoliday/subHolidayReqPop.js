@@ -146,6 +146,22 @@ var subHolidayReqPop = {
                     data.vacUseEnTime = $("#edtHolidayEndHourTop_1").val();
                 }
 
+                if($("#edtHolidayKindTop").val() == 3 || $("#edtHolidayKindTop").val() == 4){
+                    const dateA = new Date($("#edtHolidayStartDateTop_1").val().replace(/-/g, '/') +' '+ $("#edtHolidayStartHourTop_1").val()+':00');
+                    const dateB = new Date($("#edtHolidayEndDateTop_1").val().replace(/-/g, '/') +' '+ $("#edtHolidayEndHourTop_1").val()+':00');
+                    const diffMSec = dateB.getTime() - dateA.getTime();
+                    const diffHour = diffMSec / (60 * 60 * 1000);
+                    console.log('시간의 차이는 '+diffHour+'시간 입니다.');
+
+                    if($("#edtHolidayKindTop").val() == 3 && diffHour > 5){
+                        alert("오전반차는 5시간 초과 신청이 불가합니다."); return;
+                    }
+
+                    if($("#edtHolidayKindTop").val() == 4 && diffHour > 4){
+                        alert("오후반차는 4시간 초과 신청이 불가합니다."); return;
+                    }
+                }
+
                 if($("#edtHolidayKindTop").val() == 2 || $("#edtHolidayKindTop").val() == 3) {
                     data.useDay = 0.5;
                 }else if($("#edtHolidayKindTop").val() != 11) {

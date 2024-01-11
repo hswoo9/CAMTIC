@@ -83,7 +83,14 @@ var subHolidaySetting = {
                 return true;
             },
             toolbar: [
-                 {
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidaySetting.subHolidayReqBatchPop();">' +
+                            '	<span class="k-button-text">연가일괄등록</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidaySettingPop()">이력관리</button>';
@@ -249,5 +256,12 @@ var subHolidaySetting = {
         }
         subHolidaySetting.gridReload();
         $("#modal").data("kendoWindow").close();
+    },
+
+    subHolidayReqBatchPop : function() {
+        var url = "/subHoliday/subHolidayReqBatchPop.do";
+        var name = "subHolidayReqBatchPop";
+        var option = "width=1030, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 }
