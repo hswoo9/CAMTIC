@@ -216,17 +216,17 @@
                 #{fileExt},
                 #{empSeq},
                 <choose>
-                    <when test='item.docId != null and !"".equals(item.docId)'>#{docId},</when>
-                    <when test='item.docId == null or "".equals(item.docId)'>null,</when>
+                    <when test='docId != null and !"".equals(docId)'>#{docId},</when>
+                    <when test='docId == null or "".equals(docId)'>null,</when>
                 </choose>
                 <choose>
-                    <when test='item.contentId != null and !"".equals(item.contentId)'>#{contentId},</when>
-                    <when test='item.contentId == null or "".equals(item.contentId)'>null,</when>
+                    <when test='contentId != null and !"".equals(contentId)'>#{contentId},</when>
+                    <when test='contentId == null or "".equals(contentId)'>null,</when>
                 </choose>
                 #{empSeq},
                 <choose>
-                    <when test='item.frKey != null and !"".equals(item.frKey)'>#{frKey}</when>
-                    <when test='item.frKey == null or "".equals(item.frKey)'>0</when>
+                    <when test='frKey != null and !"".equals(frKey)'>#{frKey}</when>
+                    <when test='frKey == null or "".equals(frKey)'>0</when>
                 </choose>
             )
         <selectKey keyProperty="fileNo" resultType="Integer" order="BEFORE">
