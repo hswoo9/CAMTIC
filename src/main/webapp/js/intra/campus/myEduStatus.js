@@ -227,8 +227,18 @@ var myEdu = {
                     width: 100
                 },  {
                     title: "인정시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
-                    width: 100
+                    width: 100,
+                    template : function (e){
+                        if(e.STUDY_CLASS_SN == "1"){
+                            if(e.REAL_STUDY_TIME == "0" || e.REAL_STUDY_TIME == null) {
+                                return "0시간";
+                            }else{
+                                return e.REAL_STUDY_TIME+"시간";
+                            }
+                        }else{
+                            return "";
+                        }
+                    }
                 },{
                     title: "진행현황",
                     width: 180,
@@ -540,7 +550,7 @@ var myEdu = {
                     title: "구분",
                     width: 200
                 }, {
-                    field: "EDU_TITLE",
+                    field: "EDU_NAME",
                     title: "학습명",
                     width: 300
                 }, {
@@ -548,26 +558,18 @@ var myEdu = {
                     template: "<span>#=START_DT# ~ #=END_DT#</span>",
                     width: 300
                 },{
-                    field: "",
+                    field: "EDU_LOCATION",
                     title: "교육장소",
                     width: 200
                 }, {
                     title: "학습시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    template: "<span>#=EDU_TIME#시간</span>",
                     width: 100
                 },  {
                     title: "인정시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
-                    width: 100
-                }, /*{
-                    title: "교육시간",
                     template: "<span>#=EDU_TIME#시간</span>",
-                    width: 200
+                    width: 100
                 }, {
-                    field: "EDU_LOCATION",
-                    title: "장소",
-                    width: 200
-                },*/ {
                     title: "진행현황",
                     width: 180,
                     template: function(row){

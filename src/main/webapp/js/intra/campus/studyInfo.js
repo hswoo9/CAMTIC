@@ -125,24 +125,34 @@ var studyInfo = {
                     template : function (e){
                         if(e.STUDY_CLASS_SN == "3"){
                             if(e.ST_SUM != "" && e.ST_SUM != null){
-                                return e.ST_SUM;
+                                return e.ST_SUM+"시간";
                             } else {
-                                return "0";
+                                return "0시간";
                             }
                         } else if(e.STUDY_CLASS_SN == "2"){
-                            return e.PROPAG_SUM == null ? "0" : e.PROPAG_SUM;
+                            return e.PROPAG_SUM == null ? "0시간" : e.PROPAG_SUM+"시간";
                         } else {
                             if(e.EDU_TIME_TOTAL != "" && e.EDU_TIME_TOTAL != null){
-                                return e.EDU_TIME_TOTAL;
+                                return e.EDU_TIME_TOTAL+"시간";
                             } else {
-                                return "0";
+                                return "0시간";
                             }
                         }
                     }
                 },  {
                     title: "인정시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
-                    width: 100
+                    width: 100,
+                    template : function (e){
+                        if(e.STUDY_CLASS_SN == "1"){
+                            if(e.STUDY_TIME == "0") {
+                                return "0시간";
+                            }else{
+                                return e.STUDY_TIME+"시간";
+                            }
+                        }else{
+                            return "";
+                        }
+                    }
                 },
 
                /* {

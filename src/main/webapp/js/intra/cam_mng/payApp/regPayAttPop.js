@@ -26,7 +26,7 @@ const regPayAtt = {
     },
 
     fileChange : function (){
-        opener.parent.regPay.global.fileArray = [];
+        // opener.parent.regPay.global.fileArray = [];
         $("#emptyTr").remove();
         let size = 0;
         var fileArray = [];
@@ -47,6 +47,8 @@ const regPayAtt = {
                         fileName += ".";
                     }
                 }
+                opener.parent.regPay.global.fileArray.push(fileArray[i]);
+
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html += '   <td style="text-align: left">' + fileName + '</td>';
                 html += '   <td>' + fileExt + '</td>';
@@ -66,7 +68,6 @@ const regPayAtt = {
             $("#fileGrid").append(html);
         }
 
-        opener.parent.regPay.global.fileArray = fileArray;
     },
 
     fn_addFile : function(){
@@ -165,23 +166,33 @@ const regPayAtt = {
 
             var html = '';
 
+            console.log(fileArray);
             for (var i = 0; i < fileArray.length; i++) {
-                size = fCommon.bytesToKB(fileArray[i].file_size);
+                size = fCommon.bytesToKB((fileArray[i].file_size || fileArray[i].size));
 
+                var fileName = (fileArray[i].file_org_name || fileArray[i].name.toString().split(".")[0]);
+                var fileExt = (fileArray[i].file_ext || fileArray[i].name.toString().split(".")[1]);
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
-                html += '   <td style="text-align: left">' + fileArray[i].file_org_name + '</td>';
-                html += '   <td>' + fileArray[i].file_ext + '</td>';
+                html += '   <td style="text-align: left">' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
-                if(fileArray[i].file_ext.toLowerCase() == "pdf" || fileArray[i].file_ext.toLowerCase() == "jpg" || fileArray[i].file_ext.toLowerCase() == "png" || fileArray[i].file_ext.toLowerCase() == "jpeg"){
-                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\')">'
+
+                if(fileArray[i].file_ext != undefined && fileArray[i].file_ext != null && fileArray[i].file_ext != ""){
+                    if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+                        html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\')">'
+                    }
                 }
+
                 html += '   </td>';
-                if($("#type").val() != "exnp"){
-                    html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">'
-                    html += '   </td>';
+                if(fileArray[i].file_ext != undefined && fileArray[i].file_ext != null && fileArray[i].file_ext != "") {
+                    if($("#type").val() != "exnp"){
+                        html += '   <td>';
+                        html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">'
+                        html += '   </td>';
+                    }
                 }
+
                 html += '</tr>';
             }
             $("#fileGrid").append(html);
@@ -305,9 +316,6 @@ const regPayAtt = {
     },
 
     fn_close : function (){
-        if(opener.parent.$("#payAppSn").val() == ""){
-            opener.parent.regPay.global.fileArray = [];
-        }
         window.close();
     },
 

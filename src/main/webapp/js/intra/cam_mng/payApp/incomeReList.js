@@ -89,21 +89,34 @@ var incomeReList = {
                     width: 100,
                     template: function(e){
                         var cost = e.TOT_COST;
-                        if(e.RE_STAT == "Y"){
-                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
+                        if(e.PAY_INCP_RE_SN != null && e.PAY_INCP_RE_SN != "" && e.PAY_INCP_RE_SN != undefined){
+                            if(e.RE_STAT == "Y"){
+                                return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
+                            } else {
+                                return '<div style="text-align: right">'+0+'</div>';
+                            }
                         } else {
-                            return '<div style="text-align: right">'+0+'</div>';
+                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
                         }
                     }
                 }, {
                     title: "상태",
                     width: 60,
                     template : function(e){
-                        if(e.DOC_STATUS == "100"){
-                            return "결재완료"
+                        if(e.PAY_INCP_RE_SN != null && e.PAY_INCP_RE_SN != "" && e.PAY_INCP_RE_SN != undefined){
+                            if(e.RE_STAT == "Y"){
+                                return "승인"
+                            } else {
+                                return "미승인"
+                            }
                         } else {
-                            return "작성중"
+                            if(e.DOC_STATUS == "100"){
+                                return "승인"
+                            } else {
+                                return "미승인"
+                            }
                         }
+
                     }
                 }
             ],
