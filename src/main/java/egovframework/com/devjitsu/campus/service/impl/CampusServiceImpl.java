@@ -474,6 +474,27 @@ public class CampusServiceImpl implements CampusService {
             params.put("studyClassSn", userMap.get("STUDY_CLASS_SN"));
             params.put("studyClassText", userMap.get("STUDY_CLASS_TEXT"));
 
+            params.put("empSeq", seqArr[i]);
+
+            Map<String, Object> weekCount = campusRepository.getStudyInfoCountStudyWeekly(params);
+            Map<String, Object> weekTime = campusRepository.getRealEduTimeStudyWeekly(params);
+
+            /** 학습조 주당 2시간 인정 */
+            int realEduTime = Integer.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
+            int infoCount = Integer.valueOf(String.valueOf(weekCount.get("studyInfoCount")));
+            if(infoCount == 1){
+                if(realEduTime > 2){
+                    params.put("realEduTime", '2');
+                }else{
+                    params.put("realEduTime", params.get("realEduTime"));
+                }
+            }else{
+                if(realEduTime > 2){
+                    params.put("realEduTime", '0');
+                }else{
+                    params.put("realEduTime", params.get("realEduTime"));
+                }
+            }
             campusRepository.setStudyResultUserInsert(params);
         }
 

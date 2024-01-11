@@ -62,6 +62,21 @@
         AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
     </select>
 
+    <select id="getStudyInfoCountStudyWeekly" resultType="map" parameterType="map">
+        /* getStudyInfoCountStudyWeekly */
+        SELECT
+            COUNT(CSJ.STUDY_INFO_SN) AS studyInfoCount
+        FROM
+            CAMPUS.DJ_STUDY_JOURNAL CSJ
+                LEFT JOIN
+            CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN
+        WHERE
+            CSJ.STUDY_INFO_SN = #{studyInfoSn}
+          AND CSU.STUDY_EMP_SEQ = #{empSeq}
+          AND CSJ.ACTIVE = 'Y'
+          AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
+    </select>
+
     <select id="getRealEduTimePropagWeekly" resultType="map" parameterType="map">
         /* getRealEduTimePropagWeekly */
         SELECT
