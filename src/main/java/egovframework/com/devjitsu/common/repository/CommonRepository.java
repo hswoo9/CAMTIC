@@ -104,4 +104,12 @@ public class CommonRepository extends AbstractDAO {
     public Map<String, Object> getFileData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("common.getFileData", params);
     }
+
+    public void insPayAppFileList(Map<String, Object> map) {
+        insert("common.insPayAppFileList", map);
+    }
+
+    public void insFileInfoOne(Map<String, Object> params) {
+        insert("common.insFileInfoOne", params);
+    }
 }

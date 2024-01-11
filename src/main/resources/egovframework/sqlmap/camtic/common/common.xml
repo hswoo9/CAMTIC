@@ -149,44 +149,103 @@
         /* insFileInfo */
 
         INSERT INTO CAM_COMMON.DJ_FILE_INFO
-        (
-        FILE_CD,
-        FILE_UUID,
-        FILE_ORG_NAME,
-        FILE_PATH,
-        FILE_SIZE,
-        FILE_EXT,
-        EMP_SEQ,
-        DOC_ID,
-        CONTENT_ID,
-        REG_EMP_SEQ,
-        FR_KEY
-        )
+            (
+                FILE_CD,
+                FILE_UUID,
+                FILE_ORG_NAME,
+                FILE_PATH,
+                FILE_SIZE,
+                FILE_EXT,
+                EMP_SEQ,
+                DOC_ID,
+                CONTENT_ID,
+                REG_EMP_SEQ,
+                FR_KEY
+            )
         VALUES
         <foreach collection="list" item="item" separator=",">
             (
-            #{item.fileCd},
-            #{item.fileUUID},
-            #{item.fileOrgName},
-            #{item.filePath},
-            #{item.fileSize},
-            #{item.fileExt},
-            #{item.empSeq},
-            <choose>
-                <when test='item.docId != null and !"".equals(item.docId)'>#{item.docId},</when>
-                <when test='item.docId == null or "".equals(item.docId)'>null,</when>
-            </choose>
-            <choose>
-                <when test='item.contentId != null and !"".equals(item.contentId)'>#{item.contentId},</when>
-                <when test='item.contentId == null or "".equals(item.contentId)'>null,</when>
-            </choose>
-            #{item.empSeq},
-            <choose>
-                <when test='item.frKey != null and !"".equals(item.frKey)'>#{item.frKey}</when>
-                <when test='item.frKey == null or "".equals(item.frKey)'>0</when>
-            </choose>
+                #{item.fileCd},
+                #{item.fileUUID},
+                #{item.fileOrgName},
+                #{item.filePath},
+                #{item.fileSize},
+                #{item.fileExt},
+                #{item.empSeq},
+                <choose>
+                    <when test='item.docId != null and !"".equals(item.docId)'>#{item.docId},</when>
+                    <when test='item.docId == null or "".equals(item.docId)'>null,</when>
+                </choose>
+                <choose>
+                    <when test='item.contentId != null and !"".equals(item.contentId)'>#{item.contentId},</when>
+                    <when test='item.contentId == null or "".equals(item.contentId)'>null,</when>
+                </choose>
+                #{item.empSeq},
+                <choose>
+                    <when test='item.frKey != null and !"".equals(item.frKey)'>#{item.frKey}</when>
+                    <when test='item.frKey == null or "".equals(item.frKey)'>0</when>
+                </choose>
             )
         </foreach>
+    </insert>
+
+    <insert id="insFileInfoOne" parameterType="list">
+        /* insFileInfoOne */
+
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+            (
+                FILE_CD,
+                FILE_UUID,
+                FILE_ORG_NAME,
+                FILE_PATH,
+                FILE_SIZE,
+                FILE_EXT,
+                EMP_SEQ,
+                DOC_ID,
+                CONTENT_ID,
+                REG_EMP_SEQ,
+                FR_KEY
+            )
+        VALUES
+            (
+                #{fileCd},
+                #{fileUUID},
+                #{fileOrgName},
+                #{filePath},
+                #{fileSize},
+                #{fileExt},
+                #{empSeq},
+                <choose>
+                    <when test='docId != null and !"".equals(docId)'>#{docId},</when>
+                    <when test='docId == null or "".equals(docId)'>null,</when>
+                </choose>
+                <choose>
+                    <when test='contentId != null and !"".equals(contentId)'>#{contentId},</when>
+                    <when test='contentId == null or "".equals(contentId)'>null,</when>
+                </choose>
+                #{empSeq},
+                <choose>
+                    <when test='frKey != null and !"".equals(frKey)'>#{frKey}</when>
+                    <when test='frKey == null or "".equals(frKey)'>0</when>
+                </choose>
+            )
+        <selectKey keyProperty="fileNo" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_FILE_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="insPayAppFileList" parameterType="map">
+        /*insPayAppFileList*/
+        INSERT INTO CAM_MNG.DJ_PAY_APP_FILE
+            (
+                PAY_APP_SN,
+                FILE_NO
+            )
+        VALUES
+            (
+                #{contentId},
+                #{fileNo}
+            )
     </insert>
 
     <select id="getContentFileOne" parameterType="map" resultType="map">
@@ -518,7 +577,7 @@
             LIST_DEL_YN = 'N'
         AND
             ACTIVE = 'Y'
-        ORDER BY REG_DATE DESC
+        ORDER BY REG_DATE DESC LIMIT 5;
     </select>
 
     <insert id="setAlarm" parameterType="map" >

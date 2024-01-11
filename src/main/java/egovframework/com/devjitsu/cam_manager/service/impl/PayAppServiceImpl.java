@@ -97,10 +97,12 @@ public class PayAppServiceImpl implements PayAppService {
                 fileOrgName = fileOrgName.substring(0, fileOrgName.length() - 1);
                 list.get(i).put("fileExt", fileName[fileName.length - 1]);
                 list.get(i).put("fileOrgName", fileOrgName);
-            }
-            commonRepository.insFileInfo(list);
-        }
 
+                commonRepository.insFileInfoOne(list.get(i));
+                commonRepository.insPayAppFileList(list.get(i));
+            }
+//            commonRepository.insFileInfo(list);
+        }
     }
 
     @Override
@@ -1278,5 +1280,10 @@ public class PayAppServiceImpl implements PayAppService {
     @Override
     public List<Map<String, Object>> getPayExnpFileList(Map<String, Object> params) {
         return payAppRepository.getPayExnpFileList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getRegIncmReData(Map<String, Object> params) {
+        return payAppRepository.getRegIncmReData(params);
     }
 }

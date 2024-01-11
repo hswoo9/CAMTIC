@@ -128,9 +128,45 @@ var regIncm = {
             payIncpSn : $("#payIncpSn").val()
         }
 
+
         var result = customKendo.fn_customAjax("/payApp/pop/getPayIncpData", data);
         var rs = result.map;
         var ls = result.list;
+
+        if(rs.DOC_STATUS == 100 && (ls[0].EVID_TYPE == "1" || ls[0].EVID_TYPE == "3" || ls[0].EVID_TYPE == "5" || ls[0].EVID_TYPE == "6")){
+            $("#reIncpTable").css("display", "");
+            var totAmt = 0; // 총금액
+            var dgAmt = 0;  // 대기금액
+            var scAmt = 0;  // 완료금액
+            var baAmt = 0;  // 잔액
+            for(var i = 0; i < ls.length; i++){
+                totAmt += parseInt(ls[i].TOT_COST);
+            }
+
+            var reIncpList = customKendo.fn_customAjax("/pay/regIncmReData", data);
+            reIncpList = reIncpList.list;
+            for(var i = 0; i < reIncpList.length; i++){
+                if(reIncpList[i].RE_STAT == "Y"){
+                    scAmt += parseInt(reIncpList[i].TOT_COST);
+                } else {
+                    dgAmt += parseInt(reIncpList[i].TOT_COST);
+                }
+            }
+            baAmt = totAmt - (scAmt + dgAmt);
+
+            console.log(reIncpList);
+
+            var html = "";
+            $("#reIncpBody").html(html);
+            html += '<tr style="text-align: right; font-weight: bold;">';
+            html += '   <td style="font-size: 13px">'+comma(totAmt)+'</td>';
+            html += '   <td style="font-size: 13px">'+comma(scAmt)+'</td>';
+            html += '   <td style="font-size: 13px">'+comma(dgAmt)+'</td>';
+            html += '   <td style="font-size: 13px">'+comma(baAmt)+'</td>';
+            html += '</tr>';
+
+            $("#reIncpBody").html(html);
+        }
 
         regIncm.payAppBtnSet(rs);
 
