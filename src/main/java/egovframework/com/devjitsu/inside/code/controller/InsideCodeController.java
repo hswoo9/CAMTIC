@@ -388,4 +388,68 @@ public class InsideCodeController {
         return "jsonView";
     }
 
+
+    @RequestMapping("/account/regAccountToPop.do")
+    public String regAccountToPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", loginVO);
+        return "popup/inside/account/regAccountToPop";
+    }
+
+    @RequestMapping("/account/getAccountList.do")
+    public String getAccountList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+         List<Map<String, Object>> list = insideCodeService.getAccountList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/account/saveRegAccountTo")
+    public String saveRegAccountTo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            insideCodeService.saveRegAccountTo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/account/updRegAccountTo")
+    public String updRegAccountTo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            insideCodeService.updRegAccountTo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+    @RequestMapping("/account/delRegAccountTo")
+    public String delRegAccountTo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        try{
+            insideCodeService.delRegAccountTo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/account/getAccountToInfo")
+    public String getAccountToInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        Map<String, Object> cardInfo = insideCodeService.getAccountToInfo(params);
+        model.addAttribute("accountInfo", cardInfo);
+
+        return "jsonView";
+    }
 }

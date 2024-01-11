@@ -587,6 +587,50 @@
         WHERE
             CAR_REQ_SN = #{carReqSn}
     </update>
+
+    <select id="getAccountList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_ACCOUNT_INFO
+        WHERE
+            ACTIVE = 'Y'
+    </select>
+
+    <insert id="saveRegAccountTo" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_ACCOUNT_INFO
+            (BANK_NAME, PAY_ACCOUNT, DEPOSITOR, ACCOUNT_NAME)
+        VALUES
+            (#{bankName}, #{payAccount}, #{depositor}, #{accountName})
+    </insert>
+
+    <update id="updRegAccountTo" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_ACCOUNT_INFO
+        SET
+            BANK_NAME = #{bankName},
+            PAY_ACCOUNT = #{payAccount},
+            DEPOSITOR = #{depositor},
+            ACCOUNT_NAME = #{accountName}
+        WHERE
+            ACCOUNT_TO_SN = #{accountToSn}
+    </update>
+
+    <update id="delRegAccountTo" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_ACCOUNT_INFO
+        SET
+            ACTIVE = 'N'
+        WHERE
+            ACCOUNT_TO_SN = #{accountToSn}
+    </update>
+
+    <select id="getAccountToInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_ACCOUNT_INFO
+        WHERE
+            ACCOUNT_TO_SN = ${accountToSn}
+    </select>
 </mapper>
 
 

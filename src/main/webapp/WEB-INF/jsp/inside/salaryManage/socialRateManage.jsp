@@ -61,6 +61,9 @@
 
                 </tbody>
             </table>
+
+            <div style="margin:20px 0;"><h4 class="panel-title">법인계좌 관리</h4></div>
+            <div id="mainGrid" style="margin:20px 0;"></div>
         </div>
     </div>
 </div><!-- col-md-9 -->

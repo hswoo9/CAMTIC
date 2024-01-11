@@ -163,4 +163,28 @@ public class InsideCodeServiceImpl implements InsideCodeService {
             insideCodeRepository.updateCarFinalApprStat(params);
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getAccountList(Map<String, Object> params) {
+        return insideCodeRepository.getAccountList(params);
+    }
+
+    @Override
+    public void saveRegAccountTo(Map<String, Object> params) {
+        insideCodeRepository.saveRegAccountTo(params);
+    }
+
+    @Override
+    public void updRegAccountTo(Map<String, Object> params) {
+        insideCodeRepository.updRegAccountTo(params);
+    }
+    @Override
+    public void delRegAccountTo(Map<String, Object> params) {
+        insideCodeRepository.delRegAccountTo(params);
+    }
+
+    @Override
+    public Map<String, Object> getAccountToInfo(Map<String, Object> params) {
+        return insideCodeRepository.getAccountToInfo(params);
+    }
 }

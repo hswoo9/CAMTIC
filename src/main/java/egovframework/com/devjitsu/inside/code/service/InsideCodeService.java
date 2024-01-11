@@ -73,4 +73,13 @@ public interface InsideCodeService {
 
     /** 개인차량 결재 상태값에 따른 UPDATE 메서드 */
     void updateCarDocState(Map<String, Object> bodyMap) throws Exception;
+
+    List<Map<String, Object>> getAccountList(Map<String, Object> params);
+
+    void saveRegAccountTo(Map<String, Object> params);
+
+    void updRegAccountTo(Map<String, Object> params);
+    void delRegAccountTo(Map<String, Object> params);
+
+    Map<String, Object> getAccountToInfo(Map<String, Object> params);
 }
