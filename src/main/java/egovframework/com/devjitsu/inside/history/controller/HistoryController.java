@@ -251,6 +251,7 @@ public class HistoryController {
         historyService.setHistoryInsert(params, BASE_DIR);
         model.addAttribute("apntSn",params.get("apntSn"));
         userService.setUserInfoUpdate(params);
+        System.out.println("params"+params);
         return "jsonView";
     }
 

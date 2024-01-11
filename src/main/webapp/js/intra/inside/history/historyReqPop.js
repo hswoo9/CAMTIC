@@ -588,21 +588,21 @@ const historyReq = {
             dataValueField: "value",
             dataSource: [
                 {text: "해당없음", value: ""},
-                {text: "수석행정원 / 1급", value: "1"},
+                {text: "수석연구원 / 1급", value: "16"},
                 {text: "수석매니저 / 1급", value: "2"},
-                {text: "수석연구원 / 1급", value: "3"},
+                {text: "수석행정원 / 1급", value: "1"},
+                {text: "책임매니저 / 2급", value: "3"},
                 {text: "책임행정원 / 2급", value: "4"},
-                {text: "책임매니저 / 2급", value: "5"},
-                {text: "책임연구원 / 2급", value: "6"},
+                {text: "책임연구원 / 2급", value: "5"},
+                {text: "선임매니저 / 3급", value: "6"},
                 {text: "선임연구원 / 3급", value: "7"},
-                {text: "선임매니저 / 3급", value: "8"},
-                {text: "선임행정원 / 3급", value: "9"},
-                {text: "주임매니저 / 4급", value: "10"},
-                {text: "행정원 / 4급", value: "11"},
-                {text: "주임행정원 / 4급", value: "12"},
-                {text: "매니저 / 4급", value: "13"},
-                {text: "주임연구원 / 4급", value: "14"},
-                {text: "연구원 / 4급", value: "15"}
+                {text: "선임행정원 / 3급", value: "8"},
+                {text: "주임매니저 / 4급", value: "9"},
+                {text: "주임연구원 / 4급", value: "10"},
+                {text: "주임행정원 / 4급", value: "11"},
+                {text: "매니저 / 5급", value: "12"},
+                {text: "연구원 / 5급", value: "13"},
+                {text: "행정원 / 4급", value: "14"},
             ]
         });
 
