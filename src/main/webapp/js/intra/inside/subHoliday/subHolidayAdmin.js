@@ -95,19 +95,15 @@ var subHolidayAdmin = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                },
-                {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.subHolidayReqBatchPop();">' +
-                            '	<span class="k-button-text">연가일괄등록</span>' +
-                            '</button>';
-                    }
                 }
             ],
             dataBound : subHolidayAdmin.onDataBound,
             columns: [
                 {
+                    title: "순번",
+                    template: "#= --record #",
+                    width: 50
+                },{
                     field: "EMP_NAME_KR",
                     title: "이름",
                     width: 150,
@@ -116,7 +112,7 @@ var subHolidayAdmin = {
                     title: "휴가구분",
                     width: 150,
                 }, {
-                    title: "기간 또는 일시",
+                    title: "기간",
                     columns : [
                         {
                             field: "SUBHOLIDAY_ST_DT",
@@ -144,7 +140,7 @@ var subHolidayAdmin = {
                             }
                         }, {
                             field: "SUBHOLIDAY_USE_DAY",
-                            title: "일수(시간)",
+                            title: "일수",
                             width: 100,
                         }
                     ]
@@ -153,8 +149,8 @@ var subHolidayAdmin = {
                     title: "내용",
                     align:"center"
                 }, {
-                    field: "APPROVAL_SEND_DATE",
-                    title: "요청일자",
+                    field: "REG_DT",
+                    title: "신청일자",
                     align:"center",
                     width: 100,
                 }, {
@@ -172,7 +168,11 @@ var subHolidayAdmin = {
                         }
                     },
                     width: 100,
-                }],
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            },
         }).data("kendoGrid");
 
     },
@@ -203,12 +203,5 @@ var subHolidayAdmin = {
         params.searchVal = $("#searchVal").val();
 
         subHolidayAdmin.mainGrid("/subHoliday/getVacUseHistoryListAdmin", params);
-    },
-
-    subHolidayReqBatchPop : function() {
-        var url = "/subHoliday/subHolidayReqBatchPop.do";
-        var name = "subHolidayReqBatchPop";
-        var option = "width=1030, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
     },
 }

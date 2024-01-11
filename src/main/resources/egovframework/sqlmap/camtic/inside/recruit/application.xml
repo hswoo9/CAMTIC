@@ -555,9 +555,10 @@
     <select id="getApplicationByRecruitArea" parameterType="map" resultType="map">
         select
             APPLICATION_ID,
-            USER_NAME
+            USER_NAME,
+            LEFT(BDAY, 4) AS BYEAR
         from
-            cam_inside.dj_application_main
+            cam_inside.dj_application_main A
         where
             RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
         AND

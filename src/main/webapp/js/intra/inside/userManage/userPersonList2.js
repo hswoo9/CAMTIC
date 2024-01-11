@@ -296,6 +296,10 @@ var userPersonList2 = {
                     template: "<input type='checkbox' id='' name='checkUser' value=''/>",
                     width: 50
                 }, {
+                    title: "번호",
+                    template: "#= --record #",
+                    width: 50
+                }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
                     template : function (e){
@@ -336,7 +340,10 @@ var userPersonList2 = {
                     field: "JOIN_DAY2",
                     title: "입사일"
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
     mainGrid2 : function(url,params) {
@@ -355,6 +362,10 @@ var userPersonList2 = {
             },
             columns: [
                 {
+                    title: "번호",
+                    template: "#= --record #",
+                    width: 50
+                }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
                     width: 100
@@ -448,7 +459,10 @@ var userPersonList2 = {
                     field: "RESIGN_DAY2",
                     title: "퇴사일"
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 

@@ -681,7 +681,14 @@
             AND
             TEMP_DIVISION = "N"
         </if>
-        ORDER BY EMP_NAME_KR
+        <choose>
+            <when test='dsJ != null and !"".equals(dsJ)'>
+                ORDER BY RESIGN_DAY DESC
+            </when>
+            <otherwise>
+                ORDER BY EMP_NAME_KR
+            </otherwise>
+        </choose>
     </select>
     <select id="getEmpInfoDetailList" parameterType="map" resultType="map">
         select

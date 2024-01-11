@@ -32,8 +32,8 @@ var appView = {
                     }
 
                     html += '<td style="height: 40px; width: 110px;">' +
-                        '<a href="javascript:void(0);" onclick="appView.getNewData(\'' + applicationList[i].APPLICATION_ID + '\')">' +
-                        '<span>' + applicationList[i].USER_NAME + '</span></a>' +
+                        '<a href="javascript:void(0);" class="k-button k-button-solid-base" onclick="appView.getNewData(\'' + applicationList[i].APPLICATION_ID + '\')">' +
+                        '<span>' + (i+1) + '. ' + applicationList[i].USER_NAME + '('+applicationList[i].BYEAR+')</span></a>' +
                         '</td>';
                 }
 
