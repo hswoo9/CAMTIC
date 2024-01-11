@@ -538,6 +538,8 @@
         CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
         HEI.ACTIVE = 'Y'
+        AND HEI.ERP_EMP_SEQ != ''
+        AND HEI.WORK_STATUS_CODE = 'Y'
         <if test='userGender != null and !"".equals(userGender)'>
             AND
             HEI.GENDER_CODE = #{userGender}
