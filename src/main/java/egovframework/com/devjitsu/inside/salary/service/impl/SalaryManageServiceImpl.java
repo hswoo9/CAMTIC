@@ -266,13 +266,18 @@ public class SalaryManageServiceImpl implements SalaryManageService {
 
             if(row != null){
                 if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") ||
-                        cellValueToString(col3).equals("") || cellValueToString(col4).equals("") || cellValueToString(col5).equals("") ||
+                        cellValueToString(col4).equals("") || cellValueToString(col5).equals("") ||
                         cellValueToString(col6).equals("") || cellValueToString(col7).equals("")){
                     return;
                 } else {
                     Map<String, Object> dataMap = new HashMap<>();
                     dataMap.put("startDt", cellValueToString(col2));
-                    dataMap.put("endDt", cellValueToString(col3));
+                    
+                    if(col3 == null){
+                        dataMap.put("endDt", "9999-12-31");
+                    }else{
+                        dataMap.put("endDt", cellValueToString(col3));    
+                    }
 
                     int socialRateSn = Integer.parseInt(String.valueOf(salaryManageRepository.getsocialRateSn(dataMap)));
 
@@ -290,6 +295,12 @@ public class SalaryManageServiceImpl implements SalaryManageService {
                     salaryMap.put("extraPay", cellValueToString(col6));
                     salaryMap.put("bonus", cellValueToString(col7));
                     salaryMap.put("loginEmpSeq", params.get("empSeq"));
+
+                    String BEF_END_DT = LocalDate.parse(salaryMap.get("startDt").toString()).plusDays(-1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                    salaryMap.put("befEndDt", BEF_END_DT);
+                    salaryManageRepository.updBefEndDt(salaryMap);
+
                     salaryManageRepository.insSalaryManage(salaryMap);
                 }
             }

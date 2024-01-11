@@ -345,5 +345,5 @@ var esm = {
 
 
 function userSearch() {
-    window.open("/common/deptListPop.do?type=pay", "조직도", "width=750, height=650");
+    window.open("/common/deptListPop.do?type=cardMng", "조직도", "width=750, height=650");
 }
