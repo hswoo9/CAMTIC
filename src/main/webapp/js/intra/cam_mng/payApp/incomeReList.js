@@ -66,7 +66,7 @@ var incomeReList = {
                     width: 280,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="incomeReList.fn_reqRegPopup('+e.PAY_INCP_SN+');">'+e.APP_CONT+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="incomeReList.fn_reqRegPopup('+e.PAY_INCP_SN+', '+e.PAY_INCP_RE_SN+');">'+e.APP_CONT+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -137,10 +137,14 @@ var incomeReList = {
         incomeReList.mainGrid("/pay/getIncpReList", incomeReList.global.searchAjaxData);
     },
 
-    fn_reqRegPopup : function (paySn){
+    fn_reqRegPopup : function (paySn, payReSn){
         var url = "/payApp/pop/regIncmRePop.do";
         if(paySn != null && paySn != ""){
             url = "/payApp/pop/regIncmRePop.do?payIncpSn=" + paySn;
+        }
+
+        if(payReSn != undefined && payReSn != "" && payReSn != null && payReSn != "undefined"){
+            url = "/payApp/pop/regIncpRePop.do?payIncpSn=" + paySn + "&payIncpReSn=" + payReSn;
         }
 
         if(status != null && status != ""){

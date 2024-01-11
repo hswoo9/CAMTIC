@@ -544,11 +544,16 @@ public class PayAppServiceImpl implements PayAppService {
         Map<String, Object> pkMap = payAppRepository.getIncpData(params);
 
         if(type.equals("resolution")){
-            params.put("evidTypeArr", "1,3,5,6");
+            params.put("evidTypeArr", "1,2,3,4,5,6,7");
         }else{
-            params.put("evidTypeArr", "2,4,7");
+            params.put("evidTypeArr", "1,2,3,4,5,6,7");
         }
-        list = payAppRepository.getIncpG20List(params);
+
+        if(params.containsKey("payIncpReSn")){
+            list = payAppRepository.getIncpReG20List(params);
+        } else {
+            list = payAppRepository.getIncpG20List(params);
+        }
 
         if(list.size() != 0){
             int docNumber = 0;          // 전체 지출결의서 CNT
@@ -564,6 +569,15 @@ public class PayAppServiceImpl implements PayAppService {
                 exnpDocNumber = payAppRepository.getIncpCountDoc(data);
                 data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
                 data.put("USER_SQ", userSq);
+
+                while (true){
+                    int duplCheck = payAppRepository.getExnpCheck(data);
+                    if (duplCheck == 0) {
+                        break;
+                    }
+                    userSq++;
+                    data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
+                }
 
                 Map<String, Object> tradeMap = g20Repository.getTradeInfo(data);
                 Map<String, Object> hearnerMap = g20Repository.getHearnerInfo(data);
@@ -593,32 +607,46 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("ETCRVRS_YM", hearnerMap.get("ETCRVRS_YM"));
                     data.put("ETCDIV_CD", hearnerMap.get("ETCDIV_CD"));
                 }
-                data.put("ETCDUMMY1", "76");
+
+                if(!data.get("RPMR_NO").toString().equals("")){
+                    data.put("DOCU_FG", "89");
+                } else {
+                    data.put("ETCDUMMY1", "76");
+                }
+
 
                 if(data.get("EVID_TYPE").toString().equals("1")){
                     data.put("SET_FG", "3");
                     data.put("VAT_FG", "1");
                     data.put("TR_FG", "1");
 
+                    if(!data.get("RPMR_NO").toString().equals("")){
+                        data.put("SET_FG", "1");
+                        data.put("VAT_FG", "1");
+                        data.put("TR_FG", "1");
+                    }
                 } else if(data.get("EVID_TYPE").toString().equals("2")){
                     data.put("SET_FG", "1");
                     data.put("VAT_FG", "1");
                     data.put("TR_FG", "1");
-
                 } else if(data.get("EVID_TYPE").toString().equals("3")){
                     data.put("SET_FG", "3");
                     data.put("VAT_FG", "2");
                     data.put("TR_FG", "3");
-
                 } else if(data.get("EVID_TYPE").toString().equals("4")){
                     data.put("SET_FG", "1");
                     data.put("VAT_FG", "2");
                     data.put("TR_FG", "1");
-
                 } else if(data.get("EVID_TYPE").toString().equals("5")){
                     data.put("SET_FG", "4");
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "3");
+
+                    if(!data.get("RPMR_NO").toString().equals("")){
+                        data.put("SET_FG", "1");
+                        data.put("VAT_FG", "3");
+                        data.put("TR_FG", "3");
+                    }
                 } else if(data.get("EVID_TYPE").toString().equals("6")){
                     data.put("SET_FG", "4");
                     data.put("VAT_FG", "2");
@@ -627,11 +655,24 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("SET_FG", "1");
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "3");
+
+                    if(!data.get("RPMR_NO").toString().equals("")){
+                        data.put("SET_FG", "1");
+                        data.put("VAT_FG", "2");
+                        data.put("TR_FG", "1");
+                    }
                 }
+
+
 
                 g20Repository.insZnSautoabdocu(data);
 
-                payAppRepository.updIncpStat(data);
+                if(params.containsKey("payIncpReSn")){
+                    payAppRepository.updIncpReStat(data);
+                } else {
+                    payAppRepository.updIncpMasterStat(data);
+                    payAppRepository.updIncpStat(data);
+                }
 
                 i++;
 
