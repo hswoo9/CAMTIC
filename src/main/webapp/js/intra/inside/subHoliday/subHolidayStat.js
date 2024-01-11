@@ -191,6 +191,14 @@ var subHolidayStat = {
                     }
                 },
                 {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayStat.subHolidayReqBatchPop();">' +
+                            '	<span class="k-button-text">연가일괄등록</span>' +
+                            '</button>';
+                    }
+                },
+                {
                     name: 'excel',
                     text: '엑셀다운로드'
                 }
@@ -221,15 +229,24 @@ var subHolidayStat = {
                         {
                             field: "total_vacation",
                             title: "총연차",
-                            width: 45
+                            width: 45,
+                            template: function(row){
+                                return (row.total_vacation == "" || row.total_vacation) == null ? "0" : row.total_vacation
+                            }
                         }, {
                             field: "grant_day",
                             title: "기존",
-                            width: 45
+                            width: 45,
+                            template: function(row){
+                                return (row.grant_day == "" || row.grant_day) == null ? "0" : row.grant_day
+                            }
                         }, {
                             field: "comp_vac",
                             title: "보상",
-                            width: 45
+                            width: 45,
+                            template: function(row){
+                                return (row.comp_vac == "" || row.comp_vac) == null ? "0" : row.comp_vac
+                            }
                         }
                     ]
                 }, {
@@ -261,15 +278,24 @@ var subHolidayStat = {
                                 {
                                     field: "REMAIN_VAC",
                                     title: "총잔여",
-                                    width: 45
+                                    width: 45,
+                                    template: function(row){
+                                        return (row.REMAIN_VAC == "" || row.REMAIN_VAC) == null ? "0" : row.REMAIN_VAC
+                                    }
                                 }, {
                                     field: "REMAIN_VAC",
                                     title: "기존",
-                                    width: 45
+                                    width: 45,
+                                    template: function(row){
+                                        return (row.REMAIN_VAC == "" || row.REMAIN_VAC) == null ? "0" : row.REMAIN_VAC
+                                    }
                                 }, {
                                     field: "",
                                     title: "보상",
-                                    width: 45
+                                    width: 45,
+                                    template: function(row){
+                                        return "0"
+                                    }
                                 }
                             ]
                         }
@@ -353,5 +379,12 @@ var subHolidayStat = {
         subHolidayStat.fn_makerGrid('/subHoliday/getUserVacListStat.do',subHolidayStat.global.searchAjaxData);
 
         // $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
+    subHolidayReqBatchPop : function() {
+        var url = "/subHoliday/subHolidayReqBatchPop.do";
+        var name = "subHolidayReqBatchPop";
+        var option = "width=1030, height=1000, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 }

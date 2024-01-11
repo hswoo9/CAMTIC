@@ -313,8 +313,8 @@ var userPersonList = {
                             '</button>';
                         /*name: 'excel',
                         text: '엑셀다운로드'*/
-                }
-            },
+                    }
+                },
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -323,6 +323,10 @@ var userPersonList = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll"  onclick="userPersonList.fn_checkAll();" style="position : relative; top : 2px;"/>',
                     template: "<input type='checkbox' name='checkUser' value='#=EMP_SEQ#'/>",
+                    width: 50
+                }, {
+                    title: "번호",
+                    template: "#= --record #",
                     width: 50
                 }, {
                     field: "EMP_NAME_KR",
@@ -371,7 +375,11 @@ var userPersonList = {
                 }, {
                     field: "JOIN_DAY2",
                     title: "입사일"
-                }]
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 
@@ -431,6 +439,10 @@ var userPersonList = {
                     template: "<input type='checkbox' name='checkUser' value='#=EMP_SEQ#'/>",
                     width: 50
                 }, {
+                    title: "번호",
+                    template: "#= --record #",
+                    width: 50
+                }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
                     template : function (e){
@@ -477,7 +489,11 @@ var userPersonList = {
                 }, {
                     title: "퇴사일",
                     field: "RESIGN_DAY",
-                }]
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 
@@ -497,6 +513,10 @@ var userPersonList = {
             },
             columns: [
                 {
+                    title: "번호",
+                    template: "#= --record #",
+                    width: 50
+                }, {
                     field: "EMP_NAME_KR",
                     title: "성명",
                     width: 100
@@ -590,7 +610,10 @@ var userPersonList = {
                     field: "RESIGN_DAY2",
                     title: "퇴사일"
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 
@@ -699,6 +722,7 @@ var userPersonList = {
         if($("#dsJ").is(":checked")){
             $("#mainGrid").css("display", "none");
             $("#mainGridSub").css("display", "");
+            userPersonList.global.searchAjaxData.dsJ = "Y";
             userPersonList.mainGridSub('/userManage/getEmpInfoList',userPersonList.global.searchAjaxData);
         } else {
             $("#mainGrid").css("display", "");

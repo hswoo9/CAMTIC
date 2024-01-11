@@ -203,7 +203,8 @@
             VCD.SUBHOLIDAY_DT_CODE_NM,
             DI.DOC_ID,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            DATE_FORMAT(VUH.REG_DATE, '%Y-%m-%d') AS REG_DT
         FROM
             CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
         JOIN
@@ -239,6 +240,7 @@
                 DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d')
             ]]>
         </if>
+        ORDER BY REG_DATE DESC
     </select>
 
     <select id="getVacUseHistoryOne" resultType="map" parameterType="map">
