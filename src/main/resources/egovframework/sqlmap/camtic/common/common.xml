@@ -577,7 +577,7 @@
             LIST_DEL_YN = 'N'
         AND
             ACTIVE = 'Y'
-        ORDER BY REG_DATE DESC
+        ORDER BY REG_DATE DESC LIMIT 5;
     </select>
 
     <insert id="setAlarm" parameterType="map" >
