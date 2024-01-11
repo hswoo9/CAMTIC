@@ -29,7 +29,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Autowired
     private HistoryRepository historyRepository;
-    private UserManageRepository userManageRepository;
+
 
     @Override
     public List<Map<String, Object>> getHistoryList(Map<String, Object> params) {
@@ -80,6 +80,7 @@ public class HistoryServiceImpl implements HistoryService {
         historyRepository.setHistoryUpdate(params);
     }
 
+    /*
     @Override
     public void setRewardInsert(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
         if(StringUtils.isEmpty(params.get("rewordId"))){
@@ -102,6 +103,56 @@ public class HistoryServiceImpl implements HistoryService {
                 System.out.println("file_no"+list.get(i).get("file_no"));
             }
             commonRepository.insFileInfo(list);
+        }
+
+    }
+     */
+
+    @Override
+    public void setRewardInsert(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir) {
+        if(StringUtils.isEmpty(params.get("rewordId"))){
+            historyRepository.setRewardInsert(params);
+        }else{
+            historyRepository.setRewardUpdate(params);
+        }
+
+        /*
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("rewordId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                System.out.println("file_no"+list.get(i).get("file_no"));
+            }
+            commonRepository.insFileInfo(list);
+        }
+         */
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile rewardFile = request.getFile("rewardFile");
+
+        if(rewardFile != null){
+            if(!rewardFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(rewardFile, filePath(params, server_dir));
+                fileInsMap.put("contentId", params.get("rewordId"));
+                fileInsMap.put("rewordId", params.get("rewordId"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("filePath", filePath(params, base_dir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                fileInsMap.put("rewardAddFileNo", fileInsMap.get("file_no"));
+                System.out.println("***fileInsMap***"+fileInsMap);
+                historyRepository.setInRewardAddFileNoUpdNoTmp(fileInsMap);
+            }
         }
 
     }

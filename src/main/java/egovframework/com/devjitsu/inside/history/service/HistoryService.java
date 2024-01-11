@@ -60,7 +60,8 @@ public interface HistoryService {
      * 포상등록
      * @param params
      */
-    void setRewardInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
+    //void setRewardInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
+    void setRewardInsert(Map<String, Object> params, MultipartHttpServletRequest request, String server_dir, String base_dir);
 
     void modAf(Map<String, Object> params);
 

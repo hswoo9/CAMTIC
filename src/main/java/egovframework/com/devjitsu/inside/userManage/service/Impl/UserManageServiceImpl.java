@@ -348,6 +348,7 @@ public class UserManageServiceImpl implements UserManageService {
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 fileInsMap.put("rewardAddFileNo", fileInsMap.get("file_no"));
+                System.out.println("***fileInsMap***"+fileInsMap);
                 userManageRepository.setInRewardAddFileNoUpd(fileInsMap);
             }
         }
