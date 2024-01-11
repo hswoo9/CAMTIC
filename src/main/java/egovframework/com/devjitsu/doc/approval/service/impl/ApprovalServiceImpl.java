@@ -492,7 +492,11 @@ public class ApprovalServiceImpl implements ApprovalService {
                 data.put("filePath", filePath);
                 data.put("type", "exnpDetail");
                 data.put("docId", params.get("docId"));
-                returnMap.add(approvalRepository.getDocAttachmentList(data).get(0));
+
+                List<Map<String, Object>> listMap = approvalRepository.getDocAttachmentList(data);
+                if(listMap.size() > 0){
+                    returnMap.add(listMap.get(0));
+                }
             }
         } else {
             returnMap = approvalRepository.getDocAttachmentList(params);

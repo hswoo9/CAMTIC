@@ -80,6 +80,18 @@ public class PayAppServiceImpl implements PayAppService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
+        List<Map<String, Object>> storedFileArr = gson.fromJson((String) params.get("storedFileArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        if(storedFileArr.size() > 0){
+            payAppRepository.delPayAppFileList(params);
+
+            for(Map<String, Object> map : storedFileArr){
+                map.put("contentId", params.get("payAppSn"));
+                map.put("fileNo", map.get("file_no"));
+
+                commonRepository.insPayAppFileList(map);
+            }
+        }
+
         if(fileList.length > 0){
             params.put("menuCd", "payApp");
 

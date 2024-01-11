@@ -1624,6 +1624,11 @@
         </foreach>
     </select>
 
+    <delete id="delPayAppFileList" parameterType="map">
+        /* delPayAppFileList */
+        DELETE FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}
+    </delete>
+
     <select id="getPayAppInfo" parameterType="map" resultType="map">
         /*getPayAppInfo*/
         SELECT
