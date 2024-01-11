@@ -324,6 +324,11 @@ const openStudyReq = {
             }catch{
 
             }
+            try{
+                window.opener.getOpenStudy();
+            }catch{
+
+            }
             //openStudyReq.openStudyUserSetting();
         }
     },
