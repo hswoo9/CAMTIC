@@ -84,7 +84,7 @@
                         <tr class="schoolInfo" id="school0">
                             <td>
                                 <input type="hidden" id="schoolBaseId0" name="schoolBaseId0" class="schoolBaseId">
-                                <select id="schoolType" class="__inp schoolType">
+                                <select id="schoolType" class="__inp schoolType" onchange="applicationForm2.schoolTypeChange(this)">
                                     <option value="">선택</option>
                                     <option value="1">고등학교</option>
                                     <option value="2">전문대학</option>

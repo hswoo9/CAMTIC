@@ -25,7 +25,7 @@ var applicationForm2 = {
             '<tr class="schoolInfo" id="school' + applicationForm2.global.schoolIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="schoolBaseId' + applicationForm2.global.schoolIndex + '" name="schoolBaseId' + applicationForm2.global.schoolIndex + '" class="schoolBaseId">' +
-                    '<select id="schoolType" class="__inp" style="width:100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<select id="schoolType" class="__inp" style="width:100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;" onchange="applicationForm2.schoolTypeChange(this)">>' +
                         '<option value="">선택</option>' +
                         '<option value="1">고등학교</option>' +
                         '<option value="2">전문대학</option>' +
@@ -85,6 +85,30 @@ var applicationForm2 = {
             format : "yyyy-MM-dd",
             value : new Date()
         });
+    },
+
+    schoolTypeChange : function(e){
+        if($(e).val() == "1"){
+            $(e).closest("tr").find(".dept").hide()
+            $(e).closest("tr").find(".major").hide()
+            $(e).closest("tr").find(".grade").hide()
+            $(e).closest("tr").find(".degreeFileNo").hide()
+            $(e).closest("tr").find(".degreeFileLabel").hide()
+            $(e).closest("tr").find(".degreeFileName").hide()
+            $(e).closest("tr").find(".sexualFileNo").hide()
+            $(e).closest("tr").find(".sexualFileLabel").hide()
+            $(e).closest("tr").find(".sexualFileName").hide()
+        }else{
+            $(e).closest("tr").find(".dept").show()
+            $(e).closest("tr").find(".major").show()
+            $(e).closest("tr").find(".grade").show()
+            $(e).closest("tr").find(".degreeFileNo").show()
+            $(e).closest("tr").find(".degreeFileLabel").show()
+            $(e).closest("tr").find(".degreeFileName").show()
+            $(e).closest("tr").find(".sexualFileNo").show()
+            $(e).closest("tr").find(".sexualFileLabel").show()
+            $(e).closest("tr").find(".sexualFileName").show()
+        }
     },
 
     addCareerRow : function(){
@@ -233,11 +257,6 @@ var applicationForm2 = {
                 highSchoolFlag = true;
             }
         })
-
-        if(!highSchoolFlag){
-            alert("고등학교 학력은 필수사항입니다.");
-            return highSchoolFlag;
-        }
 
         if(!flag){
             return;
