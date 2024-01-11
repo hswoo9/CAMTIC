@@ -328,7 +328,7 @@ var hwpDocCtrl = {
 
                     //소속
                     hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
-                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_FULL_NAME);
+                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME);
 
                     //직위
                     hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
@@ -375,13 +375,23 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
                     hwpDocCtrl.putFieldText('regSign', regSign);
 
+                    var hostFlag = location.host;
+                    var hostProtocol = location.protocol;
+
+                    var host = "";
+                    if(hostFlag == "218.158.231.186"){
+                        host = hostProtocol + "//218.158.231.186/";
+                    }else{
+                        host = hostProtocol + "//218.158.231.184/";
+                    }
+
                     if(ResultData.FILE_PATH != null){
                         if(hwpDocCtrl.global.HwpCtrl.FieldExist('sign')){
                             hwpDocCtrl.global.HwpCtrl.PutFieldText('sign', " ");
                             hwpDocCtrl.global.HwpCtrl.MoveToField('sign', true, true, false);
                             hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
                                 "SelectedCell",
-                                "http://218.158.231.186/" + ResultData.FILE_PATH,
+                                host + ResultData.FILE_PATH,
                                 1,
                                 5,
                                 0,
