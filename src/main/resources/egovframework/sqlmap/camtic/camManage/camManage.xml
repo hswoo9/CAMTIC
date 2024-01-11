@@ -36,7 +36,7 @@
 
     <select id="getUserPartRateInfo" parameterType="map" resultType="map">
         /*getUserPartRateInfo*/
-        WITH results AS (SELECT
+        SELECT
             C.PJT_SN,
             A.CHNG_SAL,
             A.MON_SAL,
@@ -51,10 +51,7 @@
             C.PJT_STEP,
             C.PJT_STEP_NM,
             (select cm_code_nm from cam_common.dj_com_code a left join cam_common.dj_com_group_code b on a.cm_group_code_id = b.cm_group_code_id where b.cm_group_code_id = 36 and cm_code = C.SBJ_CLASS) AS subClassText,
-            A.TOT_RATE,
-            ROW_NUMBER() OVER (PARTITION BY C.PJT_SN ORDER BY
-            CASE WHEN B.MNG_STAT = 'C' THEN 1 ELSE 2 END,
-            B.PART_RATE_VER_SN DESC) AS RowNum
+            A.TOT_RATE
         FROM
             CAM_PJT_MNG.DJ_PART_RATE_DET A
         LEFT JOIN
@@ -75,10 +72,17 @@
                 C.STR_DT >= #{strDe}
         ]]>
         </if>
-        )
-        SELECT *
-        FROM results
-        WHERE RowNum = 1
+        AND
+            (C.PJT_SN, B.PART_RATE_VER) IN
+            (
+                SELECT PJT_SN, MAX(PART_RATE_VER) AS PART_RATE_VER
+                FROM
+                    CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+                WHERE
+                    MNG_STAT != 'R'
+                GROUP BY PJT_SN
+            )
+
     </select>
 
     <select id="getUserSalList" parameterType="map" resultType="map">
