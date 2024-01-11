@@ -30,7 +30,7 @@
                     <span id="titleStat">작성</span>
                 </span>
             </h3>
-            <div id="payAppBtnDiv" class="btn-st popButton">
+            <div id="payAppBtnDiv" class="btn-st popButton" style="font-size: 12px;">
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regIncm.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>

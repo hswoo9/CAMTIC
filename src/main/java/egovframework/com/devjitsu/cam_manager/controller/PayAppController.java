@@ -623,6 +623,27 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regIncmPop";
     }
 
+
+    /**
+     * 수입 반제결의 팝업
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/payApp/pop/regIncpRePop.do")
+    public String regIncpRePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("erpEmpSeq", loginVO.getErpEmpCd());
+        Map<String, Object> g20 = g20Service.getSempData(params);
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("g20", g20);
+
+        return "popup/cam_manager/payApp/regIncpRePop";
+    }
+
     @RequestMapping("/payApp/pop/regIncmRePop.do")
     public String regIncmRePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -657,6 +678,18 @@ public class PayAppController {
         List<Map<String, Object>> list = payAppService.getPayIncpDetailData(params);
         model.addAttribute("map", map);
         model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/pop/getPayIncpReData")
+    public String getPayIncpReData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = payAppService.getPayIncpReqData(params);
+        List<Map<String, Object>> list = payAppService.getPayIncpDetailData(params);
+        Map<String, Object> data = payAppService.getPayIncpReData(params);
+        model.addAttribute("map", map);
+        model.addAttribute("list", list);
+        model.addAttribute("data", data);
 
         return "jsonView";
     }
@@ -956,4 +989,16 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/pay/setIncpRe")
+    public String setIncpRe(@RequestParam Map<String, Object> params, Model model){
+        try{
+            Map<String, Object> map = payAppService.setIncpRe(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rs", map);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }
