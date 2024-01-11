@@ -70,11 +70,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void setApplicationForm1(Map<String, Object> params, MultipartFile photoFile, MultipartFile armiFile, String serverDir, String baseDir) {
-        if(StringUtils.isEmpty(params.get("applicationId"))){
-            applicationRepository.setApplicationForm1(params);
-        }else{
-            applicationRepository.setApplicationForm1Upd(params);
-        }
+        applicationRepository.setApplicationForm1Upd(params);
 
         /**
          * 증명사진
@@ -370,17 +366,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void setApplicationIntroduce(Map<String, Object> params) {
-        if(StringUtils.isEmpty(params.get("introduceId"))){
-            applicationRepository.setApplicationIntroduce(params);
-        }else{
-            applicationRepository.setApplicationIntroduceUpd(params);
-        }
-
-        if(!StringUtils.isEmpty(params.get("saveType"))){
-            if(params.get("saveType").equals("S")){
-                applicationRepository.setApplicationMainSaveType(params);
-            }
-        }
+        applicationRepository.setApplicationIntroduceUpd(params);
     }
 
     @Override

@@ -27,11 +27,7 @@ var applicationIntroduce = {
             }
 
             var confirmText = "";
-            if(type == "temp"){
-                confirmText = "임시저장 하시겠습니까?";
-            }else{
-                confirmText = "최종 제출하시겠습니까?\n제출 후에는 수정 할 수 없습니다.";
-            }
+            confirmText = "수정 하시겠습니까?";
 
             if(confirm(confirmText)){
                 var formData = new FormData();
@@ -47,16 +43,15 @@ var applicationIntroduce = {
 
                 var result = customKendo.fn_customFormDataAjax("/application/setApplicationIntroduce.do", formData);
                 if(result.flag){
-                    if(type == "temp"){
-                        alert("임시저장 되었습니다.");
-                        location.reload();
-                    }else{
-                        alert("최종제출 되었습니다.");
-                        window.close();
-                    }
+                    alert("수정되었습니다.");
+                    location.reload();
                 }
             }
         }
+    },
+
+    setApplicationPrev : function(){
+        location.href = "/application/applicationForm3.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
     },
 
     applicationDataSet : function(e){

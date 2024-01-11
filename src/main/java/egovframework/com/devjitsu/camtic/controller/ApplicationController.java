@@ -139,14 +139,14 @@ public class ApplicationController {
     }
 
     /**
-     * 채용공고 - 응시원서 (기본정보) 저장
+     * 채용공고 - 응시원서 (기본정보) 수정
      * @param params
      * @return
      */
     @RequestMapping("/application/setApplicationForm1.do")
     public String setApplicationForm1(@RequestParam Map<String, Object> params,
                                       @RequestParam(name = "photoFile", required = false) MultipartFile photoFile,
-                                      @RequestParam(name = "file", required = false) MultipartFile armiFile,
+                                      @RequestParam(name = "armiFile", required = false) MultipartFile armiFile,
                                       HttpServletRequest request,
                                       Model model){
         applicationService.setApplicationForm1(params, photoFile, armiFile, SERVER_DIR, BASE_DIR);

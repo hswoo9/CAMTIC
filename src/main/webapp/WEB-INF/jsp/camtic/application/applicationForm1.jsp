@@ -10,18 +10,28 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/camtic/application/applicationForm1.js?v=${today}"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/postcode.v2.js?autoload=false'/>"></script>
+<style>
+    .__inp {
+        padding-left: 10px;
+        display: inline-block;
+        width: 100%;
+        height: 40px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+</style>
 
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-lg-12 pop_sign_wrap" style="width:1000px; padding:0;">
+<div class="col-lg-12 pop_sign_wrap" style="width:1050px; height: 850px; padding:0;">
     <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
     <input type="hidden" id="applicationId" name="applicationId" value="${params.applicationId}">
     <input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM">캠틱 온라인 입사지원</h3>
+            <h3 class="card-title title_NM">입사지원 수정</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="applicationForm.setApplicationTempSave('temp')">임시저장</button>
-                <button type="button" class="k-button k-button-solid-info" onclick="applicationForm.setApplicationTempSave('next')">다음단계</button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
+                <button type="button" class="k-button k-button-solid-primary" onclick="applicationForm.setApplicationMod('next')">수정</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="applicationForm.setApplicationNext()">다음단계</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
 
@@ -37,7 +47,7 @@
                     </th>
                     <td>
                         <div id="careerType">
-                            <select id="recruitAreaInfoSn" name="recruitAreaInfoSn" onchange="applicationForm.careerType()">
+                            <select id="recruitAreaInfoSn" class="__inp" name="recruitAreaInfoSn" onchange="applicationForm.careerType()">
                             </select>
                         </div>
                     </td>
@@ -48,10 +58,10 @@
                 <table class="popTable table table-bordered mb-0 mt10">
                     <colgroup>
                         <col width="14%">
-                        <col width="24%">
-                        <col width="24%">
-                        <col width="24%">
+                        <col width="28%">
                         <col width="14%">
+                        <col width="28%">
+                        <col width="16%">
                     </colgroup>
                     <thead>
                     <tr>
@@ -61,14 +71,10 @@
                         <th>
                             이름
                         </th>
-                        <td>
-                            한글 <input type="text" id="userName" name="userPassword">
-                        </td>
-                        <td>
-                            영문 <input type="text" id="userNameEn" name="userPassword">
-                        </td>
-                        <td>
-                            한자 <input type="text" id="userNameCn" name="userPassword">
+                        <td colspan="3">
+                            한글: <input type="text" id="userName" class="__inp" style="width: 25%" name="userPassword">
+                            영문: <input type="text" id="userNameEn" class="__inp" style="width: 25%" name="userPassword">
+                            한자: <input type="text" id="userNameCn" class="__inp" style="width: 25%" name="userPassword">
                         </td>
                         <td rowspan="3">
                             <div>
@@ -98,11 +104,11 @@
                     <tr>
                         <th>연락처</th>
                         <td>
-                            <input type="text" id="telNum" name="telNum" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event); formatPhoneNumber(this);" maxlength="13" placeholder="숫자만 기입 (일반전화)" onblur="formatPhoneNumber(this)">
+                            <input type="text" class="__inp" id="telNum" name="telNum" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event); formatPhoneNumber(this);" maxlength="13" placeholder="숫자만 기입 (일반전화)" onblur="formatPhoneNumber(this)">
                         </td>
                         <th>휴대폰</th>
                         <td>
-                            <input type="text" id="mobileTelNum" name="mobileTelNum" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event); formatMobilePhoneNumber(this);" maxlength="14" placeholder="숫자만 기입 (휴대폰)" onblur="formatPhoneNumber(this)">
+                            <input type="text" class="__inp" id="mobileTelNum" name="mobileTelNum" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event); formatMobilePhoneNumber(this);" maxlength="14" placeholder="숫자만 기입 (휴대폰)" onblur="formatPhoneNumber(this)">
                         </td>
                     </tr>
                     <tr>
@@ -110,7 +116,7 @@
                         <td class="tal" colspan="4">
                             <div>
                                 <input type="text" class="__inp" id="zipCode" readonly name="zipCode" style="width:10em;" onclick="applicationForm.addrSearch()">
-                                <button type="button" class="__btn3 black" onclick="applicationForm.addrSearch()">
+                                <button type="button" class="__btn3 black k-button" onclick="applicationForm.addrSearch()">
                                     <span>주소찾기</span>
                                 </button>
                             </div>
@@ -125,14 +131,14 @@
                     <tr>
                         <th>이메일</th>
                         <td colspan="4">
-                            <input type="text" id="userEmail2" name="userEmail2" value="${userEmail}">
+                            <input type="text" class="__inp" id="userEmail2" name="userEmail2" value="${userEmail}">
                         </td>
                     </tr>
                     <tr>
                         <th>취미/특기</th>
                         <td colspan="4">
-                            취미 <input type="text" id="hobby" name="hobby">
-                            특기 <input type="text" id="specialty" name="specialty">
+                            취미 <input type="text" class="__inp" style="width: 40%" id="hobby" name="hobby">
+                            특기 <input type="text" class="__inp" style="width: 40%" id="specialty" name="specialty">
                         </td>
                     </tr>
                     <tr>
@@ -169,7 +175,7 @@
                     <tr>
                         <th>군별</th>
                         <td>
-                            <select id="clsftCode" name="clsftCode" style="float:left;">
+                            <select id="clsftCode" class="__inp" name="clsftCode" style="float:left;">
                                 <option value="">군별선택</option>
                                 <option value="1">미필</option>
                                 <option value="2">면제</option>
@@ -179,7 +185,7 @@
                         </td>
                         <th>병역구분</th>
                         <td>
-                            <select name="militarySvcType" id="militarySvcType" style="float:left;">
+                            <select name="militarySvcType" class="__inp" id="militarySvcType" style="float:left;">
                                 <option value="">병역구분 선택</option>
                                 <option value="1">육군</option>
                                 <option value="2">공군</option>
@@ -205,17 +211,17 @@
                     <tr>
                         <th>계급</th>
                         <td>
-                            <input type="text" id="rank" name="rank" style="float:left;">
+                            <input type="text" class="__inp" id="rank" name="rank" style="float:left;">
                         </td>
                         <th>병과</th>
                         <td>
-                            <input type="text" id="etc" name="etc" style="float:left;">
+                            <input type="text" class="__inp" id="etc" name="etc" style="float:left;">
                         </td>
                     </tr>
                     <tr>
                         <th>면제사유</th>
                         <td colspan="4">
-                            <input type="text" id="mUnfulReason" name="mUnfulReason" style="float:left;">
+                            <input type="text" class="__inp" id="mUnfulReason" name="mUnfulReason" style="float:left;">
                         </td>
                     </tr>
                     <tr>

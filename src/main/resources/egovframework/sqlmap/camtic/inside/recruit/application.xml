@@ -212,9 +212,6 @@
         UPDATE
             CAM_INSIDE.DJ_APPLICATION_MAIN
         SET
-            RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn},
-            CAREER_TYPE = #{careerType},
-            USER_EMAIL = #{userEmail},
             USER_NAME = #{userName},
             USER_NAME_EN = #{userNameEn},
             USER_NAME_CN = #{userNameCn},

@@ -33,17 +33,17 @@ var applicationForm3 = {
             '<tr class="cert" id="cert' + applicationForm3.global.certIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="certBaseId' + applicationForm3.global.certIndex + '" name="certBaseId' + applicationForm3.global.certIndex + '" class="certBaseId">' +
-                    '<input type="text" id="certName' + applicationForm3.global.certIndex + '" class="certName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;"">' +
+                    '<input type="text" id="certName' + applicationForm3.global.certIndex + '" class="__inp certName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;"">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="certClass' + applicationForm3.global.certIndex + '" class="certClass" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="certClass' + applicationForm3.global.certIndex + '" class="__inp certClass" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="certIssuer' + applicationForm3.global.certIndex + '" class="certIssuer" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="certIssuer' + applicationForm3.global.certIndex + '" class="__inp certIssuer" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="certFileNo' + applicationForm3.global.certIndex + '" name="certFileNo' + applicationForm3.global.certIndex + '" class="certFileNo">' +
-                    '<input type="text" id="certFileName' + applicationForm3.global.certIndex + '" class="certFileName" style="width: 147px ;font-size:15px; color:#337ab7;">' +
+                    '<input type="text" id="certFileName' + applicationForm3.global.certIndex + '" class="certFileName" style="width: 147px ;font-size:15px; color:#337ab7;" disabled>' +
                     '<label for="certFile' + applicationForm3.global.certIndex + '" class="certFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
                     '<input type="file" id="certFile' + applicationForm3.global.certIndex + '" class="certFile" name="certFile' + applicationForm3.global.certIndex + '" style="display: none" onChange="applicationForm3.getFileName(this)">' +
                 '</td>' +
@@ -70,17 +70,17 @@ var applicationForm3 = {
             '<tr class="lang" id="lang' + applicationForm3.global.langIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="langBaseId' + applicationForm3.global.langIndex + '" name="langBaseId' + applicationForm3.global.langIndex + '" class="langBaseId">' +
-                    '<input type="text" id="langName' + applicationForm3.global.langIndex + '" class="langName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="langName' + applicationForm3.global.langIndex + '" class="__inp langName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="acquisitionDate' + applicationForm3.global.langIndex + '" class="acquisitionDate period" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="acquisitionDate' + applicationForm3.global.langIndex + '" class="acquisitionDate period" style="width: 100%;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="acquisitionScore' + applicationForm3.global.langIndex + '" class="acquisitionScore" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="acquisitionScore' + applicationForm3.global.langIndex + '" class="__inp acquisitionScore" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
                     '<input type="hidden" id="langFileNo' + applicationForm3.global.langIndex + '" name="langFileNo' + applicationForm3.global.langIndex + '" class="langFileNo">' +
-                    '<input type="text" id="langFileName' + applicationForm3.global.langIndex + '" class="langFileName" style="width: 147px ;font-size:15px; color:#337ab7;">' +
+                    '<input type="text" id="langFileName' + applicationForm3.global.langIndex + '" class="langFileName" style="width: 147px ;font-size:15px; color:#337ab7;" disabled>' +
                     '<label for="langFile' + applicationForm3.global.langIndex + '" class="langFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
                     '<input type="file" id="langFile' + applicationForm3.global.langIndex + '" class="langFile" name="langFile' + applicationForm3.global.langIndex + '" style="display: none" onChange="applicationForm3.getFileName(this)">' +
                 '</td>' +
@@ -162,119 +162,113 @@ var applicationForm3 = {
     },
 
     setApplicationTempSave : function(type){
-        if(type == "prev"){
-            location.href = "/application/applicationForm2.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
-        }else{
-            if(type == "next"){
-                var flag = true;
-                $.each($(".cert"), function(i, v){
-                    if($(this).find("#certName" + i).val() != ""){
-                        if(!$(this).find("#certFileNo" + i).val() && $("#certFile" + i)[0].files.length == 0 && type == "next") {
-                            flag = false;
-                        }
-
-                        if(!flag){
-                            alert("자격/면허 증빙파일은 필수사항입니다.");
-                            return flag;
-                        }
-                    }
-                })
+        var flag = true;
+        $.each($(".cert"), function(i, v){
+            if($(this).find("#certName" + i).val() != ""){
+                if(!$(this).find("#certFileNo" + i).val() && $("#certFile" + i)[0].files.length == 0 && type == "next") {
+                    flag = false;
+                }
 
                 if(!flag){
-                    return;
+                    alert("자격/면허 증빙파일은 필수사항입니다.");
+                    return flag;
                 }
+            }
+        })
 
-                $.each($(".lang"), function(i, v){
-                    if($(this).find("#langName" + i).val() != ""){
-                        if(!$(this).find("#langFileNo" + i).val() && $("#langFile" + i)[0].files.length == 0 && type == "next") {
-                            flag = false;
-                        }
+        if(!flag){
+            return;
+        }
 
-                        if(!flag){
-                            alert("외국어 증빙파일은 필수사항입니다.");
-                            return flag;
-                        }
-                    }
-                })
+        $.each($(".lang"), function(i, v){
+            if($(this).find("#langName" + i).val() != ""){
+                if(!$(this).find("#langFileNo" + i).val() && $("#langFile" + i)[0].files.length == 0 && type == "next") {
+                    flag = false;
+                }
 
                 if(!flag){
-                    return;
+                    alert("외국어 증빙파일은 필수사항입니다.");
+                    return flag;
                 }
             }
+        })
 
-            var confirmText = "";
-            if(type == "temp"){
-                confirmText = "임시저장 하시겠습니까?";
-            }else{
-                confirmText = "다음 단계로 이동 하시겠습니까?";
+        if(!flag){
+            return;
+        }
+
+        var confirmText = "";
+        confirmText = "수정 하시겠습니까?";
+
+        if(confirm(confirmText)){
+            var formData = new FormData();
+            var certArr = new Array();
+            $.each($(".cert"), function(i, v){
+                if($(this).find("#certName" + i).val() != ""){
+                    var arrData = {
+                        certBaseId : $(this).find("#certBaseId" + i).val(),
+                        applicationId : $("#applicationId").val(),
+                        certName : $(this).find("#certName" + i).val(),
+                        certClass : $(this).find("#certClass" + i).val(),
+                        certIssuer : $(this).find("#certIssuer" + i).val(),
+                        certContent : $("#certContent" + i).val(),
+                        userEmail : $("#userEmail").val(),
+                        certFileNo : $(this).find("#certFileNo" + i).val(),
+                    }
+
+                    if($(this).find("#certFile" + i)[0].files.length != 0){
+                        formData.append("certFile" + i, $(this).find("#certFile" + i)[0].files[0]);
+                    }
+
+                    certArr.push(arrData);
+                }
+            })
+
+            var langArr = new Array();
+            $.each($(".lang"), function(i, v){
+                if($(this).find("#langName" + i).val() != ""){
+                    var arrData = {
+                        langBaseId : $(this).find("#langBaseId" + i).val(),
+                        applicationId : $("#applicationId").val(),
+                        langName : $(this).find("#langName" + i).val(),
+                        acquisitionDate : $(this).find("#acquisitionDate" + i).val(),
+                        acquisitionScore : $(this).find("#acquisitionScore" + i).val(),
+                        langContent : $("#langContent" + i).val(),
+                        userEmail : $("#userEmail").val(),
+                        langFileNo : $(this).find("#langFileNo" + i).val(),
+                    }
+
+                    if($(this).find("#langFile" + i)[0].files.length != 0){
+                        formData.append("langFile" + i, $(this).find("#langFile" + i)[0].files[0]);
+                    }
+
+                    langArr.push(arrData);
+                }
+            })
+
+            formData.append("applicationId", $("#applicationId").val());
+            formData.append("certArr", JSON.stringify(certArr));
+            formData.append("langArr", JSON.stringify(langArr));
+            formData.append("otherYn", $("#otherYn").is(":checked") ? "Y" : "N");
+            if($("#otherYn").is(":checked")){
+                formData.append("otherLang", $("#otherLang").val());
             }
+            formData.append("userEmail", $("#userEmail").val());
 
-            if(confirm(confirmText)){
-                var formData = new FormData();
-                var certArr = new Array();
-                $.each($(".cert"), function(i, v){
-                    if($(this).find("#certName" + i).val() != ""){
-                        var arrData = {
-                            certBaseId : $(this).find("#certBaseId" + i).val(),
-                            applicationId : $("#applicationId").val(),
-                            certName : $(this).find("#certName" + i).val(),
-                            certClass : $(this).find("#certClass" + i).val(),
-                            certIssuer : $(this).find("#certIssuer" + i).val(),
-                            certContent : $("#certContent" + i).val(),
-                            userEmail : $("#userEmail").val(),
-                            certFileNo : $(this).find("#certFileNo" + i).val(),
-                        }
-
-                        if($(this).find("#certFile" + i)[0].files.length != 0){
-                            formData.append("certFile" + i, $(this).find("#certFile" + i)[0].files[0]);
-                        }
-
-                        certArr.push(arrData);
-                    }
-                })
-
-                var langArr = new Array();
-                $.each($(".lang"), function(i, v){
-                    if($(this).find("#langName" + i).val() != ""){
-                        var arrData = {
-                            langBaseId : $(this).find("#langBaseId" + i).val(),
-                            applicationId : $("#applicationId").val(),
-                            langName : $(this).find("#langName" + i).val(),
-                            acquisitionDate : $(this).find("#acquisitionDate" + i).val(),
-                            acquisitionScore : $(this).find("#acquisitionScore" + i).val(),
-                            langContent : $("#langContent" + i).val(),
-                            userEmail : $("#userEmail").val(),
-                            langFileNo : $(this).find("#langFileNo" + i).val(),
-                        }
-
-                        if($(this).find("#langFile" + i)[0].files.length != 0){
-                            formData.append("langFile" + i, $(this).find("#langFile" + i)[0].files[0]);
-                        }
-
-                        langArr.push(arrData);
-                    }
-                })
-
-                formData.append("applicationId", $("#applicationId").val());
-                formData.append("certArr", JSON.stringify(certArr));
-                formData.append("langArr", JSON.stringify(langArr));
-                formData.append("otherYn", $("#otherYn").is(":checked") ? "Y" : "N");
-                if($("#otherYn").is(":checked")){
-                    formData.append("otherLang", $("#otherLang").val());
-                }
-                formData.append("userEmail", $("#userEmail").val());
-
-                var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm3.do", formData);
-                if(result.flag){
-                    if(type == "temp"){
-                        alert("임시저장 되었습니다.");
-                        location.reload();
-                    }else{
-                        location.href = "/application/applicationIntroduce.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
-                    }
-                }
+            var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm3.do", formData);
+            if(result.flag){
+                alert("수정되었습니다.");
+                location.reload();
             }
         }
+    },
+
+    setApplicationPrev : function(){
+        location.href = "/application/applicationForm2.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
+    },
+
+    setApplicationNext : function(){
+        location.href = "/application/applicationIntroduce.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
     },
 
     applicationDataSet : function(e){
@@ -366,6 +360,6 @@ var applicationForm3 = {
     },
 
     getFileName : function(e){
-        $(e).prev().val(e.files[0].name);
+        $(e).prev().prev().val(e.files[0].name);
     }
 }
