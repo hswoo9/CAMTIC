@@ -82,13 +82,12 @@ var regIncpRe = {
 
     payAppBtnSet: function (data){
         let buttonHtml = "";
-        if(data.RE_STAT == "N"){
-            if($("#type").val() != "new"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_reApprove()">반제결의서 승인</button>';
-            } else {
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_save()">저장</button>';
-            }
+        if($("#type").val() != "new"){
+            buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_reApprove()">반제결의서 승인</button>';
+        } else {
+            buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_save()">저장</button>';
         }
+
 
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
 
@@ -98,6 +97,7 @@ var regIncpRe = {
     fn_reApprove : function (){
         var parameters = {
             payIncpSn : $("#payIncpSn").val(),
+            payIncpReSn : $("#payIncpReSn").val(),
             regEmpSeq : $("#regEmpSeq").val(),
             empSeq : $("#regEmpSeq").val()
         }
@@ -177,6 +177,10 @@ var regIncpRe = {
         $("#bnkNm").val(rs.BNK_NM ? rs.BNK_NM : tmpRs.BNK_NM);
         $("#accNm").val(rs.ACC_NM ? rs.ACC_NM : tmpRs.ACC_NM);
         $("#accNo").val(rs.ACC_NO ? rs.ACC_NO : tmpRs.ACC_NO);
+
+        $("#totAmt").val(rs.TOT_COST ? regIncpRe.comma(rs.TOT_COST) : 0);
+        $("#supAmt").val(rs.SUP_COST ? regIncpRe.comma(rs.SUP_COST) : 0);
+        $("#vatAmt").val(rs.VAT_COST ? regIncpRe.comma(rs.VAT_COST) : 0);
     },
 
     setData2 : function (){
