@@ -128,6 +128,16 @@ const openStudyRes = {
         const result = customKendo.fn_customAjax(url, data);
         if(result.flag){
             alert("결과보고 데이터 저장이 완료되었습니다.");
+            try {
+                opener.gridReload();
+            }catch{
+
+            }
+            try {
+                location.reload();
+            }catch{
+
+            }
             openStudyRes.openStudyResPop(data.pk);
             window.close();
         }

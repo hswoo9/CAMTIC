@@ -23,12 +23,11 @@
     <input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
     <input type="hidden" id="recruitAreaInfoSn" name="recruitAreaInfoSn" value="${params.recruitAreaInfoSn}">
     <div class="card-header pop-header">
-        <h3 class="card-title title_NM">캠틱 온라인 입사지원</h3>
+        <h3 class="card-title title_NM">입사지원 수정</h3>
         <div class="btn-st popButton">
-            <button type="button" class="k-button k-button-solid-info" onclick="applicationIntroduce.setApplicationTempSave('prev')"><span>이전단계</span></button>
-            <button type="button" class="k-button k-button-solid-info" onclick="applicationIntroduce.setApplicationTempSave('temp')"><span>임시저장</span></button>
-            <button type="button" class="k-button k-button-solid-info" onclick="applicationIntroduce.setApplicationTempSave('final')"><span>최종제출하기</span></button>
-            <button type="button" class="k-button k-button-solid-error" onclick="window.close()"><span>취소</span></button>
+            <button type="button" class="k-button k-button-solid-info" onclick="applicationIntroduce.setApplicationPrev()"><span>이전단계</span></button>
+            <button type="button" class="k-button k-button-solid-info" onclick="applicationIntroduce.setApplicationTempSave()"><span>수정</span></button>
+            <button type="button" class="k-button k-button-solid-error" onclick="window.close()"><span>닫기</span></button>
         </div>
     </div>
         <div style="padding: 20px">

@@ -115,7 +115,7 @@ var incomeList = {
                                 if(e.EVID_TYPE == "7"){
                                     status = "승인";
                                 } else {
-                                    status = "미결";
+                                    status = "결재완료";
                                 }
                             }
                         } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){

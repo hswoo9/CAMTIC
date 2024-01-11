@@ -138,6 +138,10 @@
                 DUTY_CODE = #{afDutyCode},
                 DUTY_NAME = IFNULL(#{afDutyName}, ""),
             </if>
+            <if test='afDutyCode == null or "".equals(afDutyCode)'>
+                DUTY_CODE = IFNULL(#{afDutyCode},""),
+                DUTY_NAME = IFNULL(#{afDutyName}, ""),
+            </if>
             <if test='afJobDetail != null and !"".equals(afJobDetail)'>
                 JOB_DETAIL = #{afJobDetail},
             </if>

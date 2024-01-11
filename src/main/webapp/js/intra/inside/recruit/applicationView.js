@@ -76,6 +76,7 @@ var appView = {
                 console.log("js data : ",responseData);
                 $("#mainGrid *").remove();
                 appView.changeMainGrid(responseData);
+                $("#applicationId").val(applicationId);
                 appView.getCareerSum();
             },
             error: function (error){
@@ -455,6 +456,13 @@ var appView = {
         var name = "applicationReg";
         var option = "width = 550, height = 600, top =100, left =200, location = no";
         window.open(url,name,option);
+    },
+
+    applicationMod: function(){
+        var url = "/application/applicationForm1.do?applicationId="+$("#applicationId").val();
+        var name = "applicationForm1";
+        var option = "width=1000, height=860, top=100, left=200, location=no";
+        window.open(url, name, option);
     }
 
 }

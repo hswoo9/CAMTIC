@@ -282,6 +282,7 @@ public class UserManageRepository extends AbstractDAO {
     //상벌 사항 첨부파일 등록
     public void setInRewardAddFileNoUpd(Map<String, Object> params) { insert("userManage.setInRewardAddFileNoUpdAdmin", params);}
 
+
     // 관리자 학력 사항 첨부파일 등록
     public void setInGradeFileNoUpdAdmin(Map<String, Object> params) { insert("userManage.setInGradeFileNoUpdAdmin", params);}
 

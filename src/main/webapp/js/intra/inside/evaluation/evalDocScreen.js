@@ -47,8 +47,7 @@ var evalDocScreen = {
             }else if(evalDocScreen.global.careerType == "2"){
                 evalDocScreen.makeType2ApplicationList(result.list);
             }else if(evalDocScreen.global.careerType == "1,2"){
-                evalDocScreen.makeType1ApplicationList(result.list.filter(element => element.CAREER_TYPE == "1"));
-                evalDocScreen.makeType2ApplicationList(result.list.filter(element => element.CAREER_TYPE == "2"));
+                evalDocScreen.makeType1ApplicationList(result.list);
             }
 
             evalDocScreen.global.saveAjaxData = {

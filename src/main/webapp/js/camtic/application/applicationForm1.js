@@ -74,16 +74,9 @@ var applicationForm = {
         }
     },
 
-    setApplicationTempSave : function(type){
+    setApplicationMod : function(type){
         if(type == "next"){
-            /*
-            if($("input[name='careerType']:checked").val() == null){
-                alert("지원분야를 선택해주세요.");
-                return;
-            }
-             */
             if(!$("#userName").val()){
-
                 alert("이름(한글)을 입력해주세요.");
                 $("#userName").focus();
                 return;
@@ -130,12 +123,10 @@ var applicationForm = {
                 alert("보훈대상여부를 선택해주세요.");
                 return;
             }
-
             if(!$("#photoFileNo").val() && $("#photoFile")[0].files.length == 0){
                 alert("증명사진을 선택해주세요.");
                 return;
             }
-
             if($("#gender").data("kendoRadioGroup").value() == "Y"){
                 if(!$("#veteransNum").val()){
                     alert("보훈번호를 입력해주세요");
@@ -143,13 +134,11 @@ var applicationForm = {
                     return;
                 }
             }
-
             if(!$("#armiYn").is(":checked")){
                 if(!$("#clsftCode").val()){
                     alert("군별을 선택해주세요");
                     return;
                 }
-
                 if($("#clsftCode").val() != "2" && $("#clsftCode").val() !== "1"){
                     if(!$("#militarySvcType").val()){
                         alert("병역구분을 선택해주세요");
@@ -170,13 +159,10 @@ var applicationForm = {
                         return;
                     }
                 }
-
                 if((!$("#armiFileNo").val() && $("#armiFile")[0].files.length == 0)&& $("#clsftCode").val() !== "1"){
                     alert("증빙파일을 선택해주세요.");
                     return;
                 }
-
-
             }
             if (!$("#telNum").val() || $("#telNum").val().replace(/\D/g, '').length < 9) {
                 alert("연락처의 양식이 잘못되었습니다.");
@@ -191,11 +177,7 @@ var applicationForm = {
         }
 
         var confirmText = "";
-        if(type == "temp"){
-            confirmText = "임시저장 하시겠습니까?";
-        }else{
-            confirmText = "다음 단계로 이동 하시겠습니까?";
-        }
+        confirmText = "수정 하시겠습니까?"
 
         if(confirm(confirmText)){
             var formData = new FormData();
@@ -206,14 +188,13 @@ var applicationForm = {
             formData.append("recruitInfoSn", $("#recruitInfoSn").val());
             formData.append("recruitAreaInfoSn", $("#recruitAreaInfoSn").val());
             formData.append("careerType", $("input[name='careerType']").val());
-
             formData.append("userEmail", $("#userEmail2").val());
+
             formData.append("userName", $("#userName").val());
             formData.append("userNameEn", $("#userNameEn").val());
             formData.append("userNameCn", $("#userNameCn").val());
             formData.append("bDay", $("#bDay").val());
             formData.append("lunarYn", $("#lunarYn").is(":checked") ? "Y" : "N");
-            //formData.append("gender", $("#gender").data("kendoRadioGroup").value());
             formData.append("gender", genderValue !== undefined ? genderValue : "");
             formData.append("photoFile", $("#photoFile")[0].files[0]);
             formData.append("telNum", $("#telNum").val());
@@ -221,12 +202,10 @@ var applicationForm = {
             formData.append("zipCode", $("#zipCode").val());
             formData.append("addr", $("#addr").val());
             formData.append("addrDetail", $("#addrDetail").val());
-
-
             formData.append("hobby", $("#hobby").val());
             formData.append("specialty", $("#specialty").val());
-            //formData.append("veterans", $("#veterans").data("kendoRadioGroup").value());
             formData.append("veterans", veteransValue !== undefined ? veteransValue : "");
+            formData.append("veteransNum", $("#veteransNum").val());
 
             formData.append("armiYn", !$("#armiYn").is(":checked") ? "Y" : "N");
             if(!$("#armiYn").is(":checked")){
@@ -247,14 +226,14 @@ var applicationForm = {
             console.log("gender : "+formData.get("gender"));
             var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm1.do", formData);
             if(result.flag){
-                if(type == "temp"){
-                    alert("임시저장 되었습니다.");
-                    location.href = "/application/applicationForm1.do?applicationId=" + result.params.applicationId;
-                }else{
-                    location.href = "/application/applicationForm2.do?applicationId=" + result.params.applicationId + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
-                }
+                alert("수정되었습니다.");
+                location.reload();
             }
         }
+    },
+
+    setApplicationNext : function(){
+        location.href = "/application/applicationForm2.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
     },
 
     applicationDataSet : function(e){

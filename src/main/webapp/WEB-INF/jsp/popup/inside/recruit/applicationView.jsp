@@ -21,11 +21,14 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="recruitAreaInfoSn" value="${data.RECRUIT_AREA_INFO_SN}"/>
 
+<input type="hidden" id="applicationId" value="${data.APPLICATION_ID}"/>
+
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">캠틱 온라인 입사지원</h3>
       <div class="btn-st popButton">
+        <button type="button" class="k-button k-button-solid-primary" style="margin-right:5px;" onclick="appView.applicationMod()">지원정보 수정</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
       </div>
     </div>

@@ -268,20 +268,6 @@ var delvInfo = {
     },
 
     delvDrafting: function() {
-        const pjtSn = $("#pjtSn").val();
-        const result = customKendo.fn_customAjax("/project/team/getLastVerTeamData", {pjtSn: pjtSn});
-
-        if(result.data == null){
-            return;
-        }
-
-        const teamVerMap = result.data;
-
-        /** 협업 체크를 했으면 협업을 등록해야 다음 단계로 이동 가능*/
-        if(teamVerMap.STATUS != "100"){
-            alert("협업 등록 후 전자결재 상신이 가능합니다."); return;
-        }
-
         var pjCode = $("#pjCode").val();
         var supDep = $("#supDep").val();
         var supDepSub = $("#supDepSub").val();

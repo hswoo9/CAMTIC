@@ -25,7 +25,7 @@ var applicationForm2 = {
             '<tr class="schoolInfo" id="school' + applicationForm2.global.schoolIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="schoolBaseId' + applicationForm2.global.schoolIndex + '" name="schoolBaseId' + applicationForm2.global.schoolIndex + '" class="schoolBaseId">' +
-                    '<select id="schoolType" style="width:100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<select id="schoolType" class="__inp" style="width:100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                         '<option value="">선택</option>' +
                         '<option value="1">고등학교</option>' +
                         '<option value="2">전문대학</option>' +
@@ -36,20 +36,20 @@ var applicationForm2 = {
                     '</select>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="admissionDt' + applicationForm2.global.schoolIndex + '" class="admissionDt" style="width: 150px">~' +
-                    '<input type="text" id="graduationDt' + applicationForm2.global.schoolIndex + '" class="graduationDt" style="width: 150px">' +
+                    '<input type="text" id="admissionDt' + applicationForm2.global.schoolIndex + '" class="admissionDt" style="width: 110px"> ~ ' +
+                    '<input type="text" id="graduationDt' + applicationForm2.global.schoolIndex + '" class="graduationDt" style="width: 110px">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="schoolName' + applicationForm2.global.schoolIndex + '" class="schoolName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="schoolName' + applicationForm2.global.schoolIndex + '" class="__inp schoolName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="dept' + applicationForm2.global.schoolIndex + '" class="dept"  style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="dept' + applicationForm2.global.schoolIndex + '" class="__inp dept"  style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="major' + applicationForm2.global.schoolIndex + '" class="major" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="major' + applicationForm2.global.schoolIndex + '" class="__inp major" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<select id="graduateType' + applicationForm2.global.schoolIndex + '" class="graduateType" style="width:70px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<select id="graduateType' + applicationForm2.global.schoolIndex + '" class="__inp graduateType" style="width:70px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                         '<option value="">선택</option>' +
                         '<option value="1">졸업</option>' +
                         '<option value="2">졸업예정</option>' +
@@ -57,18 +57,18 @@ var applicationForm2 = {
                     '</select>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="grade' + applicationForm2.global.schoolIndex + '" class="graduateType" style="width:50px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block; ">' +
+                    '<input type="text" id="grade' + applicationForm2.global.schoolIndex + '" class="__inp graduateType" style="width:50px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block; ">' +
                 '</td>' +
                 '<td class="tac" style="line-height: 0.1;">' +
                     '<input type="hidden" id="degreeFileNo' + applicationForm2.global.schoolIndex + '" class="degreeFileNo" name="degreeFileNo' + applicationForm2.global.schoolIndex + '">' +
+                    '<input type="text" id="degreeFileName' + applicationForm2.global.schoolIndex + '" class="degreeFileName" style="width: 100px; color:#337ab7;" disabled>' +
                     '<label for="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
-                    '<input type="text" id="degreeFileName' + applicationForm2.global.schoolIndex + '" class="degreeFileName" style="width: 80px; height:10px; font-size:12px; margin-bottom:-14px; color:#337ab7;">' +
                     '<input type="file" id="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFile" name="degreeFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
                 '<td class="tac" style="line-height: 0.1;">' +
                     '<input type="hidden" id="sexualFileNo' + applicationForm2.global.schoolIndex + '" class="sexualFileNo" name="sexualFileNo' + applicationForm2.global.schoolIndex + '">' +
+                    '<input type="text" id="sexualFileName' + applicationForm2.global.schoolIndex + '" class="sexualFileName" style="width: 100px; color:#337ab7;" disabled>' +
                     '<label for="sexualFile' + applicationForm2.global.schoolIndex + '" class="sexualFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
-                    '<input type="text" id="sexualFileName' + applicationForm2.global.schoolIndex + '" class="sexualFileName" style="width: 80px; height:10px; font-size:12px; margin-bottom:-14px; color:#337ab7;">' +
                     '<input type="file" id="sexualFile' + applicationForm2.global.schoolIndex + '" class="sexualFile" name="sexualFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
                 '<td>' +
@@ -96,28 +96,28 @@ var applicationForm2 = {
             '<tr class="careerInfo" id="career' + applicationForm2.global.careerIndex + '">' +
                 '<td>' +
                     '<input type="hidden" id="careerBaseId' + applicationForm2.global.careerIndex + '" name="careerBaseId' + applicationForm2.global.careerIndex + '" class="careerBaseId">' +
-                    '<input type="text" id="careerOrgName' + applicationForm2.global.careerIndex + '" class="careerOrgName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="careerOrgName' + applicationForm2.global.careerIndex + '" class="__inp careerOrgName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="workStDt' + applicationForm2.global.careerIndex + '" class="workStDt period" style="width: 150px"> ~ ' +
-                    '<input type="text" id="workEnDt' + applicationForm2.global.careerIndex + '" class="workEnDt period" style="width: 150px">' +
+                    '<input type="text" id="workStDt' + applicationForm2.global.careerIndex + '" class="workStDt period" style="width: 110px"> ~ ' +
+                    '<input type="text" id="workEnDt' + applicationForm2.global.careerIndex + '" class="workEnDt period" style="width: 110px">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="position' + applicationForm2.global.careerIndex + '" class="position" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="position' + applicationForm2.global.careerIndex + '" class="__inp position" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="chargeWork' + applicationForm2.global.careerIndex + '" class="chargeWork" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="chargeWork' + applicationForm2.global.careerIndex + '" class="__inp chargeWork" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="retireSalary' + applicationForm2.global.careerIndex + '" class="retireSalary" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
+                    '<input type="text" id="retireSalary' + applicationForm2.global.careerIndex + '" class="__inp retireSalary" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="retireReason' + applicationForm2.global.careerIndex + '" class="retireReason" style="width: 150px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block; ">' +
+                    '<input type="text" id="retireReason' + applicationForm2.global.careerIndex + '" class="__inp retireReason" style="width: 150px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block; ">' +
                 '</td>' +
                 '<td class="tac" style="line-height: 0.1;">' +
                     '<input type="hidden" id="careerFileNo' + applicationForm2.global.careerIndex + '" name="careerFileNo' + applicationForm2.global.careerIndex + '" class="careerFileNo">' +
+            '<input type="text" id="careerFileName' + applicationForm2.global.careerIndex + '" class="careerFileName" style="width: 100px; color:#337ab7;">' +
                     '<label for="careerFile' + applicationForm2.global.careerIndex + '" class="careerFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
-                    '<input type="text" id="careerFileName' + applicationForm2.global.careerIndex + '" class="careerFileName" style="width: 80px; height:10px; font-size:12px; margin-bottom:-14px; color:#337ab7;">' +
                     '<input type="file" id="careerFile' + applicationForm2.global.careerIndex + '" class="careerFile" name="careerFile' + applicationForm2.global.careerIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
                 '<td>' +
@@ -213,141 +213,131 @@ var applicationForm2 = {
 
 
     setApplicationTempSave : function(type){
-        if(type == "prev"){
-            location.href = "/application/applicationForm1.do?applicationId=" + $("#applicationId").val() ;
-        }else{
-            if(type == "next"){
-                var flag = true;
-                var highSchoolFlag = false;
-                $.each($(".schoolInfo"), function(i, v){
-                    if($(this).find("#schoolType").val() != "" && $(this).find("#schoolType").val() != "1"){
-                        if(!$(this).find("#degreeFileNo" + i).val() && $("#degreeFile" + i)[0].files.length == 0 && type == "next") {
-                            flag = false;
-                        }else if(!$(this).find("#sexualFileNo" + i).val() && $("#sexualFile" + i)[0].files.length == 0 && type == "next") {
-                            flag = false;
-                        }
-
-                        if(!flag){
-                            alert("증빙파일은 필수사항입니다.");
-                            return flag;
-                        }
-                    }
-
-                    if($(this).find("#schoolType").val() == "1"){
-                        highSchoolFlag = true;
-                    }
-                })
-
-                if(!highSchoolFlag){
-                    alert("고등학교 학력은 필수사항입니다.");
-                    return highSchoolFlag;
+        var flag = true;
+        var highSchoolFlag = false;
+        $.each($(".schoolInfo"), function(i, v){
+            if($(this).find("#schoolType").val() != "" && $(this).find("#schoolType").val() != "1"){
+                if(!$(this).find("#degreeFileNo" + i).val() && $("#degreeFile" + i)[0].files.length == 0 && type == "next") {
+                    flag = false;
+                }else if(!$(this).find("#sexualFileNo" + i).val() && $("#sexualFile" + i)[0].files.length == 0 && type == "next") {
+                    flag = false;
                 }
 
                 if(!flag){
-                    return;
+                    alert("증빙파일은 필수사항입니다.");
+                    return flag;
                 }
+            }
+
+            if($(this).find("#schoolType").val() == "1"){
+                highSchoolFlag = true;
+            }
+        })
+
+        if(!highSchoolFlag){
+            alert("고등학교 학력은 필수사항입니다.");
+            return highSchoolFlag;
+        }
+
+        if(!flag){
+            return;
+        }
 
 
-                $.each($(".careerInfo"), function(i, v){
-                    if($(this).find("#careerOrgName" + i).val() != ""){
-                        if(!$(this).find("#careerFileNo" + i).val() && $("#careerFile" + i)[0].files.length == 0 && type == "next") {
-                            flag = false;
-                        }
-
-                        if(!flag){
-                            alert("경력 증빙파일은 필수사항입니다.");
-                            return flag;
-                        }
-                    }
-                })
+        $.each($(".careerInfo"), function(i, v){
+            if($(this).find("#careerOrgName" + i).val() != ""){
+                if(!$(this).find("#careerFileNo" + i).val() && $("#careerFile" + i)[0].files.length == 0 && type == "next") {
+                    flag = false;
+                }
 
                 if(!flag){
-                    return;
+                    alert("경력 증빙파일은 필수사항입니다.");
+                    return flag;
                 }
             }
+        })
 
-            var confirmText = "";
-            if(type == "temp"){
-                confirmText = "임시저장 하시겠습니까?";
-            }else{
-                confirmText = "다음 단계로 이동 하시겠습니까?";
-            }
+        var confirmText = "";
+        confirmText = "수정 하시겠습니까?";
 
-            if(confirm(confirmText)){
-                var formData = new FormData();
-                var schoolArr = new Array();
-                $.each($(".schoolInfo"), function(i, v){
-                    if($(this).find("#schoolType").val() != ""){
-                        var arrData = {
-                            schoolBaseId : $(this).find("#schoolBaseId" + i).val(),
-                            applicationId : $("#applicationId").val(),
-                            schoolType : $(this).find("#schoolType").val(),
-                            admissionDt : $(this).find("#admissionDt" + i).val(),
-                            graduationDt : $(this).find("#graduationDt" + i).val(),
-                            schoolName : $(this).find("#schoolName" + i).val(),
-                            dept : $(this).find("#dept" + i).val(),
-                            major : $(this).find("#major" + i).val(),
-                            graduateType : $(this).find("#graduateType" + i).val(),
-                            grade : $(this).find("#grade" + i).val(),
-                            userEmail : $("#userEmail").val(),
-                            degreeFileNo : $(this).find("#degreeFileNo" + i).val(),
-                            sexualFileNo : $(this).find("#sexualFileNo" + i).val(),
-                        }
-
-                        if($(this).find("#degreeFile" + i)[0].files.length != 0){
-                            formData.append("degreeFile" + i, $(this).find("#degreeFile" + i)[0].files[0]);
-                        }
-
-                        if($(this).find("#sexualFile" + i)[0].files.length != 0){
-                            formData.append("sexualFile" + i, $(this).find("#sexualFile" + i)[0].files[0]);
-                        }
-
-                        schoolArr.push(arrData);
+        if(confirm(confirmText)){
+            var formData = new FormData();
+            var schoolArr = new Array();
+            $.each($(".schoolInfo"), function(i, v){
+                if($(this).find("#schoolType").val() != ""){
+                    var arrData = {
+                        schoolBaseId : $(this).find("#schoolBaseId" + i).val(),
+                        applicationId : $("#applicationId").val(),
+                        schoolType : $(this).find("#schoolType").val(),
+                        admissionDt : $(this).find("#admissionDt" + i).val(),
+                        graduationDt : $(this).find("#graduationDt" + i).val(),
+                        schoolName : $(this).find("#schoolName" + i).val(),
+                        dept : $(this).find("#dept" + i).val(),
+                        major : $(this).find("#major" + i).val(),
+                        graduateType : $(this).find("#graduateType" + i).val(),
+                        grade : $(this).find("#grade" + i).val(),
+                        userEmail : $("#userEmail").val(),
+                        degreeFileNo : $(this).find("#degreeFileNo" + i).val(),
+                        sexualFileNo : $(this).find("#sexualFileNo" + i).val(),
                     }
-                })
 
-                var careerArr = new Array();
-                $.each($(".careerInfo"), function(i, v){
-                    if($(this).find("#careerOrgName" + i).val() != ""){
-                        var arrData = {
-                            careerBaseId : $(this).find("#careerBaseId" + i).val(),
-                            applicationId : $("#applicationId").val(),
-                            careerOrgName : $(this).find("#careerOrgName" + i).val(),
-                            workStDt : $(this).find("#workStDt" + i).val(),
-                            workEnDt : $(this).find("#workEnDt" + i).val(),
-                            position : $(this).find("#position" + i).val(),
-                            chargeWork : $(this).find("#chargeWork" + i).val(),
-                            retireSalary : $(this).find("#retireSalary" + i).val(),
-                            retireReason : $(this).find("#retireReason" + i).val(),
-                            careerContent : $("#careerContent" + i).val(),
-                            userEmail : $("#userEmail").val(),
-                            careerFileNo : $(this).find("#careerFileNo" + i).val(),
-                        }
-
-                        if($(this).find("#careerFile" + i)[0].files.length != 0){
-                            formData.append("careerFile" + i, $(this).find("#careerFile" + i)[0].files[0]);
-                        }
-
-                        careerArr.push(arrData);
+                    if($(this).find("#degreeFile" + i)[0].files.length != 0){
+                        formData.append("degreeFile" + i, $(this).find("#degreeFile" + i)[0].files[0]);
                     }
-                })
 
-                formData.append("applicationId", $("#applicationId").val());
-                formData.append("schoolArr", JSON.stringify(schoolArr));
-                formData.append("careerArr", JSON.stringify(careerArr));
-                formData.append("userEmail", $("#userEmail").val());
-
-                var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm2.do", formData);
-                if(result.flag){
-                    if(type == "temp"){
-                        alert("임시저장 되었습니다.");
-                        location.reload();
-                    }else{
-                        location.href = "/application/applicationForm3.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
+                    if($(this).find("#sexualFile" + i)[0].files.length != 0){
+                        formData.append("sexualFile" + i, $(this).find("#sexualFile" + i)[0].files[0]);
                     }
+
+                    schoolArr.push(arrData);
                 }
+            })
+
+            var careerArr = new Array();
+            $.each($(".careerInfo"), function(i, v){
+                if($(this).find("#careerOrgName" + i).val() != ""){
+                    var arrData = {
+                        careerBaseId : $(this).find("#careerBaseId" + i).val(),
+                        applicationId : $("#applicationId").val(),
+                        careerOrgName : $(this).find("#careerOrgName" + i).val(),
+                        workStDt : $(this).find("#workStDt" + i).val(),
+                        workEnDt : $(this).find("#workEnDt" + i).val(),
+                        position : $(this).find("#position" + i).val(),
+                        chargeWork : $(this).find("#chargeWork" + i).val(),
+                        retireSalary : $(this).find("#retireSalary" + i).val(),
+                        retireReason : $(this).find("#retireReason" + i).val(),
+                        careerContent : $("#careerContent" + i).val(),
+                        userEmail : $("#userEmail").val(),
+                        careerFileNo : $(this).find("#careerFileNo" + i).val(),
+                    }
+
+                    if($(this).find("#careerFile" + i)[0].files.length != 0){
+                        formData.append("careerFile" + i, $(this).find("#careerFile" + i)[0].files[0]);
+                    }
+
+                    careerArr.push(arrData);
+                }
+            })
+
+            formData.append("applicationId", $("#applicationId").val());
+            formData.append("schoolArr", JSON.stringify(schoolArr));
+            formData.append("careerArr", JSON.stringify(careerArr));
+            formData.append("userEmail", $("#userEmail").val());
+
+            var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm2.do", formData);
+            if(result.flag){
+                alert("수정되었습니다.");
+                location.reload();
             }
         }
+    },
+
+    setApplicationPrev : function(){
+        location.href = "/application/applicationForm1.do?applicationId=" + $("#applicationId").val() ;
+    },
+
+    setApplicationNext : function(){
+        location.href = "/application/applicationForm3.do?applicationId=" + $("#applicationId").val() + "&recruitAreaInfoSn=" + $("#recruitAreaInfoSn").val();
     },
 
     applicationDataSet : function(e){
@@ -439,13 +429,13 @@ var applicationForm2 = {
         //$('.pop_sign_wrap').css("overflow","auto");
         try{
             var childWindow = window.parent;
-            childWindow.resizeTo(1320, strHeight);
+            childWindow.resizeTo(1600, strHeight);
         }catch(exception){
             console.log('window resizing cat not run dev mode.');
         }
     },
 
     getFileName : function(e){
-        $(e).prev().val(e.files[0].name);
+        $(e).prev().prev().val(e.files[0].name);
     }
 }

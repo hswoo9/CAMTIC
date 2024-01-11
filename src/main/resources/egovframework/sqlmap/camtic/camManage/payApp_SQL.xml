@@ -737,6 +737,17 @@
             PAY_INCP_DET_SN = #{PAY_INCP_DET_SN}
     </update>
 
+    <update id="updIncpReStat" parameterType="map">
+        /*updIncpReStat*/
+        UPDATE CAM_MNG.DJ_PAY_INCP_RE
+        SET
+            EXNP_STAT = 'Y',
+            EXNP_CNT = #{USER_SQ},
+            RE_STAT = 'Y'
+        WHERE
+            PAY_INCP_RE_SN = #{PAY_INCP_RE_SN}
+    </update>
+
     <select id="getEmpInfo" parameterType="map" resultType="map">
         /*getEmpInfo*/
         SELECT
@@ -840,7 +851,7 @@
             B.BUDGET_NM, A.APP_DE, A.PAY_EXNP_DE, A.BUSN_CD, A.BUSN_EX_CD,
             A.EXNP_EMP_SEQ, A.G20_EMP_CD, A.G20_DEPT_CD, A.APP_CONT, A.BNK_SN,
             A.ACC_NM, A.ACC_NO, A.BNK_NM, A.PAY_APP_STAT, A.GUBUN, A.DOC_ID, A.DOC_STATUS,
-            A.APPROVAL_EMP_SEQ, A.APPROVAL_DATE, A.REG_DT, A.REG_EMP_SEQ, A.MOD_DT,
+            A.APPROVAL_EMP_SEQ, A.APPROVAL_DATE, A.PMR_NO, A.REG_DT, A.REG_EMP_SEQ, A.MOD_DT,
             A.MOD_EMP_SEQ, B.RE_STAT,
             DI.APPRO_KEY AS APPRO_KEY,
             DI.DOC_MENU_CD AS DOC_MENU_CD,
@@ -1253,7 +1264,7 @@
             REPLACE(B.APP_DE, "-", "") AS REG_DT,
             REPLACE(B.PAY_EXNP_DE, "-", "") AS EXEC_DT,
             DATE_FORMAT(now(), '%Y%m%d') AS TXT_DONE_DT,
-            "" AS RPMR_NO,
+            IFNULL(B.PMR_NO, "") AS RPMR_NO,
             A.TR_DE AS CNT_DT,
             "" AS DUMMY1,
             "" AS DUMMY2,
@@ -1303,6 +1314,76 @@
             B.PJT_SN = C.PJT_SN
         WHERE
             A.PAY_INCP_SN = #{payIncpSn}
+        <if test='evidTypeArr != null and !"".equals(evidTypeArr)'>
+            AND
+                A.EVID_TYPE in (${evidTypeArr})
+        </if>
+    </select>
+
+    <select id="getIncpReG20List" parameterType="map" resultType="map">
+        /*getIncpReG20List*/
+        SELECT
+            1212 AS CO_CD,
+            A.PAY_INCP_RE_SN,
+            A.PAY_INCP_SN,
+            A.EVID_TYPE,
+            A.TR_CD,
+            B.BUDGET_SN AS BGT_CD,
+            REPLACE(A.TR_DE, "-", "") AS IN_DT,
+            REPLACE(A.TR_DE, "-", "") AS TAX_DT,
+            REPLACE(B.APP_DE, "-", "") AS REG_DT,
+            REPLACE(B.PAY_EXNP_DE, "-", "") AS EXEC_DT,
+            DATE_FORMAT(now(), '%Y%m%d') AS TXT_DONE_DT,
+            IFNULL(B.PMR_NO, "") AS RPMR_NO,
+            A.TR_DE AS CNT_DT,
+            "" AS DUMMY1,
+            "" AS DUMMY2,
+            "" AS DUMMY3,
+            B.BUSN_CD AS DIV_CD,
+            B.BUSN_CD AS DIV_CD2,
+            B.G20_DEPT_CD AS DEPT_CD,
+            B.G20_EMP_CD AS EMP_CD,
+            B.PJT_CD AS MGT_CD,
+            "" AS BOTTOM_CD,
+            "5" AS DOCU_FG,
+            B.APP_CONT AS RMK_DC,
+            B.ACC_NM AS BANK_NM1,
+            B.ACC_NO AS BA_NB1,
+            A.EVID_TYPE,
+            A.ETC,
+            A.SUP_COST AS SUP_AM,
+            A.VAT_COST AS VAT_AM,
+            A.CRM_NM AS TR_NM,
+            A.CRM_BNK_NM AS BANK_NM2,
+            A.CRM_ACC_NO AS BA_NB2,
+            A.CRM_ACC_HOLDER AS DEPOSITOR,
+            A.CARD AS CTR_NM,
+            A.CARD_NO AS CTR_NB,
+            "" AS ETCDATA_CD,
+            "" AS ETCPER_CD,
+            "" AS ETCREG_NO,
+            "" AS ETCPER_NM,
+            "" AS ETCZIP_CD,
+            "" AS ETCADDR,
+            "" AS ETCPHONE,
+            "" AS ETCBANK_CD,
+            "" AS ETCACCT_NO,
+            "" AS ETCACCT_NM,
+            "" AS ETCRVRS_YM,
+            "" AS ETCDIV_CD,
+            "" AS ETCDUMMY1
+        FROM
+            CAM_MNG.DJ_PAY_INCP_RE A
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_INCP B
+        ON
+            A.PAY_INCP_SN = B.PAY_INCP_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT C
+        ON
+            B.PJT_SN = C.PJT_SN
+        WHERE
+            A.PAY_INCP_RE_SN = #{payIncpReSn}
         <if test='evidTypeArr != null and !"".equals(evidTypeArr)'>
             AND
                 A.EVID_TYPE in (${evidTypeArr})
@@ -1962,4 +2043,13 @@
         WHERE
             PAY_INCP_RE_SN = #{payIncpReSn}
     </select>
+
+    <update id="updIncpMasterStat" parameterType="map">
+        /*updIncpMasterStat*/
+        UPDATE CAM_MNG.DJ_PAY_INCP
+        SET
+            PMR_NO = #{PMR_NO}
+        WHERE
+            PAY_INCP_SN = #{PAY_INCP_SN}
+    </update>
 </mapper>

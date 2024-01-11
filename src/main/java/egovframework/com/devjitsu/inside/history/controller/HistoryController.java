@@ -251,6 +251,7 @@ public class HistoryController {
         historyService.setHistoryInsert(params, BASE_DIR);
         model.addAttribute("apntSn",params.get("apntSn"));
         userService.setUserInfoUpdate(params);
+        System.out.println("params"+params);
         return "jsonView";
     }
 
@@ -270,7 +271,8 @@ public class HistoryController {
     @RequestMapping("/inside/setRewardInsert")
     public String setRewardInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
         MultipartFile[] file = request.getFiles("rewardFile").toArray(new MultipartFile[0]);
-        historyService.setRewardInsert(params, file, SERVER_DIR, BASE_DIR);
+        //historyService.setRewardInsert(params, file, SERVER_DIR, BASE_DIR);
+        historyService.setRewardInsert(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 

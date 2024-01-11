@@ -147,7 +147,6 @@
 
     <insert id="insFileInfo" parameterType="list">
         /* insFileInfo */
-
         INSERT INTO CAM_COMMON.DJ_FILE_INFO
             (
                 FILE_CD,
@@ -191,7 +190,6 @@
 
     <insert id="insFileInfoOne" parameterType="list">
         /* insFileInfoOne */
-
         INSERT INTO CAM_COMMON.DJ_FILE_INFO
             (
                 FILE_CD,
