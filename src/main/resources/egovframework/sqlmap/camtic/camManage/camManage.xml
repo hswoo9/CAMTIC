@@ -58,7 +58,7 @@
         FROM
             CAM_PJT_MNG.DJ_PART_RATE_DET A
         LEFT JOIN
-            CAM_PJT_MNG.DJ_PJT_PART_RATE_VER B
+            (SELECT * FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE MNG_STAT != 'R') B
         ON
             A.PART_RATE_VER_SN = B.PART_RATE_VER_SN
         LEFT JOIN
