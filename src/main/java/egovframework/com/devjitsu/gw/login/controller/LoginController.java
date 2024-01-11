@@ -58,7 +58,7 @@ public class LoginController {
                 request.getSession().setAttribute("LoginVO", login);
                 request.getSession().setAttribute("isAdmin", isAdmin);
 
-                return "redirect:intro.do";
+                return "redirect:indexB.do";
             }else {
                 model.addAttribute("message", "Login failed.");
                 return "forward:login.do";
