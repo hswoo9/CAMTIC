@@ -17,6 +17,8 @@ var srm = {
         });
 
         srm.setMakeTable();
+
+        srm.mainGrid();
     },
 
     setMakeTable : function() {
@@ -202,6 +204,139 @@ var srm = {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
+
+    mainGrid : function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/account/getAccountList.do",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    data.userKind = $('#userKind').val();
+                    data.empNameKr = $("#kindContent").val();
+                    data.kindContent = $("#kindContent").val();
+                    data.userGender = $("#userGender").val();
+                    data.deptComp = $("#deptComp").val();
+                    data.deptTeam = $("#deptTeam").val();
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10
+        });
+
+        $("#mainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 472,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="srm.accountGridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="srm.fn_regAccountToPop()">' +
+                            '	<span class="k-button-text">추가</span>' +
+                            '</button>';
+                    }
+                },
+            ],
+            columns: [
+                {
+                    field: "BANK_NAME",
+                    title: "은행명",
+                    width : 100
+                }, {
+                    field: "PAY_ACCOUNT",
+                    title: "지급계좌",
+                    width : 100
+                }, {
+                    field: "DEPOSITOR",
+                    title: "예금주",
+                    width : 100
+                }, {
+                    field: "ACCOUNT_NAME",
+                    title: "계좌별칭",
+                    width : 100
+                }, {
+                    title: "수정",
+                    width : 30,
+                    template: function(data){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="srm.fn_regAccountToPop(\''+data.ACCOUNT_TO_SN+'\')">' +
+                            '	<span class="k-button-text">수정</span>' +
+                            '</button>';
+                    }
+                }, {
+                    title: "삭제",
+                    width : 30,
+                    template: function(data){
+                        return '<button type="button" class="k-button k-button-solid-error" onclick="srm.fn_delRegAccountTo(\''+data.ACCOUNT_TO_SN+'\')">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }
+
+            ]
+        }).data("kendoGrid");
+    },
+
+    fn_regAccountToPop : function(key){
+        var url = "/account/regAccountToPop.do";
+
+        if(key != null && key != "" && key != undefined){
+            url += "?accountToSn=" + key;
+        }
+        var name = "_blank";
+        var option = "width = 900, height = 400, top = 200, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    fn_delRegAccountTo : function(key){
+        if(confirm("삭제하시겠습니까??")) {
+            $.ajax({
+                url: "/account/delRegAccountTo.do",
+                type: "POST",
+                data: {
+                    accountToSn : key
+                },
+                success: function(rs){
+                    if(rs.code == 200){
+                        alert("삭제되었습니다.");
+                        srm.accountGridReload();
+                    }
+                }
+            });
+        }
+    },
+
+    accountGridReload : function() {
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    }
 }
 
 function dateCheck(newRateArr, oldRateArr){
@@ -229,3 +364,4 @@ function dateCheck(newRateArr, oldRateArr){
     return flag;
 
 }
+

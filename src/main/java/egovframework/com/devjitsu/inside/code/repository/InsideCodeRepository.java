@@ -112,4 +112,23 @@ public class InsideCodeRepository extends AbstractDAO {
     public void updateCarFinalApprStat(Map<String, Object> params) {
         update("insideCode.updateCarFinalApprStat", params);
     }
+
+    public List<Map<String, Object>> getAccountList(Map<String, Object> params) {
+        return selectList("insideCode.getAccountList", params);
+    }
+
+    public void saveRegAccountTo(Map<String, Object> params) {
+        insert("insideCode.saveRegAccountTo", params);
+    }
+
+    public void updRegAccountTo(Map<String, Object> params) {
+        update("insideCode.updRegAccountTo", params);
+    }
+    public void delRegAccountTo(Map<String, Object> params) {
+        update("insideCode.delRegAccountTo", params);
+    }
+
+    public Map<String, Object> getAccountToInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("insideCode.getAccountToInfo", params);
+    }
 }
