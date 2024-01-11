@@ -125,7 +125,7 @@ var eduResultReqPop = {
             success : function(result){
                 alert("교육 결과보고서 수정이 완료되었습니다.");
                 opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
-                window.close();
+                location.href = "/Campus/pop/eduResultViewPop.do?eduInfoId="+eduResultReqPop.global.eduInfoId;
             },
             error : function() {
                 alert("데이터 수정 중 에러가 발생했습니다.");

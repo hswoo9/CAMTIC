@@ -149,8 +149,12 @@ var studyInfo = {
                             }else{
                                 return e.STUDY_TIME+"시간";
                             }
+                        }else if(e.STUDY_CLASS_SN == "2"){
+                            return "0시간";
+                        }else if(e.STUDY_CLASS_SN == "3"){
+                            return "0시간";
                         }else{
-                            return "";
+                            return "0시간";
                         }
                     }
                 },
