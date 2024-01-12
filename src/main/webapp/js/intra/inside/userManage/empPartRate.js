@@ -155,19 +155,18 @@ var empPartRate = {
                     title: "상태",
                     width: 50,
                     template: function (e) {
-                        var pjtStatus = "진행";
+                        var pjtStatus = "예정";
 
-                        if(e.MNG_STAT != 'C'){
-                            pjtStatus = "예정";
+                        var today = new Date();
+                        var endDay = new Date(e.PART_DET_END_DT);
+
+                        if(e.MNG_STAT == 'C'){
+                            pjtStatus = "진행";
+
+                            if(endDay < today){
+                                pjtStatus = "기간종료";
+                            }
                         }
-                        /*var checkIngArr = ['Y', 'E', 'E1', 'E2', 'R', 'S'];
-                        if(checkIngArr.indexOf(e.PJT_STEP) > -1){
-                            pjtStatus = "예정";
-                        }
-                        var checkEndArr = ['E6', 'E7', 'R3', 'S3'];
-                        if(checkEndArr.indexOf(e.PJT_STEP) > -1){
-                            pjtStatus = "종료";
-                        }*/
                         return pjtStatus;
                     }
                 }, /*{
@@ -375,7 +374,7 @@ var empPartRate = {
             if (dtMonth.toString().length == 1) {
                 dtMonth = "0" + dtMonth;
             }
-            hdHtml += '<th scope="row" class="text-center th-color" style="font-size: 9px;" padding: 0;>' + date.getFullYear() + '-<br>' + dtMonth + '</th>';
+            hdHtml += '<th scope="row" class="text-center th-color" style="font-size: 9px;padding: 0;">' + date.getFullYear() + '-<br>' + dtMonth + '</th>';
 
             date.setMonth(date.getMonth() + 1);
 
@@ -409,10 +408,17 @@ var empPartRate = {
                 var pmCnt = 0;
                 var sbjStatCnt = 0;
                 for (var i = 0; i < rs.length; i++) {
-                    var pjtStatus = "진행";
+                    var pjtStatus = "예정";
 
-                    if(rs[i].MNG_STAT != 'C'){
-                        pjtStatus = "예정";
+                    var today = new Date();
+                    var endDay = new Date(rs[i].PART_DET_END_DT);
+
+                    if(rs[i].MNG_STAT == 'C'){
+                        pjtStatus = "진행";
+
+                        if(endDay < today){
+                            pjtStatus = "기간종료";
+                        }
                     }
 
                     /*var checkIngArr = ['Y', 'E', 'E1', 'E2', 'R', 'S'];
@@ -448,17 +454,17 @@ var empPartRate = {
                     }
 
                     bodyHtml += '<tr style="text-align: center;">';
-                    bodyHtml += '   <td style="padding: 0;">' + empName + '</td>';
-                    bodyHtml += '   <td style="padding: 0;">' + joinDay + '</td>';
-                    bodyHtml += '   <td style="padding: 0;">' + subClassText + '</td>';
-                    bodyHtml += '   <td style="padding: 0;">' + rs[i].SBJ_DEP_NM + '</td>';
-                    bodyHtml += '   <td style="padding: 0;">' + rs[i].PJT_NM + '</td>';
-                    bodyHtml += '   <td style="padding: 0;">' + rs[i].PART_DET_STR_DT + '</td>';
-                    bodyHtml += '   <td style="padding: 0;">' + rs[i].PART_DET_END_DT + '</td>';
-                    bodyHtml += '   <td style="padding: 0;">' + pjtStatus + '</td>';
-                    bodyHtml += '   <td style="padding: 0;">' + pm + '</td>';
-                    bodyHtml += '   <td style="padding: 0;">' + comma(empSal) + '</td>';
-                    bodyHtml += '   <td style="padding: 0;">' + sbjStat + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + empName + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + joinDay + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + subClassText + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + rs[i].SBJ_DEP_NM + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + rs[i].PJT_NM + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + rs[i].PART_DET_STR_DT + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + rs[i].PART_DET_END_DT + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + pjtStatus + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + pm + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + comma(empSal) + '</td>';
+                    bodyHtml += '   <td style="font-size:10px;padding: 0;">' + sbjStat + '</td>';
 
                     var date = new Date(projectStartMonth);
 
@@ -477,9 +483,9 @@ var empPartRate = {
                         userTotRateArr[i][j] = 0;
                         if (dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])) {
                             if ($("#rateFlag").val() == "B") {
-                                bodyHtml += '<td style="text-align: right">' + comma(rs[i].MON_SAL) + '</td>';
+                                bodyHtml += '<td style="text-align: right;font-size: 10px;padding: 5px;">' + comma(rs[i].MON_SAL) + '</td>';
                             } else {
-                                bodyHtml += '<td>' + rs[i].TOT_RATE + '%</td>';
+                                bodyHtml += '<td style="text-align: right;font-size: 10px;padding: 5px;">' + rs[i].TOT_RATE + '%</td>';
                             }
 
                             userDate.setMonth(userDate.getMonth() + 1);
@@ -508,7 +514,7 @@ var empPartRate = {
                             userMonthSalary += parseFloat(userTotRateArr[i][j]);
                         }
 
-                        bodyHtml += '<td style="text-align: right; font-weight: bold">' + userMonthSalary.toFixed(1) + '%</td>';
+                        bodyHtml += '<td style="text-align: right;font-weight: bold;font-size: 10px;padding: 5px;">' + userMonthSalary.toFixed(1) + '%</td>';
                     }
                 }else {
                     bodyHtml += "   <td colspan='11' class='text-center' style='background-color: #8fa1c04a;'>사업비지급액 계</td>";
@@ -518,7 +524,7 @@ var empPartRate = {
                             userMonthSalary += userMonthSalaryArr[i][j];
                         }
 
-                        bodyHtml += '<td style="text-align: right; font-weight: bold">' + comma(userMonthSalary) + '</td>';
+                        bodyHtml += '<td style="text-align: right;font-weight: bold;font-size: 10px;padding: 5px;">' + comma(userMonthSalary) + '</td>';
                     }
                 }
                 bodyHtml += '</tr>';
@@ -526,9 +532,9 @@ var empPartRate = {
                 bodyHtml += "   <td colspan='11' class='text-center' style='background-color: #8fa1c04a;'>기준급여</td>";
                 for (var j = 0; j < diffMonth; j++) {
                     if (salList[j] == null) {
-                        bodyHtml += '<td style="text-align: right; font-weight: bold">0</td>';
+                        bodyHtml += '<td style="text-align: right;font-weight: bold;font-size: 10px;padding: 5px;">0</td>';
                     } else {
-                        bodyHtml += '<td style="text-align: right; font-weight: bold">' + fn_monBasicSalary(salList[j]) + '</td>';
+                        bodyHtml += '<td style="text-align: right;font-weight: bold;font-size: 10px;padding: 5px;">' + fn_monBasicSalary(salList[j]) + '</td>';
                     }
                 }
                 bodyHtml += '</tr>';
@@ -539,14 +545,14 @@ var empPartRate = {
                     for (var i = 0; i < rs.length; i++) {
                         userTotRate += Number(userTotRateArr[i][j]);
                     }
-                    bodyHtml += '<td style="text-align: right; font-weight: bold">' + userTotRate.toFixed(1) + '%</td>';
+                    bodyHtml += '<td style="text-align: center;font-weight: bold;font-size: 10px;padding: 0;">' + userTotRate.toFixed(1) + '%</td>';
                 }
                 bodyHtml += '</tr>';
 
                 bodyHtml += '<tr>';
                 bodyHtml += '   <td colspan="11" class="text-center" style="background-color: #8fa1c04a;">3책5공</td>';
                 for (var j = 0; j < diffMonth; j++) {
-                    bodyHtml += '<td style="text-align: right; font-weight: bold">' + pmCnt + '책' + sbjStatCnt + '공</td>';
+                    bodyHtml += '<td style="text-align: center;font-weight: bold;font-size: 10px;padding: 0;">' + pmCnt + '책' + sbjStatCnt + '공</td>';
                 }
                 bodyHtml += '</tr>';
 

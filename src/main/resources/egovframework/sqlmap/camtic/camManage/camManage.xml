@@ -69,7 +69,7 @@
         <if test='strDe != null and !"".equals(strDe)'>
         <![CDATA[
             AND
-                C.STR_DT >= #{strDe}
+                #{strDe} between YEAR(A.PART_DET_STR_DT) and YEAR(A.PART_DET_END_DT)
         ]]>
         </if>
         AND

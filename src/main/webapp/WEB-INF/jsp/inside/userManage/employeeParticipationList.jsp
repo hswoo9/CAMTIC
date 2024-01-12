@@ -75,7 +75,7 @@
                             <col width="5%">
                             <col width="8%">
                             <col width="8%">
-                            <col width="15%">
+                            <col width="13%">
                             <col width="5%">
                             <col width="5%">
                             <col width="3%">

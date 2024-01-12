@@ -208,7 +208,8 @@
             C.SBJ_STAT_YN,
             C.PJT_STEP,
             D.*,
-            A.TOT_RATE
+            A.TOT_RATE,
+            B.MNG_STAT
         FROM
             CAM_PJT_MNG.DJ_PART_RATE_DET A
         LEFT JOIN
@@ -324,7 +325,16 @@
                 1 = 1
             AND
                 #{bsYear} BETWEEN DATE_FORMAT(A.PART_DET_STR_DT, '%Y') AND DATE_FORMAT(A.PART_DET_END_DT, '%Y')
-            AND B.BEF_VER_CHECK = 'Y'
+            AND
+            (C.PJT_SN, B.PART_RATE_VER) IN
+                (
+                SELECT PJT_SN, MAX(PART_RATE_VER) AS PART_RATE_VER
+                FROM
+                CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+                WHERE
+                MNG_STAT != 'R'
+                GROUP BY PJT_SN
+                )
             <if test='userKind != null and !"".equals(userKind) and "ATTEND".equals(userKind)'>
                 AND B.JOIN_MEM_NM LIKE CONCAT('%', #{kindContent}, '%')
             </if>

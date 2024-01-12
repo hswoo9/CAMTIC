@@ -110,17 +110,25 @@ var busnPartList = {
                     title : "상태",
                     width: 50,
                     template: function (e){
-                        if(e.PJT_STEP == 'S3' || e.PJT_STEP == 'R3' || e.PJT_STEP ==  'E6'){
-                            return "완료";
-                        } else {
-                            return "진행";
+                        var pjtStatus = "예정";
+
+                        var today = new Date();
+                        var endDay = new Date(e.PART_DET_END_DT);
+
+                        if(e.MNG_STAT == 'C'){
+                            pjtStatus = "진행";
+
+                            if(endDay < today){
+                                pjtStatus = "기간종료";
+                            }
                         }
+                        return pjtStatus;
                     }
                 }, {
                     title: "프로젝트명",
                     width: 200,
                     template : function(e){
-                        return '<div style="cursor: pointer; bold: weight" onclick="busnPartList.fn_projectPartRatePop('+e.PJT_SN+')">'+e.PJT_NM+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold;" onclick="busnPartList.fn_projectPartRatePop('+e.PJT_SN+')">'+e.PJT_NM+'</div>';
                     }
                 }, {
                     title: "지원부처",
@@ -332,20 +340,6 @@ var busnPartList = {
         acctAm3Sum = 0;
         subAmSum = 0;
 
-        var projectSn = "";
-        const grid = this;
-        grid.tbody.find("tr").each(function (e) {
-            const dataItem = grid.dataItem($(this));
-            console.log(dataItem);
-            var cnt = 0;
-            $(this).find("td").each(function(e){
-                cnt++;
-                if(cnt == 2){
-                    $(this).attr("onclick","busnPartList.fn_projectPartRatePop("+dataItem.PJT_SN+")");
-                }
-            });
-        });
-
         $('#mainGrid >.k-grid-content>table').each(function (index, item) {
             var dimension_col = 1;
             // First, scan first row of headers for the "Dimensions" column.
@@ -387,9 +381,25 @@ var busnPartList = {
             });
         });
 
+        var projectSn = "";
+        const grid = this;
+        grid.tbody.find("tr").each(function (e) {
+            const dataItem = grid.dataItem($(this));
+
+            var cnt = 0;
+            $(this).find("td").each(function(e){
+                cnt++;
+                if(cnt == 2 && $(this).text() != ""){
+                    $(this).attr("onclick","busnPartList.fn_projectPartRatePop("+dataItem.PJT_SN+")");
+                    $(this).css("font-weight","bold");
+                    $(this).css("cursor","pointer");
+                }
+            });
+        });
 
 
-        $('#mainGrid >.k-grid-content>table').each(function (index, item) {
+        //지원부처 row 통합 해제 요청으로 주석처리
+        /*$('#mainGrid >.k-grid-content>table').each(function (index, item) {
             var dimension_col = 1;
             // First, scan first row of headers for the "Dimensions" column.
             $('#mainGrid >.k-grid-header>.k-grid-header-wrap>table').find('th').each(function () {
@@ -429,7 +439,7 @@ var busnPartList = {
                 }
                 dimension_col++;
             });
-        });
+        });*/
 
         function ChangeMergedCells(arrCells, cellText, addBorderToCell, flag) {
             var cellsCount = arrCells.length;
