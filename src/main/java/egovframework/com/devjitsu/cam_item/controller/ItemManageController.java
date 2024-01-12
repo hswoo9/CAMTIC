@@ -1111,6 +1111,22 @@ public class ItemManageController {
     }
 
     /**
+     * 재고현황(관리자)
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/invenStatusAdmin.do")
+    public String invenStatusAdmin(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_item/itemMa/invenMa/invenStatusAdmin";
+    }
+
+    /**
      * 재고현황 리스트
      * @param params
      * @param model

@@ -1,4 +1,4 @@
-var invenSt = {
+var invenStAdmin = {
 
     global : {
         dropDownDataSource : "",
@@ -7,20 +7,20 @@ var invenSt = {
     },
 
     fn_defaultScript : function (){
-        invenSt.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("whCd", invenSt.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", invenSt.gridReload);
+        invenStAdmin.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
+        customKendo.fn_dropDownList("whCd", invenStAdmin.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
+        $("#whCd").data("kendoDropDownList").bind("change", invenStAdmin.gridReload);
 
-        invenSt.global.dropDownDataSource = [
+        invenStAdmin.global.dropDownDataSource = [
             { text : "품번", value : "ITEM_NO" },
             { text : "품명", value : "ITEM_NAME" }
         ]
-        customKendo.fn_dropDownList("searchKeyword", invenSt.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", invenSt.gridReload);
+        customKendo.fn_dropDownList("searchKeyword", invenStAdmin.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", invenStAdmin.gridReload);
 
         customKendo.fn_textBox(["searchValue"]);
 
-        invenSt.gridReload();
+        invenStAdmin.gridReload();
     },
 
     mainGrid: function(url, params){
@@ -41,7 +41,21 @@ var invenSt = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenSt.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()">' +
+                            '	<span class="k-button-text">재고조정</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()">' +
+                            '	<span class="k-button-text">결재</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -81,9 +95,9 @@ var invenSt = {
                     width: 100,
                     template : function (e){
                         if(e.CURRENT_INVEN < 0){
-                            return "<span style='color: red'>" + invenSt.comma(e.CURRENT_INVEN) + "</span>";
+                            return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
                         }else{
-                            return invenSt.comma(e.CURRENT_INVEN);
+                            return invenStAdmin.comma(e.CURRENT_INVEN);
                         }
                     },
                     attributes : {
@@ -94,7 +108,7 @@ var invenSt = {
                     field: "RECEIVING_INVEN",
                     width: 100,
                     template : function (e){
-                        return invenSt.comma(e.RECEIVING_INVEN);
+                        return invenStAdmin.comma(e.RECEIVING_INVEN);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -104,7 +118,17 @@ var invenSt = {
                     width: 100,
                     field: "FORWARDING_INVEN",
                     template : function (e){
-                        return invenSt.comma(e.FORWARDING_INVEN);
+                        return invenStAdmin.comma(e.FORWARDING_INVEN);
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
+                    title: "재고조정",
+                    width: 100,
+                    field: "INVEN_AJM",
+                    template : function (e){
+                        return invenStAdmin.comma(e.INVEN_AJM);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -114,7 +138,7 @@ var invenSt = {
                     width: 100,
                     field: "UNIT_PRICE",
                     template: function(e){
-                        return invenSt.comma(e.UNIT_PRICE) + "원";
+                        return invenStAdmin.comma(e.UNIT_PRICE) + "원";
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -125,9 +149,9 @@ var invenSt = {
                     field: "INVEN_AMT",
                     template: function(e){
                         if(e.INVEN_AMT < 0){
-                            return "<span style='color: red'>" + invenSt.comma(e.INVEN_AMT) + "원</span>";
+                            return "<span style='color: red'>" + invenStAdmin.comma(e.INVEN_AMT) + "원</span>";
                         }else{
-                            return invenSt.comma(e.INVEN_AMT) + "원";
+                            return invenStAdmin.comma(e.INVEN_AMT) + "원";
                         }
                     },
                     attributes : {
@@ -142,14 +166,14 @@ var invenSt = {
     },
 
     gridReload: function (){
-        invenSt.global.searchAjaxData = {
+        invenStAdmin.global.searchAjaxData = {
             whCd : $("#whCd").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             inspection : "Y"
         }
 
-        invenSt.mainGrid("/item/getItemInvenList.do", invenSt.global.searchAjaxData);
+        invenStAdmin.mainGrid("/item/getItemInvenList.do", invenStAdmin.global.searchAjaxData);
     },
 
     comma: function(str) {
