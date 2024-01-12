@@ -22,6 +22,7 @@
 <input type="hidden" id="crmCallNum" />
 <input type="hidden" id="crmReqMem" />
 <input type="hidden" id="crmPhNum" />
+<input type="hidden" id="mainPjtSn" value="${params.pjtSn}"/>
     <div style="padding:0;">
         <div class="table-responsive">
             <div class="card-header pop-header">
@@ -64,7 +65,7 @@
                         </th>
                         <td colspan="3">
                             <input type="text" id="busnName" name="busnName" style="width: 80%;" disabled />
-                            <input type="hidden" id="pjtSn" />
+                            <input type="hidden" id="pjtSn" value="${params.pjtSn}"/>
                             <input type="hidden" id="pjtCd" name="pjtCd">
                             <button type="button" class="k-button k-button-solid-info" onclick="equipmentUsePop.fn_projectPop()" id="projectAddBtn">사업선택</button>
                         </td>

@@ -17,7 +17,7 @@ const studyView = {
         }else if($("#addStatus").val() == "C"){
             $("#resultDoc").html("<div style='color : red'> 결과보고서 승인 요청 중 입니다.</div>");
             $("#resultBtn").css("display", "");
-        } else if($("#addStatus").val() == "S") {
+        }else if($("#addStatus").val() == "S") {
             $("#resultDoc").html("<div style='color : blue'> 결과보고서가 등록되어 있습니다. 결과보고서 버튼으로 조회가 가능합니다.</div>");
             $("#resultBtn").css("display", "");
         }

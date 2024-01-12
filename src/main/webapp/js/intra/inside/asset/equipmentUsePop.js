@@ -145,6 +145,13 @@ var equipmentUsePop = {
         window.call = function (data){
             equipmentUsePop.fn_EqipmnInfo(data);
         };
+
+        if($("#pjtSn") != ""){
+            const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#pjtSn").val()}).rs;
+            console.log(setParameters);
+            $("#busnName").val(setParameters.PJT_NM);
+            $("#projectAddBtn").hide();
+        }
     },
 
     inputNumberFormat: function (obj){
@@ -231,7 +238,33 @@ var equipmentUsePop = {
                 async : false
             });
             alert("저장 되었습니다.");
-            opener.gridReload();
+            if($("#mainPjtSn").val() == ""){
+                opener.gridReload();
+            }else{
+                const busnClass = opener.commonProject.global.busnClass;
+                if(opener.commonProject.global.teamStat == "Y"){
+                    if(busnClass == "D"){
+                        opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=7";
+                    }else if(busnClass == "R"){
+                        opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=5";
+                    }else if(busnClass == "S"){
+                        opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=5";
+                    }else{
+                        opener.window.location.reload();
+                    }
+                    /** 협업이 아닐때 */
+                }else{
+                    if(busnClass == "D"){
+                        opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=13";
+                    }else if(busnClass == "R"){
+                        opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=14";
+                    }else if(busnClass == "S"){
+                        opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=14";
+                    }else{
+                        opener.window.location.reload();
+                    }
+                }
+            }
             window.close()
         }
     },

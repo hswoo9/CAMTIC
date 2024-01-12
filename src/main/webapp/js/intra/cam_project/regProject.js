@@ -44,6 +44,7 @@ var regPrj = {
         var tab11Url = "/intra/cam_project/purcInfo.do"; // 11구매
         var tab12Url ="/intra/cam_project/depositInfo.do"; // 12입금관리
         var tab13Url = "/intra/cam_project/costPriceInfoAdmin.do"; // 13정산서
+        var tab14Url = "/intra/cam_project/equipInfo.do";  // 14장비
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -60,6 +61,7 @@ var regPrj = {
             tab11Url += "?pjtSn=" + setParameters.PJT_SN;
             tab12Url += "?pjtSn=" + setParameters.PJT_SN;
             tab13Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab14Url += "?pjtSn=" + setParameters.PJT_SN;
         }
         if(setParameters != null && setParameters.ENGN_SN != null) {
             tab0Url += "&engnSn=" + setParameters.ENGN_SN;
@@ -76,6 +78,7 @@ var regPrj = {
             tab11Url += "&engnSn=" + setParameters.ENGN_SN;
             tab12Url += "&engnSn=" + setParameters.ENGN_SN;
             tab13Url += "&engnSn=" + setParameters.ENGN_SN;
+            tab14Url += "&engnSn=" + setParameters.ENGN_SN;
         }
 
         let dataSource;
@@ -88,7 +91,8 @@ var regPrj = {
                 {name: "실적관리", url: tab8Url},
 
                 {name: "출장", url: tab10Url},
-                {name: "구매", url: tab11Url}
+                {name: "구매", url: tab11Url},
+                {name: "장비", url: tab14Url}
             ]
         } else {
             dataSource = [
@@ -105,7 +109,8 @@ var regPrj = {
                 {name: "출장", url: tab10Url},
                 {name: "구매", url: tab11Url},
                 {name: "입금관리", url: tab12Url},
-                {name: "정산서", url: tab13Url}
+                {name: "정산서", url: tab13Url},
+                {name: "장비", url: tab14Url}
             ]
         }
 
@@ -228,6 +233,7 @@ var regPrj = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(9));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(10));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(11));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(13));
                 }
 
                 if(setParameters.PJT_STEP >= "E1"){

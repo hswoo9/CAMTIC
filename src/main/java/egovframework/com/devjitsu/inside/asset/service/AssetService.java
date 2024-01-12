@@ -89,6 +89,7 @@ public interface AssetService {
 
     //장비사용 목록 조회
     List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params);
+    List<Map<String, Object>> getEqipmnUseListByPjt(Map<String, Object> params);
 
     //장비사용 목록 삭제
     Map<String, Object> setEquipmenUseDelete(List<String> eqmnUsePk);

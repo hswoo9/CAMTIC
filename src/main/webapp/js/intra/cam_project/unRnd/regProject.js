@@ -34,6 +34,7 @@ var regUnRnd = {
         var tab12Url= "/intra/cam_project/budgetChangeInfo.do";    // 13예산변경 및 반납
         var tab13Url= "/intra/cam_project/depositInfo.do";         // 14입금관리
         var tab16Url= "/intra/cam_project/costPriceInfoAdmin.do";  // 15정산서
+        var tab17Url= "/intra/cam_project/equipInfo.do";  // 16장비
 
         if (setParameters != null && setParameters.PJT_SN != null) {
             tab0Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -62,7 +63,8 @@ var regUnRnd = {
                 {name: "실적관리", url: tab15Url},
 
                 {name: "출장", url: tab9Url},
-                {name: "구매", url: tab11Url}
+                {name: "구매", url: tab11Url},
+                {name: "장비", url: tab17Url}
             ]
         } else {
             dataSource = [
@@ -81,7 +83,8 @@ var regUnRnd = {
                 {name: "구매", url: tab11Url},
                 {name: "예산변경 및 반납", url: tab12Url},
                 {name: "입금관리", url: tab13Url},
-                {name: "정산서", url: tab16Url}
+                {name: "정산서", url: tab16Url},
+                {name: "장비", url: tab17Url}
             ]
         }
 

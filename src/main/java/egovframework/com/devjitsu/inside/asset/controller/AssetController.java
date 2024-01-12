@@ -881,11 +881,12 @@ public class AssetController {
 
     //장비사용 등록 팝업창
     @RequestMapping("/Inside/Pop/equipmentUsePop.do")
-    public String equipmentUsePop(HttpServletRequest request, Model model) {
+    public String equipmentUsePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/inside/asset/equipmentUsePop";
     }
     
@@ -994,6 +995,13 @@ public class AssetController {
     @RequestMapping("/asset/getEqipmnUseList")
     public String getEqipmnUseList(@RequestParam Map<String,Object> map, Model model) {
         model.addAttribute("rs", assetService.getEqipmnUseList(map));
+        return "jsonView";
+    }
+
+    //장비사용 목록 조회 : 프로젝트
+    @RequestMapping("/asset/getEqipmnUseListByPjt")
+    public String getEqipmnUseListByPjt(@RequestParam Map<String,Object> map, Model model) {
+        model.addAttribute("list", assetService.getEqipmnUseListByPjt(map));
         return "jsonView";
     }
 

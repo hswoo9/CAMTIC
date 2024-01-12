@@ -215,9 +215,9 @@
         if($("#mode").val() == "mng"){
             if($("#addStatus").val() == "C"){
                 $("#resultBtn").css("display", "");
-            }else{
+            }/*else{
                 $("#resultBtn").css("display", "none");
-            }
+            }*/
         }
     });
 </script>
