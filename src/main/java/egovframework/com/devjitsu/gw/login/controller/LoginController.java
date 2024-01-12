@@ -41,7 +41,7 @@ public class LoginController {
     @RequestMapping("/loginAccess")
     public String loginAccess(@RequestParam Map<String, Object> params, @ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, ModelMap model) throws Exception {
 
-        if(params.containsKey("NEWCAMTICS")){
+        if(params.containsKey("NEWCAMTICS") && !params.get("NEWCAMTICS").equals("")){
             /** 임시) 구 캠스팟에서 링크 이동시 자동 로그인 (오픈 시 삭제 예정) */
             boolean isAdmin = false;
             LoginVO login = new LoginVO();
@@ -109,7 +109,7 @@ public class LoginController {
                 logger.info("이름은 : "+login.getName());
                 //Map<String, Object> loginMsMap = loginService.actionLoginMs(params);
 
-                return "redirect:intro.do";
+                return "redirect:indexB.do";
             }else {
                 model.addAttribute("message", "Login failed.");
                 return "forward:login.do";
