@@ -6,6 +6,14 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/openStudyResPop.js?v=${toDate}"/></script>
+<style>
+    .barFixed {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+    }
+</style>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
@@ -23,7 +31,7 @@
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
-        <div class="card-header pop-header">
+        <div class="card-header pop-header barFixed">
             <h3 class="card-title title_NM">오픈스터디 결과보고서</h3>
             <div class="btn-st popButton">
                 <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyRes.fn_openStudyCertReq(100);">승인</button>

@@ -99,6 +99,22 @@
 </div>
 
 <script>
+
+    $(function (){
+        if($("#resultMode").val() == "mng"){
+            $("#journalDt").prop("disabled", true);
+            $("#journalStartTime").prop("disabled", true);
+            $("#journalEndTime").prop("disabled", true);
+            $("#studyLocation").prop("disabled", true);
+            $("#studyUserName").prop("disabled", true);
+            $("#selMemBtn").prop("disabled", true);
+            $("#studyContent").prop("disabled", true);
+            $("#studyMoney").prop("disabled", true);
+            $(".k-datepicker button").prop("disabled", true);
+            $(".k-timepicker button").prop("disabled", true);
+        }
+    });
+
     studyJournal.init();
     $("#journalAmtClass").data("kendoDropDownList").value(1);
     $("#journalAmtClass").data("kendoDropDownList").wrapper.hide();

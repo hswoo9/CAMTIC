@@ -583,6 +583,16 @@ const historyReq = {
             });
         });
 
+        var dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "4"});
+        dropDownDataSource.unshift({"CM_CODE_NM": "해당없음", "CM_CODE": ""});
+
+        $(".afPosition").kendoDropDownList({
+                dataTextField: "CM_CODE_NM",
+                dataValueField: "CM_CODE",
+                dataSource: dropDownDataSource
+        });
+
+        /*
         $(".afPosition").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
@@ -600,11 +610,12 @@ const historyReq = {
                 {text: "주임매니저 / 4급", value: "9"},
                 {text: "주임연구원 / 4급", value: "10"},
                 {text: "주임행정원 / 4급", value: "11"},
-                {text: "매니저 / 5급", value: "12"},
-                {text: "연구원 / 5급", value: "13"},
+                {text: "매니저 / 4급", value: "12"},
+                {text: "연구원 / 4급", value: "13"},
                 {text: "행정원 / 4급", value: "14"},
             ]
         });
+         */
 
             $(".afDuty").kendoDropDownList({
                 dataTextField: "text",

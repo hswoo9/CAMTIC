@@ -138,15 +138,7 @@ const openStudyRes = {
             }catch{
 
             }
-            openStudyRes.openStudyResPop(data.pk);
-            window.close();
+            location.href = "/Campus/pop/openStudyResPop.do?mode=upd&pk=" + data.pk;
         }
     },
-
-    openStudyResPop : function(pk) {
-        let url = "/Campus/pop/openStudyResPop.do?mode=upd&pk="+pk;
-        const name = "openStudyResPop";
-        const option = "width = 1230, height = 935, top = 100, left = 400, location = no";
-        window.open(url, name, option);
-    }
 }
