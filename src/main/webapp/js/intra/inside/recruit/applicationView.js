@@ -47,6 +47,8 @@ var appView = {
         });
 
         appView.getCareerSum();
+
+        appView.viewMod();
     },
 
     getCareerSum : function(){
@@ -463,6 +465,13 @@ var appView = {
         var name = "applicationForm1";
         var option = "width=1000, height=860, top=100, left=200, location=no";
         window.open(url, name, option);
+    },
+
+    viewMod : function(){
+        /** view 모드일때 조회 이외에 버튼 전부 사라짐 */
+        if($("#stat").val() == "view"){
+            $(".mngBtn").hide();
+        }
     }
 
 }

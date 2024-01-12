@@ -368,6 +368,7 @@
             CAM_INSIDE.DJ_APPLICATION_SCHOOL A
         WHERE
             APPLICATION_ID = #{applicationId}
+        ORDER BY A.SCHOOL_TYPE
     </select>
 
     <select id="getApplicationCareer" parameterType="map" resultType="map">

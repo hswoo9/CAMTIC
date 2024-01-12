@@ -31,6 +31,8 @@ var recruitAdminPop = {
         //         $("#fPassBtnDiv").show();
         //     }
         // })
+
+        recruitAdminPop.viewMod();
     },
 
     mainGrid : function(url, params) {
@@ -216,22 +218,22 @@ var recruitAdminPop = {
 
             var html = "";
             if ($("#recruitStatusSn").val() == "1") {
-                html = '<button type="button" class="k-button k-button-solid-info" onClick="recruitAdminPop.setRecruitStatusUpd(\'접수중\', \'2\')">작성완료</button>';
+                html = '<button type="button" class="k-button k-button-solid-info mngBtn" onClick="recruitAdminPop.setRecruitStatusUpd(\'접수중\', \'2\')">작성완료</button>';
             } else if ($("#recruitStatusSn").val() == "2") {
-                html = '<button type="button" class="k-button k-button-solid-base" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'작성중\', \'1\')"';
+                html = '<button type="button" class="k-button k-button-solid-base mngBtn" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'작성중\', \'1\')"';
                     if (recruit.applicationCount >= 1) {
                         html += ' disabled';
                     }
                 html += '>작성중</button>' +
-                    '<button type="button" class="k-button k-button-solid-info" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(서류심사)\', \'3\')">접수완료</button>';
+                    '<button type="button" class="k-button k-button-solid-info mngBtn" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(서류심사)\', \'3\')">접수완료</button>';
             } else if ($("#recruitStatusSn").val() == "3") {
-                html = '<button type="button" class="k-button k-button-solid-base" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'접수중\', \'2\')">접수중</button>' +
+                html = '<button type="button" class="k-button k-button-solid-base mngBtn" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'접수중\', \'2\')">접수중</button>' +
                     '<button type="button" class="k-button k-button-solid-info" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(면접심사)\', \'4\')">서류심사 완료</button>';
             } else if ($("#recruitStatusSn").val() == "4") {
-                html = '<button type="button" class="k-button k-button-solid-base" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(서류심사)\', \'3\')">심사중(서류심사)</button>' +
+                html = '<button type="button" class="k-button k-button-solid-base mngBtn" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(서류심사)\', \'3\')">심사중(서류심사)</button>' +
                     '<button type="button" class="k-button k-button-solid-info" onclick="recruitAdminPop.setRecruitStatusUpd(\'면접심사완료\', \'5\')">면접심사완료</button>';
             } else if ($("#recruitStatusSn").val() == "5") {
-                html = '<button type="button" class="k-button k-button-solid-base" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(면접심사)\', \'4\')">심사중(면접심사)</button>' +
+                html = '<button type="button" class="k-button k-button-solid-base mngBtn" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(면접심사)\', \'4\')">심사중(면접심사)</button>' +
                     '<button type="button" class="k-button k-button-solid-info" onclick="recruitAdminPop.setRecruitStatusUpd(\'채용완료\', \'E\')">채용완료</button>'
             }
 
@@ -363,6 +365,9 @@ var recruitAdminPop = {
 
     applicationInfo : function(e){
         var url = "/inside/pop/applicationView.do?applicationId=" + e;
+        if($("#stat").val() == "view"){
+            url += "&stat=view";
+        }
         var name = "recruitReqPop";
         var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
@@ -398,6 +403,9 @@ var recruitAdminPop = {
 
     recruitDetailPop : function () {
         var url = "/inside/pop/recruitDetailPop.do?recruitInfoSn=" + $("#recruitInfoSn").val() + "&recruitStat=" +$("#recruitStatusSn").val();
+        if($("#stat").val() == "view"){
+            url += "&stat=view";
+        }
         var name = "recruitDetailPop";
         var option = "width=1000, height=720, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
@@ -503,6 +511,14 @@ var recruitAdminPop = {
         var name = "selInEvalItemPop";
         var option = "width=1000, height=870, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    viewMod : function(){
+        /** view 모드일때 조회 이외에 버튼 전부 사라짐 */
+        if($("#stat").val() == "view"){
+            $(".mngBtn").hide();
+            $("input[type=checkbox]").attr("disabled", true);
+        }
     }
 
 }

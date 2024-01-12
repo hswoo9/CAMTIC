@@ -896,23 +896,21 @@
     FROM
         CAM_INSIDE.DJ_APPLICATION_MAIN AM
     JOIN (
-        SELECT
+            SELECT
             DAS.APPLICATION_ID,
             MAX(SCHOOL_TYPE) AS SCHOOL_TYPE,
             CONCAT(
-                SCHOOL_NAME,
-                ' ',
-                DEPT,
+                (SELECT CONCAT(SCHOOL_NAME, ' ', DEPT) FROM CAM_INSIDE.DJ_APPLICATION_SCHOOL WHERE APPLICATION_ID = DAS.APPLICATION_ID ORDER BY SCHOOL_TYPE DESC LIMIT 1),
                 '(',
                 CASE WHEN MAX(SCHOOL_TYPE) = '1' THEN '고등학교'
-                    WHEN MAX(SCHOOL_TYPE) = '2' THEN '전문대학'
-                    WHEN MAX(SCHOOL_TYPE) = '3' OR MAX(SCHOOL_TYPE) = '4' THEN '대학교'
+                    WHEN MAX(SCHOOL_TYPE) = '2' THEN '전문학사'
+                    WHEN MAX(SCHOOL_TYPE) = '3' OR MAX(SCHOOL_TYPE) = '4' THEN '학사'
                     WHEN MAX(SCHOOL_TYPE) = '5' THEN '석사'
                     WHEN MAX(SCHOOL_TYPE) = '6' THEN '박사'
                 END,
                 CASE WHEN GRADUATE_TYPE = '1' THEN ''
                     WHEN GRADUATE_TYPE = '2' THEN ' 졸업예정'
-                    WHEN GRADUATE_TYPE = '2' THEN ' 수료'
+                    WHEN GRADUATE_TYPE = '3' THEN ' 수료'
                 END,
                 ')'
             ) AS SCHOOL_NAME

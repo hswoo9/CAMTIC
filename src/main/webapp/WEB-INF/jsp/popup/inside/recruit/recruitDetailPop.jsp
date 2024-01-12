@@ -23,20 +23,20 @@
 <div class="col-lg-12" style="padding:0;">
     <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
     <input type="hidden" id="recruitStat" name="recruitStat" value="${params.recruitStat}">
+    <input type="hidden" id="stat" value="${params.stat}">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">채용 등록</h3>
             <div class="btn-st popButton">
                 <c:choose>
                     <c:when test="${not empty params.recruitStat and params.recruitStat ne 'E' and params.recruitStat eq 1}">
-                        <button type="button" class="k-button k-button-solid-info" onclick="rcDetailPop.moveToModPage()">편집</button>
+                        <button type="button" class="k-button k-button-solid-info mngBtn" onclick="rcDetailPop.moveToModPage()">편집</button>
                     </c:when>
                     <c:otherwise>
-                        <button type="button" class="k-button k-button-solid-info" onclick="rcDetailPop.moveToStatPage()">편집</button>
+                        <button type="button" class="k-button k-button-solid-info mngBtn" onclick="rcDetailPop.moveToStatPage()">편집</button>
                     </c:otherwise>
                 </c:choose>
-                <button type="button" class="k-button k-button-solid-info" onclick="rcDetailPop.moveToLoginPage()">응시</button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
         <form id="recruitReqForm" style="padding: 20px 30px;">
