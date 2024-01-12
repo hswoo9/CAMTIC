@@ -5,6 +5,7 @@ var rcDetailPop = {
 
     fn_DefaultScript : function (){
         rcDetailPop.recruitDataSet();
+        rcDetailPop.viewMod();
     },
 
     recruitDataSet : function(){
@@ -13,20 +14,20 @@ var rcDetailPop = {
             var recruit = result.recruit;
             $("#recruitNum").text(recruit.RECRUIT_NUM);
             $("#recruitTitle").text(recruit.RECRUIT_TITLE);
-            $("#recruitDetail").text(recruit.RECRUIT_DETAIL);
+            $("#recruitDetail").html(recruit.RECRUIT_DETAIL.replaceAll("\n", "<br>"));
             $("#uploadDt").text(recruit.UPLOAD_DT);
             $("#uploadText").text(recruit.UPLOAD_TEXT);
             $("#startDt").text(recruit.START_DT);
             $("#endDt").text(recruit.END_DT);
 
-            $("#jobPositionEtc").text(recruit.JOB_POSITION_ETC);
-            $("#eligibilityEtc").text(recruit.ELIGIBILITY_ETC);
+            $("#jobPositionEtc").html(recruit.JOB_POSITION_ETC.replaceAll("\n", "<br>"));
+            $("#eligibilityEtc").html(recruit.ELIGIBILITY_ETC.replaceAll("\n", "<br>"));
 
-            $("#workType").text(recruit.WORK_TYPE);
-            $("#admission").text(recruit.ADMISSION);
-            $("#applicationDoc").text(recruit.APPLICATION_DOC);
-            $("#receiptDocu").text(recruit.RECEIPT_DOCU);
-            $("#remark").text(recruit.REMARK);
+            $("#workType").html(recruit.WORK_TYPE.replaceAll("\n", "<br>"));
+            $("#admission").html(recruit.ADMISSION.replaceAll("\n", "<br>"));
+            $("#applicationDoc").html(recruit.APPLICATION_DOC).replaceAll("\n", "<br>");
+            $("#receiptDocu").html(recruit.RECEIPT_DOCU.replaceAll("\n", "<br>"));
+            $("#remark").html(recruit.REMARK.replaceAll("\n", "<br>"));
             $("#recruitStatus").text(recruit.RECRUIT_STATUS_TEXT);
             rcDetailPop.recruitAreaSet(recruit.recruitArea);
         }
@@ -86,7 +87,7 @@ var rcDetailPop = {
                         '<tr>'+
                             '<td colspan="3">' +
                                 '<div style="display:flex; justify-content: space-between; align-items: center">'+
-                                    '자격요건 : ' + e[i].QUALIFICATION +
+                                    '자격요건 : ' + e[i].QUALIFICATION.replaceAll("\n", "<br>") +
                                 '</div>' +
                             '</td>'+
                         '</tr>'+
@@ -108,5 +109,12 @@ var rcDetailPop = {
 
     moveToLoginPage : function(){
         window.open("/application/applicationLogin.do?recruitInfoSn=" + $("#recruitInfoSn").val(),"applicationLogin","width=750,height=320")
+    },
+
+    viewMod : function(){
+        /** view 모드일때 조회 이외에 버튼 전부 사라짐 */
+        if($("#stat").val() == "view"){
+            $(".mngBtn").hide();
+        }
     }
 }

@@ -83,7 +83,7 @@ var recruitListTl = {
                     field: "RECRUIT_TITLE",
                     title: "공고명",
                     template : function (e){
-                        return '<a href="javascript:void(0);" onclick="recruitListTl.recruitDetailPop(\''+e.RECRUIT_INFO_SN+'\');">'+e.RECRUIT_TITLE+'</a>';
+                        return '<a href="javascript:void(0);" onclick="recruitListTl.recruitAdminPop(\''+e.RECRUIT_INFO_SN+'\');">'+e.RECRUIT_TITLE+'</a>';
                     }
                 }, {
                     title: "모집기간",
@@ -342,5 +342,12 @@ var recruitListTl = {
                 var popup = window.open(url, name, option);
             }
         }
+    },
+
+    recruitAdminPop : function(e) {
+        var url = "/inside/pop/recruitAdminPop.do?recruitInfoSn=" + e +"&stat=view";
+        var name = "recruitAdminPop";
+        var option = "width=1750, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     },
 }

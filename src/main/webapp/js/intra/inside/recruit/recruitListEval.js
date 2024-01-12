@@ -76,7 +76,7 @@ var recruitListEval = {
                     title: "공고명",
                     width: 350,
                     template : function (e){
-                        return '<a href="javascript:void(0);" onclick="recruitListEval.recruitDetailPop(\''+e.RECRUIT_INFO_SN+'\');">'+e.RECRUIT_TITLE+'</a>';
+                        return '<a href="javascript:void(0);" onclick="recruitListEval.recruitAdminPop(\''+e.RECRUIT_INFO_SN+'\');">'+e.RECRUIT_TITLE+'</a>';
                     }
                 }, {
                     title: "모집기간",
@@ -259,5 +259,12 @@ var recruitListEval = {
                 alert("면접심사 대상 평가위원이 아닙니다.");
             }
         }
+    },
+
+    recruitAdminPop : function(e) {
+        var url = "/inside/pop/recruitAdminPop.do?recruitInfoSn=" + e +"&stat=view";
+        var name = "recruitAdminPop";
+        var option = "width=1750, height=750, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     },
 }
