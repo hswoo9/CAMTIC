@@ -1100,6 +1100,8 @@
          ON A.CLAIM_SN = B.CLAIM_SN
         WHERE
             A.STATUS = 100 AND (A.PRI_PAY = 'Y' OR (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = A.PURC_SN) = 100)
+        AND
+            A.ORDER_DT IS NOT NULL
         ORDER BY CLAIM_SN DESC
     </select>
 </mapper>
