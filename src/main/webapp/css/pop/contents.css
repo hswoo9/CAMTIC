@@ -573,7 +573,7 @@ input[type="button"].small_btn {padding: 0px 4px !important; height: 18px !impor
 .com_ta3 table td {height:20px;color:#4a4a4a;border:1px solid #eaeaea;border-width:0 0 1px 1px;}
 .com_ta3 table td:first-child{border-width:0 0 1px 0;}
 .com_ta3 table td.tit{background-color:#f0f6fd;text-align:left;}
-.com_ta3 table td.tit span{font-size:;font-weight:bold;}
+.com_ta3 table td.tit span{font-weight:bold;}
 .com_ta3 table .cen {text-align:center !important;padding:0px !important;}
 .com_ta3 table .ri {text-align:right !important;}
 .com_ta3 table .le {text-align:left !important;}
@@ -3039,7 +3039,7 @@ background:#f6fcff url('../../images/bg/sub_index_img.png') no-repeat 48px 114px
 .delay_mes .dm_div {}
 .delay_mes .dm_div ul {float:left;}
 .delay_mes .dm_div ul li {width:16px; height:16px; border-radius:50% 50%;float:left;clear:none;margin:5px;animation: 0.8s infinite;-webkit-animation-fill-mode: both;animation-name:dm_op;animation-timing-function: ease-in-out;}
-.delay_mes .dm_div ul li:first-child {margin-left:0;}text-indent: 7px;
+.delay_mes .dm_div ul li:first-child {margin-left:0;}
 .delay_mes .dm_div .dm4 {background:#f4f8ff;}
 .delay_mes .dm_div .dm3 {background:#ddeaff}
 .delay_mes .dm_div .dm2 {background:#9fc2fc}
@@ -3323,7 +3323,7 @@ background:#f6fcff url('../../images/bg/sub_index_img.png') no-repeat 48px 114px
 .file_td.st2 .k-upload-files {width:583px;}
 .file_td.st2 .file_down_bot .file_group li > .fr{padding-top:2px;}
 .pop_con .com_ta .file_td.st2 .k-upload {width:663px;}
-.pop_con .com_ta {padding:}
+.pop_con .com_ta {}
 .pop_con .com_ta .file_td .k-upload {width:557px;}
 .pop_con .com_ta .file_td ul.k-upload-files {padding-top:0px}
 .pop_con .com_ta ul.file_group {padding:10px 0;overflow: hidden;}
@@ -3642,7 +3642,7 @@ p.email_p {font-weight:bold; margin-bottom:12px;color:#4a4a4a;}
 .addr_ta {width:100%;}
 .addr_ta .addr_left {border:1px solid #dcdcdc;vertical-align:top}
 .addr_ta .addr_left .addr_btn_top{height:54px; line-height:54px; border-bottom:1px solid #dcdcdc;}
-.addr_ta .addr_right {padding:15px;padding-bottom:40px;height:;border-top:1px solid #dcdcdc;border-right:1px solid #dcdcdc;border-bottom:1px solid #dcdcdc;vertical-align:top;}
+.addr_ta .addr_right {padding:15px;padding-bottom:40px;border-top:1px solid #dcdcdc;border-right:1px solid #dcdcdc;border-bottom:1px solid #dcdcdc;vertical-align:top;}
 .addr_ta .addr_btm {overflow:hidden;margin-top:10px;}
 .addr_ta .addr_btm .ssl_group {float:right;}
 .addr_ta #treeview {max-height:638px; overflow:auto;}
