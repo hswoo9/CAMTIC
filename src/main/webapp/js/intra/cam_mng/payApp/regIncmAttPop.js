@@ -3,12 +3,23 @@ const regIncmAtt = {
     fn_DefaultScript: function(){
         var parameterArray = [];
 
-        regIncmAtt.fn_setFile();
+        parameterArray = opener.parent.regIncm.global.fileArray;
 
+        if(opener.parent.$("#payAppSn").val() != ""){
+            if(parameterArray.length > 0){
+                $("#emptyTr").remove();
+                regIncmAtt.fn_setFile();
+            }
+        } else {
+            if(parameterArray.length > 0){
+                $("#emptyTr").remove();
+                regIncmAtt.fn_setFile();
+            }
+        }
     },
 
     fileChange : function (){
-        opener.parent.regPay.global.fileArray = [];
+        // opener.parent.regIncm.global.fileArray = [];
         $("#emptyTr").remove();
         let size = 0;
         var fileArray = [];
@@ -29,6 +40,8 @@ const regIncmAtt = {
                         fileName += ".";
                     }
                 }
+                opener.parent.regIncm.global.fileArray.push(fileArray[i]);
+
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html += '   <td style="text-align: left">' + fileName + '</td>';
                 html += '   <td>' + fileExt + '</td>';
@@ -40,7 +53,7 @@ const regIncmAtt = {
                 html += '   </td>';
                 if($("#type").val() != "exnp"){
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regIncmAtt.fnUploadFile(' + i + ')">'
                     html += '   </td>';
                 }
                 html += '</tr>';
@@ -48,7 +61,7 @@ const regIncmAtt = {
             $("#fileGrid").append(html);
         }
 
-        opener.parent.regPay.global.fileArray = fileArray;
+        // opener.parent.regPay.global.fileArray = fileArray;
     },
 
     fn_addFile : function(){
@@ -134,22 +147,7 @@ const regIncmAtt = {
 
     fn_setFile : function(){
         var fileArray = [];
-
-        var data = {
-
-        }
-
-        if($("#payDepoSn").val() != ""){
-            data.payDepoSn = $("#payDepoSn").val();
-        } else if($("#payIncpSn").val() != ""){
-            data.payIncpSn = $("#payIncpSn").val();
-        }
-
-        var fileResult = customKendo.fn_customAjax("/pay/payDepoFileList", data)
-
-        console.log(fileResult);
-
-        fileArray = fileResult.listMap;
+        fileArray = opener.parent.regIncm.global.fileArray;
 
         let size = 0;
         if(fileArray.length > 0){
@@ -158,21 +156,29 @@ const regIncmAtt = {
             var html = '';
 
             for (var i = 0; i < fileArray.length; i++) {
-                size = fCommon.bytesToKB(fileArray[i].file_size);
+                size = fCommon.bytesToKB(fileArray[i].file_size || fileArray[i].size);
+                var fileName = (fileArray[i].file_org_name || fileArray[i].name.toString().split(".")[0]);
+                var fileExt = (fileArray[i].file_ext || fileArray[i].name.toString().split(".")[1]);
 
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
-                html += '   <td style="text-align: left">' + fileArray[i].file_org_name + '</td>';
-                html += '   <td>' + fileArray[i].file_ext + '</td>';
+                html += '   <td style="text-align: left">' + fileName+ '</td>';
+                html += '   <td>' + fileExt + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
-                if(fileArray[i].file_ext.toLowerCase() == "pdf" || fileArray[i].file_ext.toLowerCase() == "jpg" || fileArray[i].file_ext.toLowerCase() == "png" || fileArray[i].file_ext.toLowerCase() == "jpeg"){
-                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regIncmAtt.fileViewer(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\')">'
+
+                if(fileArray[i].file_ext != undefined && fileArray[i].file_ext != null && fileArray[i].file_ext != ""){
+                    if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+                        html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regIncmAtt.fileViewer(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\')">'
+                    }
                 }
+
                 html += '   </td>';
-                if($("#type").val() != "exnp"){
-                    html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regIncmAtt.fn_delFile(' + fileArray[i].file_no + ')">'
-                    html += '   </td>';
+                if(fileArray[i].file_ext != undefined && fileArray[i].file_ext != null && fileArray[i].file_ext != "") {
+                    if($("#type").val() != "exnp"){
+                        html += '   <td>';
+                        html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regIncmAtt.fn_delFile(' + fileArray[i].file_no + ')">'
+                        html += '   </td>';
+                    }
                 }
                 html += '</tr>';
             }
@@ -229,16 +235,16 @@ const regIncmAtt = {
     fnUploadFile : function(e) {
         let size = 0;
         const dataTransfer = new DataTransfer();
-        let fileArray2 = Array.from(opener.parent.regPay.global.fileArray);
+        let fileArray2 = Array.from(opener.parent.regIncm.global.fileArray);
         fileArray2.splice(e, 1);
         fileArray2.forEach(file => {
             dataTransfer.items.add(file);
         });
 
-        opener.parent.regPay.global.fileArray = dataTransfer.files;
+        opener.parent.regIncm.global.fileArray = dataTransfer.files;
 
         var fileArray = [];
-        fileArray = opener.parent.regPay.global.fileArray;
+        fileArray = opener.parent.regIncm.global.fileArray;
         if(fileArray.length > 0){
             $("#fileGrid").find(".addFile").remove();
 
@@ -266,7 +272,7 @@ const regIncmAtt = {
                 html += '   </td>';
                 if($("#type").val() != "exnp"){
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fnUploadFile.fnUploadFile(' + i + ')">';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regIncmAtt.fnUploadFile(' + i + ')">';
                     html += '   </td>';
                 }
                 html += '</tr>';
@@ -297,8 +303,8 @@ const regIncmAtt = {
     },
 
     fn_close : function (){
-        if(opener.parent.$("#payAppSn").val() == ""){
-            opener.parent.regPay.global.fileArray = [];
+        if(opener.parent.$("#payDepoSn").val() == "" && opener.parent.$("#payIncpSn").val() == ""){
+            opener.parent.regIncm.global.fileArray = [];
         }
         window.close();
     },
@@ -325,9 +331,9 @@ const regIncmAtt = {
                 if(rs.code == 200){
                     alert("삭제되었습니다.");
                     if($("#type").val() != "exnp"){
-                        var fileArr = opener.parent.regPay.global.fileArray;
+                        var fileArr = opener.parent.regIncm.global.fileArray;
                     } else {
-                        var fileArr = opener.parent.regPay.global.fileArray;
+                        var fileArr = opener.parent.regIncm.global.fileArray;
                     }
                     for(var i = 0 ; i < fileArr.length ; i++){
                         if(fileArr[i].file_no == key){

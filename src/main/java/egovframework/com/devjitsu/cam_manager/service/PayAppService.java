@@ -40,10 +40,11 @@ public interface PayAppService {
 
     List<Map<String, Object>> getIncpReList(Map<String, Object> params);
 
-    void payIncpSetData(Map<String, Object> params);
+    void payIncpSetData(Map<String, Object> params, MultipartFile[] fileList, String SERVER_DIR, String BASE_DIR);
 
     Map<String, Object> getPayIncpReqData(Map<String, Object> params);
     List<Map<String, Object>> getPayIncpDetailData(Map<String, Object> params);
+    List<Map<String, Object>> getStoredPayIncpFileList(Map<String, Object> params);
 
     void updateExnpAppDocState(Map<String, Object> bodyMap);
 
@@ -94,6 +95,8 @@ public interface PayAppService {
     List<Map<String, Object>> getPayDepoFileList(Map<String, Object> params);
 
     List<Map<String, Object>> getPayExnpFileList(Map<String, Object> params);
+
+    void regReListFile(Map<String, Object> params, MultipartFile[] fileList, String SERVER_DIR, String BASE_DIR);
 
     List<Map<String, Object>> getRegIncmReData(Map<String, Object> params);
 

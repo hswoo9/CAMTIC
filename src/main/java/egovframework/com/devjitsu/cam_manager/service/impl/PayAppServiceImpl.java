@@ -80,8 +80,21 @@ public class PayAppServiceImpl implements PayAppService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        List<Map<String, Object>> storedFileArr = gson.fromJson((String) params.get("storedFileArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
-        if(storedFileArr.size() > 0){
+        /** 신청서 관련 파일 정보 dj_pay_app_file에 저장  */
+        if(params.containsKey("payAppSn")){
+            List<Map<String, Object>> list = payAppRepository.getPayAppDetailData(params);
+
+            String[] fileNoAr = new String[list.size()];
+            for(int i = 0; i < list.size(); i++){
+                if("".equals(list.get(i).get("FILE_NO")) || list.get(i).get("FILE_NO") == null){
+                    fileNoAr[i] = "";
+                } else {
+                    fileNoAr[i] = list.get(i).get("FILE_NO").toString();
+                }
+            }
+            params.put("fileNoAr", fileNoAr);
+
+            List<Map<String, Object>> storedFileArr = payAppRepository.getPayAppFileList(params);
             payAppRepository.delPayAppFileList(params);
 
             for(Map<String, Object> map : storedFileArr){
@@ -341,7 +354,7 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
-    public void payIncpSetData(Map<String, Object> params) {
+    public void payIncpSetData(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
@@ -361,6 +374,44 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.insPayIncpDetailData(map);
         }
 
+        MainLib mainLib = new MainLib();
+
+        /** 수입결의서 관련 파일 정보 dj_pay_incp_file에 저장  */
+        if(params.containsKey("payIncpSn")){
+            List<Map<String, Object>> storedFileArr = payAppRepository.getStoredPayIncpFileList(params);
+            payAppRepository.delPayIncpFileList(params);
+
+            for(Map<String, Object> map : storedFileArr){
+                map.put("contentId", params.get("payIncpSn"));
+                map.put("fileNo", map.get("file_no"));
+
+                commonRepository.insPayIncpFileList(map);
+            }
+        }
+
+        if(fileList.length > 0){
+            params.put("menuCd", "payIncp");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("payIncpSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                String[] fileName = list.get(i).get("orgFilename").toString().split("[.]");
+                String fileOrgName = "";
+                for(int j = 0 ; j < fileName.length - 1 ; j++){
+                    fileOrgName += fileName[j] + ".";
+                }
+                fileOrgName = fileOrgName.substring(0, fileOrgName.length() - 1);
+                list.get(i).put("fileExt", fileName[fileName.length - 1]);
+                list.get(i).put("fileOrgName", fileOrgName);
+
+                commonRepository.insFileInfoOne(list.get(i));
+                commonRepository.insPayIncpFileList(list.get(i));
+            }
+//            commonRepository.insFileInfo(list);
+        }
     }
 
     @Override
@@ -371,6 +422,11 @@ public class PayAppServiceImpl implements PayAppService {
     @Override
     public List<Map<String, Object>> getPayIncpDetailData(Map<String, Object> params) {
         return payAppRepository.getPayIncpDetailData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getStoredPayIncpFileList(Map<String, Object> params) {
+        return payAppRepository.getStoredPayIncpFileList(params);
     }
 
     @Override
@@ -1333,6 +1389,47 @@ public class PayAppServiceImpl implements PayAppService {
     @Override
     public List<Map<String, Object>> getPayExnpFileList(Map<String, Object> params) {
         return payAppRepository.getPayExnpFileList(params);
+    }
+
+    @Override
+    public void regReListFile(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
+
+        MainLib mainLib = new MainLib();
+
+        /** 신청서 관련 파일 정보 dj_pay_app_file에 저장  */
+        List<Map<String, Object>> storedFileArr = payAppRepository.getPayExnpFileList(params);
+        payAppRepository.delPayAppFileList(params);
+
+        for(Map<String, Object> map : storedFileArr){
+            map.put("contentId", params.get("payAppSn"));
+            map.put("fileNo", map.get("file_no"));
+
+            commonRepository.insPayAppFileList(map);
+        }
+
+        if(fileList.length > 0){
+            params.put("menuCd", "payApp");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("payAppSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                String[] fileName = list.get(i).get("orgFilename").toString().split("[.]");
+                String fileOrgName = "";
+                for(int j = 0 ; j < fileName.length - 1 ; j++){
+                    fileOrgName += fileName[j] + ".";
+                }
+                fileOrgName = fileOrgName.substring(0, fileOrgName.length() - 1);
+                list.get(i).put("fileExt", fileName[fileName.length - 1]);
+                list.get(i).put("fileOrgName", fileOrgName);
+
+                commonRepository.insFileInfoOne(list.get(i));
+                commonRepository.insPayAppFileList(list.get(i));
+            }
+//            commonRepository.insFileInfo(list);
+        }
     }
 
     @Override

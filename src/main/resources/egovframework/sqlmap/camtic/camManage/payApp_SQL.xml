@@ -1956,6 +1956,22 @@
                        WHERE PAY_INCP_SN = #{payIncpSn})
     </select>
 
+    <select id="getStoredPayIncpFileList" parameterType="map" resultType="map">
+        /* getStoredPayIncpFileList */
+        SELECT * FROM CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            (CONTENT_ID = #{payIncpSn} AND FILE_CD = 'payIncp')
+          OR
+            FILE_NO = (SELECT FILE_NO
+               FROM CAM_MNG.DJ_PAY_DEPO
+               WHERE PAY_INCP_SN = #{payIncpSn})
+    </select>
+
+    <delete id="delPayIncpFileList" parameterType="map">
+        /* delPayIncpFileList */
+        DELETE FROM CAM_MNG.DJ_PAY_INCP_FILE WHERE PAY_INCP_SN = #{payIncpSn}
+    </delete>
+
     <select id="getPayExnpFileList" parameterType="map" resultType="map">
         /*getPayExnpFileList*/
         SELECT

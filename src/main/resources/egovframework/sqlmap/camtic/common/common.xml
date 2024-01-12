@@ -246,6 +246,20 @@
             )
     </insert>
 
+    <insert id="insPayIncpFileList" parameterType="map">
+        /*insPayIncpFileList*/
+        INSERT INTO CAM_MNG.DJ_PAY_INCP_FILE
+            (
+                PAY_INCP_SN,
+                FILE_NO
+            )
+        VALUES
+            (
+                #{contentId},
+                #{fileNo}
+            )
+    </insert>
+
     <select id="getContentFileOne" parameterType="map" resultType="map">
         /* getContentFileOne */
         SELECT

@@ -1089,16 +1089,6 @@ var regPay = {
             return;
         }
 
-        var storedFileArr = new Array()
-        for(var i=0; i<regPay.global.fileArray.length; i++){
-            if(regPay.global.fileArray[i].file_no != undefined && regPay.global.fileArray[i].file_no != null && regPay.global.fileArray[i] != ''){
-                var fileData = {
-                    file_no : regPay.global.fileArray[i].file_no
-                }
-                storedFileArr.push(fileData);
-            }
-        }
-
         var itemArr = new Array()
         var flag = true;
 
@@ -1186,7 +1176,6 @@ var regPay = {
         }
 
         parameters.itemArr = JSON.stringify(itemArr);
-        parameters.storedFileArr = JSON.stringify(storedFileArr);
 
         var fd = new FormData();
 

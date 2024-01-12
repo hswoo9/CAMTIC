@@ -302,8 +302,8 @@ const regPayAtt = {
             }
         }
 
-        if(fCommon.global.attFiles.length == 0){
-            fCommon.global.attFiles = new Array();
+        if(opener.parent.regPay.global.fileArray.length == 0){
+            opener.parent.regPay.global.fileArray = new Array();
         }
 
     },

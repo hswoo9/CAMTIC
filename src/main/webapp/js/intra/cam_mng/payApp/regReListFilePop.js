@@ -1,5 +1,10 @@
 const regReListFilePop = {
 
+    global : {
+        fileArray : [],
+        attFiles : [],
+    },
+
     fn_DefaultScript: function(){
         var parameterArray = [];
 
@@ -8,20 +13,23 @@ const regReListFilePop = {
     },
 
     fileChange : function (){
-        opener.parent.regPay.global.fileArray = [];
         $("#emptyTr").remove();
         let size = 0;
         var fileArray = [];
         for(var i = 0; i < $("input[name='payFileList']")[0].files.length; i++){
-            fileArray.push($("input[name='payFileList']")[0].files[i]);
+            regReListFilePop.global.attFiles.push($("input[name='payFileList']")[0].files[i]);
         }
 
+        fileArray = regReListFilePop.global.attFiles;
         if(fileArray.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
+
             var html = '';
             for (var i = 0; i < fileArray.length; i++) {
-                size = fCommon.bytesToKB(fileArray[i].size);
+                size = fileArray[i].size > 0 ? fCommon.bytesToKB(fileArray[i].size) : 0;
                 var fileName = "";
-                var fileExt = fileArray[i].name.split(".")[fileArray[i].name.split(".").length - 1];
+                var fileExt = (fileArray[i].file_ext || fileArray[i].name.split(".")[fileArray[i].name.split(".").length - 1]);
                 for(var j = 0 ; j < fileArray[i].name.split(".").length - 1 ; j++){
                     fileName += fileArray[i].name.split(".")[j];
 
@@ -40,15 +48,13 @@ const regReListFilePop = {
                 html += '   </td>';
                 if($("#type").val() != "exnp"){
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regReListFilePop.fnUploadFile(' + i + ')">'
                     html += '   </td>';
                 }
                 html += '</tr>';
             }
             $("#fileGrid").append(html);
         }
-
-        opener.parent.regPay.global.fileArray = fileArray;
     },
 
     fn_addFile : function(){
@@ -140,13 +146,12 @@ const regReListFilePop = {
             exnpSn : $("#exnpSn").val()
         }
 
-
         var fileResult = customKendo.fn_customAjax("/pay/payExnpFileList", data)
 
         console.log(fileResult);
 
-        fileArray = fileResult.listMap;
-
+        regReListFilePop.global.fileArray = fileResult.listMap;
+        fileArray = regReListFilePop.global.fileArray;
         let size = 0;
         if(fileArray.length > 0){
             $("#fileGrid").html("");
@@ -154,9 +159,9 @@ const regReListFilePop = {
             var html = '';
 
             for (var i = 0; i < fileArray.length; i++) {
-                size = fCommon.bytesToKB(fileArray[i].file_size);
+                size = fileArray[i].file_size > 0 ? fCommon.bytesToKB(fileArray[i].file_size) : 0;
 
-                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '<tr style="text-align: center;padding-top: 10px;">';
                 html += '   <td style="text-align: left">' + fileArray[i].file_org_name + '</td>';
                 html += '   <td>' + fileArray[i].file_ext + '</td>';
                 html += '   <td>' + size + '</td>';
@@ -225,16 +230,16 @@ const regReListFilePop = {
     fnUploadFile : function(e) {
         let size = 0;
         const dataTransfer = new DataTransfer();
-        let fileArray2 = Array.from(opener.parent.regPay.global.fileArray);
+        let fileArray2 = Array.from(regReListFilePop.global.attFiles);
         fileArray2.splice(e, 1);
         fileArray2.forEach(file => {
             dataTransfer.items.add(file);
         });
 
-        opener.parent.regPay.global.fileArray = dataTransfer.files;
+        regReListFilePop.global.attFiles = dataTransfer.files;
 
         var fileArray = [];
-        fileArray = opener.parent.regPay.global.fileArray;
+        fileArray = regReListFilePop.global.attFiles;
         if(fileArray.length > 0){
             $("#fileGrid").find(".addFile").remove();
 
@@ -250,9 +255,9 @@ const regReListFilePop = {
                     }
                 }
 
-                size = fCommon.bytesToKB(fileArray[i].size);
+                size = fileArray[i].size > 0 ? fCommon.bytesToKB(fileArray[i].size) : 0;
                 html += '<tr style="text-align: center;" class="addFile">';
-                html += '   <td>' + fileName + '</td>';
+                html += '   <td style="text-align: left">' + fileName + '</td>';
                 html += '   <td>' + fileExt + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
@@ -262,7 +267,7 @@ const regReListFilePop = {
                 html += '   </td>';
                 if($("#type").val() != "exnp"){
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fnUploadFile.fnUploadFile(' + i + ')">';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regReListFilePop.fnUploadFile(' + i + ')">';
                     html += '   </td>';
                 }
                 html += '</tr>';
@@ -279,8 +284,8 @@ const regReListFilePop = {
             }
         }
 
-        if(fCommon.global.attFiles.length == 0){
-            fCommon.global.attFiles = new Array();
+        if(regReListFilePop.global.attFiles.length == 0){
+            regReListFilePop.global.attFiles = new Array();
         }
 
     },
@@ -292,15 +297,39 @@ const regReListFilePop = {
         var popup = window.open("http://218.158.231.186" + path, name, option);
     },
 
-    fn_close : function (){
-        if(opener.parent.$("#payAppSn").val() == ""){
-            opener.parent.regPay.global.fileArray = [];
-        }
-        window.close();
-    },
-
     fn_regist: function(){
-        window.close();
+        if(!confirm("등록하시겠습니까?")){
+            return;
+        }
+
+        var formData = new FormData();
+
+        formData.append("payAppSn", $("#payAppSn").val());
+        formData.append("empSeq", $("#regEmpSeq").val());
+
+        if(regReListFilePop.global.attFiles != null){
+            for(var i = 0 ; i < regReListFilePop.global.attFiles.length ; i++){
+                formData.append("fileList", regReListFilePop.global.attFiles[i]);
+            }
+        }
+
+        $.ajax({
+            url : "/payApp/regReListFile.do",
+            data : formData,
+            type : "post",
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async: false,
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.");
+                    opener.parent.exnpReList.gridReload();
+                    window.close();
+                }
+            }
+        });
     },
 
     fn_delFile: function (key){
@@ -320,22 +349,8 @@ const regReListFilePop = {
             success: function(rs){
                 if(rs.code == 200){
                     alert("삭제되었습니다.");
-                    if($("#type").val() != "exnp"){
-                        var fileArr = opener.parent.regPay.global.fileArray;
-                    } else {
-                        var fileArr = opener.parent.regPay.global.fileArray;
-                    }
-                    for(var i = 0 ; i < fileArr.length ; i++){
-                        if(fileArr[i].file_no == key){
-                            fileArr.splice(i, 1);
-                            break;
-                        }
-                    }
-
                     location.reload();
                 }
-
-
             }
         })
     }

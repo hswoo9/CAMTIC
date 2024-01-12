@@ -221,6 +221,22 @@ public class PayAppController {
         return "popup/cam_manager/payApp/regReListFilePop";
     }
 
+    @RequestMapping("/payApp/regReListFile.do")
+    public String regReListFile(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        try{
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+
+            payAppService.regReListFile(params, fileList, SERVER_DIR, BASE_DIR);
+
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/payApp/pop/regIncmAttPop.do")
     public String regIncmAttPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -247,7 +263,10 @@ public class PayAppController {
     @RequestMapping("/pay/getPayDepoData")
     public String getPayDepoData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = payAppService.getPayDepoData(params);
+        List<Map<String, Object>> fileList = payAppService.getPayDepoFileList(params);
+
         model.addAttribute("data", map);
+        model.addAttribute("fileList", fileList);
 
         return "jsonView";
     }
@@ -658,10 +677,12 @@ public class PayAppController {
     }
 
     @RequestMapping("/payApp/payIncpSetData")
-    public String payIncpSetData(@RequestParam Map<String, Object> params, Model model){
+    public String payIncpSetData(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
 
         try{
-            payAppService.payIncpSetData(params);
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+
+            payAppService.payIncpSetData(params, fileList, SERVER_DIR, BASE_DIR);
 
             model.addAttribute("code", 200);
             model.addAttribute("params", params);
@@ -676,8 +697,11 @@ public class PayAppController {
     public String getPayIncpData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = payAppService.getPayIncpReqData(params);
         List<Map<String, Object>> list = payAppService.getPayIncpDetailData(params);
+        List<Map<String, Object>> fileList = payAppService.getStoredPayIncpFileList(params);
+
         model.addAttribute("map", map);
         model.addAttribute("list", list);
+        model.addAttribute("fileList", fileList);
 
         return "jsonView";
     }

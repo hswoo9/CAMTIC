@@ -28,10 +28,17 @@
             </h3>
 
             <div id="payAppBtnDiv" class="btn-st popButton" style="font-size: 13px;">
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regReListFilePop.fn_regist();">등록</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="fn_close();">닫기</button>
             </div>
         </div>
         <div style="padding: 20px 30px;">
+            <div style="float:right; position: relative; color: red; font-size: 11px;">거래명세서 / 계좌이체동의서 / 미비첨부파일 등</div>
+            <td style="text-align: center;" colspan="5">
+                <label for="payFileList" style="font-size: 13px;" class="k-button k-button-solid-base">파일첨부</label>
+                <input type="file" id="payFileList" name="payFileList" onchange="regReListFilePop.fileChange();" style="display: none" multiple>
+                <span id="payFileName"></span>
+            </td>
             <table id="popTable" class="popTable table table-bordered mb-0">
                 <thead>
                 <tr>

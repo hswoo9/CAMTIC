@@ -9,6 +9,7 @@ var regIncm = {
         crmSnId : "",
         crmNmId : "",
         saveAjaxData : "",
+        fileArray : [],
     },
 
     fn_defaultScript : function (){
@@ -130,10 +131,12 @@ var regIncm = {
             payIncpSn : $("#payIncpSn").val()
         }
 
-
         var result = customKendo.fn_customAjax("/payApp/pop/getPayIncpData", data);
         var rs = result.map;
         var ls = result.list;
+        var fileList = result.fileList;
+
+        regIncm.global.fileArray = fileList;
 
         regIncm.payAppBtnSet(rs);
 
@@ -337,9 +340,12 @@ var regIncm = {
             data: data,
             type: "post",
             dataType: "json",
-            success: function (rs) {
-                var rs = rs.data;
-                console.log(rs);
+            success: function (result) {
+                var rs = result.data;
+                var fileList = result.fileList;
+
+                regIncm.global.fileArray = fileList;
+
                 rs.crmNo = rs.REG_NO.toString().replace(/-/g, "");
                 var g20Result = customKendo.fn_customAjax("/g20/getCrmInfo", rs);
 
@@ -435,7 +441,8 @@ var regIncm = {
             accNm : $("#accNm").val(),
             accNo : $("#accNo").val(),
             // payAppStat : $("#payAppStat").data("kendoRadioGroup").value(),
-            regEmpSeq : $("#regEmpSeq").val()
+            regEmpSeq : $("#regEmpSeq").val(),
+            empSeq : $("#regEmpSeq").val()
         }
 
         if($("#payIncpSn").val() != ""){
@@ -482,13 +489,30 @@ var regIncm = {
 
         console.log(parameters);
 
+        var fd = new FormData();
+
+        for(var key in parameters){
+            fd.append(key, parameters[key]);
+        }
+
+        if(regIncm.global.fileArray != null){
+            for(var i = 0; i < regIncm.global.fileArray.length; i++){
+                fd.append("fileList", regIncm.global.fileArray[i]);
+            }
+        }
+
         $.ajax({
             url : "/payApp/payIncpSetData",
-            data : parameters,
+            data : fd,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async: false,
             success : function(rs){
                 if(rs.code == 200){
+                    alert("저장되었습니다.");
                     location.href="/payApp/pop/regIncmPop.do?payIncpSn=" + rs.params.payIncpSn;
                     opener.gridReload();
                 }

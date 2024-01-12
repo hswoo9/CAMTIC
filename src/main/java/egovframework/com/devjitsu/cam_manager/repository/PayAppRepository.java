@@ -360,6 +360,14 @@ public class PayAppRepository extends AbstractDAO {
         return selectList("payApp.getPayIncpFileList", params);
     }
 
+    public List<Map<String, Object>> getStoredPayIncpFileList(Map<String, Object> params) {
+        return selectList("payApp.getStoredPayIncpFileList", params);
+    }
+
+    public void delPayIncpFileList(Map<String, Object> params) {
+        delete("payApp.delPayIncpFileList", params);
+    }
+
     public List<Map<String, Object>> getPayExnpFileList(Map<String, Object> params) {
         return selectList("payApp.getPayExnpFileList", params);
     }
