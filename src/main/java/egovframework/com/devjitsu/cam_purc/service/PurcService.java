@@ -63,4 +63,6 @@ public interface PurcService {
     Map<String, Object> getPurcAndClaimData(Map<String, Object> params);
 
     List<Map<String, Object>> getProjectReqFile(Map<String, Object> map);
+
+    List<Map<String, Object>> getMngPurcAppList(Map<String, Object> params);
 }

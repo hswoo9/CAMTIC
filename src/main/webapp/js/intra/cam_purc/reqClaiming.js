@@ -122,6 +122,10 @@ var reqCl = {
 
                 //$("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
 
+                if(data.PRI_PAY == "Y"){
+                    $("#priPay").prop("checked", true);
+                }
+
                 if(data.itemList[0].CLAIM_SN == "" || data.itemList[0].CLAIM_SN == null || data.itemList[0].CLAIM_SN == undefined) {
                     reqCl.fn_setItem(data);
                 } else {
@@ -174,6 +178,10 @@ var reqCl = {
             //$("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
 
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+
+            if(data.PRI_PAY == "Y"){
+                $("#priPay").prop("checked", true);
+            }
 
             if(data.CHECK_PROFIT == "Y"){
                 $("#checkProfit").prop("checked", true);
@@ -419,6 +427,12 @@ var reqCl = {
             vatAmt : uncomma($("#vatAmt").val()),
             totAmt : uncomma($("#totAmt").val()),
             itemSn : $("#itemSn").val(),
+        }
+
+        if($("#priPay").is(":checked")){
+            parameters.priPay = "Y";
+        } else {
+            parameters.priPay = "N";
         }
 
         if($("#checkProfit").prop("checked")){

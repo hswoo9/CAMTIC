@@ -536,4 +536,9 @@ public class PurcServiceImpl implements PurcService {
     public List<Map<String, Object>> getProjectReqFile(Map<String, Object> map) {
         return purcRepository.getProjectReqFile(map);
     }
+
+    @Override
+    public List<Map<String, Object>> getMngPurcAppList(Map<String, Object> params) {
+        return purcRepository.getMngPurcAppList(params);
+    }
 }

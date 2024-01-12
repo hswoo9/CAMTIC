@@ -559,4 +559,25 @@ public class PurcController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/purc/purcMngAppList.do")
+    public String purcMngAppList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_purc/mng/purcMngAppList";
+    }
+
+    @RequestMapping("/purc/getMngPurcAppList")
+    public String getMngPurcAppList(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = purcService.getMngPurcAppList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 }

@@ -101,6 +101,10 @@
                     <td>
                         <span id="purcType"></span>
                     </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>선지급여부</th>
+                    <td>
+                        <input type="checkbox" id="priPay" class="k-checkbox k-checkbox-lg k-checkbox-item" />
+                    </td>
                     <%--<th scope="row" class="text-center th-color"><span class="red-star">*</span>결제구분</th>
                     <td>
                         <span id="expType"></span>

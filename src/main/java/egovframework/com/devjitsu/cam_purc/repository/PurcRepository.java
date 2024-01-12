@@ -157,4 +157,8 @@ public class PurcRepository extends AbstractDAO {
     public List<Map<String, Object>> getProjectReqFile(Map<String, Object> params) {
         return selectList("purc.getProjectReqFile", params);
     }
+
+    public List<Map<String, Object>> getMngPurcAppList(Map<String, Object> params) {
+        return selectList("purc.getMngPurcAppList", params);
+    }
 }
