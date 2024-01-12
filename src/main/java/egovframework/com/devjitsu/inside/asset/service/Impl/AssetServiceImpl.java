@@ -627,6 +627,10 @@ public class AssetServiceImpl implements AssetService {
     public List<Map<String, Object>> getEqipmnUseList(Map<String, Object> params) {
         return assetRepository.getEqipmnUseList(params);
     }
+    @Override
+    public List<Map<String, Object>> getEqipmnUseListByPjt(Map<String, Object> params) {
+        return assetRepository.getEqipmnUseListByPjt(params);
+    }
 
     //장비사용 목록 삭제
     @Override

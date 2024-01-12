@@ -1703,6 +1703,37 @@
         ORDER BY SORT_SN ASC
     </select>
 
+    <select id="getEqipmnUseListByPjt" parameterType="map" resultType="map">
+        /*getEqipmnUseListByPjt*/
+        SELECT
+        A.eqipmn_use_sn as EQIPMN_USE_SN,
+        A.sort_sn as SORT_SN,
+        B.eqipmn_gbn_name as EQIPMN_GBN_NAME,
+        B.eqipmn_gbn_cmmn_cd_sn as EQIPMN_GBN_CMMN_CD_SN,
+        B.eqipmn_name as EQIPMN_NAME,
+        A.use_pd_str_de as USE_PD_STR_DE,
+        A.user_name as USER_NAME,
+        C.dept_name as DEPT_NAME,
+        A.oper_cn as OPER_CN,
+        A.use_time as USE_TIME,
+        A.use_amt as USE_AMT,
+        A.client_prtpco_name as CLIENT_PRTPCO_NAME,
+        A.prtpco_gbn_name as PRTPCO_GBN_NAME,
+        A.prtpco_gbn_sn as PRTPCO_GBN_SN,
+        A.actvt_yn AS ACTVT_YN,
+        A.end_stat AS END_STAT
+        FROM
+            CAM_INSIDE.DJ_EQIPMN_USE A
+        LEFT JOIN
+            CAM_INSIDE.DJ_EQIPMN_MST B ON A.eqipmn_mst_sn = B.eqipmn_mst_sn
+        JOIN
+            (select EMP_NAME_KR, DEPT_NAME from cam_hr.DJ_EMP_INFO order by EMP_NAME_KR desc) C ON A.user_name = c.EMP_NAME_KR
+        WHERE
+            1=1
+        AND pjt_sn = #{pjtSn}
+        ORDER BY EQIPMN_USE_SN DESC
+    </select>
+
     <!--장비사용 목록 삭제-->
     <update id="setEquipmenUseDelete" parameterType="java.util.List">
         /* setEquipmenUseDelete */

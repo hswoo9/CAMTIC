@@ -336,6 +336,9 @@ var equipmentList = {
     equipmentUsePopup : function(data){
         console.log(data);
         var url = "/Inside/Pop/equipmentUsePop.do"
+        if(data != null){
+            url += "?pjtSn="+data;
+        }
         var name = "equipmentUsePop";
         var option = "width = 1000, height = 480, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
