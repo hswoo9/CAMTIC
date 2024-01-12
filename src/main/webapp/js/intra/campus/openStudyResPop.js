@@ -5,6 +5,7 @@ const openStudyRes = {
     },
 
     init: function(){
+        window.resizeTo(1250, 1000);
         openStudyRes.pageSet();
         openStudyRes.dataSet();
         openStudyRes.buttonSet();
