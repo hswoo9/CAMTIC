@@ -44,21 +44,33 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="18%">
+                        <col width="7%">
                         <col width="10%">
-                        <col width="40%">
+                        <col width="7%">
                         <col width="10%">
-                        <col width="40%">
+                        <col width="7%">
+                        <col width="10%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">기간</th>
                         <td>
-                            <input type="text" id="strDt" style="width: 150px;"> ~
-                            <input type="text" id="endDt" style="width: 150px;">
+                            <input type="text" id="dtGubun" style="width: 100%;">
+                        </td>
+                        <td>
+                            <input type="text" id="strDt" style="width: 120px;"> ~
+                            <input type="text" id="endDt" style="width: 120px;">
                         </td>
                         <th class="text-center th-color">구분</th>
                         <td>
                             <input type="text" id="taxGubun" style="width: 150px;">
                         </td>
+                        <th class="text-center th-color">거래처명</th>
+                        <td><input type="text" id="crmNm" style="width: 150px;"></td>
+                        <th class="text-center th-color">사업자번호</th>
+                        <td><input type="text" id="crmNo" style="width: 150px;"></td>
                     </tr>
                 </table>
 
