@@ -65,6 +65,11 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setStudyInfoDelete(Map<String, Object> params) {
+        campusRepository.setStudyInfoDelete(params);
+    }
+
+    @Override
     public Map<String, Object> getEduInfoOne(Map<String, Object> params){
         Map<String, Object> result = campusRepository.getEduInfoOne(params);
         result.put("eduFileList", campusRepository.getEduInfoFile(result));

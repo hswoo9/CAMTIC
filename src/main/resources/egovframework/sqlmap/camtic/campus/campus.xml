@@ -203,6 +203,16 @@
             EDU_INFO_ID = #{pk}
     </update>
 
+    <update id="setStudyInfoDelete" parameterType="map">
+        /* setStudyInfoDelete */
+        UPDATE
+            CAMPUS.DJ_STUDY_INFO
+        SET
+            ACTIVE='N'
+        WHERE
+            STUDY_INFO_SN = #{pk}
+    </update>
+
     <select id="getEduInfoOne" resultType="map" parameterType="map">
         /* getEduInfoOne */
         SELECT
@@ -533,6 +543,8 @@
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                AND
+                    ACTIVE = 'Y'
                 <if test='applyYear != null and !"".equals(applyYear)'>
                     AND (DATE_FORMAT(START_DT, '%Y') = #{applyYear} OR  DATE_FORMAT(END_DT, '%Y') = #{applyYear})
                 </if>

@@ -59,7 +59,10 @@ var studyInfo = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="studyInfo.studyReqPop();">' +
+                        return'<button type="button" class="k-button k-button-solid-base" onclick=" studyInfo.setStudyInfoDelete();">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>'+
+                        '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="studyInfo.studyReqPop();">' +
                             '	<span class="k-button-text">학습신청</span>' +
                             '</button>';
                     }
@@ -71,6 +74,16 @@ var studyInfo = {
             dataBound: studyInfo.onDataBound,
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'studyPk\');"/>',
+                    /* template : "<input type='checkbox' id='eduPk#=EDU_INFO_ID#' name='eduPk' class='eduPk' value='#=EDU_INFO_ID#'/>",*/
+                    template : function(row){
+                        if(row.STATUS == "0"){
+                            return "<input type='checkbox' id='studyPk="+row.STUDY_INFO_SN+"' name='studyPk' class='studyPk'  value='"+row.STUDY_INFO_SN+"'>";
+                        }
+                        return "";
+                    },
+                    width: 50
+                }, {
                     field: "ROW_NUM",
                     title: "순번",
                     width: 50
@@ -144,7 +157,7 @@ var studyInfo = {
                     width: 100,
                     template : function (e){
                         if(e.STUDY_CLASS_SN == "1"){
-                            if(e.STUDY_TIME == "0") {
+                            if(e.STUDY_TIME == "0" || e.STUDY_TIME == null) {
                                 return "0시간";
                             }else{
                                 return e.STUDY_TIME+"시간";
@@ -278,6 +291,23 @@ var studyInfo = {
         const name = "ojtViewPop";
         const option = "width = 1200, height = 900, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    setStudyInfoDelete: function(){
+        /*active=N 으로*/
+        if(!confirm("학습신청을 취소하시겠습니까?")) {return false;}
+
+        $("input[name=studyPk]:checked").each(function(){
+            let dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+
+            let data = {
+                pk: $(this).val()
+            }
+
+            let url = "/campus/setStudyInfoDelete";
+            customKendo.fn_customAjax(url, data);
+        });
+        gridReload();
     }
 }
 
