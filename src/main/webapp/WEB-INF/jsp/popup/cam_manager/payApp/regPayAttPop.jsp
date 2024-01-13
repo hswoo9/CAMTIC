@@ -23,6 +23,7 @@
 <input type="hidden" id="payAppSn" value="${params.payAppSn}" />
 <input type="hidden" id="purcSn" value="${params.purcSn}" />
 <input type="hidden" id="snackInfoSn" value="${params.snackInfoSn}" />
+<input type="hidden" id="reqType" value="${params.reqType}" />
 
 <input type="hidden" id="claimSn" value="${params.claimSn}" />
 

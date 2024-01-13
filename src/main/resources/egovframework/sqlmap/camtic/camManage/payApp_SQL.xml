@@ -2068,4 +2068,13 @@
         WHERE
             PAY_INCP_SN = #{PAY_INCP_SN}
     </update>
+
+    <update id="updClaimExnpSn" parameterType="map">
+        /*updClaimExnpSn*/
+        UPDATE CAM_MNG.DJ_CLAIM_EXNP
+        SET
+            PAY_APP_SN = #{payAppSn}
+        WHERE
+            CLAIM_EXNP_SN = #{claimExnpSn}
+    </update>
 </mapper>

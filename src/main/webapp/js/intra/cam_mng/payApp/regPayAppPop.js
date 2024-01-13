@@ -150,6 +150,49 @@ var regPay = {
             }
         }
 
+        if($("#reqType").val() == "claimExnp") {
+            const data = {
+                claimExnpSn: $("#claimExnpSn").val(),
+                purcSn : $("#purcSn").val(),
+                claimSn : $("#claimSn").val()
+            }
+
+            var result = customKendo.fn_customAjax("/purc/getPurcAndClaimData", data);
+
+            var rs = result.data;
+            const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: rs.PJT_SN}).rs;
+
+            var claimExnpData = customKendo.fn_customAjax("/purc/getClaimExnpData", data);
+            var cem = claimExnpData.map;
+            console.log(cem)
+
+            if($("#pjtSn").val != ""){
+                $("#pjtSn").val(rs.PJT_SN);
+            }
+            if($("#pjtSn").val() != ""){
+                $("#pjtSn").val(pjtMap.PJT_SN);
+                selectProject(rs.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD)
+            } else {
+                selectProject('', '[2024년]법인운영', 'Mm1m124010');
+            }
+
+            $("#appTitle").val(rs.PURC_REQ_PURPOSE);
+
+            var ls = rs.itemList;
+
+            for(let i = 0; i < 1; i++) {
+                $("#eviType" + i).data("kendoDropDownList").value(1);
+                $("#crmNm" + i).val(ls[i].CRM_NM);
+                $("#crmSn" + i).val(ls[i].CRM_SN);
+                $("#regNo" + i).val(ls[i].CRM_NO_TMP);
+                $("#crmBnkNm" + i).val(ls[i].CRM_BN);
+                $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM);
+                $("#crmAccHolder" + i).val(ls[i].BN_DEPO);
+                $("#totCost" + i).val(regPay.comma(cem.REQ_AMT));
+                $("#supCost" + i).val(regPay.comma(cem.REQ_AMT));
+            }
+        }
+
         if($("#reqType").val() == "bustrip"){
             const hrBizReqResultId = $("#hrBizReqResultId").val();
             const data = {
@@ -1070,6 +1113,10 @@ var regPay = {
             parameters.claimSn = $("#claimSn").val();
         }
 
+        if($("#claimExnpSn").val() != ""){
+            parameters.claimExnpSn = $("#claimExnpSn").val();
+        }
+
         if($("#payAppSn").val() != ""){
             parameters.payAppSn = $("#payAppSn").val();
         }
@@ -1717,10 +1764,15 @@ var regPayDet = {
     },
 
     fn_regPayAttPop : function (){
-        var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + $("#payAppSn").val();
+        var url = "/payApp/pop/regPayAttPop.do?payAppSn=" + $("#payAppSn").val() + "&reqType=" + $("#reqType").val();
         if($("#reqType").val() == "purc"){
             url += "&purcSn=" + $("#purcSn").val();
         }
+
+        if($("#reqType").val() == "claimExnp"){
+            url += "&purcSn=" + $("#purcSn").val() + "&claimSn=" + $("#claimSn").val();
+        }
+
         if($("#reqType").val() == "snack"){
             url += "&snackInfoSn=" + $("#snackInfoSn").val();
         }

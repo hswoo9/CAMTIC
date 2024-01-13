@@ -638,4 +638,14 @@ public class PurcServiceImpl implements PurcService {
             purcRepository.insPayAppPurcReq(map);
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getUserPurcAppList(Map<String, Object> params) {
+        return purcRepository.getUserPurcAppList(params);
+    }
+
+    @Override
+    public Map<String, Object> getClaimExnpData(Map<String, Object> params) {
+        return purcRepository.getClaimExnpData(params);
+    }
 }

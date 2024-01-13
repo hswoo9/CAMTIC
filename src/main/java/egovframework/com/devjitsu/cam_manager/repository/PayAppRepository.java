@@ -399,4 +399,8 @@ public class PayAppRepository extends AbstractDAO {
     public void updIncpMasterStat(Map<String, Object> data) {
         update("payApp.updIncpMasterStat", data);
     }
+
+    public void updClaimExnpSn(Map<String, Object> params) {
+        update("payApp.updClaimExnpSn", params);
+    }
 }

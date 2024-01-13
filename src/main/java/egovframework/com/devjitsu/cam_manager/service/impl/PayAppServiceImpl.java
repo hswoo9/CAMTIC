@@ -44,10 +44,7 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         // 구매청구에서 지급신청시 claimSn Key 가져옴
-        if(params.containsKey("claimSn")){
-            // 구매청구관리 지급신청 Key Insert
-            payAppRepository.updPurcClaimByPayAppSn(params);
-        }
+
         // 출장 지급신청시 hrBizReqResultId Key 가져옴
         if(params.containsKey("hrBizReqResultId")){
             // 출장 지급신청 Key Insert
@@ -62,6 +59,13 @@ public class PayAppServiceImpl implements PayAppService {
         if(params.containsKey("snackInfoSn")){
             // 식대대장 지급신청 Key Insert
             payAppRepository.updPurcSnackByPayAppSn(params);
+        }
+
+        if(params.containsKey("claimExnpSn")){
+            payAppRepository.updClaimExnpSn(params);
+        } else if(params.containsKey("claimSn")){
+            // 구매청구관리 지급신청 Key Insert
+            payAppRepository.updPurcClaimByPayAppSn(params);
         }
 
         commonRepository.updFileOwnerNull(params);

@@ -73,4 +73,8 @@ public interface PurcService {
     List<Map<String, Object>> getClaimMngList(Map<String, Object> params);
 
     void setPayAppPurcReq(Map<String, Object> params);
+
+    List<Map<String, Object>> getUserPurcAppList(Map<String, Object> params);
+
+    Map<String, Object> getClaimExnpData(Map<String, Object> params);
 }

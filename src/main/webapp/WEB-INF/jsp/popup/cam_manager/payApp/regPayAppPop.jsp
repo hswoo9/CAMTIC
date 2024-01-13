@@ -33,6 +33,8 @@
 <input type="hidden" id="partRatePjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="claimSn" value="${params.claimSn}" />
 <input type="hidden" id="purcSn" value="${params.purcSn}" />
+<input type="hidden" id="claimExnpSn" value="${params.claimExnpSn}" />
+
 <input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}" />
 <input type="hidden" id="bList" value="" />
 <input type="hidden" id="snackInfoSn" value="${params.snackInfoSn}" />

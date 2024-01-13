@@ -1166,4 +1166,37 @@
             )
     </insert>
 
+    <select id="getUserPurcAppList" parameterType="map" resultType="map">
+        /*getUserPurcAppList*/
+        SELECT
+            B.*,
+            A.CLAIM_EXNP_SN,
+            A.PAY_APP_SN AS F_PAY_APP_SN,
+            IFNULL((SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS REQ_AMT,
+            IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS EXNP_AMT,
+            REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
+            (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = B.DOC_ID) AS DOC_NO
+        FROM
+            CAM_MNG.DJ_CLAIM_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_PURC_CLAIM B
+        ON A.CLAIM_SN = B.CLAIM_SN
+        WHERE
+            B.STATUS = 100 AND (B.PRI_PAY = 'Y' OR (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) = 100)
+        AND
+            B.ORDER_DT IS NOT NULL
+        AND
+            B.PURC_EMP_SEQ = #{empSeq}
+        ORDER BY CLAIM_SN DESC
+    </select>
+
+    <select id="getClaimExnpData" parameterType="map" resultType="map">
+        /*getClaimExnpData*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CLAIM_EXNP
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </select>
 </mapper>
