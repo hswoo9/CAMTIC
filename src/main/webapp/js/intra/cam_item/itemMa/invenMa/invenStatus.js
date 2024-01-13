@@ -90,6 +90,19 @@ var invenSt = {
                         style : "text-align : right;"
                     }
                 }, {
+                    title: "안전재고",
+                    width: 100,
+                    template : function (e){
+                        if(e.SAFETY_INVEN < 0){
+                            return "<span style='color: red'>" + invenSt.comma(e.SAFETY_INVEN) + "</span>";
+                        }else{
+                            return invenSt.comma(e.SAFETY_INVEN);
+                        }
+                    },
+                    attributes : {
+                        style : "text-align : right;"
+                    }
+                }, {
                     title: "입고",
                     field: "RECEIVING_INVEN",
                     width: 100,
