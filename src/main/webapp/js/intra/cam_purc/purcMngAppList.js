@@ -168,9 +168,15 @@ var purcMngAppList = {
                     template : function(e){
                         return "";
                     }
+                }, {
+                    title: "첨부",
+                    width: 80,
+                    template : function(e) {
+                        return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
+                    }
                 }
             ],
-            dataBinding: function(){
+            dataBinding: function () {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
@@ -221,6 +227,15 @@ var purcMngAppList = {
         } else {
             $("input[name='clm']").prop("checked", false);
         }
+    },
+
+
+    fn_regPayAttPop : function (key, exnpKey){
+        var url = "/purc/pop/regPurcPayAppFilePop.do?purcSn=" + key + "&claimSn=" + exnpKey;
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
     }
+
 
 }
