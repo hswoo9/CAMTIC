@@ -69,4 +69,8 @@ public interface PurcService {
     List<Map<String, Object>> purcFileList(Map<String, Object> params);
 
     void setPurcFileAdd(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
+
+    List<Map<String, Object>> getClaimMngList(Map<String, Object> params);
+
+    void setPayAppPurcReq(Map<String, Object> params);
 }

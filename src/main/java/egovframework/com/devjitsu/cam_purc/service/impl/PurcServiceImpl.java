@@ -616,6 +616,26 @@ public class PurcServiceImpl implements PurcService {
         }
     }
 
+    @Override
+    public List<Map<String, Object>> getClaimMngList(Map<String, Object> params) {
 
+        String[] claimSnArr = params.get("itemArray").toString().split(",");
 
+        params.put("claimSnArr", claimSnArr);
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = purcRepository.getClaimMngList(params);
+
+        return list;
+    }
+
+    @Override
+    public void setPayAppPurcReq(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArray"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> map : itemArr){
+            purcRepository.insPayAppPurcReq(map);
+        }
+    }
 }

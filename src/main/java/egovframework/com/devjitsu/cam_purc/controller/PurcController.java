@@ -618,4 +618,36 @@ public class PurcController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/purc/pop/appUserPaySetting.do")
+    public String appUserPaySetting(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("params", params);
+
+        return "popup/cam_purc/mng/appUserPaySetting";
+    }
+
+    @RequestMapping("/purc/getClaimMngList")
+    public String getClaimMngList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = purcService.getClaimMngList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/setPayAppPurcReq")
+    public String setPayAppPurcReq(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            purcService.setPayAppPurcReq(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

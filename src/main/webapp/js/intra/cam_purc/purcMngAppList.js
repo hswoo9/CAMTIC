@@ -3,7 +3,8 @@ var purcMngAppList = {
     global : {
         dropDownDataSource : "",
         searchAjaxData : "",
-        saveAjaxData : ""
+        saveAjaxData : "",
+        clmArr : [],
     },
 
     fn_defaultScript : function(){
@@ -64,7 +65,7 @@ var purcMngAppList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_appUserPaySetting()">' +
                             '	<span class="k-button-text">지출요청</span>' +
                             '</button>';
                     }
@@ -235,6 +236,26 @@ var purcMngAppList = {
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
+    },
+
+
+    fn_appUserPaySetting : function (){
+        purcMngAppList.global.clmList = [];
+
+        $("input[name='clm']:checked").each(function(){
+            purcMngAppList.global.clmList.push($(this).val());
+        });
+
+        if(purcMngAppList.global.clmList.length == 0){
+            alert("선택된 값이 없습니다.");
+            return;
+        }
+
+        var url = "/purc/pop/appUserPaySetting.do";
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
+
     }
 
 
