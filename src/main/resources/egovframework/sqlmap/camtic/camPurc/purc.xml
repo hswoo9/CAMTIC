@@ -1104,4 +1104,31 @@
             A.ORDER_DT IS NOT NULL
         ORDER BY CLAIM_SN DESC
     </select>
+
+    <select id="getPurcAddFileList" parameterType="map" resultType="map">
+        /*getPurcAddFileList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_MNG_PURC_FILE
+        WHERE
+            PURC_SN = #{purcSn}
+    </select>
+
+    <delete id="delPurcAddFileList" parameterType="map">
+        /*delPurcAddFileList*/
+        DELETE FROM CAM_MNG.DJ_MNG_PURC_FILE WHERE PURC_SN = #{purcSn}
+    </delete>
+
+
+    <select id="getPurcLinkedAddFile" parameterType="map" resultType="map">
+        /*getPurcLinkedAddFile*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_MNG_PURC_FILE WHERE PURC_SN = #{purcSn})
+    </select>
+
 </mapper>

@@ -506,7 +506,28 @@
         ON
             A.ISS_NO = B.ISS_NO AND A.CO_CD = B.CO_CD AND A.TAX_TY = B.TAX_TY
         WHERE
-            ISU_DT BETWEEN #{strDt} AND #{endDt}
+            1 = 1
+            <if test='crmNm != null and !"".equals(crmNm)'>
+                AND
+                TR_NM LIKE CONCAT('%', #{crmNm} , '%')
+            </if>
+            <if test='crmNo != null and !"".equals(crmNo)'>
+                AND
+                TRREG_NB LIKE CONCAT('%', #{crmNo} , '%')
+            </if>
+            <if test='dtGubun == "a" or "a".equals(dtGubun)'>
+                AND
+                ISS_DT BETWEEN #{strDt} AND #{endDt}
+            </if>
+            <if test='dtGubun == "b" or "b".equals(dtGubun)'>
+                AND
+                ISU_DT BETWEEN #{strDt} AND #{endDt}
+            </if>
+            <if test='dtGubun == "c" or "c".equals(dtGubun)'>
+                AND
+                ISS_YMD BETWEEN #{strDt} AND #{endDt}
+            </if>
+
             <if test='type == 1 or "1".equals(type)'>
                 AND
                     A.TAX_TY = '2'

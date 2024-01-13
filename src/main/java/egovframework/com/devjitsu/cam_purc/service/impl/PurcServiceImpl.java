@@ -541,4 +541,81 @@ public class PurcServiceImpl implements PurcService {
     public List<Map<String, Object>> getMngPurcAppList(Map<String, Object> params) {
         return purcRepository.getMngPurcAppList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> purcFileList(Map<String, Object> params) {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("contentId", "est_" + params.get("purcSn"));
+        if(purcRepository.getPurcReqFileInfo(searchMap) != null){
+            list.add(purcRepository.getPurcReqFileInfo(searchMap));
+        }
+        searchMap.put("contentId", "req_" + params.get("purcSn"));
+        if(purcRepository.getPurcReqFileInfo(searchMap) != null){
+            list.add(purcRepository.getPurcReqFileInfo(searchMap));
+        }
+        searchMap.put("contentId", "purcReq_" + params.get("purcSn"));
+        if(purcRepository.getPurcReqFileInfo(searchMap) != null){
+            list.add(purcRepository.getPurcReqFileInfo(searchMap));
+        }
+        searchMap.put("contentId", "inspect_" + params.get("purcSn"));
+        if(purcRepository.getPurcReqFileInfo(searchMap) != null){
+            list.add(purcRepository.getPurcReqFileInfo(searchMap));
+        }
+
+        if(purcRepository.getPurcAddFileList(params) != null){
+            List<Map<String, Object>> addFile = purcRepository.getPurcLinkedAddFile(params);
+
+            for(Map<String, Object> map : addFile){
+                list.add(map);
+            }
+        }
+
+        return list;
+    }
+
+    @Override
+    public void setPurcFileAdd(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
+
+        MainLib mainLib = new MainLib();
+
+        /** 신청서 관련 파일 정보 dj_pay_app_file에 저장  */
+        List<Map<String, Object>> storedFileArr = purcRepository.getPurcAddFileList(params);
+        purcRepository.delPurcAddFileList(params);
+
+        for(Map<String, Object> map : storedFileArr){
+            map.put("contentId", params.get("purcSn"));
+            map.put("fileNo", map.get("FILE_NO"));
+            map.put("empSeq", map.get("REG_EMP_SEQ"));
+            commonRepository.insPurcFileList(map);
+        }
+
+        if(fileList.length > 0){
+            params.put("menuCd", "purcAdd");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("purcSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                String[] fileName = list.get(i).get("orgFilename").toString().split("[.]");
+                String fileOrgName = "";
+                for(int j = 0 ; j < fileName.length - 1 ; j++){
+                    fileOrgName += fileName[j] + ".";
+                }
+                fileOrgName = fileOrgName.substring(0, fileOrgName.length() - 1);
+                list.get(i).put("fileExt", fileName[fileName.length - 1]);
+                list.get(i).put("fileOrgName", fileOrgName);
+
+                commonRepository.insFileInfoOne(list.get(i));
+                commonRepository.insPurcFileList(list.get(i));
+            }
+//            commonRepository.insFileInfo(list);
+        }
+    }
+
+
+
 }

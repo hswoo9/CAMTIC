@@ -4,6 +4,8 @@ var etaxList = {
 
         var date = new Date();
         date.setMonth(date.getMonth() - 1);
+
+        customKendo.fn_textBox(["crmNm", "crmNo"]);
         customKendo.fn_datePicker("strDt", "depth", "yyyy-MM-dd", date);
         customKendo.fn_datePicker("endDt", "depth", "yyyy-MM-dd", new Date());
 
@@ -12,6 +14,16 @@ var etaxList = {
                 {text : "전체", value : ""},
                 {text : "세금계산서", value : "1"},
                 {text : "계산서", value : "2"},
+            ],
+            dataTextField : "text",
+            dataValueField : "value"
+        });
+
+        $("#dtGubun").kendoDropDownList({
+            dataSource : [
+                {text : "작성일자", value : "a"},
+                {text : "발급일자", value : "b"},
+                {text : "전송일자", value : "c"},
             ],
             dataTextField : "text",
             dataValueField : "value"
@@ -34,6 +46,9 @@ var etaxList = {
                     type : "post"
                 },
                 parameterMap: function(data) {
+                    data.crmNm = $("#crmNm").val();
+                    data.crmNo = $("#crmNo").val();
+                    data.dtGubun = $("#dtGubun").val();
                     data.strDt = $("#strDt").val().toString().replace(/-/g, "");
                     data.endDt = $("#endDt").val().toString().replace(/-/g, "");
                     data.type = $("#taxGubun").val();
@@ -125,13 +140,13 @@ var etaxList = {
                     title: "작성일자",
                     width: 60,
                     template: function (e){
-                        return e.ISU_DT.substring(0,4) + "-" + e.ISU_DT.substring(4,6) + "-" + e.ISU_DT.substring(6,8);
+                        return e.ISS_DT.substring(0,4) + "-" + e.ISS_DT.substring(4,6) + "-" + e.ISS_DT.substring(6,8);
                     }
                 }, {
                     title: "발급일자",
                     width: 60,
                     template: function (e){
-                        return e.ISS_DT.substring(0,4) + "-" + e.ISS_DT.substring(4,6) + "-" + e.ISS_DT.substring(6,8);
+                        return e.ISU_DT.substring(0,4) + "-" + e.ISU_DT.substring(4,6) + "-" + e.ISU_DT.substring(6,8);
                     }
                 }, {
                     title: "전송일자",

@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_purc.repository;
 
 import egovframework.com.devjitsu.gw.login.repository.AbstractDAO;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -160,5 +161,17 @@ public class PurcRepository extends AbstractDAO {
 
     public List<Map<String, Object>> getMngPurcAppList(Map<String, Object> params) {
         return selectList("purc.getMngPurcAppList", params);
+    }
+
+    public List<Map<String, Object>> getPurcAddFileList(Map<String, Object> params) {
+        return selectList("purc.getPurcAddFileList", params);
+    }
+
+    public void delPurcAddFileList(Map<String, Object> params) {
+        delete("purc.delPurcAddFileList", params);
+    }
+
+    public List<Map<String, Object>> getPurcLinkedAddFile(Map<String, Object> params) {
+        return selectList("purc.getPurcLinkedAddFile", params);
     }
 }

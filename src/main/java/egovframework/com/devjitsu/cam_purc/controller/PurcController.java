@@ -580,4 +580,42 @@ public class PurcController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/purc/pop/regPurcPayAppFilePop.do")
+    public String regPurcPayAppFilePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_purc/mng/regPurcPayAppFilePop";
+    }
+
+    @RequestMapping("/purc/purcFileList")
+    public String purcFileList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> listMap = purcService.purcFileList(params);
+
+        model.addAttribute("listMap", listMap);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/setPurcFileAdd")
+    public String setPurcFileAdd(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        try{
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+
+            purcService.setPurcFileAdd(params, fileList, SERVER_DIR, BASE_DIR);
+
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

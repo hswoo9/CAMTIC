@@ -677,4 +677,21 @@
         WHERE
             FILE_NO = #{fileSn}
     </select>
+
+
+    <insert id="insPurcFileList" parameterType="map">
+        /*insPurcFileList*/
+        INSERT INTO CAM_MNG.DJ_MNG_PURC_FILE
+            (
+                PURC_SN,
+                FILE_NO,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{contentId},
+                #{fileNo},
+                #{empSeq}
+            )
+    </insert>
 </mapper>

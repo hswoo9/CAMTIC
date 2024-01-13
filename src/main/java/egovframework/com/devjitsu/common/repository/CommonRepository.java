@@ -116,4 +116,8 @@ public class CommonRepository extends AbstractDAO {
     public void insFileInfoOne(Map<String, Object> params) {
         insert("common.insFileInfoOne", params);
     }
+
+    public void insPurcFileList(Map<String, Object> map) {
+        insert("common.insPurcFileList", map);
+    }
 }
