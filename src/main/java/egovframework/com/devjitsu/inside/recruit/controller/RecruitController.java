@@ -857,6 +857,28 @@ public class RecruitController {
         return "popup/inside/recruit/recruitPrintPop";
     }
 
+    @RequestMapping("/Inside/pop/applicationPrintPop.do")
+    public String applicationPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+
+
+        return "popup/inside/recruit/applicationPrintPop";
+    }
+
     @RequestMapping("/inside/getRecruitPrint")
     public String getRecruitPrint(@RequestParam Map<String,Object> params, Model model) {
         model.addAttribute("list", recruitService.getRecruitPrint(params));

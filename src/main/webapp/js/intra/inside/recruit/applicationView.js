@@ -460,7 +460,7 @@ var appView = {
         window.open(url,name,option);
     },
 
-    applicationMod: function(){
+    applicationMod : function(){
         var url = "/application/applicationForm1.do?applicationId="+$("#applicationId").val();
         var name = "applicationForm1";
         var option = "width=1000, height=860, top=100, left=200, location=no";
@@ -472,7 +472,16 @@ var appView = {
         if($("#stat").val() == "view"){
             $(".mngBtn").hide();
         }
-    }
+    },
 
+    applicationPrintPop : function(){
+        let recruitAreaInfoSn = $("#recruitAreaInfoSn").val();
+        let applicationId = $("#applicationId").val();
+
+        var url = "/Inside/pop/applicationPrintPop.do?recruitAreaInfoSn="+recruitAreaInfoSn+"&applicationId="+applicationId;
+        var name = "applicationPrintPop";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
+        var popup = window.open(url, name, option);
+    }
 }
 
