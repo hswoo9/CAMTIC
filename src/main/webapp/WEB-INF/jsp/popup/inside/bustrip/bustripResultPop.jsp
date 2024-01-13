@@ -10,6 +10,7 @@
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
+<script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -140,7 +141,8 @@
                 </td>
                 <th><span class="red-star">*</span>출장지역</th>
                 <td>
-                    <input id="visitLoc" style="width: 80%;">
+                    <input id="visitLoc" style="width: 75%;">
+                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="bustripResultPop.addrSearch();"/>
                 </td>
             </tr>
             <tr>
@@ -182,7 +184,7 @@
                 <th><span class="red-star">*</span>운행거리</th>
                 <td colspan="3">
                     <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%; text-align: right"> km
-                    <button type="button" class="k-button k-button-solid-base" id="moveBtn" onclick="bustripResultPop.fn_moveCheck()">거리측정</button>
+                    <button type="button" class="k-button k-button-solid-base" id="moveBtn" onclick="bustripResultPop.fn_moveCheck()">거리계산</button>
                     <button type="button" class="k-button k-button-solid-base" id="highpassBtn" disabled>하이패스</button>
                     ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
                     [<a href="#" onclick="bustripResultPop.boardViewPop()" target="_blank">이용방법 보기</a>]
