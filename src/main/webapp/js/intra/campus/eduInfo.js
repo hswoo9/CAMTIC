@@ -56,7 +56,10 @@ var eduInfo = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick=" eduInfo.goEduInfoReq();">' +
+                        return'<button type="button" class="k-button k-button-solid-base" onclick=" eduInfo.setEduInfoDelete();">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>'+
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick=" eduInfo.goEduInfoReq();">' +
                             '	<span class="k-button-text">학습신청</span>' +
                             '</button>';
                     }
@@ -68,6 +71,16 @@ var eduInfo = {
             dataBound: eduInfo.onDataBound,
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'eduPk\');"/>',
+                   /* template : "<input type='checkbox' id='eduPk#=EDU_INFO_ID#' name='eduPk' class='eduPk' value='#=EDU_INFO_ID#'/>",*/
+                    template : function(row){
+                        if(row.STATUS == "0" || row.STATUS == "30" ){
+                            return "<input type='checkbox' id='eduPk="+row.EDU_INFO_ID+"' name='eduPk' class='eduPk'  value='"+row.EDU_INFO_ID+"'>";
+                        }
+                        return "";
+                    },
+                    width: 50
+                }, {
                     title: "번호",
                     width: 50,
                     template: "#= --record #"
@@ -189,7 +202,25 @@ var eduInfo = {
 
     goEduInfoReq: function(){
         open_in_frame('/Campus/eduReq.do');
-    }
+    },
+
+    setEduInfoDelete: function(){
+            /*active=N 으로*/
+            if(!confirm("학습신청을 취소하시겠습니까?")) {return false;}
+
+            $("input[name=eduPk]:checked").each(function(){
+                let dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+
+                let data = {
+                    pk: $(this).val()
+                }
+
+                let url = "/campus/setEduInfoDelete";
+                customKendo.fn_customAjax(url, data);
+            });
+            gridReload();
+        }
+
 }
 
 function gridReload(){

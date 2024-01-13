@@ -1081,6 +1081,13 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 개인학습 학습취소 */
+    @RequestMapping("/campus/setEduInfoDelete")
+    public String setEduInfoDelete(@RequestParam Map<String, Object> params) {
+        campusService.setEduInfoDelete(params);
+        return "jsonView";
+    }
+
     //개인학습관리 - 개인학습조회팝업 - 단일데이터 조회
     @RequestMapping("/campus/getEduInfoOne")
     public String getEduInfoOne(@RequestParam Map<String, Object> params, Model model) {
