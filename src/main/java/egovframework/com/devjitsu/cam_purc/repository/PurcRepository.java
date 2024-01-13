@@ -181,4 +181,12 @@ public class PurcRepository extends AbstractDAO {
     public void insPayAppPurcReq(Map<String, Object> params) {
         insert("purc.insPayAppPurcReq", params);
     }
+
+    public List<Map<String, Object>> getUserPurcAppList(Map<String, Object> params) {
+        return selectList("purc.getUserPurcAppList", params);
+    }
+
+    public Map<String, Object> getClaimExnpData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("purc.getClaimExnpData", params);
+    }
 }

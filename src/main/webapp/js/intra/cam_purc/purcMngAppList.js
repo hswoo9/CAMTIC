@@ -120,6 +120,7 @@ var purcMngAppList = {
                 }, {
                     title: "목적",
                     field: "PURC_PURPOSE",
+                    width: 200,
                     template : function(e){
                         return '<a onclick="purcMngAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.PURC_REQ_PURPOSE + '</a>'
                     }
@@ -141,25 +142,25 @@ var purcMngAppList = {
                     width: 100
                 }, {
                     title: "금액",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>';
                     }
                 }, {
                     title: "지출요청액",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.REQ_AMT)+'</div>';
                     }
                 }, {
                     title: "지출액",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.EXNP_AMT)+'</div>';
                     }
                 }, {
                     title: "미지급액",
-                    width: 80,
+                    width: 100,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(Number(e.TOT_AMT) - Number(e.EXNP_AMT))+'</div>';
                     }

@@ -56,8 +56,7 @@
         LEFT JOIN
             CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN
         WHERE
-            CSJ.STUDY_INFO_SN = #{studyInfoSn}
-        AND CSU.STUDY_EMP_SEQ = #{empSeq}
+             CSU.STUDY_EMP_SEQ = #{empSeq}
         AND CSJ.ACTIVE = 'Y'
         AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
     </select>
@@ -71,8 +70,7 @@
                 LEFT JOIN
             CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN
         WHERE
-            CSJ.STUDY_INFO_SN = #{studyInfoSn}
-          AND CSU.STUDY_EMP_SEQ = #{empSeq}
+             CSU.STUDY_EMP_SEQ = #{empSeq}
           AND CSJ.ACTIVE = 'Y'
           AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
     </select>
@@ -135,6 +133,8 @@
                 (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                AND
+                    EI.ACTIVE='Y'
                 <if test='empSeq != null and empSeq != ""'>
                     AND EI.REG_EMP_SEQ = #{empSeq}
                 </if>
@@ -175,14 +175,14 @@
                     AND
                         ER.MNG_CHECK = #{mngCheck}
                 </if>
-<if test='position != null and !"".equals(position)'>
-    AND
-        HEI.POSITION_NAME = #{position}
-</if>
-<if test='duty != null and !"".equals(duty)'>
-    AND
-        HEI.POSITION_NAME = #{duty}
-</if>
+                <if test='position != null and !"".equals(position)'>
+                    AND
+                        HEI.POSITION_NAME = #{position}
+                </if>
+                <if test='duty != null and !"".equals(duty)'>
+                    AND
+                        HEI.POSITION_NAME = #{duty}
+                </if>
                 AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear})
                 ORDER BY EI.EDU_INFO_ID
             ) RE
@@ -192,6 +192,26 @@
             </if>
         ORDER BY RE.EDU_INFO_ID DESC
     </select>
+
+    <update id="setEduInfoDelete" parameterType="map">
+        /* setEduInfoDelete */
+        UPDATE
+            CAMPUS.DJ_EDU_INFO
+        SET
+            ACTIVE = 'N'
+        WHERE
+            EDU_INFO_ID = #{pk}
+    </update>
+
+    <update id="setStudyInfoDelete" parameterType="map">
+        /* setStudyInfoDelete */
+        UPDATE
+            CAMPUS.DJ_STUDY_INFO
+        SET
+            ACTIVE='N'
+        WHERE
+            STUDY_INFO_SN = #{pk}
+    </update>
 
     <select id="getEduInfoOne" resultType="map" parameterType="map">
         /* getEduInfoOne */
@@ -523,6 +543,8 @@
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                AND
+                    ACTIVE = 'Y'
                 <if test='applyYear != null and !"".equals(applyYear)'>
                     AND (DATE_FORMAT(START_DT, '%Y') = #{applyYear} OR  DATE_FORMAT(END_DT, '%Y') = #{applyYear})
                 </if>

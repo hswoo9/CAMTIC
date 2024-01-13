@@ -21,6 +21,8 @@
 <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}"/>
 <input type="hidden" id="claimSn" name="claimSn" value="${params.claimSn}"/>
 
+<input type="hidden" id="auth" name="auth" value="${params.auth}"/>
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -28,17 +30,20 @@
             </h3>
 
             <div id="payAppBtnDiv" class="btn-st popButton" style="font-size: 13px;">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPurcPayAppFilePop.fn_regist();">등록</button>
+                <c:if test='${params.auth != "user"}'>
+                    <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="regPurcPayAppFilePop.fn_regist();">등록</button>
+                </c:if>
                 <button type="button" class="k-button k-button-solid-error" onclick="fn_close();">닫기</button>
             </div>
         </div>
         <div style="padding: 20px 30px;">
-            <div style="float:right; position: relative; color: red; font-size: 11px;">거래명세서 / 계좌이체동의서 / 미비첨부파일 등</div>
-            <td style="text-align: center;" colspan="5">
-                <label for="payFileList" style="font-size: 13px;" class="k-button k-button-solid-base">파일첨부</label>
-                <input type="file" id="payFileList" name="payFileList" onchange="regPurcPayAppFilePop.fileChange();" style="display: none" multiple>
-                <span id="payFileName"></span>
-            </td>
+            <c:if test='${params.auth != "user"}'>
+                <td style="text-align: center;" colspan="5">
+                    <label for="payFileList" style="font-size: 13px;" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="payFileList" name="payFileList" onchange="regPurcPayAppFilePop.fileChange();" style="display: none" multiple>
+                    <span id="payFileName"></span>
+                </td>
+            </c:if>
             <table id="popTable" class="popTable table table-bordered mb-0">
                 <thead>
                 <tr>

@@ -560,9 +560,24 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/purcUserAppList.do")
+    public String purcUserAppList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_purc/user/purcUserAppList";
+    }
+
     @RequestMapping("/purc/purcMngAppList.do")
     public String purcMngAppList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("loginVO", loginVO);
@@ -576,6 +591,15 @@ public class PurcController {
 
         List<Map<String, Object>> list = new ArrayList<>();
         list = purcService.getMngPurcAppList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/getUserPurcAppList")
+    public String getUserPurcAppList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = purcService.getUserPurcAppList(params);
         model.addAttribute("list", list);
 
         return "jsonView";
@@ -647,6 +671,16 @@ public class PurcController {
         } catch(Exception e){
             e.printStackTrace();
         }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/getClaimExnpData")
+    public String getClaimExnpData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = purcService.getClaimExnpData(params);
+
+        model.addAttribute("map", map);
 
         return "jsonView";
     }

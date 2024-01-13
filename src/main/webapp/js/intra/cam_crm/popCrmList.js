@@ -158,7 +158,10 @@ var popCrmList = {
             // opener.parent.$("#crmPhNum").val(rs.PH_NUM);
             opener.parent.$("#clientPrtpcoName").val(rs.CRM_NM);
             if(rs.ADDR != null && rs.ADDR != ""){
-                opener.parent.$("#visitLoc").val(rs.ADDR.split(" ")[0]+" "+rs.ADDR.split(" ")[1]);
+                //opener.parent.$("#visitLoc").val(rs.ADDR.split(" ")[0]+" "+rs.ADDR.split(" ")[1]);
+                opener.parent.$("#visitLoc").val(rs.ADDR);
+            }else{
+                opener.parent.$("#visitLoc").val("주소정보가 없습니다.");
             }
 
             opener.parent.$("#teamCrmSn").val(rs.CRM_SN);

@@ -13,6 +13,7 @@
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripPopup.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripReqPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${today}"></script>
+<script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -145,7 +146,8 @@
                 </td>
                 <th><span class="red-star">*</span>출장지역</th>
                 <td>
-                    <input id="visitLoc" style="width: 80%;">
+                    <input id="visitLoc" style="width: 75%;" />
+                    <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="bustripReq.addrSearch();"/>
                 </td>
             </tr>
             <tr>

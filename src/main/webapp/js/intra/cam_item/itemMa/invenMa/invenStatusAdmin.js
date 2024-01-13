@@ -7,18 +7,9 @@ var invenStAdmin = {
     },
 
     fn_defaultScript : function (){
-        invenStAdmin.global.dropDownDataSource = customKendo.fn_customAjax("/item/smCodeList", {grpSn : "WC", lgCd : "WH"});
-        customKendo.fn_dropDownList("whCd", invenStAdmin.global.dropDownDataSource, "ITEM_CD_NM", "ITEM_CD");
-        $("#whCd").data("kendoDropDownList").bind("change", invenStAdmin.gridReload);
 
-        invenStAdmin.global.dropDownDataSource = [
-            { text : "품번", value : "ITEM_NO" },
-            { text : "품명", value : "ITEM_NAME" }
-        ]
-        customKendo.fn_dropDownList("searchKeyword", invenStAdmin.global.dropDownDataSource, "text", "value");
-        $("#searchKeyword").data("kendoDropDownList").bind("change", invenStAdmin.gridReload);
-
-        customKendo.fn_textBox(["searchValue"]);
+        customKendo.fn_datePicker("searchDt", "depth", "yyyy-MM-dd", new Date());
+        $("#searchDt").data("kendoDatePicker").bind("change", invenStAdmin.gridReload);
 
         invenStAdmin.gridReload();
     },
@@ -70,60 +61,167 @@ var invenStAdmin = {
             },
             columns: [
                 {
-                    title: "순번",
-                    template: "#= --record #",
-                    width: 50
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    template : "<input type='checkbox' id='agiPk#=MASTER_SN#' name='agiPk' value='#=MASTER_SN#' class='k-checkbox checkbox'/>",
+                    width : 35
                 }, {
                     title: "창고",
                     field: "WH_CD_NM",
-                    width: 120,
-                }, {
+                    width: 80
+                }, /*{
                     title: "품번",
                     field: "ITEM_NO",
-                    width: 150,
-                }, {
+                    width: 150
+                }, */{
                     title: "품명",
                     field: "ITEM_NAME",
-                    width: 150
+                    width: 100
                 }, {
-                    title: "규격",
+                    title: "단위",
                     field: "STANDARD",
-                    width: 150
+                    width: 50
                 }, {
-                    title: "재고",
-                    field: "CURRENT_INVEN",
-                    width: 100,
-                    template : function (e){
-                        if(e.CURRENT_INVEN < 0){
-                            return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
-                        }else{
-                            return invenStAdmin.comma(e.CURRENT_INVEN);
+                    title: "수량기준",
+                    columns: [
+                        {
+                            title: "전월 재고수량",
+                            width: 70,
+                            template : function (e){
+                                if(e.CURRENT_INVEN < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                }else{
+                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                }
+                            },
+                            attributes : {
+                                style : "text-align : right;"
+                            }
+                        }, {
+                            title: "입고현황",
+                            width: 70,
+                            template : function (e){
+                                return invenStAdmin.comma(e.RECEIVING_INVEN);
+                            },
+                            attributes : {
+                                style : "text-align : right;"
+                            }
+                        } ,{
+                            title: "출고현황",
+                            width: 70,
+                            template : function (e){
+                                return invenStAdmin.comma(e.FORWARDING_INVEN);
+                            },
+                            attributes : {
+                                style : "text-align : right;"
+                            }
+                        }, {
+                            title: "현재고",
+                            width: 70,
+                            template : function (e){
+                                if(e.CURRENT_INVEN < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                }else{
+                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                }
+                            },
+                            attributes : {
+                                style : "text-align : right;"
+                            }
+                        }, {
+                            title: "안전재고",
+                            width: 70,
+                            template : function (e){
+                                if(e.SAFETY_INVEN < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.SAFETY_INVEN) + "</span>";
+                                }else{
+                                    return invenStAdmin.comma(e.SAFETY_INVEN);
+                                }
+                            },
+                            attributes : {
+                                style : "text-align : right;"
+                            }
+                        }, {
+                            title: "실사재고수량",
+                            width: 70,
+                            template : function (e){
+                                if(e.CURRENT_INVEN < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                }else{
+                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                }
+                            },
+                            attributes : {
+                                style : "text-align : right;"
+                            }
+                        }, {
+                            title: "차이",
+                            width: 70,
+                            template : function (e){
+                                if(e.CURRENT_INVEN < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                }else{
+                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                }
+                            },
+                            attributes : {
+                                style : "text-align : right;"
+                            }
+                        }, {
+                            title: "확정재고",
+                            width: 70,
+                            template : function (e){
+                                return '<button type="button" class="k-button k-button-solid-info" onclick="">확정</button>';
+                            }
                         }
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
+                    ]
                 }, {
-                    title: "입고",
-                    field: "RECEIVING_INVEN",
-                    width: 100,
-                    template : function (e){
-                        return invenStAdmin.comma(e.RECEIVING_INVEN);
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
-                    title: "출고",
-                    width: 100,
-                    field: "FORWARDING_INVEN",
-                    template : function (e){
-                        return invenStAdmin.comma(e.FORWARDING_INVEN);
-                    },
-                    attributes : {
-                        style : "text-align : right;"
-                    }
-                }, {
+                    title: "금액기준 (VAT 별도)",
+                    columns: [
+                        {
+                            title: "전월재고자산",
+                            field: "STANDARD",
+                            width: 80,
+                            template : function (e){
+                                if(e.CURRENT_INVEN < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                }else{
+                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                }
+                            },
+                            attributes : {
+                                style : "text-align : right;"
+                            }
+                        }, {
+                            title: "당월재고자산",
+                            field: "STANDARD",
+                            width: 80,
+                            template : function (e){
+                                if(e.CURRENT_INVEN < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                }else{
+                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                }
+                            },
+                            attributes : {
+                                style : "text-align : right;"
+                            }
+                        } ,{
+                            title: "재고자산 증감액",
+                            field: "STANDARD",
+                            width: 80,
+                            template : function (e){
+                                if(e.CURRENT_INVEN < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                }else{
+                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                }
+                            },
+                            attributes : {
+                                style : "text-align : right;"
+                            }
+                        }
+                    ]
+                }, /*{
                     title: "재고조정",
                     width: 100,
                     field: "INVEN_AJM",
@@ -157,21 +255,18 @@ var invenStAdmin = {
                     attributes : {
                         style : "text-align : right;"
                     }
+                } */{
+                    title: "비고",
+                    width: 100
                 }
-            ],
-            dataBinding: function(){
-                record = fn_getRowNum(this, 3);
-            }
+            ]
         }).data("kendoGrid");
     },
 
     gridReload: function (){
         invenStAdmin.global.searchAjaxData = {
-            whCd : $("#whCd").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            inspection : "Y"
-        }
+            searchDt : $("#searchDt").val()
+        };
 
         invenStAdmin.mainGrid("/item/getItemInvenList.do", invenStAdmin.global.searchAjaxData);
     },

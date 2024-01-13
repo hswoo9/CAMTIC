@@ -4,16 +4,30 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/invenMa/invenStatusAdmin.js?v=${today}'/>"></script>
-<script src="https://kendo.cdn.telerik.com/2023.2.606/js/jszip.min.js"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purcUserAppList.js?v=${today}'/>"></script>
+<style>
+    a:hover {
+        color: blue;
+        text-decoration: underline !important;
+        cursor: pointer;
+    }
+
+    .k-grid-content td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
+<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
 
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">재고현황(관리자)</h4>
-            <div class="title-road">캠아이템 > 아이템관리 > 재고관리 > 재고현황(관리자)</div>
+            <h4 class="panel-title">구매지급관리</h4>
+            <div class="title-road">캠매니저 > 구매관리 &gt; 구매지급관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -21,12 +35,18 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="auto">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="30%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">일자</th>
+                        <th class="text-center th-color">조회유형</th>
                         <td>
-                            <input type="text" id="searchDt" style="width: 150px;">
+                            <input type="text" id="searchDept" style="width: 150px;">
                         </td>
                     </tr>
                 </table>
@@ -38,5 +58,7 @@
 </div><!-- col-md-9 -->
 
 <script>
-    invenStAdmin.fn_defaultScript();
+
+    purcUserAppList.fn_defaultScript();
+
 </script>
