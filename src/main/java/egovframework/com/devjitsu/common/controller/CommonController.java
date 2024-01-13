@@ -1,7 +1,10 @@
 package egovframework.com.devjitsu.common.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.utiles.Coordinates;
 import egovframework.com.devjitsu.common.utiles.MailUtil;
@@ -400,7 +403,7 @@ public class CommonController {
         return "jsonView";
     }
 
-    @RequestMapping("/test/testMap")
+    @RequestMapping("/common/findMap")
     public String testMap(@RequestParam Map<String, Object> params, Model model) {
         MapUtil mapUtil = new MapUtil();
         JSONArray doc = mapUtil.getCoordinate(params);
