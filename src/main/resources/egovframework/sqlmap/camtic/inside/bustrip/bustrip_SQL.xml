@@ -831,6 +831,23 @@
         ORDER BY IHCI.REG_DT DESC
     </select>
 
+    <select id="getBusinessCostList" parameterType="map" resultType="map">
+        /* getBusinessCostList */
+        SELECT
+            A.*,
+            B.DUTY_CODE AS TEAM_DUTY_CODE,
+            B.DUTY_TEXT AS TEAM_DUTY_TEXT,
+            B.COST_AMT AS TEAM_COST_AMT
+        FROM
+            CAM_INSIDE.DJ_HR_BUSI_COST_INFO A
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BUSI_COST_INFO B ON A.TRIP_CODE = B.TRIP_CODE AND A.EXNP_CODE = B.EXNP_CODE AND A.ACTIVE = 'Y' AND B.ACTIVE = 'Y'
+        WHERE A.DUTY_CODE = '1'
+          AND B.DUTY_CODE = '2'
+        GROUP BY A.TRIP_CODE, A.EXNP_CODE
+        ORDER BY A.TRIP_CODE, A.EXNP_CODE, A.HR_BUSI_COST_INFO_SN DESC
+    </select>
+
     <insert id="setBustripCostInsert" parameterType="map">
         INSERT INTO CAM_INSIDE.DJ_HR_COST_INFO
             (
@@ -859,6 +876,32 @@
                 #{km},
                 #{costAmt},
                 #{remarkCn},
+                #{regEmpSeq},
+                #{regEmpName}
+            )
+    </insert>
+
+    <insert id="setBusinessCostInsert" parameterType="map">
+        /* setBusinessCostInsert */
+        INSERT INTO CAM_INSIDE.DJ_HR_BUSI_COST_INFO
+            (
+                TRIP_CODE,
+                EXNP_CODE,
+                EXNP_TEXT,
+                DUTY_CODE,
+                DUTY_TEXT,
+                COST_AMT,
+                REG_EMP_SEQ,
+                REG_EMP_NAME
+            )
+        VALUES
+            (
+                #{tripCode},
+                #{exnpCode},
+                #{exnpText},
+                #{dutyCode},
+                #{dutyText},
+                #{costAmt},
                 #{regEmpSeq},
                 #{regEmpName}
             )

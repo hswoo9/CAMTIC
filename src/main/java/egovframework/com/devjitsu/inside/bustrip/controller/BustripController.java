@@ -347,9 +347,28 @@ public class BustripController {
     public String bustripCostReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "popup/inside/bustrip/bustripCostReqPop";
+    }
+
+    //국외출장여비 리스트 페이지
+    @RequestMapping("/bustrip/businessCostList.do")
+    public String businessCostList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/bustrip/business/businessCostList";
+    }
+
+    //국외출장여비 설정 팝업
+    @RequestMapping("/bustrip/pop/businessCostReqPop.do")
+    public String businessCostReqPop(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/business/businessCostReqPop";
     }
 
     /**
@@ -573,10 +592,25 @@ public class BustripController {
         return "jsonView";
     }
 
+    //해외출장여비 리스트
+    @RequestMapping("/bustrip/getBusinessCostList")
+    public String getBusinessCostList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getBusinessCostList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //여비등록
     @RequestMapping("/bustrip/setBustripCostInsert")
     public String setBustripCostInsert(@RequestParam Map<String, Object> params, Model model){
         bustripService.setBustripCostInsert(params);
+        return "jsonView";
+    }
+
+    //해외출장 여비등록
+    @RequestMapping("/bustrip/setBusinessCostInsert")
+    public String setBusinessCostInsert(@RequestParam Map<String, Object> params, Model model){
+        bustripService.setBusinessCostInsert(params);
         return "jsonView";
     }
 

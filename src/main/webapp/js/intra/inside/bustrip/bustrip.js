@@ -96,6 +96,36 @@ var bustrip = {
         });
     },
 
+    /** 해외출장 나라등급 세팅 */
+    fn_nationCodeSet: function(){
+        let nationCodeDataSource = [
+            { name: "가", value: "1" },
+            { name: "나", value: "2" },
+            { name: "다", value: "3" },
+            { name: "라", value: "4" }
+        ]
+        customKendo.fn_dropDownList("nationCode", nationCodeDataSource, "name", "value", 3);
+    },
+
+    /** 해외출장 여비구분 세팅 */
+    fn_exnpCodeSet: function(){
+        let exnpCodeDataSource = [
+            { name: "일비(정액)", value: "1" },
+            { name: "숙박비(최대한도)", value: "2" },
+            { name: "식비(정액)", value: "3" }
+        ]
+        customKendo.fn_dropDownList("exnpCode", exnpCodeDataSource, "name", "value", 3);
+    },
+
+    /** 해외출장 직책구분 세팅 */
+    fn_dutyCodeSet: function(){
+        let dutyCodeDataSource = [
+            { name: "부서장이상", value: "1" },
+            { name: "팀장이하", value: "2" },
+        ]
+        customKendo.fn_dropDownList("dutyCode", dutyCodeDataSource, "name", "value", 3);
+    },
+
     fn_realDriverSet: function(){
         let url = "";
         let data = {

@@ -331,8 +331,18 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getBusinessCostList(Map<String, Object> params) {
+        return bustripRepository.getBusinessCostList(params);
+    }
+
+    @Override
     public void setBustripCostInsert(Map<String, Object> params) {
         bustripRepository.setBustripCostInsert(params);
+    }
+
+    @Override
+    public void setBusinessCostInsert(Map<String, Object> params) {
+        bustripRepository.setBusinessCostInsert(params);
     }
 
     @Override
