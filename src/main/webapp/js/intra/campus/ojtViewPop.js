@@ -55,6 +55,8 @@ const ojtView = {
         }
         $("#regEmpNameTd").text(ojtInfo.REG_EMP_NAME);
         $("#jobDetailNmTd").text(ojtInfo.jobDetailNm);
+
+
     },
 
     buttonSet: function(){
@@ -460,6 +462,14 @@ const ojtView = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: function(){
+                let grid = this;
+                grid.element.off('dblclick');
+                grid.tbody.find("tr").dblclick(function(){
+                    const dataItem = grid.dataItem($(this).closest("tr"));
+                    ojtView.ojtResultModifyPop('upd', dataItem.STUDY_INFO_SN, dataItem.OJT_RESULT_SN);
+                });
+            },
             columns: [
                 {
                     title: "순번",
@@ -513,6 +523,13 @@ const ojtView = {
 
     ojtResultPop: function(mode, pk){
         let url = "/Campus/pop/ojtResultPop.do?mode="+mode+"&pk="+pk;
+        let name = "ojtResultPop";
+        let option = "width = 1060, height = 600, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    ojtResultModifyPop: function(mode, pk, ojtResultSn){
+        let url = "/Campus/pop/ojtResultPop.do?mode="+mode+"&pk="+pk+"&ojtResultSn="+ojtResultSn;
         let name = "ojtResultPop";
         let option = "width = 1060, height = 600, top = 100, left = 200, location = no";
         window.open(url, name, option);
