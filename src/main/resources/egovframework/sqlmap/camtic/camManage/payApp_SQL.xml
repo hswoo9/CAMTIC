@@ -1173,6 +1173,7 @@
             EVID_TYPE,
             TR_CD,
             CRM_NM,
+            CEO_NM,
             TR_DE,
             TOT_COST,
             SUP_COST,
@@ -1189,6 +1190,7 @@
             #{evidType},
             #{trCd},
             #{crmNm},
+            #{ceoNm},
             #{trDe},
             #{totCost},
             #{supCost},
@@ -1438,7 +1440,9 @@
             B.DOC_ID,
             B.DOC_STATUS,
             B.PAY_EXNP_DE,
-            (SELECT DOC_NO FROM dj_camtic.a_doc_info where DOC_ID = B.DOC_ID) AS DOC_NO
+            (SELECT DOC_NO FROM dj_camtic.a_doc_info where DOC_ID = B.DOC_ID) AS DOC_NO,
+            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_AMT,
+            (SELECT MAX(TR_DE) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) LAST_DT
         FROM
             CAM_MNG.DJ_PAY_DEPO A
         LEFT JOIN
@@ -1447,6 +1451,10 @@
             A.PAY_INCP_SN = B.PAY_INCP_SN
         WHERE
             1=1
+        <if test='eviType != null and !"".equals(eviType)'>
+            AND
+                A.EVI_TYPE = #{eviType}
+        </if>
         <if test='docStatus != null and !"".equals(docStatus)'>
             AND
                 A.DOC_STATUS = #{docStatus}
@@ -1572,7 +1580,8 @@
             B.*,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS DEPO_EMP_NAME,
             C.*,
-            (SELECT PROFIT_CODE FROM CAM_PJT_MNG.DJ_CORP_PROJECT WHERE CORP_PJT_CD = A.PJT_CD) AS PROFIT_CODE
+            (SELECT PROFIT_CODE FROM CAM_PJT_MNG.DJ_CORP_PROJECT WHERE CORP_PJT_CD = A.PJT_CD) AS PROFIT_CODE,
+            (SELECT CRM_CEO FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = A.CRM_SN) AS CEO_NM
         FROM
             CAM_MNG.DJ_PAY_DEPO A
         LEFT JOIN

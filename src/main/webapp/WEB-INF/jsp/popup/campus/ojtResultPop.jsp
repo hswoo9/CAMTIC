@@ -22,14 +22,16 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="pk" value="${params.pk}"/>
 <input type="hidden" id="studyJournalSn" value="${params.studyJournalSn}"/>
-<input type="hidden" id="mode" value=""/>
+<input type="hidden" id="ojtResultSn" value="${params.ojtResultSn}"/>
+<input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="suerSelType" value="0">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">OJT 학습일지 작성</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="ojtResult.saveBtn();">저장</button>
+                <button type="button" id="saveBtn" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="ojtResult.saveBtn();">저장</button>
+                <input type="button" id="modifyBtn" style="display:none; margin-right:5px;" class="k-button k-button-solid-info" value="수정" onclick="ojtResult.saveBtn();"/>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
         </div>
@@ -113,5 +115,85 @@
 </div>
 <script>
     ojtResult.init();
+    $(function(){
+        if($("#mode").val() == "upd"){
+            $("#modifyBtn").css("display", "");
+            $("#saveBtn").hide();
+
+        }
+        if($("#ojtResultSn").val() != "" || $("#ojtResultSn").val() != null){
+
+            $.ajax({
+                url: "/campus/getStudyOjtInfoOne",
+                data: {
+                    ojtResultSn: $("#ojtResultSn").val()
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result.data.SAVE_TYPE == '0') {
+                        $("#hideCol").css("display", "");
+                        $("#hideColB").css("display", "");
+                    }
+
+                    $("#ojtDt").val(result.data.OJT_DT);
+                    $("#startTime").val(result.data.START_TIME);
+                    $("#endTime").val(result.data.END_TIME);
+                    $("#location").val(result.data.LOCATION);
+                    $("input[name='studySaveType'][value='" + result.data.SAVE_TYPE + "']").prop("checked", true);
+                    $("#studySaveType").data("kendoRadioGroup").value(result.data.SAVE_TYPE);
+                    $("#studyContent").val(result.data.STUDY_CONT_A);
+                    $("#studyContent2").val(result.data.STUDY_CONT_B);
+
+                    $.ajax({
+                        url: "/campus/getStudyOjtUserInfo",
+                        data: {
+                            ojtResultSn: $("#ojtResultSn").val(),
+                            ojtClassSn: '4'
+                        },
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function (result) {
+                            var ojtEmpName = result.list.map(function (item) {
+                                return item.OJT_EMP_NAME;
+                            }).join(',');
+
+                            var ojtEmpSeq = result.list.map(function (item) {
+                                return item.OJT_EMP_SEQ;
+                            }).join(',');
+                            $("#readerUserName").val(ojtEmpName);
+                            $("#readerUserSeq").val(ojtEmpSeq);
+                        }
+                    });
+
+                    $.ajax({
+                        url: "/campus/getStudyOjtUserInfo",
+                        data: {
+                            ojtResultSn: $("#ojtResultSn").val(),
+                            ojtClassSn: '5'
+                        },
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function (result) {
+
+                            var ojtEmpName = result.list.map(function (item) {
+                                return item.OJT_EMP_NAME;
+                            }).join(',');
+
+                            var ojtEmpSeq = result.list.map(function (item) {
+                                return item.OJT_EMP_SEQ;
+                            }).join(',');
+
+                            $("#studyUserName").val(ojtEmpName);
+                            $("#studyUserSeq").val(ojtEmpSeq);
+                        }
+                    });
+                }
+            });
+        }
+    });
 </script>
 </body>

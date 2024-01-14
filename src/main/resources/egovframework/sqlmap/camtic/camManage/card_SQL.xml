@@ -490,6 +490,78 @@
         DELETE FROM CAM_MNG.DJ_CARD_PRIV WHERE TR_CD = #{TR_CD}
     </delete>
 
+    <select id="getUserCardList" parameterType="map" resultType="map">
+        /*getUserCardList*/
+        SELECT
+            A.*,
+            IFNULL(B.TR_CD, 'Y') as USE_YN,
+            C.USE_EMP_SEQ,
+            C.USE_EMP_NAME,
+            C.CARD_TO_DE,
+            C.CARD_FROM_DE,
+            C.RT_YN,
+            C.DEL_YN,
+            C.REG_EMP_SEQ,
+            D.MNG_SEQ,
+            D.MNG_NAME,
+            D.MNG_DEPT_SEQ,
+            D.MNG_DEPT_NAME,
+            D.HOLDER_SEQ,
+            D.HOLDER_NAME,
+            D.HOLDER_DEPT_SEQ,
+            D.HOLDER_DEPT_NAME,
+            REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = D.MNG_SEQ)), '|', ' ') AS DEPT_NAME
+        FROM
+            CAM_MNG.DJ_CARD_INFO A
+        LEFT JOIN
+            CAM_MNG.DJ_CARD_PRIV B
+        ON
+            A.TR_CD = B.TR_CD AND A.CARD_BA_NB = B.CARD_BA_NB
+        LEFT JOIN
+        (SELECT
+            *
+        FROM(
+            SELECT
+                *
+            FROM CAM_MNG.DJ_CARD_TO
+            WHERE (TR_CD, REG_DT) IN (
+            SELECT TR_CD, MAX(REG_DT) AS DATE_TIME
+            FROM CAM_MNG.DJ_CARD_TO GROUP BY TR_CD
+        )
+        ORDER BY REG_DT DESC
+        ) T
+            GROUP BY T.TR_CD) C
+        ON
+            A.TR_CD = C.TR_CD AND A.CARD_BA_NB = C.CARD_BA_NB
+        LEFT JOIN
+            CAM_MNG.DJ_CARD_MANAGER D
+        ON
+            A.TR_CD = D.TR_CD AND A.CARD_BA_NB = D.CARD_BA_NB
+        WHERE
+            1 = 1
+            <if test='searchValue != null and !"".equals(searchValue)'>
+                AND
+                (A.TR_NM LIKE CONCAT('%', #{searchValue}, '%') OR A.BA_NB LIKE CONCAT('%', #{searchValue}, '%') OR A.CARD_BA_NB LIKE CONCAT('%', #{searchValue}, '%'))
+            </if>
+            <if test='auth == "user" or "user".equals(auth)'>
+                AND
+                B.TR_CD IS NULL
+            </if>
+            <if test='"8".equals(searchType)'>
+                AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL)
+            </if>
+            <if test='rtYn != null and !"".equals(rtYn)'>
+                <choose>
+                    <when test='"N".equals(rtYn)'>
+                        AND C.RT_YN = 'N'
+                    </when>
+                    <otherwise>
+                        AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL)
+                    </otherwise>
+                </choose>
+            </if>
+    </select>
+
     <select id="getCorpCardList" parameterType="map" resultType="map">
         /*getCorpCardList*/
         SELECT

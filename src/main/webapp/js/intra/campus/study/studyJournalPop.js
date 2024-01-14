@@ -56,7 +56,7 @@ const studyJournal = {
 
         if(data.studyJournalSn != ""){
             $("#saveBtn").css("display", "none");
-            $("#selMemBtn").css("display", "none");
+            /*$("#selMemBtn").css("display", "none");*/
         }
 
         const info = customKendo.fn_customAjax("/campus/getStudyJournalOne", data).data;
@@ -67,6 +67,11 @@ const studyJournal = {
             html += '   <span style="cursor: pointer" onclick="fileDown(\''+info.file_path + info.file_uuid+'\', \''+info.file_org_name+'.'+info.file_ext+'\')">'+info.file_org_name+'</span>';
             $("#fileHeader").html(html);
         }
+
+        if($("#regEmpSeq").val() == info.REG_EMP_SEQ && info.CAPTAIN_APPOVAL_YN =='N' && info.ASSISTANT_APPOVAL_YN =='N'){
+            $("#modifyBtn").show();
+        }
+
 
         $("#studyUserName").val(info.STUDY_EMP_NAME);
         $("#studyUserSeq").val(info.STUDY_EMP_SEQ);
@@ -124,6 +129,7 @@ const studyJournal = {
         let empSeq = $("#regEmpSeq").val();
         let regEmpSeq = $("#regEmpSeq").val();
         let eduTime = 0;
+        let studyJournalSn = $("#studyJournalSn").val();
 
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(journalDt == "" || journalStartTime == "" || journalEndTime == ""){ alert("학습일시가 작성되지 않았습니다."); return; }
@@ -191,7 +197,8 @@ const studyJournal = {
             journalAmtEtc: journalAmtEtc,
             regEmpName: regEmpName,
             realEduTime: realEduTime,
-            regEmpSeq : regEmpSeq
+            regEmpSeq : regEmpSeq,
+            studyJournalSn : studyJournalSn
         }
 
         var fd = new FormData();
@@ -203,28 +210,53 @@ const studyJournal = {
             fd.append("files", $("#files")[0].files[0]);
         }
 
-        if(!confirm("운영일지를 저장하시겠습니까?")){
-            return;
-        }
-
-        $.ajax({
-            url: "/campus/setStudyJournalInsert",
-            data : fd,
-            type : "post",
-            dataType : "json",
-            contentType: false,
-            processData: false,
-            enctype : 'multipart/form-data',
-            async: false,
-            success: function(result){
-                alert("운영일지 저장이 완료되었습니다.");
-                opener.gridReload();
-                window.close();
-            },
-            error: function() {
-                alert("데이터 저장 중 에러가 발생했습니다.");
+        if(studyJournalSn != "" || studyJournalSn != null){
+            if(!confirm("운영일지를 수정하시겠습니까?")) {
+                return;
             }
-        });
+                $.ajax({
+                    url: "/campus/setStudyJournalModify",
+                    data: fd,
+                    type: "post",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    enctype: 'multipart/form-data',
+                    async: false,
+                    success: function (result) {
+                        alert("운영일지 수정이 완료되었습니다.");
+                        opener.gridReload();
+                        window.close();
+                    },
+                    error: function () {
+                        alert("데이터 저장 중 에러가 발생했습니다.");
+                    }
+                });
+
+        }else {
+            if (!confirm("운영일지를 저장하시겠습니까?")) {
+                return;
+            }
+
+            $.ajax({
+                url: "/campus/setStudyJournalInsert",
+                data: fd,
+                type: "post",
+                dataType: "json",
+                contentType: false,
+                processData: false,
+                enctype: 'multipart/form-data',
+                async: false,
+                success: function (result) {
+                    alert("운영일지 저장이 완료되었습니다.");
+                    opener.gridReload();
+                    window.close();
+                },
+                error: function () {
+                    alert("데이터 저장 중 에러가 발생했습니다.");
+                }
+            });
+        }
 
     },
 

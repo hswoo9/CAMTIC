@@ -35,6 +35,7 @@
         <div class="btn-st popButton">
             <input type="button" id="appBtn" style="display:none; margin-right:5px;" class="k-button k-button-solid-info" value="검토완료" onclick="studyPropag.appBtn();"/>
             <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="studyPropag.saveBtn();"/>
+            <input type="button" id="modifyBtn" style="display:none;" class="k-button k-button-solid-info" value="수정" onclick="studyPropag.saveBtn();"/>
             <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
         </div>
     </div>
@@ -80,7 +81,7 @@
             <tr>
                 <th><span class="red-star">*</span>내용저장 방법</th>
                 <td>
-                    <span type="text" id="studySaveType" style="width: 400px;"></span>
+                    <span type="text" id="studySaveType" name="studySaveType" style="width: 400px;"></span>
                 </td>
             </tr>
             <tr id="hideCol" style="display: none">
@@ -105,6 +106,39 @@
 
 <script>
     studyPropag.init();
+
+    /*$(function () {
+        if($("#studyPropagSn").val() != "" || $("#studyPropagSn").val() != null) {
+
+            $.ajax({
+                url: "/campus/getStudyPropagInfoOne",
+                data: {
+                    pk: $("#studyPropagSn").val()
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    $("#journalDt").val(result.data.PROPAG_DT);
+                    $("#journalStartTime").val(result.data.START_TIME);
+                    $("#journalEndTime").val(result.data.END_TIME);
+                    $("#studyLocation").val(result.data.LOCATION);
+
+                    /!*$("#readerUserName").val(propag.DUTY_MONTH);
+                    $("#readerUserSeq").val(propag.DUTY_NAME);
+                    $("#studyUserName").val(propag.OUTLINE_NAME);
+                    $("#studyUserSeq").val(propag.OUTLINE_DETAIL);*!/
+
+                    $("#studySaveType").val(result.data.SAVE_TYPE);
+                    $("#studyContent").val(result.data.PROPAG_CONTENT);
+                }
+            });
+        }
+    });*/
+
+
+
+
 
     function fn_setSubjectMember(pk, type){
         var url = "/campus/pop/popSubjectMember.do?studyInfoSn=" + pk + "&ojtType=" + type;

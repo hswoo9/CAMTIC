@@ -34,6 +34,8 @@ const ojtResult = {
     },
 
     saveBtn: function(){
+        let mode = $("#mode").val();
+        let ojtResultSn = $("#ojtResultSn").val();
         let studyInfoSn = $("#pk").val();
         let ojtDt = $("#ojtDt").val();
         let startTime = $("#startTime").val();
@@ -62,6 +64,8 @@ const ojtResult = {
         if(saveType == ""){ alert("내용저장 방법이 선택되지 않았습니다."); return; }
 
         let data = {
+            mode: mode,
+            ojtResultSn: ojtResultSn,
             studyInfoSn: studyInfoSn,
             ojtDt: ojtDt,
             studyContA : studyContA,
@@ -85,35 +89,64 @@ const ojtResult = {
         if($("#files")[0].files.length == 1){
             fd.append("files", $("#files")[0].files[0]);
         }
+if(mode == "upd"){
+    if(!confirm("OJT 학습일지를 수정하시겠습니까?")){
+        return;
+    }
 
-        if(!confirm("OJT 학습일지를 저장하시겠습니까?")){
-            return;
-        }
+    $.ajax({
+        url: "/campus/setOjtResultModify",
+        data : fd,
+        type : "post",
+        dataType : "json",
+        contentType: false,
+        processData: false,
+        enctype : 'multipart/form-data',
+        async: false,
+        success: function(result){
+            alert("OJT 학습일지 수정이 완료되었습니다.");
+            opener.$("#ojtResultGrid").data("kendoGrid").dataSource.read();
+            window.close();
+            try {
+                opener.opener.gridReload();
+            }catch{
 
-
-        $.ajax({
-            url: "/campus/setOjtResultInsert",
-            data : fd,
-            type : "post",
-            dataType : "json",
-            contentType: false,
-            processData: false,
-            enctype : 'multipart/form-data',
-            async: false,
-            success: function(result){
-                alert("OJT 학습일지 저장이 완료되었습니다.");
-                opener.$("#ojtResultGrid").data("kendoGrid").dataSource.read();
-                window.close();
-                try {
-                    opener.opener.gridReload();
-                }catch{
-
-                }
-            },
-            error: function() {
-                alert("데이터 저장 중 에러가 발생했습니다.");
             }
-        });
+        },
+        error: function() {
+            alert("데이터 수정 중 에러가 발생했습니다.");
+        }
+    });
+}else{
+    if(!confirm("OJT 학습일지를 저장하시겠습니까?")){
+        return;
+    }
+
+    $.ajax({
+        url: "/campus/setOjtResultInsert",
+        data : fd,
+        type : "post",
+        dataType : "json",
+        contentType: false,
+        processData: false,
+        enctype : 'multipart/form-data',
+        async: false,
+        success: function(result){
+            alert("OJT 학습일지 저장이 완료되었습니다.");
+            opener.$("#ojtResultGrid").data("kendoGrid").dataSource.read();
+            window.close();
+            try {
+                opener.opener.gridReload();
+            }catch{
+
+            }
+        },
+        error: function() {
+            alert("데이터 저장 중 에러가 발생했습니다.");
+        }
+    });
+}
+
     },
 
     updBtn: function(pk){

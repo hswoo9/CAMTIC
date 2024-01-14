@@ -9,13 +9,22 @@ var depositList = {
 
     fn_defaultScript : function (){
 
-        depositList.global.dropDownDataSource = [
-            { text: "작성중", value: "1" },
-            { text: "결재대기", value: "2" },
-            { text: "결재완료", value: "3" },
-        ]
-        customKendo.fn_dropDownList("searchDept", depositList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", depositList.gridReload);
+        $("#eviType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "세금계산서", value: 1 },
+                { text: "계산서", value: 2 },
+                { text: "신용카드", value: 3 },
+                { text: "현금영수증", value: 4 },
+                { text: "미발행", value: 5 }
+            ],
+            index: 0,
+            change : function (){
+                depositList.gridReload();
+            }
+        });
 
         depositList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
@@ -67,15 +76,40 @@ var depositList = {
                     title: "구분",
                     width: 90,
                     template: function(e){
-                        var gubun = "";
-                        if(e.GUBUN == "a"){
-                            gubun = "입금";
-                        }else if(e.GUBUN == "b"){
-                            gubun = "설치";
-                        } else if (e.GUBUN == "c"){
-                            gubun = "사급";
+                        var eviType = "";
+                        if(e.EVI_TYPE == "1"){
+                            eviType = "세금계산서";
+                        }else if(e.GUBUN == "2"){
+                            eviType = "계산서";
+                        } else if (e.GUBUN == "3"){
+                            eviType = "신용카드";
+                        } else if(e.GUBUN == "4"){
+                            eviType = "현금영수증";
+                        } else {
+                            eviType = "미발행";
                         }
-                        return gubun;
+                        return eviType;
+                    }
+                }, {
+                    title: "입금여부",
+                    width: 90,
+                    template: function(e){
+                        var stat = "";
+                        if(e.APPR_STAT == "Y") {
+                            stat = "미입금";
+                            if(e.TOT_AMT == 0){
+                                stat = "미입금";
+                            } else if(e.DEPO_AMT <= e.TOT_AMT){
+                                stat = "입금완료";
+                            } else if(e.DEPO_AMT > e.TOT_AMT){
+                                stat = "부분입금";
+                            }
+
+                        } else {
+                            stat = "미입금";
+                        }
+
+                        return stat;
                     }
                 }, {
                     field: "DOC_NO",
@@ -158,7 +192,7 @@ var depositList = {
     gridReload : function(){
         depositList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
-            searchDept : $("#searchDept").val(),
+            eviType : $("#eviType").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val()
         }

@@ -152,7 +152,7 @@ var purcInfo = {
                     title: "지급신청",
                     width: 100,
                     template: function(e){
-                        if(e.INSPECT_YN == "Y"){
+                        if(e.INSPECT_YN == "Y" || (e.PRI_PAY == 'Y' && e.ORDER_DT != "" && e.ORDER_DT != null)){
                             return '<button type="button" id="payBtn" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')">지급신청서</button>';
                         }
                         return "";

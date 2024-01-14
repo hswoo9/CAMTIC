@@ -67,6 +67,84 @@ const studyPropag = {
         if(data.studyPropagSn != ""){
             $("#saveBtn").css("display", "none");
             $("#selMemBtn").css("display", "none");
+
+        }
+
+        if(data.studyPropagSn != "" /*&& 학습완료전*/){
+            $("#modifyBtn").css("display", "");
+
+        }
+
+        if($("#studyPropagSn").val() != "" || $("#studyPropagSn").val() != null) {
+
+            $.ajax({
+                url: "/campus/getStudyPropagInfoOne",
+                data: {
+                    studyPropagSn: $("#studyPropagSn").val()
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if(result.data.SAVE_TYPE == '1'){
+                        $("#hideCol").css("display", "");
+                    }
+                    $("#journalDt").val(result.data.PROPAG_DT);
+                    $("#journalStartTime").val(result.data.START_TIME);
+                    $("#journalEndTime").val(result.data.END_TIME);
+                    $("#studyLocation").val(result.data.LOCATION);
+                    $("input[name='studySaveType'][value='" + result.data.SAVE_TYPE + "']").prop("checked", true);
+                    /*$("#studySaveType").val(result.data.SAVE_TYPE);*/
+                    $("#studySaveType").data("kendoRadioGroup").value(result.data.SAVE_TYPE);
+                    $("#studyContent").val(result.data.PROPAG_CONTENT);
+
+                    $.ajax({
+                        url: "/campus/getStudyPropagUserInfo",
+                        data: {
+                            studyPropagSn: $("#studyPropagSn").val(),
+                            propagClassSn: '4'
+                        },
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function (result) {
+                            var propagEmpName = result.list.map(function (item) {
+                                return item.PROPAG_EMP_NAME;
+                            }).join(',');
+
+                            var propagEmpSeq = result.list.map(function (item) {
+                                return item.PROPAG_EMP_SEQ;
+                            }).join(',');
+                            $("#readerUserName").val(propagEmpName);
+                            $("#readerUserSeq").val(propagEmpSeq);
+                        }
+                    });
+
+                    $.ajax({
+                        url: "/campus/getStudyPropagUserInfo",
+                        data: {
+                            studyPropagSn: $("#studyPropagSn").val(),
+                            propagClassSn: '5'
+                        },
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function (result) {
+
+                            var propagEmpName = result.list.map(function (item) {
+                                return item.PROPAG_EMP_NAME;
+                            }).join(',');
+
+                            var propagEmpSeq = result.list.map(function (item) {
+                                return item.PROPAG_EMP_SEQ;
+                            }).join(',');
+
+                           $("#studyUserName").val(propagEmpName);
+                           $("#studyUserSeq").val(propagEmpSeq);
+                        }
+                    });
+                }
+            });
         }
 
         const info = customKendo.fn_customAjax("/campus/getstudyPropagOne", data).data;
@@ -94,6 +172,8 @@ const studyPropag = {
     },
 
     saveBtn: function(){
+        let mode = $("#mode").val();
+        let studyPropagSn =  $("#studyPropagSn").val();
         let studyInfoSn = $("#pk").val();
         let journalDt = $("#journalDt").val();
         let journalStartTime = $("#journalStartTime").val();
@@ -147,6 +227,8 @@ const studyPropag = {
         // } */
 
         let data = {
+            mode: mode,
+            studyPropagSn: studyPropagSn,
             studyInfoSn: studyInfoSn,
             propagDt: journalDt,
             startTime: journalStartTime,
@@ -169,29 +251,56 @@ const studyPropag = {
             fd.append("files", $("#files")[0].files[0]);
         }
 
-        if(!confirm("학습일지를 저장하시겠습니까?")){
-            return;
-        }
-
-        $.ajax({
-            url: "/campus/setStudyPropagInsert",
-            data : fd,
-            type : "post",
-            dataType : "json",
-            contentType: false,
-            processData: false,
-            enctype : 'multipart/form-data',
-            async: false,
-            success: function(result){
-                console.log(result);
-                alert("학습일지 저장이 완료되었습니다.");
-                opener.gridReload();
-                window.close();
-            },
-            error: function() {
-                alert("데이터 저장 중 에러가 발생했습니다.");
+        if(mode == 'Upd') {
+            if(!confirm("학습일지를 수정하시겠습니까?")){
+                return;
             }
-        });
+
+            $.ajax({
+                url: "/campus/setStudyPropagModify",
+                data : fd,
+                type : "post",
+                dataType : "json",
+                contentType: false,
+                processData: false,
+                enctype : 'multipart/form-data',
+                async: false,
+                success: function(result){
+                    console.log(result);
+                    alert("학습일지 수정이 완료되었습니다.");
+                    opener.gridReload();
+                    window.close();
+                },
+                error: function() {
+                    alert("데이터 수정 중 에러가 발생했습니다.");
+                }
+            });
+
+        }else if (mode == 'Req'){
+            if(!confirm("학습일지를 저장하시겠습니까?")){
+                return;
+            }
+
+            $.ajax({
+                url: "/campus/setStudyPropagInsert",
+                data : fd,
+                type : "post",
+                dataType : "json",
+                contentType: false,
+                processData: false,
+                enctype : 'multipart/form-data',
+                async: false,
+                success: function(result){
+                    console.log(result);
+                    alert("학습일지 저장이 완료되었습니다.");
+                    opener.gridReload();
+                    window.close();
+                },
+                error: function() {
+                    alert("데이터 저장 중 에러가 발생했습니다.");
+                }
+            });
+        }
 
     },
 

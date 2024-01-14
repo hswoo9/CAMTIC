@@ -110,10 +110,10 @@ var incomeList = {
                         if(e.DOC_STATUS == "100"){
                             status = "결재완료";
                             if(e.REQ_END_DE != null && e.REQ_END_DE != "" && e.REQ_END_DE != undefined){
-                                status = "승인";
+                                status = "수입결의승인";
                             } else {
                                 if(e.EVID_TYPE == "7"){
-                                    status = "승인";
+                                    status = "수입결의승인";
                                 } else {
                                     status = "결재완료";
                                 }

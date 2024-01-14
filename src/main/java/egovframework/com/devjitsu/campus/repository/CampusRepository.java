@@ -69,8 +69,12 @@ public class CampusRepository extends AbstractDAO  {
     public List<Map<String, Object>> getStudyUserList(Map<String, Object> params) { return selectList("campus.getStudyUserList", params); }
     public List<Map<String, Object>> getStudyJournalList(Map<String, Object> params) { return selectList("campus.getStudyJournalList", params); }
     public Map<String, Object> getStudyJournalOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyJournalOne", params); }
+
+    public Map<String, Object> getStudyPropagInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyPropagInfoOne", params); }
     public List<Map<String, Object>> getStudyPropagList(Map<String, Object> params) { return selectList("campus.getStudyPropagList", params); }
     public List<Map<String, Object>> getStudyPropagUserList(Map<String, Object> params) { return selectList("campus.getStudyPropagUserList", params); }
+    public List<Map<String, Object>> getStudyPropagUserInfo(Map<String, Object> params) { return selectList("campus.getStudyPropagUserInfo", params); }
+    public List<Map<String, Object>> getStudyOjtUserInfo(Map<String, Object> params) { return selectList("campus.getStudyOjtUserInfo", params); }
     public List<Map<String, Object>> getOjtPlanList(Map<String, Object> params) { return selectList("campus.getOjtPlanList", params); }
     public Map<String, Object> getOjtPlanOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOjtPlanOne", params); }
     public List<Map<String, Object>> getOjtResultList(Map<String, Object> params) { return selectList("campus.getOjtResultList", params); }
@@ -137,6 +141,9 @@ public class CampusRepository extends AbstractDAO  {
     public void setStudyUserMngUpdate(Map<String, Object> params) { update("campus.setStudyUserMngReset", params); update("campus.setStudyUserMngUpdate", params); }
     public void studyReq(Map<String, Object> params) { update("campus.studyReq", params); }
     public void setStudyJournalInsert(Map<String, Object> params) { insert("campus.setStudyJournalInsert", params); }
+    public void setStudyJournalModify(Map<String, Object> params) { update("campus.setStudyJournalModify", params); }
+    public void setStudyResultUserDelete(Map<String, Object> params) {delete("campus.setStudyResultUserDelete", params);}
+    public void setOjtUserDelete(Map<String, Object> params) {delete("campus.setOjtUserDelete", params);}
     public void setStudyJournalApp(Map<String, Object> params) { update("campus.setStudyJournalApp", params); }
     public void setOjtPlanInsert(Map<String, Object> params) { insert("campus.setOjtPlanInsert", params); }
     public void setOjtPlanUpdate(Map<String, Object> params) { update("campus.setOjtPlanUpdate", params); }
@@ -144,10 +151,13 @@ public class CampusRepository extends AbstractDAO  {
     public void setOjtResultInsert(Map<String, Object> params) { insert("campus.setOjtResultInsert", params); }
     public void setOjtUserInsert(Map<String, Object> params) { insert("campus.setOjtUserInsert", params); }
     public void setPropagUserInsert(Map<String, Object> params) { insert("campus.setPropagUserInsert", params); }
+    public void setPropagUserDelete(Map<String, Object> params) {delete("campus.setPropagUserDelete", params);}
     public void setPropagDelete(Map<String, Object> params) { update("campus.setPropagDelete", params); }
     public void setResultPropagUpd(Map<String, Object> params) { update("campus.setResultPropagUpd", params); }
     public void setResultPropagUserUpd(Map<String, Object> params) { update("campus.setResultPropagUserUpd", params); }
     public void setStudyPropagInsert(Map<String, Object> params) { insert("campus.setStudyPropagInsert", params); }
+    public void setStudyPropagModify(Map<String, Object> params) { update("campus.setStudyPropagModify", params); }
+    public void setOjtResultModify(Map<String, Object> params) { update("campus.setOjtResultModify", params); }
     public void setOpenStudyInfoIns(Map<String, Object> params) { insert("campus.setOpenStudyInfoIns", params); }
 
     public void setOpenStudyRealEduTimeUpd(Map<String, Object> params) { update("campus.setOpenStudyRealEduTimeUpd", params); }
@@ -296,6 +306,6 @@ public class CampusRepository extends AbstractDAO  {
     public Object getOpenStudyUserCount(Map<String, Object> params){
         return (int) selectOne("campus.getOpenStudyUserCount", params);
     }
-
     public void setStudyUserDelete(Map<String, Object> params) {delete("campus.setStudyUserDelete", params);}
+    public Map<String, Object> getStudyOjtInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyOjtInfoOne", params); }
 }

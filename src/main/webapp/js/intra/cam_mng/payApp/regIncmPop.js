@@ -229,6 +229,9 @@ var regIncm = {
                 '       <input type="text" id="regNo' + regIncmDet.global.itemIndex + '" value="'+item.REG_NO+'" class="regNo">' +
                 '   </td>' +
                 '   <td>' +
+                '       <input type="text" id="ceoNm' + regIncmDet.global.itemIndex + '" value="'+item.CEO_NM+'" class="ceoNm">' +
+                '   </td>' +
+                '   <td>' +
                 '       <input type="text" id="etc' + regIncmDet.global.itemIndex + '" value="'+item.ETC+'" class="etc">' +
                 '   </td>' +
 
@@ -314,7 +317,8 @@ var regIncm = {
                 , "crmAccHolder" + regIncmDet.global.itemIndex, "iss" + regIncmDet.global.itemIndex
                 , "crmAccNo" + regIncmDet.global.itemIndex, "totCost" + regIncmDet.global.itemIndex
                 , "supCost" + regIncmDet.global.itemIndex, "vatCost" + regIncmDet.global.itemIndex
-                ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex, "regNo" + regIncmDet.global.itemIndex]);
+                ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex
+                , "regNo" + regIncmDet.global.itemIndex, "ceoNm" + regIncmDet.global.itemIndex]);
 
             customKendo.fn_datePicker("trDe" + regIncmDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
@@ -352,6 +356,7 @@ var regIncm = {
                 $("#crmNm0").val(g20Result.map.TR_NM ? g20Result.map.TR_NM : "");
                 $("#trCd0").val(g20Result.map.TR_CD ? g20Result.map.TR_NM : "");
                 $("#regNo0").val(rs.REG_NO.toString().replace(/-/g, ""));
+                $("#ceoNm0").val(rs.CEO_NM ? rs.CEO_NM : "");
                 $("#trDe0").val(rs.PAY_INCP_DE);
                 $("#appDe").val(rs.PAY_INCP_DE);
 
@@ -360,14 +365,15 @@ var regIncm = {
                 $("#pjtCd").val(rs.PJT_CD);
                 $("#budgetNm").val(rs.BUDGET_NM);
                 $("#budgetSn").val(rs.BUDGET_SN);
-                $("#appCont").val(rs.DEPO_CONT);
+                $("#appCont").val(rs.DEPO_TITLE);
 
                 $("#accNm").val(rs.ACC_NM);
                 $("#bnkSn").val(rs.BNK_SN);
                 $("#accNo").val(rs.ACC_NO);
                 $("#bnkNm").val(rs.BNK_NM);
 
-                $("#supCost0").val(regIncm.comma(rs.DEPO_AMT));
+                $("#supCost0").val(regIncm.comma(Math.round(Number(rs.DEPO_AMT) / 1.1)));
+                $("#vatAmt0").val(regIncm.comma(Number(rs.DEPO_AMT) - Math.round(Number(rs.DEPO_AMT) / 1.1)));
                 $("#totCost0").val(regIncm.comma(rs.DEPO_AMT));
                 $("#supCost0").trigger("keyup");
 
@@ -470,6 +476,7 @@ var regIncm = {
                 cardNo : $("#cardNo" + index).val(),
                 etc : $("#etc" + index).val(),
                 regNo: $("#regNo" + index).val(),
+                ceoNm: $("#ceoNm" + index).val(),
                 iss : $("#iss" + index).val(),
             }
 
@@ -693,7 +700,7 @@ var regIncmDet = {
         });
 
         customKendo.fn_textBox(["crmNm0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"
-            ,"card0", "etc0", "iss0", "budgetNm0", "regNo0"]);
+            ,"card0", "etc0", "iss0", "budgetNm0", "regNo0", "ceoNm0"]);
 
         customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
 
@@ -726,6 +733,9 @@ var regIncmDet = {
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="regNo' + regIncmDet.global.itemIndex + '" class="regNo">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="ceoNm' + regIncmDet.global.itemIndex + '" class="ceoNm">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" id="etc' + regIncmDet.global.itemIndex + '" class="etc">' +
@@ -800,7 +810,8 @@ var regIncmDet = {
             , "crmAccHolder" + regIncmDet.global.itemIndex, "iss" + regIncmDet.global.itemIndex
             , "crmAccNo" + regIncmDet.global.itemIndex, "totCost" + regIncmDet.global.itemIndex
             , "supCost" + regIncmDet.global.itemIndex, "vatCost" + regIncmDet.global.itemIndex
-            ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex, "regNo" + regIncmDet.global.itemIndex]);
+            ,"card" + regIncmDet.global.itemIndex, "etc" + regIncmDet.global.itemIndex, "budgetNm" + regIncmDet.global.itemIndex
+            , "regNo" + regIncmDet.global.itemIndex, "ceoNm" + regIncmDet.global.itemIndex]);
 
         customKendo.fn_datePicker("trDe" + regIncmDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 

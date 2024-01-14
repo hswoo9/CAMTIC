@@ -620,6 +620,41 @@
         WHERE STUDY_JOURNAL_SN = #{studyJournalSn}
     </select>
 
+    <select id="getStudyPropagInfoOne" resultType="map" parameterType="map">
+        /* getStudyPropagInfoOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_STUDY_PROPAG CSP
+                LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO DFI
+            ON
+                CSP.PROPAG_FILE_SN = DFI.FILE_NO
+        WHERE STUDY_PROPAG_SN = #{studyPropagSn}
+    </select>
+
+    <select id="getStudyPropagUserInfo" resultType="map" parameterType="map">
+        /* getStudyPropagUserInfo */
+        SELECT
+            CPU.*
+        FROM
+            CAMPUS.DJ_PROPAG_USER CPU
+        WHERE STUDY_PROPAG_SN = #{studyPropagSn}
+          AND PROPAG_CLASS_SN = #{propagClassSn}
+        ORDER BY  PROPAG_USER_SN
+    </select>
+
+    <select id="getStudyOjtUserInfo" resultType="map" parameterType="map">
+        /* getStudyOjtUserInfo */
+        SELECT
+            COU.*
+        FROM
+            CAMPUS.DJ_OJT_USER COU
+        WHERE OJT_RESULT_SN = #{ojtResultSn}
+          AND OJT_CLASS_SN = #{ojtClassSn}
+        ORDER BY  OJT_USER_SN
+    </select>
+
     <select id="getStudyPropagList" resultType="map" parameterType="map">
         /* getStudyPropagList */
         SELECT
@@ -1636,7 +1671,8 @@
                 JOURNAL_AMT_CLASS,
                 JOURNAL_AMT_CLASS_TEXT,
                 JOURNAL_AMT_ETC,
-                REG_EMP_NAME
+                REG_EMP_NAME,
+                REG_EMP_SEQ
             )
         VALUES
             (
@@ -1654,12 +1690,50 @@
                 #{journalAmtClass},
                 #{journalAmtClassText},
                 #{journalAmtEtc},
-                #{regEmpName}
+                #{regEmpName},
+                #{regEmpSeq}
             )
         <selectKey keyProperty="studyJournalSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_STUDY_JOURNAL'
         </selectKey>
     </insert>
+
+    <update id="setStudyJournalModify" parameterType="map">
+        UPDATE
+            CAMPUS.DJ_STUDY_JOURNAL
+        SET
+            STUDY_NAME =  #{studyName},
+            STUDY_EMP_SEQ =  #{studyEmpSeq},
+            STUDY_EMP_NAME = #{studyEmpName},
+            JOURNAL_DT = #{journalDt},
+            JOURNAL_START_TIME = #{journalStartTime},
+            JOURNAL_END_TIME = #{journalEndTime},
+            JOURNAL_TIME = #{realEduTime},
+            JOURNAL_LOCATE = #{studyLocation},
+            JOURNAL_CONTENT = #{studyContent},
+            JOURNAL_AMT = #{studyMoney},
+            JOURNAL_AMT_CLASS = #{journalAmtClass},
+            JOURNAL_AMT_CLASS_TEXT = #{journalAmtClassText},
+            JOURNAL_AMT_ETC = #{journalAmtEtc}
+        WHERE
+            STUDY_JOURNAL_SN = #{studyJournalSn}
+    </update>
+
+    <delete id="setOjtUserDelete" parameterType="map">
+        /* setOjtUserDelete */
+        DELETE FROM
+            CAMPUS.DJ_OJT_USER
+        WHERE
+            OJT_RESULT_SN = #{ojtResultSn}
+    </delete>
+
+    <delete id="setStudyResultUserDelete" parameterType="map">
+        /* setStudyResultUserDelete */
+        DELETE FROM
+            CAMPUS.DJ_STUDY_RESULT_USER
+        WHERE
+            STUDY_JOURNAL_SN = #{studyJournalSn}
+    </delete>
 
     <update id="setStudyResultModify" parameterType="map">
         UPDATE
@@ -1678,6 +1752,7 @@
             STUDY_RESULT_SN = #{studyResultSn}
 
     </update>
+
     <insert id="setStudyResult" parameterType="map">
         /*setStudyResult*/
         INSERT INTO CAMPUS.DJ_STUDY_RESULT
@@ -1859,6 +1934,28 @@
         </selectKey>
     </insert>
 
+    <update id="setOjtResultModify" parameterType="map">
+        /* setOjtResultModify */
+        UPDATE
+            CAMPUS.DJ_OJT_RESULT
+        SET
+            OJT_DT = #{ojtDt},
+            STUDY_CONT_A = #{studyContA},
+            STUDY_CONT_B =  #{studyContB},
+            START_TIME = #{startTime},
+            END_TIME = #{endTime},
+            EDU_FULL_TIME = CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+            EDU_TIME =  IF(CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600) > 2, 2,CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600)),
+            EDU_TIME_HALF = IF((CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600) / 2) > 2, 2, (CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600) / 2)),
+            LOCATION = #{location},
+            SAVE_TYPE = #{saveType},
+            SAVE_TYPE_TEXT = #{saveTypeText},
+            REG_EMP_SEQ = #{regEmpSeq},
+            REG_EMP_NAME = #{regEmpName}
+        WHERE
+            OJT_RESULT_SN = #{ojtResultSn}
+    </update>
+
     <update id="setOjtResultUpdate" parameterType="map">
         /*setOjtResultUpdate*/
         UPDATE
@@ -1942,6 +2039,26 @@
         </selectKey>
     </insert>
 
+    <update id="setStudyPropagModify" parameterType="map">
+        /* setStudyPropagModify */
+        UPDATE
+            CAMPUS.DJ_STUDY_PROPAG
+        SET
+            PROPAG_DT = #{propagDt},
+            START_TIME = #{startTime},
+            END_TIME = #{endTime},
+            EDU_TIME = CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+            EDU_USER_TIME = CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
+            EDU_MNG_TIME = (CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600))*1.5,
+            LOCATION = #{location},
+            SAVE_TYPE = #{saveType},
+            PROPAG_CONTENT = #{propagContent},
+            REG_EMP_SEQ = #{regEmpSeq},
+            REG_EMP_NAME = #{regEmpName}
+        WHERE
+            STUDY_PROPAG_SN = #{studyPropagSn}
+    </update>
+
     <insert id="setPropagUserInsert" parameterType="map">
         /* setPropagUserInsert */
         INSERT INTO CAMPUS.DJ_PROPAG_USER
@@ -1977,6 +2094,14 @@
                 #{studyDutyName}
             )
     </insert>
+
+    <delete id="setPropagUserDelete" parameterType="map">
+        /* setPropagUserDelete */
+        DELETE FROM
+            CAMPUS.DJ_PROPAG_USER
+        WHERE
+            STUDY_PROPAG_SN = #{studyPropagSn}
+    </delete>
 
     <update id="setPropagDelete" parameterType="map">
         /* setPropagDelete */
@@ -2825,5 +2950,17 @@
         WHERE
             STUDY_INFO_SN = #{pk}
     </delete>
+
+    <select id="getStudyOjtInfoOne" resultType="map" parameterType="map">
+        /* getStudyOjtInfoOne */
+        SELECT
+           *
+        FROM
+            CAMPUS.dj_ojt_result COR
+                LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO DFI
+            ON COR.FILE_SN = DFI.FILE_NO
+        WHERE OJT_RESULT_SN = #{ojtResultSn}
+    </select>
 
 </mapper>

@@ -33,6 +33,7 @@
                 </span>
         </h3>
         <div class="btn-st popButton">
+            <input type="button" id="modifyBtn" style="display:none; margin-right:5px;" class="k-button k-button-solid-primary" value="수정" onclick="studyJournal.saveBtn();"/>
             <input type="button" id="appBtn" style="display:none; margin-right:5px;" class="k-button k-button-solid-info" value="검토완료" onclick="studyJournal.appBtn();"/>
             <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="studyJournal.saveBtn();"/>
             <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>

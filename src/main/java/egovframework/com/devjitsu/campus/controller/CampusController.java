@@ -1272,6 +1272,14 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 전파학습 학습일지 단일 데이터  */
+    @RequestMapping("/campus/getStudyPropagInfoOne")
+    public String getStudyPropagInfoOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getStudyPropagInfoOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     /** 전파학습 학습일지 리스트 */
     @RequestMapping("/campus/getStudyPropagList")
     public String getStudyPropagList(@RequestParam Map<String, Object> params, Model model) {
@@ -1284,6 +1292,20 @@ public class CampusController {
     @RequestMapping("/campus/getStudyPropagUserList")
     public String getStudyPropagUserList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = campusService.getStudyPropagUserList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/getStudyPropagUserInfo")
+    public String getStudyPropagUserInfo(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getStudyPropagUserInfo(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/getStudyOjtUserInfo")
+    public String getStudyOjtUserInfo(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getStudyOjtUserInfo(params);
         model.addAttribute("list", list);
         return "jsonView";
     }
@@ -1567,6 +1589,13 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 학습조 학습일지 수정 */
+    @RequestMapping("/campus/setStudyJournalModify")
+    public String setStudyJournalModify(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        campusService.setStudyJournalModify(params, request, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
+
     @RequestMapping("/campus/setStudyResultSc")
     public String setStudyResultSc(@RequestParam Map<String, Object> params, Model model) {
         try{
@@ -1590,6 +1619,13 @@ public class CampusController {
     @RequestMapping("/campus/setStudyPropagInsert")
     public String setStudyPropagInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
         campusService.setStudyPropagInsert(params, request, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
+
+    /** 전파학습 학습일지 수정 */
+    @RequestMapping("/campus/setStudyPropagModify")
+    public String setStudyPropagModify(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        campusService.setStudyPropagModify(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
@@ -1632,6 +1668,13 @@ public class CampusController {
     @RequestMapping("/campus/setOjtResultInsert")
     public String setOjtResultInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
         campusService.setOjtResultInsert(params, request, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
+
+    /** OJT 학습일지 수정 */
+    @RequestMapping("/campus/setOjtResultModify")
+    public String setOjtResultModify(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        campusService.setOjtResultModify(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
@@ -2104,6 +2147,14 @@ public class CampusController {
         } catch(Exception e){
             e.printStackTrace();
         }
+        return "jsonView";
+    }
+
+    /** OJT 학습일지 단일 데이터  */
+    @RequestMapping("/campus/getStudyOjtInfoOne")
+    public String getStudyOjtInfoOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getStudyOjtInfoOne(params);
+        model.addAttribute("data", data);
         return "jsonView";
     }
 }
