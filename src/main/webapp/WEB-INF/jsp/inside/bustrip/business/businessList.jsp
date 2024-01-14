@@ -3,11 +3,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"/></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"/></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripPop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/business/business.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/business/businessList.js?v=${today}"/></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripList.js?v=${toDate}"/></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripList2.js?v=${today}"></script>
 
 <style>
     .k-footer-template td:nth-child(9) {
@@ -29,14 +29,14 @@
     }
 </style>
 
-<input type="hidden" id="pageName" value="bustripList"/>
+<input type="hidden" id="pageName" value="businessList"/>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">출장신청</h4>
-            <div class="title-road">캠매니저 > 출장관리 &gt; 출장신청</div>
+            <h4 class="panel-title">해외출장신청</h4>
+            <div class="title-road">캠매니저 > 출장관리 &gt; 해외출장신청</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -61,7 +61,7 @@
                         </td>
                         <th class="text-center th-color">구분</th>
                         <td>
-                            <input type="text" id="tripCode" style="width: 90%"/>
+                            <input type="text" id="tripCode" style="width: 90%" disabled/>
                         </td>
                         <th class="text-center th-color">관련사업</th>
                         <td>
@@ -87,5 +87,5 @@
 </form>
 
 <script type="text/javascript">
-    bustList.fn_defaultScript();
+    busiList.fn_defaultScript();
 </script>

@@ -137,6 +137,9 @@
                 TITLE,
                 USE_CAR,
                 USE_TRSPT,
+            <if test="nationCode != null and !''.equals(nationCode)">
+                NATION_CODE,
+            </if>
                 REG_EMP_SEQ,
                 REG_EMP_NAME
             )
@@ -164,6 +167,9 @@
                 #{title},
                 #{useCar},
                 #{useTrspt},
+            <if test="nationCode != null and !''.equals(nationCode)">
+                #{nationCode},
+            </if>
                 #{empSeq},
                 #{empName}
             )
@@ -403,6 +409,9 @@
             TITLE = #{title},
             USE_CAR = #{useCar},
             USE_TRSPT = #{useTrspt},
+        <if test="nationCode != null and !''.equals(nationCode)">
+            NATION_CODE = #{nationCode},
+        </if>
             MOD_EMP_SEQ = #{empSeq}
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
@@ -760,6 +769,15 @@
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
 
+    <select id="getBusinessExnpInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_EXNP
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
     <select id="getBustripExnpInfo" parameterType="map" resultType="map">
         SELECT
             *
@@ -848,6 +866,43 @@
         ORDER BY A.TRIP_CODE, A.EXNP_CODE, A.HR_BUSI_COST_INFO_SN DESC
     </select>
 
+    <select id="nationCodeList" parameterType="map" resultType="map">
+        /* nationCodeList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BUSI_CD
+        WHERE
+            LG_CD IS NOT NULL
+          AND
+            NATION_CD IS NULL
+    </select>
+
+    <select id="nationSmCodeList" parameterType="map" resultType="map">
+        /* nationSmCodeList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BUSI_CD
+        WHERE
+            GRP_SN = #{grpSn}
+          AND
+            LG_CD = #{lgCd}
+          AND
+            NATION_CD IS NOT NULL
+    </select>
+
+    <select id="getNationCode" parameterType="map" resultType="map">
+        /* getNationCode */
+        SELECT
+           *
+        FROM
+            CAM_INSIDE.DJ_HR_BUSI_CD
+        WHERE GRP_SN = 'NATION'
+          AND NATION_CD IS NOT NULL
+        ORDER BY NATION_CD_NM
+    </select>
+
     <insert id="setBustripCostInsert" parameterType="map">
         INSERT INTO CAM_INSIDE.DJ_HR_COST_INFO
             (
@@ -904,6 +959,28 @@
                 #{costAmt},
                 #{regEmpSeq},
                 #{regEmpName}
+            )
+    </insert>
+
+    <insert id="insNationCode" parameterType="map">
+        /* insNationCode */
+        INSERT INTO CAM_INSIDE.DJ_HR_BUSI_CD
+            (
+                GRP_SN,
+                GRP_NM,
+                LG_CD,
+                LG_CD_NM,
+                NATION_CD,
+                NATION_CD_NM
+            )
+        VALUES
+            (
+                #{grpSn},
+                #{grpNm},
+                #{lgCd},
+                #{lgCdNm},
+                #{nationCd},
+                #{nationCdNm}
             )
     </insert>
 

@@ -119,6 +119,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getBusinessExnpInfo(Map<String, Object> params) {
+        return bustripRepository.getBusinessExnpInfo(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params) {
         return bustripRepository.getBustripExnpInfo(params);
     }
@@ -136,6 +141,11 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public Map<String, Object> getBustripOne(Map<String, Object> params) {
         return bustripRepository.getBustripResultInfoR(params);
+    }
+
+    @Override
+    public Map<String, Object> getBusinessOne(Map<String, Object> params) {
+        return bustripRepository.getBustripReqInfo(params);
     }
 
     @Override
@@ -336,6 +346,21 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> nationCodeList(Map<String, Object> params) {
+        return bustripRepository.nationCodeList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> nationSmCodeList(Map<String, Object> params) {
+        return bustripRepository.nationSmCodeList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getNationCode(Map<String, Object> params) {
+        return bustripRepository.getNationCode(params);
+    }
+
+    @Override
     public void setBustripCostInsert(Map<String, Object> params) {
         bustripRepository.setBustripCostInsert(params);
     }
@@ -343,6 +368,11 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public void setBusinessCostInsert(Map<String, Object> params) {
         bustripRepository.setBusinessCostInsert(params);
+    }
+
+    @Override
+    public void insNationCode(Map<String, Object> params) {
+        bustripRepository.insNationCode(params);
     }
 
     @Override

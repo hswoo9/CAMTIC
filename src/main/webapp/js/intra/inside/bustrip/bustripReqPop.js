@@ -15,6 +15,7 @@ const bustripReq = {
 
         /** 출장코드 세팅 */
         bustrip.fn_tripCodeSet();
+
         /** 출장신청기간 세팅 */
         bustrip.fn_reqDtSet();
         /** 관련사업 세팅 */
@@ -48,7 +49,16 @@ const bustripReq = {
 
         }
 
+        /** 해외출장 메뉴에서 신청하면 자동으로 바인딩*/
+        if($("#paramsTripCode").val() == "4"){
+            $("#tripCode").data("kendoRadioGroup").value(4);
+            $("#tripCode").data("kendoRadioGroup").enable(false);
+            $("#tripCode").data("kendoRadioGroup").trigger("change");
 
+            business.fn_nationCodeSet();
+            $(".bustripTh").hide();
+            $(".businessTh").show();
+        }
     },
 
     dataSet: function(){
@@ -64,10 +74,21 @@ const bustripReq = {
         console.log(busInfo);
         var apprBtnBoxHtml = "";
         if(busInfo.STATUS == 0){
-            apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripList.bustripDrafting(\""+busInfo.HR_BIZ_REQ_ID+"\");'>" +
-                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                "<span class='k-button-text'>상신</span>" +
-                "</button>";
+            if(busInfo.TRIP_CODE != "4"){
+                apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripList.bustripDrafting(\""+busInfo.HR_BIZ_REQ_ID+"\");'>" +
+                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                    "<span class='k-button-text'>상신</span>" +
+                    "</button>";
+            }else{
+                if(busInfo.EXP_STAT == 100){
+                    apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripList.bustripDrafting(\""+busInfo.HR_BIZ_REQ_ID+"\");'>" +
+                        "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                        "<span class='k-button-text'>상신</span>" +
+                        "</button>";
+                }else{
+                    apprBtnBoxHtml = "<input type='button' id='saveBtn' class='k-button k-button-solid-info' value='사전정산' onclick='bustPop.bustripExnpPop(\""+busInfo.HR_BIZ_REQ_ID+"\")' />";
+                }
+            }
         } else if(busInfo.STATUS == 10 || busInfo.STATUS == 50){
             apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+busInfo.DOC_ID+"\", \""+busInfo.APPRO_KEY+"\", 1, \"retrieve\");'>" +
                 "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
@@ -199,7 +220,8 @@ const bustripReq = {
         if($("#tripCode").data("kendoRadioGroup").value() == ""){ alert("출장 구분을 선택해주세요."); return;}
         if($("#project").data("kendoRadioGroup").value() != "1" && $("#busnName").val() == ""){ alert("사업명을 입력해주세요."); return;}
         if($("#visitCrm").val() == ""){ alert("방문지를 입력해주세요."); return; }
-        if($("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
+        if($("#tripCode").data("kendoRadioGroup").value() != "4" && $("#visitLoc").val() == ""){ alert("출장지역을 입력해주세요."); return; }
+        if($("#tripCode").data("kendoRadioGroup").value() == "4" && $("#nationList").data("kendoDropDownList").value() == ""){ alert("출장국가를 선택해주세요."); return; }
         if($("#visitLocCode").val() == "999" && $("#visitLocSub").val() == ""){ alert("경유지명을 입력해주세요."); return;}
         if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
 
@@ -231,7 +253,13 @@ const bustripReq = {
             formData.append("crmSn", "99999999");
         }
         formData.append("visitCrm", $("#visitCrm").val());
-        formData.append("visitLoc", $("#visitLoc").val());
+
+        if($("#tripCode").data("kendoRadioGroup").value() != "4"){
+            formData.append("visitLoc", $("#visitLoc").val());
+        }else{
+            formData.append("visitLoc", $("#nationList").data("kendoDropDownList").text());
+            formData.append("nationCode", $("#nationList").data("kendoDropDownList").value());
+        }
         formData.append("visitLocSub", $("#visitLocCode").val() == "999" || $("#visitLocCode").val() == "" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
         formData.append("visitLocCode", $("#visitLocCode").val());
         formData.append("tripDayFr", $("#date1").val());

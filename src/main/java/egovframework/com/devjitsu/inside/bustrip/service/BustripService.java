@@ -40,9 +40,13 @@ public interface BustripService {
 
     Map<String, Object> getBustripOne(Map<String, Object> params);
 
+    Map<String, Object> getBusinessOne(Map<String, Object> params);
+
     void saveBustripExnpPop(Map<String, Object> params);
 
     void insBustripExnpResult(Map<String, Object> params);
+
+    List<Map<String, Object>> getBusinessExnpInfo(Map<String, Object> params);
 
     List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params);
 
@@ -52,9 +56,17 @@ public interface BustripService {
 
     List<Map<String, Object>> getBusinessCostList(Map<String, Object> params);
 
+    List<Map<String, Object>> nationCodeList(Map<String, Object> params);
+
+    List<Map<String, Object>> nationSmCodeList(Map<String, Object> params);
+
+    List<Map<String, Object>> getNationCode(Map<String, Object> params);
+
     void setBustripCostInsert(Map<String, Object> params);
 
     void setBusinessCostInsert(Map<String, Object> params);
+
+    void insNationCode(Map<String, Object> params);
 
     void setBustripFuelCostInsert(Map<String, Object> params);
 

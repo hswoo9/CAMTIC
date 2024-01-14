@@ -60,6 +60,17 @@ public class BustripController {
         return "inside/bustrip/bustripList2";
     }
 
+    /** 해외출장신청 리스트 페이지 */
+    @RequestMapping("/bustrip/businessList.do")
+    public String businessList(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/bustrip/business/businessList";
+    }
+
     /** 출장신청 등록 팝업*/
     @RequestMapping("/bustrip/pop/bustripReqPop.do")
     public String bustripReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
@@ -238,6 +249,31 @@ public class BustripController {
         return "popup/inside/bustrip/bustripExnpPop";
     }
 
+    @RequestMapping("/bustrip/pop/businessExnpPop.do")
+    public String businessExnpPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        /** 해외출장 사전정산 추가 */
+        List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);
+        List<Map<String, Object>> exnpData = bustripService.getBusinessExnpInfo(params);
+        model.addAttribute("rs", bustripService.getBusinessOne(params));
+
+        if(exnpData.size() == 0){
+            model.addAttribute("list", list);
+            model.addAttribute("type", "ins");
+        } else{
+            model.addAttribute("list", exnpData);
+            model.addAttribute("type", "upd");
+        }
+
+        model.addAttribute("rs", bustripService.getBustripOne(params));
+        model.addAttribute("params", params);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/business/businessExnpPop";
+    }
+
     //출장결과조회
     @RequestMapping("/bustrip/getBustripOne")
     public String getBustripOne(@RequestParam Map<String, Object> params, Model model) {
@@ -351,7 +387,7 @@ public class BustripController {
         return "popup/inside/bustrip/bustripCostReqPop";
     }
 
-    //국외출장여비 리스트 페이지
+    //해외출장여비 리스트 페이지
     @RequestMapping("/bustrip/businessCostList.do")
     public String businessCostList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -362,13 +398,24 @@ public class BustripController {
         return "inside/bustrip/business/businessCostList";
     }
 
-    //국외출장여비 설정 팝업
+    //해외출장여비 설정 팝업
     @RequestMapping("/bustrip/pop/businessCostReqPop.do")
     public String businessCostReqPop(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         return "popup/inside/bustrip/business/businessCostReqPop";
+    }
+
+    //해외출장여비 리스트 페이지
+    @RequestMapping("/bustrip/nationCodeManagement.do")
+    public String nationCodeManagement(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/bustrip/business/nationCodeManagement";
     }
 
     /**
@@ -600,6 +647,30 @@ public class BustripController {
         return "jsonView";
     }
 
+    //해외출장 나라코드 리스트
+    @RequestMapping("/bustrip/nationCodeList")
+    public String nationCodeList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.nationCodeList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //해외출장 나라코드 소분류 리스트
+    @RequestMapping("/bustrip/nationSmCodeList")
+    public String nationSmCodeList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.nationSmCodeList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    //해외출장 나라코드 리스트
+    @RequestMapping("/bustrip/getNationCode")
+    public String getNationCode(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getNationCode(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     //여비등록
     @RequestMapping("/bustrip/setBustripCostInsert")
     public String setBustripCostInsert(@RequestParam Map<String, Object> params, Model model){
@@ -611,6 +682,18 @@ public class BustripController {
     @RequestMapping("/bustrip/setBusinessCostInsert")
     public String setBusinessCostInsert(@RequestParam Map<String, Object> params, Model model){
         bustripService.setBusinessCostInsert(params);
+        return "jsonView";
+    }
+
+    //해외출장 나라코드등록
+    @RequestMapping("/bustrip/insNationCode")
+    public String insNationCode(@RequestParam Map<String, Object> params, Model model){
+        try{
+            bustripService.insNationCode(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 

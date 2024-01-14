@@ -116,6 +116,10 @@ public class BustripRepository extends AbstractDAO {
         update("bustrip.updBustripReqDriver", params);
     }
 
+    public List<Map<String, Object>> getBusinessExnpInfo(Map<String, Object> params) {
+        return selectList("bustrip.getBusinessExnpInfo", params);
+    }
+
     public List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params) {
         return selectList("bustrip.getBustripExnpInfo", params);
     }
@@ -144,12 +148,28 @@ public class BustripRepository extends AbstractDAO {
         return selectList("bustrip.getBusinessCostList", params);
     }
 
+    public List<Map<String, Object>> nationCodeList(Map<String, Object> params) {
+        return selectList("bustrip.nationCodeList", params);
+    }
+
+    public List<Map<String, Object>> nationSmCodeList(Map<String, Object> params) {
+        return selectList("bustrip.nationSmCodeList", params);
+    }
+
+    public List<Map<String, Object>> getNationCode(Map<String, Object> params) {
+        return selectList("bustrip.getNationCode", params);
+    }
+
     public void setBustripCostInsert(Map<String, Object> params) {
         insert("bustrip.setBustripCostInsert", params);
     }
 
     public void setBusinessCostInsert(Map<String, Object> params) {
         insert("bustrip.setBusinessCostInsert", params);
+    }
+
+    public void insNationCode(Map<String, Object> params) {
+        insert("bustrip.insNationCode", params);
     }
 
     public void setBustripFuelCostInsert(Map<String, Object> params) {

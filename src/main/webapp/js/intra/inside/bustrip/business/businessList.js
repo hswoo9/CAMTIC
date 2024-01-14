@@ -1,14 +1,14 @@
 let bustSum = 0;
 
-var bustList = {
+var busiList = {
 
     global : {
         saveAjaxData : "",
     },
 
     fn_defaultScript: function(){
-        bustList.pageSet();
-        bustList.gridReload();
+        busiList.pageSet();
+        busiList.gridReload();
     },
 
     pageSet: function(){
@@ -17,6 +17,7 @@ var bustList = {
 
         /** 출장구분 */
         bustrip.fn_tripCodeSearchSet();
+        $("#tripCode").data("kendoDropDownList").value("4");
 
         /** 관련사업 */
         bustrip.fn_projectSearchSet();
@@ -25,7 +26,7 @@ var bustList = {
     },
 
     gridReload: function (){
-        bustList.global.searchAjaxData = {
+        busiList.global.searchAjaxData = {
             startDate : $("#start_date").val(),
             endDate : $("#end_date").val(),
             tripCode : $("#tripCode").data("kendoDropDownList").value(),
@@ -34,7 +35,7 @@ var bustList = {
             empSeq : $("#regEmpSeq").val()
         }
 
-        bustList.mainGrid("/bustrip/getBustripList", bustList.global.searchAjaxData);
+        busiList.mainGrid("/bustrip/getBustripList", busiList.global.searchAjaxData);
     },
 
     mainGrid: function(url, params){
@@ -53,7 +54,7 @@ var bustList = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="busiList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -184,9 +185,9 @@ var bustList = {
                     width: 60,
                     template : function (e){
                         if(e.STATUS == 100){
-                            return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
+                            return '<button type="button" class="k-button k-button-solid-info" onclick="busiList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
                         } else {
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="busiList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
                         }
                     }
                 }, {
@@ -217,9 +218,9 @@ var bustList = {
                     width: 80,
                     template : function (e){
                         if(e.RS_STATUS == 100 && e.EXP_STAT == 100 && e.PAY_APP_SN == null){
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="busiList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
                         }else if (e.PAY_APP_SN != null){
-                            return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">지급신청</button>'
+                            return '<button type="button" class="k-button k-button-solid-info" onclick="busiList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">지급신청</button>'
                         }else{
                             return '-';
                         }
@@ -296,5 +297,5 @@ var bustList = {
 }
 
 function gridReload(){
-    bustList.gridReload();
+    busiList.gridReload();
 }

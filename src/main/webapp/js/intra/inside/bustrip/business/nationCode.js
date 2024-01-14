@@ -7,7 +7,6 @@ var codeB = {
     fn_defaultScript : function() {
         customKendo.fn_textBox(["cmGroupCodeNm"]);
         codeB.gridReload();
-        codeB.cSearchCode();
     },
 
     gridReload : function(){
@@ -25,35 +24,6 @@ var codeB = {
             height: 360,
             sortable: true,
             scrollable: true,
-            toolbar: [
-                {
-                    name : 'button',
-                    template : function (e){
-                        return  '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="codeB.gridReload(\'mainGrid\')">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'excel',
-                    text: '엑셀다운로드'
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return  '<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="codeB.grpCodeRegist()">' +
-                            '	<span class="k-icon k-i-plus k-button-icon"></span>'+
-                            '	<span class="k-button-text">그룹코드 등록</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return  '<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="codeB.cmGroupCodeRegist()">' +
-                            '	<span class="k-icon k-i-plus k-button-icon"></span>'+
-                            '	<span class="k-button-text">대분류 코드 등록</span>' +
-                            '</button>';
-                    }
-                }
-            ],
             excel: {
                 fileName: " 코드 목록.xlsx",
                 filterable: true
@@ -98,10 +68,6 @@ var codeB = {
 
     },
 
-    grpCodeRegist:function (){
-        $("#grpCodeModal").data("kendoWindow").open();
-    },
-
     cmDetailCodeList : function(grpSn, lgCd){
         var dataSource2 = new kendo.data.DataSource({
             serverPaging: false,
@@ -120,30 +86,20 @@ var codeB = {
             },
             schema : {
                 data: function (data) {
-                    return data;
+                    return data.list;
                 },
                 total: function (data) {
-                    return data.length;
-                },
-                model: {
-                    id: "PJT_CD",
-                    fields: {
-                        "PJT_CD": { type: "text" }
-                    }
+                    return data.list.length;
                 }
             }
         });
 
-        var mainGrid2 = $("#mainGrid2").kendoGrid({
+        $("#mainGrid2").kendoGrid({
             dataSource: dataSource2,
             height: 315,
             sortable: true,
             scrollable: true,
             toolbar : [
-                {
-                    name : 'excel',
-                    text: '엑셀다운로드'
-                },
                 {
                     name : 'create',
                     template : function (e){
@@ -167,40 +123,13 @@ var codeB = {
                     field: "LG_CD_NM",
                     title: "대분류코드",
                 }, {
-                    field: "PJT_CD",
+                    field: "NATION_CD",
                     title: "코드명",
                 }, {
-                    field: "PJT_CD_NM",
+                    field: "NATION_CD_NM",
                     title: "코드설명",
                 }]
         }).data("kendoGrid");
-    },
-
-    cSearchCode : function(){
-        codeB.global.searchAjaxData = {
-            dropDown : "Y"
-        }
-
-        var result = customKendo.fn_customAjax("/bustrip/nationGroupCodeList", codeB.global.searchAjaxData);
-        if(result.flag){
-            var itemType = result.list;
-            var defaultType = {
-                "GRP_SN" : "",
-                "GRP_NM" : "선택"
-            }
-            itemType.unshift(defaultType);
-            $("#cmGroupCode").kendoDropDownList({
-                dataSource : itemType,
-                dataValueField : "GRP_SN",
-                dataTextField : "GRP_NM",
-                index : 0
-            });
-        }
-    },
-
-    cmGroupCodeRegist : function(){
-        $("#cmGroupCodeRegistM").data("kendoWindow").title(" 그룹코드 등록");
-        $("#cmGroupCodeRegistM").data("kendoWindow").open();
     },
 
     cmCodeRegist : function(){

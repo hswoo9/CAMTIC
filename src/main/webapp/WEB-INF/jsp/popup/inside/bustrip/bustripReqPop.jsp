@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/business/business.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripList.js?v=${today}"></script>
 
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${today}"></script>
@@ -30,7 +32,7 @@
 <input type="hidden" id="pageName" value="bustripReqPop"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="paramsType" value="${params.type}" />
-
+<input type="hidden" id="paramsTripCode" value="${params.tripCode}"/>
 <input type="hidden" id="paramsPjtSn" value="${params.pjtSn}"/>
 
 <form id="bustripDraftFrm" method="post">
@@ -144,10 +146,16 @@
                         <label for="crmYn">CRM 연계</label>
                     </span>
                 </td>
-                <th><span class="red-star">*</span>출장지역</th>
-                <td>
+                <th class="bustripTh"><span class="red-star">*</span>출장지역</th>
+                <td class="bustripTh">
                     <input id="visitLoc" style="width: 75%;" />
                     <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="bustripReq.addrSearch();"/>
+                </td>
+
+                <th class="businessTh" style="display: none"><span class="red-star">*</span>출장국가</th>
+                <td class="businessTh" style="display: none">
+                    <input id="nationList" style="width: 75%;" />
+                    <span style="margin-left: 3px; color: red" id="nationText"></span>
                 </td>
             </tr>
             <tr>
