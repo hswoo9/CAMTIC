@@ -31,7 +31,8 @@
             MP.INSPECT_STATUS,
             MP.INSPECT_YN,
             PA.PAY_APP_SN,
-            PA.DOC_STATUS AS PAY_DOC_STATUS
+            PA.DOC_STATUS AS PAY_DOC_STATUS,
+            PC.PRI_PAY
             FROM
             CAM_MNG.DJ_MNG_PURC MP
             JOIN
