@@ -73,6 +73,7 @@ public class CampusRepository extends AbstractDAO  {
     public Map<String, Object> getStudyPropagInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyPropagInfoOne", params); }
     public List<Map<String, Object>> getStudyPropagList(Map<String, Object> params) { return selectList("campus.getStudyPropagList", params); }
     public List<Map<String, Object>> getStudyPropagUserList(Map<String, Object> params) { return selectList("campus.getStudyPropagUserList", params); }
+    public List<Map<String, Object>> getStudyPropagUserInfo(Map<String, Object> params) { return selectList("campus.getStudyPropagUserInfo", params); }
     public List<Map<String, Object>> getOjtPlanList(Map<String, Object> params) { return selectList("campus.getOjtPlanList", params); }
     public Map<String, Object> getOjtPlanOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOjtPlanOne", params); }
     public List<Map<String, Object>> getOjtResultList(Map<String, Object> params) { return selectList("campus.getOjtResultList", params); }
@@ -149,10 +150,12 @@ public class CampusRepository extends AbstractDAO  {
     public void setOjtResultInsert(Map<String, Object> params) { insert("campus.setOjtResultInsert", params); }
     public void setOjtUserInsert(Map<String, Object> params) { insert("campus.setOjtUserInsert", params); }
     public void setPropagUserInsert(Map<String, Object> params) { insert("campus.setPropagUserInsert", params); }
+    public void setPropagUserDelete(Map<String, Object> params) {delete("campus.setPropagUserDelete", params);}
     public void setPropagDelete(Map<String, Object> params) { update("campus.setPropagDelete", params); }
     public void setResultPropagUpd(Map<String, Object> params) { update("campus.setResultPropagUpd", params); }
     public void setResultPropagUserUpd(Map<String, Object> params) { update("campus.setResultPropagUserUpd", params); }
     public void setStudyPropagInsert(Map<String, Object> params) { insert("campus.setStudyPropagInsert", params); }
+    public void setStudyPropagModify(Map<String, Object> params) { update("campus.setStudyPropagModify", params); }
     public void setOpenStudyInfoIns(Map<String, Object> params) { insert("campus.setOpenStudyInfoIns", params); }
 
     public void setOpenStudyRealEduTimeUpd(Map<String, Object> params) { update("campus.setOpenStudyRealEduTimeUpd", params); }

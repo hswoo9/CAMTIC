@@ -33,6 +33,7 @@ public interface CampusService {
     Map<String, Object> getStudyPropagInfoOne(Map<String, Object> params);
     List<Map<String, Object>> getStudyPropagList(Map<String, Object> params);
     List<Map<String, Object>> getStudyPropagUserList(Map<String, Object> params);
+    List<Map<String, Object>> getStudyPropagUserInfo(Map<String, Object> params);
     List<Map<String, Object>> getOjtPlanList(Map<String, Object> params);
     Map<String, Object> getOjtPlanOne(Map<String, Object> params);
     List<Map<String, Object>> getOjtResultList(Map<String, Object> params);
@@ -115,6 +116,7 @@ public interface CampusService {
 
     /** 전파학습 삭제 */
     void setStudyPropagInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
+    void setStudyPropagModify(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
     void setPropagDelete(Map<String, Object> params);
     void setResultPropagUpd(Map<String, Object> params);
     /** */

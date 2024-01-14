@@ -80,7 +80,7 @@ const studyPropag = {
             $.ajax({
                 url: "/campus/getStudyPropagInfoOne",
                 data: {
-                    pk: $("#studyPropagSn").val()
+                    studyPropagSn: $("#studyPropagSn").val()
                 },
                 type: "post",
                 dataType: "json",
@@ -94,12 +94,55 @@ const studyPropag = {
                     $("#journalEndTime").val(result.data.END_TIME);
                     $("#studyLocation").val(result.data.LOCATION);
                     $("input[name='studySaveType'][value='" + result.data.SAVE_TYPE + "']").prop("checked", true);
+                    /*$("#studySaveType").val(result.data.SAVE_TYPE);*/
+                    $("#studySaveType").data("kendoRadioGroup").value(result.data.SAVE_TYPE);
                     $("#studyContent").val(result.data.PROPAG_CONTENT);
 
-                    /*$("#readerUserName").val(propag.DUTY_MONTH);
-                   $("#readerUserSeq").val(propag.DUTY_NAME);
-                   $("#studyUserName").val(propag.OUTLINE_NAME);
-                   $("#studyUserSeq").val(propag.OUTLINE_DETAIL);*/
+                    $.ajax({
+                        url: "/campus/getStudyPropagUserInfo",
+                        data: {
+                            studyPropagSn: $("#studyPropagSn").val(),
+                            propagClassSn: '4'
+                        },
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function (result) {
+                            var propagEmpName = result.list.map(function (item) {
+                                return item.PROPAG_EMP_NAME;
+                            }).join(',');
+
+                            var propagEmpSeq = result.list.map(function (item) {
+                                return item.PROPAG_EMP_SEQ;
+                            }).join(',');
+                            $("#readerUserName").val(propagEmpName);
+                            $("#readerUserSeq").val(propagEmpSeq);
+                        }
+                    });
+
+                    $.ajax({
+                        url: "/campus/getStudyPropagUserInfo",
+                        data: {
+                            studyPropagSn: $("#studyPropagSn").val(),
+                            propagClassSn: '5'
+                        },
+                        type: "post",
+                        dataType: "json",
+                        async: false,
+                        success: function (result) {
+
+                            var propagEmpName = result.list.map(function (item) {
+                                return item.PROPAG_EMP_NAME;
+                            }).join(',');
+
+                            var propagEmpSeq = result.list.map(function (item) {
+                                return item.PROPAG_EMP_SEQ;
+                            }).join(',');
+
+                           $("#studyUserName").val(propagEmpName);
+                           $("#studyUserSeq").val(propagEmpSeq);
+                        }
+                    });
                 }
             });
         }
@@ -129,6 +172,8 @@ const studyPropag = {
     },
 
     saveBtn: function(){
+        let mode = $("#mode").val();
+        let studyPropagSn =  $("#studyPropagSn").val();
         let studyInfoSn = $("#pk").val();
         let journalDt = $("#journalDt").val();
         let journalStartTime = $("#journalStartTime").val();
@@ -182,6 +227,8 @@ const studyPropag = {
         // } */
 
         let data = {
+            mode: mode,
+            studyPropagSn: studyPropagSn,
             studyInfoSn: studyInfoSn,
             propagDt: journalDt,
             startTime: journalStartTime,
@@ -204,7 +251,7 @@ const studyPropag = {
             fd.append("files", $("#files")[0].files[0]);
         }
 
-        if($("#studyPropagSn") !="" || $("#studyPropagSn") != null) {
+        if(mode == 'Upd') {
             if(!confirm("학습일지를 수정하시겠습니까?")){
                 return;
             }
@@ -229,7 +276,7 @@ const studyPropag = {
                 }
             });
 
-        } else{
+        }else if (mode == 'Req'){
             if(!confirm("학습일지를 저장하시겠습니까?")){
                 return;
             }
