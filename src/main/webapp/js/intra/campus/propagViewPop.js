@@ -247,7 +247,7 @@ const propagView = {
                 grid.element.off('dblclick');
                 grid.tbody.find("tr").dblclick(function(){
                     const dataItem = grid.dataItem($(this).closest("tr"));
-                    studyView.studyJournalPop(2, dataItem.STUDY_INFO_SN, dataItem.STUDY_JOURNAL_SN);
+                    propagView.studyPropagPop(2, dataItem.STUDY_INFO_SN, dataItem.STUDY_PROPAG_SN);
                 });
             },
             columns: [

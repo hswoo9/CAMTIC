@@ -69,6 +69,8 @@ public class CampusRepository extends AbstractDAO  {
     public List<Map<String, Object>> getStudyUserList(Map<String, Object> params) { return selectList("campus.getStudyUserList", params); }
     public List<Map<String, Object>> getStudyJournalList(Map<String, Object> params) { return selectList("campus.getStudyJournalList", params); }
     public Map<String, Object> getStudyJournalOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyJournalOne", params); }
+
+    public Map<String, Object> getStudyPropagInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyPropagInfoOne", params); }
     public List<Map<String, Object>> getStudyPropagList(Map<String, Object> params) { return selectList("campus.getStudyPropagList", params); }
     public List<Map<String, Object>> getStudyPropagUserList(Map<String, Object> params) { return selectList("campus.getStudyPropagUserList", params); }
     public List<Map<String, Object>> getOjtPlanList(Map<String, Object> params) { return selectList("campus.getOjtPlanList", params); }
@@ -137,6 +139,9 @@ public class CampusRepository extends AbstractDAO  {
     public void setStudyUserMngUpdate(Map<String, Object> params) { update("campus.setStudyUserMngReset", params); update("campus.setStudyUserMngUpdate", params); }
     public void studyReq(Map<String, Object> params) { update("campus.studyReq", params); }
     public void setStudyJournalInsert(Map<String, Object> params) { insert("campus.setStudyJournalInsert", params); }
+    public void setStudyJournalModify(Map<String, Object> params) { update("campus.setStudyJournalModify", params); }
+    public void setStudyResultUserDelete(Map<String, Object> params) {delete("campus.setStudyResultUserDelete", params);}
+
     public void setStudyJournalApp(Map<String, Object> params) { update("campus.setStudyJournalApp", params); }
     public void setOjtPlanInsert(Map<String, Object> params) { insert("campus.setOjtPlanInsert", params); }
     public void setOjtPlanUpdate(Map<String, Object> params) { update("campus.setOjtPlanUpdate", params); }

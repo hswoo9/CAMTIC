@@ -67,6 +67,12 @@ const studyPropag = {
         if(data.studyPropagSn != ""){
             $("#saveBtn").css("display", "none");
             $("#selMemBtn").css("display", "none");
+
+        }
+
+        if(data.studyPropagSn != "" /*&& 학습완료전*/){
+            $("#modifyBtn").css("display", "");
+
         }
 
         const info = customKendo.fn_customAjax("/campus/getstudyPropagOne", data).data;
@@ -169,29 +175,56 @@ const studyPropag = {
             fd.append("files", $("#files")[0].files[0]);
         }
 
-        if(!confirm("학습일지를 저장하시겠습니까?")){
-            return;
-        }
-
-        $.ajax({
-            url: "/campus/setStudyPropagInsert",
-            data : fd,
-            type : "post",
-            dataType : "json",
-            contentType: false,
-            processData: false,
-            enctype : 'multipart/form-data',
-            async: false,
-            success: function(result){
-                console.log(result);
-                alert("학습일지 저장이 완료되었습니다.");
-                opener.gridReload();
-                window.close();
-            },
-            error: function() {
-                alert("데이터 저장 중 에러가 발생했습니다.");
+        if($("#studyPropagSn") !="" || $("#studyPropagSn") != null) {
+            if(!confirm("학습일지를 수정하시겠습니까?")){
+                return;
             }
-        });
+
+            $.ajax({
+                url: "/campus/setStudyPropagModify",
+                data : fd,
+                type : "post",
+                dataType : "json",
+                contentType: false,
+                processData: false,
+                enctype : 'multipart/form-data',
+                async: false,
+                success: function(result){
+                    console.log(result);
+                    alert("학습일지 수정이 완료되었습니다.");
+                    opener.gridReload();
+                    window.close();
+                },
+                error: function() {
+                    alert("데이터 수정 중 에러가 발생했습니다.");
+                }
+            });
+
+        } else{
+            if(!confirm("학습일지를 저장하시겠습니까?")){
+                return;
+            }
+
+            $.ajax({
+                url: "/campus/setStudyPropagInsert",
+                data : fd,
+                type : "post",
+                dataType : "json",
+                contentType: false,
+                processData: false,
+                enctype : 'multipart/form-data',
+                async: false,
+                success: function(result){
+                    console.log(result);
+                    alert("학습일지 저장이 완료되었습니다.");
+                    opener.gridReload();
+                    window.close();
+                },
+                error: function() {
+                    alert("데이터 저장 중 에러가 발생했습니다.");
+                }
+            });
+        }
 
     },
 

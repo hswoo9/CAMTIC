@@ -1272,6 +1272,14 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 전파학습 학습일지 단일 데이터  */
+    @RequestMapping("/campus/getStudyPropagInfoOne")
+    public String getStudyPropagInfoOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getStudyPropagInfoOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     /** 전파학습 학습일지 리스트 */
     @RequestMapping("/campus/getStudyPropagList")
     public String getStudyPropagList(@RequestParam Map<String, Object> params, Model model) {
@@ -1564,6 +1572,13 @@ public class CampusController {
     @RequestMapping("/campus/setStudyJournalInsert")
     public String setStudyJournalInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
         campusService.setStudyJournalInsert(params, request, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
+
+    /** 학습조 학습일지 수정 */
+    @RequestMapping("/campus/setStudyJournalModify")
+    public String setStudyJournalModify(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        campusService.setStudyJournalModify(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 

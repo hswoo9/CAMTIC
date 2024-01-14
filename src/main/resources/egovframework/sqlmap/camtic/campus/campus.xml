@@ -620,6 +620,19 @@
         WHERE STUDY_JOURNAL_SN = #{studyJournalSn}
     </select>
 
+    <select id="getStudyPropagInfoOne" resultType="map" parameterType="map">
+        /* getStudyPropagInfoOne */
+        SELECT
+            *
+        FROM
+            CAMPUS.DJ_STUDY_PROPAG CSP
+                LEFT JOIN
+            CAM_COMMON.DJ_FILE_INFO DFI
+            ON
+                CSP.PROPAG_FILE_SN = DFI.FILE_NO
+        WHERE STUDY_PROPAG_SN = #{pk}
+    </select>
+
     <select id="getStudyPropagList" resultType="map" parameterType="map">
         /* getStudyPropagList */
         SELECT
@@ -1636,7 +1649,8 @@
                 JOURNAL_AMT_CLASS,
                 JOURNAL_AMT_CLASS_TEXT,
                 JOURNAL_AMT_ETC,
-                REG_EMP_NAME
+                REG_EMP_NAME,
+                REG_EMP_SEQ
             )
         VALUES
             (
@@ -1654,12 +1668,42 @@
                 #{journalAmtClass},
                 #{journalAmtClassText},
                 #{journalAmtEtc},
-                #{regEmpName}
+                #{regEmpName},
+                #{regEmpSeq}
             )
         <selectKey keyProperty="studyJournalSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_STUDY_JOURNAL'
         </selectKey>
     </insert>
+
+    <update id="setStudyJournalModify" parameterType="map">
+        UPDATE
+            CAMPUS.DJ_STUDY_JOURNAL
+        SET
+            STUDY_NAME =  #{studyName},
+            STUDY_EMP_SEQ =  #{studyEmpSeq},
+            STUDY_EMP_NAME = #{studyEmpName},
+            JOURNAL_DT = #{journalDt},
+            JOURNAL_START_TIME = #{journalStartTime},
+            JOURNAL_END_TIME = #{journalEndTime},
+            JOURNAL_TIME = #{realEduTime},
+            JOURNAL_LOCATE = #{studyLocation},
+            JOURNAL_CONTENT = #{studyContent},
+            JOURNAL_AMT = #{studyMoney},
+            JOURNAL_AMT_CLASS = #{journalAmtClass},
+            JOURNAL_AMT_CLASS_TEXT = #{journalAmtClassText},
+            JOURNAL_AMT_ETC = #{journalAmtEtc}
+        WHERE
+            STUDY_JOURNAL_SN = #{studyJournalSn}
+    </update>
+
+    <delete id="setStudyResultUserDelete" parameterType="map">
+            /* setStudyResultUserDelete */
+            DELETE FROM
+                CAMPUS.DJ_STUDY_RESULT_USER
+            WHERE
+                STUDY_JOURNAL_SN = #{studyJournalSn}
+    </delete>
 
     <update id="setStudyResultModify" parameterType="map">
         UPDATE
@@ -1678,6 +1722,7 @@
             STUDY_RESULT_SN = #{studyResultSn}
 
     </update>
+
     <insert id="setStudyResult" parameterType="map">
         /*setStudyResult*/
         INSERT INTO CAMPUS.DJ_STUDY_RESULT
