@@ -13,6 +13,12 @@
         text-decoration: underline !important;
         cursor: pointer;
     }
+
+    .k-grid-content td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 </style>
 
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
@@ -39,9 +45,9 @@
                         <col width="25%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">상태</th>
+                        <th class="text-center th-color">구분</th>
                         <td>
-                            <input type="text" id="searchDept" style="width: 150px;">
+                            <input type="text" id="eviType" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

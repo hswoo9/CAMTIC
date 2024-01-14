@@ -188,6 +188,7 @@
                         <col style="width: 6%;">
                         <col style="width: 6%;">
                         <col style="width: 5%;">
+                        <col style="width: 5%;">
                         <col style="width: 6%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
@@ -204,6 +205,7 @@
                         <th>증빙유형</th>
                         <th>상호</th>
                         <th>사업자등록번호</th>
+                        <th>대표자명</th>
                         <th>비고</th>
                         <th>거래일</th>
                         <th>총액</th>
@@ -230,6 +232,9 @@
                         </td>
                         <td>
                             <input type="text" id="regNo0" class="regNo">
+                        </td>
+                        <td>
+                            <input type="text" id="ceoNm0" class="ceoNm">
                         </td>
                         <td>
                             <input type="text" id="etc0" class="etc">
