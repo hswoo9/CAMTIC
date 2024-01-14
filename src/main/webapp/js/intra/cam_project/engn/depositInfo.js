@@ -87,17 +87,17 @@ var depoInfo = {
                 }, {
                     title: "공급가액",
                     template : function(e){
-                        return "<div style='text-align:right;'>" + comma(e.DEPO_AMT - (e.DEPO_AMT / 10)) + "</div>";
+                        return "<div style='text-align:right;'>" + comma(Math.round(Number(e.DEPO_AMT) / 1.1)) + "</div>";
                     }
                 }, {
                     title: "세엑",
                     template : function(e){
-                        return "<div style='text-align:right;'>" + comma(e.DEPO_AMT / 10) + "</div>";
+                        return "<div style='text-align:right;'>" + comma(Number(e.DEPO_AMT) - Math.round(Number(e.DEPO_AMT) / 1.1)) + "</div>";
                     }
                 }, {
                     title: "합계",
                     template : function(e){
-                        return "<div style='text-align:right;'>" + comma(e.DEPO_AMT) + "</div>";
+                        return "<div style='text-align:right;'>" + comma(Number(e.DEPO_AMT)) + "</div>";
 
                     }
                 }, {
@@ -106,29 +106,53 @@ var depoInfo = {
                         return e.PAY_INCP_DE;
                     }
                 }, {
-                    title: "입금일",
+                    title: "입금일자",
                     template : function(e){
-                        return '';
+                        if(e.LAST_DT != null && e.LAST_DT != "" && e.LAST_DT != undefined){
+                            return e.LAST_DT;
+                        } else {
+                            return "";
+                        }
                     }
                 }, {
                     title: "입금액",
                     template : function(e){
-                        return "<div style='text-align:right;'>" + comma(0) + "</div>";
+                        var totAmt = 0;
+                        if(e.TOT_AMT != null && e.TOT_AMT != "" && e.TOT_AMT != undefined) {
+                            totAmt = e.TOT_AMT;
+                        }
+
+                        return "<div style='text-align:right;'>" + comma(totAmt) + "</div>";
                     }
                 }, {
                     title: "잔액",
                     template : function(e){
-                        return "<div style='text-align:right;'>" + comma(e.DEPO_AMT) + "</div>";
+                        var totAmt = 0;
+                        if(e.TOT_AMT != null && e.TOT_AMT != "" && e.TOT_AMT != undefined) {
+                            totAmt = e.TOT_AMT;
+                        }
+                        return "<div style='text-align:right;'>" + comma(e.DEPO_AMT - totAmt) + "</div>";
                     }
                 }, {
                     title: "상태",
                     width: 100,
                     template: function(e){
-                        if(e.APPR_STAT == "Y"){
-                            return "요청완료"
+                        var stat = "";
+                        if(e.APPR_STAT == "Y") {
+                            stat = "미입금";
+                            if(e.TOT_AMT == 0){
+                                stat = "미입금";
+                            } else if(e.DEPO_AMT <= e.TOT_AMT){
+                                stat = "입금완료";
+                            } else if(e.DEPO_AMT > e.TOT_AMT){
+                                stat = "부분입금";
+                            }
+
                         } else {
-                            return "작성중"
+                            stat = "미입금";
                         }
+
+                        return stat;
                     },
                 }, {
                     title: "기타",

@@ -107,7 +107,7 @@ var regPayDepo = {
             regPayDepo.fn_manageSetData();
         }
 
-        if($("#paramPjtSn").val() != "" && !regPayDepo.global.setFlag){
+        if($("#paramPjtSn").val() != "" && $("#payDepoSn").val() == ""){
             regPayDepo.fn_setProjectData();
         }
 
@@ -165,6 +165,7 @@ var regPayDepo = {
             type : "post",
             dataType : "json",
             success : function(rs){
+                console.log(rs);
                 var rs = rs.data;
 
                 $("#appDe").val(new Date(rs.REG_DT + 3240 * 10000).toISOString().split("T")[0]);
@@ -190,7 +191,7 @@ var regPayDepo = {
                 $("#bnkSn").val(rs.BNK_SN);
                 $("#accNo").val(rs.ACC_NO);
                 $("#bnkNm").val(rs.BNK_NM);
-
+                $("#appDe").val(rs.APP_DE);
                 $("#email").val(rs.EMAIL);
                 $("#eviType").data("kendoDropDownList").value(rs.EVI_TYPE);
                 $("#crmNm").val(rs.CRM_NM);
@@ -237,13 +238,30 @@ var regPayDepo = {
             success : function(rs){
                 var rs = rs.data;
                 console.log(rs);
-                $("#pjtSn").val(rs.PJT_SN);
-                $("#pjtNm").val(rs.PJT_NM);
-                $("#pjtCd").val(rs.PJT_CD);
+                $("#pjtSn").val($("#pjtSn").val() != "" ? $("#pjtSn").val() : rs.PJT_SN);
+                $("#pjtNm").val($("#pjtNm").val() != "" ? $("#pjtNm").val() : rs.PJT_NM);
+                $("#pjtCd").val($("#pjtCd").val() != "" ? $("#pjtCd").val() : rs.PJT_CD);
 
                 if(rs.PJT_STEP.substring(0, 1) == "E"){
-                    $("#crmNm").val(rs.CRM_NM);
-                    $("#crmSn").val(rs.CRM_SN);
+                    $("#crmNm").val($("#crmNm").val() != "" ? $("#crmNm").val() : rs.CRM_NM);
+                    $("#crmSn").val($("#crmSn").val() != "" ? $("#crmSn").val() : rs.CRM_SN);
+                }
+
+                if($("#crmSn").val() != null && $("#crmSn").val() != ""){
+                    var data= {
+                        crmSn : $("#crmSn").val()
+                    }
+                    var result = customKendo.fn_customAjax("/crm/getCrmData", data);
+
+                    var rsFile = result.rsFile;
+                    var result = result.rs;
+                    if(rsFile != null && rsFile != "" && rsFile != "undefined" && rsFile != undefined) {
+                        $("#fileSn").val(rsFile.FILE1_NO);
+                        $("#fileName").text(rsFile.FILE1_NAME);
+                        $("#crmSn").val(result.CRM_SN);
+                        $("#crmNm").val(result.CRM_NM);
+                        $("#regNo").val(result.CRM_NO);
+                    }
                 }
 
                 $("#depoTitle").val("입금신청 - " + rs.PJT_NM);
