@@ -81,7 +81,7 @@
             <tr>
                 <th><span class="red-star">*</span>내용저장 방법</th>
                 <td>
-                    <span type="text" id="studySaveType" style="width: 400px;"></span>
+                    <span type="text" id="studySaveType" name="studySaveType" style="width: 400px;"></span>
                 </td>
             </tr>
             <tr id="hideCol" style="display: none">
@@ -107,7 +107,7 @@
 <script>
     studyPropag.init();
 
-    $(function () {
+    /*$(function () {
         if($("#studyPropagSn").val() != "" || $("#studyPropagSn").val() != null) {
 
             $.ajax({
@@ -124,17 +124,17 @@
                     $("#journalEndTime").val(result.data.END_TIME);
                     $("#studyLocation").val(result.data.LOCATION);
 
-                    /*$("#readerUserName").val(propag.DUTY_MONTH);
+                    /!*$("#readerUserName").val(propag.DUTY_MONTH);
                     $("#readerUserSeq").val(propag.DUTY_NAME);
                     $("#studyUserName").val(propag.OUTLINE_NAME);
-                    $("#studyUserSeq").val(propag.OUTLINE_DETAIL);*/
+                    $("#studyUserSeq").val(propag.OUTLINE_DETAIL);*!/
 
                     $("#studySaveType").val(result.data.SAVE_TYPE);
                     $("#studyContent").val(result.data.PROPAG_CONTENT);
                 }
             });
         }
-    });
+    });*/
 
 
 

@@ -75,6 +75,35 @@ const studyPropag = {
 
         }
 
+        if($("#studyPropagSn").val() != "" || $("#studyPropagSn").val() != null) {
+
+            $.ajax({
+                url: "/campus/getStudyPropagInfoOne",
+                data: {
+                    pk: $("#studyPropagSn").val()
+                },
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if(result.data.SAVE_TYPE == '1'){
+                        $("#hideCol").css("display", "");
+                    }
+                    $("#journalDt").val(result.data.PROPAG_DT);
+                    $("#journalStartTime").val(result.data.START_TIME);
+                    $("#journalEndTime").val(result.data.END_TIME);
+                    $("#studyLocation").val(result.data.LOCATION);
+                    $("input[name='studySaveType'][value='" + result.data.SAVE_TYPE + "']").prop("checked", true);
+                    $("#studyContent").val(result.data.PROPAG_CONTENT);
+
+                    /*$("#readerUserName").val(propag.DUTY_MONTH);
+                   $("#readerUserSeq").val(propag.DUTY_NAME);
+                   $("#studyUserName").val(propag.OUTLINE_NAME);
+                   $("#studyUserSeq").val(propag.OUTLINE_DETAIL);*/
+                }
+            });
+        }
+
         const info = customKendo.fn_customAjax("/campus/getstudyPropagOne", data).data;
         console.log(info);
         if(info.file_no != undefined && info.file_no != null && info.file_no != ""){
