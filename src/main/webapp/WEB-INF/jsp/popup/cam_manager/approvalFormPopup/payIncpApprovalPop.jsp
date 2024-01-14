@@ -21,8 +21,8 @@
                     <c:forEach var="list" items="${payIncpItemList}" varStatus="status">
                         <tr>
                             <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.CRM_NM}"/></p></td>
-                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>
-                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">${list.REG_NO}</p></td>
+                            <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">${list.CEO_NM}</p></td>
                             <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.TOT_COST_COMMA}"/></p></td>
                             <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.CRM_NM}"/></p></td>
                             <td style="height:30px; background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><c:out value="${list.ETC}"/></p></td>
