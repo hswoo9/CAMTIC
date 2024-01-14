@@ -397,133 +397,145 @@ var regPay = {
 
         if($("#reqType").val() == "snack"){
             const snackInfoSn = $("#snackInfoSn").val();
-            const data = {
-                snackInfoSn : snackInfoSn
-            }
+            var count = 0;
 
-            const result = customKendo.fn_customAjax("/inside/getSnackOne", data);
-            const snackData = result.data;
+            for(let i = 0 ; i < snackInfoSn.toString().split(",").length ; i++){
+                const data = {
+                    snackInfoSn : snackInfoSn.toString().split(",")[i]
+                }
+
+                const result = customKendo.fn_customAjax("/inside/getSnackOne", data);
+                const snackData = result.data;
 
 
 
-            const cardResult = customKendo.fn_customAjax("/snack/getCardList", data);
-            const cardList = cardResult.list;
+                const cardResult = customKendo.fn_customAjax("/snack/getCardList", data);
+                const cardList = cardResult.list;
 
-            var pData = {
-                pjtNm : "법인운영",
-                baseYear : snackData.USE_DT.toString().substring(0, 4)
-            }
-            const projectResult = customKendo.fn_customAjax("/project/getG20ProjectList", pData);
-            selectProject(projectResult.list[0].PJT_SN, projectResult.list[0].PJT_NM, projectResult.list[0].PJT_CD);
+                var pData = {
+                    pjtNm : "법인운영",
+                    baseYear : snackData.USE_DT.toString().substring(0, 4)
+                }
+                const projectResult = customKendo.fn_customAjax("/project/getG20ProjectList", pData);
+                selectProject(projectResult.list[0].PJT_SN, projectResult.list[0].PJT_NM, projectResult.list[0].PJT_CD);
 
-            var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
-            var fileList = fileResult.fileList;
+                var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
+                var fileList = fileResult.fileList;
 
-            regPay.global.fileArray = fileList;
+                regPay.global.fileArray = fileList;
 
-            let count = 0;
-            /** 개인여비 */
-            if(snackData.PAY_TYPE != null){
-                if(snackData.PAY_TYPE != "2"){
-                    const cData = {
-                        searchValue : snackData.CARD_SN
+                /** 개인여비 */
+                if(snackData.PAY_TYPE != null){
+                    if(count != 0){
+                        regPayDet.addRow();
                     }
+                    if(snackData.PAY_TYPE != "2"){
+                        debugger;
+                        const cData = {
+                            searchValue : snackData.CARD_SN,
+                            cardValue : "userCard",
+                        }
 
-                    var cResult = customKendo.fn_customAjax("/g20/getCardList", cData);
-                    var cr = cResult.list[0];
-                    fn_selCardInfo(cr.TR_CD, cr.TR_NM, cr.CARD_BA_NB, cr.JIRO_NM, cr.CLTTR_CD, cr.BA_NB, cr.DEPOSITOR, 0);
-                    $("#eviType0").data("kendoDropDownList").value(3);
-                    $("#etc0").val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
-                    $("#totCost0").val(regPay.comma(snackData.AMOUNT_SN));
-                    $("#supCost0").val(regPay.comma(snackData.AMOUNT_SN));
-                    count = 1;
+                        var cResult = customKendo.fn_customAjax("/g20/getCardList", cData);
+                        var cr = cResult.list[0];
+                        fn_selCardInfo(cr.TR_CD, cr.TR_NM, cr.CARD_BA_NB, cr.JIRO_NM, cr.CLTTR_CD, cr.BA_NB, cr.DEPOSITOR, 0);
+                        $("#eviType" + count).data("kendoDropDownList").value(3);
+                        $("#etc" + count).val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
+                        $("#totCost" + count).val(regPay.comma(snackData.AMOUNT_SN));
+                        $("#supCost" + count).val(regPay.comma(snackData.AMOUNT_SN));
+                        count++;
+                    }else {
+                        /** 법인카드 사용내역 */
+                        if(count == 0){
+                            for(let i=(1+count); i < (cardList.length+count); i++) {
+                                regPayDet.addRow();
+                            }
+                        }else{
+                            for(let i=(0+count); i < (cardList.length+count); i++) {
+                                regPayDet.addRow();
+                            }
+                        }
+
+                        for(let i=0; i<cardList.length; i++){
+                            const cardMap = cardList[i];
+                            const index = count;
+
+                            const parameters = {
+                                cardNo : cardMap.CARD_NO,
+                                authDate : cardMap.AUTH_DD,
+                                authNo : cardMap.AUTH_NO,
+                                authTime : cardMap.AUTH_HH,
+                                buySts : cardMap.BUY_STS
+                            }
+
+                            const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", parameters);
+                            const data = iBrenchResult.cardInfo;
+
+                            $("#eviType" + index).data("kendoDropDownList").value(3);
+                            $("#crmNm" + index).val(data.MER_NM);
+                            $("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
+                            $("#trCd" + index).val(data.TR_CD);
+                            $("#totCost" + index).val(comma(data.AUTH_AMT));
+                            $("#supCost" + index).val(comma(data.SUPP_PRICE));
+                            $("#vatCost" + index).val(comma(data.SURTAX));
+                            $("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
+                            $("#card" + index).val(data.TR_NM);
+                            $("#buySts" + index).val(data.BUY_STS);
+                            $("#crmAccHolder" + index).val(data.DEPOSITOR);
+                            $("#crmAccNo" + index).val(data.BA_NB);
+                            $("#crmBnkNm" + index).val(data.JIRO_NM);
+                            $("#regNo" + index).val(data.MER_BIZNO);
+                            $("#authNo" + index).val(data.AUTH_NO);
+                            $("#authDd" + index).val(data.AUTH_DD);
+                            $("#authHh" + index).val(data.AUTH_HH);
+
+                            const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
+                                searchValue: cardMap.TR_NM
+                            }).list
+
+                            if(g20CardList.length > 0){
+                                const f = g20CardList[0];
+                                var trCd = f.TR_CD;
+                                var trNm = f.TR_NM;
+                                var cardBaNb = f.CARD_BA_NB;
+                                var jiro = f.JIRO_NM;
+                                var baNb = f.BA_NB;
+                                var depositor = f.DEPOSITOR;
+
+                                if(trNm == null || trNm == "" || trNm == "undefined"){
+                                    trNm = "";
+                                }
+                                if(cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined"){
+                                    cardBaNb = "";
+                                }
+                                if(baNb == null || baNb == "" || baNb == "undefined"){
+                                    baNb = "";
+                                }
+                                if(jiro == null || jiro == "" || jiro == "undefined"){
+                                    jiro = "";
+                                }
+                                if(depositor == null || depositor == "" || depositor == "undefined"){
+                                    depositor = "";
+                                }
+                                if(trCd == null || trCd == "" || trCd == "undefined"){
+                                    trCd = "";
+                                }
+
+                                $("#card" + index).val(trNm);
+                                $("#cardNo" + index).val(cardBaNb);
+                                $("#trCd" + index).val(trCd);
+                                $("#crmBnkNm" + index).val(jiro);
+                                $("#crmAccNo" + index).val(baNb);
+                                $("#crmAccHolder" + index).val(depositor);
+                            }
+
+                            count++;
+                        }
+                    }
                 }
             }
 
-            /** 법인카드 사용내역 */
-            if(count == 0){
-                for(let i=(1+count); i < (cardList.length+count); i++) {
-                    regPayDet.addRow();
-                }
-            }else{
-                for(let i=(0+count); i < (cardList.length+count); i++) {
-                    regPayDet.addRow();
-                }
-            }
 
-            for(let i=0; i<cardList.length; i++){
-                const cardMap = cardList[i];
-                const index = i+count;
-
-                const parameters = {
-                    cardNo : cardMap.CARD_NO,
-                    authDate : cardMap.AUTH_DD,
-                    authNo : cardMap.AUTH_NO,
-                    authTime : cardMap.AUTH_HH,
-                    buySts : cardMap.BUY_STS
-                }
-
-                const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", parameters);
-                const data = iBrenchResult.cardInfo;
-
-                $("#eviType" + index).data("kendoDropDownList").value(3);
-                $("#crmNm" + index).val(data.MER_NM);
-                $("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
-                $("#trCd" + index).val(data.TR_CD);
-                $("#totCost" + index).val(comma(data.AUTH_AMT));
-                $("#supCost" + index).val(comma(data.SUPP_PRICE));
-                $("#vatCost" + index).val(comma(data.SURTAX));
-                $("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
-                $("#card" + index).val(data.TR_NM);
-                $("#buySts" + index).val(data.BUY_STS);
-                $("#crmAccHolder" + index).val(data.DEPOSITOR);
-                $("#crmAccNo" + index).val(data.BA_NB);
-                $("#crmBnkNm" + index).val(data.JIRO_NM);
-                $("#regNo" + index).val(data.MER_BIZNO);
-                $("#authNo" + index).val(data.AUTH_NO);
-                $("#authDd" + index).val(data.AUTH_DD);
-                $("#authHh" + index).val(data.AUTH_HH);
-
-                const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
-                    searchValue: cardMap.TR_NM
-                }).list
-
-                if(g20CardList.length > 0){
-                    const f = g20CardList[0];
-                    var trCd = f.TR_CD;
-                    var trNm = f.TR_NM;
-                    var cardBaNb = f.CARD_BA_NB;
-                    var jiro = f.JIRO_NM;
-                    var baNb = f.BA_NB;
-                    var depositor = f.DEPOSITOR;
-
-                    if(trNm == null || trNm == "" || trNm == "undefined"){
-                        trNm = "";
-                    }
-                    if(cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined"){
-                        cardBaNb = "";
-                    }
-                    if(baNb == null || baNb == "" || baNb == "undefined"){
-                        baNb = "";
-                    }
-                    if(jiro == null || jiro == "" || jiro == "undefined"){
-                        jiro = "";
-                    }
-                    if(depositor == null || depositor == "" || depositor == "undefined"){
-                        depositor = "";
-                    }
-                    if(trCd == null || trCd == "" || trCd == "undefined"){
-                        trCd = "";
-                    }
-
-                    $("#card" + index).val(trNm);
-                    $("#cardNo" + index).val(cardBaNb);
-                    $("#trCd" + index).val(trCd);
-                    $("#crmBnkNm" + index).val(jiro);
-                    $("#crmAccNo" + index).val(baNb);
-                    $("#crmAccHolder" + index).val(depositor);
-                }
-            }
         }
 
 

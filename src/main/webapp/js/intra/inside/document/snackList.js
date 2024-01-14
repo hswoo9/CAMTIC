@@ -61,6 +61,13 @@ var snackList = {
                             '	<span class="k-button-text">식대 등록하기</span>' +
                             '</button>';
                     }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="snackList.fn_checkedReqRegPopup();">' +
+                            '	<span class="k-button-text">지급신청</span>' +
+                            '</button>';
+                    }
                 }
             ],
             noRecords: {
@@ -304,6 +311,21 @@ var snackList = {
         if(type == 2){
             var url = "/payApp/pop/regPayAppPop.do?payAppSn="+key;
         }
+        var name = "regPayAppPop";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_checkedReqRegPopup : function (){
+        var snackInfoSn = "";
+        $('input[name="evalChk"]:checked').each(function(){
+            snackInfoSn += $(this).val() + ",";
+        });
+
+        snackInfoSn = snackInfoSn.substring(0, snackInfoSn.length - 1);
+
+        var url = "/payApp/pop/regPayAppPop.do?snackInfoSn="+snackInfoSn+"&reqType=snack";
+
         var name = "regPayAppPop";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
