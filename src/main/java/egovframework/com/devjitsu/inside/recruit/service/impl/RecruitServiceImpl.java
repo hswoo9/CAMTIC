@@ -312,6 +312,8 @@ public class RecruitServiceImpl implements RecruitService {
         returnMap.put("photoFile", applicationRepository.getApplicationFileInfo(searchMap));
         searchMap.put("fileNo", returnMap.get("ARMI_FILE"));
         returnMap.put("armiFile", applicationRepository.getApplicationFileInfo(searchMap));
+        searchMap.put("fileNo", returnMap.get("PERSON_FILE"));
+        returnMap.put("file", applicationRepository.getApplicationFileInfo(searchMap));
 
 
         /**

@@ -46,9 +46,19 @@ var appView = {
             }
         });
 
+        appView.getFile();
         appView.getCareerSum();
 
         appView.viewMod();
+    },
+
+    getFile : function(){
+        /** 인적성 파일 */
+        const result = customKendo.fn_customAjax("/inside/applicationViewRegrid", {applicationId : $("#applicationId").val()});
+        const data = result.data;
+
+        let html = '<img src="/images/ico/file.gif" onclick="fileDown(\'' + data.file.file_path + data.file.file_uuid + '\', \'' + data.file.file_org_name + '.' + data.file.file_ext + '\')">';
+        $("#fileName").html(html);
     },
 
     getCareerSum : function(){
@@ -197,6 +207,11 @@ var appView = {
                 '            인적성검사문서' +
                 '          </th>' +
                 '          <td colspan="2">' +
+                '            <input type="hidden" id="fileChange" name="fileChange" value="N">' +
+                '            <span id="fileName" style="position: relative; top: 5px; left: 5px"></span>' +
+                '            <label for="file" class="k-button k-button-clear-info k-rounded" style="float:left; vertical-align: bottom;margin:0;">파일첨부</label>' +
+                '            <input type="file" id="file" name="file" style="display: none;" onchange="appView.getFileName(this)">' +
+                '            <button type="button" class="k-button k-button-solid-info" style="margin-left:10px;" onclick="appView.fileSave(this)">저장</button>' +
                 '          </td>' +
                 '        </tr>' +
                 '      </table>' +
@@ -482,6 +497,30 @@ var appView = {
         var name = "applicationPrintPop";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
         var popup = window.open(url, name, option);
+    },
+
+    getFileName : function(e){
+        $(e).prev().prev().text(e.files[0].name);
+        $("#fileChange").val("Y");
+    },
+
+    fileSave : function(){
+        if($("#fileChange").val() != "Y" && $("#fileName").text() == ""){
+            alert("파일 첨부 후 저장 가능합니다."); return;
+        }else if($("#fileChange").val() != "Y" && $("#fileName").text() != ""){
+            alert("파일 변경 후 저장 가능합니다."); return;
+        }
+
+        var formData = new FormData();
+        formData.append("applicationId", $("#applicationId").val());
+        formData.append("file", $("#file")[0].files[0]);
+        formData.append("empSeq", $("#regEmpSeq").val());
+
+        var result = customKendo.fn_customFormDataAjax("/application/setApplicationFile.do", formData);
+        if(result.flag){
+            alert("수정되었습니다.");
+            location.reload();
+        }
     }
 }
 

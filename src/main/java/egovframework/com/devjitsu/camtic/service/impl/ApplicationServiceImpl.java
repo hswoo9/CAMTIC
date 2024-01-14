@@ -69,6 +69,30 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    public void setApplicationFile(Map<String, Object> params, MultipartFile file, String serverDir, String baseDir) {
+        /**
+         * 인적성 검사 파일
+         */
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileMap = new HashMap<>();
+        if(file != null){
+            fileMap = mainLib.fileUpload(file, filePath(params, serverDir));
+            fileMap.put("applicationId", params.get("applicationId"));
+            fileMap.put("contentId", "file_" + params.get("applicationId"));
+            fileMap.put("fileCd", "application");
+            fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
+            fileMap.put("filePath", filePath(params, baseDir));
+            fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
+            fileMap.put("empSeq", params.get("empSeq"));
+            commonRepository.insOneFileInfo(fileMap);
+
+            fileMap.put("fileNo", fileMap.get("file_no"));
+            fileMap.put("column", "PERSON_FILE");
+            applicationRepository.setApplicationFileUpd(fileMap);
+        }
+    }
+
+    @Override
     public void setApplicationForm1(Map<String, Object> params, MultipartFile photoFile, MultipartFile armiFile, String serverDir, String baseDir) {
         applicationRepository.setApplicationForm1Upd(params);
 

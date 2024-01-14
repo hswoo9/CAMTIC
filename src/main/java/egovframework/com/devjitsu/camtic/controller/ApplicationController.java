@@ -139,6 +139,23 @@ public class ApplicationController {
     }
 
     /**
+     * 채용공고 인적성검사 파일 저장
+     * @param params
+     * @return
+     */
+    @RequestMapping("/application/setApplicationFile.do")
+    public String setApplicationFile(@RequestParam Map<String, Object> params,
+                                      @RequestParam(name = "file", required = false) MultipartFile file,
+                                      HttpServletRequest request,
+                                      Model model){
+
+        applicationService.setApplicationFile(params, file, SERVER_DIR, BASE_DIR);
+        model.addAttribute("params", params);
+
+        return "jsonView";
+    }
+
+    /**
      * 채용공고 - 응시원서 (기본정보) 수정
      * @param params
      * @return

@@ -13,6 +13,7 @@ public interface ApplicationService {
     Map<String, Object> userAgreeChk(Map<String, Object> params);
     void setUserAgree(Map<String, Object> params);
     Map<String, Object> getApplicationForm1(Map<String, Object> params);
+    void setApplicationFile(Map<String, Object> params, MultipartFile file, String serverDir, String baseDir);
     void setApplicationForm1(Map<String, Object> params, MultipartFile photoFile, MultipartFile armiFile, String serverDir, String baseDir);
     void setApplicationForm2(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
     Map<String, Object> getApplicationForm2(Map<String, Object> params);
