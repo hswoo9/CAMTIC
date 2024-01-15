@@ -157,7 +157,7 @@ var userInfoModReg = {
 				{ text: "전체", value: "" },
 				{ text: "학력사항", value: "1" },
 				{ text: "경력사항", value: "2" },
-				{ text: "병력사항", value: "3" },
+				{ text: "병역사항", value: "3" },
 				{ text: "가족사항", value: "4" },
 				{ text: "보유면허", value: "5" },
 				/*{ text: "발령사항", value: "6" },*/

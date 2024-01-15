@@ -259,7 +259,7 @@
                 <div class="lab" style="margin:20px 0;">
                     <label class="__lab">
                         <input type="checkbox"  id="armiYn" name="armiYn" onclick="applicationForm.checkBoxChk(this)"><i></i>
-                        <span style="font-size: 15px">병력사항 미대상 (여성 및 외국인 등)</span>
+                        <span style="font-size: 15px">병역사항 미대상 (여성 및 외국인 등)</span>
                     </label>
                 </div>
 
@@ -277,7 +277,7 @@
 
                         <tr>
                             <th colspan="6" style="font-size: 14px; font-weight:600;">
-                                병력사항
+                                병역사항
                             </th>
                         </tr>
 

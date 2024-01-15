@@ -155,7 +155,7 @@
 
 
             <input type="checkbox" id="armiYn" name="armiYn" onclick="applicationForm.checkBoxChk(this)">
-            <span style="padding-left: 5px; font-size: 12px">병력사항 미대상 (여성 및 외국인 등)</span>
+            <span style="padding-left: 5px; font-size: 12px">병역사항 미대상 (여성 및 외국인 등)</span>
 
             <div id="armiDiv" style="display: none">
                 <table class="popTable table table-bordered mb-0 mt10 text-center">
@@ -168,7 +168,7 @@
 
                     <tr>
                         <th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">
-                            병력사항
+                            병역사항
                         </th>
                     </tr>
 

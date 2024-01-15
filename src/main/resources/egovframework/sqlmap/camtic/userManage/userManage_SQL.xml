@@ -1183,7 +1183,7 @@
         a.returnyn,
         a.APPLICATION_ACTIVE,
         'dj_emp_military_svc_info' AS 'type',
-        '병력사항' AS 'typeName',
+        '병역사항' AS 'typeName',
         'MSI_INFO_ID' AS 'key'
         FROM
         cam_hr.dj_emp_military_svc_info_tmp AS a
@@ -1318,7 +1318,7 @@
                 A.typeName = '경력사항'
             </when>
             <when test='"3".equals(drop1)'>
-                A.typeName = '병력사항'
+                A.typeName = '병역사항'
             </when>
             <when test='"4".equals(drop1)'>
                 A.typeName = '가족사항'
@@ -1439,7 +1439,7 @@
             a.admin_approval,
             a.returnyn,
             'dj_emp_military_svc_info' AS 'type',
-            '병력사항' AS 'typeName',
+            '병역사항' AS 'typeName',
             'MSI_INFO_ID' AS 'key'
             FROM
             cam_hr.dj_emp_military_svc_info AS a
@@ -1568,7 +1568,7 @@
                     A.typeName = '경력사항'
                 </when>
                 <when test='"3".equals(drop1)'>
-                    A.typeName = '병력사항'
+                    A.typeName = '병역사항'
                 </when>
                 <when test='"4".equals(drop1)'>
                     A.typeName = '가족사항'

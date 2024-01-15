@@ -903,6 +903,16 @@
         ORDER BY NATION_CD_NM
     </select>
 
+    <select id="getNationCodeInfo" parameterType="map" resultType="map">
+        /* getNationCodeInfo */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BUSI_CD
+        WHERE GRP_SN = 'NATION'
+          AND NATION_CD = #{nationCd}
+    </select>
+
     <insert id="setBustripCostInsert" parameterType="map">
         INSERT INTO CAM_INSIDE.DJ_HR_COST_INFO
             (

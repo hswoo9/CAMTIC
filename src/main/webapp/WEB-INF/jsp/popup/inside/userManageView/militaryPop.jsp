@@ -10,7 +10,7 @@
 <body class="font-opensans" style="background-color:#fff;">
   <div class="table-responsive">
     <div class="card-header pop-header">
-      <h3 class="card-title title_NM">병력 사항</h3>
+      <h3 class="card-title title_NM">병역 사항</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="fn_windowClose()">닫기</button>
       </div>
@@ -27,7 +27,7 @@
         </colgroup>
         <thead>
         <%--<tr>
-          <th colspan="3">병력 등록</th>
+          <th colspan="3">병역 등록</th>
         </tr>--%>
         <tr>
           <th>전역 여부</th>

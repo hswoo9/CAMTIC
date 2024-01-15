@@ -316,7 +316,7 @@ public class UserController {
     @RequestMapping("/user/getMilitarySvcInfo")
     public String getMilitarySvcInfo(@RequestParam Map<String, Object> params, Model model){
 
-        model.addAttribute("data",  userManageService.getMilitarySvcInfo(params)); // 병력 사항
+        model.addAttribute("data",  userManageService.getMilitarySvcInfo(params)); // 병역 사항
         /*Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); */
 
         return "jsonView";

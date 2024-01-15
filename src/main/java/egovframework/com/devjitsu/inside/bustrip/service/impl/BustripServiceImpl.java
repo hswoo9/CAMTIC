@@ -361,6 +361,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public Map<String, Object> getNationCodeInfo(Map<String, Object> params) {
+        return bustripRepository.getNationCodeInfo(params);
+    }
+
+    @Override
     public void setBustripCostInsert(Map<String, Object> params) {
         bustripRepository.setBustripCostInsert(params);
     }
