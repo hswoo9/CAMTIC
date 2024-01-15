@@ -96,7 +96,7 @@ var userPrintHtml = {
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="3" style="border-collapse: collapse; margin: 0px;">';
         html += '               <tr>';
-        html += '                   <td colspan="4" style="height:30px;background-color:#FFFFFF; text-align:left; width: 60px; border-top: none; border-right: none; border-left: none"><p style="font-size:17px;"><b>▣병력사항</b></p></td>';
+        html += '                   <td colspan="4" style="height:30px;background-color:#FFFFFF; text-align:left; width: 60px; border-top: none; border-right: none; border-left: none"><p style="font-size:17px;"><b>▣병역사항</b></p></td>';
         html += '               </tr>';
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:center; width: 100px;"><p style="font-size:12px;"><b>종 류</b></p></td>';

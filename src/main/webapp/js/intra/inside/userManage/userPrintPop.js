@@ -137,7 +137,7 @@ const userPrintPop = {
         // userPrintPop.global.hwpCtrl.MoveToField('HTML2', true, true, false);
         // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});
         //
-        // /** 병력사항 */
+        // /** 병역사항 */
         // var html = userPrintHtml.html3(userMap4);
         // userPrintPop.global.hwpCtrl.MoveToField('HTML3', true, true, false);
         // userPrintPop.global.hwpCtrl.SetTextFile(html.replaceAll("\n", "<br>"), "HTML", "insertfile", {});

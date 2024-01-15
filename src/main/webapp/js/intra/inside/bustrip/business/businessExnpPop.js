@@ -41,6 +41,38 @@ const bustripExnpReq = {
     },
 
     dataSet: function(type){
+        /** 출장정보 */
+        const busResult = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
+            hrBizReqId: $("#hrBizReqId").val()
+        });
+        const busInfo = busResult.rs.rs;
+        console.log(busResult);
+
+        /** 등급 */
+        const nationCd = busInfo.NATION_CODE;
+        const nationResult = customKendo.fn_customAjax("/bustrip/getNationCodeInfo", {
+            nationCd: nationCd
+        });
+        const nationInfo = nationResult.data;
+        console.log(nationInfo);
+        let nationText = nationInfo.LG_CD_NM+"등급 "+nationInfo.NATION_CD_NM;
+        $("#grade").text(nationText);
+
+
+        /** 출장기간 */
+        const date1 = new Date(busInfo.TRIP_DAY_FR);
+        const date2 = new Date(busInfo.TRIP_DAY_TO);
+        let diff = Math.abs(date1.getTime() - date2.getTime());
+        diff = Math.ceil(diff / (1000 * 60 * 60 * 24)) + 1;
+
+        let nights = 0;
+        if(diff > 1){
+            nights = diff - 2;
+        }
+        let bustripDtText = busInfo.TRIP_DAY_FR+" ~ "+busInfo.TRIP_DAY_TO+" ("+ nights+"박 "+ diff+"일)";
+        $("#bustripDt").text(bustripDtText);
+
+        /** */
         let costData = bustripExnpReq.global.costData;
         if(type != "upd"){
             costData.val(0);
@@ -48,6 +80,7 @@ const bustripExnpReq = {
         var data = {
             hrBizReqResultId: hrBizReqResultId
         }
+
         var result = customKendo.fn_customAjax("/bustrip/getBustripOne", data);
         bustripExnpReq.global.bustripInfo = result.map;
         console.log(result.map);

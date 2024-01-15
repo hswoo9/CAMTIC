@@ -119,7 +119,7 @@ public class UserManageController {
 
         Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map); // 사용자 인사 기록 리스트
         List<Map<String,Object>> educationalList = userManageService.getEducationalList(map); // 교육 사항
-        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); // 병력 사항
+        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); // 병역 사항
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("uprList", userPersonnelRecordList);
@@ -155,7 +155,7 @@ public class UserManageController {
 
         Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map); // 사용자 인사 기록 리스트
         List<Map<String,Object>> educationalList = userManageService.getEducationalList(map); // 교육 사항
-        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); // 병력 사항
+        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); // 병역 사항
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("uprList", userPersonnelRecordList);
@@ -274,7 +274,7 @@ public class UserManageController {
         return "jsonView";
     }
 
-    /*병력사항 수정*/
+    /*병역사항 수정*/
     @RequestMapping("/useManage/userMilitaryInfoModify")
     public String userMilitaryInfoModify(@RequestParam Map<String,Object> map, Model model,MultipartHttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -512,7 +512,7 @@ public class UserManageController {
 
         Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map); // 사용자 인사 기록 리스트
         List<Map<String,Object>> educationalList = userManageService.getEducationalList(map); // 교육 사항
-        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); // 병력 사항
+        Map<String,Object> militarySvcInfo = userManageService.getMilitarySvcInfo(map); // 병역 사항
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("uprList", userPersonnelRecordList);
@@ -1375,7 +1375,7 @@ public class UserManageController {
         switch(params.get("typeName").toString()) {
             default: break;
             case "학력사항" : viewName = "popup/inside/userManageView/degreePop"; break;
-            case "병력사항" : viewName = "popup/inside/userManageView/militaryPop"; break;
+            case "병역사항" : viewName = "popup/inside/userManageView/militaryPop"; break;
             case "가족사항" : viewName = "popup/inside/userManageView/familyPop"; break;
             case "직무사항" : viewName = "popup/inside/userManageView/jobPop"; break;
             case "발령사항" : viewName = "popup/inside/userManageView/appointingPop"; break;

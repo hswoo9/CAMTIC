@@ -62,6 +62,8 @@ public interface BustripService {
 
     List<Map<String, Object>> getNationCode(Map<String, Object> params);
 
+    Map<String, Object> getNationCodeInfo(Map<String, Object> params);
+
     void setBustripCostInsert(Map<String, Object> params);
 
     void setBusinessCostInsert(Map<String, Object> params);

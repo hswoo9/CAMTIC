@@ -159,6 +159,7 @@
                     <td colspan="4">
                         <div>
                             <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regPayDet.fn_regPayAttPop()">첨부</button>
+                            <span id="fileText"></span>
                         </div>
                     </td>
                 </tr>

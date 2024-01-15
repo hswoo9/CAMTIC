@@ -671,6 +671,14 @@ public class BustripController {
         return "jsonView";
     }
 
+    //해외출장 나라코드 데이터
+    @RequestMapping("/bustrip/getNationCodeInfo")
+    public String getNationCodeInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = bustripService.getNationCodeInfo(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     //여비등록
     @RequestMapping("/bustrip/setBustripCostInsert")
     public String setBustripCostInsert(@RequestParam Map<String, Object> params, Model model){

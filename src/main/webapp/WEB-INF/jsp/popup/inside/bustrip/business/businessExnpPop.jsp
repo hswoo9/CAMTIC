@@ -13,7 +13,7 @@
     }
 </style>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
-<script type="text/javascript" src="/js/intra/inside/bustrip/bustripExnpPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/business/businessExnpPop.js?v=${today}"></script>
 <!-- 공통팝업 호출 -->
 
 <script type="text/javascript" src ="<c:url value='/js/html2canvas.min.js' />"></script>
@@ -32,6 +32,7 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
 <input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="type" value="${type}"/>
@@ -70,23 +71,23 @@
             <thead>
             <tr>
                 <th>등급</th>
-                <td>가등급 런던</td>
+                <td id="grade"></td>
             </tr>
             <tr>
                 <th>구분</th>
-                <td>부서장이상</td>
+                <td id="duty">부서장이상</td>
             </tr>
             <tr>
                 <th>환율</th>
-                <td>1400 원</td>
+                <td id="exchangeRate">1,400 원</td>
             </tr>
             <tr>
                 <th>출장자</th>
-                <td></td>
+                <td id="companion"></td>
             </tr>
             <tr>
                 <th>출장기간</th>
-                <td>2023-12-01 ~ 2023-12-05 (3박 5일)</td>
+                <td id="bustripDt"></td>
             </tr>
             </thead>
         </table>
