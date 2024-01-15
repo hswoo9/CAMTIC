@@ -39,7 +39,7 @@
                         <li id="TabM">기본 정보</li>
                         <li id="TabB">학력 사항</li>
                         <li id="TabC">경력 사항</li>
-                        <li id="TabD">병력 사항</li>
+                        <li id="TabD">병역 사항</li>
                         <li id="TabE">가족 사항</li>
                         <li id="TabF">보유 면허</li>
                         <li id="TabG">직무 사항</li>
@@ -409,7 +409,7 @@
                     </div>
                     <div class="armyInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt">· 병력 사항</div>
+                            <div class="subTitSt">· 병역 사항</div>
                             <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_milModifyInfo(${mInfo.MSI_INFO_ID})"/>
                             </div>
@@ -1383,7 +1383,7 @@
 
     //학력 degree
     //경력 careerInfo
-    //병력 military
+    //병역 military
     //가족 family
     //면허 license
     //직무 job
@@ -1712,7 +1712,7 @@
         }
     }
 
-    // 병력사항 수정
+    // 병역사항 수정
     function fu_milModifyInfo(key){
         var data = {
             msiInfoId : $("#msiInfoId").val(),
