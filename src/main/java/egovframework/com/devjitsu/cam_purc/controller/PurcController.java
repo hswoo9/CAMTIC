@@ -651,6 +651,14 @@ public class PurcController {
         return "popup/cam_purc/mng/appUserPaySetting";
     }
 
+    @RequestMapping("/purc/pop/purcBasicSettings.do")
+    public String purcBasicSettings(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("params", params);
+
+        return "popup/cam_purc/mng/purcBasicSettings";
+    }
+
     @RequestMapping("/purc/getClaimMngList")
     public String getClaimMngList(@RequestParam Map<String, Object> params, Model model){
 
