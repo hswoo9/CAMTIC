@@ -23,7 +23,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="pk" value="${params.pk}"/>
 <input type="hidden" id="studyJournalSn" value="${params.studyJournalSn}"/>
-<input type="hidden" id="mode" value=""/>
+<input type="hidden" id="mode" value="${params.mode}"/>
 
 <div class="table-responsive">
     <div class="card-header pop-header">
