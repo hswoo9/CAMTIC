@@ -123,11 +123,11 @@ var purcMngAppList = {
                 }, {
                     title: "제목",
                     field: "CLAIM_TITLE",
-                    width: 100
+                    width: 150
                 }, {
                     title: "목적",
                     field: "PURC_PURPOSE",
-                    width: 200,
+                    width: 150,
                     template : function(e){
                         return '<a onclick="purcMngAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.PURC_REQ_PURPOSE + '</a>'
                     }
@@ -142,12 +142,14 @@ var purcMngAppList = {
                 }, {
                     field: "ORDER_DT",
                     title: "발주일",
-                    width: 100
-                }, {
-                    field: "EXNP_DE",
-                    title: "지출예정일",
-                    width: 100
-                }, {
+                    width: 80
+                }
+                // , {
+                //     field: "EXNP_DE",
+                //     title: "지출예정일",
+                //     width: 100
+                // }
+                , {
                     title: "금액",
                     width: 100,
                     template: function(e){
@@ -173,7 +175,7 @@ var purcMngAppList = {
                     }
                 }, {
                     title: "상태",
-                    width: 100,
+                    width: 80,
                     template : function(e){
                         var stat = "미설정"
                         return stat;

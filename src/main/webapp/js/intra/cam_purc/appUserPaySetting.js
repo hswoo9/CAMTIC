@@ -48,7 +48,7 @@ const appUserPaySetting = {
                     html += '       <input type="hidden" id="totAmt'+i+'" name="totAmt" value="' + (Number(ls[i].TOT_AMT) - Number(ls[i].REQ_AMT)) + '">';
                     html += '   </td>';
                     html += '   <td>';
-                    html += '       <input type="text" style="text-align: right" index="'+i+'" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" id="reqAmt" name="reqAmt" onkeyup="appUserPaySetting.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" value="0">';
+                    html += '       <input type="text" style="text-align: right" index="'+i+'" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" id="reqAmt'+i+'" name="reqAmt" onkeyup="appUserPaySetting.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" value="0">';
                     html += '   </td>';
                     html += '   <td>';
                     html += '       <button type="button" class="k-button k-button-solid-error" onclick="appUserPaySetting.fn_delRow('+ls[i].CLAIM_SN+')">삭제</button>';
@@ -84,6 +84,8 @@ const appUserPaySetting = {
         if(!confirm("지출요청 하시겠습니까?")){
             return;
         }
+
+
 
         var flag = true;
         var payFlag = true;
