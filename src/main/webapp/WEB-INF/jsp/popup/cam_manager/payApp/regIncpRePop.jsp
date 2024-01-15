@@ -125,16 +125,12 @@
                     <col width="30%">
                     <col width="10%">
                     <col width="20%">
-                    <col width="20%">
-                    <col width="20%">
                 </colgroup>
                 <thead>
                 <tr>
                     <th>상호</th>
                     <th>거래일</th>
-                    <th>총액</th>
-                    <th>공급가액</th>
-                    <th>세액</th>
+                    <th>입금액</th>
                 </tr>
                 </thead>
                 <tbody id="reBody">
@@ -145,13 +141,11 @@
                         <input type="text" id="inDt" disabled style="width: 100%;">
                     </td>
                     <td>
+                        <input type="hidden" id="incpTotAmt" />
+                        <input type="hidden" id="redyAmt" />
                         <input type="text" id="totAmt" style="width: 100%; text-align: right" value="0" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                    </td>
-                    <td>
-                        <input type="text" id="supAmt" style="width: 100%; text-align: right" value="0" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                    </td>
-                    <td>
-                        <input type="text" id="vatAmt" style="width: 100%; text-align: right" value="0" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                        <input type="hidden" id="supAmt" style="width: 100%; text-align: right" value="0" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                        <input type="hidden" id="vatAmt" style="width: 100%; text-align: right" value="0" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                     </td>
                 </tbody>
             </table>
