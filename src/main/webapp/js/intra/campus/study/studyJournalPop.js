@@ -130,6 +130,7 @@ const studyJournal = {
         let regEmpSeq = $("#regEmpSeq").val();
         let eduTime = 0;
         let studyJournalSn = $("#studyJournalSn").val();
+        let mode = $("#mode").val();
 
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(journalDt == "" || journalStartTime == "" || journalEndTime == ""){ alert("학습일시가 작성되지 않았습니다."); return; }
@@ -159,13 +160,20 @@ const studyJournal = {
         var bfDate = new Date(year, month, day, hour1, min1);
         var afDate = new Date(year, month, day, hour2, min2);
         var diffSec = afDate.getTime() - bfDate.getTime();
-        var diffMin = diffSec / 1000 / 60 / 60;
+        /*var diffMin = diffSec / 1000 / 60 / 60;*/
+
+        var diffHours = Math.abs(diffSec / (1000 * 60 * 60));
+        var formattedDiff = diffHours.toFixed(1);
+        formattedDiff = parseFloat(formattedDiff);
+        console.log(formattedDiff);
 
         /** 건당 최대 2시간 */
         // if(diffMin > 2){
         //     eduTime = 2
         // }else{
-            eduTime = diffMin;
+            /*eduTime = diffMin;*/
+        eduTime = formattedDiff;
+
         // }
 
         /** 주당 최대 2시간 체크 */
@@ -198,7 +206,8 @@ const studyJournal = {
             regEmpName: regEmpName,
             realEduTime: realEduTime,
             regEmpSeq : regEmpSeq,
-            studyJournalSn : studyJournalSn
+            studyJournalSn : studyJournalSn,
+            mode: mode
         }
 
         var fd = new FormData();
@@ -210,7 +219,7 @@ const studyJournal = {
             fd.append("files", $("#files")[0].files[0]);
         }
 
-        if(studyJournalSn != "" || studyJournalSn != null){
+        if(mode == "Upd"){
             if(!confirm("운영일지를 수정하시겠습니까?")) {
                 return;
             }
@@ -233,7 +242,7 @@ const studyJournal = {
                     }
                 });
 
-        }else {
+        }else if(mode == "Req") {
             if (!confirm("운영일지를 저장하시겠습니까?")) {
                 return;
             }

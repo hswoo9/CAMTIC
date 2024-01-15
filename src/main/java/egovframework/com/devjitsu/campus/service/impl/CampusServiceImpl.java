@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.campus.service.CampusService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -519,7 +520,7 @@ public class CampusServiceImpl implements CampusService {
             Map<String, Object> weekTime = campusRepository.getRealEduTimeStudyWeekly(params);
 
             /** 학습조 주당 2시간 인정 */
-            int realEduTime = Integer.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
+            double realEduTime = Double.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
             int infoCount = Integer.valueOf(String.valueOf(weekCount.get("studyInfoCount")));
             if(infoCount == 1){
                 if(realEduTime > 2){
@@ -585,7 +586,7 @@ public class CampusServiceImpl implements CampusService {
             Map<String, Object> weekTime = campusRepository.getRealEduTimeStudyWeekly(params);
 
             /** 학습조 주당 2시간 인정 */
-            int realEduTime = Integer.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
+            double realEduTime = Double.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
             int infoCount = Integer.valueOf(String.valueOf(weekCount.get("studyInfoCount")));
             if(infoCount == 1){
                 if(realEduTime > 2){
