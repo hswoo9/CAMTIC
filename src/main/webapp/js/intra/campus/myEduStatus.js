@@ -299,7 +299,7 @@ var myEdu = {
                 },
                 parameterMap: function(data){
                     data.empSeq = $("#regEmpSeq").val();
-                    data.eduYear = $("#applyYear").val().replace("년", "");;
+                    data.eduYear = $("#applyYear").val().replace("년", "");
                     data.studyClassSn = 2;
                     return data;
                 }
