@@ -92,8 +92,18 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public Map<String, Object> getOjtResultInfoOne(Map<String, Object> params){
+        return campusRepository.getOjtResultInfoOne(params);
+    }
+
+    @Override
     public Map<String, Object> getStudyInfoOne(Map<String, Object> params){
         return campusRepository.getStudyInfoOne(params);
+    }
+
+    @Override
+    public Map<String, Object> getOjtOjtResultSnOne(Map<String, Object> params){
+        return campusRepository.getOjtOjtResultSnOne(params);
     }
 
     @Override
@@ -1427,6 +1437,16 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setOjtOjtResultInsert(Map<String, Object> params) {
+        campusRepository.setOjtOjtResultInsert(params);
+    }
+
+    @Override
+    public void setOjtOjtResultModify(Map<String, Object> params) {
+        campusRepository.setOjtOjtResultModify(params);
+    }
+
+    @Override
     public void setStudyResultY(Map<String, Object> params) {
         campusRepository.setStudyResultY(params);
 
@@ -1474,5 +1494,10 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public Map<String, Object> getStudyOjtInfoOne(Map<String, Object> params){
         return campusRepository.getStudyOjtInfoOne(params);
+    }
+
+    @Override
+    public Map<String, Object> getOjtOjtResultCount(Map<String, Object> params){
+        return campusRepository.getOjtOjtResultCount(params);
     }
 }

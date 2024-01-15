@@ -29,6 +29,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="pk" value="${params.pk}"/>
+<input type="hidden" id="ojtOjtResultSn" value="${params.ojtOjtResultSn}" />
 <input type="hidden" id="status"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">

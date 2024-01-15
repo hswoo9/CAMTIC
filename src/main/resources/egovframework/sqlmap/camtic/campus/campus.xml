@@ -524,11 +524,11 @@
     <select id="getStudyInfoList" resultType="map" parameterType="map">
         /* getStudyInfoList */
         SELECT
+            @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
             RE.*
         FROM
             (
                 SELECT
-                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
                     CSI.*,
                     IFNULL((SELECT SUM(JOURNAL_TIME) FROM CAMPUS.DJ_STUDY_JOURNAL SCSJ WHERE CSI.STUDY_INFO_SN = SCSJ.STUDY_INFO_SN AND CAPTAIN_APPOVAL_YN = 'Y' AND ASSISTANT_APPOVAL_YN = 'Y'), 0) AS EDU_TIME_TOTAL,
                     (SELECT COUNT(*) FROM CAMPUS.DJ_OJT_RESULT WHERE STUDY_INFO_SN = CSI.STUDY_INFO_SN) as ST_CNT,
@@ -560,7 +560,7 @@
                     WHERE STUDY_EMP_SEQ = #{empSeq}
                 )
             </if>
-        ORDER BY RE.ROW_NUM DESC
+        ORDER BY ROW_NUM DESC
     </select>
 
     <select id="getStudyInfoOne" resultType="map" parameterType="map">
@@ -579,6 +579,22 @@
             CAM_HR.DJ_EMP_INFO HEI ON CSI.REG_EMP_SEQ = HEI.EMP_SEQ
         LEFT JOIN
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE STUDY_INFO_SN = #{pk}
+    </select>
+
+    <select id="getOjtOjtResultSnOne" resultType="map" parameterType="map">
+        /* getOjtOjtResultSnOne */
+        SELECT
+            OJT_OJT_RESULT_SN
+        FROM CAMPUS.dj_ojt_ojt_result
+        WHERE STUDY_INFO_SN = #{pk}
+    </select>
+
+    <select id="getOjtResultInfoOne" resultType="map" parameterType="map">
+        /* getOjtResultInfoOne */
+        SELECT
+            *
+        FROM CAMPUS.dj_ojt_ojt_result
         WHERE STUDY_INFO_SN = #{pk}
     </select>
 
@@ -1792,6 +1808,53 @@
         </selectKey>
     </insert>
 
+    <insert id="setOjtOjtResultInsert" parameterType="map">
+        /*setOjtOjtResultInsert*/
+        INSERT INTO CAMPUS.DJ_OJT_OJT_RESULT
+        (
+        STUDY_INFO_SN,
+        START_DT,
+        END_DT,
+        STUDY_LOCATION,
+        STUDY_OBJECT,
+        STUDY_CONTENT,
+        STUDY_MONEY,
+        STUDY_MONEY_VAL,
+        REG_DT
+        )
+        VALUES
+        (
+        #{studyInfoSn},
+        #{START_DT},
+        #{END_DT},
+        #{ojtLocationTd},
+        #{ojtObjectTd},
+        #{ojtContentTd},
+        #{ojtAmtTd},
+        #{ojtAmtTextTd},
+        #{regDateTd}
+        )
+        <selectKey keyProperty="ojtOjtResultSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAMPUS' AND TABLE_NAME = 'DJ_OJT_OJT_RESULT'
+        </selectKey>
+    </insert>
+
+    <update id="setOjtOjtResultModify" parameterType="map">
+        UPDATE
+            CAMPUS.DJ_OJT_OJT_RESULT
+        SET
+            START_DT = #{START_DT},
+            END_DT = #{END_DT},
+            STUDY_LOCATION = #{ojtLocationTd},
+            STUDY_OBJECT = #{ojtObjectTd},
+            STUDY_CONTENT = #{ojtContentTd},
+            STUDY_MONEY = #{ojtAmtTd},
+            STUDY_MONEY_VAL = #{ojtAmtTextTd},
+            REG_DT = #{regDateTd}
+        WHERE
+            OJT_OJT_RESULT_SN = #{ojtResultSn}
+    </update>
+
     <update id="setStudyResultY" parameterType="map">
         UPDATE
             CAMPUS.DJ_STUDY_RESULT
@@ -2961,6 +3024,14 @@
             CAM_COMMON.DJ_FILE_INFO DFI
             ON COR.FILE_SN = DFI.FILE_NO
         WHERE OJT_RESULT_SN = #{ojtResultSn}
+    </select>
+
+    <select id="getOjtOjtResultCount" resultType="map" parameterType="map">
+        /* getOjtOjtResultCount */
+        SELECT
+            COUNT(OJT_OJT_RESULT_SN) AS ojtResultCount
+        FROM CAMPUS.DJ_OJT_OJT_RESULT
+        WHERE STUDY_INFO_SN = #{studyInfoSn}
     </select>
 
 </mapper>
