@@ -830,41 +830,45 @@
 
     <select id="getIncpReList" parameterType="map" resultType="map">
         /*getIncpReList*/
-        SELECT
-            I.*,
-            DI.APPRO_KEY AS APPRO_KEY,
-            DI.DOC_MENU_CD AS DOC_MENU_CD,
-            IFNULL(SUM(ID.TOT_COST), 0) AS TOT_COST,
-            '' AS PAY_INCP_RE_SN
-        FROM
-            CAM_MNG.DJ_PAY_INCP_DET ID
-        LEFT JOIN CAM_MNG.DJ_PAY_INCP I
-            ON ID.PAY_INCP_SN = I.PAY_INCP_SN
-        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
-            ON I.DOC_ID = DI.DOC_ID
-        WHERE I.DOC_STATUS = '100'
-        AND ID.EVID_TYPE NOT IN (1, 3, 5, 6)
-        GROUP BY I.PAY_INCP_SN
-        UNION ALL
-        SELECT
-            B.PAY_INCP_SN, A.PJT_NM, A.PJT_SN, A.PJT_CD, B.BUDGET_SN,
-            B.BUDGET_NM, A.APP_DE, A.PAY_EXNP_DE, A.BUSN_CD, A.BUSN_EX_CD,
-            A.EXNP_EMP_SEQ, A.G20_EMP_CD, A.G20_DEPT_CD, A.APP_CONT, A.BNK_SN,
-            A.ACC_NM, A.ACC_NO, A.BNK_NM, A.PAY_APP_STAT, A.GUBUN, A.DOC_ID, A.DOC_STATUS,
-            A.APPROVAL_EMP_SEQ, A.APPROVAL_DATE, A.PMR_NO, A.REG_DT, A.REG_EMP_SEQ, A.MOD_DT,
-            A.MOD_EMP_SEQ, B.RE_STAT,
-            DI.APPRO_KEY AS APPRO_KEY,
-            DI.DOC_MENU_CD AS DOC_MENU_CD,
-            IFNULL(B.TOT_COST, 0) AS TOT_COST,
-            B.PAY_INCP_RE_SN
-        FROM
-            CAM_MNG.DJ_PAY_INCP_RE B
-        LEFT JOIN
-            CAM_MNG.DJ_PAY_INCP A
-        ON
-            B.PAY_INCP_SN = A.PAY_INCP_SN
-        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
-        ON A.DOC_ID = DI.DOC_ID
+        SELECT * FROM (
+            SELECT
+                I.*,
+                DI.APPRO_KEY AS APPRO_KEY,
+                DI.DOC_MENU_CD AS DOC_MENU_CD,
+                IFNULL(SUM(ID.TOT_COST), 0) AS TOT_COST,
+                '' AS PAY_INCP_RE_SN,
+                '' AS RE_APP_DE
+            FROM
+                CAM_MNG.DJ_PAY_INCP_DET ID
+            LEFT JOIN CAM_MNG.DJ_PAY_INCP I
+                ON ID.PAY_INCP_SN = I.PAY_INCP_SN
+            LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
+                ON I.DOC_ID = DI.DOC_ID
+            WHERE I.DOC_STATUS = '100'
+            AND ID.EVID_TYPE NOT IN (1, 3, 5, 6)
+            GROUP BY I.PAY_INCP_SN
+            UNION ALL
+            SELECT
+                B.PAY_INCP_SN, A.PJT_NM, A.PJT_SN, A.PJT_CD, B.BUDGET_SN,
+                B.BUDGET_NM, A.APP_DE, A.PAY_EXNP_DE, A.BUSN_CD, A.BUSN_EX_CD,
+                A.EXNP_EMP_SEQ, A.G20_EMP_CD, A.G20_DEPT_CD, A.APP_CONT, A.BNK_SN,
+                A.ACC_NM, A.ACC_NO, A.BNK_NM, A.PAY_APP_STAT, A.GUBUN, A.DOC_ID, A.DOC_STATUS,
+                A.APPROVAL_EMP_SEQ, A.APPROVAL_DATE, A.PMR_NO, A.REG_DT, A.REG_EMP_SEQ, A.MOD_DT,
+                A.MOD_EMP_SEQ, B.RE_STAT,
+                DI.APPRO_KEY AS APPRO_KEY,
+                DI.DOC_MENU_CD AS DOC_MENU_CD,
+                IFNULL(B.TOT_COST, 0) AS TOT_COST,
+                B.PAY_INCP_RE_SN,
+                B.RE_APP_DE
+            FROM
+                CAM_MNG.DJ_PAY_INCP_RE B
+            LEFT JOIN
+                CAM_MNG.DJ_PAY_INCP A
+            ON
+                B.PAY_INCP_SN = A.PAY_INCP_SN
+            LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
+            ON A.DOC_ID = DI.DOC_ID) AB
+        ORDER BY AB.REG_DT DESC
     </select>
 
     <update id="updPayAppDetailStatus" parameterType="map">
@@ -1211,7 +1215,14 @@
 
     <select id="getPayIncpReqData" parameterType="map" resultType="map">
         /*getPayIncpReqData*/
-        SELECT A.*, B.DOC_NO, B.APPRO_KEY, B.DOC_MENU_CD, HEI.EMP_NAME_KR AS REG_EMP_NAME, HEI.DEPT_NAME AS REG_DEPT_NAME
+        SELECT
+            A.*,
+            B.DOC_NO,
+            B.APPRO_KEY,
+            B.DOC_MENU_CD,
+            HEI.EMP_NAME_KR AS REG_EMP_NAME,
+            HEI.DEPT_NAME AS REG_DEPT_NAME,
+            IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN), 0) AS TOT_COST
         FROM CAM_MNG.DJ_PAY_INCP A
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO B
@@ -2019,6 +2030,7 @@
                 CRM_BNK_NM,
                 CRM_ACC_NO,
                 CRM_ACC_HOLDER,
+                RE_APP_DE,
                 TR_DE,
                 TOT_COST,
                 SUP_COST,
@@ -2040,6 +2052,7 @@
                 #{CRM_BNK_NM},
                 #{CRM_ACC_NO},
                 #{CRM_ACC_HOLDER},
+                #{RE_APP_DE},
                 #{TR_DE},
                 #{TOT_AMT},
                 #{SUP_AMT},
@@ -2056,7 +2069,14 @@
 
     <update id="updIncpRe" parameterType="map">
         /*updIncpRe*/
-
+        UPDATE CAM_MNG.DJ_PAY_INCP_RE
+        SET
+            TOT_COST = #{TOT_AMT},
+            SUP_COST = #{SUP_AMT},
+            VAT_COST = #{VAT_AMT},
+            RE_APP_DE = #{RE_APP_DE}
+        WHERE
+            PAY_INCP_RE_SN = #{PAY_INCP_RE_SN}
     </update>
 
     <select id="getPayIncpReData" parameterType="map" resultType="map">

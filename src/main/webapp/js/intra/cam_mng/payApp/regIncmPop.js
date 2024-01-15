@@ -57,7 +57,6 @@ var regIncm = {
                 { text: "7000 - 특수사업 (특수사업)", value: "7000" },
             ]
         });
-        $("#g20DeptCd").data("kendoDropDownList").value("2000");
 
         // $("#payAppStat").data("kendoRadioGroup").value("N")
 
@@ -198,7 +197,6 @@ var regIncm = {
         }
         for(var i=0; i < ls.length; i++) {
             var item = ls[i];
-
             regIncmDet.global.createHtmlStr = "";
 
             regIncmDet.global.createHtmlStr += "" +
@@ -354,7 +352,7 @@ var regIncm = {
                 var g20Result = customKendo.fn_customAjax("/g20/getCrmInfo", rs);
 
                 $("#crmNm0").val(g20Result.map.TR_NM ? g20Result.map.TR_NM : "");
-                $("#trCd0").val(g20Result.map.TR_CD ? g20Result.map.TR_NM : "");
+                $("#trCd0").val(g20Result.map.TR_CD ? g20Result.map.TR_CD : "");
                 $("#regNo0").val(rs.REG_NO.toString().replace(/-/g, ""));
                 $("#ceoNm0").val(rs.CEO_NM ? rs.CEO_NM : "");
                 $("#trDe0").val(rs.PAY_INCP_DE);

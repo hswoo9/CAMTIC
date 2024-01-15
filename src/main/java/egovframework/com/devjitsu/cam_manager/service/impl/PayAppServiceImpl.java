@@ -1455,16 +1455,19 @@ public class PayAppServiceImpl implements PayAppService {
         map.put("EVID_TYPE", list.get(0).get("EVID_TYPE"));
         map.put("TR_CD", list.get(0).get("TR_CD"));
         map.put("CRM_NM", list.get(0).get("CRM_NM"));
-        map.put("REG_NO", list.get(0).get("CRM_NM"));
-        map.put("CRM_BNK_NM", list.get(0).get("CRM_NM"));
-        map.put("CRM_ACC_NO", list.get(0).get("CRM_NM"));
-        map.put("CRM_ACC_HOLDER", list.get(0).get("CRM_NM"));
+        map.put("REG_NO", list.get(0).get("REG_NO"));
+        map.put("CRM_BNK_NM", list.get(0).get("CRM_BNK_NM"));
+        map.put("CRM_ACC_NO", list.get(0).get("CRM_ACC_NO"));
+        map.put("CRM_ACC_HOLDER", list.get(0).get("CRM_ACC_HOLDER"));
         map.put("CARD", list.get(0).get("CARD"));
         map.put("CARD_NO", list.get(0).get("CARD_NO"));
         map.put("ETC", list.get(0).get("ETC"));
         map.put("ISS", list.get(0).get("ISS"));
+        map.put("RE_APP_DE", params.get("reAppDe"));
 
         if(params.containsKey("payIncpReSn")){
+            map.put("PAY_INCP_RE_SN", params.get("payIncpReSn"));
+            map.put("payIncpReSn", params.get("payIncpReSn"));
             payAppRepository.updIncpRe(map);
         } else {
             payAppRepository.insIncpRe(map);

@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.campus.service.CampusService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,6 +66,10 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setOpenStudyInfoDelete(Map<String, Object> params) {
+        campusRepository.setOpenStudyInfoDelete(params);
+    }
+    @Override
     public void setStudyInfoDelete(Map<String, Object> params) {
         campusRepository.setStudyInfoDelete(params);
     }
@@ -92,8 +97,18 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public Map<String, Object> getOjtResultInfoOne(Map<String, Object> params){
+        return campusRepository.getOjtResultInfoOne(params);
+    }
+
+    @Override
     public Map<String, Object> getStudyInfoOne(Map<String, Object> params){
         return campusRepository.getStudyInfoOne(params);
+    }
+
+    @Override
+    public Map<String, Object> getOjtOjtResultSnOne(Map<String, Object> params){
+        return campusRepository.getOjtOjtResultSnOne(params);
     }
 
     @Override
@@ -503,10 +518,13 @@ public class CampusServiceImpl implements CampusService {
 
             Map<String, Object> weekCount = campusRepository.getStudyInfoCountStudyWeekly(params);
             Map<String, Object> weekTime = campusRepository.getRealEduTimeStudyWeekly(params);
+            Map<String, Object> studyTime = campusRepository.getRealStudyTimeStudyWeekly(params);
 
             /** 학습조 주당 2시간 인정 */
-            int realEduTime = Integer.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
+            double realEduTime = Double.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
             int infoCount = Integer.valueOf(String.valueOf(weekCount.get("studyInfoCount")));
+            double realStudyTime = Double.valueOf(String.valueOf(studyTime.get("STUDY_TIME")));
+
             if(infoCount == 1){
                 if(realEduTime > 2){
                     params.put("realEduTime", '2');
@@ -515,7 +533,12 @@ public class CampusServiceImpl implements CampusService {
                 }
             }else{
                 if(realEduTime > 2){
-                    params.put("realEduTime", '0');
+                    /*params.put("realEduTime", '0');*/
+                    if(realStudyTime < 2){
+                        params.put("realEduTime", 2-realStudyTime);
+                    }else{
+                        params.put("realEduTime", '0');
+                    }
                 }else{
                     params.put("realEduTime", params.get("realEduTime"));
                 }
@@ -569,10 +592,13 @@ public class CampusServiceImpl implements CampusService {
 
             Map<String, Object> weekCount = campusRepository.getStudyInfoCountStudyWeekly(params);
             Map<String, Object> weekTime = campusRepository.getRealEduTimeStudyWeekly(params);
+            Map<String, Object> studyTime = campusRepository.getRealStudyTimeStudyWeekly(params);
 
             /** 학습조 주당 2시간 인정 */
-            int realEduTime = Integer.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
+            double realEduTime = Double.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
             int infoCount = Integer.valueOf(String.valueOf(weekCount.get("studyInfoCount")));
+            double realStudyTime = Double.valueOf(String.valueOf(studyTime.get("STUDY_TIME")));
+
             if(infoCount == 1){
                 if(realEduTime > 2){
                     params.put("realEduTime", '2');
@@ -581,7 +607,12 @@ public class CampusServiceImpl implements CampusService {
                 }
             }else{
                 if(realEduTime > 2){
-                    params.put("realEduTime", '0');
+                    /*params.put("realEduTime", '0');*/
+                        if(realStudyTime < 2){
+                            params.put("realEduTime", 2-realStudyTime);
+                        }else{
+                            params.put("realEduTime", '0');
+                        }
                 }else{
                     params.put("realEduTime", params.get("realEduTime"));
                 }
@@ -1427,6 +1458,16 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setOjtOjtResultInsert(Map<String, Object> params) {
+        campusRepository.setOjtOjtResultInsert(params);
+    }
+
+    @Override
+    public void setOjtOjtResultModify(Map<String, Object> params) {
+        campusRepository.setOjtOjtResultModify(params);
+    }
+
+    @Override
     public void setStudyResultY(Map<String, Object> params) {
         campusRepository.setStudyResultY(params);
 
@@ -1474,5 +1515,10 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public Map<String, Object> getStudyOjtInfoOne(Map<String, Object> params){
         return campusRepository.getStudyOjtInfoOne(params);
+    }
+
+    @Override
+    public Map<String, Object> getOjtOjtResultCount(Map<String, Object> params){
+        return campusRepository.getOjtOjtResultCount(params);
     }
 }

@@ -19,10 +19,12 @@
 <body class="font-opensans" style="background-color:#fff;">
 
 <input type="hidden" id="pk" value="${params.pk}"/>
-<input type="hidden" id="studyResultSn" value="${params.studyResultSn}" />
+<input type="hidden" id="ojtOjtResultSn" value="${params.ojtOjtResultSn}" />
+<%--<input type="hidden" id="studyResultSn" value="${params.studyResultSn}" />--%>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="resultMode" value="${params.mode}" />
+
 
 <div class="table-responsive">
     <div class="card-header pop-header">
@@ -32,6 +34,8 @@
                 </span>
         </h3>
         <div class="btn-st popButton">
+            <input type="button" id="modifyBtn" style=" margin-right:5px;" class="k-button k-button-solid-primary" value="수정" onclick="saveBtn();"/>
+            <input type="button" id="savesBtn" style=" margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="saveBtn();"/>
             <input type="button" id="apprBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인" onclick="fn_approval();"/>
             <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="승인요청" onclick="fn_save();"/>
             <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
@@ -43,9 +47,6 @@
             <input type="button" id="approvalBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인요청" onclick="fn_save();"/>
             <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
         </div>--%>
-
-
-
     </div>
     <form id="ojtResultForm">
         <table class="table table-bordered mt20">
@@ -131,21 +132,43 @@
         let ojtInfo = customKendo.fn_customAjax("/campus/getStudyInfoOne", {
             pk: $("#pk").val()
         }).data;
-
-        console.log(ojtInfo);
-
         $("#ojtNameTd").text(ojtInfo.STUDY_NAME);
-        $("#START_DT").val(ojtInfo.START_DT);
-        $("#END_DT").val(ojtInfo.END_DT);
-        $("#ojtLocationTd").val(ojtInfo.STUDY_LOCATION);
-        $("#ojtObjectTd").val(ojtInfo.STUDY_OBJECT);
-        $("#ojtContentTd").val(ojtInfo.STUDY_CONTENT);
-        $("#ojtAmtTd").val(fn_numberWithCommas(ojtInfo.STUDY_MONEY));
-        $("#ojtAmtTextTd").val(ojtInfo.STUDY_MONEY_VAL);
-        $("#regDateTd").val(ojtInfo.REG_DT);
+
+        let ojtResultInfo = customKendo.fn_customAjax("/campus/getOjtResultInfoOne", {
+            pk: $("#pk").val()
+        }).data;
+
+        if($("#resultMode").val() == "modify" || $("#resultMode").val() == "mng"){
+                $("#START_DT").val(ojtResultInfo.START_DT);
+                $("#END_DT").val(ojtResultInfo.END_DT);
+                $("#ojtLocationTd").val(ojtResultInfo.STUDY_LOCATION);
+                $("#ojtObjectTd").val(ojtResultInfo.STUDY_OBJECT);
+                $("#ojtContentTd").val(ojtResultInfo.STUDY_CONTENT);
+                $("#ojtAmtTd").val(fn_numberWithCommas(ojtResultInfo.STUDY_MONEY));
+                $("#ojtAmtTextTd").val(ojtResultInfo.STUDY_MONEY_VAL);
+                $("#regDateTd").val(ojtResultInfo.REG_DT);
+                $("#savesBtn").hide();
+        }else if($("#resultMode").val() == "upd"){
+            $("#START_DT").val(ojtInfo.START_DT);
+            $("#END_DT").val(ojtInfo.END_DT);
+            $("#ojtLocationTd").val(ojtInfo.STUDY_LOCATION);
+            $("#ojtObjectTd").val(ojtInfo.STUDY_OBJECT);
+            $("#ojtContentTd").val(ojtInfo.STUDY_CONTENT);
+            $("#ojtAmtTd").val(fn_numberWithCommas(ojtInfo.STUDY_MONEY));
+            $("#ojtAmtTextTd").val(ojtInfo.STUDY_MONEY_VAL);
+            $("#regDateTd").val(ojtInfo.REG_DT);
+            $("#modifyBtn").hide();
+        }
+
+        if($("#resultMode").val() == "mng"){
+            $("#savesBtn").hide();
+            $("#modifyBtn").hide();
+        }
 
         if(ojtInfo.ADD_STATUS == "C" || ojtInfo.ADD_STATUS == "S"){
             $("#saveBtn").hide();
+            $("#savesBtn").hide();
+            $("#modifyBtn").hide();
         }
 
         if($("#resultMode").val() == "mng"){
@@ -162,10 +185,39 @@
 
     function fn_save (){
         var data = {
-            studyInfoSn : $("#pk").val()
+            studyInfoSn : $("#pk").val(),
         }
-
         $.ajax({
+            url : "/campus/getOjtOjtResultCount",
+            data: data,
+            type :"post",
+            dataType :"json",
+            success : function (result){
+                if(result.data.ojtResultCount == 1){
+                    $.ajax({
+                        url : "/campus/setStudyResultComplete",
+                        data: data,
+                        type :"post",
+                        dataType :"json",
+                        success : function (rs){
+                            if(rs.code == 200){
+                                alert("승인 요청되었습니다.");
+                                window.close();
+                            }
+                        }
+                    })
+                 }else{
+                    alert('결과보고서를 저장해주세요.');
+                    return;
+                }
+            }
+        })
+
+
+
+
+
+       /* $.ajax({
             url : "/campus/setStudyResultComplete",
             data: data,
             type :"post",
@@ -176,7 +228,7 @@
                     window.close();
                 }
             }
-        })
+        })*/
     }
 
     function fn_approval(){
@@ -196,6 +248,58 @@
                 }
             }
         })
+    }
+    function saveBtn(){
+        let ojtResultSn = $("#ojtOjtResultSn").val();
+        let studyInfoSn = $("#pk").val();
+        let START_DT = $("#START_DT").val();
+        let END_DT = $("#END_DT").val();
+        let ojtLocationTd = $("#ojtLocationTd").val();
+        let ojtObjectTd = $("#ojtObjectTd").val();
+        let ojtContentTd = $("#ojtContentTd").val();
+        let ojtAmtTd = $("#ojtAmtTd").val();
+        let ojtAmtTextTd = $("#ojtAmtTextTd").val();
+        let regDateTd = $("#regDateTd").val();
+
+        let data = {
+            ojtResultSn: ojtResultSn,
+            studyInfoSn: studyInfoSn,
+            START_DT: START_DT,
+            END_DT : END_DT,
+            ojtLocationTd : ojtLocationTd,
+            ojtObjectTd: ojtObjectTd,
+            ojtContentTd: ojtContentTd,
+            ojtAmtTd: ojtAmtTd,
+            ojtAmtTextTd: ojtAmtTextTd,
+            regDateTd: regDateTd
+        }
+
+        if($("#resultMode").val() == "modify") {
+            /*수정*/
+            $.ajax({
+                url: "/campus/setOjtOjtResultModify",
+                data: data,
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                    alert("수정되었습니다.");
+                    opener.location.reload();
+                }
+            })
+        }else{
+            /*저장*/
+            $.ajax({
+                url: "/campus/setOjtOjtResultInsert",
+                data: data,
+                type: "post",
+                dataType: "json",
+                success: function (result) {
+                        alert("저장되었습니다.");
+                        opener.location.reload();
+                    }
+            })
+        }
+
     }
 </script>
 </body>

@@ -14,7 +14,7 @@ var regIncpRe = {
     fn_defaultScript : function () {
         customKendo.fn_datePicker("appDe", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["pjtNm", "accNm", "accNo", "bnkNm", "budgetNm", "exnpEmpNm", "exnpDeptNm"
-            , "pjtNm2", "inDt", "totAmt", "supAmt", "vatAmt"]);
+            , "pjtNm2", "inDt", "totAmt"]);
 
         $("#appCont").kendoTextArea({
             rows: 5,
@@ -83,6 +83,7 @@ var regIncpRe = {
     payAppBtnSet: function (data){
         let buttonHtml = "";
         if($("#type").val() != "new"){
+            buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_save()">저장</button>';
             buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_reApprove()">반제결의서 승인</button>';
         } else {
             buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_save()">저장</button>';
@@ -121,10 +122,16 @@ var regIncpRe = {
     fn_save : function(){
         var data = {
             payIncpSn : $("#payIncpSn").val(),
+            reAppDe : $("#appDe").val(),
             inDt : $("#inDt").val(),
             totAmt : regIncpRe.uncomma($("#totAmt").val() == "" ? 0 : $("#totAmt").val()),
-            supAmt : regIncpRe.uncomma($("#supAmt").val() == "" ? 0 : $("#totAmt").val()),
-            vatAmt : regIncpRe.uncomma($("#vatAmt").val() == "" ? 0 : $("#totAmt").val()),
+            supAmt : regIncpRe.uncomma($("#supAmt").val() == "" ? 0 : $("#supAmt").val()),
+            vatAmt : regIncpRe.uncomma($("#vatAmt").val() == "" ? 0 : $("#vatAmt").val()),
+        }
+
+        if(data.totAmt > (Number($("#incpTotAmt").val()) - Number($("#redyAmt").val()))) {
+            alert("입금 잔액을 초과하였습니다.");
+            return;
         }
 
         if($("#payIncpReSn").val() != ""){
@@ -160,8 +167,15 @@ var regIncpRe = {
 
         $("#inDt").val(ls[0].TR_DE);
 
+        var incpTotAmt = 0;
+        for(var i = 0 ; i < ls.length ; i++){
+            incpTotAmt += Number(ls[i].TOT_COST);
+        }
+
         regIncpRe.payAppBtnSet(rs);
 
+        $("#redyAmt").val(tmpRs.TOT_COST - rs.TOT_COST);
+        $("#incpTotAmt").val(incpTotAmt);
         $("#appDe").val(rs.APP_DE ? rs.APP_DE : tmpRs.APP_DE);
         $("#pjtNm").val(rs.PJT_NM ? rs.PJT_NM : tmpRs.PJT_NM);
         $("#pjtNm2").val(rs.PJT_NM ? rs.PJT_NM : tmpRs.PJT_NM);
@@ -192,11 +206,18 @@ var regIncpRe = {
         var rs = result.map;
         var ls = result.list;
 
+        var incpTotAmt = 0;
+        for(var i = 0 ; i < ls.length ; i++){
+            incpTotAmt += Number(ls[i].TOT_COST);
+        }
+
         $("#inDt").val(ls[0].TR_DE);
 
         regIncpRe.payAppBtnSet(rs);
 
         $("#appDe").val(rs.APP_DE);
+        $("#redyAmt").val(rs.TOT_COST);
+        $("#incpTotAmt").val(incpTotAmt);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtNm2").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);

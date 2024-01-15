@@ -14,10 +14,22 @@ const ojtView = {
     },
 
     dataSet: function(){
+        let ojtOjtResultSn = customKendo.fn_customAjax("/campus/getOjtOjtResultSnOne", {
+            pk: $("#pk").val()
+        }).data;
+
         let ojtInfo = customKendo.fn_customAjax("/campus/getStudyInfoOne", {
             pk: $("#pk").val()
         }).data;
+
+        ojtView.global.ojtOjtResultSn = ojtOjtResultSn;
         ojtView.global.ojtInfo = ojtInfo;
+
+        if(ojtOjtResultSn == undefined) {
+            $("#ojtOjtResultSn").val("");
+        }else {
+            $("#ojtOjtResultSn").val(ojtOjtResultSn.OJT_OJT_RESULT_SN);
+        }
         $("#status").val(ojtInfo.STATUS);
         $("#ojtNameTd").text(ojtInfo.STUDY_NAME);
         $("#ojtDtTd").text(ojtInfo.START_DT+" ~ "+ojtInfo.END_DT);
@@ -558,14 +570,25 @@ const ojtView = {
         let name = "studyOjtPop";
         let option = "width = 800, height = 700, top = 100, left = 200, location = no";
 
-        if($("#mode").val() != ""){
+        /*if($("#mode").val() != ""){
             url += "&mode="+$("#mode").val();
-        }
+        }*/
 
-        if($("#studyResultSn").val() != "" && $("#studyResultSn").val() != "undefined" && $("#studyResultSn").val() != null){
-            url += "&studyResultSn="+$("#studyResultSn").val();
+        if($("#ojtOjtResultSn").val() != "" && $("#ojtOjtResultSn").val() != "undefined" && $("#ojtOjtResultSn").val() != null){
+            if($("#mode").val() == "mng"){
+                url += "&mode="+$("#mode").val();
+            }else{
+                url += "&mode=modify";
+            }
+            /*url += "&mode=modify";*/
+
+            url += "&ojtOjtResultSn="+$("#ojtOjtResultSn").val();
+
         } else {
-            name = "studyJournalPop";
+            if($("#mode").val() != ""){
+                url += "&mode="+$("#mode").val();
+            }
+            name = "studyOjtPop";
             option = "width = 800, height = 600, top = 100, left = 200, location = no";
         }
 

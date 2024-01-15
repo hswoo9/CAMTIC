@@ -1088,6 +1088,13 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 오픈스터디 모임개설취소 */
+    @RequestMapping("/campus/setOpenStudyInfoDelete")
+    public String setOpenStudyInfoDelete(@RequestParam Map<String, Object> params) {
+        campusService.setOpenStudyInfoDelete(params);
+        return "jsonView";
+    }
+
     /** 단체학습 학습취소 */
     @RequestMapping("/campus/setStudyInfoDelete")
     public String setStudyInfoDelete(@RequestParam Map<String, Object> params) {
@@ -1244,6 +1251,20 @@ public class CampusController {
     @RequestMapping("/campus/getStudyInfoOne")
     public String getStudyInfoOne(@RequestParam Map<String, Object> params, Model model) {
         Map<String, Object> data = campusService.getStudyInfoOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/getOjtResultInfoOne")
+    public String getOjtResultInfoOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getOjtResultInfoOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/getOjtOjtResultSnOne")
+    public String getOjtOjtResultSnOne(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getOjtOjtResultSnOne(params);
         model.addAttribute("data", data);
         return "jsonView";
     }
@@ -2079,6 +2100,32 @@ public class CampusController {
         return "jsonView";
     }
 
+    @RequestMapping("/campus/setOjtOjtResultInsert")
+    public String setOjtOjtResultInsert(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            campusService.setOjtOjtResultInsert(params);
+            model.addAttribute("params", params);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/setOjtOjtResultModify")
+    public String setOjtOjtResultModify(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            campusService.setOjtOjtResultModify(params);
+            model.addAttribute("params", params);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/campus/setStudyResult")
     public String setStudyResult(@RequestParam Map<String, Object> params, Model model) {
 
@@ -2154,6 +2201,13 @@ public class CampusController {
     @RequestMapping("/campus/getStudyOjtInfoOne")
     public String getStudyOjtInfoOne(@RequestParam Map<String, Object> params, Model model) {
         Map<String, Object> data = campusService.getStudyOjtInfoOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/getOjtOjtResultCount")
+    public String getOjtOjtResultCount(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = campusService.getOjtOjtResultCount(params);
         model.addAttribute("data", data);
         return "jsonView";
     }

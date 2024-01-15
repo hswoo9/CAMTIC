@@ -18,6 +18,7 @@ public interface CampusService {
     Map<String, Object> getRealEduTimePropagWeekly(Map<String, Object> params);
     List<Map<String, Object>> getEduInfoList(Map<String, Object> params);
     void setEduInfoDelete(Map<String, Object> params);
+    void setOpenStudyInfoDelete(Map<String, Object> params);
     void setStudyInfoDelete(Map<String, Object> params);
     Map<String, Object> getEduInfoOne(Map<String, Object> params);
     Map<String, Object> getEduResultOne(Map<String, Object> params);
@@ -27,6 +28,8 @@ public interface CampusService {
     List<Map<String, Object>> getStudyInfoStatList(Map<String, Object> params);
     List<Map<String, Object>> getStudyInfoList(Map<String, Object> params);
     Map<String, Object> getStudyInfoOne(Map<String, Object> params);
+    Map<String, Object> getOjtResultInfoOne(Map<String, Object> params);
+    Map<String, Object> getOjtOjtResultSnOne(Map<String, Object> params);
     List<Map<String, Object>> getStudyUserList(Map<String, Object> params);
     List<Map<String, Object>> getStudyJournalList(Map<String, Object> params);
     Map<String, Object> getStudyJournalOne(Map<String, Object> params);
@@ -184,6 +187,10 @@ public interface CampusService {
 
     void setStudyResult(Map<String, Object> params);
 
+    void setOjtOjtResultInsert(Map<String, Object> params);
+
+    void setOjtOjtResultModify(Map<String, Object> params);
+
     void setStudyResultY(Map<String, Object> params);
 
     Map<String, Object> getStudyResultData(Map<String, Object> params);
@@ -200,7 +207,7 @@ public interface CampusService {
 
     Map<String, Object> getStudyOjtInfoOne(Map<String, Object> params);
 
-
+    Map<String, Object> getOjtOjtResultCount(Map<String, Object> params);
 
 
     /** 전자결재 끝 */

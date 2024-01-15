@@ -13,6 +13,7 @@ public class CampusRepository extends AbstractDAO  {
     public Map<String, Object> getCodeOne(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getCodeOne", params); }
     public Map<String, Object> getRealEduTimeYear(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealEduTimeYear", params); }
     public Map<String, Object> getRealEduTimeStudyWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealEduTimeStudyWeekly", params); }
+    public Map<String, Object> getRealStudyTimeStudyWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealStudyTimeStudyWeekly", params); }
     public Map<String, Object> getStudyInfoCountStudyWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getStudyInfoCountStudyWeekly", params); }
     public Map<String, Object> getRealEduTimePropagWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealEduTimePropagWeekly", params); }
 
@@ -20,6 +21,8 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getEduInfoList", params);
     }
     public void setEduInfoDelete(Map<String, Object> params) { update("campus.setEduInfoDelete", params); }
+
+    public void setOpenStudyInfoDelete(Map<String, Object> params) { update("campus.setOpenStudyInfoDelete", params); }
     public void setStudyInfoDelete(Map<String, Object> params) { update("campus.setStudyInfoDelete", params); }
 
     public Map<String, Object> getEduInfoOne(Map<String, Object> params) {
@@ -66,6 +69,8 @@ public class CampusRepository extends AbstractDAO  {
     public List<Map<String, Object>> getStudyInfoStatList(Map<String, Object> params) {return selectList("campus.getStudyInfoStatList", params); }
     public List<Map<String, Object>> getStudyInfoList(Map<String, Object> params) {return selectList("campus.getStudyInfoList", params); }
     public Map<String, Object> getStudyInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyInfoOne", params); }
+    public Map<String, Object> getOjtResultInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOjtResultInfoOne", params); }
+    public Map<String, Object> getOjtOjtResultSnOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOjtOjtResultSnOne", params); }
     public List<Map<String, Object>> getStudyUserList(Map<String, Object> params) { return selectList("campus.getStudyUserList", params); }
     public List<Map<String, Object>> getStudyJournalList(Map<String, Object> params) { return selectList("campus.getStudyJournalList", params); }
     public Map<String, Object> getStudyJournalOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyJournalOne", params); }
@@ -257,9 +262,11 @@ public class CampusRepository extends AbstractDAO  {
         insert("campus.setStudyResultModify", params);
     }
 
-    public void setStudyResult(Map<String, Object> params) {
-        insert("campus.setStudyResult", params);
-    }
+    public void setStudyResult(Map<String, Object> params) {insert("campus.setStudyResult", params);}
+
+    public void setOjtOjtResultInsert(Map<String, Object> params) {insert("campus.setOjtOjtResultInsert", params);}
+
+    public void setOjtOjtResultModify(Map<String, Object> params) {update("campus.setOjtOjtResultModify", params);}
 
     public void setStudyResultY(Map<String, Object> params) {update("campus.setStudyResultY", params);}
 
@@ -308,4 +315,6 @@ public class CampusRepository extends AbstractDAO  {
     }
     public void setStudyUserDelete(Map<String, Object> params) {delete("campus.setStudyUserDelete", params);}
     public Map<String, Object> getStudyOjtInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyOjtInfoOne", params); }
+
+    public Map<String, Object> getOjtOjtResultCount(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOjtOjtResultCount", params); }
 }

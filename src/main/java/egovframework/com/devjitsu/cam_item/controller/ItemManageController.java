@@ -1139,6 +1139,18 @@ public class ItemManageController {
     }
 
     /**
+     * 재고현황(관리자) 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getItemInvenAdminList.do")
+    public String getItemInvenAdminList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getItemInvenAdminList(params));
+        return "jsonView";
+    }
+
+    /**
      * 재고선택팝업
      * @param params
      * @param model

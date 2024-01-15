@@ -104,6 +104,19 @@ public class G20ServiceImpl implements G20Service {
             }
         }
 
+        String bgtNm = String.valueOf(params.get("searchValue"));
+
+        if (!bgtNm.equals("")) {
+            Iterator<Map<String, Object>> iterator = result.iterator();
+            while (iterator.hasNext()) {
+                Map<String, Object> map = iterator.next();
+                if (!String.valueOf(map.get("BGT_NM")).contains(bgtNm)) {
+                    iterator.remove();
+                }
+            }
+        }
+
+
         return result;
     }
 
