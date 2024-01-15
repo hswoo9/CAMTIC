@@ -41,7 +41,7 @@
                         <li id="TabM">기본 정보</li>
                         <li id="TabB">학력 사항</li>
                         <li id="TabC">경력 사항</li>
-                        <li id="TabD">병력 사항</li>
+                        <li id="TabD">병역 사항</li>
                         <li id="TabE">가족 사항</li>
                         <li id="TabF">보유 면허</li>
                         <li id="TabG">직무 사항</li>
@@ -355,7 +355,7 @@
                     </div>
                     <div class="armyInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt">· 병력 사항</div>
+                            <div class="subTitSt">· 병역 사항</div>
                         </div>
                         <div class="table-responsive">
                             <div>
@@ -1130,7 +1130,7 @@
     }
     //학력 degree
     //경력 careerInfo
-    //병력 military
+    //병역 military
     //가족 family
     //면허 license
     //직무 job
@@ -1176,7 +1176,7 @@
             }
         }
     }
-    //병력추가
+    //병역추가
     function addMilitaryBtn(e) {
         var url = "/useManage/userPersonnelRecordPop.do?popName=military";
         var name = "userPersonnelRecordEduAddPop";
@@ -1185,7 +1185,7 @@
 
         popup.onload = function() {
             var titleElement = popup.document.querySelector('.card-title.title_NM');
-            titleElement.textContent = '병력 등록';
+            titleElement.textContent = '병역 등록';
 
             var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
             for(var i = 0; i < buttons.length; i++) {
@@ -1516,7 +1516,7 @@
     }
      */
 
-    //인사기록카드 - 병력 사항 수정
+    //인사기록카드 - 병역 사항 수정
     function updateMilitaryBtn(e) {
         var url = "/useManage/userPersonnelRecordPop.do?popName=military&msiInfoId=" + e;
         var name = "userPersonnelRecordEduAddPop";
@@ -1525,7 +1525,7 @@
 
         popup.onload = function() {
             var titleElement = popup.document.querySelector('.card-title.title_NM');
-            titleElement.textContent = '병력 수정';
+            titleElement.textContent = '병역 수정';
 
             var buttons = popup.document.querySelectorAll('.k-button.k-button-solid-info');
             for (var i = 0; i < buttons.length; i++) {

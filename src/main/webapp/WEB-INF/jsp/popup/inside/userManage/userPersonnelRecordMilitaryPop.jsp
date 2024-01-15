@@ -10,7 +10,7 @@
 <body class="font-opensans" style="background-color:#fff;">
   <div class="table-responsive">
     <div class="card-header pop-header">
-      <h3 class="card-title title_NM">병력 등록</h3>
+      <h3 class="card-title title_NM">병역 등록</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-info" onclick="fu_addInfo()">등록</button>
         <button type="button" class="k-button k-button-solid-info" onclick="fu_modifyInfo()">수정</button>
@@ -27,7 +27,7 @@
         </colgroup>
         <thead>
         <%--<tr>
-          <th colspan="3">병력 등록</th>
+          <th colspan="3">병역 등록</th>
         </tr>--%>
         <tr>
           <th>
@@ -115,7 +115,7 @@
     $("#mDept").kendoTextBox();
   }
 
-  //병력 수정
+  //병역 수정
   function fu_modifyInfo() {
     var data = {
         msiInfoId : $("#msiInfoId").val(),
@@ -159,7 +159,7 @@
     }
   }
 
-  // 병력등록
+  // 병역등록
   function fu_addInfo() {
     var data = { msiInfoId : $("#msiInfoId").val(),
       mGubun : $("#mGubun").val(),
