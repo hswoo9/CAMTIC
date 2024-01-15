@@ -8,7 +8,6 @@ let subAmSum = 0;
 var bgView = {
 
     fn_defaultScript : function (setParameters){
-
         var date = new Date();
         var year = date.getFullYear().toString().substring(2,4);
 
@@ -32,15 +31,8 @@ var bgView = {
             bgView.budgetMainGrid(data);
         }
 
-        // $.ajax({
-        //     url : "/g20/getSubjectList",
-        //     data : data,
-        //     type : "post",
-        //     dataType : "json",
-        //     success : function (rs){
-        //         console.log(rs);
-        //     }
-        // })
+        customKendo.fn_textBox(["searchValue"]);
+
     },
 
     gridReload : function (){
@@ -68,6 +60,7 @@ var bgView = {
                     data.opt02 = '1';
                     data.opt03 = '2';
                     data.pjtSn = $("#pjtSn").val();
+                    data.searchValue = $("#searchValue").val();
 
                     if(opener.parent.$("#baseYear").val() != null && opener.parent.$("#baseYear").val() != undefined && opener.parent.$("#baseYear").val() != "") {
                         data.baseDate = opener.parent.$("#baseYear").val() + "0101";
@@ -108,7 +101,18 @@ var bgView = {
                 template: "데이터가 존재하지 않습니다."
             },
             dataBound: bgView.onDataBound,
-            columns: [
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '항 검색 : <input type="text" id="searchValue" onkeypress="if(window.event.keyCode==13){bgView.gridReload();}" />' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button k-button-solid-base" onclick="bgView.gridReload()">' +
+                            '<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+                columns: [
                 {
                     template: "#= ++record #",
                     title: "번호",

@@ -460,13 +460,20 @@
                     var article = result.boardArticleList.list[i];
                     var dt = (article.reg_DATE.year + "-" + ('00' + article.reg_DATE.monthValue).slice(-2) + "-" + ('00' + article.reg_DATE.dayOfMonth).slice(-2));
 
+                    var title = "";
+                    if(article.reply_CNT != 0){
+                        title = article.board_ARTICLE_TITLE + '[' + article.reply_CNT + ']';
+                    }else{
+                        title = article.board_ARTICLE_TITLE
+                    }
+
                     if(v == "tab1Ul"){
                         html += '' +
                             '<li style="border-top:0; border-bottom:0;">' +
                             '<p style="padding: 10px 10px 0px; display:flex;">' +
                             '<span style="width:120px;">' + article.board_NAME + '</span><span style="margin-right:20px;">|</span>' +
                             '<a class="contentLink" onclick="open_in_frame(\'/board/normalBoardDetail.do?boardArticleId=' + article.board_ARTICLE_ID + '&boardId=' + article.board_ID + '\')">' +
-                            article.board_ARTICLE_TITLE + '[' + article.reply_CNT + ']' +
+                            title +
                             '</a>' +
                             '<span style="position:absolute; right:10px;">' + dt + '</span>' +
                             '</p>' +

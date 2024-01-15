@@ -402,6 +402,7 @@
             CASE WHEN RB.STATUS = '1' THEN '요청중'
                  WHEN RB.STATUS = '2' THEN '접수완료'
                  WHEN RB.STATUS = '3' THEN '처리완료'
+                 WHEN RB.STATUS = '99' THEN '반려'
                  WHEN RB.STATUS = '-1' THEN '취소'
                 END AS STATUS,
             DATE_FORMAT(RB.REG_DATE, '%Y-%m-%d') AS REG_DATE,

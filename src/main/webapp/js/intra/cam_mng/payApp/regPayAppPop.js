@@ -370,11 +370,18 @@ var regPay = {
                 hrBizReqResultId: hrBizReqResultId
             }).list;
 
+            var fileThumbText = "";
+
             for(let i=0; i<exnpFile.length; i++){
                 if(blist != ""){
                     blist += ",";
                 }
+                if(fileThumbText != ""){
+                    fileThumbText += " | ";
+                }
                 blist += exnpFile[i].file_no;
+                fileThumbText += exnpFile[i].file_org_name;
+                fileThumbText += "." + exnpFile[i].file_ext;
             }
 
             regPay.global.fileArray = exnpFile;
@@ -388,10 +395,16 @@ var regPay = {
                     if(blist != ""){
                         blist += ",";
                     }
+                    if(fileThumbText != ""){
+                        fileThumbText += " | ";
+                    }
                     blist += exnpFile[i].file_no;
+                    fileThumbText += exnpFile[i].file_org_name;
+                    fileThumbText += "." + exnpFile[i].file_ext;
                 }
             }
 
+            $("#fileText").text(fileThumbText);
             $("#bList").val(blist);
         }
 
@@ -407,8 +420,6 @@ var regPay = {
                 const result = customKendo.fn_customAjax("/inside/getSnackOne", data);
                 const snackData = result.data;
 
-
-
                 const cardResult = customKendo.fn_customAjax("/snack/getCardList", data);
                 const cardList = cardResult.list;
 
@@ -421,6 +432,18 @@ var regPay = {
 
                 var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
                 var fileList = fileResult.fileList;
+
+                var fileThumbText = "";
+
+                for(let i=0; i<fileList.length; i++){
+                    if(fileThumbText != ""){
+                        fileThumbText += " | ";
+                    }
+                    fileThumbText += fileList[i].file_org_name;
+                    fileThumbText += "." + fileList[i].file_ext;
+                }
+                
+                $("#fileText").text(fileThumbText);
 
                 regPay.global.fileArray = fileList;
 
@@ -534,7 +557,6 @@ var regPay = {
                     }
                 }
             }
-
 
         }
 
