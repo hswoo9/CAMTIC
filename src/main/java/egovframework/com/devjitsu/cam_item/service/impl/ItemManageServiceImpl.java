@@ -738,6 +738,10 @@ public class ItemManageServiceImpl implements ItemManageService {
     public List<Map<String, Object>> getItemInvenList(Map<String, Object> params) {
         return itemManageRepository.getItemInvenList(params);
     }
+    @Override
+    public List<Map<String, Object>> getItemInvenAdminList(Map<String, Object> params) {
+        return itemManageRepository.getItemInvenAdminList(params);
+    }
 
     @Override
     public Map<String, Object> getItemInven(Map<String, Object> params) {

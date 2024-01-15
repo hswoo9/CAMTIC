@@ -268,7 +268,7 @@ var invenStAdmin = {
             searchDt : $("#searchDt").val()
         };
 
-        invenStAdmin.mainGrid("/item/getItemInvenList.do", invenStAdmin.global.searchAjaxData);
+        invenStAdmin.mainGrid("/item/getItemInvenAdminList.do", invenStAdmin.global.searchAjaxData);
     },
 
     comma: function(str) {
