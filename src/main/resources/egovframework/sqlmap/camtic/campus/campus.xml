@@ -61,6 +61,17 @@
         AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
     </select>
 
+    <select id="getRealStudyTimeStudyWeekly" resultType="map" parameterType="map">
+        /* getRealStudyTimeStudyWeekly */
+        SELECT
+            IFNULL(SUM(STUDY_TIME), 0) AS STUDY_TIME
+        FROM
+            CAMPUS.DJ_STUDY_RESULT_USER
+        WHERE
+            STUDY_EMP_SEQ = #{empSeq}
+          AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
+    </select>
+
     <select id="getStudyInfoCountStudyWeekly" resultType="map" parameterType="map">
         /* getStudyInfoCountStudyWeekly */
         SELECT
@@ -2915,7 +2926,8 @@
                 STUDY_DUTY_NAME,
                 STUDY_TIME,
                 STUDY_CLASS_SN,
-                STUDY_CLASS_TEXT
+                STUDY_CLASS_TEXT,
+                JOURNAL_DT
             )
         VALUES
             (
@@ -2929,7 +2941,8 @@
                 #{studyDutyName},
                 #{realEduTime},
                 #{studyClassSn},
-                #{studyClassText}
+                #{studyClassText},
+                #{journalDt}
             )
     </select>
 

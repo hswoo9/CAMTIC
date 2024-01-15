@@ -518,10 +518,13 @@ public class CampusServiceImpl implements CampusService {
 
             Map<String, Object> weekCount = campusRepository.getStudyInfoCountStudyWeekly(params);
             Map<String, Object> weekTime = campusRepository.getRealEduTimeStudyWeekly(params);
+            Map<String, Object> studyTime = campusRepository.getRealStudyTimeStudyWeekly(params);
 
             /** 학습조 주당 2시간 인정 */
             double realEduTime = Double.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
             int infoCount = Integer.valueOf(String.valueOf(weekCount.get("studyInfoCount")));
+            double realStudyTime = Double.valueOf(String.valueOf(studyTime.get("STUDY_TIME")));
+
             if(infoCount == 1){
                 if(realEduTime > 2){
                     params.put("realEduTime", '2');
@@ -530,7 +533,12 @@ public class CampusServiceImpl implements CampusService {
                 }
             }else{
                 if(realEduTime > 2){
-                    params.put("realEduTime", '0');
+                    /*params.put("realEduTime", '0');*/
+                    if(realStudyTime < 2){
+                        params.put("realEduTime", 2-realStudyTime);
+                    }else{
+                        params.put("realEduTime", '0');
+                    }
                 }else{
                     params.put("realEduTime", params.get("realEduTime"));
                 }
@@ -584,10 +592,13 @@ public class CampusServiceImpl implements CampusService {
 
             Map<String, Object> weekCount = campusRepository.getStudyInfoCountStudyWeekly(params);
             Map<String, Object> weekTime = campusRepository.getRealEduTimeStudyWeekly(params);
+            Map<String, Object> studyTime = campusRepository.getRealStudyTimeStudyWeekly(params);
 
             /** 학습조 주당 2시간 인정 */
             double realEduTime = Double.valueOf(String.valueOf(weekTime.get("REAL_EDU_TIME")));
             int infoCount = Integer.valueOf(String.valueOf(weekCount.get("studyInfoCount")));
+            double realStudyTime = Double.valueOf(String.valueOf(studyTime.get("STUDY_TIME")));
+
             if(infoCount == 1){
                 if(realEduTime > 2){
                     params.put("realEduTime", '2');
@@ -596,7 +607,12 @@ public class CampusServiceImpl implements CampusService {
                 }
             }else{
                 if(realEduTime > 2){
-                    params.put("realEduTime", '0');
+                    /*params.put("realEduTime", '0');*/
+                        if(realStudyTime < 2){
+                            params.put("realEduTime", 2-realStudyTime);
+                        }else{
+                            params.put("realEduTime", '0');
+                        }
                 }else{
                     params.put("realEduTime", params.get("realEduTime"));
                 }
