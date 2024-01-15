@@ -151,9 +151,9 @@
           <td colspan="2">
             <input type="hidden" id="fileChange" name="fileChange" value="N">
             <span id="fileName" style="position: relative; top: 5px; left: 5px"></span>
-            <label for="file" class="k-button k-button-clear-info k-rounded" style="margin-left:10px; vertical-align: bottom;">파일첨부</label>
+            <label for="file" class="k-button k-button-clear-info k-rounded mngBtn" style="margin-left:10px; vertical-align: bottom;">파일첨부</label>
             <input type="file" id="file" name="file" style="display: none;" onchange="appView.getFileName(this)">
-            <button type="button" class="k-button k-button-solid-info" style="margin-left:10px;" onclick="appView.fileSave(this)">저장</button>
+            <button type="button" class="k-button k-button-solid-info mngBtn" style="margin-left:10px;" onclick="appView.fileSave(this)">저장</button>
           </td>
         </tr>
       </table>

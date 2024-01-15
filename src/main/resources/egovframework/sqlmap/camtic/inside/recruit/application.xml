@@ -100,7 +100,7 @@
         SELECT
             AM.*,
             RAI.*,
-            ROUND((TO_DAYS(NOW()) - TO_DAYS(AM.BDAY)) / 365, 0) AS AGE,
+            YEAR(NOW())-LEFT(AM.BDAY ,4) +1 AS AGE,
             CASE WHEN AM.GENDER = 'M' THEN '남자'
                  ELSE '여자'
             END AS GENDER_TXT,

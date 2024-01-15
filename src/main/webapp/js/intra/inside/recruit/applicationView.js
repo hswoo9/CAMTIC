@@ -57,8 +57,10 @@ var appView = {
         const result = customKendo.fn_customAjax("/inside/applicationViewRegrid", {applicationId : $("#applicationId").val()});
         const data = result.data;
 
-        let html = '<img src="/images/ico/file.gif" onclick="fileDown(\'' + data.file.file_path + data.file.file_uuid + '\', \'' + data.file.file_org_name + '.' + data.file.file_ext + '\')">';
-        $("#fileName").html(html);
+        if(data.file != null){
+            let html = '<img src="/images/ico/file.gif" onclick="fileDown(\'' + data.file.file_path + data.file.file_uuid + '\', \'' + data.file.file_org_name + '.' + data.file.file_ext + '\')">';
+            $("#fileName").html(html);
+        }
     },
 
     getCareerSum : function(){
@@ -249,12 +251,12 @@ var appView = {
             html += '<td>' + item.GRADUATE_TYPE_TXT + '</td>';
             html += '<td>' + item.GRADE + '</td>';
             if (item.degreeFile !== null && item.degreeFile !== undefined){
-                html += '<td><img src="/images/ico/file.gif" onclick="fileDown(\'' + item.degreeFile.file_path + item.degreeFile.file_uuid + '\', \'' + item.degreeFile.file_org_name + '.' + item.degreeFile.file_ext + '\')"></td>';
+                html += '<td><img src="/images/ico/file.gif" onclick="fileDown(\'' + item.degreeFile.file_path + item.degreeFile.file_uuid + '\', \'' + item.degreeFile.file_org_name + '.' + item.degreeFile.file_ext + '\', \'recruit\')"></td>';
             } else{
                 html += '<td></td>';
             }
             if (item.sexualFile !== null && item.sexualFile !== undefined) {
-                html += '<td><img src="/images/ico/file.gif" onclick="fileDown(\'' + item.sexualFile.file_path + item.sexualFile.file_uuid + '\', \'' + item.sexualFile.file_org_name + '.' + item.sexualFile.file_ext + '\')"></td>';
+                html += '<td><img src="/images/ico/file.gif" onclick="fileDown(\'' + item.sexualFile.file_path + item.sexualFile.file_uuid + '\', \'' + item.sexualFile.file_org_name + '.' + item.sexualFile.file_ext + '\', \'recruit\')"></td>';
             } else {
                 html += '<td></td>';
             }
@@ -298,7 +300,7 @@ var appView = {
             html += '<td>' + item.RETIRE_REASON + '</td>';
             html += '<td>';
             if(item.careerFile != null){
-                html += '<img src="/images/ico/file.gif" onclick="fileDown(\'' + item.careerFile.file_path + item.careerFile.file_uuid + '\', \'' + item.careerFile.file_org_name + '.' + item.careerFile.file_ext + '\')">';
+                html += '<img src="/images/ico/file.gif" onclick="fileDown(\'' + item.careerFile.file_path + item.careerFile.file_uuid + '\', \'' + item.careerFile.file_org_name + '.' + item.careerFile.file_ext + '\', \'recruit\')">';
             }
             html += '</td>';
             html += '</tr>';
@@ -355,7 +357,7 @@ var appView = {
                 '          <th>증빙</th>' +
                 '          <td>';
         if (data.armiFile !== null && data.armiFile !== undefined) {
-            html += '<img src="/images/ico/file.gif" onclick="fileDown(\'' + data.armiFile.file_path + data.armiFile.file_uuid + '\', \'' + data.armiFile.file_org_name + '.' + data.armiFile.file_ext + '\')">';
+            html += '<img src="/images/ico/file.gif" onclick="fileDown(\'' + data.armiFile.file_path + data.armiFile.file_uuid + '\', \'' + data.armiFile.file_org_name + '.' + data.armiFile.file_ext + '\', \'recruit\')">';
         } else {
             html += '';
         }
@@ -397,7 +399,7 @@ var appView = {
                 html += '<td>' + item.CERT_CONTENT + '</td>';
 
                 if (item.certFile !== null && item.certFile !== undefined) {
-                    html += '<td><img src="/images/ico/file.gif" onclick="fileDown(\'' + item.certFile.file_path + item.certFile.file_uuid + '\', \'' + item.certFile.file_org_name + '.' + item.certFile.file_ext + '\')"></td>';
+                    html += '<td><img src="/images/ico/file.gif" onclick="fileDown(\'' + item.certFile.file_path + item.certFile.file_uuid + '\', \'' + item.certFile.file_org_name + '.' + item.certFile.file_ext + '\', \'recruit\')"></td>';
                 } else {
                     html += '<td></td>';
                 }
