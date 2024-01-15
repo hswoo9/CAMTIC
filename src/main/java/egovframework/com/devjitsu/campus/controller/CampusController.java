@@ -1088,6 +1088,13 @@ public class CampusController {
         return "jsonView";
     }
 
+    /** 오픈스터디 모임개설취소 */
+    @RequestMapping("/campus/setOpenStudyInfoDelete")
+    public String setOpenStudyInfoDelete(@RequestParam Map<String, Object> params) {
+        campusService.setOpenStudyInfoDelete(params);
+        return "jsonView";
+    }
+
     /** 단체학습 학습취소 */
     @RequestMapping("/campus/setStudyInfoDelete")
     public String setStudyInfoDelete(@RequestParam Map<String, Object> params) {

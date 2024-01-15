@@ -18,6 +18,7 @@ public interface CampusService {
     Map<String, Object> getRealEduTimePropagWeekly(Map<String, Object> params);
     List<Map<String, Object>> getEduInfoList(Map<String, Object> params);
     void setEduInfoDelete(Map<String, Object> params);
+    void setOpenStudyInfoDelete(Map<String, Object> params);
     void setStudyInfoDelete(Map<String, Object> params);
     Map<String, Object> getEduInfoOne(Map<String, Object> params);
     Map<String, Object> getEduResultOne(Map<String, Object> params);

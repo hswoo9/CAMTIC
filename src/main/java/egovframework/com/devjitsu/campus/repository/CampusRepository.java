@@ -20,6 +20,8 @@ public class CampusRepository extends AbstractDAO  {
         return selectList("campus.getEduInfoList", params);
     }
     public void setEduInfoDelete(Map<String, Object> params) { update("campus.setEduInfoDelete", params); }
+
+    public void setOpenStudyInfoDelete(Map<String, Object> params) { update("campus.setOpenStudyInfoDelete", params); }
     public void setStudyInfoDelete(Map<String, Object> params) { update("campus.setStudyInfoDelete", params); }
 
     public Map<String, Object> getEduInfoOne(Map<String, Object> params) {

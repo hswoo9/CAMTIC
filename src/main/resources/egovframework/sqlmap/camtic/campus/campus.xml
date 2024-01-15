@@ -203,6 +203,16 @@
             EDU_INFO_ID = #{pk}
     </update>
 
+    <update id="setOpenStudyInfoDelete" parameterType="map">
+        /* setOpenStudyInfoDelete */
+        UPDATE
+            CAMPUS.DJ_OPENSTUDY_INFO
+        SET
+            ACTIVE = 'N'
+        WHERE
+            OPEN_STUDY_INFO_SN = #{pk}
+    </update>
+
     <update id="setStudyInfoDelete" parameterType="map">
         /* setStudyInfoDelete */
         UPDATE
@@ -767,6 +777,7 @@
                     CAMPUS.DJ_OPENSTUDY_INFO COSI,
                     (SELECT @ROWNUM := 0) TMP
                 WHERE 1=1
+                    AND ACTIVE = 'Y'
                 <if test='step != null and !"".equals(step)'>
                     AND STEP = #{step}
                 </if>

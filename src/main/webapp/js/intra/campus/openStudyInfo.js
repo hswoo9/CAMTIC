@@ -53,7 +53,10 @@ var openStudy = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="openStudy.openStudyReqPop(\'ins\');">' +
+                        return '<button type="button" class="k-button k-button-solid-base" onclick=" openStudy.setOpenStudyInfoDelete();">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>'+
+                        '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="openStudy.openStudyReqPop(\'ins\');">' +
                             '	<span class="k-button-text">모임개설</span>' +
                             '</button>';
                     }
@@ -65,6 +68,16 @@ var openStudy = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'openStudyPk\');"/>',
+                    /* template : "<input type='checkbox' id='eduPk#=EDU_INFO_ID#' name='eduPk' class='eduPk' value='#=EDU_INFO_ID#'/>",*/
+                    template : function(row){
+                        if(row.STEP == "A"){
+                            return "<input type='checkbox' id='openStudyPk="+row.OPEN_STUDY_INFO_SN+"' name='openStudyPk' class='openStudyPk'  value='"+row.OPEN_STUDY_INFO_SN+"'>";
+                        }
+                        return "";
+                    },
+                    width: 50
+                }, {
                     field: "ROW_NUM",
                     title: "순번",
                     width: 50
@@ -168,5 +181,22 @@ var openStudy = {
         const name = "openStudyResPop";
         const option = "width = 1230, height = 935, top = 100, left = 400, location = no";
         window.open(url, name, option);
+    },
+
+    setOpenStudyInfoDelete: function(){
+        /*active=N 으로*/
+        if(!confirm("모임개설을 취소하시겠습니까?")) {return false;}
+
+        $("input[name=openStudyPk]:checked").each(function(){
+            let dataItem = $("#mainGrid").data("kendoGrid").dataItem($(this).closest("tr"));
+
+            let data = {
+                pk: $(this).val()
+            }
+
+            let url = "/campus/setOpenStudyInfoDelete";
+            customKendo.fn_customAjax(url, data);
+        });
+        gridReload();
     }
 }

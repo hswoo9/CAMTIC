@@ -65,6 +65,10 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void setOpenStudyInfoDelete(Map<String, Object> params) {
+        campusRepository.setOpenStudyInfoDelete(params);
+    }
+    @Override
     public void setStudyInfoDelete(Map<String, Object> params) {
         campusRepository.setStudyInfoDelete(params);
     }
