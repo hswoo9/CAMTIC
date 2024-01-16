@@ -77,4 +77,6 @@ public interface PurcService {
     List<Map<String, Object>> getUserPurcAppList(Map<String, Object> params);
 
     Map<String, Object> getClaimExnpData(Map<String, Object> params);
+
+    Map<String, Object> setPurcBasicSetting(Map<String, Object> params);
 }
