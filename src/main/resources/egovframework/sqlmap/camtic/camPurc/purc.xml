@@ -1186,10 +1186,14 @@
         ON A.CLAIM_SN = B.CLAIM_SN
         WHERE
             B.STATUS = 100 AND (B.PRI_PAY = 'Y' OR (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) = 100)
-          AND
+        AND
             B.ORDER_DT IS NOT NULL
-          AND
+        AND
             ((A.EMP_SEQ IS NULL AND B.PURC_EMP_SEQ = #{empSeq}) OR A.EMP_SEQ = #{empSeq})
+        <if test='pjtSn != null and !"".equals(pjtSn)'>
+            AND
+                B.PJT_SN = #{pjtSn}
+        </if>
         GROUP BY A.CE_GW_IDX
         ORDER BY A.CLAIM_EXNP_SN DESC
     </select>

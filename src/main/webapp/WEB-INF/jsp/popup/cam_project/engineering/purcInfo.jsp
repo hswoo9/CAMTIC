@@ -22,6 +22,12 @@
     .k-footer-template td:nth-child(5) {
         border-width: 0;
     }
+
+    .k-grid-content td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 </style>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
@@ -35,17 +41,18 @@
 <input type="hidden" id="searchValue" />
 
 <div style="padding: 10px">
-    <div id="btnDiv">
-<%--        <button type="button" class="k-button k-button-solid-info" style="float: right; margin-bottom: 10px; " id="reqBtn" onclick="purcInfo.setPurcReq('C');">요청하기</button>--%>
-<%--        <button type="button" class="k-button k-button-solid-info" style="float: right; margin-bottom: 10px ; margin-right:5px;" id="saveBtn" onclick="purcInfo.setPurcReq('W');">저장</button>--%>
+    <div id="btnDiv" style="background-color: #eef6ff; padding: 10px; font-size: 13px;">
+        <span id="radioSelectPurcType"></span>
     </div>
 
-    <span style="font-size: 12px;">◎ 구매 리스트</span>
+    <br>
+    <span style="font-size: 12px;" id="purcTitleWrap">◎ 구매 리스트</span>
     <div class="table-responsive">
         <input type="hidden" id="purcReqEmpSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="purcReqDeptSeq" value="${loginVO.orgnztId}">
 
         <div id="purcInfoMainGrid"></div>
+        <div id="purcInfoMainGrid2" style="display: none"></div>
     </div>
     <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 구매내역 리스트</span>
     <div class="table-responsive">
