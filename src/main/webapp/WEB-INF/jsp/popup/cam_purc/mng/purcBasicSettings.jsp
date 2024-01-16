@@ -31,7 +31,7 @@
                     <tr>
                         <th class="text-center">프로젝트</th>
                         <td colspan="3">
-                            <input type="text" id="pjtNm" name="pjtNm" style="width: 80%" />
+                            <input type="text" id="pjtNm" name="pjtNm" readonly style="width: 80%" />
                             <input type="hidden" id="pjtSn" name="pjtSn" />
                             <input type="hidden" id="pjtCd" name="pjtCd" />
                             <button type="button" class="k-button k-button-solid-base" onclick="fn_projectPop('regPay')">검색</button>
@@ -40,7 +40,7 @@
                     <tr>
                         <th class="text-center">예산비목</th>
                         <td colspan="3">
-                            <input type="text" id="budgetNm" name="budgetNm" style="width: 80%" />
+                            <input type="text" id="budgetNm" name="budgetNm" readonly style="width: 80%" />
                             <input type="hidden" id="budgetSn" name="budgetSn" />
                             <button type="button" class="k-button k-button-solid-base" onclick="fn_budgetPop()">검색</button>
                         </td>
@@ -54,6 +54,28 @@
 
     $(function(){
         customKendo.fn_textBox(["pjtNm", "budgetNm"]);
+
+        if(opener.parent.purcMngAppList.global.clmList.length > 0){
+
+            var claimSn = opener.parent.purcMngAppList.global.clmList[0];
+
+            var data = {
+                claimSn : claimSn
+            }
+
+            $.ajax({
+                url : "/purc/getBasicSetting",
+                data : data,
+                type : "post",
+                dataType : "json",
+                success : function(rs){
+                    $("#budgetSn").val(rs.map.BUDGET_SN);
+                    $("#budgetNm").val(rs.map.BUDGET_NM);
+                    $("#pjtNm").val(rs.map.PJT_NM);
+                    $("#pjtCd").val(rs.map.PJT_CD);
+                }
+            })
+        }
     });
 
     function fn_close() {

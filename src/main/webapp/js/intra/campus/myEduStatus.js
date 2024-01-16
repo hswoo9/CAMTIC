@@ -228,17 +228,7 @@ var myEdu = {
                 },  {
                     title: "인정시간",
                     width: 100,
-                    template : function (e){
-                        if(e.STUDY_CLASS_SN == "1"){
-                            if(e.REAL_STUDY_TIME == "0" || e.REAL_STUDY_TIME == null) {
-                                return "0시간";
-                            }else{
-                                return e.REAL_STUDY_TIME+"시간";
-                            }
-                        }else{
-                            return "";
-                        }
-                    }
+                    template: "<span>#=REAL_STUDY_TIME#시간</span>"
                 },{
                     title: "진행현황",
                     width: 180,
@@ -246,39 +236,39 @@ var myEdu = {
                         let studyClass = row.STUDY_CLASS_SN;
                         if(studyClass == 1){
                             if(row.STATUS == 0){
-                                return "신청서 작성중"
+                                return "신청서 작성중";
                             }else if(row.STATUS == 10) {
-                                return "신청서 승인요청중"
+                                return "신청서 승인요청중";
                             }else if(row.STATUS == 100){
                                 if(row.ADD_STATUS == "Y"|| row.ADD_STATUS == "C"){
                                     return "학습완료";
                                 } else if (row.ADD_STATUS == "S") {
                                     return "이수완료";
                                 } else {
-                                    return "학습 진행중"
+                                    return "학습 진행중";
                                 }
                             }
                         }else if(studyClass == 2){
                             if(row.STATUS == 0){
-                                return "신청서 작성중"
+                                return "신청서 작성중";
                             }else if(row.STATUS == 10) {
-                                return "신청서 승인요청중"
+                                return "신청서 승인요청중";
                             }else if(row.STATUS == 30) {
-                                return "신청서 반려됨"
+                                return "신청서 반려됨";
                             }else if(row.STATUS == 100){
-                                return "학습종료"
+                                return "학습종료";
                             }
                         }else if(studyClass == 3){
                             if(row.STATUS == 0){
-                                return "신청서 작성중"
+                                return "신청서 작성중";
                             }else if(row.STATUS == 10) {
-                                return "신청서 승인요청중"
+                                return "신청서 승인요청중";
                             }else if(row.STATUS == 30) {
-                                return "신청서 반려됨"
+                                return "신청서 반려됨";
                             }else if(row.STATUS == 100){
-                                return "OJT 진행중(0회)"
+                                return "OJT 진행중(0회)";
                             }else if(row.STATUS == 101){
-                                return "OJT완료"
+                                return "OJT완료";
                             }
                         }
                     }
@@ -338,17 +328,17 @@ var myEdu = {
                     width: 400
                 }, {
                     title: "지도시간",
-                    template: "<span>#=PROPAG_TIME#시간</span>",
+                    template: "<span>#=PROPAG_MNG_SUM#시간</span>",
                     width: 100
                 },{
                     title: "학습시간",
-                    template: "<span>#=STUDY_TIME#시간</span>",
+                    template: "<span>#=PROPAG_SUM#시간</span>",
                     width: 100
                 },  {
                     title: "인정시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    template: "<span>#=REAL_PROPAG_TIME#시간</span>",
                     width: 100
-                },{
+                },  {
                     title: "진행현황",
                     width: 180,
                     template: function(row){

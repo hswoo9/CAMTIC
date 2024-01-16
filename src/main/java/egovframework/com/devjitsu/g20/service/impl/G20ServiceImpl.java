@@ -143,8 +143,14 @@ public class G20ServiceImpl implements G20Service {
     @Override
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
         List<Map<String, Object>> listMap = new ArrayList<>();
-        if(params.containsKey("cardValue")){
-            listMap = companyCardRepository.getUserCardList(params);
+        if(params.containsKey("cardVal")){
+            if(params.get("cardVal").equals("P")){
+                listMap = companyCardRepository.getUserCardList(params);
+            } else if(params.get("cardVal").equals("M")){
+                listMap = companyCardRepository.getCorpCardList(params);
+            } else {
+                listMap = companyCardRepository.getCardList(params);
+            }
         } else {
             listMap = companyCardRepository.getCorpCardList(params);
         }

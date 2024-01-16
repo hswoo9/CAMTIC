@@ -13,8 +13,13 @@ public class CampusRepository extends AbstractDAO  {
     public Map<String, Object> getCodeOne(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getCodeOne", params); }
     public Map<String, Object> getRealEduTimeYear(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealEduTimeYear", params); }
     public Map<String, Object> getRealEduTimeStudyWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealEduTimeStudyWeekly", params); }
+    public Map<String, Object> getRealEduTimePropagUsertWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealEduTimePropagUsertWeekly", params); }
+
+    public Map<String, Object> getRealEduTimePropagMngtWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealEduTimePropagMngtWeekly", params); }
     public Map<String, Object> getRealStudyTimeStudyWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealStudyTimeStudyWeekly", params); }
+    public Map<String, Object> getRealPropagTimeStudyWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealPropagTimeStudyWeekly", params); }
     public Map<String, Object> getStudyInfoCountStudyWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getStudyInfoCountStudyWeekly", params); }
+    public Map<String, Object> getPropagInfoCountStudyWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getPropagInfoCountStudyWeekly", params); }
     public Map<String, Object> getRealEduTimePropagWeekly(Map<String, Object> params) { return (Map<String, Object>)selectOne("campus.getRealEduTimePropagWeekly", params); }
 
     public List<Map<String, Object>> getEduInfoList(Map<String, Object> params) {

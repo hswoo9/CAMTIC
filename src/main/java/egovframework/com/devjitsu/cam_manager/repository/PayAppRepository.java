@@ -403,4 +403,8 @@ public class PayAppRepository extends AbstractDAO {
     public void updClaimExnpSn(Map<String, Object> params) {
         update("payApp.updClaimExnpSn", params);
     }
+
+    public List<Map<String, Object>> getClaimExnpData(Map<String, Object> params) {
+        return selectList("payApp.getClaimExnpData", params);
+    }
 }

@@ -18,6 +18,7 @@ var regPay = {
         crmNmId : "",
         saveAjaxData : "",
         fileArray : [],
+        attFiles : [],
         exnpFlag : false
     },
 
@@ -164,7 +165,6 @@ var regPay = {
 
             var claimExnpData = customKendo.fn_customAjax("/purc/getClaimExnpData", data);
             var cem = claimExnpData.map;
-            console.log(cem)
 
             if($("#pjtSn").val != ""){
                 $("#pjtSn").val(rs.PJT_SN);
@@ -176,7 +176,7 @@ var regPay = {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
 
-            $("#appTitle").val(rs.PURC_REQ_PURPOSE);
+            $("#appTitle").val(rs.PURC_REQ_PURPOSE + " 외 " + cem.CNT + "건");
 
             var ls = rs.itemList;
 
@@ -188,8 +188,10 @@ var regPay = {
                 $("#crmBnkNm" + i).val(ls[i].CRM_BN);
                 $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM);
                 $("#crmAccHolder" + i).val(ls[i].BN_DEPO);
-                $("#totCost" + i).val(regPay.comma(cem.REQ_AMT));
-                $("#supCost" + i).val(regPay.comma(cem.REQ_AMT));
+                $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
+                $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
+                $("#budgetNm" + i).val(cem.BUDGET_NM);
+                $("#budgetSn" + i).val(cem.BUDGET_SN);
             }
         }
 
@@ -445,7 +447,7 @@ var regPay = {
                 
                 $("#fileText").text(fileThumbText);
 
-                regPay.global.fileArray = fileList;
+                regPay.global.fileArray = regPay.global.fileArray.concat(fileList);
 
                 /** 개인여비 */
                 if(snackData.PAY_TYPE != null){
@@ -456,7 +458,7 @@ var regPay = {
                         debugger;
                         const cData = {
                             searchValue : snackData.CARD_SN,
-                            cardValue : "userCard",
+                            cardVal : "userCard",
                         }
 
                         var cResult = customKendo.fn_customAjax("/g20/getCardList", cData);
@@ -1139,8 +1141,8 @@ var regPay = {
 
         if($("#reqType").val() == "snack"){
             parameters.snackInfoSn = $("#snackInfoSn").val();
-            parameters.linkKey = $("#snackInfoSn").val();
-            parameters.linkKeyType = "출장";
+            parameters.linkKey = $("#snackInfoSn").val().split(",")[0];
+            parameters.linkKeyType = "식대";
         }
 
         if($("#claimSn").val() != ""){
@@ -1264,6 +1266,7 @@ var regPay = {
             fd.append(key, parameters[key]);
         }
 
+        regPay.global.fileArray = regPay.global.fileArray.concat(regPay.global.attFiles);
         if(regPay.global.fileArray != null){
             for(var i = 0; i < regPay.global.fileArray.length; i++){
                 fd.append("fileList", regPay.global.fileArray[i]);

@@ -157,13 +157,17 @@ var studyInfo = {
                     width: 100,
                     template : function (e){
                         if(e.STUDY_CLASS_SN == "1"){
-                            if(e.STUDY_TIME == "0" || e.STUDY_TIME == null) {
+                            if(e.STUDY_TIME == "" || e.STUDY_TIME == null) {
                                 return "0시간";
                             }else{
                                 return e.STUDY_TIME+"시간";
                             }
                         }else if(e.STUDY_CLASS_SN == "2"){
-                            return "0시간";
+                            if(e.PROPAG_TIME == "" || e.PROPAG_TIME == null) {
+                                return "0시간";
+                            }else{
+                                return e.PROPAG_TIME+"시간";
+                            }
                         }else if(e.STUDY_CLASS_SN == "3"){
                             return "0시간";
                         }else{

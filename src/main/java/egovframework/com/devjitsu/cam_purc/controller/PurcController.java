@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -704,6 +705,17 @@ public class PurcController {
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/getBasicSetting")
+    public String getBasicSetting(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = new HashMap<>();
+
+        map = purcService.getBasicSetting(params);
+
+        model.addAttribute("map", map);
         return "jsonView";
     }
 }

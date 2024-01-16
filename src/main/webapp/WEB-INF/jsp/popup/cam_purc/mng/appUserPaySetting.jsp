@@ -21,11 +21,34 @@
             </div>
         </div>
         <div style="padding: 20px 30px;">
+            <table id="setTable" class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><span class="red-star">*</span>사용자설정</th>
+                    <td colspan="3">
+                        <input type="text" id="empName" disabled style="width: 15%;">
+                        <input type="hidden" id="empSeq">
+                        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch();">
+                            검색
+                        </button>
+                    </td>
+                </tr>
+                </thead>
+            </table>
+
+        </div>
+        <div style="padding: 20px 30px;">
             <table id="popTable" class="popTable table table-bordered mb-0">
                 <colgroup>
-                    <col width="10%">
-                    <col width="25%">
-                    <col width="25%">
+                    <col width="5%">
+                    <col width="20%">
+                    <col width="35%">
                     <col width="15%">
                     <col width="15%">
                     <col width="10%">

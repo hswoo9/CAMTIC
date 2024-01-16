@@ -73,7 +73,7 @@ var purcMngAppList = {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_appUserPaySetting()">' +
-                            '	<span class="k-button-text">지출설정</span>' +
+                            '	<span class="k-button-text">다건지출요청</span>' +
                             '</button>';
                     }
                 }, {
@@ -90,7 +90,7 @@ var purcMngAppList = {
                     width: 30,
                     template : function (e){
                         console.log(e)
-                        return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"'/>";
+                        return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' setting='"+e.SETTING+"' value='"+e.CLAIM_SN+"'/>";
                     }
                 }, {
                     title: "번호",
@@ -188,7 +188,7 @@ var purcMngAppList = {
                         if(amt == 0){
                             return "";
                         } else {
-                            return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_callPayApp('+e.PURC_SN+', '+e.CLAIM_SN+', '+amt+')">지출요청</button>';
+                            return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_callPayApp('+e.PURC_SN+', '+e.CLAIM_SN+', '+amt+', '+e.SETTING+')">지출요청</button>';
                         }
                     }
                 }
@@ -264,10 +264,18 @@ var purcMngAppList = {
 
     fn_appUserPaySetting : function (){
         purcMngAppList.global.clmList = [];
-
+        var flag = true;
         $("input[name='clm']:checked").each(function(){
+            if($(this).attr("setting") == 0){
+                flag = false;
+            }
             purcMngAppList.global.clmList.push($(this).val());
         });
+
+        if(!flag){
+            alert("지급설정이 완료되지 않았습니다.");
+            return;
+        }
 
         if(purcMngAppList.global.clmList.length == 0){
             alert("선택된 값이 없습니다.");
@@ -276,7 +284,7 @@ var purcMngAppList = {
 
         var url = "/purc/pop/appUserPaySetting.do";
         var name = "_blank";
-        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var option = "width = 1375, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
 
     },
@@ -299,7 +307,14 @@ var purcMngAppList = {
         var popup = window.open(url, name, option);
     },
 
-    fn_callPayApp: function (purcSn, claimSn, amt){
+    fn_callPayApp: function (purcSn, claimSn, amt, setting){
+
+        if(setting == 0){
+            alert("지급설정이 완료되지 않았습니다.");
+            return;
+        }
+
+
         if(!confirm("금액 : " + comma(amt) + " 원을 지출요청하시겠습니까?")){
             return;
         }
