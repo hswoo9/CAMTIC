@@ -10,6 +10,7 @@ var regIncm = {
         crmNmId : "",
         saveAjaxData : "",
         fileArray : [],
+        attFiles : [],
     },
 
     fn_defaultScript : function (){
@@ -500,6 +501,7 @@ var regIncm = {
             fd.append(key, parameters[key]);
         }
 
+        regIncm.global.fileArray = regIncm.global.fileArray.concat(regIncm.global.attFiles);
         if(regIncm.global.fileArray != null){
             for(var i = 0; i < regIncm.global.fileArray.length; i++){
                 fd.append("fileList", regIncm.global.fileArray[i]);
