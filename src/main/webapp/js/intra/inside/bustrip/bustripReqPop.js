@@ -51,14 +51,18 @@ const bustripReq = {
 
         /** 해외출장 메뉴에서 신청하면 자동으로 바인딩*/
         if($("#paramsTripCode").val() == "4"){
-            $("#tripCode").data("kendoRadioGroup").value(4);
-            $("#tripCode").data("kendoRadioGroup").enable(false);
-            $("#tripCode").data("kendoRadioGroup").trigger("change");
-
-            business.fn_nationCodeSet();
-            $(".bustripTh").hide();
-            $(".businessTh").show();
+            this.busiCk();
         }
+    },
+
+    busiCk: function(){
+        $("#tripCode").data("kendoRadioGroup").value(4);
+        $("#tripCode").data("kendoRadioGroup").enable(false);
+        $("#tripCode").data("kendoRadioGroup").trigger("change");
+
+        business.fn_nationCodeSet();
+        $(".bustripTh").hide();
+        $(".businessTh").show();
     },
 
     dataSet: function(){
@@ -205,6 +209,12 @@ const bustripReq = {
             if($("#mod").val() == "mng"){
                 $("#saveBtn").css("display", "none");
             }
+        }
+
+        if(busInfo.TRIP_CODE == "4"){
+            this.busiCk();
+            $("#nationList").data("kendoDropDownList").value(busInfo.NATION_CODE);
+            $("#nationList").data("kendoDropDownList").trigger("change");
         }
     },
 
