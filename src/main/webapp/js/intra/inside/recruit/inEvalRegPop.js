@@ -42,7 +42,7 @@ var inEvalRegPop = {
                                 "<input type='text' id='evalItemType" + i + "' name='evalItemType' autocomplete='off' maxlength='3'>" +
                             "</td>" +
                             "<td>" +
-                                "<input type='text' id='evalItemTitle" + i + "' name='evalItemTitle' autocomplete='off'>" +
+                                "<textarea id='evalItemTitle" + i + "' name='evalItemTitle' autocomplete='off' style='height: 60px'></textarea>" +
                             "</td>" +
                             "<td>" +
                                 "<input type='text' id='evalItemVal" + i + "' name='evalItemVal' autocomplete='off' style='width: 81px' oninput=\"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\">" +
@@ -83,12 +83,12 @@ var inEvalRegPop = {
             }
 
             var evalItemArr = new Array()
-            $.each($("#itemTb tbody tr"), function(){
+            $.each($("#itemTb tbody tr"), function(i){
                 if($(this).find("input[name='evalItemTitle']").val() != ""){
                     var data = {
                         evalItemNum : $(this).find("input[name='evalItemNum']").val(),
                         evalItemType : $(this).find("input[name='evalItemType']").val(),
-                        evalItemTitle : $(this).find("input[name='evalItemTitle']").val(),
+                        evalItemTitle : $(this).find("#evalItemTitle" + i).val(),
                         evalItemVal : $(this).find("input[name='evalItemVal']").val(),
                     }
                     evalItemArr.push(data);
@@ -128,10 +128,12 @@ var inEvalRegPop = {
         inEvalRegPop.addRow();
 
         $.each($("#itemTb tbody tr"), function(i, e){
-            $(this).find("#evalItemNum" + i).val(itemList[i].EVAL_ITEM_NUM);
-            $(this).find("#evalItemType" + i).val(itemList[i].EVAL_ITEM_TYPE);
-            $(this).find("#evalItemTitle" + i).val(itemList[i].EVAL_ITEM_TITLE);
-            $(this).find("#evalItemVal" + i).val(itemList[i].EVAL_ITEM_VAL == "" ? 0 : itemList[i].EVAL_ITEM_VAL);
+            if(itemList[i] != null){
+                $(this).find("#evalItemNum" + i).val(itemList[i].EVAL_ITEM_NUM);
+                $(this).find("#evalItemType" + i).val(itemList[i].EVAL_ITEM_TYPE);
+                $(this).find("#evalItemTitle" + i).val(itemList[i].EVAL_ITEM_TITLE).replaceAll("\n", "<br>");
+                $(this).find("#evalItemVal" + i).val(itemList[i].EVAL_ITEM_VAL == "" ? 0 : itemList[i].EVAL_ITEM_VAL);
+            }
         })
     },
 }
