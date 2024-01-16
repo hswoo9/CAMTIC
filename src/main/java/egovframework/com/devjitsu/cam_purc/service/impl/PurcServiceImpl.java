@@ -670,4 +670,9 @@ public class PurcServiceImpl implements PurcService {
 
         return params;
     }
+
+    @Override
+    public Map<String, Object> getBasicSetting(Map<String, Object> params) {
+        return purcRepository.getBasicSetting(params);
+    }
 }

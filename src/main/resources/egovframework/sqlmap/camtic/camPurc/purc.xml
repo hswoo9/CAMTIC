@@ -1262,4 +1262,14 @@
         FROM
             CAM_MNG.DJ_CLAIM_EXNP
     </select>
+
+    <select id="getBasicSetting" parameterType="map" resultType="map">
+        /*getBasicSetting*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CLAIM_SETTING
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </select>
 </mapper>

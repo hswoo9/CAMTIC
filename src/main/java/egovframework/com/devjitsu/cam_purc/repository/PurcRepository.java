@@ -205,4 +205,8 @@ public class PurcRepository extends AbstractDAO {
     public int getGwIdx(Map<String, Object> params) {
         return (int) selectOne("purc.getGwIdx", params);
     }
+
+    public Map<String, Object> getBasicSetting(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("purc.getBasicSetting", params);
+    }
 }
