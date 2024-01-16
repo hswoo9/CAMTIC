@@ -2,10 +2,11 @@ var flag = false;
 let carType = "A";
 var carReq = {
     init: function(){
-        carReq.dataSet(carData);
+        carReq.pageSet();
+        carReq.dataSet();
     },
 
-    dataSet: function(carData){
+    pageSet: function(){
         customKendo.fn_textBox(["carTitle", "visit", "waypoint", "empName", "emergencyName", "emergencyTel"]);
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", $("#startDt").val() == "" ? new Date() : $("#startDt").val());
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
@@ -27,9 +28,13 @@ var carReq = {
         $("#endTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "18:00"});
         fn_onlyDeptSetting(2);
         $("#startDt, #endDt, #applyDt, #empName, #startTime, #endTime").attr("readonly", true);
+    },
 
-        if(!isNaN(carData.CAR_REQ_SN)) {
-            let data = carData;
+    dataSet: function(){
+        const result = customKendo.fn_customAjax("/bustrip/getCarRequestInfo", {carReqSn: $("#carReqSn").val()});
+        const data = result.data;
+
+        if(data != null) {
             $("#startDt").val(data.START_DT);
             $("#endDt").val(data.END_DT);
             $("#startTime").val(data.START_TIME);
@@ -162,12 +167,8 @@ var carReq = {
                 console.log(result);
                 if(data.type != "bustripReq") {
                     alert("차량 사용 신청이 완료되었습니다.");
-                    try {
-                        opener.gridReload();
-                        window.close();
-                    }catch{
-                    }
-                    if($("#type").val() == "drafting"){
+                    if($("#type").val() == "drafting" && $("#carType").data("kendoDropDownList").value() == "2"){
+                        opener.location.reload();
                         $("#carReqSn").val(result.params.carReqSn);
                         $("#carDraftFrm").one("submit", function() {
                             var url = "/popup/inside/approvalFormPopup/carApprovalPop.do";
@@ -178,6 +179,9 @@ var carReq = {
                             this.method = 'POST';
                             this.target = '_self';
                         }).trigger("submit");
+                    }else{
+                        opener.location.reload();
+                        window.close();
                     }
                 }
             },
@@ -223,15 +227,17 @@ var carReq = {
         if(carMap != null){
             if(carMap.CAR_TYPE_SN == "2"){
                 var status = carMap.STATUS;
+                alert(status);
                 if(status == "0"){
                     buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                    buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"carReq.delBtn();\">삭제</button>";
                     buttonHtml += "<button type=\"button\" id=\"carAppBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.carDrafting()\">상신</button>";
                 }else if(status == "10"){
                     buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+carMap.DOC_ID+"', '"+carMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
                 }else if(status == "30" || status == "40"){
                     buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                    buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"carReq.delBtn();\">삭제</button>";
                     buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+carMap.DOC_ID+"', '"+carMap.DOC_MENU_CD+"', '"+carMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
-
                 }else if(status == "100"){
                     buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+carMap.DOC_ID+"', '"+carMap.APPRO_KEY+"', '"+carMap.DOC_MENU_CD+"');\">열람</button>";
                 } else {
@@ -239,11 +245,12 @@ var carReq = {
                 }
             }else{
                 buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"carReq.delBtn();\">삭제</button>";
             }
         }else{
             buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
         }
-        buttonHtml += "<button type=\"button\" class=\"k-button k-button-solid-error\" style=\"margin-right:5px;\" onclick=\"window.close();\">취소</button>";
+        buttonHtml += "<button type=\"button\" class=\"k-button k-button-solid-error\" style=\"margin-right:5px;\" onclick=\"window.close();\">닫기</button>";
         $("#carBtn").html(buttonHtml);
     },
 
@@ -257,5 +264,20 @@ var carReq = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
+    },
+
+    delBtn: function(){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        const data = {
+            carReqSn: $("#carReqSn").val()
+        }
+        const result = customKendo.fn_customAjax("/inside/setCarRequestDelete", data);
+        if(result.flag){
+            alert("삭제되었습니다.");
+            window.close();
+        }
     }
 }

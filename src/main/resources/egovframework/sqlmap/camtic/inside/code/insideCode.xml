@@ -350,33 +350,13 @@
         </selectKey>
     </insert>
 
-    <update id="setCarRequestUpdate" parameterType="map">
-        /* setCarRequestUpdate */
-        UPDATE
+    <delete id="setCarRequestDelete" parameterType="map">
+        /* setCarRequestDelete */
+        DELETE FROM
             CAM_INSIDE.DJ_HR_CAR_REQ
-        SET
-            START_DT = #{startDt}
-            , END_DT = #{endDt}
-            , START_TIME = #{startTime}
-            , END_TIME = #{endTime}
-            , USE_DEPT_SEQ = #{useDeptSeq}
-            , USE_DEPT_NAME = #{useDeptName}
-            , CAR_CLASS_SN = #{carClassSn}
-            , CAR_CLASS_TEXT = #{carClassText}
-            , CAR_TYPE_SN = #{carTypeSn}
-            , CAR_TYPE_TEXT = #{carTypeText}
-            , CAR_TITLE_NAME = #{carTitleName}
-            , VISIT_NAME = #{visitName}
-            , WAY_POINT_NAME = #{waypointName}
-            , EMP_SEQ = #{empSeq}
-            , EMP_NAME = #{empName}
-            <if test='"2".equals(carTypeSn)'>
-                , EMERGENCY_NAME = #{emergencyName}
-                , EMERGENCY_TEL = #{emergencyTel}
-            </if>
         WHERE
             CAR_REQ_SN = #{carReqSn}
-    </update>
+    </delete>
 
     <insert id="setCarCodeInsert" parameterType="map">
         /* setCarCodeInsert */

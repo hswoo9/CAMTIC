@@ -159,7 +159,7 @@ var evalInApplicationList = {
 
     fn_calculate : function(e) {
         var ret_month = 0;
-        ret_month = evalInApplicationList.fn_chk_month(e);
+        ret_month = e;
 
         return Math.floor(ret_month / 12) + "년" + parseInt(ret_month % 12) + "개월"
     },
