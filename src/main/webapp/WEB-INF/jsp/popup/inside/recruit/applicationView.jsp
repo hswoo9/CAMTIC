@@ -89,7 +89,7 @@
             생년월일/성별
           </th>
           <td>
-            ${data.BDAY}(${data.AGE}세)(${data.GENDER_TXT})
+            ${data.BDAY}(<fmt:formatNumber type="number" maxFractionDigits="0" value="${data.AGE}" />세)(${data.GENDER_TXT})
           </td>
         </tr>
         <tr>
