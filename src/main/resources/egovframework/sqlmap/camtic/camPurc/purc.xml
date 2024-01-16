@@ -1090,15 +1090,12 @@
         /*getMngPurcAppList*/
         SELECT
             A.*,
-            B.CLAIM_EXNP_SN,
             IFNULL((SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS REQ_AMT,
             IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS EXNP_AMT,
             REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
-            (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS DOC_NO
+            (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS DOC_NO,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = A.CLAIM_SN) AS SETTING
         FROM CAM_MNG.DJ_PURC_CLAIM A
-         LEFT JOIN
-             CAM_MNG.DJ_CLAIM_EXNP B
-         ON A.CLAIM_SN = B.CLAIM_SN
         WHERE
             A.STATUS = 100 AND (A.PRI_PAY = 'Y' OR (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = A.PURC_SN) = 100)
         AND
@@ -1197,6 +1194,51 @@
             *
         FROM
             CAM_MNG.DJ_CLAIM_EXNP
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </select>
+
+    <insert id="insPurcBasicSetting" parameterType="map">
+        /*insPurcBasicSetting*/
+        INSERT INTO CAM_MNG.DJ_CLAIM_SETTING
+            (
+                CLAIM_SN,
+                PJT_NM,
+                PJT_CD,
+                BUDGET_SN,
+                BUDGET_NM,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{claimSn},
+                #{pjtNm},
+                #{pjtCd},
+                #{budgetSn},
+                #{budgetNm},
+                #{empSeq}
+            )
+    </insert>
+
+    <update id="updPurcBasicSetting" parameterType="map">
+        /*updPurcBasicSetting*/
+        UPDATE CAM_MNG.DJ_CLAIM_SETTING
+        SET
+            CLAIM_SN = #{claimSn},
+            PJT_NM = #{pjtNm},
+            PJT_CD = #{pjtCd},
+            BUDGET_SN = #{budgetSn},
+            BUDGET_NM = #{budgetNm}
+        WHERE
+            CLAIM_SET_SN = #{claimSetSn}
+    </update>
+
+    <select id="getPurcBasicSetting" parameterType="map" resultType="map">
+        /*getPurcBasicSetting*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CLAIM_SETTING
         WHERE
             CLAIM_SN = #{claimSn}
     </select>

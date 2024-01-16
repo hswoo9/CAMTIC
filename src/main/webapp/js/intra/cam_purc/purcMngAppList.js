@@ -73,7 +73,7 @@ var purcMngAppList = {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_appUserPaySetting()">' +
-                            '	<span class="k-button-text">지출요청</span>' +
+                            '	<span class="k-button-text">지출설정</span>' +
                             '</button>';
                     }
                 }, {
@@ -87,14 +87,14 @@ var purcMngAppList = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'clm\');"/>',
-                    width: 40,
+                    width: 30,
                     template : function (e){
                         console.log(e)
                         return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"'/>";
                     }
                 }, {
                     title: "번호",
-                    width: 50,
+                    width: 40,
                     template: "#= --record #"
                 }, {
                     title: "요청부서",
@@ -123,13 +123,9 @@ var purcMngAppList = {
                 }, {
                     title: "제목",
                     field: "CLAIM_TITLE",
-                    width: 150
-                }, {
-                    title: "목적",
-                    field: "PURC_PURPOSE",
-                    width: 150,
-                    template : function(e){
-                        return '<a onclick="purcMngAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.PURC_REQ_PURPOSE + '</a>'
+                    width: 180,
+                    template : function (e) {
+                        return '<a style="font-weight: bold" onclick="purcMngAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.CLAIM_TITLE + '</a>'
                     }
                 }, {
                     field: "CRM_NM",
@@ -142,7 +138,7 @@ var purcMngAppList = {
                 }, {
                     field: "ORDER_DT",
                     title: "발주일",
-                    width: 80
+                    width: 70
                 }
                 // , {
                 //     field: "EXNP_DE",
@@ -151,42 +147,58 @@ var purcMngAppList = {
                 // }
                 , {
                     title: "금액",
-                    width: 100,
+                    width: 80,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>';
                     }
                 }, {
                     title: "지출요청액",
-                    width: 100,
+                    width: 80,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.REQ_AMT)+'</div>';
                     }
                 }, {
                     title: "지출액",
-                    width: 100,
+                    width: 80,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.EXNP_AMT)+'</div>';
                     }
                 }, {
                     title: "미지급액",
-                    width: 100,
+                    width: 80,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(Number(e.TOT_AMT) - Number(e.EXNP_AMT))+'</div>';
                     }
                 }, {
-                    title: "상태",
-                    width: 80,
+                    title: "지급설정",
+                    width: 60,
                     template : function(e){
                         var stat = "미설정"
+
+                        if(e.SETTING != 0){
+                            stat = "설정완료";
+                        }
                         return stat;
                     }
                 }, {
-                    title: "첨부",
-                    width: 80,
-                    template : function(e) {
-                        return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
+                    title: "지출요청",
+                    width: 60,
+                    template : function(e){
+                        var amt = (Number(e.TOT_AMT) - Number(e.REQ_AMT) - Number(e.EXNP_AMT));
+                        if(amt == 0){
+                            return "";
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_callPayApp('+e.PURC_SN+', '+e.CLAIM_SN+', '+amt+')">지출요청</button>';
+                        }
                     }
                 }
+                // , {
+                //     title: "첨부",
+                //     width: 60,
+                //     template : function(e) {
+                //         return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
+                //     }
+                // }
             ],
             dataBinding: function () {
                 record = fn_getRowNum(this, 2);
@@ -285,6 +297,44 @@ var purcMngAppList = {
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_callPayApp: function (purcSn, claimSn, amt){
+        if(!confirm("금액 : " + comma(amt) + " 원을 지출요청하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            purcSn : purcSn,
+            claimSn : claimSn,
+            amt : amt
+        }
+
+        var itemArr = new Array();
+        var itemParameters = {
+            claimSn : claimSn,
+            reqAmt : amt
+        }
+
+        itemArr.push(itemParameters);
+
+        var data = {
+            itemArray : JSON.stringify(itemArr)
+        }
+
+        $.ajax({
+            url : "/purc/setPayAppPurcReq",
+            data : data,
+            dataType : "json",
+            type : "post",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("요청되었습니다.");
+
+                    $("#mainGrid").data("kendoGrid").dataSource.read();
+                }
+            }
+        });
     }
 
 

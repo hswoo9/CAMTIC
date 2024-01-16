@@ -3,7 +3,6 @@ package egovframework.com.devjitsu.cam_purc.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
-import egovframework.com.devjitsu.cam_manager.repository.ManageRepository;
 import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
@@ -647,5 +646,25 @@ public class PurcServiceImpl implements PurcService {
     @Override
     public Map<String, Object> getClaimExnpData(Map<String, Object> params) {
         return purcRepository.getClaimExnpData(params);
+    }
+
+    @Override
+    public Map<String, Object> setPurcBasicSetting(Map<String, Object> params) {
+
+        String claimSnAr[] = params.get("itemArr").toString().split(",");
+
+        for(String claimSn : claimSnAr){
+            params.put("claimSn", claimSn);
+            Map<String, Object> map = purcRepository.getPurcBasicSetting(params);
+
+            if(map != null){
+                params.put("claimSetSn", map.get("CLAIM_SET_SN"));
+                purcRepository.updPurcBasicSetting(params);
+            } else {
+                purcRepository.insPurcBasicSetting(params);
+            }
+        }
+
+        return params;
     }
 }
