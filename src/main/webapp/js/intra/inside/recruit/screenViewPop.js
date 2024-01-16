@@ -58,7 +58,7 @@ var screenViewPop = {
                 }else if(screenViewPop.global.careerType == "2"){
                     screenViewPop.makeType2ApplicationList(result.list, result2.rs.evalCnt);
                 }else if(screenViewPop.global.careerType == "1,2"){
-                    screenViewPop.makeType1ApplicationList(result.list, result2.rs.evalCnt);
+                    screenViewPop.makeType2ApplicationList(result.list, result2.rs.evalCnt);
                 }
 
                 if(result2.rs.evalScoreBoard.length > 0){
