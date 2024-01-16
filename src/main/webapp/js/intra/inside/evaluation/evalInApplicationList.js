@@ -119,6 +119,9 @@ var evalInApplicationList = {
 
     applicationInfo : function(e){
         var url = "/inside/pop/applicationView.do?applicationId=" + e;
+        if($("#stat").val() == "view"){
+            url += "&stat=view";
+        }
         var name = "recruitReqPop";
         var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
@@ -159,7 +162,7 @@ var evalInApplicationList = {
 
     fn_calculate : function(e) {
         var ret_month = 0;
-        ret_month = evalInApplicationList.fn_chk_month(e);
+        ret_month = e;
 
         return Math.floor(ret_month / 12) + "년" + parseInt(ret_month % 12) + "개월"
     },

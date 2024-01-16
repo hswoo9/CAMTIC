@@ -21,7 +21,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="mode" name="mode" value="${params.mode}">
 <form id="carDraftFrm" method="post">
-    <input type="hidden" id="carReqSn" name="carReqSn" value="${carReqSn}"/>
+    <input type="hidden" id="carReqSn" name="carReqSn" value="${params.carReqSn}"/>
     <input type="hidden" id="menuCd" name="menuCd" value="car">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
@@ -139,11 +139,6 @@
 
 
 <script>
-    let carData = {};
-    <c:if test="${flag eq 'true'}">
-        carData = JSON.parse('${data}');
-    </c:if>
-
     carReq.init();
 </script>
 </body>

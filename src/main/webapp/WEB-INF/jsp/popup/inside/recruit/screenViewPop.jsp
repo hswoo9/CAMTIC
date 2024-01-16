@@ -56,6 +56,7 @@
     <div class="panel-body">
       <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruit.RECRUIT_INFO_SN}">
       <input type="hidden" id="recruitEvalSheetId" name="recruitEvalSheetId" value="${recruit.RECRUIT_EVAL_SHEET_ID}">
+      <input type="hidden" id="stat" value="${params.stat}">
       <input type="hidden" id="type" name="type" value="${params.type}">
       <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
 

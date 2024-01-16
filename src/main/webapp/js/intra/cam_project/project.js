@@ -46,6 +46,7 @@ var camPrj = {
             ],
             index: 0
         });
+        $("#searchValue").data("kendoDropDownList").value("1");
 
         $("#searchValue2").kendoDropDownList({
             dataTextField: "text",

@@ -692,4 +692,18 @@ public class PurcController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/purc/mng/setPurcBasicSetting")
+    public String setPurcBasicSetting(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            Map<String, Object> map = purcService.setPurcBasicSetting(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("map", map);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

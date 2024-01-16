@@ -109,7 +109,21 @@
             budgetSn : $("#budgetSn").val(),
         }
 
-        window.close();
+        $.ajax({
+            url : "/purc/mng/setPurcBasicSetting",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("설정이 완료되었습니다.");
+                    opener.parent.purcMngAppList.gridReload();
+
+                    window.close();
+                }
+            }
+        });
+
     }
 </script>
 </body>

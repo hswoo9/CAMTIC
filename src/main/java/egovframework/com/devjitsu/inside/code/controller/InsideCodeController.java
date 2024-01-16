@@ -54,17 +54,9 @@ public class InsideCodeController {
     public String carPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("flag", "false");
         model.addAttribute("params", params);
-        if(params.containsKey("carReqSn")){
-            Map<String, Object> data = insideCodeService.getCarRequestInfo(params);
-            model.addAttribute("carReqSn", data.get("CAR_REQ_SN"));
-            JSONObject jsonData =  new JSONObject(data);
-            model.addAttribute("data", jsonData);
-            model.addAttribute("flag", "true");
-        }
         return "popup/inside/bustrip/carPop";
     }
 
@@ -298,6 +290,13 @@ public class InsideCodeController {
     @RequestMapping("/inside/setCarRequestUpdate")
     public String setCarRequestUpdate(@RequestParam Map<String, Object> params) {
         insideCodeService.setCarRequestUpdate(params);
+        return "jsonView";
+    }
+
+    //차량사용신청 삭제
+    @RequestMapping("/inside/setCarRequestDelete")
+    public String setCarRequestDelete(@RequestParam Map<String, Object> params) {
+        insideCodeService.setCarRequestDelete(params);
         return "jsonView";
     }
 

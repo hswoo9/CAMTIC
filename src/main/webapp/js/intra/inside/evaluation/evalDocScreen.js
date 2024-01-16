@@ -40,6 +40,7 @@ var evalDocScreen = {
         const rsArray = result.list;
         console.log("rsArray의 첫번째 배열",rsArray[0]);
         if(result.flag){
+            console.log("evalDocScreen.global.careerType : "+evalDocScreen.global.careerType);
             $("#tableDiv *").remove();
             evalDocScreen.global.test = result.list;
             if(evalDocScreen.global.careerType == "1"){
@@ -47,7 +48,7 @@ var evalDocScreen = {
             }else if(evalDocScreen.global.careerType == "2"){
                 evalDocScreen.makeType2ApplicationList(result.list);
             }else if(evalDocScreen.global.careerType == "1,2"){
-                evalDocScreen.makeType1ApplicationList(result.list);
+                evalDocScreen.makeType2ApplicationList(result.list);
             }
 
             evalDocScreen.global.saveAjaxData = {
@@ -300,6 +301,9 @@ var evalDocScreen = {
 
     applicationInfo : function(e){
         var url = "/inside/pop/applicationView.do?applicationId=" + e;
+        if($("#stat").val() == "view"){
+            url += "&stat=view";
+        }
         var name = "recruitReqPop";
         var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

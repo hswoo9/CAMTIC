@@ -99,6 +99,11 @@ public class InsideCodeServiceImpl implements InsideCodeService {
     }
 
     @Override
+    public void setCarRequestDelete(Map<String, Object> params) {
+        insideCodeRepository.setCarRequestDelete(params);
+    }
+
+    @Override
     public void setCarCodeInsert(Map<String, Object> params) {
         insideCodeRepository.setCarCodeInsert(params);
     }
