@@ -74,21 +74,10 @@ const bustripReq = {
         console.log(busInfo);
         var apprBtnBoxHtml = "";
         if(busInfo.STATUS == 0){
-            if(busInfo.TRIP_CODE != "4"){
-                apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripList.bustripDrafting(\""+busInfo.HR_BIZ_REQ_ID+"\");'>" +
-                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                    "<span class='k-button-text'>상신</span>" +
-                    "</button>";
-            }else{
-                if(busInfo.EXP_STAT == 100){
-                    apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripList.bustripDrafting(\""+busInfo.HR_BIZ_REQ_ID+"\");'>" +
-                        "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                        "<span class='k-button-text'>상신</span>" +
-                        "</button>";
-                }else{
-                    apprBtnBoxHtml = "<input type='button' id='saveBtn' class='k-button k-button-solid-info' value='사전정산' onclick='bustPop.bustripExnpPop(\""+busInfo.HR_BIZ_REQ_ID+"\")' />";
-                }
-            }
+            apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripList.bustripDrafting(\""+busInfo.HR_BIZ_REQ_ID+"\");'>" +
+                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                "<span class='k-button-text'>상신</span>" +
+                "</button>";
         } else if(busInfo.STATUS == 10 || busInfo.STATUS == 50){
             apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+busInfo.DOC_ID+"\", \""+busInfo.APPRO_KEY+"\", 1, \"retrieve\");'>" +
                 "<span class='k-icon k-i-x-circle k-button-icon'></span>" +

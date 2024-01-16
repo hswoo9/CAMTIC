@@ -247,7 +247,7 @@ var recruitListEval = {
         if(chk.flag){
             if(chk.eval != null){
                 if(chk.eval.EVAL_STATUS == "P"){
-                    var url = "/evaluation/evalInApplicationList.do?recruitInfoSn=" + r + "&type=in";
+                    var url = "/evaluation/evalInApplicationList.do?recruitInfoSn=" + r + "&type=in&stat=view";
                     var name = "evalInApplicationList";
                     var option = "width=1100, height=680, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
                     var popup = window.open(url, name, option);

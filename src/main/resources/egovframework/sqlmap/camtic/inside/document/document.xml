@@ -1106,6 +1106,13 @@
         WHERE
           CONTENT_ID = #{snackInfoSn} AND (FILE_CD = 'useCard' or FILE_CD = 'snack')
           OR FILE_NO IN (#{fileNo})
+        <if test='snackInfoSnArr != null and !"".equals("snackInfoArr")'>
+            OR ((FILE_CD = 'useCard' or FILE_CD = 'snack') AND CONTENT_ID IN
+            <foreach collection="snackInfoSnArr" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            )
+        </if>
     </select>
 
 </mapper>

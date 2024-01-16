@@ -227,7 +227,6 @@ var carReq = {
         if(carMap != null){
             if(carMap.CAR_TYPE_SN == "2"){
                 var status = carMap.STATUS;
-                alert(status);
                 if(status == "0"){
                     buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
                     buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"carReq.delBtn();\">삭제</button>";
