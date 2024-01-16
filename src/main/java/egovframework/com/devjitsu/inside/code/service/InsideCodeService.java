@@ -47,6 +47,7 @@ public interface InsideCodeService {
 
     //차량사용신청 수정
     void setCarRequestUpdate(Map<String, Object> params);
+    void setCarRequestDelete(Map<String, Object> params);
 
     //차량관리 차량코드 등록
     void setCarCodeInsert(Map<String, Object> params);

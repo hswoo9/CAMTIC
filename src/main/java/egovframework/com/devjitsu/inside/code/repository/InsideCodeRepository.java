@@ -79,6 +79,10 @@ public class InsideCodeRepository extends AbstractDAO {
         update("insideCode.setCarRequestUpdate", params);
     }
 
+    public void setCarRequestDelete(Map<String, Object> params) {
+        delete("insideCode.setCarRequestDelete", params);
+    }
+
     public void setCarCodeInsert(Map<String, Object> params) {
         insert("insideCode.setCarCodeInsert", params);
     }

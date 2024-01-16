@@ -21,7 +21,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="mode" name="mode" value="${params.mode}">
 <form id="carDraftFrm" method="post">
-    <input type="hidden" id="carReqSn" name="carReqSn" value="${carReqSn}"/>
+    <input type="hidden" id="carReqSn" name="carReqSn" value="${params.carReqSn}"/>
     <input type="hidden" id="menuCd" name="menuCd" value="car">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
@@ -32,8 +32,6 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">차량 사용 신청</h3>
             <div id="carBtn" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="carReq.saveBtn();">저장</button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">취소</button>
             </div>
         </div>
         <div style="padding: 20px 30px;">
@@ -139,11 +137,6 @@
 
 
 <script>
-    let carData = {};
-    <c:if test="${flag eq 'true'}">
-        carData = JSON.parse('${data}');
-    </c:if>
-
     carReq.init();
 </script>
 </body>
