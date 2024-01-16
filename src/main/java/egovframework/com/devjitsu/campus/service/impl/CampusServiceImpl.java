@@ -825,6 +825,35 @@ public class CampusServiceImpl implements CampusService {
                 params.put("studyClassSn", 5);
                 params.put("studyClassText", "학습자");
 
+                Map<String, Object> eduTime = campusRepository.getStudyPropagInfoOne(params);
+                params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+
+                /** 전파학습 주당 2시간 인정 */
+                Map<String, Object> weekUserCount = campusRepository.getPropagInfoCountStudyWeekly(params);
+                Map<String, Object> weekUserTime = campusRepository.getRealEduTimePropagUsertWeekly(params);
+                Map<String, Object> studyUserTime = campusRepository.getRealPropagTimeStudyWeekly(params);
+
+                double realEduTime = Double.valueOf(String.valueOf(weekUserTime.get("REAL_EDU_TIME")));
+                int infoCount = Integer.valueOf(String.valueOf(weekUserCount.get("studyInfoCount")));
+                double realStudyTime = Double.valueOf(String.valueOf(studyUserTime.get("STUDY_TIME")));
+
+                if(infoCount == 1){
+                    if(realEduTime > 2){
+                        params.put("realEduUserTime", '2');
+                    }else{
+                        params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+                    }
+                }else{
+                    if(realEduTime > 2){
+                        if(realStudyTime < 2){
+                            params.put("realEduUserTime", 2-realStudyTime);
+                        }else{
+                            params.put("realEduUserTime", '0');
+                        }
+                    }else{
+                        params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+                    }
+                }
                 campusRepository.setPropagUserInsert(params);
             }
         }
@@ -844,6 +873,35 @@ public class CampusServiceImpl implements CampusService {
                 params.put("studyClassSn", 4);
                 params.put("studyClassText", "지도자");
 
+                Map<String, Object> eduTime = campusRepository.getStudyPropagInfoOne(params);
+                params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+
+                /** 전파학습 지도자 주당 2시간 인정 */
+                Map<String, Object> weekMngCount = campusRepository.getPropagInfoCountStudyWeekly(params);
+                Map<String, Object> weekMngTime = campusRepository.getRealEduTimePropagMngtWeekly(params);
+                Map<String, Object> studyMngTime = campusRepository.getRealPropagTimeStudyWeekly(params);
+
+                double realEduTime = Double.valueOf(String.valueOf(weekMngTime.get("REAL_EDU_TIME")));
+                int infoCount = Integer.valueOf(String.valueOf(weekMngCount.get("studyInfoCount")));
+                double realStudyTime = Double.valueOf(String.valueOf(studyMngTime.get("STUDY_TIME")));
+
+                if(infoCount == 1){
+                    if(realEduTime > 2){
+                        params.put("realEduMngTime", '2');
+                    }else{
+                        params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+                    }
+                }else{
+                    if(realEduTime > 2){
+                        if(realStudyTime < 2){
+                            params.put("realEduMngTime", 2-realStudyTime);
+                        }else{
+                            params.put("realEduMngTime", '0');
+                        }
+                    }else{
+                        params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+                    }
+                }
                 campusRepository.setPropagUserInsert(params);
             }
         }
