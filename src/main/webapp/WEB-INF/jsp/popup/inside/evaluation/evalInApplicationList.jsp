@@ -30,6 +30,7 @@
 
     <div class="panel-body">
       <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${params.recruitInfoSn}">
+      <input type="hidden" id="stat" value="${params.stat}">
       <input type="hidden" id="evalEmpSeq" name="evalEmpSeq" value="${params.uniqId}">
       <input type="hidden" id="evalType" name="evalType" value="doc">
 

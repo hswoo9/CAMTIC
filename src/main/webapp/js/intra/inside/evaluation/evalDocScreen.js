@@ -301,6 +301,9 @@ var evalDocScreen = {
 
     applicationInfo : function(e){
         var url = "/inside/pop/applicationView.do?applicationId=" + e;
+        if($("#stat").val() == "view"){
+            url += "&stat=view";
+        }
         var name = "recruitReqPop";
         var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
