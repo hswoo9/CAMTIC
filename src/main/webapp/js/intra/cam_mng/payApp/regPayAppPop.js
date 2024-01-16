@@ -164,7 +164,6 @@ var regPay = {
 
             var claimExnpData = customKendo.fn_customAjax("/purc/getClaimExnpData", data);
             var cem = claimExnpData.map;
-            console.log(cem)
 
             if($("#pjtSn").val != ""){
                 $("#pjtSn").val(rs.PJT_SN);
@@ -176,7 +175,7 @@ var regPay = {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
 
-            $("#appTitle").val(rs.PURC_REQ_PURPOSE);
+            $("#appTitle").val(rs.PURC_REQ_PURPOSE + " 외 " + cem.CNT + "건");
 
             var ls = rs.itemList;
 
@@ -188,8 +187,10 @@ var regPay = {
                 $("#crmBnkNm" + i).val(ls[i].CRM_BN);
                 $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM);
                 $("#crmAccHolder" + i).val(ls[i].BN_DEPO);
-                $("#totCost" + i).val(regPay.comma(cem.REQ_AMT));
-                $("#supCost" + i).val(regPay.comma(cem.REQ_AMT));
+                $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
+                $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
+                $("#budgetNm" + i).val(cem.BUDGET_NM);
+                $("#budgetSn" + i).val(cem.BUDGET_SN);
             }
         }
 

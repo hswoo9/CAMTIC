@@ -633,7 +633,10 @@ public class PurcServiceImpl implements PurcService {
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArray"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
+        int maxIdx = purcRepository.getGwIdx(params);
+
         for(Map<String, Object> map : itemArr){
+            map.put("ceGwIdx", maxIdx);
             purcRepository.insPayAppPurcReq(map);
         }
     }

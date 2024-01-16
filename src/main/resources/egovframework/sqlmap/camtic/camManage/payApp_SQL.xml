@@ -2106,4 +2106,14 @@
         WHERE
             CLAIM_EXNP_SN = #{claimExnpSn}
     </update>
+
+    <select id="getClaimExnpData" parameterType="map" resultType="map">
+        /*getClaimExnpData*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CLAIM_EXNP
+        WHERE
+            CE_GW_IDX = (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn})
+    </select>
 </mapper>

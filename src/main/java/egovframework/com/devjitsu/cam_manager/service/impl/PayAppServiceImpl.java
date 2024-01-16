@@ -62,7 +62,12 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         if(params.containsKey("claimExnpSn")){
-            payAppRepository.updClaimExnpSn(params);
+            List<Map<String, Object>> lsMap = payAppRepository.getClaimExnpData(params);
+
+            for(Map<String, Object> map : lsMap){
+                params.put("claimExnpSn", map.get("claimExnpSn"));
+                payAppRepository.updClaimExnpSn(params);
+            }
         } else if(params.containsKey("claimSn")){
             // 구매청구관리 지급신청 Key Insert
             payAppRepository.updPurcClaimByPayAppSn(params);

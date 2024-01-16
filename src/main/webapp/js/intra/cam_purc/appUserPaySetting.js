@@ -5,6 +5,7 @@ const appUserPaySetting = {
 
         var array = opener.parent.purcMngAppList.global.clmList;
 
+        customKendo.fn_textBox(["empName"]);
         appUserPaySetting.fn_setData(array);
 
     },
@@ -50,7 +51,7 @@ const appUserPaySetting = {
                     html += '   <td>';
                     html += '       <input type="text" style="text-align: right" index="'+i+'" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" id="reqAmt'+i+'" name="reqAmt" onkeyup="appUserPaySetting.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" value="0">';
                     html += '   </td>';
-                    html += '   <td>';
+                    html += '   <td style="text-align: center">';
                     html += '       <button type="button" class="k-button k-button-solid-error" onclick="appUserPaySetting.fn_delRow('+ls[i].CLAIM_SN+')">삭제</button>';
                     html += '   </td>';
                     html += '</tr>';
@@ -81,11 +82,14 @@ const appUserPaySetting = {
 
     fn_regist : function (){
 
-        if(!confirm("지출요청 하시겠습니까?")){
+        if($("#empSeq").val() == ""){
+            alert("지급신청자를 선택해주세요.");
             return;
         }
 
-
+        if(!confirm("지출요청 하시겠습니까?")){
+            return;
+        }
 
         var flag = true;
         var payFlag = true;
@@ -96,7 +100,8 @@ const appUserPaySetting = {
             } else {
                 var itemParameters = {
                     claimSn : $("#claminSn" + $(this).attr("index")).val(),
-                    reqAmt : appUserPaySetting.uncomma(this.value)
+                    reqAmt : appUserPaySetting.uncomma(this.value),
+                    empSeq : $("#empSeq").val()
                 }
 
                 if(Number(appUserPaySetting.uncomma(this.value)) > Number($("#totAmt" + $(this).attr("index")).val())){
@@ -135,7 +140,6 @@ const appUserPaySetting = {
                 }
             }
         });
-
     }
 
 }
