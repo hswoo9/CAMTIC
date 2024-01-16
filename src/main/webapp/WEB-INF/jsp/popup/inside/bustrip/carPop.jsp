@@ -32,6 +32,8 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">차량 사용 신청</h3>
             <div id="carBtn" class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="carReq.saveBtn();">저장</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">취소</button>
             </div>
         </div>
         <div style="padding: 20px 30px;">

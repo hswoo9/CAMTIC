@@ -167,12 +167,8 @@ var carReq = {
                 console.log(result);
                 if(data.type != "bustripReq") {
                     alert("차량 사용 신청이 완료되었습니다.");
-                    try {
-                        opener.gridReload();
-                        window.close();
-                    }catch{
-                    }
-                    if($("#type").val() == "drafting"){
+                    if($("#type").val() == "drafting" && $("#carType").data("kendoDropDownList").value() == "2"){
+                        opener.location.reload();
                         $("#carReqSn").val(result.params.carReqSn);
                         $("#carDraftFrm").one("submit", function() {
                             var url = "/popup/inside/approvalFormPopup/carApprovalPop.do";
@@ -183,6 +179,9 @@ var carReq = {
                             this.method = 'POST';
                             this.target = '_self';
                         }).trigger("submit");
+                    }else{
+                        opener.location.reload();
+                        window.close();
                     }
                 }
             },
