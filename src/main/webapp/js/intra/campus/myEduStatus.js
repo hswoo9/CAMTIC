@@ -346,9 +346,20 @@ var myEdu = {
                     width: 100
                 },  {
                     title: "인정시간",
-                    /*template: "<span>#=STUDY_TIME#시간</span>",*/
+                    /*template: "<span>#=REAL_PROPAG_TIME#시간</span>",*/
+                    template : function (e){
+                        if(e.STUDY_CLASS_SN == "2"){
+                            if(e.REAL_PROPAG_TIME == "" || e.REAL_PROPAG_TIME == null) {
+                                return "0시간";
+                            }else{
+                                return e.REAL_PROPAG_TIME+"시간";
+                            }
+                        }else{
+                            return "";
+                        }
+                    },
                     width: 100
-                },{
+                },  {
                     title: "진행현황",
                     width: 180,
                     template: function(row){

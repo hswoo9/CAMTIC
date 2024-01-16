@@ -226,11 +226,13 @@ const studyPropag = {
         //     realEduTime = 2 - realEduTimeYear;
         // } */
 
+
         let data = {
             mode: mode,
             studyPropagSn: studyPropagSn,
             studyInfoSn: studyInfoSn,
             propagDt: journalDt,
+            applyDt: journalDt,
             startTime: journalStartTime,
             endTime: journalEndTime,
             location: studyLocation,
