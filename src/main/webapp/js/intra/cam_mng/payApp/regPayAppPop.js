@@ -18,6 +18,7 @@ var regPay = {
         crmNmId : "",
         saveAjaxData : "",
         fileArray : [],
+        attFiles : [],
         exnpFlag : false
     },
 
@@ -445,7 +446,7 @@ var regPay = {
                 
                 $("#fileText").text(fileThumbText);
 
-                regPay.global.fileArray = fileList;
+                regPay.global.fileArray = regPay.global.fileArray.concat(fileList);
 
                 /** 개인여비 */
                 if(snackData.PAY_TYPE != null){
@@ -456,7 +457,7 @@ var regPay = {
                         debugger;
                         const cData = {
                             searchValue : snackData.CARD_SN,
-                            cardValue : "userCard",
+                            cardVal : "userCard",
                         }
 
                         var cResult = customKendo.fn_customAjax("/g20/getCardList", cData);
@@ -1139,8 +1140,8 @@ var regPay = {
 
         if($("#reqType").val() == "snack"){
             parameters.snackInfoSn = $("#snackInfoSn").val();
-            parameters.linkKey = $("#snackInfoSn").val();
-            parameters.linkKeyType = "출장";
+            parameters.linkKey = $("#snackInfoSn").val().split(",")[0];
+            parameters.linkKeyType = "식대";
         }
 
         if($("#claimSn").val() != ""){
@@ -1264,6 +1265,7 @@ var regPay = {
             fd.append(key, parameters[key]);
         }
 
+        regPay.global.fileArray = regPay.global.fileArray.concat(regPay.global.attFiles);
         if(regPay.global.fileArray != null){
             for(var i = 0; i < regPay.global.fileArray.length; i++){
                 fd.append("fileList", regPay.global.fileArray[i]);

@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
+import egovframework.com.devjitsu.inside.document.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,9 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private DocumentRepository documentRepository;
 
     @Override
     public void payAppSetData(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
@@ -57,8 +61,16 @@ public class PayAppServiceImpl implements PayAppService {
         }
         // 식대대장 지급신청시 snackInfoSn Key 가져옴
         if(params.containsKey("snackInfoSn")){
-            // 식대대장 지급신청 Key Insert
-            payAppRepository.updPurcSnackByPayAppSn(params);
+            String[] snackInfoSnArr = params.get("snackInfoSn").toString().split(",");
+
+            Map<String, Object> paramMaps = new HashMap<>();
+            for(String snackInfoSn : snackInfoSnArr){
+                paramMaps.put("payAppSn", params.get("payAppSn"));
+                paramMaps.put("snackInfoSn", snackInfoSn);
+
+                // 식대대장 지급신청 Key Insert
+                payAppRepository.updPurcSnackByPayAppSn(paramMaps);
+            }
         }
 
         if(params.containsKey("claimExnpSn")){
@@ -98,7 +110,14 @@ public class PayAppServiceImpl implements PayAppService {
             }
             params.put("fileNoAr", fileNoAr);
 
-            List<Map<String, Object>> storedFileArr = payAppRepository.getPayAppFileList(params);
+            List<Map<String, Object>> storedFileArr = new ArrayList<>();
+            if(params.containsKey("snackInfoSn")){
+                params.put("snackInfoSnArr", params.get("snackInfoSn").toString().split(","));
+                storedFileArr = documentRepository.getFileList(params);
+            } else {
+                storedFileArr = payAppRepository.getPayAppFileList(params);
+            }
+
             payAppRepository.delPayAppFileList(params);
 
             for(Map<String, Object> map : storedFileArr){

@@ -78,7 +78,7 @@ var snackList = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'evalChk\');"/>',
                     template : function(e){
-                        if(e.STATUS == "100"){
+                        if(e.STATUS == "100" && e.PAY_APP_SN == null) {
                             return "<input type='checkbox' id='eval_" + e.SNACK_INFO_SN + "' name='evalChk' value='" + e.SNACK_INFO_SN + "'/>";
                         } else {
                             return '';
