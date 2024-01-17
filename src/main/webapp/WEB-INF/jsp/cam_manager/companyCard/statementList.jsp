@@ -71,7 +71,8 @@
 </div><!-- col-md-9 -->
 
 <div id="dialog">
-    <input type="text" id="cardFromDe" style="width: 80%" name="cardFromDe" value="">
+    <input type="text" id="cardFromDe" style="width: 40%" name="cardFromDe" value="">
+    <input type="text" name="cardFromTime" id="cardFromTime" style="width: 25%;">
     <input type="hidden" id="cardToSnModal" />
     <button type="button" id="updBtn" class="k-button k-button-solid-base" onclick="statementList.fn_updFromDe();">반납</button>
 </div>
@@ -80,16 +81,25 @@
 
     statementList.fn_defaultScript();
 
-    $("#dialog").kendoWindow({
-        title: "반납",
-        visible : false,
-        resizable: false,
-        modal: true,
-        width: 300,
-        actions: ["Close"],
+    $(function(){
+        $("#dialog").kendoWindow({
+            title: "반납",
+            visible : false,
+            resizable: false,
+            modal: true,
+            width: 400,
+            actions: ["Close"],
+        });
+
+        customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());
+
+        $("#cardFromTime").kendoTimePicker({
+            format: "HH:mm",
+            interval : 10,
+            value : "18:00"
+        });
     });
 
-    customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());
 
     function dateValidationCheck(id, val){
         var sDt = new Date($("#startDt").val());

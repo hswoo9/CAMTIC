@@ -304,6 +304,7 @@
         UPDATE CAM_MNG.DJ_CARD_TO
         SET
             CARD_FROM_DE = #{cardFromDe},
+            CARD_FROM_TIME = #{cardFromTime},
             RT_YN = 'Y'
         WHERE
             CARD_TO_SN = #{cardToSn}
@@ -701,7 +702,7 @@
                 B.TR_CD IS NULL
         </if>
         <if test='"8".equals(searchType)'>
-            AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL)
+            AND (C.RT_YN = 'Y' OR C.DEL_YN = 'Y' OR C.RT_YN IS NULL)
         </if>
         <if test='rtYn != null and !"".equals(rtYn)'>
             <choose>
@@ -709,7 +710,7 @@
                     AND C.RT_YN = 'N'
                 </when>
                 <otherwise>
-                    AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL)
+                    AND (C.RT_YN = 'Y' OR C.DEL_YN = 'Y' OR C.RT_YN IS NULL)
                 </otherwise>
             </choose>
         </if>

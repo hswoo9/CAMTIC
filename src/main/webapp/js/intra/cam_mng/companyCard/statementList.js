@@ -147,8 +147,12 @@ var statementList = {
                     title: "반납일시",
                     width: 100,
                     template: function(e){
+                        var cardFromTime = "";
+                        if(e.CARD_FROM_TIME != null && e.CARD_FROM_TIME != "" && e.CARD_FROM_TIME != undefined){
+                            cardFromTime = " " + e.CARD_FROM_TIME
+                        }
                         if(e.REG_HISTORY > 0 && e.RT_YN == 'Y'){
-                            return e.CARD_FROM_DE
+                            return e.CARD_FROM_DE + cardFromTime
                         } else {
                             return "";
                         }
@@ -177,10 +181,14 @@ var statementList = {
                     title: "기타",
                     width: 100,
                     template: function(e){
-                        if(e.RT_YN == 'N'){
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="statementList.fn_del('+e.CARD_TO_SN+')">삭제</button>'
+                        if(e.USE_EMP_SEQ == $("#myEmpSeq").val()){
+                            if(e.RT_YN == 'N'){
+                                return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="statementList.fn_del('+e.CARD_TO_SN+')">삭제</button>'
+                            } else {
+                                return '<button type="button" class="k-button k-button-solid k-button-solid-error" disabled>삭제</button>'
+                            }
                         } else {
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-error" disabled>삭제</button>'
+                            return "";
                         }
                     }
                 }
@@ -427,7 +435,8 @@ var statementList = {
 
         var data = {
             cardToSn : $("#cardToSnModal").val(),
-            cardFromDe : $("#cardFromDe").val()
+            cardFromDe : $("#cardFromDe").val(),
+            cardFromTime: $("#cardFromTime").val(),
         }
 
         $.ajax({
