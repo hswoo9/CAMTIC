@@ -176,7 +176,11 @@ var regPay = {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
 
-            $("#appTitle").val(rs.PURC_REQ_PURPOSE + " 외 " + cem.CNT + "건");
+            if(cem.CNT > 1 ){
+                $("#appTitle").val(rs.PURC_REQ_PURPOSE + " 외 " + Number(cem.CNT - 1) + "건");
+            } else {
+                $("#appTitle").val(rs.PURC_REQ_PURPOSE);
+            }
 
             var ls = rs.itemList;
 
