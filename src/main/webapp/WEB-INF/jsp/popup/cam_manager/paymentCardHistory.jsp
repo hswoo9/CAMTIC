@@ -73,9 +73,12 @@
         </span>
         <span>
             <b style="font-size: 12px; margin-right: 5px; margin-left: 5px">조회</b>
-            <input type="radio" name="radio" value="A" id="radio1" onclick="payCardHist.gridReload()" checked><label for="radio1" style="position: relative; top : 4px;">카드사용내역</label>
+            <button type="button" id="cardM" class="k-button k-button-solid-info" onclick="payCardHist.cardMainGridReload('M')">법인카드</button>
+            <button type="button" id="cardP" class="k-button k-button-solid-base" onclick="payCardHist.cardMainGridReload('P')">개인카드</button>
+
+            <%--<input type="radio" name="radio" value="A" id="radio1" onclick="payCardHist.gridReload()" checked><label for="radio1" style="position: relative; top : 4px;">카드사용내역</label>
             <input type="radio" name="radio" value="M" id="radio2" onclick="payCardHist.cardMainGridReload('M')"><label for="radio2" style="position: relative; top : 4px;">법인카드</label>
-            <input type="radio" name="radio" value="P" id="radio3" onclick="payCardHist.cardMainGridReload('P')"><label for="radio3" style="position: relative; top : 4px;">개인카드</label>
+            <input type="radio" name="radio" value="P" id="radio3" onclick="payCardHist.cardMainGridReload('P')"><label for="radio3" style="position: relative; top : 4px;">개인카드</label>--%>
         </span>
         <div id="mainGrid" style="margin-top:12px"></div>
         <div id="cardMainGrid" style="margin-top:12px; display: none"></div>
