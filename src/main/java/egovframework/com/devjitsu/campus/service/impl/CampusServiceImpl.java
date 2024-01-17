@@ -712,7 +712,6 @@ public class CampusServiceImpl implements CampusService {
                 double realStudyUserOneTime = Double.valueOf(String.valueOf(studyUserOneTime.get("STUDY_ONE_TIME")));
                 /*20-realStudyUserOneTime*/
                 if(realStudyUserOneTime < 20){
-
                     if(infoUserCount == 1){
                         if(realEduUserTime > 2){
                             params.put("realEduUserTime", '2');
