@@ -71,9 +71,11 @@
 </div><!-- col-md-9 -->
 
 <div id="dialog">
-    <input type="text" id="cardFromDe" style="width: 40%" name="cardFromDe" value="">
-    <input type="text" name="cardFromTime" id="cardFromTime" style="width: 25%;">
+    <input type="text" id="cardFromDe" style="width: 50%" name="cardFromDe" value="">
+    <input type="text" name="cardFromTime" id="cardFromTime" style="width: 30%;">
+    <input type="hidden" id="tmpCardBaNb" />
     <input type="hidden" id="cardToSnModal" />
+    <input type="hidden" id="tmpCardToDe" />
     <button type="button" id="updBtn" class="k-button k-button-solid-base" onclick="statementList.fn_updFromDe();">반납</button>
 </div>
 <script>
@@ -87,7 +89,7 @@
             visible : false,
             resizable: false,
             modal: true,
-            width: 400,
+            width: 500,
             actions: ["Close"],
         });
 
