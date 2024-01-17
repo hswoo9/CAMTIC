@@ -27,6 +27,12 @@
     .k-footer-template td:nth-child(9) {
         border-width: 0;
     }
+
+     .k-grid-content td {
+         overflow: hidden;
+         white-space: nowrap;
+         text-overflow: ellipsis;
+     }
 </style>
 
 <input type="hidden" id="pageName" value="bustripList"/>

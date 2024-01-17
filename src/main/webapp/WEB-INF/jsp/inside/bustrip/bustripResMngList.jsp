@@ -5,6 +5,13 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${toDate}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResMngList.js?v=${toDate}"/></script>
+<style>
+    .k-grid-content td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">

@@ -1538,13 +1538,17 @@ var regPayDet = {
 
     },
 
-    fn_popRegDet : function (v, i){
+    fn_popRegDet : function (v, i, cardVal){
+        //개인&법인 구분없이 조회하기 위한 parameter 추가
+        if(cardVal == undefined){
+            cardVal = "";
+        }
 
         if($("#eviType" + i).val() == 5 || $("#eviType" + i).val() == 9){
             v = $("#eviType" + i).val();
         }
 
-        var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i;
+        var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i + "&cardVal=" + cardVal;
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
