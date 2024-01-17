@@ -1033,6 +1033,13 @@ public class UserManageController {
         return "jsonView";
     }
 
+    /** 사인 조회 */
+    @RequestMapping("/user/getSign")
+    public String getSignImage(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("data", userManageService.getSign(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/useManage/userPersonnelRecordPop.do")
     public String userPersonnelRecordEduAddPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         String viewName = "";

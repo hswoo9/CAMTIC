@@ -61,7 +61,7 @@ var recruitAdminPop = {
                 }, {
                     title: "순번",
                     width: 50,
-                    template: "#= --record #"
+                    template: "#= ++record #"
                     /*template : function(e){
                         return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
                     }*/
@@ -185,7 +185,7 @@ var recruitAdminPop = {
                 }
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+                record = fn_getRowNum(this, 1);
             }
         }).data("kendoGrid");
 

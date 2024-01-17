@@ -592,7 +592,7 @@
                 </otherwise>
             </choose>
         </if>
-        GROUP BY AM.APPLICATION_ID
+        GROUP BY AM.SAVE_DATE DESC
     </select>
 
     <select id="getUserDuplicationList" parameterType="map" resultType="map">
@@ -930,6 +930,7 @@
         AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
         </if>
         GROUP BY AM.APPLICATION_ID
+        ORDER BY AM.USER_NAME
     </select>
 
 

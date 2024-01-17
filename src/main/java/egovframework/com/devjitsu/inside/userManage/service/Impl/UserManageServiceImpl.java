@@ -542,6 +542,24 @@ public class UserManageServiceImpl implements UserManageService {
         return resultMap;
     }
 
+    @Override
+    public Map<String, Object> getSign(Map<String, Object> params) {
+        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> infoMap = userManageRepository.getUserImageInfo(params);
+
+        if(infoMap != null){
+            if(infoMap.get("SIGN_IMAGE_PK") != "" || infoMap.get("SIGN_IMAGE_PK") != null){
+                params.put("fileNo", infoMap.get("SIGN_IMAGE_PK"));
+                resultMap.put("signImg", commonRepository.getContentFileOne(params));
+            }
+            resultMap.put("null", "");
+        } else {
+            resultMap.put("null", "");
+        }
+
+        return resultMap;
+    }
+
 
     @Override
     public List<Map<String, Object>> getEmploymentContList(Map<String,Object> map) {

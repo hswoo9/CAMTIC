@@ -564,6 +564,7 @@
             RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
         AND
             SAVE_TYPE = 'S'
+        ORDER BY A.USER_NAME
     </select>
 
     <select id="getChkEmail" parameterType="map" resultType="boolean">

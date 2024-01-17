@@ -77,7 +77,7 @@ var evalInScreen = {
                 '<tr class="userEvalInScreen">' +
                     '<td>' + (i + 1) + '</td>' +
                     '<td>' + itemList[i].EVAL_ITEM_TYPE + '</td>' +
-                    '<td>' + itemList[i].EVAL_ITEM_TITLE + '</td>' +
+                    '<td style="text-align: left">' + itemList[i].EVAL_ITEM_TITLE.replaceAll("\n", "<br>") + '</td>' +
                     '<td>' + itemList[i].EVAL_ITEM_VAL + '</td>' +
                     '<td>' +
                         '<input type="text" class="itemScore" id="itemScore_' + itemList[i].EVAL_ITEM_ID + '_' + $("#applicationId").val()  + '"' +

@@ -235,7 +235,7 @@ function fn_getNowDate(type){
     if(type == 1){
         toDate = year+"년 "+month+"월 "+date+"일";
     }else if(type == 2){
-        toDate = year+"-"+month+"-"+date+"-";
+        toDate = year+"-"+month+"-"+date;
     }else if(type == 3){
         toDate = year+". "+month+". "+date+".";
     }

@@ -34,8 +34,7 @@ var screenViewPop = {
 
             screenViewPop.global.searchAjaxData = {
                 recruitInfoSn : $("#recruitInfoSn").val(),
-                recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
-                notSearchType : "S"
+                recruitAreaInfoSn : $("#recruitAreaInfoSn").val()
             }
 
             var result = customKendo.fn_customAjax("/recruit/manage/eval/getApplicationScreenViewList.do", screenViewPop.global.searchAjaxData);
@@ -82,11 +81,18 @@ var screenViewPop = {
                     '<table class="searchTable table table-bordered mb-0 mt-20">' +
                         '<colgroup>' +
                             '<col style="width: 10%">' +
+                            '<col style="width: 17%">' +
+                            '<col style="width: 10%">' +
+                            '<col style="width: %">' +
+                            '<col style="width: 10%">' +
+                            '<col style="width: %">' +
+                            '<col style="width: 10%">' +
+                            '<col style="width: 12%">' +
                         '</colgroup>' +
                         '<tr>' +
                             '<th>근무부서</th>' +
                             '<td>' +
-                                area.DEPT_NAME + ' - ' + area.TEAM_NAME +
+                                area.DEPT_NAME + '<br>' + area.TEAM_NAME +
                             '</td>' +
                             '<th>채용부문</th>' +
                             '<td>' +
@@ -124,7 +130,7 @@ var screenViewPop = {
                         '    <th colSpan="3">학력(20점)</th>' +
                         '    <th colSpan="3">경력(50점)</th>' +
                         '    <th colSpan="3">전문성(30점)</th>' +
-                        '    <th rowSpan="2">평가점수(100점)</th>' +
+                        '    <th rowSpan="2">평가점수<br>(100점)</th>' +
                         '    <th rowspan="2">기타의견</th>' +
                         '</tr>' +
                         '<tr>' +
@@ -189,17 +195,34 @@ var screenViewPop = {
                             '</tr>'
             }
 
+            /** 사인 조회후 사인이 있으면 이미지 첨부 없으면 정자 */
+            const result = customKendo.fn_customAjax("/user/getSign", {empSeq: cnt[i].EMP_SEQ});
+            console.log("userSign : ");
+            console.log(result);
+
+            let imgHtml = '';
+            if(result.data.signImg != null){
+                const imgMap = result.data.signImg;
+                imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '
+                    +cnt[i].EMP_NAME_KR
+                    +'&nbsp;(인)</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"http://218.158.231.184'
+                    +imgMap.file_path+imgMap.file_uuid
+                +'\">';
+            }else{
+                imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[i].EMP_NAME_KR+'&nbsp;<b style=\"\">'+cnt[i].EMP_NAME_KR+'</b></span>';
+            }
+
             html +=     '</tbody>' +
-                    '</table>' +
-                    '<p style="font-size: 14px;text-align: center" class="mt-20">' +
-                        '■평점요소: △학력(20점)-응시분야 직무에 대한 학력 전공 ' +
-                        '△경력(50점)-응시분야 및 관련분야 실무능력 ' +
-                        '△전문성(30점)-응시분야 직무에 대한 전문지식' +
-                    '</p>' +
-                    '<div style="text-align: right;font-size: 12px" class="mt-60">' +
-                        screenViewPop.global.nowH + "<br>" +
-                        "심사위원 : " + cnt[i].EMP_NAME_KR + "(인)" +
-                    '</div>' +
+                '</table>' +
+                '<p style="font-size: 13px;text-align: center" class="mt-20">' +
+                '■평점요소: △학력(20점)-응시분야 직무에 대한 학력 전공 ' +
+                '△경력(50점)-응시분야 및 관련분야 실무능력 ' +
+                '△전문성(30점)-응시분야 직무에 대한 전문지식' +
+                '</p>' +
+                '<div style="text-align: right;font-size: 12px" class="mt-60">' +
+                screenViewPop.global.nowH + "<br>" +
+                imgHtml +
+                '</div>' +
                 '</div>';
         }
         $("#tbDiv").append(html)
@@ -253,7 +276,7 @@ var screenViewPop = {
                         '    <th rowSpan="2">성명</th>' +
                         '    <th colSpan="3">학력/전공(40점)</th>' +
                         '    <th colSpan="3">서류충실도(60점)</th>' +
-                        '    <th rowSpan="2">평가점수(100점)</th>' +
+                        '    <th rowSpan="2">평가점수<br>(100점)</th>' +
                         '    <th rowspan="2">기타의견</th>' +
                         '</tr>' +
                         '<tr>' +
@@ -306,19 +329,31 @@ var screenViewPop = {
                             '</tr>'
                 }
 
+                /** 사인 조회후 사인이 있으면 이미지 첨부 없으면 정자 */
+                const result = customKendo.fn_customAjax("/user/getSign", {empSeq: cnt[i].EMP_SEQ});
+                console.log("userSign : ");
+                console.log(result);
 
-                html += '</tbody>' +
+                let imgHtml = '';
+                if(result.data.signImg != null){
+                    const imgMap = result.data.signImg;
+                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[i].EMP_NAME_KR+'&nbsp;(인)</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"http://218.158.231.184'+imgMap.file_path+imgMap.file_uuid+'\">';
+                }else{
+                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[i].EMP_NAME_KR+'&nbsp;<b style=\"\">'+cnt[i].EMP_NAME_KR+'</b></span>';
+                }
+
+                html +=     '</tbody>' +
                     '</table>' +
-                    '<p style="font-size: 14px;text-align: center" class="mt-20">' +
-                        '■평점요소: △학력(20점)-응시분야 직무에 대한 학력 전공 ' +
-                        '△경력(50점)-응시분야 및 관련분야 실무능력 ' +
-                        '△전문성(30점)-응시분야 직무에 대한 전문지식' +
+                    '<p style="font-size: 13px;text-align: center" class="mt-20">' +
+                    '■평점요소: △학력(20점)-응시분야 직무에 대한 학력 전공 ' +
+                    '△경력(50점)-응시분야 및 관련분야 실무능력 ' +
+                    '△전문성(30점)-응시분야 직무에 대한 전문지식' +
                     '</p>' +
                     '<div style="text-align: right;font-size: 12px" class="mt-60">' +
-                        screenViewPop.global.nowH + "<br>" +
-                        "심사위원 : " + cnt[i].EMP_NAME_KR + "(인)" +
+                    screenViewPop.global.nowH + "<br>" +
+                    imgHtml +
                     '</div>' +
-                '</div>';
+                    '</div>';
         }
         $("#tbDiv").append(html)
     },
@@ -461,7 +496,7 @@ const pdfMake = () => {
         var sorted = renderedImg.sort(function (a, b) {
                 return a.num < b.num ? -1 : 1;
             }), // 순서대로 정렬
-            curHeight = 20, //위 여백 (이미지가 들어가기 시작할 y축)
+            curHeight = 10, //위 여백 (이미지가 들어가기 시작할 y축)
             sortedLeng = sorted.length;
 
         for (var i = 0; i < sortedLeng; i++) {
@@ -469,12 +504,12 @@ const pdfMake = () => {
                 sortedImage = sorted[i].image; //이미지w
 
             if(i != 0){
-                curHeight += 10;
+                curHeight += 20;
             }
 
-            if (curHeight + sortedHeight - 20 > 100 - padding * 2) { // a4 높이에 맞게 남은 공간이 이미지높이보다 작을 경우 페이지 추가
+            if (i!=0 && curHeight + sortedHeight - 20 > 100 - padding * 2) { // a4 높이에 맞게 남은 공간이 이미지높이보다 작을 경우 페이지 추가
                 doc.addPage(734, 425); // 페이지를 추가함
-                curHeight = 20; // 이미지가 들어갈 y축을 초기 여백값으로 초기화
+                curHeight = 10; // 이미지가 들어갈 y축을 초기 여백값으로 초기화
                 doc.addImage(sortedImage, padding, curHeight, contWidth, sortedHeight); //이미지 넣기
                 curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
             } else { // 페이지에 남은 공간보다 이미지가 작으면 페이지 추가하지 않음

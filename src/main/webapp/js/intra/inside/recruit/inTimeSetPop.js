@@ -98,6 +98,9 @@ var inTimeSetPop = {
                 value : inTimeDate,
                 culture : "ko-KR"
             });
+
+            var buttons = $("#" + $(this).attr("id")).data("kendoDateTimePicker").wrapper.find("button");
+            $(buttons[1]).insertBefore(buttons[0]);
         })
     },
 

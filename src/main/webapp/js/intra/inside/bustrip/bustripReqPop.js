@@ -98,7 +98,7 @@ const bustripReq = {
                 "<span class='k-button-text'>열람</span>" +
                 "</button>";
             if(busInfo.TRIP_CODE == "4"){
-                apprBtnBoxHtml += "<input type='button' id='saveBtn' class='k-button k-button-solid-info' value='사전정산' onclick='bustPop.bustripExnpPop(\""+busInfo.HR_BIZ_REQ_ID+"\")' />";
+                apprBtnBoxHtml += "<input type='button' id='saveBtn' class='k-button k-button-solid-info' style='margin-left: 10px' value='사전정산' onclick='bustPop.bustripExnpPop(\""+busInfo.HR_BIZ_REQ_ID+"\")' />";
             }
         } else{
             apprBtnBoxHtml = "";

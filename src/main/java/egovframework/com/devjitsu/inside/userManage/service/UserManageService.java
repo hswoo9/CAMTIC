@@ -157,6 +157,8 @@ public interface UserManageService{
     /** 직무사항 수정 내용 **/
     Map<String,Object> getJobinfoList (Map<String,Object> params);
 
+    Map<String,Object> getSign (Map<String,Object> params);
+
     /** 직원 생일 정보 조회 **/
     List<Map<String,Object>> getEmpBirthDayInfoList (Map<String,Object> map);
 

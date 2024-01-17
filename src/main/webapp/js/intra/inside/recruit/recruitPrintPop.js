@@ -106,7 +106,8 @@ const recruitPrintPop = {
         recruitPrintPop.global.hwpCtrl.PutFieldText("DEADLINE_DT", deadLineValue);
 
         /** 작성일 */
-        recruitPrintPop.global.hwpCtrl.PutFieldText("REG_DT", startDayValue);
+
+        recruitPrintPop.global.hwpCtrl.PutFieldText("REG_DT", fn_getNowDate(2));
 
         /** 작성자 */
         recruitPrintPop.global.hwpCtrl.PutFieldText("EMP_NAME_SIGN", empNameValue);
