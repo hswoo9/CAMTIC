@@ -102,6 +102,13 @@ var cardList = {
                         }, {
                             title : "반출자",
                             field : "USE_EMP_NAME",
+                            template : function (e){
+                                var useEmpName = "";
+                                if(e.RT_YN == "N"){
+                                    useEmpName = e.USE_EMP_NAME;
+                                }
+                                return useEmpName;
+                            }
                         }
                     ]
                 }, {

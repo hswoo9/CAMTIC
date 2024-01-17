@@ -192,6 +192,8 @@ var regPay = {
                 $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
                 $("#budgetNm" + i).val(cem.BUDGET_NM);
                 $("#budgetSn" + i).val(cem.BUDGET_SN);
+                $("#budgetAmt" + i).val(9999999999);
+
             }
         }
 
