@@ -152,7 +152,7 @@ var regPay = {
         }
 
         if($("#reqType").val() == "claimExnp") {
-            const data = {
+            var data = {
                 claimExnpSn: $("#claimExnpSn").val(),
                 purcSn : $("#purcSn").val(),
                 claimSn : $("#claimSn").val()
@@ -195,6 +195,20 @@ var regPay = {
                 $("#budgetAmt" + i).val(9999999999);
 
             }
+
+            var fileResult = customKendo.fn_customAjax("/purc/purcFileList", data);
+            var fileList = fileResult.listMap;
+            var fileThumbText = "";
+
+            for(let i=0; i<fileList.length; i++){
+                if(fileThumbText != ""){
+                    fileThumbText += " | ";
+                }
+                fileThumbText += fileList[i].file_org_name;
+                fileThumbText += "." + fileList[i].file_ext;
+            }
+
+            $("#fileText").text(fileThumbText);
         }
 
         if($("#reqType").val() == "bustrip"){
@@ -219,8 +233,10 @@ var regPay = {
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
                 if($("#pjtSn").val() != ""){
-                    selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD)
+                    selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
                 }
+            }else {
+                selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
 
             let totalList = exnpList.length + cardList.length - 1;
