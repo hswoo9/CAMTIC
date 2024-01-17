@@ -302,7 +302,7 @@ var hwpDocCtrl = {
                     certifiPrintPop.global.params.fileTitle = ResultData.EMP_NAME_KR + " " + proofName
 
                     //호수
-                    const number = "제"+ResultData.DOCU_YEAR_DE+"-"+ResultData.USER_PROOF_SN+"호"
+                    const number = "제"+ResultData.DOCU_YEAR_DE+"-"+ResultData.NUMBER+"호"
                     hwpDocCtrl.global.HwpCtrl.MoveToField('number', true, true, false);
                     hwpDocCtrl.putFieldText('number', number);
 

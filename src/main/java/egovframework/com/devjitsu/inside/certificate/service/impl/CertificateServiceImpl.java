@@ -22,73 +22,12 @@ public class CertificateServiceImpl implements CertificateService {
             params.put("manageCheck", "");
         }
 
-        //해당년도의 증명서 전체 불러오기
-        Map<String, Object> yearData = new HashMap<>();
-        yearData.put("docuYearDe",params.get("docuYearDe"));
-        yearData.put("manageCheck", "admin");
-        List<Map<String, Object>> allCertificateList = certificateRepository.getCertificateList(yearData);
-
-        // USER_PROOF_SN을 기준으로 정렬
-        allCertificateList.sort((map1, map2) -> Integer.compare((int) map1.get("USER_PROOF_SN"), (int) map2.get("USER_PROOF_SN")));
-
-        for (int i = 0; i < allCertificateList.size(); i++) {
-            Map<String, Object> map = allCertificateList.get(i);
-            map.put("userProofTurn", i + 1);
-        }
-
-        List<Map<String, Object>> certificateList = certificateRepository.getCertificateList(params);
-
-        for (Map<String, Object> certMap : certificateList) {
-            int userProofSN = (int) certMap.get("USER_PROOF_SN");
-            Map<String, Object> matchingMap = allCertificateList.stream()
-                    .filter(map -> userProofSN == (int) map.get("USER_PROOF_SN"))
-                    .findFirst()
-                    .orElse(null);
-
-            if (matchingMap != null) {
-                certMap.put("userProofTurn", matchingMap.get("userProofTurn"));
-            }
-        }
-
-        return certificateList;
+        return certificateRepository.getCertificateList(params);
     }
 
     @Override
     public Map<String, Object> getCertificateOne(Map<String, Object> params){
-        Map<String, Object> certificateOne = certificateRepository.getCertificateOne(params);
-
-        Map<String, Object> yearData = new HashMap<>();
-        yearData.put("docuYearDe",certificateOne.get("DOCU_YEAR_DE"));
-        yearData.put("manageCheck", "admin");
-        List<Map<String, Object>> allCertificateList = certificateRepository.getCertificateList(yearData);
-
-        allCertificateList.sort((map1, map2) -> Integer.compare((int) map1.get("USER_PROOF_SN"), (int) map2.get("USER_PROOF_SN")));
-
-        for (int i = 0; i < allCertificateList.size(); i++) {
-            Map<String, Object> map = allCertificateList.get(i);
-            map.put("userProofTurn", i + 1);
-        }
-
-        // certificateOne에 userProofTurn 값 추가
-        int userProofSN = (int) certificateOne.get("USER_PROOF_SN");
-
-        // allCertificateList에서 USER_PROOF_SN이 일치하는 Map 찾기
-        Map<String, Object> matchingMap = allCertificateList.stream()
-                .filter(map -> userProofSN == (int) map.get("USER_PROOF_SN"))
-                .findFirst()
-                .orElse(null);
-
-        // 일치하는 경우 userProofTurn 값을 certificateOne에 추가
-        if (matchingMap != null) {
-            certificateOne.put("userProofTurn", matchingMap.get("userProofTurn"));
-        }
-
-        // 결과 확인
-        System.out.println(certificateOne);
-
-
-
-        return certificateOne;
+        return certificateRepository.getCertificateOne(params);
     }
 
     @Override
