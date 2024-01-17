@@ -42,7 +42,7 @@
                         </tr>
                     </thead>
                 </table>
-                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP1 : 목표기술서 등록" onclick="targetInfo.targetAddYearPop();"/>
+                <input type="button" class="stepBtn stepBtn2 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP1 : 목표기술서 등록" onclick="targetInfo.targetAddYearPop();"/>
                 <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP2-1 : 주업무 선택" onclick="targetInfo.targetInfoPop();"/>
                 <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP2-2 : 주업무 현황 및 목표 설정" onclick="targetInfo.targetMainSetPop();"/>
                 <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP3-1 : 연계업무 선택" onclick="targetInfo.targetSubInfoPop();"/>

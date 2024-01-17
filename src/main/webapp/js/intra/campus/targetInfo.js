@@ -64,6 +64,7 @@ var targetInfo = {
                 $("#stat").text("승인완료");
                 $(".appBtn").hide();
                 $(".stepBtn").hide();
+                $(".stepBtn2").show();
                 $(".canBtn").hide();
             }else if(status == 0){
                 $("#stat").text("작성중");
