@@ -228,13 +228,13 @@ var recruitAdminPop = {
                     '<button type="button" class="k-button k-button-solid-info mngBtn" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(서류심사)\', \'3\')">접수완료</button>';
             } else if ($("#recruitStatusSn").val() == "3") {
                 html = '<button type="button" class="k-button k-button-solid-base mngBtn" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'접수중\', \'2\')">접수중</button>' +
-                    '<button type="button" class="k-button k-button-solid-info" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(면접심사)\', \'4\')">서류심사 완료</button>';
+                    '<button type="button" class="k-button k-button-solid-info mngBtn" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(면접심사)\', \'4\')">서류심사 완료</button>';
             } else if ($("#recruitStatusSn").val() == "4") {
                 html = '<button type="button" class="k-button k-button-solid-base mngBtn" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(서류심사)\', \'3\')">심사중(서류심사)</button>' +
-                    '<button type="button" class="k-button k-button-solid-info" onclick="recruitAdminPop.setRecruitStatusUpd(\'면접심사완료\', \'5\')">면접심사완료</button>';
+                    '<button type="button" class="k-button k-button-solid-info mngBtn" onclick="recruitAdminPop.setRecruitStatusUpd(\'면접심사완료\', \'5\')">면접심사완료</button>';
             } else if ($("#recruitStatusSn").val() == "5") {
                 html = '<button type="button" class="k-button k-button-solid-base mngBtn" style="margin-right: 5px;" onclick="recruitAdminPop.setRecruitStatusUpd(\'심사중(면접심사)\', \'4\')">심사중(면접심사)</button>' +
-                    '<button type="button" class="k-button k-button-solid-info" onclick="recruitAdminPop.setRecruitStatusUpd(\'채용완료\', \'E\')">채용완료</button>'
+                    '<button type="button" class="k-button k-button-solid-info mngBtn" onclick="recruitAdminPop.setRecruitStatusUpd(\'채용완료\', \'E\')">채용완료</button>'
             }
 
             $("#recruitStatusDiv").append(html);
