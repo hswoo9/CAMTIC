@@ -297,14 +297,20 @@ const bustripExnpReq = {
             }).data;
 
             console.log("costInfo", costInfo);
-            console.log(bustripInfo);
             let realDis = Number(bustripInfo.MOVE_DST);
             let codeDis = Number(costInfo.DISTANCE);
             let ceil = Math.ceil(realDis/codeDis);
             let amt = ceil * Number(costInfo.COST_AMT);
 
             $(".oilCost").val(0);
-            $("#oilCost"+String(empSeq)).val(fn_comma(amt));
+            //도내(시내) 10km 이상일 때 유류비 10,000원 고정
+            if(bustripInfo.TRIP_CODE == 1){
+                if(bustripInfo.MOVE_DST >= 10){
+                    $("#oilCost"+String(empSeq)).val(fn_comma(10000));
+                }
+            }else{
+                $("#oilCost"+String(empSeq)).val(fn_comma(amt));
+            }
         }
         bustripExnpReq.fn_setTableSum();
     },
@@ -373,9 +379,8 @@ const bustripExnpReq = {
             for (var j = 1; j < tdsNum - 1; j++) {
                 totalCostArr[j] += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
                 totalCost += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
-                console.log("j = " + j + ", " + $(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
+                //console.log("j = " + j + ", " + $(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
             }
-            console.log(totalCostArr);
 
             if(totalCost != 0){
                 $(row.cells[tdsNum - 1]).find("input[type=text]").val(fn_comma(totalCost));
