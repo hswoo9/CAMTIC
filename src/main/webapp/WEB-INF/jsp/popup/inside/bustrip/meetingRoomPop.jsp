@@ -40,14 +40,14 @@
             <%--<tr>
                 <th colspan="2">회의실 사용 신청</th>
             </tr>--%>
-            <tr>
+            <%--<tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>저장 후 이동 경로
                 </th>
                 <td>
                     <input type="text" id="saveRoute" style="width: 20%; margin-right:10px;">
                 </td>
-            </tr>
+            </tr>--%>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>사용 일시
@@ -76,7 +76,7 @@
                 </th>
                 <td>
                     <input type="text" id="usePurpose" style="width: 40%; margin-right:10px;">
-                    <input class="varUsePurpose" type="text" id="etc" style="display: none; width: 20%; margin-right:10px;">
+                    <%--<input class="varUsePurpose" type="text" id="etc" style="display: none; width: 20%; margin-right:10px;">--%>
                 </td>
             </tr>
             <tr>

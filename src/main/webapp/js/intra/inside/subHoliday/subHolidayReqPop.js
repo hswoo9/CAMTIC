@@ -162,7 +162,7 @@ var subHolidayReqPop = {
                     }
                 }
 
-                if($("#edtHolidayKindTop").val() == 2 || $("#edtHolidayKindTop").val() == 3) {
+                if($("#edtHolidayKindTop").val() == 3 || $("#edtHolidayKindTop").val() == 4) {
                     data.useDay = 0.5;
                 }else if($("#edtHolidayKindTop").val() != 11) {
                     var firstDate;

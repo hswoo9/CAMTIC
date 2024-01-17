@@ -444,7 +444,7 @@
                 </if>
                 RENTAL_FEE_SN,
                 RENTAL_FEE_TEXT,
-                <if test='"1".equals(rentalFeeSn)'>
+                <if test='"0".equals(rentalFeeSn)'>
                     PAY,
                 </if>
                 MANAGER_SN,

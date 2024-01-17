@@ -64,9 +64,9 @@ var hwpDocCtrl = {
 
                         let startDT;
                         let endDT;
-                        let explanationDT;
+                        let explanationDT = ResultData.SUBHOLIDAY_USE_DAY;
 
-                        try {
+                        /*try {
                             startDT = ResultData.SUBHOLIDAY_ST_DT.replace(/-/g, "");
                             endDT = ResultData.SUBHOLIDAY_EN_DT.replace(/-/g, "");
 
@@ -76,7 +76,7 @@ var hwpDocCtrl = {
                             explanationDT = Math.floor(betweenTime / (1000 * 60 * 60 * 24)) +1;
                         }catch (e) {
                             explanationDT = 0;
-                        }
+                        }*/
 
                         const explantion = "아래와 같은 사유로 ("+explanationDT+")일 휴가코자 합니다.";
                         hwpDocCtrl.putFieldText('explanation', explantion);

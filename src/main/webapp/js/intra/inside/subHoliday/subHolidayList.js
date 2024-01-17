@@ -253,19 +253,16 @@ var subHolidayList = {
         var rqHolyData = {year : $("#datePicker").val(), empSeq : $("#empSeq").val()}
         var e = customKendo.fn_customAjax("/subHoliday/getUserHolyData", rqHolyData);
 
+        console.log("e:");
         console.log(e);
         var html = "";
         e = e.rs;
-        var halfAnn = 0;
-        if(e.halfAnn != 0){
-            halfAnn = (halfAnn / 2);
-        }
         html += '<tr style="text-align: center;">';
         html += '   <td>' + e.occDay + '일</td>';
         // html += '   <td>' + e.bef2Year + '일</td>';
         html += '   <td>' + e.befYear + '일</td>';
         html += '   <td>' + e.ann + '일</td>';
-        html += '   <td>' + halfAnn + '일</td>';
+        html += '   <td>' + e.halfAnn + '일</td>';
         html += '   <td>' + (e.occDay - e.ann) + '일</td>';
         html += '   <td>' + e.sickLv + '일</td>';
         html += '   <td>' + e.pubHoly + '일</td>';

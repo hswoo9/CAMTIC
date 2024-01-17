@@ -6,11 +6,11 @@ var roomReq = {
 
     dataSet: function(roomData){
         customKendo.fn_textBox(["etc", "pay", "empName", "name", "remarkCn"]);
-        let saveRouteArr = [
+        /*let saveRouteArr = [
             {text: "달력 화면", value: "달력 화면"},
             {text: "등록 화면", value: "등록 화면"}
         ]
-        customKendo.fn_dropDownList("saveRoute", saveRouteArr, "text", "value", 2);
+        customKendo.fn_dropDownList("saveRoute", saveRouteArr, "text", "value", 2);*/
         let saveTypeArr = [
             {text: "기간 등록", value: "1"},
             {text: "일별 등록", value: "2"}
@@ -32,7 +32,7 @@ var roomReq = {
             {text: "기타", value: "0"}
         ]
         customKendo.fn_dropDownList("usePurpose", usePurposeArr, "text", "value", 2);
-        $("#usePurpose").data("kendoDropDownList").bind("change", roomReq.fn_toggleUsePurpose)
+        /*$("#usePurpose").data("kendoDropDownList").bind("change", roomReq.fn_toggleUsePurpose)*/
 
         $("#exSpecificDay").kendoDropDownTree({
             placeholder: "해당없음",
@@ -59,7 +59,7 @@ var roomReq = {
     },
 
     saveBtn: function(){
-        let saveRoute = $("#saveRoute").val();
+        /*let saveRoute = $("#saveRoute").val();*/
         let roomReqSn = $("#roomReqSn").val();
         let startDt = $("#startDt").val();
         let endDt = $("#endDt").val();
@@ -69,7 +69,7 @@ var roomReq = {
         let roomClassText = $("#roomClass").data("kendoDropDownList").text();
         let usePurposeSn = $("#usePurpose").val();
         let usePurposeText = $("#usePurpose").data("kendoDropDownList").text();
-        let etc = $("#etc").val();
+        let etc = "";
         let rentalFeeSn = $("#rentalFee").val();
         let rentalFeeText = $("#rentalFee").data("kendoDropDownList").text();
         let pay = $("#pay").val();
@@ -85,7 +85,7 @@ var roomReq = {
         if(rentalFeeSn == ""){ alert("대관료가 선택되지 않았습니다."); return;}
         if(empSeq == ""){ alert("사용 담당자가 선택되지 않았습니다."); return;}
         if(usePurposeSn == "4" && etc == ""){ alert("사용목적이 작성되지 않았습니다."); return;}
-        if(rentalFeeSn == "1" && pay == ""){ alert("대관료가 작성되지 않았습니다."); return;}
+        if(rentalFeeSn == "0" && pay == ""){ alert("대관료가 작성되지 않았습니다."); return;}
 
         let data = {
             roomReqSn : roomReqSn,
@@ -189,7 +189,7 @@ var roomReq = {
 
     fn_toggleRentalFee: function(){
         const rentalFee = $("#rentalFee").data("kendoDropDownList").value();
-        if(rentalFee == "1") {
+        if(rentalFee == "0") {
             $(".varRentalFee").show();
         }else {
             $(".varRentalFee").hide();
