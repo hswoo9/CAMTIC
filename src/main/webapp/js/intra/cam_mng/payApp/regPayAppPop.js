@@ -204,6 +204,7 @@ var regPay = {
             var fileList = fileResult.listMap;
             var fileThumbText = "";
 
+
             for(let i=0; i<fileList.length; i++){
                 if(fileThumbText != ""){
                     fileThumbText += " | ";
@@ -438,6 +439,7 @@ var regPay = {
         if($("#reqType").val() == "snack"){
             const snackInfoSn = $("#snackInfoSn").val();
             var count = 0;
+            var fileThumbText = "";
 
             for(let i = 0 ; i < snackInfoSn.toString().split(",").length ; i++){
                 const data = {
@@ -460,7 +462,6 @@ var regPay = {
                 var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
                 var fileList = fileResult.fileList;
 
-                var fileThumbText = "";
 
                 for(let i=0; i<fileList.length; i++){
                     if(fileThumbText != ""){
@@ -476,11 +477,11 @@ var regPay = {
 
                 /** 개인여비 */
                 if(snackData.PAY_TYPE != null){
+                    debugger
                     if(count != 0){
                         regPayDet.addRow();
                     }
                     if(snackData.PAY_TYPE != "2"){
-                        debugger;
                         const cData = {
                             searchValue : snackData.CARD_SN,
                             cardVal : "userCard",
@@ -497,16 +498,16 @@ var regPay = {
                     }else {
                         /** 법인카드 사용내역 */
                         if(count == 0){
-                            for(let i=(1+count); i < (cardList.length+count); i++) {
+                            for(let i=(1 + count); i < (cardList.length+count); i++) {
                                 regPayDet.addRow();
                             }
                         }else{
-                            for(let i=(0+count); i < (cardList.length+count); i++) {
+                            for(let i=(1 + count); i < (cardList.length+count); i++) {
                                 regPayDet.addRow();
                             }
                         }
 
-                        for(let i=0; i<cardList.length; i++){
+                        for(let i= 0; i<cardList.length; i++){
                             const cardMap = cardList[i];
                             const index = count;
 

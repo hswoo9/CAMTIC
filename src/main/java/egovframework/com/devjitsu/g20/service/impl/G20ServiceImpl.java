@@ -146,14 +146,18 @@ public class G20ServiceImpl implements G20Service {
         List<Map<String, Object>> listMap = new ArrayList<>();
         if(params.containsKey("cardVal")){
             if(params.get("cardVal").equals("P")){
-                listMap = g20Repository.getCardList(params);
+                listMap = companyCardRepository.getUserCardList(params);
             } else if(params.get("cardVal").equals("M")){
                 listMap = companyCardRepository.getCorpCardList(params);
             } else {
                 listMap = companyCardRepository.getCardList(params);
             }
         } else {
-            listMap = companyCardRepository.getCorpCardList(params);
+            if(params.containsKey("g20")){
+                listMap = g20Repository.getCardList(params);
+            } else {
+                listMap = companyCardRepository.getCorpCardList(params);
+            }
         }
 
         return listMap;
