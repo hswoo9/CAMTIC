@@ -75,6 +75,34 @@
           AND PROPAG_DT BETWEEN (SELECT ADDDATE(#{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE(#{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
     </select>
 
+    <select id="getRealEduTimeOjtUserToday" resultType="map" parameterType="map">
+        /* getRealEduTimeOjtUserToday */
+        SELECT
+            IFNULL(SUM(EDU_TIME_HALF), 0) AS REAL_EDU_TIME
+        FROM
+            CAMPUS.DJ_OJT_RESULT CSP
+        LEFT JOIN
+            CAMPUS.DJ_OJT_USER CPU ON CSP.STUDY_INFO_SN = CPU.STUDY_INFO_SN AND CSP.OJT_RESULT_SN = CPU.OJT_RESULT_SN
+        WHERE
+            CPU.OJT_EMP_SEQ = #{empSeq}
+          AND CSP.ACTIVE = 'Y'
+          AND OJT_DT = #{applyDt}
+    </select>
+
+    <select id="getRealEduTimeOjtMngToday" resultType="map" parameterType="map">
+        /* getRealEduTimeOjtMngToday */
+        SELECT
+            IFNULL(SUM(EDU_TIME), 0) AS REAL_EDU_TIME
+        FROM
+            CAMPUS.DJ_OJT_RESULT CSP
+        LEFT JOIN
+            CAMPUS.DJ_OJT_USER CPU ON CSP.STUDY_INFO_SN = CPU.STUDY_INFO_SN AND CSP.OJT_RESULT_SN = CPU.OJT_RESULT_SN
+        WHERE
+            CPU.OJT_EMP_SEQ = #{empSeq}
+          AND CSP.ACTIVE = 'Y'
+          AND OJT_DT = #{applyDt}
+    </select>
+
     <select id="getRealEduTimePropagMngtWeekly" resultType="map" parameterType="map">
         /* getRealEduTimePropagMngtWeekly */
         SELECT
@@ -111,6 +139,28 @@
           AND PROPAG_RESULT_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
     </select>
 
+    <select id="getRealOjtTimeStudyToday" resultType="map" parameterType="map">
+        /* getRealOjtTimeStudyToday */
+        SELECT
+            IFNULL(SUM(REAL_OJT_TIME), 0) AS STUDY_TIME
+        FROM
+            CAMPUS.DJ_OJT_USER
+        WHERE
+            OJT_EMP_SEQ = #{empSeq}
+        AND OJT_RESULT_DT = #{applyDt}
+    </select>
+
+    <select id="getRealOjtOneTimeStudyToday" resultType="map" parameterType="map">
+        /* getRealOjtOneTimeStudyToday */
+        SELECT
+            IFNULL(SUM(REAL_OJT_TIME), 0) AS STUDY_ONE_TIME
+        FROM
+            CAMPUS.DJ_OJT_USER
+        WHERE
+            OJT_EMP_SEQ = #{empSeq}
+          AND STUDY_INFO_SN = #{studyInfoSn}
+    </select>
+
     <select id="getStudyInfoCountStudyWeekly" resultType="map" parameterType="map">
         /* getStudyInfoCountStudyWeekly */
         SELECT
@@ -131,12 +181,26 @@
             COUNT(CSP.STUDY_INFO_SN) AS studyInfoCount
         FROM
             CAMPUS.DJ_STUDY_PROPAG CSP
-                LEFT JOIN
+        LEFT JOIN
             CAMPUS.DJ_PROPAG_USER CPU ON CSP.STUDY_INFO_SN = CPU.STUDY_INFO_SN
         WHERE
             CPU.PROPAG_EMP_SEQ = #{empSeq}
           AND CSP.ACTIVE = 'Y'
           AND PROPAG_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
+    </select>
+
+    <select id="getOjtInfoCountStudyToday" resultType="map" parameterType="map">
+        /* getOjtInfoCountStudyToday */
+        SELECT
+            COUNT(CSP.STUDY_INFO_SN) AS studyInfoCount
+        FROM
+            CAMPUS.DJ_OJT_RESULT CSP
+        LEFT JOIN
+            CAMPUS.DJ_OJT_USER CPU ON CSP.STUDY_INFO_SN = CPU.STUDY_INFO_SN AND CSP.OJT_RESULT_SN = CPU.OJT_RESULT_SN
+        WHERE
+            CPU.OJT_EMP_SEQ = #{empSeq}
+        AND CSP.ACTIVE = 'Y'
+        AND OJT_DT = #{applyDt}
     </select>
 
     <select id="getRealEduTimePropagWeekly" resultType="map" parameterType="map">
@@ -2113,6 +2177,7 @@
         INSERT INTO CAMPUS.DJ_OJT_USER
             (
                 OJT_RESULT_SN,
+                STUDY_INFO_SN,
                 <if test='studyClassSn != null and studyClassSn != ""'>
                     OJT_CLASS_SN,
                 </if>
@@ -2124,11 +2189,15 @@
                 OJT_DEPT_NAME,
                 OJT_TEAM_NAME,
                 OJT_POSITION_NAME,
-                OJT_DUTY_NAME
+                OJT_DUTY_NAME,
+                OJT_RESULT_DT,
+                REAL_OJT_TIME
+
             )
         VALUES
             (
                 #{ojtResultSn},
+                #{studyInfoSn},
                 <if test='studyClassSn != null and studyClassSn != ""'>
                     #{studyClassSn},
                 </if>
@@ -2140,7 +2209,14 @@
                 #{studyDeptName},
                 #{studyTeamName},
                 #{studyPositionName},
-                #{studyDutyName}
+                #{studyDutyName},
+                #{ojtDt},
+                <if test='studyClassSn == "5"'>
+                    #{realEduUserTime}
+                </if>
+                <if test='studyClassSn == "4"'>
+                    #{realEduMngTime}
+                </if>
             )
     </insert>
 
