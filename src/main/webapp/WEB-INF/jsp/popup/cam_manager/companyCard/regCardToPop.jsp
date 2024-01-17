@@ -64,9 +64,9 @@
                     <span class="red-star">*</span>카드선택
                 </th>
                 <td colspan="3">
-                    <input type="hidden" id="trCd" style="">
-                    <input type="text" id="trNm" disabled style="width: 70%">
-                    <input type="hidden" id="cardBaNb" disabled style="width: 100%;">
+                    <input type="hidden" id="trCd" style="" value="${params.trCd}">
+                    <input type="text" id="trNm" disabled style="width: 70%" value="${params.trNm}">
+                    <input type="hidden" id="cardBaNb" disabled style="width: 100%;" value="${params.baNb}">
                     <button type="button" class="k-button k-button-solid-base" onclick="fn_popRegDet(8, 0)">검색</button>
                 </td>
             </tr>

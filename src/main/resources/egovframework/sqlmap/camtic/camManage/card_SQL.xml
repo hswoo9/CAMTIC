@@ -113,6 +113,7 @@
             A.*,
             SUBSTRING_INDEX(A.CARD_BA_NB,'-',-1) AS LAST_CARD_NUM,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_CARD_TO_HIST WHERE CARD_TO_SN = A.CARD_TO_SN) AS REG_HISTORY,
+            IFNULL((SELECT SUM(AUTH_AMT) FROM CAM_MNG.DJ_CARD_TO_HIST WHERE CARD_TO_SN = A.CARD_TO_SN), 0) AS SUM_AMT,
             (
                 SELECT sB.MER_NM FROM CAM_MNG.DJ_CARD_TO_HIST sA
                 LEFT JOIN CAM_HR.ERP_HIST_CORPCD_USE sB
@@ -271,7 +272,8 @@
                 AUTH_NO,
                 AUTH_DD,
                 AUTH_HH,
-                BUY_STS
+                BUY_STS,
+                AUTH_AMT
             )
         VALUES
             (
@@ -280,7 +282,8 @@
                 #{AUTH_NO},
                 #{AUTH_DD},
                 #{AUTH_HH},
-                #{BUY_STS}
+                #{BUY_STS},
+                #{AUTH_AMT}
             )
     </insert>
 

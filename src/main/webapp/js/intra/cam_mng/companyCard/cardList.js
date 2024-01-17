@@ -70,7 +70,13 @@ var cardList = {
                             title: "카드명",
                             width: 300,
                             template: function (e){
-                                return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' + e.TR_NM;
+                                if(e.RT_YN == "N"){
+                                    return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' +e.TR_NM;
+                                } else {
+                                    return '<input type="hidden" id="trCd" value="' + e.TR_CD + '"/><input type="hidden" id="clttrCd" value="e.CLTTR_CD" />' +
+                                        '<a href="javascript:cardList.fn_regCardToPop(\'' + e.TR_CD + '\', \'' + e.CARD_BA_NB + '\', \'' + e.TR_NM + '\');" style="font-weight: bold;">' + e.TR_NM + '</a>';
+                                }
+
                             }
                         }, {
                             title: "카드번호",
@@ -131,5 +137,13 @@ var cardList = {
 
             ]
         }).data("kendoGrid");
+    },
+
+    fn_regCardToPop : function(trCd, baNb, cardNm){
+        var url = "/card/regCardToPop.do?trCd=" + trCd + "&baNb=" + baNb + "&trNm=" + cardNm;
+
+        var name = "_blank";
+        var option = "width = 900, height = 400, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
