@@ -225,7 +225,7 @@ var certificateList = {
                     title: "발급번호",
                     width: 100,
                     template: function(row){
-                        return "제"+row.DOCU_YEAR_DE+"-"+row.USER_PROOF_SN+"호";
+                        return "제"+row.DOCU_YEAR_DE+"-"+row.userProofTurn+"호";
                     }
                 }, {
                     field: "REG_DE",

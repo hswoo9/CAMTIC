@@ -5,6 +5,7 @@ import egovframework.com.devjitsu.inside.certificate.service.CertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,36 @@ public class CertificateServiceImpl implements CertificateService {
         if(!params.containsKey("manageCheck")){
             params.put("manageCheck", "");
         }
-        return certificateRepository.getCertificateList(params);
+
+        //해당년도의 증명서 전체 불러오기
+        Map<String, Object> yearData = new HashMap<>();
+        yearData.put("docuYearDe",params.get("docuYearDe"));
+        yearData.put("manageCheck", "admin");
+        List<Map<String, Object>> allCertificateList = certificateRepository.getCertificateList(yearData);
+
+        // USER_PROOF_SN을 기준으로 정렬
+        allCertificateList.sort((map1, map2) -> Integer.compare((int) map1.get("USER_PROOF_SN"), (int) map2.get("USER_PROOF_SN")));
+
+        for (int i = 0; i < allCertificateList.size(); i++) {
+            Map<String, Object> map = allCertificateList.get(i);
+            map.put("userProofTurn", i + 1);
+        }
+
+        List<Map<String, Object>> certificateList = certificateRepository.getCertificateList(params);
+
+        for (Map<String, Object> certMap : certificateList) {
+            int userProofSN = (int) certMap.get("USER_PROOF_SN");
+            Map<String, Object> matchingMap = allCertificateList.stream()
+                    .filter(map -> userProofSN == (int) map.get("USER_PROOF_SN"))
+                    .findFirst()
+                    .orElse(null);
+
+            if (matchingMap != null) {
+                certMap.put("userProofTurn", matchingMap.get("userProofTurn"));
+            }
+        }
+
+        return certificateList;
     }
 
     @Override

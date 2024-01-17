@@ -1061,6 +1061,7 @@ public class RecruitController {
         applicationInfo.put("SPECIALITY",applicationInfo.get("SPECIALTY"));
 
         applicationInfo.remove("introduce");
+        applicationInfo.remove("QUALIFICATION");
 
         System.out.println("****edit applicationInfo****"+applicationInfo);
 
