@@ -147,15 +147,7 @@ var statementList = {
                     title: "사용금액",
                     width: 100,
                     template: function(e){
-                        if(e.REG_HISTORY > 0){
-                            if(e.REG_HISTORY == 1){
-                                return e.LAST_MER_NM;
-                            } else {
-                                return e.LAST_MER_NM + "외 " + Number(e.REG_HISTORY - 1) + "건";
-                            }
-                        } else {
-                            return "미등록";
-                        }
+                        return '<div style="text-align: right;">' + comma(e.SUM_AMT) + '</div>';
                     }
                 }, {
                     field: "",
