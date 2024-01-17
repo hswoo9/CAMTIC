@@ -387,7 +387,7 @@ var bustripResultPop = {
         if(hrBizReqResultId == ""){
             if(!confirm("출장 결과보고를 저장하고 다음단계로 넘어가시겠습니까?")){ return; }
         }else{
-            if(!confirm("결과보고 데이터를 수정할 시, 여비정산 승인을 다시 받아야합니다. 수정하시겠습니까?")){ return; }
+            /*if(!confirm("결과보고 데이터를 수정할 시, 여비정산 승인을 다시 받아야합니다. 수정하시겠습니까?")){ return; }*/
             formData.append("hrBizReqResultId", hrBizReqResultId);
         }
 

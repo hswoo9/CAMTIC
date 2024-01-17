@@ -144,6 +144,13 @@ var statementList = {
                     }
                 }, {
                     field: "",
+                    title: "사용금액",
+                    width: 100,
+                    template: function(e){
+                        return '<div style="text-align: right;">' + comma(e.SUM_AMT) + '</div>';
+                    }
+                }, {
+                    field: "",
                     title: "반납일시",
                     width: 100,
                     template: function(e){

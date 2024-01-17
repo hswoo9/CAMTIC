@@ -121,10 +121,10 @@ var popCrmList = {
             if(rsFile != null && rsFile != "" && rsFile != "undefined" && rsFile != undefined) {
                 opener.parent.$("#fileSn").val(rsFile.FILE1_NO);
                 opener.parent.$("#fileName").text(rsFile.FILE1_NAME);
-                opener.parent.$("#crmSn").val(rs.CRM_SN);
-                opener.parent.$("#crmNm").val(rs.CRM_NM);
-                opener.parent.$("#regNo").val(rs.CRM_NO);
             }
+            opener.parent.$("#crmSn").val(rs.CRM_SN);
+            opener.parent.$("#crmNm").val(rs.CRM_NM);
+            opener.parent.$("#regNo").val(rs.CRM_NO);
         }
         
         if($("#status").val() == undefined || $("#status").val() == "undefined" || $("#status").val() == "") {

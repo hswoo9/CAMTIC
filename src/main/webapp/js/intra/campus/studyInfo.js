@@ -169,7 +169,11 @@ var studyInfo = {
                                 return e.PROPAG_TIME+"시간";
                             }
                         }else if(e.STUDY_CLASS_SN == "3"){
-                            return "0시간";
+                            if(e.OJT_TIME == "" || e.OJT_TIME == null) {
+                                return "0시간";
+                            }else{
+                                return e.OJT_TIME+"시간";
+                            }
                         }else{
                             return "0시간";
                         }

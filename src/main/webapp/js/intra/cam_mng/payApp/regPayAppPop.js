@@ -176,7 +176,11 @@ var regPay = {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
 
-            $("#appTitle").val(rs.PURC_REQ_PURPOSE + " 외 " + cem.CNT + "건");
+            if(cem.CNT > 1 ){
+                $("#appTitle").val(rs.PURC_REQ_PURPOSE + " 외 " + Number(cem.CNT - 1) + "건");
+            } else {
+                $("#appTitle").val(rs.PURC_REQ_PURPOSE);
+            }
 
             var ls = rs.itemList;
 
@@ -230,10 +234,13 @@ var regPay = {
             const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
 
             if(exnpList[0].PJT_SN != null){
+                var busnClass = pjtMap.BUSN_CLASS;
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
-                if($("#pjtSn").val() != ""){
+                if($("#pjtSn").val() != "" && busnClass == "D" && busnClass == "V"){
                     selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
+                }else{
+                    selectProject('', '[2024년]법인운영', 'Mm1m124010');
                 }
             }else {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
