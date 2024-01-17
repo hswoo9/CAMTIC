@@ -240,17 +240,32 @@ var bustList = {
                     title: "입금상태",
                     width: 50,
                     template : function (e){
-                        if(true){
+                        var docStatus = e.DOC_STATUS;
+                        var payExnpDe = e.PAY_EXNP_DE;
+
+                        if(payExnpDe != undefined){
                             return '미입금';
-                        }else{
+                        }else if(docStatus == 100){
                             return '입금';
+                        }else{
+                            return '-';
                         }
                     }
                 }, {
                     title: "지출일자",
                     width: 60,
                     template : function (e){
-                        return "-";
+                        var payExnpDe = e.PAY_EXNP_DE;
+                        var docStatus = e.DOC_STATUS;
+                        var approvalDate = e.APPROVAL_DATE;
+
+                        if(payExnpDe == undefined || payExnpDe == null || payExnpDe == ""){
+                            return '-';
+                        }else if(docStatus != 100){
+                            return payExnpDe;
+                        }else{
+                            return approvalDate;
+                        }
                     }
                 }, {
                     title : "여비금액",
