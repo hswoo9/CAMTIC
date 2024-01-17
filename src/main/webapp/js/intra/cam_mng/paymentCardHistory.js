@@ -22,12 +22,13 @@ var payCardHist = {
 
         const requestType = $("#requestType").val();
 
-        payCardHist.gridReload();
+        //payCardHist.gridReload();
+        payCardHist.cardMainGridReload('M');
 
 
         $("#searchValue").on("keyup", function(key){
             if(key.keyCode == 13){
-                payCardHist.fn_search();
+                payCardHist.fn_search($("#requestType").val());
             }
         });
 
@@ -40,17 +41,16 @@ var payCardHist = {
         }
 
         if(requestType != "" && requestType != null && requestType != undefined){
-            $("input[name='radio']").prop("disabled", true);
 
             if(requestType == 1){
-                $("#radio3").prop("checked", true);
+                $("#cardM").attr("class", "k-button k-button-solid-base");
+                $("#cardP").attr("class", "k-button k-button-solid-info");
                 payCardHist.cardMainGridReload('P');
             }else if(requestType == 2){
-                $("#radio2").prop("checked", true);
+                $("#cardM").attr("class", "k-button k-button-solid-info");
+                $("#cardP").attr("class", "k-button k-button-solid-base");
                 payCardHist.cardMainGridReload('M');
             }else if(requestType == 3){
-                $("#radio1").prop("checked", true);
-
                 if($("#cardBaNb").val() != ''){
                     $("#searchValue").prop("disabled", true);
                     $("#searchValue").val($("#cardBaNb").val());
@@ -77,12 +77,19 @@ var payCardHist = {
     },
 
     cardMainGridReload: function(value){
-
         if(value == "M"){
-            payCardHist.cardMainGrid();
+            $("#cardM").attr("class", "k-button k-button-solid-info");
+            $("#cardP").attr("class", "k-button k-button-solid-base");
+            $("#requestType").val(1);
+            payCardHist.cardMainGrid(value);
         } else {
-            payCardHist.cardMainGrid2();
+            $("#cardM").attr("class", "k-button k-button-solid-base");
+            $("#cardP").attr("class", "k-button k-button-solid-info");
+            $("#requestType").val(2);
+            payCardHist.cardMainGrid2(value);
         }
+        $("#searchValue").val('');
+
     },
 
     cardMainGrid : function (type) {
@@ -102,7 +109,7 @@ var payCardHist = {
                 },
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
-                    data.cardVal = $("input[name='radio']:checked").val()
+                    data.cardVal = type
                     return data;
                 }
             },
@@ -157,7 +164,7 @@ var payCardHist = {
                     width: 80,
                     template: function(e){
                         return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payDetView.fn_selCardInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
+                            'onclick="payCardHist.fn_customSelectCard(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
                             '   선택' +
                             '</button>';
                     }
@@ -187,7 +194,7 @@ var payCardHist = {
                 },
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
-                    data.cardVal = $("input[name='radio']:checked").val()
+                    data.cardVal = type
                     return data;
                 }
             },
@@ -242,7 +249,7 @@ var payCardHist = {
                     width: 80,
                     template: function(e){
                         return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payDetView.fn_selCardInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
+                            'onclick="payCardHist.fn_customSelectCard(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
                             '   선택' +
                             '</button>';
                     }
@@ -329,6 +336,18 @@ var payCardHist = {
         }).data("kendoGrid");
     },
 
+    //카드선택 방식 변경
+    fn_customSelectCard : function(trCd,trNm,cardBaNb,jiroNm,clttrCd,baNb,depositor) {
+        //식대일 경우에는 기존 방식으로 진행
+        const reqType = $("#reqType").val();
+        if(reqType == "snack"){
+            payDetView.fn_selCardInfo(trCd,trNm,cardBaNb,jiroNm,clttrCd,baNb,depositor);
+        }else{
+            $("#searchValue").val(cardBaNb);
+            payCardHist.gridReload();
+        }
+    },
+
     fn_selectCard : function (){
         var grid = $("#mainGrid").data("kendoGrid");
         var cnt = 0;
@@ -396,10 +415,16 @@ var payCardHist = {
         window.close();
     },
 
-    fn_search : function (){
-        payCardHist.gridReload("search");
+    fn_search : function (type){
+        if(type == 2){
+            payCardHist.cardMainGridReload('P');
+        }else if(type == 1 || type == ''){
+            payCardHist.cardMainGridReload('M');
+        }else{
+            payCardHist.gridReload("search");
+        }
+        /*payCardHist.gridReload("search");
         payCardHist.cardMainGrid("search");
-        payCardHist.cardMainGrid2("search");
-
+        payCardHist.cardMainGrid2("search");*/
     }
 }

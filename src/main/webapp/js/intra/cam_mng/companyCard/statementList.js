@@ -144,6 +144,13 @@ var statementList = {
                     }
                 }, {
                     field: "",
+                    title: "사용금액",
+                    width: 100,
+                    template: function(e){
+                        return '<div style="text-align: right;">' + comma(e.SUM_AMT) + '</div>';
+                    }
+                }, {
+                    field: "",
                     title: "반납일시",
                     width: 100,
                     template: function(e){
@@ -171,8 +178,9 @@ var statementList = {
                     title: "반납",
                     width: 120,
                     template: function(e){
+                        console.log(e);
                         if(e.RT_YN == 'N'){
-                            return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_updCardTi('+e.CARD_TO_SN+', \''+e.CARD_TO_DE+'\')">반납</button>'
+                            return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_updCardTi('+e.CARD_TO_SN+', \''+e.CARD_TO_DE+'\', \''+e.CARD_BA_NB+'\')">반납</button>'
                         } else {
                             return '<button type="button" class="k-button k-button-solid k-button-solid-base" disabled>반납</button>'
                         }
@@ -412,46 +420,72 @@ var statementList = {
         });
     },
 
-    fn_addCardHist: function(key){
+    fn_addCardHist: function(key, endDt){
         var url = "/card/pop/cardToHist.do?cardToSn=" + key;
+
+        if(endDt != null && endDt != "" && endDt != undefined){
+            url += "&cardFromDe=" + endDt;
+        }
 
         var name = "_blank";
         var option = "width = 1000, height = 700, top = 100, left = 300, location = no"
         var popup = window.open(url, name, option);
     },
 
-    fn_updCardTi : function (key, toDe){
+    fn_updCardTi : function (key, toDe, cardBaNb){
         $("#cardFromDe").data("kendoDatePicker").min(toDe);
+        $("#tmpCardToDe").val(toDe);
         $("#cardToSnModal").val(key);
+        $("#tmpCardBaNb").val(cardBaNb);
         var dialog = $("#dialog").data("kendoWindow");
         dialog.center();
         dialog.open();
     },
 
     fn_updFromDe : function (){
-        if(!confirm("반납처리 하시겠습니까?")){
-            return;
-        }
 
         var data = {
+            startDt: $("#tmpCardToDe").val(),
+            endDt: $("#cardFromDe").val(),
             cardToSn : $("#cardToSnModal").val(),
-            cardFromDe : $("#cardFromDe").val(),
-            cardFromTime: $("#cardFromTime").val(),
+            searchValue : $("#tmpCardBaNb").val(),
         }
+        var result = customKendo.fn_customAjax("/card/cardToUseList", data);
 
-        $.ajax({
-            url : "/card/updCardFromDe",
-            data : data,
-            type : "post",
-            dataType: "json",
-            success : function(rs){
-                if(rs.code == 200){
-                    alert("반납처리 되었습니다.");
+        console.log(result);
 
-                    $("#dialog").data("kendoWindow").close();
-                    statementList.mainGrid();
-                }
+        if(result.list.length > 0){
+            if(!confirm("[해당 카드 사용내역이 있습니다.] \n사용내역 등록 후 반납처리하시기 바랍니다.")) {
+                return;
+            } else {
+                statementList.fn_addCardHist(data.cardToSn, data.endDt);
+                $("#dialog").data("kendoWindow").close();
             }
-        });
+        } else {
+            if(!confirm("반납처리 하시겠습니까?")){
+                return;
+            }
+
+            var data = {
+                cardToSn : $("#cardToSnModal").val(),
+                cardFromDe : $("#cardFromDe").val(),
+                cardFromTime: $("#cardFromTime").val(),
+            }
+
+            $.ajax({
+                url : "/card/updCardFromDe",
+                data : data,
+                type : "post",
+                dataType: "json",
+                success : function(rs){
+                    if(rs.code == 200){
+                        alert("반납처리 되었습니다.");
+
+                        $("#dialog").data("kendoWindow").close();
+                        statementList.mainGrid();
+                    }
+                }
+            });
+        }
     }
 }

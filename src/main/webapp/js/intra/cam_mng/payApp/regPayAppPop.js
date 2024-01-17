@@ -152,7 +152,7 @@ var regPay = {
         }
 
         if($("#reqType").val() == "claimExnp") {
-            const data = {
+            var data = {
                 claimExnpSn: $("#claimExnpSn").val(),
                 purcSn : $("#purcSn").val(),
                 claimSn : $("#claimSn").val()
@@ -176,7 +176,11 @@ var regPay = {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
 
-            $("#appTitle").val(rs.PURC_REQ_PURPOSE + " 외 " + cem.CNT + "건");
+            if(cem.CNT > 1 ){
+                $("#appTitle").val(rs.PURC_REQ_PURPOSE + " 외 " + Number(cem.CNT - 1) + "건");
+            } else {
+                $("#appTitle").val(rs.PURC_REQ_PURPOSE);
+            }
 
             var ls = rs.itemList;
 
@@ -195,6 +199,21 @@ var regPay = {
                 $("#budgetAmt" + i).val(9999999999);
 
             }
+
+            var fileResult = customKendo.fn_customAjax("/purc/purcFileList", data);
+            var fileList = fileResult.listMap;
+            var fileThumbText = "";
+
+
+            for(let i=0; i<fileList.length; i++){
+                if(fileThumbText != ""){
+                    fileThumbText += " | ";
+                }
+                fileThumbText += fileList[i].file_org_name;
+                fileThumbText += "." + fileList[i].file_ext;
+            }
+
+            $("#fileText").text(fileThumbText);
         }
 
         if($("#reqType").val() == "bustrip"){
@@ -216,11 +235,16 @@ var regPay = {
             const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
 
             if(exnpList[0].PJT_SN != null){
+                var busnClass = pjtMap.BUSN_CLASS;
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
-                if($("#pjtSn").val() != ""){
-                    selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD)
+                if($("#pjtSn").val() != "" && busnClass == "D" && busnClass == "V"){
+                    selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
+                }else{
+                    selectProject('', '[2024년]법인운영', 'Mm1m124010');
                 }
+            }else {
+                selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
 
             let totalList = exnpList.length + cardList.length - 1;
@@ -415,6 +439,7 @@ var regPay = {
         if($("#reqType").val() == "snack"){
             const snackInfoSn = $("#snackInfoSn").val();
             var count = 0;
+            var fileThumbText = "";
 
             for(let i = 0 ; i < snackInfoSn.toString().split(",").length ; i++){
                 const data = {
@@ -437,7 +462,6 @@ var regPay = {
                 var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
                 var fileList = fileResult.fileList;
 
-                var fileThumbText = "";
 
                 for(let i=0; i<fileList.length; i++){
                     if(fileThumbText != ""){
@@ -453,11 +477,11 @@ var regPay = {
 
                 /** 개인여비 */
                 if(snackData.PAY_TYPE != null){
+                    debugger
                     if(count != 0){
                         regPayDet.addRow();
                     }
                     if(snackData.PAY_TYPE != "2"){
-                        debugger;
                         const cData = {
                             searchValue : snackData.CARD_SN,
                             cardVal : "userCard",
@@ -474,16 +498,16 @@ var regPay = {
                     }else {
                         /** 법인카드 사용내역 */
                         if(count == 0){
-                            for(let i=(1+count); i < (cardList.length+count); i++) {
+                            for(let i=(1 + count); i < (cardList.length+count); i++) {
                                 regPayDet.addRow();
                             }
                         }else{
-                            for(let i=(0+count); i < (cardList.length+count); i++) {
+                            for(let i=(1 + count); i < (cardList.length+count); i++) {
                                 regPayDet.addRow();
                             }
                         }
 
-                        for(let i=0; i<cardList.length; i++){
+                        for(let i= 0; i<cardList.length; i++){
                             const cardMap = cardList[i];
                             const index = count;
 
@@ -1514,13 +1538,17 @@ var regPayDet = {
 
     },
 
-    fn_popRegDet : function (v, i){
+    fn_popRegDet : function (v, i, cardVal){
+        //개인&법인 구분없이 조회하기 위한 parameter 추가
+        if(cardVal == undefined){
+            cardVal = "";
+        }
 
         if($("#eviType" + i).val() == 5 || $("#eviType" + i).val() == 9){
             v = $("#eviType" + i).val();
         }
 
-        var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i;
+        var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i + "&cardVal=" + cardVal;
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"

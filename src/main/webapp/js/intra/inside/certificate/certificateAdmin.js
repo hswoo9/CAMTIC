@@ -109,7 +109,6 @@ var certificateAdmin = {
     },
 
     mainGrid : function(url, params) {
-
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
@@ -144,7 +143,7 @@ var certificateAdmin = {
                     title: "발급번호",
                     width: 100,
                     template: function(row){
-                        return "제"+row.DOCU_YEAR_DE+"-"+row.ROW_NUM+"호";
+                        return "제"+row.DOCU_YEAR_DE+"-"+row.NUMBER+"호";
                     }
                 }, {
                     field: "REG_DE",

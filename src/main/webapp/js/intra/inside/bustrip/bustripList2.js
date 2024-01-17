@@ -43,7 +43,7 @@ var bustList = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 480,
+            height: 555,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -109,7 +109,7 @@ var bustList = {
                     }
                 },{
                     title: "사업명",
-                    width: 160,
+                    width: 130,
                     template: function(row){
                         if(row.BUSN_NAME != null && row.BUSN_NAME != ""){
                             if(row.BUSN_NAME.toString().length > 30){
@@ -181,7 +181,7 @@ var bustList = {
                     }
                 }, {
                     title : "출장신청",
-                    width: 60,
+                    width: 70,
                     template : function (e){
                         /** 국내출장 해외출장 분기 */
                         if(e.TRIP_CODE != "4"){
@@ -202,7 +202,7 @@ var bustList = {
                     }
                 }, {
                     title : "결과보고",
-                    width: 70,
+                    width: 60,
                     template : function (e){
                         console.log(e);
                         if(e.STATUS == 100){
@@ -213,9 +213,9 @@ var bustList = {
                                     return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
                                 } else {
                                     if(e.EXP_STAT == 100){
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">출장정산완료</button>'
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>'
                                     } else {
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">출장정산중</button>'
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>'
                                     }
                                 }
                             }
@@ -239,6 +239,16 @@ var bustList = {
                 }, {
                     title: "입금상태",
                     width: 50,
+                    template : function (e){
+                        if(true){
+                            return '미입금';
+                        }else{
+                            return '입금';
+                        }
+                    }
+                }, {
+                    title: "지출일자",
+                    width: 60,
                     template : function (e){
                         return "-";
                     }

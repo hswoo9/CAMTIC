@@ -64,9 +64,9 @@
                     <span class="red-star">*</span>카드선택
                 </th>
                 <td colspan="3">
-                    <input type="hidden" id="trCd" style="">
-                    <input type="text" id="trNm" disabled style="width: 70%">
-                    <input type="hidden" id="cardBaNb" disabled style="width: 100%;">
+                    <input type="hidden" id="trCd" style="" value="${params.trCd}">
+                    <input type="text" id="trNm" disabled style="width: 70%" value="${params.trNm}">
+                    <input type="hidden" id="cardBaNb" disabled style="width: 100%;" value="${params.baNb}">
                     <button type="button" class="k-button k-button-solid-base" onclick="fn_popRegDet(8, 0)">검색</button>
                 </td>
             </tr>
@@ -92,6 +92,9 @@
                 </th>
                 <td colspan="3">
                     <input type="text" id="cardToPurpose" value="" style="width: 20%;">
+                    <span id="cardToPurpose2Div" style="display: none;">
+                        <input type="text" id="cardToPurpose2" style="width: 30%;" />
+                    </span>
                 </td>
             </tr>
             <tr>
@@ -115,7 +118,7 @@
 
 <script>
     $(function(){
-        customKendo.fn_textBox(["trNm", "pjtNm", "empName"]);
+        customKendo.fn_textBox(["trNm", "pjtNm", "empName", "cardToPurpose2"]);
         customKendo.fn_datePicker("cardToDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());
 
@@ -129,13 +132,22 @@
             dataSource : [
                 {text : "선택하세요", value : ""},
                 {text : "출장", value : "출장"},
-                {text : "야근휴일식대", value : "야근휴일식대"},
-                {text : "회의비", value : "회의비"},
-                {text : "영업활동비", value : "영업활동비"},
+                {text : "구매", value : "구매"},
+                {text : "회의", value : "회의"},
+                {text : "영업", value : "영업"},
+                {text : "식대(야간/휴일)", value : "식대(야간/휴일)"},
                 {text : "기타", value : "기타"},
             ],
             dataTextField : "text",
-            dataValueField : "value"
+            dataValueField : "value",
+            change : function(e){
+                console.log(this.value())
+                if(this.value() == "기타"){
+                    $("#cardToPurpose2Div").css("display", "");
+                } else {
+                    $("#cardToPurpose2Div").css("display", "none");
+                }
+            }
         });
 
         $("#businessYn").kendoDropDownList({
@@ -246,6 +258,7 @@
             pjtNm : $("#pjtNm").val(),
             regEmpSeq : $("#regEmpSeq").val()
         }
+
         if(parameters.trNm == ""){
             alert("카드를 선택해주세요.");
             return;
@@ -270,6 +283,15 @@
             alert("관련사업을 선택해주세요.");
             return;
         }
+
+        if(parameters.cardToPurpose == "기타"){
+            if($("#cardToPurpose2").val() == ""){
+                alert("반출목적을 입력해주세요.");
+                return;
+            }
+            parameters.cardToPurpose = $("#cardToPurpose2").val()
+        }
+
 
         $.ajax({
             url : "/card/saveRegCardTo",

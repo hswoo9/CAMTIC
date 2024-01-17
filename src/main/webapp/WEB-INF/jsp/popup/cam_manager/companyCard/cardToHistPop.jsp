@@ -34,6 +34,8 @@
 
 <input type="hidden" id="cardToSn" value="${params.cardToSn}" />
 
+<input type="hidden" id="cardFromDe" value="${params.cardFromDe}" />
+
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">

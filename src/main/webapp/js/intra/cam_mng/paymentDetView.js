@@ -279,6 +279,7 @@ var payDetView = {
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
                     data.searchType = $("#type").val();
+                    data.cardVal = $("#cardVal").val();
                     return data;
                 }
             },

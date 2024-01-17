@@ -25,6 +25,7 @@
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="type" value="${params.type}" />
+<input type="hidden" id="cardVal" value="${params.cardVal}" />
 <input type="hidden" id="index" value="${params.index}" />
 
 <div>

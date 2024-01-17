@@ -283,7 +283,9 @@ var cardListMng = {
     },
 
     syncCardG20Data : function () {
-        var data = {};
+        var data = {
+            g20 : "Y"
+        };
         $.ajax({
             url : "/g20/setCardList",
             data : data,

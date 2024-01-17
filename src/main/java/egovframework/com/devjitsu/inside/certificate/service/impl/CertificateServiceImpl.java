@@ -5,6 +5,7 @@ import egovframework.com.devjitsu.inside.certificate.service.CertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class CertificateServiceImpl implements CertificateService {
         if(!params.containsKey("manageCheck")){
             params.put("manageCheck", "");
         }
+
         return certificateRepository.getCertificateList(params);
     }
 

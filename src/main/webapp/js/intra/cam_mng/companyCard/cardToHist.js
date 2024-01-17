@@ -41,6 +41,11 @@ var cardToHist = {
         });
         customKendo.fn_textBox(["searchValue"]);
 
+
+        if($("#cardFromDe").val() != null && $("#cardFromDe").val() != ""){
+            $("#endDt").val($("#cardFromDe").val());
+        }
+
         cardToHist.gridReload();
 
 
@@ -48,7 +53,10 @@ var cardToHist = {
             if(key.keyCode == 13){
                 cardToHist.fn_search();
             }
-        })
+        });
+
+
+
     },
 
     gridReload: function (type){
