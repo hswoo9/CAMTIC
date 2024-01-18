@@ -362,3 +362,9 @@ function titleCut(text, cutLength){
     }
     return returnText;
 }
+
+/** 유저정보 불러오기 */
+function getUser(empSeq){
+    const empInfo =customKendo.fn_customAjax("/user/getUserInfo", {empSeq: empSeq});
+    return empInfo;
+}

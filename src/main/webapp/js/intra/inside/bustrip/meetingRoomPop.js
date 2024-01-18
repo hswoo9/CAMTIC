@@ -84,7 +84,6 @@ var roomReq = {
         if(usePurposeSn == ""){ alert("사용목적이 선택되지 않았습니다."); return;}
         if(rentalFeeSn == ""){ alert("대관료가 선택되지 않았습니다."); return;}
         if(empSeq == ""){ alert("사용 담당자가 선택되지 않았습니다."); return;}
-        if(usePurposeSn == "4" && etc == ""){ alert("사용목적이 작성되지 않았습니다."); return;}
         if(rentalFeeSn == "0" && pay == ""){ alert("대관료가 작성되지 않았습니다."); return;}
 
         let data = {
