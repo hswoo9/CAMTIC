@@ -18,7 +18,7 @@ const bustripExnpReq = {
             {text: "법인", value: "Y"}
         ]
         if($("#mod").val() == "mng"){
-            $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost").kendoTextBox({
+            $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput").kendoTextBox({
             });
             $(".oilCost").attr('disabled', false);
             $(".corpYn").kendoDropDownList({
@@ -27,7 +27,7 @@ const bustripExnpReq = {
                 dataValueField: "value"
             });
         }else {
-            $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost").kendoTextBox();
+            $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput").kendoTextBox();
             $(".corpYn").kendoDropDownList({
                 dataSource : corpArr,
                 dataTextField: "text",
@@ -447,13 +447,13 @@ const bustripExnpReq = {
                 etcCost : $(row.cells[8]).find("input[type=text]").val(),
                 totCost : $(row.cells[9]).find("input[type=text]").val(),
 
-                oilCorpYn : $(row.cells[1]).find("#oilCorpYn"+empSeq).data("kendoDropDownList").value(),
-                trafCorpYn : $(row.cells[2]).find("#trafCorpYn"+empSeq).data("kendoDropDownList").value(),
-                trafDayCorpYn : $(row.cells[3]).find("#trafDayCorpYn"+empSeq).data("kendoDropDownList").value(),
-                tollCorpYn : $(row.cells[4]).find("#tollCorpYn"+empSeq).data("kendoDropDownList").value(),
-                eatCorpYn : $(row.cells[6]).find("#eatCorpYn"+empSeq).data("kendoDropDownList").value(),
-                parkingCorpYn : $(row.cells[7]).find("#parkingCorpYn"+empSeq).data("kendoDropDownList").value(),
-                etcCorpYn : $(row.cells[8]).find("#etcCorpYn"+empSeq).data("kendoDropDownList").value(),
+                oilCorpYn : 'N',
+                trafCorpYn : 'N',
+                trafDayCorpYn : 'N',
+                tollCorpYn : 'N',
+                eatCorpYn : 'N',
+                parkingCorpYn : 'N',
+                etcCorpYn : 'N',
                 expStat : "Y",
                 type : type
             }
@@ -612,8 +612,15 @@ const bustripExnpReq = {
 
     },
 
-    fn_paymentCardHistory : function (){
-        var url = "/mng/pop/paymentCardHistory.do?type=3&index=2&reqType=bustrip";
+    fn_paymentCardHistory : function (inx){
+        var corpCardNum = $("#corpCardNum" + inx).val();
+
+        if(corpCardNum == null || corpCardNum == ""){
+            alert("카드가 선택되지 않았습니다.");
+            return false;
+        }
+
+        var url = "/mng/pop/paymentCardHistory.do?type=3&index=2&reqType=bustrip&cardBaNb=" + corpCardNum + "&requestType=3";
 
         var name = "_blank";
         var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
@@ -629,5 +636,13 @@ const bustripExnpReq = {
             alert("저장을 해야 반영됩니다.");
             $(this).closest("tr").remove();
         });
-    }
+    },
+
+    fn_popRegDet : function (v, i){
+        var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i + "&cardVal=M";
+
+        var name = "_blank";
+        var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
 }
