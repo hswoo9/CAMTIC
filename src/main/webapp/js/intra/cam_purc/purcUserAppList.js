@@ -143,13 +143,14 @@ var purcUserAppList = {
                 //         return "";
                 //     }
                 // },
+                // {
+                //     title: "첨부",
+                //     width: 50,
+                //     template : function(e) {
+                //         return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
+                //     }
+                // },
                 {
-                    title: "첨부",
-                    width: 50,
-                    template : function(e) {
-                        return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
-                    }
-                }, {
                     title : "지급신청",
                     width : 80,
                     template: function(e){

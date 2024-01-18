@@ -716,6 +716,16 @@
             PAY_INCP_SN = #{PAY_INCP_SN}
     </select>
 
+    <update id="updClaimExnpInfo" parameterType="map">
+        /*updClaimExnpInfo*/
+        UPDATE CAM_MNG.DJ_CLAIM_EXNP
+        SET
+            EXNP_AMT = REQ_AMT,
+            EXNP_SN = #{exnpSn}
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
+
     <update id="updExnpStat" parameterType="map">
         /*updExnpStat*/
         UPDATE CAM_MNG.DJ_EXNP_DET
@@ -2004,6 +2014,10 @@
         OR FILE_NO IN
         (
             SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}
+        )
+        OR FILE_NO IN
+        (
+            SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}
         )
     </select>
 

@@ -445,6 +445,18 @@
         ORDER BY REG_DATE DESC
     </select>
 
+    <select id="getClaimExnpFileList" parameterType="map" resultType="map">
+        /* getClaimExnpFileList */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn})
+        AND FILE_CD = 'payClaim'
+        ORDER BY REG_DATE DESC
+    </select>
+
     <update id="setPurcFileDocNm" parameterType="map">
         /* setPurcFileDocNm */
         UPDATE CAM_COMMON.DJ_FILE_INFO
@@ -658,6 +670,13 @@
         SELECT * FROM CAM_COMMON.DJ_FILE_INFO
         WHERE
             CONTENT_ID = CONCAT("inspect_", #{PURC_SN})
+    </select>
+
+    <select id="getClaimExnpGroupIdx" parameterType="map" resultType="map">
+        /*getClaimExnpGroupIdx*/
+        SELECT * FROM CAM_MNG.DJ_CLAIM_EXNP
+        WHERE
+            CLAIM_EXNP_SN = #{claimExnpSn}
     </select>
 
     <insert id="insPurcClaimData" parameterType="map">

@@ -184,6 +184,10 @@ public class PayAppRepository extends AbstractDAO {
         return (int) selectOne("payApp.getIncpCountDoc", data);
     }
 
+    public void updClaimExnpInfo(Map<String, Object> params) {
+        update("payApp.updClaimExnpInfo", params);
+    }
+
     public void updExnpStat(Map<String, Object> data) {
         update("payApp.updExnpStat", data);
     }
