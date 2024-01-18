@@ -198,7 +198,7 @@ function approveDocView(docId, approKey, menuCd, deleteFlag){
 	var height = "950";
 	windowX = Math.ceil( (window.screen.width  - width) / 2 );
 	windowY = Math.ceil( (window.screen.height - height) / 2 );
-	pop = window.open(url, '결재 문서_' + approKey, "width=" + width + ", height=" + height + ", top="+ windowY +", left="+ windowX +", resizable=NO, scrollbars=NO");
+	pop = window.open(url, "_blank ", "width=" + width + ", height=" + height + ", top="+ windowY +", left="+ windowX +", resizable=NO, scrollbars=NO");
 	//pop.focus();
 }
 
