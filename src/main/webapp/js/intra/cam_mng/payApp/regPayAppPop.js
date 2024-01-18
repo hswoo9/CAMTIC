@@ -475,17 +475,23 @@ var regPay = {
 
                 var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
                 var fileList = fileResult.fileList;
+                var slist = "";
 
 
                 for(let i=0; i<fileList.length; i++){
+                    if(slist != ""){
+                        slist += ",";
+                    }
                     if(fileThumbText != ""){
                         fileThumbText += " | ";
                     }
+                    slist += fileList[i].file_no;
                     fileThumbText += fileList[i].file_org_name;
                     fileThumbText += "." + fileList[i].file_ext;
                 }
-                
+
                 $("#fileText").text(fileThumbText);
+                $("#sList").val(slist);
 
                 regPay.global.fileArray = regPay.global.fileArray.concat(fileList);
 
@@ -1182,6 +1188,10 @@ var regPay = {
             parameters.snackInfoSn = $("#snackInfoSn").val();
             parameters.linkKey = $("#snackInfoSn").val().split(",")[0];
             parameters.linkKeyType = "식대";
+
+            if($("#sList").val() != ""){
+                parameters.sList = $("#sList").val();
+            }
         }
 
         if($("#claimSn").val() != ""){
@@ -1192,6 +1202,7 @@ var regPay = {
             parameters.claimExnpSn = $("#claimExnpSn").val();
             parameters.purcSn = $("#purcSn").val();
         }
+
 
         if($("#payAppSn").val() != ""){
             parameters.payAppSn = $("#payAppSn").val();

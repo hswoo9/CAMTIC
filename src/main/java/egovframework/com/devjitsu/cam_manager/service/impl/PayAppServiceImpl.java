@@ -76,6 +76,11 @@ public class PayAppServiceImpl implements PayAppService {
                 payAppRepository.updPurcSnackByPayAppSn(paramMaps);
             }
         }
+        // 영수증, 전표등 있을 시 첨부파일 복사
+        if(params.containsKey("sList")){
+            // 스낵 지급신청 Key Insert
+            payAppRepository.updSnackExnpFileCopy(params);
+        }
 
         if(params.containsKey("claimExnpSn")){
             List<Map<String, Object>> lsMap = payAppRepository.getClaimExnpData(params);

@@ -38,6 +38,7 @@
 <input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}" />
 <input type="hidden" id="bList" value="" />
 <input type="hidden" id="snackInfoSn" value="${params.snackInfoSn}" />
+<input type="hidden" id="sList" value="" />
 
 
 
