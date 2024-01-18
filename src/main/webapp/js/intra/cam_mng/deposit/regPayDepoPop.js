@@ -255,13 +255,15 @@ var regPayDepo = {
 
                     var rsFile = result.rsFile;
                     var result = result.rs;
+
+                    console.log(result);
                     if(rsFile != null && rsFile != "" && rsFile != "undefined" && rsFile != undefined) {
                         $("#fileSn").val(rsFile.FILE1_NO);
                         $("#fileName").text(rsFile.FILE1_NAME);
-                        $("#crmSn").val(result.CRM_SN);
-                        $("#crmNm").val(result.CRM_NM);
-                        $("#regNo").val(result.CRM_NO);
                     }
+                    $("#crmSn").val(result.CRM_SN);
+                    $("#crmNm").val(result.CRM_NM);
+                    $("#regNo").val(result.CRM_NO);
                 }
 
                 $("#depoTitle").val("입금신청 - " + rs.PJT_NM);
