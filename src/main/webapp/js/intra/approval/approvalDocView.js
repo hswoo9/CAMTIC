@@ -1138,6 +1138,11 @@ var docView = {
                 if(map.APPROVE_STAT_CODE == null){
                     continue;
                 }
+
+                if(map.APPROVE_STAT_CODE == 30){
+                    break;
+                }
+
                 if(map.APPROVE_STAT_CODE == 10 || (String(map.DRAFT_EMP_SEQ) == String(map.LAST_APPROVE_EMP_SEQ))){
                     let field = "docAppr0";
                     hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);

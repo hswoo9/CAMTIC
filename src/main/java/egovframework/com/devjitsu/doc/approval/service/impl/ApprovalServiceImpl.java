@@ -302,7 +302,7 @@ public class ApprovalServiceImpl implements ApprovalService {
                 map.put("empSeq", map.get("PROXY_APPROVE_EMP_SEQ"));
                 Map<String, Object> proxyApproveUserInfo = userService.getUserInfo(map);
                 map.put("PROXY_APPROVE_EMP_NAME", proxyApproveUserInfo.get("EMP_NAME_KR"));
-                map.put("PROXY_APPROVE_POSITION_NAME", proxyApproveUserInfo.get("POSITION_NAME"));
+                map.put("PROXY_APPROVE_POSITION_NAME", proxyApproveUserInfo.get("SPOT"));
                 map.put("PROXY_APPROVE_DEPT_NAME", proxyApproveUserInfo.get("DEPT_NAME"));
             }
         }
