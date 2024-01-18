@@ -319,7 +319,8 @@
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS TEAM_NAME,
             CASE WHEN HEI.DUTY_NAME IS NULL OR HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME,
             IFNULL(IHWI.DISTANCE, 0) AS DISTANCE,
-            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DATE
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DATE,
+            DI.APPRO_KEY
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN
@@ -328,6 +329,8 @@
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         LEFT JOIN
             CAM_INSIDE.DJ_HR_WAYPOINT_INFO IHWI ON A.VISIT_LOC_CODE = IHWI.HR_WAYPOINT_INFO_SN
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
+        ON A.DOC_ID = DI.DOC_ID
         WHERE
             A.HR_BIZ_REQ_ID = #{hrBizReqId}
     </select>
@@ -797,18 +800,22 @@
 
     <select id="getBustripResultInfo" parameterType="map" resultType="map">
         SELECT
-            *
+            A.*, DI.APPRO_KEY AS DOC_APPRO_KEY
         FROM
-            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
+        ON A.DOC_ID = DI.DOC_ID
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </select>
 
     <select id="getBustripResultInfoR" parameterType="map" resultType="map">
         SELECT
-            *
+            A.*, DI.APPRO_KEY AS DOC_APPRO_KEY
         FROM
-            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
+        ON A.DOC_ID = DI.DOC_ID
         WHERE
             HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </select>
