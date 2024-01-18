@@ -170,7 +170,14 @@ var invenStAdmin = {
                             title: "확정재고",
                             width: 70,
                             template : function (e){
-                                return '<button type="button" class="k-button k-button-solid-info" onclick="">확정</button>';
+                                if(e.CURRENT_INVEN < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                }else{
+                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                }
+                            },
+                            attributes : {
+                                style : "text-align : right;"
                             }
                         }
                     ]

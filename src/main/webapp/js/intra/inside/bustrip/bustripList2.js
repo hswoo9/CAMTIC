@@ -243,7 +243,8 @@ var bustList = {
                         var docStatus = e.DOC_STATUS;
                         var payExnpDe = e.PAY_EXNP_DE;
 
-                        if(payExnpDe != undefined){
+                        console.log(docStatus);
+                        if(payExnpDe != undefined && docStatus != 100){
                             return '미입금';
                         }else if(docStatus == 100){
                             return '입금';
@@ -259,7 +260,7 @@ var bustList = {
                         var docStatus = e.DOC_STATUS;
                         var approvalDate = e.APPROVAL_DATE;
 
-                        if(payExnpDe == undefined || payExnpDe == null || payExnpDe == ""){
+                        if((payExnpDe == undefined || payExnpDe == null || payExnpDe == "") && docStatus != 100){
                             return '-';
                         }else if(docStatus != 100){
                             return payExnpDe;
