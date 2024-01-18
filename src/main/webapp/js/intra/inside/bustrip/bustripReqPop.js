@@ -98,7 +98,7 @@ const bustripReq = {
                 "<span class='k-button-text'>열람</span>" +
                 "</button>";
             if(busInfo.TRIP_CODE == "4"){
-                apprBtnBoxHtml += "<input type='button' id='saveBtn' class='k-button k-button-solid-info' style='margin-left: 10px' value='사전정산' onclick='bustPop.bustripExnpPop(\""+busInfo.HR_BIZ_REQ_ID+"\")' />";
+                apprBtnBoxHtml += "<input type='button' id='saveBtn' class='k-button k-button-solid-info' style='margin-left: 5px' value='사전정산' onclick='bustPop.bustripExnpPop(\""+busInfo.HR_BIZ_REQ_ID+"\")' />";
             }
         } else{
             apprBtnBoxHtml = "";
@@ -172,6 +172,12 @@ const bustripReq = {
         /** 첨부파일 */
         bustripInit.settingTempFileDataInit(fileInfo);
 
+        /** 해외출장일시 폼 변경 */
+        if(busInfo.TRIP_CODE == "4"){
+            this.busiCk();
+            $("#nationList").data("kendoDropDownList").value(busInfo.NATION_CODE);
+            $("#nationList").data("kendoDropDownList").trigger("change");
+        }
 
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
         if((busInfo.STATUS != 0 && busInfo.STATUS != 30) || $("#mod").val() == "mng"){
@@ -206,15 +212,16 @@ const bustripReq = {
             $("#fileUpload").css("display", "none");
 
             $("#modBtn").css("display", "none");
+            $("#exAddBtn").hide();
+            $("#externalName").data("kendoTextBox").enable(false);
+
             if($("#mod").val() == "mng"){
                 $("#saveBtn").css("display", "none");
             }
-        }
 
-        if(busInfo.TRIP_CODE == "4"){
-            this.busiCk();
-            $("#nationList").data("kendoDropDownList").value(busInfo.NATION_CODE);
-            $("#nationList").data("kendoDropDownList").trigger("change");
+            if(busInfo.TRIP_CODE == "4"){
+                $("#nationList").data("kendoDropDownList").enable(false);
+            }
         }
     },
 

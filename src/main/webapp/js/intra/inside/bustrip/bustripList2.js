@@ -201,7 +201,7 @@ var bustList = {
                         }else{
                             if(e.STATUS == 100){
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">사전정산</button>';
-                            } else if(e.EXP_STAT == 100){
+                            } else if(e.BF_EXP_STAT == 100){
                                 return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">사전정산</button>';
                             } else {
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
@@ -213,22 +213,43 @@ var bustList = {
                     width: 60,
                     template : function (e){
                         console.log(e);
-                        if(e.STATUS == 100){
-                            if(e.HR_BIZ_REQ_RESULT_ID == "" || e.HR_BIZ_REQ_RESULT_ID == null || e.HR_BIZ_REQ_RESULT_ID == undefined){
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
-                            }else{
-                                if(e.RS_STATUS == 100){
-                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
-                                } else {
-                                    if(e.EXP_STAT == 100){
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>'
+                        /** 국내출장 해외출장 분기 */
+                        if(e.TRIP_CODE != "4"){
+                            if(e.STATUS == 100){
+                                if(e.HR_BIZ_REQ_RESULT_ID == "" || e.HR_BIZ_REQ_RESULT_ID == null || e.HR_BIZ_REQ_RESULT_ID == undefined){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
+                                }else{
+                                    if(e.RS_STATUS == 100){
+                                        return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
                                     } else {
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>'
+                                        if(e.EXP_STAT == 100){
+                                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>'
+                                        } else {
+                                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>'
+                                        }
                                     }
                                 }
+                            } else {
+                                return "-";
                             }
-                        } else {
-                            return "-";
+                        }else{
+                            if(e.STATUS == 100){
+                                if(e.BF_EXP_STAT == 100){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
+                                }else{
+                                    if(e.RS_STATUS == 100){
+                                        return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
+                                    } else {
+                                        if(e.EXP_STAT == 100){
+                                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>'
+                                        } else {
+                                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>'
+                                        }
+                                    }
+                                }
+                            } else {
+                                return "-";
+                            }
                         }
                     }
                 }, {

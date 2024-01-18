@@ -127,7 +127,7 @@
                 <th>외부인력</th>
                 <td>
                     <input id="externalName" name="bustripAdd" readonly style="width: 325px;">
-                    <button type="button" class="k-button k-button-solid-info" onclick="bustripPop.addExternalWorkforcePop();">외부인력 추가</button>
+                    <button type="button" id="exAddBtn" class="k-button k-button-solid-info" onclick="bustripPop.addExternalWorkforcePop();">외부인력 추가</button>
                     <div id="externalList">
                         <input type="hidden" id="externalBelong" name="externalEmpSeq" value="">
                         <input type="hidden" id="externalSpot" name="companionDeptSeq" value="">

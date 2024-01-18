@@ -150,7 +150,7 @@ var snackReq = {
                     html += '    <td>'+e.MER_BIZNO.substring(0, 3) + '-' + e.MER_BIZNO.substring(3, 5) + '-' + e.MER_BIZNO.substring(5, 11)+'</td>';
                     html += '    <td>'+(e.TR_NM == undefined ? "" : e.TR_NM)+'</td>';
                     html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
-                    html += '    <td style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
+                    html += '    <td class="auth-amt" style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
                     html += '</tr>';
                     $("#detailRow").append(html);
                 }

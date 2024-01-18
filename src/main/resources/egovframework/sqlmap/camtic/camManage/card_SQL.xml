@@ -96,15 +96,17 @@
     <select id="useCardDetailInfo" parameterType="map" resultType="map">
         /*useCardDetailInfo*/
         SELECT
-            *
+            A.*,
+            B.TR_NM
         FROM
-            CAM_HR.ERP_HIST_CORPCD_USE
+            CAM_HR.ERP_HIST_CORPCD_USE A
+        LEFT JOIN CAM_MNG.DJ_CARD_INFO B ON A.CARD_NO = REPLACE(B.CARD_BA_NB ,'-','')
         WHERE
-            AUTH_NO = #{authNo} AND CARD_NO = #{cardNo}
+            A.AUTH_NO = #{authNo} AND A.CARD_NO = #{cardNo}
         AND
-            AUTH_DD = #{authDate} AND AUTH_HH = #{authTime}
+            A.AUTH_DD = #{authDate} AND A.AUTH_HH = #{authTime}
         AND
-            BUY_STS = #{buySts}
+            A.BUY_STS = #{buySts}
     </select>
 
     <select id="getCardTOData" parameterType="map" resultType="map">
