@@ -389,6 +389,10 @@
 
 <script>
     let snackData = {};
+    var fileNoArr = [];
+    let cardList = [];
+    let totalAmt = 0;
+
     <c:if test="${flag eq 'true'}">
         snackData = JSON.parse('${data}');
     </c:if>
@@ -406,7 +410,7 @@
     }
 
     function fn_setCardInfo(list){
-        var fileNoArr = [];
+        // var fileNoArr = [];
 
         for(var i=0; i<list.length; i++) {
             const e = list[i];
@@ -528,9 +532,10 @@
 
     function fn_cardHistSet(list, arr) {
 
-        let totalAmt = 0;
+        // let totalAmt = 0;
         let html = '';
         for(var j=0; j<list.length; j++){
+            cardList.push(list[j]);
             const e = list[j];
             const fileNo = arr[j].fileNo;
             html += '<tr class="cardData">';
@@ -548,7 +553,7 @@
             html += '    <td>'+e.MER_BIZNO.substring(0, 3) + '-' + e.MER_BIZNO.substring(3, 5) + '-' + e.MER_BIZNO.substring(5, 11)+'</td>';
             html += '    <td>'+(e.TR_NM == undefined ? "" : e.TR_NM)+'</td>';
             html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
-            html += '    <td style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
+            html += '    <td  class="auth-amt" style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
             html += '</tr>';
 
             totalAmt += e.AUTH_AMT;
@@ -556,6 +561,12 @@
 
         $("#usAmount").val(fn_numberWithCommas(totalAmt));
         $("#detailRow").append(html);
+
+        if(cardList.length > 1) {
+            $("#areaName").val(cardList[0].MER_NM + " 외 " + Number(cardList.length - 1) + "건");
+        } else {
+            $("#areaName").val(cardList[0].MER_NM);
+        }
 
         snackReq.fn_tempFileSet(arr);
 
