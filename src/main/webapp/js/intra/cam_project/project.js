@@ -188,9 +188,9 @@ var camPrj = {
                     title: "프로젝트 명",
                     template: function(e){
                         var pjtNm = e.PJT_NM;
-                        if(e.BUSN_CLASS == "S"){
+                        /*if(e.BUSN_CLASS == "S"){
                             pjtNm = e.BS_TITLE;
-                        }
+                        }*/
                         var pjtEx = pjtNm;
                         if(pjtNm.toString().length > 62){
                             pjtEx = pjtNm.toString().substring(0, 62)+ "...";

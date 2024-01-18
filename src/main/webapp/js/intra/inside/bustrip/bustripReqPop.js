@@ -74,20 +74,21 @@ const bustripReq = {
         const busInfo = result.rs.rs;
         const list = result.rs.list;
         const fileInfo = result.rs.fileInfo;
+        var mode = $("#mod").val();
 
         console.log(busInfo);
         var apprBtnBoxHtml = "";
-        if(busInfo.STATUS == 0){
+        if(busInfo.STATUS == 0 && mode != "mng"){
             apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripList.bustripDrafting(\""+busInfo.HR_BIZ_REQ_ID+"\");'>" +
                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                 "<span class='k-button-text'>상신</span>" +
                 "</button>";
-        } else if(busInfo.STATUS == 10 || busInfo.STATUS == 50){
+        } else if((busInfo.STATUS == 10 || busInfo.STATUS == 50) && mode != "mng"){
             apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+busInfo.DOC_ID+"\", \""+busInfo.APPRO_KEY+"\", 1, \"retrieve\");'>" +
                 "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
                 "<span class='k-button-text'>회수</span>" +
                 "</button>";
-        } else if(busInfo.STATUS == 30 || busInfo.STATUS == 40){
+        } else if((busInfo.STATUS == 30 || busInfo.STATUS == 40) && mode != "mng"){
             apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+busInfo.DOC_ID+"\", \""+busInfo.DOC_MENU_CD+"\", \""+busInfo.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                 "<span class='k-button-text'>재상신</span>" +
@@ -97,7 +98,7 @@ const bustripReq = {
                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                 "<span class='k-button-text'>열람</span>" +
                 "</button>";
-            if(busInfo.TRIP_CODE == "4"){
+            if(busInfo.TRIP_CODE == "4" && mode != "mng"){
                 apprBtnBoxHtml += "<input type='button' id='saveBtn' class='k-button k-button-solid-info' style='margin-left: 5px' value='사전정산' onclick='bustPop.bustripExnpPop(\""+busInfo.HR_BIZ_REQ_ID+"\")' />";
             }
         } else{

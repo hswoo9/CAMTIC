@@ -7,11 +7,8 @@ var purcClaim = {
     },
 
     fn_defaultScript : function (){
-        purcClaim.global.dropDownDataSource = [
-            { text: "내 구매만 조회", value: "empDept" },
-        ]
+        purcClaim.global.dropDownDataSource = [];
         customKendo.fn_dropDownList("searchDept", purcClaim.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").value("empDept");
         $("#searchDept").data("kendoDropDownList").bind("change", purcClaim.gridReload);
 
         purcClaim.global.dropDownDataSource = [
@@ -39,7 +36,6 @@ var purcClaim = {
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
-            height : 525,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],

@@ -9,11 +9,8 @@ var purcDif = {
     },
 
     fn_defaultScript : function (){
-        purcDif.global.dropDownDataSource = [
-            { text: "내 구매만 조회", value: "empDept" },
-        ]
+        purcDif.global.dropDownDataSource = [];
         customKendo.fn_dropDownList("searchDept", purcDif.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").value("empDept");
         $("#searchDept").data("kendoDropDownList").bind("change", purcDif.gridReload);
 
         purcDif.global.dropDownDataSource = [
@@ -60,7 +57,6 @@ var purcDif = {
             dataSource: dataSource,
             sortable: true,
             selectable: "row",
-            height : 525,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],

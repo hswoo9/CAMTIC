@@ -70,9 +70,16 @@ var wbl = {
 			var protocol = window.location.protocol + "//";
 			var locationHost = protocol + window.location.host;
 
+			var title = row.board_ARTICLE_TITLE;
+			console.log(title.length);
+
+			if(title.length > 23){
+				title = title.substr(0, 24) + "...";
+			}
+
 			var articleTitle = "";
 			if(row.board_ARTICLE_TITLE != null && row.board_ARTICLE_TITLE != ""){
-				articleTitle = row.board_ARTICLE_TITLE;
+				articleTitle = title;
 			}else{
 				articleTitle = "제목없음";
 			}
