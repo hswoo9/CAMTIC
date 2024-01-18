@@ -143,20 +143,31 @@ var purcUserAppList = {
                 //         return "";
                 //     }
                 // },
+                // {
+                //     title: "첨부",
+                //     width: 50,
+                //     template : function(e) {
+                //         return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
+                //     }
+                // },
                 {
-                    title: "첨부",
-                    width: 50,
-                    template : function(e) {
-                        return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
-                    }
-                }, {
                     title : "지급신청",
                     width : 80,
                     template: function(e){
                         console.log(e)
                         return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
                     }
-                }
+                }, {
+                    title: "지출상태",
+                    width: 60,
+                    template: function(e){
+                        if(e.REQ_AMT == e.EXNP_AMT){
+                            return "승인"
+                        } else {
+                            return "미승인"
+                        }
+                    }
+                },
             ],
             dataBinding: function () {
                 record = fn_getRowNum(this, 2);

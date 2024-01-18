@@ -26,6 +26,7 @@
 <input type="hidden" id="reqType" value="${params.reqType}" />
 
 <input type="hidden" id="claimSn" value="${params.claimSn}" />
+<input type="hidden" id="claimExnpSn" value="${params.claimExnpSn}" />
 
 <input type="hidden" id="type" value="${params.type}" />
 

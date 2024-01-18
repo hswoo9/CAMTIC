@@ -52,6 +52,7 @@ const regPayAtt = {
     },
 
     fn_claimExnpFile : function (){
+        console.log("fn_claimExnpFile");
         var fileArray = [];
         var attFiles = regPayAtt.global.attFiles;
         var html1 = '';
@@ -59,8 +60,12 @@ const regPayAtt = {
 
         var data = {
             purcSn : $("#purcSn").val(),
-            claimSn : $("#claimSn").val()
+            claimSn : $("#claimSn").val(),
+            claimExnpSn : $("#claimExnpSn").val()
         }
+
+        $("#fileGrid").find(".defultTr").remove();
+        $("#fileGrid").find(".addFile").remove();
 
         var fileResult = customKendo.fn_customAjax("/purc/purcFileList", data)
 

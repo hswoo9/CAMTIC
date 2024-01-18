@@ -8,6 +8,7 @@
 
 <input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}"/>
 <input type="hidden" id="claimSn" name="claimSn" value="${params.claimSn}"/>
+<input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${loginVO.uniqId}"/>
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -65,6 +66,38 @@
                 </thead>
                 <tbody id="payTableBody">
 
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <%-- 첨부파일 --%>
+    <div class="table-responsive">
+        <div style="padding: 20px 30px;">
+            <c:if test="${params.type != 'exnp'}">
+                <div style="float:right; position: relative; color: red; font-size: 11px;">거래명세서 / 계좌이체동의서 / 미비첨부파일 등</div>
+                <td style="text-align: center;" colspan="5">
+                    <label for="payFileList" style="font-size: 13px;" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="payFileList" name="payFileList" onchange="appUserPaySetting.fileChange(this)" style="display: none" multiple>
+                    <span id="payFileName"></span>
+                </td>
+            </c:if>
+            <table class="popTable table table-bordered mb-0">
+                <thead>
+                <tr>
+                    <th>파일명</th>
+                    <th>확장자</th>
+                    <th>크기</th>
+                    <th>뷰어</th>
+                    <c:if test="${params.type != 'exnp'}">
+                        <th>기타</th>
+                    </c:if>
+                </tr>
+                </thead>
+                <tbody id="fileGrid">
+                <tr id="emptyTr">
+                    <td colspan="5" style="text-align: center">등록된 파일이 없습니다.</td>
+                </tr>
                 </tbody>
             </table>
         </div>

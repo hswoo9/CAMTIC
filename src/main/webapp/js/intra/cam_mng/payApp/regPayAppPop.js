@@ -1177,6 +1177,7 @@ var regPay = {
 
         if($("#claimExnpSn").val() != ""){
             parameters.claimExnpSn = $("#claimExnpSn").val();
+            parameters.purcSn = $("#purcSn").val();
         }
 
         if($("#payAppSn").val() != ""){
@@ -1837,7 +1838,7 @@ var regPayDet = {
         }
 
         if($("#reqType").val() == "claimExnp"){
-            url += "&purcSn=" + $("#purcSn").val() + "&claimSn=" + $("#claimSn").val();
+            url += "&purcSn=" + $("#purcSn").val() + "&claimSn=" + $("#claimSn").val() + "&claimExnpSn=" + $("#claimExnpSn").val();
         }
 
         if($("#reqType").val() == "snack"){

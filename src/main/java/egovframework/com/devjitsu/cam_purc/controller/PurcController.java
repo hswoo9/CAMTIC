@@ -645,8 +645,12 @@ public class PurcController {
     }
 
     @RequestMapping("/purc/pop/appUserPaySetting.do")
-    public String appUserPaySetting(@RequestParam Map<String, Object> params, Model model){
+    public String appUserPaySetting(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
 
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
 
         return "popup/cam_purc/mng/appUserPaySetting";
@@ -671,10 +675,11 @@ public class PurcController {
     }
 
     @RequestMapping("/purc/setPayAppPurcReq")
-    public String setPayAppPurcReq(@RequestParam Map<String, Object> params, Model model){
+    public String setPayAppPurcReq(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
 
         try{
-            purcService.setPayAppPurcReq(params);
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+            purcService.setPayAppPurcReq(params, fileList, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
             model.addAttribute("params", params);
         } catch(Exception e){

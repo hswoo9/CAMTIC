@@ -1,5 +1,9 @@
 const appUserPaySetting = {
 
+    global : {
+        attFiles : [],
+    },
+
     fn_DefaultScript: function() {
         var parameterArray = [];
 
@@ -122,15 +126,29 @@ const appUserPaySetting = {
             return;
         }
 
-        var data = {
-            itemArray : JSON.stringify(itemArr)
+        // var data = {
+        //     itemArray : JSON.stringify(itemArr)
+        // }
+
+        var formData = new FormData();
+        formData.append("regEmpSeq", $("#regEmpSeq").val());
+        formData.append("itemArray", JSON.stringify(itemArr));
+
+        if(appUserPaySetting.global.attFiles != null){
+            for(var i = 0; i < appUserPaySetting.global.attFiles.length; i++){
+                formData.append("fileList", appUserPaySetting.global.attFiles[i]);
+            }
         }
 
         $.ajax({
             url : "/purc/setPayAppPurcReq",
-            data : data,
+            data : formData,
             dataType : "json",
             type : "post",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async: false,
             success : function(rs){
                 if(rs.code == 200){
                     alert("요청되었습니다.");
@@ -140,6 +158,113 @@ const appUserPaySetting = {
                 }
             }
         });
-    }
+    },
 
+    fileChange : function (){
+        $("#emptyTr").remove();
+        let size = 0;
+        var fileArray = [];
+        for(var i = 0; i < $("input[name='payFileList']")[0].files.length; i++){
+            appUserPaySetting.global.attFiles.push($("input[name='payFileList']")[0].files[i]);
+        }
+
+        fileArray = appUserPaySetting.global.attFiles;
+        if(fileArray.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i < fileArray.length; i++) {
+                size = fileArray[i].size > 0 ? fCommon.bytesToKB(fileArray[i].size) : 0;
+                var fileName = "";
+                var fileExt = (fileArray[i].file_ext || fileArray[i].name.split(".")[fileArray[i].name.split(".").length - 1]);
+                for(var j = 0 ; j < fileArray[i].name.split(".").length - 1 ; j++){
+                    fileName += fileArray[i].name.split(".")[j];
+
+                    if(j != fileArray[i].name.split(".").length - 2){
+                        fileName += ".";
+                    }
+                }
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td style="text-align: left">' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                // if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+                //     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="appUserPaySetting.fileViewer(' +  + ')">'
+                // }
+                html += '   </td>';
+                if($("#type").val() != "exnp"){
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제1" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="appUserPaySetting.fnUploadFile(' + i + ')">'
+                    html += '   </td>';
+                }
+                html += '</tr>';
+            }
+            $("#fileGrid").append(html);
+        }
+    },
+
+    fnUploadFile : function(e) {
+        let size = 0;
+        const dataTransfer = new DataTransfer();
+        let fileArray2 = Array.from(appUserPaySetting.global.attFiles);
+        fileArray2.splice(e, 1);
+        fileArray2.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        appUserPaySetting.global.attFiles = dataTransfer.files;
+
+        var fileArray = [];
+        fileArray = appUserPaySetting.global.attFiles;
+        if(fileArray.length > 0){
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i <fileArray.length; i++) {
+                var fileName = "";
+                var fileExt = fileArray[i].name.split(".")[fileArray[i].name.split(".").length - 1];
+                for(var j = 0 ; j < fileArray[i].name.split(".").length - 1 ; j++){
+                    fileName += fileArray[i].name.split(".")[j];
+
+                    if(j != fileArray[i].name.split(".").length - 2){
+                        fileName += ".";
+                    }
+                }
+
+                size = fileArray[i].size > 0 ? fCommon.bytesToKB(fileArray[i].size) : 0;
+                html += '<tr style="text-align: center;" class="addFile">';
+                html += '   <td style="text-align: left">' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                // if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+                //     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="appUserPaySetting.fileViewer(' +  + ')">'
+                // }
+                html += '   </td>';
+                if($("#type").val() != "exnp"){
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제2" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="appUserPaySetting.fnUploadFile(' + i + ')">';
+                    html += '   </td>';
+                }
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }else{
+            $("#fileGrid").find(".addFile").remove();
+
+            if($("#fileGrid").find("tr").length == 0){
+                $("#fileGrid").html('<tr class="defultTr">' +
+                    '	<td colspan="5" style="text-align: center;padding-top: 10px;">등록된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        }
+
+        if(appUserPaySetting.global.attFiles.length == 0){
+            appUserPaySetting.global.attFiles = new Array();
+        }
+
+    },
 }

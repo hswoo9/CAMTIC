@@ -406,10 +406,14 @@ var payCardHist = {
         });
 
         console.log(list);
-        if($("#requestType").val() == 3){
+        if($("#reqType").val() == "snack"){
             opener.parent.fn_setCardInfo(list);
-        }else{
-            opener.parent.cardHistSet(list);
+        } else {
+            if($("#requestType").val() == 3){
+                opener.parent.fn_setCardInfo(list);
+            }else{
+                opener.parent.cardHistSet(list);
+            }
         }
 
         window.close();

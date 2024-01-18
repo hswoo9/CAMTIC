@@ -284,7 +284,7 @@ var purcMngAppList = {
 
         var url = "/purc/pop/appUserPaySetting.do";
         var name = "_blank";
-        var option = "width = 1375, height = 400, top = 200, left = 350, location = no";
+        var option = "width = 1375, height = 640, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
 
     },

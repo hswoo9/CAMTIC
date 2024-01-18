@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
+import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.inside.document.repository.DocumentRepository;
@@ -34,6 +35,9 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Autowired
     private DocumentRepository documentRepository;
+
+    @Autowired
+    private PurcService purcService;
 
     @Override
     public void payAppSetData(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
@@ -101,7 +105,7 @@ public class PayAppServiceImpl implements PayAppService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        /** 신청서 관련 파일 정보 dj_pay_app_file에 저장  */
+        /** 지급신청서 관련 파일 정보 dj_pay_app_file에 저장  */
         if(params.containsKey("payAppSn")){
             List<Map<String, Object>> list = payAppRepository.getPayAppDetailData(params);
 
@@ -119,6 +123,8 @@ public class PayAppServiceImpl implements PayAppService {
             if(params.containsKey("snackInfoSn")){
                 params.put("snackInfoSnArr", params.get("snackInfoSn").toString().split(","));
                 storedFileArr = documentRepository.getFileList(params);
+            } else if(params.containsKey("claimExnpSn")){
+                storedFileArr = purcService.purcFileList(params);
             } else {
                 storedFileArr = payAppRepository.getPayAppFileList(params);
             }
@@ -461,6 +467,10 @@ public class PayAppServiceImpl implements PayAppService {
     public void resolutionExnpAppr(Map<String, Object> params) {
         updateG20ExnpFinalAppr(params, "resolution");
         payAppRepository.resolutionExnpStatus(params);
+
+        /** 구매지급신청일때 */
+        params.put("payAppSn", payAppRepository.getExnpData(params).get("PAY_APP_SN"));
+        payAppRepository.updClaimExnpInfo(params);
     }
 
     @Override
