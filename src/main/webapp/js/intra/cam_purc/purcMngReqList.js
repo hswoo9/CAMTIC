@@ -7,11 +7,8 @@ var purcMngReqList = {
     },
 
     fn_defaultScript : function(){
-        purcMngReqList.global.dropDownDataSource = [
-            { text: "내 구매만 조회", value: "empDept" },
-        ]
+        purcMngReqList.global.dropDownDataSource = [];
         customKendo.fn_dropDownList("searchDept", purcMngReqList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").value("empDept");
         $("#searchDept").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
 
         purcMngReqList.global.dropDownDataSource = [
@@ -51,10 +48,9 @@ var purcMngReqList = {
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
-            height : 525,
             pageable: {
                 refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
+                pageSizes: [10, 20, 50, 100],
                 buttonCount: 5
             },
             noRecords: {

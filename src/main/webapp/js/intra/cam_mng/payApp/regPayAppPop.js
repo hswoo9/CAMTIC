@@ -561,7 +561,7 @@ var regPay = {
                             $("#authHh" + index).val(data.AUTH_HH);
 
                             const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
-                                searchValue: cardMap.TR_NM
+                                searchValue: data.CARD_NO
                             }).list
 
                             if(g20CardList.length > 0){

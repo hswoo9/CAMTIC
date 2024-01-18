@@ -303,6 +303,11 @@ const regPayAtt = {
                 html1 += '   <td>' + fileExt + '</td>';
                 html1 += '   <td>' + size + '</td>';
                 html1 += '   <td>';
+
+                if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+                    html1 += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(\'' + fileArray[i].file_path + fileArray[i].file_uuid +'\')">'
+                }
+                
                 html1 += '   </td>';
                 if($("#type").val() != "exnp"){
                     html1 += '   <td>';

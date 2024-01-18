@@ -106,6 +106,10 @@ var prp = {
         }else{
             $("#sum").text(comma(sum) + "원")
         }
+
+        //구매요청서 작성시 디폴트 선택
+        $("#purcItemType0").data("kendoDropDownList").select(1);
+        $("#productA0").data("kendoDropDownList").select(2);
     },
 
     vatCalc : function(){

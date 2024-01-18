@@ -83,6 +83,7 @@
     }
 
     .board_tit {
+        padding-top: 4px;
         background-color: #636363;
         height: 26px;
         color: white;
