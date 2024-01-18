@@ -1624,6 +1624,23 @@ var draft = {
                 draft.setKendoUpload();
             }
         }
+
+        if(params.type == "reDrafting"){
+            const fileList = customKendo.fn_customAjax("/approval/getDocAttachmentList", {
+                docId : params.docId
+            }).list;
+
+            if(fileList != null){
+                let attCount = 0;
+                let tempArr = [];
+                for(let j=0; j< fileList.length; j++){
+                    tempArr[attCount] = fileList[j];
+                    attCount++;
+                }
+                draft.getDocFileSet(tempArr);
+                draft.setKendoUpload();
+            }
+        }
     },
 
     setHwpApprovalLinePut : function(){

@@ -469,7 +469,7 @@
                 </if>
                 #{rentalFeeSn},
                 #{rentalFeeText},
-                <if test='"1".equals(rentalFeeSn)'>
+                <if test='"0".equals(rentalFeeSn)'>
                     #{pay},
                 </if>
                 #{empSeq},

@@ -62,6 +62,20 @@ var regPay = {
         if($("#payAppSn").val() != ""){
             regPay.setData();
 
+            var fileThumbText = "";
+            var fileList = regPay.global.fileArray;
+            for(let i=0; i<fileList.length; i++){
+                if(fileThumbText != ""){
+                    fileThumbText += " | ";
+                }
+                fileThumbText += fileList[i].file_org_name;
+                fileThumbText += "." + fileList[i].file_ext;
+            }
+
+            $("#fileText").text(fileThumbText);
+
+            console.log(regPay.global.fileArray);
+
             regPay.fn_viewStat();
         }else{
             regPayDet.global.itemIndex += 1;
@@ -749,7 +763,6 @@ var regPay = {
         var fileList = result.fileList;
 
         regPay.global.fileArray = fileList;
-
         regPay.payAppBtnSet(rs);
 
         // if(rs.ADVANCES != 'Y'){
