@@ -125,10 +125,18 @@ var bustList = {
                     title: "출장자",
                     width: 80,
                     template: function(row){
-                        if(row.COMPANION != 0){
-                            return row.EMP_NAME + " 외 "+row.COMPANION+"명";
+                        if(row.RS_STATUS != null){
+                            if(row.COMPANION2 != 0){
+                                return row.EMP_NAME + " 외 "+row.COMPANION2+"명";
+                            }else{
+                                return row.EMP_NAME;
+                            }
                         }else{
-                            return row.EMP_NAME;
+                            if(row.COMPANION != 0){
+                                return row.EMP_NAME + " 외 "+row.COMPANION+"명";
+                            }else{
+                                return row.EMP_NAME;
+                            }
                         }
                     }
                 }, {
