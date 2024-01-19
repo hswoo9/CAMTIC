@@ -88,7 +88,7 @@ var purcUserAppList = {
                     field: "PURC_PURPOSE",
                     width: 200,
                     template : function(e){
-                        return '<a onclick="purcUserAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.PURC_REQ_PURPOSE + '</a>'
+                        return '<div style="text-align: left"><a onclick="purcUserAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.PURC_REQ_PURPOSE + '</a></div>'
                     }
                 }, {
                     field: "CRM_NM",
