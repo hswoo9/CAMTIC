@@ -446,6 +446,7 @@ var regPay = {
                 }
             }
 
+            //출장신청서,출장결과보고 전자결재 file_no 추가
             const bustripDocFiles = customKendo.fn_customAjax("/bustrip/getBustripDocFile", {
                 hrBizReqResultId: hrBizReqResultId
             }).list;
@@ -494,8 +495,7 @@ var regPay = {
                 var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
                 var fileList = fileResult.fileList;
                 var slist = "";
-
-
+                
                 for(let i=0; i<fileList.length; i++){
                     if(slist != ""){
                         slist += ",";
