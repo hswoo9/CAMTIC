@@ -79,11 +79,11 @@ var depositList = {
                         var eviType = "";
                         if(e.EVI_TYPE == "1"){
                             eviType = "세금계산서";
-                        }else if(e.GUBUN == "2"){
+                        }else if(e.EVI_TYPE == "2"){
                             eviType = "계산서";
-                        } else if (e.GUBUN == "3"){
+                        } else if (e.EVI_TYPE == "3"){
                             eviType = "신용카드";
-                        } else if(e.GUBUN == "4"){
+                        } else if(e.EVI_TYPE == "4"){
                             eviType = "현금영수증";
                         } else {
                             eviType = "미발행";
@@ -134,7 +134,7 @@ var depositList = {
                 }, {
                     title: "신청건명",
                     field: "DEPO_TITLE",
-                    width: 350,
+                    width: 250,
                     template: function(e){
                         var status = "";
 
@@ -162,24 +162,49 @@ var depositList = {
                     field: ""
                 },{
                     title: "입금금액",
-                    width: 120,
+                    width: 80,
                     template: function(e){
                         var cost = e.TOT_COST;
-                        if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
-                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
+                        if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined){
+                            return '<div style="text-align: right">'+comma(e.RE_TOT_COST)+'</div>';
                         } else {
                             return '<div style="text-align: right">'+0+'</div>';
                         }
                     }
                 }, {
                     title: "상태",
-                    width: 60,
+                    width: 90,
                     template : function(e){
-                        if(e.DOC_STATUS == "100"){
-                            return "결재완료"
+                        var status = "";
+                        if(e.PAY_INCP_SN != null){
+                            if(e.DOC_STATUS == '100'){
+                                if(e.RE_CNT == 0){
+                                    status = "수입결의완료"
+                                } else {
+                                    if(e.RE_TOT_COST == 0){
+                                        status = "미결"
+                                    } else {
+                                        if(e.RE_TOT_COST == e.TOT_DET_AMT){
+                                            status = "입금완료"
+                                        } else {
+                                            status = "부분입금"
+                                        }
+                                    }
+                                }
+                            } else if (e.DOC_STATUS != '0' && e.DOC_STATUS != '30' && e.DOC_STATUS != '40'){
+                                status = "수입결의결재중"
+                            } else {
+                                status = "수입결의작성중"
+                            }
                         } else {
-                            return "작성중"
+                            if(e.APPR_STAT == 'Y'){
+                                status = "요청완료";
+                            } else {
+                                status = "작성중"
+                            }
                         }
+
+                        return status;
                     }
                 }
             ],
