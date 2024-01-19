@@ -201,6 +201,11 @@ var docView = {
             docView.global.searchAjaxData.type = "payApp";
         }
 
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "payIncp"){
+            docView.global.searchAjaxData.payIncpSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "payIncp";
+        }
+
         if(docView.global.rs.docInfo.DOC_MENU_CD == "exnp"){
             docView.global.searchAjaxData.exnpSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
             docView.global.searchAjaxData.type = "exnp";
