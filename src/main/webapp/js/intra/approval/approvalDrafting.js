@@ -1737,5 +1737,20 @@ var draft = {
                 hwpDocCtrl.putFieldText('EMP_FAX', empInfo.HOME_TEL_NUM == undefined ? "" : ("/"+ empInfo.HOME_TEL_NUM));
             }, 1600);
         }
+        console.log("----- 양식 결재선 세팅? -----");
+        console.log(draft.global);
+        console.log();
+
+        /** 재상신이면 사인 초기화 */
+        if(draft.global.params.mod == "RW"){
+            setTimeout(function() {
+                let field = "docAppr1";
+                hwpDocCtrl.putFieldText(field, " ");
+                field = "docAppr2";
+                hwpDocCtrl.putFieldText(field, " ");
+                field = "docAppr3";
+                hwpDocCtrl.putFieldText(field, " ");
+            }, 1600);
+        }
     }
 }

@@ -383,6 +383,10 @@ var docView = {
     },
 
     docReturnAjax : function(){
+        if($("#returnOpin").val() == ""){
+            alert("반려의견을 입력해주세요."); return;
+        }
+
         docView.global.searchAjaxData = docView.makeApprovalFormData("return");
 
         var result = customKendo.fn_customFormDataAjax("/approval/setDocApproveNReturn", docView.global.searchAjaxData);
@@ -1144,7 +1148,14 @@ var docView = {
                     continue;
                 }
 
+                /** 반려일때 초기화 */
                 if(map.APPROVE_STAT_CODE == 30){
+                    let field = "docAppr1";
+                    hwpDocCtrl.putFieldText(field, " ");
+                    field = "docAppr2";
+                    hwpDocCtrl.putFieldText(field, " ");
+                    field = "docAppr3";
+                    hwpDocCtrl.putFieldText(field, " ");
                     break;
                 }
 
