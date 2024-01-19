@@ -77,6 +77,9 @@ var prm = {
                     field: "PURC_REQ_DATE",
                     title: "요청일",
                     width: 100,
+                    template : function(e){
+                        return e.PURC_REQ_DATE.replaceAll(". ", "-");
+                    }
                 }, {
                     title: "요청자",
                     field: "EMP_NAME_KR",
@@ -85,7 +88,7 @@ var prm = {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
-                        return '<a onclick="prm.fn_reqRegPopup(' + e.PURC_SN + ')">' + e.PURC_REQ_PURPOSE + '</a>'
+                        return '<div style="text-align: left"><a onclick="prm.fn_reqRegPopup(' + e.PURC_SN + ')">' + e.PURC_REQ_PURPOSE + '</a></div>'
                     }
                 }, {
                     title: "구매",
