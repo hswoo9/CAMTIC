@@ -342,6 +342,8 @@
             CAM_INSIDE.DJ_HR_BIZ_COMPANION A
         WHERE
             A.HR_BIZ_REQ_ID = #{hrBizReqId}
+        AND
+            A.HR_BIZ_REQ_RESULT_ID IS NULL
     </select>
 
     <select id="getBustripResCompanionInfo" parameterType="map" resultType="map">
