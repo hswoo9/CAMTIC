@@ -138,6 +138,8 @@ var regIncm = {
 
         regIncm.global.fileArray = fileList;
 
+        console.log(ls);
+
         regIncm.payAppBtnSet(rs);
 
         if(rs.DOC_STATUS == 100 && (ls[0].EVID_TYPE == "1" || ls[0].EVID_TYPE == "3" || ls[0].EVID_TYPE == "5" || ls[0].EVID_TYPE == "6")){
@@ -161,8 +163,6 @@ var regIncm = {
                 }
             }
             baAmt = totAmt - (scAmt + dgAmt);
-
-            console.log(reIncpList);
 
             var html = "";
             $("#reIncpBody").html(html);
@@ -321,6 +321,7 @@ var regIncm = {
 
             customKendo.fn_datePicker("trDe" + regIncmDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
+            $("#trDe" + regIncmDet.global.itemIndex).val(item.TR_DE);
             $("#eviType" + itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
             regIncmDet.global.itemIndex++;
@@ -347,6 +348,8 @@ var regIncm = {
                 var rs = result.data;
                 var fileList = result.fileList;
 
+                console.log(rs);
+
                 regIncm.global.fileArray = fileList;
 
                 rs.crmNo = rs.REG_NO.toString().replace(/-/g, "");
@@ -356,7 +359,7 @@ var regIncm = {
                 $("#trCd0").val(g20Result.map.TR_CD ? g20Result.map.TR_CD : "");
                 $("#regNo0").val(rs.REG_NO.toString().replace(/-/g, ""));
                 $("#ceoNm0").val(rs.CEO_NM ? rs.CEO_NM : "");
-                $("#trDe0").val(rs.PAY_INCP_DE);
+                $("#trDe0").val(rs.APP_DE);
                 $("#appDe").val(rs.PAY_INCP_DE);
 
                 $("#pjtNm").val(rs.AFT_PJT_NM);
@@ -365,6 +368,7 @@ var regIncm = {
                 $("#budgetNm").val(rs.BUDGET_NM);
                 $("#budgetSn").val(rs.BUDGET_SN);
                 $("#appCont").val(rs.DEPO_TITLE);
+                $("#appDe").val(rs.APP_DE);
 
                 $("#accNm").val(rs.ACC_NM);
                 $("#bnkSn").val(rs.BNK_SN);
