@@ -368,7 +368,7 @@
         open : function (){
             var htmlStr =
                 '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="download" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="fileDown()">양식다운로드</button>' +
+                '	<button type="button" id="download" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="fileDown2()">양식다운로드</button>' +
                 '	<button type="button" id="upload" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="prp.fn_excelUpload()">업로드</button>' +
                 '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#excelUpload \').data(\'kendoWindow\').close()">닫기</button>' +
                 '</div>' +
@@ -418,7 +418,7 @@
         prp.global.event = event;
     }
 
-    function fileDown(filePath, fileName){
+    function fileDown2(filePath, fileName){
         filePath = "/upload/excelForm"
         fileName = "구매요청업로드양식.xlsx";
         kendo.saveAs({

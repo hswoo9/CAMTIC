@@ -137,22 +137,36 @@ var depoInfo = {
                     title: "상태",
                     width: 100,
                     template: function(e){
-                        var stat = "";
-                        if(e.APPR_STAT == "Y") {
-                            stat = "미입금";
-                            if(e.TOT_AMT == 0){
-                                stat = "미입금";
-                            } else if(e.DEPO_AMT <= e.TOT_AMT){
-                                stat = "입금완료";
-                            } else if(e.DEPO_AMT > e.TOT_AMT){
-                                stat = "부분입금";
+                        var status = "";
+                        if(e.PAY_INCP_SN != null){
+                            if(e.DOC_STATUS == '100'){
+                                if(e.RE_CNT == 0){
+                                    status = "수입결의완료"
+                                } else {
+                                    if(e.RE_TOT_COST == 0){
+                                        status = "미결"
+                                    } else {
+                                        if(e.RE_TOT_COST == e.TOT_DET_AMT){
+                                            status = "입금완료"
+                                        } else {
+                                            status = "부분입금"
+                                        }
+                                    }
+                                }
+                            } else if (e.DOC_STATUS != '0' && e.DOC_STATUS != '30' && e.DOC_STATUS != '40'){
+                                status = "수입결의결재중"
+                            } else {
+                                status = "수입결의작성중"
                             }
-
                         } else {
-                            stat = "미입금";
+                            if(e.APPR_STAT == 'Y'){
+                                status = "요청완료";
+                            } else {
+                                status = "작성중"
+                            }
                         }
 
-                        return stat;
+                        return status;
                     },
                 }, {
                     title: "기타",

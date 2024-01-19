@@ -92,7 +92,7 @@ var incomeList = {
                     field: "EMP_NAME",
                     width: 80,
                 }, {
-                    title: "지출금액",
+                    title: "입금금액",
                     width: 100,
                     template: function(e){
                         var cost = e.TOT_COST;
@@ -109,13 +109,13 @@ var incomeList = {
                         var status = "";
                         if(e.DOC_STATUS == "100"){
                             status = "결재완료";
-                            if(e.REQ_END_DE != null && e.REQ_END_DE != "" && e.REQ_END_DE != undefined){
-                                status = "수입결의승인";
-                            } else {
-                                if(e.EVID_TYPE == "7"){
-                                    status = "수입결의승인";
-                                } else {
-                                    status = "결재완료";
+                            if(e.RE_CNT != 0){
+                                if (e.RE_TOT_AMT != 0) {
+                                    if (e.RE_TOT_COST == e.TOT_DET_AMT) {
+                                        status = "입금완료"
+                                    } else {
+                                        status = "부분입금"
+                                    }
                                 }
                             }
                         } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){

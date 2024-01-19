@@ -247,8 +247,8 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('BUDGET_NM2', budgetArr[1]);
         hwpDocCtrl.putFieldText('BUDGET_NM3', budgetArr[2]);
         hwpDocCtrl.putFieldText('REG_DEPT_NAME', rs.REG_DEPT_NAME);
-        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
-        hwpDocCtrl.putFieldText('TR_DE', ls[0].TR_DE.toString().split("-")[0] + "년 " + Number(ls[0].TR_DE.toString().split("-")[1]) + "월 " + ls[0].TR_DE.toString().split("-")[2] + "일");
+        hwpDocCtrl.putFieldText('TO_DATE', ls[0].TR_DE.toString().split("-")[0] + "년 " + Number(ls[0].TR_DE.toString().split("-")[1]) + "월 " + ls[0].TR_DE.toString().split("-")[2] + "일");
+        hwpDocCtrl.putFieldText('TR_DE', rs.PAY_EXNP_DE.toString().split("-")[0] + "년 " + Number(rs.PAY_EXNP_DE.toString().split("-")[1]) + "월 " + rs.PAY_EXNP_DE.toString().split("-")[2] + "일");
 
         hwpDocCtrl.putFieldText('APP_TITLE', rs.APP_CONT);
         hwpDocCtrl.putFieldText('ACC_NO', "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);

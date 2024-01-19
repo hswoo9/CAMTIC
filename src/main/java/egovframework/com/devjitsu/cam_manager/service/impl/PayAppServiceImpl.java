@@ -721,8 +721,12 @@ public class PayAppServiceImpl implements PayAppService {
 
                 if(!data.get("RPMR_NO").toString().equals("")){
                     data.put("DOCU_FG", "89");
+                    data.put("IN_DT_TMP", data.get("IN_DT"));
+                    data.put("IN_DT", data.get("EXEC_DT"));
+
                 } else {
                     data.put("ETCDUMMY1", "76");
+                    data.put("IN_DT_TMP", data.get("IN_DT"));
                 }
 
 
