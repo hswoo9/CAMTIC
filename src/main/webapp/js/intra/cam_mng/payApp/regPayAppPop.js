@@ -446,6 +446,24 @@ var regPay = {
                 }
             }
 
+            const bustripDocFiles = customKendo.fn_customAjax("/bustrip/getBustripDocFile", {
+                hrBizReqResultId: hrBizReqResultId
+            }).list;
+
+            for(let i=0; i<bustripDocFiles.length; i++){
+                    regPay.global.fileArray.push(bustripDocFiles[i]);
+                    
+                    if(blist != ""){
+                        blist += ",";
+                    }
+                    if(fileThumbText != ""){
+                        fileThumbText += " | ";
+                    }
+                    blist += bustripDocFiles[i].file_no;
+                    fileThumbText += bustripDocFiles[i].file_org_name;
+                    fileThumbText += "." + bustripDocFiles[i].file_ext;
+            }
+
             $("#fileText").text(fileThumbText);
             $("#bList").val(blist);
         }
