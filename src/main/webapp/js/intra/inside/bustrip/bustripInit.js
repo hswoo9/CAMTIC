@@ -13,6 +13,7 @@ var bustripInit = {
         let popEmpName = "";
         let popDeptSeq = "";
         let popDeptName = "";
+        console.log("출장자",list);
 
         for(let i=0; i<list.length; i++){
             if(i != 0){
