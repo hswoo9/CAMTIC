@@ -98,7 +98,7 @@ var purcMngAppList = {
                     width: 120,
                 }, {
                     title: "구매구분",
-                    width: 80,
+                    width: 65,
                     template: function(e){
                         var result = "";
 
@@ -178,7 +178,7 @@ var purcMngAppList = {
                     }
                 }, {
                     title: "지출요청",
-                    width: 60,
+                    width: 65,
                     template : function(e){
                         var amt = (Number(e.TOT_AMT) - Number(e.REQ_AMT) - Number(e.EXNP_AMT));
                         if(amt == 0){
@@ -187,7 +187,7 @@ var purcMngAppList = {
                             return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_callPayApp('+e.PURC_SN+', '+e.CLAIM_SN+', '+amt+', '+e.SETTING+')">지출요청</button>';
                         }
                     }
-                }
+                },
                 // , {
                 //     title: "첨부",
                 //     width: 60,
@@ -195,6 +195,22 @@ var purcMngAppList = {
                 //         return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
                 //     }
                 // }
+                {
+                    title: "상태",
+                    width: 70,
+                    template: function (e) {
+                        var stat = "지급설정대기";
+
+                        if(e.SETTING != 0){
+                            stat = "지급설정완료";
+                        }
+                        if((Number(e.TOT_AMT) - Number(e.REQ_AMT) - Number(e.EXNP_AMT)) == 0){
+                            stat = "지출완료";
+                        }
+
+                        return stat;
+                    }
+                }
             ],
             dataBinding: function () {
                 record = fn_getRowNum(this, 2);
