@@ -176,7 +176,7 @@ var regIncpRe = {
 
         $("#redyAmt").val(tmpRs.TOT_COST - rs.TOT_COST);
         $("#incpTotAmt").val(incpTotAmt);
-        $("#appDe").val(rs.APP_DE ? rs.APP_DE : tmpRs.APP_DE);
+        $("#appDe").val(rs.RE_APP_DE);
         $("#pjtNm").val(rs.PJT_NM ? rs.PJT_NM : tmpRs.PJT_NM);
         $("#pjtNm2").val(rs.PJT_NM ? rs.PJT_NM : tmpRs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN ? rs.PJT_SN : tmpRs.PJT_SN);
@@ -213,9 +213,10 @@ var regIncpRe = {
 
         $("#inDt").val(ls[0].TR_DE);
 
+        console.log(result);
+
         regIncpRe.payAppBtnSet(rs);
 
-        $("#appDe").val(rs.APP_DE);
         $("#redyAmt").val(rs.TOT_COST);
         $("#incpTotAmt").val(incpTotAmt);
         $("#pjtNm").val(rs.PJT_NM);
@@ -232,6 +233,7 @@ var regIncpRe = {
         $("#bnkNm").val(rs.BNK_NM);
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
+        $("#totAmt").val(regIncpRe.comma(rs.TOT_DET_AMT - rs.TOT_COST));
     },
 
     fn_viewStat: function (){
