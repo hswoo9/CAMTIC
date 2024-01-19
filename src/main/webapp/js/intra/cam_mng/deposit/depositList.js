@@ -79,11 +79,11 @@ var depositList = {
                         var eviType = "";
                         if(e.EVI_TYPE == "1"){
                             eviType = "세금계산서";
-                        }else if(e.GUBUN == "2"){
+                        }else if(e.EVI_TYPE == "2"){
                             eviType = "계산서";
-                        } else if (e.GUBUN == "3"){
+                        } else if (e.EVI_TYPE == "3"){
                             eviType = "신용카드";
-                        } else if(e.GUBUN == "4"){
+                        } else if(e.EVI_TYPE == "4"){
                             eviType = "현금영수증";
                         } else {
                             eviType = "미발행";
