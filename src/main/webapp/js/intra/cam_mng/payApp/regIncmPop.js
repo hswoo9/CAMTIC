@@ -15,6 +15,8 @@ var regIncm = {
 
     fn_defaultScript : function (){
         customKendo.fn_datePicker("appDe", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("payIncpDe", "month", "yyyy-MM-dd", new Date());
+
         customKendo.fn_textBox(["pjtNm", "accNm", "accNo", "bnkNm", "budgetNm", "exnpEmpNm", "exnpDeptNm"]);
 
         $("#appCont").kendoTextArea({
@@ -138,6 +140,13 @@ var regIncm = {
 
         regIncm.global.fileArray = fileList;
 
+        var fileText = "";
+        for(var i = 0 ; i < fileList.length; i++){
+            fileText += fileList[i].file_org_name + "." + fileList[i].file_ext + " | ";
+        }
+
+        $("#fileText").text(fileText.substring(0, fileText.length - 2));
+
         regIncm.payAppBtnSet(rs);
 
         if(rs.DOC_STATUS == 100 && (ls[0].EVID_TYPE == "1" || ls[0].EVID_TYPE == "3" || ls[0].EVID_TYPE == "5" || ls[0].EVID_TYPE == "6")){
@@ -162,8 +171,6 @@ var regIncm = {
             }
             baAmt = totAmt - (scAmt + dgAmt);
 
-            console.log(reIncpList);
-
             var html = "";
             $("#reIncpBody").html(html);
             html += '<tr style="text-align: right; font-weight: bold;">';
@@ -178,6 +185,7 @@ var regIncm = {
 
 
         $("#appDe").val(rs.APP_DE);
+        $("#payIncpDe").val(rs.PAY_EXNP_DE);
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
         $("#pjtCd").val(rs.PJT_CD);
@@ -321,6 +329,7 @@ var regIncm = {
 
             customKendo.fn_datePicker("trDe" + regIncmDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
+            $("#trDe" + regIncmDet.global.itemIndex).val(item.TR_DE);
             $("#eviType" + itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
             regIncmDet.global.itemIndex++;
@@ -349,6 +358,13 @@ var regIncm = {
 
                 regIncm.global.fileArray = fileList;
 
+                var fileText = "";
+                for(var i = 0 ; i < fileList.length; i++){
+                    fileText += fileList[i].file_org_name + "." + fileList[i].file_ext + " | ";
+                }
+
+                $("#fileText").text(fileText.substring(0, fileText.length - 2));
+
                 rs.crmNo = rs.REG_NO.toString().replace(/-/g, "");
                 var g20Result = customKendo.fn_customAjax("/g20/getCrmInfo", rs);
 
@@ -356,8 +372,8 @@ var regIncm = {
                 $("#trCd0").val(g20Result.map.TR_CD ? g20Result.map.TR_CD : "");
                 $("#regNo0").val(rs.REG_NO.toString().replace(/-/g, ""));
                 $("#ceoNm0").val(rs.CEO_NM ? rs.CEO_NM : "");
-                $("#trDe0").val(rs.PAY_INCP_DE);
-                $("#appDe").val(rs.PAY_INCP_DE);
+                $("#trDe0").val(rs.APP_DE);
+                $("#payIncpDe").val(rs.PAY_INCP_DE);
 
                 $("#pjtNm").val(rs.AFT_PJT_NM);
                 $("#pjtSn").val(rs.AFT_PJT_SN);
@@ -365,6 +381,7 @@ var regIncm = {
                 $("#budgetNm").val(rs.BUDGET_NM);
                 $("#budgetSn").val(rs.BUDGET_SN);
                 $("#appCont").val(rs.DEPO_TITLE);
+                $("#appDe").val(rs.APP_DE);
 
                 $("#accNm").val(rs.ACC_NM);
                 $("#bnkSn").val(rs.BNK_SN);
@@ -429,7 +446,7 @@ var regIncm = {
 
         var parameters = {
             appDe : $("#appDe").val(),
-            payExnpDe : $("#trDe0").val(),
+            payExnpDe : $("#payIncpDe").val(),
             pjtNm : $("#pjtNm").val(),
             pjtSn : $("#pjtSn").val(),
             pjtCd : $("#pjtCd").val(),

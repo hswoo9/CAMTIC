@@ -1166,6 +1166,7 @@
         <foreach collection="claimSnArr" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
+        GROUP BY A.CLAIM_SN
         ORDER BY CLAIM_SN DESC
     </select>
 
