@@ -131,10 +131,15 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">첨부파일</th>
-                    <td colspan="4">
+                    <td colspan="2">
                         <div>
                             <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regIncm.fn_regIncmAttPop()">첨부</button>
+                            <span id="fileText"></span>
                         </div>
+                    </td>
+                    <th scope="row" class="text-center th-color">입금예정일</th>
+                    <td colspan="2">
+                        <input type="text" id="payIncpDe" style="width: 30%">
                     </td>
                 </tr>
                 </thead>
