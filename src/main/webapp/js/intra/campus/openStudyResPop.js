@@ -200,18 +200,24 @@ const openStudyRes = {
             if (resultCheck.list) {
 
                 let showAlert = true;
+                let exceededNames = [];
 
                 for (let i = 0; i < resultCheck.list.length; i++) {
                     let realEduTime = 0;
 
+                    const regEmpName = resultCheck.list[i].REG_EMP_NAME;
+                    console.log(regEmpName);
                     const eduTimeFloat = parseFloat(resultCheck.list[i].eduTime);
                     const remainEduFloat = parseFloat(resultCheck.list[i].remainEduTime);
+
+
 
                     if (resultCheck.list[i].userClass == '1') {
                         if (remainEduFloat == eduTimeFloat * 2) {
                             realEduTime = eduTimeFloat;
                         } else if (remainEduFloat < eduTimeFloat * 2) {
                             realEduTime = remainEduFloat;
+                            exceededNames.push(regEmpName);
                         } else if (remainEduFloat > eduTimeFloat * 2) {
                             realEduTime = eduTimeFloat * 2;
                         }
@@ -220,13 +226,14 @@ const openStudyRes = {
                             realEduTime = eduTimeFloat;
                         } else if (remainEduFloat < eduTimeFloat) {
                             realEduTime = remainEduFloat;
+                            exceededNames.push(regEmpName);
                         } else if (remainEduFloat > eduTimeFloat) {
                             realEduTime = eduTimeFloat;
                         }
                     }
                     if (remainEduFloat == 0 && showAlert) {
                         realEduTime = 0;
-                        alert("주에 학습시간이 2시간을 초과해 인정시간이 0시간으로 인정됩니다.");
+                        alert("[" + exceededNames.join(", ") + "]" + "님은 주에 학습시간이 2시간을 초과해 인정시간이\n0시간으로 인정됩니다.");
                         showAlert = false;
                     }
 
