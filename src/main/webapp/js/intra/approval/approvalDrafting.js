@@ -1579,6 +1579,28 @@ var draft = {
             draft.setKendoUpload();
         }
 
+        if(params.menuCd == "payIncp") {
+            data.payIncpSn = params.APPRO_KEY.split("_")[1];
+
+            let result = customKendo.fn_customAjax("/payApp/pop/getPayIncpData", {
+                payIncpSn: data.payIncpSn
+            });
+            console.log("항목 리스트 조회");
+            console.log(result);
+            const rs = result.map;
+            const ls = result.list;
+            const fileList = result.fileList;
+
+            let attCount = 0;
+            let tempArr = [];
+            for(let j=0; j< fileList.length; j++){
+                tempArr[attCount] = fileList[j];
+                attCount++;
+            }
+            draft.getDocFileSet(tempArr);
+            draft.setKendoUpload();
+        }
+
         if(params.menuCd == "exnp") {
             data.exnpSn = params.APPRO_KEY.split("_")[1];
 
