@@ -55,8 +55,16 @@ public class PayAppServiceImpl implements PayAppService {
 
         // 출장 지급신청시 hrBizReqResultId Key 가져옴
         if(params.containsKey("hrBizReqResultId")){
-            // 출장 지급신청 Key Insert
-            payAppRepository.updPurcBustripByPayAppSn(params);
+            String[] hrBizReqResultIdArr = params.get("hrBizReqResultId").toString().split(",");
+
+            Map<String, Object> paramMaps = new HashMap<>();
+            for(String hrBizReqResultId : hrBizReqResultIdArr){
+                paramMaps.put("payAppSn", params.get("payAppSn"));
+                paramMaps.put("hrBizReqResultId", hrBizReqResultId);
+
+                // 출장 지급신청 Key Insert
+                payAppRepository.updPurcBustripByPayAppSn(params);
+            }
         }
         // 영수증, 전표등 있을 시 첨부파일 복사
         if(params.containsKey("bList")){

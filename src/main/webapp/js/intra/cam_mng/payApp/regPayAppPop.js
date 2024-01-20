@@ -232,51 +232,60 @@ var regPay = {
 
         if($("#reqType").val() == "bustrip"){
             const hrBizReqResultId = $("#hrBizReqResultId").val();
-            const data = {
-                hrBizReqResultId : hrBizReqResultId
+            const exnpList = [];
+            const cardList = [];
+
+            for(let i = 0 ; i < hrBizReqResultId.toString().split(",").length ; i++) {
+                let tempList = [];
+                let tempList2 = [];
+                const data = {
+                    hrBizReqResultId: hrBizReqResultId.toString().split(",")[i]
+                };
+
+                const result = customKendo.fn_customAjax("/bustrip/getPersonalExnpData", data);
+                tempList = result.list;
+                for(let x=0; x<tempList.length; x++){
+                    exnpList.push(tempList[x]);
+                }
+
+                const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", data);
+                tempList2 = cardResult.list;
+                for(let y=0; y<tempList2.length; y++){
+                    cardList.push(tempList2[y]);
+                }
             }
-            const result = customKendo.fn_customAjax("/bustrip/getPersonalExnpData", data);
-            const exnpList = result.list;
-
-            console.log("exnpList");
-            console.log(exnpList);
-
-            const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", data);
-            const cardList = cardResult.list;
-            console.log("cardList");
-            console.log(cardList);
 
             const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
 
-            if(exnpList[0].PJT_SN != null){
+            if (exnpList[0].PJT_SN != null) {
                 var busnClass = pjtMap.BUSN_CLASS;
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
-                if($("#pjtSn").val() != "" && busnClass == "D" && busnClass == "V"){
+                if ($("#pjtSn").val() != "" && busnClass == "D" && busnClass == "V") {
                     selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
-                }else{
+                } else {
                     selectProject('', '[2024년]법인운영', 'Mm1m124010');
                 }
-            }else {
+            } else {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
 
             let totalList = exnpList.length + cardList.length - 1;
-            for(let i=0; i < totalList; i++) {
+            for (let i = 0; i < totalList; i++) {
                 regPayDet.addRow();
             }
 
             let count = 0;
-            for(let i=0; i < exnpList.length; i++) {
+            for (let i = 0; i < exnpList.length; i++) {
                 const exnpMap = exnpList[i];
                 const index = count;
 
                 /** 개인여비 */
                 $("#eviType" + index).data("kendoDropDownList").value(3);
-                $("#crmNm"+index).val(exnpMap.EXNP_NAME);
-                $("#etc"+index).val(exnpMap.EXNP_NAME+" 개인여비");
-                $("#totCost"+index).val(regPay.comma(exnpMap.PERSON_SUM));
-                $("#supCost"+index).val(regPay.comma(exnpMap.PERSON_SUM));
+                $("#crmNm" + index).val(exnpMap.EXNP_NAME);
+                $("#etc" + index).val(exnpMap.EXNP_NAME + " 개인여비");
+                $("#totCost" + index).val(regPay.comma(exnpMap.PERSON_SUM));
+                $("#supCost" + index).val(regPay.comma(exnpMap.PERSON_SUM));
 
                 const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
                     searchValue: exnpMap.EXNP_NAME
@@ -284,7 +293,7 @@ var regPay = {
                 console.log("g20CardList");
                 console.log(g20CardList);
 
-                if(g20CardList.length > 0){
+                if (g20CardList.length > 0) {
                     const f = g20CardList[0];
                     var trCd = f.TR_CD;
                     var trNm = f.TR_NM;
@@ -293,22 +302,22 @@ var regPay = {
                     var baNb = f.BA_NB;
                     var depositor = f.DEPOSITOR;
 
-                    if(trNm == null || trNm == "" || trNm == "undefined"){
+                    if (trNm == null || trNm == "" || trNm == "undefined") {
                         trNm = "";
                     }
-                    if(cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined"){
+                    if (cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined") {
                         cardBaNb = "";
                     }
-                    if(baNb == null || baNb == "" || baNb == "undefined"){
+                    if (baNb == null || baNb == "" || baNb == "undefined") {
                         baNb = "";
                     }
-                    if(jiro == null || jiro == "" || jiro == "undefined"){
+                    if (jiro == null || jiro == "" || jiro == "undefined") {
                         jiro = "";
                     }
-                    if(depositor == null || depositor == "" || depositor == "undefined"){
+                    if (depositor == null || depositor == "" || depositor == "undefined") {
                         depositor = "";
                     }
-                    if(trCd == null || trCd == "" || trCd == "undefined"){
+                    if (trCd == null || trCd == "" || trCd == "undefined") {
                         trCd = "";
                     }
 
@@ -322,16 +331,16 @@ var regPay = {
                 count++;
             }
 
-            for(let i=0; i<cardList.length; i++){
+            for (let i = 0; i < cardList.length; i++) {
                 const cardMap = cardList[i];
                 const index = count;
 
                 const parameters = {
-                    cardNo : cardMap.CARD_NO,
-                    authDate : cardMap.AUTH_DD,
-                    authNo : cardMap.AUTH_NO,
-                    authTime : cardMap.AUTH_HH,
-                    buySts : cardMap.BUY_STS
+                    cardNo: cardMap.CARD_NO,
+                    authDate: cardMap.AUTH_DD,
+                    authNo: cardMap.AUTH_NO,
+                    authTime: cardMap.AUTH_HH,
+                    buySts: cardMap.BUY_STS
                 }
                 console.log("parameters");
                 console.log(parameters);
@@ -343,12 +352,12 @@ var regPay = {
 
                 $("#eviType" + index).data("kendoDropDownList").value(3);
                 $("#crmNm" + index).val(data.MER_NM);
-                $("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
+                $("#trDe" + index).val(data.AUTH_DD.substring(0, 4) + "-" + data.AUTH_DD.substring(4, 6) + "-" + data.AUTH_DD.substring(6, 8));
                 $("#trCd" + index).val(data.TR_CD);
                 $("#totCost" + index).val(comma(data.AUTH_AMT));
                 $("#supCost" + index).val(comma(data.SUPP_PRICE));
                 $("#vatCost" + index).val(comma(data.SURTAX));
-                $("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
+                $("#cardNo" + index).val(data.CARD_NO.substring(0, 4) + "-" + data.CARD_NO.substring(4, 8) + "-" + data.CARD_NO.substring(8, 12) + "-" + data.CARD_NO.substring(12, 16));
                 $("#card" + index).val(data.TR_NM);
                 $("#buySts" + index).val(data.BUY_STS);
                 $("#crmAccHolder" + index).val(data.DEPOSITOR);
@@ -365,7 +374,7 @@ var regPay = {
                 console.log("g20CardList");
                 console.log(g20CardList);
 
-                if(g20CardList.length > 0){
+                if (g20CardList.length > 0) {
                     const f = g20CardList[0];
                     var trCd = f.TR_CD;
                     var trNm = f.TR_NM;
@@ -374,22 +383,22 @@ var regPay = {
                     var baNb = f.BA_NB;
                     var depositor = f.DEPOSITOR;
 
-                    if(trNm == null || trNm == "" || trNm == "undefined"){
+                    if (trNm == null || trNm == "" || trNm == "undefined") {
                         trNm = "";
                     }
-                    if(cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined"){
+                    if (cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined") {
                         cardBaNb = "";
                     }
-                    if(baNb == null || baNb == "" || baNb == "undefined"){
+                    if (baNb == null || baNb == "" || baNb == "undefined") {
                         baNb = "";
                     }
-                    if(jiro == null || jiro == "" || jiro == "undefined"){
+                    if (jiro == null || jiro == "" || jiro == "undefined") {
                         jiro = "";
                     }
-                    if(depositor == null || depositor == "" || depositor == "undefined"){
+                    if (depositor == null || depositor == "" || depositor == "undefined") {
                         depositor = "";
                     }
-                    if(trCd == null || trCd == "" || trCd == "undefined"){
+                    if (trCd == null || trCd == "" || trCd == "undefined") {
                         trCd = "";
                     }
 
@@ -404,69 +413,86 @@ var regPay = {
             }
 
 
-            let blist = "";
-
-            /** 첨부파일 */
-            const exnpFile = customKendo.fn_customAjax("/bustrip/getExnpFileNum", {
-                fileCd: "exnpTraf",
-                hrBizReqResultId: hrBizReqResultId
-            }).list;
-
+            var blist = "";
             var fileThumbText = "";
+            var docFileThumbText = "";
+            var tempExnpFile = [];
 
-            for(let i=0; i<exnpFile.length; i++){
-                if(blist != ""){
-                    blist += ",";
+            for(let i = 0 ; i < hrBizReqResultId.toString().split(",").length; i++) {
+                /** 첨부파일 */
+                const exnpFile = customKendo.fn_customAjax("/bustrip/getExnpFileNum", {
+                    fileCd: "exnpTraf",
+                    hrBizReqResultId: hrBizReqResultId.toString().split(",")[i]
+                }).list;
+
+                for(let x = 0 ; x < exnpFile.length; x++) {
+                    regPay.global.fileArray.push(exnpFile[x]);
+                    tempExnpFile.push(exnpFile[x]);
                 }
-                if(fileThumbText != ""){
-                    fileThumbText += " | ";
+
+                for (let y = 0; y < exnpFile.length; y++) {
+                    if (blist != "") {
+                        blist += ",";
+                    }
+                    if (fileThumbText != "") {
+                        fileThumbText += " | ";
+                    }
+                    blist += exnpFile[y].file_no;
+                    fileThumbText += exnpFile[y].file_org_name;
+                    fileThumbText += "." + exnpFile[y].file_ext;
                 }
-                blist += exnpFile[i].file_no;
-                fileThumbText += exnpFile[i].file_org_name;
-                fileThumbText += "." + exnpFile[i].file_ext;
+
+                //출장신청서,출장결과보고 전자결재 file_no 추가
+                const bustripDocFiles = customKendo.fn_customAjax("/bustrip/getBustripDocFile", {
+                    hrBizReqResultId: hrBizReqResultId.toString().split(",")[i]
+                }).list;
+
+                for (let z = 0; z < bustripDocFiles.length; z++) {
+                    regPay.global.fileArray.push(bustripDocFiles[z]);
+
+                    if (blist != "") {
+                        blist += ",";
+                    }
+                    if (docFileThumbText != "") {
+                        docFileThumbText += " | ";
+                    }
+                    blist += bustripDocFiles[z].file_no;
+                    docFileThumbText += bustripDocFiles[z].file_org_name;
+                    docFileThumbText += "." + bustripDocFiles[z].file_ext;
+                }
             }
 
-            regPay.global.fileArray = exnpFile;
-            for(let i=0; i<cardList.length; i++){
-                if(cardList[i].FILE_NO != null){
+            for (let i = 0; i < cardList.length; i++) {
+                if (cardList[i].FILE_NO != null) {
                     const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
                         fileNo: cardList[i].FILE_NO
                     }).data;
                     regPay.global.fileArray.push(fileData);
 
-                    if(blist != ""){
+                    if (blist != "") {
                         blist += ",";
                     }
-                    if(fileThumbText != ""){
+                    if (fileThumbText != "") {
                         fileThumbText += " | ";
                     }
-                    blist += exnpFile[i].file_no;
-                    fileThumbText += exnpFile[i].file_org_name;
-                    fileThumbText += "." + exnpFile[i].file_ext;
+                    blist += tempExnpFile[i].file_no;
+                    fileThumbText += tempExnpFile[i].file_org_name;
+                    fileThumbText += "." + tempExnpFile[i].file_ext;
                 }
             }
 
-            //출장신청서,출장결과보고 전자결재 file_no 추가
-            const bustripDocFiles = customKendo.fn_customAjax("/bustrip/getBustripDocFile", {
-                hrBizReqResultId: hrBizReqResultId
-            }).list;
 
-            for(let i=0; i<bustripDocFiles.length; i++){
-                    regPay.global.fileArray.push(bustripDocFiles[i]);
-                    
-                    if(blist != ""){
-                        blist += ",";
-                    }
-                    if(fileThumbText != ""){
-                        fileThumbText += " | ";
-                    }
-                    blist += bustripDocFiles[i].file_no;
-                    fileThumbText += bustripDocFiles[i].file_org_name;
-                    fileThumbText += "." + bustripDocFiles[i].file_ext;
-            }
+            var fileNameArray = fileThumbText.split(' | ');
+            var setValues = Array.from(new Set(fileNameArray));
+            var resultFileName = setValues.join(' | ');
 
-            $("#fileText").text(fileThumbText);
-            $("#bList").val(blist);
+            var blistArray = blist.split(',');
+            var setValues2 = Array.from(new Set(blistArray));
+            var resultBlist = setValues2.join(',');
+
+
+            $("#fileText").text(resultFileName + ' | ' + docFileThumbText);
+            $("#bList").val(resultBlist);
         }
 
         if($("#reqType").val() == "snack"){
@@ -1194,7 +1220,7 @@ var regPay = {
 
         if($("#reqType").val() == "bustrip"){
             parameters.hrBizReqResultId = $("#hrBizReqResultId").val();
-            parameters.linkKey = $("#hrBizReqResultId").val();
+            parameters.linkKey = $("#hrBizReqResultId").val().split(",")[0];
             parameters.linkKeyType = "출장";
 
             if($("#bList").val() != ""){
