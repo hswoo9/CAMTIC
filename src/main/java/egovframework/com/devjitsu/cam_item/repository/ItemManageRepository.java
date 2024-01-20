@@ -83,4 +83,8 @@ public class ItemManageRepository extends AbstractDAO {
     public void setCrmSalesConfirmUpd(Map<String, Object> params) { update("item.setCrmSalesConfirmUpd", params);}
     public List<Map<String, Object>> getDepositStatList(Map<String, Object> params) { return selectList("item.getDepositStatList", params);}
     public void setDepositConfirm(Map<String, Object> params) { update("item.setDepositConfirm", params);}
+
+    public List<Map<String, Object>> getExcelItemInfoList() {
+        return selectList("item.getExcelItemInfoList");
+    }
 }
