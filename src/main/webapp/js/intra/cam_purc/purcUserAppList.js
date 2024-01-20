@@ -153,7 +153,8 @@ var purcUserAppList = {
                     title : "지급신청",
                     width : 80,
                     template: function(e){
-                        console.log(e)
+                        // approveDocView('3770', 'payApp370', 'payApp');
+
                         return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
                     }
                 }, {
