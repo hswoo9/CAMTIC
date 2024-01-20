@@ -3,7 +3,7 @@ var bustrip = {
         pageName: "",
         /** 기간 var */
         year: new Date().getFullYear(),
-        month: new Date().getMonth(),
+        month: new Date().getMonth()-1,
         afMonth: new Date().getMonth()+1,
 
         /** 관련사업 var */

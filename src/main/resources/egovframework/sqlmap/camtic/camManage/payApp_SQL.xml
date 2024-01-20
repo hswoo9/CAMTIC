@@ -1653,6 +1653,15 @@
             HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </update>
 
+    <update id="updBusinessByPayAppSn" parameterType="map">
+        /*updBusinessByPayAppSn*/
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
+        SET
+            BF_PAY_APP_SN = #{payAppSn}
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </update>
+
     <update id="updBustripExnpFileCopy" parameterType="map">
         /*updBustripExnpFileCopy*/
         INSERT INTO CAM_COMMON.DJ_FILE_INFO

@@ -35,6 +35,7 @@
 <input type="hidden" id="purcSn" value="${params.purcSn}" />
 <input type="hidden" id="claimExnpSn" value="${params.claimExnpSn}" />
 
+<input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}" />
 <input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}" />
 <input type="hidden" id="bList" value="" />
 <input type="hidden" id="snackInfoSn" value="${params.snackInfoSn}" />

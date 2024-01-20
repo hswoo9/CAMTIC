@@ -274,6 +274,17 @@ public class BustripController {
         return "popup/inside/bustrip/business/businessExnpPop";
     }
 
+    /** 해외출장 전용 지급신청 조회 팝업 */
+    @RequestMapping("/bustrip/pop/businessExnp.do")
+    public String businessExnp(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("rs", bustripService.getBustripOne(params));
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/business/businessExnp";
+    }
+
     //출장결과조회
     @RequestMapping("/bustrip/getBustripOne")
     public String getBustripOne(@RequestParam Map<String, Object> params, Model model) {
@@ -750,6 +761,22 @@ public class BustripController {
 
     }
 
+    //해외출장 사전정산 저장시 처리
+    @RequestMapping("/bustrip/setBusiCert")
+    public String setBusiCert(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        try{
+            bustripService.setBusiCert(params);
+            model.addAttribute("rs", "sc");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+
+    }
+
     //출장 기준유가 리스트
     @RequestMapping("/bustrip/getBustripFuelCostList")
     public String getBustripFuelCostList(@RequestParam Map<String, Object> params, Model model){
@@ -878,6 +905,16 @@ public class BustripController {
     public String getPersonalExnpData(@RequestParam Map<String, Object> params, Model model){
 
         List<Map<String, Object>> list = bustripService.getPersonalExnpData(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    /** 출장 여비정산 법인 데이터(지급신청용) */
+    @RequestMapping("/bustrip/getCorpExnpData")
+    public String getCorpExnpData(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = bustripService.getCorpExnpData(params);
         model.addAttribute("list", list);
 
         return "jsonView";

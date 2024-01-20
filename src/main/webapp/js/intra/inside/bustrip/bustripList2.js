@@ -199,9 +199,11 @@ var bustList = {
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
                             }
                         }else{
-                            if(e.STATUS == 100){
+                            if(e.STATUS != "100"){
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
+                            } else if(e.STATUS == "100" && e.BF_EXP_STAT == "0"){
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">사전정산</button>';
-                            } else if(e.BF_EXP_STAT == 100){
+                            } else if(e.STATUS == "100" && e.BF_EXP_STAT == "100"){
                                 return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">사전정산</button>';
                             } else {
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
@@ -212,6 +214,7 @@ var bustList = {
                     title : "결과보고",
                     width: 60,
                     template : function (e){
+                        console.log("결과보고 컬럼 console.log");
                         console.log(e);
                         /** 국내출장 해외출장 분기 */
                         if(e.TRIP_CODE != "4"){
@@ -233,20 +236,15 @@ var bustList = {
                                 return "-";
                             }
                         }else{
-                            if(e.STATUS == 100){
-                                if(e.BF_EXP_STAT == 100){
-                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
-                                }else{
-                                    if(e.RS_STATUS == 100){
-                                        return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
-                                    } else {
-                                        if(e.EXP_STAT == 100){
-                                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>'
-                                        } else {
-                                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>'
-                                        }
-                                    }
-                                }
+                            /** 결과보고 작성 -> 사후정산 -> -> 결과보고 전자결재 */
+                            if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.EXP_STAT == null){
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">결과보고</button>';
+                            } else if(e.EXP_STAT == "0"){
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>';
+                            } else if(e.EXP_STAT == "100" && e.RS_STATUS != "100"){
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>';
+                            } else if(e.RS_STATUS == "100"){
+                                return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결과보고</button>';
                             } else {
                                 return "-";
                             }
@@ -256,12 +254,23 @@ var bustList = {
                     title : "지급신청",
                     width: 80,
                     template : function (e){
-                        if(e.RS_STATUS == 100 && e.EXP_STAT == 100 && e.PAY_APP_SN == null){
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
-                        }else if (e.PAY_APP_SN != null){
-                            return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">지급신청</button>'
+                        /** 국내출장 해외출장 분기 */
+                        if(e.TRIP_CODE != "4"){
+                            if(e.RS_STATUS == 100 && e.EXP_STAT == 100 && e.PAY_APP_SN == null){
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
+                            }else if (e.PAY_APP_SN != null){
+                                return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">지급신청</button>'
+                            }else{
+                                return '-';
+                            }
                         }else{
-                            return '-';
+                            if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.EXP_STAT == null){
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustPop.businessExnp('+e.HR_BIZ_REQ_ID+')">지급신청</button>'
+                            }else if (e.PAY_APP_SN != null){
+                                return '<button type="button" class="k-button k-button-solid-info" onclick="bustPop.businessExnp('+e.HR_BIZ_REQ_ID+', '+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
+                            }else{
+                                return '-';
+                            }
                         }
                     },
                     footerTemplate: "출장완료 여비합계"

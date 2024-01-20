@@ -450,6 +450,119 @@ var regPay = {
             $("#bList").val(blist);
         }
 
+
+
+        if($("#reqType").val() == "business"){
+            const hrBizReqId = $("#hrBizReqId").val();
+            const data = {
+                hrBizReqId : hrBizReqId
+            }
+            const result = customKendo.fn_customAjax("/bustrip/getPersonalExnpData", data);
+            const exnpList = result.list;
+
+            const result2 = customKendo.fn_customAjax("/bustrip/getCorpExnpData", data);
+            const exnpList2 = result2.list;
+
+            console.log("exnpList");
+            console.log(exnpList);
+
+            const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
+
+            if(exnpList[0].PJT_SN != null){
+                var busnClass = pjtMap.BUSN_CLASS;
+                $("#pjtSn").val(pjtMap.PJT_SN);
+                $("#pjtNm").val(pjtMap.PJT_NM);
+                if($("#pjtSn").val() != "" && busnClass == "D" && busnClass == "V"){
+                    selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
+                }else{
+                    selectProject('', '[2024년]법인운영', 'Mm1m124010');
+                }
+            }else {
+                selectProject('', '[2024년]법인운영', 'Mm1m124010');
+            }
+
+            let totalList = exnpList.length;
+            for(let i=0; i < totalList; i++) {
+                regPayDet.addRow();
+            }
+
+            let count = 0;
+            for(let i=0; i < exnpList.length; i++) {
+                const exnpMap = exnpList[i];
+                const index = count;
+
+                /** 개인여비 */
+                $("#eviType" + index).data("kendoDropDownList").value(4);
+                $("#crmNm"+index).val(exnpMap.EXNP_NAME);
+                $("#etc"+index).val(exnpMap.EXNP_NAME+" 개인여비");
+                $("#totCost"+index).val(regPay.comma(exnpMap.PERSON_SUM));
+                $("#supCost"+index).val(regPay.comma(exnpMap.PERSON_SUM));
+
+                const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
+                    searchValue: exnpMap.EXNP_NAME
+                }).list
+                console.log("g20CardList");
+                console.log(g20CardList);
+
+                if(g20CardList.length > 0){
+                    const f = g20CardList[0];
+                    var trCd = f.TR_CD;
+                    var trNm = f.TR_NM;
+                    var cardBaNb = f.CARD_BA_NB;
+                    var jiro = f.JIRO_NM;
+                    var baNb = f.BA_NB;
+                    var depositor = f.DEPOSITOR;
+
+                    if(trNm == null || trNm == "" || trNm == "undefined"){
+                        trNm = "";
+                    }
+                    if(cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined"){
+                        cardBaNb = "";
+                    }
+                    if(baNb == null || baNb == "" || baNb == "undefined"){
+                        baNb = "";
+                    }
+                    if(jiro == null || jiro == "" || jiro == "undefined"){
+                        jiro = "";
+                    }
+                    if(depositor == null || depositor == "" || depositor == "undefined"){
+                        depositor = "";
+                    }
+                    if(trCd == null || trCd == "" || trCd == "undefined"){
+                        trCd = "";
+                    }
+
+                    $("#card" + index).val(trNm);
+                    $("#cardNo" + index).val(cardBaNb);
+                    $("#trCd" + index).val(trCd);
+                    $("#crmBnkNm" + index).val(jiro);
+                    $("#crmAccNo" + index).val(baNb);
+                    $("#crmAccHolder" + index).val(depositor);
+                }
+                count++;
+            }
+
+            console.log("exnpList2");
+            console.log(exnpList2);
+            for(let i=0; i < exnpList2.length; i++) {
+                const exnpMap2 = exnpList2[i];
+                console.log(exnpMap2);
+                const index = count;
+
+                /** 법인 */
+                $("#eviType" + index).data("kendoDropDownList").value(3);
+                $("#crmNm"+index).val(exnpMap2.EXNP_NAME);
+                $("#etc"+index).val(exnpMap2.EXNP_NAME+" 개인여비");
+                $("#totCost"+index).val(regPay.comma(exnpMap2.CORP_SUM));
+                $("#supCost"+index).val(regPay.comma(exnpMap2.CORP_SUM));
+                count++;
+            }
+
+            let blist = "";
+            $("#fileText").text(fileThumbText);
+            $("#bList").val(blist);
+        }
+
         if($("#reqType").val() == "snack"){
             const snackInfoSn = $("#snackInfoSn").val();
             var count = 0;
@@ -1184,6 +1297,16 @@ var regPay = {
             }
         }
 
+        if($("#reqType").val() == "business"){
+            parameters.hrBizReqId = $("#hrBizReqId").val();
+            parameters.linkKey = $("#hrBizReqResultId").val();
+            parameters.linkKeyType = "사전정산";
+
+            if($("#bList").val() != ""){
+                parameters.bList = $("#bList").val();
+            }
+        }
+
         if($("#reqType").val() == "snack"){
             parameters.snackInfoSn = $("#snackInfoSn").val();
             parameters.linkKey = $("#snackInfoSn").val().split(",")[0];
@@ -1338,6 +1461,7 @@ var regPay = {
                     if(type != 'x' && type != 'drafting'){
                         alert("저장되었습니다.");
                     }
+
                     if(type != "drafting"){
                         let status = "";
                         if($("#payAppType").data("kendoRadioGroup").value() == 1){
@@ -1356,7 +1480,12 @@ var regPay = {
                         }
                         location.href = url;
 
-                        opener.parent.paymentList.gridReload();
+                        if($("#reqType").val() != "business"){
+                            opener.parent.paymentList.gridReload();
+                        }else{
+                            opener.location.reload();
+                            opener.opener.gridReload();
+                        }
                     }
                 }
             }

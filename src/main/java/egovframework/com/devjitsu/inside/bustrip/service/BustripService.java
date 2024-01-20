@@ -80,6 +80,8 @@ public interface BustripService {
 
     void setReqCert(Map<String, Object> params);
 
+    void setBusiCert(Map<String, Object> params);
+
     List<Map<String, Object>> getBustripFuelCostList(Map<String, Object> params);
 
     Map<String, Object> getBustripFuelCostInfo(Map<String, Object> params);
@@ -109,4 +111,6 @@ public interface BustripService {
     List<Map<String, Object>> getCardList(Map<String, Object> params);
 
     List<Map<String, Object>> getPersonalExnpData(Map<String, Object> params);
+
+    List<Map<String, Object>> getCorpExnpData(Map<String, Object> params);
 }

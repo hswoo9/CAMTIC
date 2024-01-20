@@ -407,6 +407,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public void setBusiCert(Map<String, Object> params) {
+        bustripRepository.setBusiCert(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getBustripFuelCostList(Map<String, Object> params) {
         return bustripRepository.getBustripFuelCostList(params);
     }
@@ -483,6 +488,15 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public List<Map<String, Object>> getPersonalExnpData(Map<String, Object> params) {
-        return bustripRepository.getPersonalExnpData(params);
+        if(params.containsKey("hrBizReqResultId")){
+            return bustripRepository.getPersonalExnpData(params);
+        }else{
+            return bustripRepository.getPersonalBusiExnpData(params);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getCorpExnpData(Map<String, Object> params) {
+        return bustripRepository.getCorpExnpData(params);
     }
 }

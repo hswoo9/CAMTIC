@@ -98,7 +98,7 @@ var equipmentUsePop = {
                                     dataSource: ds,
                                     index: 0,
                                     change : function(){
-                                        for(let i=0; i<equipmentUsePop.global.list.length; i++){
+                                        /*for(let i=0; i<equipmentUsePop.global.list.length; i++){
                                             if(equipmentUsePop.global.list[i].VALUE == this.value()){
                                                 const empSeq = equipmentUsePop.global.list[i].EMP_SEQ;
                                                 $("#hourlyUsageFee").val(equipmentUsePop.global.list[i].HOURLY_USAGE_FEE);
@@ -113,7 +113,7 @@ var equipmentUsePop = {
 
 
                                             }
-                                        }
+                                        }*/
                                     }
                                 });
                             }
