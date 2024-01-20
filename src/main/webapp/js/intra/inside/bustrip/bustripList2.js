@@ -71,6 +71,13 @@ var bustList = {
                             '	<span class="k-button-text">신청취소</span>' +
                             '</button>';
                     }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustList.fn_checkedReqRegPopup();">' +
+                            '	<span class="k-button-text">지급신청</span>' +
+                            '</button>';
+                    }
                 }
             ],
             dataBound : function(e){
@@ -94,8 +101,9 @@ var bustList = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'bstCheck\');" class=""/>',
                     template: function(row){
-                        if(row.STATUS == 0){
-                            return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_ID+"' style='position: relative; top:3px' class='bstCheck'/>"
+                        console.log(row);
+                        if(row.RS_STATUS == 100 && row.EXP_STAT == 100 && row.PAY_APP_SN == null){
+                            return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_RESULT_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_RESULT_ID+"' trip-code='"+row.TRIP_CODE+"' style='position: relative; top:3px' class='bstCheck'/>"
                         }else{
                             return "";
                         }
@@ -166,7 +174,6 @@ var bustList = {
                     title: "차량",
                     width: 60,
                     template : function (e){
-                        console.log(e);
                         if(e.USE_TRSPT == 1){
                             return "카니발";
                         } else if(e.USE_TRSPT == 5){
@@ -281,7 +288,6 @@ var bustList = {
                         var docStatus = e.DOC_STATUS;
                         var payExnpDe = e.PAY_EXNP_DE;
 
-                        console.log(docStatus);
                         if(payExnpDe != undefined && docStatus != 100){
                             return '미입금';
                         }else if(docStatus == 100){
@@ -364,6 +370,38 @@ var bustList = {
         if(type == 2){
             var url = "/payApp/pop/regPayAppPop.do?payAppSn="+key;
         }
+        var name = "regPayAppPop";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_checkedReqRegPopup : function (){
+        var hrBizReqResultId = "";
+        var flag = true;
+        var tripCode = null;
+
+        $('input[name="bstCheck"]:checked').each(function(){
+            hrBizReqResultId += $(this).val() + ",";
+
+            if (tripCode === null) {
+                tripCode = $(this).attr("trip-code");
+            } else {
+                if (tripCode !== $(this).attr("trip-code")) {
+                    flag = false;
+                }
+            }
+        });
+
+
+        if(!flag){
+            alert("서로 다른 사업은 일괄 지급신청이 불가합니다.");
+            return false;
+        }
+
+        hrBizReqResultId = hrBizReqResultId.substring(0, hrBizReqResultId.length - 1);
+
+        var url = "/payApp/pop/regPayAppPop.do?hrBizReqResultId="+hrBizReqResultId+"&reqType=bustrip";
+
         var name = "regPayAppPop";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);

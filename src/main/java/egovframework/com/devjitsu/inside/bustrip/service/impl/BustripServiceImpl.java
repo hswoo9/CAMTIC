@@ -137,6 +137,15 @@ public class BustripServiceImpl implements BustripService {
     public List<Map<String, Object>> getExnpFileNum(Map<String, Object> params) {
         return bustripRepository.getExnpFileNum(params);
     }
+    @Override
+    public List<Map<String, Object>> getBustripDocFile(Map<String, Object> params) {
+        Map<String, Object> bustripId = bustripRepository.getBustripId(params);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("docId", bustripId.get("docId"));
+
+        return bustripRepository.getBustripDocFile(map);
+    }
 
     @Override
     public Map<String, Object> getBustripOne(Map<String, Object> params) {

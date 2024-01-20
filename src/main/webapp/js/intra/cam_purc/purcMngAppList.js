@@ -86,7 +86,12 @@ var purcMngAppList = {
                     width: 30,
                     template : function (e){
                         console.log(e)
-                        return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' setting='"+e.SETTING+"' value='"+e.CLAIM_SN+"'/>";
+                        var amt = (Number(e.TOT_AMT) - Number(e.REQ_AMT));
+                        if(amt == 0){
+                            return "";
+                        } else {
+                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' setting='"+e.SETTING+"' value='"+e.CLAIM_SN+"'/>";
+                        }
                     }
                 }, {
                     title: "번호",
@@ -180,7 +185,7 @@ var purcMngAppList = {
                     title: "지출요청",
                     width: 65,
                     template : function(e){
-                        var amt = (Number(e.TOT_AMT) - Number(e.REQ_AMT) - Number(e.EXNP_AMT));
+                        var amt = (Number(e.TOT_AMT) - Number(e.REQ_AMT));
                         if(amt == 0){
                             return "";
                         } else {
@@ -204,7 +209,10 @@ var purcMngAppList = {
                         if(e.SETTING != 0){
                             stat = "지급설정완료";
                         }
-                        if((Number(e.TOT_AMT) - Number(e.REQ_AMT) - Number(e.EXNP_AMT)) == 0){
+                        if(e.REQ_AMT != 0){
+                            stat = "지출요청중";
+                        }
+                        if(e.TOT_AMT == e.EXNP_AMT){
                             stat = "지출완료";
                         }
 

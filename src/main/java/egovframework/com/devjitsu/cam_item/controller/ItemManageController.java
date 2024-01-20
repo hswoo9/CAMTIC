@@ -1352,4 +1352,42 @@ public class ItemManageController {
         itemManageService.setDepositConfirm(params);
         return "jsonView";
     }
+
+    /**
+     * 재고조정 엑셀 업로드 팝업
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/itemExcelUploadPop.do")
+    public String itemExcelUploadPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_item/itemExcelUploadPop";
+    }
+
+    /**
+     * 재고조정 양식 다운로드
+     * @param request
+     * @return
+     */
+    @RequestMapping("/item/itemRegTemplateDown.do")
+    public void itemRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        itemManageService.itemRegTemplateDown(request, response);
+    }
+
+    /**
+     * 재고조정 엑셀 업로드
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/esmExcelUpload.do")
+    public String esmExcelUpload(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception{
+        itemManageService.itemExcelUpload(params, request);
+        return "jsonView";
+    }
 }

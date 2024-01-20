@@ -63,4 +63,8 @@ public interface ItemManageService {
     void setCrmSalesConfirm(Map<String, Object> params);
     List<Map<String, Object>> getDepositStatList(Map<String, Object> params);
     void setDepositConfirm(Map<String, Object> params);
+
+    void itemRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws Exception;
+
+    void itemExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
 }

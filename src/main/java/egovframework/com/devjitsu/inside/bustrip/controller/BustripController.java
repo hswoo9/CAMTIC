@@ -833,6 +833,14 @@ public class BustripController {
         return "jsonView";
     }
 
+    /** 결재문서 파일 */
+    @RequestMapping("/bustrip/getBustripDocFile")
+    public String getBustripDocFile(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getBustripDocFile(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /** 하나의 프로젝트에 대한 모든 출장여비 합계 pjtSn */
     @RequestMapping("/bustrip/getBustripExnpSum")
     public String getPurcSum(@RequestParam Map<String, Object> params, Model model){

@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -878,4 +879,137 @@ public class ItemManageServiceImpl implements ItemManageService {
         }
         return dispositionPrefix + encodedFilename;
     }
+
+    @Override
+    public void itemRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String localPath = "/downloadFile/";
+        String fileName = "재고조정 등록 양식.xlsx";
+        File reFile = new File(request.getSession().getServletContext().getRealPath(localPath + fileName));
+
+        Workbook workbook = new XSSFWorkbook(reFile);
+
+        List<Map<String, Object>> dataList = itemManageRepository.getExcelItemInfoList();
+
+        addDataToWorkbook(workbook, dataList);
+
+        downloadExcel(response, workbook, "재고조정 등록 양식.xlsx", request);
+    }
+
+    private void addDataToWorkbook(Workbook workbook, List<Map<String, Object>> dataList) {
+        Sheet sheet = workbook.getSheet("Sheet1");
+
+        int lastRowNum = sheet.getLastRowNum();
+
+        for (int i = 0; i < dataList.size(); i++) {
+            Row row = sheet.createRow(lastRowNum + 1 + i);
+
+            Cell cell1 = row.createCell(0);
+            cell1.setCellValue(String.valueOf(dataList.get(i).get("ERP_EMP_SEQ")));
+
+            Cell cell2 = row.createCell(1);
+            cell2.setCellValue(String.valueOf(dataList.get(i).get("EMP_NAME_KR")));
+        }
+    }
+
+    private void downloadExcel(HttpServletResponse response, Workbook workbook, String fileName, HttpServletRequest request) throws Exception {
+        try (FileOutputStream out = new FileOutputStream(fileName)) {
+            workbook.write(out);
+        }
+
+        File file = new File(fileName);
+
+        response.setContentType("application/octet-stream; charset=utf-8");
+        response.setContentLength((int) file.length());
+        String browser = getBrowser(request);
+        String disposition = setDisposition(fileName, browser);
+        response.setHeader("Content-Disposition", disposition);
+        response.setHeader("Content-Transfer-Encoding", "binary");
+
+        try (OutputStream out = response.getOutputStream();
+             FileInputStream fis = new FileInputStream(file)) {
+            FileCopyUtils.copy(fis, out);
+        }
+
+        file.delete();
+    }
+
+    @Override
+    public void itemExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception {
+        MultipartFile fileNm = request.getFile("itemManageFile");
+
+        File dest = new File(fileNm.getOriginalFilename());
+        fileNm.transferTo(dest);
+
+        XSSFRow row;
+        XSSFCell col0;
+        XSSFCell col1;
+        XSSFCell col2;
+        XSSFCell col3;
+        XSSFCell col4;
+        XSSFCell col5;
+        XSSFCell col6;
+        XSSFCell col7;
+
+        FileInputStream inputStream = new FileInputStream(dest);
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0);
+        int rows = sheet.getPhysicalNumberOfRows();
+
+        for(int i=5; i < rows; i++){
+            Map<String, Object> salaryMap = new HashMap<>();
+
+            row = sheet.getRow(i);
+            col0 = row.getCell(0);
+            col1 = row.getCell(1);
+            col2 = row.getCell(2);
+            col3 = row.getCell(3);
+            col4 = row.getCell(4);
+            col5 = row.getCell(5);
+            col6 = row.getCell(6);
+            col7 = row.getCell(7);
+
+            /*if(row != null){
+                if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") ||
+                        cellValueToString(col4).equals("") || cellValueToString(col5).equals("") ||
+                        cellValueToString(col6).equals("") || cellValueToString(col7).equals("")){
+                    return;
+                } else {
+                    Map<String, Object> dataMap = new HashMap<>();
+                    dataMap.put("startDt", cellValueToString(col2));
+
+                    if(col3 == null){
+                        dataMap.put("endDt", "9999-12-31");
+                    }else{
+                        dataMap.put("endDt", cellValueToString(col3));
+                    }
+
+                    int socialRateSn = Integer.parseInt(String.valueOf(salaryManageRepository.getsocialRateSn(dataMap)));
+
+                    dataMap.put("erpEmpSeq", cellValueToString(col0));
+
+                    int empSeq = Integer.parseInt(String.valueOf(salaryManageRepository.getExcelEmpSeq(dataMap)));
+
+                    salaryMap.put("socialRateSn", socialRateSn);
+                    salaryMap.put("empSeq", empSeq);
+                    salaryMap.put("empName", cellValueToString(col1));
+                    salaryMap.put("startDt", cellValueToString(col2));
+                    salaryMap.put("endDt", cellValueToString(col3));
+                    salaryMap.put("basicSalary", cellValueToString(col4));
+                    salaryMap.put("foodPay", cellValueToString(col5));
+                    salaryMap.put("extraPay", cellValueToString(col6));
+                    salaryMap.put("bonus", cellValueToString(col7));
+                    salaryMap.put("loginEmpSeq", params.get("empSeq"));
+
+                    String BEF_END_DT = LocalDate.parse(salaryMap.get("startDt").toString()).plusDays(-1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                    salaryMap.put("befEndDt", BEF_END_DT);
+                    salaryManageRepository.updBefEndDt(salaryMap);
+
+                    salaryManageRepository.insSalaryManage(salaryMap);
+                }
+            }*/
+        }
+    }
+
 }
