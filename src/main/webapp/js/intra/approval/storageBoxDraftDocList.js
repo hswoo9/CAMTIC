@@ -11,6 +11,13 @@ var storageBoxDraft = {
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
+        let studyDataSource = [
+            { text: "전체", value: "" },
+            { text: "진행중", value: "1" }
+        ]
+        customKendo.fn_dropDownList("search", studyDataSource, "text", "value", 3);
+        $("#search").data("kendoDropDownList").value("1");
+
         storageBoxDraft.gridReload();
     },
 
@@ -144,7 +151,7 @@ var storageBoxDraft = {
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
-            approveStat : "draft",
+            approveStat : $("#search").data("kendoDropDownList").value() != "1" ? "draft" : "draft2",
         }
 
         storageBoxDraft.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxDraft.global.searchAjaxData);
