@@ -240,8 +240,12 @@
                             <input type="text" id="busnClass" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">진행단계</th>
-                        <td colspan="3">
+                        <td>
                             <input type="text" id="busnSubClass" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">PM</th>
+                        <td>
+                            <input type="text" id="empName" style="width: 150px;">
                         </td>
                     </tr>
                     <tr>

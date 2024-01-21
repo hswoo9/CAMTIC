@@ -499,16 +499,28 @@ var draft = {
                 }
             }
         }
+        draft.global.fileUploaded= ([...new Map(draft.global.fileUploaded.map((obj) => [obj["name"], obj])).values()]);
     },
 
     setKendoUpload : function(){
+
+        const fileArr = ([...new Map(draft.global.fileUploaded.map((obj) => [obj["name"], obj])).values()]);
+
+        console.log("fileArr", fileArr)
+        let upload = $("#files").data("kendoUpload");
+
+        if(upload){
+            upload.clearAllFiles()
+            upload.destroy();
+        }
+
         $("#files").kendoUpload({
             async : {
                 saveUrl : "/approval/setApproveDraftFileInit.do",
                 //removeUrl : "remove",
                 autoUpload : false
             },
-            files : draft.global.fileUploaded,
+            files : fileArr,
             localization : {
                 select : "파일업로드",
                 dropFilesHere : ""
@@ -525,13 +537,16 @@ var draft = {
     },
 
     onRemove(e){
-        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
-            e.data = {
-                fileNo : e.files[0].fileNo
-            };
-            customKendo.fn_customAjax(getContextPath() + "/common/commonFileDel.do", e.data);
-        }else{
-            e.preventDefault();
+        if(e.files == undefined){
+            if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+                console.log(e)
+                e.data = {
+                    fileNo : e.files[0].fileNo
+                };
+                customKendo.fn_customAjax("/common/commonFileDel", e.data);
+            }else{
+                e.preventDefault();
+            }
         }
     },
 

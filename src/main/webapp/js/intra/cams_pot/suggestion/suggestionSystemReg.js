@@ -75,7 +75,7 @@ var ssr = {
 		$("#files").kendoUpload({
 			async : {
 				saveUrl : getContextPath() + "/spot/setCustomBoardFileInit.do",
-				removeUrl : getContextPath() + "/common/commonFileDel.do",
+				removeUrl : "/common/commonFileDel",
 				autoUpload : false
 			},
 			files : ssr.global.fileUploaded,
@@ -99,7 +99,7 @@ var ssr = {
 			e.data = {
 				fileNo : e.files[0].fileNo
 			};
-			customKendo.fn_customAjax(getContextPath() + "/common/commonFileDel.do", e.data);
+			customKendo.fn_customAjax("/common/commonFileDel", e.data);
 		}else{
 			e.preventDefault();
 		}

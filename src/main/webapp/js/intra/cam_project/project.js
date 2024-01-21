@@ -2,7 +2,7 @@ let sum=0;
 var camPrj = {
 
     fn_defaultScript : function (){
-        customKendo.fn_textBox(["deptName", "searchText"]);
+        customKendo.fn_textBox(["deptName", "searchText", "empName"]);
 
         var bcDsData = {
             cmGroupCode : "BUSN_CLASS",
@@ -61,6 +61,12 @@ var camPrj = {
             index: 0
         });
 
+        $("#empName").on("keyup", function(key){
+            if(key.keyCode == 13){
+                camPrj.mainGrid();
+            }
+        })
+
         this.mainGrid();
     },
 
@@ -88,6 +94,7 @@ var camPrj = {
                     data.deptSeq = $("#deptSeq").val();
                     data.regEmpSeq = $("#regEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
+                    data.empName = $("#empName").val();
                     return data;
                 }
             },

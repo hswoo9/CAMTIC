@@ -142,7 +142,7 @@ var hwpInit = {
 
         /** 1. 구매요청서 데이터 */
         hwpDocCtrl.putFieldText('DOC_NUM', "");
-        hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
+        hwpDocCtrl.putFieldText('TO_DATE', result.PURC_REQ_DATE);
         hwpDocCtrl.putFieldText('DEPT_NAME', result.DEPT_NAME);
         hwpDocCtrl.putFieldText('EMP_NAME', result.EMP_NAME_KR);
         hwpDocCtrl.putFieldText('PURC_REQ_PURPOSE', result.PURC_REQ_PURPOSE);
