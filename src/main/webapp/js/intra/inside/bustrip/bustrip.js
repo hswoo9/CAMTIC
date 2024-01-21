@@ -21,7 +21,8 @@ var bustrip = {
             tripCodeDataSource = [
                 { label: "도내(시내)", value: "1" },
                 { label: "도내(시외)", value: "2" },
-                { label: "도외", value: "3" }
+                { label: "도외", value: "3" },
+                { label: "해외", value: "4" }
             ]
         }else{
             tripCodeDataSource = [
@@ -39,8 +40,15 @@ var bustrip = {
                 $("#carLine").css("display", "none");
                 $("#carList").data("kendoDropDownList").select(0);
                 $("#car1").prop("checked", true);
+                business.fn_nationCodeSet();
+                $(".bustripTh").hide();
+                $(".businessTh").show();
+                $("#nationList").data("kendoDropDownList").value(busInfo.NATION_CODE);
+                $("#nationList").data("kendoDropDownList").trigger("change");
             } else {
                 $("#carLine").css("display", "");
+                $(".bustripTh").show();
+                $(".businessTh").hide();
             }
         })
     },
