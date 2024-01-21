@@ -17,21 +17,12 @@ var bustrip = {
     /** 출장코드 세팅 */
     fn_tripCodeSet: function(){
         let tripCodeDataSource;
-        if($("#paramsTripCode").val() == "" && $("#hrBizReqId").val() == ""){
-            tripCodeDataSource = [
-                { label: "도내(시내)", value: "1" },
-                { label: "도내(시외)", value: "2" },
-                { label: "도외", value: "3" },
-                { label: "해외", value: "4" }
-            ]
-        }else{
-            tripCodeDataSource = [
-                { label: "도내(시내)", value: "1" },
-                { label: "도내(시외)", value: "2" },
-                { label: "도외", value: "3" },
-                { label: "해외", value: "4" }
-            ]
-        }
+        tripCodeDataSource = [
+            { label: "도내(시내)", value: "1" },
+            { label: "도내(시외)", value: "2" },
+            { label: "도외", value: "3" },
+            { label: "해외", value: "4" }
+        ]
         customKendo.fn_radioGroup("tripCode", tripCodeDataSource, "horizontal");
         $("#tripCode").data("kendoRadioGroup").value("1");
 

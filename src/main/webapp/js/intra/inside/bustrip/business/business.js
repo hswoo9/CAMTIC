@@ -4,8 +4,6 @@ var business = {
     },
 
     busiCk: function(){
-        $("#tripCode").data("kendoRadioGroup").value(4);
-        $("#tripCode").data("kendoRadioGroup").enable(false);
         $("#tripCode").data("kendoRadioGroup").trigger("change");
 
         business.fn_nationCodeSet();

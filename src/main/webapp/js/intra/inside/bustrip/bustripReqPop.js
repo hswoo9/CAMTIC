@@ -48,11 +48,6 @@ const bustripReq = {
             $("#busnName").val(pjtMap.PJT_NM);
 
         }
-
-        /** 해외출장 메뉴에서 신청하면 자동으로 바인딩*/
-        if($("#paramsTripCode").val() == "4"){
-            business.busiCk();
-        }
     },
 
     dataSet: function(){
