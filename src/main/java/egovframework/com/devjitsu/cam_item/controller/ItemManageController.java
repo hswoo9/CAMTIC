@@ -1406,4 +1406,16 @@ public class ItemManageController {
         model.addAttribute("loginVO", loginVO);
         return "popup/cam_item/invenAdjustmentPop";
     }
+
+    @RequestMapping("/item/getItemInvenAdjustList.do")
+    public String getItemInvenAdjustList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getItemInvenAdjustList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/item/setItemInvenAdjust.do")
+    public String setItemInvenAdjust(@RequestParam Map<String, Object> params, Model model){
+        itemManageService.setItemInvenAdjust(params);
+        return "jsonView";
+    }
 }

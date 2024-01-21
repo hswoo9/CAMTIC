@@ -62,9 +62,12 @@ public interface ItemManageService {
     List<Map<String, Object>> getCrmSalesConfirmList(Map<String, Object> params);
     void setCrmSalesConfirm(Map<String, Object> params);
     List<Map<String, Object>> getDepositStatList(Map<String, Object> params);
+    List<Map<String, Object>> getItemInvenAdjustList(Map<String, Object> params);
     void setDepositConfirm(Map<String, Object> params);
 
     void itemRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
     void itemExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
+
+    void setItemInvenAdjust(Map<String, Object> params);
 }

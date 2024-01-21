@@ -73,7 +73,7 @@ var invenStAdmin = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox" onclick="fn_checkAll(\'checkAll\', \'agiPk\');"/>',
-                    template : "<input type='checkbox' id='agiPk#=MASTER_SN#' name='agiPk' value='#=MASTER_SN#' class='k-checkbox checkbox'/>",
+                    template : "<input type='checkbox' id='agiPk#=INVEN_SN#' name='agiPk' value='#=INVEN_SN#' class='k-checkbox checkbox'/>",
                     width : 35
                 }, {
                     title: "창고",
@@ -292,9 +292,14 @@ var invenStAdmin = {
     },
 
     fn_invenAdjustment : function (){
-        var grid = $("#mainGrid").data("kendoGrid");
+        var invenSn = "";
+        $('input[name="agiPk"]:checked').each(function(){
+            invenSn += $(this).val() + ",";
+        });
 
-        var url = "/item/pop/invenAdjustmentPop.do";
+        invenSn = invenSn.substring(0, invenSn.length - 1);
+
+        var url = "/item/pop/invenAdjustmentPop.do?invenSn=" + invenSn;
         var name = "_blank";
         var option = "width = 1680, height = 400, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);

@@ -18,13 +18,16 @@
     }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
+
+<input type="hidden" id="invenSn" value="${params.invenSn}" />
+<input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
     <div style="padding:0;">
         <div class="table-responsive">
             <div class="card-header pop-header">
                 <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">재고조정</span>
                 </h3>
                 <div class="btn-st popButton">
-                    <button type="button" class="k-button k-button-solid-info" onclick="invenTr.setInvenTransferReg()">저장</button>
+                    <button type="button" class="k-button k-button-solid-info" onclick="invenAdjust.fn_save()">저장</button>
                     <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
                 </div>
             </div>
@@ -54,20 +57,12 @@
 
                     </tbody>
                 </table>
-
-                <input type="hidden" id="invenSn">
-                <input type="hidden" id="masterSn">
-                <input type="hidden" id="itemNo">
-                <input type="hidden" id="itemName">
-                <input type="hidden" id="currentInven">
-                <input type="hidden" id="whCd">
-                <input type="hidden" id="whCdNm">
             </div>
         </div>
     </div><!-- col-md-9 -->
 
-    <script type="text/javascript">
-        invenAdjust.fn_defaultScript();
-    </script>
+<script type="text/javascript">
+    invenAdjust.fn_defaultScript();
+</script>
 </body>
 </html>

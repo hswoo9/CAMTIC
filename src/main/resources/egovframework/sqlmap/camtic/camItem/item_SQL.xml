@@ -1977,4 +1977,26 @@
         WHERE
             INVEN_SN = #{invenSn}
     </update>
+
+    <select id="getItemInvenAdjustList" parameterType="map" resultType="map">
+        /* getItemInvenAdjustList */
+        SELECT
+            II.INVEN_SN AS invenSn,
+            WHC.ITEM_CD_NM AS WH_CD_NM,
+            ITEM_NAME AS itemName,
+            CURRENT_INVEN AS currentInven,
+            ACTUAL_INVEN AS actualInven,
+            INVEN_AJM invenAjm,
+            IFNULL(INVEN_AJM_NOTE, '') AS invenAjmNote
+        FROM
+            CAM_ITEM.DJ_ITEM_INVENTORY II
+                JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+            ON IM.MASTER_SN = II.MASTER_SN
+                JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+            ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
+        WHERE
+            II.INVEN_SN IN (${invenSnArr})
+    </select>
 </mapper>

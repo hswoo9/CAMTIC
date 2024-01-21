@@ -93,4 +93,8 @@ public class ItemManageRepository extends AbstractDAO {
     }
 
     public void setInvenActual(Map<String, Object> params) { update("item.setInvenActual", params);}
+
+    public List<Map<String, Object>> getItemInvenAdjustList(Map<String, Object> params) {
+        return selectList("item.getItemInvenAdjustList", params);
+    }
 }

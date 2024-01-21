@@ -743,6 +743,10 @@ public class ItemManageServiceImpl implements ItemManageService {
     public List<Map<String, Object>> getItemInvenAdminList(Map<String, Object> params) {
         return itemManageRepository.getItemInvenAdminList(params);
     }
+    @Override
+    public List<Map<String, Object>> getItemInvenAdjustList(Map<String, Object> params) {
+        return itemManageRepository.getItemInvenAdjustList(params);
+    }
 
     @Override
     public Map<String, Object> getItemInven(Map<String, Object> params) {
@@ -1037,6 +1041,18 @@ public class ItemManageServiceImpl implements ItemManageService {
 
                     itemManageRepository.setInvenActual(itemMap);
                 }
+            }
+        }
+
+    }
+
+    @Override
+    public void setItemInvenAdjust(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> adjustArr = gson.fromJson((String) params.get("adjustArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        if(adjustArr.size() > 0){
+            for(Map<String, Object> map : adjustArr){
+                itemManageRepository.setInvenActual(map);
             }
         }
 
