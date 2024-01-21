@@ -422,6 +422,10 @@
         AND
             RB.STATUS = #{status}
         </if>
+        <if test='empName != null and !"".equals(empName)'>
+            AND
+                EI.EMP_NAME_KR LIKE CONCAT('%', #{empName} ,'%')
+        </if>
 
         <if test='startDt != null and !"".equals(startDt)'>
         <![CDATA[

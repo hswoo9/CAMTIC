@@ -59,36 +59,42 @@ public class MainController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        if(session.getAttribute("LoginVO") != null){
+
         // 사용자 정보
-        params.put("empSeq", loginVO.getUniqId());
-        params.put("deptSeq",loginVO.getOrgnztId());
+            params.put("empSeq", loginVO.getUniqId());
+            params.put("deptSeq",loginVO.getOrgnztId());
 
-        // 나머지 검색 조건
-        params.put("approveStat", "draft");
-        params.put("approveType", "wait");
-        params.put("resType", "Y");
-        params.put("startDay", "");
-        params.put("endDay", "");
+            // 나머지 검색 조건
+            params.put("approveStat", "draft");
+            params.put("approveType", "wait");
+            params.put("resType", "Y");
+            params.put("startDay", "");
+            params.put("endDay", "");
 
-        // 오늘 날짜를 "YYYY-MM-DD" 형식으로 설정
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedToday = today.format(formatter);
+            // 오늘 날짜를 "YYYY-MM-DD" 형식으로 설정
+            LocalDate today = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedToday = today.format(formatter);
 
-        params.put("selectedDate", formattedToday);
-        params.put("publicClass", "");
+            params.put("selectedDate", formattedToday);
+            params.put("publicClass", "");
 
-        int strStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
-        int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
-        int scheduleStatus = customBoardService.getTodayScheduleList(params).size();
+            int strStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
+            int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
+            int scheduleStatus = customBoardService.getTodayScheduleList(params).size();
 
-        model.addAttribute("strStatus", strStatus);
-        model.addAttribute("waitStatus", waitStatus);
-        model.addAttribute("scheduleStatus", scheduleStatus);
-        model.addAttribute("menuList", commonService.getMenuFullJsonString(loginVO));
-        model.addAttribute("loginVO", loginVO);
+            model.addAttribute("strStatus", strStatus);
+            model.addAttribute("waitStatus", waitStatus);
+            model.addAttribute("scheduleStatus", scheduleStatus);
+            model.addAttribute("menuList", commonService.getMenuFullJsonString(loginVO));
+            model.addAttribute("loginVO", loginVO);
 
-        return "indexB";
+
+            return "indexB";
+        } else {
+            return "login";
+        }
     }
 
     @RequestMapping("/indexBMain.do")

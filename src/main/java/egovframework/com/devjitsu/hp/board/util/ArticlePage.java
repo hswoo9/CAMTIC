@@ -13,6 +13,8 @@ public class ArticlePage {
     private String publicClass;
     private String selectedDate;
 
+    private String empName;
+
     private String suggestionType;
     private String status;
     private String startDt;
@@ -108,5 +110,11 @@ public class ArticlePage {
     public void setPagination(Pagination pagination) {this.pagination = pagination;}
 
 
+    public String getEmpName() {
+        return empName;
+    }
 
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
 }

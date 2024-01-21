@@ -68,11 +68,14 @@
             <input type="hidden" id="requestType" value="${params.requestType}">
             <table class="searchTable table table-bordered mb-0" style="border: 1px solid #dedfdf;">
                 <colgroup>
-                    <col width="8%">
-                    <col width="10%">
-                    <col width="8%">
-                    <col width="17%">
-                    <col width="8%">
+                    <col width="7%">
+                    <col width="7%">
+                    <col width="7%">
+                    <col width="18%">
+                    <col width="7%">
+                    <col width="13%">
+                    <col width="7%">
+                    <col width="30%">
                     <col>
                 </colgroup>
                 <tbody>
@@ -85,6 +88,10 @@
                     <td>
                         <input type="text" id="startDt" style="width: 110px;"> ~
                         <input type="text" id="endDt" style="width: 110px;">
+                    </td>
+                    <th class="text-center th-color">요청자</th>
+                    <td>
+                        <input type="text" id="empName" style="width: 150px;">
                     </td>
                     <th class="text-center th-color">검색</th>
                     <td>

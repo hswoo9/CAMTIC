@@ -178,13 +178,13 @@ var crmSi = {
             formData.append("crmFile", $("#crmFile")[0].files[0]);
         }
 
-        if($("#crmLics")[0].files.length == 1){
-            formData.append("crmLics", $("#crmLics")[0].files[0]);
-        }
+        // if($("#crmLics")[0].files.length == 1){
+        //     formData.append("crmLics", $("#crmLics")[0].files[0]);
+        // }
 
-        if($("#bnCp")[0].files.length == 1){
-            formData.append("bnCp", $("#bnCp")[0].files[0]);
-        }
+        // if($("#bnCp")[0].files.length == 1){
+        //     formData.append("bnCp", $("#bnCp")[0].files[0]);
+        // }
 
         $.ajax({
             url : "/crm/setCrmInfo",

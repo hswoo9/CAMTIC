@@ -31,7 +31,13 @@ var rbl = {
 		]
 
 		customKendo.fn_dropDownList("searchColumn", rbl.global.dropDownDataSource, "text", "value");
-		customKendo.fn_textBox(["searchContent"]);
+		customKendo.fn_textBox(["searchContent", "empName"]);
+
+        $("#empName").on("keyup", function(key){
+            if(key.keyCode == 13){
+                rbl.gridReload();
+            }
+        });
 
 		rbl.gridReload();
 	},
@@ -71,6 +77,7 @@ var rbl = {
 			status : $("#status").val(),
 			startDt : $("#startDt").val(),
 			endDt : $("#endDt").val(),
+            empName : $("#empName").val(),
 			searchColumn : $("#searchColumn").val(),
 			searchContent : $("#searchContent").val(),
 		}
