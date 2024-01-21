@@ -192,6 +192,10 @@ var draft = {
             }
         });
 
+        $("#docTitle").on("focusout", function(){
+            hwpDocCtrl.putFieldText('결재제목', $("#docTitle").val());
+        });
+
         draft.initOfficialAppr();
     },
 
