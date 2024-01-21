@@ -69,7 +69,7 @@
             events: a,
             editable: 0,
             droppable: !0,
-            eventLimit: 2, // 한 날짜에 표시할 수 있는 이벤트 개수 제한
+            eventLimit: 5, // 한 날짜에 표시할 수 있는 이벤트 개수 제한
             eventLimitText: "더보기", // 더보기 링크 텍스트 설정
             selectable: !0,
             drop: function(t) {
