@@ -13,6 +13,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -35,7 +37,29 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.removeAttribute("menuNm");
         model.addAttribute("params", params);
-        return "login";
+
+        if(session.getAttribute("LoginVO") != null){
+            return "redirect:indexB.do";
+        } else {
+            return "login";
+        }
+    }
+
+    /**
+     * 로그아웃
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/logoutAction")
+    public String logout(HttpServletRequest request, ModelMap model){
+        HttpSession session = request.getSession();
+
+
+        RequestContextHolder.getRequestAttributes().removeAttribute("loginVO", RequestAttributes.SCOPE_SESSION);
+        session.invalidate();
+
+        return "redirect:login.do";
     }
 
     @RequestMapping("/loginAccess")

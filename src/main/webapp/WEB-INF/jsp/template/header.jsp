@@ -114,7 +114,7 @@
               </ul>-->
             </div>
           </li>
-          <li class="tooltips" data-toggle="tooltip" title="Log Out" style="margin-top:13px; font-size:25px;"><a href="/login.do"><i class="fa fa-sign-out"></i></a></li>
+          <li class="tooltips" data-toggle="tooltip" title="Log Out" style="margin-top:13px; font-size:25px;"><a href="/logoutAction"><i class="fa fa-sign-out"></i></a></li>
         </ul>
       </div><!-- header-right -->
     </div><!-- headerbar -->
