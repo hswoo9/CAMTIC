@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/business/business.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
@@ -139,10 +140,16 @@
                         <label for="crmYn">CRM 연계</label>
                     </span>
                 </td>
-                <th><span class="red-star">*</span>출장지역</th>
-                <td>
+                <th class="bustripTh"><span class="red-star">*</span>출장지역</th>
+                <td class="bustripTh">
                     <input id="visitLoc" style="width: 75%;">
                     <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="bustripResultPop.addrSearch();"/>
+                </td>
+
+                <th class="businessTh" style="display: none"><span class="red-star">*</span>출장국가</th>
+                <td class="businessTh" style="display: none">
+                    <input id="nationList" style="width: 75%;" />
+                    <span style="margin-left: 3px; color: red" id="nationText"></span>
                 </td>
             </tr>
             <tr>
@@ -180,7 +187,7 @@
                     <textarea id="bustObj" style="width: 100%; height: 60px"></textarea>
                 </td>
             </tr>
-            <tr>
+            <tr class="bustripTr">
                 <th><span class="red-star">*</span>운행거리</th>
                 <td colspan="3">
                     <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%; text-align: right"> km
@@ -190,7 +197,7 @@
                     [<a href="#" onclick="bustripResultPop.boardViewPop()" target="_blank">이용방법 보기</a>]
                 </td>
             </tr>
-            <tr>
+            <tr class="bustripTr">
                 <th><span class="red-star">*</span>운행자</th>
                 <td>
                     <input type="text" id="realDriver" />

@@ -271,7 +271,10 @@ var bustList = {
                                 return '-';
                             }
                         }else{
-                            if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.EXP_STAT == null){
+                            console.log(e.BF_EXP_STAT);
+                            console.log(e.PAY_APP_SN == null);
+                            console.log(e.BF_EXP_STAT == "100" && e.PAY_APP_SN == null);
+                            if(e.BF_EXP_STAT == "100" && e.PAY_APP_SN == null){
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustPop.businessExnp('+e.HR_BIZ_REQ_ID+')">지급신청</button>'
                             }else if (e.PAY_APP_SN != null){
                                 return '<button type="button" class="k-button k-button-solid-info" onclick="bustPop.businessExnp('+e.HR_BIZ_REQ_ID+', '+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'

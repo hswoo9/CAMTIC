@@ -120,6 +120,13 @@ var bustripResultPop = {
         /** 첨부파일 */
         bustripInit.settingTempFileDataInit(fileInfo);
 
+        /** 해외출장일시 폼 변경 */
+        if(busInfo.TRIP_CODE == "4"){
+            business.busiCk();
+            $("#nationList").data("kendoDropDownList").value(busInfo.NATION_CODE);
+            $("#nationList").data("kendoDropDownList").trigger("change");
+        }
+
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
         if($("#mod").val() == "mng"){
             $(':radio:not(:checked)').attr('disabled', true);
@@ -282,11 +289,17 @@ var bustripResultPop = {
         /** 출장목적 */
         $("#bustObj").val(resInfo.TITLE);
 
-        /** 운행거리 */
-        $("#moveDst").val(resInfo.MOVE_DST);
-
-        /** 운행자 */
-        $("#realDriver").data("kendoDropDownList").value(resInfo.DRIVER_EMP_SEQ);
+        /** 해외출장일시 폼 변경 */
+        if(resInfo.TRIP_CODE == "4"){
+            business.busiCk();
+            $("#nationList").data("kendoDropDownList").value(resInfo.NATION_CODE);
+            $("#nationList").data("kendoDropDownList").trigger("change");
+        }else{
+            /** 운행거리 */
+            $("#moveDst").val(resInfo.MOVE_DST);
+            /** 운행자 */
+            $("#realDriver").data("kendoDropDownList").value(resInfo.DRIVER_EMP_SEQ);
+        }
 
         /** 출장 결과 */
         $("#result").val(resInfo.RESULT);
@@ -330,7 +343,9 @@ var bustripResultPop = {
             $("#moveBtn").css("display", "none");
             $("#highpassBtn").css("display", "none");
 
-            $("#realDriver").data("kendoDropDownList").enable(false);
+            if(resInfo.TRIP_CODE != "4"){
+                $("#realDriver").data("kendoDropDownList").enable(false);
+            }
 
             $("#result").data("kendoTextArea").enable(false);
 
@@ -352,9 +367,11 @@ var bustripResultPop = {
         if($("#tripCode").data("kendoRadioGroup").value() != 4 && $("#tripCode").data("kendoRadioGroup").value() != "") {
             if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
         }
-        if($("#realDriver").val() == ""){ alert("운행자를 선택해주세요."); return; }
+        if($("#tripCode").data("kendoRadioGroup").value() != 4){
+            if($("#realDriver").val() == ""){ alert("운행자를 선택해주세요."); return; }
+            if($("#moveDst").val() == ""){ alert("운행거리를 입력해주세요."); return; }
+        }
         if($("#result").val() == ""){ alert("출장결과를 입력해주세요."); return; }
-        if($("#moveDst").val() == ""){ alert("운행거리를 입력해주세요."); return; }
 
         var formData = new FormData();
         formData.append("menuCd", "bustripResReq");
@@ -381,6 +398,17 @@ var bustripResultPop = {
             formData.append("crmSn", "99999999");
         }
         formData.append("visitCrm", $("#visitCrm").val());
+
+        if($("#tripCode").data("kendoRadioGroup").value() != "4"){
+            formData.append("visitLoc", $("#visitLoc").val());
+            formData.append("moveDst", $("#moveDst").val());
+            formData.append("driverEmpSeq", $("#realDriver").val());
+            formData.append("realDriver", $("#realDriver").val());
+        }else{
+            formData.append("visitLoc", $("#nationList").data("kendoDropDownList").text());
+            formData.append("nationCode", $("#nationList").data("kendoDropDownList").value());
+            formData.append("moveDst", "0");
+        }
         formData.append("visitLoc", $("#visitLoc").val());
         formData.append("visitLocSub", $("#visitLocCode").val() == "999" || $("#visitLocCode").val() == "" ? $("#visitLocSub").val() : $("#visitLocCode").data("kendoDropDownList").text());
         formData.append("visitLocCode", $("#visitLocCode").val());
@@ -391,9 +419,6 @@ var bustripResultPop = {
         formData.append("useCar", "Y");
         formData.append("useTrspt", $("#carList").val());
         formData.append("title", $("#bustObj").val());
-        formData.append("moveDst", $("#moveDst").val());
-        formData.append("driverEmpSeq", $("#realDriver").val());
-        formData.append("realDriver", $("#realDriver").val());
         formData.append("result", $("#result").val());
 
         formData.append("companionChangeCheck", $("#companionChangeCheck").val());

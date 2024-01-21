@@ -232,7 +232,9 @@ public class BustripController {
 
         List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
         List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
-        model.addAttribute("rs", bustripService.getBustripOne(params));
+
+        Map<String, Object> data = bustripService.getBustripOne(params);
+        model.addAttribute("rs", data);
 
         if(exnpData.size() == 0){
             model.addAttribute("list", list);
@@ -246,7 +248,12 @@ public class BustripController {
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
-        return "popup/inside/bustrip/bustripExnpPop";
+
+        if(!"4".equals(data.get("TRIP_CODE").toString())){
+            return "popup/inside/bustrip/bustripExnpPop";
+        }else{
+            return "popup/inside/bustrip/bustripExnpPop2";
+        }
     }
 
     @RequestMapping("/bustrip/pop/businessExnpPop.do")
@@ -508,6 +515,18 @@ public class BustripController {
         model.addAttribute("fileInfo", bustripService.getBustripReqFileInfo(params));
 
         return "/popup/bustrip/approvalFormPopup/bustripResApprovalPop";
+    }
+
+    /**
+     * 여비리스트 (사전정산)
+     * @param params
+     * @return
+     */
+    @RequestMapping(value = "/inside/getBusinessExnpInfo")
+    public String getBusinessExnpInfo(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = bustripService.getBusinessExnpInfo(params);
+        model.addAttribute("list", list);
+        return "jsonView";
     }
 
     /**

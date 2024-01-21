@@ -44,7 +44,7 @@
                         <span class="red-star"></span><b>사전정산</b>
                     </th>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star"></span><b>사후정상</b>
+                        <span class="red-star"></span><b>사후정산</b>
                     </th>
                 </tr>
                 <tr id="buttonTr">

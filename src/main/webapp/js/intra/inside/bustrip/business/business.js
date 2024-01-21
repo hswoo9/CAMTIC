@@ -3,6 +3,20 @@ var business = {
         nationList: []
     },
 
+    busiCk: function(){
+        $("#tripCode").data("kendoRadioGroup").value(4);
+        $("#tripCode").data("kendoRadioGroup").enable(false);
+        $("#tripCode").data("kendoRadioGroup").trigger("change");
+
+        business.fn_nationCodeSet();
+        $(".bustripTh").hide();
+        $(".businessTh").show();
+
+        if($("#pageName").val() == "bustripResultPop"){
+            $(".bustripTr").hide();
+        }
+    },
+
     /** 나라 세팅 */
     fn_nationCodeSet: function(){
         const nationArr = customKendo.fn_customAjax('/bustrip/getNationCode').list;

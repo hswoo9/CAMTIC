@@ -213,6 +213,9 @@
                 TITLE,
                 USE_CAR,
                 USE_TRSPT,
+            <if test="nationCode != null and !''.equals(nationCode)">
+                NATION_CODE,
+            </if>
                 REG_EMP_SEQ,
                 REG_EMP_NAME,
                 REPORT_DATE,
@@ -245,6 +248,9 @@
                 #{title},
                 #{useCar},
                 #{useTrspt},
+            <if test="nationCode != null and !''.equals(nationCode)">
+                #{nationCode},
+            </if>
                 #{empSeq},
                 #{empName},
                 DATE_FORMAT(now(), '%Y-%m-%d'),
@@ -448,6 +454,9 @@
             TITLE = #{title},
             USE_CAR = #{useCar},
             USE_TRSPT = #{useTrspt},
+        <if test="nationCode != null and !''.equals(nationCode)">
+            NATION_CODE = #{nationCode},
+        </if>
             MOD_EMP_SEQ = #{empSeq},
             RESULT = #{result},
             DRIVER_EMP_SEQ = #{driverEmpSeq},
