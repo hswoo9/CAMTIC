@@ -521,7 +521,7 @@ var draft = {
         $("#files").kendoUpload({
             async : {
                 saveUrl : "/approval/setApproveDraftFileInit.do",
-                //removeUrl : "remove",
+                removeUrl : "/common/commonFileDel",
                 autoUpload : false
             },
             files : fileArr,
@@ -541,16 +541,19 @@ var draft = {
     },
 
     onRemove(e){
+        console.log("e");
+        console.log(draft.global.params.mod == "W");
+        console.log(e.files == undefined)
         /** 상신/재상신 삭제 분기 */
         if(draft.global.params.mod == "W"){
             $(this).parent().parent().remove();
         }else{
-            if(e.files == undefined){
+            if(e.files != null){
                 if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
-                    console.log(e)
                     e.data = {
                         fileNo : e.files[0].fileNo
                     };
+                    return;
                     customKendo.fn_customAjax("/common/commonFileDel", e.data);
                 }else{
                     e.preventDefault();
@@ -884,7 +887,6 @@ var draft = {
 
                     draft.approveKendoSetting();
                 }else{
-                    alert("처리되었습니다.");
                     var result = draft.setAlarmEvent();
                     if(result.rs != "SUCCESS"){
                         alert(result.message);
@@ -892,7 +894,23 @@ var draft = {
 
                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                         $("#files").data("kendoUpload").upload();
+
+                        setTimeout(function() {
+                            alert("처리되었습니다.");
+                            try {
+                                opener.parent.gridReload();
+                            }catch{
+
+                            }
+                            try{
+                                opener.opener.gridReload();
+                            }catch{
+
+                            }
+                            window.close();
+                        }, 3000);
                     }else{
+                        alert("처리되었습니다.");
                         try {
                             opener.parent.gridReload();
                         }catch{
@@ -952,6 +970,21 @@ var draft = {
 
                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                         $("#files").data("kendoUpload").upload();
+
+                        setTimeout(function() {
+                            alert("처리되었습니다.");
+                            try {
+                                opener.parent.gridReload();
+                            }catch{
+
+                            }
+                            try{
+                                opener.opener.gridReload();
+                            }catch{
+
+                            }
+                            window.close();
+                        }, 3000);
                     }else{
                         try {
                             opener.parent.gridReload();
