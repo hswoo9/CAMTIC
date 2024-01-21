@@ -192,6 +192,10 @@ var draft = {
             }
         });
 
+        $("#docTitle").on("focusout", function(){
+            hwpDocCtrl.putFieldText('결재제목', $("#docTitle").val());
+        });
+
         draft.initOfficialAppr();
     },
 
@@ -537,15 +541,20 @@ var draft = {
     },
 
     onRemove(e){
-        if(e.files == undefined){
-            if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
-                console.log(e)
-                e.data = {
-                    fileNo : e.files[0].fileNo
-                };
-                customKendo.fn_customAjax("/common/commonFileDel", e.data);
-            }else{
-                e.preventDefault();
+        /** 상신/재상신 삭제 분기 */
+        if(draft.global.params.mod == "W"){
+            $(this).parent().parent().remove();
+        }else{
+            if(e.files == undefined){
+                if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+                    console.log(e)
+                    e.data = {
+                        fileNo : e.files[0].fileNo
+                    };
+                    customKendo.fn_customAjax("/common/commonFileDel", e.data);
+                }else{
+                    e.preventDefault();
+                }
             }
         }
     },

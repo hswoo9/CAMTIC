@@ -34,12 +34,18 @@
                             <col width="10%">
                             <col width="25%">
                             <col width="10%">
+                            <col width="10%">
+                            <col width="10%">
                             <col width="auto">
                         </colgroup>
                         <tr>
                             <th class="text-center th-color">조회기간</th>
                             <td>
                                 <input type="text" id="startDay" style="width: 45%;"> ~ <input type="text" id="endDay" style="width: 45%">
+                            </td>
+                            <th class="text-center th-color">조회</th>
+                            <td>
+                                <input type="text" id="search" style="width: 100%;">
                             </td>
                             <th class="text-center th-color">
                                 <span class="pdr5 pdl3per">문서명</span>
