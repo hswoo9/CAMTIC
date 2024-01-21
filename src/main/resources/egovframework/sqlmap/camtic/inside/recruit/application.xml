@@ -382,6 +382,7 @@
             CAM_INSIDE.DJ_APPLICATION_CAREER A
         WHERE
             APPLICATION_ID = #{applicationId}
+        ORDER BY A.WORK_ST_DT
     </select>
 
     <update id="setApplicationOtherLang" parameterType="map">
