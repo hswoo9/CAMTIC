@@ -87,4 +87,10 @@ public class ItemManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getExcelItemInfoList() {
         return selectList("item.getExcelItemInfoList");
     }
+
+    public int getInvenSn(Map<String, Object> dataMap) {
+        return (int) selectOne("item.getInvenSn", dataMap);
+    }
+
+    public void setInvenActual(Map<String, Object> params) { update("item.setInvenActual", params);}
 }

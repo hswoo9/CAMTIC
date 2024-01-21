@@ -34,7 +34,7 @@ var itemExcel = {
             var result = customKendo.fn_customFormDataAjax(url, formData);
             if(result.flag){
                 alert("처리되었습니다.");
-                opener.parent.gridReload();
+                opener.gridReload();
                 window.close();
             }
         }

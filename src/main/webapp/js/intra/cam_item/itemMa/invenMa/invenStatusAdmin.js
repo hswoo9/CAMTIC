@@ -30,27 +30,6 @@ var invenStAdmin = {
             },
             toolbar: [
                 {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()">' +
-                            '	<span class="k-button-text">재고조정</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()">' +
-                            '	<span class="k-button-text">결재</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.templateExcelFormDown()">' +
@@ -64,6 +43,27 @@ var invenStAdmin = {
                             '	<span class="k-button-text">재고조정 양식 업로드</span>' +
                             '</button>';
                     }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.fn_invenAdjustment()">' +
+                            '	<span class="k-button-text">재고조정</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()" disabled>' +
+                            '	<span class="k-button-text">결재</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
                 }
             ],
             excel : {
@@ -72,7 +72,7 @@ var invenStAdmin = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox" onclick="fn_checkAll(\'checkAll\', \'agiPk\');"/>',
                     template : "<input type='checkbox' id='agiPk#=MASTER_SN#' name='agiPk' value='#=MASTER_SN#' class='k-checkbox checkbox'/>",
                     width : 35
                 }, {
@@ -155,10 +155,10 @@ var invenStAdmin = {
                             title: "실사재고수량",
                             width: 70,
                             template : function (e){
-                                if(e.CURRENT_INVEN < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                if(e.ACTUAL_INVEN < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.ACTUAL_INVEN) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                    return invenStAdmin.comma(e.ACTUAL_INVEN);
                                 }
                             },
                             attributes : {
@@ -168,10 +168,12 @@ var invenStAdmin = {
                             title: "차이",
                             width: 70,
                             template : function (e){
-                                if(e.CURRENT_INVEN < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                var diffInven = e.CURRENT_INVEN - e.ACTUAL_INVEN;
+
+                                if(diffInven < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(diffInven) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                    return invenStAdmin.comma(diffInven);
                                 }
                             },
                             attributes : {
@@ -275,10 +277,27 @@ var invenStAdmin = {
                     }
                 } */{
                     title: "비고",
-                    width: 100
+                    width: 100,
+                    template: function(e){
+                        if(e.INVEN_AJM_NOTE != null){
+                            return e.INVEN_AJM_NOTE;
+                        }
+                        else{
+                            return "";
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid");
+    },
+
+    fn_invenAdjustment : function (){
+        var grid = $("#mainGrid").data("kendoGrid");
+
+        var url = "/item/pop/invenAdjustmentPop.do";
+        var name = "_blank";
+        var option = "width = 1680, height = 400, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     },
 
     gridReload: function (){

@@ -1385,9 +1385,25 @@ public class ItemManageController {
      * @param model
      * @return
      */
-    @RequestMapping("/item/esmExcelUpload.do")
+    @RequestMapping("/item/itemExcelUpload.do")
     public String esmExcelUpload(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws Exception{
         itemManageService.itemExcelUpload(params, request);
         return "jsonView";
+    }
+
+    /**
+     * 재고조정 팝업
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/invenAdjustmentPop.do")
+    public String invenAdjustmentPop(@RequestParam Map<String, Object> params,HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", loginVO);
+        return "popup/cam_item/invenAdjustmentPop";
     }
 }

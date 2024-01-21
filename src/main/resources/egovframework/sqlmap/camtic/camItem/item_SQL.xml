@@ -1923,4 +1923,58 @@
         WHERE
             PURC_ITEM_SN = #{item}
     </select>
+
+    <select id="getExcelItemInfoList" parameterType="map" resultType="map">
+        /*getExcelItemInfoList*/
+        SELECT
+            WHC.ITEM_CD_NM AS WH_CD_NM,
+            ITEM_NAME,
+            CURRENT_INVEN,
+            ACTUAL_INVEN,
+            INVEN_AJM,
+            IFNULL(INVEN_AJM_NOTE, '') AS INVEN_AJM_NOTE
+        FROM
+            CAM_ITEM.DJ_ITEM_INVENTORY II
+                JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+            ON IM.MASTER_SN = II.MASTER_SN
+                JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+            ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
+
+        ORDER BY
+            CASE WHEN II.MOD_DT IS NULL THEN II.REG_DT
+                 ELSE II.MOD_DT
+            END
+        DESC
+    </select>
+
+    <select id="getInvenSn" parameterType="map" resultType="int">
+        SELECT
+            II.INVEN_SN
+        FROM
+            CAM_ITEM.DJ_ITEM_INVENTORY II
+                JOIN
+            CAM_ITEM.DJ_ITEM_MASTER IM
+            ON IM.MASTER_SN = II.MASTER_SN
+                JOIN
+            CAM_ITEM.DJ_ITEM_CD WHC
+            ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
+        WHERE
+            WHC.ITEM_CD_NM = #{whCdNm}
+          AND
+            ITEM_NAME = #{itemName}
+    </select>
+
+    <update id="setInvenActual" parameterType="map">
+        UPDATE
+            CAM_ITEM.DJ_ITEM_INVENTORY
+        SET ACTUAL_INVEN = #{actualInven},
+            INVEN_AJM = #{invenAjm},
+            INVEN_AJM_NOTE = #{invenAjmNote},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            INVEN_SN = #{invenSn}
+    </update>
 </mapper>
