@@ -525,13 +525,18 @@ var draft = {
     },
 
     onRemove(e){
-        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
-            e.data = {
-                fileNo : e.files[0].fileNo
-            };
-            customKendo.fn_customAjax(getContextPath() + "/common/commonFileDel.do", e.data);
+        /** 상신/재상신 삭제 분기 */
+        if(draft.global.params.mod == "W"){
+            $(this).parent().parent().remove();
         }else{
-            e.preventDefault();
+            if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+                e.data = {
+                    fileNo : e.files[0].fileNo
+                };
+                customKendo.fn_customAjax(getContextPath() + "/common/commonFileDel.do", e.data);
+            }else{
+                e.preventDefault();
+            }
         }
     },
 
