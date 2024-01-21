@@ -109,31 +109,31 @@ var holidayWorkApplicationDetails ={
                 {
                     field: "ROW_NUM",
                     title: "순번",
-                    width: 80
+                    width: "80px"
                 },
                 {
                     field:"EMP_NAME_KR",
                     title:"성명",
-                    width:250
+                    width:"100px"
                 },
                 {
                     title:"구분",
                     field: "SUBHOLIDAY_DT_CODE_NM",
-                    width:"15%"
+                    width:"100px"
                 },
                 {
                     field: "APPLY_DAY",
                     title: "신청일자",
-                    width: 200
+                    width: "100px"
                 },
                 {
                     field: "SUBHOLIDAY_WORK_DAY",
                     title: "근로일자",
-                    width: 200
+                    width: "100px"
                 },{
                     field: "APPR_STAT",
                     title: "승인상태",
-                    width: "20%",
+                    width: "100px",
                     template : function(e){
                         if(e.APPR_STAT == "N"){
                             return "작성 중";
@@ -146,6 +146,47 @@ var holidayWorkApplicationDetails ={
                         }
                     },
                     width: 200,
+                }, {
+                    title: "신청자문서",
+                    width: "100px",
+                    template : function(e){
+                        if(e.APPR_STAT == "Y"){
+                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
+                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                "<span class='k-button-text'>열람</span>" +
+                                "</button>";
+                        } else {
+                            return "-";
+                        }
+                    }
+                }, {
+                    field: "ADMIN_APPR_STAT",
+                    title: "담당자 승인상태",
+                    width: "100px",
+                    template : function(e){
+                        if(e.ADMIN_APPR_STAT == "N"){
+                            return "작성 중";
+                        } else if(e.ADMIN_APPR_STAT == "Y"){
+                            return "승인";
+                        } else if(e.ADMIN_APPR_STAT =="C"){
+                            return "제출";
+                        } else if(e.ADMIN_APPR_STAT =="E"){
+                            return "반려";
+                        }
+                    },
+                }, {
+                    title: "담당자문서",
+                    width: "100px",
+                    template : function(e){
+                        if(e.ADMIN_APPR_STAT == "Y"){
+                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.ADMIN_DOC_ID+"\", \""+e.ADMIN_APPRO_KEY+"\", \""+e.ADMIN_DOC_MENU_CD+"\");'>" +
+                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                "<span class='k-button-text'>열람</span>" +
+                                "</button>";
+                        } else {
+                            return "-";
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid");

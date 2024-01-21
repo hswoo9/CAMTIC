@@ -104,6 +104,14 @@ public class SubHolidayRepository extends AbstractDAO  {
         return selectList("subHoliday.getGrantDay", map);
     }
 
+    public void workHolidayReqApp(Map<String, Object> params){
+        update("subHoliday.workHolidayReqApp", params);
+    }
+
+    public void workHolidayReqAdminApp(Map<String, Object> params){
+        update("subHoliday.workHolidayReqAdminApp", params);
+    }
+
 
 }
 

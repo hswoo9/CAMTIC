@@ -659,6 +659,8 @@
         sc.SUBHOLIDAY_DT_CODE_NM,
         DI.DOC_ID,
         DI.APPRO_KEY,
+        (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = sm.ADMIN_DOC_ID) AS ADMIN_APPRO_KEY,
+        (SELECT DOC_MENU_CD FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = sm.ADMIN_DOC_ID) AS ADMIN_DOC_MENU_CD,
         DI.DOC_MENU_CD,
         DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d') as APPLY_DAY,
         ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM
@@ -691,5 +693,40 @@
             dei.emp_name_kr LIKE CONCAT('%', #{searchText}, '%')
         </if>
     ORDER BY ROW_NUM DESC
+    </select>
+
+
+    <select id="holidayWorkApplicationList" parameterType="map" resultType="map">
+        SELECT
+        *,
+        ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM,
+        DI.APPRO_KEY,
+        (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = sm.ADMIN_DOC_ID) AS ADMIN_APPRO_KEY,
+        (SELECT DOC_MENU_CD FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = sm.ADMIN_DOC_ID) AS ADMIN_DOC_MENU_CD,
+        DI.DOC_MENU_CD,
+        DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d') as APPLY_DAY
+        FROM cam_inside.dj_subholiday_use_hist sm
+        JOIN cam_inside.dj_subholiday_code sc
+        ON sm.SUBHOLIDAY_CODE_ID = sc.SUBHOLIDAY_CODE_ID
+        left join DJ_CAMTIC.A_DOC_INFO DI
+        on sm.DOC_ID = DI.DOC_ID
+        WHERE 1=1
+        AND
+        sm.ACTIVE = 'Y'
+        AND
+        sm.SUBHOLIDAY_CODE_ID = 11
+        <if test='status != null and !"".equals(status)'>
+            AND sm.APPR_STAT = #{status}
+        </if>
+        <if test='workDay != null and !"".equals(workDay)'>
+            AND DATE_FORMAT(#{workDay}, '%Y-%m-%d') = DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
+        </if>
+        <if test="empSeq != null and empSeq != ''">
+            AND sm.APPLY_SEQ = #{empSeq}
+        </if>
+        <if test="adminMenu != null and adminMenu != ''">
+            AND sm.APPR_STAT = 'Y'
+        </if>
+        ORDER BY ROW_NUM DESC
     </select>
 </mapper>

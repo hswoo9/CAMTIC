@@ -78,4 +78,9 @@ public class AttendServiceImpl implements AttendService {
     public void setHistoryWorkApplyDel(Map<String, Object> params) {
         attendRepository.setHistoryWorkApplyDel(params);
     }
+
+    @Override
+    public List<Map<String, Object>> holidayWorkApplicationList(Map<String, Object> params) {
+        return attendRepository.holidayWorkApplicationList(params);
+    }
 }

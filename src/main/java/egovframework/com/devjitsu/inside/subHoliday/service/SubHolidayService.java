@@ -103,4 +103,7 @@ public interface SubHolidayService {
 
     List<Map<String, Object>> getGrantDay(Map<String, Object > map);
 
+    void workHolidayReqApp(Map<String, Object> bodyMap) throws Exception;
+    void workHolidayReqAdminApp(Map<String, Object> bodyMap) throws Exception;
+
 }

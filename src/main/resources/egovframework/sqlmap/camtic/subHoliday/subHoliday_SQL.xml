@@ -878,4 +878,29 @@
         ORDER BY HH.HOLIDAY_HIST_SN DESC
     </select>
 
+    <update id="workHolidayReqApp" parameterType="map">
+        /* updateApprStat */
+        UPDATE
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        SET
+            APPR_STAT = #{status},
+            APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq},
+            DOC_ID = #{docId}
+        WHERE
+            SUBHOLIDAY_USE_ID = #{subholidayUseId}
+    </update>
+
+    <update id="workHolidayReqAdminApp" parameterType="map">
+        /* workHolidayReqAdminApp */
+        UPDATE
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        SET
+            ADMIN_APPR_STAT = #{adminStatus},
+            APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq},
+            ADMIN_DOC_ID = #{docId}
+        WHERE
+            SUBHOLIDAY_USE_ID = #{subholidayUseId}
+    </update>
 </mapper>

@@ -434,4 +434,56 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    @RequestMapping("/popup/subHoliday/approvalFormPopup/workHolidayUserApprovalPop.do")
+    public String workHolidayUserApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/subHoliday/approvalFormPopup/workHolidayUserApprovalPop";
+    }
+
+    @RequestMapping("/popup/subHoliday/approvalFormPopup/workHolidayAdminApprovalPop.do")
+    public String workHolidayAdminApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/subHoliday/approvalFormPopup/workHolidayAdminApprovalPop";
+    }
+
+
+    @RequestMapping(value = "/subHoliday/workHolidayReqUserApp")
+    public String workHolidayReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try {
+            subHolidayService.workHolidayReqApp(bodyMap);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생(" + e.getMessage() + ")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    @RequestMapping(value = "/subHoliday/workHolidayReqAdminApp")
+    public String workHolidayReqAdminApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try {
+            subHolidayService.workHolidayReqAdminApp(bodyMap);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생(" + e.getMessage() + ")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
 }

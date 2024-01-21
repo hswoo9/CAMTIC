@@ -10,7 +10,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/attend/holidayWorkApplicationDetails.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/attend/holidayWorkApplicationAdmin.js?v=${todate}"/></script>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
@@ -19,15 +19,13 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title" style="margin-bottom: 20px;">휴일 근로 신청 내역(관리자)</h4>
+            <h4 class="panel-title" style="margin-bottom: 20px;">휴일 근로 신청(담당자)</h4>
             <div id="secondView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col>
                         <col width="10%">
                         <col>
                         <col width="10%">
@@ -41,10 +39,6 @@
                         <th class="text-center th-color">처리상태</th>
                         <td>
                             <input type="text" id="status" style="width: 200px;">
-                        </td>
-                        <th class="text-center th-color">성명</th>
-                        <td>
-                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){holidayWorkApplicationDetails.gridReload()}" style="width: 200px;">
                         </td>
                     </tr>
                 </table>
@@ -62,5 +56,5 @@
 </form>
 
 <script type="text/javascript">
-     holidayWorkApplicationDetails.init();
+    holidayWorkApplicationAdmin.init();
 </script>

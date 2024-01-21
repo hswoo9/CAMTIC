@@ -38,4 +38,6 @@ public interface AttendService {
     void setHistoryWorkApplyDel(Map<String, Object> params);
 
     List<Map<String, Object>> getHolidayDetailsAdmin(Map<String, Object> params);
+
+    List<Map<String, Object>> holidayWorkApplicationList(Map<String, Object> params);
 }

@@ -269,4 +269,34 @@ public class AttendController {
         return formatter.format(today);
     }
 
+
+    //휴일근로신청 신청자
+    @RequestMapping("/Inside/holidayWorkApplicationUser.do")
+    public String holidayWorkApplicationUser(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/attend/holidayWorkApplicationUser";
+    }
+
+    //휴일근로신청 관리자
+    @RequestMapping("/Inside/holidayWorkApplicationAdmin.do")
+    public String holidayWorkApplicationAdmin(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/attend/holidayWorkApplicationAdmin";
+    }
+
+    //휴일근로신청
+    @RequestMapping(value = "/Inside/holidayWorkApplicationList.do", method = RequestMethod.POST)
+    public String holidayWorkApplicationList(@RequestParam Map<String,Object> params, Model model) {
+        List<Map<String, Object>> list = attendService.holidayWorkApplicationList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }
