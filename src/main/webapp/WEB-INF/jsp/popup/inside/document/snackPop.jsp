@@ -291,7 +291,7 @@
                         <col width="15%">
                         <col width="10%">
                     </colgroup>
-                    <thead id="detailRow">
+                    <thead>
                     <tr>
                         <th><input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll('checkAll', 'card');"/></th>
                         <th>승인일자</th>
@@ -303,6 +303,9 @@
                         <th>금액</th>
                     </tr>
                     </thead>
+                    <tbody id="detailRow">
+
+                    </tbody>
                 </table>
             </div>
         </form>
@@ -391,7 +394,6 @@
     let snackData = {};
     var fileNoArr = [];
     let cardList = [];
-    let totalAmt = 0;
 
     <c:if test="${flag eq 'true'}">
         snackData = JSON.parse('${data}');
@@ -413,6 +415,7 @@
         // var fileNoArr = [];
 
         for(var i=0; i<list.length; i++) {
+            cardList.push(list[i]);
             const e = list[i];
 
             let  data = {
@@ -524,20 +527,20 @@
         $("#loadingText").text("영수증 파일 업로드 중입니다.");
 
         //ajax가 비동기로 처리되어서 강제지연
-        setTimeout(() => fn_cardHistSet(list, fileNoArr), 2000);
+        setTimeout(() => fn_cardHistSet(cardList, fileNoArr), 2000);
 
 
 
     }
 
     function fn_cardHistSet(list, arr) {
-
-        // let totalAmt = 0;
+        $("#detailRow").empty();
+        let totalAmt = 0;
         let html = '';
         for(var j=0; j<list.length; j++){
-            cardList.push(list[j]);
-            const e = list[j];
-            const fileNo = arr[j].fileNo;
+            let e = list[j];
+            let fileNo = arr[j].fileNo;
+            console.log(arr[j])
             html += '<tr class="cardData">';
             html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
             html += '    <input type="hidden" class="fileNo" value="'+fileNo+'" />';
