@@ -414,4 +414,152 @@ public class CommonController {
         model.addAttribute("route", docListMap);
         return "jsonView";
     }
+
+    @RequestMapping("/common/commonBudgetCode.do")
+    public String commonBudgetCode(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "system/code/commonBudgetCode";
+    }
+
+    @RequestMapping("/common/getJangCodeList")
+    public String getJangCodeList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", commonService.getJangCodeList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/common/getGwanCodeList")
+    public String getGwanCodeList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", commonService.getGwanCodeList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/common/getHangCodeList")
+    public String getHangCodeList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", commonService.getHangCodeList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/common/pop/jangReqPop.do")
+    public String jangReqPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/common/jangReqPop";
+    }
+
+    @RequestMapping("/common/pop/gwanReqPop.do")
+    public String gwanReqPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/common/gwanReqPop";
+    }
+
+    @RequestMapping("/common/pop/hangReqPop.do")
+    public String hangReqPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/common/hangReqPop";
+    }
+
+    @RequestMapping("/common/getJangInfo")
+    public String getJangInfo(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("map", commonService.getJangInfo(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/common/getGwanInfo")
+    public String getGwanInfo(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("map", commonService.getGwanInfo(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/common/getHangInfo")
+    public String getHangInfo(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("map", commonService.getHangInfo(params));
+
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/common/setJangInfo")
+    public String setJangInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            commonService.setJangInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/common/setGwanInfo")
+    public String setGwanInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            commonService.setGwanInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/common/setHangInfo")
+    public String setHangInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            commonService.setHangInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/common/delBudgetCode")
+    public String delBudgetCode(@RequestParam Map<String, Object> params, Model model){
+        try{
+            commonService.delBudgetCode(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+
+
 }

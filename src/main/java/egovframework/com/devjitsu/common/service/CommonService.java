@@ -82,4 +82,25 @@ public interface CommonService {
     /** 암호화 */
     void setPasswordEncryption(Map<String, Object> params);
     Map<String, Object> getFileInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getJangCodeList(Map<String, Object> params);
+
+    List<Map<String, Object>> getGwanCodeList(Map<String, Object> params);
+
+    List<Map<String, Object>> getHangCodeList(Map<String, Object> params);
+
+    Map<String, Object> getJangInfo(Map<String, Object> params);
+
+    Map<String, Object> getGwanInfo(Map<String, Object> params);
+
+
+    Map<String, Object> getHangInfo(Map<String, Object> params);
+
+    void setJangInfo(Map<String, Object> params);
+
+    void setGwanInfo(Map<String, Object> params);
+
+    void setHangInfo(Map<String, Object> params);
+
+    void delBudgetCode(Map<String, Object> params);
 }

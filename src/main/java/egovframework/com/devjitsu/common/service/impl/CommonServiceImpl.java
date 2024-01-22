@@ -391,4 +391,83 @@ public class CommonServiceImpl implements CommonService {
         return commonRepository.getContentFileOne(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getJangCodeList(Map<String, Object> params) {
+        return commonRepository.getJangCodeList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getGwanCodeList(Map<String, Object> params) {
+        return commonRepository.getGwanCodeList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getHangCodeList(Map<String, Object> params) {
+        return commonRepository.getHangCodeList(params);
+    }
+
+    @Override
+    public Map<String, Object> getJangInfo(Map<String, Object> params) {
+        return commonRepository.getJangInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getGwanInfo(Map<String, Object> params) {
+        return commonRepository.getGwanInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getHangInfo(Map<String, Object> params) {
+        return commonRepository.getHangInfo(params);
+    }
+
+    @Override
+    public void setJangInfo(Map<String, Object> params) {
+        if(params.containsKey("pk")){
+            commonRepository.updJangInfo(params);
+        } else {
+            commonRepository.insJangInfo(params);
+        }
+    }
+
+    @Override
+    public void setGwanInfo(Map<String, Object> params) {
+        if(params.containsKey("pk")){
+            commonRepository.updGwanInfo(params);
+        } else {
+            commonRepository.insGwanInfo(params);
+        }
+    }
+
+    @Override
+    public void setHangInfo(Map<String, Object> params) {
+        if(params.containsKey("pk")){
+            commonRepository.updHangInfo(params);
+        } else {
+            commonRepository.insHangInfo(params);
+        }
+    }
+
+    @Override
+    public void delBudgetCode(Map<String, Object> params) {
+        Map<String, Object> map = new HashMap<>();
+        String keyArr = params.get("pk").toString();
+
+        if("A".equals(params.get("type").toString())){
+            for(String pk : keyArr.split(",")){
+                map.put("pk", pk);
+                commonRepository.delJangCode(map);
+            }
+        } else if("B".equals(params.get("type").toString())){
+            for(String pk : keyArr.split(",")){
+                map.put("pk", pk);
+                commonRepository.delGwanCode(map);
+            }
+        } else if("C".equals(params.get("type").toString())){
+            for(String pk : keyArr.split(",")){
+                map.put("pk", pk);
+                commonRepository.delHangCode(map);
+            }
+        }
+    }
 }
