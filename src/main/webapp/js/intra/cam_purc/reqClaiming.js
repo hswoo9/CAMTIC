@@ -199,6 +199,10 @@ var reqCl = {
             this.fn_setClaimItem(data);
             reqCl.fn_kendoUIEnableSet(data);
             reqCl.fn_ClaimBtnSet(data);
+        } else if($("#purcSn").val() == "" && $("#claimSn").val() == "") {
+            // 디폴트 선택
+            $("#purcItemType0").data("kendoDropDownList").select(1);
+            $("#productA0").data("kendoDropDownList").select(2);
         }
 
         $("#vat").data("kendoRadioGroup").bind("change", function(e){
@@ -265,7 +269,10 @@ var reqCl = {
 
     fn_calc : function(idx, e){
         $("#itemAmt" + idx).val(comma(uncomma($("#itemUnitAmt" + idx).val()) * uncomma($("#itemEa" + idx).val())));
-        $("#difAmt" + idx).val(comma(uncomma($("#purcItemAmt" + idx).val()) - uncomma($("#itemAmt" + idx).val())));
+
+        if($("#purcItemAmt" + idx).val() != "" && $("#purcItemAmt" + idx).val() != "0"){
+            $("#difAmt" + idx).val(comma(uncomma($("#purcItemAmt" + idx).val()) - uncomma($("#itemAmt" + idx).val())));
+        }
 
         reqCl.fn_amtCalculator();
 
@@ -336,6 +343,12 @@ var reqCl = {
         customKendo.fn_textBox(["itemNm" + len, "itemStd" + len, "difAmt" + len
             ,"itemEa" + len, "itemUnitAmt" + len, "itemUnit" + len, "itemAmt" + len, "purcItemAmt" + len, "itemEtc" + len])
 
+        let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
+        customKendo.fn_dropDownList("purcItemType" + len, productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+        let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
+        customKendo.fn_dropDownList("productA" + len, productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+
         var radioProdDataSource = [
             { label: "해당없음", value: "N" },
             { label: "자산", value: "A" },
@@ -352,6 +365,10 @@ var reqCl = {
                 reqCl.fn_productCodeSetting(productId);
             }
         });
+
+        // 디폴트 선택
+        $("#purcItemType" + len).data("kendoDropDownList").select(1);
+        $("#productA" + len).data("kendoDropDownList").select(2);
     },
 
     fn_productCodeSetting : function(productId){
@@ -508,7 +525,7 @@ var reqCl = {
                 itemParameters.itemUnitAmt = uncomma($("#itemUnitAmt").val());
                 itemParameters.itemUnit = $("#itemUnit").val();
                 itemParameters.itemAmt = uncomma($("#itemAmt").val());
-                itemParameters.purcItemAmt = uncomma($("#purcItemAmt").val());
+                itemParameters.purcItemAmt = $("#purcItemAmt").val() ? uncomma($("#purcItemAmt").val()) : 0;
                 itemParameters.difAmt = $("#difAmt").val().replace(/,/g, '');
                 itemParameters.itemEtc = $("#itemEtc").val();
                 // itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").value();

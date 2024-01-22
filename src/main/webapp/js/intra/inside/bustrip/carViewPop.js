@@ -11,9 +11,9 @@ const carView = {
         var schRsDs = [];
         var ksModel = {
             id: { from: "CAR_REQ_SN", type: "number" },
-            title: { from: "schTitle", defaultValue: "No title", validation: { required: true } },
-            start: { type: "date", from: "START_DATE" },
-            end: { type: "date", from: "END_DATE" }
+            title: { from: "title", defaultValue: "No title", validation: { required: true } },
+            start: { type: "date", from: "start" },
+            end: { type: "date", from: "end" }
         }
 
         var schDataSource = new kendo.data.SchedulerDataSource({
@@ -37,12 +37,12 @@ const carView = {
             }
         });
 
-        var schResources = [
+        /*var schResources = [
             {
                 field : "vacCodeId",
                 dataSource : schRsDs
             }
-        ]
+        ]*/
 
         kendo.culture("ko-KR");
 
@@ -66,5 +66,12 @@ const carView = {
             let option = "width = 900, height = 500, top = 100, left = 200, location = no";
             window.open(url, name, option);
         });
-    }
+    },
+
+    dateFormat : function(date) {
+        let dateFormat2 = date.getFullYear() +
+            '-' + ( (date.getMonth()+1) < 9 ? "0" + (date.getMonth()+1) : (date.getMonth()+1) )+
+            '-' + ( (date.getDate()) < 9 ? "0" + (date.getDate()) : (date.getDate()) );
+        return dateFormat2;
+    },
 }

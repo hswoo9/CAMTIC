@@ -32,4 +32,28 @@ public class WorkPlanRepository extends AbstractDAO  {
         return selectList("workPlan.getWorkPlanUserList", params);
     }
 
+    public List<Map<String, Object>> getWorkTimeCode(Map<String, Object> params) {
+        return selectList("workPlan.getWorkTimeCode", params);
+    }
+
+    public List<Map<String, Object>> getWorkPlanList(Map<String, Object> params) {
+        return selectList("workPlan.getWorkPlanList", params);
+    }
+
+    public int setWorkPlan(Map<String, Object> params) {
+        return (int) insert("workPlan.setWorkPlan", params);
+    }
+
+    public void setWorkPlanDetail(Map<String, Object> params) {
+        insert("workPlan.setWorkPlanDetail", params);
+    }
+
+    public void workPlanUserApp(Map<String, Object> params){
+        update("workPlan.workPlanUserApp", params);
+    }
+
+    public void workPlanAdminApp(Map<String, Object> params){
+        update("workPlan.workPlanAdminApp", params);
+    }
+
 }

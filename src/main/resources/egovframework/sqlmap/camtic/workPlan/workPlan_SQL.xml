@@ -246,4 +246,156 @@
             EMP_NAME_KR
         ORDER BY WPC.REG_DATE DESC
     </select>
+
+    <select id="getWorkTimeCode" parameterType="map" resultType="map">
+        SELECT
+            *, CONCAT(WORK_TIME_CODE_NAME, ' (', START_HOUR, ':', START_MIN, '~', END_HOUR, ':', END_MIN, ')') AS label, WORK_TIME_CODE_ID AS value
+        FROM
+            DJ_CAMTIC.V_WORK_TIME_CODE
+        WHERE ACTIVE = 'Y'
+        <if test="workTimeType != null and workTimeType != ''">
+            AND WORK_TIME_TYPE = #{workTimeType}
+        </if>
+    </select>
+
+    <select id="getWorkPlanList" parameterType="map" resultType="map">
+        SELECT
+            WPA.WORK_PLAN_APPROVAL_ID,
+            DATE_FORMAT(WPA.APPLY_DATE, '%Y-%m-%d') AS APPLY_DATE,
+            WTC.WORK_TIME_CODE_NAME,
+            CONCAT(
+                DATE_FORMAT(WPA.START_DATE, '%Y-%m-%d')
+                , ' ~ '
+                , DATE_FORMAT(WPA.END_DATE, '%Y-%m-%d')
+            ) AS APPLY_WORK_DATE,
+            WPA.DOC_ID,
+            WPA.ADMIN_DOC_ID,
+            WPA.APPR_STAT,
+            WPA.ADMIN_APPR_STAT,
+            (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = WPA.ADMIN_DOC_ID) AS ADMIN_APPRO_KEY,
+            (SELECT DOC_MENU_CD FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = WPA.ADMIN_DOC_ID) AS ADMIN_DOC_MENU_CD,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM CAM_INSIDE.DJ_WORK_PLAN_APPROVAL WPA
+        LEFT JOIN DJ_CAMTIC.V_WORK_TIME_CODE WTC
+        ON WPA.WORK_TIME_CODE_ID = WTC.WORK_TIME_CODE_ID
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
+        ON WPA.DOC_ID = DI.DOC_ID
+        WHERE
+            WPA.ACTIVE = 'Y'
+        <if test="empSeq != null and empSeq != ''">
+            AND WPA.APPLY_SEQ = #{empSeq}
+        </if>
+        <if test="searchYear != null and searchYear != ''">
+            AND
+            (
+            WPA.START_DATE LIKE CONCAT('%', #{searchYear}, '%')
+            OR
+            WPA.END_DATE LIKE CONCAT('%', #{searchYear}, '%')
+            )
+        </if>
+        <if test="adminList != null and adminList != ''">
+            AND WPA.APPR_STAT = 'Y'
+        </if>
+        ORDER BY WPA.REG_DATE DESC
+    </select>
+
+    <insert id="setWorkPlan" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_WORK_PLAN_APPROVAL
+        (
+            WORK_TIME_CODE_ID,
+            APPLY_SEQ,
+            APPLY_DATE,
+            START_DATE,
+            END_DATE,
+            APPR_STAT,
+            ACTIVE,
+            REG_EMP_SEQ,
+            REG_DATE
+        )
+        VALUES
+        (
+            #{workTimeCodeId},
+            #{applySeq},
+            DATE_FORMAT(#{applyDate}, '%Y-%m-%d'),
+            DATE_FORMAT(#{startDate}, '%Y-%m-%d'),
+            DATE_FORMAT(#{endDate}, '%Y-%m-%d'),
+            #{apprStat},
+            'Y',
+            #{regEmpSeq},
+            NOW()
+        )
+        <selectKey keyProperty="workPlanApprovalId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_WORK_PLAN_APPROVAL'
+        </selectKey>
+    </insert>
+
+    <insert id="setWorkPlanDetail" parameterType="map">
+        INSERT INTO CAM_INSIDE.DJ_WORK_PLAN_APPROVAL_DETAIL
+        (
+            WORK_PLAN_APPROVAL_ID,
+            WORK_WEEK_DAY,
+            WORK_DAY,
+            START_HOUR,
+            START_MIN,
+            END_HOUR,
+            END_MIN,
+            ACTIVE,
+            REG_DATE
+        )
+        select
+            CONCAT(#{workPlanApprovalId}) AS WORK_PLAN_APPROVAL_ID,
+            CASE WEEKDAY(selected_date)
+            WHEN '0' THEN '월'
+            WHEN '1' THEN '화'
+            WHEN '2' THEN '수'
+            WHEN '3' THEN '목'
+            WHEN '4' THEN '금'
+            WHEN '5' THEN '토'
+            WHEN '6' THEN '일'
+            END as WORK_WEEK_DAY,
+            selected_date AS WORK_DAY,
+            b.START_HOUR AS START_HOUR,
+            b.START_MIN AS START_MIN,
+            b.END_HOUR AS END_HOUR,
+            b.END_MIN AS END_MIN,
+            CONCAT('Y') AS ACTIVE,
+            NOW()
+        from
+        (select adddate(#{startDate},t4.i*10000 + t3.i*1000 + t2.i*100 + t1.i*10 + t0.i) selected_date from
+        (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t0,
+        (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t1,
+        (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t2,
+        (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t3,
+        (select 0 i union select 1 union select 2 union select 3 union select 4 union select 5 union select 6 union select 7 union select 8 union select 9) t4) v
+        LEFT JOIN
+        DJ_CAMTIC.V_WORK_TIME_CODE b
+        ON b.WORK_TIME_CODE_ID = CONCAT(#{workTimeCodeId})
+        where selected_date
+        between DATE_FORMAT(#{startDate}, '%Y-%m-%d') and DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+    </insert>
+
+    <update id="workPlanUserApp" parameterType="map">
+        /* workPlanUserApp */
+        UPDATE
+            CAM_INSIDE.DJ_WORK_PLAN_APPROVAL
+        SET
+            APPR_STAT = #{status},
+            DOC_ID = #{docId},
+            ADMIN_APPR_STAT = 'N'
+        WHERE
+            WORK_PLAN_APPROVAL_ID = #{workPlanApprovalId}
+    </update>
+
+    <update id="workPlanAdminApp" parameterType="map">
+        /* workPlanAdminApp */
+        UPDATE
+            CAM_INSIDE.DJ_WORK_PLAN_APPROVAL
+        SET
+            ADMIN_APPR_STAT = #{adminStatus},
+            ADMIN_DOC_ID = #{docId}
+        WHERE
+            WORK_PLAN_APPROVAL_ID = #{workPlanApprovalId}
+    </update>
+
 </mapper>
