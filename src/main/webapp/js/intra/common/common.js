@@ -214,10 +214,15 @@ function fn_getSpot(duty, position){
 
 function fn_getRowNum(e, type){
     /** type이 1이면 정순, 2면 역순, 3이면 페이징 없을때 역순 */
+    let pageSize = e.dataSource.pageSize();
+    if(pageSize == null){
+        pageSize = 9999;
+    }
+
     if(type == 1){
-        return (e.dataSource.page() -1) * e.dataSource.pageSize();
+        return (e.dataSource.page() -1) * pageSize;
     }else if(type == 2){
-        return e.dataSource._data.length+1 - ((e.dataSource.page() -1) * e.dataSource.pageSize());
+        return e.dataSource._data.length+1 - ((e.dataSource.page() -1) * pageSize);
     }else if(type == 3){
         return e.dataSource._data.length+1 - ((0 -1) * 0);
     }else{
