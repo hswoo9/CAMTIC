@@ -1417,8 +1417,13 @@ var regPay = {
         }
 
         var befAdvances = "";
+        var budgetNmFlag = true;
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).find(".budgetSn").attr("id").slice(-1);
+
+            if(!$("#budgetNm" + index).val()) {
+                budgetNmFlag = false;
+            }
 
             var data = {
                 budgetNm : $("#budgetNm" + index).val(),
@@ -1477,6 +1482,11 @@ var regPay = {
         if(!flag){
             alert("구분값을 선택해주세요.");
             return ;
+        }
+
+        if(!budgetNmFlag){
+            alert("예산비목을 선택해주세요.");
+            return;
         }
 
         parameters.itemArr = JSON.stringify(itemArr);
