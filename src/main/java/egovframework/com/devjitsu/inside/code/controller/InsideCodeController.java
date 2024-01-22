@@ -451,4 +451,15 @@ public class InsideCodeController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/inside/carRequestCheck")
+    public String carRequestCheck(@RequestParam Map<String, Object> map, Model model, HttpServletRequest request){
+
+        int cnt = insideCodeService.carRequestCheck(map);
+        model.addAttribute("cnt", cnt);
+
+        return "jsonView";
+    }
+
+
 }

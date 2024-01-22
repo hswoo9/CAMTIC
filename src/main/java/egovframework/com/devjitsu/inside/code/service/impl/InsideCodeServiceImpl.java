@@ -192,4 +192,9 @@ public class InsideCodeServiceImpl implements InsideCodeService {
     public Map<String, Object> getAccountToInfo(Map<String, Object> params) {
         return insideCodeRepository.getAccountToInfo(params);
     }
+
+    @Override
+    public int carRequestCheck(Map<String, Object> map) {
+        return insideCodeRepository.carRequestCheck(map);
+    }
 }

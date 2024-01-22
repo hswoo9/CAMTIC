@@ -83,4 +83,6 @@ public interface InsideCodeService {
     void delRegAccountTo(Map<String, Object> params);
 
     Map<String, Object> getAccountToInfo(Map<String, Object> params);
+
+    int carRequestCheck(Map<String, Object> map);
 }

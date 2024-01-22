@@ -76,6 +76,8 @@ var carReq = {
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
 
+        if(startDt > endDt){ alert("운행일시를 확인해주세요."); return;}
+        if(startDt == endDt && startTime > endTime){ alert("운행일시를 확인해주세요."); return;}
         if(startDt == ""||endDt == ""){ alert("운행일시가 작성되지 않았습니다."); return;}
         if(useDeptSeq == ""){ alert("사용부서가 선택되지 않았습니다."); return;}
         if(carClassSn == ""){ alert("사용차량이 선택되지 않았습니다."); return;}
@@ -107,6 +109,9 @@ var carReq = {
             regEmpName : regEmpName
         }
         carReq.searchDuplicateCar(data);
+
+        var chkData = customKendo.fn_customAjax("/inside/carRequestCheck", data);
+
         if(flag) {
             if($("#carReqSn").val() == "") {
                 if(!confirm("차량사용신청을 저장하시겠습니까?")){
@@ -202,7 +207,7 @@ var carReq = {
             success : function(result){
                 console.log(result);
                 alert("차량 사용 신청이 완료되었습니다.");
-                opener.gridReload();
+                opener.carList.refresh();
                 window.close();
             },
             error : function() {
