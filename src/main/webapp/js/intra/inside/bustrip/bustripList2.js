@@ -395,6 +395,10 @@ var bustList = {
             }
         });
 
+        if(hrBizReqResultId == ""){
+            alert("선택된 출장이 없습니다.");
+            return false;
+        }
 
         if(!flag){
             alert("서로 다른 사업은 일괄 지급신청이 불가합니다.");
