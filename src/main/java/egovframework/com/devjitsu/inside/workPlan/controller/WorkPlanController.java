@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -157,4 +158,86 @@ public class WorkPlanController {
         return resultMap;
     }
 
+    //유연근무신청 사용자
+    @RequestMapping("/workPlan/workPlanUser.do")
+    public String workPlanUser(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        return "inside/workPlan/workPlanUser";
+    }
+
+    //유연근무신청 관리자
+    @RequestMapping("/workPlan/workPlanAdmin.do")
+    public String workPlanAdmin(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        return "inside/workPlan/workPlanAdmin";
+    }
+
+    //유연근무신청 팝업
+    @RequestMapping("/workPlan/workPlanApprovalPop.do")
+    public String subHolidayReqPop2(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        return "popup/workPlan/workPlanApprovalPop";
+    }
+
+    //근무타임코드
+    @RequestMapping(value = "/workPlan/getWorkTimeCode")
+    public String getWorkTimeCode(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        model.addAttribute("list", workPlanService.getWorkTimeCode(params));
+        return "jsonView";
+    }
+
+    //유연근무리스트
+    @RequestMapping(value = "/workPlan/getWorkPlanList")
+    public String getWorkPlanList(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        model.addAttribute("list", workPlanService.getWorkPlanList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping(value = "/workPlan/setWorkPlan")
+    public String setWorkPlan(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        model.addAttribute("ds", workPlanService.setWorkPlan(params));
+        return "jsonView";
+    }
+
+    @RequestMapping(value = "/workPlan/workPlanUserApp")
+    public String workPlanUserApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try {
+            workPlanService.workPlanUserApp(bodyMap);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생(" + e.getMessage() + ")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    @RequestMapping(value = "/workPlan/workPlanAdminApp")
+    public String workPlanAdminApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try {
+            workPlanService.workPlanAdminApp(bodyMap);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생(" + e.getMessage() + ")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
 }
