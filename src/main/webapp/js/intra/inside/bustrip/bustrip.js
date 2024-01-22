@@ -34,8 +34,6 @@ var bustrip = {
                 business.fn_nationCodeSet();
                 $(".bustripTh").hide();
                 $(".businessTh").show();
-                $("#nationList").data("kendoDropDownList").value(busInfo.NATION_CODE);
-                $("#nationList").data("kendoDropDownList").trigger("change");
             } else {
                 $("#carLine").css("display", "");
                 $(".bustripTh").show();

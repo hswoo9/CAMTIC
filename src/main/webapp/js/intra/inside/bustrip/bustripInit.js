@@ -62,6 +62,9 @@ var bustripInit = {
         let totalCorpCostTotal = 0;
 
         for(let i=0; i<map.length; i++){
+            if(map[i].EMP_SEQ == null){
+                continue;
+            }
 
             let personTot = 0;
 
