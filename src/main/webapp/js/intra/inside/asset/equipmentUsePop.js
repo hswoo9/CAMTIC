@@ -146,7 +146,7 @@ var equipmentUsePop = {
             equipmentUsePop.fn_EqipmnInfo(data);
         };
 
-        if($("#pjtSn") != ""){
+        if($("#pjtSn").val() != ""){
             const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#pjtSn").val()}).rs;
             console.log(setParameters);
             $("#busnName").val(setParameters.PJT_NM);
@@ -186,14 +186,14 @@ var equipmentUsePop = {
                 time2 : $("#time2").val(), //사용기간 종료시간
                 //usePdEndDe : $("#usePdEndDe").val().replaceAll('-',''), //사용기간 종료일
                 userName : $("#userName").val(), //사용자명
-                userSn : $("#userSn").val(), //사용자 사원번호
+                userSn : $("#empSeq").val(), //사용자 사원번호
                 operCn : $("#operCn").val(), //작업내용
                 useTime : $("#useTime").val(), //사용시간
                 useAmt : useAmt, //사용대금
                 perAmt : perAmt, //할인금액
                 perReason : $("#perReason").val(),
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
-                crtrSn : $("#empSeq").val(), //생성자sn - 로그인한 계정
+                crtrSn : $("#regEmpSeq").val(), //생성자sn - 로그인한 계정
                 clientPrtpcoName : $("#clientPrtpcoName").val() //의뢰업체명
             }
 

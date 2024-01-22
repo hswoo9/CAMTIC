@@ -274,9 +274,9 @@ var equipmentUseUpdatePop = {
                 perAmt : perAmt, //할인금액
                 perReason : $("#perReason").val(),
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
-                crtrSn : $("#empSeq").val(), //생성자sn - 로그인한 계정
+                crtrSn : $("#regEmpSeq").val(), //생성자sn - 로그인한 계정
                 clientPprtpcoName : $("#clientPprtpcoName").val(), //의뢰업체명
-                updusrSn : $("#empSeq").val() //수정자sn - 로그인한 계정
+                updusrSn : $("#regEmpSeq").val() //수정자sn - 로그인한 계정
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
