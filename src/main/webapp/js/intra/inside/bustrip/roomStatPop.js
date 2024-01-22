@@ -43,7 +43,7 @@ var roomStat = {
 
         $("#mainChart").kendoChart({
             title: {
-                text: "차량 통계"
+                text: "회의실 통계"
             },
             subtitle: {
                 text: "/thousands/"

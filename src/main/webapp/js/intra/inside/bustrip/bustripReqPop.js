@@ -389,7 +389,7 @@ const bustripReq = {
     carViewPop: function(){
         let url = "/Inside/pop/carViewPop.do";
         const name = "carViewPop";
-        const option = "width = 1200, height = 730, top = 100, left = 200, location = no";
+        const option = "width = 1250, height = 750, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 
