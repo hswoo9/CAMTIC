@@ -144,7 +144,7 @@
                         <input type="hidden" id="purcDeptSeq" value="" disabled>
                         <input type="text" id="purcEmpName" value="" style="width: 30%" disabled>
                         <input type="hidden" id="purcEmpSeq" value="">
-                        <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch('mng');">
+                        <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch('reqClaiming');">
                             검색
                         </button>
                     </td>

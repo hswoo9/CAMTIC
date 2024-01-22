@@ -82,18 +82,17 @@ var reqCl = {
             var rs = customKendo.fn_customAjax("/purc/getPurcReq.do", data);
             var data = rs.data;
 
-            $("#purcDeptName").val(data.DEPT_NAME);
-            $("#purcDeptSeq").val(data.DEPT_SEQ);
-            $("#purcEmpName").val(data.EMP_NAME_KR);
-            $("#purcEmpSeq").val(data.EMP_SEQ);
-
             $("#vat").data("kendoRadioGroup").value(data.VAT);
             $("#vat").data("kendoRadioGroup").trigger("change");
-
 
             if($("#claimSn").val() == ""){
                 reqCl.fn_setItem(data);
                 $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
+
+                $("#purcDeptName").val(data.DEPT_NAME);
+                $("#purcDeptSeq").val(data.DEPT_SEQ);
+                $("#purcEmpName").val(data.EMP_NAME_KR);
+                $("#purcEmpSeq").val(data.EMP_SEQ);
             } else {
                 var data = {
                     claimSn : $("#claimSn").val(),
@@ -119,6 +118,11 @@ var reqCl = {
                 $("#totAmt").val(comma(data.TOT_AMT));
 
                 $("#vat").data("kendoRadioGroup").value(data.VAT);
+
+                $("#purcDeptName").val(data.DEPT_NAME);
+                $("#purcDeptSeq").val(data.DEPT_SEQ);
+                $("#purcEmpName").val(data.EMP_NAME_KR);
+                $("#purcEmpSeq").val(data.EMP_SEQ);
 
                 //$("#expType").data("kendoRadioGroup").value(data.EXP_TYPE);
 

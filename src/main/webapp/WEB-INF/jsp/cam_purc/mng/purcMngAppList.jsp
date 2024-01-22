@@ -52,14 +52,14 @@
                         <td>
                             <input type="text" id="inspectStat" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">프로젝트</th>
+                        <th class="text-center th-color">구분</th>
                         <td>
                             <input type="text" id="busnClass" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){purcMngReqList.gridReload()}"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){purcMngAppList.gridReload();}"/>
                         </td>
                     </tr>
                 </table>

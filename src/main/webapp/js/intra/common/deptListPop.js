@@ -182,6 +182,11 @@ var deptListPop = {
                     opener.parent.$("#purcDeptSeq").val(row.DEPT_SEQ);
                     opener.parent.$("#purcEmpName").val(row.EMP_NAME_KR);
                     opener.parent.$("#purcEmpSeq").val(row.EMP_SEQ);
+                } else if($("#status").val() == "reqClaiming"){
+                    opener.parent.$("#purcDeptName").val(row.PARENT_DEPT_NAME + " " + row.DEPT_NAME);
+                    opener.parent.$("#purcDeptSeq").val(row.DEPT_SEQ);
+                    opener.parent.$("#purcEmpName").val(row.EMP_NAME_KR);
+                    opener.parent.$("#purcEmpSeq").val(row.EMP_SEQ);
                 } else {
                     opener.parent.$("#regtrName").val(row.EMP_NAME_KR);
                     opener.parent.$("#userName").val(row.EMP_NAME_KR);
