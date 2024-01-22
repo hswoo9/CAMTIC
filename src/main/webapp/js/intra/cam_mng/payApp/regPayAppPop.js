@@ -64,6 +64,9 @@ var regPay = {
 
             var fileThumbText = "";
             var fileList = regPay.global.fileArray;
+
+            fileList = ([...new Map(fileList.map((obj) => [obj["file_org_name"], obj])).values()]);
+
             for(let i=0; i<fileList.length; i++){
                 if(fileThumbText != ""){
                     fileThumbText += " | ";
