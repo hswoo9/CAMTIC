@@ -85,7 +85,7 @@ const bustripReq = {
                     "<span class='k-button-text'>회수</span>" +
                     "</button>";
             } else if(busInfo.STATUS == 30 || busInfo.STATUS == 40){
-                apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+busInfo.DOC_ID+"\", \""+busInfo.DOC_MENU_CD+"\", \""+busInfo.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
+                apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+busInfo.DOC_ID+"\", \"bustrip\", \""+busInfo.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                     "<span class='k-button-text'>재상신</span>" +
                     "</button>";
@@ -178,7 +178,7 @@ const bustripReq = {
         }
 
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
-        if((busInfo.STATUS != 0 && busInfo.STATUS != 30) || $("#mod").val() == "mng"){
+        if((busInfo.STATUS != 0 && busInfo.STATUS != 30 && busInfo.STATUS != 40) || $("#mod").val() == "mng"){
             $(':radio:not(:checked)').attr('disabled', true);
 
             $("#busnName").data("kendoTextBox").enable(false);
