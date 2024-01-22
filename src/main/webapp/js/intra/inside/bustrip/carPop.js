@@ -108,9 +108,14 @@ var carReq = {
             regEmpSeq : regEmpSeq,
             regEmpName : regEmpName
         }
-        carReq.searchDuplicateCar(data);
+        //carReq.searchDuplicateCar(data);
 
-        var chkData = customKendo.fn_customAjax("/inside/carRequestCheck", data);
+        var chkData = customKendo.fn_customAjax("/inside/carRequestCheck", data).cnt;
+
+        if(chkData > 0){
+            alert("선택하신 일시에 해당 차량 신청건이 존재합니다");
+            return false;
+        }
 
         if(flag) {
             if($("#carReqSn").val() == "") {
