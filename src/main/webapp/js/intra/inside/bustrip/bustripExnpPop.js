@@ -303,8 +303,9 @@ const bustripExnpReq = {
             let amt = ceil * Number(costInfo.COST_AMT);
 
             $(".oilCost").val(0);
+
             //도내(시내) 10km 이상일 때 유류비 10,000원 고정
-            if(bustripInfo.TRIP_CODE == 1){
+            if(bustripInfo.TRIP_CODE == 1 && bustripInfo.USE_TRSPT == 10){
                 if(bustripInfo.MOVE_DST >= 10){
                     $("#oilCost"+String(empSeq)).val(fn_comma(10000));
                 }

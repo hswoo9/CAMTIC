@@ -25,6 +25,17 @@ public interface WorkPlanService {
      */
     List<Map<String, Object>> getWorkPlanUserList(Map<String, Object> params);
 
+    List<Map<String, Object>> getWorkTimeCode(Map<String, Object> params);
+
+    List<Map<String, Object>> getWorkPlanList(Map<String, Object> params);
+
+    Map<String, Object> setWorkPlan(Map<String, Object> params);
+
+    void workPlanUserApp(Map<String, Object> bodyMap) throws Exception;
+
+    void workPlanAdminApp(Map<String, Object> bodyMap) throws Exception;
+
+
 
 
 }
