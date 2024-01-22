@@ -149,9 +149,12 @@ const bustripExnpReq = {
         bustripExnpReq.global.bustripInfo = result.map;
         console.log(result.map);
 
-        bustripExnpReq.fn_getExnpInfo(type);
-        bustripExnpReq.fn_getFuelInfo(type);
-
+        const corpResilt = customKendo.fn_customAjax("/inside/getBustripExnpInfo", data);
+        const corpList = corpResilt.list;
+        for(let i=0; i<corpList.length; i++){
+            const corpMap = corpList[i];
+            $(".corpHrBizExnpId").val(corpMap.HR_BIZ_EXNP_ID);
+        }
 
         const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", data);
         const cardList = cardResult.list;
@@ -174,13 +177,13 @@ const bustripExnpReq = {
                 let html = '';
                 html += '<tr class="cardData">';
                 index ++;
-                html += '    <input type="hidden" class="cardNo" value="'+cardMap.EXNP_TYPE+'" />';
+                html += '    <input type="hidden" class="exnpType" value="'+cardMap.EXNP_TYPE+'" />';
                 html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
                 html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
                 html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
                 html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
                 html += '    <input type="hidden" class="buySts" value="'+e.BUY_STS+'" />';
-                html += '    <input type="hidden" class="fileNo" value="'+e.FILE_NO+'" />';
+                html += '    <input type="hidden" class="fileNo'+index+'" value="'+e.FILE_NO+'" />';
 
                 html += '    <td style="text-align: center"><input type="checkbox" name="card" style="position: relative; top: 2px"/></td>';
                 html += '    <td>'+e.AUTH_DD.substring(0, 4) + '-' + e.AUTH_DD.substring(4, 6) + '-' + e.AUTH_DD.substring(6, 8)+'</td>';
@@ -189,11 +192,16 @@ const bustripExnpReq = {
                 html += '    <td>'+e.MER_BIZNO.substring(0, 3) + '-' + e.MER_BIZNO.substring(3, 5) + '-' + e.MER_BIZNO.substring(5, 11)+'</td>';
                 html += '    <td>'+(e.TR_NM == undefined ? "" : e.TR_NM)+'</td>';
                 html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
-                html += '    <td style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
+                html += '    <td class="amt" style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
                 html += '</tr>';
                 $("#detailRow").append(html);
+
+                corpTotalSet();
             }
         }
+
+        bustripExnpReq.fn_getExnpInfo(type);
+        bustripExnpReq.fn_getFuelInfo(type);
     },
 
     fn_getExnpInfo(type){
@@ -512,6 +520,7 @@ const bustripExnpReq = {
 
                 data = {
                     hrBizReqResultId : hrBizReqResultId,
+                    hrBizExnpId : $(row.cells[0]).find("input[name='hrBizExnpId']").val(),
                     oilCost : totalOilCost,
                     trafCost : totalTrafCost,
                     trafDayCost : totalTrafDayCostt,

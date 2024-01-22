@@ -457,7 +457,6 @@
         <if test="nationCode != null and !''.equals(nationCode)">
             NATION_CODE = #{nationCode},
         </if>
-            MOD_EMP_SEQ = #{empSeq},
             RESULT = #{result},
             DRIVER_EMP_SEQ = #{driverEmpSeq},
             MOVE_DST = #{moveDst}
@@ -818,6 +817,13 @@
             CAM_INSIDE.DJ_HR_BIZ_EXNP
         WHERE
             HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+
+        <if test="BType != null and !''.equals(BType)">
+            AND EMP_SEQ IS NOT NULL
+        </if>
+        <if test="CType != null and !''.equals(CType)">
+            AND EMP_SEQ IS NULL
+        </if>
     </select>
 
     <select id="getBustripResultInfo" parameterType="map" resultType="map">

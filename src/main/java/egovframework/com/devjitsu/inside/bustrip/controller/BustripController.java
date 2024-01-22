@@ -231,6 +231,7 @@ public class BustripController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
+        params.put("BType", "B");
         List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
 
         Map<String, Object> data = bustripService.getBustripOne(params);

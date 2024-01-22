@@ -44,9 +44,6 @@
                     <input type="button" class="k-button k-button-solid-primary" value="수정" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqResultId}', '${type}', '${params.mode}')" />
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
                 </c:when>
-                <c:when test="${rs.EXP_STAT == 100}">
-                    <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
-                </c:when>
                 <c:when test="${rs.EXP_STAT != 10}">
                     <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqResultId}', '${type}')" />
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
@@ -126,6 +123,7 @@
                 <tr class="corpData">
                     <td>
                         <div style="text-align: center">법인</div>
+                        <input type="hidden" id="hrBizExnpId" class="corpHrBizExnpId" name="hrBizExnpId" value="" />
                     </td>
                     <td>
                         <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="bustripExnpReq.fn_popRegDet(3, 1)"></i>
@@ -378,9 +376,9 @@
     const tripDayTo = '${rs.TRIP_DAY_TO}';
     const tripNum = '${fn:length(list)}';
 
-    bustripExnpReq.init('${type}');
-
     let index = 0;
+
+    bustripExnpReq.init('${type}');
 
     function cardHistSet(list, exnpType){
         console.log("list");

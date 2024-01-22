@@ -36,7 +36,7 @@
     <input type="hidden" id="nowUrl" name="nowUrl" />
     <input type="hidden" id="hrBizReqResultId" name="hrBizReqResultId" value="${params.hrBizReqResultId}"/>
 </form>
-
+<span></span>
 <div class="table-responsive">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">출장결과보고</h3>
@@ -48,9 +48,6 @@
                 <c:when test="${params.mode eq 'mng' && rs.EXP_STAT == 10}">
                     <input type="button" class="k-button k-button-solid-info" value="승인" onclick="bustripResultPop.fn_setCertRep('100');"/>
                     <input type="button" class="k-button k-button-solid-error" value="반려" onclick="bustripResultPop.fn_setCertRep('30');"/>
-                </c:when>
-                <c:when test="${rs.EXP_STAT == 100}">
-                    <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="opener.gridReload(); window.close()" />
                 </c:when>
                 <c:when test="${rs.EXP_STAT != 10}">
                     <input type="button" id="saveBtn" class="k-button k-button-solid-info" value="다음단계" onclick="bustripResultPop.fn_saveBtn('${params.hrBizReqResultId}')" />

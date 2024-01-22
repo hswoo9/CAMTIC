@@ -311,7 +311,7 @@ var bustripResultPop = {
         bustripInit.settingTempFileDataInit(fileInfo, 'result');
 
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
-        if(resInfo.EXP_STAT == 10 || resInfo.EXP_STAT == 100 || resInfo.STATUS == 100 || $("#mod").val() == "mng"){
+        if(resInfo.STATUS == 100 || $("#mod").val() == "mng"){
             $(':radio:not(:checked)').attr('disabled', true);
 
             $("#busnName").data("kendoTextBox").enable(false);
