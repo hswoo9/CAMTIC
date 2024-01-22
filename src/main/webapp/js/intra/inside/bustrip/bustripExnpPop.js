@@ -174,6 +174,7 @@ const bustripExnpReq = {
                 let html = '';
                 html += '<tr class="cardData">';
                 index ++;
+                html += '    <input type="hidden" class="cardNo" value="'+cardMap.EXNP_TYPE+'" />';
                 html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
                 html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
                 html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
@@ -377,10 +378,21 @@ const bustripExnpReq = {
             var tdsNum = row.childElementCount;
             var totalCost = 0;
 
-            for (var j = 1; j < tdsNum - 1; j++) {
-                totalCostArr[j] += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
-                totalCost += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
-                //console.log("j = " + j + ", " + $(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
+            if(i != rowList.length-2){
+                for (var j = 1; j < tdsNum - 1; j++) {
+                    totalCostArr[j] += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
+                    totalCost += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
+                    //console.log("j = " + j + ", " + $(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
+                }
+            }else{
+                var totalAmt = 0;
+                $(".cardData").each(function(k, v){
+                    const exnpType = $(v).find('.exnpType').val();
+                    totalCostArr[exnpType] += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    totalAmt += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    console.log("k = " + k + ", " + Number($(v).find('.amt').text().replace(/,/g, '')));
+                });
+                totalCost += totalAmt;
             }
 
             if(totalCost != 0){
@@ -389,26 +401,25 @@ const bustripExnpReq = {
                 $(row.cells[tdsNum - 1]).find("input[type=text]").val(0);
             }
             totalTotalCost += totalCost;
+            console.log(totalCostArr);
         }
 
         //세로합계
-        for(var i = 1 ; i < 2 ; i++){
-            var row = rowList[rowList.length-1];
-            var tdsNum = row.childElementCount;
+        var row = rowList[rowList.length-1];
+        var tdsNum = row.childElementCount;
 
-            for (var j = 1; j < tdsNum - 2; j++) {
-                if(totalCostArr[j] != 0){
-                    $(row.cells[j]).find("input[type=text]").val(fn_comma(totalCostArr[j]));
-                } else {
-                    $(row.cells[j]).find("input[type=text]").val(0);
-                }
-            }
-
-            if(totalTotalCost != 0){
-                $(row.cells[tdsNum - 1]).find("input[type=text]").val(fn_comma(totalTotalCost));
+        for (var j = 1; j < tdsNum - 2; j++) {
+            if(totalCostArr[j] != 0){
+                $(row.cells[j]).find("input[type=text]").val(fn_comma(totalCostArr[j]));
             } else {
-                $(row.cells[tdsNum - 1]).find("input[type=text]").val(0);
+                $(row.cells[j]).find("input[type=text]").val(0);
             }
+        }
+
+        if(totalTotalCost != 0){
+            $(row.cells[tdsNum - 1]).find("input[type=text]").val(fn_comma(totalTotalCost));
+        } else {
+            $(row.cells[tdsNum - 1]).find("input[type=text]").val(0);
         }
 
         if($(':focus').hasClass('eatCost')){
@@ -433,30 +444,94 @@ const bustripExnpReq = {
 
 
             let empSeq = $(row.cells[0]).find("input[name='empSeq']").val();
-            var data = {
-                hrBizReqResultId : hrBizReqResultId,
-                hrBizExnpId : $(row.cells[0]).find("input[name='hrBizExnpId']").val(),
-                empName : $(row.cells[0]).find("input[type=text]").val(),
-                empSeq : $(row.cells[0]).find("input[name='empSeq']").val(),
-                oilCost : $(row.cells[1]).find("input[type=text]").val(),
-                trafCost : $(row.cells[2]).find("input[type=text]").val(),
-                trafDayCost : $(row.cells[3]).find("input[type=text]").val(),
-                tollCost : $(row.cells[4]).find("input[type=text]").val(),
-                dayCost : $(row.cells[5]).find("input[type=text]").val(),
-                eatCost : $(row.cells[6]).find("input[type=text]").val(),
-                parkingCost : $(row.cells[7]).find("input[type=text]").val(),
-                etcCost : $(row.cells[8]).find("input[type=text]").val(),
-                totCost : $(row.cells[9]).find("input[type=text]").val(),
+            var data = {};
 
-                oilCorpYn : 'N',
-                trafCorpYn : 'N',
-                trafDayCorpYn : 'N',
-                tollCorpYn : 'N',
-                eatCorpYn : 'N',
-                parkingCorpYn : 'N',
-                etcCorpYn : 'N',
-                expStat : "Y",
-                type : type
+            if(i != rowList.length-2) {
+                data = {
+                    hrBizReqResultId : hrBizReqResultId,
+                    hrBizExnpId : $(row.cells[0]).find("input[name='hrBizExnpId']").val(),
+                    empName : $(row.cells[0]).find("input[type=text]").val(),
+                    empSeq : $(row.cells[0]).find("input[name='empSeq']").val(),
+                    oilCost : $(row.cells[1]).find("input[type=text]").val(),
+                    trafCost : $(row.cells[2]).find("input[type=text]").val(),
+                    trafDayCost : $(row.cells[3]).find("input[type=text]").val(),
+                    tollCost : $(row.cells[4]).find("input[type=text]").val(),
+                    dayCost : $(row.cells[5]).find("input[type=text]").val(),
+                    eatCost : $(row.cells[6]).find("input[type=text]").val(),
+                    parkingCost : $(row.cells[7]).find("input[type=text]").val(),
+                    etcCost : $(row.cells[8]).find("input[type=text]").val(),
+                    totCost : $(row.cells[9]).find("input[type=text]").val(),
+
+                    oilCorpYn : 'N',
+                    trafCorpYn : 'N',
+                    trafDayCorpYn : 'N',
+                    tollCorpYn : 'N',
+                    eatCorpYn : 'N',
+                    parkingCorpYn : 'N',
+                    etcCorpYn : 'N',
+                    expStat : "Y",
+                    type : type
+                }
+
+                /** 법인 합계 */
+            }else{
+                var totalAmt = 0;
+                var totalOilCost = 0;
+                var totalTrafCost = 0;
+                var totalTrafDayCostt = 0;
+                var totalTollCost = 0;
+                var totalDayCost = 0;
+                var totalEatCost = 0;
+                var totalParkingCost = 0;
+                var totalEtcCost = 0;
+
+                $(".cardData").each(function(k, v){
+                    const exnpType = $(v).find('.exnpType').val();
+
+                    if(exnpType == "1"){
+                        totalOilCost += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    }else if(exnpType == "2"){
+                        totalTrafCost += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    }else if(exnpType == "3"){
+                        totalTrafDayCostt += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    }else if(exnpType == "4"){
+                        totalTollCost += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    }else if(exnpType == "5"){
+                        totalDayCost += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    }else if(exnpType == "6"){
+                        totalEatCost += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    }else if(exnpType == "7"){
+                        totalParkingCost += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    }else if(exnpType == "8"){
+                        totalEtcCost += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    }
+                    totalAmt += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    console.log("k = " + k + ", " + Number($(v).find('.amt').text().replace(/,/g, '')));
+                });
+                totalCost += totalAmt;
+
+                data = {
+                    hrBizReqResultId : hrBizReqResultId,
+                    oilCost : totalOilCost,
+                    trafCost : totalTrafCost,
+                    trafDayCost : totalTrafDayCostt,
+                    tollCost : totalTollCost,
+                    dayCost : totalDayCost,
+                    eatCost : totalEatCost,
+                    parkingCost : totalParkingCost,
+                    etcCost : totalEtcCost,
+                    totCost : totalCost,
+
+                    oilCorpYn : 'Y',
+                    trafCorpYn : 'Y',
+                    trafDayCorpYn : 'Y',
+                    tollCorpYn : 'Y',
+                    eatCorpYn : 'Y',
+                    parkingCorpYn : 'Y',
+                    etcCorpYn : 'Y',
+                    expStat : "Y",
+                    type : type
+                }
             }
 
             result = customKendo.fn_customAjax("/bustrip/saveBustripExnpPop", data);
@@ -469,6 +544,7 @@ const bustripExnpReq = {
         let cardArr = [];
         $.each($(".cardData"), function(i, v){
             const cardData = {};
+            const exnpType = $(v).find('.exnpType').val();
             const cardNo = $(v).find('.cardNo').val();
             const authDate = $(v).find('.authDate').val();
             const authNum = $(v).find('.authNum').val();
@@ -476,6 +552,7 @@ const bustripExnpReq = {
             const buySts = $(v).find('.buySts').val();
             const fileNo = $(v).find('.fileNo').val();
 
+            cardData.exnpType = exnpType;
             cardData.cardNo = cardNo;
             cardData.authDate = authDate;
             cardData.authNum = authNum;
@@ -621,7 +698,7 @@ const bustripExnpReq = {
             return false;
         }
 
-        var url = "/mng/pop/paymentCardHistory.do?type=3&index=2&reqType=bustrip&cardBaNb=" + corpCardNum + "&requestType=3";
+        var url = "/mng/pop/paymentCardHistory.do?type=3&index=2&reqType=bustrip&paymentCardHistory=" + corpCardNum + "&requestType=3&exnpType="+inx;
 
         var name = "_blank";
         var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
