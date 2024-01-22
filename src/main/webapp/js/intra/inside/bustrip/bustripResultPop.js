@@ -497,6 +497,7 @@ var bustripResultPop = {
                 var moveDst = dist / 1000;
                 var formattedNumber = Math.floor(moveDst * 10) / 10;
 
+                formattedNumber = formattedNumber * 2;
                 $("#moveDst").val(formattedNumber.toFixed(1));
 
             }
