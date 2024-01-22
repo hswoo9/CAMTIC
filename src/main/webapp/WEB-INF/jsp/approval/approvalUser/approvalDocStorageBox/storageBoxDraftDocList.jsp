@@ -31,11 +31,13 @@
                 <div style="margin-bottom:10px;">
                     <table class="searchTable table table-bordered" style="width: 100%">
                         <colgroup>
+                            <col width="8%">
+                            <col width="20%">
+                            <col width="8%">
                             <col width="10%">
-                            <col width="25%">
+                            <col width="8%">
                             <col width="10%">
-                            <col width="10%">
-                            <col width="10%">
+                            <col width="8%">
                             <col width="auto">
                         </colgroup>
                         <tr>
@@ -46,6 +48,10 @@
                             <th class="text-center th-color">조회</th>
                             <td>
                                 <input type="text" id="search" style="width: 100%;">
+                            </td>
+                            <th class="text-center th-color">결재상태</th>
+                            <td>
+                                <input type="text" id="docStatus" style="width: 100%;">
                             </td>
                             <th class="text-center th-color">
                                 <span class="pdr5 pdl3per">문서명</span>

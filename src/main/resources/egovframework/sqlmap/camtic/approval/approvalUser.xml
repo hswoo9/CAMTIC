@@ -117,6 +117,10 @@
                 )
             </when>
         </choose>
+        <if test='docStatus != null and !"".equals(docStatus)'>
+            AND
+                DI.APPROVE_STAT_CODE = #{docStatus}
+        </if>
         AND
             DI.ACTIVE = 'Y'
         AND
