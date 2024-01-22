@@ -131,6 +131,7 @@
             DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
             EI.EMP_NAME_KR,
             MP.PURC_REQ_PURPOSE,
+            DP.BUSN_CLASS,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = MP.PURC_SN AND CLAIM_STAT = 'N')  AS CP_CNT,
             COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
             MP.STATUS,
@@ -169,10 +170,23 @@
             <if test='searchDept != null and !"".equals(searchDept)'>
                 AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
             </if>
-            <if test='busnClass != null and !"".equals(busnClass)'>
-                AND DP.BUSN_CLASS = #{busnClass}
-            </if>
-
+            <choose>
+                <when test='busnClass != null and !"".equals(busnClass) and "C".equals(busnClass)'>
+                    AND DP.BUSN_CLASS IS NULL
+                </when>
+                <when test='busnClass != null and !"".equals(busnClass) and "R".equals(busnClass)'>
+                    AND DP.BUSN_CLASS = 'R'
+                </when>
+                <when test='busnClass != null and !"".equals(busnClass) and "S".equals(busnClass)'>
+                    AND DP.BUSN_CLASS = 'S'
+                </when>
+                <when test='busnClass != null and !"".equals(busnClass) and "D".equals(busnClass)'>
+                    AND DP.BUSN_CLASS = 'D'
+                </when>
+                <when test='busnClass != null and !"".equals(busnClass) and "V".equals(busnClass)'>
+                    AND DP.BUSN_CLASS = 'V'
+                </when>
+            </choose>
             <choose>
                 <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
                     AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
