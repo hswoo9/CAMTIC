@@ -919,6 +919,8 @@ var prp = {
 
     addFileInfoTable : function (){
         let size = 0;
+        let fileName = "";
+        let fileExt = "";
         if($("input[name='fileList']")[0].files.length == 1){
             $("#fileGrid").html("");
         }
@@ -932,10 +934,13 @@ var prp = {
 
             var html = '';
             for (var i = 0; i < fCommon.global.attFiles.length; i++) {
-                size = fCommon.bytesToKB(fCommon.global.attFiles[i].size);
+                size = fCommon.bytesToKB((fCommon.global.attFiles[i].file_size || fCommon.global.attFiles[i].size));
+                fileName = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.split(".")[0] : fCommon.global.attFiles[i].file_org_name;
+                fileExt = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.split(".")[1] : fCommon.global.attFiles[i].file_ext;
+
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
-                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
-                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
+                html += '   <td>' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
                 html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
@@ -949,10 +954,11 @@ var prp = {
 
     /** 첨부파일 데이터 세팅 */
     settingTempFileDataInit: function(e){
+        fCommon.global.attFiles = fCommon.global.attFiles.concat(e);
         var html = '';
         if(e.length > 0){
             for(var i = 0; i < e.length; i++){
-                html += '<tr style="text-align: center">';
+                html += '<tr style="text-align: center" class="addFile">';
                 html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">'+e[i].file_org_name+'</span></td>';
                 html += '   <td>'+ e[i].file_ext +'</td>';
                 html += '   <td>'+ e[i].file_size +'</td>';
