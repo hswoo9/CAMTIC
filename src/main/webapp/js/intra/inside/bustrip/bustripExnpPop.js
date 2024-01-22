@@ -456,6 +456,11 @@ const bustripExnpReq = {
             let empSeq = $(row.cells[0]).find("input[name='empSeq']").val();
             var data = {};
 
+            let oilCk = "N";
+            if(bustripExnpReq.global.bustripInfo.USE_TRSPT != "0" && bustripExnpReq.global.bustripInfo.USE_TRSPT != "10" ){
+                oilCk = "Y"
+            }
+
             if(i != rowList.length-2) {
                 data = {
                     hrBizReqResultId : hrBizReqResultId,
@@ -472,7 +477,7 @@ const bustripExnpReq = {
                     etcCost : $(row.cells[8]).find("input[type=text]").val(),
                     totCost : $(row.cells[9]).find("input[type=text]").val(),
 
-                    oilCorpYn : 'N',
+                    oilCorpYn : oilCk,
                     trafCorpYn : 'N',
                     trafDayCorpYn : 'N',
                     tollCorpYn : 'N',
