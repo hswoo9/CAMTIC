@@ -697,4 +697,172 @@
                 #{empSeq}
             )
     </insert>
+
+    <select id="getJangCodeList" parameterType="map" resultType="map">
+        /*getJangCodeList*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_JANG_CODE
+        WHERE
+            BUDGET_VAL = #{budgetVal}
+    </select>
+
+    <select id="getGwanCodeList" parameterType="map" resultType="map">
+        /*getGwanCodeList*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_GWAN_CODE
+        WHERE
+            BUDGET_VAL = #{budgetVal}
+    </select>
+
+    <select id="getHangCodeList" parameterType="map" resultType="map">
+        /*getHangCodeList*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_HANG_CODE
+        WHERE
+            BUDGET_VAL = #{budgetVal}
+    </select>
+
+    <select id="getJangInfo" parameterType="map" resultType="map">
+        /*getJangInfo*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_JANG_CODE
+        WHERE
+            JANG_SN = #{pk}
+    </select>
+
+    <select id="getGwanInfo" parameterType="map" resultType="map">
+        /*getGwanInfo*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_GWAN_CODE
+        WHERE
+            GWAN_SN = #{pk}
+    </select>
+
+    <select id="getHangInfo" parameterType="map" resultType="map">
+        /*getHangInfo*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_HANG_CODE
+        WHERE
+            HANG_SN = #{pk}
+    </select>
+
+    <update id="updJangInfo" parameterType="map">
+        /*updJangInfo*/
+        UPDATE CAM_COMMON.DJ_JANG_CODE
+        SET
+            JANG_NM = #{jangNm},
+            JANG_CD = #{jangCd}
+        WHERE
+            JANG_SN = #{pk}
+    </update>
+
+    <insert id="insJangInfo" parameterType="map">
+        /*insJangInfo*/
+        INSERT INTO CAM_COMMON.DJ_JANG_CODE
+            (
+                JANG_NM,
+                JANG_CD,
+                BUDGET_VAL
+            )
+        VALUES
+            (
+                #{jangNm},
+                #{jangCd},
+                #{budgetVal}
+            )
+    </insert>
+
+    <update id="updGwanInfo" parameterType="map">
+        /*updGwanInfo*/
+        UPDATE CAM_COMMON.DJ_GWAN_CODE
+        SET
+            GWAN_NM = #{gwanNm},
+            GWAN_CD = #{gwanCd}
+        WHERE
+            GWAN_SN = #{pk}
+    </update>
+
+    <insert id="insGwanInfo" parameterType="map">
+        /*insGwanInfo*/
+        INSERT INTO CAM_COMMON.DJ_GWAN_CODE
+            (
+                GWAN_NM,
+                GWAN_CD,
+                BUDGET_VAL
+            )
+        VALUES
+            (
+                #{gwanNm},
+                #{gwanCd},
+                #{budgetVal}
+            )
+    </insert>
+
+    <update id="updHangInfo" parameterType="map">
+        /*updHangInfo*/
+        UPDATE CAM_COMMON.DJ_HANG_CODE
+        SET
+            HANG_NM = #{hangNm},
+            HANG_CD = #{hangCd},
+            HANG_JB_CD = #{hangJbCd},
+            HANG_BI_CD = #{hangBiCd},
+            HANG_CONT = #{hangCont}
+        WHERE
+            HANG_SN = #{pk}
+    </update>
+
+    <insert id="insHangInfo" parameterType="map">
+        /*insHangInfo*/
+        INSERT INTO CAM_COMMON.DJ_HANG_CODE
+            (
+                HANG_NM,
+                HANG_CD,
+                HANG_JB_CD,
+                HANG_BI_CD,
+                HANG_CONT,
+                BUDGET_VAL
+            )
+        VALUES
+            (
+                #{hangNm},
+                #{hangCd},
+                #{hangJbCd},
+                #{hangBiCd},
+                #{hangCont},
+                #{budgetVal}
+            )
+    </insert>
+
+    <delete id="delJangCode" parameterType="map">
+        /*delJangCode*/
+        DELETE FROM CAM_COMMON.DJ_JANG_CODE
+        WHERE
+            JANG_SN = #{pk}
+    </delete>
+
+    <delete id="delGwanCode" parameterType="map">
+        /*delGwanCode*/
+        DELETE FROM CAM_COMMON.DJ_GWAN_CODE
+        WHERE
+            GWAN_SN = #{pk}
+    </delete>
+
+    <delete id="delHangCode" parameterType="map">
+        /*delHangCode*/
+        DELETE FROM CAM_COMMON.DJ_HANG_CODE
+        WHERE
+            HANG_SN = #{pk}
+    </delete>
 </mapper>

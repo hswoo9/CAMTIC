@@ -120,4 +120,64 @@ public class CommonRepository extends AbstractDAO {
     public void insPurcFileList(Map<String, Object> map) {
         insert("common.insPurcFileList", map);
     }
+
+    public List<Map<String, Object>> getJangCodeList(Map<String, Object> params) {
+        return selectList("common.getJangCodeList", params);
+    }
+
+    public List<Map<String, Object>> getGwanCodeList(Map<String, Object> params) {
+        return selectList("common.getGwanCodeList", params);
+    }
+
+    public List<Map<String, Object>> getHangCodeList(Map<String, Object> params) {
+        return selectList("common.getHangCodeList", params);
+    }
+
+    public Map<String, Object> getJangInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("common.getJangInfo", params);
+    }
+
+    public Map<String, Object> getGwanInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("common.getGwanInfo", params);
+    }
+
+    public Map<String, Object> getHangInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("common.getHangInfo", params);
+    }
+
+    public void updJangInfo(Map<String, Object> params) {
+        update("common.updJangInfo", params);
+    }
+
+    public void insJangInfo(Map<String, Object> params) {
+        insert("common.insJangInfo", params);
+    }
+
+    public void updGwanInfo(Map<String, Object> params) {
+        update("common.updGwanInfo", params);
+    }
+
+    public void insGwanInfo(Map<String, Object> params) {
+        insert("common.insGwanInfo", params);
+    }
+
+    public void updHangInfo(Map<String, Object> params) {
+        update("common.updHangInfo", params);
+    }
+
+    public void insHangInfo(Map<String, Object> params) {
+        insert("common.insHangInfo", params);
+    }
+
+    public void delJangCode(Map<String, Object> params) {
+        delete("common.delJangCode", params);
+    }
+
+    public void delGwanCode(Map<String, Object> params) {
+        delete("common.delGwanCode", params);
+    }
+
+    public void delHangCode(Map<String, Object> params) {
+        delete("common.delHangCode", params);
+    }
 }

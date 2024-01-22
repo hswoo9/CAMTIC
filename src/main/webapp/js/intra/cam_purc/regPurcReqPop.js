@@ -439,6 +439,9 @@ var prp = {
             }
         });
 
+        //구매요청서 작성시 디폴트 선택
+        $("#purcItemType" + prp.global.itemIndex).data("kendoDropDownList").select(1);
+        $("#productA" + prp.global.itemIndex).data("kendoDropDownList").select(2);
     },
 
     fn_productCodeSetting : function(productId){
