@@ -16,6 +16,19 @@ var storageBoxDraft = {
             { text: "진행중", value: "1" }
         ]
         customKendo.fn_dropDownList("search", studyDataSource, "text", "value", 3);
+
+        $("#docStatus").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "전체", value: ""},
+                {text: "상신", value: "10"},
+                {text: "결재", value: "20"},
+                {text: "재상신", value: "50"},
+                {text: "최종결재", value: "100"},
+                {text: "전결", value: "101"}
+            ]
+        })
         $("#search").data("kendoDropDownList").value("1");
 
         storageBoxDraft.gridReload();
@@ -152,6 +165,7 @@ var storageBoxDraft = {
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
             approveStat : $("#search").data("kendoDropDownList").value() != "1" ? "draft" : "draft2",
+            docStatus : $("#docStatus").data("kendoDropDownList").value()
         }
 
         storageBoxDraft.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxDraft.global.searchAjaxData);

@@ -70,6 +70,7 @@ const regPayAtt = {
         var fileResult = customKendo.fn_customAjax("/purc/purcFileList", data)
 
         fileArray = fileResult.listMap;
+
         let size = 0;
         if(fileArray.length > 0) {
             for (var i = 0; i < fileArray.length; i++) {

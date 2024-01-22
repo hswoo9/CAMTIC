@@ -319,7 +319,9 @@ const bustripExnpReq = {
                     $("#oilCost"+String(empSeq)).val(fn_comma(10000));
                 }
             }else{
-                $("#oilCost"+String(empSeq)).val(fn_comma(amt));
+                if(bustripInfo.USE_TRSPT == 10){
+                    $("#oilCost"+String(empSeq)).val(fn_comma(amt));
+                }
             }
         }
         bustripExnpReq.fn_setTableSum();
