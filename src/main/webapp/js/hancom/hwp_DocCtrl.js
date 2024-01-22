@@ -692,6 +692,7 @@ var hwpDocCtrl = {
             hwpDocCtrl.global.params = params;
             hwpDocCtrl.global.loginEmpInfo.loginEmpSeq = loginEmpSeq;
         }else if (hwpDocCtrl.global.mod == "RW"){
+            hwpDocCtrl.global.params = params;
             hwpDocCtrl.global.templateFile = templateFormFile;
         }else if (hwpDocCtrl.global.mod == "V"){
             hwpDocCtrl.global.templateFile = templateFormFile;
@@ -909,6 +910,8 @@ var hwpDocCtrl = {
         hwpDocCtrl.global.HwpCtrl.ShowCaret(true);
         hwpDocCtrl.global.HwpCtrl.ShowStatusBar(true);
         hwpDocCtrl.global.HwpCtrl.SetFieldViewOption(2);
+
+        hwpDocCtrl.dataSet();
 
         hwpDocCtrl.global.HwpCtrl.MoveToField('doc_content', true, true, false);
     },
