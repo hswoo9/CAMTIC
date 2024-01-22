@@ -34,7 +34,7 @@
             </div>
             <form id="table-responsive" style="padding: 20px 30px;">
                 <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
-                <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
+                <input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${loginVO.uniqId}">
                 <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
                 <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
                 <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
@@ -92,7 +92,7 @@
                         </th>
                         <td colspan="3">
                             <input type="text" id="userName" style="width: 30%;" disabled="disabled">
-                            <input type="hidden" id="userSn" style="width: 30%;" disabled="disabled">
+                            <input type="hidden" id="empSeq" style="width: 30%;" disabled="disabled">
                             <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0;" onclick="userSearch();">
                                 검색
                             </button>
