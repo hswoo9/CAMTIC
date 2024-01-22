@@ -14,8 +14,8 @@ var purcMngAppList = {
 
         purcMngAppList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
-            { text: "목적", value: "PURC_REQ_PURPOSE" },
-            { text: "품명", value: "PURC_ITEM_NAME" },
+            // { text: "목적", value: "PURC_REQ_PURPOSE" },
+            // { text: "품명", value: "PURC_ITEM_NAME" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", purcMngAppList.global.dropDownDataSource, "text", "value");
@@ -32,15 +32,18 @@ var purcMngAppList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: ""},
+                {text: "법인운영", value: "C"},
                 {text: "R&D", value: "R"},
                 {text: "비R&D", value: "S"},
                 {text: "엔지니어링", value: "D"},
-                {text: "기타/용역", value: "N"},
+                {text: "기타/용역", value: "V"},
             ],
         });
 
         customKendo.fn_dropDownList("inspectStat", purcMngAppList.global.dropDownDataSource, "text", "value");
         $("#inspectStat").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
+        $("#busnClass").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
+        $("#searchKeyword").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
         purcMngAppList.gridReload();
     },
 
@@ -232,7 +235,8 @@ var purcMngAppList = {
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            inspectStat : $("#inspectStat").data("kendoDropDownList").value()
+            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
+            busnClass : $("#busnClass").val()
         }
 
         purcMngAppList.mainGrid("/purc/getMngPurcAppList", purcMngAppList.global.searchAjaxData);
