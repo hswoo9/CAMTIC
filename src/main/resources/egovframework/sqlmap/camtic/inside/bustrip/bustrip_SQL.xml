@@ -1457,6 +1457,7 @@
         INSERT INTO CAM_INSIDE.DJ_HR_CARD_HIST
             (
                 HR_BIZ_REQ_RESULT_ID,
+                EXNP_TYPE,
                 CARD_NO,
                 AUTH_DD,
                 AUTH_NO,
@@ -1467,6 +1468,7 @@
         VALUES
             (
                 #{hrBizReqResultId},
+                #{exnpType},
                 #{cardNo},
                 #{authDate},
                 #{authNum},

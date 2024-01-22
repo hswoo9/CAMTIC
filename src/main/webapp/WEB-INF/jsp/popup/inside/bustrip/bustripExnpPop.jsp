@@ -382,7 +382,7 @@
 
     let index = 0;
 
-    function cardHistSet(list){
+    function cardHistSet(list, exnpType){
         console.log("list");
         console.log(list);
 
@@ -393,6 +393,7 @@
 
             const e = list[i];
             html += '<tr class="cardData">';
+            html += '    <input type="hidden" class="exnpType" value="'+exnpType+'" />';
             html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
             html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
             html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';

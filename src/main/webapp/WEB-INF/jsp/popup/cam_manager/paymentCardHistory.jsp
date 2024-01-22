@@ -44,6 +44,8 @@
 
 <input type="hidden" id="reqType" value="${params.reqType}" />
 
+<input type="hidden" id="exnpType" value="${params.exnpType}" />
+
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
