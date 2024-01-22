@@ -15,7 +15,7 @@
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM">차량 통계</h3>
+            <h3 class="card-title title_NM">회의실 통계</h3>
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
