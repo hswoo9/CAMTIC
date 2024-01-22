@@ -75,11 +75,15 @@ var workPlanUser = {
             noRecords: {
                 template: "<div style='margin: auto;'>데이터가 존재하지 않습니다.</div>"
             },
+            dataBinding: function(){
+                record = fn_getRowNum(this, 3);
+            },
             columns: [
                 {
                     field: "",
                     title: "순번",
-                    width: "50px"
+                    width: "50px",
+                    template: "#= --record #"
                 }, {
                     field: "WORK_TIME_CODE_NAME",
                     title: "신청구분",
