@@ -145,7 +145,9 @@ public class SubHolidayController {
 
     //전체휴가현황
     @RequestMapping("/subHoliday/searchHolidayPop.do")
-    public String searchHolidayPop() {
+    public String searchHolidayPop(Model model, HttpServletRequest request) {
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("loginVO", login);
         return "/popup/subHoliday/searchHolidayPop";
     }
 

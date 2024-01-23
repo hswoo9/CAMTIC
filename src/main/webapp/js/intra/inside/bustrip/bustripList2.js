@@ -67,7 +67,7 @@ var bustList = {
                 }, {
                     name : 'button',
                     template : function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bustripList.fn_delBtn()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bustList.fn_delBtn()">' +
                             '	<span class="k-button-text">신청취소</span>' +
                             '</button>';
                     }
@@ -104,6 +104,9 @@ var bustList = {
                         console.log(row);
                         if(row.RS_STATUS == 100 && row.EXP_STAT == 100 && row.PAY_APP_SN == null){
                             return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_RESULT_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_RESULT_ID+"' trip-code='"+row.TRIP_CODE+"' style='position: relative; top:3px' class='bstCheck'/>"
+                        }else if(row.STATUS == 0){
+                            return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_ID+"' style='position: relative; top:3px' class='bstCheck'/>"
+
                         }else{
                             return "";
                         }
@@ -334,12 +337,24 @@ var bustList = {
 
     fn_delBtn: function(){
         let keyAr = [];
+        let flag = true;
+
         if($("input[name='bstCheck']:checked").length == 0){ alert("취소할 출장을 선택해주세요.") }
         if(!confirm("선택한 출장 신청을 취소하시겠습니까?")){ return; }
 
         $("input[name='bstCheck']:checked").each(function(){
+            if($(this).attr("trip-code") == null || $(this).attr("trip-code") == "" || $(this).attr("trip-code") == undefined){
+                flag = false;
+                return false;
+            }
+
             keyAr.push(this.value);
         });
+
+        if(!flag){
+            alert("취소할 수 없는 신청건이 존재합니다.");
+            return false;
+        }
 
         $.ajax({
             url : "/bustrip/delBustripReq",
@@ -350,6 +365,7 @@ var bustList = {
             traditional: true,
             dataType: "json",
             success : function(){
+                alert("취소되었습니다.");
                 gridReload();
             }
         });
@@ -381,10 +397,16 @@ var bustList = {
     fn_checkedReqRegPopup : function (){
         var hrBizReqResultId = "";
         var flag = true;
+        var flag2 = true;
         var tripCode = null;
 
         $('input[name="bstCheck"]:checked').each(function(){
             hrBizReqResultId += $(this).val() + ",";
+
+            if($(this).attr("trip-code") == null || $(this).attr("trip-code") == "" || $(this).attr("trip-code") == undefined){
+                flag2 = false;
+                return false;
+            }
 
             if (tripCode === null) {
                 tripCode = $(this).attr("trip-code");
@@ -399,9 +421,12 @@ var bustList = {
             alert("선택된 출장이 없습니다.");
             return false;
         }
-
         if(!flag){
             alert("서로 다른 사업은 일괄 지급신청이 불가합니다.");
+            return false;
+        }
+        if(!flag2){
+            alert("지급신청 불가한 신청건이 존재합니다.");
             return false;
         }
 
