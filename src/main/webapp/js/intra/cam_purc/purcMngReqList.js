@@ -31,15 +31,17 @@ var purcMngReqList = {
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: ""},
+                {text: "법인운영", value: "C"},
                 {text: "R&D", value: "R"},
                 {text: "비R&D", value: "S"},
                 {text: "엔지니어링", value: "D"},
-                {text: "기타/용역", value: "N"},
+                {text: "기타/용역", value: "V"},
             ],
         });
 
         customKendo.fn_dropDownList("inspectStat", purcMngReqList.global.dropDownDataSource, "text", "value");
         $("#inspectStat").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
+        $("#busnClass").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
         purcMngReqList.gridReload();
     },
 
@@ -146,7 +148,8 @@ var purcMngReqList = {
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            inspectStat : $("#inspectStat").data("kendoDropDownList").value()
+            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
+            busnClass : $("#busnClass").val()
         }
 
         purcMngReqList.mainGrid("/purc/getMngReqPurcList", purcMngReqList.global.searchAjaxData);

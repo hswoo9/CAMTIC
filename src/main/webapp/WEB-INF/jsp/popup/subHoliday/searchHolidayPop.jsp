@@ -38,6 +38,9 @@
           <input id="start_date" style="width:150px; margin-right:5px;">
           ~
           <input id="end_date" style="width:150px; margin-right:5px;">
+          <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="searchHolidayReqPop.gridReload()">
+            조회
+          </button>
         </td>
       </tr>
       </thead>
