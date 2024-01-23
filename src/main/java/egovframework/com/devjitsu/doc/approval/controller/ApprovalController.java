@@ -149,6 +149,18 @@ public class ApprovalController {
         return "popup/approval/popup/approvalLineSettingPop";
     }
 
+    /** 결재선 지정 (위임전결 설정 이미지*/
+    @RequestMapping("/approval/priorPop.do")
+    public String priorPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/approval/popup/priorPop";
+    }
+
     /**
      * 결재선 지정 (사용자 부재체크)
      * @param params
