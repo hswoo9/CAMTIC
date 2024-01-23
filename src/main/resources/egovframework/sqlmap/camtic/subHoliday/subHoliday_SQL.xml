@@ -193,6 +193,17 @@
             VUH.ACTIVE = 'Y'
         AND
             VUH.SUBHOLIDAY_WORK_DAY_YN = 'N'
+        <if test='startDate != null and !"".equals(startDate)'>
+        <![CDATA[
+            AND
+                DATE_FORMAT(#{startDate}, '%Y-%m-%d') <= DATE_FORMAT(VUH.SUBHOLIDAY_WORK_DAY, '%Y-%m-%d')
+            AND
+                DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(VUH.SUBHOLIDAY_WORK_DAY, '%Y-%m-%d')
+        ]]>
+        </if>
+        <if test="empSeq != null and empSeq != ''">
+            AND VUH.APPLY_SEQ = #{empSeq}
+        </if>
     </select>
 
     <select id="getVacUseHistoryListAdmin" parameterType="map" resultType="map">
