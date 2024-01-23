@@ -628,5 +628,13 @@ var lineSettingPop = {
         opener.draft.global.approversArr = lineSettingPop.global.approversArr;
         opener.draft.setHwpApprovalLinePut();
         window.close();
+    },
+
+    PriorPop : function(){
+        const windowPopUrl = "/approval/priorPop.do";
+        const popName = "priorPop";
+        const popStyle ="width=897, height=1266, scrollbars=no, top=100, left=300, resizable=no, toolbars=no, menubar=no";
+
+        window.open(windowPopUrl, popName, popStyle);
     }
 }

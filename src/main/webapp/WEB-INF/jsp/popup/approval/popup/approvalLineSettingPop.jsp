@@ -61,6 +61,7 @@
 					<div>
 						<div>
 							<input type='text' id='favApproveList' name='favApproveList' style='margin-right: auto;width: 30%;'>
+							<b style="float: right; color: cornflowerblue; cursor: pointer; text-decoration : underline;" onclick="lineSettingPop.PriorPop()" > >> 사무위임전결 결재선 기준 </b>
 						</div>
 						<div style="margin-top: 10px;margin-bottom: 48px;">
 							<div style="float: left">
