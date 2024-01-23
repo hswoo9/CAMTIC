@@ -147,30 +147,91 @@
 								<tbody>
 									<tr>
 										<th class="text-center th-color">
-											<span class="red-star">*</span>원장 전결
+											<span class="red-star">*</span>양식폴더
 										</th>
 										<td colspan="3">
+											<input type="text" id="formFolderId" name="formFolderId"> <!-- 드롭다운 -->
 										</td>
 									</tr>
 									<tr>
 										<th class="text-center th-color">
-											<span class="red-star">*</span>부서장 전결
+											<span class="red-star">*</span>양식명
 										</th>
 										<td colspan="3">
+											<input type="text" id="formName" name="formName" style="width: 100%;">
 										</td>
 									</tr>
 									<tr>
 										<th class="text-center th-color">
-											<span class="red-star">*</span>팀장 전결
+											<span class="red-star">*</span>사용여부
 										</th>
-										<td colspan="3">
+										<td>
+											<span type="text" id="active" name="active" style="width: 100%;"></span>
+										</td>
+										<th class="text-center th-color">
+											<span class="red-star">*</span>노출여부
+										</th>
+										<td>
+											<span type="text" id="visible" name="visible" style="width: 100%;"></span>
 										</td>
 									</tr>
 									<tr>
 										<th class="text-center th-color">
-											<span class="red-star">*</span>팀장 전결
+											<span class="red-star">*</span>메일주소입력
+										</th>
+										<td>
+											<span type="text" id="emailAddress" name="emailAddress" style="width: 100%;"></span>
+										</td>
+										<th class="text-center th-color">
+											<span class="red-star">*</span>결재자표시
+										</th>
+										<td>
+											<span type="text" id="approverMark" name="approverMark" style="width: 100%;"></span>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center th-color">
+											<span class="red-star">*</span>정렬순서
 										</th>
 										<td colspan="3">
+											<input type="text" id="sort" name="sort" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" style="width: 100%;">
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center th-color">
+											<span class="red-star">*</span>연동종류
+										</th>
+										<td colspan="3">
+											<input type="text" id="linkageType" name="linkageType" style="width: 39%;">
+										</td>
+									</tr>
+									<tr>
+										<th class="text-center th-color">상부캠페인</th>
+										<td colspan="3">
+											<input type="text" id="headerCampaign" name="headerCampaign" style="width: 100%;">
+										</td>
+									</tr>
+									<tr style="border-bottom: 1px solid #dcdcdc;">
+										<th class="text-center th-color">하부캠페인</th>
+										<td colspan="3">
+											<input type="text" id="footerCampaign" name="footerCampaign" style="width: 100%;">
+										</td>
+									</tr>
+									<tr class="linkageType2InfoTr">
+										<th class="text-center th-color">연동종류</th>
+										<td colspan="3">
+											<input type="text" id="linkageProcessId" name="linkageProcessId" style="width: 39%;">
+										</td>
+									</tr>
+									<tr class="linkageType2InfoTr" style="border-bottom: 1px solid #dcdcdc;">
+										<th class="text-center th-color">팝업 사용여부</th>
+										<td>
+											<span type="text" id="linkagePopActive" name="linkagePopActive" style="width: 100%;"></span>
+										</td>
+										<th class="text-center th-color">팝업 사이즈</th>
+										<td>
+											가로 <input type="text" id="linkagePopWidth" style="width: 45px" class="k-input k-textbox k-input-solid k-input-md" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
+											세로 <input type="text" id="linkagePopHeight"style="width: 45px" class="k-input k-textbox k-input-solid k-input-md" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
 										</td>
 									</tr>
 								</tbody>
@@ -310,109 +371,62 @@
 							<div style="display:flex; justify-content: space-between; margin:0 10px;">
 								<div class="spanft" style="margin-bottom: 17px;font-weight: bold;">· 위임전결 설정</div>
 							</div>
-
-							<input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-							<input type="hidden" id="formId" name="formId">
-							<input type="hidden" id="formReqOptId" name="formReqOptId">
-							<input type="hidden" id="formCompSeq" name="formCompSeq" value="1212">
-							<input type="hidden" id="formCompName" name="formCompName" value="캠틱종합기술원">
 							<table class="searchTable table table-bordered" style="width: 99%">
-								<colgroup>
-									<col width="18%">
-									<col width="35%">
-								</colgroup>
-								<tbody>
-								<tr>
-									<th class="text-center th-color">
-										<span class="red-star">*</span>양식폴더
-									</th>
-									<td colspan="3">
-										<input type="text" id="formFolderId" name="formFolderId"> <!-- 드롭다운 -->
-									</td>
-								</tr>
-								<tr>
-									<th class="text-center th-color">
-										<span class="red-star">*</span>양식명
-									</th>
-									<td colspan="3">
-										<input type="text" id="formName" name="formName" style="width: 100%;">
-									</td>
-								</tr>
-								<tr>
-									<th class="text-center th-color">
-										<span class="red-star">*</span>사용여부
-									</th>
-									<td>
-										<span type="text" id="active" name="active" style="width: 100%;"></span>
-									</td>
-									<th class="text-center th-color">
-										<span class="red-star">*</span>노출여부
-									</th>
-									<td>
-										<span type="text" id="visible" name="visible" style="width: 100%;"></span>
-									</td>
-								</tr>
-								<tr>
-									<th class="text-center th-color">
-										<span class="red-star">*</span>메일주소입력
-									</th>
-									<td>
-										<span type="text" id="emailAddress" name="emailAddress" style="width: 100%;"></span>
-									</td>
-									<th class="text-center th-color">
-										<span class="red-star">*</span>결재자표시
-									</th>
-									<td>
-										<span type="text" id="approverMark" name="approverMark" style="width: 100%;"></span>
-									</td>
-								</tr>
-								<tr>
-									<th class="text-center th-color">
-										<span class="red-star">*</span>정렬순서
-									</th>
-									<td colspan="3">
-										<input type="text" id="sort" name="sort" maxlength="2" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" style="width: 100%;">
-									</td>
-								</tr>
-								<tr>
-									<th class="text-center th-color">
-										<span class="red-star">*</span>연동종류
-									</th>
-									<td colspan="3">
-										<input type="text" id="linkageType" name="linkageType" style="width: 39%;">
-									</td>
-								</tr>
-								<tr>
-									<th class="text-center th-color">상부캠페인</th>
-									<td colspan="3">
-										<input type="text" id="headerCampaign" name="headerCampaign" style="width: 100%;">
-									</td>
-								</tr>
-								<tr style="border-bottom: 1px solid #dcdcdc;">
-									<th class="text-center th-color">하부캠페인</th>
-									<td colspan="3">
-										<input type="text" id="footerCampaign" name="footerCampaign" style="width: 100%;">
-									</td>
-								</tr>
-								<tr class="linkageType2InfoTr">
-									<th class="text-center th-color">연동종류</th>
-									<td colspan="3">
-										<input type="text" id="linkageProcessId" name="linkageProcessId" style="width: 39%;">
-									</td>
-								</tr>
-								<tr class="linkageType2InfoTr" style="border-bottom: 1px solid #dcdcdc;">
-									<th class="text-center th-color">팝업 사용여부</th>
-									<td>
-										<span type="text" id="linkagePopActive" name="linkagePopActive" style="width: 100%;"></span>
-									</td>
-									<th class="text-center th-color">팝업 사이즈</th>
-									<td>
-										가로 <input type="text" id="linkagePopWidth" style="width: 45px" class="k-input k-textbox k-input-solid k-input-md" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
-										세로 <input type="text" id="linkagePopHeight"style="width: 45px" class="k-input k-textbox k-input-solid k-input-md" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
-									</td>
-								</tr>
-								</tbody>
-							</table>
+							<colgroup>
+								<col width="20%">
+								<col width="33%">
+							</colgroup>
+							<tbody>
+							<tr>
+								<th style="text-align: left">
+									부서장급
+								</th>
+								<td colspan="3">
+									원장 전결
+								</td>
+							</tr>
+							<tr>
+								<th style="text-align: left">
+									팀장급
+								</th>
+								<td colspan="3">
+									부서장 전결
+								</td>
+							</tr>
+							<tr>
+								<th style="text-align: left">
+									팀원
+								</th>
+								<td colspan="3">
+									팀장 전결
+								</td>
+							</tr>
+							<tr>
+								<th style="text-align: left">
+									1천만원 이상
+								</th>
+								<td colspan="3">
+									원장 전결
+								</td>
+							</tr>
+							<tr>
+								<th style="text-align: left">
+									30만원 이상 ~ 1천만원 미만 미만
+								</th>
+								<td colspan="3">
+									부서장 전결
+								</td>
+							</tr>
+							<tr>
+								<th style="text-align: left">
+									30만원 미만
+								</th>
+								<td colspan="3">
+									팀장 전결
+								</td>
+							</tr>
+							</tbody>
+						</table>
 						</div>
 					</div>
 				</div>
