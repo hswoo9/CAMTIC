@@ -495,11 +495,10 @@ var bustripResultPop = {
             success : function(rs){
                 var dist = rs.route[0].summary.distance;
                 var moveDst = dist / 1000;
-                var formattedNumber = Math.floor(moveDst * 10) / 10;
+                var formattedNumber = moveDst * 2;
+                formattedNumber = Math.ceil(formattedNumber);
 
-                formattedNumber = formattedNumber * 2;
-                $("#moveDst").val(formattedNumber.toFixed(1));
-
+                $("#moveDst").val(formattedNumber);
             }
         });
     },
@@ -588,6 +587,13 @@ var bustripResultPop = {
                 }
             }).open();
         });
+    },
+
+    fn_mapOpen : function (){
+        var url = "https://map.kakao.com/";
+        var name = "mapOpen";
+        var option = "width = 1200, height = 800, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
     }
 }
 

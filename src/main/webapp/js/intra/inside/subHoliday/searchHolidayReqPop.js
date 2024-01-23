@@ -73,12 +73,9 @@ var searchHolidayReqPop = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    data.mcCode = searchHolidayReqPop.global.mcCode;
-                    data.mdCode = searchHolidayReqPop.global.mdCode;
-                    data.empSeq = searchHolidayReqPop.global.empSeq;
-                    data.startDay = $("#startDay").val();
-                    data.endDay = $("#endDay").val();
-                    data.applyVacationDivision = $("#applyVacationDivision").val();
+                    data.startDate = $("#start_date").val();
+                    data.endDate = $("#end_date").val();
+                    data.empSeq = $("#empSeq").val();
                     return data;
                 }
             },
@@ -112,7 +109,7 @@ var searchHolidayReqPop = {
                 {
                     headerTemplate: '',
                     template : function(e){
-                        if(e.APPR_STAT == "Y"){
+                        if(e.ADMIN_APPR_STAT == "Y"){
                             return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class='checkbox checkSingle'/>";
                         } else {
                             return "";
@@ -129,15 +126,42 @@ var searchHolidayReqPop = {
                     field: "APPR_STAT",
                     title: "승인상태",
                     template : function(e){
-                        if(e.APPR_STAT == "N"){
-                            return "요청진행전";
-                        } else if(e.APPR_STAT == "Y"){
-                            return "승인";
-                        } else if(e.APPR_STAT =="C"){
-                            return "진행중";
-                        } else if(e.APPR_STAT =="E"){
-                            return "반려";
+                        if(e.ADMIN_APPR_STAT != null){
+                            if(e.APPR_STAT == "N"){
+                                return "작성 중";
+                            } else if(e.APPR_STAT == "Y"){
+                                if(e.ADMIN_APPR_STAT == "N"){
+                                    return "담당자 요청진행전";
+                                } else if(e.ADMIN_APPR_STAT == "Y"){
+                                    return "최종승인";
+                                } else if(e.ADMIN_APPR_STAT =="C"){
+                                    return "관리자 제출";
+                                } else if(e.ADMIN_APPR_STAT =="E"){
+                                    return "관리자 반려";
+                                }else if(e.ADMIN_APPR_STAT =="D"){
+                                    return "관리자 회수";
+                                }
+                            } else if(e.APPR_STAT =="C"){
+                                return "제출";
+                            } else if(e.APPR_STAT =="E"){
+                                return "반려";
+                            }else if(e.APPR_STAT =="D"){
+                                return "회수";
+                            }
+                        }else{
+                            if(e.APPR_STAT == "N"){
+                                return "요청진행전";
+                            } else if(e.APPR_STAT == "Y"){
+                                return "승인";
+                            } else if(e.APPR_STAT =="C"){
+                                return "제출";
+                            } else if(e.APPR_STAT =="E"){
+                                return "반려";
+                            }else if(e.APPR_STAT =="D"){
+                                return "회수";
+                            }
                         }
+
                     },
                 }
             ]
@@ -191,17 +215,7 @@ var searchHolidayReqPop = {
     },
 
     gridReload : function(){
-        var params = {
-            mcCode : searchHolidayReqPop.global.mcCode,
-            mdCode : searchHolidayReqPop.global.mdCode,
-            empSeq : searchHolidayReqPop.global.empSeq
-        }
-
-        params.startDay = $("#startDay").val();
-        params.endDay = $("#endDay").val();
-        params.applyVacationDivision = $("#applyVacationDivision").val();
-        $("#scheduler").data("kendoScheduler").dataSource.read();
-        searchHolidayReqPop.mainGrid(params);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     fn_topTableClose : function(){

@@ -183,6 +183,8 @@ var busInit = {
         let etcCorpCostTotal = 0;
         let totalCorpCostTotal = 0;
 
+        let finalTotal = 0;
+
         var html = '';
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
@@ -214,6 +216,7 @@ var busInit = {
                 parkingCostTotal += Number(list[i].PARKING_COST.replace(",", ""));
                 etcCostTotal += Number(list[i].ETC_COST.replace(",", ""));
                 totalCostTotal += Number(list[i].TOT_COST.replace(",", ""));
+                finalTotal += Number(list[i].TOT_COST.replace(",", ""));
 
                 html += '   <tr>';
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].EMP_NAME+'</p></td>';
@@ -264,6 +267,7 @@ var busInit = {
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(etcCorpCostTotal)+'</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(trafCorpCostTotal+trafDayCorpotal+tollCorpCostTotal+dayCorpCostTotal+eatCorpCostTotal+parkingCorpCostTotal+etcCorpCostTotal+etcCorpCostTotal)+'</p></td>';
                 html += '                   </tr>';
+                finalTotal += trafCorpCostTotal+trafDayCorpotal+tollCorpCostTotal+dayCorpCostTotal+eatCorpCostTotal+parkingCorpCostTotal+etcCorpCostTotal+etcCorpCostTotal;
             }
         }
 
@@ -290,7 +294,7 @@ var busInit = {
         html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(eatCostTotal)+'</p></td>';
         html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(parkingCostTotal)+'</p></td>';
         html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(etcCostTotal)+'</p></td>';
-        html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(totalCostTotal)+'</p></td>';
+        html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(finalTotal)+'</p></td>';
         html += '                   </tr>';
         html += '               </table>';
         html += '       </td>';

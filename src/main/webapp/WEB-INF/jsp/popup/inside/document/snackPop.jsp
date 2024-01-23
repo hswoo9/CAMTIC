@@ -458,6 +458,9 @@
                         // window.resizeTo(445, 600);
                     }
 
+                    $("#useDt").val(authDate.toString().substring(0, 4) + "-" + authDate.toString().substring(4, 6) + "-" + authDate.toString().substring(6, 8));
+
+
                     $('#cardNum').html('');
                     $('#authDate').html('');
                     $('#mccName').html('');

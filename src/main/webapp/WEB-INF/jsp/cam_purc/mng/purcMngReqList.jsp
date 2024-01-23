@@ -46,7 +46,7 @@
                         <td>
                             <input type="text" id="inspectStat" style="width: 150px;">
                         </td>
-                        <th class="text-center th-color">프로젝트</th>
+                        <th class="text-center th-color">구분</th>
                         <td>
                             <input type="text" id="busnClass" style="width: 150px;">
                         </td>
