@@ -26,7 +26,8 @@ public class CompanyCardRepository extends AbstractDAO {
     }
 
     public void delCardTo(Map<String, Object> params) {
-        update("card.delCardTo", params);
+        delete("card.delCardTo", params);
+//        update("card.delCardTo", params);
     }
     public void delCardHist(Map<String, Object> params) {
         delete("card.delCardHist", params);
