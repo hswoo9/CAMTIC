@@ -208,14 +208,12 @@
             )
     </insert>
 
-    <update id="delCardTo" parameterType="map">
+    <delete id="delCardTo" parameterType="map">
         /*delCardTo*/
-        UPDATE CAM_MNG.DJ_CARD_TO
-        SET
-            DEL_YN = 'Y'
+        DELETE FROM CAM_MNG.DJ_CARD_TO
         WHERE
             CARD_TO_SN = #{cardToSn}
-    </update>
+    </delete>
 
     <delete id="delCardHist" parameterType="map">
         /*delCardHist*/
@@ -570,7 +568,7 @@
                     AND C.RT_YN = 'N'
                 </when>
                 <otherwise>
-                    AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL)
+                    AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL OR C.DEL_YN = 'Y')
                 </otherwise>
             </choose>
         </if>
@@ -643,7 +641,7 @@
                         AND C.RT_YN = 'N'
                     </when>
                     <otherwise>
-                        AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL)
+                        AND (C.RT_YN = 'Y' OR C.RT_YN IS NULL OR C.DEL_YN = 'Y')
                     </otherwise>
                 </choose>
             </if>
