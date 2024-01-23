@@ -496,7 +496,7 @@ var bustripResultPop = {
                 var dist = rs.route[0].summary.distance;
                 var moveDst = dist / 1000;
                 var formattedNumber = moveDst * 2;
-                formattedNumber = Math.ceil(formattedNumber);
+                formattedNumber = Math.round(formattedNumber);
 
                 $("#moveDst").val(formattedNumber);
             }
