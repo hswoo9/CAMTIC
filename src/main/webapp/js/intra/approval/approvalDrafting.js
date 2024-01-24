@@ -196,6 +196,7 @@ var draft = {
             hwpDocCtrl.putFieldText('결재제목', $("#docTitle").val());
         });
 
+        approvalLine.linkStart();
         draft.initOfficialAppr();
     },
 

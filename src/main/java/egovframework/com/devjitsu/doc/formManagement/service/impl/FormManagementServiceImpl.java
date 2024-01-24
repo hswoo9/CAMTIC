@@ -181,6 +181,25 @@ public class FormManagementServiceImpl implements FormManagementService {
                 formManagementRepository.setFormCustomField(customFieldArr);
             }
         }
+
+        /** 위임전결사항 저장 */
+        if(!params.containsKey("approvalMngSn")){
+            formManagementRepository.setApprovalMng(params);
+        }else{
+            formManagementRepository.setApprovalMngUpd(params);
+        }
+
+        if(params.containsKey("approvalDtArr")){
+            formManagementRepository.setApprovalMngDtDel(params);
+            List<Map<String, Object>> approvalDtArr = gson.fromJson((String) params.get("approvalDtArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+            if(approvalDtArr.size() > 0){
+                for(Map<String, Object> data : approvalDtArr){
+                    data.put("formId", params.get("formId"));
+                    data.put("approvalType", params.get("approvalType"));
+                    formManagementRepository.setApprovalMngDt(data);
+                }
+            }
+        }
     }
 
     @Override
@@ -368,6 +387,16 @@ public class FormManagementServiceImpl implements FormManagementService {
         }
 
         return result;
+    }
+
+    @Override
+    public Map<String, Object> getApprovalMngData(Map<String, Object> params) {
+        return formManagementRepository.getApprovalMngData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getApprovalMngDtList(Map<String, Object> params) {
+        return formManagementRepository.getApprovalMngDtList(params);
     }
 
     private String filePath (HttpServletRequest servletRequest, Map<String, Object> params, String base_dir){

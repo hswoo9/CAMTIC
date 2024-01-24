@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -165,6 +166,17 @@ public class FormManagementController {
     @RequestMapping("/formManagement/setLinkageProcessDel.do")
     public String  setLinkageProcessDel(@RequestParam Map<String, Object> params, Model model) throws Exception {
         formManagementService.setLinkageProcessDel(params);
+        return "jsonView";
+    }
+
+    /** 위임전결 데이터 조회 */
+    @RequestMapping("/formManagement/getApprovalMng.do")
+    public String getApprovalMng(@RequestParam Map<String, Object> params, Model model) {
+        Map<String, Object> data = formManagementService.getApprovalMngData(params);
+        List<Map<String, Object>> list = formManagementService.getApprovalMngDtList(params);
+        model.addAttribute("data", data);
+        model.addAttribute("list", list);
+
         return "jsonView";
     }
 }

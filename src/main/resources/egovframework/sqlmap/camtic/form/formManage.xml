@@ -641,4 +641,89 @@
         DELETE FROM DJ_CAMTIC.A_LINKAGE_PROCESS WHERE LINKAGE_PROCESS_ID IN(${linkageProcessId})
     </delete>
 
+    <insert id="setApprovalMng" parameterType="map">
+        /* setApprovalMng */
+        INSERT INTO CAM_APPROVAL.DJ_APPROVAL_MNG
+            (
+                FORM_ID,
+                APPROVAL_TYPE
+            )
+        VALUES
+            (
+                #{formId},
+                #{approvalType}
+            )
+        <selectKey keyProperty="approvalMngSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_APPROVAL' AND TABLE_NAME = 'DJ_APPROVAL_MNG'
+        </selectKey>
+    </insert>
+
+    <update id="setApprovalMngUpd" parameterType="map">
+        /* setApprovalMngUpd */
+        UPDATE
+            CAM_APPROVAL.DJ_APPROVAL_MNG
+        SET
+            FORM_ID = #{formId},
+            APPROVAL_TYPE = #{approvalType}
+        WHERE
+            APPROVAL_MNG_SN = #{approvalMngSn}
+    </update>
+
+    <insert id="setApprovalMngDt" parameterType="map">
+        /* setApprovalMngDt */
+        INSERT INTO CAM_APPROVAL.DJ_APPROVAL_MNG_DT
+            (
+                FORM_ID,
+                APPROVAL_TYPE,
+            <if test='"1".equals(approvalType)'>
+                DUTY_TYPE,
+            </if>
+            <if test='"2".equals(approvalType)'>
+                ST_PAY,
+                ED_PAY,
+            </if>
+                DUTY_VAL
+            )
+        VALUES
+            (
+                #{formId},
+                #{approvalType},
+            <if test='"1".equals(approvalType)'>
+                #{dutyType},
+            </if>
+            <if test='"2".equals(approvalType)'>
+                #{StPay},
+                #{EdPay},
+            </if>
+                #{dutyVal}
+            )
+    </insert>
+
+    <delete id="setApprovalMngDtDel" parameterType="map">
+        /* setApprovalMngDtDel */
+        DELETE FROM
+            CAM_APPROVAL.DJ_APPROVAL_MNG_DT
+        WHERE FORM_ID = #{formId}
+    </delete>
+
+    <select id="getApprovalMngData" parameterType="map" resultType="map">
+        /* getApprovalMngData */
+        SELECT
+            *
+        FROM
+            CAM_APPROVAL.DJ_APPROVAL_MNG
+        WHERE
+            FORM_ID = #{formId}
+    </select>
+
+    <select id="getApprovalMngDtList" parameterType="map" resultType="map">
+        /* getApprovalMngDtList */
+        SELECT
+            *
+        FROM
+            CAM_APPROVAL.DJ_APPROVAL_MNG_DT
+        WHERE
+            FORM_ID = #{formId}
+    </select>
+
 </mapper>

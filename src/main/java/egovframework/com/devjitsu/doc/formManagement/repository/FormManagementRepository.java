@@ -43,5 +43,10 @@ public class FormManagementRepository extends AbstractDAO {
     public String getLinkageProcess(Map<String, Object> params) { return (String) selectOne("formManage.getLinkageProcess", params);}
     public void setLinkageProcessUpd(Map<String, Object> params) { update("formManage.setLinkageProcessUpd", params);}
     public void setLinkageProcessDel(Map<String, Object> params) { delete("formManage.setLinkageProcessDel", params);}
-
+    public void setApprovalMng(Map<String, Object> params){ insert("formManage.setApprovalMng", params);}
+    public void setApprovalMngUpd(Map<String, Object> params){ insert("formManage.setApprovalMngUpd", params);}
+    public void setApprovalMngDt(Map<String, Object> params){ insert("formManage.setApprovalMngDt", params);}
+    public void setApprovalMngDtDel(Map<String, Object> params){ insert("formManage.setApprovalMngDtDel", params);}
+    public Map<String, Object> getApprovalMngData(Map<String, Object> params) { return (Map<String, Object>) selectOne("formManage.getApprovalMngData", params);}
+    public List<Map<String, Object>> getApprovalMngDtList(Map<String, Object> params) { return selectList("formManage.getApprovalMngDtList", params);}
 }

@@ -33,7 +33,6 @@ var formM = {
     },
 
     fnDefaultScript : function () {
-
         $("#formEditorTabStrip").kendoTabStrip({
             animation:  {
                 open: {
@@ -183,6 +182,32 @@ var formM = {
             layout : "horizontal",
             labelPosition : "after",
             value : "000",
+        });
+
+        $("#approvalType").kendoRadioGroup({
+            items: [
+                { label : "직급별", value : "1" },
+                { label : "금액별", value : "2" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "1",
+            change : function(e){
+                $("#approvalType1").hide();
+                $("#approvalType2").hide();
+                $("#approvalType"+$("#approvalType").data("kendoRadioGroup").value()).show();
+            }
+        });
+
+        $(".dutyType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: "" },
+                { text: "원장 전결", value: "1" },
+                { text: "부서장 전결", value: "2" },
+                { text: "팀장 전결", value: "3" }
+            ]
         });
     },
 
@@ -401,6 +426,38 @@ var formM = {
 
             formM.setRowCustomField(rs.formCustomFieldList);
         }
+
+        var result = customKendo.fn_customAjax("/formManagement/getApprovalMng.do", {formId: e.FORM_ID});
+        const approvalMngData = result.data;
+        const approvalMngList = result.list;
+
+        if(approvalMngData != null){
+            $("#approvalMngSn").val(approvalMngData.APPROVAL_MNG_SN);
+            $("#approvalType").data("kendoRadioGroup").value(approvalMngData.APPROVAL_TYPE);
+            $("#approvalType").data("kendoRadioGroup").trigger("change");
+
+            if(approvalMngData.APPROVAL_TYPE == "1"){
+                for(let i=0; i<approvalMngList.length; i++){
+                    const map = approvalMngList[i];
+                    if(map.DUTY_TYPE == "1"){
+                        $("#headLevel").data("kendoDropDownList").value(map.DUTY_VAL);
+                    }else if(map.DUTY_TYPE == "2"){
+                        $("#leaderLevel").data("kendoDropDownList").value(map.DUTY_VAL);
+                    }else if(map.DUTY_TYPE == "3"){
+                        $("#memberLevel").data("kendoDropDownList").value(map.DUTY_VAL);
+                    }
+                }
+            }else{
+                for(let i=0; i<approvalMngList.length; i++){
+                    formM.addRowApprovalFieldTr();
+                    const map = approvalMngList[i];
+
+                    $("#stPay"+i).val(comma(map.ST_PAY));
+                    $("#edPay"+i).val(comma(map.ED_PAY));
+                    $("#dutyType"+i).data("kendoDropDownList").value(map.DUTY_VAL);
+                }
+            }
+        }
     },
 
     setRowCustomField : function(rs){
@@ -485,6 +542,44 @@ var formM = {
         customFieldTr += "</tr>";
 
         $("#customFieldTbody").append(customFieldTr);
+    },
+
+    addRowApprovalFieldTr : function(){
+        var index = $(".approvalData2").length;
+        var approvalFieldTr = "";
+
+        approvalFieldTr += "<tr class='approvalData2'>";
+        approvalFieldTr += "	<td>";
+        approvalFieldTr += "		<input type='text' id='stPay"+index+"' class='StPay k-input k-textbox k-input-solid k-input-md ' style=\"width: 100px; text-align: right\"" +
+            "onkeyup=\"fn_inputNumberFormat(this)\" oninput=\"onlyNumber(this)\"" +
+            ">원 이상 ~ &nbsp;" +
+            "<input type='text' id='edPay"+index+"' class='EdPay k-input k-textbox k-input-solid k-input-md ' style=\"width: 100px; text-align: right\"" +
+            "onkeyup=\"fn_inputNumberFormat(this)\" oninput=\"onlyNumber(this)\"" +
+            ">원 미만";
+        approvalFieldTr += "	</td>";
+        approvalFieldTr += "	<td>";
+        approvalFieldTr += "		<input id=\"dutyType"+index+"\" class=\"dutyType\" style=\"width: 150px\">";
+        approvalFieldTr += "	</td>";
+        approvalFieldTr += "	<td class=\"text-center\">";
+        approvalFieldTr += "		<button type=\"button\" class=\"k-grid-button k-button k-button-md  k-button-solid k-button-solid-base\" onclick=\"formM.setRowCustomFieldDel(this)\">";
+        approvalFieldTr += "			<span class=\"k-icon k-i-cancel k-button-icon\"></span>";
+        approvalFieldTr += "			<span class=\"k-button-text\">삭제</span>";
+        approvalFieldTr += "		</button>";
+        approvalFieldTr += "	</td>"
+        approvalFieldTr += "</tr>";
+
+        $("#approvalTbody").append(approvalFieldTr);
+
+        $("#dutyType"+index).kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: "" },
+                { text: "원장 전결", value: "1" },
+                { text: "부서장 전결", value: "2" },
+                { text: "팀장 전결", value: "3" }
+            ]
+        });
     },
 
     setRowCustomFieldDel : function(e){
@@ -593,10 +688,53 @@ var formM = {
                 empSeq : $("#empSeq").val(),
             }
 
-            formM.global.customFieldArr.push(data);
+            if($(this).find("#fieldName").val() != ""){
+                formM.global.customFieldArr.push(data);
+            }
         })
 
         formData.append("customFieldArr", JSON.stringify(formM.global.customFieldArr));
+
+        /** 위임 전결 */
+        if($("#approvalMngSn").val() != ""){
+            formData.append("approvalMngSn", $("#approvalMngSn").val());
+        }
+        formData.append("approvalType", $("#approvalType").data("kendoRadioGroup").value());
+
+        const approvalDtArr = [];
+        if($("#approvalType").data("kendoRadioGroup").value() == "1"){
+            const data = {
+                formId : $("#formId").val(),
+                dutyType : "1",
+                dutyVal : $("#headLevel").data("kendoDropDownList").value(),
+            }
+            approvalDtArr.push(data);
+            const data2 = {
+                formId : $("#formId").val(),
+                dutyType : "2",
+                dutyVal : $("#leaderLevel").data("kendoDropDownList").value(),
+            }
+            approvalDtArr.push(data2);
+            const data3 = {
+                formId : $("#formId").val(),
+                dutyType : "3",
+                dutyVal : $("#memberLevel").data("kendoDropDownList").value(),
+            }
+            approvalDtArr.push(data3);
+        }else{
+            $.each($(".approvalData2"), function(i){
+                var data = {
+                    formId : $("#formId").val(),
+                    StPay : uncomma($(this).find(".StPay").val()),
+                    EdPay : uncomma($(this).find(".EdPay").val()),
+                    dutyVal : $("#dutyType"+i).data("kendoDropDownList").value()
+                }
+                approvalDtArr.push(data);
+            });
+        }
+        if(approvalDtArr.length != 0){
+            formData.append("approvalDtArr", JSON.stringify(approvalDtArr));
+        }
 
         return formData;
     },
@@ -657,5 +795,16 @@ var formM = {
         $("#customFieldTbody tr:not(:eq(0))").remove();
 
         formM.global.customFieldArr = [];
+
+        /** 위임전결 */
+        $("#approvalMngSn").val("");
+        $("#approvalType").data("kendoRadioGroup").value("1");
+        $("#approvalType").data("kendoRadioGroup").trigger("change");
+
+        $("#headLevel").data("kendoDropDownList").value("");
+        $("#leaderLevel").data("kendoDropDownList").value("");
+        $("#memberLevel").data("kendoDropDownList").value("");
+
+        $("#approvalTbody").html("");
     }
 }

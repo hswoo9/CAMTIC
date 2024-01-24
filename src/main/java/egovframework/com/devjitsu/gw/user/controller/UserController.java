@@ -98,6 +98,13 @@ public class UserController {
         return userService.getUserInfo(params);
     }
 
+    @RequestMapping("/user/getManagerInfo")
+    public String getManagerInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = userService.getManagerInfo(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     @RequestMapping("/user/getIdCheck")
     public String getIdCheck(@RequestParam Map<String, Object> params, Model model){
 

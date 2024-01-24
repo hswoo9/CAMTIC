@@ -370,6 +370,12 @@ function titleCut(text, cutLength){
 
 /** 유저정보 불러오기 */
 function getUser(empSeq){
-    const empInfo =customKendo.fn_customAjax("/user/getUserInfo", {empSeq: empSeq});
+    const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: empSeq});
+    return empInfo;
+}
+
+/** 부서장, 팀장 공석 체크 */
+function getManager(empSeq, deptLevel){
+    const empInfo = customKendo.fn_customAjax("/user/getManagerInfo", {empSeq: empSeq, deptLevel: deptLevel}).data;
     return empInfo;
 }

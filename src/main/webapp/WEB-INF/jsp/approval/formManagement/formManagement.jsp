@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script type="text/javascript" src="<c:url value='/js/intra/approval/formManage/formManage.js?v=10'/>"></script>
+<jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="<c:url value='/js/intra/approval/formManage/formManage.js?${today}'/>"></script>
 <style>
 	.k-grid-norecords{
 		justify-content: space-around;
@@ -371,62 +372,78 @@
 							<div style="display:flex; justify-content: space-between; margin:0 10px;">
 								<div class="spanft" style="margin-bottom: 17px;font-weight: bold;">· 위임전결 설정</div>
 							</div>
+							<input type="hidden" id="approvalMngSn">
 							<table class="searchTable table table-bordered" style="width: 99%">
-							<colgroup>
-								<col width="20%">
-								<col width="33%">
-							</colgroup>
-							<tbody>
-							<tr>
-								<th style="text-align: left">
-									부서장급
-								</th>
-								<td colspan="3">
-									원장 전결
-								</td>
-							</tr>
-							<tr>
-								<th style="text-align: left">
-									팀장급
-								</th>
-								<td colspan="3">
-									부서장 전결
-								</td>
-							</tr>
-							<tr>
-								<th style="text-align: left">
-									팀원
-								</th>
-								<td colspan="3">
-									팀장 전결
-								</td>
-							</tr>
-							<tr>
-								<th style="text-align: left">
-									1천만원 이상
-								</th>
-								<td colspan="3">
-									원장 전결
-								</td>
-							</tr>
-							<tr>
-								<th style="text-align: left">
-									30만원 이상 ~ 1천만원 미만 미만
-								</th>
-								<td colspan="3">
-									부서장 전결
-								</td>
-							</tr>
-							<tr>
-								<th style="text-align: left">
-									30만원 미만
-								</th>
-								<td colspan="3">
-									팀장 전결
-								</td>
-							</tr>
-							</tbody>
-						</table>
+								<colgroup>
+									<col width="20%">
+									<col width="33%">
+								</colgroup>
+								<tbody>
+								<tr>
+									<th style="text-align: left">
+										위임전결 구분
+									</th>
+									<td colspan="3">
+										<span id="approvalType"></span>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+
+							<div id="approvalType1">
+								<table class="searchTable table table-bordered" style="width: 99%; margin-top: 20px">
+									<colgroup>
+										<col width="20%">
+										<col width="33%">
+									</colgroup>
+									<tbody>
+									<tr class="approvalData">
+										<th style="text-align: left">
+											부서장급
+										</th>
+										<td colspan="3">
+											<input id="headLevel" class="dutyType" style="width: 150px">
+										</td>
+									</tr>
+									<tr class="approvalData">
+										<th style="text-align: left">
+											팀장급
+										</th>
+										<td colspan="3">
+											<input id="leaderLevel" class="dutyType" style="width: 150px">
+										</td>
+									</tr>
+									<tr class="approvalData">
+										<th style="text-align: left">
+											팀원
+										</th>
+										<td colspan="3">
+											<input id="memberLevel" class="dutyType" style="width: 150px">
+										</td>
+									</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div id="approvalType2" style="display: none">
+								<div style="float: right; margin:0px 10px; padding-bottom: 10px">
+									<div class="btn-st" style="margin:0">
+										<button type="button" id="addBtn2" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="formM.addRowApprovalFieldTr()">
+											<span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+											<span class="k-button-text">추가</span>
+										</button>
+									</div>
+								</div>
+								<table class="searchTable table table-bordered" style="border : none;">
+									<colgroup>
+										<col width="40%">
+										<col width="8%">
+										<col width="5%">
+									</colgroup>
+									<tbody id="approvalTbody">
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>

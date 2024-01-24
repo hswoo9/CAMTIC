@@ -22,19 +22,20 @@
             HEI.EMP_NAME_KR,
             HEI.LOGIN_ID,
             HEI.DEPT_SEQ,
-            HEI.DEPT_NAME,
+            HDI.DEPT_NAME,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS deptId,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS teamId,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
             HEI.POSITION_CODE,
-            HEI.POSITION_NAME,
+            IFNULL(HEI.POSITION_NAME, '') AS POSITION_NAME,
             HEI.DUTY_CODE,
-            HEI.DUTY_NAME,
+            IFNULL(HEI.DUTY_NAME, '') AS DUTY_NAME,
             HEI.OFFICE_TEL_NUM,
             HEI.EMAIL_ADDR,
-            HEI.MOBILE_TEL_NUM ,
-            HEI.HOME_TEL_NUM
+            HEI.MOBILE_TEL_NUM,
+            HEI.HOME_TEL_NUM,
+            HDI.DEPT_LEVEL
         FROM
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN
@@ -47,6 +48,58 @@
             </otherwise>
         </choose>
         AND HEI.EMP_SEQ = #{empSeq}
+    </select>
+
+    <select id="getManagerInfo" resultType="map" parameterType="map">
+        /* getManagerInfo */
+        SELECT
+            (SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO
+            WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1100)
+            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            AND WORK_STATUS_CODE = 'Y'
+            AND DUTY_CODE IN (5)) AS TEAM_MNG_SEQ,
+
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO
+            WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1100)
+            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            AND WORK_STATUS_CODE = 'Y'
+            AND DUTY_CODE IN (5)) AS TEAM_MNG_NAME,
+
+            IFNULL((SELECT 'Y' FROM CAM_HR.DJ_EMP_INFO
+            WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1100)
+            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            AND WORK_STATUS_CODE = 'Y'
+            AND DUTY_CODE IN (5)), 'N') AS TEAM_MNG_CK,
+
+            (SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO
+            WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1100)
+            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            AND WORK_STATUS_CODE = 'Y'
+            AND DUTY_CODE IN (2, 3, 4)) AS DEPT_MNG_SEQ,
+
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO
+            WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1100)
+            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            AND WORK_STATUS_CODE = 'Y'
+            AND DUTY_CODE IN (2, 3, 4)) AS DEPT_MNG_NAME,
+
+            IFNULL((SELECT 'Y' FROM CAM_HR.DJ_EMP_INFO
+            WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1100)
+            AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            AND WORK_STATUS_CODE = 'Y'
+            AND DUTY_CODE IN (2, 3, 4)), 'N') AS DEPT_MNG_CK,
+
+            (SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO
+            WHERE WORK_STATUS_CODE = 'Y'
+            AND DUTY_CODE IN (1)) AS GRAND_MNG_SEQ,
+
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO
+            WHERE WORK_STATUS_CODE = 'Y'
+            AND DUTY_CODE IN (1)) AS GRAND_MNG_NAME,
+
+            IFNULL((SELECT 'Y' FROM CAM_HR.DJ_EMP_INFO
+            WHERE WORK_STATUS_CODE = 'Y'
+            AND DUTY_CODE IN (1)), 'N') AS GRAND_MNG_CK
     </select>
 
     <select id="getIdCheck" parameterType="map" resultType="map">

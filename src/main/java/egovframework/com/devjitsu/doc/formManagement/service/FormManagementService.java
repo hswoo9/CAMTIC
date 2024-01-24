@@ -24,4 +24,6 @@ public interface FormManagementService {
     int setProcessValidationChk(Map<String, Object> params);
     void setLinkageProcess(Map<String, Object> params);
     void setLinkageProcessDel(Map<String, Object> params);
+    Map<String, Object> getApprovalMngData(Map<String, Object> params);
+    List<Map<String, Object>> getApprovalMngDtList(Map<String, Object> params);
 }
