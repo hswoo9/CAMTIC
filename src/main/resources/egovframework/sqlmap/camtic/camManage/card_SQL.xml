@@ -78,6 +78,7 @@
             A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.BUY_STS = C.BUY_STS AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
 
         WHERE 1=1
+        AND C.CARD_TO_HIST_SN IS NULL
         <if test='startDt != null and !"".equals(startDt)'>
             <![CDATA[
             AND

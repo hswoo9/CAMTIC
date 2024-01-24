@@ -3,10 +3,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
+<%--<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>--%>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>
-
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/companyCard/statementList.js?v=${today}'/>"></script>
+
+
 <style>
     .k-footer-template td:nth-child(1),
     .k-footer-template td:nth-child(2),
@@ -80,9 +81,6 @@
 </div>
 <script>
 
-
-    statementList.fn_defaultScript();
-
     $(function(){
         $("#dialog").kendoWindow({
             title: "반납",
@@ -91,17 +89,31 @@
             modal: true,
             width: 500,
             actions: ["Close"],
-        });
+            open : function () {
+                var htmlStr = '<div class="card-header" style="margin-left:8px;">' +
+                    '<input type="text" id="cardFromDe" style="width: 50%" name="cardFromDe" value="">' +
+                    '    <input type="text" name="cardFromTime" id="cardFromTime" style="width: 30%;">' +
+                    '    <input type="hidden" id="tmpCardBaNb" />' +
+                    '    <input type="hidden" id="cardToSnModal" />' +
+                    '    <input type="hidden" id="tmpCardToDe" />' +
+                    '    <button type="button" id="updBtn" class="k-button k-button-solid-base" onclick="statementList.fn_updFromDe();">반납</button>';
 
-        customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());
+                $('#dialog').html(htmlStr);
 
-        $("#cardFromTime").kendoTimePicker({
-            format: "HH:mm",
-            interval : 10,
-            value : "18:00"
+
+                customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());
+
+                $("#cardFromTime").kendoTimePicker({
+                    format: "HH:mm",
+                    interval : 10,
+                    value : "18:00"
+                });
+
+            },
         });
     });
 
+    statementList.fn_defaultScript();
 
     function dateValidationCheck(id, val){
         var sDt = new Date($("#startDt").val());

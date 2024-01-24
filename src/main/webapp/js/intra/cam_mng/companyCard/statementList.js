@@ -11,6 +11,7 @@ var statementList = {
     fn_defaultScript : function (){
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date().getFullYear()+"-01-01");
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date().getFullYear()+"-12-31");
+
         statementList.global.dropDownDataSource = [
             { text : "카드번호", value : "CARD_NUM" },
             { text : "반출자", value : "USER_NAME" },
@@ -28,10 +29,20 @@ var statementList = {
             dataValueField : "value"
         });
 
+
+
+
         statementList.mainGrid();
     },
 
     mainGrid: function(){
+
+        var mainGrid = $("#mainGrid").data("kendoGrid");
+
+        if(mainGrid != null){
+            mainGrid.destroy();
+        }
+
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -208,6 +219,12 @@ var statementList = {
     },
 
     mainHistGrid: function(){
+        var mainHistGrid = $("#mainHistGrid").data("kendoGrid");
+
+        if(mainHistGrid != null){
+            mainHistGrid.destroy();
+        }
+
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -342,6 +359,9 @@ var statementList = {
                 $(this).css("background-color", "");
             });
 
+            $("#mainHistGrid").css("display", "");
+
+
             $(this).css("background-color", "#a7e1fc");
 
             statementList.mainHistGrid();
@@ -358,6 +378,9 @@ var statementList = {
 
                 if(dataItem.CARD_TO_SN == sn){
                     $(this).css("background-color", "#a7e1fc");
+
+                    $("#mainHistGrid").css("display", "");
+
                     statementList.mainHistGrid();
                 }
             })
@@ -433,11 +456,14 @@ var statementList = {
     },
 
     fn_updCardTi : function (key, toDe, cardBaNb){
-        $("#cardFromDe").data("kendoDatePicker").min(toDe);
+
+        var dialog = $("#dialog").data("kendoWindow");
+
+        $("#cardFromDe").val(toDe);
         $("#tmpCardToDe").val(toDe);
         $("#cardToSnModal").val(key);
         $("#tmpCardBaNb").val(cardBaNb);
-        var dialog = $("#dialog").data("kendoWindow");
+
         dialog.center();
         dialog.open();
     },
