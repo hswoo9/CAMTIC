@@ -376,6 +376,8 @@ var screenViewPop = {
                 var evalCnt = 0;
                 var application = [];
                 var index = 0;
+                var paramArr = [];
+                var userArr = [];
 
                 var html = "";
                 html += '' +
@@ -391,7 +393,7 @@ var screenViewPop = {
                             '    <col style="width: 11%">' +
                             '    <col>' +
                             '</colgroup>' +
-                            '<tr>' +
+                            '<tr style="height: 50px;">' +
                             '    <th>지원자</th>' +
                             '    <th>면접위원</th>' +
                             '    <th>점수</th>' +
@@ -400,7 +402,9 @@ var screenViewPop = {
                             '</tr>' +
                             '<tbody id="applicationTb">';
                         for(var i = 0; i < result.list.length; i++){
-                            sum += Number(result.list[i].SUM_SCORE);
+                            if(result.list[i].SUM_SCORE != null){
+                                sum += Number(result.list[i].SUM_SCORE);
+                            }
                             evalCnt ++;
                             index = i;
 
@@ -408,21 +412,33 @@ var screenViewPop = {
                                 index++
                             }
 
-                            html += '' +
-                                '<tr>' +
+                            if(result.list[i].EMP_NAME_KR != undefined && result.list[i].EMP_NAME_KR != null){
+                                html += '' +
+                                    '<tr style="height: 50px;">' +
                                     '<td class="applicationId_' + result.list[i].APPLICATION_ID + '">' + result.list[i].USER_NAME + '</td>' +
                                     '<td>' + result.list[i].EMP_NAME_KR + '</td>' +
                                     '<td>' + result.list[i].SUM_SCORE + '</td>' +
                                     '<td>' + result.list[i].OPINION + '</td>' +
                                     '<td></td>' +
-                                '</tr>';
+                                    '</tr>';
+                            }else{
+                                html += '' +
+                                    '<tr style="height: 50px;">' +
+                                    '<td class="applicationId_' + result.list[i].APPLICATION_ID + '">' + result.list[i].USER_NAME + '</td>' +
+                                    '<td>-</td>' +
+                                    '<td>-</td>' +
+                                    '<td>-</td>' +
+                                    '<td></td>' +
+                                    '</tr>';
+                            }
+
 
                             if(result.list[i].APPLICATION_ID != result.list[index].APPLICATION_ID || result.list.length == (i+1)){
                                 html += '' +
-                                    '<tr>' +
+                                    '<tr style="height: 50px;">' +
                                         '<td class="applicationId_' + result.list[i].APPLICATION_ID + '">' + result.list[i].USER_NAME + '</td>' +
                                         '<td>평균점수</td>' +
-                                        '<td>' + (sum/evalCnt) + '</td>' +
+                                        '<td>' + Number((sum/evalCnt)).toFixed(1) + '</td>' +
                                         '<td></td>' +
                                         '<td></td>' +
                                     '</tr>';
@@ -431,16 +447,141 @@ var screenViewPop = {
                                 evalCnt = 0;
                                 application.push(result.list[i].APPLICATION_ID);
                             }
+
+                            if(result.list[i].EVAL_LOGIN_ID != undefined && result.list[i].EVAL_LOGIN_ID != null) {
+                                var data = {
+                                    evalItemMainId: result.list[i].EVAL_ITEM_MAIN_ID,
+                                    evalLoginId: result.list[i].EVAL_LOGIN_ID,
+                                    evalScreenType: "in",
+                                    applicationId: result.list[i].APPLICATION_ID,
+                                    userName: result.list[i].USER_NAME,
+                                    empName: result.list[i].EMP_NAME_KR
+                                };
+                                paramArr.push(data);
+                            }
+                            userArr.push(result.list[i].USER_NAME);
                         }
-                html += '' +
+                    html += '' +
                             '</tbody>' +
                         '</table>' +
                     '</div>';
 
+                console.log(paramArr);
+
+                for(var x = 0; x < paramArr.length; x++) {
+
+                    html += '' +
+                        '<div class="pdf_page mt-20">' +
+                        '<h2 class="text-center">면접평가표</h2><br>' +
+                            '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center;">' +
+                            '<colgroup>' +
+                            '    <col style="width: 15%">' +
+                            '    <col>' +
+                            '    <col style="width: 15%">' +
+                            '    <col style="width: 20%">' +
+                            '</colgroup>' +
+                            '<tr style="height: 50px;">' +
+                            '    <th>지원분야</th>' +
+                            '    <td>' + area.JOB + '</td>' +
+                            '    <th>지원자이름</th>' +
+                            '    <td>' + paramArr[x].userName + '</td>' +
+                            '</tr>' +
+                            '</table>' +
+
+                            '<table class="searchTable table table-bordered mb-0 mt-10" style="text-align: center">' +
+                                '<colgroup>' +
+                                '    <col style="width: 10%">' +
+                                '    <col style="width: 15%">' +
+                                '    <col>' +
+                                '    <col style="width: 10%">' +
+                                '    <col style="width: 10%">' +
+                                '    <col>' +
+                                '</colgroup>' +
+                                '<tr style="height: 50px;">' +
+                                '    <th>연번</th>' +
+                                '    <th>평가구분</th>' +
+                                '    <th>질문 및 평가에 대한 착안점</th>' +
+                                '    <th>평가</th>' +
+                                '    <th>점수</th>' +
+                                '</tr>';
+
+
+                        console.log(paramArr);
+                        var result = customKendo.fn_customAjax("/evaluation/getApplicationScoreBoard", paramArr[x]);
+                        if (result.flag) {
+                            console.log(result.rs);
+
+                            var total = 0;
+                            var itemList = result.rs.itemList;
+                            var evalScoreBoard = result.rs.evalScoreBoard;
+                            var opinion = "";
+
+                            for(var i = 0; i < evalScoreBoard.length; i++) {
+                                if(evalScoreBoard[i].EVAL_ITEM_ID == 'opinion'){
+                                    opinion = evalScoreBoard[i].EVAL_ITEM_SCORE;
+                                }
+                            }
+
+                            for(var i = 0; i < itemList.length; i++) {
+                                html += "" +
+                                    '<tr style="height: 50px;">' +
+                                        '<td>' + (i + 1) + '</td>' +
+                                        '<td style="text-align: left;">' + itemList[i].EVAL_ITEM_TYPE + '</td>' +
+                                        '<td style="text-align: left">' + itemList[i].EVAL_ITEM_TITLE.replaceAll("\n", "<br>") + '</td>' +
+                                        '<td>' + itemList[i].EVAL_ITEM_VAL + '</td>' +
+                                        '<td>' + evalScoreBoard[i].EVAL_ITEM_SCORE + '</td>' +
+                                    '</tr>';
+
+                                total += Number(evalScoreBoard[i].EVAL_ITEM_SCORE);
+                            }
+                            html += "" +
+                                '<tr style="height: 50px;">' +
+                                    '<th colSpan="3">총&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;점</th>' +
+                                    '<td>100</td>' +
+                                    '<td>' + total + '</td>' +
+                                '</tr>' +
+                                '<caption>※ 채점기준점수 : ▲80점이상 : 합격 ▲80점미만~70점이상 : 후보 ▲70점미만 : 불합격</caption>' +
+
+                                '<table  class="searchTable table table-bordered mb-0 mt-10" style="text-align: center">' +
+                                    '<tr style="height: 50px;"><th>의&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;견</th></tr>' +
+                                    '<tr><td><textarea id="opinion'+x+'" style="height: 150px;" readonly>' + opinion + '</textarea></td></tr>'+
+                                '</table>';
+
+                            /** 사인 조회후 사인이 있으면 이미지 첨부 없으면 정자 */
+                            const result2 = customKendo.fn_customAjax("/user/getSign", {empSeq: paramArr[x].EVAL_LOGIN_ID});
+                            console.log("userSign : ");
+                            console.log(result2);
+
+                            var imgHtml = '';
+                            if(result2.data.signImg != null){
+                                const imgMap = result2.data.signImg;
+                                imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;(인)</div> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"http://218.158.231.184'+imgMap.file_path+imgMap.file_uuid+'\">';
+                            }else{
+                                imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;<b style=\"\">'+paramArr[x].empName+'</b>';
+                            }
+
+                            html += "" +
+                                '<div style="text-align: right;font-size: 12px;" class="mt-20">' +
+                                screenViewPop.global.nowH +
+                                '<br>' +
+                                imgHtml +
+                                '</div>';
+                        }
+                    html += "" +
+                    '</table>'+
+                    '</div>';
+                }
+
                 $("#tbDiv").append(html);
+
+                for(var x = 0; x < paramArr.length; x++) {
+                    $("#opinion"+x).kendoTextArea({
+                        rows : 5
+                    });
+                }
             }
 
-            for(var i = 0; i < application.length; i++){
+            for (var i = 0; i < application.length; i++){
                 $(".applicationId_" + application[i]).attr("rowspan", $(".applicationId_" + application[i]).length)
                 $(".applicationId_" + application[i]).not(":first").remove();
             }
@@ -461,6 +602,35 @@ var screenViewPop = {
             }else{
                 $("#otherRmk_" + e[i].APPLICATION_ID + "_" + e[i].EVAL_LOGIN_ID).text(e[i].EVAL_ITEM_SCORE);
             }
+        }
+    },
+
+    onlyNumber : function(event){
+        event = event || window.event;
+        var keyID = (event.which) ? event.which : event.keyCode;
+        if(keyID != 9){
+            if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 || keyID == 13)
+                return;
+            else
+                return false;
+        }
+    },
+
+    maxScoreFilter : function(e){
+        if(Number($(e).attr("maxScore")) < Number($(e).val())){
+            alert("평가점수는 최대 점수를 초과할 수 없습니다.");
+            $(e).val(0);
+        }
+    },
+
+    removeChar : function(event) {
+        event = event || window.event;
+        var keyID = (event.which) ? event.which : event.keyCode;
+        if(keyID != 9){
+            if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39)
+                return;
+            else
+                event.target.value = event.target.value.replace(/[^0-9]/g, "");
         }
     },
 
@@ -539,6 +709,8 @@ const pdfMake2 = () => {
         deferreds = [],
         doc = new jsPDF("p", "mm", "a4"),
         listsLeng = lists.length;
+
+    console.log(lists);
     for (var i = 0; i < listsLeng; i++) { // pdf_page 적용된 태그 개수만큼 이미지 생성
         var deferred = $.Deferred();
         deferreds.push(deferred.promise());
@@ -556,19 +728,14 @@ const pdfMake2 = () => {
             var sortedHeight = sorted[i].height, //이미지 높이
                 sortedImage = sorted[i].image; //이미지w
 
-            if(i != 0){
-                curHeight += 10;
+            // 페이지 추가
+            if (i > 0) {
+                doc.addPage();
+                curHeight = 10;
             }
 
-            if (curHeight + sortedHeight > 297 - padding2 * 2) { // a4 높이에 맞게 남은 공간이 이미지높이보다 작을 경우 페이지 추가
-                doc.addPage(); // 페이지를 추가함
-                curHeight = padding2; // 이미지가 들어갈 y축을 초기 여백값으로 초기화
-                doc.addImage(sortedImage, 'jpeg', padding2, curHeight, contWidth2, sortedHeight); //이미지 넣기
-                curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
-            } else { // 페이지에 남은 공간보다 이미지가 작으면 페이지 추가하지 않음
-                doc.addImage(sortedImage, 'jpeg', padding2, curHeight, contWidth2, sortedHeight); //이미지 넣기
-                curHeight += sortedHeight; // y축 = 기존y축 + 새로들어간 이미지 높이
-            }
+            // 이미지 추가
+            doc.addImage(sortedImage, 'jpeg', padding2, curHeight, contWidth2, sortedHeight);
 
             var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
 
@@ -580,7 +747,7 @@ const pdfMake2 = () => {
             curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
         }
 
-        doc.save( $("#userName").text() + '.pdf'); //pdf 저장
+        doc.save('면접 평가표.pdf'); //pdf 저장
         curHeight = padding2; //y축 초기화
         renderedImg = new Array; //이미지 배열 초기화
     });
