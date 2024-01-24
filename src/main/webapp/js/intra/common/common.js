@@ -262,6 +262,11 @@ function fn_stringToDate(date, n) {
 }
 
 function fn_koreanNumber(num) {
+
+    if(num < 0){
+        return "-" +  fn_koreanNumber(-num);
+    }
+
     //1 ~ 9 한글 표시
     const arrNumberWord = new Array("", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구");
     //10, 100, 100 자리수 한글 표시

@@ -110,6 +110,15 @@
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">첨부파일</th>
+                    <td colspan="4">
+                        <div>
+                            <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpRe.fn_regPayAttPop()">첨부</button>
+                            <span id="fileText"></span>
+                        </div>
+                    </td>
+                </tr>
                 </thead>
             </table>
 

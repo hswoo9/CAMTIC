@@ -597,6 +597,7 @@
         <if test='type == "exnp" or "payApp".equals(exnp)'>
             OR CONTENT_ID = #{payAppSn} AND file_cd = 'payApp'
             OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}))
+            OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
         </if>
         <if test='type == "exnpDetail" or "payApp".equals(exnpDetail)'>
             OR (CONTENT_ID = #{payAppSn} AND FILE_CD = 'useCard' AND FILE_PATH = #{filePath})
