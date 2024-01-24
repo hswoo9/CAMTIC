@@ -104,9 +104,6 @@ var bustList = {
                         console.log(row);
                         if(row.RS_STATUS == 100 && row.EXP_STAT == 100 && row.PAY_APP_SN == null){
                             return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_RESULT_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_RESULT_ID+"' trip-code='"+row.TRIP_CODE+"' style='position: relative; top:3px' class='bstCheck'/>"
-                        }else if(row.STATUS == 0){
-                            return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_ID+"' style='position: relative; top:3px' class='bstCheck'/>"
-
                         }else{
                             return "";
                         }
@@ -262,7 +259,7 @@ var bustList = {
                     }
                 }, {
                     title : "지급신청",
-                    width: 80,
+                    width: 85,
                     template : function (e){
                         /** 국내출장 해외출장 분기 */
                         if(e.TRIP_CODE != "4"){
@@ -330,31 +327,33 @@ var bustList = {
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(bustSum)+"</div>";
                     }
+                }, {
+                    title : "취소",
+                    width: 60,
+                    template : function (e){
+                        if(e.STATUS == 0 || e.STATUS == 30 || e.STATUS == 40){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bustList.fn_delBtn('+e.HR_BIZ_REQ_ID+')">' +
+                                '	<span class="k-button-text">신청취소</span>' +
+                                '</button>';
+                        }else{
+                            return "";
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid");
     },
 
-    fn_delBtn: function(){
+    fn_delBtn: function(e){
         let keyAr = [];
-        let flag = true;
 
-        if($("input[name='bstCheck']:checked").length == 0){ alert("취소할 출장을 선택해주세요.") }
-        if(!confirm("선택한 출장 신청을 취소하시겠습니까?")){ return; }
+        if(!confirm("출장 신청을 취소하시겠습니까?")){ return; }
 
-        $("input[name='bstCheck']:checked").each(function(){
-            if($(this).attr("trip-code") == null || $(this).attr("trip-code") == "" || $(this).attr("trip-code") == undefined){
-                flag = false;
-                return false;
-            }
-
+        /*$("input[name='bstCheck']:checked").each(function(){
             keyAr.push(this.value);
-        });
+        });*/
 
-        if(!flag){
-            alert("취소할 수 없는 신청건이 존재합니다.");
-            return false;
-        }
+        keyAr.push(e);
 
         $.ajax({
             url : "/bustrip/delBustripReq",
