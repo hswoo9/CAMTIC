@@ -48,13 +48,15 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    <c:if test='${params.status == "rev"}'>지급신청서</c:if>
-                    <c:if test='${params.status == "in"}'>여입신청서</c:if>
-                    <c:if test='${params.status == "re"}'>반납신청서</c:if>
-                    <c:if test='${params.status == "alt"}'>대체신청서</c:if>
-                    <c:if test='${params.status == "" or params.status == null}'>
-                        <c:if test='${!"".equals(params.claimSn) or params.claimSn != null}'>지급</c:if>신청서
-                    </c:if>
+                    <span id="cardTitle">
+                        <c:if test='${params.status == "rev"}'>지급신청서</c:if>
+                        <c:if test='${params.status == "in"}'>여입신청서</c:if>
+                        <c:if test='${params.status == "re"}'>반납신청서</c:if>
+                        <c:if test='${params.status == "alt"}'>대체신청서</c:if>
+                        <c:if test='${params.status == "" or params.status == null}'>
+                            <c:if test='${!"".equals(params.claimSn) or params.claimSn != null}'>지급</c:if>신청서
+                        </c:if>
+                    </span>
                     <span id="titleStat">작성</span>
                 </span>
             </h3>
