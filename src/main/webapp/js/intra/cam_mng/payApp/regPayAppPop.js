@@ -1670,7 +1670,9 @@ var regPay = {
             return ;
         }
 
-        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=" + idx;
+
+
+        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=" + idx + "&payAppType=" + $("#payAppType").data("kendoRadioGroup").value();
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"

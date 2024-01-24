@@ -70,6 +70,10 @@ var bgView = {
 
                     if($("#status").val() != "incp"){
                         data.temp = 2;
+
+                        if($("#payAppType").val() == "3"){
+                            data.temp = 1;
+                        }
                     }else{
                         data.temp = 1;
                     }

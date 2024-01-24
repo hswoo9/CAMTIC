@@ -76,7 +76,29 @@ var exnpReList = {
                 }, {
                     title: "구분",
                     width: 80,
-                    field: "TYPE"
+                    field: "TYPE",
+                    template: function(e){
+                        var type = e.TYPE;
+                        if(e.TYPE == "반제(지출)"){
+                            if(e.PAY_APP_TYPE == 2){
+                                type = "반제(여입)";
+                            } else if (e.PAY_APP_TYPE == 3){
+                                type = "반제(반납)";
+                            } else if(e.PAY_APP_TYPE == 4){
+                                type = "반제(대체)";
+                            }
+                        } else {
+                            if(e.PAY_APP_TYPE == 2){
+                                type = "여입";
+                            } else if (e.PAY_APP_TYPE == 3){
+                                type = "반납";
+                            } else if(e.PAY_APP_TYPE == 4){
+                                type = "대체";
+                            }
+                        }
+
+                        return type;
+                    }
                 }, {
                     title: "결의일자",
                     width: 70,
