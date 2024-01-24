@@ -473,7 +473,6 @@ var payEtaxHist = {
                 var txtAmt = fnGetCurrencyCode(eTaxInfo.SUM_AM, 0);
 
 
-                console.log(eTaxInfo.TAX_TY)
                 if(eTaxInfo.TAX_TY == 1){
                     $('.txtTaxTy').html('매출세금계산서');
                 } else if(eTaxInfo.TAX_TY == 2){
