@@ -139,7 +139,6 @@ var entryList = {
                         var status = "";
                         if(e.DOC_STATUS == "100"){
                             status = "승인";
-
                         } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
                             status = "결재중";
                         } else if(e.DOC_STATUS == "30"){
