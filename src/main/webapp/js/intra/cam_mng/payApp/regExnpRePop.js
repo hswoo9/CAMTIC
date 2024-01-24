@@ -71,10 +71,19 @@ var regExnpRe = {
         });
 
         $("#payAppType").data("kendoRadioGroup").enable(false);
+
+        if($("#payAppType").data("kendoRadioGroup").value() == "1"){
+            $("#cardTitle").text("지급");
+        } else if($("#payAppType").data("kendoRadioGroup").value() == "2"){
+            $("#cardTitle").text("여입");
+        } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
+            $("#cardTitle").text("반납");
+        } else if($("#payAppType").data("kendoRadioGroup").value() == "4"){
+            $("#cardTitle").text("대체");
+        }
     },
 
     payAppBtnSet: function (data){
-        console.log(data);
         let buttonHtml = "";
         if(data.RE_STAT == "N"){
             if((data.EVID_TYPE == "1" || data.EVID_TYPE == "2" || data.EVID_TYPE == "3")){

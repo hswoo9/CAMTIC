@@ -814,7 +814,7 @@
             DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
         WHERE (ED.EVID_TYPE IN (1, 2, 3) or ED.EVID_TYPE NOT IN (1, 2, 3))
         AND E.DOC_STATUS = '100'
-        /*AND E.PAY_APP_TYPE = 1*/
+        AND E.PAY_APP_TYPE = 1
         GROUP BY E.EXNP_SN
         ORDER BY E.EXNP_SN DESC
     </select>

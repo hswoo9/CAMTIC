@@ -21,7 +21,8 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    지출 반제결의 승인
+                    <span id="cardTitle">지출</span>
+                    반제결의 승인
                 </span>
             </h3>
             <div id="payAppBtnDiv" class="btn-st popButton">
