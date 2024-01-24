@@ -29,6 +29,8 @@
 <%--<input type="hidden" id="mgtCd" value="${data.PJT_CD}" />--%>
 <input type="hidden" id="pjtCd" value="${params.pjtCd}" />
 <input type="hidden" id="status" value="${params.status}" />
+
+<input type="hidden" id="payAppType" value="${params.payAppType}" />
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">

@@ -200,9 +200,9 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     $("#regNo" + idx).val(trregNb);
     $("#crmNm" + idx).val(trNm);
     $("#trCd" + idx).val(trCd);
-    $("#totCost" + idx).val(comma(sumAm));
-    $("#supCost" + idx).val(comma(supAm));
-    $("#vatCost" + idx).val(comma(vatAm));
+    $("#totCost" + idx).val(comma(sumAm.toString().split(".")[0]));
+    $("#supCost" + idx).val(comma(supAm.toString().split(".")[0]));
+    $("#vatCost" + idx).val(comma(vatAm.toString().split(".")[0]));
     $("#issNo" + idx).val(issNo);
     $("#coCd" + idx).val(coCd);
     $("#taxTy" + idx).val(taxTy);

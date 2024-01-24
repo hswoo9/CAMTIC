@@ -57,6 +57,22 @@ var regPay = {
             } else {
                 $("#trBank").text("출금계좌");
             }
+
+            if($("#auth").val() == "mng"){
+                if($("#payAppType").data("kendoRadioGroup").value() == "1"){
+                    $("#cardTitle").text("지급신청서");
+                    $("#exnpAddBtn").text("지출결의서 작성");
+                } else if($("#payAppType").data("kendoRadioGroup").value() == "2"){
+                    $("#cardTitle").text("여입신청서");
+                    $("#exnpAddBtn").text("여입결의서 작성");
+                } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
+                    $("#cardTitle").text("반납신청서");
+                    $("#exnpAddBtn").text("반납신청서 작성");
+                } else if($("#payAppType").data("kendoRadioGroup").value() == "4"){
+                    $("#cardTitle").text("대체신청서");
+                    $("#exnpAddBtn").text("대체신청서 작성");
+                }
+            }
         })
 
         if($("#payAppSn").val() != ""){
@@ -784,6 +800,22 @@ var regPay = {
             totAllCost += Number(regPay.uncommaN($(this).val()));
         });
         $("#totalAllCost").text(regPay.comma(totAllCost));
+
+        if($("#auth").val() == "mng"){
+            if($("#payAppType").data("kendoRadioGroup").value() == "1"){
+                $("#exnpAddBtn").text("지출결의서 작성");
+                $("#cardTitle").text("지급신청서");
+            } else if($("#payAppType").data("kendoRadioGroup").value() == "2"){
+                $("#cardTitle").text("여입신청서");
+                $("#exnpAddBtn").text("여입결의서 작성");
+            } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
+                $("#cardTitle").text("반납신청서");
+                $("#exnpAddBtn").text("반납신청서 작성");
+            } else if($("#payAppType").data("kendoRadioGroup").value() == "4"){
+                $("#cardTitle").text("대체신청서");
+                $("#exnpAddBtn").text("대체신청서 작성");
+            }
+        }
     },
 
     fn_reasonClickModal : function(e){
@@ -1638,7 +1670,9 @@ var regPay = {
             return ;
         }
 
-        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=" + idx;
+
+
+        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=" + idx + "&payAppType=" + $("#payAppType").data("kendoRadioGroup").value();
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"

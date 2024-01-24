@@ -474,7 +474,7 @@ var regExnp = {
         if(rs.DIV_CD != ""){
             $("#busnCd").data("kendoDropDownList").value(rs.DIV_CD);
         }else{
-            $("#busnCd").data("kendoDropDownList").value("2000");
+            $("#busnCd").data("kendoDropDownList").value("1000");
         }
 
         if(ls.length > 0){
@@ -544,7 +544,7 @@ var regExnp = {
                     }else{
                         regExnpDet.global.createHtmlStr += "" +
                             '   <td>' +
-                            '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="2000" class="busnCd">' +
+                            '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="1000" class="busnCd">' +
                             '   </td>';
                     }
                 regExnpDet.global.createHtmlStr += "" +

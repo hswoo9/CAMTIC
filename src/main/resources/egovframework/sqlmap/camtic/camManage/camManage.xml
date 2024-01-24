@@ -502,7 +502,10 @@
         FROM
             CAM_MNG.DJ_ETAX_INFO A
         LEFT JOIN
-            CAM_MNG.DJ_USE_ETAX_INFO B
+            (SELECT *
+            FROM
+            CAM_MNG.DJ_USE_ETAX_INFO
+            GROUP BY ISS_NO) B
         ON
             A.ISS_NO = B.ISS_NO AND A.CO_CD = B.CO_CD AND A.TAX_TY = B.TAX_TY
         WHERE
