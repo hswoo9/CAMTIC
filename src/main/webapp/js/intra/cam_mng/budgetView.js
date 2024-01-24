@@ -74,6 +74,9 @@ var bgView = {
                         if($("#payAppType").val() == "3"){
                             data.temp = 1;
                         }
+                        if($("#bgtGubun").val() == "1"){
+                            data.temp = 1;
+                        }
                     }else{
                         data.temp = 1;
                     }
