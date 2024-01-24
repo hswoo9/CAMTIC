@@ -26,7 +26,7 @@ public interface PurcService {
 
     void setPurcItemStat(Map<String, Object> params);
 
-    void setPurcClaimData(Map<String, Object> params);
+    void setPurcClaimData(Map<String, Object> params, MultipartFile[] file, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
 
     Map<String, Object> getPurcClaimData(Map<String, Object> params);
 

@@ -1704,6 +1704,28 @@ var draft = {
             }
         }
 
+        if(params.menuCd == "claim") {
+            data.claimSn = params.APPRO_KEY.split("_")[1];
+
+            let result = customKendo.fn_customAjax("/purc/getPurcClaimData", {
+                claimSn: data.claimSn
+            });
+            console.log("항목 리스트 조회");
+            console.log(result);
+            const fileList = result.data.purcFile;
+
+            if(fileList != null){
+                let attCount = 0;
+                let tempArr = [];
+                for(let j=0; j< fileList.length; j++){
+                    tempArr[attCount] = fileList[j];
+                    attCount++;
+                }
+                draft.getDocFileSet(tempArr);
+                draft.setKendoUpload();
+            }
+        }
+
         if(params.type == "reDrafting"){
             const fileList = customKendo.fn_customAjax("/approval/getDocAttachmentList", {
                 docId : params.docId

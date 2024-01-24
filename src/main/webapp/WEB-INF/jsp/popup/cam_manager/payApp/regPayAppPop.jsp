@@ -180,9 +180,11 @@
             <div class="mt-20">
                 <div class="text-right">
                     <c:if test='${!"user".equals(params.auth)}'>
-                        <button type="button" id="exnpAddBtn" style="display: none; font-size: 12px;" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.fn_exnpAdd()">
-                            <span class="k-button-text">지출결의서 작성</span>
-                        </button>
+                        <c:if test="${'rev'.equals(params.status) or 'in'.equals(params.status) or 're'.equals(params.status) or 'alt'.equals(params.status)}">
+                            <button type="button" id="exnpAddBtn" style="display: none; font-size: 12px;" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.fn_exnpAdd()">
+                                <span class="k-button-text">지출결의서 작성</span>
+                            </button>
+                        </c:if>
                     </c:if>
                     <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.addRow()">
                         <span class="k-button-text">추가</span>
@@ -291,13 +293,13 @@
                             <input type="text" id="trDe0" class="trDe">
                         </td>
                         <td>
-                            <input type="text" id="totCost0" class="totCost" value="0" style="text-align: right" onchange="regPay.fn_changeAllCost()" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="totCost0" class="totCost" value="0" style="text-align: right" onchange="regPay.fn_changeAllCost()" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" id="supCost0" class="supCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="supCost0" class="supCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
-                            <input type="text" id="vatCost0" class="vatCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            <input type="text" id="vatCost0" class="vatCost" value="0" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
                             <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(3, 0)"></i>

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
+import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalRepository;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalService;
@@ -58,6 +59,9 @@ public class ApprovalServiceImpl implements ApprovalService {
 
     @Autowired
     private PayAppRepository payAppRepository;
+
+    @Autowired
+    private PurcRepository purcRepository;
 
     @Override
     public void setLinkageProcessDocInterlock(Map<String, Object> params) {
@@ -498,7 +502,13 @@ public class ApprovalServiceImpl implements ApprovalService {
                     returnMap.add(listMap.get(0));
                 }
             }
-        } else {
+        } else if("claim".equals(params.get("type"))) {
+            Map<String, Object> map = purcRepository.getPurcClaimData(params);
+            params.put("contentId", "purcReq_" + map.get("PURC_SN"));
+            params.put("fileCd", "manage");
+
+            returnMap = approvalRepository.getDocAttachmentList(params);
+        }else {
             returnMap = approvalRepository.getDocAttachmentList(params);
         }
 

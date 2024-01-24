@@ -82,6 +82,10 @@ var reqCl = {
             var rs = customKendo.fn_customAjax("/purc/getPurcReq.do", data);
             var data = rs.data;
 
+            if(data.purcFile != null){
+                reqCl.settingTempFileDataInit(data.purcFile);
+            }
+
             $("#vat").data("kendoRadioGroup").value(data.VAT);
             $("#vat").data("kendoRadioGroup").trigger("change");
 
@@ -210,7 +214,7 @@ var reqCl = {
         }
 
         $("#vat").data("kendoRadioGroup").bind("change", function(e){
-            reqCl.vatCalc();
+            reqCl.vatCalcN();
         });
 
         if(data.PURC_TYPE == ""){
@@ -260,8 +264,38 @@ var reqCl = {
         }
     },
 
+    vatCalcN : function(){
+        let sum = 0;
+        $.each($(".itemAmt"), function(){
+            console.log("TEST " + this.value);
+            sum += Number(uncommaN(this.value));
+        });
+
+        /** 견적가 500*/
+        /** 미포함 500 50 550*/
+        const sum2 = Math.floor(sum/10);
+
+        /** 포함 455 45 500*/
+        const sum3 = Math.ceil(sum / 1.1);
+        const sum4 = sum - sum3;
+
+        if($("#vat").data("kendoRadioGroup").value() == "N"){
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val(comma(sum2));
+            $("#totAmt").val(comma(sum+sum2));
+        }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
+            $("#estAmt").val(comma(sum3));
+            $("#vatAmt").val(comma(sum4));
+            $("#totAmt").val(comma(sum));
+        }else if($("#vat").data("kendoRadioGroup").value() == "D"){
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val("0");
+            $("#totAmt").val(comma(sum));
+        }
+    },
+
     fn_amtCalculator : function(){
-        reqCl.vatCalc();
+        reqCl.vatCalcN();
     },
 
     fn_popCamCrmList : function(){
@@ -282,6 +316,18 @@ var reqCl = {
 
 
         return inputNumberFormat(e);
+    },
+
+    fn_calcN : function (idx, e){
+        $("#itemAmt" + idx).val(comma(uncommaN($("#itemUnitAmt" + idx).val()) * uncomma($("#itemEa" + idx).val())));
+
+        if($("#purcItemAmt" + idx).val() != "" && $("#purcItemAmt" + idx).val() != "0"){
+            $("#difAmt" + idx).val(comma(uncommaN($("#purcItemAmt" + idx).val()) - uncommaN($("#itemAmt" + idx).val())));
+        }
+
+        reqCl.vatCalcN();
+
+        return inputNumberFormatN(e);
     },
 
     addRow : function(){
@@ -306,10 +352,10 @@ var reqCl = {
             '           <input type="text" id="itemStd'+len+'" class="itemStd">' +
             '       </td>' +
             '       <td>' +
-            '           <input type="text" id="itemEa'+len+'" style="text-align: right" class="itemEa" onkeyup="reqCl.fn_calc(\''+len+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '           <input type="text" id="itemEa'+len+'" style="text-align: right" class="itemEa" onkeyup="reqCl.fn_calcN(\''+len+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '       </td>' +
             '       <td>' +
-            '           <input type="text" id="itemUnitAmt'+len+'" style="text-align: right" class="itemUnitAmt" onkeyup="reqCl.fn_calc(\''+len+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '           <input type="text" id="itemUnitAmt'+len+'" style="text-align: right" class="itemUnitAmt" onkeyup="reqCl.fn_calcN(\''+len+'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '       </td>' +
             '       <td>' +
             '           <input type="text" id="itemUnit'+len+'" class="itemUnit">' +
@@ -444,9 +490,9 @@ var reqCl = {
             crmNm : $("#crmNm").val(),
             vat : $("#vat").data("kendoRadioGroup").value(),
             loginEmpSeq : $("#loginEmpSeq").val(),
-            estAmt : uncomma($("#estAmt").val()),
-            vatAmt : uncomma($("#vatAmt").val()),
-            totAmt : uncomma($("#totAmt").val()),
+            estAmt : uncommaN($("#estAmt").val()),
+            vatAmt : uncommaN($("#vatAmt").val()),
+            totAmt : uncommaN($("#totAmt").val()),
             itemSn : $("#itemSn").val(),
         }
 
@@ -511,7 +557,10 @@ var reqCl = {
             return;
         }
 
-
+        if(fCommon.global.attFiles.length == 0){
+            alert("견적서를 등록해주세요.");
+            return;
+        }
 
         var len = $("#claimTbody > tr").length;
 
@@ -526,10 +575,10 @@ var reqCl = {
                 itemParameters.itemNm = $("#itemNm").val();
                 itemParameters.itemStd = $("#itemStd").val();
                 itemParameters.itemEa = uncomma($("#itemEa").val());
-                itemParameters.itemUnitAmt = uncomma($("#itemUnitAmt").val());
+                itemParameters.itemUnitAmt = uncommaN($("#itemUnitAmt").val());
                 itemParameters.itemUnit = $("#itemUnit").val();
-                itemParameters.itemAmt = uncomma($("#itemAmt").val());
-                itemParameters.purcItemAmt = $("#purcItemAmt").val() ? uncomma($("#purcItemAmt").val()) : 0;
+                itemParameters.itemAmt = uncommaN($("#itemAmt").val());
+                itemParameters.purcItemAmt = $("#purcItemAmt").val() ? uncommaN($("#purcItemAmt").val()) : 0;
                 itemParameters.difAmt = $("#difAmt").val().replace(/,/g, '');
                 itemParameters.itemEtc = $("#itemEtc").val();
                 // itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").value();
@@ -540,10 +589,10 @@ var reqCl = {
                 itemParameters.itemNm = $("#itemNm" + i).val();
                 itemParameters.itemStd = $("#itemStd" + i).val();
                 itemParameters.itemEa = uncomma($("#itemEa" + i).val());
-                itemParameters.itemUnitAmt = uncomma($("#itemUnitAmt" + i).val());
+                itemParameters.itemUnitAmt = uncommaN($("#itemUnitAmt" + i).val());
                 itemParameters.itemUnit = $("#itemUnit" + i).val();
-                itemParameters.itemAmt = uncomma($("#itemAmt" + i).val());
-                itemParameters.purcItemAmt = uncomma($("#purcItemAmt" + i).val());
+                itemParameters.itemAmt = uncommaN($("#itemAmt" + i).val());
+                itemParameters.purcItemAmt = uncommaN($("#purcItemAmt" + i).val());
                 itemParameters.difAmt = $("#difAmt" + i).val().replace(/,/g, '');
                 itemParameters.itemEtc = $("#itemEtc" + i).val();
                 // itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").value();
@@ -580,11 +629,29 @@ var reqCl = {
 
         parameters.itemArr = JSON.stringify(itemArr);
 
+        var formData = new FormData();
+
+        for(var key in parameters){
+            formData.append(key, parameters[key]);
+        }
+
+        /** 증빙파일 첨부파일 */
+        if(fCommon.global.attFiles != null){
+            for(var i = 0; i < fCommon.global.attFiles.length; i++){
+                formData.append("file1", fCommon.global.attFiles[i]);
+            }
+        }
+
+
         $.ajax({
             url : "/purc/setPurcClaimData",
-            data : parameters,
+            data : formData,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async: false,
             success : function(rs){
                 if(rs.code == 200){
                     alert("저장되었습니다.");
@@ -641,10 +708,10 @@ var reqCl = {
                         '           <input type="text" id="itemStd" class="itemStd" value="'+e.itemList[i].PURC_ITEM_STD+'">' +
                         '       </td>' +
                         '       <td>' +
-                        '           <input type="text" id="itemEa" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_QTY)+'" class="itemEa" onkeyup="reqCl.fn_calc(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                        '           <input type="text" id="itemEa" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_QTY)+'" class="itemEa" onkeyup="reqCl.fn_calcN(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                         '       </td>' +
                         '       <td>' +
-                        '           <input type="text" id="itemUnitAmt" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_UNIT_PRICE)+'" class="itemUnitAmt" onkeyup="reqCl.fn_calc(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                        '           <input type="text" id="itemUnitAmt" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_UNIT_PRICE)+'" class="itemUnitAmt" onkeyup="reqCl.fn_calcN(\'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                         '       </td>' +
                         '       <td>' +
                         '           <input type="text" id="itemUnit" class="itemUnit" value="'+e.itemList[i].PURC_ITEM_UNIT+'">' +
@@ -690,10 +757,10 @@ var reqCl = {
                         '           <input type="text" id="itemStd'+index+'" class="itemStd" value="'+e.itemList[i].PURC_ITEM_STD+'">' +
                         '       </td>' +
                         '       <td>' +
-                        '           <input type="text" id="itemEa'+index+'" style="text-align: right" class="itemEa" value="'+comma(e.itemList[i].PURC_ITEM_QTY)+'" onkeyup="reqCl.fn_calc(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                        '           <input type="text" id="itemEa'+index+'" style="text-align: right" class="itemEa" value="'+comma(e.itemList[i].PURC_ITEM_QTY)+'" onkeyup="reqCl.fn_calcN(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                         '       </td>' +
                         '       <td>' +
-                        '           <input type="text" id="itemUnitAmt'+index+'" style="text-align: right" class="itemUnitAmt" value="'+comma(e.itemList[i].PURC_ITEM_UNIT_PRICE)+'" onkeyup="reqCl.fn_calc(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                        '           <input type="text" id="itemUnitAmt'+index+'" style="text-align: right" class="itemUnitAmt" value="'+comma(e.itemList[i].PURC_ITEM_UNIT_PRICE)+'" onkeyup="reqCl.fn_calcN(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                         '       </td>' +
                         '       <td>' +
                         '           <input type="text" id="itemUnit'+index+'" class="itemUnit" value="'+e.itemList[i].PURC_ITEM_UNIT+'">' +
@@ -830,10 +897,10 @@ var reqCl = {
                     '           <input type="text" id="itemStd" class="itemStd" value="'+e.itemList[i].ITEM_STD+'">' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemEa" style="text-align: right" value="'+comma(e.itemList[i].ITEM_EA)+'" class="itemEa" onkeyup="reqCl.fn_calc(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="itemEa" style="text-align: right" value="'+comma(e.itemList[i].ITEM_EA)+'" class="itemEa" onkeyup="reqCl.fn_calcN(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemUnitAmt" style="text-align: right" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" class="itemUnitAmt" onkeyup="reqCl.fn_calc(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="itemUnitAmt" style="text-align: right" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" class="itemUnitAmt" onkeyup="reqCl.fn_calcN(\'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '       </td>' +
                     '       <td>' +
                     '           <input type="text" id="itemUnit" class="itemUnit" value="'+e.itemList[i].ITEM_UNIT+'">' +
@@ -879,10 +946,10 @@ var reqCl = {
                     '           <input type="text" id="itemStd'+index+'" class="itemStd" value="'+e.itemList[i].ITEM_STD+'">' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemEa'+index+'" style="text-align: right" class="itemEa" value="'+comma(e.itemList[i].ITEM_EA)+'" onkeyup="reqCl.fn_calc(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="itemEa'+index+'" style="text-align: right" class="itemEa" value="'+comma(e.itemList[i].ITEM_EA)+'" onkeyup="reqCl.fn_calcN(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="itemUnitAmt'+index+'" style="text-align: right" class="itemUnitAmt" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" onkeyup="reqCl.fn_calc(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '           <input type="text" id="itemUnitAmt'+index+'" style="text-align: right" class="itemUnitAmt" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" onkeyup="reqCl.fn_calcN(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '       </td>' +
                     '       <td>' +
                     '           <input type="text" id="itemUnit'+index+'" class="itemUnit" value="'+e.itemList[i].ITEM_UNIT+'">' +
@@ -1052,5 +1119,65 @@ var reqCl = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
+    },
+
+    addFileInfoTable : function (){
+        let size = 0;
+        let fileName = "";
+        let fileExt = "";
+        if($("input[name='fileList']")[0].files.length == 1){
+            $("#fileGrid").html("");
+        }
+        for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
+            fCommon.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+        }
+
+        if(fCommon.global.attFiles.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i < fCommon.global.attFiles.length; i++) {
+                size = fCommon.bytesToKB((fCommon.global.attFiles[i].file_size || fCommon.global.attFiles[i].size));
+                fileName = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.split(".")[0] : fCommon.global.attFiles[i].file_org_name;
+                fileExt = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.split(".")[1] : fCommon.global.attFiles[i].file_ext;
+
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td>' + fileName + '</td>';
+                html += '   <td>' + fileExt + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }
+    },
+
+    /** 첨부파일 데이터 세팅 */
+    settingTempFileDataInit: function(e){
+        fCommon.global.attFiles = fCommon.global.attFiles.concat(e);
+        var html = '';
+        if(e.length > 0){
+            for(var i = 0; i < e.length; i++){
+                html += '<tr style="text-align: center" class="addFile">';
+                html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">'+e[i].file_org_name+'</span></td>';
+                html += '   <td>'+ e[i].file_ext +'</td>';
+                html += '   <td>'+ e[i].file_size +'</td>';
+                html += '   <td>';
+                html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                    '			    <span class="k-button-text">삭제</span>' +
+                    '		    </button>';
+                html += '   </td>';
+                html += '</tr>';
+            }
+            $("#fileGrid").html(html);
+        }else{
+            $("#fileGrid").html('<tr>' +
+                '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                '</tr>');
+        }
     }
 }

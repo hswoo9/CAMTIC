@@ -66,17 +66,21 @@ var purcClaim = {
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "문서번호",
-                    field: "DOC_NO",
-                    width: 160,
+                    title: "구매요청문서번호",
+                    field: "PURC_DOC_NO",
+                    width: 120,
+                }, {
+                    title: "구매청구문서번호",
+                    field: "CLAIM_DOC_NO",
+                    width: 120,
                 }, {
                     field: "CLAIM_DE",
                     title: "청구일",
-                    width: 120,
+                    width: 100,
                 }, {
                     title: "납품(예정)일",
                     field: "DELV_DE",
-                    width: 120
+                    width: 100
                 }, {
                     title: "제목",
                     field: "CLAIM_TITLE",
@@ -119,7 +123,7 @@ var purcClaim = {
                     }
                 }, {
                     title: "상태",
-                    width: 120,
+                    width: 100,
                     template: function (e){
                         if(e.STATUS != null && e.STATUS != ""){
                             if(e.STATUS == 100){
