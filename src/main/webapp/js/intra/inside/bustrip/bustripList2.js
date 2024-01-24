@@ -64,14 +64,14 @@ var bustList = {
                             '	<span class="k-button-text">신청</span>' +
                             '</button>';
                     }
-                }, {
+                }, /*{
                     name : 'button',
                     template : function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="bustList.fn_delBtn()">' +
                             '	<span class="k-button-text">신청취소</span>' +
                             '</button>';
                     }
-                }, {
+                }, */{
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustList.fn_checkedReqRegPopup();">' +
