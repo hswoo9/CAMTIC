@@ -43,7 +43,7 @@ var payEtaxHist = {
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/g20/getEtaxList",
+                    url: "/mng/getEtaxListAll",
                     dataType: "json",
                     type: "post"
                 },
@@ -104,10 +104,10 @@ var payEtaxHist = {
                         }
                     }
                 }, {
-                    title: "발급일자",
+                    title: "작성일자",
                     width: 120,
                     template: function (e){
-                        return e.ISU_DT.substring(0,4) + "-" + e.ISU_DT.substring(4,6) + "-" + e.ISU_DT.substring(6,8);
+                        return e.ISS_DT.substring(0,4) + "-" + e.ISS_DT.substring(4,6) + "-" + e.ISS_DT.substring(6,8);
                     }
                 }, {
                     title: "거래처명",
