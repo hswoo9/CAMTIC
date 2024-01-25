@@ -64,7 +64,15 @@ public class G20ServiceImpl implements G20Service {
                     int paySum = 0;
                     for (int i=0; i<payList.size(); i++){
                         if(map.get("BGT_CD").toString().equals(payList.get(i).get("BUDGET_SN").toString()) && "N".equals(payList.get(i).get("REVERT_YN").toString())){
-                            paySum += Integer.parseInt(payList.get(i).get("TOT_COST").toString());
+                            int payAmount = Integer.parseInt(payList.get(i).get("TOT_COST").toString());
+
+                            // 여입결의서
+                            if("2".equals(payList.get(i).get("PAY_APP_TYPE").toString())){
+                                payAmount = payAmount * -1;
+                            }
+
+                            paySum += payAmount;
+//                            paySum += Integer.parseInt(payList.get(i).get("TOT_COST").toString());
                         }
                     }
                     map.put("WAIT_CK", paySum);
@@ -84,7 +92,15 @@ public class G20ServiceImpl implements G20Service {
                         int paySum = 0;
                         for (int i=0; i<payList.size(); i++){
                             if(map.get("BGT_CD").toString().equals(payList.get(i).get("BUDGET_SN"))){
-                                paySum += Integer.parseInt(payList.get(i).get("TOT_COST").toString());
+                                int payAmount = Integer.parseInt(payList.get(i).get("TOT_COST").toString());
+
+                                // 여입결의서
+                                if("2".equals(payList.get(i).get("PAY_APP_TYPE").toString())){
+                                    payAmount = payAmount * -1;
+                                }
+
+                                paySum += payAmount;
+//                            paySum += Integer.parseInt(payList.get(i).get("TOT_COST").toString());
                             }
                         }
                         map.put("WAIT_CK", paySum);
