@@ -719,7 +719,13 @@
     <select id="getApprovalMngDtList" parameterType="map" resultType="map">
         /* getApprovalMngDtList */
         SELECT
-            *
+            APPROVAL_MNG_DT,
+            FORM_ID,
+            APPROVAL_TYPE,
+            DUTY_TYPE,
+            DUTY_VAL,
+            ST_PAY,
+            IFNULL(ED_PAY, '') AS ED_PAY
         FROM
             CAM_APPROVAL.DJ_APPROVAL_MNG_DT
         WHERE
