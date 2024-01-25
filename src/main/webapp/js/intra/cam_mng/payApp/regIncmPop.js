@@ -395,8 +395,14 @@ var regIncm = {
                 $("#accNo").val(rs.ACC_NO);
                 $("#bnkNm").val(rs.BNK_NM);
 
-                $("#supCost0").val(regIncm.comma(Math.round(Number(rs.DEPO_AMT) / 1.1)));
-                $("#vatAmt0").val(regIncm.comma(Number(rs.DEPO_AMT) - Math.round(Number(rs.DEPO_AMT) / 1.1)));
+                $("#taxType").val(rs.TAX_CH_GUBUN);
+                if(rs.TAX_CH_GUBUN == "1"){
+                    $("#supCost0").val(regIncm.comma(Math.round(Number(rs.DEPO_AMT) / 1.1)));
+                    $("#vatAmt0").val(regIncm.comma(Number(rs.DEPO_AMT) - Math.round(Number(rs.DEPO_AMT) / 1.1)));
+                } else {
+                    $("#supCost0").val(regIncm.comma(rs.DEPO_AMT));
+                    $("#vatAmt0").val("0");
+                }
                 $("#totCost0").val(regIncm.comma(rs.DEPO_AMT));
                 $("#supCost0").trigger("keyup");
 

@@ -199,6 +199,7 @@ var approvalLine = {
                 }else if(managerInfo.DEPT_MNG_CK == "Y"){
                     userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
                 }
+                console.log("userArr", userArr)
             }
         }
 
@@ -236,7 +237,7 @@ var approvalLine = {
 
         }
 
-        if(payCkList.length == 0){
+        if(payCkList.length == 0){c
             return;
         }
 
@@ -244,7 +245,7 @@ var approvalLine = {
             const map = payCkList[i];
 
             /** 시작 금액만 있으면 코드값 <= 금액인지 체크 */
-            if(map.ED_PAY != ""){
+            if(map.ED_PAY != "" || map.ED_PAY == null){
                 if(Number(map.ST_PAY) <= requestAmt){
                     level = map.DUTY_VAL;
                     break;
@@ -354,6 +355,7 @@ var approvalLine = {
             }
         }
 
+
         if(userArr.length != 0){
             approvalLine.decision(userArr);
         }
@@ -404,9 +406,11 @@ var approvalLine = {
             approveDutyName : userInfo.DUTY_NAME,
             approveDeptSeq : userInfo.DEPT_SEQ,
             approveDeptName : userInfo.DEPT_NAME,
-            approveOrder : "0",
+            approveOrder : String(approvalLine.global.approverArr.length),
             approveType : approveType
         }
+
+        console.log("추가 데이터", data)
         approvalLine.global.approverArr.push(data);
     },
 
