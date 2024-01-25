@@ -167,7 +167,7 @@ var regExnp = {
     },
 
     dataSet : function (){
-
+        console.log("dataSet");
 
         var data = {
             exnpSn : $("#exnpSn").val(),
@@ -179,6 +179,17 @@ var regExnp = {
         var ls = result.list;
         var fileList = result.fileList;
         regExnp.global.fileArray = fileList;
+
+        var fileThumbText = "";
+        for(let i=0; i<fileList.length; i++){
+            if(fileThumbText != ""){
+                fileThumbText += " | ";
+            }
+            fileThumbText += fileList[i].file_org_name;
+            fileThumbText += "." + fileList[i].file_ext;
+        }
+
+        $("#fileText").text(fileThumbText);
 
         if($("#exnpSn").val() != ""){
             regExnp.payAppBtnSet(rs, ls[0].EVID_TYPE);
@@ -273,13 +284,13 @@ var regExnp = {
                     '       <input type="text" id="busnCd' + regExnpDet.global.itemIndex + '" value="'+item.BUSN_CD+'" class="busnCd">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="totCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.TOT_COST)+'" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       <input type="text" id="totCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.TOT_COST)+'" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="supCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.SUP_COST)+'" class="supCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       <input type="text" id="supCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.SUP_COST)+'" class="supCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="vatCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.VAT_COST)+'" class="vatCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       <input type="text" id="vatCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.VAT_COST)+'" class="vatCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '   </td>' +
                     '   <td>' +
                     '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(3, '+regExnpDet.global.itemIndex+')"></i>' +
@@ -399,6 +410,7 @@ var regExnp = {
     },
 
     setData : function(){
+        console.log("setData");
         var data = {
             payAppSn : $("#payAppSn").val(),
 
@@ -421,6 +433,17 @@ var regExnp = {
         var ls = result.list;
         var fileList = result.fileList;
         regExnp.global.fileArray = fileList;
+
+        var fileThumbText = "";
+        for(let i=0; i<fileList.length; i++){
+            if(fileThumbText != ""){
+                fileThumbText += " | ";
+            }
+            fileThumbText += fileList[i].file_org_name;
+            fileThumbText += "." + fileList[i].file_ext;
+        }
+
+        $("#fileText").text(fileThumbText);
 
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
 
@@ -451,7 +474,7 @@ var regExnp = {
         if(rs.DIV_CD != ""){
             $("#busnCd").data("kendoDropDownList").value(rs.DIV_CD);
         }else{
-            $("#busnCd").data("kendoDropDownList").value("2000");
+            $("#busnCd").data("kendoDropDownList").value("1000");
         }
 
         if(ls.length > 0){
@@ -521,18 +544,18 @@ var regExnp = {
                     }else{
                         regExnpDet.global.createHtmlStr += "" +
                             '   <td>' +
-                            '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="2000" class="busnCd">' +
+                            '       <input id="busnCd' + regExnpDet.global.itemIndex + '" value="1000" class="busnCd">' +
                             '   </td>';
                     }
                 regExnpDet.global.createHtmlStr += "" +
                     '   <td>' +
-                    '       <input type="text" id="totCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.TOT_COST)+'" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       <input type="text" id="totCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.TOT_COST)+'" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="supCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.SUP_COST)+'" class="supCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       <input type="text" id="supCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.SUP_COST)+'" class="supCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="vatCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.VAT_COST)+'" class="vatCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       <input type="text" id="vatCost' + regExnpDet.global.itemIndex + '" value="'+regExnp.comma(item.VAT_COST)+'" class="vatCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '   </td>' +
                     '   <td>' +
                     '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(3, '+regExnpDet.global.itemIndex+')"></i>' +
@@ -892,9 +915,9 @@ var regExnp = {
                 crmAccNo : $("#crmAccNo" + i).val(),
                 crmAccHolder : $("#crmAccHolder" + i).val(),
                 trDe : $("#trDe" + i).val(),
-                totCost : regExnp.uncomma($("#totCost" + i).val()),
-                supCost : regExnp.uncomma($("#supCost" + i).val()),
-                vatCost : regExnp.uncomma($("#vatCost" + i).val()),
+                totCost : regExnp.uncommaN($("#totCost" + i).val()),
+                supCost : regExnp.uncommaN($("#supCost" + i).val()),
+                vatCost : regExnp.uncommaN($("#vatCost" + i).val()),
                 card : $("#card" + i).val(),
                 cardNo : $("#cardNo" + i).val(),
                 busnCd : $("#busnCd" + i).data("kendoDropDownList").value()
@@ -1004,18 +1027,18 @@ var regExnp = {
     fn_calCost : function(obj){
         var index = obj.id.substring(obj.id.length - 1);
         if(obj.id.match("totCost")){
-            $("#vatCost" + index).val(regExnp.comma(Math.round(Number(regExnp.uncomma($("#totCost" + index).val())) / 10)));
-            $("#supCost" + index).val(regExnp.comma(Number(regExnp.uncomma($("#totCost" + index).val())) - Number(regExnp.uncomma($("#vatCost" + index).val()))));
+            $("#vatCost" + index).val(regExnp.comma(Math.round(Number(regExnp.uncommaN($("#totCost" + index).val())) / 10)));
+            $("#supCost" + index).val(regExnp.comma(Number(regExnp.uncommaN($("#totCost" + index).val())) - Number(regExnp.uncommaN($("#vatCost" + index).val()))));
         } else if(obj.id.match("supCost")){
-            $("#vatCost" + index).val(regExnp.comma(Number(regExnp.uncomma($("#totCost" + index).val())) - Number(regExnp.uncomma($("#supCost" + index).val()))));
+            $("#vatCost" + index).val(regExnp.comma(Number(regExnp.uncommaN($("#totCost" + index).val())) - Number(regExnp.uncommaN($("#supCost" + index).val()))));
         } else if (obj.id.match("vatCost")){
-            $("#supCost" + index).val(regExnp.comma(Number(regExnp.uncomma($("#totCost" + index).val())) - Number(regExnp.uncomma($("#vatCost" + index).val()))));
+            $("#supCost" + index).val(regExnp.comma(Number(regExnp.uncommaN($("#totCost" + index).val())) - Number(regExnp.uncommaN($("#vatCost" + index).val()))));
         }
         regExnp.inputNumberFormat(obj);
     },
 
     inputNumberFormat : function(obj){
-        obj.value = regExnp.comma(regExnp.uncomma(obj.value));
+        obj.value = regExnp.comma(regExnp.uncommaN(obj.value));
     },
 
     comma : function(str){
@@ -1026,6 +1049,11 @@ var regExnp = {
     uncomma : function(str){
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    },
+
+    uncommaN : function(str){
+        str = String(str);
+        return str.replace(/[^\d-]|(?<=\d)-/g, '');
     },
 
     fn_projectPop : function(){
@@ -1193,13 +1221,13 @@ var regExnpDet = {
                 '       <input type="text" id="busnCd' + clIdx + '" class="busnCd">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="totCost' + clIdx + '" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '       <input type="text" id="totCost' + clIdx + '" class="totCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="supCost' + clIdx + '" class="supCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '       <input type="text" id="supCost' + clIdx + '" class="supCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="vatCost' + clIdx + '" class="vatCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '       <input type="text" id="vatCost' + clIdx + '" class="vatCost" style="text-align: right" onkeyup="regExnp.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                 '   </td>' +
                 '   <td>' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(3, '+clIdx+')"></i>' +

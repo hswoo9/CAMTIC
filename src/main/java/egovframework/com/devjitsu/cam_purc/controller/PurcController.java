@@ -319,10 +319,11 @@ public class PurcController {
     }
 
     @RequestMapping("/purc/setPurcClaimData")
-    public String setPurcClaimData(@RequestParam Map<String, Object> params, Model model){
+    public String setPurcClaimData(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
 
         try{
-            purcService.setPurcClaimData(params);
+            MultipartFile[] file = request.getFiles("file1").toArray(new MultipartFile[0]);
+            purcService.setPurcClaimData(params, file, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
             model.addAttribute("params", params);
         } catch (Exception e){

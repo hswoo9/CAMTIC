@@ -217,13 +217,13 @@ var snackReq = {
         /*let useHour = $("#useHour").val();
         let useMin = $("#useMin").val();*/
         let snackType = $("#snackType").val();
-        let snackTypeText = $("#snackType").data("kendoDropDownList").value();
+        let snackTypeText = $("#snackType").data("kendoDropDownList").text();
         let userSn = $("#userSn").val();
         let userText = $("#userText").val();
         let payType = $("#payType").val();
-        let payTypeText = $("#payType").data("kendoDropDownList").value();
+        let payTypeText = $("#payType").data("kendoDropDownList").text();
         let chargeUser = $("#chargeUser").val();
-        let chargeUserText = $("#chargeUser").data("kendoDropDownList").value();
+        let chargeUserText = $("#chargeUser").data("kendoDropDownList").text();
         let areaSn = 1;
         let areaName = $("#areaName").val();
         let usAmount = $("#usAmount").val().replace(/,/g, "").replace(/(^0+)/, "");
@@ -262,7 +262,7 @@ var snackReq = {
             alert("이용시간이 잘못 기입되었습니다.");
             return;
         }*/
-        if(snackTypeText == "") {
+        if(snackType == "") {
             alert("식대구분이 선택되지 않았습니다.");
             return;
         }

@@ -226,6 +226,7 @@ var regPayDepo = {
     },
 
     fn_setProjectData: function (){
+        console.log("fn_setProjectData");
         var data = {
             pjtSn : $("#paramPjtSn").val()
         }
@@ -238,9 +239,15 @@ var regPayDepo = {
             success : function(rs){
                 var rs = rs.data;
                 console.log(rs);
-                $("#pjtSn").val($("#pjtSn").val() != "" ? $("#pjtSn").val() : rs.PJT_SN);
-                $("#pjtNm").val($("#pjtNm").val() != "" ? $("#pjtNm").val() : rs.PJT_NM);
-                $("#pjtCd").val($("#pjtCd").val() != "" ? $("#pjtCd").val() : rs.PJT_CD);
+
+                if(rs.BUDGET_SN){
+                    $("#pjtSn").val($("#pjtSn").val() != "" ? $("#pjtSn").val() : rs.PJT_SN);
+                    $("#pjtNm").val($("#pjtNm").val() != "" ? $("#pjtNm").val() : rs.PJT_NM);
+                    $("#pjtCd").val($("#pjtCd").val() != "" ? $("#pjtCd").val() : rs.PJT_CD);
+                    $("#depoTitle").val("입금신청 - " + rs.PJT_NM);
+                } else {
+                    $("#depoTitle").val("입금신청 - ");
+                }
 
                 if(rs.PJT_STEP.substring(0, 1) == "E"){
                     $("#crmNm").val($("#crmNm").val() != "" ? $("#crmNm").val() : rs.CRM_NM);
@@ -265,8 +272,6 @@ var regPayDepo = {
                     $("#crmNm").val(result.CRM_NM);
                     $("#regNo").val(result.CRM_NO);
                 }
-
-                $("#depoTitle").val("입금신청 - " + rs.PJT_NM);
             }
         });
     },
@@ -439,7 +444,7 @@ var regPayDepo = {
         }
 
         /** 추후 temp변수명 수정 예정 */
-        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=N&temp=2";
+        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=N&status=incp";
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"

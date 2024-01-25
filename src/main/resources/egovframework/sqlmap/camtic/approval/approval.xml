@@ -567,7 +567,7 @@
     <select id="getDocAttachmentList" parameterType="map" resultType="map">
         /* getDocAttachmentList */
         SELECT
-            CONCAT(DI.DOC_NO, '_', DI.DOC_TITLE) AS ZIP_NAME,
+            IFNULL(CONCAT(DI.DOC_NO, '_', DI.DOC_TITLE), FI.FILE_NO) AS ZIP_NAME,
             FI.FILE_NO,
             CONCAT(FI.FILE_ORG_NAME, '.', FI.FILE_EXT) AS filename,
             FI.FILE_EXT,
@@ -582,17 +582,22 @@
         ON FI.DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FI.FILE_NO AND FI.FILE_EXT != 'html'
         WHERE
             DI.DOC_ID = #{docId}
+        <if test='type == "claim" or "claim".equals(type)'>
+            OR (CONTENT_ID = #{contentId} AND file_cd = #{fileCd})
+        </if>
         <if test='type == "payApp" or "payApp".equals(type)'>
             OR (CONTENT_ID = #{payAppSn} AND file_cd = #{type})
             OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}))
+            OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
         </if>
-        <if test='type == "payIncp" or "payApp".equals(type)'>
+        <if test='type == "payIncp" or "payIncp".equals(type)'>
             OR (CONTENT_ID = #{payIncpSn} AND file_cd = #{type})
             OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_INCP_FILE WHERE PAY_INCP_SN = #{payIncpSn}))
         </if>
         <if test='type == "exnp" or "payApp".equals(exnp)'>
             OR CONTENT_ID = #{payAppSn} AND file_cd = 'payApp'
             OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}))
+            OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
         </if>
         <if test='type == "exnpDetail" or "payApp".equals(exnpDetail)'>
             OR (CONTENT_ID = #{payAppSn} AND FILE_CD = 'useCard' AND FILE_PATH = #{filePath})

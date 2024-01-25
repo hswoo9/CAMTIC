@@ -35,7 +35,7 @@ var prp = {
 
         /** 부가세 Change function */
         $("#vat").data("kendoRadioGroup").bind("change", function(){
-            prp.vatCalc();
+            prp.vatCalcN();
         });
 
         $("input[name='purcType']").click(function(){
@@ -98,7 +98,7 @@ var prp = {
 
         var sum = 0;
         $.each($(".purcItemAmt"), function(){
-            sum += Number(uncomma(this.value));
+            sum += Number(uncommaN(this.value));
         })
         if($("#purcSn").val()){
             $("#totalPay").css("display", "");
@@ -116,6 +116,36 @@ var prp = {
         let sum = 0;
         $.each($(".purcItemAmt"), function(){
             sum += Number(uncomma(this.value));
+        });
+
+        /** 견적가 500*/
+        /** 미포함 500 50 550*/
+        const sum2 = Math.floor(sum/10);
+
+        /** 포함 455 45 500*/
+        const sum3 = Math.ceil(sum / 1.1);
+        const sum4 = sum - sum3;
+
+        if($("#vat").data("kendoRadioGroup").value() == "N"){
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val(comma(sum2));
+            $("#totAmt").val(comma(sum+sum2));
+        }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
+            $("#estAmt").val(comma(sum3));
+            $("#vatAmt").val(comma(sum4));
+            $("#totAmt").val(comma(sum));
+        }else if($("#vat").data("kendoRadioGroup").value() == "D"){
+            $("#estAmt").val(comma(sum));
+            $("#vatAmt").val("0");
+            $("#totAmt").val(comma(sum));
+        }
+    },
+
+    vatCalcN : function(){
+        let sum = 0;
+        $.each($(".purcItemAmt"), function(){
+            console.log(this.value)
+            sum += Number(uncommaN(this.value));
         });
 
         /** 견적가 500*/
@@ -210,16 +240,16 @@ var prp = {
                 productC : $("#productC" + i).val(),
                 purcItemName : $("#purcItemName" + i).val(),
                 purcItemStd : $("#purcItemStd" + i).val(),
-                purcItemUnitPrice : prp.uncomma($("#purcItemUnitPrice" + i).val()),
+                purcItemUnitPrice : prp.uncommaN($("#purcItemUnitPrice" + i).val()),
                 purcItemQty : $("#purcItemQty" + i).val(),
                 purcItemUnit : $("#purcItemUnit" + i).val(),
-                purcItemAmt : prp.uncomma($("#purcItemAmt" + i).val()),
+                purcItemAmt : prp.uncommaN($("#purcItemAmt" + i).val()),
                 crmSn : $("#crmSn" + i).val(),
                 rmk : $("#rmk" + i).val(),
                 status : e,
                 empSeq : $("#purcReqEmpSeq").val(),
             }
-            itemSum += Number(prp.uncomma($("#purcItemAmt" + i).val()));
+            itemSum += Number(prp.uncommaN($("#purcItemAmt" + i).val()));
 
             if(data.productA == ""){flag = false;}
             if(data.purcItemName == ""){flag2 = false;}
@@ -375,10 +405,10 @@ var prp = {
                     '<input type="text" id="purcItemStd' + prp.global.itemIndex + '" class="purcItemStd">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="purcItemUnitPrice' + prp.global.itemIndex + '" class="purcItemUnitPrice" onkeyup="prp.fn_calc('+prp.global.itemIndex+', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
+                    '<input type="text" id="purcItemUnitPrice' + prp.global.itemIndex + '" class="purcItemUnitPrice" onkeyup="prp.fn_calcN('+prp.global.itemIndex+', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="purcItemQty' + prp.global.itemIndex + '" class="purcItemQty" onkeyup="prp.fn_calc('+prp.global.itemIndex+', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
+                    '<input type="text" id="purcItemQty' + prp.global.itemIndex + '" class="purcItemQty" onkeyup="prp.fn_calcN('+prp.global.itemIndex+', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="purcItemUnit' + prp.global.itemIndex + '" class="purcItemUnit">' +
@@ -445,7 +475,9 @@ var prp = {
     },
 
     fn_productCodeSetting : function(productId){
-        var i = productId.slice(-1);
+        var productId = productId;
+        var regex = /[^0-9]/g;
+        var i = productId.replace(regex, "");
 
         $("#productA" + i).bind("change", function(){
             if($("#productA" + i).data("kendoDropDownList").value() == "" || $("#productA" + i).data("kendoDropDownList").text() != "캠아이템"){
@@ -502,6 +534,30 @@ var prp = {
 
 
         return inputNumberFormat(e);
+    },
+
+    fn_calcN : function (idx, e){
+        var unitPrice = Number(uncommaN($("#purcItemUnitPrice" + idx).val()));
+        var qty = Number(uncomma($("#purcItemQty" + idx).val()));
+        var amount = unitPrice * qty;
+
+        $("#purcItemAmt" + idx).val(comma(amount));
+
+        var sum = 0;
+        $.each($(".purcItemAmt"), function () {
+            sum += Number(uncommaN(this.value));
+        });
+
+        if ($("#purcSn").val()) {
+            $("#totalPay").css("display", "");
+            $("#totalPay").text("합계 : " + comma(sum));
+        } else {
+            $("#sum").text(comma(sum) + "원");
+        }
+
+        this.vatCalcN();
+
+        return inputNumberFormatN(e);
     },
 
     delRow : function(e){
@@ -674,6 +730,11 @@ var prp = {
     uncomma : function(str){
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    },
+
+    uncommaN : function(str){
+        str = String(str);
+        return str.replace(/[^\d-]|(?<=\d)-/g, '');
     },
 
     purcDrafting: function(){

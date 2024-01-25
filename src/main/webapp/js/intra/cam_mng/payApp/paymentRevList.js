@@ -88,8 +88,16 @@ var paymentRevList = {
                     field: "APP_TITLE",
                     width: 400,
                     template: function(e){
-                        console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentRevList.fn_reqRegPopup('+e.PAY_APP_SN+', \'rev\')">'+e.APP_TITLE+'</div>';
+                        var type = "rev";
+
+                        if (e.PAY_APP_TYPE == 2){
+                            type = "in";
+                        } else if(e.PAY_APP_TYPE == 3){
+                            type = "re";
+                        } else if(e.PAY_APP_TYPE == 4){
+                            type = "alt";
+                        }
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentRevList.fn_reqRegPopup('+e.PAY_APP_SN+', \''+type+'\')">'+e.APP_TITLE+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",

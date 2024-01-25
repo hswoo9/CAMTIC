@@ -154,8 +154,11 @@ var purcUserAppList = {
                     width : 80,
                     template: function(e){
                         // approveDocView('3770', 'payApp370', 'payApp');
-
-                        return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
+                        if(e.F_PAY_APP_SN == null){
+                            return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-info" onClick="purcUserAppList.fn_reqPayAppPopup(' + e.PURC_SN + ', ' + e.CLAIM_SN + ', ' + e.CLAIM_EXNP_SN + ', ' + e.F_PAY_APP_SN + ')">지급신청</button>';
+                        }
                     }
                 }, {
                     title: "지출상태",

@@ -9,6 +9,7 @@ var regExnpRe = {
         crmSnId : "",
         crmNmId : "",
         saveAjaxData : "",
+        fileArray : [],
     },
 
     fn_defaultScript : function (){
@@ -71,10 +72,19 @@ var regExnpRe = {
         });
 
         $("#payAppType").data("kendoRadioGroup").enable(false);
+
+        if($("#payAppType").data("kendoRadioGroup").value() == "1"){
+            $("#cardTitle").text("지급");
+        } else if($("#payAppType").data("kendoRadioGroup").value() == "2"){
+            $("#cardTitle").text("여입");
+        } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
+            $("#cardTitle").text("반납");
+        } else if($("#payAppType").data("kendoRadioGroup").value() == "4"){
+            $("#cardTitle").text("대체");
+        }
     },
 
     payAppBtnSet: function (data){
-        console.log(data);
         let buttonHtml = "";
         if(data.RE_STAT == "N"){
             if((data.EVID_TYPE == "1" || data.EVID_TYPE == "2" || data.EVID_TYPE == "3")){
@@ -97,13 +107,28 @@ var regExnpRe = {
     },
 
     dataSet : function (){
+        console.log("dataSet");
         var data = {
-            exnpSn : $("#exnpSn").val()
+            exnpSn : $("#exnpSn").val(),
+            payAppSn : $("#payAppSn").val(),
         }
 
         var result = customKendo.fn_customAjax("/payApp/pop/getExnpData", data);
         var rs = result.map;
         var ls = result.list;
+        var fileList = result.fileList;
+        regExnpRe.global.fileArray = fileList;
+
+        var fileThumbText = "";
+        for(let i=0; i<fileList.length; i++){
+            if(fileThumbText != ""){
+                fileThumbText += " | ";
+            }
+            fileThumbText += fileList[i].file_org_name;
+            fileThumbText += "." + fileList[i].file_ext;
+        }
+
+        $("#fileText").text(fileThumbText);
 
         if($("#exnpSn").val() != ""){
             rs.EVID_TYPE = ls[0].EVID_TYPE;
@@ -249,6 +274,8 @@ var regExnpRe = {
     },
 
     setData : function (){
+        console.log("setData");
+
         var data = {
             payAppSn : $("#payAppSn").val()
         }
@@ -515,7 +542,12 @@ var regExnpRe = {
         var popup = window.open(url, name, option);
     },
 
-
+    fn_regPayAttPop : function (){
+        var url = "/payApp/pop/regReListFilePop.do?payAppSn=" + $("#payAppSn").val() + "&exnpSn=" + $("#exnpSn").val() + "&type=exnp";
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
+    }
 }
 
 

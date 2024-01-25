@@ -57,6 +57,22 @@ var regPay = {
             } else {
                 $("#trBank").text("출금계좌");
             }
+
+            if($("#auth").val() == "mng"){
+                if($("#payAppType").data("kendoRadioGroup").value() == "1"){
+                    $("#cardTitle").text("지급신청서");
+                    $("#exnpAddBtn").text("지출결의서 작성");
+                } else if($("#payAppType").data("kendoRadioGroup").value() == "2"){
+                    $("#cardTitle").text("여입신청서");
+                    $("#exnpAddBtn").text("여입결의서 작성");
+                } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
+                    $("#cardTitle").text("반납신청서");
+                    $("#exnpAddBtn").text("반납신청서 작성");
+                } else if($("#payAppType").data("kendoRadioGroup").value() == "4"){
+                    $("#cardTitle").text("대체신청서");
+                    $("#exnpAddBtn").text("대체신청서 작성");
+                }
+            }
         })
 
         if($("#payAppSn").val() != ""){
@@ -781,9 +797,25 @@ var regPay = {
 
         var totAllCost = 0;
         $(".totCost").each(function(){
-            totAllCost += Number(regPay.uncomma($(this).val()));
+            totAllCost += Number(regPay.uncommaN($(this).val()));
         });
         $("#totalAllCost").text(regPay.comma(totAllCost));
+
+        if($("#auth").val() == "mng"){
+            if($("#payAppType").data("kendoRadioGroup").value() == "1"){
+                $("#exnpAddBtn").text("지출결의서 작성");
+                $("#cardTitle").text("지급신청서");
+            } else if($("#payAppType").data("kendoRadioGroup").value() == "2"){
+                $("#cardTitle").text("여입신청서");
+                $("#exnpAddBtn").text("여입결의서 작성");
+            } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
+                $("#cardTitle").text("반납신청서");
+                $("#exnpAddBtn").text("반납신청서 작성");
+            } else if($("#payAppType").data("kendoRadioGroup").value() == "4"){
+                $("#cardTitle").text("대체신청서");
+                $("#exnpAddBtn").text("대체신청서 작성");
+            }
+        }
     },
 
     fn_reasonClickModal : function(e){
@@ -1179,7 +1211,7 @@ var regPay = {
 
         var totAllCost = 0;
         $(".totCost").each(function(){
-            totAllCost += Number(regPay.uncomma($(this).val()));
+            totAllCost += Number(regPay.uncommaN($(this).val()));
         });
 
         $("#totalAllCost").text(regPay.comma(totAllCost));
@@ -1446,9 +1478,9 @@ var regPay = {
                 crmAccNo : $("#crmAccNo" + index).val(),
                 crmAccHolder : $("#crmAccHolder" + index).val(),
                 trDe : $("#trDe" + index).val(),
-                totCost : regPay.uncomma($("#totCost" + index).val()),
-                supCost : regPay.uncomma($("#supCost" + index).val()),
-                vatCost : regPay.uncomma($("#vatCost" + index).val()),
+                totCost : regPay.uncommaN($("#totCost" + index).val()),
+                supCost : regPay.uncommaN($("#supCost" + index).val()),
+                vatCost : regPay.uncommaN($("#vatCost" + index).val()),
                 buySts : $("#buySts" + index).val(),
                 card : $("#card" + index).val(),
                 cardNo : $("#cardNo" + index).val(),
@@ -1578,19 +1610,19 @@ var regPay = {
     fn_calCost: function(obj){
         var index = obj.id.substring(obj.id.length - 1);
         if(obj.id.match("totCost")){
-            $("#vatCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Math.round(Number(regPay.uncomma($("#totCost" + index).val())) * 100 / 110)));
-            $("#supCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#vatCost" + index).val()))));
+            $("#vatCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Math.round(Number(regPay.uncommaN($("#totCost" + index).val())) * 100 / 110)));
+            $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
         } else if(obj.id.match("supCost")){
-            $("#vatCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#supCost" + index).val()))));
+            $("#vatCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#supCost" + index).val()))));
         } else if (obj.id.match("vatCost")){
-            $("#supCost" + index).val(regPay.comma(Number(regPay.uncomma($("#totCost" + index).val())) - Number(regPay.uncomma($("#vatCost" + index).val()))));
+            $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
         }
 
         regPay.inputNumberFormat(obj);
 
         var totAllCost = 0;
         $(".totCost").each(function(){
-            totAllCost += Number(regPay.uncomma($(this).val()));
+            totAllCost += Number(regPay.uncommaN($(this).val()));
         });
 
         $("#totalAllCost").text(regPay.comma(totAllCost));
@@ -1599,14 +1631,14 @@ var regPay = {
     fn_changeAllCost : function (){
         var totAllCost = 0;
         $(".totCost").each(function(){
-            totAllCost += Number(regPay.uncomma($(this).val()));
+            totAllCost += Number(regPay.uncommaN($(this).val()));
         });
 
         $("#totalAllCost").text(regPay.comma(totAllCost));
     },
 
     inputNumberFormat : function (obj){
-        obj.value = regPay.comma(regPay.uncomma(obj.value));
+        obj.value = regPay.comma(regPay.uncommaN(obj.value));
     },
 
     comma: function(str) {
@@ -1617,6 +1649,11 @@ var regPay = {
     uncomma: function(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    },
+
+    uncommaN: function(str) {
+        str = String(str);
+        return str.replace(/[^\d-]|(?<=\d)-/g, '');
     },
 
     fn_projectPop : function (type){
@@ -1633,7 +1670,9 @@ var regPay = {
             return ;
         }
 
-        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=" + idx;
+
+
+        var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=" + idx + "&payAppType=" + $("#payAppType").data("kendoRadioGroup").value();
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
@@ -1834,13 +1873,13 @@ var regPayDet = {
             '       <input type="text" id="trDe' + regPayDet.global.itemIndex + '" class="trDe">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="0" class="totCost" onchange="regPay.fn_changeAllCost()" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       <input type="text" id="totCost' + regPayDet.global.itemIndex + '" value="0" class="totCost" onchange="regPay.fn_changeAllCost()" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="supCost' + regPayDet.global.itemIndex + '" value="0" class="supCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       <input type="text" id="supCost' + regPayDet.global.itemIndex + '" value="0" class="supCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '   </td>' +
             '   <td>' +
-            '       <input type="text" id="vatCost' + regPayDet.global.itemIndex + '" value="0" class="vatCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       <input type="text" id="vatCost' + regPayDet.global.itemIndex + '" value="0" class="vatCost" style="text-align: right" onkeyup="regPay.fn_calCost(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '   </td>' +
             '   <td>' +
             '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(3, '+regPayDet.global.itemIndex+')"></i>' +

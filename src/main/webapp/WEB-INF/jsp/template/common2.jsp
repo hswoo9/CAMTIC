@@ -82,6 +82,15 @@
         }
     </style>
     <script>
+        $(document).ready(function() {
+            // 더블 클릭 방지 기능을 추가할 요소를 선택합니다.
+            // 예를 들어, 버튼에 대한 더블 클릭 방지 기능을 추가하려면 아래와 같이 작성할 수 있습니다.
+            $("button").on("dblclick", function(e) {
+                // 더블 클릭 이벤트를 취소합니다.
+                e.preventDefault();
+            });
+        });
+
         var socket =  new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");;
     </script>
 </head>

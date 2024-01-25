@@ -429,7 +429,8 @@
             AM.RECRUIT_INFO_SN,
             AM.RECRUIT_AREA_INFO_SN,
             AM.USER_NAME,
-            A.*
+            A.*,
+            (select eval_item_main_id from cam_inside.dj_eval_item where eval_item_id = a.eval_item_id limit 1) AS EVAL_ITEM_MAIN_ID
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM
         JOIN
@@ -438,6 +439,7 @@
         LEFT JOIN (
             SELECT
                 A.APPLICATION_ID,
+                A.EVAL_ITEM_ID,
                 B.EVAL_LOGIN_ID,
                 B.EMP_NAME_KR,
                 TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1) AS SUM_SCORE,

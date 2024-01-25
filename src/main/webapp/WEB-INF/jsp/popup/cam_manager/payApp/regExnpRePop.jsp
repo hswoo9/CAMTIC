@@ -21,7 +21,8 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    지출 반제결의 승인
+                    <span id="cardTitle">지출</span>
+                    반제결의 승인
                 </span>
             </h3>
             <div id="payAppBtnDiv" class="btn-st popButton">
@@ -108,6 +109,15 @@
                     <th>은행명</th>
                     <td colspan="3">
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">첨부파일</th>
+                    <td colspan="4">
+                        <div>
+                            <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpRe.fn_regPayAttPop()">첨부</button>
+                            <span id="fileText"></span>
+                        </div>
                     </td>
                 </tr>
                 </thead>

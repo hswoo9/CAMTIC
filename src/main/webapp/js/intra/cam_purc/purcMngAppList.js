@@ -343,29 +343,27 @@ var purcMngAppList = {
             return;
         }
 
-        var data = {
-            purcSn : purcSn,
-            claimSn : claimSn,
-            amt : amt
-        }
-
         var itemArr = new Array();
         var itemParameters = {
+            purcSn : purcSn,
             claimSn : claimSn,
             reqAmt : amt
         }
 
         itemArr.push(itemParameters);
 
-        var data = {
-            itemArray : JSON.stringify(itemArr)
-        }
+        var formData = new FormData();
+        formData.append("itemArray", JSON.stringify(itemArr));
 
         $.ajax({
             url : "/purc/setPayAppPurcReq",
-            data : data,
+            data : formData,
             dataType : "json",
             type : "post",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async: false,
             success : function(rs){
                 if(rs.code == 200){
                     alert("요청되었습니다.");

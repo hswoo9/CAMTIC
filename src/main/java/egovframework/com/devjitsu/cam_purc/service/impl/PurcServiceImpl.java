@@ -251,7 +251,7 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
-    public void setPurcClaimData(Map<String, Object> params) {
+    public void setPurcClaimData(Map<String, Object> params, MultipartFile[] file, MultipartHttpServletRequest request, String serverDir, String baseDir) {
         Map<String, Object> claimMap = new HashMap<>();
 
         if(params.containsKey("claimSn")){
@@ -283,6 +283,22 @@ public class PurcServiceImpl implements PurcService {
 
             purcRepository.insPurcClaimItem(map);
         }
+
+        MainLib mainLib = new MainLib();
+        params.put("menuCd", "manage");
+        /** 견적서 파일 */
+        if(file.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "purcReq_" + params.get("purcSn"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf('.')));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf('.')+1));
+                list.get(i).put("empSeq", params.get("loginEmpSeq"));
+            }
+            commonRepository.insFileInfo(list);
+        }
     }
 
     @Override
@@ -306,6 +322,10 @@ public class PurcServiceImpl implements PurcService {
                 result.put("itemList", itemList);
             } else {
                 result.put("itemList", purcRepository.getPurcClaimItemList(params));
+
+                Map<String, Object> searchMap = new HashMap<>();
+                searchMap.put("contentId", "purcReq_" + result.get("PURC_SN"));
+                result.put("purcFile", purcRepository.getPurcReqFileList(searchMap));
             }
         } else {
             result = null;
@@ -555,8 +575,10 @@ public class PurcServiceImpl implements PurcService {
             list.add(purcRepository.getPurcReqFileInfo(searchMap));
         }
         searchMap.put("contentId", "purcReq_" + params.get("purcSn"));
-        if(purcRepository.getPurcReqFileInfo(searchMap) != null){
-            list.add(purcRepository.getPurcReqFileInfo(searchMap));
+        if(purcRepository.getPurcReqFileList(searchMap) != null){
+            for(Map<String, Object> map : purcRepository.getPurcReqFileList(searchMap)){
+                list.add(map);
+            }
         }
         searchMap.put("contentId", "inspect_" + params.get("purcSn"));
         if(purcRepository.getPurcReqFileInfo(searchMap) != null){

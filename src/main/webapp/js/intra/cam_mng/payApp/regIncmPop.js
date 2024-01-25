@@ -368,8 +368,15 @@ var regIncm = {
                 rs.crmNo = rs.REG_NO.toString().replace(/-/g, "");
                 var g20Result = customKendo.fn_customAjax("/g20/getCrmInfo", rs);
 
-                $("#crmNm0").val(g20Result.map.TR_NM ? g20Result.map.TR_NM : "");
-                $("#trCd0").val(g20Result.map.TR_CD ? g20Result.map.TR_CD : "");
+                if(g20Result.length > 0) {
+                    $("#crmNm0").val(g20Result.map.TR_NM);
+                    $("#trCd0").val(g20Result.map.TR_CD);
+                } else {
+                    $("#crmNm0").val("");
+                    $("#trCd0").val("");
+                }
+                // $("#crmNm0").val(g20Result.map.TR_NM ? g20Result.map.TR_NM : "");
+                // $("#trCd0").val(g20Result.map.TR_CD ? g20Result.map.TR_CD : "");
                 $("#regNo0").val(rs.REG_NO.toString().replace(/-/g, ""));
                 $("#ceoNm0").val(rs.CEO_NM ? rs.CEO_NM : "");
                 $("#trDe0").val(rs.APP_DE);
