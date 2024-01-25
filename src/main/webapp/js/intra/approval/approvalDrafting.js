@@ -208,7 +208,7 @@ var draft = {
         var result = customKendo.fn_customAjax("/approval/getTemplateFormFile", draft.global.searchAjaxData);
         draft.global.flag = result.flag;
         if(result.flag){
-            return result;
+            return result ;
         }
 
     },
