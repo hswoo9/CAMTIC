@@ -226,7 +226,11 @@ var dutyInfoLeader = {
         var rs = customKendo.fn_customAjax("/campus/agreeSubject", data)
 
         if(rs.code == 200){
-            gridReload()
+            if(type == "mng"){
+                dutyInfoLeader.fn_targetCertReq(100)
+            } else {
+                gridReload()
+            }
         }
     },
 
@@ -241,7 +245,11 @@ var dutyInfoLeader = {
         var rs = customKendo.fn_customAjax("/campus/agreeDutySubject", data)
 
         if(rs.code == 200){
-            gridReload()
+            if(type == "mng"){
+                dutyInfoLeader.fn_dutyCertReq(100, id)
+            } else {
+                gridReload()
+            }
         }
     },
 
@@ -250,6 +258,55 @@ var dutyInfoLeader = {
         const name = "targetEduMngPop";
         const option = "width = 1200, height = 800, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    fn_targetCertReq: function(status){
+        let data = {
+            targetYear : $("#requestYear").val(),
+            empSeq : $("#myEmpSeq").val(),
+            regEmpSeq : $("#myEmpSeq").val(),
+            regEmpName : $("#myEmpName").val(),
+            status : status
+        }
+
+        var result = customKendo.fn_customAjax("/campus/setTargetCertReq", data);
+
+        if(result.flag){
+            if(status == 10){
+                alert("승인 요청이 완료되었습니다.");
+            }else if(status == 100){
+                alert("승인되었습니다.");
+            }else if(status == 30){
+                alert("반려되었습니다.");
+            }else if(status == 0){
+                alert("승인 요청이 취소되었습니다.");
+            }
+            gridReload()
+        }
+    },
+
+    fn_dutyCertReq: function(status, id){
+        let data = {
+            pk : id,
+            regEmpSeq : $("#myEmpSeq").val(),
+            regEmpName : $("#myEmpName").val(),
+            status : status
+        }
+
+        var result = customKendo.fn_customAjax("/campus/setDutyCertReq", data);
+
+        if(result.flag){
+            if(status == 10){
+                alert("승인 요청이 완료되었습니다.");
+            }else if(status == 100){
+                alert("승인되었습니다.");
+            }else if(status == 30){
+                alert("반려되었습니다.");
+            }else if(status == 0){
+                alert("승인 요청이 취소되었습니다.");
+            }
+            gridReload()
+        }
     }
 }
 
