@@ -83,7 +83,7 @@
             <%--        <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="docUrl" onclick="recruitAdminPop.getEvalUrlSet('doc')">--%>
             <%--          <span>서류심사 바로가기</span>--%>
             <%--        </button>--%>
-                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base mngBtn" id="docPass" style="font-size: 12px" value="D" onclick="">
+                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base mngBtn" id="docPass" style="font-size: 12px" value="D" onclick="recruitAdminPop.sendSmsPop()">
                     <span>SMS발송</span>
                 </button>
                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base mngBtn" id="docPass" style="font-size: 12px" value="D" onclick="">

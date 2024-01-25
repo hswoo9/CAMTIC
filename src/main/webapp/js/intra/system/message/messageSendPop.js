@@ -54,6 +54,21 @@ var messageSendPop = {
                         pkDate: pkDate
                     });
                 }
+            }else if(type == "recruit"){
+                const applicationId = userList[i];
+                const empInfo = customKendo.fn_customAjax("/application/getApplicationForm1.do", {applicationId: applicationId}).data;
+
+                if(empInfo != null){
+                    const dest_phone = empInfo.MOBILE_TEL_NUM;
+                    const name = empInfo.USER_NAME;
+                    const msg_content = $("#tBox_Msg").val();
+                    const pkDate = sdf;
+                    data.messages.push({
+                        dest_phone: name+"^"+dest_phone,
+                        msg_content: msg_content,
+                        pkDate: pkDate
+                    });
+                }
             }
         }
 

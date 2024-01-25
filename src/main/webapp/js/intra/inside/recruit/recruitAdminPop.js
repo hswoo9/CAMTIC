@@ -519,6 +519,25 @@ var recruitAdminPop = {
             $(".mngBtn").hide();
             $("input[type=checkbox]").attr("disabled", true);
         }
-    }
+    },
+
+    sendSmsPop : function(){
+        var joinSn = "";
+        $.each($("input[name='aplChk']:checked"), function(i){
+            if(i != 0){
+                joinSn += ",";
+            }
+            joinSn += $(this).val();
+        });
+
+        if($("input[name='aplChk']:checked").length == 0){
+            alert("SMS 발송 할 지원자를 선택해주세요."); return;
+        }
+
+        var url = "/system/pop/messageSendPop.do?userList="+joinSn+"&type=recruit";
+        var name = "messageSendPop";
+        var option = "width=315, height=600, scrollbars=no, top=200, left=600, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    },
 
 }
