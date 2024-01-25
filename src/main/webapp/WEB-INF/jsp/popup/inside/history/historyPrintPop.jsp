@@ -2,12 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
-<script type="text/javascript" src="/js/intra/inside/history/historyPrintPop.js"></script>
+<script type="text/javascript" src="/js/intra/inside/history/historyPrintPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <style>
     .pop_head {height: 32px; position: relative; background: #1385db;}
