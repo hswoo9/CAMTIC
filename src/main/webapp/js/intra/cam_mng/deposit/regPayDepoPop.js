@@ -18,7 +18,7 @@ var regPayDepo = {
 
 
         $("#payIncpDe").change(function(){
-            if($("#gubun").data("kendoDropDownList").value() == "b"){
+            if($("#gubun").data("kendoDropDownList").value() == "b" && $("#depoStat").data("kendoDropDownList").value() == "2"){
                 $("#appDe").val($("#payIncpDe").val());
             }
         });
@@ -73,6 +73,7 @@ var regPayDepo = {
                 if(this.value() == "b"){
                     $("#depoStat").data("kendoDropDownList").value(2);
                     $("#thPayIncpDeText").text("입금일자");
+                    $("#appDe").val($("#payIncpDe").val());
                 } else if(this.value() == "a"){
                     $("#depoStat").data("kendoDropDownList").value(1);
                     $("#thPayIncpDeText").text("입금예정일");
