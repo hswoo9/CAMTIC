@@ -69,13 +69,19 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star"></span>사용자</th>
-                    <td colspan="3">
-                        <input type="text" id="userName" style="width: 30%;" disabled="disabled">
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>담당자</th>
+                    <td>
+                        <input type="text" id="userName" style="width: 80%;" disabled="disabled">
                         <input type="hidden" id="empSeq" style="width: 30%;" disabled="disabled">
-                        <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:10%; height:27px; line-height:0;" onclick="userSearch();">
+                        <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="width:15%; height:27px; line-height:0;" onclick="userSearch();">
                             검색
                         </button>
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>사용자
+                    </th>
+                    <td>
+                        <input type="text" id="custNm" style="width: 90%;">
                     </td>
                 </tr>
                 <tr>

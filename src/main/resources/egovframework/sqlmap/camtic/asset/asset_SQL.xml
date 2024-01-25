@@ -1558,13 +1558,13 @@
         (
             eqipmn_mst_sn, use_pd_str_de, user_name, user_sn,
             oper_cn, use_time, use_amt, prtpco_gbn_name, prtpco_gbn_sn, prtpco_sn, client_prtpco_name,
-            reg_de, actvt_yn, create_dt, crtr_sn ,end_stat, str_time, end_time, per_amt, per_reason, pjt_sn
+            reg_de, actvt_yn, create_dt, crtr_sn ,end_stat, str_time, end_time, per_amt, per_reason, pjt_sn, cust_nm
         )
         VALUES
             (
                 #{eqipmnMstSn}, #{usePdStrDe}, #{userName}, #{userSn},
                 #{operCn}, #{useTime}, #{useAmt}, #{prtpcoGbnName}, #{prtpcoGbnSn}, #{prtpcoSn}, #{clientPrtpcoName},
-                #{regDe},'Y', NOW(), #{crtrSn} ,'N', #{time1}, #{time2}, #{perAmt}, #{perReason}, #{pjtSn}
+                #{regDe},'Y', NOW(), #{crtrSn} ,'N', #{time1}, #{time2}, #{perAmt}, #{perReason}, #{pjtSn}, #{custNm}
             )
     </insert>
 
@@ -1761,7 +1761,8 @@
             oper_cn = #{operCn}, use_time = #{useTime}, use_amt = #{useAmt},
             prtpco_gbn_name = #{prtpcoGbnName}, prtpco_gbn_sn = #{prtpcoGbnSn},
             reg_de = #{regDe}, updt_dt = NOW(), updusr_sn = #{updusrSn},
-            str_time = #{time1}, end_time = #{time2}, per_amt = #{perAmt}, per_reason = #{perReason}, pjt_sn = #{pjtSn}
+            str_time = #{time1}, end_time = #{time2}, per_amt = #{perAmt}, per_reason = #{perReason}, pjt_sn = #{pjtSn},
+            cust_nm = #{custNm}
         WHERE
             eqipmn_use_sn = #{pk}
     </update>
@@ -1813,12 +1814,14 @@
             B.eqipmn_gbn_name as EQIPMN_GBN_NAME,
             B.eqipmn_gbn_cmmn_cd_sn as EQIPMN_GBN_CMMN_CD_SN,
             B.eqipmn_name as EQIPMN_NAME,
+            A.user_sn as USER_SN,
             DATE_FORMAT(A.use_pd_str_de, '%Y-%m-%d') as USE_PD_STR_DE,
             /*DATE_FORMAT(A.use_pd_end_de, '%Y-%m-%d') as USE_PD_END_DE,*/
             A.user_name as USER_NAME,
             A.oper_cn as OPER_CN,
             A.use_time as USE_TIME,
             A.use_amt as USE_AMT,
+            A.cust_nm as CUST_NM,
             A.client_prtpco_name as CLIENT_PRTPCO_NAME,
             A.prtpco_gbn_name as PRTPCO_GBN_NAME,
             A.str_time as STR_TIME,
