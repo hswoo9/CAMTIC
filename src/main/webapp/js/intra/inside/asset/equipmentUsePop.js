@@ -47,6 +47,7 @@ var equipmentUsePop = {
         $("#busnName").kendoTextBox();
         $("#perAmt").kendoTextBox();
         $("#perReason").kendoTextBox();
+        $("#custNm").kendoTextBox();
 
         $("#regDe").kendoDatePicker({
             depth: "month",
@@ -194,7 +195,8 @@ var equipmentUsePop = {
                 perReason : $("#perReason").val(),
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
                 crtrSn : $("#regEmpSeq").val(), //생성자sn - 로그인한 계정
-                clientPrtpcoName : $("#clientPrtpcoName").val() //의뢰업체명
+                clientPrtpcoName : $("#clientPrtpcoName").val(), //의뢰업체명
+                custNm : $("#custNm").val()
             }
 
             if($("#crmCd").val()){
@@ -226,6 +228,9 @@ var equipmentUsePop = {
                 alert("작성일자를 입력하세요.")
                 return false;
             }else if(data.userSn == null || data.userSn == '') {
+                alert("담당자를 선택하세요.")
+                return false;
+            }else if(data.custNm == null || data.custNm == '') {
                 alert("사용자를 선택하세요.")
                 return false;
             }

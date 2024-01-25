@@ -45,6 +45,7 @@ var equipmentUseUpdatePop = {
         $("#busnName").kendoTextBox();
         $("#perAmt").kendoTextBox();
         $("#perReason").kendoTextBox();
+        $("#custNm").kendoTextBox();
 
         $("#regDe").kendoDatePicker({
             depth: "month",
@@ -187,7 +188,7 @@ var equipmentUseUpdatePop = {
                 $("#useTime").val(rs.USE_TIME); //사용시간
                 $("#useAmt").val(rs.USE_AMT == 0 ? 0 : equipmentUseUpdatePop.fn_comma(rs.USE_AMT)); //사용대금
                 $("#regDe").val(rs.REG_DE); //작성일자
-
+                $("#empSeq").val(rs.USER_SN);
                 $("#pjtSn").val(rs.PJT_SN);
                 if(rs.PJT_NM != null){
                     $("#busnName").val(rs.PJT_NM);
@@ -196,6 +197,7 @@ var equipmentUseUpdatePop = {
                 $("#time2").val(rs.END_TIME);
                 $("#perAmt").val(rs.PER_AMT);
                 $("#perReason").val(rs.PER_REASON);
+                $("#custNm").val(rs.CUST_NM);
             }
         });
     },
@@ -276,7 +278,8 @@ var equipmentUseUpdatePop = {
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
                 crtrSn : $("#regEmpSeq").val(), //생성자sn - 로그인한 계정
                 clientPprtpcoName : $("#clientPprtpcoName").val(), //의뢰업체명
-                updusrSn : $("#regEmpSeq").val() //수정자sn - 로그인한 계정
+                updusrSn : $("#regEmpSeq").val(), //수정자sn - 로그인한 계정
+                custNm : $("#custNm").val()
             }
 
             if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
@@ -292,7 +295,7 @@ var equipmentUseUpdatePop = {
             //    alert("사용기간 종료일을 입력하세요.")
             //    return false;
             }else if(data.userName == null || data.userName == '') {
-                alert("사용기간 사용자명을 입력하세요.")
+                alert("담당자를 입력하세요.")
                 return false;
             }else if(data.operCn == null || data.operCn == '') {
                 alert("작업내용을 입력하세요.")
@@ -302,6 +305,9 @@ var equipmentUseUpdatePop = {
                 return false;
             }else if(data.regDe == null || data.regDe == '') {
                 alert("작성일자를 입력하세요.")
+                return false;
+            }else if(data.custNm == null || data.custNm == '') {
+                alert("사용자를 입력하세요.")
                 return false;
             }
 
