@@ -313,8 +313,9 @@
             DATE_FORMAT(DI.DRAFT_DT, '%Y-%m-%d') AS DRAFT_DT,
             DATE_FORMAT(DI.REPTIT_DRFT_DT, '%Y-%m-%d') AS REPTIT_DRFT_DT,
             DATE_FORMAT(DI.LAST_APPROVE_DT, '%Y-%m-%d') AS LAST_APPROVE_DT,
-            DI.APPROVE_STAT_CODE_DESC,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = DAR.REG_EMP_SEQ) AS REG_EMP_NAME
+            DI.DRAFT_DEPT_NAME,
+            DI.DRAFT_EMP_NAME,
+            DI.APPROVE_STAT_CODE_DESC
         <choose>
             <when test='approveType != null and ("wait".equals(approveType) or "tobe".equals(approveType))'>
                 , CASE WHEN AF.C_UIUSERKEY = #{empSeq} THEN 'N' ELSE 'Y' END AS SUB_APPROVAL
@@ -326,9 +327,11 @@
         FROM
             DJ_CAMTIC.A_DOC_APPROVE_ROUTE DAR
         JOIN
-            DJ_CAMTIC.A_DOC_INFO DI ON DAR.DOC_ID = DI.DOC_ID
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON DAR.DOC_ID = DI.DOC_ID
         JOIN
-            DJ_CAMTIC.A_DOC_OPT DO ON DI.DOC_ID = DO.DOC_ID
+            DJ_CAMTIC.A_DOC_OPT DO
+        ON DI.DOC_ID = DO.DOC_ID
         <choose>
             <when test='approveType != null and "wait".equals(approveType)'>
                 AND DI.APPROVE_ORDER = DAR.APPROVE_ORDER AND (DI.APPROVE_STAT_CODE = 10 OR DI.APPROVE_STAT_CODE = 20 OR DI.APPROVE_STAT_CODE = 50)
@@ -346,7 +349,8 @@
             </when>
         </choose>
         JOIN
-            DJ_CAMTIC.A_FORM FORM ON DI.FORM_ID = FORM.FORM_ID
+            DJ_CAMTIC.A_FORM FORM
+        ON DI.FORM_ID = FORM.FORM_ID
         WHERE 1=1
         AND
             DI.ACTIVE = 'Y'
@@ -362,51 +366,38 @@
              ]]>
         </if>
 
-        <if test='resType == "Y" and resType != null'>
-            AND DI.APPRO_KEY NOT LIKE '%EXNPRESI_NP%'
-        </if>
-
         <if test='docTitle != null and !"".equals(docTitle)'>
             AND
             DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
         </if>
 
-        <if test='sEmpSeq != null and !"".equals(sEmpSeq)'>
-            AND
-            DI.DRAFT_EMP_SEQ = #{sEmpSeq}
-        </if>
-        <if test='sDeptSeq != null and !"".equals(sDeptSeq)'>
-            AND
-            DI.DRAFT_DEPT_SEQ IN (SELECT dept.DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO dept WHERE dept.PATH LIKE CONCAT('%', #{sDeptSeq} ,'%'))
-        </if>
-
         <choose>
             <when test='approveType != null and "completion".equals(approveType)'>
                 AND (
-                    DAR.APPROVE_STAT_CODE = 20 OR
-                    DAR.APPROVE_STAT_CODE = 100 OR
-                    DAR.APPROVE_STAT_CODE = 101 OR
-                    DAR.APPROVE_STAT_CODE = 102
+                DAR.APPROVE_STAT_CODE = 20 OR
+                DAR.APPROVE_STAT_CODE = 100 OR
+                DAR.APPROVE_STAT_CODE = 101 OR
+                DAR.APPROVE_STAT_CODE = 102
                 )
                 AND (
-                    DI.APPROVE_STAT_CODE = 20 OR
-                    DI.APPROVE_STAT_CODE = 100 OR
-                    DI.APPROVE_STAT_CODE = 101 OR
-                    DI.APPROVE_STAT_CODE = 102
+                DI.APPROVE_STAT_CODE = 20 OR
+                DI.APPROVE_STAT_CODE = 100 OR
+                DI.APPROVE_STAT_CODE = 101 OR
+                DI.APPROVE_STAT_CODE = 102
                 )
                 AND (
-                    (DAR.APPROVE_EMP_SEQ = #{empSeq} AND DAR.APPROVE_DEPT_SEQ = #{deptSeq}) OR
-                    (DAR.PROXY_APPROVE_EMP_SEQ = #{empSeq} AND DAR.PROXY_APPROVE_DEPT_SEQ = #{deptSeq})
+                (DAR.APPROVE_EMP_SEQ = #{empSeq} AND DAR.APPROVE_DEPT_SEQ = #{deptSeq}) OR
+                (DAR.PROXY_APPROVE_EMP_SEQ = #{empSeq} AND DAR.PROXY_APPROVE_DEPT_SEQ = #{deptSeq})
                 )
             </when>
             <when test='approveType != null and "return".equals(approveType)'>
                 AND
-                    DAR.APPROVE_STAT_CODE = 30
+                DAR.APPROVE_STAT_CODE = 30
                 AND
-                    DI.APPROVE_STAT_CODE = 30
+                DI.APPROVE_STAT_CODE = 30
                 AND (
-                    (DAR.APPROVE_EMP_SEQ = #{empSeq} AND DAR.APPROVE_DEPT_SEQ = #{deptSeq}) OR
-                    (DAR.PROXY_APPROVE_EMP_SEQ = #{empSeq} AND DAR.PROXY_APPROVE_DEPT_SEQ = #{deptSeq})
+                (DAR.APPROVE_EMP_SEQ = #{empSeq} AND DAR.APPROVE_DEPT_SEQ = #{deptSeq}) OR
+                (DAR.PROXY_APPROVE_EMP_SEQ = #{empSeq} AND DAR.PROXY_APPROVE_DEPT_SEQ = #{deptSeq})
                 )
             </when>
             <when test='approveType != null and "reference".equals(approveType)'>

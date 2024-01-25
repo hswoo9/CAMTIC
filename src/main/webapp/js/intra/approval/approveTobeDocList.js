@@ -146,7 +146,13 @@ var approveTobe = {
         approveTobe.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             deptSeq : $("#deptSeq").val(),
-            approveStat : "tobe"
+            sEmpSeq : $("#empSeq").val(),
+            sDeptSeq : $("#deptSeq").val(),
+            docTitle : $("#docTitle").val(),
+            startDay : $("#startDay").val(),
+            endDay : $("#endDay").val(),
+            approveType : "tobe",
+            resType : "Y",
         }
 
         approveTobe.mainGrid("/approvalUser/getApproveDocBoxList", approveTobe.global.searchAjaxData);
