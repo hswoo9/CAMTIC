@@ -1519,6 +1519,31 @@ public class CampusController {
         return "jsonView";
     }
 
+    @RequestMapping("/campus/agreeSubject")
+    public String agreeSubject(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            campusService.agreeSubject(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/agreeDutySubject")
+    public String agreeDutySubject(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            campusService.agreeDutySubject(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
 
 
 
@@ -2209,6 +2234,24 @@ public class CampusController {
     public String getOjtOjtResultCount(@RequestParam Map<String, Object> params, Model model) {
         Map<String, Object> data = campusService.getOjtOjtResultCount(params);
         model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/dutyInfoLeader.do")
+    public String dutyInfoLeader(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/dutyInfoLeader";
+    }
+
+    @RequestMapping("/campus/getEmpTeamOrDept")
+    public String getEmpTeamOrDept(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("data", campusService.getEmpTeamOrDept(params));
+
         return "jsonView";
     }
 }

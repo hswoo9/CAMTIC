@@ -42,9 +42,11 @@ const targetEduMng = {
         }
         if(mode == "mng"){
             $("#saveBtn").hide();
-            if(status == 10){
-                $("#recBtn").show();
-                $("#comBtn").show();
+            if(status == 10 && targetEduMng.global.targetInfo.MNG_STAT == "Y"){
+                if($("#ld").val() == ""){
+                    $("#recBtn").show();
+                    $("#comBtn").show();
+                }
             }
         }
     },
