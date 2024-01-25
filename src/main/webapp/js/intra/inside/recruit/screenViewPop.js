@@ -548,7 +548,9 @@ var screenViewPop = {
                                 '</table>';
 
                             /** 사인 조회후 사인이 있으면 이미지 첨부 없으면 정자 */
-                            const result2 = customKendo.fn_customAjax("/user/getSign", {empSeq: result.rs.REG_EMP_SEQ});
+                            // [긴급]
+                            // 하드코딩 시작
+                            const result2 = customKendo.fn_customAjax("/user/getSign", {empSeq: '00000000'});
                             console.log("userSign : ");
                             console.log(result2);
 
@@ -556,11 +558,16 @@ var screenViewPop = {
                             if(result2.data.signImg != null){
                                 const imgMap = result2.data.signImg;
                                 imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;(인)</div> <img id=\"signPhotoView\" style=\"position:relative; right: -92%; top: -33px\" width=\"50px;\" height=\"50px;\" src=\"http://218.158.231.184'+imgMap.file_path+imgMap.file_uuid+'\">';
-                            }else if(paramArr[x].EVAL_LOGIN_ID == 456){
+                            }else if(paramArr[x].empName == '유지연'){
                                 imgHtml += '심사위원 : 유지연&nbsp;(인)</div> <img id=\"signPhotoView\" style=\"position:relative; right: -92%; top: -33px\" width=\"50px;\" height=\"50px;\" src=\"http://218.158.231.184/upload/Inside/2024/01/18/17a9dfaf3b7d41a4b98d6093d0dda6af.png\">';
+                            }else if(paramArr[x].empName == '송기정'){
+                                imgHtml += '심사위원 : 송기정&nbsp;(인)</div> <img id=\"signPhotoView\" style=\"position:relative; right: -92%; top: -33px\" width=\"50px;\" height=\"50px;\" src=\"http://218.158.231.184/upload/Inside/2024/01/18/72dae97f0d9e43c3acf9b4083b703bac.png\">';
+                            }else if(paramArr[x].empName == '최훈'){
+                                imgHtml += '심사위원 : 최훈&nbsp;(인)</div> <img id=\"signPhotoView\" style=\"position:relative; right: -92%; top: -33px\" width=\"50px;\" height=\"50px;\" src=\"http://218.158.231.184/upload/Inside/2024/01/04/7c8de3e8987746f699c72bd6da145477.png\">';
                             }else{
                                 imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;<b style=\"\">'+paramArr[x].empName+'</b>';
                             }
+                            // 끝
 
                             html += "" +
                                 '<div style="text-align: right;font-size: 12px;margin-right: 40px;" class="mt-20">' +
