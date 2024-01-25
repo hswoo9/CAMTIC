@@ -5,13 +5,8 @@ var workPlanAdmin = {
 
     init : function(){
 
-        $("#searchYear").kendoDatePicker({
-            start: "decade",
-            depth: "decade",
-            culture : "ko-KR",
-            format : "yyyy",
-            value : new Date()
-        });
+        customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         workPlanAdmin.makerGrid();
 
@@ -28,7 +23,8 @@ var workPlanAdmin = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.searchYear = $("#searchYear").val();
+                    data.strDt = $("#strDt").val();
+                    data.endDt = $("#endDt").val();
                     data.adminList = "true";
                     return data;
                 }

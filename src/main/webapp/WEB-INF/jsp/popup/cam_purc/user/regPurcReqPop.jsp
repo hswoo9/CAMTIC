@@ -262,7 +262,7 @@
                         <th><span class="red-star">*</span>수량</th>
                         <th><span class="red-star">*</span>단위</th>
                         <th>금액</th>
-                        <th>업체명</th>
+                        <th><span class="red-star">*</span>업체명</th>
                         <th>비고</th>
                         <c:if test="${params.stat == 'v'}">
                             <th>상태</th>

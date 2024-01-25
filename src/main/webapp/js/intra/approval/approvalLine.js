@@ -33,6 +33,9 @@ var approvalLine = {
         leaderLevel: 0,
         memberLevel: 0,
 
+        /** 금액별 코드설정 정보 */
+        payCkList: [],
+
         /** 결재선 배열 */
         approverArr: []
     },
@@ -87,12 +90,16 @@ var approvalLine = {
                     approvalLine.global.memberLevel = map.DUTY_VAL;
                 }
             }
+        }else if(approvalType == "2"){
+            approvalLine.global.payCkList = approvalMngList;
         }
 
 
         /** 3. 결재선 생성 */
         if(approvalType == "1"){
             approvalLine.dutyLine();
+        }else if(approvalType == "2"){
+            approvalLine.payLine();
         }
     },
 
@@ -102,6 +109,7 @@ var approvalLine = {
         const managerInfo = approvalLine.global.managerInfo;
 
         const userArr = [];
+
         /** 원장급 - 본인전결 */
         if(userInfo.DUTY_CODE == "1"){
             userArr.push(userInfo);
@@ -199,7 +207,159 @@ var approvalLine = {
         }
     },
 
-    /** 결재선 입력 */
+    payLine: function(){
+        const userInfo = approvalLine.global.userInfo;
+        const managerInfo = approvalLine.global.managerInfo;
+
+        const payCkList = approvalLine.global.payCkList;
+
+        const data = draft.global.params;
+
+        let requestAmt = 0;
+        let level = 0;
+
+        if(data.menuCd == "delv") {
+            const pjtSn = data.approKey.split("_")[1];
+
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+
+            const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
+            const delvMap = result.delvMap;
+
+            requestAmt = Number(delvMap.DELV_AMT);
+
+        }else if(data.menuCd == "rndDelv"){
+
+        }else if(data.menuCd == "unRndDelv"){
+
+        }
+
+        if(payCkList.length == 0){
+            return;
+        }
+
+        for(let i=0; i<payCkList.length; i++){
+            const map = payCkList[i];
+
+            /** 시작 금액만 있으면 코드값 <= 금액인지 체크 */
+            if(map.ED_PAY != ""){
+                if(Number(map.ST_PAY) <= requestAmt){
+                    level = map.DUTY_VAL;
+                    break;
+                }
+
+            /** 시작 금액, 종료 금액 다 있으면 시작값 <= 금액 < 끝값 인지 체크 */
+            }else{
+                if(Number(map.ST_PAY) <= requestAmt < Number(map.ED_PAY)){
+                    level = map.DUTY_VAL;
+                    break;
+                }
+            }
+        }
+
+        if(level == 0){
+            return;
+        }
+
+        const userArr = [];
+
+        /** 원장급 - 본인전결 */
+        if(userInfo.DUTY_CODE == "1"){
+            userArr.push(userInfo);
+
+        /** 기안자가 부서장급 일때 */
+        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4"){
+
+            if(level == 0 || level == null){
+                return;
+            }
+
+            /** 부서장급 - 원장전결 */
+            if(level == "1"){
+                userArr.push(userInfo);
+                userArr.push(managerInfo.GRAND_MNG_SEQ);
+
+                /** 부서장급 - 본인전결 */
+            }else if(level == "2"){
+                userArr.push(userInfo);
+            }
+
+        /** 기안자가 팀장급 일때 */
+        }else if(userInfo.DUTY_CODE == "5"){
+
+            if(level == 0 || level == null){
+                return;
+            }
+
+            /** 팀장급 - 원장전결 */
+            if(level == "1"){
+                userArr.push(userInfo);
+                if(managerInfo.DEPT_MNG_CK == "Y"){
+                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
+                }
+                userArr.push(managerInfo.GRAND_MNG_SEQ);
+
+                /** 팀장급 - 부서장전결 */
+            }else if(level == "2") {
+                userArr.push(userInfo);
+                if(managerInfo.DEPT_MNG_CK == "Y"){
+                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
+                }
+
+                /** 팀장급 - 자기전결 */
+            }else if(level == "3"){
+                userArr.push(userInfo);
+            }
+
+        /** 기안자가 팀원급 일때 */
+        }else{
+
+            if(level == 0 || level == null){
+                return;
+            }
+
+            /** 팀원급 - 원장전결 */
+            if(level == "1"){
+                userArr.push(userInfo);
+                if(managerInfo.TEAM_MNG_CK == "Y"){
+                    userArr.push(getUser(managerInfo.TEAM_MNG_SEQ));
+                }
+                if(managerInfo.DEPT_MNG_CK == "Y"){
+                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
+                }
+                userArr.push(managerInfo.GRAND_MNG_SEQ);
+
+                /** 팀원급 - 부서장전결 */
+            }else if(level == "2") {
+                userArr.push(userInfo);
+                if(managerInfo.TEAM_MNG_CK == "Y"){
+                    userArr.push(getUser(managerInfo.TEAM_MNG_SEQ));
+                }
+                if(managerInfo.DEPT_MNG_CK == "Y"){
+                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
+                }
+
+                /** 팀원급 - 팀장전결 */
+            }else if(level == "3"){
+                userArr.push(userInfo);
+                if(managerInfo.TEAM_MNG_CK == "Y"){
+                    userArr.push(getUser(managerInfo.TEAM_MNG_SEQ));
+
+                    /** 팀장이 부재일시 부서장이 대신 함. */
+                }else if(managerInfo.DEPT_MNG_CK == "Y"){
+                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
+                }
+            }
+        }
+
+        if(userArr.length != 0){
+            approvalLine.decision(userArr);
+        }
+    },
+
+    /** 직급별 결재선 입력 */
     decision: function(userArr){
         
         /** 결재자 */
@@ -210,6 +370,19 @@ var approvalLine = {
             }
             approvalLine.rowApprovalSet(userArr[i], approveType);
         }
+
+        /** 마지막 결재자 */
+        approvalLine.lastApprovalSet(userArr[userArr.length-1]);
+
+        /** 결재선 송신 */
+        approvalLine.setApproval();
+    },
+
+    /** 금액별 결재선 입력 */
+    payDecision: function(payCkList){
+
+        /** 결재자 */
+
 
         /** 마지막 결재자 */
         approvalLine.lastApprovalSet(userArr[userArr.length-1]);

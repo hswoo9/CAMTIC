@@ -230,6 +230,7 @@ var prp = {
         var flag4 = true;
         var flag5 = true;
         var flag6 = true;
+        var flag7 = true;
         var itemSum = 0;
         $.each($(".purcItemInfo"), function(i, v){
             var data = {
@@ -257,6 +258,7 @@ var prp = {
             if(data.purcItemUnitPrice == ""){flag4 = false;}
             if(data.purcItemQty == ""){flag5 = false;}
             if(data.purcItemUnit == ""){flag6 = false;}
+            if(data.crmSn == ""){flag7 = false;}
 
             if($("#productA" + i).val() == "3"){
                 if(data.productB == ""){
@@ -325,6 +327,11 @@ var prp = {
         }
         if(!flag6){
             alert("단위를 입력해주세요.");
+            return ;
+        }
+
+        if(!flag7){
+            alert("업체를 선택해주세요.");
             return ;
         }
         formData.append("itemArr", JSON.stringify(itemArr))

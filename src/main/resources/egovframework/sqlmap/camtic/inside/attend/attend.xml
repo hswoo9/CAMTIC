@@ -718,14 +718,20 @@
         <if test='status != null and !"".equals(status)'>
             AND sm.APPR_STAT = #{status}
         </if>
-        <if test='workDay != null and !"".equals(workDay)'>
-            AND DATE_FORMAT(#{workDay}, '%Y-%m-%d') = DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
+        <if test='baseYear != null and !"".equals(baseYear)'>
+            AND #{baseYear} = DATE_FORMAT(sm.APPLY_DATE, '%Y')
         </if>
         <if test="empSeq != null and empSeq != ''">
             AND sm.APPLY_SEQ = #{empSeq}
         </if>
         <if test="adminMenu != null and adminMenu != ''">
             AND sm.APPR_STAT = 'Y'
+            <![CDATA[
+                AND
+                    DATE_FORMAT(#{strDt}, '%Y-%m-%d') <= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
+                AND
+                    DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
+            ]]>
         </if>
         ORDER BY ROW_NUM DESC
     </select>
