@@ -34,7 +34,8 @@ var holidayWorkApplicationAdmin ={
         });
 
         // customKendo.fn_datePicker("startDate", '', "yyyy-MM-dd", new Date(holidayWorkApplicationAdmin.global.now.setMonth(holidayWorkApplicationAdmin.global.now.getMonth() - 1)));
-        customKendo.fn_datePicker("workDay", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         $("#status").kendoDropDownList({
             dataTextField: "text",
@@ -295,7 +296,8 @@ var holidayWorkApplicationAdmin ={
 
     gridReload: function (){
         holidayWorkApplicationAdmin.global.searchAjaxData = {
-            workDay: $("#workDay").val(),
+            strDt : $("#strDt").val(),
+            endDt : $("#endDt").val(),
             status: $("#status").val(),
             adminMenu : "true"
         };

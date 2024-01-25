@@ -133,10 +133,11 @@
                         <td>
                             <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" style="width:200px;">
                         </td>
-                        <th class="text-center th-color">일자</th>
+                        <th class="text-center th-color">연도</th>
                         <td>
-                            <input type="text" id="startDate" style="width: 110px;"> ~
-                            <input type="text" id="endDate" style="width: 110px;">
+<%--                            <input type="text" id="startDate" style="width: 110px;"> ~--%>
+<%--                            <input type="text" id="endDate" style="width: 110px;">--%>
+                            <input type="text" id="baseYear" style="width: 120px;">
                         </td>
                         <th class="text-center th-color">처리상태</th>
                         <td>

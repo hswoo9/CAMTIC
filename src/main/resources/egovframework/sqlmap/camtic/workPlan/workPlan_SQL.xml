@@ -286,14 +286,12 @@
         <if test="empSeq != null and empSeq != ''">
             AND WPA.APPLY_SEQ = #{empSeq}
         </if>
-        <if test="searchYear != null and searchYear != ''">
-            AND
-            (
-            WPA.START_DATE LIKE CONCAT('%', #{searchYear}, '%')
-            OR
-            WPA.END_DATE LIKE CONCAT('%', #{searchYear}, '%')
-            )
-        </if>
+        <![CDATA[
+                AND
+                    DATE_FORMAT(#{strDt}, '%Y-%m-%d') <= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
+                AND
+                    DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
+            ]]>
         <if test="adminList != null and adminList != ''">
             AND WPA.APPR_STAT = 'Y'
         </if>
