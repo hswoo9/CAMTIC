@@ -85,8 +85,9 @@ var purcClaim = {
                     title: "제목",
                     field: "CLAIM_TITLE",
                     template : function(e){
-                        return '<a onclick="purcClaim.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')" style="font-weight: bold ">' + e.CLAIM_TITLE + '</a>'
-                    }
+                        return '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="purcClaim.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' + e.CLAIM_TITLE + '</div>';
+                    },
+                    width: 200,
                 }, {
                     title: "발주자",
                     width: 100,

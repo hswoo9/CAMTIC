@@ -108,7 +108,7 @@ var purcDif = {
                     title: "제목",
                     field: "CLAIM_TITLE",
                     template : function(e){
-                        return '<a onclick="purcDif.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')" style="font-weight: bold ">' + e.CLAIM_TITLE + '</a>'
+                        return '<div onclick="purcDif.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')" style="font-weight: bold; cursor: pointer; text-align: left ">' + e.CLAIM_TITLE + '</div>'
                     }
                 }, {
                     title: "발주자",

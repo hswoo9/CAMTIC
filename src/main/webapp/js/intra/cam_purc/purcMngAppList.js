@@ -129,7 +129,7 @@ var purcMngAppList = {
                     field: "CLAIM_TITLE",
                     width: 180,
                     template : function (e) {
-                        return '<a style="font-weight: bold" onclick="purcMngAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.CLAIM_TITLE + '</a>'
+                        return '<div style="font-weight: bold; text-align: left; cursor: pointer" onclick="purcMngAppList.fn_reqClaiming(' + e.CLAIM_SN + ', '+e.PURC_SN+')">' + e.CLAIM_TITLE + '</div>'
                     }
                 }, {
                     field: "CRM_NM",
