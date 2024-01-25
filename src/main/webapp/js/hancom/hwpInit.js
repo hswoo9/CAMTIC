@@ -214,15 +214,23 @@ var hwpInit = {
         if(rs.PAY_APP_TYPE == 1){
             hwpDocCtrl.putFieldText('DOC_TITLE', "지 출 결 의 서");
             hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 지출하고자 합니다.");
+            hwpDocCtrl.putFieldText('ACC_TYPE_TXT', "출금계좌");
+            hwpDocCtrl.putFieldText('PAY_DEST_TXT', "지급처");
         }else if(rs.PAY_APP_TYPE == 2){
             hwpDocCtrl.putFieldText('DOC_TITLE', "여 입 결 의 서");
             hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 입금처리 하고자 합니다.");
+            hwpDocCtrl.putFieldText('ACC_TYPE_TXT', "입금계좌");
+            hwpDocCtrl.putFieldText('PAY_DEST_TXT', "여입처");
         }else if(rs.PAY_APP_TYPE == 3){
             hwpDocCtrl.putFieldText('DOC_TITLE', "반 납 결 의 서");
             hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 반납처리 하고자 합니다.");
+            hwpDocCtrl.putFieldText('ACC_TYPE_TXT', "출금계좌");
+            hwpDocCtrl.putFieldText('PAY_DEST_TXT', "지급처");
         }else if(rs.PAY_APP_TYPE == 4){
             hwpDocCtrl.putFieldText('DOC_TITLE', "대 체 결 의 서");
             hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 지출하고자 합니다.");
+            hwpDocCtrl.putFieldText('ACC_TYPE_TXT', "출금계좌");
+            hwpDocCtrl.putFieldText('PAY_DEST_TXT', "지급처");
         }
     },
 
