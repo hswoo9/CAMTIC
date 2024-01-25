@@ -87,18 +87,25 @@ var depoInfo = {
                 }, {
                     title: "공급가액",
                     template : function(e){
-                        return "<div style='text-align:right;'>" + comma(Math.round(Number(e.DEPO_AMT) / 1.1)) + "</div>";
+                        if(e.TAX_CH_GUBUN == "1"){
+                            return "<div style='text-align:right;'>" + comma(Math.round(Number(e.DEPO_AMT) / 1.1)) + "</div>";
+                        } else {
+                            return "<div style='text-align:right;'>" + comma(Number(e.DEPO_AMT)) + "</div>";
+                        }
                     }
                 }, {
-                    title: "세엑",
+                    title: "세액",
                     template : function(e){
-                        return "<div style='text-align:right;'>" + comma(Number(e.DEPO_AMT) - Math.round(Number(e.DEPO_AMT) / 1.1)) + "</div>";
+                        if(e.TAX_CH_GUBUN == "1"){
+                            return "<div style='text-align:right;'>" + comma(Number(e.DEPO_AMT) - Math.round(Number(e.DEPO_AMT) / 1.1)) + "</div>";
+                        } else {
+                            return "<div style='text-align:right;'>" + comma(0) + "</div>";
+                        }
                     }
                 }, {
                     title: "합계",
                     template : function(e){
                         return "<div style='text-align:right;'>" + comma(Number(e.DEPO_AMT)) + "</div>";
-
                     }
                 }, {
                     title: "입금예정일",
