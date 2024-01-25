@@ -56,14 +56,8 @@
                     <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
                         AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
                     </if>
-                    <if test='startDate != null and !"".equals(startDate)'>
-                        <![CDATA[
                         AND
-                            DATE_FORMAT(#{startDate}, '%Y-%m-%d') <= DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d')
-                        AND
-                            DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d')
-                        ]]>
-                    </if>
+                            #{baseYear} = DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y')
                 ORDER BY VUH.APPLY_DATE
             ) RE
         ORDER BY RE.ROW_NUM DESC

@@ -161,8 +161,9 @@ var subHolidayList = {
             mcCode : subHolidayList.global.mcCode,
             mdCode : subHolidayList.global.mdCode,
             empSeq : $("#empSeq").val(),
-            startDate : $("#startDate").val(),
-            endDate : $("#endDate").val(),
+            // startDate : $("#startDate").val(),
+            // endDate : $("#endDate").val(),
+            baseYear : $("#baseYear").val(),
             status : $("#status").val(),
             edtHolidayKindTop : $("#edtHolidayKindTop").val()
         }
@@ -197,8 +198,9 @@ var subHolidayList = {
             dataValueField: "SUBHOLIDAY_CODE_ID",
         });
 
-        customKendo.fn_datePicker("startDate", '', "yyyy-MM-dd", new Date(subHolidayList.global.now.setMonth(subHolidayList.global.now.getMonth() - 1)));
-        customKendo.fn_datePicker("endDate", '', "yyyy-MM-dd", new Date(subHolidayList.global.now.setMonth(subHolidayList.global.now.getMonth() + 2)));
+        // customKendo.fn_datePicker("startDate", '', "yyyy-MM-dd", new Date(subHolidayList.global.now.setMonth(subHolidayList.global.now.getMonth() - 1)));
+        // customKendo.fn_datePicker("endDate", '', "yyyy-MM-dd", new Date(subHolidayList.global.now.setMonth(subHolidayList.global.now.getMonth() + 2)));
+        customKendo.fn_datePicker("baseYear", 'decade', 'yyyy', new Date());
 
         $("#status").kendoDropDownList({
             dataTextField: "text",

@@ -10,7 +10,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/attend/holidayWorkApplicationUser.js?v=${todate}"/></script>
+<script type="text/javascript" src="/js/intra/inside/attend/holidayWorkApplicationUser.js?v=${today}"/></script>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
@@ -32,9 +32,10 @@
                         <col>
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">일자</th>
+                        <th class="text-center th-color">연도</th>
                         <td>
-                            <input type="text" id="workDay" style="width: 110px;">
+<%--                            <input type="text" id="workDay" style="width: 110px;">--%>
+                            <input type="text" id="baseYear" style="width: 110px;">
                         </td>
                         <th class="text-center th-color">처리상태</th>
                         <td>
