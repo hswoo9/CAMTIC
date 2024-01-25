@@ -27,9 +27,11 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col>
+                        <col width="18%">
                         <col width="10%">
-                        <col>
+                        <col width="15%">
+                        <col width="10%">
+                        <col width="25%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">일자</th>
@@ -37,9 +39,14 @@
                             <input type="text" id="strDt" style="width: 110px;"> ~
                             <input type="text" id="endDt" style="width: 110px;">
                         </td>
-                        <th class="text-center th-color">처리상태</th>
+                        <th class="text-center th-color">결재상태</th>
                         <td>
-                            <input type="text" id="status" style="width: 200px;">
+                            <input type="text" id="docStatus" style="width: 60%">
+                        </td>
+                        <th class="text-center th-color">검색어</th>
+                        <td>
+                            <input type="text" id="searchKeyword" style="width: 30%;"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){holidayWorkApplicationAdmin.gridReload()}"/>
                         </td>
                     </tr>
                 </table>

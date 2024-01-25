@@ -37,20 +37,30 @@ var holidayWorkApplicationAdmin ={
         customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
-        $("#status").kendoDropDownList({
+        $("#docStatus").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "작성중", value: "N" },
-                { text: "제출", value: "C" },
-                { text: "승인", value: "Y" },
-                { text: "반려", value: "E" },
-                { text: "회수", value: "D" }
+                { text: "작성중", value: "A" },
+                { text: "결재진행중", value: "B" },
+                { text: "결재완료", value: "C" },
             ],
             index: 0
-        });
+        })
 
+        $("#searchKeyword").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "이름", value: "EMP_NAME_KR" },
+                { text: "부서명", value: "DEPT_NAME" },
+                { text: "팀명", value: "DEPT_TEAM_NAME" },
+                { text: "직위", value: "POSITION_NAME" },
+            ],
+            index: 0
+        })
 
     },
 
@@ -298,7 +308,9 @@ var holidayWorkApplicationAdmin ={
         holidayWorkApplicationAdmin.global.searchAjaxData = {
             strDt : $("#strDt").val(),
             endDt : $("#endDt").val(),
-            status: $("#status").val(),
+            docStatus : $("#docStatus").data("kendoDropDownList").value(),
+            searchKeyword : $("#searchKeyword").data("kendoDropDownList").value(),
+            searchValue : $("#searchValue").val(),
             adminMenu : "true"
         };
 
