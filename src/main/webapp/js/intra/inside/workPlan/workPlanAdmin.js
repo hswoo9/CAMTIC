@@ -6,7 +6,7 @@ var workPlanAdmin = {
     init : function(){
 
         customKendo.fn_textBox(["searchValue"])
-        customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date().getFullYear()+"-01-01");
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         $("#workTimeCodeName").kendoDropDownList({

@@ -536,6 +536,16 @@ var subHolidayReqPop2 = {
             $("#edtHolidayKindTop").data("kendoDropDownList").value(result.data.SUBHOLIDAY_CODE_ID);
             $("#edtHolidayKindTop").data("kendoDropDownList").trigger("change");
 
+            if(result.data.DUTY_NAME != ""){
+                $("#dutyName").val(result.data.DUTY_NAME);
+            } else {
+                $("#dutyName").val(result.data.POSITION_NAME);
+            }
+
+            $("#empSeq").val(result.data.APPLY_SEQ);
+            $("#empName").val(result.data.EMP_NAME_KR);
+            $("#deptName").val(result.data.DEPT_NAME2);
+
             if(result.data.SUBHOLIDAY_CODE_ID == "11"){
                 $("#edtHolidayAlternativeDate_3").val(result.data.SUBHOLIDAY_ALTERNATIVE_DAY);
                 $("#edtHolidayWorkDay_3").val(result.data.SUBHOLIDAY_WORK_DAY);

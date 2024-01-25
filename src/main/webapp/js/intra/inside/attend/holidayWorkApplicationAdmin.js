@@ -34,9 +34,10 @@ var holidayWorkApplicationAdmin ={
         });
 
         // customKendo.fn_datePicker("startDate", '', "yyyy-MM-dd", new Date(holidayWorkApplicationAdmin.global.now.setMonth(holidayWorkApplicationAdmin.global.now.getMonth() - 1)));
-        customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date().getFullYear()+"-01-01");
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
+        customKendo.fn_textBox(["searchValue"]);
         $("#docStatus").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
