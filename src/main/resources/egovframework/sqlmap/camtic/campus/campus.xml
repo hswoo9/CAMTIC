@@ -464,6 +464,8 @@
             TARGET_CODE,
             LOGIN_ID,
             STATUS,
+            LD_STAT,
+            MNG_STAT,
             REG_EMP_SEQ,
             REG_DATE
         FROM
@@ -1353,9 +1355,13 @@
                 HEI.OFFICE_TEL_NUM,
                 IFNULL((SELECT SCET.EDU_TARGET_ID FROM campus.dj_edu_target SCET WHERE SCET.TARGET_YEAR = #{requestYear} AND SCET.REG_EMP_SEQ = HEI.EMP_SEQ), 'N') AS TARGET_CHECK,
                 IFNULL((SELECT SCET.STATUS FROM campus.dj_edu_target SCET WHERE SCET.TARGET_YEAR = #{requestYear} AND SCET.REG_EMP_SEQ = HEI.EMP_SEQ), 'N') AS TARGET_STATUS,
+                IFNULL((SELECT SCET.LD_STAT FROM campus.dj_edu_target SCET WHERE SCET.TARGET_YEAR = #{requestYear} AND SCET.REG_EMP_SEQ = HEI.EMP_SEQ), 'N') AS LD_STATUS,
+                IFNULL((SELECT SCET.MNG_STAT FROM campus.dj_edu_target SCET WHERE SCET.TARGET_YEAR = #{requestYear} AND SCET.REG_EMP_SEQ = HEI.EMP_SEQ), 'N') AS MNG_STATUS,
                 IFNULL((SELECT DATE_FORMAT(SCET.APPROVAL_RESULT_DATE, '%Y-%m-%d') FROM campus.dj_edu_target SCET WHERE SCET.TARGET_YEAR = #{requestYear} AND SCET.REG_EMP_SEQ = HEI.EMP_SEQ), '-') AS TARGET_APPROVAL_DATE,
                 IFNULL((SELECT SCDI.DUTY_INFO_SN FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = #{requestYear} AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), 'N') AS DUTY_CHECK,
                 IFNULL((SELECT SCDI.STATUS FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = #{requestYear} AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), 'N') AS DUTY_STATUS,
+                IFNULL((SELECT SCDI.LD_STAT FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = #{requestYear} AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), 'N') AS DUTY_LD_STATUS,
+                IFNULL((SELECT SCDI.MNG_STAT FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = #{requestYear} AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), 'N') AS DUTY_MNG_STATUS,
                 IFNULL((SELECT DATE_FORMAT(APPROVAL_RESULT_DATE, '%Y-%m-%d') FROM CAMPUS.DJ_DUTY_INFO SCDI WHERE SCDI.DUTY_YEAR = #{requestYear} AND SCDI.REG_EMP_SEQ = HEI.EMP_SEQ ORDER BY SCDI.DUTY_MONTH DESC LIMIT 1), '-') AS DUTY_APPROVAL_DATE
             FROM
                 CAM_HR.DJ_EMP_INFO HEI
@@ -3204,5 +3210,51 @@
         FROM CAMPUS.DJ_OJT_OJT_RESULT
         WHERE STUDY_INFO_SN = #{studyInfoSn}
     </select>
+
+    <select id="getEmpTeamOrDept" parameterType="map" resultType="map">
+        /*getEmpTeamOrDept*/
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_DEPT_INFO
+        WHERE
+            DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{empSeq})
+    </select>
+
+    <update id="agreeLd" parameterType="map">
+        /* agreeLd */
+        UPDATE CAMPUS.DJ_EDU_TARGET
+        SET
+            LD_STAT = 'Y'
+        WHERE
+            EDU_TARGET_ID = #{eduTargetId}
+    </update>
+
+    <update id="agreeMng" parameterType="map">
+        /* agreeLd */
+        UPDATE CAMPUS.DJ_EDU_TARGET
+        SET
+            MNG_STAT = 'Y'
+        WHERE
+            EDU_TARGET_ID = #{eduTargetId}
+    </update>
+
+    <update id="agreeDutyLd" parameterType="map">
+        /*agreeDutyLd*/
+        UPDATE CAMPUS.DJ_DUTY_INFO
+        SET
+            LD_STAT = 'Y'
+        WHERE
+            DUTY_INFO_SN = #{dutyInfoSn}
+    </update>
+
+    <update id="agreeDutyMng" parameterType="map">
+        /*agreeDutyMng*/
+        UPDATE CAMPUS.DJ_DUTY_INFO
+        SET
+            MNG_STAT = 'Y'
+        WHERE
+            DUTY_INFO_SN = #{dutyInfoSn}
+    </update>
 
 </mapper>

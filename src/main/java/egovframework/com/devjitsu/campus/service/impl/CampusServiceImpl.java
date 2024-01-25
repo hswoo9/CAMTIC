@@ -1706,4 +1706,27 @@ public class CampusServiceImpl implements CampusService {
     public Map<String, Object> getOjtOjtResultCount(Map<String, Object> params){
         return campusRepository.getOjtOjtResultCount(params);
     }
+
+    @Override
+    public Map<String, Object> getEmpTeamOrDept(Map<String, Object> params) {
+        return campusRepository.getEmpTeamOrDept(params);
+    }
+
+    @Override
+    public void agreeSubject(Map<String, Object> params) {
+        if(params.get("type").equals("ld")){
+            campusRepository.agreeLd(params);
+        } else {
+            campusRepository.agreeMng(params);
+        }
+    }
+
+    @Override
+    public void agreeDutySubject(Map<String, Object> params) {
+        if(params.get("type").equals("ld")){
+            campusRepository.agreeDutyLd(params);
+        } else {
+            campusRepository.agreeDutyMng(params);
+        }
+    }
 }

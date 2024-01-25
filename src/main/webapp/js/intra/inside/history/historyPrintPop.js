@@ -36,7 +36,6 @@ const historyPrintPop = {
     openCallBack: function(){
         console.log("print data",data);
         var toDate = data.REG_DT.split("-")[0]+ "년 "+data.REG_DT.split("-")[1]+ "월 "+data.REG_DT.split("-")[2]+ "일";
-        historyPrintPop.global.hwpCtrl.PutFieldText("toDate", toDate);
         historyPrintPop.global.hwpCtrl.PutFieldText("position", data.BF_POSITION_NAME);
         //historyPrintPop.global.hwpCtrl.PutFieldText("hisEmpName", data.EMP_NAME);
         let name = "";
@@ -69,8 +68,41 @@ const historyPrintPop = {
         if(data.afDutyName != "") {
             historyVal += data.AF_DUTY_NAME;
         }
+
+        if(historyPrintPop.global.hwpCtrl.FieldExist("인")){
+            historyPrintPop.global.hwpCtrl.MoveToField('인', true, true, false);
+            historyPrintPop.global.hwpCtrl.InsertBackgroundPicture(
+                "SelectedCell",
+                "http://"+location.host+"/upload/journeyman/companySignature.png",
+                1,
+                6,
+                0,
+                0,
+                0,
+                0
+            );
+        }
+
+        var result = customKendo.fn_customAjax("/inside/getImageData", {});
+        console.log(result)
+        if(historyPrintPop.global.hwpCtrl.FieldExist("사인")){
+            historyPrintPop.global.hwpCtrl.MoveToField('사인', true, true, false);
+            historyPrintPop.global.hwpCtrl.InsertBackgroundPicture(
+                "SelectedCell",
+                "http://" + location.host + result.data.signImg.file_path + result.data.signImg.file_uuid,
+                1,
+                6,
+                0,
+                0,
+                0,
+                0
+            );
+        }
+
         historyPrintPop.global.hwpCtrl.PutFieldText("hisVal", historyVal);
         let historyDt = data.HISTORY_DT.split("-")[0]+ "년 "+data.HISTORY_DT.split("-")[1]+ "월 "+data.HISTORY_DT.split("-")[2]+ "일";
+        historyPrintPop.global.hwpCtrl.PutFieldText("toDate", historyDt);
+
         historyPrintPop.global.hwpCtrl.PutFieldText("historyDt", historyDt);
         historyPrintPop.global.hwpCtrl.PutFieldText("regEmpName", data.REG_EMP_NAME);
         let jobText = "";

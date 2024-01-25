@@ -970,6 +970,20 @@ public class UserManageController {
         return "inside/userManage/imageManage";
     }
 
+    @RequestMapping("/inside/getImageData")
+    public String getImageData(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String, Object> params = new HashMap<>();
+        params.put("empSeq", login.getUniqId());
+
+        model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("data", userManageService.getUserImageList(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/Inside/pop/sign/popDrawSignView.do")
     public String popDrawSignView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();

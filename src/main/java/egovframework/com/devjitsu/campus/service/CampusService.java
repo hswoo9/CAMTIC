@@ -209,6 +209,12 @@ public interface CampusService {
 
     Map<String, Object> getOjtOjtResultCount(Map<String, Object> params);
 
+    Map<String, Object> getEmpTeamOrDept(Map<String, Object> params);
+
+    void agreeSubject(Map<String, Object> params);
+
+    void agreeDutySubject(Map<String, Object> params);
+
 
     /** 전자결재 끝 */
 }

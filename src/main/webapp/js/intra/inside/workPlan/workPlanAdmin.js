@@ -5,8 +5,52 @@ var workPlanAdmin = {
 
     init : function(){
 
-        customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_textBox(["searchValue"])
+        customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date().getFullYear()+"-01-01");
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+
+        $("#workTimeCodeName").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "시차출퇴근A", value: "시차출퇴근A" },
+                { text: "시차출퇴근B", value: "시차출퇴근B" },
+                { text: "시차출퇴근C", value: "시차출퇴근C" },
+            ],
+            index: 0
+        });
+
+        $("#docStatus").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "작성중", value: "A" },
+                { text: "결재진행중", value: "B" },
+                { text: "결재완료", value: "C" },
+            ],
+            index: 0
+        })
+
+        $("#searchKeyword").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "이름", value: "EMP_NAME_KR" },
+                { text: "부서명", value: "DEPT_NAME" },
+                { text: "팀명", value: "DEPT_TEAM_NAME" },
+                { text: "직위", value: "POSITION_NAME" },
+            ],
+            index: 0
+        })
+
+        $("#searchValue").on("keyup", function(key){
+            if(key.keyCode == 13){
+                workPlanAdmin.makerGrid();
+            }
+        });
 
         workPlanAdmin.makerGrid();
 
@@ -25,6 +69,10 @@ var workPlanAdmin = {
                 parameterMap: function(data) {
                     data.strDt = $("#strDt").val();
                     data.endDt = $("#endDt").val();
+                    data.workTimeCodeName = $("#workTimeCodeName").data("kendoDropDownList").value();
+                    data.docStatus = $("#docStatus").data("kendoDropDownList").value();
+                    data.searchKeyword = $("#searchKeyword").data("kendoDropDownList").value();
+                    data.searchValue = $("#searchValue").val();
                     data.adminList = "true";
                     return data;
                 }

@@ -488,7 +488,7 @@ var regExnp = {
         $("#DT3").val(rs.REQ_DE);
         $("#reqExDe").val(rs.PAY_EXNP_DE);
         $("#DT2").val(rs.APP_DE);
-        $("#reqEndDe").val(rs.REQ_END_DE);
+        // $("#reqEndDe").val(rs.REQ_END_DE);
         $("#DT1").val(ls[0].TR_DE);
 
         for(var i=0; i < ls.length; i++){

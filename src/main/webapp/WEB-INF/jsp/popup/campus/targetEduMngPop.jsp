@@ -24,6 +24,8 @@
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="empSeq" value="${params.empSeq}"/>
 <input type="hidden" id="targetYear" value="${params.targetYear}"/>
+
+<input type="hidden" id="ld" value="${params.ld}" />
 <div class="col-lg-12" style="padding:0;">
   <div class="table-responsive">
     <div class="card-header pop-header">

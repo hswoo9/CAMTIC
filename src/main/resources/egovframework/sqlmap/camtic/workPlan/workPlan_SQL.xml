@@ -286,14 +286,37 @@
         <if test="empSeq != null and empSeq != ''">
             AND WPA.APPLY_SEQ = #{empSeq}
         </if>
-        <![CDATA[
-                AND
-                    DATE_FORMAT(#{strDt}, '%Y-%m-%d') <= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
-                AND
-                    DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
-            ]]>
+        <if test='workTimeCodeName != null and !"".equals(workTimeCodeName)'>
+            AND WTC.WORK_TIME_CODE_NAME = #{workTimeCodeName}
+        </if>
+        <if test='searchKeyword != null and !"".equals(searchKeyword)'>
+            AND WPA.APPLY_SEQ IN ((SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ${searchKeyword} LIKE CONCAT('%', #{searchValue} ,'%')))
+        </if>
+
+        <if test='baseYear != null and !"".equals(baseYear)'>
+            AND DATE_FORMAT(WPA.APPLY_DATE, '%Y') = #{baseYear}
+        </if>
+        <choose>
+            <when test='docStatus == "A"'>
+                AND DI.APPROVE_STAT_CODE IN (30, 40, 0)
+            </when>
+            <when test='docStatus == "B"'>
+                AND DI.APPROVE_STAT_CODE IN (10, 50)
+            </when>
+            <when test='docStatus == "C"'>
+                AND DI.APPROVE_STAT_CODE IN (100, 101)
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
         <if test="adminList != null and adminList != ''">
             AND WPA.APPR_STAT = 'Y'
+            <![CDATA[
+                AND
+                    DATE_FORMAT(#{strDt}, '%Y-%m-%d') <= DATE_FORMAT(WPA.APPLY_DATE, '%Y-%m-%d')
+                AND
+                    DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(WPA.APPLY_DATE, '%Y-%m-%d')
+            ]]>
         </if>
         ORDER BY WPA.REG_DATE DESC
     </select>

@@ -698,13 +698,15 @@
 
     <select id="holidayWorkApplicationList" parameterType="map" resultType="map">
         SELECT
-        *,
-        ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM,
-        DI.APPRO_KEY,
-        (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = sm.ADMIN_DOC_ID) AS ADMIN_APPRO_KEY,
-        (SELECT DOC_MENU_CD FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = sm.ADMIN_DOC_ID) AS ADMIN_DOC_MENU_CD,
-        DI.DOC_MENU_CD,
-        DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d') as APPLY_DAY
+            *,
+            ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM,
+            CAM_HR.FN_GetName('DEPT', (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = sm.APPLY_SEQ), 'KR') AS DEPT_NAME2,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = sm.APPLY_SEQ) AS EMP_NAME_KR,
+            DI.APPRO_KEY,
+            (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = sm.ADMIN_DOC_ID) AS ADMIN_APPRO_KEY,
+            (SELECT DOC_MENU_CD FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = sm.ADMIN_DOC_ID) AS ADMIN_DOC_MENU_CD,
+            DI.DOC_MENU_CD,
+            DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d') as APPLY_DAY
         FROM cam_inside.dj_subholiday_use_hist sm
         JOIN cam_inside.dj_subholiday_code sc
         ON sm.SUBHOLIDAY_CODE_ID = sc.SUBHOLIDAY_CODE_ID
@@ -732,6 +734,24 @@
                 AND
                     DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
             ]]>
+
+            <choose>
+                <when test='docStatus == "A"'>
+                    AND DI.APPROVE_STAT_CODE IN (30, 40, 0)
+                </when>
+                <when test='docStatus == "B"'>
+                    AND DI.APPROVE_STAT_CODE IN (10, 50)
+                </when>
+                <when test='docStatus == "C"'>
+                    AND DI.APPROVE_STAT_CODE IN (100, 101)
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+
+            <if test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND sm.APPLY_SEQ IN ((SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ${searchKeyword} LIKE CONCAT('%', #{searchValue} ,'%')))
+            </if>
         </if>
         ORDER BY ROW_NUM DESC
     </select>

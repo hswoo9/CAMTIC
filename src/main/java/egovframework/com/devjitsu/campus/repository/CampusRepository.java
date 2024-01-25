@@ -326,4 +326,25 @@ public class CampusRepository extends AbstractDAO  {
     public Map<String, Object> getStudyOjtInfoOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getStudyOjtInfoOne", params); }
 
     public Map<String, Object> getOjtOjtResultCount(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOjtOjtResultCount", params); }
+
+    public Map<String, Object> getEmpTeamOrDept(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("campus.getEmpTeamOrDept", params);
+    }
+
+    public void agreeLd(Map<String, Object> params) {
+        update("campus.agreeLd", params);
+    }
+
+
+    public void agreeMng(Map<String, Object> params) {
+        update("campus.agreeMng", params);
+    }
+
+    public void agreeDutyLd(Map<String, Object> params) {
+        update("campus.agreeDutyLd", params);
+    }
+
+    public void agreeDutyMng(Map<String, Object> params) {
+        update("campus.agreeDutyMng", params);
+    }
 }
