@@ -129,6 +129,16 @@ var holidayWorkApplicationAdmin ={
                     width: 80
                 },
                 {
+                    field:"DEPT_NAME2",
+                    title:"부서/팀",
+                    width:150
+                },
+                {
+                    field:"EMP_NAME_KR",
+                    title:"이름",
+                    width:80
+                },
+                {
                     field:"SUBHOLIDAY_DT_CODE_NM",
                     title:"구분",
                     width:250
