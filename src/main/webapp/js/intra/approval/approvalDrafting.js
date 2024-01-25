@@ -890,7 +890,7 @@ var draft = {
                 }else{
                     var result = draft.setAlarmEvent();
                     if(result.rs != "SUCCESS"){
-                        alert(result.message);
+                        alert(result.message);return;
                     }
 
                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
@@ -1193,6 +1193,7 @@ var draft = {
 
     setAlarmEvent : function (){
         var returnVal = "";
+        console.log("draft.global.approversArr", draft.global.approversArr);
 
         for(var i = 0 ; i < draft.global.approversArr.length; i ++){
             if(draft.global.approversArr[i].approveOrder != 0 && draft.global.approversArr[i].approveOrder == 1){
