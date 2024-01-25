@@ -1226,7 +1226,7 @@ var docView = {
             console.log(docInfo);
 
             hwpDocCtrl.putFieldText('DOC_NO', docInfo.DOC_NO);
-            hwpDocCtrl.putFieldText('DOC_DT', docInfo.DRAFT_DATE.replaceAll("-", ". ")+".");
+            hwpDocCtrl.putFieldText('DOC_DT', docInfo.DRAFT_DATE);
             hwpDocCtrl.putFieldText('SECURITY_TYPE', docInfo.SECURITY_TYPE == "000" ? "공개" : "비공개");
         }, 1500);
 
