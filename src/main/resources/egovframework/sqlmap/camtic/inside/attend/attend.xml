@@ -732,6 +732,24 @@
                 AND
                     DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
             ]]>
+
+            <choose>
+                <when test='docStatus == "A"'>
+                    AND DI.APPROVE_STAT_CODE IN (30, 40, 0)
+                </when>
+                <when test='docStatus == "B"'>
+                    AND DI.APPROVE_STAT_CODE IN (10, 50)
+                </when>
+                <when test='docStatus == "C"'>
+                    AND DI.APPROVE_STAT_CODE IN (100, 101)
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+
+            <if test='searchKeyword != null and !"".equals(searchKeyword)'>
+                AND sm.APPLY_SEQ IN ((SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ${searchKeyword} LIKE CONCAT('%', #{searchValue} ,'%')))
+            </if>
         </if>
         ORDER BY ROW_NUM DESC
     </select>
