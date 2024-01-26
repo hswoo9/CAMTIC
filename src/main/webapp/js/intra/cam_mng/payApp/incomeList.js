@@ -63,10 +63,10 @@ var incomeList = {
                 }, {
                     title: "결의일자",
                     width: 80,
-                    field: "REG_DT",
-                    template: function(e){
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
-                    }
+                    field: "APP_DE",
+                    // template: function(e){
+                    //     return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
+                    // }
                 }, {
                     title: "적요",
                     field: "APP_CONT",
@@ -151,9 +151,9 @@ var incomeList = {
             url = "/payApp/pop/regIncmPop.do?payIncpSn=" + paySn;
         }
 
-        if(status != null && status != ""){
-            url = url + "&status=" + status;
-        }
+        // if(status != null && status != ""){
+        //     url = url + "&status=" + status;
+        // }
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
@@ -165,9 +165,9 @@ var incomeList = {
             url = "/payApp/pop/regIncmPop.do?payDepoSn=" + payDepoSn;
         }
 
-        if(status != null && status != ""){
-            url = url + "&status=" + status;
-        }
+        // if(status != null && status != ""){
+        //     url = url + "&status=" + status;
+        // }
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);

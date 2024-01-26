@@ -115,8 +115,8 @@ var depoInfo = {
                 }, {
                     title: "입금일자",
                     template : function(e){
-                        if(e.LAST_DT != null && e.LAST_DT != "" && e.LAST_DT != undefined){
-                            return e.LAST_DT;
+                        if(e.RE_APP_DE != null && e.RE_APP_DE != "" && e.RE_APP_DE != undefined){
+                            return e.RE_APP_DE;
                         } else {
                             return "";
                         }
@@ -125,8 +125,16 @@ var depoInfo = {
                     title: "입금액",
                     template : function(e){
                         var totAmt = 0;
-                        if(e.TOT_AMT != null && e.TOT_AMT != "" && e.TOT_AMT != undefined) {
-                            totAmt = e.TOT_AMT;
+                        // if(e.TOT_AMT != null && e.TOT_AMT != "" && e.TOT_AMT != undefined) {
+                        //     totAmt = e.TOT_AMT;
+                        // }
+
+                        if(e.EVI_TYPE == "1" || e.EVI_TYPE == "3" || e.EVI_TYPE == "5"){
+                            if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined) {
+                                totAmt = e.RE_TOT_COST;
+                            }
+                        } else {
+                            totAmt = e.TOT_DET_AMT;
                         }
 
                         return "<div style='text-align:right;'>" + comma(totAmt) + "</div>";
@@ -135,9 +143,18 @@ var depoInfo = {
                     title: "잔액",
                     template : function(e){
                         var totAmt = 0;
-                        if(e.TOT_AMT != null && e.TOT_AMT != "" && e.TOT_AMT != undefined) {
-                            totAmt = e.TOT_AMT;
+                        // if(e.TOT_AMT != null && e.TOT_AMT != "" && e.TOT_AMT != undefined) {
+                        //     totAmt = e.TOT_AMT;
+                        // }
+
+                        if(e.EVI_TYPE == "1" || e.EVI_TYPE == "3" || e.EVI_TYPE == "5"){
+                            if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined) {
+                                totAmt = e.RE_TOT_COST;
+                            }
+                        } else {
+                            totAmt = e.TOT_DET_AMT;
                         }
+
                         return "<div style='text-align:right;'>" + comma(e.DEPO_AMT - totAmt) + "</div>";
                     }
                 }, {
