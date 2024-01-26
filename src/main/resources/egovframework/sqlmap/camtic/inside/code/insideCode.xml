@@ -483,7 +483,10 @@
                 #{startTime},
                 #{endTime},
                 #{roomClassSn},
-                #{roomClassText},
+                CONCAT((SELECT ROOM_NAME FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn})
+                        ,' ('
+                        ,(SELECT VISIT FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}), ', '
+                        ,(SELECT MANY_PEOPLE FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}), '명)'),
                 #{usePurposeSn},
                 #{usePurposeText},
                 <if test='"4".equals(usePurposeSn)'>
