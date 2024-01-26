@@ -7,6 +7,8 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop2.js?v=${today}"></script>
+
 <style>
     /*.k-icon-button {*/
     /*  display: none;*/
@@ -161,7 +163,6 @@
     <input type="hidden" id="subHolidayId" name="subHolidayId" value=""/>
 </form>
 
-<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop2.js?v=${today}"></script>
 <script>
     subHolidayReqPop2.fn_defaultScript();
 

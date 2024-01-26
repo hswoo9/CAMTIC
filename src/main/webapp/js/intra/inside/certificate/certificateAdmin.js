@@ -239,7 +239,16 @@ var certificateAdmin = {
                         }
                     },
                     width: 150
-                },
+                }, {
+                    title: "발급",
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="certificateAdmin.certifiPrintPop('+e.USER_PROOF_SN+');">' +
+                            '	<span class="k-button-text">보기</span>' +
+                            '</button>';
+
+                    },
+                    width: 120
+                }
             ]
         }).data("kendoGrid");
     },
@@ -264,5 +273,13 @@ var certificateAdmin = {
             searchText : $("#searchText").val()
         }
         certificateAdmin.mainGrid("/inside/getCertificateList", data);
+    },
+
+
+    certifiPrintPop : function(userProofSn) {
+        var url = "/Inside/pop/certifiPrintPop.do?userProofSn="+userProofSn;
+        var name = "certifiPrintPop";
+        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 }
