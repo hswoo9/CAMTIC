@@ -504,10 +504,21 @@ public class ApprovalServiceImpl implements ApprovalService {
             }
         } else if("claim".equals(params.get("type"))) {
             Map<String, Object> map = purcRepository.getPurcClaimData(params);
+
             params.put("contentId", "purcReq_" + map.get("PURC_SN"));
             params.put("fileCd", "manage");
+            if(approvalRepository.getDocAttachmentList(params) != null){
+                for(Map<String, Object> tempMap : approvalRepository.getDocAttachmentList(params)){
+                    returnMap.add(tempMap);
+                }
+            }
 
-            returnMap = approvalRepository.getDocAttachmentList(params);
+            params.put("contentId", "purcClaim_" + params.get("claimSn"));
+            if(approvalRepository.getDocAttachmentList(params) != null){
+                for(Map<String, Object> tempMap : approvalRepository.getDocAttachmentList(params)){
+                    returnMap.add(tempMap);
+                }
+            }
         }else {
             returnMap = approvalRepository.getDocAttachmentList(params);
         }
