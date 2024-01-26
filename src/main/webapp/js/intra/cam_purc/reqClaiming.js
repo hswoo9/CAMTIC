@@ -165,6 +165,9 @@ var reqCl = {
             rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
             data = rs.data;
 
+            if(data.purcFile != null){
+                reqCl.settingTempFileDataInit(data.purcFile);
+            }
 
             $("#claimDe").val(data.CLAIM_DE);
             $("#expDe").val(data.EXP_DE);
@@ -267,7 +270,6 @@ var reqCl = {
     vatCalcN : function(){
         let sum = 0;
         $.each($(".itemAmt"), function(){
-            console.log("TEST " + this.value);
             sum += Number(uncommaN(this.value));
         });
 
@@ -592,7 +594,7 @@ var reqCl = {
                 itemParameters.itemUnitAmt = uncommaN($("#itemUnitAmt" + i).val());
                 itemParameters.itemUnit = $("#itemUnit" + i).val();
                 itemParameters.itemAmt = uncommaN($("#itemAmt" + i).val());
-                itemParameters.purcItemAmt = uncommaN($("#purcItemAmt" + i).val());
+                itemParameters.purcItemAmt = $("#purcItemAmt").val() ? uncommaN($("#purcItemAmt").val()) : 0;
                 itemParameters.difAmt = $("#difAmt" + i).val().replace(/,/g, '');
                 itemParameters.itemEtc = $("#itemEtc" + i).val();
                 // itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").value();

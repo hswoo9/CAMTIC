@@ -69,6 +69,13 @@ var purcClaim = {
                     title: "구매요청문서번호",
                     field: "PURC_DOC_NO",
                     width: 120,
+                    template: function(e){
+                        if(e.PURC_DOC_NO == null || e.PURC_DOC_NO == ""){
+                            return "-";
+                        } else {
+                            return e.PURC_DOC_NO;
+                        }
+                    }
                 }, {
                     title: "구매청구문서번호",
                     field: "CLAIM_DOC_NO",
