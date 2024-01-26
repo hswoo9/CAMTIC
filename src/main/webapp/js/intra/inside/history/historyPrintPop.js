@@ -17,7 +17,7 @@ const historyPrintPop = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186/upload/templateForm/historyTmp.hwp";
+        let filePath = "http://218.158.231.184/upload/templateForm/historyTmp.hwp";
         historyPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             historyPrintPop.openCallBack();
             historyPrintPop.global.hwpCtrl.EditMode = 0;
@@ -36,7 +36,7 @@ const historyPrintPop = {
     openCallBack: function(){
         console.log("print data",data);
         var toDate = data.REG_DT.split("-")[0]+ "년 "+data.REG_DT.split("-")[1]+ "월 "+data.REG_DT.split("-")[2]+ "일";
-        historyPrintPop.global.hwpCtrl.PutFieldText("position", data.BF_POSITION_NAME);
+        historyPrintPop.global.hwpCtrl.PutFieldText("position", data.AF_POSITION_NAME);
         //historyPrintPop.global.hwpCtrl.PutFieldText("hisEmpName", data.EMP_NAME);
         let name = "";
         if(data.CHNG_NAME == ""){
@@ -46,11 +46,11 @@ const historyPrintPop = {
         }
         historyPrintPop.global.hwpCtrl.PutFieldText("hisEmpName",name);
         let historyVal = "";
-        if(data.afDeptName != "") {
+        if(data.AF_DEPT_NAME != "") {
             if(data.CHNG_DEPT == ""){
                 historyVal += data.AF_DEPT_NAME + " ";
                 if(data.afTeamName != "") {
-                    historyVal += data.AF_TEAM_NAME
+                    historyVal += "\r\n" + data.AF_TEAM_NAME
                         + " ";
                 }
             }else{
@@ -58,15 +58,17 @@ const historyPrintPop = {
             }
         }
 
-        if(data.afPositionName != "") {
-           if(data.CHNG_POSITION == "") {
-               historyVal += data.AF_POSITION_NAME + " ";
-           }else{
-               historyVal += data.CHNG_POSITION + " ";
-           }
-        }
-        if(data.afDutyName != "") {
-            historyVal += data.AF_DUTY_NAME;
+        // if(data.afPositionName != "") {
+        //    if(data.CHNG_POSITION == "") {
+        //        historyVal += data.AF_POSITION_NAME + " ";
+        //    }else{
+        //        historyVal += data.CHNG_POSITION + " ";
+        //    }
+        // }
+        if(data.AF_DUTY_NAME != "") {
+            var duty = "  (직     책) " + data.AF_DUTY_NAME;
+
+            historyPrintPop.global.hwpCtrl.PutFieldText("duty", duty);
         }
 
         if(historyPrintPop.global.hwpCtrl.FieldExist("인")){
@@ -99,19 +101,17 @@ const historyPrintPop = {
             );
         }
 
+        console.log(data);
+
         historyPrintPop.global.hwpCtrl.PutFieldText("hisVal", historyVal);
+        historyPrintPop.global.hwpCtrl.PutFieldText("deptName", historyVal);
         let historyDt = data.HISTORY_DT.split("-")[0]+ "년 "+data.HISTORY_DT.split("-")[1]+ "월 "+data.HISTORY_DT.split("-")[2]+ "일";
         historyPrintPop.global.hwpCtrl.PutFieldText("toDate", historyDt);
 
         historyPrintPop.global.hwpCtrl.PutFieldText("historyDt", historyDt);
         historyPrintPop.global.hwpCtrl.PutFieldText("regEmpName", data.REG_EMP_NAME);
-        let jobText = "";
-        if(data.CHNG_JOB == ""){
-            jobText = data.AF_JOB_DETAIL;
-        }else{
-            jobText = data.CHNG_JOB;
-        }
-        historyPrintPop.global.hwpCtrl.PutFieldText("JOB_DETAIL", jobText);
+
+        historyPrintPop.global.hwpCtrl.PutFieldText("JOB_DETAIL", data.ETC);
     },
 
     saveHwp : function (){
