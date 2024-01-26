@@ -22,7 +22,13 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    수입 반제결의 작성
+                    수입 반제결의
+                    <c:if test="${params.type eq 'new'}">
+                        작성
+                    </c:if>
+                    <c:if test="${params.type ne 'new'}">
+                        승인
+                    </c:if>
                 </span>
             </h3>
             <div id="payAppBtnDiv" class="btn-st popButton">
