@@ -368,7 +368,7 @@ var regIncm = {
                 rs.crmNo = rs.REG_NO.toString().replace(/-/g, "");
                 var g20Result = customKendo.fn_customAjax("/g20/getCrmInfo", rs);
 
-                if(g20Result.length > 0) {
+                if(g20Result.map) {
                     $("#crmNm0").val(g20Result.map.TR_NM);
                     $("#trCd0").val(g20Result.map.TR_CD);
                 } else {
