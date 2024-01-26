@@ -60,6 +60,9 @@ var appView = {
         if(data.file != null){
             let html = '<img src="/images/ico/file.gif" onclick="fileDown(\'' + data.file.file_path + data.file.file_uuid + '\', \'' + data.file.file_org_name + '.' + data.file.file_ext + '\')">';
             $("#fileName").html(html);
+        }else{
+            let html = '<span>미첨부</span>';
+            $("#fileName").html(html);
         }
     },
 
@@ -91,6 +94,8 @@ var appView = {
                 $("#mainGrid *").remove();
                 appView.changeMainGrid(responseData);
                 $("#applicationId").val(applicationId);
+
+                appView.getFile();
                 appView.getCareerSum();
 
                 appView.viewMod();
@@ -480,7 +485,7 @@ var appView = {
     },
 
     applicationMod : function(){
-        var url = "/application/applicationForm1.do?applicationId="+$("#applicationId").val();
+        var url = "/application/applicationForm1.do?applicationId="+$("#applicationId").val()+"&regEmpSeq="+$("#regEmpSeq").val();
         var name = "applicationForm1";
         var option = "width=1000, height=860, top=100, left=200, location=no";
         window.open(url, name, option);
