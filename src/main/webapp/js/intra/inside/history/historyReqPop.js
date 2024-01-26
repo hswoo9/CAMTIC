@@ -72,6 +72,9 @@ const historyReq = {
             $("#historyDate").val(userArr[0].HISTORY_DATE);
             historyReq.fn_popGridSetting();
         }
+
+        var printButton = $("#popMainGrid").find('[id^="printButton_"]');
+        printButton.prop('disabled', false);
     },
 
     changeApntCdAll: function(){
@@ -178,6 +181,12 @@ const historyReq = {
     },
 
     editGrid: function(){
+
+        var tmpGrid = $("#popMainGrid").data("kendoGrid");
+
+        if(tmpGrid != null){
+            tmpGrid.destroy();
+        }
 
         $("#popMainGrid").kendoGrid({
             dataSource: historyReq.global.editDataSource,
@@ -359,7 +368,6 @@ const historyReq = {
                                         '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
                                         '<input type="text" id="afPosition'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afPosition" class="formData afPosition" value="' + e.AF_POSITION_CODE + '">';
                                 }else{
-                                    console.log(e);
                                     return '<input type="hidden" id="bfPositionSeq" name="bfPositionSeq" class="bfPositionSeq" value="' + e.POSITION_CODE + '">' +
                                         '<input type="hidden" id="bfPositionName" name="bfPositionName" class="bfPositionName" value="' + e.POSITION_NAME + '">' +
                                         '<input type="text" id="afPosition'+e.EMP_SEQ+ "_" + e.INDEX + '" name="afPosition" class="formData afPosition" value="' + e.POSITION_CODE + '">';
@@ -455,8 +463,6 @@ const historyReq = {
                 }
             });
         });
-
-
     },
 
     fn_selEmp: function(){
@@ -496,7 +502,7 @@ const historyReq = {
         historyReq.fn_popGridSetting();
     },
 
-    fn_popGridSetting: function() {
+    fn_popGridSetting: function(type) {
         $(".afJobDetail, .afEtc").kendoTextBox();
 
         var data = {}
@@ -535,19 +541,23 @@ const historyReq = {
         });
 
         $(document).ready(function() {
-            $.each(historyReq.global.editDataSource.data, function (i, v) {
-                let searchData = {
-                    parentDeptSeq: v.AF_DEPT_SEQ == undefined ? v.DEPT_SEQ : v.AF_DEPT_SEQ,
-                    deptLevel: 2
-                }
+            // debugger
+            if(type != "del"){
+                $.each(historyReq.global.editDataSource.data, function (i, v) {
+                    let searchData = {
+                        parentDeptSeq: v.AF_DEPT_SEQ == undefined ? v.DEPT_SEQ : v.AF_DEPT_SEQ,
+                        deptLevel: 2
+                    }
 
-                let ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
-                console.log("ds.rs : ", ds.rs);
-                ds.rs.unshift({"dept_name": "해당없음", "dept_seq": ""});
+                    if($("#afTeam" + v.EMP_SEQ + "_" + i).data("kendoDropDownList") != undefined){
+                        let ds = customKendo.fn_customAjax("/dept/getDeptAList", searchData);
+                        ds.rs.unshift({"dept_name": "해당없음", "dept_seq": ""});
 
-                $("#afTeam" + v.EMP_SEQ + "_" + i).data("kendoDropDownList").dataSource.data(ds.rs);
-                $("#afTeam" + v.EMP_SEQ + "_" + i).data("kendoDropDownList").value(v.AF_TEAM_SEQ == undefined ? v.TEAM_SEQ : v.AF_TEAM_SEQ);
-            });
+                        $("#afTeam" + v.EMP_SEQ + "_" + i).data("kendoDropDownList").dataSource.data(ds.rs);
+                        $("#afTeam" + v.EMP_SEQ + "_" + i).data("kendoDropDownList").value(v.AF_TEAM_SEQ == undefined ? v.TEAM_SEQ : v.AF_TEAM_SEQ);
+                    }
+                });
+            }
         });
 
 
@@ -663,7 +673,7 @@ const historyReq = {
         $.each($('#popMainGrid .k-master-row'), function(i, v) {
             const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
-            if ($(v).find('#apntCd' + empSeq + "_" + i).data("kendoDropDownList").value() == "") {
+            if ($(v).find('#apntCd' + empSeq + "_" + dataItem.INDEX).data("kendoDropDownList").value() == "") {
                 alert("발령기준을 선택해주세요.");
                 flag = false;
                 return flag;
@@ -682,8 +692,8 @@ const historyReq = {
         $.each($('#popMainGrid .k-master-row'), function(i, v){
             const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
-            var teamDropdown = $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList");
-            var deptDropdown = $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList");
+            var teamDropdown = $(v).find('#afTeam'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList");
+            var deptDropdown = $(v).find('#afDept'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList");
             let data = {
                 menuCd            : "history",
                 docFileName       : "발령장.hwp",
@@ -691,8 +701,8 @@ const historyReq = {
 
                 hisEmpSeq         : empSeq,
                 empName           : dataItem.EMP_NAME_KR,
-                apntCd			  : $(v).find('#apntCd'+empSeq+'_'+i).data("kendoDropDownList").value(),
-                apntName		  : $(v).find('#apntCd'+empSeq+'_'+i).data("kendoDropDownList").text(),
+                apntCd			  : $(v).find('#apntCd'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value(),
+                apntName		  : $(v).find('#apntCd'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").text(),
 
                 bfDeptSeq         : dataItem.DEPT_SEQ,
                 bfDeptName        : dataItem.DEPT_NAME,
@@ -704,27 +714,27 @@ const historyReq = {
                 bfDutyName        : dataItem.DUTY_NAME,
                 bfJobDetail       : dataItem.JOB_DETAIL,
 
-                afDeptSeq         : $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value(),
-                afDeptName        : $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").text(),
+                afDeptSeq         : $(v).find('#afDept'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value(),
+                afDeptName        : $(v).find('#afDept'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afDept'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").text(),
 
-                afTeamSeq         : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value(),
-                afTeamName        : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").text(),
+                afTeamSeq         : $(v).find('#afTeam'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value(),
+                afTeamName        : $(v).find('#afTeam'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afTeam'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").text(),
 
-                afPositionCode    : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value(),
-                afPositionName    : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text(),
+                afPositionCode    : $(v).find('#afPosition'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value(),
+                afPositionName    : $(v).find('#afPosition'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").text(),
 
-                afDutyCode        : $(v).find('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").value(),
-                afDutyName        : $(v).find('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afDuty'+empSeq+'_'+i).data("kendoDropDownList").text(),
+                afDutyCode        : $(v).find('#afDuty'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value(),
+                afDutyName        : $(v).find('#afDuty'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afDuty'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").text(),
 
-                afGradeName       : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text().split("/")[1].trim(),
+                afGradeName       : $(v).find('#afPosition'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").text().split("/")[1].trim(),
 
-                afJobDetail       : $(v).find('#afJobDetail'+empSeq+'_'+i).val(),
+                afJobDetail       : $(v).find('#afJobDetail'+empSeq+'_'+dataItem.INDEX).val(),
 
                 deptSeq: teamDropdown ? teamDropdown.value() == "" ? deptDropdown ? deptDropdown.value() : "" : teamDropdown.value() : "",
                 //deptSeq           : $(v).find('#afTeam'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? $(v).find('#afDept'+empSeq+'_'+i).data("kendoDropDownList").value() : $(v).find('#afTeam'+empSeq).data("kendoDropDownList").value(),
-                position          : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq+'_'+i).data("kendoDropDownList").text().split("/")[0].trim(),
+                position          : $(v).find('#afPosition'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").value() == "" ? "" : $(v).find('#afPosition'+empSeq+'_'+dataItem.INDEX).data("kendoDropDownList").text().split("/")[0].trim(),
 
-                afEtc             : $('#afEtc'+empSeq+'_'+i).val(),
+                afEtc             : $('#afEtc'+empSeq+'_'+dataItem.INDEX).val(),
 
                 empSeq: regEmpSeq,
                 regEmpName: regEmpName,
@@ -732,17 +742,16 @@ const historyReq = {
                 relevantName: relevantName,
                 historyDate: historyDate,
 
-                apntSn: $('#apntSn'+empSeq+'_'+i).val()
+                apntSn: $('#apntSn'+empSeq+'_'+dataItem.INDEX).val()
             }
             arr.push(data);
 
             if(data.apntSn == ""){
                 let url = "/inside/setHistoryInsert";
                 var apntSn = customKendo.fn_customAjax(url, data);
-                $(v).find('#apntSn' + empSeq + '_' + i).val(apntSn.apntSn);
-                console.log("apntSn",apntSn.apntSn);
+                $(v).find('#apntSn' + empSeq + '_' + dataItem.INDEX).val(apntSn.apntSn);
 
-                $('#printButton_' + i).prop('disabled', false);
+                $('#printButton_' + dataItem.INDEX).prop('disabled', false);
             }else{
                 let url = "/inside/setHistoryUpdate";
                 customKendo.fn_customAjax(url, data);
@@ -752,11 +761,11 @@ const historyReq = {
 
         alert("인사발령이 완료됐습니다.");
         opener.historyList.gridReload();
-        //historyReq.editGrid();
-        //historyReq.fn_popGridSetting();
+        // historyReq.editGrid();
+        // historyReq.fn_popGridSetting();
 
-        //var printButton = $("#popMainGrid").find('[id^="printButton_"]');
-        //printButton.prop('disabled', false);
+        // var printButton = $("#popMainGrid").find('[id^="printButton_"]');
+        // printButton.prop('disabled', false);
         //window.close();
     },
 
@@ -787,9 +796,6 @@ const historyReq = {
             let empSeq = dataItem.EMP_SEQ;
            
             var apntSn = $(v).find('#apntSn' + empSeq + '_' + i).val();
-            console.log("SendempSeq",empSeq);
-            console.log("SendempapntSn",apntSn);
-            console.log("-------------");
 
             var data = {
                 apntSn : apntSn
@@ -886,22 +892,26 @@ const historyReq = {
 
     fn_delApnt : function(){
         var grid = $("#popMainGrid").data("kendoGrid");
+        var dataItemAr = [];
         var dataItem = {};
-        $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
 
-            dataItem = grid.dataItem($(this).closest("tr"));
-            grid.removeRow($(this).closest('tr'));
+        $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
+            dataItemAr.push(grid.dataItem($(this).closest("tr")));
+        });
+
+        for(let i = 0; i < dataItemAr.length; i++){
+            dataItem = dataItemAr[i];
+            grid.removeRow(dataItem);
             historyReq.global.userArr = historyReq.global.userArr.filter((value, index, arr) => {
                 //return String(value) != String($(this).val());
                 return value != dataItem.EMP_SEQ;
             });
             //historyReq.global.editDataSource.data = historyReq.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String($(this).val()));
             historyReq.global.editDataSource.data = historyReq.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String(dataItem.EMP_SEQ));
-            //grid.removeRow($(this).closest('tr'));
+        }
 
-        });
         historyReq.editGrid();
-        historyReq.fn_popGridSetting();
+        historyReq.fn_popGridSetting("del");
 
     },
 
@@ -921,9 +931,7 @@ const historyReq = {
     },
 
     openPrintPop : function (empSeq, index){
-        console.log($('#apntSn' + empSeq + '_' + index).val());
         var apntSn = $('#apntSn' + empSeq + '_' + index).val();
-        console.log("PopApntSn",apntSn);
         var url = "/Inside/pop/historyPrintPop.do?apntSn="+apntSn+"&type=S";
         var name = "historyPrintPop";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"

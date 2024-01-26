@@ -175,6 +175,10 @@ var customKendo = {
      */
     fn_textBox : function(idArray){
         for(var i = 0; i < idArray.length; i++){
+            if($("#"+idArray[i]).data("kendoTextBox") != null){
+                $("#"+idArray[i]).data("kendoTextBox").destroy();
+            }
+
             $("#"+idArray[i]).kendoTextBox();
         }
     },
