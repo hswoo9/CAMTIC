@@ -29,7 +29,7 @@ var equipmentListAdminView = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "사용자", value: "1" },
+                { text: "담당자", value: "1" },
                 { text: "작업내용", value: "2" },
                 { text: "의뢰업체", value: "3" }
             ],
@@ -196,7 +196,7 @@ var equipmentListAdminView = {
                     }
                 }, {
                     field: "USER_NAME",
-                    title: "사용자"
+                    title: "담당자"
                 }, {
                     field: "OPER_CN",
                     title: "작업내용"

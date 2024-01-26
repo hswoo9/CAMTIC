@@ -105,11 +105,12 @@
             $("#timer").append(Lpad(remainMinute_,2) + ":" + Lpad(remainSecond_,2));    // hh:mm 표기
             remainSecond--;
             setTimeout("setTimer()",1000); //1초간격으로 재귀호출!
-        }else{
-            alert('장시간 미사용으로 로그아웃 되었습니다.');
-            /*세션 종료시 작동할 이벤트*/
-            location.href="/logoutAction";
         }
+        // else{
+        //     alert('장시간 미사용으로 로그아웃 되었습니다.');
+        //     /*세션 종료시 작동할 이벤트*/
+        //     location.href="/logoutAction";
+        // }
     }
 
     function Lpad(str,len){  // hh mm형식으로 표기하기 위한 함수

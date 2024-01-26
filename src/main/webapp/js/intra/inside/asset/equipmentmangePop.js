@@ -168,7 +168,7 @@ var equipmentmangePop = {
                     title: "장비명"
                 },{
                     field: "REGTR_NAME",
-                    title: "등록자"
+                    title: "담당자"
                 }, {
                     field: "REG_DE",
                     title: "등록 일자"

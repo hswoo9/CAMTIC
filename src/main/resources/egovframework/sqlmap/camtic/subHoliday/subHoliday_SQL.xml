@@ -187,12 +187,10 @@
             VUH.ACTIVE = 'Y'
         AND
             VUH.SUBHOLIDAY_WORK_DAY_YN = 'N'
-        <if test='startDate != null and !"".equals(startDate)'>
+        <if test='baseYear != null and !"".equals(baseYear)'>
         <![CDATA[
             AND
-                DATE_FORMAT(#{startDate}, '%Y-%m-%d') <= DATE_FORMAT(VUH.SUBHOLIDAY_WORK_DAY, '%Y-%m-%d')
-            AND
-                DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(VUH.SUBHOLIDAY_WORK_DAY, '%Y-%m-%d')
+                #{baseYear} = DATE_FORMAT(VUH.SUBHOLIDAY_WORK_DAY, '%Y')
         ]]>
         </if>
         <if test="empSeq != null and empSeq != ''">
@@ -242,7 +240,7 @@
             AND
                 DATE_FORMAT(#{startDate}, '%Y-%m-%d') <= DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d')
             AND
-                DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d')
+                DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d')
             ]]>
         </if>
         ORDER BY REG_DATE DESC
