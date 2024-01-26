@@ -87,18 +87,20 @@ const historyPrintPop = {
 
         var result = customKendo.fn_customAjax("/inside/getImageData", {});
         console.log(result)
-        if(historyPrintPop.global.hwpCtrl.FieldExist("사인")){
-            historyPrintPop.global.hwpCtrl.MoveToField('사인', true, true, false);
-            historyPrintPop.global.hwpCtrl.InsertBackgroundPicture(
-                "SelectedCell",
-                "http://" + location.host + result.data.signImg.file_path + result.data.signImg.file_uuid,
-                1,
-                6,
-                0,
-                0,
-                0,
-                0
-            );
+        if(result.data.signImg != null){
+            if(historyPrintPop.global.hwpCtrl.FieldExist("사인")){
+                historyPrintPop.global.hwpCtrl.MoveToField('사인', true, true, false);
+                historyPrintPop.global.hwpCtrl.InsertBackgroundPicture(
+                    "SelectedCell",
+                    "http://" + location.host + result.data.signImg.file_path + result.data.signImg.file_uuid,
+                    1,
+                    6,
+                    0,
+                    0,
+                    0,
+                    0
+                );
+            }
         }
 
         console.log(data);

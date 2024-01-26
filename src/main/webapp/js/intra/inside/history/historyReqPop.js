@@ -766,7 +766,7 @@ const historyReq = {
 
         // var printButton = $("#popMainGrid").find('[id^="printButton_"]');
         // printButton.prop('disabled', false);
-        //window.close();
+        window.close();
     },
 
     fn_sendApnt : function(){
