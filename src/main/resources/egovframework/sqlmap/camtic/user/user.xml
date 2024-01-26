@@ -19,6 +19,7 @@
         /* getUserInfo */
         SELECT
             HEI.EMP_SEQ,
+            HEI.ERP_EMP_SEQ,
             HEI.EMP_NAME_KR,
             HEI.LOGIN_ID,
             HEI.DEPT_SEQ,

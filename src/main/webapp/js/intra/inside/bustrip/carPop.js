@@ -108,7 +108,7 @@ var carReq = {
             regEmpSeq : regEmpSeq,
             regEmpName : regEmpName
         }
-        //carReq.searchDuplicateCar(data);
+        carReq.searchDuplicateCar(data);
 
         var chkData = customKendo.fn_customAjax("/inside/carRequestCheck", data).cnt;
 

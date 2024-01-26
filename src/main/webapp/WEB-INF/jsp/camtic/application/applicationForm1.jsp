@@ -25,6 +25,7 @@
 <div class="col-lg-12 pop_sign_wrap" style="width:1050px; height: 850px; padding:0;">
     <input type="hidden" id="recruitInfoSn" name="recruitInfoSn" value="${recruitInfoSn}">
     <input type="hidden" id="applicationId" name="applicationId" value="${params.applicationId}">
+    <input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${params.regEmpSeq}">
     <input type="hidden" id="userEmail" name="userEmail" value="${userEmail}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">입사지원 수정</h3>
@@ -148,6 +149,18 @@
                             <div style="margin-left: 30px;">
                                 보훈번호 <input type="text" id="veteransNum" name="veteransNum">
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            인적성검사문서
+                        </th>
+                        <td colspan="4">
+                            <input type="hidden" id="fileChange" name="fileChange" value="N">
+                            <span id="fileName" style="position: relative; top: -5px; left: 5px;"></span>
+                            <label for="file" class="k-button k-button-clear-info k-rounded mngBtn" style="margin-left:10px; vertical-align: bottom;">파일첨부</label>
+                            <input type="file" id="file" name="file" style="display: none;" onchange="applicationForm.getFileName123(this)">
+                            <%--<button type="button" class="k-button k-button-solid-info mngBtn" style="margin-left:10px;" onclick="applicationForm.fileSave(this)">저장</button>--%>
                         </td>
                     </tr>
                 </table>

@@ -43,7 +43,7 @@ var subHolidayReqPop = {
         $("#other_reason").kendoTextBox();
         $("#other_emp").kendoTextBox();
 
-        if($("#vacUseHistId").val()){
+        if($("#vacUseHistId").val() != ""){
             subHolidayReqPop.getVacUseHistoryOne();
         }
 
@@ -883,6 +883,8 @@ var subHolidayReqPop = {
             $("#now_date").val(result.data.SAVE_DT);
 
             const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: result.data.APPLY_SEQ});
+
+            console.log(empInfo);
             if(empInfo != null){
                 $("#empSeq").val(empInfo.EMP_SEQ);
                 $("#erpEmpCd").val(empInfo.ERP_EMP_SEQ);
@@ -898,7 +900,7 @@ var subHolidayReqPop = {
             }
 
 
-            if(result.data.APPR_STAT != "N"){
+            if(result.data.APPR_STAT != "N" && result.data.APPR_STAT != "E"){
                 $("#saveBtn").hide();
 
                 $("#edtHolidayKindTop").data("kendoDropDownList").enable(false);

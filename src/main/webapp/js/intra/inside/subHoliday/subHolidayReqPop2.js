@@ -43,7 +43,7 @@ var subHolidayReqPop2 = {
         $("#other_reason").kendoTextBox();
         $("#other_emp").kendoTextBox();
 
-        if($("#vacUseHistId").val()){
+        if($("#vacUseHistId").val() != ""){
             subHolidayReqPop2.getVacUseHistoryOne();
         }
 
@@ -532,6 +532,7 @@ var subHolidayReqPop2 = {
 
     getVacUseHistoryOne : function(){
         var result = customKendo.fn_customAjax("/subHoliday/getVacUseHistoryOne", {subholidayUseId : $("#vacUseHistId").val()})
+        console.log(result);
         if(result.flag){
             $("#edtHolidayKindTop").data("kendoDropDownList").value(result.data.SUBHOLIDAY_CODE_ID);
             $("#edtHolidayKindTop").data("kendoDropDownList").trigger("change");
@@ -542,6 +543,7 @@ var subHolidayReqPop2 = {
                 $("#dutyName").val(result.data.POSITION_NAME);
             }
 
+            console.log(result.data);
             $("#empSeq").val(result.data.APPLY_SEQ);
             $("#empName").val(result.data.EMP_NAME_KR);
             $("#deptName").val(result.data.DEPT_NAME2);

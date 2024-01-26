@@ -152,10 +152,10 @@ var busInit = {
 
         let htmlData = '';
         if(busInfo.TRIP_CODE != "4"){
-            htmlData = busInit.htmlBusExnp(exnpList)
+            htmlData = busInit.htmlBusExnp(exnpList);
         }else{
             const bfExnpList = customKendo.fn_customAjax("/inside/getBusinessExnpInfo", { hrBizReqId: busInfo.HR_BIZ_REQ_ID }).list;
-            htmlData = busInit.htmlBusiExnp(bfExnpList, exnpList)
+            htmlData = busInit.htmlBusiExnp(bfExnpList, exnpList);
         }
 
         hwpDocCtrl.moveToField('exnpTable', true, true, false);
@@ -216,7 +216,6 @@ var busInit = {
                 parkingCostTotal += Number(list[i].PARKING_COST.replace(",", ""));
                 etcCostTotal += Number(list[i].ETC_COST.replace(",", ""));
                 totalCostTotal += Number(list[i].TOT_COST.replace(",", ""));
-                finalTotal += Number(list[i].TOT_COST.replace(",", ""));
 
                 html += '   <tr>';
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].EMP_NAME+'</p></td>';
@@ -233,6 +232,7 @@ var busInit = {
                 personTot += Number(list[i].TOLL_COST.replace(",", ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].TOLL_COST+'</p></td>';
 
+                personTot += Number(list[i].DAY_COST.replace(",", ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].DAY_COST+'</p></td>';
 
                 personTot += Number(list[i].EAT_COST.replace(",", ""));
@@ -246,6 +246,8 @@ var busInit = {
 
                 html += '       <td style="height:25px;text-align:center;"><p>'+fn_numberWithCommas(personTot)+'</p></td>';
                 html += '   </tr>';
+                finalTotal += Number(personTot);
+
             }else{
                 oilCorpCostTotal += Number(list[i].OIL_COST.replace(",", ""));
                 trafCorpCostTotal += Number(list[i].TRAF_COST.replace(",", ""));
@@ -267,7 +269,7 @@ var busInit = {
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(etcCorpCostTotal)+'</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(trafCorpCostTotal+trafDayCorpotal+tollCorpCostTotal+dayCorpCostTotal+eatCorpCostTotal+parkingCorpCostTotal+etcCorpCostTotal+etcCorpCostTotal)+'</p></td>';
                 html += '                   </tr>';
-                finalTotal += trafCorpCostTotal+trafDayCorpotal+tollCorpCostTotal+dayCorpCostTotal+eatCorpCostTotal+parkingCorpCostTotal+etcCorpCostTotal+etcCorpCostTotal;
+                finalTotal += (trafCorpCostTotal+trafDayCorpotal+tollCorpCostTotal+dayCorpCostTotal+eatCorpCostTotal+parkingCorpCostTotal+etcCorpCostTotal+etcCorpCostTotal);
             }
         }
 

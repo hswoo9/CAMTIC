@@ -77,7 +77,10 @@ var userViewPop2 = {
             }
         }
 
-        return age;
+        let toDate = new Date();
+        let year = toDate.getFullYear();
+
+        return (year - juminYear) + 1;
     },
 
     fn_chngDeptComp : function (){
