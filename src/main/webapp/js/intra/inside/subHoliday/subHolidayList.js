@@ -93,7 +93,7 @@ var subHolidayList = {
                         } else if(e.APPR_STAT =="C"){
                             return "제출";
                         } else if(e.APPR_STAT =="E"){
-                            return "반려";
+                            return "작성중";
                         }
                     },
                     width: 200,
