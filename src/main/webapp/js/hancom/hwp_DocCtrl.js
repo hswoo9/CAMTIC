@@ -52,6 +52,7 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
                     hwpDocCtrl.putFieldText('empName', ResultData.EMP_NAME_KR);
 
+                    console.log(ResultData.SUBHOLIDAY_CODE_ID)
                     if(ResultData.SUBHOLIDAY_CODE_ID != "11") {
 
                         hwpDocCtrl.putFieldText('positionName', ResultData.DUTY_NAME == "" ? ResultData.POSITION_NAME : ResultData.DUTY_NAME);
@@ -693,10 +694,132 @@ var hwpDocCtrl = {
     modDataSet : function() {
         const data = hwpDocCtrl.global.params;
         if(data.menuCd == "bustrip") {
+
             const hrBizReqId = data.approKey.split("_")[1];
             if (hrBizReqId == null || hrBizReqId == undefined || hrBizReqId == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             busInit.bustripInit(hrBizReqId);
-        }
+        } else if(data.menuCd == "subHoliday") {
+            const subHolidayId = data.approKey.split("_")[1];
+            $("#reqContentId").val(subHolidayId);
+            if(subHolidayId == null || subHolidayId == undefined || subHolidayId == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+            }
+
+            $.ajax({
+                url : "/subHoliday/getVacUseHistoryOne",
+                data : {
+                    subholidayUseId : subHolidayId
+                },
+                type : "post",
+                dataType : "json",
+                async: false,
+                success : function(result){
+                    console.log(result.data);
+                    const ResultData = result.data;
+
+                    let today = new Date();
+                    let year = today.getFullYear(); // 년도
+                    let month = today.getMonth() + 1;  // 월
+                    let date = today.getDate();  // 날짜
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
+                    hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME2);
+
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
+                    hwpDocCtrl.putFieldText('empName', ResultData.EMP_NAME_KR);
+
+                    console.log(ResultData.SUBHOLIDAY_CODE_ID)
+                    if(ResultData.SUBHOLIDAY_CODE_ID != "11") {
+
+                        hwpDocCtrl.putFieldText('positionName', ResultData.DUTY_NAME == "" ? ResultData.POSITION_NAME : ResultData.DUTY_NAME);
+
+                        hwpDocCtrl.putFieldText('holidayDate', ResultData.SUBHOLIDAY_ST_DT+" "+ResultData.SUBHOLIDAY_ST_TIME+" "+ResultData.SUBHOLIDAY_EN_DT+" "+ResultData.SUBHOLIDAY_EN_TIME);
+
+                        hwpDocCtrl.putFieldText('approvalReason', ResultData.RMK);
+
+                        hwpDocCtrl.putFieldText('rmkOther', ResultData.RMK_OTHER);
+
+                        let startDT;
+                        let endDT;
+                        let explanationDT = ResultData.SUBHOLIDAY_USE_DAY;
+
+                        /*try {
+                            startDT = ResultData.SUBHOLIDAY_ST_DT.replace(/-/g, "");
+                            endDT = ResultData.SUBHOLIDAY_EN_DT.replace(/-/g, "");
+
+                            let firstDateObj = new Date(startDT.substring(0, 4), startDT.substring(4, 6) - 1, startDT.substring(6, 8));
+                            let secondDateObj = new Date(endDT.substring(0, 4), endDT.substring(4, 6) - 1, endDT.substring(6, 8));
+                            let betweenTime = Math.abs(secondDateObj.getTime() - firstDateObj.getTime());
+                            explanationDT = Math.floor(betweenTime / (1000 * 60 * 60 * 24)) +1;
+                        }catch (e) {
+                            explanationDT = 0;
+                        }*/
+
+                        const explantion = "아래와 같은 사유로 ("+explanationDT+")일 휴가코자 합니다.";
+                        hwpDocCtrl.putFieldText('explanation', explantion);
+
+                        let regSign = "위 원 인 : "+ResultData.EMP_NAME_KR;
+
+                        hwpDocCtrl.putFieldText('regSign', regSign);
+
+                        let toDate = year+"년 "+month+"월 "+date+"일";
+                        hwpDocCtrl.putFieldText('toDate', toDate);
+
+                        if(ResultData.OHTER_EMP != null && ResultData.OHTER_EMP != ""){
+                            let ohterSign = "업무인수자 : "+ResultData.OHTER_EMP;
+                            hwpDocCtrl.putFieldText('OHTER_EMP_SIGN', ohterSign);
+                        }
+
+                        let html = '';
+                        if(ResultData.SUBHOLIDAY_CODE_ID == "1"){
+                            html += '■연가□오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "3"){
+                            html += '□연가■오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "4"){
+                            html += '□연가□오전반차■오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "5"){
+                            html += '□연가□오전반차□오후반차□경조휴가<br>■병가□공가□대체휴가□근속포상휴가';
+                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "6"){
+                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가■공가□대체휴가□근속포상휴가';
+                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "7"){
+                            html += '□연가□오전반차□오후반차■경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "9"){
+                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가□공가■대체휴가□근속포상휴가';
+                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "10"){
+                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가■근속포상휴가';
+                        }
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('HOLI_TEXT_BOX', true, true, false);
+                        hwpDocCtrl.setTextFile(html, "html","");
+                    }else {
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('rmk', true, true, false);
+                        hwpDocCtrl.putFieldText('rmk', ResultData.RMK);
+
+                        let subHolidayWorkDay = ResultData.SUBHOLIDAY_WORK_DAY.split("-");
+                        let subHolidayWorkDayText = subHolidayWorkDay[0]+"년"+subHolidayWorkDay[1]+"월"+subHolidayWorkDay[2]+"일";
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayWorkDay', true, true, false);
+                        hwpDocCtrl.putFieldText('subHolidayWorkDay', subHolidayWorkDayText);
+
+                        let startTime = ResultData.SUBHOLIDAY_ST_TIME;
+                        let endTime = ResultData.SUBHOLIDAY_EN_TIME;
+
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayTime', true, true, false);
+                        hwpDocCtrl.putFieldText('subHolidayTime', startTime+" ~ "+endTime);
+
+                        let subHolidayAlternativeDay = ResultData.SUBHOLIDAY_ALTERNATIVE_DAY.split("-");
+                        let subHolidayAlternativeDayText = subHolidayAlternativeDay[0]+"년"+subHolidayAlternativeDay[1]+"월"+subHolidayAlternativeDay[2]+"일";
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayAlternativeDay', true, true, false);
+                        hwpDocCtrl.putFieldText('subHolidayAlternativeDay', subHolidayAlternativeDayText);
+
+                        let toDate = year+"년"+month+"월"+date+"일";
+                        hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
+                        hwpDocCtrl.putFieldText('toDate', toDate);
+                    }
+                },
+                error: function(e) {
+                    alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
+                    window.close();
+                }
+            });
 
         /** 재상신이면 사인 초기화 */
         if($("#formId").val() == "1"){
@@ -720,14 +843,6 @@ var hwpDocCtrl = {
                 }
             }
 
-            var unRndResult = customKendo.fn_customAjax("/project/getProjectByDocId2", {docId: docView.global.rs.docInfo.DOC_ID});
-            if(unRndResult.map != null){
-                if(unRndResult.map.PJT_CD != null){
-                    setTimeout(function() {
-                        hwpDocCtrl.putFieldText('PJT_CD', unRndResult.map.PJT_CD.toString().substring(0, 9));
-                    }, 1500);
-                }
-            }
         }
 
         hwpApprovalLine.setHwpApprovalSignPut(formId);
@@ -982,8 +1097,6 @@ var hwpDocCtrl = {
         hwpDocCtrl.global.HwpCtrl.ShowCaret(false);
         hwpDocCtrl.global.HwpCtrl.ShowStatusBar(false);
         hwpDocCtrl.global.HwpCtrl.SetFieldViewOption(1);
-
-        hwpDocCtrl.viewDataSet();
     },
 
 

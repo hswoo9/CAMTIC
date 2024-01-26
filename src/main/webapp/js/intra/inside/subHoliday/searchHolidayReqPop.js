@@ -31,35 +31,35 @@ var searchHolidayReqPop = {
     },
 
     dataSet : function() {
-        $("#start_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
+        $("#baseYear").kendoDatePicker({
+            depth: "decade",
+            start: "decade",
             culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#start_time").kendoTimePicker({
-            culture : "ko-KR",
-            format : "HH:mm",
-            interval : 10,
-            value : "09:00"
-        });
-
-        $("#end_time").kendoTimePicker({
-            culture : "ko-KR",
-            format : "HH:mm",
-            interval : 10,
-            value : "18:00"
-        });
-
-        $("#end_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
+            format : "yyyy",
             value : new Date()
         });
+
+        // $("#start_time").kendoTimePicker({
+        //     culture : "ko-KR",
+        //     format : "HH:mm",
+        //     interval : 10,
+        //     value : "09:00"
+        // });
+        //
+        // $("#end_time").kendoTimePicker({
+        //     culture : "ko-KR",
+        //     format : "HH:mm",
+        //     interval : 10,
+        //     value : "18:00"
+        // });
+        //
+        // $("#end_date").kendoDatePicker({
+        //     depth: "month",
+        //     start: "month",
+        //     culture : "ko-KR",
+        //     format : "yyyy-MM-dd",
+        //     value : new Date()
+        // });
     },
 
     mainGrid : function() {
@@ -73,7 +73,7 @@ var searchHolidayReqPop = {
                     type : "post"
                 },
                 parameterMap: function(data, operation) {
-                    data.startDate = $("#start_date").val();
+                    data.baseYear = $("#baseYear").val();
                     data.endDate = $("#end_date").val();
                     data.empSeq = $("#empSeq").val();
                     return data;

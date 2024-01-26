@@ -122,7 +122,7 @@
             </c:forEach>
                 <tr class="corpData">
                     <td>
-                        <div style="text-align: center">법인</div>
+                        <div style="text-align: center">법인카드</div>
                         <input type="hidden" id="hrBizExnpId" class="corpHrBizExnpId" name="hrBizExnpId" value="" />
                     </td>
                     <td>
@@ -177,6 +177,39 @@
                         <input type="text" id="corpTotal" class="corpInput" style="width: 100%; text-align: right;" disabled/>
                     </td>
                 </tr>
+                <%--<tr class="corpCarData">
+                    <td>
+                        <div style="text-align: center">법인차량</div>
+                        &lt;%&ndash;<input type="hidden" id="hrBizExnpId" class="corpHrBizExnpId" name="hrBizExnpId" value="" />&ndash;%&gt;
+                    </td>
+                    <td>
+                        <input type="text" id="corpCarOilCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled />
+                    </td>
+                    <td>
+                        <input type="text" id="corpCarTrafCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                    </td>
+                    <td>
+                        <input type="text" id="corpCarTrafDayCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                    </td>
+                    <td>
+                        <input type="text" id="corpCarTollCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                    </td>
+                    <td>
+                        <input type="text" id="corpCarDayCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="text-align:right;" disabled />
+                    </td>
+                    <td>
+                        <input type="text" id="corpCarEatCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                    </td>
+                    <td>
+                        <input type="text" id="corpCarParkingCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                    </td>
+                    <td>
+                        <input type="text" id="corpCarEtcCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                    </td>
+                    <td>
+                        <input type="text" id="corpCarTotalCost" class="corpCarInput" value="" style="text-align:right;" disabled />
+                    </td>
+                </tr>--%>
                 <tr class="TotalData">
                     <td>
                         <div style="text-align: center">합계</div>

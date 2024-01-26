@@ -72,7 +72,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>등록자</th>
+                        <span class="red-star">*</span>담당자</th>
                     <td colspan="3">
                         <input type="text" id="regtrName" style="width: 65%;" disabled="disabled">
                         <!-- emp_seq -->

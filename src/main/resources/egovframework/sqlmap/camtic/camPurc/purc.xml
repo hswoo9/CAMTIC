@@ -400,13 +400,23 @@
     <select id="getPurcClaimItemList" parameterType="map" resultType="map">
         /*getPurcClaimItemList*/
         SELECT
-            *,
-            FORMAT(ITEM_UNIT_AMT , 0) AS ITEM_UNIT_AMT_COMMA,
-            FORMAT(ITEM_AMT , 0) AS ITEM_AMT_COMMA
+            A.*,
+            CI.CRM_SN,
+            CI.CRM_NM,
+            CI.CRM_NO_TMP,
+            CI.CRM_BN,
+            CI.CRM_BN_NUM,
+            CI.BN_DEPO,
+            FORMAT(A.ITEM_UNIT_AMT , 0) AS ITEM_UNIT_AMT_COMMA,
+            FORMAT(A.ITEM_AMT , 0) AS ITEM_AMT_COMMA
         FROM
-            CAM_MNG.DJ_PURC_CLAIM_ITEM
+            CAM_MNG.DJ_PURC_CLAIM_ITEM A
+        LEFT JOIN
+            CAM_MNG.DJ_PURC_CLAIM B ON A.CLAIM_SN = B.CLAIM_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO CI ON B.CRM_SN = CI.CRM_SN
         WHERE
-            CLAIM_SN = #{claimSn}
+            A.CLAIM_SN = #{claimSn}
     </select>
 
     <select id="getPurcClaimItemData" parameterType="map" resultType="map">

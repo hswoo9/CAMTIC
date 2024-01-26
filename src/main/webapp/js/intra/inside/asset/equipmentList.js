@@ -28,7 +28,7 @@ var equipmentList = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "사용자", value: "1" },
+                { text: "담당자", value: "1" },
                 { text: "작업내용", value: "2" },
                 { text: "의뢰업체", value: "3" }
             ],
@@ -186,7 +186,7 @@ var equipmentList = {
                     }
                 }, {
                     field: "USER_NAME",
-                    title: "사용자"
+                    title: "담당자"
                 }, {
                     field: "OPER_CN",
                     title: "작업내용"
@@ -226,7 +226,7 @@ var equipmentList = {
                     cells: [
                         {background: '#7a7a7a', color: '#fff', value: "장비명", colSpan: 1, firstCell: false},
                         {background: '#7a7a7a', color: '#fff', value: "사용기간", colSpan: 1, firstCell: false},
-                        {background: '#7a7a7a', color: '#fff', value: "사용자", colSpan: 1, firstCell: false},
+                        {background: '#7a7a7a', color: '#fff', value: "담당자", colSpan: 1, firstCell: false},
                         {background: '#7a7a7a', color: '#fff', value: "작업내용", colSpan: 1, firstCell: false},
                         {background: '#7a7a7a', color: '#fff', value: "총 사용시간", colSpan: 1, firstCell: false},
                         {background: '#7a7a7a', color: '#fff', value: "의뢰업체", colSpan: 1, firstCell: false},

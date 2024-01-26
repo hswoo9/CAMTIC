@@ -17,6 +17,8 @@ var applicationForm = {
         if($("#applicationId").val() != ""){
             applicationForm.applicationDataSet($("#applicationId").val());
         }
+
+        applicationForm.getFile();
     },
 
     careerType : function(){
@@ -177,7 +179,7 @@ var applicationForm = {
         }
 
         var confirmText = "";
-        confirmText = "수정 하시겠습니까?"
+        confirmText = "수정 하시겠습니까?";
 
         if(confirm(confirmText)){
             var formData = new FormData();
@@ -227,6 +229,9 @@ var applicationForm = {
             var result = customKendo.fn_customFormDataAjax("/application/setApplicationForm1.do", formData);
             if(result.flag){
                 alert("수정되었습니다.");
+
+                applicationForm.fileSave();
+
                 location.reload();
             }
         }
@@ -408,5 +413,41 @@ var applicationForm = {
 
     getFileName : function(e){
         $(e).prev().prev().text(e.files[0].name);
-    }
+    },
+
+    getFileName123 : function(e){
+        $(e).prev().prev().text(e.files[0].name);
+        $("#fileChange").val("Y");
+    },
+
+    fileSave : function(){
+        if($("#fileChange").val() != "Y" && $("#fileName").text() == ""){
+            alert("파일 첨부 후 저장 가능합니다."); return;
+        }
+
+        var formData = new FormData();
+        formData.append("applicationId", $("#applicationId").val());
+        formData.append("file", $("#file")[0].files[0]);
+        formData.append("empSeq", $("#regEmpSeq").val());
+
+        var result = customKendo.fn_customFormDataAjax("/application/setApplicationFile.do", formData);
+        /*if(result.flag){
+            alert("수정되었습니다.");
+            location.reload();
+        }*/
+    },
+
+    getFile : function(){
+        /** 인적성 파일 */
+        const result = customKendo.fn_customAjax("/inside/applicationViewRegrid", {applicationId : $("#applicationId").val()});
+        const data = result.data;
+
+        if(data.file != null){
+            let html = '<img src="/images/ico/file.gif" onclick="fileDown(\'' + data.file.file_path + data.file.file_uuid + '\', \'' + data.file.file_org_name + '.' + data.file.file_ext + '\')">';
+            $("#fileName").html(html);
+        }else{
+            let html = '<span>미첨부</span>';
+            $("#fileName").html(html);
+        }
+    },
 }

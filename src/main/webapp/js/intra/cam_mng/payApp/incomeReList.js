@@ -56,9 +56,13 @@ var incomeReList = {
                 }, {
                     title: "결의일자",
                     width: 80,
-                    field: "REG_DT",
+                    field: "RE_APP_DE",
                     template: function(e){
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
+                        if(e.RE_APP_DE == '' || e.RE_APP_DE == null){
+                            return e.APP_DE;
+                        } else {
+                            return e.RE_APP_DE;
+                        }
                     }
                 }, {
                     title: "적요",
@@ -89,15 +93,15 @@ var incomeReList = {
                     width: 100,
                     template: function(e){
                         var cost = e.TOT_COST;
-                        if(e.PAY_INCP_RE_SN != null && e.PAY_INCP_RE_SN != "" && e.PAY_INCP_RE_SN != undefined){
-                            if(e.RE_STAT == "Y"){
-                                return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
-                            } else {
-                                return '<div style="text-align: right">'+0+'</div>';
-                            }
-                        } else {
+                        // if(e.PAY_INCP_RE_SN != null && e.PAY_INCP_RE_SN != "" && e.PAY_INCP_RE_SN != undefined){
+                            // if(e.RE_STAT == "Y"){
+                            //     return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
+                            // } else {
+                            //     return '<div style="text-align: right">'+0+'</div>';
+                            // }
+                        // } else {
                             return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
-                        }
+                        // }
                     }
                 }, {
                     title: "상태",

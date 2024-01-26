@@ -187,8 +187,11 @@ var regPay = {
         if($("#reqType").val() == "claimExnp") {
             var data = {
                 claimExnpSn: $("#claimExnpSn").val(),
-                purcSn : $("#purcSn").val(),
                 claimSn : $("#claimSn").val()
+            }
+
+            if($("#purcSn").val() != 'undefined'){
+                data.purcSn = $("#purcSn").val();
             }
 
             var result = customKendo.fn_customAjax("/purc/getPurcAndClaimData", data);

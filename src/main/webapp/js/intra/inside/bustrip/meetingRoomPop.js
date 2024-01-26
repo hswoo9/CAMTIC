@@ -24,7 +24,17 @@ var roomReq = {
         $("#endTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "18:00"});
         $("#startDt, #endDt, #applyDt, #empName, #startTime, #endTime, #name").attr("readonly", true);
         const roomArr = customKendo.fn_customAjax('/inside/getRoomCode').list;
-        customKendo.fn_dropDownList("roomClass", roomArr, "text", "value", 1);
+
+        $("#roomClass").kendoMultiSelect({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: roomArr,
+            filter: "contains",
+            downArrow: true,
+            placeholder: "선택하세요.",
+
+        })
+        // customKendo.fn_dropDownList("roomClass", roomArr, "text", "value", 1);
         let usePurposeArr = [
             {text: "교육 훈련", value: "1"},
             {text: "일반 회의", value: "4"},
@@ -59,67 +69,133 @@ var roomReq = {
     },
 
     saveBtn: function(){
-        /*let saveRoute = $("#saveRoute").val();*/
-        let roomReqSn = $("#roomReqSn").val();
-        let startDt = $("#startDt").val();
-        let endDt = $("#endDt").val();
-        let startTime = $("#startTime").val();
-        let endTime = $("#endTime").val();
-        let roomClassSn = $("#roomClass").val();
-        let roomClassText = $("#roomClass").data("kendoDropDownList").text();
-        let usePurposeSn = $("#usePurpose").val();
-        let usePurposeText = $("#usePurpose").data("kendoDropDownList").text();
-        let etc = "";
-        let rentalFeeSn = $("#rentalFee").val();
-        let rentalFeeText = $("#rentalFee").data("kendoDropDownList").text();
-        let pay = $("#pay").val();
-        let empSeq = $("#empSeq").val();
-        let empName = $("#empName").val();
-        let remarkCn = $("#remarkCn").val();
-        let regEmpSeq = $("#regEmpSeq").val();
-        let regEmpName = $("#regEmpName").val();
 
-        if(startDt == ""||endDt == ""){ alert("운행일시가 작성되지 않았습니다."); return;}
-        if(roomClassSn == ""){ alert("사용회의실이 선택되지 않았습니다."); return;}
-        if(usePurposeSn == ""){ alert("사용목적이 선택되지 않았습니다."); return;}
-        if(rentalFeeSn == ""){ alert("대관료가 선택되지 않았습니다."); return;}
-        if(empSeq == ""){ alert("사용 담당자가 선택되지 않았습니다."); return;}
-        if(rentalFeeSn == "0" && pay == ""){ alert("대관료가 작성되지 않았습니다."); return;}
-
-        let data = {
-            roomReqSn : roomReqSn,
-            startDt : startDt,
-            endDt : endDt,
-            startTime : startTime,
-            endTime : endTime,
-            roomClassSn : roomClassSn,
-            roomClassText : roomClassText,
-            usePurposeSn : usePurposeSn,
-            usePurposeText : usePurposeText,
-            etc : etc,
-            rentalFeeSn : rentalFeeSn,
-            rentalFeeText : rentalFeeText,
-            pay : pay,
-            empSeq : empSeq,
-            empName : empName,
-            remarkCn : remarkCn,
-            regEmpSeq : regEmpSeq,
-            regEmpName : regEmpName
+        if(!confirm("회의실사용신청을 저장하시겠습니까?")){
+            return;
         }
-        roomReq.searchDuplicateRoom(data);
-        if(flag) {
-            if($("#roomReqSn").val() == "") {
-                if(!confirm("회의실사용신청을 저장하시겠습니까?")){
-                    return;
-                }
-                roomReq.setRoomRequestInsert(data);
-            }else {
-                if(!confirm("회의실사용신청을 수정하시겠습니까?")){
-                    return;
-                }
-                roomReq.setRoomRequestUpdate(data);
+
+        var roomIdxArr = [];
+
+        roomIdxArr = $("#roomClass").data("kendoMultiSelect").value();
+
+        for(var i = 0; i < roomIdxArr.length; i++){
+            /*let saveRoute = $("#saveRoute").val();*/
+            let roomReqSn = $("#roomReqSn").val();
+            let startDt = $("#startDt").val();
+            let endDt = $("#endDt").val();
+            let startTime = $("#startTime").val();
+            let endTime = $("#endTime").val();
+            let roomClassSn = roomIdxArr[i];
+            let roomClassText = "";
+            let usePurposeSn = $("#usePurpose").val();
+            let usePurposeText = $("#usePurpose").data("kendoDropDownList").text();
+            let etc = "";
+            let rentalFeeSn = $("#rentalFee").val();
+            let rentalFeeText = $("#rentalFee").data("kendoDropDownList").text();
+            let pay = $("#pay").val();
+            let empSeq = $("#empSeq").val();
+            let empName = $("#empName").val();
+            let remarkCn = $("#remarkCn").val();
+            let regEmpSeq = $("#regEmpSeq").val();
+            let regEmpName = $("#regEmpName").val();
+
+            if(startDt == ""||endDt == ""){ alert("운행일시가 작성되지 않았습니다."); return;}
+            if(roomClassSn == ""){ alert("사용회의실이 선택되지 않았습니다."); return;}
+            if(usePurposeSn == ""){ alert("사용목적이 선택되지 않았습니다."); return;}
+            if(rentalFeeSn == ""){ alert("대관료가 선택되지 않았습니다."); return;}
+            if(empSeq == ""){ alert("사용 담당자가 선택되지 않았습니다."); return;}
+            if(rentalFeeSn == "0" && pay == ""){ alert("대관료가 작성되지 않았습니다."); return;}
+
+            let data = {
+                roomReqSn : roomReqSn,
+                startDt : startDt,
+                endDt : endDt,
+                startTime : startTime,
+                endTime : endTime,
+                roomClassSn : roomClassSn,
+                roomClassText : roomClassText,
+                usePurposeSn : usePurposeSn,
+                usePurposeText : usePurposeText,
+                etc : etc,
+                rentalFeeSn : rentalFeeSn,
+                rentalFeeText : rentalFeeText,
+                pay : pay,
+                empSeq : empSeq,
+                empName : empName,
+                remarkCn : remarkCn,
+                regEmpSeq : regEmpSeq,
+                regEmpName : regEmpName
+            }
+            roomReq.searchDuplicateRoom(data);
+
+            if(!flag){
+                break;
             }
         }
+
+        for(var i = 0; i < roomIdxArr.length; i++){
+            /*let saveRoute = $("#saveRoute").val();*/
+            let roomReqSn = $("#roomReqSn").val();
+            let startDt = $("#startDt").val();
+            let endDt = $("#endDt").val();
+            let startTime = $("#startTime").val();
+            let endTime = $("#endTime").val();
+            let roomClassSn = roomIdxArr[i];
+            let roomClassText = "";
+            let usePurposeSn = $("#usePurpose").val();
+            let usePurposeText = $("#usePurpose").data("kendoDropDownList").text();
+            let etc = "";
+            let rentalFeeSn = $("#rentalFee").val();
+            let rentalFeeText = $("#rentalFee").data("kendoDropDownList").text();
+            let pay = $("#pay").val();
+            let empSeq = $("#empSeq").val();
+            let empName = $("#empName").val();
+            let remarkCn = $("#remarkCn").val();
+            let regEmpSeq = $("#regEmpSeq").val();
+            let regEmpName = $("#regEmpName").val();
+
+            if(startDt == ""||endDt == ""){ alert("운행일시가 작성되지 않았습니다."); return;}
+            if(roomClassSn == ""){ alert("사용회의실이 선택되지 않았습니다."); return;}
+            if(usePurposeSn == ""){ alert("사용목적이 선택되지 않았습니다."); return;}
+            if(rentalFeeSn == ""){ alert("대관료가 선택되지 않았습니다."); return;}
+            if(empSeq == ""){ alert("사용 담당자가 선택되지 않았습니다."); return;}
+            if(rentalFeeSn == "0" && pay == ""){ alert("대관료가 작성되지 않았습니다."); return;}
+
+            let data = {
+                roomReqSn : roomReqSn,
+                startDt : startDt,
+                endDt : endDt,
+                startTime : startTime,
+                endTime : endTime,
+                roomClassSn : roomClassSn,
+                roomClassText : roomClassText,
+                usePurposeSn : usePurposeSn,
+                usePurposeText : usePurposeText,
+                etc : etc,
+                rentalFeeSn : rentalFeeSn,
+                rentalFeeText : rentalFeeText,
+                pay : pay,
+                empSeq : empSeq,
+                empName : empName,
+                remarkCn : remarkCn,
+                regEmpSeq : regEmpSeq,
+                regEmpName : regEmpName
+            }
+
+            console.log(data);
+            if(flag) {
+                if($("#roomReqSn").val() == "") {
+                    roomReq.setRoomRequestInsert(data);
+                }else {
+                    roomReq.setRoomRequestUpdate(data);
+                }
+            }
+        }
+
+        if(flag){
+            alert("저장이 완료되었습니다.");
+        }
+
 
     },
 
@@ -161,8 +237,6 @@ var roomReq = {
             dataType : "json",
             async : false,
             success : function(result){
-                console.log(result);
-                alert("회의실 사용 신청이 완료되었습니다.");
                 opener.gridReload();
                 window.close();
             },
