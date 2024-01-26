@@ -8,6 +8,11 @@ const bustripExnpReq = {
     init: function(type){
         bustripExnpReq.pageSet(type);
         bustripExnpReq.dataSet(type);
+
+        $(".corpCarInput").on("change", function(){
+            bustripExnpReq.fn_setCorpCarTotal();
+        });
+
     },
 
     pageSet: function(type){
@@ -18,7 +23,7 @@ const bustripExnpReq = {
             {text: "법인", value: "Y"}
         ]
         if($("#mod").val() == "mng"){
-            $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput").kendoTextBox({
+            $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput, .corpCarInput").kendoTextBox({
             });
             $(".oilCost").attr('disabled', false);
             $(".corpYn").kendoDropDownList({
@@ -27,7 +32,7 @@ const bustripExnpReq = {
                 dataValueField: "value"
             });
         }else {
-            $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput").kendoTextBox();
+            $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput, .corpCarInput").kendoTextBox();
             $(".corpYn").kendoDropDownList({
                 dataSource : corpArr,
                 dataTextField: "text",
@@ -202,6 +207,8 @@ const bustripExnpReq = {
 
         bustripExnpReq.fn_getExnpInfo(type);
         bustripExnpReq.fn_getFuelInfo(type);
+
+        bustripExnpReq.fn_setCorpCarTotal();
     },
 
     fn_getExnpInfo(type){
@@ -313,14 +320,20 @@ const bustripExnpReq = {
 
             $(".oilCost").val(0);
 
-            //도내(시내) 10km 이상일 때 유류비 10,000원 고정
+            //도내(시내) 자가 + 10km 이상일 때 유류비 10,000원 고정
             if(bustripInfo.TRIP_CODE == 1 && bustripInfo.USE_TRSPT == 10){
                 if(bustripInfo.MOVE_DST >= 10){
                     $("#oilCost"+String(empSeq)).val(fn_comma(10000));
                 }
+            }else if(bustripInfo.TRIP_CODE == 1 && bustripInfo.USE_TRSPT != 10){ //도내(시내) 자가X + 10km 이상일 때 유류비 10,000원 고정
+                if(bustripInfo.MOVE_DST >= 10) {
+                    $("#corpCarOilCost").val(fn_comma(10000));
+                }
             }else{
                 if(bustripInfo.USE_TRSPT == 10){
                     $("#oilCost"+String(empSeq)).val(fn_comma(amt));
+                }else if(bustripInfo.USE_TRSPT != 10){
+                    $("#corpCarOilCost").val(fn_comma(amt));
                 }
             }
         }
@@ -739,4 +752,14 @@ const bustripExnpReq = {
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
+
+    fn_setCorpCarTotal : function (){
+        var total = 0;
+
+        $(".corpCarInput").each(function(){
+            total += Number(uncomma($(this).val()));
+        });
+
+        $("#corpCarTotalCost").val(comma(total));
+    }
 }
