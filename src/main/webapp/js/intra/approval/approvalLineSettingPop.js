@@ -626,7 +626,7 @@ var lineSettingPop = {
         }
 
         opener.draft.global.approversArr = lineSettingPop.global.approversArr;
-        opener.draft.setHwpApprovalLinePut();
+        opener.hwpApprovalLine.setHwpApprovalLinePut();
         window.close();
     },
 

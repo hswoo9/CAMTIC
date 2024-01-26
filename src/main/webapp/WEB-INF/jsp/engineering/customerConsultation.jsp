@@ -722,7 +722,7 @@
                                                 </td>
                                                 <td colspan="2" style="padding:5px;">
                                                     <input type="text" class="textInput" value="54052" style="width:20%;" disabled>
-                                                    <input type="text" class="textInput" value="전라북도 군산시 서수면 상장곤윗길 98" style="width:75%;" disabled>
+                                                    <input type="text" class="textInput" value="전북특별자치도 군산시 서수면 상장곤윗길 98" style="width:75%;" disabled>
                                                 </td>
                                             </tr>
                                             <tr>

@@ -85,7 +85,7 @@
         </div>
 
         <div class="__tit1 __mt60 __mb20">
-          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>전라북도 성장사다리기업 지원</h3>
+          <h3 style="border-bottom: 1px dashed #b7b7b7; padding:30px 0;"><strong>전북특별자치도 성장사다리기업 지원</h3>
         </div>
         <div class="__space20">
           <ul class="__flx flx2 gap30">
@@ -175,7 +175,7 @@
           <div class="bot">
             <div class="box">
               <div class="img"><img src="/images/camtic/img-support_new04.png" alt=""></div>
-              <div class="txt">전라북도 돋움기업 육성사업</div>
+              <div class="txt">전북특별자치도 돋움기업 육성사업</div>
             </div>
             <div class="box">
               <div class="img"><img src="/images/camtic/img-support_new05.png" alt=""></div>

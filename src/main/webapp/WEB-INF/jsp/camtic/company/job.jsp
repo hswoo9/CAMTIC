@@ -143,12 +143,12 @@
 						</tr>
 						<tr>
 							<td>2016~2022</td>
-							<td class="tal">전라북도</td>
-							<td class="tal">전라북도 선도기업 육성사업( 선도기업 분석대회 / 구인구직 면접의 날 )</td>
+							<td class="tal">전북특별자치도</td>
+							<td class="tal">전북특별자치도 선도기업 육성사업( 선도기업 분석대회 / 구인구직 면접의 날 )</td>
 						</tr>
 						<tr>
 							<td>2018~2021</td>
-							<td class="tal">전라북도</td>
+							<td class="tal">전북특별자치도</td>
 							<td class="tal">중소기업 맞춤형 전문인력 지원사업</td>
 						</tr>
 						<tr>
@@ -158,7 +158,7 @@
 						</tr>
 						<tr>
 							<td>2020~2021</td>
-							<td class="tal">전라북도</td>
+							<td class="tal">전북특별자치도</td>
 							<td class="tal">젊은 뿌리기술인 양성교육</td>
 						</tr>
 						<tr>
@@ -169,12 +169,12 @@
 						<tr>
 							<td>2016~2017</td>
 							<td class="tal">고용노동부</td>
-							<td class="tal">전라북도 고용창출 지원사업</td>
+							<td class="tal">전북특별자치도 고용창출 지원사업</td>
 						</tr>
 						<tr>
 							<td>2015~2016</td>
 							<td class="tal">고용노동부</td>
-							<td class="tal">전라북도 우수기업 인재유치 지원사업</td>
+							<td class="tal">전북특별자치도 우수기업 인재유치 지원사업</td>
 						</tr>
 						</tbody>
 					</table>--%>

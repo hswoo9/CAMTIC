@@ -36,7 +36,7 @@
               <tbody>
               <tr>
                 <th scope="col">업체명</th>
-                <td>전라북도</td>
+                <td>전북특별자치도</td>
                 <th scope="col">대표자</th>
                 <td>홍길동</td>
               </tr>
@@ -44,7 +44,7 @@
                 <th scope="col">업종</th>
                 <td>제조업</td>
                 <th scope="col">주요상황</th>
-                <td>전라북도 행정</td>
+                <td>전북특별자치도 행정</td>
               </tr>
               <tr>
                 <th scope="col">연락처</th>
@@ -61,7 +61,7 @@
               <tr>
                 <th scope="col">상세정보</th>
                 <td colspan="3" class="content">
-                  전라북도 기업에 대한 간략한 상세정보를 보여드립니다.
+                  전북특별자치도 기업에 대한 간략한 상세정보를 보여드립니다.
                 </td>
               </tr>
               </tbody>

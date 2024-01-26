@@ -22,6 +22,8 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDocView.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalLine.js?v=${now}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/approval/hwpApprovalLine.js?v=${now}'/>"></script>
 <style>
     .pop_head{
         height: 40px;

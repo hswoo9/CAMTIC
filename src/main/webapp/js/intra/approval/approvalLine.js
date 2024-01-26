@@ -380,19 +380,6 @@ var approvalLine = {
         approvalLine.setApproval();
     },
 
-    /** 금액별 결재선 입력 */
-    payDecision: function(payCkList){
-
-        /** 결재자 */
-
-
-        /** 마지막 결재자 */
-        approvalLine.lastApprovalSet(userArr[userArr.length-1]);
-
-        /** 결재선 송신 */
-        approvalLine.setApproval();
-    },
-
     /** 결재선 1줄 세팅 */
     rowApprovalSet: function(userInfo, approveType){
         if(userInfo == null){
@@ -429,6 +416,6 @@ var approvalLine = {
     setApproval: function(){
         draft.drafterArrAdd();
         draft.global.approversArr = approvalLine.global.approverArr;
-        draft.setHwpApprovalLinePut();
+        hwpApprovalLine.setHwpApprovalLinePut();
     }
 }

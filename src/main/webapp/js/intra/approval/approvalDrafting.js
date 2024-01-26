@@ -195,9 +195,6 @@ var draft = {
         $("#docTitle").on("focusout", function(){
             hwpDocCtrl.putFieldText('결재제목', $("#docTitle").val());
         });
-
-        approvalLine.linkStart();
-        draft.initOfficialAppr();
     },
 
     getDocFormTemplate : function(){
@@ -1743,95 +1740,6 @@ var draft = {
                 draft.getDocFileSet(tempArr);
                 draft.setKendoUpload();
             }
-        }
-    },
-
-    setHwpApprovalLinePut : function(){
-        console.log("----- 양식 결재선 세팅 -----");
-        console.log(draft.global.approversArr);
-        let list =draft.global.approversArr;
-
-        let empData;
-        for(let i=0; i<list.length; i++){
-            if(list[i].approveType == "2"){
-                empData = list[i];
-                console.log("----- 전결자는... -----");
-                console.log(empData);
-            }else{
-                console.log("----- 전결자는... 없음.... -----");
-            }
-        }
-
-        let appArr = [];
-        if(empData != null){
-            /**부서장 전결*/
-            if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장"){
-                appArr = ["", "전결", ""];
-
-                /**팀장 전결*/
-            }else if(empData.approveDutyName == "팀장"){
-                appArr = ["전결", "공란", ""];
-            }
-        }
-
-        hwpDocCtrl.putFieldText('appr0', appArr[0]);
-        hwpDocCtrl.putFieldText('appr1', appArr[1]);
-        hwpDocCtrl.putFieldText('appr2', appArr[2]);
-
-        if($("#formId").val() == "1"){
-            /**공문 양식일때 개인정보 입력*/
-
-            hwpDocCtrl.putFieldText('docApprNm0', "기안자");
-
-            let list = draft.global.approversArr;
-            let count = 0;
-            for(let i=0; i<list.length; i++){
-                const map = list[i];
-                if(map.approveType == "0" || map.approveType == "2"){
-                    count += 1;
-
-                    if(map.approveDutyName == "팀장"){
-                        hwpDocCtrl.putFieldText('docApprNm1', "팀 장");
-                    }
-                    if((map.approveDutyName == "본부장") || map.approveDutyName == "사업부장" || map.approveDutyName == "센터장"){
-                        hwpDocCtrl.putFieldText('docApprNm2', "부서장");
-                    }
-                    if(map.approveDutyName == "원장"){
-                        hwpDocCtrl.putFieldText('docApprNm3', "원 장");
-                    }
-                }else{
-                    hwpDocCtrl.putFieldText('docDApprNm', "협조자");
-                }
-            }
-        }
-    },
-
-    initOfficialAppr : function(){
-        if($("#formId").val() == "1"){
-            const draftEmpSeq =$("#empSeq").val();
-            const empInfo =customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
-            console.log("empInfo");
-            console.log(empInfo);
-            setTimeout(function() {
-                hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
-                hwpDocCtrl.putFieldText('EMP_TEL', empInfo.OFFICE_TEL_NUM == undefined ? "" : ("/"+ empInfo.OFFICE_TEL_NUM));
-                hwpDocCtrl.putFieldText('EMP_FAX', empInfo.HOME_TEL_NUM == undefined ? "" : ("/"+ empInfo.HOME_TEL_NUM));
-            }, 1600);
-        }
-        console.log("----- 양식 결재선 세팅? -----");
-        console.log(draft.global);
-        console.log();
-
-        /** 재상신이면 사인 초기화 */
-        if(draft.global.params.mod == "RW"){
-            setTimeout(function() {
-                let field = "docAppr1";
-                hwpDocCtrl.putFieldText(field, " ");
-                field = "docAppr2";
-                hwpDocCtrl.putFieldText(field, " ");
-                field = "docAppr3";
-                hwpDocCtrl.putFieldText(field, " ");
-            }, 1600);
         }
     }
 }

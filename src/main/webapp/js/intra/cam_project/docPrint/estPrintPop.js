@@ -109,7 +109,7 @@ const estPrintPop = {
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_NM2", "캠틱종합기술원");
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_NO2", "402-82-13594");
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_CEO2", "노   상   흡 [직인생략]");
-        estPrintPop.global.hwpCtrl.PutFieldText("ADDR2", "전라북도 전주시 덕진구 유상로 67 전주첨단벤처단지");
+        estPrintPop.global.hwpCtrl.PutFieldText("ADDR2", "전북특별자치도 전주시 덕진구 유상로 67 전주첨단벤처단지");
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_PROD2", "자동차부품설계, 모델링, 시제품제작, 상품화컨설팅");
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_EVENT2", "서비스, 제조");
 

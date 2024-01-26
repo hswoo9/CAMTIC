@@ -139,7 +139,7 @@
                 <div id="tabstrip">
                     <ul style="font-size: 12px;">
                         <li>
-                            전라북도
+                            전북특별자치도
                         </li>
                         <li>
                             완주군

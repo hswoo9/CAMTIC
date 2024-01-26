@@ -186,7 +186,7 @@ var formM = {
 
         $("#approvalType").kendoRadioGroup({
             items: [
-                { label : "직급별", value : "1" },
+                { label : "직위별", value : "1" },
                 { label : "금액별", value : "2" }
             ],
             layout : "horizontal",

@@ -276,14 +276,19 @@ var userPersonList2 = {
                             '</button>';
                     }
                 }, {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userPersonList2.sendSmsPop()">' +
+                            '	<span class="k-button-text">SMS 발송</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'excel',
                     template: function (e) {
 
                         return '<button type="button" class="k-grid-excel k-button k-button-md k-button-solid k-button-solid-base" disabled>' +
                             '	<span class="k-button-text">엑셀다운로드</span>' +
                             '</button>';
-                        /*name: 'excel',
-                        text: '엑셀다운로드'*/
                 }
             },
             ],
@@ -293,7 +298,7 @@ var userPersonList2 = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll"  onclick="userPersonList2.fn_checkAll();" style="position : relative; top : 2px;"/>',
-                    template: "<input type='checkbox' id='' name='checkUser' value=''/>",
+                    template: "<input type='checkbox' name='checkUser' value='#=EMP_SEQ#'/>",
                     width: 50
                 }, {
                     title: "번호",
@@ -627,5 +632,24 @@ var userPersonList2 = {
 
     userPersonnelRecord : function(empSeq){
         open_in_frame('/Inside/userPersonnelRecord.do?empSeq='+ empSeq)
+    },
+
+    sendSmsPop : function(){
+        var joinSn = "";
+        $.each($("input[name='checkUser']:checked"), function(i){
+            if(i != 0){
+                joinSn += ",";
+            }
+            joinSn += $(this).val();
+        });
+
+        if($("input[name='checkUser']:checked").length == 0){
+            alert("SMS 발송 할 직원을 선택해주세요."); return;
+        }
+
+        var url = "/system/pop/messageSendPop.do?userList="+joinSn+"&type=userList";
+        var name = "messageSendPop";
+        var option = "width=315, height=600, scrollbars=no, top=200, left=600, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
     }
 }

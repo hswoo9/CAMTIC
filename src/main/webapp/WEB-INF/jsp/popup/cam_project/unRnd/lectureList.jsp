@@ -11,7 +11,8 @@
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 
 <div style="padding: 10px">
-    <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="lecturePop.fn_lectureReqPop(${params.pjtSn})">단위사업 등록</button>
+    <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="lecturePop.fn_lectureReqPop(${params.pjtSn})">교육단위사업 등록</button>
+    <button type="button" style="float: right; margin-bottom: 5px; margin-right: 5px" class="k-button k-button-solid-info" onclick="lecturePop.lectureTeamPop(${params.pjtSn})">단위사업 등록</button>
 
     <br>
     <span style=""> ◎ 단위사업 리스트</span>

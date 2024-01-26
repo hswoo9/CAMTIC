@@ -121,5 +121,15 @@ var lecturePop = {
         var name = "messageSendPop";
         var option = "width=315, height=600, scrollbars=no, top=200, left=600, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
+    },
+
+    lectureTeamPop: function(pjtSn, pk){
+        let url = "/projectUnRnd/lectureTeamPop.do?pjtSn="+pjtSn;
+        if(pk != null && pk != ""){
+            url += "&pk="+pk;
+        }
+        const name = "lectureReqPop";
+        const option = "width = 860, height = 386, top = 100, left = 300, location = no";
+        window.open(url, name, option);
     }
 }

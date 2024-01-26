@@ -676,17 +676,61 @@ var hwpDocCtrl = {
             if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             rndInit.changeInit(pjtSn);
         }
+
+        if($("#formId").val() == "1"){
+            const draftEmpSeq = $("#empSeq").val();
+            const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
+            hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
+            hwpDocCtrl.putFieldText('EMP_TEL', empInfo.OFFICE_TEL_NUM == undefined ? "" : empInfo.OFFICE_TEL_NUM);
+            hwpDocCtrl.putFieldText('EMP_FAX', empInfo.HOME_TEL_NUM == undefined ? "" : ("/"+ empInfo.HOME_TEL_NUM));
+            hwpDocCtrl.putFieldText('DOC_DT', fn_getNowDate(3));
+        }
+
+        /** 결재선 자동 입력 프로세스 */
+        approvalLine.linkStart();
     },
 
     modDataSet : function() {
         const data = hwpDocCtrl.global.params;
         if(data.menuCd == "bustrip") {
-
             const hrBizReqId = data.approKey.split("_")[1];
             if (hrBizReqId == null || hrBizReqId == undefined || hrBizReqId == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             busInit.bustripInit(hrBizReqId);
-
         }
+
+        /** 재상신이면 사인 초기화 */
+        if($("#formId").val() == "1"){
+            hwpDocCtrl.putFieldText("docAppr1", " ");
+            hwpDocCtrl.putFieldText("docAppr2", " ");
+            hwpDocCtrl.putFieldText("docAppr3", " ");
+        }
+    },
+
+    viewDataSet : function() {
+        const formId = docView.global.rs.docInfo.FORM_ID;
+        if(formId == "141" || formId == "149"){
+            /** 수주 보고일경우 DOC_ID 역추적 해서 프로젝트코드 덮어 씌움 **/
+
+            var rndResult = customKendo.fn_customAjax("/project/getProjectByDocId", {docId: docView.global.rs.docInfo.DOC_ID});
+            if(rndResult.map != null){
+                if(rndResult.map.PJT_CD != null){
+                    setTimeout(function() {
+                        hwpDocCtrl.putFieldText('PJT_CD', rndResult.map.PJT_CD.toString().substring(0, 9));
+                    }, 1500);
+                }
+            }
+
+            var unRndResult = customKendo.fn_customAjax("/project/getProjectByDocId2", {docId: docView.global.rs.docInfo.DOC_ID});
+            if(unRndResult.map != null){
+                if(unRndResult.map.PJT_CD != null){
+                    setTimeout(function() {
+                        hwpDocCtrl.putFieldText('PJT_CD', unRndResult.map.PJT_CD.toString().substring(0, 9));
+                    }, 1500);
+                }
+            }
+        }
+
+        hwpApprovalLine.setHwpApprovalSignPut(formId);
     },
 
     defaultScript : function (HwpCtrl, openFormat, templateFormFile, templateFormOpt, templateCustomField, params, loginEmpSeq, mod) {
@@ -938,6 +982,8 @@ var hwpDocCtrl = {
         hwpDocCtrl.global.HwpCtrl.ShowCaret(false);
         hwpDocCtrl.global.HwpCtrl.ShowStatusBar(false);
         hwpDocCtrl.global.HwpCtrl.SetFieldViewOption(1);
+
+        hwpDocCtrl.viewDataSet();
     },
 
 
