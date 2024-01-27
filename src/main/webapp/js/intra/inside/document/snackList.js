@@ -86,6 +86,10 @@ var snackList = {
                     },
                     width: 30
                 }, {
+                    title: "번호",
+                    width: 40,
+                    template: "#= --record #"
+                }, {
                     field: "SNACK_TYPE_TEXT",
                     title: "식대 구분",
                     width: 80
@@ -178,8 +182,10 @@ var snackList = {
                     width: 70
                 }
             ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            },
             dataBound: function(){
-
                 $("#total").text("총계 :" + fn_numberWithCommas(sum) + " 원");
                 sum = 0;
             }
