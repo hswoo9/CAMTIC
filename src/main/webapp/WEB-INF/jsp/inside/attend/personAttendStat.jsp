@@ -29,9 +29,9 @@
                     <table class="searchTable table table-bordered mb-0" style="margin-bottom: 0">
                         <colgroup>
                             <col style="width: 8%">
-                            <col>
+                            <col style="width: 20%;">
                             <col style="width: 8%">
-                            <col>
+                            <col style="width: 16.4%;">
                             <col style="width: 8%">
                             <col>
                         </colgroup>
@@ -48,35 +48,23 @@
                             <th class="text-center th-color">팀</th>
                             <td>
                                 <input type="text" id="team" style="width: 200px;">
-                                <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="personAttendStat.gridReload()">
-                                    <span>검색</span>
-                                </button>
-                                <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="onDisplay();">
-                                    상세검색
-                                </button>
                             </td>
                         </tr>
                     </table>
 
-                    <table class="searchTable table table-bordered mb-0" style="display: none" id="noneDiv">
+                    <table class="searchTable table table-bordered mb-0" id="noneDiv">
                         <colgroup>
                             <col style="width: 8%">
-                            <col style="width: 9%">
-                            <col style="width: 8%">
-                            <col style="width: 11%">
+                            <col style="width: 20%">
                             <col style="width: 8%">
                             <col style="width: 16.4%">
                             <col style="width: 8%">
                             <col>
                         </colgroup>
                         <tr>
-                            <th class="text-center th-color">상태</th>
-                            <td>
-                                <input type="text" id="situation" style="width: 100px;">
-                            </td>
                             <th class="text-center th-color">근태 항목</th>
                             <td>
-                                <input type="text" id="attendanceItems">
+                                <input type="text" id="attendanceItems" style="width: 150px">
                             </td>
                             <th class="text-center th-color">성명</th>
                             <td>
@@ -85,9 +73,6 @@
                             <th class="text-center th-color">직원 구분</th>
                             <td>
                                 <input type="text" id="staffDivision" style="width: 200px;">
-                                <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                    검색 초기화
-                                </button>
                             </td>
                         </tr>
                     </table>
@@ -161,7 +146,4 @@
 
 <script type="text/javascript">
     personAttendStat.fn_defaultScript();
-    function onDisplay() {
-        $('#noneDiv').show();
-    }
 </script>
