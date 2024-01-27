@@ -259,6 +259,7 @@
     </select>
 
     <select id="getWorkPlanList" parameterType="map" resultType="map">
+        /* getWorkPlanList */
         SELECT
             WPA.WORK_PLAN_APPROVAL_ID,
             DATE_FORMAT(WPA.APPLY_DATE, '%Y-%m-%d') AS APPLY_DATE,
@@ -272,8 +273,8 @@
             WPA.ADMIN_DOC_ID,
             WPA.APPR_STAT,
             WPA.ADMIN_APPR_STAT,
-            (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = WPA.ADMIN_DOC_ID) AS ADMIN_APPRO_KEY,
-            (SELECT DOC_MENU_CD FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = WPA.ADMIN_DOC_ID) AS ADMIN_DOC_MENU_CD,
+            AD.APPRO_KEY AS ADMIN_APPRO_KEY,
+            AD.DOC_MENU_CD AS ADMIN_DOC_MENU_CD,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD
         FROM CAM_INSIDE.DJ_WORK_PLAN_APPROVAL WPA
@@ -281,6 +282,8 @@
         ON WPA.WORK_TIME_CODE_ID = WTC.WORK_TIME_CODE_ID
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
         ON WPA.DOC_ID = DI.DOC_ID
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO AD
+        ON WPA.ADMIN_DOC_ID = AD.DOC_ID
         WHERE
             WPA.ACTIVE = 'Y'
         <if test="empSeq != null and empSeq != ''">
@@ -298,13 +301,13 @@
         </if>
         <choose>
             <when test='docStatus == "A"'>
-                AND DI.APPROVE_STAT_CODE IN (30, 40, 0)
+                AND (AD.APPROVE_STAT_CODE IN (0, 30, 40, 60, 111) OR AD.DOC_ID IS NULL)
             </when>
             <when test='docStatus == "B"'>
-                AND DI.APPROVE_STAT_CODE IN (10, 50)
+                AND AD.APPROVE_STAT_CODE IN (10, 20, 50)
             </when>
             <when test='docStatus == "C"'>
-                AND DI.APPROVE_STAT_CODE IN (100, 101)
+                AND AD.APPROVE_STAT_CODE IN (100, 101)
             </when>
             <otherwise>
             </otherwise>
