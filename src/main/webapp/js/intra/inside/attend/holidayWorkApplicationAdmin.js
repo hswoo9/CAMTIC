@@ -43,7 +43,7 @@ var holidayWorkApplicationAdmin ={
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "작성중", value: "A" },
+                { text: "상신전", value: "A" },
                 { text: "결재진행중", value: "B" },
                 { text: "결재완료", value: "C" },
             ],
