@@ -57,6 +57,10 @@ public class InsideCodeRepository extends AbstractDAO {
         return selectList("insideCode.getRoomRequestList", params);
     }
 
+    public Map<String, Object> getRoomRequest(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("insideCode.getRoomRequest", params);
+    }
+
     public List<Map<String, Object>> searchDuplicateRoom(Map<String, Object> params) {
         return selectList("insideCode.searchDuplicateRoom", params);
     }
@@ -97,6 +101,12 @@ public class InsideCodeRepository extends AbstractDAO {
 
     public void setRoomRequestInsert(Map<String, Object> params) {
         insert("insideCode.setRoomRequestInsert", params);
+    }
+    public void setRoomRequestUpdate(Map<String, Object> params){
+        update("insideCode.setRoomRequestUpdate", params);
+    }
+    public void setRoomRequestDelete(Map<String, Object> params) {
+        delete("insideCode.setRoomRequestDelete", params);
     }
 
     public void setRoomCodeInsert(Map<String, Object> params) {

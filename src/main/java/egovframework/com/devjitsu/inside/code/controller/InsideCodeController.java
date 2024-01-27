@@ -225,11 +225,17 @@ public class InsideCodeController {
         return "jsonView";
     }
 
-    //차량사용신청 캘린더 리스트조회
+    //회의실사용신청 캘린더 리스트조회
     @RequestMapping("/inside/getRoomRequestList")
     public String getRoomRequestList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = insideCodeService.getRoomRequestList(params);
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/getRoomRequest")
+    public String getRoomRequest(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("data", insideCodeService.getRoomRequest(params));
         return "jsonView";
     }
 
@@ -321,10 +327,17 @@ public class InsideCodeController {
         return "jsonView";
     }
 
-    //회의실사용신청 등록
+    //회의실사용신청 등록, 수정
     @RequestMapping("/inside/setRoomRequestInsert")
     public String setRoomRequestInsert(@RequestParam Map<String, Object> params) {
         insideCodeService.setRoomRequestInsert(params);
+        return "jsonView";
+    }
+
+    //회의실사용신청 삭제
+    @RequestMapping("/inside/setRoomRequestDelete")
+    public String setRoomRequestDelete(@RequestParam Map<String, Object> params) {
+        insideCodeService.setRoomRequestDelete(params);
         return "jsonView";
     }
 

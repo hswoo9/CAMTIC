@@ -19,13 +19,13 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
-<input type="hidden" id="roomReqSn" value="${roomReqSn}"/>
+<input type="hidden" id="roomReqSn" value="${params.roomReqSn}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">회의실 사용 신청</h3>
-            <div class="btn-st popButton">
+            <div id="roomBtn" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" onclick="roomReq.saveBtn();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">취소</button>
             </div>
@@ -123,10 +123,6 @@
 
 
 <script>
-    let roomData = {};
-    <c:if test="${flag eq 'true'}">
-        roomData = JSON.parse('${data}');
-    </c:if>
     roomReq.init();
 </script>
 </body>

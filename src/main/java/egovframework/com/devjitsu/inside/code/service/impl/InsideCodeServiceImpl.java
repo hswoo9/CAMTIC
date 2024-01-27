@@ -4,6 +4,7 @@ import egovframework.com.devjitsu.inside.code.repository.InsideCodeRepository;
 import egovframework.com.devjitsu.inside.code.service.InsideCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -72,6 +73,11 @@ public class InsideCodeServiceImpl implements InsideCodeService {
     }
 
     @Override
+    public Map<String, Object> getRoomRequest(Map<String, Object> params) {
+        return insideCodeRepository.getRoomRequest(params);
+    }
+
+    @Override
     public List<Map<String, Object>> searchDuplicateRoom(Map<String, Object> params) {
         return insideCodeRepository.searchDuplicateRoom(params);
     }
@@ -120,7 +126,17 @@ public class InsideCodeServiceImpl implements InsideCodeService {
 
     @Override
     public void setRoomRequestInsert(Map<String, Object> params) {
-        insideCodeRepository.setRoomRequestInsert(params);
+        if(StringUtils.isEmpty(params.get("roomReqSn"))){
+            insideCodeRepository.setRoomRequestInsert(params);
+        }else{
+            insideCodeRepository.setRoomRequestUpdate(params);
+        }
+
+    }
+
+    @Override
+    public void setRoomRequestDelete(Map<String, Object> params) {
+        insideCodeRepository.setRoomRequestDelete(params);
     }
 
     @Override
