@@ -33,12 +33,34 @@
 </div>
 </div>
 <script>
+    let formId = "135";
+
+    const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
+        hrBizReqId: hrBizReqId
+    });
+
+    let tripCode = busInfo.TRIP_CODE;
+    let tripCodeText = "";
+
+    /** 도내 */
+    if(tripCode == 1 || tripCode == 2) {
+        formId = "135"
+
+    /** 도외 */
+    }else if(tripCode == 3) {
+        formId = "168"
+    /** 해외 */
+    }else if(tripCode == 4) {
+        formId = "169"
+    }
+
+
     approvalDataInit();
 
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "135";
+        approvalParams.formId = formId;
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;

@@ -10,7 +10,7 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">프로젝트관리</h4>
+            <h4 class="panel-title">캠비즈</h4>
             <div class="title-road">캠프로젝트 > 프로젝트관리 &gt; 프로젝트이력(~2023년) > 캠비즈</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>

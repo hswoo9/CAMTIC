@@ -58,4 +58,29 @@
         ]]>
         ORDER BY A.PrjID DESC
     </select>
+
+    <select id="getHistEduList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getHistEduList */
+        SELECT
+            LectureCode,
+            B.ProName,
+            Name,
+            CONVERT(CHAR(10), A.StartDate, 23) AS StartDate,
+            CONVERT(CHAR(10), A.EndDate, 23) AS EndDate,
+            EduTotal,
+            (SELECT COUNT(-1) FROM HUMANDB.dbo.PersonInfo SA INNER JOIN HUMANDB.dbo.LectureHistory SB ON SA.UserCode = SB.UserCode  WHERE ( Status = 0 ) AND SB.LectureCode = A.LectureCode) AS mLecCount1,
+            (SELECT COUNT(-1) FROM HUMANDB.dbo.PersonInfo SA INNER JOIN HUMANDB.dbo.LectureHistory SB ON SA.UserCode = SB.UserCode  WHERE ( Status = 2 ) AND SB.LectureCode = A.LectureCode) AS mLecCount2,
+            (SELECT COUNT(-1) FROM HUMANDB.dbo.PersonInfo SA INNER JOIN HUMANDB.dbo.LectureHistory SB ON SA.UserCode = SB.UserCode  WHERE ( Status = 1 ) AND SB.LectureCode = A.LectureCode) AS mCanCel,
+            (SELECT COUNT(-1) FROM HUMANDB.dbo.PersonInfo SA INNER JOIN HUMANDB.dbo.LectureHistory SB ON SA.UserCode = SB.UserCode  WHERE ( Status = 3 ) AND SB.LectureCode = A.LectureCode) AS mCompletion,
+            Status
+
+        FROM
+            HUMANDB.dbo.LectureInfo A
+        LEFT JOIN HUMANDB.dbo.ProjectInfo B ON A.ProjectCode = B.SeqNo
+        WHERE
+        <![CDATA[
+            YEAR(A.StartDate) <= 2023
+        ]]>
+        ORDER BY A.LectureCode DESC
+    </select>
 </mapper>

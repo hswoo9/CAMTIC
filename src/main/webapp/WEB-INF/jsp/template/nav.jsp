@@ -154,7 +154,12 @@
                             menu += "<ul class='innerMain children' menu ='" + x.MENU_ID + "'>";
                             menu += "</ul>";
                         }else{
-                            menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain1' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
+
+                            if(x.MENU_PATH == "http://job.camtic.or.kr/admin/ygroup_list.php?s_year2=2023"){
+                                menu += "       <a href='http://job.camtic.or.kr/admin/ygroup_list.php?s_year2=2023' target='_blank' menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
+                            }else{
+                                menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain1' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
+                            }
                         }
 
                         menu += "   </li>";
@@ -163,6 +168,7 @@
                         menu += "   <li>";
 
                         menu += "       <a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
+
 
                         menu += "   </li>";
 

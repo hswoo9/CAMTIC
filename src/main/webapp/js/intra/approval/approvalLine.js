@@ -235,9 +235,69 @@ var approvalLine = {
 
         }else if(data.menuCd == "unRndDelv"){
 
+        }else if(data.menuCd == "campus"){
+            const eduInfoId = data.approKey.split("_")[1];
+
+            if (eduInfoId == null || eduInfoId == undefined || eduInfoId == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+
+            const result = customKendo.fn_customAjax("/campus/getEduResultOne", {eduInfoId: eduInfoId});
+            const ResultData = result.data;
+
+            let amt = 0;
+            if(ResultData.EDU_MONEY != null || ResultData.EDU_MONEY != ""){
+                amt = ResultData.EDU_MONEY;
+            }
+            requestAmt = Number(amt);
+        }else if(data.menuCd == "purc"){
+            const purcSn = data.approKey.split("_")[1];
+
+            if (purcSn == null || purcSn == undefined || purcSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+
+            const result = customKendo.fn_customAjax("/purc/getPurcReq.do", {purcSn: purcSn});
+            const ResultData = result.data;
+
+            let amt = 0;
+            if(ResultData.PURC_ITEM_AMT_SUM != null || ResultData.PURC_ITEM_AMT_SUM != ""){
+                amt = ResultData.PURC_ITEM_AMT_SUM;
+            }
+            requestAmt = Number(amt);
+        }else if(data.menuCd == "claim"){
+            const claimSn = data.approKey.split("_")[1];
+
+            if (claimSn == null || claimSn == undefined || claimSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+
+            const result = customKendo.fn_customAjax("/purc/getPurcClaimData", {claimSn: claimSn});
+            const ResultData = result.data;
+
+            let amt = 0;
+            if(ResultData.TOT_AMT != null || ResultData.TOT_AMT != ""){
+                amt = ResultData.TOT_AMT;
+            }
+            requestAmt = Number(amt);
+        }else if(data.menuCd == "exnp"){
+            const exnpSn = data.approKey.split("_")[1];
+
+            if (exnpSn == null || exnpSn == undefined || exnpSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+
+            const result = customKendo.fn_customAjax("/payApp/pop/getExnpData", {exnpSn: exnpSn});
+            const ResultData = result.map;
+
+            let amt = 0;
+            if(ResultData.TOT_COST != null || ResultData.TOT_COST != ""){
+                amt = ResultData.TOT_COST;
+            }
+            requestAmt = Number(amt);
         }
 
-        if(payCkList.length == 0){c
+        if(payCkList.length == 0){
             return;
         }
 

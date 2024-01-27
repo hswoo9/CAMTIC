@@ -17,6 +17,6 @@ public class PRJRepository extends AbstractDAO {
     }
 
     public List<Map<String, Object>> getHistEduList(Map<String, Object> params) {
-        return selectListMs("prj.getHistEngnList", params);
+        return selectListMs("prj.getHistEduList", params);
     }
 }
