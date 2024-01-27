@@ -34,6 +34,8 @@ public interface PurcService {
 
     Map<String, Object> getPurcClaimItemData(Map<String, Object> params);
 
+    void delPurcClaimData(Map<String, Object> params);
+
     List<Map<String, Object>> getPurcAssetList(Map<String, Object> params);
 
     Map<String, Object> getPurcSum(Map<String, Object> params);

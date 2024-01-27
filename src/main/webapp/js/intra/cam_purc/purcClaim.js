@@ -83,11 +83,11 @@ var purcClaim = {
                 }, {
                     field: "CLAIM_DE",
                     title: "청구일",
-                    width: 100,
+                    width: 90,
                 }, {
                     title: "납품(예정)일",
                     field: "DELV_DE",
-                    width: 100
+                    width: 90
                 }, {
                     title: "제목",
                     field: "CLAIM_TITLE",
@@ -97,11 +97,11 @@ var purcClaim = {
                     width: 200,
                 }, {
                     title: "발주자",
-                    width: 100,
+                    width: 80,
                     field: "CLAIM_EMP_NAME"
                 }, {
                     title: "요청자",
-                    width: 100,
+                    width: 80,
                     template: function(e){
                         if(e.PURC_EMP_NAME != null && e.PURC_EMP_NAME != ""){
                             return e.PURC_EMP_NAME;
@@ -136,9 +136,9 @@ var purcClaim = {
                         if(e.STATUS != null && e.STATUS != ""){
                             if(e.STATUS == 100){
                                 return "구매청구완료";
-                            }else if(e.STATUS > 0){
+                            }else if(e.STATUS > 0 || (e.PURC_SN == null && e.STATUS == 0)){
                                 return "구매청구작성중";
-                            }else if(e.STATUS == 0){
+                            }else if(e.PURC_SN != null && e.STATUS == 0){
                                 return "구매요청완료";
                             }
                         }else{
@@ -152,7 +152,7 @@ var purcClaim = {
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
                                 '	<span class="k-button-text">발주처리</span>' +
                                 '</button>';
-                        }else{
+                        } else{
                             return ""
                         }
                     }
@@ -172,7 +172,18 @@ var purcClaim = {
                             return "검수미작성";
                         }
                     }
-                }
+                }, {
+                    width: 60,
+                    template: function (e){
+                        if(e.PURC_SN == null && e.STATUS == 0){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="purcClaim.fn_delete(' + e.CLAIM_SN + ')">' +
+                                '	<span class="k-button-text">삭제</span>' +
+                                '</button>';
+                        }else{
+                            return ""
+                        }
+                    }
+                },
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
@@ -229,6 +240,16 @@ var purcClaim = {
         var name = "blank";
         var option = "width = 1690, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_delete : function(key){
+        if(!confirm("정말 삭제하시겠습니까?\n삭제 후 복구가 불가능합니다.")){return;}
+
+        const result = customKendo.fn_customAjax("/purc/delPurcClaimData.do", {claimSn: key});
+        if(result.flag){
+            alert("삭제되었습니다.");
+            purcClaim.gridReload();
+        }
     }
 }
 

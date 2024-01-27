@@ -66,6 +66,10 @@ public class PurcRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("purc.getPurcClaimItemData", params);
     }
 
+    public void delPurcClaimData(Map<String, Object> params) {
+        delete("purc.delPurcClaimData", params);
+    }
+
     public void delPurcClaimItem(Map<String, Object> params) {
         delete("purc.delPurcClaimItem", params);
     }
