@@ -4,6 +4,7 @@ import egovframework.com.devjitsu.inside.attend.repository.AttendRepository;
 import egovframework.com.devjitsu.inside.attend.service.AttendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,23 @@ public class AttendServiceImpl implements AttendService {
 
     @Override
     public List<Map<String, Object>> getPersonAttendStat(Map<String, Object> params) {
+        if(!StringUtils.isEmpty(params.get("staffDivision"))){
+            String arrText = params.get("staffDivision").toString();
+
+            String[] arr = arrText.split("[|]");
+            for(int i = 0; i < arr.length; i++){
+                String[] arrL = arr[i].split("&");
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ")";
+                if(arrL.length > 1){
+                    if(!arrL[1].equals("N")){
+                        returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";
+                    }
+                }
+                returnTxt += ")";
+                arr[i] = returnTxt;
+            }
+            params.put("arr", arr);
+        }
         return attendRepository.getPersonAttendStat(params);
     }
 
