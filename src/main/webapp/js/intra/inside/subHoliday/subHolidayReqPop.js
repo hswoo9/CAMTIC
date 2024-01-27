@@ -165,8 +165,10 @@ var subHolidayReqPop = {
                 if($("#edtHolidayKindTop").val() == 3 || $("#edtHolidayKindTop").val() == 4) {
                     data.useDay = 0.5;
                 }else if($("#edtHolidayKindTop").val() != 11) {
+                    var result = customKendo.fn_customAjax('/subHoliday/getHolidayList', {});
                     var firstDate;
                     var secondDate;
+                    var holidayCnt = 0;
                     if($("#edtHolidayKindTop").val() == 9){
                         //사용일수 계산
                         firstDate = $("#edtHolidayStartDateTop_2").val().replace(/-/g, '');
@@ -180,7 +182,22 @@ var subHolidayReqPop = {
                     var firstDateObj = new Date(firstDate.substring(0, 4), firstDate.substring(4, 6) - 1, firstDate.substring(6, 8));
                     var secondDateObj = new Date(secondDate.substring(0, 4), secondDate.substring(4, 6) - 1, secondDate.substring(6, 8));
                     var betweenTime = Math.abs(secondDateObj.getTime() - firstDateObj.getTime());
-                    data.useDay = Math.floor(betweenTime / (1000 * 60 * 60 * 24)+1);
+
+                    while(true) {
+                        var temp_date = firstDateObj;
+                        if(temp_date.getTime() > secondDateObj.getTime()) {
+                            break;
+                        } else {
+                            var tmp = temp_date.getDay();
+                            var hday = result.rs.find(e => new Date(e.hday.split("-")[0], e.hday.split("-")[1]-1, e.hday.split("-")[2], "00", "00", "00").getTime() == temp_date.getTime());
+
+                            if(tmp == 0 || tmp == 6 || hday) {
+                                holidayCnt++;
+                            }
+                            temp_date.setDate(firstDateObj.getDate() + 1);
+                        }
+                    }
+                    data.useDay = Math.floor(betweenTime / (1000 * 60 * 60 * 24)+1) - holidayCnt;
                 }else {
                     data.useDay = 0;
                 }
