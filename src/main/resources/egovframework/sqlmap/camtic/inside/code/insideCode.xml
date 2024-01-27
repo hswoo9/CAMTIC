@@ -506,6 +506,56 @@
             )
     </insert>
 
+    <update id="setRoomRequestUpdate" parameterType="map">
+        /* setRoomRequestUpdate */
+        UPDATE
+            CAM_INSIDE.DJ_ROOM_REQ
+        SET
+            START_DT = #{startDt},
+            END_DT = #{endDt},
+            START_TIME = #{startTime},
+            END_TIME = #{endTime},
+            ROOM_CLASS_SN = #{roomClassSn},
+            ROOM_CLASS_TEXT = CONCAT(
+                (SELECT ROOM_NAME FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}),
+                ' (',
+                (SELECT VISIT FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}),
+                ', ',
+                (SELECT MANY_PEOPLE FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}),
+                '명)'
+            ),
+            USE_PURPOSE_SN = #{usePurposeSn},
+            USE_PURPOSE_TEXT = #{usePurposeText},
+            <if test='"4".equals(usePurposeSn)'>
+                ETC = #{etc},
+            </if>
+            RENTAL_FEE_SN = #{rentalFeeSn},
+            RENTAL_FEE_TEXT = #{rentalFeeText},
+            <if test='"0".equals(rentalFeeSn)'>
+                PAY = #{pay},
+            </if>
+            MANAGER_SN = #{empSeq},
+            MANAGER_NAME = #{empName},
+            REMARK_CN = #{remarkCn}
+        WHERE
+            ROOM_REQ_SN = #{roomReqSn}
+    </update>
+
+    <delete id="setRoomRequestDelete" parameterType="map">
+        /* setRoomRequestDelete */
+        DELETE FROM CAM_INSIDE.DJ_ROOM_REQ WHERE ROOM_REQ_SN = #{roomReqSn}
+    </delete>
+
+    <select id="getRoomRequest" resultType="map" parameterType="map">
+        /* getRoomRequest */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_ROOM_REQ
+        WHERE
+            ROOM_REQ_SN = #{roomReqSn}
+    </select>
+
     <insert id="setRoomCodeInsert" parameterType="map">
         /* setRoomCodeInsert */
         INSERT INTO CAM_INSIDE.DJ_ROOM_CODE

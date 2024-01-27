@@ -216,93 +216,148 @@
             ]]>
         )
         SELECT
-            HEI.EMP_NAME_KR,
-            AD.START_DATE,
-            HEI.EMP_NAME_KR AS REG_EMP_NAME,
-            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS REG_DEPT_NAME,
-            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS REG_TEAM_NAME,
-            HEI.POSITION_NAME AS REG_POSITION_NAME,
-            HEI.DUTY_NAME AS REG_DUTY_NAME,
-            CASE DAYOFWEEK(AD.START_DATE)
-                WHEN '1' THEN '일요일' WHEN '2' THEN '월요일' WHEN '3' THEN '화요일' WHEN '4' THEN '수요일' WHEN '5' THEN '목요일' WHEN '6' THEN '금요일' WHEN '7' THEN '토요일'
-                END AS WEEK,
-            IFNULL((
-                       SELECT
-                           CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
-                       FROM
-                           CAM_COMMON.CAPSDATA scc
-                       WHERE
+            *
+        FROM (
+            SELECT
+                HEI.EMP_NAME_KR,
+                AD.START_DATE,
+                HEI.EMP_NAME_KR AS REG_EMP_NAME,
+                CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS REG_DEPT_NAME,
+                CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS REG_TEAM_NAME,
+                HEI.POSITION_NAME AS REG_POSITION_NAME,
+                (SELECT SORT FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = HEI.POSITION_CODE) AS REG_POSITION_SORT,
+                HEI.DUTY_NAME AS REG_DUTY_NAME,
+                CASE DAYOFWEEK(AD.START_DATE)
+                    WHEN '1' THEN '일요일' WHEN '2' THEN '월요일' WHEN '3' THEN '화요일' WHEN '4' THEN '수요일' WHEN '5' THEN '목요일' WHEN '6' THEN '금요일' WHEN '7' THEN '토요일'
+                    END AS WEEK,
+                IFNULL((
+                           SELECT
+                               CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
+                           FROM
+                               CAM_COMMON.CAPSDATA scc
+                           WHERE
+                    <![CDATA[
+                               SCC.INTIME >= '000000'
+                             AND SCC.INTIME <= '235959'
+                    ]]>
+                    AND SCC.ISTYPE = '1'
+                             AND SCC.USERUUID = HEI.EMP_SEQ
+                             AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
+                    limit 1
+                       ), '기록 없음') AS START_TIME,
+                IFNULL((
+                           SELECT
+                               CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
+                           FROM
+                               CAM_COMMON.CAPSDATA SCC
+                           WHERE
+                    <![CDATA[
+                               SCC.INTIME >= '000000'
+                             AND SCC.INTIME <= '235959'
+                    ]]>
+                    AND SCC.ISTYPE = '2'
+                             AND SCC.USERUUID = HEI.EMP_SEQ
+                             AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
+                    limit 1
+                       ), '기록 없음') AS END_TIME,
+                IFNULL((
+                    SELECT WPA.WORK_TIME_CODE_ID FROM CAM_INSIDE.dj_work_plan_approval WPA
+                    JOIN
+                        CAM_INSIDE.dj_work_plan_approval_detail WPAD
+                    ON WPAD.WORK_PLAN_APPROVAL_ID = WPA.WORK_PLAN_APPROVAL_ID
+                    WHERE WPA.ADMIN_APPR_STAT = 'Y' AND WPA.APPLY_SEQ = HEI.EMP_SEQ AND WPAD.WORK_DAY = AD.START_DATE
+                    ORDER BY WPAD.REG_DATE DESC limit 1
+                ), '') AS WORK_PALN,
+                IFNULL((
+                    SELECT SUBHOLIDAY_DT_CODE_NM FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
+                                                          LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
+                    WHERE AD.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
+                      AND AD.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
+                      AND SVUH.REG_EMP_SEQ = HEI.EMP_SEQ AND SVUH.APPR_STAT = 'Y'
+                    ORDER BY SVUH.REG_DATE DESC limit 1
+                    ), '') AS HOLIDAY,
+
+                IFNULL((
+                    SELECT IHRR.TRIP_CODE FROM CAM_INSIDE.DJ_HR_BIZ_REQ IHR
+                                                   LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
+                                                   LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
+                    WHERE AD.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
+                      AND AD.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
+                      AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
+                    ORDER BY IHRR.CREATE_DATE DESC limit 1
+                    ), '') AS BUSTRIP
+            FROM
+                CAM_HR.DJ_EMP_INFO HEI
+            JOIN
+                APPLY_DATE AD
+            LEFT JOIN
+                CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+            WHERE
+                DIVISION != 10
+            AND
+                DIVISION != 999
+            AND
+                WORK_STATUS_CODE = 'Y'
+            <if test='dept != null and !"".equals(dept)'>
+                AND (
+                    HEI.DEPT_SEQ = #{dept} OR
+                    HDI.PARENT_DEPT_SEQ = #{dept}
+                )
+            </if>
+            <if test='team != null and !"".equals(team)'>
+                AND HEI.DEPT_SEQ = #{team}
+            </if>
+            <if test='name != null and !"".equals(name)'>
+                AND HEI.EMP_NAME_KR = #{name}
+            </if>
+            <if test='arr != null and !"".equals(arr)'>
+                AND
+                <foreach collection="arr" item="item" separator="OR" open="(" close=")">
+                    ${item}
+                </foreach>
+            </if>
+
+            <if test='startDt != null and !"".equals(startDt)'>
                 <![CDATA[
-                           SCC.INTIME >= '000000'
-                         AND SCC.INTIME <= '235959'
+                AND
+                    DATE_FORMAT(#{startDt}, '%Y-%m-%d') <= DATE_FORMAT(AD.START_DATE, '%Y-%m-%d')
+                AND
+                    DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(AD.START_DATE, '%Y-%m-%d')
                 ]]>
-                AND SCC.ISTYPE = '1'
-                         AND SCC.USERUUID = HEI.EMP_SEQ
-                         AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
-                limit 1
-                   ), '기록 없음') AS START_TIME,
-            IFNULL((
-                       SELECT
-                           CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
-                       FROM
-                           CAM_COMMON.CAPSDATA SCC
-                       WHERE
-                <![CDATA[
-                           SCC.INTIME >= '000000'
-                         AND SCC.INTIME <= '235959'
-                ]]>
-                AND SCC.ISTYPE = '2'
-                         AND SCC.USERUUID = HEI.EMP_SEQ
-                         AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
-                limit 1
-                   ), '기록 없음') AS END_TIME,
-
-            IFNULL((
-                SELECT SUBHOLIDAY_DT_CODE_NM FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
-                                                      LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
-                WHERE AD.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
-                  AND AD.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
-                  AND SVUH.REG_EMP_SEQ = HEI.EMP_SEQ AND SVUH.APPR_STAT = 'Y'
-                ORDER BY SVUH.REG_DATE DESC limit 1
-                ), '') AS HOLIDAY,
-
-            IFNULL((
-                SELECT IHRR.TRIP_CODE FROM CAM_INSIDE.DJ_HR_BIZ_REQ IHR
-                                               LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
-                                               LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
-                WHERE AD.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
-                  AND AD.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
-                  AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
-                ORDER BY IHRR.CREATE_DATE DESC limit 1
-                ), '') AS BUSTRIP
-        FROM
-            CAM_HR.DJ_EMP_INFO HEI
-        JOIN
-            APPLY_DATE AD
-        LEFT JOIN
-            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-        WHERE
-            (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
-        AND WORK_STATUS_CODE = 'Y'
-
-        <if test='dept != null and !"".equals(dept)'>
-            AND (
-                HEI.DEPT_SEQ = #{dept} OR
-                HDI.PARENT_DEPT_SEQ = #{dept}
-            )
-        </if>
-        <if test='team != null and !"".equals(team)'>
-            AND HEI.DEPT_SEQ = #{team}
+            </if>
+        )A
+        WHERE 1=1
+        <if test='attendanceItems != null and !"".equals(attendanceItems)'>
+            <choose>
+                <when test='"attendA".equals(attendanceItems)'>
+--                     정상출근
+                </when>
+                <when test='"attendB".equals(attendanceItems)'>
+--                     지각
+                </when>
+                <when test='"workPlan".equals(attendanceItems)'>
+                    AND A.WORK_PALN != '' AND A.WORK_PALN IS NOT NULL
+                </when>
+                <when test='"busTrip".equals(attendanceItems)'>
+                    AND A.BUSTRIP != '' AND A.BUSTRIP IS NOT NULL
+                </when>
+                <otherwise>
+                    AND A.HOLIDAY = #{attendanceItems}
+                </otherwise>
+            </choose>
         </if>
 
-        <if test='startDt != null and !"".equals(startDt)'>
+        ORDER BY
+            A.START_DATE DESC,
+            (
             <![CDATA[
-            AND
-                DATE_FORMAT(#{startDt}, '%Y-%m-%d') <= DATE_FORMAT(AD.START_DATE, '%Y-%m-%d')
-            AND
-                DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(AD.START_DATE, '%Y-%m-%d')
+                CASE WHEN ASCII(SUBSTRING(A.REG_DEPT_NAME,1)) BETWEEN 48 AND 57 THEN 3
+                    WHEN ASCII(SUBSTRING(A.REG_DEPT_NAME,1)) < 128 THEN 2 ELSE 1 END
             ]]>
-        </if>
+            ),
+            REG_DEPT_NAME,
+            A.REG_TEAM_NAME,
+            A.REG_POSITION_SORT
     </select>
 
     <select id="personAnnvMainList" parameterType="map" resultType="map">

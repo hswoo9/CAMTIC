@@ -220,22 +220,23 @@ var reqCl = {
             reqCl.vatCalcN();
         });
 
-        if(data.PURC_TYPE == ""){
-            $("#claimTitle").val("[법인운영] 구매청구");
-        } else {
-            var pt = "";
-            if($("#purcType").getKendoRadioGroup().value() == "R"){
-                pt = "R&D";
-            } else if($("#purcType").getKendoRadioGroup().value() == "S"){
-                pt = "비R&D";
-            } else if($("#purcType").getKendoRadioGroup().value() == "D"){
-                pt = "엔지니어링";
-            } else if($("#purcType").getKendoRadioGroup().value() == "V"){
-                pt = "용역/기타";
+        if($("#itemSn").val() != ""){
+            if(data.PURC_TYPE == ""){
+                $("#claimTitle").val("[법인운영] 구매청구");
+            } else {
+                var pt = "";
+                if($("#purcType").getKendoRadioGroup().value() == "R"){
+                    pt = "R&D";
+                } else if($("#purcType").getKendoRadioGroup().value() == "S"){
+                    pt = "비R&D";
+                } else if($("#purcType").getKendoRadioGroup().value() == "D"){
+                    pt = "엔지니어링";
+                } else if($("#purcType").getKendoRadioGroup().value() == "V"){
+                    pt = "용역/기타";
+                }
+                $("#claimTitle").val( "["+ pt +"] "+ $("#pjtNm").val()+ " 구매청구");
             }
-            $("#claimTitle").val( "["+ pt +"] "+ $("#pjtNm").val()+ " 구매청구");
         }
-
     },
 
     vatCalc : function(){

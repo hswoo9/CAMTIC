@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.inside.document.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.ConvertUtil;
 import egovframework.com.devjitsu.common.utiles.EgovStringUtil;
@@ -36,6 +37,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private PayAppRepository payAppRepository;
 
     @Override
     public List<Map<String, Object>> getDocumentList(Map<String, Object> params){
@@ -286,9 +290,17 @@ public class DocumentServiceImpl implements DocumentService {
 
         if(params.containsKey("cardArr")){
             documentRepository.delCardHist(params);
+
             List<Map<String, Object>> list = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
             for(Map<String, Object> data : list){
                 data.put("snackInfoSn", params.get("snackInfoSn"));
+                data.put("AUTH_NO", data.get("authNum"));
+                data.put("AUTH_HH", data.get("authTime"));
+                data.put("AUTH_DD", data.get("authDate"));
+                data.put("CARD_NO", params.get("cardSn"));
+                data.put("BUY_STS", data.get("buySts"));
+                data.put("SNACK_INFO_SN", data.get("snackInfoSn"));
+                payAppRepository.insUseCardInfo(data);
                 documentRepository.insCardHist(data);
             }
         }

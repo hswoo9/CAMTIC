@@ -9,7 +9,7 @@ var purcMngReqList = {
     fn_defaultScript : function(){
         purcMngReqList.global.dropDownDataSource = [];
         customKendo.fn_dropDownList("searchDept", purcMngReqList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
+        // $("#searchDept").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
 
         purcMngReqList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
@@ -42,6 +42,7 @@ var purcMngReqList = {
         customKendo.fn_dropDownList("inspectStat", purcMngReqList.global.dropDownDataSource, "text", "value");
         $("#inspectStat").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
         $("#busnClass").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
+        // $("#searchKeyword").data("kendoDropDownList").bind("change", purcMngReqList.gridReload);
         purcMngReqList.gridReload();
     },
 

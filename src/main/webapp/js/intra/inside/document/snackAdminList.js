@@ -91,6 +91,10 @@ var snackAdminList = {
             // dataBound : snackAdminList.onDataBound,
             columns: [
                 {
+                    title: "번호",
+                    width: 40,
+                    template: "#= --record #"
+                }, {
                     field: "SNACK_TYPE_TEXT",
                     title: "식대 구분",
                     width: 80
@@ -171,6 +175,9 @@ var snackAdminList = {
                     width: 80
                 }
             ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            },
             dataBound: function(){
 
                 $("#total").text("총계 :" + fn_numberWithCommas(sum) + " 원");

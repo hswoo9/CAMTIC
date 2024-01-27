@@ -1821,7 +1821,8 @@
                 CARD_NO,
                 BUY_STS,
                 LINK_STAT,
-                PAY_APP_SN
+                PAY_APP_SN,
+                SNACK_INFO_SN
             )
         VALUES
             (
@@ -1831,7 +1832,8 @@
                 #{CARD_NO},
                 #{BUY_STS},
                 'Y',
-                #{PAY_APP_SN}
+                #{PAY_APP_SN},
+                #{SNACK_INFO_SN}
             )
     </insert>
 
