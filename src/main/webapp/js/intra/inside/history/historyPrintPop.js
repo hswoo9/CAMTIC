@@ -65,7 +65,7 @@ const historyPrintPop = {
         //        historyVal += data.CHNG_POSITION + " ";
         //    }
         // }
-        if(data.AF_DUTY_NAME != "") {
+        if(data.AF_DUTY_NAME != "" && data.AF_DUTY_NAME != '-') {
             var duty = "  (직     책) " + data.AF_DUTY_NAME;
 
             historyPrintPop.global.hwpCtrl.PutFieldText("duty", duty);
