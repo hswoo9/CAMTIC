@@ -208,4 +208,10 @@ public interface ProjectService {
     List<Map<String, Object>> getFinalPartRateChangeDocList(Map<String, Object> params);
 
     void setReferencesAdd(Map<String, Object> params);
+
+    List<Map<String, Object>> getHistEngnList(Map<String, Object> params);
+
+    List<Map<String, Object>> getHistRndList(Map<String, Object> params);
+
+    List<Map<String, Object>> getHistEduList(Map<String, Object> params);
 }

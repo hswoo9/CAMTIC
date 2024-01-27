@@ -10,6 +10,7 @@ import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
+import egovframework.com.devjitsu.g20.repository.PRJRepository;
 import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private G20Repository g20Repository;
+
+    @Autowired
+    private PRJRepository prjRepository;
 
     @Autowired
     private ProjectRndRepository projectRndRepository;
@@ -1601,6 +1605,21 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void setReferencesAdd(Map<String, Object> params) {
         projectRepository.setReferencesAdd(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getHistEngnList(Map<String, Object> params) {
+        return prjRepository.getHistEngnList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getHistRndList(Map<String, Object> params) {
+        return prjRepository.getHistRndList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getHistEduList(Map<String, Object> params) {
+        return prjRepository.getHistEduList(params);
     }
 }
 

@@ -1602,4 +1602,49 @@ public class ProjectController {
         model.addAttribute("map", map);
         return "jsonView";
     }
+
+    @RequestMapping("/projectHist/projectHistEngn.do")
+    private String projectHistEngn(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+        return "cam_project/hist/projectHistEngn";
+    }
+
+    @RequestMapping("/projectHist/projectHistRnd.do")
+    private String projectHistRnd(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+        return "cam_project/hist/projectHistRnd";
+    }
+
+    @RequestMapping("/projectHist/projectHistEdu.do")
+    private String projectHistEdu(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+        return "cam_project/hist/projectHistEdu";
+    }
+
+    @RequestMapping("/projectHist/getHistEngnList")
+    public String getHistEngnList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", projectService.getHistEngnList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectHist/getHistRndList")
+    public String getHistRndList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", projectService.getHistRndList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectHist/getHistEduList")
+    public String getHistEduList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", projectService.getHistEduList(params));
+        return "jsonView";
+    }
 }

@@ -377,6 +377,11 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
+    public void delPurcClaimData(Map<String, Object> params) {
+        purcRepository.delPurcClaimData(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getPurcAssetList(Map<String, Object> params) {
         return purcRepository.getPurcAssetList(params);
     }

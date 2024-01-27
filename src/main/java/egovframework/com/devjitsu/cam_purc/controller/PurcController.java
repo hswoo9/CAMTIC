@@ -290,6 +290,13 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/delPurcClaimData.do")
+    public String delPurcClaimData(@RequestParam Map<String, Object> params, Model model){
+        purcService.delPurcClaimData(params);
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
     @RequestMapping("/purc/getPurcAssetList")
     public String getPurcAssetList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", purcService.getPurcAssetList(params));
