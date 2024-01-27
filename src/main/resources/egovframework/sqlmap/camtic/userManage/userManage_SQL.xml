@@ -611,6 +611,7 @@
         ORDER BY DEPT_LEVEL, ORDER_SN
     </select>
     <select id="getEmpInfoList" parameterType="map" resultType="map">
+        /** getEmpInfoList */
         SELECT
             HEI.*,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
@@ -676,6 +677,8 @@
         <if test='dsI == "Y" or "Y".equals(dsI)'>
             AND
                 TEMP_DIVISION = "Y"
+            AND
+                WORK_STATUS_CODE = "Y"
         </if>
         <if test='dsI == null or "".equals(dsI)'>
             AND
@@ -2924,7 +2927,7 @@
     </select>
 
     <select id="getCountForDsI" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND TEMP_DIVISION = "Y";
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND TEMP_DIVISION = "Y" AND WORK_STATUS_CODE = 'Y';
     </select>
 
     <select id="getCountForDsJ" resultType="int" parameterType="java.util.Map">

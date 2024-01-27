@@ -21,6 +21,41 @@
 
         WHERE
             A.JMainNum = '-1'
+        <![CDATA[
+        AND YEAR(C.JWorkDate) <= 2023
+        ]]>
         ORDER BY A.JNum DESC
+    </select>
+
+    <select id="getHistRndList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getHistRndList */
+        SELECT
+            A.PrjID,
+            PrjNo,
+            Comit,
+            Subject,
+            CONVERT(CHAR(10), A.PSDate, 23) AS PSDate,
+            CONVERT(CHAR(10), A.PEDate, 23) AS PEDate,
+            MainComit,
+            A.UUID,
+            MCUID,
+            WCUID,
+            MainMoney,
+            SubMoney,
+            SubMoneyU,
+            (SELECT Sum(CAST(ISNULL(SA.NMoney,0) AS BIGINT)) AS NMoney FROM PRJDB.dbo.BudgetList SA INNER JOIN PRJDB.dbo.AccoutItem SB ON SA.ItemID = SB.ItemID WHERE SA.PrjID = A.PrjID) AS NMoney,
+            C.name AS master,
+            D.name AS pm,
+            (SELECT count(-1) FROM PRJDB.dbo.UserInfo sa INNER JOIN PRJDB.dbo.PrjUser sb ON sa.UUID = sb.UUID WHERE sb.PrjID = A.PrjID) AS count
+        FROM
+            PRJDB.dbo.PRJINFO A
+        LEFT JOIN PRJDB.dbo.PrjUser B ON A.PrjID = B.PrjID AND B.Type = 0
+        LEFT JOIN PRJDB.dbo.UserInfo C ON B.UUID = C.UUID
+        LEFT JOIN PRJDB.dbo.UserInfo D ON A.UUID = D.UUID
+        WHERE
+        <![CDATA[
+            YEAR(A.PSDate) <= 2023
+        ]]>
+        ORDER BY A.PrjID DESC
     </select>
 </mapper>

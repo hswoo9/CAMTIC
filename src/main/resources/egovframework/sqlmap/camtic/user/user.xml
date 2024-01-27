@@ -404,7 +404,9 @@
 
     <select id="getUserEncryptionList" parameterType="map" resultType="map">
         /* getUserEncryptionList */
-        SELECT * FROM CAM_HR.DJ_EMP_INFO
+        <![CDATA[
+        SELECT * FROM CAM_HR.DJ_EMP_INFO WHERE LENGTH(LOGIN_PASSWD) < 25
+        ]]>
     </select>
 
     <select id="getUserInfoToId" parameterType="map" resultType="map">

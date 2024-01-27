@@ -821,7 +821,7 @@ var userReqPop = {
         if(!confirm("신청내용을 저장하시겠습니까?")){
             return ;
         }
-    console.log(data)
+
         var data = {
             //ERP_EMP_SEQ : "",
             EMP_NAME_KR : $("#empNameKr").val(), //이름
@@ -897,6 +897,7 @@ var userReqPop = {
             /*위촉직원*/
             NICK_NAME : $("#nickname").val(), //호칭
         }
+        console.log(data);
 
         if($("#divisDet").val() == '3' && $("#divis").val() == '4'){ /*계약직원 - 경비/환경*/
             data.JOIN_DAY = $("#regDateCaseA").val(); //입사일자
