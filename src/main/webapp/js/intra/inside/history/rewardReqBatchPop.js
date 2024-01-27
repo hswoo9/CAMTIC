@@ -528,20 +528,41 @@ const rewardBatch = {
     },
 
     fn_delApnt : function(){
-        const grid = $("#popMainGrid").data("kendoGrid");
-        let dataItem = {};
+        var grid = $("#popMainGrid").data("kendoGrid");
+        var dataItemAr = [];
+        var dataItem = {};
+
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
-            dataItem = grid.dataItem($(this).closest("tr"));
-            grid.removeRow($(this).closest('tr'));
+            dataItemAr.push(grid.dataItem($(this).closest("tr")));
+        });
+
+        for(let i = 0; i < dataItemAr.length; i++){
+            dataItem = dataItemAr[i];
+            grid.removeRow(dataItem);
             rewardBatch.global.userArr = rewardBatch.global.userArr.filter((value, index, arr) => {
                 return value != dataItem.EMP_SEQ;
             });
-
             rewardBatch.global.editDataSource.data = rewardBatch.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String(dataItem.EMP_SEQ));
-        });
+        }
 
         rewardBatch.editGrid();
         rewardBatch.fn_popGridSetting();
+
+
+        // const grid = $("#popMainGrid").data("kendoGrid");
+        // let dataItem = {};
+        // $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
+        //     dataItem = grid.dataItem($(this).closest("tr"));
+        //     grid.removeRow($(this).closest('tr'));
+        //     rewardBatch.global.userArr = rewardBatch.global.userArr.filter((value, index, arr) => {
+        //         return value != dataItem.EMP_SEQ;
+        //     });
+        //
+        //     rewardBatch.global.editDataSource.data = rewardBatch.global.editDataSource.data.filter(param => String(param.EMP_SEQ) != String(dataItem.EMP_SEQ));
+        // });
+        //
+        // rewardBatch.editGrid();
+        // rewardBatch.fn_popGridSetting();
     },
 
     fn_delApntAll : function(){

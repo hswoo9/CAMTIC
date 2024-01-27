@@ -368,7 +368,8 @@ var hwpDocCtrl = {
                     hwpDocCtrl.putFieldText('proofContent', proofContent);
 
                     //요청일
-                    let toDate = year+"년 "+month+"월 "+date+"일";
+                    // let toDate = year+"년 "+month+"월 "+date+"일";
+                    let toDate = regDe[0] + "년 " + regDe[1] + "월 " + regDe[2] + "일";
                     hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                     hwpDocCtrl.putFieldText('toDate', toDate);
 
