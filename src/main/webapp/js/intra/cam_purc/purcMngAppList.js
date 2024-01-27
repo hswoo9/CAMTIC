@@ -10,12 +10,12 @@ var purcMngAppList = {
     fn_defaultScript : function(){
         purcMngAppList.global.dropDownDataSource = [];
         customKendo.fn_dropDownList("searchDept", purcMngAppList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
+        // $("#searchDept").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
 
         purcMngAppList.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
-            // { text: "목적", value: "PURC_REQ_PURPOSE" },
-            // { text: "품명", value: "PURC_ITEM_NAME" },
+            { text: "목적", value: "PURC_REQ_PURPOSE" },
+            { text: "품명", value: "PURC_ITEM_NAME" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", purcMngAppList.global.dropDownDataSource, "text", "value");
@@ -43,7 +43,7 @@ var purcMngAppList = {
         customKendo.fn_dropDownList("inspectStat", purcMngAppList.global.dropDownDataSource, "text", "value");
         $("#inspectStat").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
         $("#busnClass").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
-        $("#searchKeyword").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
+        // $("#searchKeyword").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
         purcMngAppList.gridReload();
     },
 

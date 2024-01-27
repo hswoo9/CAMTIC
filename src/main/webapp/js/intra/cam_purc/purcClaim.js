@@ -9,12 +9,15 @@ var purcClaim = {
     fn_defaultScript : function (){
         purcClaim.global.dropDownDataSource = [];
         customKendo.fn_dropDownList("searchDept", purcClaim.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", purcClaim.gridReload);
+        // $("#searchDept").data("kendoDropDownList").bind("change", purcClaim.gridReload);
 
         purcClaim.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
+            { text: "제목", value: "CLAIM_TITLE" },
             { text: "목적", value: "PURC_REQ_PURPOSE" },
+            { text: "업체명", value: "CRM_NM" },
             { text: "품명", value: "PURC_ITEM_NAME" },
+            { text: "요청자", value: "PURC_EMP_NAME" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", purcClaim.global.dropDownDataSource, "text", "value");
@@ -27,7 +30,23 @@ var purcClaim = {
         ]
 
         customKendo.fn_dropDownList("inspectStat", purcClaim.global.dropDownDataSource, "text", "value");
+
+        $("#busnClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "전체", value: ""},
+                {text: "법인운영", value: "C"},
+                {text: "R&D", value: "R"},
+                {text: "비R&D", value: "S"},
+                {text: "엔지니어링", value: "D"},
+                {text: "기타/용역", value: "V"},
+            ],
+        });
+
+        $("#busnClass").data("kendoDropDownList").bind("change", purcClaim.gridReload);
         $("#inspectStat").data("kendoDropDownList").bind("change", purcClaim.gridReload);
+        // $("#searchKeyword").data("kendoDropDownList").bind("change", purcClaim.gridReload);
         purcClaim.gridReload();
     },
 
@@ -197,7 +216,8 @@ var purcClaim = {
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
-            inspectStat : $("#inspectStat").data("kendoDropDownList").value()
+            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
+            busnClass : $("#busnClass").val()
         }
 
         purcClaim.mainGrid("/purc/getPurcClaimList", purcClaim.global.searchAjaxData);
