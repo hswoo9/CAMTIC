@@ -37,13 +37,13 @@ var meetingRoomReq = {
 
     dataSet: function(){
 
-        $("#datePicker").kendoDatePicker({
-            value: new Date(),
-            start: "year",
-            depth: "year",
-            format: "yyyy-MM",
-            width: "150px"
-        });
+        // $("#datePicker").kendoDatePicker({
+        //     value: new Date(),
+        //     start: "year",
+        //     depth: "year",
+        //     format: "yyyy-MM",
+        //     width: "150px"
+        // });
 
         $("#meetingRoomDivision").kendoDropDownList({
             dataTextField: "text",

@@ -42,10 +42,10 @@
                         <col width="%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">조회 연월</th>
-                        <td>
-                            <input type="text" id="datePicker" style="width: 110px;">
-                        </td>
+<%--                        <th class="text-center th-color">조회 연월</th>--%>
+<%--                        <td>--%>
+<%--                            <input type="text" id="datePicker" style="width: 110px;">--%>
+<%--                        </td>--%>
                         <th class="text-center th-color">회의실 구분</th>
                         <td>
                             <input type="text" id="meetingRoomDivision" style="width: 180px;">
