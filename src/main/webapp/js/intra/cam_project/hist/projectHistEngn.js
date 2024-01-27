@@ -105,9 +105,9 @@ var histEngn = {
                     width: 100,
                     template: function(row){
                         if(row.JTotal != null && row.JTotal != ""){
-                            return comma(row.JTotal);
+                            return "<div style='text-align: right'>"+comma(row.JTotal)+"</div>";
                         }else if(row.JTax != null && row.JTax != ""){
-                            return comma(row.JTax);
+                            return "<div style='text-align: right'>"+comma(row.JTax)+"</div>";
                         }else{
                             return 0;
                         }
