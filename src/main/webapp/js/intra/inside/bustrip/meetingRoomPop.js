@@ -1,16 +1,15 @@
 var flag = false;
 var roomReq = {
     init: function(){
-        roomReq.dataSet(roomData);
+        roomReq.dataSet();
+
+        if($("#roomReqSn").val()){
+            roomReq.getRoomData();
+        }
     },
 
-    dataSet: function(roomData){
+    dataSet: function(){
         customKendo.fn_textBox(["etc", "pay", "empName", "name", "remarkCn"]);
-        /*let saveRouteArr = [
-            {text: "달력 화면", value: "달력 화면"},
-            {text: "등록 화면", value: "등록 화면"}
-        ]
-        customKendo.fn_dropDownList("saveRoute", saveRouteArr, "text", "value", 2);*/
         let saveTypeArr = [
             {text: "기간 등록", value: "1"},
             {text: "일별 등록", value: "2"}
@@ -67,6 +66,30 @@ var roomReq = {
         });
         $("#rentalFee").data("kendoDropDownList").bind("change", roomReq.fn_toggleRentalFee)
     },
+
+    getRoomData : function(){
+        const result = customKendo.fn_customAjax("/inside/getRoomRequest", {roomReqSn: $("#roomReqSn").val()});
+        const data = result.data;
+
+        if(data != null) {
+            console.log(data);
+            $("#startDt").val(data.START_DT);
+            $("#endDt").val(data.END_DT);
+            $("#startTime").val(data.START_TIME);
+            $("#endTime").val(data.END_TIME);
+            $("#roomClass").data("kendoMultiSelect").value(data.ROOM_CLASS_SN);
+            $("#usePurpose").data("kendoDropDownList").value(data.USE_PURPOSE_SN);
+            $("#rentalFee").data("kendoDropDownList").value(data.RENTAL_FEE_SN);
+            $("#rentalFee").data("kendoDropDownList").trigger("change");
+            $("#pay").val(data.PAY);
+            $("#name").val(data.REG_EMP_NAME);
+            $("#empName").val(data.MANAGER_NAME);
+            $("#empSeq").val(data.MANAGER_SN);
+            $("#remarkCn").val(data.REMARK_CN);
+            roomReq.fn_buttonSet(data);
+        }
+    },
+
 
     saveBtn: function(){
 
@@ -182,12 +205,13 @@ var roomReq = {
                 regEmpName : regEmpName
             }
 
-            console.log(data);
             if(flag) {
-                if($("#roomReqSn").val() == "") {
-                    roomReq.setRoomRequestInsert(data);
-                }else {
-                    roomReq.setRoomRequestUpdate(data);
+                var result = customKendo.fn_customAjax("/inside/setRoomRequestInsert", data);
+                if(result.flag){
+                    opener.gridReload();
+                    window.close();
+                }else{
+                    alert("데이터 저장 중 에러가 발생했습니다.");
                 }
             }
         }
@@ -195,8 +219,22 @@ var roomReq = {
         if(flag){
             alert("저장이 완료되었습니다.");
         }
+    },
 
+    delBtn: function(){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
 
+        const data = {
+            roomReqSn: $("#roomReqSn").val()
+        }
+        const result = customKendo.fn_customAjax("/inside/setRoomRequestDelete", data);
+        if(result.flag){
+            alert("삭제되었습니다.");
+            opener.gridReload();
+            window.close();
+        }
     },
 
     searchDuplicateRoom: function(data){
@@ -229,26 +267,16 @@ var roomReq = {
         });
     },
 
-    setRoomRequestInsert: function(data){
-        $.ajax({
-            url : "/inside/setRoomRequestInsert",
-            data : data,
-            type : "post",
-            dataType : "json",
-            async : false,
-            success : function(result){
-                opener.gridReload();
-                window.close();
-            },
-            error : function() {
-                alert("데이터 저장 중 에러가 발생했습니다.");
-                window.close();
-            }
-        });
-    },
-
-    setRoomRequestUpdate: function(data){
-
+    fn_buttonSet : function(data){
+        var buttonHtml = "";
+        if(data != null){
+            buttonHtml += "<button type=\"button\" id=\"roomSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"roomReq.saveBtn();\">저장</button>";
+            buttonHtml += "<button type=\"button\" id=\"roomDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"roomReq.delBtn();\">삭제</button>";
+        }else{
+            buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"roomReq.saveBtn()\">저장</button>";
+        }
+        buttonHtml += "<button type=\"button\" class=\"k-button k-button-solid-error\" style=\"margin-right:5px;\" onclick=\"window.close();\">닫기</button>";
+        $("#roomBtn").html(buttonHtml);
     },
 
     fn_toggleUsePurpose: function(){

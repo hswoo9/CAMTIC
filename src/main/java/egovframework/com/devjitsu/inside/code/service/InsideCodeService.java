@@ -30,6 +30,7 @@ public interface InsideCodeService {
 
     //회의실사용신청 캘린더 리스트조회
     List<Map<String, Object>> getRoomRequestList(Map<String, Object> params);
+    Map<String, Object> getRoomRequest(Map<String, Object> params);
 
     //회의실사용신청 중복조회
     List<Map<String, Object>> searchDuplicateRoom(Map<String, Object> params);
@@ -60,7 +61,8 @@ public interface InsideCodeService {
 
     //회의실사용신청 등록
     void setRoomRequestInsert(Map<String, Object> params);
-
+    //회의실사용신청 삭제
+    void setRoomRequestDelete(Map<String, Object> params);
     //회의실관리 회의실코드 등록
     void setRoomCodeInsert(Map<String, Object> params);
 

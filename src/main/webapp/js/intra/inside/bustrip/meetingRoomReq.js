@@ -23,27 +23,27 @@ var meetingRoomReq = {
         mcCode : "V",
         startTime : new Date(),
         endTime : new Date(),
+        data : new Array(),
         vacGubun : [],
         tagTarget : "",
-
+        searchAjaxData : "",
         userVacation : 0
     },
 
     init: function(){
-        meetingRoomReq.mainScheduler();
         meetingRoomReq.dataSet();
         meetingRoomReq.mainGrid();
     },
 
     dataSet: function(){
 
-        $("#datePicker").kendoDatePicker({
-            value: new Date(),
-            start: "year",
-            depth: "year",
-            format: "yyyy-MM",
-            width: "150px"
-        });
+        // $("#datePicker").kendoDatePicker({
+        //     value: new Date(),
+        //     start: "year",
+        //     depth: "year",
+        //     format: "yyyy-MM",
+        //     width: "150px"
+        // });
 
         $("#meetingRoomDivision").kendoDropDownList({
             dataTextField: "text",
@@ -123,74 +123,44 @@ var meetingRoomReq = {
         $("#name").kendoTextBox();
     },
 
-    mainScheduler: function(){
-        var schRsDs = [];
-        var ksModel = {
-            id: { from: "ROOM_REQ_SN", type: "number" },
-            title: { from: "schTitle", defaultValue: "No title", validation: { required: true } },
-            start: { type: "date", from: "START_DATE" },
-            end: { type: "date", from: "END_DATE" }
+    getScheduleData : function(){
+        var scheduleData = new Array();
+
+        meetingRoomReq.global.searchAjaxData = {
+            empSeq : $("#RegEmpSeq").val(),
+            // datePicker : $("#datePicker").val(),
+            meetingRoomDivision : $("#meetingRoomDivision").val(),
+            usePurpose : $("#usePurpose").val(),
+            rentalFee : $("#rentalFee").val(),
+            searchDivision : $("#searchDivision").val(),
+            name : $("#name").val()
         }
 
-        var schDataSource = new kendo.data.SchedulerDataSource({
-            transport: {
-                read: {
-                    url : "/inside/getRoomRequestList",
-                    dataType: "json"
-                },
-                parameterMap: function(data) {
-                    data.empSeq = $("#RegEmpSeq").val();
-                    data.datePicker = $("#datePicker").val(),
-                        data.meetingRoomDivision = $("#meetingRoomDivision").val(),
-                        data.usePurpose = $("#usePurpose").val(),
-                        data.rentalFee = $("#rentalFee").val(),
-                        data.searchDivision = $("#searchDivision").val(),
-                        data.name = $("#name").val()
-                    return data;
-                }
-            },
-            schema: {
-                data: function (data) {
-                    console.log(data.list);
-                    return data.list;
-                },
-                model: {
-                    id: "id",
-                    fields: ksModel
-                }
+        var ds = customKendo.fn_customAjax("/inside/getRoomRequestList", meetingRoomReq.global.searchAjaxData);
+        if(ds.flag){
+            meetingRoomReq.global.data = ds.list;
+        }
+        if(meetingRoomReq.global.data.length > 0){
+            for(var i = 0 ; i < meetingRoomReq.global.data.length ; i++){
+                var row = {};
+                row.title = meetingRoomReq.global.data[i].schTitle;
+                row.start = new Date(meetingRoomReq.global.data[i].START_DATE);
+                row.end = new Date(meetingRoomReq.global.data[i].END_DATE);
+                row.roomReqSn = meetingRoomReq.global.data[i].ROOM_REQ_SN;
+                scheduleData.push(row);
             }
-        });
+        }
+        return scheduleData;
+    },
 
-        var schResources = [
-            {
-                field : "vacCodeId",
-                dataSource : schRsDs
-            }
-        ]
-
-        kendo.culture("ko-KR");
-
-        $("#scheduler").kendoScheduler({
-            date: new Date(),
-            startTime: new Date(),
-            height: 671,
-            views: [
-                "month"
-            ],
-            timezone: "Etc/UTC",
-            dataSource: schDataSource,
-            selectable: true,
-            //dataBound : carList.onDataBound,
-            editable : false
-        });
-
-        $("#scheduler").on("dblclick", ".k-state-selected:not(.k-event)", function(e){
-            var url = "/Inside/pop/meetingRoomPop.do?startDt=" + meetingRoomReq.dateFormat($("#scheduler").data("kendoScheduler").select().start);
-            var name = "popup test";
-            var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
-            var popup = window.open(url, name, option);
-            window.open(url, name, option);
-        });
+    meetingRoomPop : function(e){
+        var url = "/Inside/pop/meetingRoomPop.do";
+        if(!isNaN(e)) {
+            url = "/Inside/pop/meetingRoomPop.do?roomReqSn=" + e;
+        }
+        var name = "meetingRoomPop";
+        var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
+        window.open(url, name, option);
     },
 
     mainGrid: function () {
@@ -203,7 +173,7 @@ var meetingRoomReq = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.datePicker = $("#datePicker").val(),
+                    // data.datePicker = $("#datePicker").val(),
                         data.meetingRoomDivision = $("#meetingRoomDivision").val(),
                     data.usePurpose = $("#usePurpose").val(),
                     data.rentalFee = $("#rentalFee").val(),
@@ -274,22 +244,21 @@ var meetingRoomReq = {
         return dateFormat2;
     },
 
-    meetingRoomPopup : function(){
-        var url = "/Inside/pop/meetingRoomPop.do";
-        var name = "popup test";
-        var option = "width = 1000, height = 500, top = 100, left = 200, location = no"
-        var popup = window.open(url, name, option);
-    },
-
     roomStatPop: function(){
         const url = "/Inside/pop/roomStatPop.do";
         const name = "roomStatPop";
         const option = "width = 1600, height = 570, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    refresh: function(){
+        $("#calendar").html("");
+        meetingRoomReq.global.cal.$calendar.fullCalendar("destroy");
+        meetingRoomReq.global.cal.init();
     }
 }
 
 function gridReload(){
     $("#mainGrid").data("kendoGrid").dataSource.read();
-    $("#scheduler").data("kendoScheduler").dataSource.read();
+    meetingRoomReq.refresh();
 }

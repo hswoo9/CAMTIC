@@ -3,6 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
+<link href="/css/schedule/fullcalendar.min.css" rel="stylesheet" />
+<link href="/css/schedule/styleA.css" rel="stylesheet" />
 <script type="text/javascript" src="/js/intra/inside/bustrip/meetingRoomReq.js?v=${today}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -40,10 +42,10 @@
                         <col width="%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">조회 연월</th>
-                        <td>
-                            <input type="text" id="datePicker" style="width: 110px;">
-                        </td>
+<%--                        <th class="text-center th-color">조회 연월</th>--%>
+<%--                        <td>--%>
+<%--                            <input type="text" id="datePicker" style="width: 110px;">--%>
+<%--                        </td>--%>
                         <th class="text-center th-color">회의실 구분</th>
                         <td>
                             <input type="text" id="meetingRoomDivision" style="width: 180px;">
@@ -73,7 +75,7 @@
                             <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="meetingRoomReq.roomStatPop();">
                                 통계 조회
                             </button>
-                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="meetingRoomReq.meetingRoomPopup();">
+                            <button type="button" id="document" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="meetingRoomReq.meetingRoomPop();">
                                 회의실 사용 신청
                             </button>
                         </td>
@@ -94,6 +96,10 @@
                         <div id="schedulerDiv" style="margin:10px auto;">
                             <div id="team-schedule" style="float: left">
                             </div>
+
+                            <div id="calendar" class="app-fullcalendar"></div>
+
+
                             <div id="scheduler"></div>
                         </div>
                     </div>
@@ -108,6 +114,14 @@
     </div>
 </div><!-- col-md-9 -->
 
+<script src="/js/schedule/global.min.js"></script>
+<script src="/js/schedule/custom.min.js"></script>
+<script src="/js/schedule/jquery-ui.min.js"></script>
+<script src="/js/schedule/moment.min.js"></script>
+<script src="/js/schedule/fullcalendar.min.js"></script>
+<script src="/js/schedule/fullcalendar-meetingRoom-init.js?v=${today}"></script>
 <script type="text/javascript">
+    jQuery.noConflict();
     meetingRoomReq.init();
+    meetingRoomReq.refresh();
 </script>
