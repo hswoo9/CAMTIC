@@ -66,4 +66,6 @@ public interface HistoryService {
     void modAf(Map<String, Object> params);
 
     void setTmpActiveUpdate(Map<String, Object> params);
+
+    void appointmentEmpInfoUpd(Map<String, Object> params);
 }

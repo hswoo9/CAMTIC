@@ -73,11 +73,13 @@ public class HistoryServiceImpl implements HistoryService {
         ///fileSaveMap = convertUtil.StringToFileConverter(EgovStringUtil.nullConvert(params.get("docFileStr")), "hwp", params, base_dir, "");
         //fileSaveMap.put("contentId", params.get("apntSn"));
         ///commonRepository.insOneFileInfo(fileSaveMap);
+        appointmentEmpInfoUpd(params);
     }
 
     @Override
     public void setHistoryUpdate(Map<String, Object> params) {
         historyRepository.setHistoryUpdate(params);
+        appointmentEmpInfoUpd(params);
     }
 
     /*
@@ -166,6 +168,43 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public void setTmpActiveUpdate(Map<String,Object> params) {
         historyRepository.setTmpActiveUpdate(params);
+    }
+
+    @Override
+    public void appointmentEmpInfoUpd(Map<String, Object> params) {
+        List<Map<String, Object>> apntList = historyRepository.appointmentNowList(params);
+        for(Map<String, Object> map : apntList){
+            Map<String, Object> upDateMap = new HashMap<>();
+            upDateMap.put("empSeq", map.get("EMP_SEQ"));
+            if(!StringUtils.isEmpty(map.get("AF_TEAM_SEQ"))){
+                upDateMap.put("afTeamSeq", map.get("AF_TEAM_SEQ"));
+            }
+            if(!StringUtils.isEmpty(map.get("AF_DEPT_NAME"))){
+                upDateMap.put("afDeptName", map.get("AF_DEPT_NAME"));
+            }
+            if(!StringUtils.isEmpty(map.get("AF_TEAM_NAME"))){
+                upDateMap.put("afTeamName", map.get("AF_TEAM_NAME"));
+            }
+
+            if(!StringUtils.isEmpty(map.get("AF_POSITION_CODE"))){
+                upDateMap.put("afPositionCode", map.get("AF_POSITION_CODE"));
+            }
+
+            if(!StringUtils.isEmpty(map.get("AF_POSITION_NAME"))){
+                upDateMap.put("afPositionName", map.get("AF_POSITION_NAME"));
+            }
+            if(!StringUtils.isEmpty(map.get("AF_DUTY_CODE"))){
+                upDateMap.put("afDutyCode", map.get("AF_DUTY_CODE"));
+            }
+            if(!StringUtils.isEmpty(map.get("AF_DUTY_NAME"))){
+                upDateMap.put("afDutyName", map.get("AF_DUTY_NAME"));
+            }
+            upDateMap.put("afJobDetail", map.get("AF_JOB_DETAIL"));
+            upDateMap.put("empSeq", map.get("EMP_SEQ"));
+            upDateMap.put("apntSn", map.get("APNT_SN"));
+            historyRepository.appointmentEmpInfoUpd(upDateMap);
+            historyRepository.appointmentComplete(upDateMap);
+        }
     }
 
 }

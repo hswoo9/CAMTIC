@@ -55,6 +55,7 @@ var esl = {
                 row.start = new Date(esl.global.data[i].start);
                 row.end = new Date(esl.global.data[i].end);
                 row.scheduleBoardId = esl.global.data[i].SCHEDULE_BOARD_ID;
+                row.hrBizReqId = esl.global.data[i].hrBizReqId;
                 scheduleData.push(row);
             }
         }

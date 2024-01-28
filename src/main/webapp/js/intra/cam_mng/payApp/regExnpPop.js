@@ -459,7 +459,18 @@ var regExnp = {
             }
         }
 
-        $("#exnpDe").val(ls[0].TR_DE);
+        $("#reqDe").val(rs.REQ_DE);
+        $("#DT3").val(rs.REQ_DE);
+        $("#reqExDe").val(rs.PAY_EXNP_DE);
+        $("#DT2").val(rs.APP_DE);
+        // $("#reqEndDe").val(rs.REQ_END_DE);
+        $("#DT1").val(ls[0].TR_DE);
+
+        if($("#eviType0").val() == "1" || $("#eviType0").val() == "2" || $("#eviType0").val() == "3"){
+            $("#exnpDe").val(ls[0].TR_DE);
+        } else {
+            $("#exnpDe").val(rs.REQ_DE);
+        }
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
         $("#pjtCd").val(rs.PJT_CD);
@@ -482,14 +493,6 @@ var regExnp = {
             $("#budgetNm").val(ls[0].BUDGET_NM);
             $("#budgetSn").val(ls[0].BUDGET_SN);
         }
-
-
-        $("#reqDe").val(rs.REQ_DE);
-        $("#DT3").val(rs.REQ_DE);
-        $("#reqExDe").val(rs.PAY_EXNP_DE);
-        $("#DT2").val(rs.APP_DE);
-        // $("#reqEndDe").val(rs.REQ_END_DE);
-        $("#DT1").val(ls[0].TR_DE);
 
         for(var i=0; i < ls.length; i++){
             var item = ls[i];
