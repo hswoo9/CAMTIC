@@ -593,7 +593,7 @@
             A.EVID_TYPE,
             A.TR_CD,
             A.BUDGET_SN AS BGT_CD,
-            REPLACE(A.EXNP_DE, "-", "") AS IN_DT,
+            REPLACE(B.EXNP_DE, "-", "") AS IN_DT,
             REPLACE(A.TR_DE, "-", "") AS TAX_DT,
             REPLACE(D.APP_DE, "-", "") AS REG_DT,
             REPLACE(B.DT3, "-", "") AS EXEC_DT,
