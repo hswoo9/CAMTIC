@@ -12,7 +12,7 @@ var hwpApprovalLine = {
             let list = draft.global.approversArr;
             console.log("approversArr", draft.global.approversArr)
             let count = 0;
-            for(let i=0; i<list.length; i++){
+            for(let i=1; i<list.length; i++){
                 const map = list[i];
                 if(map.approveType == "0" || map.approveType == "2"){
                     count += 1;
