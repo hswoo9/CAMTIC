@@ -829,8 +829,8 @@
                 '출장' AS SCHEDULE_TYPE,
                 CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
                 EMP_NAME AS REG_EMP_NAME,
-                CONCAT(DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d'), ' ', TRIP_TIME_FR) as start,
-                CONCAT(DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d'), ' ', TRIP_TIME_TO) as end
+                DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d') as start,
+                DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d') as end
             FROM
                 CAM_INSIDE.DJ_HR_BIZ_REQ A
             JOIN
@@ -844,8 +844,8 @@
                 VCD.SUBHOLIDAY_DT_CODE_NM AS SCHEDULE_TYPE,
                 CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
                 DEI.EMP_NAME_KR AS REG_EMP_NAME,
-                CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_ST_TIME, '')) as start,
-                CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_EN_TIME, '')) as end
+                DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d') as start,
+                DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d') as end
             FROM
                 CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
             JOIN
@@ -897,8 +897,8 @@
                 '출장' AS SCHEDULE_TYPE,
                 CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
                 EMP_NAME AS REG_EMP_NAME,
-                CONCAT(DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d'), ' ', TRIP_TIME_FR) as start,
-                CONCAT(DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d'), ' ', TRIP_TIME_TO) as end
+                DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d') as start,
+                DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d') as end
             FROM
                 CAM_INSIDE.DJ_HR_BIZ_REQ A
             JOIN
@@ -912,8 +912,8 @@
                 VCD.SUBHOLIDAY_DT_CODE_NM AS SCHEDULE_TYPE,
                 CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
                 DEI.EMP_NAME_KR AS REG_EMP_NAME,
-                CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_ST_TIME, '')) as start,
-                CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_EN_TIME, '')) as end
+                DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d') as start,
+                DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d') as end
             FROM
                 CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
             JOIN
