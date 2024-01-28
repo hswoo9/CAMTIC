@@ -10,6 +10,7 @@ var hwpApprovalLine = {
             hwpDocCtrl.putFieldText('docApprNm0', "기안자");
 
             let list = draft.global.approversArr;
+            console.log("approversArr", draft.global.approversArr)
             let count = 0;
             for(let i=0; i<list.length; i++){
                 const map = list[i];
@@ -66,7 +67,7 @@ var hwpApprovalLine = {
         console.log("----- 양식 사인 세팅 -----");
 
         if(formId == "1"){
-            let list =docView.global.rs.approveRoute;
+            let list = docView.global.rs.approveRoute;
 
             let DText = "";
             for (let i = 0; i < list.length; i++) {
