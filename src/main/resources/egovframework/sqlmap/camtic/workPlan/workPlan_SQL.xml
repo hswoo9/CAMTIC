@@ -276,7 +276,9 @@
             AD.APPRO_KEY AS ADMIN_APPRO_KEY,
             AD.DOC_MENU_CD AS ADMIN_DOC_MENU_CD,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            CAM_HR.FN_GetName('DEPT', (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = WPA.APPLY_SEQ), 'KR') AS DEPT_NAME2,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = WPA.APPLY_SEQ) AS EMP_NAME_KR
         FROM CAM_INSIDE.DJ_WORK_PLAN_APPROVAL WPA
         LEFT JOIN DJ_CAMTIC.V_WORK_TIME_CODE WTC
         ON WPA.WORK_TIME_CODE_ID = WTC.WORK_TIME_CODE_ID
@@ -335,7 +337,8 @@
             APPR_STAT,
             ACTIVE,
             REG_EMP_SEQ,
-            REG_DATE
+            REG_DATE,
+            WORK_REASON
         )
         VALUES
         (
@@ -347,7 +350,8 @@
             #{apprStat},
             'Y',
             #{regEmpSeq},
-            NOW()
+            NOW(),
+            #{workReason}
         )
         <selectKey keyProperty="workPlanApprovalId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_WORK_PLAN_APPROVAL'
@@ -422,4 +426,54 @@
             WORK_PLAN_APPROVAL_ID = #{workPlanApprovalId}
     </update>
 
+    <update id="deleteWorkPlanData" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_WORK_PLAN_APPROVAL
+        SET ACTIVE = 'N',
+        MOD_DATE = NOW(),
+        MOD_EMP_SEQ = #{empSeq}
+        WHERE WORK_PLAN_APPROVAL_ID IN(${checkedList})
+    </update>
+
+    <select id="getWorkPlanData" parameterType="map" resultType="map">
+        SELECT
+            WPA.WORK_PLAN_APPROVAL_ID,
+            WPA.WORK_TIME_CODE_ID,
+            WPA.APPLY_SEQ,
+            DATE_FORMAT(WPA.APPLY_DATE, '%Y-%m-%d') AS APPLY_DATE,
+            DATE_FORMAT(WPA.START_DATE, '%Y-%m-%d') AS START_DATE,
+            DATE_FORMAT(WPA.END_DATE, '%Y-%m-%d') AS END_DATE,
+            IFNULL(WPA.DOC_ID, '') AS DOC_ID,
+            IFNULL(WPA.ADMIN_DOC_ID, '') AS ADMIN_DOC_ID,
+            IFNULL(WPA.APPR_STAT, 'N') AS APPR_STAT,
+            IFNULL(WPA.ADMIN_APPR_STAT, 'N') AS ADMIN_APPR_STAT,
+            IFNULL(WPA.REG_EMP_SEQ, '') AS REG_EMP_SEQ,
+            DATE_FORMAT(WPA.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            IFNULL(WPA.MOD_EMP_SEQ, '') AS MOD_EMP_SEQ,
+            DATE_FORMAT(WPA.MOD_DATE, '%Y-%m-%d') AS MOD_DATE,
+            WTC.WORK_TIME_CODE_NAME,
+            CONCAT(IFNULL(WTC.WORK_TIME_CODE_NAME, ''), ' (', IFNULL(WTC.START_HOUR, '00'), ':', IFNULL(WTC.START_MIN, '00'), '~', IFNULL(WTC.END_HOUR, '00'), ':', IFNULL(WTC.END_MIN, '00'), ')') AS WORK_TIME_KR,
+            IFNULL(WPA.WORK_REASON, '') AS WORK_REASON
+        FROM
+            CAM_INSIDE.DJ_WORK_PLAN_APPROVAL WPA
+        LEFT JOIN DJ_CAMTIC.V_WORK_TIME_CODE WTC
+        ON WPA.WORK_TIME_CODE_ID = WTC.WORK_TIME_CODE_ID
+        WHERE
+            WORK_PLAN_APPROVAL_ID = #{workPlanApprovalId}
+    </select>
+
+    <update id="updateWorkPlan" parameterType="map">
+        UPDATE CAM_INSIDE.DJ_WORK_PLAN_APPROVAL
+        SET WORK_TIME_CODE_ID = #{workTimeCodeId},
+            APPLY_DATE = #{applyDate},
+            START_DATE = #{startDate},
+            END_DATE = #{endDate},
+            MOD_EMP_SEQ = #{modEmpSeq},
+            MOD_DATE = NOW(),
+            WORK_REASON = #{workReason}
+        WHERE WORK_PLAN_APPROVAL_ID = #{workPlanApprovalId}
+    </update>
+
+    <delete id="delWorkPlanDetail" parameterType="map">
+        DELETE FROM CAM_INSIDE.DJ_WORK_PLAN_APPROVAL_DETAIL WHERE WORK_PLAN_APPROVAL_ID = #{workPlanApprovalId}
+    </delete>
 </mapper>

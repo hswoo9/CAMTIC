@@ -680,6 +680,7 @@ var hwpDocCtrl = {
         }
 
         if($("#formId").val() == "1"){
+            hwpDocCtrl.global.HwpCtrl.EditMode = 1
             const draftEmpSeq = $("#empSeq").val();
             const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
             hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);

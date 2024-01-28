@@ -249,15 +249,28 @@ public class PayAppServiceImpl implements PayAppService {
                 if(map.get("EVID_TYPE").toString().equals("1") || map.get("EVID_TYPE").toString().equals("2")){
                     payAppRepository.insUseEtaxInfo(map);
                 } else if(map.get("EVID_TYPE").toString().equals("3")){
-                    payAppRepository.insUseCardInfo(map);
+                    int useCardChk = payAppRepository.getUseCardInfoCheck(map);
+
+                    if (useCardChk > 0) {
+                        payAppRepository.updUseCardPayApp(map);
+                    } else {
+                        payAppRepository.insUseCardInfo(map);
+                    }
                 }
             }
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             payAppRepository.updatePayAppApprStat(params);
 
-            payAppRepository.delUseCardInfo(payAppInfo);
             payAppRepository.delUseEtaxInfo(payAppInfo);
 
+            List<Map<String, Object>> useCardList = payAppRepository.getUseCardInfoList(params);
+            for(Map<String, Object> map : useCardList){
+                if(Integer.parseInt(map.get("SNACK_INFO_CHK").toString()) > 0){
+                    payAppRepository.updUseCardPayAppNull(map);
+                } else {
+                    payAppRepository.delUseCardInfo(map);
+                }
+            }
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             payAppRepository.updatePayAppFinalApprStat(params);
@@ -1436,6 +1449,16 @@ public class PayAppServiceImpl implements PayAppService {
 
         payAppRepository.insPayAppRevert(params);
 
+        params.put("PAY_APP_SN", params.get("payAppSn"));
+        payAppRepository.delUseEtaxInfo(params);
+        List<Map<String, Object>> useCardList = payAppRepository.getUseCardInfoList(params);
+        for(Map<String, Object> map : useCardList){
+            if(Integer.parseInt(map.get("SNACK_INFO_CHK").toString()) > 0){
+                payAppRepository.updUseCardPayAppNull(map);
+            } else {
+                payAppRepository.delUseCardInfo(map);
+            }
+        }
     }
 
     @Override

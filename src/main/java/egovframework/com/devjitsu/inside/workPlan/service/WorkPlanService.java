@@ -30,10 +30,15 @@ public interface WorkPlanService {
     List<Map<String, Object>> getWorkPlanList(Map<String, Object> params);
 
     Map<String, Object> setWorkPlan(Map<String, Object> params);
+    Map<String, Object> updateWorkPlan(Map<String, Object> params);
 
     void workPlanUserApp(Map<String, Object> bodyMap) throws Exception;
 
     void workPlanAdminApp(Map<String, Object> bodyMap) throws Exception;
+
+    void deleteWorkPlanData(Map<String, Object> params);
+
+    Map<String, Object> getWorkPlanData(Map<String, Object> params);
 
 
 

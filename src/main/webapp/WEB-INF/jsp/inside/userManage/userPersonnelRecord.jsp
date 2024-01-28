@@ -28,7 +28,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">인사기록카드</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드</div>
+            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드</div><%--인사관리 관리자에서 버튼눌러서 접근하는 페이지--%>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <input type="button" id="filePrint" value="인쇄" onclick="userPrintPop(${uprList.empSeq});">
@@ -238,7 +238,7 @@
                                                 <c:if test="${l.socreFile ne null}">
                                                 <td style="cursor: pointer">
                                                   <span onclick="fileDown('${l.socreFile.file_path}${l.socreFile.file_uuid}', '${l.socreFile.file_org_name}.${l.socreFile.file_ext}')">
-                                                      ${l.socreFile.file_org_name}.${l.socreFile.file_ext}
+                                                      ${l.socreFile.file_org_name}
                                                   </span>
                                                 </td>
                                                 </c:if>

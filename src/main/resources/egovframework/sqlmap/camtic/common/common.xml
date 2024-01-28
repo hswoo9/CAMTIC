@@ -56,7 +56,8 @@
         <if test="sEmpName != null and sEmpName != ''">
             AND VEI.EMP_NAME_KR LIKE CONCAT('%', #{sEmpName}, '%')
         </if>
-        ORDER BY SORT
+        ORDER BY DUTY_CODE DESC, EMP_NAME_KR ASC
+        /*ORDER BY SORT*/
     </select>
 
     <select id="getUserListTotal" parameterType="map" resultType="map">

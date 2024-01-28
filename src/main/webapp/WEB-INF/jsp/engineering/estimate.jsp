@@ -65,7 +65,7 @@
                     </tr>
                     <tr>
                         <th>주소</th>
-                        <td colspan="3" style="padding:5px;"><input type="text" class="textInput" value="전북 전주시 완산구 홍산2길 5-8, 3층" style="width:80%;"></td>
+                        <td colspan="3" style="padding:5px;"><input type="text" class="textInput" value="전북특별자치도 전주시 완산구 홍산2길 5-8, 3층" style="width:80%;"></td>
                     </tr>
                     <tr>
                         <th>전화번호</th>
