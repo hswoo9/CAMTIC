@@ -873,7 +873,7 @@
                                                     </tr>
                                                     <tr>
                                                         <th>주소</th>
-                                                        <td colspan="3" style="padding:5px;"><input type="text" class="textInput" value="전북 전주시 완산구 홍산2길 5-8, 3층" style="width:80%;"></td>
+                                                        <td colspan="3" style="padding:5px;"><input type="text" class="textInput" value="전북특별자치도 전주시 완산구 홍산2길 5-8, 3층" style="width:80%;"></td>
                                                     </tr>
                                                     <tr>
                                                         <th>전화번호</th>
@@ -1381,7 +1381,7 @@
                     </div>
 
                     <div class="mainFooter" style="text-align:center; clear:both;margin-top: 456px;">
-                        <p style="margin:0;">(사)캠틱종합기술원 / 전북 전주시 덕진구 유상로 67 (우)54852</p>
+                        <p style="margin:0;">(사)캠틱종합기술원 / 전북특별자치도 전주시 덕진구 유상로 67 (우)54852</p>
                         <p>Tel : 063-219-0300 / Fax : 063-219-0303 Copyright[c] 2006 CAMTIC All rights Reserved camtic@camtic.or.kr</p>
                     </div>
                 </div><!-- col-md-9 -->

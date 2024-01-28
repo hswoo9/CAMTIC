@@ -775,7 +775,7 @@
                         </div><!-- panel -->
                     </div>
                     <div class="mainFooter" style="text-align:center; clear:both;">
-                        <p style="margin:0;">(사)캠틱종합기술원 / 전북 전주시 덕진구 유상로 67 (우)54852</p>
+                        <p style="margin:0;">(사)캠틱종합기술원 / 전북특별자치도 전주시 덕진구 유상로 67 (우)54852</p>
                         <p>Tel : 063-219-0300 / Fax : 063-219-0303 Copyright[c] 2006 CAMTIC All rights Reserved camtic@camtic.or.kr</p>
                     </div>
                 </div><!-- col-md-9 -->

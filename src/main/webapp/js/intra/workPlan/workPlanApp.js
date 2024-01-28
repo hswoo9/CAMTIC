@@ -45,9 +45,7 @@ var workPlanApp = {
                 {text: "지역산업육성팀", value: "지역산업육성팀"},
                 {text: "경영지원팀", value: "경영지원팀"},
                 {text: "미래전략기획팀", value: "미래전략기획팀"},
-                {text: "J-밸리혁신팀", value: "J-밸리혁신팀"},
-                {text: "전북 조선업 도약센터", value: "전북 조선업 도약센터"},
-                {text: "익산고용안정일자리센터", value: "익산고용안정일자리센터"}
+                {text: "J-밸리혁신팀", value: "J-밸리혁신팀"}
             ],
             index: 0
         });
