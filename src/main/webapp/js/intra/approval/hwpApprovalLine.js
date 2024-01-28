@@ -163,6 +163,13 @@ var hwpApprovalLine = {
             console.log("------------------------------- appr ---------------------------------");
             console.log(list);
 
+            let ip = "";
+            if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
+                ip = "http://218.158.231.184"
+            }else{
+                ip = "http://218.158.231.186"
+            }
+
             let empData;
             let copperData;
             for(let i=0; i<list.length; i++){
@@ -193,7 +200,7 @@ var hwpApprovalLine = {
 
                                 hwpDocCtrl.moveToField("appr0", true, true, false);
                                 hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    ip + imgMap.file_path + imgMap.file_uuid,
                                     true, 3, false, false, 0, 0, function(ctrl){
                                         if(ctrl){
                                             console.log('성공');
@@ -215,10 +222,9 @@ var hwpApprovalLine = {
                         const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
                         if(result.data.signImg != null){
                             const imgMap = result.data.signImg;
-
                             hwpDocCtrl.moveToField("appr2", true, true, false);
                             hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                                "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                ip + imgMap.file_path + imgMap.file_uuid,
                                 true, 3, false, false, 0, 0, function(ctrl){
                                     if(ctrl){
                                         console.log('성공');
@@ -246,7 +252,7 @@ var hwpApprovalLine = {
 
                                 hwpDocCtrl.moveToField("cAppr0", true, true, false);
                                 hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    ip + imgMap.file_path + imgMap.file_uuid,
                                     true, 3, false, false, 0, 0, function(ctrl){
                                         if(ctrl){
                                             console.log('성공');
@@ -272,7 +278,7 @@ var hwpApprovalLine = {
 
                             hwpDocCtrl.moveToField("appr2", true, true, false);
                             hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                                "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                ip + imgMap.file_path + imgMap.file_uuid,
                                 true, 3, false, false, 0, 0, function(ctrl){
                                     if(ctrl){
                                         console.log('성공');
@@ -296,7 +302,7 @@ var hwpApprovalLine = {
 
                                 hwpDocCtrl.moveToField("cAppr0", true, true, false);
                                 hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    ip + imgMap.file_path + imgMap.file_uuid,
                                     true, 3, false, false, 0, 0, function(ctrl){
                                         if(ctrl){
                                             console.log('성공');
@@ -324,7 +330,7 @@ var hwpApprovalLine = {
 
                                 hwpDocCtrl.moveToField("appr0", true, true, false);
                                 hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    ip + imgMap.file_path + imgMap.file_uuid,
                                     true, 3, false, false, 0, 0, function(ctrl){
                                         if(ctrl){
                                             console.log('성공');
@@ -351,7 +357,7 @@ var hwpApprovalLine = {
 
                                 hwpDocCtrl.moveToField("appr1", true, true, false);
                                 hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    ip + imgMap.file_path + imgMap.file_uuid,
                                     true, 3, false, false, 0, 0, function(ctrl){
                                         if(ctrl){
                                             console.log('성공');
@@ -381,7 +387,7 @@ var hwpApprovalLine = {
 
                             hwpDocCtrl.moveToField("appr2", true, true, false);
                             hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                                "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                ip + imgMap.file_path + imgMap.file_uuid,
                                 true, 3, false, false, 0, 0, function(ctrl){
                                     if(ctrl){
                                         console.log('성공');
@@ -405,7 +411,7 @@ var hwpApprovalLine = {
 
                                 hwpDocCtrl.moveToField("cAppr0", true, true, false);
                                 hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    ip + imgMap.file_path + imgMap.file_uuid,
                                     true, 3, false, false, 0, 0, function(ctrl){
                                         if(ctrl){
                                             console.log('성공');

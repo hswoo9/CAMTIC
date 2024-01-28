@@ -371,6 +371,7 @@
 
 <script>
     var today = "${toDate}";
+    const serverName = '${pageContext.request.serverName}';
 
     docView.global.dataType = {
         nowComSpace : "${nowComSpace}",
