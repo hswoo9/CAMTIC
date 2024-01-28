@@ -154,11 +154,37 @@ var docuOrderList = {
                 }, {
                     field: "DOCU_CHECK_NAME",
                     title: "계약서",
-                    width: "5%"
+                    width: "5%",
+                    template : function(row){
+                        if(row.file_no != null){
+                            var fileName = row.file_org_name;
+                            if(fileName.indexOf(".") > -1){
+                            }else{
+                                fileName = row.file_org_name + "." + row.file_ext;
+                            }
+                            return '<a href=\"javascript:docuOrderList.fileDown(\''+ row.file_path + row.file_uuid +'\',\''+ fileName +'\');\">있음</a>';
+                        }else{
+                            return '없음';
+                        }
+
+                    }
                 }, {
                     field: "",
                     title: "납품서",
-                    width: "5%"
+                    width: "5%",
+                    template : function(row){
+                        if(row.file_no != null){
+                            var fileName = row.file_org_name;
+                            if(fileName.indexOf(".") > -1){
+                            }else{
+                                fileName = row.file_org_name + "." + row.file_ext;
+                            }
+                            return '<a href=\"javascript:docuOrderList.fileDown(\''+ row.file_path + row.file_uuid +'\',\''+ fileName +'\');\">있음</a>';
+                        }else{
+                            return '없음';
+                        }
+
+                    }
                 }]
         }).data("kendoGrid");
     },
@@ -173,5 +199,11 @@ var docuOrderList = {
         var name = "popup test";
         var option = "width = 1100, height = 680, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fileDown : function(filePath, fileName){
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + fileName,
+        });
     }
 }

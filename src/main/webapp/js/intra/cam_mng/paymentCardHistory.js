@@ -413,7 +413,7 @@ var payCardHist = {
                 opener.parent.fn_setCardInfo(list);
             }else{
                 /** 출장은 유류비~기타 중에 어떤값인지 데이터 가져감 */
-                opener.parent.cardHistSet(list, $("#exnpType").val());
+                opener.parent.cardHistSet(list, $("#exnpType").val(), $("#corpType").val());
             }
         }
 

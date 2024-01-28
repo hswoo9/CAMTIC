@@ -157,6 +157,7 @@
 
 <input type="hidden" id="requestType" value="${params.requestType}" />
 <input type="hidden" id="cardBaNb" value="${params.cardBaNb}" />
+<input type="hidden" id="corpType" value="${params.corpType}" />
 <script>
     payCardHist.fn_defaultScript();
 

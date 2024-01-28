@@ -73,12 +73,19 @@
     <select id="getDocuOrderList" resultType="map" parameterType="map">
         /* getDocuOrderList */
         SELECT
-            RE.*
+            RE.*,
+            CFI.*
         FROM
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    IDO.*
+                    IDO.*,
+                    CFI.file_org_name,
+                    CFI.file_ext,
+                    CFI.file_size,
+                    IFNULL(CFI.file_no, 0) AS file_no,
+                    CFI.file_path,
+                    CFI.file_uuid
                 FROM
                     CAM_INSIDE.DJ_DOCUMENT_ORDER IDO,
                     (SELECT @ROWNUM := 0) TMP
@@ -100,6 +107,8 @@
                     </choose>
                 ORDER BY IDO.REG_DT
             ) RE
+            LEFT JOIN
+                CAM_COMMON.DJ_FILE_INFO CFI ON RE.DOCUMENT_ORDER_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'order'
         ORDER BY RE.ROW_NUM DESC
     </select>
 
@@ -107,7 +116,7 @@
         /* getDocuContractList */
         SELECT
             RE.*,
-            DFI.*
+            CFI.*
         FROM
             (
                 SELECT
@@ -134,8 +143,8 @@
                     </choose>
                 ORDER BY IDC.REG_DT
             ) RE
-            LEFT JOIN CAM_COMMON.DJ_FILE_INFO DFI
-            ON RE.FILE_SN = DFI.FILE_NO
+            LEFT JOIN
+                CAM_COMMON.DJ_FILE_INFO CFI ON RE.DOCUMENT_ORDER_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'contract'
         ORDER BY RE.ROW_NUM DESC
     </select>
 
