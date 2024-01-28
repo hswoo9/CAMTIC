@@ -934,11 +934,11 @@ var prp = {
             var index = 0;
             read_buffer.SheetNames.forEach(function(sheetName){
                 var rowdata =XLSX.utils.sheet_to_json(read_buffer.Sheets[sheetName]);
-
+                console.log(rowdata);
 
                 for(var i = 0 ; i < rowdata.length ; i++){
-                    $("#purcItemType" + index).data("kendoDropDownList").text(rowdata[index]['구분']);
-                    $("#productA" + index).data("kendoDropDownList").text(rowdata[index]['대분류']);
+                    $("#purcItemType" + index).data("kendoDropDownList").text(rowdata[index]['* 구분']);
+                    $("#productA" + index).data("kendoDropDownList").text(rowdata[index]['* 대분류']);
                     $("#productA" + index).trigger("change");
 
                     if(rowdata[index]['중분류'] != undefined && rowdata[index]['중분류'] != null && rowdata[index]['중분류'] != ""){
@@ -948,11 +948,11 @@ var prp = {
                         $("#productC" + index).data("kendoDropDownList").text(rowdata[index]['소분류']);
                     }
 
-                    $("#purcItemName" + index).val(rowdata[index]['품명']);
-                    $("#purcItemStd" + index).val(rowdata[index]['규격']);
-                    $("#purcItemUnitPrice" + index).val(comma(rowdata[index]['단가']));
-                    $("#purcItemQty" + index).val(rowdata[index]['수량']);
-                    $("#purcItemUnit" + index).val(rowdata[index]['단위']);
+                    $("#purcItemName" + index).val(rowdata[index]['* 품명']);
+                    $("#purcItemStd" + index).val(rowdata[index]['* 규격']);
+                    $("#purcItemUnitPrice" + index).val(comma(rowdata[index]['* 단가']));
+                    $("#purcItemQty" + index).val(rowdata[index]['* 수량']);
+                    $("#purcItemUnit" + index).val(rowdata[index]['* 단위']);
                     $("#purcItemAmt" + index).val(comma(rowdata[index]['금액']));
                     $("#rmk" + index).val(rowdata[index]['비고']);
 
