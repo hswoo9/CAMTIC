@@ -634,6 +634,7 @@ var regPay = {
             const snackInfoSn = $("#snackInfoSn").val();
             var count = 0;
             var fileThumbText = "";
+            var slist = "";
 
             for(let i = 0 ; i < snackInfoSn.toString().split(",").length ; i++){
                 const data = {
@@ -655,8 +656,7 @@ var regPay = {
 
                 var fileResult = customKendo.fn_customAjax("/snack/getFileList", data);
                 var fileList = fileResult.fileList;
-                var slist = "";
-                
+
                 for(let i=0; i<fileList.length; i++){
                     if(slist != ""){
                         slist += ",";
