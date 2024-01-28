@@ -228,7 +228,7 @@
                                                 <c:if test="${l.gradeFile ne null}">
                                                 <td style="cursor: pointer">
                                                   <span onclick="fileDown('${l.gradeFile.file_path}${l.gradeFile.file_uuid}', '${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}')">
-                                                      ${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}
+                                                      ${l.gradeFile.file_org_name}
                                                   </span>
                                                 </td>
                                                 </c:if>
@@ -340,7 +340,7 @@
                                                     <c:if test="${l.addFile ne null}">
                                                     <td style="cursor: pointer">
                                                       <span onclick="fileDown('${l.addFile.file_path}${l.addFile.file_uuid}', '${l.addFile.file_org_name}.${l.addFile.file_ext}')">
-                                                          ${l.addFile.file_org_name}.${l.addFile.file_ext}
+                                                          ${l.addFile.file_org_name}
                                                       </span>
                                                     </td>
                                                     </c:if>
@@ -491,7 +491,7 @@
                                                 <c:if test="${l.certificateAddFile ne null}">
                                                 <td style="cursor: pointer">
                                                   <span onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
-                                                      ${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}
+                                                      ${l.certificateAddFile.file_org_name}
                                                   </span>
                                                 </td>
                                                 </c:if>
@@ -638,7 +638,7 @@
                                                 <c:if test="${l.rewardAddFile ne null}">
                                                 <td style="cursor: pointer">
                                                   <span onclick="fileDown('${l.rewardAddFile.file_path}${l.rewardAddFile.file_uuid}', '${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}')">
-                                                      ${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}
+                                                      ${l.rewardAddFile.file_org_name}
                                                   </span>
                                                 </td>
                                                 </c:if>
