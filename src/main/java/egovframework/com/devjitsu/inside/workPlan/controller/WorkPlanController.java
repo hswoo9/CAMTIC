@@ -177,12 +177,32 @@ public class WorkPlanController {
     }
 
     //유연근무신청 팝업
+    @RequestMapping("/workPlan/getWorkPlanData.do")
+    public String getWorkPlanData(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        model.addAttribute("data", workPlanService.getWorkPlanData(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/workPlan/workPlanApprovalPop.do")
-    public String subHolidayReqPop2(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+    public String workPlanApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
+        if(params.containsKey("workPlanApprovalId")){
+            model.addAttribute("workPlanApprovalData", workPlanService.getWorkPlanData(params));
+        }
         return "popup/workPlan/workPlanApprovalPop";
+    }
+
+    @RequestMapping("/workPlan/workPlanApprovalModPop.do")
+    public String workPlanApprovalViewPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        if(params.containsKey("workPlanApprovalId")){
+            model.addAttribute("workPlanApprovalId", params.get("workPlanApprovalId"));
+        }
+        return "popup/workPlan/workPlanApprovalModPop";
     }
 
     //근무타임코드
@@ -238,6 +258,18 @@ public class WorkPlanController {
         }
         model.addAttribute("resultCode", resultCode);
         model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    @RequestMapping(value = "/workPlan/deleteWorkPlanData")
+    public String deleteWorkPlanData(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        workPlanService.deleteWorkPlanData(params);
+        return "jsonView";
+    }
+
+    @RequestMapping(value = "/workPlan/updateWorkPlan")
+    public String updateWorkPlan(@RequestParam Map<String, Object> params, HttpServletResponse response, Model model){
+        model.addAttribute("ds", workPlanService.updateWorkPlan(params));
         return "jsonView";
     }
 }

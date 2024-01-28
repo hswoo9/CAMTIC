@@ -36,7 +36,7 @@ var workPlanApprovalPop = {
 
         $("#workReason").kendoTextArea({ rows: 5, maxLength:2000, placeholder: "" });
 
-
+        $(".defaultVal").attr("disabled", "disabled");
     },
 
     fn_save : function(){
@@ -48,7 +48,8 @@ var workPlanApprovalPop = {
             startDate : $("#startDate").val(),
             endDate : $("#endDate").val(),
             apprStat : "N",
-            regEmpSeq : $("#empSeq").val()
+            regEmpSeq : $("#empSeq").val(),
+            workReason : $("#workReason").val()
         }
 
         var ds = customKendo.fn_customAjax("/workPlan/setWorkPlan", saveData);
@@ -56,6 +57,9 @@ var workPlanApprovalPop = {
             if(ds.ds != null){
                 alert(ds.ds.message);
                 if(ds.ds.code == "success"){
+                    if(window.opener.fn_gridReload){
+                        window.opener.fn_gridReload();
+                    }
                     window.close();
                 }else{
 

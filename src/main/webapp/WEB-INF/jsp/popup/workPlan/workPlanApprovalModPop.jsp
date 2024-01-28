@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
+    .k-state-disabled{
+        color :black !important;
+        opacity : 1 !important;
+    }
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
@@ -15,7 +19,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">유연근무신청</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info request" id="saveBtn" onclick="workPlanApprovalPop.fn_save();">저장</button>
+                <button type="button" class="k-button k-button-solid-info request" id="modifyBtn" onclick="workPlanApprovalModPop.fn_modify();">수정</button>
                 <button type='button' class='k-button k-button-md k-button-solid k-button-solid-info drafting' onclick='' style="display: none">
                     <span class='k-icon k-i-track-changes-accept k-button-icon'></span>
                     <span class='k-button-text'>상신</span>
@@ -89,13 +93,13 @@
                     <th scope="row" class="text-center th-color">신청기간</th>
                     <td colspan="3">
                         <input type="text" id="startDate" style="width: 20%;"> ~ <input type="text" id="endDate" style="width: 20%;">
-                        <span style="color : red;margin-left: 10px;">* 선택근로제도 운영기준 최소 1주일 ~ 최대 1개월 단위로 신청</span>
+                        <span class="tipSpan" style="color : red;margin-left: 10px;">* 선택근로제도 운영기준 최소 1주일 ~ 최대 1개월 단위로 신청</span>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">신청일</th>
                     <td colspan="3">
-                        <input type="date" id="applyDate" style="width: 20%;"><span style="margin-left: 10px;">(선택근로 시작 3일전까지 부서장 승인)</span>
+                        <input type="date" id="applyDate" style="width: 20%;"><span class="tipSpan" style="margin-left: 10px;">(선택근로 시작 3일전까지 부서장 승인)</span>
                     </td>
                 </tr>
                 </thead>
@@ -111,8 +115,8 @@
     <input type="hidden" id="subHolidayId" name="subHolidayId" value=""/>
 </form>
 
-<script type="text/javascript" src="/js/intra/inside/workPlan/workPlanApprovalPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/workPlan/workPlanApprovalModPop.js?v=${today}"></script>
 <script>
-    workPlanApprovalPop.init();
+    workPlanApprovalModPop.init('${workPlanApprovalId}', '${popType}');
 </script>
 </body>

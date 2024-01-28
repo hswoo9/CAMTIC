@@ -40,4 +40,8 @@
 
 <script type="text/javascript">
     workPlanUser.init();
+
+    function fn_gridReload(){
+        workPlanUser.fn_gridReload();
+    }
 </script>

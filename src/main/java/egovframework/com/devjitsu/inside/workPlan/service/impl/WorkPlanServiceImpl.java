@@ -143,6 +143,28 @@ public class WorkPlanServiceImpl implements WorkPlanService {
     }
 
     @Override
+    public Map<String, Object> updateWorkPlan(Map<String, Object> params) {
+        Map<String, Object> resultMap = new HashMap<>();
+        String code = "";
+        String message = "";
+        try{
+            int insertCheck = workPlanRepository.updateWorkPlan(params);
+            if(insertCheck > 0){
+                workPlanRepository.delWorkPlanDetail(params);
+                workPlanRepository.setWorkPlanDetail(params);
+                code = "success";
+                message = "처리되었습니다.";
+            }
+        }catch (Exception e){
+            code = "fail";
+            message = e.getMessage();
+        }
+        resultMap.put("code", code);
+        resultMap.put("message", message);
+        return resultMap;
+    }
+
+    @Override
     public void workPlanUserApp(Map<String, Object> bodyMap) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));
@@ -202,5 +224,15 @@ public class WorkPlanServiceImpl implements WorkPlanService {
             params.put("adminStatus", "Y");
             workPlanRepository.workPlanAdminApp(params);
         }
+    }
+
+    @Override
+    public void deleteWorkPlanData(Map<String, Object> params) {
+        workPlanRepository.deleteWorkPlanData(params);
+    }
+
+    @Override
+    public Map<String, Object> getWorkPlanData(Map<String, Object> params) {
+        return workPlanRepository.getWorkPlanData(params);
     }
 }
