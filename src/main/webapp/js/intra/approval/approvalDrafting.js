@@ -100,7 +100,7 @@ var draft = {
                 }else{
                     draft.global.readersArr = [];
                     $("#readerName").val("");
-                    $("#readerTr").hide();
+                    // $("#readerTr").hide();
                 }
             }
         });

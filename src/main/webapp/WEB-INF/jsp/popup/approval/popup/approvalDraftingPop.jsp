@@ -187,7 +187,7 @@
                     <input type="text" id="receiverName" name="receiverName" class="k-input k-textbox k-input-solid k-input-md">
                 </td>
             </tr>
-            <tr class="text-right" id="readerTr" style="display: none;">
+            <tr class="text-right" id="readerTr">
                 <th class="th-color">열람자</th>
                 <td style="border-right: none">
                     <input type="text" id="readerName" name="readerName" class="k-input k-textbox k-input-solid k-input-md" onclick="draft.readerSelectPopup()" readonly>

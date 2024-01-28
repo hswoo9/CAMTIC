@@ -680,16 +680,17 @@ var hwpDocCtrl = {
         }
 
         if($("#formId").val() == "1"){
+            hwpDocCtrl.global.HwpCtrl.EditMode = 1
             const draftEmpSeq = $("#empSeq").val();
             const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
             hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
             hwpDocCtrl.putFieldText('EMP_TEL', empInfo.OFFICE_TEL_NUM == undefined ? "" : empInfo.OFFICE_TEL_NUM);
             hwpDocCtrl.putFieldText('EMP_FAX', empInfo.HOME_TEL_NUM == undefined ? "" : ("/"+ empInfo.HOME_TEL_NUM));
             hwpDocCtrl.putFieldText('DOC_DT', fn_getNowDate(3));
+        }else{
+            /** 결재선 자동 입력 프로세스 */
+            approvalLine.linkStart();
         }
-
-        /** 결재선 자동 입력 프로세스 */
-        approvalLine.linkStart();
     },
 
     modDataSet : function() {
@@ -1099,6 +1100,8 @@ var hwpDocCtrl = {
         hwpDocCtrl.global.HwpCtrl.ShowCaret(false);
         hwpDocCtrl.global.HwpCtrl.ShowStatusBar(false);
         hwpDocCtrl.global.HwpCtrl.SetFieldViewOption(1);
+
+        hwpDocCtrl.viewDataSet();
     },
 
 

@@ -99,7 +99,10 @@ var rbd = {
 	},
 
 	listPageMove : function(){
-		open_in_frame('/spot/requestBoardList.do?requestType=' + $("#requestType").val());
+		var url = '/spot/requestBoardList.do?requestType=' + $("#requestType").val() + "&page=" + $("#page").val() + "&status=" + $("#searchStatus").val() + "&startDt=" + $("#startDt").val()
+			+ "&endDt=" + $("#endDt").val() + "&empName=" + $("#searchEmpName").val() + "&searchColumn=" + $("#searchColumn").val() + "&searchContent=" + $("#searchContent").val();
+
+		open_in_frame(url);
 	},
 
 	getArticleReplyGrid : function(){

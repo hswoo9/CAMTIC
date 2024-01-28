@@ -172,7 +172,7 @@ var formM = {
                 }else{
                     formM.global.readerArr = [];
                     $("#readerName").val("");
-                    $("#readerTr").hide();
+                    // $("#readerTr").hide();
                 }
             }
         });

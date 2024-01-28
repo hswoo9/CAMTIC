@@ -10,8 +10,9 @@ var hwpApprovalLine = {
             hwpDocCtrl.putFieldText('docApprNm0', "기안자");
 
             let list = draft.global.approversArr;
+            console.log("approversArr", draft.global.approversArr)
             let count = 0;
-            for(let i=0; i<list.length; i++){
+            for(let i=1; i<list.length; i++){
                 const map = list[i];
                 if(map.approveType == "0" || map.approveType == "2"){
                     count += 1;
@@ -66,7 +67,7 @@ var hwpApprovalLine = {
         console.log("----- 양식 사인 세팅 -----");
 
         if(formId == "1"){
-            let list =docView.global.rs.approveRoute;
+            let list = docView.global.rs.approveRoute;
 
             let DText = "";
             for (let i = 0; i < list.length; i++) {
@@ -90,9 +91,8 @@ var hwpApprovalLine = {
                 if(map.APPROVE_STAT_CODE == 10 || (String(map.DRAFT_EMP_SEQ) == String(map.LAST_APPROVE_EMP_SEQ))){
                     let field = "docAppr0";
                     hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
-                }
 
-                if(map.APPROVE_TYPE == "0" || map.APPROVE_TYPE == "2"){
+                }else if(map.APPROVE_TYPE == "0" || map.APPROVE_TYPE == "2"){
 
                     if(map.APPROVE_DUTY_NAME == "팀장"){
                         let field = "docAppr1";
