@@ -4,6 +4,8 @@ import egovframework.com.devjitsu.cam_manager.repository.ManageRepository;
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalUserRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
+import egovframework.com.devjitsu.inside.history.repository.HistoryRepository;
+import egovframework.com.devjitsu.inside.history.service.HistoryService;
 import egovframework.expend.common.helper.convert.CommonConvert;
 import egovframework.expend.common.helper.exception.CommonException;
 import egovframework.expend.common.helper.info.CommonInfo;
@@ -30,6 +32,9 @@ public class SchedulerService {
 
     @Autowired
     private ApprovalUserRepository approvalUserRepository;
+
+    @Autowired
+    private HistoryService historyService;
 
     @Autowired
     private G20Repository g20Repository;
@@ -85,4 +90,8 @@ public class SchedulerService {
         }
     }
 
+    public void appointmentEmpInfoUpd(){
+        Map<String, Object> params = new HashMap<>();
+        historyService.appointmentEmpInfoUpd(params);
+    }
 }
