@@ -572,5 +572,58 @@
             REWORD_ID = #{rewordId}
     </update>
 
+    <select id="appointmentNowList" parameterType="map" resultType="map">
+        /* appointmentNowList */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_APNT_INFO
+        WHERE
+            APNT_YN = 'N'
+        <![CDATA[
+        AND
+            DATE_FORMAT(HISTORY_DT, '%Y-%m-%d') <= DATE_FORMAT(NOW(), '%Y-%m-%d')
+        ]]>
+    </select>
+    <update id="appointmentEmpInfoUpd" parameterType="map">
+        /* appointmentEmpInfoUpd */
+        UPDATE
+            CAM_HR.DJ_EMP_INFO A
+        SET
+            <if test='afTeamSeq != null and !"".equals(afTeamSeq)'>
+                A.DEPT_SEQ = #{afTeamSeq},
+            </if>
+            <if test='afDeptName != null and !"".equals(afDeptName)'>
+                A.DEPT_NAME = #{afDeptName},
+            </if>
+            <if test='afTeamName != null and !"".equals(afTeamName)'>
+                A.DEPT_TEAM_NAME = #{afTeamName},
+            </if>
+            <if test='afPositionCode != null and !"".equals(afPositionCode)'>
+                A.POSITION_CODE = #{afPositionCode},
+            </if>
+            <if test='afPositionName != null and !"".equals(afPositionName)'>
+                A.POSITION_NAME = TRIM(SUBSTRING_INDEX(#{afPositionName}, '/', 1)),
+                A.GRADE_NAME = TRIM(SUBSTRING_INDEX(#{afPositionName}, '/', -1)),
+            </if>
+            <if test='afDutyCode != null and !"".equals(afDutyCode)'>
+                A.DUTY_CODE = #{afDutyCode},
+            </if>
+            <if test='afDutyName != null and !"".equals(afDutyName)'>
+                A.DUTY_NAME = #{afDutyName},
+            </if>
+            A.JOB_DETAIL = #{afJobDetail}
+        WHERE
+            A.EMP_SEQ = #{empSeq}
+    </update>
 
+    <update id="appointmentComplete" parameterType="map">
+        /* appointmentComplete */
+        UPDATE
+            CAM_HR.DJ_APNT_INFO AI
+        SET
+            APNT_YN = 'Y'
+        WHERE
+            APNT_SN = #{apntSn}
+    </update>
 </mapper>

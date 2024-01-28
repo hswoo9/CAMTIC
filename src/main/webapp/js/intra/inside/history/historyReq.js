@@ -118,6 +118,14 @@ var historyList = {
                 {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyList.appointProcessing();">' +
+                            '	<span class="k-button-text">수동발령처리</span>' +
+                            '</button>';
+                    }
+                },
+                {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="historyList.historyReqPop();">' +
                             '	<span class="k-button-text">인사발령등록</span>' +
                             '</button>';
@@ -226,6 +234,15 @@ var historyList = {
         }
 
         historyList.mainGrid("/inside/getHistoryList", historyList.global.searchAjaxData);
+    },
+
+    appointProcessing : function(){
+        if(confirm("발령처리하시겠습니까?\n발령 일자가 이전 날짜와 금일인 건에 대해서 처리할 수 있습니다.")){
+            var result = customKendo.fn_customAjax("/inside/appointProcessing",{});
+            if(result.flag){
+                alert("처리되었습니다.");
+            }
+        }
     },
 
     historyReqPop: function(mode, pk){
