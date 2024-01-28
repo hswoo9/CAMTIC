@@ -12,6 +12,14 @@ var rbr = {
 	fnDefaultScript : function(params){
 		rbr.global.params = params;
 		$("#requestType").val(rbr.global.params.requestType);
+		$("#page").val(rbr.global.params.page);
+		$("#searchStatus").val(rbr.global.params.status);
+		$("#startDt").val(rbr.global.params.startDt);
+		$("#endDt").val(rbr.global.params.endDt);
+		$("#searchEmpName").val(rbr.global.params.empName);
+		$("#searchColumn").val(rbr.global.params.searchColumn);
+		$("#searchContent").val(rbr.global.params.searchContent);
+
 		if(rbr.global.params.requestType == "R"){
 			$(".panel-title").text("전산시스템 구축 수정사항");
 			$(".title-road").text("캠스팟 > 캠스팟 > 전산시스템 구축 수정사항");
@@ -86,7 +94,7 @@ var rbr = {
 
 			if(result.flag){
 				alert("게시글이 등록되었습니다.");
-				open_in_frame("/spot/requestBoardList.do?requestType=" + $("#requestType").val());
+				rbr.listPageMove();
 			}else{
 				alert("게시글 등록 중 오류가 발생했습니다.");
 			}
@@ -94,7 +102,10 @@ var rbr = {
 	},
 
 	listPageMove : function(){
-		open_in_frame("/spot/requestBoardList.do?requestType=" + $("#requestType").val());
+		var url = '/spot/requestBoardList.do?requestType=' + $("#requestType").val() + "&page=" + $("#page").val() + "&status=" + $("#searchStatus").val() + "&startDt=" + $("#startDt").val()
+			+ "&endDt=" + $("#endDt").val() + "&empName=" + $("#searchEmpName").val() + "&searchColumn=" + $("#searchColumn").val() + "&searchContent=" + $("#searchContent").val();
+
+		open_in_frame(url);
 	},
 
 	settingTempFileDataInit: function(e){

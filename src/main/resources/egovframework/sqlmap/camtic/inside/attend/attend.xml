@@ -810,6 +810,6 @@
                 AND sm.APPLY_SEQ IN ((SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ${searchKeyword} LIKE CONCAT('%', #{searchValue} ,'%')))
             </if>
         </if>
-        ORDER BY ROW_NUM DESC
+        ORDER BY sm.APPLY_DATE DESC
     </select>
 </mapper>

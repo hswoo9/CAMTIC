@@ -236,6 +236,7 @@ public class CustomBoardController {
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI() + "?" + request.getQueryString());
         model.addAttribute("params", params);
+        model.addAttribute("queryParams", new Gson().toJson(params));
 
         return "camspot/requestBoard/requestBoardList";
     }
