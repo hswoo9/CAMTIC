@@ -483,7 +483,18 @@ public class CrmServiceImpl implements CrmService {
 
     @Override
     public List<Map<String, Object>> getCrmHistDetailList(Map<String, Object> params) {
-        return crmRepository.getCrmHistList(params);
+        List<Map<String, Object>> result = crmRepository.getCrmHistList(params);
+
+        Map<String, Object> cuid = crmRepository.getCUIDOne(params);
+
+        if(cuid != null){
+            Map<String, Object> map = new HashMap<>();
+            map.put("cuid", cuid.get("CUID"));
+            List<Map<String, Object>> addList = crmRepository.getCrmOldHistList(map);
+            result.addAll(addList);
+        }
+
+        return result;
     }
 
     @Override
