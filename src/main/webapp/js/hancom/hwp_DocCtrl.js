@@ -685,7 +685,7 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
             hwpDocCtrl.putFieldText('EMP_TEL', empInfo.OFFICE_TEL_NUM == undefined ? "" : empInfo.OFFICE_TEL_NUM);
             hwpDocCtrl.putFieldText('EMP_FAX', empInfo.HOME_TEL_NUM == undefined ? "" : ("/"+ empInfo.HOME_TEL_NUM));
-            hwpDocCtrl.putFieldText('DOC_DT', fn_getNowDate(3));
+            hwpDocCtrl.putFieldText('DOC_DT', '('+fn_getNowDate(3) + ')');
         }
 
         /** 결재선 자동 입력 프로세스 */
