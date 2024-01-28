@@ -1199,14 +1199,14 @@
                 AND MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
-                AND PCI.PURC_ITEM_NAME LIKE CONCAT('%',#{searchValue},'%')
+                AND PCI.ITEM_NM LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <otherwise>
                 AND
                 (
                 DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
                 MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
-                PCI.PURC_ITEM_NAME LIKE CONCAT('%',#{searchValue},'%')
+                PCI.ITEM_NM LIKE CONCAT('%',#{searchValue},'%')
                 )
             </otherwise>
         </choose>
