@@ -23,8 +23,10 @@ function linkageProcessOn(params, target){
 	if(params.linkageProcessCode == "camticDelv"){
 		window.open(url, "_self", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
 	}else if(params.type == "reDrafting" || target == "target") {
-		window.open(url, "_target", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
-	}else {
+        window.open(url, "_target", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
+    } else if (params.type == "tempDrafting") {
+        window.open(url, "_blank", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
+    } else {
 		window.open(url, "_self", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
 	}
 }
