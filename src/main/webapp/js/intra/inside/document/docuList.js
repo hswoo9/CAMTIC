@@ -111,7 +111,7 @@ var docuContractList = {
                     title: "계약 번호",
                     width: "8%",
                     template: function(row) {
-                        return row.DOCU_NO;
+                        return row.DOCU_YEAR_SN+"-"+row.DOCU_NO;
                     }
                 }, {
                     field: "DOCU_DE",
@@ -131,7 +131,10 @@ var docuContractList = {
                     attributes: { style: "text-align: right" },
                     template : function(e) {
                         if(e.PROJECT_MONEY != null){
-                           return e.PROJECT_MONEY.toString().toMoney() + " " +"원";
+                            var originalNumber = e.PROJECT_MONEY;
+                            var convertedNumber = Math.round(originalNumber / 1000);
+
+                           return convertedNumber.toString().toMoney() + " " +"원";
                         }else{
                             return "";
                         }

@@ -646,12 +646,14 @@
         INSERT INTO CAM_APPROVAL.DJ_APPROVAL_MNG
             (
                 FORM_ID,
-                APPROVAL_TYPE
+                APPROVAL_TYPE,
+                COPPER_EMP_SEQ
             )
         VALUES
             (
                 #{formId},
-                #{approvalType}
+                #{approvalType},
+                #{otherEmpSeq}
             )
         <selectKey keyProperty="approvalMngSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_APPROVAL' AND TABLE_NAME = 'DJ_APPROVAL_MNG'
@@ -664,7 +666,8 @@
             CAM_APPROVAL.DJ_APPROVAL_MNG
         SET
             FORM_ID = #{formId},
-            APPROVAL_TYPE = #{approvalType}
+            APPROVAL_TYPE = #{approvalType},
+            COPPER_EMP_SEQ = #{otherEmpSeq}
         WHERE
             APPROVAL_MNG_SN = #{approvalMngSn}
     </update>

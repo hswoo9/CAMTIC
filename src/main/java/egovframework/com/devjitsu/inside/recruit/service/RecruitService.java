@@ -51,4 +51,6 @@ public interface RecruitService {
 
     List<Map<String, Object>> getApplicationCareer(Map<String, Object> params);
 
+    List<Map<String, Object>> getRecruitHistList(Map<String, Object> params);
+
 }

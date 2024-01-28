@@ -1311,4 +1311,22 @@ public class RecruitController {
         return "popup/inside/recruit/recruitTmpform";
     }
 
+    /**
+     * 채용이력 리스트 페이지(평가위원)
+     */
+    @RequestMapping("/recruitHist/recruitHist.do")
+    public String recruitHist(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "inside/recruit/recruitHist";
+    }
+    @RequestMapping("/inside/getRecruitHistList")
+    public String getRecruitHistList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", recruitService.getRecruitHistList(params));
+        return "jsonView";
+    }
+
 }

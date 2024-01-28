@@ -30,6 +30,7 @@ var normalArticleDetail = {
 				$("#articleModBtn").show();
 			}else if(isAdmin){
 				$("#articleDelBtn").show();
+				$("#articleModBtn").show();
 			}
 
 			var boardTitle = "";

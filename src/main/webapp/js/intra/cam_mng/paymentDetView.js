@@ -253,6 +253,7 @@ var payDetView = {
                     title: "",
                     width: 80,
                     template: function(e){
+                        console.log(e);
                         return '<button type="button" class="k-button k-button-solid-base" ' +
                             'onclick="payDetView.fn_selClientInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\', \'' + e.JIRO_NM + '\', \'' + e.CEO_NM + '\', \'' + e.REG_NB + '\')" style="font-size: 12px);">' +
                             '   선택' +

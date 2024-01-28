@@ -444,6 +444,26 @@
 									</tbody>
 								</table>
 							</div>
+
+							<table class="searchTable table table-bordered" style="width: 99%">
+								<colgroup>
+									<col width="20%">
+									<col width="33%">
+								</colgroup>
+								<tbody>
+								<tr>
+									<th style="text-align: left">
+										협조 설정
+									</th>
+									<td colspan="3">
+										<input id="other_emp" name="other_emp" class="defaultVal" style="width: 30%;" disabled>
+										<input type="hidden" id="otherEmpSeq">
+										<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_userMultiSelectPop()">검색</button>
+										<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="formM.dataClear();">선택 초기화</button>
+									</td>
+								</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -454,4 +474,20 @@
 
 <script>
 	formM.fnDefaultScript();
+
+	function userDataSet(userArr) {
+		console.log("userArr", userArr);
+		let other_emp = "";
+		let otherEmpSeq = "";
+		for(let i=0; i < userArr.length; i++) {
+			/*console.log(userArr[0].empName);*/
+			if(other_emp != ""){
+				other_emp += ", ";
+			}
+			other_emp += userArr[i].empName;
+			otherEmpSeq += userArr[i].empSeq;
+		}
+		$("#other_emp").val(other_emp);
+		$("#otherEmpSeq").val(otherEmpSeq);
+	}
 </script>

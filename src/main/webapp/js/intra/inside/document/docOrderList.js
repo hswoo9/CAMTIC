@@ -114,7 +114,7 @@ var docuOrderList = {
                         return row.DOCU_YEAR_SN+"-"+row.DOCU_NO;
                     }
                 }, {
-                    field: "",
+                    field: "COUNSEL_CODE",
                     title: "상품화 코드",
                     width: "10%"
                 }, {
@@ -129,9 +129,18 @@ var docuOrderList = {
                         return titleCut(row.PROJECT_NAME, 28);
                     }
                 }, {
-                    field: "PROJECT_MONEY",
                     title: "계약 금액",
-                    width: "10%"
+                    width: "10%",
+                    template: function(row) {
+                        if(row.PROJECT_MONEY != null){
+                            var originalNumber = row.PROJECT_MONEY;
+                            var convertedNumber = Math.round(originalNumber / 1000);
+                            return convertedNumber.toString().toMoney() + " " +"원";
+                        }else{
+                            return "";
+                        }
+                    }
+
                 }, {
                     title: "계약 기간",
                     width: "13%",
@@ -152,6 +161,11 @@ var docuOrderList = {
                     width: "5%"
                 }]
         }).data("kendoGrid");
+    },
+
+    comma: function(str) {
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
     },
 
     docOrderPopup: function(){
