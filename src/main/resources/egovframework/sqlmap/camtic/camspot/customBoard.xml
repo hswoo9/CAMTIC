@@ -465,6 +465,10 @@
             RB.ACTIVE = 'Y'
         AND
             RB.REQUEST_TYPE = #{requestType}
+        <if test='empName != null and !"".equals(empName)'>
+        AND
+            EI.EMP_NAME_KR LIKE CONCAT('%', #{empName} ,'%')
+        </if>
         <if test='status != null and !"".equals(status)'>
         AND
             RB.STATUS = #{status}

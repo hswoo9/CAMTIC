@@ -147,5 +147,5 @@
 <script>
 	var isAdmin = "${isAdmin}" == "true" ? true : false;
 
-    rbl.fnDefaultScript();
+    rbl.fnDefaultScript(JSON.parse('${queryParams}'));
 </script>

@@ -3,7 +3,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=4'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cams_pot/requestBoard/requestBoardDetail.js?v=4'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cams_pot/requestBoard/requestBoardDetail.js?v=5'/>"></script>
 <style>
 	.k-drag-clue, .k-grid-header, .k-grouping-header, .k-header, .k-menu, .k-panelbar>.k-panelbar-header>.k-link, .k-progressbar, .k-state-highlight, .k-tabstrip, .k-tabstrip-items .k-item, .k-toolbar {
 		background-color: #f0f0f0 !important;
@@ -64,6 +64,14 @@
 				<input type="hidden" id="empName" name="empName" value="${loginVO.name}">
 				<input type="hidden" id="requestBoardId" name="requestBoardId" value="${params.requestBoardId}">
 				<input type="hidden" id="requestType" name="requestType" value="${params.requestType}">
+
+				<input type="hidden" id="page" name="page" value="${params.page}">
+				<input type="hidden" id="searchStatus" name="searchStatus" value="${params.status}">
+				<input type="hidden" id="startDt" name="startDt" value="${params.startDt}">
+				<input type="hidden" id="endDt" name="endDt" value="${params.endDt}">
+				<input type="hidden" id="searchEmpName" name="searchEmpName" value="${params.empName}">
+				<input type="hidden" id="searchColumn" name="searchColumn" value="${params.searchColumn}">
+				<input type="hidden" id="searchContent" name="searchContent" value="${params.searchContent}">
 
 				<table class="searchTable table table-bordered mb-0" style="border: 1px solid #dedfdf;" id="boardContentTable">  <%-- table mb-0 --%>
 					<colgroup>
