@@ -347,23 +347,22 @@
         if (ds.flag) {
             var data = ds.list;
             for (var a = 0; a < data.length; a++) {
-                var start = ds.list[a].startDate;
-                var end = ds.list[a].endDate;
+                var start = ds.list[a].startDate == null ? ds.list[a].start : ds.list[a].startDate;
+                var end = ds.list[a].endDate == null ? ds.list[a].end : ds.list[a].endDate;
                 var id = ds.list[a].SCHEDULE_BOARD_ID;
                 //날짜비교
-                if (end >= start) {
-                    for (var i = start; i <= end; i++) {
-
-                        var pushData = {
-                            name: "offer",
-                            date: i,
-                            id : id
-                        };
-                        calendarData.push(pushData);
-                    }
+                var lastDate = new Date(end);
+                var curDate = new Date(start);
+                while(curDate <= lastDate) {
+                    var pushData = {
+                        name: "offer",
+                        date: curDate.getFullYear() + "-" + ("0" + (curDate.getMonth() + 1)).slice(-2) + "-" +  ("0" + curDate.getDate()).slice(-2),
+                        id : id
+                    };
+                    calendarData.push("pushData", pushData);
+                    curDate.setDate(curDate.getDate() + 1);
                 }
             }
-
         }
         $('.year-calendar').pignoseCalendar({
             scheduleOptions: {
@@ -521,7 +520,6 @@
         let html = "";
 
         data.forEach((item, index) => {
-            console.log(item);
             html += '' +
                 '<li style="border-top:0; border-bottom:0;">' +
                 '<div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">' +
@@ -552,18 +550,15 @@
         }
 
         var result = customKendo.fn_customAjax("/spot/getScheduleList.do", data);
-        console.log(result);
         if(result.flag){
             var html = "";
 
             result.list.sort(function(a, b) {
                 return new Date(b.start) - new Date(a.start);
             });
-
             if (result.list.length > 0){
                 var recentPosts = result.list.slice(0, 3);
                 for (var i = 0; i < recentPosts.length; i++) {
-                    console.log(recentPosts);
                     var article  = result.list[i];
                     var scheduleTypeList = {
                         "EV": "행사",
@@ -678,7 +673,6 @@
 
         if(data.length > 0){
             data.forEach((item, index) => {
-                console.log(item);
                 html += '' +
                     '<div style="padding: 10px 25px; display:flex; justify-content: space-between; border-top: 1px solid #eee;">' +
                     '<div style="display:flex;">' +

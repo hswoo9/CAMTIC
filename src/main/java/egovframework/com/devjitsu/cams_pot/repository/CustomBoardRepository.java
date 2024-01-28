@@ -24,6 +24,8 @@ public class CustomBoardRepository extends AbstractDAO {
 	public List<Map<String, Object>> getScheduleList(Map<String, Object> params) { return selectList("cb.getScheduleList", params);}
 	public List<Map<String, Object>> getBustripScheduleList(Map<String, Object> params) { return selectList("cb.getBustripScheduleList", params);}
 	public List<Map<String, Object>> getCompanionScheduleList(String params) { return selectList("cb.getCompanionScheduleList", params);}
+	public List<Map<String, Object>> getHoliDayScheduleList(Map<String, Object> params) { return selectList("cb.getHoliDayScheduleList", params);}
+	public List<Map<String, Object>> getEmpNowYearBdayList(Map<String, Object> params) { return selectList("cb.getEmpNowYearBdayList", params);}
 	public List<Map<String, Object>> getTodayScheduleList(Map<String, Object> params) { return selectList("cb.getTodayScheduleList", params);}
 	public List<Map<String, Object>> getBoardFileInfo(Map<String, Object> params) { return selectList("cb.getBoardFileInfo", params);}
 	public void setScheduleReg(Map<String, Object> params) { insert("cb.setScheduleReg", params);}
@@ -49,7 +51,8 @@ public class CustomBoardRepository extends AbstractDAO {
 	public Object getMainScheduleListCnt(ArticlePage articlePage) {
 		return (int) selectOne("cb.getMainScheduleListCnt", articlePage);
 	}
-
+	public int getEmpScheduleListCnt(ArticlePage articlePage) {return (int) selectOne("cb.getEmpScheduleListCnt", articlePage);}
 	public List<Map<String, Object>> getCustomSchedules(Map<String, Object> params) { return selectList("cb.getCustomSchedules", params);}
+	public List<PostResponse> getEmpScheduleList(ArticlePage articlePage) { return selectList("cb.getEmpScheduleList", articlePage);}
 
 }

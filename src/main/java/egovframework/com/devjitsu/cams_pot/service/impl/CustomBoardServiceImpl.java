@@ -102,13 +102,15 @@ public class CustomBoardServiceImpl implements CustomBoardService {
         if(!publicClass.equals("CS")){
             List<Map<String, Object>> addBustripList = customBoardRepository.getBustripScheduleList(params);
             result.addAll(addBustripList);
-
+            result.addAll(customBoardRepository.getHoliDayScheduleList(params));
+            result.addAll(customBoardRepository.getEmpNowYearBdayList(params));
             for (Map<String, Object> map : addBustripList) {
                 List<Map<String, Object>> tempList = customBoardRepository.getCompanionScheduleList(map.get("hrBizReqId").toString());
                 if (tempList != null) {
                     result.addAll(tempList);
                 }
             }
+
         }
 
         return result;
@@ -265,14 +267,24 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     public PagingResponse<PostResponse> getMainScheduleList(ArticlePage articlePage) {
         List<PostResponse> list = new ArrayList<>();
 
-        int count = (int) customBoardRepository.getMainScheduleListCnt(articlePage);
+        int count = 0;
+        if(articlePage.getPublicClass().equals("ES")){
+            count = (int) customBoardRepository.getEmpScheduleListCnt(articlePage);
+        }else{
+            count = (int) customBoardRepository.getMainScheduleListCnt(articlePage);
+        }
+
         if (count < 1) {
             return new PagingResponse<>(Collections.emptyList(), null);
         }
         Pagination pagination = new Pagination(count, articlePage);
         articlePage.setPagination(pagination);
 
-        list = customBoardRepository.getMainScheduleList(articlePage);
+        if(articlePage.getPublicClass().equals("ES")){
+            list = customBoardRepository.getEmpScheduleList(articlePage);
+        }else{
+            list = customBoardRepository.getMainScheduleList(articlePage);
+        }
 
         return new PagingResponse<>(list, pagination);
     }

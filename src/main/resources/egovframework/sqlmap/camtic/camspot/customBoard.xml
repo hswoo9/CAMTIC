@@ -296,6 +296,44 @@
             b.HR_BIZ_REQ_ID = #{hrBizReqId}
     </select>
 
+    <select id="getHoliDayScheduleList" parameterType="map" resultType="map">
+        /* getHoliDayScheduleList */
+        SELECT
+            CONCAT('[', VCD.SUBHOLIDAY_DT_CODE_NM, ']', DEI.EMP_NAME_KR) as title,
+            CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_ST_TIME, '')) as start,
+            CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_EN_TIME, '')) as end
+        FROM
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
+        JOIN
+            CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
+        JOIN
+            CAM_HR.DJ_EMP_INFO DEI
+        ON VUH.REG_EMP_SEQ = DEI.EMP_SEQ
+        WHERE
+            VUH.APPR_STAT = 'Y'
+        AND
+            VUH.SUBHOLIDAY_CODE_ID != '11'
+    </select>
+
+    <select id="getEmpNowYearBdayList" parameterType="map" resultType="map">
+        /* getEmpNowYearBirthdayList */
+        SELECT
+            CONCAT('[생일]', DEI.EMP_NAME_KR) as title,
+            CONCAT(DATE_FORMAT(NOW(), '%Y-'), DATE_FORMAT(DEI.BDAY, '%m-%d')) as start,
+            CONCAT(DATE_FORMAT(NOW(), '%Y-'), DATE_FORMAT(DEI.BDAY, '%m-%d')) as end
+        FROM
+            CAM_HR.DJ_EMP_INFO DEI
+        WHERE
+            DEI.WORK_STATUS_CODE = 'Y'
+        AND
+            DEI.ACTIVE = 'Y'
+        AND
+            DEI.BDAY IS NOT NULL
+        AND
+            DEI.BDAY != ''
+        ORDER BY DEI.BDAY DESC
+    </select>
+
     <select id="getTodayScheduleList" parameterType="map" resultType="map">
         /* getTodayScheduleList */
         SELECT
@@ -781,4 +819,139 @@
             ACTIVE = 'Y'
     </select>
 
+    <select id="getEmpScheduleListCnt" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*getMainScheduleListCnt*/
+        SELECT
+            count(*)
+        FROM (
+            SELECT
+                HR_BIZ_REQ_ID,
+                '출장' AS SCHEDULE_TYPE,
+                CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
+                EMP_NAME AS REG_EMP_NAME,
+                CONCAT(DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d'), ' ', TRIP_TIME_FR) as start,
+                CONCAT(DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d'), ' ', TRIP_TIME_TO) as end
+            FROM
+                CAM_INSIDE.DJ_HR_BIZ_REQ A
+            JOIN
+                CAM_HR.DJ_EMP_INFO DEI
+            ON A.EMP_SEQ = DEI.EMP_SEQ
+            WHERE
+                STATUS = 100
+            UNION ALL
+            SELECT
+                '',
+                VCD.SUBHOLIDAY_DT_CODE_NM AS SCHEDULE_TYPE,
+                CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
+                DEI.EMP_NAME_KR AS REG_EMP_NAME,
+                CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_ST_TIME, '')) as start,
+                CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_EN_TIME, '')) as end
+            FROM
+                CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
+            JOIN
+                CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD
+            ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
+            JOIN
+                CAM_HR.DJ_EMP_INFO DEI
+            ON VUH.REG_EMP_SEQ = DEI.EMP_SEQ
+            WHERE
+                VUH.APPR_STAT = 'Y'
+            AND
+                VUH.SUBHOLIDAY_CODE_ID != '11'
+            UNION ALL
+            SELECT
+                '',
+                '생일' AS SCHEDULE_TYPE,
+                CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
+                EMP_NAME_KR AS REG_EMP_NAME,
+                CONCAT(DATE_FORMAT(NOW(), '%Y-'), DATE_FORMAT(DEI.BDAY, '%m-%d')) as start,
+                CONCAT(DATE_FORMAT(NOW(), '%Y-'), DATE_FORMAT(DEI.BDAY, '%m-%d')) as end
+            FROM
+                CAM_HR.DJ_EMP_INFO DEI
+            WHERE
+                DEI.WORK_STATUS_CODE = 'Y'
+            AND
+                DEI.ACTIVE = 'Y'
+            AND
+                DEI.BDAY IS NOT NULL
+            AND
+                DEI.BDAY != ''
+        )A
+        WHERE
+            #{selectedDate} BETWEEN A.start AND A.end
+        <if test="searchInput != null and searchInput != ''">
+            AND (
+                A.SCHEDULE_TYPE LIKE CONCAT('%', #{searchInput}, '%') OR
+                A.REG_EMP_NAME LIKE CONCAT('%', #{searchInput}, '%') OR
+            )
+        </if>
+    </select>
+
+    <select id="getEmpScheduleList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /* getEmpScheduleList */
+        SELECT
+            *
+        FROM (
+            SELECT
+                HR_BIZ_REQ_ID,
+                '출장' AS SCHEDULE_TYPE,
+                CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
+                EMP_NAME AS REG_EMP_NAME,
+                CONCAT(DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d'), ' ', TRIP_TIME_FR) as start,
+                CONCAT(DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d'), ' ', TRIP_TIME_TO) as end
+            FROM
+                CAM_INSIDE.DJ_HR_BIZ_REQ A
+            JOIN
+                CAM_HR.DJ_EMP_INFO DEI
+            ON A.EMP_SEQ = DEI.EMP_SEQ
+            WHERE
+                STATUS = 100
+            UNION ALL
+            SELECT
+                '',
+                VCD.SUBHOLIDAY_DT_CODE_NM AS SCHEDULE_TYPE,
+                CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
+                DEI.EMP_NAME_KR AS REG_EMP_NAME,
+                CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_ST_TIME, '')) as start,
+                CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_EN_TIME, '')) as end
+            FROM
+                CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
+            JOIN
+                CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD
+            ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
+            JOIN
+                CAM_HR.DJ_EMP_INFO DEI
+            ON VUH.REG_EMP_SEQ = DEI.EMP_SEQ
+            WHERE
+                VUH.APPR_STAT = 'Y'
+            AND
+                VUH.SUBHOLIDAY_CODE_ID != '11'
+            UNION ALL
+            SELECT
+                '',
+                '생일' AS SCHEDULE_TYPE,
+                CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
+                EMP_NAME_KR AS REG_EMP_NAME,
+                CONCAT(DATE_FORMAT(NOW(), '%Y-'), DATE_FORMAT(DEI.BDAY, '%m-%d')) as start,
+                CONCAT(DATE_FORMAT(NOW(), '%Y-'), DATE_FORMAT(DEI.BDAY, '%m-%d')) as end
+            FROM
+                CAM_HR.DJ_EMP_INFO DEI
+            WHERE
+                DEI.WORK_STATUS_CODE = 'Y'
+            AND
+                DEI.ACTIVE = 'Y'
+            AND
+                DEI.BDAY IS NOT NULL
+            AND
+                DEI.BDAY != ''
+        )A
+        WHERE
+            #{selectedDate} BETWEEN A.start AND A.end
+        <if test="searchInput != null and searchInput != ''">
+        AND (
+            A.SCHEDULE_TYPE LIKE CONCAT('%', #{searchInput}, '%') OR
+            A.REG_EMP_NAME LIKE CONCAT('%', #{searchInput}, '%') OR
+        )
+        </if>
+    </select>
 </mapper>

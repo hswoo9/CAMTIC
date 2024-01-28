@@ -97,37 +97,62 @@
             </c:choose>--%>
             </div>
             <form class="__sch" style="float:right; margin-bottom:10px;">
-                <div class="inp">
-                    <input type="text" id="inputText" placeholder="검색어를 입력하세요" onkeydown="searchOnEnter(event);">
-                    <%--<button type="button">검색</button>--%>
-                </div>
+                <c:if test="${params.publicClass ne 'ES'}">
+                    <div class="inp">
+                        <input type="text" id="inputText" placeholder="검색어를 입력하세요" onkeydown="searchOnEnter(event);">
+                            <%--<button type="button">검색</button>--%>
+                    </div>
+                </c:if>
             </form>
             <div id="scheduleContent">
                 <c:choose>
                     <c:when test="${params.publicClass eq 'ES'}"><h4 style="font-size:21px;">직원일정</h4></c:when>
                     <c:otherwise><h4 style="font-size:21px;">법인일정</h4></c:otherwise>
                 </c:choose>
+
                 <table class="searchTable table table-bordered mb-0 mt10">
                     <colgroup>
-                        <col width="7%">
-                        <col width="10%">
-                        <col>
-                        <col>
-                        <col width="10%">
-                        <col width="10%">
-                        <col width="15%">
-                        <col width="15%">
+                        <c:choose>
+                            <c:when test="${params.publicClass eq 'ES'}">
+                                <col width="7%">
+                                <col width="10%">
+                                <col width="25%">
+                                <col width="25%">
+                                <col width="25%">
+                            </c:when>
+                            <c:otherwise>
+                                <col width="7%">
+                                <col width="10%">
+                                <col>
+                                <col>
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="15%">
+                                <col width="15%">
+                            </c:otherwise>
+                        </c:choose>
                     </colgroup>
                     <thead>
                         <tr>
-                          <th scope="col">번호</th>
-                          <th scope="col">작성자</th>
-                          <th scope="col">제목</th>
-                          <th scope="col">내용</th>
-                          <th scope="col">장소</th>
-                          <th scope="col">종류</th>
-                          <th scope="col">시작시간</th>
-                          <th scope="col">종료시간</th>
+                            <c:choose>
+                            <c:when test="${params.publicClass eq 'ES'}">
+                                <th scope="col">번호</th>
+                                <th scope="col">구분</th>
+                                <th scope="col">부서</th>
+                                <th scope="col">팀</th>
+                                <th scope="col">이름</th>
+                            </c:when>
+                            <c:otherwise>
+                                <th scope="col">번호</th>
+                                <th scope="col">작성자</th>
+                                <th scope="col">제목</th>
+                                <th scope="col">내용</th>
+                                <th scope="col">장소</th>
+                                <th scope="col">종류</th>
+                                <th scope="col">시작시간</th>
+                                <th scope="col">종료시간</th>
+                            </c:otherwise>
+                            </c:choose>
                         </tr>
                     </thead>
 
@@ -246,18 +271,28 @@
                 "HD": "휴일",
                 "OT": "기타"
             };
-            var scheduleType = scheduleTypeList[item.schedule_TYPE] || article.SCHEDULE_TYPE;
-
-            html += '<tr>'
-            html += '<td style="text-align: center;">'+ (num) +'</td>';
-            html += '<td style="text-align: center;">' + item.reg_EMP_NAME + '</td>';
-            html += '<td>' + item.title + '</td>';
-            html += '<td>' + item.schedule_CONTENT + '</td>';
-            html += '<td style="text-align: center;">' + item.schedule_PLACE + '</td>';
-            html += '<td style="text-align: center;">' + scheduleType + '</td>';
-            html += '<td style="text-align: center;">' + item.start + '</td>';
-            html += '<td style="text-align: center;">' + item.end + '</td>';
-            html += '</tr>';
+            if($("#publicClass").val() == "ES"){
+                html += '' +
+                    '<tr>' +
+                        '<td style="text-align: center;">'+ (num) +'</td>' +
+                        '<td style="text-align: center;">' + item.schedule_TYPE + '</td>' +
+                        '<td style="text-align: center;">' + item.dept_NAME.split(" ")[0] + '</td>' +
+                        '<td style="text-align: center;">' + item.dept_NAME.split(" ")[1] + '</td>' +
+                        '<td style="text-align: center;">' + item.reg_EMP_NAME + '</td>' +
+                    '</tr>'
+            }else{
+                var scheduleType = scheduleTypeList[item.schedule_TYPE] || article.SCHEDULE_TYPE;
+                html += '<tr>'
+                html += '<td style="text-align: center;">'+ (num) +'</td>';
+                html += '<td style="text-align: center;">' + item.reg_EMP_NAME + '</td>';
+                html += '<td>' + item.title + '</td>';
+                html += '<td>' + item.schedule_CONTENT + '</td>';
+                html += '<td style="text-align: center;">' + item.schedule_PLACE + '</td>';
+                html += '<td style="text-align: center;">' + scheduleType + '</td>';
+                html += '<td style="text-align: center;">' + item.start + '</td>';
+                html += '<td style="text-align: center;">' + item.end + '</td>';
+                html += '</tr>';
+            }
         });
         /*tableBody.innerHTML = html;*/
         $("#tableBody").append(html);

@@ -78,10 +78,16 @@ public class PostResponse {
     private String SCHEDULE_TYPE;
     private String start;
     private String end;
+    private String HR_BIZ_REQ_ID;
+    private String DEPT_NAME;
 
+    public String getDEPT_NAME() {
+        return DEPT_NAME;
+    }
 
-
-
+    public String getHR_BIZ_REQ_ID() {
+        return HR_BIZ_REQ_ID;
+    }
 
     public String getBOARD_NAME() {
         return BOARD_NAME;

@@ -71,6 +71,9 @@
                 right: ""
                 //right: "month,agendaWeek,agendaDay"
             },
+            titleFormat: 'YYYY' + "년" + " MM" + "월",
+            dayNames: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
+            dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
             events: a,
             editable: 0,
             droppable: !0,

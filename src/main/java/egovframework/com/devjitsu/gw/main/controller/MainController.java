@@ -223,7 +223,6 @@ public class MainController {
      * */
     @RequestMapping("/spot/pop/popMainScheduleView.do")
     public String popScheduleView(@RequestParam Map<String, Object> params, Model model){
-
         model.addAttribute("params", params);
         return "popup/cams_pot/popMainScheduleView";
     }
