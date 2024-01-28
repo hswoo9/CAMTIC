@@ -122,6 +122,14 @@ var workPlanAdmin = {
                     width: "50px",
                     template: "#= --record #",
                 }, {
+                    field: "DEPT_NAME2",
+                    title: "부서/팀",
+                    width: "150px"
+                }, {
+                    field: "EMP_NAME_KR",
+                    title: "이름",
+                    width: "100px"
+                }, {
                     field: "WORK_TIME_CODE_NAME",
                     title: "신청구분",
                     width: "150px"
@@ -230,8 +238,33 @@ var workPlanAdmin = {
                         }
                     }
                 }
-            ]
+            ],
+            dataBound : workPlanAdmin.onDataBound,
         }).data("kendoGrid");
+    },
+
+    onDataBound : function(){
+        var grid = this;
+
+        grid.tbody.find("tr").dblclick(function (e) {
+            var dataItem = grid.dataItem($(this));
+
+            var url = '/workPlan/workPlanApprovalModPop.do?workPlanApprovalId=' + dataItem.WORK_PLAN_APPROVAL_ID;
+            var pop = "" ;
+            var popupName = "유연근무신청";
+            var width = "1000";
+            var height = "460";
+            windowX = Math.ceil( (window.screen.width  - width) / 2 );
+            windowY = Math.ceil( (window.screen.height - height) / 2 );
+            pop = window.open(url, popupName, "width=" + width + ", height=" + height + ", top="+ windowY +", left="+ windowX +", scrollbars=YES, resizable=YES");
+            if(pop != null){
+                if(pop.focus){
+                    pop.focus();
+                }else{
+                    alert('팝업 차단 설정을 확인 하세요.');
+                }
+            }
+        });
     },
 
     fn_gridReload : function(){

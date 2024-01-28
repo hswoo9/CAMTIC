@@ -56,4 +56,20 @@ public class WorkPlanRepository extends AbstractDAO  {
         update("workPlan.workPlanAdminApp", params);
     }
 
+    public void deleteWorkPlanData(Map<String, Object> params){
+        update("workPlan.deleteWorkPlanData", params);
+    }
+
+    public Map<String, Object> getWorkPlanData(Map<String, Object> params){
+        return (Map<String, Object>) selectOne("workPlan.getWorkPlanData", params);
+    }
+
+    public int updateWorkPlan(Map<String, Object> params){
+        return (int) update("workPlan.updateWorkPlan", params);
+    }
+
+    public void delWorkPlanDetail(Map<String, Object> params){
+        delete("workPlan.delWorkPlanDetail", params);
+    }
+
 }

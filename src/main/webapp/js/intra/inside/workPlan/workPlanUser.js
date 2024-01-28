@@ -15,6 +15,11 @@ var workPlanUser = {
 
         workPlanUser.makerGrid();
 
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=workPlanCheck]").prop("checked", true);
+            else $("input[name=workPlanCheck]").prop("checked", false);
+        });
+
     },
 
     makerGrid : function(){
@@ -70,6 +75,13 @@ var workPlanUser = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="workPlanUser.deleteWorkPlanData()">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
                 }
             ],
             noRecords: {
@@ -80,6 +92,16 @@ var workPlanUser = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : function(e){
+                        if(e.APPR_STAT == "N"){
+                            return "<input type='checkbox' name='workPlanCheck' value='"+ e.WORK_PLAN_APPROVAL_ID +"'/>";
+                        }else{
+                            return "";
+                        }
+                    },
+                    width: "50px"
+                }, {
                     field: "",
                     title: "순번",
                     width: "50px",
@@ -193,8 +215,33 @@ var workPlanUser = {
                         }
                     }
                 }
-            ]
+            ],
+        dataBound : workPlanUser.onDataBound,
         }).data("kendoGrid");
+    },
+
+    onDataBound : function(){
+        var grid = this;
+
+        grid.tbody.find("tr").dblclick(function (e) {
+            var dataItem = grid.dataItem($(this));
+
+            var url = '/workPlan/workPlanApprovalModPop.do?workPlanApprovalId=' + dataItem.WORK_PLAN_APPROVAL_ID;
+            var pop = "" ;
+            var popupName = "유연근무신청";
+            var width = "1000";
+            var height = "460";
+            windowX = Math.ceil( (window.screen.width  - width) / 2 );
+            windowY = Math.ceil( (window.screen.height - height) / 2 );
+            pop = window.open(url, popupName, "width=" + width + ", height=" + height + ", top="+ windowY +", left="+ windowX +", scrollbars=YES, resizable=YES");
+            if(pop != null){
+                if(pop.focus){
+                    pop.focus();
+                }else{
+                    alert('팝업 차단 설정을 확인 하세요.');
+                }
+            }
+        });
     },
 
     workPlanApprovalPop : function(){
@@ -202,7 +249,7 @@ var workPlanUser = {
         var pop = "" ;
         var popupName = "유연근무신청";
         var width = "1000";
-        var height = "950";
+        var height = "460";
         windowX = Math.ceil( (window.screen.width  - width) / 2 );
         windowY = Math.ceil( (window.screen.height - height) / 2 );
         pop = window.open(url, popupName, "width=" + width + ", height=" + height + ", top="+ windowY +", left="+ windowX +", scrollbars=YES, resizable=YES");
@@ -216,6 +263,7 @@ var workPlanUser = {
     },
 
     fn_gridReload : function(){
+        $("#checkAll").prop("checked", false);
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
@@ -237,5 +285,27 @@ var workPlanUser = {
         approvalParams.approKey = "camticUserWorkPlan_" + key;
 
         linkageProcessOn(approvalParams, "target");
+    },
+
+    deleteWorkPlanData : function(){
+        var checkGroup = $("input[name='workPlanCheck']:checked");
+        if(checkGroup.length > 0){
+            var checkedList = new Array();
+            $.each(checkGroup, function(i,v){
+                checkedList.push(this.value);
+            });
+            console.log(checkedList);
+            var saveData = {
+                checkedList : checkedList.join(),
+                empSeq : $("#empSeq").val()
+            }
+            var ds = customKendo.fn_customAjax("/workPlan/deleteWorkPlanData", saveData);
+            if(ds.flag){
+                alert("처리되었습니다.");
+                workPlanUser.fn_gridReload();
+            }
+        }else{
+            alert("삭제 할 항목을 선택해 주세요.");
+        }
     }
 }
