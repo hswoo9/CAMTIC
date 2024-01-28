@@ -91,9 +91,8 @@ var hwpApprovalLine = {
                 if(map.APPROVE_STAT_CODE == 10 || (String(map.DRAFT_EMP_SEQ) == String(map.LAST_APPROVE_EMP_SEQ))){
                     let field = "docAppr0";
                     hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
-                }
 
-                if(map.APPROVE_TYPE == "0" || map.APPROVE_TYPE == "2"){
+                }else if(map.APPROVE_TYPE == "0" || map.APPROVE_TYPE == "2"){
 
                     if(map.APPROVE_DUTY_NAME == "팀장"){
                         let field = "docAppr1";
