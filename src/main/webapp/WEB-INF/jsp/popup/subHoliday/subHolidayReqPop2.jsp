@@ -47,7 +47,8 @@
                 <tr>
                     <th>사번</th>
                     <td>
-                        <input type="text" id="empSeq" name="empNumber" class="defaultVal" value="${loginVO.erpEmpCd}" style="width: 80%;">
+                        <input type="hidden" id="empSeq" value="${loginVO.uniqId}">
+                        <input type="text" id="erpEmpCd" name="erpEmpCd" class="defaultVal" value="${loginVO.erpEmpCd}" style="width: 80%;">
                     </td>
                     <th>성명</th>
                     <td>
