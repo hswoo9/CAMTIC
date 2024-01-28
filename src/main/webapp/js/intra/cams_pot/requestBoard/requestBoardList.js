@@ -2,6 +2,7 @@
 var rbl = {
 	global : {
 		params : "",
+		nowPage : "",
 		articleList : "",
 		articleSelIndex : 0,
 		dropDownDataSource : "",
@@ -12,7 +13,7 @@ var rbl = {
 		now : new Date()
 	},
 
-	fnDefaultScript : function(){
+	fnDefaultScript : function(queryParams){
 		rbl.global.dropDownDataSource = [
 			{ text: "요청중", value: "1" },
 			{ text: "접수완료", value: "2" },
@@ -20,7 +21,7 @@ var rbl = {
 			{ text: "취소", value: "-1" },
 		]
 		customKendo.fn_dropDownList("status", rbl.global.dropDownDataSource, "text", "value");
-		$("#status").data("kendoDropDownList").bind("change", rbl.gridReload);
+		$("#status").data("kendoDropDownList").bind("change", function(){rbl.gridReload()});
 
 		customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(rbl.global.now.setMonth(rbl.global.now.getMonth() - 1)));
 		customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
@@ -33,13 +34,49 @@ var rbl = {
 		customKendo.fn_dropDownList("searchColumn", rbl.global.dropDownDataSource, "text", "value");
 		customKendo.fn_textBox(["searchContent", "empName"]);
 
-        $("#empName").on("keyup", function(key){
+        $("#empName, #searchContent").on("keyup", function(key){
             if(key.keyCode == 13){
                 rbl.gridReload();
             }
         });
 
-		rbl.gridReload();
+		if(queryParams.status != null){
+			$("#status").data("kendoDropDownList").value(queryParams.status)
+			delete queryParams.status;
+		}
+
+		if(queryParams.startDt != null){
+			$("#startDt").val(queryParams.startDt);
+			delete queryParams.startDt;
+		}
+
+		if(queryParams.endDt != null){
+			$("#endDt").val(queryParams.endDt);
+			delete queryParams.endDt;
+		}
+
+
+		if(queryParams.empName != null){
+			$("#empName").val(queryParams.empName);
+			delete queryParams.empName;
+		}
+
+		if(queryParams.searchColumn != null){
+			$("#searchColumn").val(queryParams.searchColumn);
+			delete queryParams.searchColumn;
+		}
+
+		if(queryParams.searchContent != null){
+			$("#searchContent").val(queryParams.searchContent);
+			delete queryParams.searchContent;
+		}
+
+		if(queryParams.requestType != null){
+			$("#requestType").val(queryParams.requestType);
+			delete queryParams.requestType;
+		}
+
+		rbl.gridReload(new URLSearchParams(queryParams).toString());
 	},
 
 	mainGrid : function(url, params){
@@ -50,7 +87,8 @@ var rbl = {
             rbl.global.params = result.params;
 
 			var articleListStr = "";
-			$("#articleListTb tbody *").remove();
+			$("#articleListTb tbody *").remove()
+			$(".pagination *").remove();
 			if(rbl.global.articleList.list.length > 0){
                 var list = rbl.global.articleList.list;
                 const pagination = rbl.global.articleList.pagination;
@@ -71,7 +109,7 @@ var rbl = {
 		}
 	},
 
-	gridReload : function() {
+	gridReload : function(queryParams) {
 		rbl.global.searchAjaxData = {
 			requestType : $("#requestType").val(),
 			status : $("#status").val(),
@@ -82,11 +120,23 @@ var rbl = {
 			searchContent : $("#searchContent").val(),
 		}
 
-		rbl.mainGrid("/spot/getRequestBoardList.do", rbl.global.searchAjaxData);
+		rbl.mainGrid("/spot/getRequestBoardList.do?" + queryParams, rbl.global.searchAjaxData);
 	},
 
 	detailPageMove : function(requestBoardId){
-		open_in_frame('/spot/requestBoardDetail.do?requestBoardId='+ requestBoardId + "&requestType=" + $("#requestType").val());
+		const queryParams = {
+			page: rbl.global.nowPage == "" ? 1 : rbl.global.nowPage,
+			requestBoardId : requestBoardId,
+			requestType : $("#requestType").val(),
+			status : $("#status").val(),
+			startDt : $("#startDt").val(),
+			endDt : $("#endDt").val(),
+			empName : $("#empName").val(),
+			searchColumn : $("#searchColumn").val(),
+			searchContent : $("#searchContent").val(),
+		}
+
+		open_in_frame('/spot/requestBoardDetail.do?requestBoardId='+ requestBoardId + "&" + new URLSearchParams(queryParams).toString());
 	},
 
 	writePageMove : function(){
@@ -160,6 +210,7 @@ var rbl = {
     },
 
     movePage : function (page){
+		rbl.global.nowPage = page;
         const queryParams = {
             page: (page) ? page : 1,
             recordSize: 10,
