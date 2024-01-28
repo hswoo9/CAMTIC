@@ -1,6 +1,8 @@
 /** 결재선 지정 프로세스 */
 
 /**
+ * made : 2024.01.24
+ *
  * 1. 기안자 정보 조회
  * 1-1. 기안자가 부서에 속해있는지, 팀에 속해있는지 체크
  * 1-2. 부서에 속해있으면 부서장이 있는지, 팀에 속해있으면 팀장, 부서장이 있는지 체크
@@ -8,11 +10,9 @@
  * 2. 해당 문서 정보 조회
  * 2-1. 전결 구분 매칭
  * 2-1. 기안자 정보가 전결구분 직급보다 높은치 체크
- * 2-2. 대결, 부재 체크(보류)
- *
- *
- *
- *
+ * 2-2. 협조있는지 체크(2024.1.28 추가)
+ * 2-3. 협조자가 본인 부서인지 체크, 맞으면 협조 추가 X(2024.1.28 추가)
+ * 2-4. 대결, 부재, 조기결재, 자리비움 체크(보류)
  *
  * 3. 최종 결재선 생성
  * */
@@ -35,6 +35,9 @@ var approvalLine = {
 
         /** 금액별 코드설정 정보 */
         payCkList: [],
+
+        /** 협조자 정보 */
+        copperUserInfo: null,
 
         /** 결재선 배열 */
         approverArr: []
@@ -94,6 +97,16 @@ var approvalLine = {
             approvalLine.global.payCkList = approvalMngList;
         }
 
+        /** 2-2. 협조 있는지 체크해서 있으면 global 변수 세팅 */
+        if(approvalMngData.COPPER_EMP_SEQ != null){
+            console.log("협조자 있음...");
+            approvalLine.global.copperUserInfo = getUser(approvalMngData.COPPER_EMP_SEQ);
+            const copperUserInfo = approvalLine.global.copperUserInfo;
+            console.log("협조자 는... " + copperUserInfo.EMP_NAME_KR);
+        }else{
+            console.log("협조자 없음...");
+        }
+
 
         /** 3. 결재선 생성 */
         if(approvalType == "1"){
@@ -127,8 +140,8 @@ var approvalLine = {
                 userArr.push(userInfo);
                 userArr.push(managerInfo.GRAND_MNG_SEQ);
 
-            /** 부서장급 - 본인전결 */
-            }else if(level == "2"){
+            /** 부서장급 - 본인전결, 팀장전결(팀장전결이면 본인 전결) */
+            }else if(level == "2" || level == "3"){
                 userArr.push(userInfo);
             }
 
@@ -153,6 +166,8 @@ var approvalLine = {
                 userArr.push(userInfo);
                 if(managerInfo.DEPT_MNG_CK == "Y"){
                     userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
+                /** 부서장이 부재일시 원장이 대신 함. */
+                }else{
                 }
 
             /** 팀장급 - 자기전결 */
@@ -427,6 +442,22 @@ var approvalLine = {
         /** 결재자 */
         for(let i=0; i<userArr.length; i++){
             let approveType = "0";
+
+            /** 
+             * 1. 본인 전결이 아니고
+             * 2. 협조자가 있고
+             * 3. 같은부서가 아니면
+             * 
+             * return 마지막 결재자 직전에 협조자 결재선 추가 */
+            if(i == userArr.length-1
+                && userArr.length != 1
+                && approvalLine.global.copperUserInfo != null
+                && approvalLine.global.userInfo.DEPT_SEQ != approvalLine.global.copperUserInfo.DEPT_SEQ){
+
+                approveType = "1";
+                approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo, approveType);
+            }
+            
             if(i == userArr.length-1){
                 approveType = "2";
             }

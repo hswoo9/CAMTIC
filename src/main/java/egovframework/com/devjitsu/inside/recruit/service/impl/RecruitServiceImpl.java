@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.camtic.repository.ApplicationRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.common.utiles.AESCipher;
 import egovframework.com.devjitsu.doc.config.EgovFileScrty;
+import egovframework.com.devjitsu.g20.repository.PRJRepository;
 import egovframework.com.devjitsu.inside.recruit.repository.EvalManageRepository;
 import egovframework.com.devjitsu.inside.recruit.repository.RecruitRepository;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
@@ -54,6 +55,9 @@ public class RecruitServiceImpl implements RecruitService {
 
     @Autowired
     private EvalManageRepository evalManageRepository;
+
+    @Autowired
+    private PRJRepository prjRepository;
 
 
     @Override
@@ -574,8 +578,14 @@ public class RecruitServiceImpl implements RecruitService {
             recruitRepository.updateDraftFinalApprStat(params);
         }
     }
+
     @Override
     public List<Map<String, Object>> getApplicationCareer(Map<String, Object> params){
         return applicationRepository.getApplicationCareer(params);
-    };
+    }
+
+    @Override
+    public List<Map<String, Object>> getRecruitHistList(Map<String, Object> params){
+        return prjRepository.getRecruitHistList(params);
+    }
 }

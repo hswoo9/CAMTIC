@@ -83,4 +83,28 @@
         ]]>
         ORDER BY A.LectureCode DESC
     </select>
+
+    <select id="getRecruitHistList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getRecruitHistList */
+        <![CDATA[
+        SELECT
+            SeqNo,
+            InfoCode,
+            RSeqNo,
+            IsType,
+            IsNumber,
+            Name,
+            CONVERT(CHAR(10), SDate, 23) AS SDate,
+            CONVERT(CHAR(10), EDate, 23) AS EDate,
+            RecruitName,
+            CareerType,
+            MembersCount,
+            (SELECT count(-1) From PRJDB.dbo.RecruitAccept where InfoCode = A.InfoCode AND InfoItemCode = A.RSeqNo AND IsState > '0') AS mCount,
+            IsState
+        FROM
+            PRJDB.dbo.VM_RecruitInfo_Item A
+        WHERE YEAR(SDate) <= 2023
+        ORDER BY SeqNo DESC
+        ]]>
+    </select>
 </mapper>

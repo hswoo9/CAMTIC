@@ -43,7 +43,7 @@ var formM = {
 
         customKendo.fn_textBox(['searchKeyWord']);
         customKendo.fn_textBox(['formName', 'sort', 'headerCampaign', 'footerCampaign']);
-        customKendo.fn_textBox(['formFileName', 'formLogoFileName', 'formSymbolFileName']);
+        customKendo.fn_textBox(['formFileName', 'formLogoFileName', 'formSymbolFileName', 'other_emp']);
 
 
         this.global.dropDownDataSource = [{
@@ -436,6 +436,12 @@ var formM = {
             $("#approvalType").data("kendoRadioGroup").value(approvalMngData.APPROVAL_TYPE);
             $("#approvalType").data("kendoRadioGroup").trigger("change");
 
+            if(approvalMngData.COPPER_EMP_SEQ != null){
+                $("#otherEmpSeq").val(approvalMngData.COPPER_EMP_SEQ);
+                const copperEmpInfo = getUser(approvalMngData.COPPER_EMP_SEQ)
+                $("#other_emp").val(copperEmpInfo.EMP_NAME_KR);
+            }
+
             if(approvalMngData.APPROVAL_TYPE == "1"){
                 for(let i=0; i<approvalMngList.length; i++){
                     const map = approvalMngList[i];
@@ -736,6 +742,9 @@ var formM = {
             formData.append("approvalDtArr", JSON.stringify(approvalDtArr));
         }
 
+        if($("#otherEmpSeq").val() != ""){
+            formData.append("otherEmpSeq", $("#otherEmpSeq").val());
+        }
         return formData;
     },
 
@@ -806,5 +815,13 @@ var formM = {
         $("#memberLevel").data("kendoDropDownList").value("");
 
         $("#approvalTbody").html("");
-    }
+
+        $("#other_emp").val("");
+        $("#otherEmpSeq").val("");
+    },
+
+    dataClear : function () {
+        $("#other_emp").val("");
+        $("#otherEmpSeq").val("");
+    },
 }
