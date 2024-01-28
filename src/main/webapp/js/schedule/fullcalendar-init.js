@@ -11,7 +11,12 @@
     }, t.prototype.onEventClick = function(t, n, a) {
         if(t.foreignType == "schedule"){
             alert("상세 일정이 없습니다.");
-        }else{
+        }else if(t.hrBizReqId != null && t.hrBizReqId != ""){
+            let url = "/bustrip/pop/bustripReqPop.do?hrBizReqId="+t.hrBizReqId;
+            let name = "bustripReqPop";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            window.open(url, name, option);
+        }else if(t.hrBizReqId != null && t.hrBizReqId != ""){
             esl.fn_detailSchedule(t.scheduleBoardId);
         }
         /*$("#event-modal").find("strong").text("일정수정");
@@ -69,7 +74,7 @@
             events: a,
             editable: 0,
             droppable: !0,
-            eventLimit: 2, // 한 날짜에 표시할 수 있는 이벤트 개수 제한
+            eventLimit: 5, // 한 날짜에 표시할 수 있는 이벤트 개수 제한
             eventLimitText: "더보기", // 더보기 링크 텍스트 설정
             selectable: !0,
             drop: function(t) {

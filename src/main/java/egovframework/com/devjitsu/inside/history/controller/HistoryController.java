@@ -250,7 +250,7 @@ public class HistoryController {
     public String setHistoryInsert(@RequestParam Map<String, Object> params,Model model) {
         historyService.setHistoryInsert(params, BASE_DIR);
         model.addAttribute("apntSn",params.get("apntSn"));
-        userService.setUserInfoUpdate(params);
+//        userService.setUserInfoUpdate(params);
         System.out.println("params"+params);
         return "jsonView";
     }
@@ -263,7 +263,18 @@ public class HistoryController {
     @RequestMapping("/inside/setHistoryUpdate")
     public String setHistoryUpdate(@RequestParam Map<String, Object> params) {
         historyService.setHistoryUpdate(params);
-        userService.setUserInfoUpdate(params);
+//        userService.setUserInfoUpdate(params);
+        return "jsonView";
+    }
+
+    /**
+     * 수동발령
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/appointProcessing")
+    public String appointProcessing(@RequestParam Map<String, Object> params) {
+        historyService.appointmentEmpInfoUpd(params);
         return "jsonView";
     }
 

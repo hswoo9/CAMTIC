@@ -61,4 +61,7 @@ public class HistoryRepository extends AbstractDAO {
 
     //포상관리 첨부파일
     public void setInRewardAddFileNoUpdNoTmp(Map<String, Object> params) { insert("history.setInRewardAddFileNoUpdNoTmp", params);}
+    public List<Map<String, Object>> appointmentNowList(Map<String, Object> params) { return selectList("history.appointmentNowList", params);}
+    public void appointmentEmpInfoUpd(Map<String, Object> params) { update("history.appointmentEmpInfoUpd", params);}
+    public void appointmentComplete(Map<String, Object> params) { update("history.appointmentComplete", params);}
 }
