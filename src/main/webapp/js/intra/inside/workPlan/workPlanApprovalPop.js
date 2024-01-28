@@ -42,7 +42,8 @@ var workPlanApprovalPop = {
     fn_save : function(){
 
         var saveData = {
-            applySeq : $("#empSeq").val(),
+            applySeq : $("#erpEmpCd").val(),
+            //applySeq : $("#empSeq").val(),
             workTimeCodeId : $("#workTimeType").data("kendoRadioGroup").value(),
             applyDate : $("#applyDate").val(),
             startDate : $("#startDate").val(),

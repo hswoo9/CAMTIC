@@ -277,8 +277,8 @@
             AD.DOC_MENU_CD AS ADMIN_DOC_MENU_CD,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD,
-            CAM_HR.FN_GetName('DEPT', (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = WPA.APPLY_SEQ), 'KR') AS DEPT_NAME2,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = WPA.APPLY_SEQ) AS EMP_NAME_KR
+            CAM_HR.FN_GetName('DEPT', (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ERP_EMP_SEQ = WPA.APPLY_SEQ LIMIT 1), 'KR') AS DEPT_NAME2,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE ERP_EMP_SEQ = WPA.APPLY_SEQ LIMIT 1) AS EMP_NAME_KR
         FROM CAM_INSIDE.DJ_WORK_PLAN_APPROVAL WPA
         LEFT JOIN DJ_CAMTIC.V_WORK_TIME_CODE WTC
         ON WPA.WORK_TIME_CODE_ID = WTC.WORK_TIME_CODE_ID
@@ -288,8 +288,8 @@
         ON WPA.ADMIN_DOC_ID = AD.DOC_ID
         WHERE
             WPA.ACTIVE = 'Y'
-        <if test="empSeq != null and empSeq != ''">
-            AND WPA.APPLY_SEQ = #{empSeq}
+        <if test="erpEmpCd != null and erpEmpCd != ''">
+            AND WPA.APPLY_SEQ = #{erpEmpCd}
         </if>
         <if test='workTimeCodeName != null and !"".equals(workTimeCodeName)'>
             AND WTC.WORK_TIME_CODE_NAME = #{workTimeCodeName}
@@ -436,10 +436,12 @@
 
     <select id="getWorkPlanData" parameterType="map" resultType="map">
         SELECT
+            CONCAT(TIMESTAMPDIFF(DAY, DATE_FORMAT(WPA.START_DATE, '%Y-%m-%d'), DATE_FORMAT(WPA.END_DATE, '%Y-%m-%d')) + 1) AS DATE_DIFF,
             WPA.WORK_PLAN_APPROVAL_ID,
             WPA.WORK_TIME_CODE_ID,
             WPA.APPLY_SEQ,
             DATE_FORMAT(WPA.APPLY_DATE, '%Y-%m-%d') AS APPLY_DATE,
+            DATE_FORMAT(WPA.APPLY_DATE, '%Y년 %m월 %d일') AS APPLY_DATE_KR,
             DATE_FORMAT(WPA.START_DATE, '%Y-%m-%d') AS START_DATE,
             DATE_FORMAT(WPA.END_DATE, '%Y-%m-%d') AS END_DATE,
             IFNULL(WPA.DOC_ID, '') AS DOC_ID,
@@ -452,7 +454,16 @@
             DATE_FORMAT(WPA.MOD_DATE, '%Y-%m-%d') AS MOD_DATE,
             WTC.WORK_TIME_CODE_NAME,
             CONCAT(IFNULL(WTC.WORK_TIME_CODE_NAME, ''), ' (', IFNULL(WTC.START_HOUR, '00'), ':', IFNULL(WTC.START_MIN, '00'), '~', IFNULL(WTC.END_HOUR, '00'), ':', IFNULL(WTC.END_MIN, '00'), ')') AS WORK_TIME_KR,
-            IFNULL(WPA.WORK_REASON, '') AS WORK_REASON
+            IFNULL(WPA.WORK_REASON, '') AS WORK_REASON,
+            CAM_HR.FN_GetName('DEPT', (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ERP_EMP_SEQ = WPA.APPLY_SEQ LIMIT 1), 'KR') AS DEPT_NAME2,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE ERP_EMP_SEQ = WPA.APPLY_SEQ LIMIT 1) AS EMP_NAME_KR,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{loginEmpSeq} LIMIT 1) AS LOGIN_EMP_NAME_KR,
+            CONCAT(
+                    DATE_FORMAT(WPA.START_DATE, '%Y-%m-%d')
+                , ' ~ '
+                , DATE_FORMAT(WPA.END_DATE, '%Y-%m-%d')
+                ) AS APPLY_WORK_DATE,
+            WPA.WORK_TIME_CODE_ID
         FROM
             CAM_INSIDE.DJ_WORK_PLAN_APPROVAL WPA
         LEFT JOIN DJ_CAMTIC.V_WORK_TIME_CODE WTC

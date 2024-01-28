@@ -34,7 +34,7 @@ var workPlanUser = {
                 },
                 parameterMap: function(data) {
                     data.searchYear = $("#searchYear").val();
-                    data.empSeq = $("#empSeq").val();
+                    data.erpEmpCd = $("#erpEmpCd").val();
                     return data;
                 }
             },

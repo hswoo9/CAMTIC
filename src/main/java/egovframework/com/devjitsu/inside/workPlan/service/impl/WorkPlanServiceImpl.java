@@ -233,6 +233,8 @@ public class WorkPlanServiceImpl implements WorkPlanService {
 
     @Override
     public Map<String, Object> getWorkPlanData(Map<String, Object> params) {
-        return workPlanRepository.getWorkPlanData(params);
+        Map<String, Object> resultMap = workPlanRepository.getWorkPlanData(params);
+        resultMap.put("workTimeList", workPlanRepository.getWorkTimeCode(params));
+        return resultMap;
     }
 }

@@ -179,6 +179,9 @@ public class WorkPlanController {
     //유연근무신청 팝업
     @RequestMapping("/workPlan/getWorkPlanData.do")
     public String getWorkPlanData(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("loginEmpSeq", loginVO.getUniqId());
         model.addAttribute("data", workPlanService.getWorkPlanData(params));
         return "jsonView";
     }
