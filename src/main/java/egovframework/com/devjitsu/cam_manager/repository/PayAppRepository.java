@@ -291,8 +291,24 @@ public class PayAppRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("payApp.getPayAppInfo", params);
     }
 
+    public int getUseCardInfoCheck(Map<String, Object> payAppInfo) {
+        return (int) selectOne("payApp.getUseCardInfoCheck", payAppInfo);
+    }
+
+    public List<Map<String, Object>> getUseCardInfoList(Map<String, Object> payAppInfo) {
+        return selectList("payApp.getUseCardInfoList", payAppInfo);
+    }
+
     public void insUseCardInfo(Map<String, Object> payAppInfo) {
         insert("payApp.insUseCardInfo", payAppInfo);
+    }
+
+    public void updUseCardPayApp(Map<String, Object> payAppInfo) {
+        update("payApp.updUseCardPayApp", payAppInfo);
+    }
+
+    public void updUseCardPayAppNull(Map<String, Object> payAppInfo) {
+        update("payApp.updUseCardPayAppNull", payAppInfo);
     }
 
     public void delUseCardInfo(Map<String, Object> payAppInfo) {

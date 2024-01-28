@@ -405,6 +405,34 @@
         ORDER BY A.REG_DT DESC
     </select>
 
+    <select id="getCrmOldHistList" parameterType="map" resultType="map">
+        /*getCrmOldHistList*/
+        select
+            DeptTeam AS DEPT_NAME
+             ,(select EMP_NAME_KR from cam_hr.dj_emp_info where EMP_SEQ = RegID) AS EMP_NAME_KR
+             ,IsCharge AS CRM_MEM_NM
+             ,(case when STimeH = '' then InDate
+                    when STimeM = '' then concat(InDate,' ',STimeH,':00',' ~ ',ETimeH,':00')
+                    else concat(InDate,' ',STimeH,':',STimeM,' ~ ',ETimeH,':',ETimeM)
+            end) AS START_DATETIME
+             ,(case when InterProjectType1 is null then '출장'
+                else 'CRM' end) AS CRM_HIST_OBJ
+             ,Contents AS CRM_REL_CONT
+        from cam_crm.crm_hist
+        where
+            CUID = #{cuid}
+    </select>
+
+    <select id="getCUIDOne" parameterType="map" resultType="map">
+        /*getCUIDOne*/
+        select
+            CUID
+        from
+            CAM_CRM.DJ_CRM_INFO
+        WHERE
+            CRM_SN = #{crmSn}
+    </select>
+
     <select id="getCrmHistEngnList" parameterType="map" resultType="map">
         /*getCrmHistEngnList ==> CRM 관리 > 고객 이력관리 엔지니어링 데이터 조회 */
         SELECT

@@ -140,7 +140,18 @@ var rbl = {
 	},
 
 	writePageMove : function(){
-		open_in_frame('/spot/requestBoardReg.do?requestType=' + $("#requestType").val());
+		const queryParams = {
+			page: rbl.global.nowPage == "" ? 1 : rbl.global.nowPage,
+			requestType : $("#requestType").val(),
+			status : $("#status").val(),
+			startDt : $("#startDt").val(),
+			endDt : $("#endDt").val(),
+			empName : $("#empName").val(),
+			searchColumn : $("#searchColumn").val(),
+			searchContent : $("#searchContent").val(),
+		}
+
+		open_in_frame('/spot/requestBoardReg.do?requestType=' + $("#requestType").val() + "&" + new URLSearchParams(queryParams).toString());
 	},
 
 	drawList : function (list, num) {

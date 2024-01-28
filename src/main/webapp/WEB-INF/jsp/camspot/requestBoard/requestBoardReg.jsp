@@ -22,6 +22,14 @@
         <div class="panel-body">
             <input type="hidden" id="requestBoardId" name="requestBoardId">
             <input type="hidden" id="requestType" name="requestType">
+            <input type="hidden" id="page" name="page">
+            <input type="hidden" id="searchStatus" name="searchStatus" >
+            <input type="hidden" id="startDt" name="startDt">
+            <input type="hidden" id="endDt" name="endDt">
+            <input type="hidden" id="searchEmpName" name="searchEmpName">
+            <input type="hidden" id="searchColumn" name="searchColumn">
+            <input type="hidden" id="searchContent" name="searchContent">
+
             <table class="searchTable table table-bordered mb-0" style="border: 1px solid #dedfdf;">
                 <colgroup>
                     <col width="10%">

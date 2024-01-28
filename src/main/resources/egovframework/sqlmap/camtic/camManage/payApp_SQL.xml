@@ -1811,6 +1811,37 @@
             PAY_APP_SN = #{payAppSn}
     </select>
 
+    <select id="getUseCardInfoCheck" parameterType="map" resultType="int">
+        /*getUseCardInfoCheck*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_MNG.DJ_USE_CARD_INFO
+        WHERE
+            AUTH_NO = #{AUTH_NO}
+          AND
+            AUTH_HH = #{AUTH_HH}
+          AND
+            AUTH_DD = #{AUTH_DD}
+          AND
+            CARD_NO = #{CARD_NO}
+          AND
+            BUY_STS = #{BUY_STS}
+          AND
+            PAY_APP_SN IS NULL
+    </select>
+
+    <select id="getUseCardInfoList" parameterType="map" resultType="map">
+        /*getUseCardInfoList*/
+        SELECT
+            *,
+            IFNULL(SNACK_INFO_SN, 0) AS SNACK_INFO_CHK
+        FROM
+            CAM_MNG.DJ_USE_CARD_INFO
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </select>
+
     <insert id="insUseCardInfo" parameterType="map">
         /*insUseCardInfo*/
         INSERT INTO CAM_MNG.DJ_USE_CARD_INFO
@@ -1836,6 +1867,34 @@
                 #{SNACK_INFO_SN}
             )
     </insert>
+
+    <update id="updUseCardPayApp" parameterType="map">
+        /*updUseCardPayApp*/
+        UPDATE CAM_MNG.DJ_USE_CARD_INFO
+        SET
+            PAY_APP_SN = #{PAY_APP_SN}
+        WHERE
+            AUTH_NO = #{AUTH_NO}
+          AND
+            AUTH_HH = #{AUTH_HH}
+          AND
+            AUTH_DD = #{AUTH_DD}
+          AND
+            CARD_NO = #{CARD_NO}
+          AND
+            BUY_STS = #{BUY_STS}
+          AND
+            PAY_APP_SN IS NULL
+    </update>
+
+    <update id="updUseCardPayAppNull" parameterType="map">
+        /*updUseCardPayAppNull*/
+        UPDATE CAM_MNG.DJ_USE_CARD_INFO
+        SET
+            PAY_APP_SN = NULL
+        WHERE
+            PAY_APP_SN = #{PAY_APP_SN}
+    </update>
 
     <delete id="delUseCardInfo" parameterType="map">
         /*delUseCardInfo*/
