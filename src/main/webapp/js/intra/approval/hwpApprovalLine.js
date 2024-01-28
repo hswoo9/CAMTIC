@@ -35,12 +35,15 @@ var hwpApprovalLine = {
             const list = draft.global.approversArr;
 
             let empData;
+            let copperData;
             for(let i=0; i<list.length; i++){
                 if(list[i].approveType == "2"){
                     empData = list[i];
                     console.log("전결자는...", empData);
+                }else if(list[i].approveType == "1"){
+                    copperData = list[i];
+                    console.log("협조자는...", copperData);
                 }else{
-                    console.log("전결자는... 없음....");
                 }
             }
 
@@ -50,7 +53,7 @@ var hwpApprovalLine = {
                 if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장"){
                     appArr = ["", "전결", ""];
 
-                    /**팀장 전결*/
+                /**팀장 전결*/
                 }else if(empData.approveDutyName == "팀장"){
                     appArr = ["전결", "공란", ""];
                 }
@@ -59,6 +62,10 @@ var hwpApprovalLine = {
             hwpDocCtrl.putFieldText('appr0', appArr[0]);
             hwpDocCtrl.putFieldText('appr1', appArr[1]);
             hwpDocCtrl.putFieldText('appr2', appArr[2]);
+
+            if(copperData != null){
+                hwpDocCtrl.putFieldText('cApprText0', copperData.approveDeptName+"장");
+            }
         }
         console.log("----- 양식 결재선 세팅 끝 -----");
     },
@@ -151,17 +158,23 @@ var hwpApprovalLine = {
             hwpDocCtrl.putFieldText('DOC_NO', docInfo.DOC_NO);
             hwpDocCtrl.putFieldText('SECURITY_TYPE', docInfo.SECURITY_TYPE == "000" ? "공개" : "비공개");
 
-        }else if(formId == "88"){
+        }else{
             let list = docView.global.rs.approveRoute;
             console.log("------------------------------- appr ---------------------------------");
             console.log(list);
 
             let empData;
+            let copperData;
             for(let i=0; i<list.length; i++){
                 if(list[i].APPROVE_TYPE == "2"){
                     empData = list[i];
                     console.log("----- 전결자는... -----");
                     console.log(empData);
+                }
+                else if(list[i].APPROVE_TYPE == "1"){
+                    copperData = list[i];
+                    console.log("----- 협조자는... -----");
+                    console.log(copperData);
                 }
             }
 
@@ -169,30 +182,43 @@ var hwpApprovalLine = {
             /** 부서장 전결 */
             if(empData.APPROVE_DUTY_NAME == "본부장" || empData.APPROVE_DUTY_NAME == "사업부장"){
                 appArr = ["sigh1", "전결", "sigh2"];
+                let teamCk = "N";
                 for (let i = 0; i < list.length; i++) {
-                    if (list[i].APPROVE_ORDER == "1" && list[i].APPROVE_STAT_CODE == 20) {
-                        hwpDocCtrl.putFieldText('appr0', list[i].APPROVE_EMP_NAME);
+                    if (list[i].APPROVE_DUTY_NAME == "팀장" && list[i].APPROVE_TYPE != "1" && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
+                        teamCk = "Y";
+                        if(list[i].APPROVE_STAT_CODE == 20){
+                            const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
+                            if(result.data.signImg != null){
+                                const imgMap = result.data.signImg;
+
+                                hwpDocCtrl.moveToField("appr0", true, true, false);
+                                hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    true, 3, false, false, 0, 0, function(ctrl){
+                                        if(ctrl){
+                                            console.log('성공');
+                                        }else{
+                                            console.log('실패');
+                                        }
+                                    });
+                            }else{
+                                hwpDocCtrl.putFieldText('appr0', list[i].APPROVE_EMP_NAME);
+                            }
+                        }
                     }
                 }
 
                 for(let i=0; i<list.length; i++){
-                    if(list[i].APPROVE_ORDER == "2" && (list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101)){
-                        hwpDocCtrl.putFieldText('appr2', list[i].APPROVE_EMP_NAME);
-                    }
-                }
-
-                /** 팀장 전결 */
-            }else if(empData.APPROVE_DUTY_NAME == "팀장"){
-                appArr = ["전결", "공란", "sigh1"];
-                for(let i=0; i<list.length; i++){
-                    if(list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101){
+                    if((list[i].APPROVE_DUTY_NAME == "본부장"
+                    || list[i].APPROVE_DUTY_NAME == "센터장"
+                    || list[i].APPROVE_DUTY_NAME == "사업부장") && (list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101)){
                         const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
                         if(result.data.signImg != null){
                             const imgMap = result.data.signImg;
 
                             hwpDocCtrl.moveToField("appr2", true, true, false);
                             hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                                "http://218.158.231.184" + imgMap.file_path + imgMap.file_uuid,
+                                "localhost" + imgMap.file_path + imgMap.file_uuid,
                                 true, 3, false, false, 0, 0, function(ctrl){
                                     if(ctrl){
                                         console.log('성공');
@@ -205,23 +231,192 @@ var hwpApprovalLine = {
                         }
                     }
                 }
-            }else{
-                appArr = ["sigh1", "sigh2", "sigh3"];
+                
+                if(teamCk == "N"){
+                    hwpDocCtrl.putFieldText('appr0', "공란");
+                }
+
                 for(let i=0; i<list.length; i++){
-                    if(list[i].APPROVE_ORDER == "1" && list[i].APPROVE_STAT_CODE == 20){
-                        hwpDocCtrl.putFieldText('appr0', list[i].APPROVE_EMP_NAME);
+                    /** 협조 */
+                    if (list[i].APPROVE_TYPE == "1") {
+                        if(list[i].APPROVE_STAT_CODE == 20 && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ){
+                            const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
+                            if(result.data.signImg != null){
+                                const imgMap = result.data.signImg;
+
+                                hwpDocCtrl.moveToField("cAppr0", true, true, false);
+                                hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    true, 3, false, false, 0, 0, function(ctrl){
+                                        if(ctrl){
+                                            console.log('성공');
+                                        }else{
+                                            console.log('실패');
+                                        }
+                                    });
+                            }else{
+                                hwpDocCtrl.putFieldText('cAppr0', list[i].APPROVE_EMP_NAME);
+                            }
+                        }
+                    }
+                }
+
+            /** 팀장 전결 */
+            }else if(empData.APPROVE_DUTY_NAME == "팀장"){
+                appArr = ["전결", "공란", "sigh1"];
+                for(let i=0; i<list.length; i++){
+                    if(list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101){
+                        const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
+                        if(result.data.signImg != null){
+                            const imgMap = result.data.signImg;
+
+                            hwpDocCtrl.moveToField("appr2", true, true, false);
+                            hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                                "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                true, 3, false, false, 0, 0, function(ctrl){
+                                    if(ctrl){
+                                        console.log('성공');
+                                    }else{
+                                        console.log('실패');
+                                    }
+                                });
+                        }else{
+                            hwpDocCtrl.putFieldText('appr2', list[i].APPROVE_EMP_NAME);
+                        }
                     }
                 }
 
                 for(let i=0; i<list.length; i++){
-                    if(list[i].APPROVE_ORDER == "2" && list[i].APPROVE_STAT_CODE == 20){
-                        hwpDocCtrl.putFieldText('appr1', list[i].APPROVE_EMP_NAME);
+                    /** 협조 */
+                    if (list[i].APPROVE_TYPE == "1") {
+                        if(list[i].APPROVE_STAT_CODE == 20 && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ){
+                            const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
+                            if(result.data.signImg != null){
+                                const imgMap = result.data.signImg;
+
+                                hwpDocCtrl.moveToField("cAppr0", true, true, false);
+                                hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    true, 3, false, false, 0, 0, function(ctrl){
+                                        if(ctrl){
+                                            console.log('성공');
+                                        }else{
+                                            console.log('실패');
+                                        }
+                                    });
+                            }else{
+                                hwpDocCtrl.putFieldText('cAppr0', list[i].APPROVE_EMP_NAME);
+                            }
+                        }
                     }
+                }
+            }else{
+                appArr = ["sigh1", "sigh2", "sigh3"];
+                let teamCk = "N";
+                let deptCk = "N";
+                for (let i = 0; i < list.length; i++) {
+                    if (list[i].APPROVE_DUTY_NAME == "팀장" && list[i].APPROVE_TYPE != "1" && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
+                        teamCk = "Y";
+                        if(list[i].APPROVE_STAT_CODE == 20){
+                            const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
+                            if(result.data.signImg != null){
+                                const imgMap = result.data.signImg;
+
+                                hwpDocCtrl.moveToField("appr0", true, true, false);
+                                hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    true, 3, false, false, 0, 0, function(ctrl){
+                                        if(ctrl){
+                                            console.log('성공');
+                                        }else{
+                                            console.log('실패');
+                                        }
+                                    });
+                            }else{
+                                hwpDocCtrl.putFieldText('appr0', list[i].APPROVE_EMP_NAME);
+                            }
+                        }
+                    }
+                }
+
+                for(let i=0; i<list.length; i++){
+                    if((list[i].APPROVE_DUTY_NAME == "본부장"
+                        || list[i].APPROVE_DUTY_NAME == "센터장"
+                        || list[i].APPROVE_DUTY_NAME == "사업부장") && list[i].APPROVE_TYPE != "1" && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ){
+                        deptCk = "Y";
+                        if(list[i].APPROVE_STAT_CODE == 20){
+                            const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
+                            if(result.data.signImg != null){
+                                const imgMap = result.data.signImg;
+
+                                hwpDocCtrl.moveToField("appr1", true, true, false);
+                                hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    true, 3, false, false, 0, 0, function(ctrl){
+                                        if(ctrl){
+                                            console.log('성공');
+                                        }else{
+                                            console.log('실패');
+                                        }
+                                    });
+                            }else{
+                                hwpDocCtrl.putFieldText('appr1', list[i].APPROVE_EMP_NAME);
+                            }
+                        }
+                    }
+                }
+
+                if(teamCk == "N"){
+                    hwpDocCtrl.putFieldText('appr0', "공란");
+                }
+                if(deptCk == "N"){
+                    hwpDocCtrl.putFieldText('appr1', "공란");
                 }
 
                 for(let i=0; i<list.length; i++){
                     if(list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101){
-                        hwpDocCtrl.putFieldText('appr2', list[i].APPROVE_EMP_NAME);
+                        const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
+                        if(result.data.signImg != null){
+                            const imgMap = result.data.signImg;
+
+                            hwpDocCtrl.moveToField("appr2", true, true, false);
+                            hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                                "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                true, 3, false, false, 0, 0, function(ctrl){
+                                    if(ctrl){
+                                        console.log('성공');
+                                    }else{
+                                        console.log('실패');
+                                    }
+                                });
+                        }else{
+                            hwpDocCtrl.putFieldText('appr2', list[i].APPROVE_EMP_NAME);
+                        }
+                    }
+                }
+
+                for(let i=0; i<list.length; i++){
+                    /** 협조 */
+                    if (list[i].APPROVE_TYPE == "1") {
+                        if(list[i].APPROVE_STAT_CODE == 20 && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ){
+                            const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
+                            if(result.data.signImg != null){
+                                const imgMap = result.data.signImg;
+
+                                hwpDocCtrl.moveToField("cAppr0", true, true, false);
+                                hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                                    "localhost" + imgMap.file_path + imgMap.file_uuid,
+                                    true, 3, false, false, 0, 0, function(ctrl){
+                                        if(ctrl){
+                                            console.log('성공');
+                                        }else{
+                                            console.log('실패');
+                                        }
+                                    });
+                            }else{
+                                hwpDocCtrl.putFieldText('cAppr0', list[i].APPROVE_EMP_NAME);
+                            }
+                        }
                     }
                 }
             }
