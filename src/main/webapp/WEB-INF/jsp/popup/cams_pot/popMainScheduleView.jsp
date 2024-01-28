@@ -116,9 +116,10 @@
                             <c:when test="${params.publicClass eq 'ES'}">
                                 <col width="7%">
                                 <col width="10%">
+                                <col width="15%">
                                 <col width="25%">
                                 <col width="25%">
-                                <col width="25%">
+                                <col width="10%">
                             </c:when>
                             <c:otherwise>
                                 <col width="7%">
@@ -141,6 +142,7 @@
                                 <th scope="col">부서</th>
                                 <th scope="col">팀</th>
                                 <th scope="col">이름</th>
+                                <th scope="col"></th>
                             </c:when>
                             <c:otherwise>
                                 <th scope="col">번호</th>
@@ -272,13 +274,24 @@
                 "OT": "기타"
             };
             if($("#publicClass").val() == "ES"){
+                console.log(item);
                 html += '' +
                     '<tr>' +
                         '<td style="text-align: center;">'+ (num) +'</td>' +
                         '<td style="text-align: center;">' + item.schedule_TYPE + '</td>' +
                         '<td style="text-align: center;">' + item.dept_NAME.split(" ")[0] + '</td>' +
                         '<td style="text-align: center;">' + item.dept_NAME.split(" ")[1] + '</td>' +
-                        '<td style="text-align: center;">' + item.reg_EMP_NAME + '</td>' +
+                        '<td style="text-align: center;">' + item.reg_EMP_NAME + '</td>';
+                if(item.hr_BIZ_REQ_ID != null && item.hr_BIZ_REQ_ID != ""){
+                    html += '' +
+                        '<td style="text-align: center;">' +
+                            '<a href="javascript:void(0)" onclick="bustripDetail(' + item.hr_BIZ_REQ_ID + ');">상세보기</a>'
+                        '</td>';
+                }else{
+                    html += '' +
+                        '<td style="text-align: center;"></td>';
+                }
+                html += '' +
                     '</tr>'
             }else{
                 var scheduleType = scheduleTypeList[item.schedule_TYPE] || article.SCHEDULE_TYPE;
@@ -415,7 +428,12 @@
             $("#scheduleContentList").append(html);
         }*/
 
-
+    function bustripDetail(hrBizReqId){
+        let url = "/bustrip/pop/bustripReqPop.do?hrBizReqId="+hrBizReqId;
+        let name = "bustripReqPop";
+        let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
+    }
 </script>
 </body>
 </html>
