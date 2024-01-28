@@ -95,7 +95,23 @@ public class CustomBoardServiceImpl implements CustomBoardService {
 
     @Override
     public List<Map<String, Object>> getScheduleList(Map<String, Object> params) {
-        return customBoardRepository.getScheduleList(params);
+        String publicClass = String.valueOf(params.get("publicClass"));
+
+        List<Map<String, Object>> result = customBoardRepository.getScheduleList(params);
+
+        if(!publicClass.equals("CS")){
+            List<Map<String, Object>> addBustripList = customBoardRepository.getBustripScheduleList(params);
+            result.addAll(addBustripList);
+
+            for (Map<String, Object> map : addBustripList) {
+                List<Map<String, Object>> tempList = customBoardRepository.getCompanionScheduleList(map.get("hrBizReqId").toString());
+                if (tempList != null) {
+                    result.addAll(tempList);
+                }
+            }
+        }
+
+        return result;
     }
 
     @Override
