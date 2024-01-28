@@ -265,6 +265,37 @@
         AND ACTIVE = 'Y'
     </select>
 
+    <select id="getBustripScheduleList" parameterType="map" resultType="map">
+        /*getBustripScheduleList*/
+        SELECT
+            HR_BIZ_REQ_ID as hrBizReqId,
+            concat('[출장]', EMP_NAME) as title,
+            CONCAT(DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d'), ' ', TRIP_TIME_FR) as start,
+            CONCAT(DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d'), ' ', TRIP_TIME_TO) as end
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ
+        WHERE
+            STATUS = 100
+    </select>
+
+    <select id="getCompanionScheduleList" parameterType="map" resultType="map">
+        /*getCompanionScheduleList*/
+        SELECT
+            a.HR_BIZ_REQ_ID as hrBizReqId,
+            concat('[출장]',b.EMP_NAME) as title,
+            CONCAT(DATE_FORMAT(a.TRIP_DAY_FR, '%Y-%m-%d'), ' ', a.TRIP_TIME_FR) as start,
+            CONCAT(DATE_FORMAT(a.TRIP_DAY_TO, '%Y-%m-%d'), ' ', a.TRIP_TIME_TO) as end
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ a
+        LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_COMPANION b
+        ON a.HR_BIZ_REQ_ID = b.HR_BIZ_REQ_ID
+        WHERE
+            a.STATUS = 100
+        AND
+            b.HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
     <select id="getTodayScheduleList" parameterType="map" resultType="map">
         /* getTodayScheduleList */
         SELECT
