@@ -1400,7 +1400,7 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+            FILE_CD in ('exnpAttach')
         AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 
@@ -1498,14 +1498,13 @@
             SELECT
                 IHBE.EMP_NAME AS EXNP_NAME,
                 (
-                    (CASE WHEN IHBE.OIL_CORP_YN = 'N' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TRAF_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TOLL_CORP_YN = 'N' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = 1 THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = 1 THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = 1 THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
                     REPLACE(IHBE.DAY_COST, ',', '')+
-                    (CASE WHEN IHBE.EAT_CORP_YN = 'N' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.PARKING_CORP_YN = 'N' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.ETC_CORP_YN = 'N' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+                    (CASE WHEN IHBE.DIVISION = 1 THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = 1 THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = 1 THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
                 ) AS PERSON_SUM,
                 IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE IHBE.HR_BIZ_REQ_RESULT_ID = SHBC.HR_BIZ_REQ_RESULT_ID), 0) AS COMPANION,
                 BRR.*
