@@ -696,23 +696,17 @@
         SET
             OIL_COST = #{oilCost},
             TRAF_COST = #{trafCost},
-            TRAF_DAY_COST = #{trafDayCost},
             TOLL_COST = #{tollCost},
             DAY_COST = #{dayCost},
             EAT_COST = #{eatCost},
             PARKING_COST = #{parkingCost},
             ETC_COST = #{etcCost},
             TOT_COST = #{totCost},
-            OIL_CORP_YN = #{oilCorpYn},
-            TRAF_CORP_YN = #{trafCorpYn},
-            TRAF_DAY_CORP_YN = #{trafDayCorpYn},
-            TOLL_CORP_YN = #{tollCorpYn},
-            EAT_CORP_YN = #{eatCorpYn},
-            PARKING_CORP_YN = #{parkingCorpYn},
-            ETC_CORP_YN = #{etcCorpYn},
             MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             HR_BIZ_EXNP_ID = #{hrBizExnpId}
+        AND
+            DIVISION = #{division}
     </update>
 
     <insert id="saveBustripExnpPop" parameterType="map">
@@ -728,21 +722,14 @@
                 EMP_NAME,
                 OIL_COST,
                 TRAF_COST,
-                TRAF_DAY_COST,
                 TOLL_COST,
                 DAY_COST,
                 EAT_COST,
                 PARKING_COST,
                 ETC_COST,
                 TOT_COST,
-                OIL_CORP_YN,
-                TRAF_CORP_YN,
-                TRAF_DAY_CORP_YN,
-                TOLL_CORP_YN,
-                EAT_CORP_YN,
-                PARKING_CORP_YN,
-                ETC_CORP_YN,
-                REG_EMP_SEQ
+                REG_EMP_SEQ,
+                DIVISION
             )
         VALUES
             (
@@ -756,21 +743,14 @@
                 #{empName},
                 #{oilCost},
                 #{trafCost},
-                #{trafDayCost},
                 #{tollCost},
                 #{dayCost},
                 #{eatCost},
                 #{parkingCost},
                 #{etcCost},
                 #{totCost},
-                #{oilCorpYn},
-                #{trafCorpYn},
-                #{trafDayCorpYn},
-                #{tollCorpYn},
-                #{eatCorpYn},
-                #{parkingCorpYn},
-                #{etcCorpYn},
-                #{regEmpSeq}
+                #{regEmpSeq},
+                #{division}
             )
 
         <selectKey keyProperty="hrBizExnpId" resultType="Integer" order="BEFORE">
