@@ -29,7 +29,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">인사기록카드</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드</div>
+            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드(개인)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <input type="button" id="filePrint" value="인쇄" onclick="userPrintPop();">
@@ -54,11 +54,6 @@
                     <div class="empInfo">
                         <div style="display:flex; justify-content: space-between;">
                             <div class="subTitSt">· 직원 기본 정보</div>
-                            <c:if test="${uprList.empSeq eq loginVO.uniqId}">
-                                <div id="empInfoBtn" class="btn-st" style="margin-top:5px;">
-                                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="setBasicInfo()"/>
-                                </div>
-                            </c:if>
                         </div>
                         <div class="table-responsive">
                             <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -100,7 +95,7 @@
                                         </td>
                                         <th>한자</th>
                                         <td>
-                                            <input type="text" id="empNameCn" name="empNameCn" class="userInfoTextBox notDisabled" placeholder="(한자)" style="width: 50%" value="${uprList.empNameCn}">
+                                            <input type="text" id="empNameCn" name="empNameCn" class="userInfoTextBox" placeholder="(한자)" style="width: 50%" value="${uprList.empNameCn}">
                                         </td>
                                     </tr>
                                     <tr>
@@ -116,32 +111,27 @@
                                     <tr>
                                         <th>[우편번호] 현주소</th>
                                         <td colspan="3">
-                                            <input type="text" id="zipCode" name="zipCode" class="k-input k-textbox k-input-solid k-input-md" value="${uprList.zipCode}" style="width: 20%" placeholder="우편번호" onclick="addrSearch()" readonly>
-                                            <input type="button" class="k-button-solid-info k-button" value="우편번호 찾기" onclick="addrSearch()" /><br>
-                                            <input type="text" id="addr" name="addr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.addr}" placeholder="도로명주소" onclick="addrSearch()" readonly>
-                                            <input type="text" id="oldAddr" name="oldAddr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.oldAddr}" placeholder="지번주소" onclick="addrSearch()" readonly><br>
-                                            <input type="text" id="addrDetail" name="addrDetail" class="k-input k-textbox k-input-solid k-input-md" style="width: 50%;margin-top: 3px;" value="${uprList.addrDetail}" placeholder="상세주소">
-                                            <span id="guide" style="color:#999;display:none"></span>
+                                            <input type="text" id="zipCode" name="zipCode" class="k-input k-textbox k-input-solid k-input-md userInfoTextBox" value="${uprList.zipCode}" style="width: 20%" placeholder="우편번호">
+                                            <input type="text" id="addr" name="addr" class="k-input k-textbox k-input-solid k-input-md userInfoTextBox" style="width: 30%;margin-top: 3px;" value="${uprList.addr}" placeholder="도로명주소">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>전화번호</th>
                                         <td>
-                                            <input type="text" id="officeTelNum" name="officeTelNum" class="userInfoTextBox notDisabled" placeholder="숫자만 입력" value="${uprList.officeTelNum}" style="width: 50%;">
+                                            <input type="text" id="officeTelNum" name="officeTelNum" class="userInfoTextBox" placeholder="숫자만 입력" value="${uprList.officeTelNum}" style="width: 50%;">
                                         </td>
                                         <th>긴급 연락처</th>
                                         <td>
-                                            <input type="text" id="emgTelNum" name="emgTelNum" class="userInfoTextBox notDisabled" placeholder="숫자만 입력" value="${uprList.emgTelNum}" style="width: 50%;">
+                                            <input type="text" id="emgTelNum" name="emgTelNum" class="userInfoTextBox" placeholder="숫자만 입력" value="${uprList.emgTelNum}" style="width: 50%;">
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>차량 소유</th>
-                                        <td>
-                                            <span id="carActive"/>
+                                        <td id="carActive">
                                         </td>
                                         <th>차량 번호</th>
                                         <td>
-                                            <input type="text" id="carNum" name="carNum" value="${uprList.carNum}" class="userInfoTextBox notDisabled" style="width: 50%;">
+                                            <input type="text" id="carNum" name="carNum" value="${uprList.carNum}" class="userInfoTextBox" style="width: 50%;">
                                         </td>
                                     </tr>
                                     <tr>
@@ -163,7 +153,7 @@
                                     <tr>
                                         <th>법인 근무 년수</th>
                                         <td colspan="3">
-                                            <input type="text" id="" name="" placeholder="" value="" style="width: 100%;">
+                                            <input type="text" id="hire" class="userInfoTextBox" name="" value="" style="width: 100%;">
                                         </td>
                                     </tr>
                                     </thead>
@@ -950,6 +940,17 @@
 
 
 <script>
+    $("#hire").val(fn_sethire('${uprList.prev_hire}','${uprList.prev_hire_mon}','${uprList.hire}','${uprList.hire_mon}'));
+    function fn_sethire(prevHire, prevHireMon, hire, hireMon){
+        var totalHire = parseInt(prevHire) + parseInt(hire);
+        var totalHireMon = parseInt(prevHireMon) + parseInt(hireMon);
+        if(totalHireMon > 12){
+            totalHire = parseInt(totalHire) + parseInt(String(totalHireMon/12).split(".")[0]);
+            totalHireMon = totalHireMon%12;
+        }
+        return totalHire + "년 " + totalHireMon + "개월 (전직경력 : " + prevHire + "년 " + prevHireMon + "개월 + 현직경력 : " + hire + "년 " + hireMon + "개월)" ;
+    }
+
     $(function(){
         $("#TabA").on("click",function(){
             $(".likeTab li.activeY").removeClass("activeY");
@@ -1033,15 +1034,11 @@
         $(".userInfoTextBox").kendoTextBox();
         // $("#addrDetail, #addrReferences, #mobileTelNum, #officeTelNum").kendoTextBox();
 
-        $("#carActive").kendoRadioGroup({
-            items: [
-                { label : "예", value : "Y" },
-                { label : "아니오", value : "N" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : '${uprList.carActive}'
-        });
+        if("${uprList.carActive}" == "Y") {
+            $("#carActive").text("예");
+        }else{
+            $("#carActive").text("아니오");
+        }
 
         $.each($(".userInfoTextBox input"), function(){
             if($("#regEmpSeq").val() != $("#empSeq").val() || !$(this).hasClass("notDisabled")){

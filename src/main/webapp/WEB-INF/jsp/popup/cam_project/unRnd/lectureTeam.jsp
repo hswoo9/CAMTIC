@@ -7,7 +7,6 @@
 
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePopup.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lectureTeam.js?v=${today}'/>"></script>
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -23,7 +22,7 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="pjtSn" value="${params.pjtSn}"/>
-<input type="hidden" id="pk" value="${params.pk}"/>
+<input type="hidden" id="pjtUnitSn" value="${params.pjtUnitSn}"/>
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="type" name="type" />
 
@@ -38,7 +37,7 @@
                     </c:if>
                 </span>
             </h3>
-            <div id="lectureTeamBtnDiv" class="btn-st popButton">
+            <div id="lectureTeamBtnDiv" class="btn-st popButton" style="font-size: 13px;">
                 <button type="button" class="k-button k-button-solid-primary" id="modBtn" style="display: none" onclick="lectureTeam.fn_saveBtn();">수정</button>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="lectureTeam.fn_saveBtn();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
@@ -69,18 +68,38 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업기간</th>
                     <td colspan="3">
-                        <input id="eduStartDt" style="width: 110px;">
+                        <input id="unitBusnStrDt" style="width: 110px;">
                         ~
-                        <input id="eduEndDt" style="width: 110px;">
+                        <input id="unitBusnEndDt" style="width: 110px;">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">사업목적</th>
                     <td colspan="3">
-                        <textarea id="goal" style="width: 95%; height: 100px"></textarea>
+                        <textarea id="unitObj" style="width: 95%; height: 100px"></textarea>
                     </td>
                 </tr>
                 </thead>
+            </table>
+
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="10%">
+                    <col width="50%">
+                    <col width="30%">
+                    <col width="10%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>연번</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>업체명</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>금액</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star"></span>추가</th>
+                </tr>
+                </thead>
+                <tbody id="unitBusnBody" style="text-align: center">
+
+                </tbody>
             </table>
         </div>
     </div>

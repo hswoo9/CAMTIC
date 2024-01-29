@@ -700,4 +700,49 @@ public class ProjectRepository extends AbstractDAO {
     public void setReferencesAdd(Map<String, Object> params) {
         update("project.setReferencesAdd", params);
     }
+
+    public void insUnitBusnInfo(Map<String, Object> params) {
+        insert("unRnd.insUnitBusnInfo", params);
+    }
+
+    public void updUnitBusnInfo(Map<String, Object> params) {
+        update("unRnd.updUnitBusnInfo", params);
+    }
+
+    public Map<String, Object> getPjtUnitData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("unRnd.getPjtUnitData", params);
+    }
+
+    public List<Map<String, Object>> getUnitBusnList(Map<String, Object> params) {
+        return selectList("unRnd.getUnitBusnList", params);
+    }
+
+    public void delUnitBusn(Map<String, Object> params) {
+        delete("unRnd.delUnitBusn", params);
+    }
+
+    public void insUnitBusnItem(Map<String, Object> item) {
+        insert("unRnd.insUnitBusnItem", item);
+    }
+
+    public void delUnitBusnItem(Map<String, Object> params) {
+        delete("unRnd.delUnitBusnItem", params);
+    }
+
+    public List<Map<String, Object>> getPjtUnitCrmList(Map<String, Object> params) {
+        return selectList("unRnd.getPjtUnitCrmList", params);
+    }
+
+    public void updPurcUnitCrm(Map<String, Object> params) {
+        update("unRnd.updPurcUnitCrm", params);
+    }
+
+
+    public void delUnitBusnDet(Map<String, Object> params) {
+        delete("unRnd.delUnitBusnDet", params);
+    }
+
+    public void updPurcPjtUnitDetSn(Map<String, Object> data) {
+        update("unRnd.updPurcPjtUnitDetSn", data);
+    }
 }

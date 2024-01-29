@@ -1,10 +1,15 @@
 var unRndLectList = {
     fn_defaultScript: function (){
         unRndLectList.mainGrid();
+        unRndLectList.unitMainGrid();
     },
 
     gridReload: function(){
         $("#lectureMainGrid").data("kendoGrid").dataSource.read();
+    },
+
+    unitGridReload : function (){
+        $("#unitMainGrid").data("kendoGrid").dataSource.read();
     },
 
     mainGrid: function (){
@@ -135,5 +140,147 @@ var unRndLectList = {
             const dataItem = grid.dataItem($(this).closest("tr"));
             lecturePop.fn_lectureReqPop($("#pjtSn").val(), dataItem.LEC_SN);
         });
+    },
+
+
+    unitMainGrid : function (){
+        let unitDataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/projectUnRnd/getUnitBusnList",
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data){
+                    data.pjtSn = $("#pjtSn").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#unitMainGrid").kendoGrid({
+            dataSource: unitDataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 489,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function (e) {
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.unitGridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+
+            ],
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "연번",
+                    template: "#= --record #",
+                    width: "3%"
+                }, {
+                    field: "LEC_NM",
+                    title: "단위사업명",
+                    width: "15%",
+                }, {
+                    title: "기간",
+                    width: "10%",
+                    template: function(e){
+                        return e.STR_DT + "~" + e.END_DT;
+                    }
+                }, {
+                    title: "사업목적",
+                    width: "20%",
+                    template: function(e){
+                        return e.UNIT_OBJ;
+                    }
+                }, {
+                    title: "업체 수",
+                    width: "5%",
+                    template: function(e){
+                        return e.CRM_CNT;
+                    }
+                }, {
+                    title: "업체정보",
+                    width: "5%",
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="unRndLectList.lectureTeamListPop('+e.PJT_SN+','+e.PJT_UNIT_SN+')">보기</button>';
+                    }
+                }, {
+                    title : "기타",
+                    width : "5%",
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-primary" onclick="unRndLectList.lectureTeamPop('+e.PJT_SN+','+e.PJT_UNIT_SN+')">수정</button>' +
+                            '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="unRndLectList.fn_delUnitBusn('+e.PJT_UNIT_SN+')">삭제</button>';
+                    }
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
+    fn_delUnitBusn: function (key){
+
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            pjtUnitSn : key
+        }
+
+        $.ajax({
+            url : "/projectUnRnd/delUnitBusn",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("해당 단위사업이 삭제되었습니다.");
+                    unRndLectList.unitMainGrid();
+                }
+            }
+        });
+
+
+    },
+
+    lectureTeamPop: function(pjtSn, pk){
+        let url = "/projectUnRnd/lectureTeamPop.do?pjtSn="+pjtSn;
+        if(pk != null && pk != ""){
+            url += "&pjtUnitSn="+pk;
+        }
+        const name = "lectureReqPop";
+        const option = "width = 860, height = 500, top = 100, left = 300, location = no";
+        window.open(url, name, option);
+    },
+
+    lectureTeamListPop: function(key, sn){
+        let url = "/projectUnRnd/lectureTeamListPop.do?pjtSn="+key+"&pjtUnitSn="+sn;
+        const name = "lectureReqPop";
+        const option = "width = 1250, height = 650, top = 100, left = 300, location = no";
+        window.open(url, name, option);
     }
 }

@@ -532,4 +532,60 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             }*/
         }
     }
+
+    @Override
+    public void setUnitBusnInfo(Map<String, Object> params) {
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        if(params.containsKey("pjtUnitSn")){
+            projectRepository.updUnitBusnInfo(params);
+        } else {
+            projectRepository.insUnitBusnInfo(params);
+        }
+
+        projectRepository.delUnitBusnItem(params);
+
+        for(Map<String, Object> item : itemArr){
+            item.put("pjtUnitSn", params.get("pjtUnitSn"));
+            projectRepository.insUnitBusnItem(item);
+        }
+
+
+    }
+
+    @Override
+    public Map<String, Object> getPjtUnitData(Map<String, Object> params) {
+        return projectRepository.getPjtUnitData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getUnitBusnList(Map<String, Object> params) {
+        return projectRepository.getUnitBusnList(params);
+    }
+
+    @Override
+    public void delUnitBusn(Map<String, Object> params) {
+        projectRepository.delUnitBusn(params);
+
+        List<Map<String, Object>> list = projectRepository.getPjtUnitCrmList(params);
+        projectRepository.delUnitBusnItem(params);
+
+        for(Map<String, Object> data : list){
+            params.put("pjtUnitSn", data.get("pjtUnitSn"));
+            params.put("crmSn", data.get("crmSn"));
+            projectRepository.updPurcPjtUnitDetSn(params);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getPjtUnitCrmList(Map<String, Object> params) {
+        return projectRepository.getPjtUnitCrmList(params);
+    }
+
+    @Override
+    public void setPurcUnitCrm(Map<String, Object> params) {
+        projectRepository.updPurcUnitCrm(params);
+    }
 }

@@ -515,6 +515,13 @@ var userReqPop = {
             index: 0
         });
 
+        $("#carActive").bind("change", function(){
+            if($('#carActive').is(':checked')){
+                $("#carNumDiv").show();
+            }else{
+                $("#carNumDiv").hide();
+            }
+        });
     },
 
     fn_showDivisDet: function (){

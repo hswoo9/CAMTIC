@@ -13,6 +13,8 @@
         FROM (
             SELECT
             MP.PURC_SN,
+            MP.PJT_UNIT_SN,
+            MP.UNIT_CRM_SN,
             DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
             DI.DOC_NO,
             EI.EMP_NAME_KR,
