@@ -117,7 +117,7 @@
             <h3 class="card-title title_NM">식대 사용 등록</h3>
             <div class="btn-st popButton">
                 <c:choose>
-                    <c:when test="${status == null}">
+                    <c:when test="${status == null || params.mode eq 'mod'}">
                         <button type="button" class="k-button k-button-solid-info" onclick="snackReq.saveBtn();">저장</button>
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">취소</button>
                     </c:when>
@@ -130,6 +130,7 @@
                         <button type="button" class="k-button k-button-md k-button-solid-error" onclick="snackReq.fn_snackCertReq(30)">반려</button>
                     </c:when>
                     <c:when test="${status == 100}">
+                        <button type="button" class="k-button k-button-solid-info" onclick="snackReq.fn_contentMod();">수정</button>
                         <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="snackReq.snackPrintPop();">증빙양식 출력</button>
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                     </c:when>
@@ -273,8 +274,10 @@
         <div class="card-header pop-header" style="margin-top: 15px">
             <h3 class="card-title title_NM">법인카드 사용내역</h3>
             <div class="btn-st popButton">
-                <input type="button" id="histAddBtn" class="k-button k-button-solid-info" value="추가" onclick="snackReq.fn_paymentCardHistory('3')" />
-                <input type="button" id="histDelBtn" class="k-button k-button-solid-error" style="margin-right: 5px" value="삭제" onclick="snackReq.fn_ardHistoryDel()" />
+                <c:if test="${status == null || params.mode eq 'mod'}">
+                    <input type="button" id="histAddBtn" class="k-button k-button-solid-info" value="추가" onclick="snackReq.fn_paymentCardHistory('3')" />
+                    <input type="button" id="histDelBtn" class="k-button k-button-solid-error" style="margin-right: 5px" value="삭제" onclick="snackReq.fn_ardHistoryDel()" />
+                </c:if>
             </div>
         </div>
 
@@ -392,8 +395,8 @@
 
 <script>
     let snackData = {};
-    var fileNoArr = [];
-    let cardList = [];
+    // var fileNoArr = [];
+    // let cardList = [];
 
     <c:if test="${flag eq 'true'}">
         snackData = JSON.parse('${data}');
@@ -415,7 +418,7 @@
         // var fileNoArr = [];
 
         for(var i=0; i<list.length; i++) {
-            cardList.push(list[i]);
+            snackReq.global.cardList.push(list[i]);
             const e = list[i];
 
             let  data = {
@@ -513,7 +516,7 @@
                             success: function (data) {
                                 var data = JSON.parse(data);
                                 var fileNo = data.result;
-                                fileNoArr.push(fileNo);
+                                snackReq.global.fileNoArr.push(fileNo);
                             },
                             error: function (a, b, c) {
                                 alert("error");
@@ -530,7 +533,7 @@
         $("#loadingText").text("영수증 파일 업로드 중입니다.");
 
         //ajax가 비동기로 처리되어서 강제지연
-        setTimeout(() => fn_cardHistSet(cardList, fileNoArr), 2000);
+        setTimeout(() => fn_cardHistSet(snackReq.global.cardList, snackReq.global.fileNoArr), 2000);
 
 
 
@@ -543,10 +546,9 @@
         for(var j=0; j<list.length; j++){
             let e = list[j];
             let fileNo = arr[j].fileNo;
-            console.log(arr[j])
             html += '<tr class="cardData">';
             html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
-            html += '    <input type="hidden" class="fileNo" value="'+fileNo+'" />';
+            html += '    <input type="hidden" class="fileNo" value="'+ fileNo +'" />';
             html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
             html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
             html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
@@ -568,10 +570,10 @@
         $("#usAmount").val(fn_numberWithCommas(totalAmt));
         $("#detailRow").append(html);
 
-        if(cardList.length > 1) {
-            $("#areaName").val(cardList[0].MER_NM + " 외 " + Number(cardList.length - 1) + "건");
+        if(snackReq.global.cardList.length > 1) {
+            $("#areaName").val(snackReq.global.cardList[0].MER_NM + " 외 " + Number(snackReq.global.cardList.length - 1) + "건");
         } else {
-            $("#areaName").val(cardList[0].MER_NM);
+            $("#areaName").val(snackReq.global.cardList[0].MER_NM);
         }
 
         snackReq.fn_tempFileSet(arr);

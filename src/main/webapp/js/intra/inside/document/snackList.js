@@ -68,6 +68,13 @@ var snackList = {
                             '	<span class="k-button-text">지급신청</span>' +
                             '</button>';
                     }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="snackList.fn_delete();">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
                 }
             ],
             noRecords: {
@@ -141,12 +148,11 @@ var snackList = {
                     title: "영수증",
                     width: 50,
                     template: function(row){
-                        if(row.file_no > 0){
-                            return '<span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">보기</span>';
-                        }else{
+                        if(row.fileCnt != 0 || row.frFileCnt != '0') {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="snackList.fn_viewReceipt('+row.SNACK_INFO_SN+', \''+row.FR_FILE_NO+'\')">영수증</button>';
+                        } else {
                             return '-';
                         }
-
                     }
                 },
                 // , {
@@ -323,6 +329,11 @@ var snackList = {
     },
 
     fn_checkedReqRegPopup : function (){
+        if($('input[name="evalChk"]:checked').length == 0){
+            alert("선택된 식대대장이 없습니다.");
+            return;
+        }
+
         var snackInfoSn = "";
         $('input[name="evalChk"]:checked').each(function(){
             snackInfoSn += $(this).val() + ",";
@@ -335,6 +346,36 @@ var snackList = {
         var name = "regPayAppPop";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_viewReceipt : function(key, fileNo){
+        const url = "/Inside/pop/snackReceiptPop.do" + "?snackInfoSn=" + key + "&fileNo=" + fileNo;
+        const name = "receiptPop";
+        const option = "width = 850, height = 400, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    fn_delete : function() {
+        if($("input[name='evalChk']:checked").length == 0){
+            alert("삭제할 항목을 선택해주세요.");
+            return;
+        }
+
+        if(confirm("삭제하시겠습니까?\n삭제한 데이터는 복구 할 수 없습니다.")){
+            var snackInfoSn = "";
+
+            $.each($("input[name='evalChk']:checked"), function(){
+                snackInfoSn += "," + $(this).val()
+            })
+
+            console.log(snackInfoSn);
+
+            var result = customKendo.fn_customAjax("/inside/setSnackDel.do", { snackInfoSn : snackInfoSn.substring(1) });
+            if(result.flag){
+                alert("삭제되었습니다.");
+                snackList.mainGrid();
+            }
+        }
     }
 }
 

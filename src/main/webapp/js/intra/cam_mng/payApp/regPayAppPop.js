@@ -443,7 +443,6 @@ var regPay = {
             for(let i = 0 ; i < hrBizReqResultId.toString().split(",").length; i++) {
                 /** 첨부파일 */
                 const exnpFile = customKendo.fn_customAjax("/bustrip/getExnpFileNum", {
-                    fileCd: "exnpTraf",
                     hrBizReqResultId: hrBizReqResultId.toString().split(",")[i]
                 }).list;
 
@@ -497,9 +496,9 @@ var regPay = {
                     if (fileThumbText != "") {
                         fileThumbText += " | ";
                     }
-                    blist += tempExnpFile[i].file_no;
-                    fileThumbText += tempExnpFile[i].file_org_name;
-                    fileThumbText += "." + tempExnpFile[i].file_ext;
+                    blist += fileData.file_no;
+                    fileThumbText += fileData.file_org_name;
+                    fileThumbText += "." + fileData.file_ext;
                 }
             }
 

@@ -234,6 +234,13 @@ public class DocumentController {
         return "popup/inside/document/snackStatPop";
     }
 
+    //식대대장 영수증 조회 팝업창
+    @RequestMapping("/Inside/pop/snackReceiptPop.do")
+    public String snackReceipt(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("params", params);
+        return "popup/inside/document/snackReceiptPop";
+    }
+
     //증명서인쇄 팝업 페이지
     @RequestMapping("/Inside/pop/snackPrintPop.do")
     public String snackPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
@@ -365,6 +372,13 @@ public class DocumentController {
     public String setSnackInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
         MultipartFile[] file = request.getFiles("snackFile").toArray(new MultipartFile[0]);
         documentService.setSnackInsert(params, file, SERVER_DIR, BASE_DIR);
+        return "jsonView";
+    }
+
+    //식대대장 삭제
+    @RequestMapping("/inside/setSnackDel.do")
+    public String setSnackDel(@RequestParam Map<String, Object> params) {
+        documentService.setSnackDel(params);
         return "jsonView";
     }
 
