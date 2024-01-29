@@ -34,12 +34,13 @@
 </div>
 <script>
     let formId = "135";
+    let hrBizReqId = '${data.hrBizReqId}';
 
     const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
         hrBizReqId: hrBizReqId
     });
 
-    let tripCode = busInfo.TRIP_CODE;
+    let tripCode = result.rs.rs.TRIP_CODE;
     let tripCodeText = "";
 
     /** 도내 */
