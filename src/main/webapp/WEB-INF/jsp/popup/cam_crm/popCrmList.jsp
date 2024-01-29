@@ -9,6 +9,8 @@
 <script type="text/javascript" src="/js/intra/cam_crm/popCrmList.js?v=${today}"/></script>
 <input type="hidden" id="status" value="${params.status}" />
 <input type="hidden" id="mouKey" value="${params.key}" />
+
+<input type="hidden" id="idx" value="${params.idx}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">

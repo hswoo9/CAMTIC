@@ -24,6 +24,7 @@
 <input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}">
 
+<input type="hidden" id="busnNm" value="" />
 <input type="hidden" id="searchKeyword" />
 <input type="hidden" id="searchValue" />
 

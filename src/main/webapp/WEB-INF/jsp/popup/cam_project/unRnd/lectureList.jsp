@@ -16,7 +16,11 @@
 
     <br>
     <span style=""> ◎ 단위사업 리스트</span>
+    <div id="unitMainGrid" style="margin-top:5px; margin-bottom: 20px;"></div>
+
+    <span> ◎ 교육단위사업 리스트</span>
     <div id="lectureMainGrid" style="margin-top:5px;"></div>
+
 </div>
 
 <script>

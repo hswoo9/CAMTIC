@@ -676,4 +676,78 @@ public class ProjectUnRndController {
         model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
+
+    @RequestMapping("/projectUnRnd/setUnitBusnInfo")
+    public String setUnitBusnInfo(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectUnRndService.setUnitBusnInfo(params);
+
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/getPjtUnitData")
+    public String getPjtUnitData(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("map", projectUnRndService.getPjtUnitData(params));
+        model.addAttribute("list", projectUnRndService.getPjtUnitCrmList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/getPjtUnitCrmList")
+    public String getPjtUnitCrmList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", projectUnRndService.getPjtUnitCrmList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/getUnitBusnList")
+    public String getUnitBusnList(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("list", projectUnRndService.getUnitBusnList(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/delUnitBusn")
+    public String delUnitBusn(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectUnRndService.delUnitBusn(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/lectureTeamListPop.do")
+    public String lectureTeamListPop(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("params", params);
+
+
+        return "popup/cam_project/unRnd/lectureTeamList";
+    }
+
+    @RequestMapping("/projectUnRnd/setPurcUnitCrm")
+    public String setPurcUnitCrm(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectUnRndService.setPurcUnitCrm(params);
+
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }
