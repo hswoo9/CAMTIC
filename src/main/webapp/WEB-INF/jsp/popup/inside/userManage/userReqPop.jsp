@@ -320,14 +320,11 @@
                 <tr>
                     <th>차량소유</th>
                     <td colspan="3">
-                        <input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE == Y}">checked</c:if> id="carActive"> 차량을 소유하고 있음
-                    </td>
-                </tr>
-                <tr>
-                    <th>차량번호</th>
-                    <td colspan="3">
-                        <input type="text" id="carNum1" style="width: 30%;" value="${uprinfList.CAR_NUM}">
-                        ex) 22 가 1111
+                        <div style="float: left; margin-right: 5px; height: 29px; line-height: 29px"><input type="checkbox" <c:if test="${uprinfList.CAR_ACTIVE eq 'Y'}">checked</c:if> id="carActive""> 차량을 소유하고 있음</div>
+                        <div id="carNumDiv" style="<c:if test="${uprinfList.CAR_ACTIVE ne 'Y'}">display: none</c:if>">
+                            <input type="text" id="carNum1" style="width: 30%;" value="${uprinfList.CAR_NUM}">
+                            ex) 22 가 1111
+                        </div>
                     </td>
                 </tr>
                 </thead>
