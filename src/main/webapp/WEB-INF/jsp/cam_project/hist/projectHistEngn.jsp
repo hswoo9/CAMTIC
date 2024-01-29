@@ -5,7 +5,6 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/hist/projectHistEngn.js?v=${today}'/>"></script>
 
-<input type="hidden" id="regId" value="${loginVO.id}"/>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -24,5 +23,7 @@
 </div><!-- col-md-9 -->
 
 <script>
+    var a= '${loginVO}'
+    console.log("loginVo", a)
     histEngn.fn_defaultScript();
 </script>

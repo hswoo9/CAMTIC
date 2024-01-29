@@ -134,6 +134,8 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="regJobDetailName" value="${loginVO.jobDetailNm}"/>
+
+<input type="hidden" id="regId" value="${loginVO.id}"/>
 <div class="mainpanel">
     <div class="contentpanel">
         <div class="row">
