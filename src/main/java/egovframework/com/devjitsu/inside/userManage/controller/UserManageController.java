@@ -112,10 +112,14 @@ public class UserManageController {
 
         Map<String,Object> map = new HashMap<>();
         if(!StringUtils.isEmpty(params.get("admin")) && !StringUtils.isEmpty(params.get("empSeq"))){
+            session.setAttribute("personnelEmpSeq", params.get("empSeq"));
             map.put("empSeq", params.get("empSeq"));
+        }else if(!StringUtils.isEmpty(session.getAttribute("personnelEmpSeq"))){
+            map.put("empSeq", session.getAttribute("personnelEmpSeq"));
         }else{
             map.put("empSeq", login.getUniqId());
         }
+        model.addAttribute("params", params);
 
         Map<String,Object> userPersonnelRecordList = userManageService.getUserPersonnelRecordList(map); // 사용자 인사 기록 리스트
         List<Map<String,Object>> educationalList = userManageService.getEducationalList(map); // 교육 사항
@@ -148,7 +152,10 @@ public class UserManageController {
 
         Map<String,Object> map = new HashMap<>();
         if(!StringUtils.isEmpty(params.get("admin")) && !StringUtils.isEmpty(params.get("empSeq"))){
+            session.setAttribute("personnelEmpSeq", params.get("empSeq"));
             map.put("empSeq", params.get("empSeq"));
+        }else if(!StringUtils.isEmpty(session.getAttribute("personnelEmpSeq"))){
+            map.put("empSeq", session.getAttribute("personnelEmpSeq"));
         }else{
             map.put("empSeq", login.getUniqId());
         }

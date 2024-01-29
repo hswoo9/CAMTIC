@@ -355,7 +355,7 @@
                     </div>
                     <div class="armyInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt">· 병역 사항</div>
+                            <div class="subTitSt" id="mText">· 병역 사항</div>
                             <c:if test="${uprList.empSeq eq loginVO.uniqId}">
                             <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; display:none;">
                                 <input type="button" class="k-button k-button-solid-info" value="등록 요청" onclick="addMilitaryBtn()"/>
@@ -365,7 +365,7 @@
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="searchTable table">
+                                <table class="searchTable table" id="mTable">
                                     <colgroup>
                                         <col width="15%">
                                         <col width="35%">
@@ -374,6 +374,7 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
+                                        <input type="hidden" id="mCk" value="${mInfo.MILITARY_SVC_TYPE}">
                                         <th>전역 여부</th>
                                         <td>${mInfo.MILITARY_SVC_TYPE_NM}</td>
                                         <th>사유</th>
@@ -940,6 +941,12 @@
 
 
 <script>
+    /** 군필 아닐시 병역사항 숨김및 해당없음 표기 */
+    if($("#mCk").val() == ""){
+        $("#mTable").hide();
+        $("#mText").text("· 병역 사항(해당없음)");
+    }
+
     $("#hire").val(fn_sethire('${uprList.prev_hire}','${uprList.prev_hire_mon}','${uprList.hire}','${uprList.hire_mon}'));
     function fn_sethire(prevHire, prevHireMon, hire, hireMon){
         var totalHire = parseInt(prevHire) + parseInt(hire);

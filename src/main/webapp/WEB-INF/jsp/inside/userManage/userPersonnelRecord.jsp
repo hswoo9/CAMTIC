@@ -205,7 +205,7 @@
                                                 <td>
                                                     <input type='checkbox' name='eduChk' id='edu${l.EDUCATIONAL_ID}' <%--class='k-checkbox checkbox eduCheckBox'--%>>
                                                 </td>
-                                                <td>${fn:length (eList) - status.index}</td>
+                                                <td>${status.index + 1}</td>
                                                 <td>${l.GUBUN_CODE_NM}</td>
                                                 <td>${l.ADMISSION_DAY}~${l.GRADUATION_DAY}</td>
                                                 <td>${l.SCHOOL_NAME}</td>
@@ -240,7 +240,7 @@
                                                 <td>
                                                     &lt;%&ndash;<input type='checkbox' name='eduChk' id='edu${l.EDUCATIONAL_ID}' &lt;%&ndash;class='k-checkbox checkbox eduCheckBox'&ndash;%&gt;>&ndash;%&gt;
                                                 </td>
-                                                <td>&lt;%&ndash;${fn:length (eList) - status.index}&ndash;%&gt;</td>
+                                                <td>${status.index + 1}</td>
                                                 <td>
                                                     <input type="text" id="gubun" style="width: 50%;">
                                                 </td>
@@ -311,7 +311,7 @@
                                         <c:if test="${l.CAREER_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td><input type='checkbox' name='employChk' id='employ${l.CAREER_ID}' <%--class='k-checkbox checkbox'--%>></td>
-                                                <td>${fn:length (cList) - status.index}</td>
+                                                <td>${status.index + 1}</td>
                                                 <td>${l.JOIN_DAY} ~ ${l.RESIGN_DAY}</td>
                                                 <td>${l.EMPLOY_DEPT_NAME}</td>
                                                 <td>${l.POSITION_OR_DUTY}</td>
@@ -345,11 +345,11 @@
                     </div>
                     <div class="armyInfo">
                         <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt">· 병역 사항</div>
+                            <div class="subTitSt" id="mText">· 병역 사항</div>
                         </div>
                         <div class="table-responsive">
                             <div>
-                                <table class="searchTable table">
+                                <table class="searchTable table" id="mTable">
                                     <colgroup>
                                         <col width="15%">
                                         <col width="35%">
@@ -358,6 +358,7 @@
                                     </colgroup>
                                     <thead>
                                     <tr>
+                                        <input type="hidden" id="mCk" value="${mInfo.MILITARY_SVC_TYPE}">
                                         <th>전역 여부</th>
                                         <td>${mInfo.MILITARY_SVC_TYPE_NM}</td>
                                         <th>사유</th>
@@ -422,7 +423,7 @@
                                                 <td>
                                                     <input type='checkbox' name='familyChk' id='familyChk${l.FAMILY_ID}' <%--class='k-checkbox checkbox'--%>>
                                                 </td>
-                                                <td>${fn:length (fList) - status.index}</td>
+                                                <td>${status.index + 1}</td>
                                                 <td>${l.FAMILY_CODE_TYPE_NM}</td>
                                                 <td>${l.FAMILY_NAME}</td>
                                                 <td>${l.FAMILY_BIRTH}</td>
@@ -470,7 +471,7 @@
                                         <c:if test="${l.CERTIFICATE_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td><input type='checkbox' name='certChk' id='certChk${l.CERTIFICATE_ID}' <%--class='k-checkbox checkbox'--%>></td>
-                                                <td>${fn:length (lList) - status.index}</td>
+                                                <td>${status.index + 1}</td>
                                                 <td>${l.CERTIFICATE_NAME}</td>
                                                 <td>${l.ACQUISITION_DAY}</td>
                                                 <td>${l.CERTIFICATE_NUM}</td>
@@ -520,7 +521,7 @@
                                         <c:if test="${l.DUTY_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td><input type='checkbox' name='dutyInfoChk' id='dutyInfoChk${l.DUTY_ID}' <%--class='k-checkbox checkbox'--%>></td>
-                                                <td>${fn:length (dList) - status.index}</td>
+                                                <td>${status.index + 1}</td>
                                                 <td>${l.WORK_JOIN_DAY}~${l.WORK_LEAVE_DAY}</td>
                                                 <td>${l.DUTY_DETAIL}</td>
                                                 <td>${l.POSITON_NAME}</td>
@@ -561,7 +562,7 @@
                                     </tr>
                                     <c:forEach var="l" items="${aList}" varStatus="status">
                                         <tr>
-                                            <td>${fn:length (aList) - status.index}</td>
+                                            <td>${status.index + 1}</td>
                                             <td>${l.APNT_NAME}</td>
                                             <td>${l.historyDt}</td>
                                             <td>${l.AF_DEPT_NAME} ${l.AF_DEPT_TEAM} ${l.AF_POSITION_NAME} ${l.AF_DUTY_NAME}</td>
@@ -607,7 +608,7 @@
                                         <c:if test="${l.REWORD_ID ne null and l.ADMIN_APPROVAL eq 'Y'}">
                                             <tr>
                                                 <td><input type='checkbox' name='rewordChk' id='rewordChk${l.REWORD_ID}' <%--class='k-checkbox checkbox'--%>></td>
-                                                <td>${fn:length (rList) - status.index}</td>
+                                                <td>${status.index + 1}</td>
                                                 <td>
                                                     <c:choose>
                                                         <c:when test="${l.REWORD_TYPE eq '0'}">
@@ -873,7 +874,7 @@
                                                     <td>
                                                         <input type='checkbox' name='propChk' id='propChk${l.PROPOSAL_ID}' <%--class='k-checkbox checkbox'--%> >
                                                     </td>
-                                                    <td>${fn:length (pList) - status.index}</td>
+                                                    <td>${status.index + 1}</td>
                                                     <td>${l.PROPOSAL_GUBUN}</td>
                                                     <td>${l.PROPOSAL_DATE}</td>
                                                     <td>${l.PROPOSAL_DETAIL}</td>
@@ -895,6 +896,12 @@
 
 
 <script>
+    /** 군필 아닐시 병역사항 숨김및 해당없음 표기 */
+    if($("#mCk").val() == ""){
+        $("#mTable").hide();
+        $("#mText").text("· 병역 사항(해당없음)");
+    }
+
     $("#hire").val(fn_sethire('${uprList.prev_hire}','${uprList.prev_hire_mon}','${uprList.hire}','${uprList.hire_mon}'));
     function fn_sethire(prevHire, prevHireMon, hire, hireMon){
         var totalHire = parseInt(prevHire) + parseInt(hire);
