@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="/js/intra/inside/recruit/recruitHist.js?v=${today}"/></script>
+
+<input type="hidden" id="regId" value="${loginVO.id}"/>
 <style>
     a:hover{
         text-decoration: underline !important;

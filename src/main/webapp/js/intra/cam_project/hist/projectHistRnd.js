@@ -80,12 +80,13 @@ var histRnd = {
                     field: "Subject",
                     title: "상담제목",
                     template: function(e){
+                        const id = $("#id").val();
                         var pjtNm = e.Subject;
                         var pjtEx = pjtNm;
                         if(pjtNm.toString().length > 34){
                             pjtEx = pjtNm.toString().substring(0, 34)+ "...";
                         }
-                        return "<a href='http://pre.camtic.or.kr/CAMsPot/RnD/ReschList/Progress/Index.aspx?ID="+e.PrjID+"' target='_blank' style='font-weight: bold'>" + pjtEx + "</a>";
+                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"RnD/ReschList/Progress/Index.aspx?ID="+e.PrjID+"' target='_blank' style='font-weight: bold'>" + pjtEx + "</a>";
                     }
                 }, {
                     field: "MainComit",

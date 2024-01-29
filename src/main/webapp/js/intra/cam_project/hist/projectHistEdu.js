@@ -76,12 +76,13 @@ var histEdu = {
                     field: "Name",
                     title: "단위사업명",
                     template: function(e){
+                        const id = $("#id").val();
                         var pjtNm = e.Name;
                         var pjtEx = pjtNm;
                         if(pjtNm.toString().length > 42){
                             pjtEx = pjtNm.toString().substring(0, 42)+ "...";
                         }
-                        return "<a href='http://edu.camtic.or.kr/HRD/AdminTool/Project/LectureView.aspx?mLectureCode="+e.LectureCode+"' target='_blank' style='font-weight: bold'>" + pjtEx + "</a>";
+                        return "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"http://edu.camtic.or.kr/HRD/AdminTool/Project/LectureView.aspx?mLectureCode="+e.LectureCode+"' target='_blank' style='font-weight: bold'>" + pjtEx + "</a>";
                     }
                 }, {
                     field: "PSDate",
