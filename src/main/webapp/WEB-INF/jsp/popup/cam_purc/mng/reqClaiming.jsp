@@ -266,7 +266,7 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
-                        <col style="width: 3%;">
+<%--                        <col style="width: 3%;">--%>
                         <col style="width: 480px;">
                         <col style="width: 10%;">
                         <col style="width: 5%;">
@@ -282,7 +282,7 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>번호</th>
+<%--                            <th>번호</th>--%>
                             <th>구분</th>
                             <th>품명</th>
                             <th>규격</th>
@@ -298,10 +298,10 @@
                         </tr>
                     </thead>
                     <tbody id="claimTbody">
-                        <tr class="claimItem newArray" id="item">
+                        <tr class="claimItem newArray" id="item0">
                             <td style="text-align: center">
                                 <div id="claimIndex">1</div>
-                                <input type="hidden" id="claimItemSn" />
+                                <input type="hidden" id="claimItemSn0" />
                             </td>
                             <td>
                                 <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
@@ -311,37 +311,37 @@
                                 <input type="text" id="productC0" class="productC" style="width: 110px; display: none">
                             </td>
                             <td>
-                                <input type="text" id="itemNm" class="itemNm">
+                                <input type="text" id="itemNm0" class="itemNm">
                             </td>
                             <td>
-                                <input type="text" id="itemStd" class="itemStd">
+                                <input type="text" id="itemStd0" class="itemStd">
                             </td>
                             <td>
-                                <input type="text" id="itemEa" style="text-align: right" class="itemEa" onkeyup="reqCl.fn_calcN('', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                <input type="text" id="itemEa0" style="text-align: right" class="itemEa" onkeyup="reqCl.fn_calcN('0', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
                             <td>
-                                <input type="text" id="itemUnitAmt" style="text-align: right" class="itemUnitAmt" onkeyup="reqCl.fn_calcN('', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                <input type="text" id="itemUnitAmt0" style="text-align: right" class="itemUnitAmt" onkeyup="reqCl.fn_calcN('0', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
                             <td>
-                                <input type="text" id="itemUnit" class="itemUnit">
+                                <input type="text" id="itemUnit0" class="itemUnit">
                             </td>
                             <td>
-                                <input type="text" id="itemAmt" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                <input type="text" id="itemAmt0" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
                             <td>
-                                <input type="text" id="purcItemAmt" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                <input type="text" id="purcItemAmt0" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
                             <td>
-                                <input id="difAmt" class="difAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                <input id="difAmt0" class="difAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
                             <td>
-                                <label for="itemEtc"></label><input type="text" id="itemEtc" class="itemEtc">
+                                <label for="itemEtc0"></label><input type="text" id="itemEtc0" class="itemEtc">
                             </td>
 <%--                            <td>--%>
 <%--                                <span id="prodCd"></span>--%>
 <%--                            </td>--%>
                             <td style="text-align: center">
-                                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">
+                                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete('0')">
                                     <span class="k-button-text">삭제</span>
                                 </button>
                             </td>
@@ -363,6 +363,18 @@
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);
+
+        var pt = "";
+        if($("#purcType").getKendoRadioGroup().value() == "R"){
+            pt = "R&D";
+        } else if($("#purcType").getKendoRadioGroup().value() == "S"){
+            pt = "비R&D";
+        } else if($("#purcType").getKendoRadioGroup().value() == "D"){
+            pt = "엔지니어링";
+        } else if($("#purcType").getKendoRadioGroup().value() == "V"){
+            pt = "용역/기타";
+        }
+        $("#claimTitle").val( "["+ pt +"] "+ $("#pjtNm").val()+ " 구매청구");
     }
 </script>
 </body>

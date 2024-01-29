@@ -319,7 +319,7 @@
                         </c:if>
                         <c:if test="${params.stat != 'v'}">
                             <td>
-                                <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">
+                                <button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(0)">
                                     삭제
                                 </button>
                             </td>
