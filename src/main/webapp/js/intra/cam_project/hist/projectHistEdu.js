@@ -76,7 +76,7 @@ var histEdu = {
                     field: "Name",
                     title: "단위사업명",
                     template: function(e){
-                        const id = $("#id").val();
+                        const id = $("#regId").val();
                         var pjtNm = e.Name;
                         var pjtEx = pjtNm;
                         if(pjtNm.toString().length > 42){

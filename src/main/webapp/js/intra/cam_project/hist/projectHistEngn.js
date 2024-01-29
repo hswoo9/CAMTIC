@@ -76,7 +76,7 @@ var histEngn = {
                     field: "JSubject",
                     title: "상담제목",
                     template: function(e){
-                        const id = $("#id").val();
+                        const id = $("#regId").val();
                         var pjtNm = e.JSubject;
                         var pjtEx = pjtNm;
                         if(pjtNm.toString().length > 62){

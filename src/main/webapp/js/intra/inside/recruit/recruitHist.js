@@ -86,7 +86,7 @@ var histRecruit = {
                     field: "Name",
                     title: "공고명",
                     template: function(e){
-                        const id = $("#id").val();
+                        const id = $("#regId").val();
                         var pjtNm = e.Name;
                         return "<a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+"Inside/Recruit/AppIndex.aspx?InfoCode="+e.InfoCode+"' target='_blank' style='font-weight: bold'>" + pjtNm + "</a>";
                     }

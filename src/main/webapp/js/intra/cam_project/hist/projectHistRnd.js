@@ -80,7 +80,7 @@ var histRnd = {
                     field: "Subject",
                     title: "상담제목",
                     template: function(e){
-                        const id = $("#id").val();
+                        const id = $("#regId").val();
                         var pjtNm = e.Subject;
                         var pjtEx = pjtNm;
                         if(pjtNm.toString().length > 34){
