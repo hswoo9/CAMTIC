@@ -5,6 +5,17 @@
     <select id="getUserPersonnelRecordList" parameterType="map" resultType="map">
         /* getUserPersonnelRecordList */
         SELECT
+            <![CDATA[
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) >= 1
+                      THEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) ELSE 0
+                END) AS prev_hire,
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) >= 1
+                      THEN CONCAT(CAST(a.BEFOR_CAREER AS UNSIGNED) - (CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS UNSIGNED) * 12))
+                  ELSE a.BEFOR_CAREER
+                END) AS prev_hire_mon,
+            ]]>
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
+            CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon,
             a.emp_seq AS 'empSeq',
             a.erp_emp_seq AS 'erpEmpSeq',
             a.login_id AS 'loginId',
@@ -1970,7 +1981,6 @@
         DEPT_SEQ = #{DEPT_SEQ},
         DEPT_TEAM_NAME = #{DEPT_TEAM_NAME},
         JOB_DETAIL = #{JOB_DETAIL},
-        BEFOR_CAREER = #{BEFOR_CAREER},
         ACCOUNT_HOLDER = #{ACCOUNT_HOLDER},
         BANK_NAME = #{BANK_NAME},
         ACCOUNT_NUM = #{ACCOUNT_NUM},
