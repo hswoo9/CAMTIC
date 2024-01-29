@@ -126,10 +126,10 @@ var lecturePop = {
     lectureTeamPop: function(pjtSn, pk){
         let url = "/projectUnRnd/lectureTeamPop.do?pjtSn="+pjtSn;
         if(pk != null && pk != ""){
-            url += "&pk="+pk;
+            url += "&pjtUnitSn="+pk;
         }
         const name = "lectureReqPop";
-        const option = "width = 860, height = 386, top = 100, left = 300, location = no";
+        const option = "width = 860, height = 500, top = 100, left = 300, location = no";
         window.open(url, name, option);
     }
 }

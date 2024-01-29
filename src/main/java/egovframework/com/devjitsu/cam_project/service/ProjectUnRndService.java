@@ -49,4 +49,16 @@ public interface ProjectUnRndService {
 
     /** 결과보고 결재 상태값에 따른 UPDATE 메서드 */
     void updateUnRndResDocState(Map<String, Object> bodyMap) throws Exception;
+
+    void setUnitBusnInfo(Map<String, Object> params);
+
+    Map<String, Object> getPjtUnitData(Map<String, Object> params);
+
+    List<Map<String, Object>> getUnitBusnList(Map<String, Object> params);
+
+    void delUnitBusn(Map<String, Object> params);
+
+    List<Map<String, Object>> getPjtUnitCrmList(Map<String, Object> params);
+
+    void setPurcUnitCrm(Map<String, Object> params);
 }

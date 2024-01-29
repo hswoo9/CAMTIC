@@ -117,6 +117,12 @@ var popCrmList = {
 
         var rsFile = rs.rsFile;
         var rs = rs.rs;
+
+        if($("#idx").val() != ""){
+            opener.parent.$("#crmSn" + $("#idx").val()).val(rs.CRM_SN);
+            opener.parent.$("#crmNm" + $("#idx").val()).val(rs.CRM_NM);
+        }
+
         if($("#status").val() == "payDepo"){
             if(rsFile != null && rsFile != "" && rsFile != "undefined" && rsFile != undefined) {
                 opener.parent.$("#fileSn").val(rsFile.FILE1_NO);

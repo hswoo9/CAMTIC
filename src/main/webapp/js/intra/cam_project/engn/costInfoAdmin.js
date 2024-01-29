@@ -20,7 +20,9 @@ var costInfo = {
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
         const pjtMap = result.map;
         console.log(pjtMap);
+
         const delvMap = result.delvMap;
+        $("#busnNm").val(pjtMap.BUSN_NM);
         $("#PJT_CD").text(pjtMap.PJT_CD);
         $("#PJT_NM").text(pjtMap.PJT_NM);
         $("#PM").text(pjtMap.PM);
@@ -187,7 +189,6 @@ var costInfo = {
                     title: "금액",
                     width: 100,
                     template: function(e){
-                        console.log(e)
                         if(e.CLAIM_STATUS == "CAYSY"){
                             purcSum  += Number(e.PURC_ITEM_AMT_SUM);
                         }
@@ -195,6 +196,16 @@ var costInfo = {
                     },
                     footerTemplate: function(){
                         return "<div id='purcSumTemp' style='text-align: right'>"+comma(purcSum)+"</div>";
+                    }
+                }, {
+                    title: "업체선택",
+                    width: 100,
+                    template: function(e){
+                        if(e.PJT_UNIT_SN != null && e.PJT_UNIT_SN != "" && e.PJT_UNIT_SN != undefined && e.BUSN_NM != "비R&D"){
+                            return '';
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="costInfo.lectureTeamListPop(' + e.PURC_SN + ')">선택</button>';
+                        }
                     }
                 }
             ],
@@ -430,5 +441,12 @@ var costInfo = {
         var name = "regPayAppPop";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    lectureTeamListPop: function(key){
+        let url = "/projectUnRnd/lectureTeamListPop.do?pjtSn="+$("#pjtSn").val() + "&purcSn=" + key;
+        const name = "lectureReqPop";
+        const option = "width = 1250, height = 650, top = 100, left = 300, location = no";
+        window.open(url, name, option);
     }
 }

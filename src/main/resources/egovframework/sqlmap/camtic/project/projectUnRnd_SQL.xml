@@ -549,52 +549,41 @@
         INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE
             (
                 PJT_SN,
-
                 LEC_BUSN_CLASS,
                 LEC_BUSN_CLASS_NAME,
                 LEC_FIELD,
                 LEC_FIELD_NAME,
-
                 LEC_SBJ_CD,
                 LEC_SBJ_CD_NAME,
                 LEC_PS_CD,
                 LEC_PS_CD_NAME,
-
                 LEC_TITLE_BS,
                 LEC_TITLE_PR,
                 LEC_TOPIC,
                 LEC_PS_GUIDE_A,
                 LEC_PS_GUIDE_B,
-
                 LEC_STR_DE,
                 LEC_END_DE,
                 RECR_STR_DE,
                 RECR_END_DE,
-
                 RECR_MEM_CNT,
                 LEC_TIME,
                 LEC_TIME_RNG,
-
                 LEC_ADDR,
                 LEC_STATUS,
                 LEC_STATUS_NAME,
-
                 LEC_OBJ,
                 LEC_SUMR,
                 LEC_TARG,
                 LEC_SCH,
                 LEC_INQ,
                 LEC_MAT,
-
                 LEC_COST,
                 LEC_COST_EX,
                 LEC_OPER,
-
                 LEC_CERT,
-
                 LEC_OPEN_BD,
                 LEC_OPEN_BD_NAME,
-
                 REG_EMP_SEQ
             )
         VALUE
@@ -836,5 +825,125 @@
             APPROVAL_EMP_SEQ = #{empSeq}
         WHERE
             PJT_SN = #{pjtSn}
+    </update>
+
+    <insert id="insUnitBusnInfo" parameterType="map">
+        /*insUnitBusnInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_UNIT
+            (
+                PJT_SN,
+                LEC_NM,
+                STR_DT,
+                END_DT,
+                UNIT_OBJ,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtSn},
+                #{lecNm},
+                #{strDt},
+                #{endDt},
+                #{unitObj},
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="pjtUnitSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_UNIT'
+        </selectKey>
+    </insert>
+
+    <update id="updUnitBusnInfo" parameterType="map">
+        /*updUnitBusnInfo*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_UNIT
+        SET
+            LEC_NM = #{lecNm},
+            STR_DT = #{strDt},
+            END_DT = #{endDt},
+            UNIT_OBJ = #{unitObj}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <select id="getPjtUnitData" parameterType="map" resultType="map">
+        /*getPjtUnitData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_UNIT
+        WHERE
+            PJT_UNIT_SN = #{pjtUnitSn}
+    </select>
+
+    <select id="getUnitBusnList" parameterType="map" resultType="map">
+        /*getUnitBusnList*/
+        SELECT
+            A.*,
+            (SELECT COUNT(*) FROM CAM_PJT_MNG.DJ_PJT_UNIT_DET WHERE PJT_UNIT_SN = A.PJT_UNIT_SN) CRM_CNT
+        FROM
+            CAM_PJT_MNG.DJ_PJT_UNIT A
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
+
+    <delete id="delUnitBusn" parameterType="map">
+        /*delUnitBusn*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_UNIT WHERE PJT_UNIT_SN = #{pjtUnitSn}
+    </delete>
+
+    <insert id="insUnitBusnItem" parameterType="map">
+        /*insUnitBusnItem*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_UNIT_DET
+            (
+                PJT_UNIT_SN,
+                CRM_SN,
+                CRM_NM,
+                BUSN_AMT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtUnitSn},
+                #{crmSn},
+                #{crmNm},
+                #{busnAmt},
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <delete id="delUnitBusnItem" parameterType="map">
+        /*delUnitBusnItem*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_UNIT_DET WHERE PJT_UNIT_SN = #{pjtUnitSn}
+    </delete>
+
+    <select id="getPjtUnitCrmList" parameterType="map" resultType="map">
+        /*getPjtUnitCrmList*/
+        SELECT
+            A.*,
+            IFNULL((SELECT SUM(PURC_ITEM_AMT) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN IN (SELECT PURC_SN FROM CAM_MNG.DJ_MNG_PURC WHERE PJT_UNIT_SN = A.PJT_UNIT_SN AND UNIT_CRM_SN = A.CRM_SN)),0) AS SUM_AMT
+        FROM
+            CAM_PJT_MNG.DJ_PJT_UNIT_DET A
+        WHERE
+            PJT_UNIT_SN = #{pjtUnitSn}
+    </select>
+
+    <update id="updPurcUnitCrm" parameterType="map">
+        /*updPurcUnitCrm*/
+        UPDATE CAM_MNG.DJ_MNG_PURC
+        SET
+            UNIT_CRM_SN = #{crmSn},
+            PJT_UNIT_SN = #{pjtUnitSn}
+        WHERE
+            PURC_SN = #{purcSn}
+    </update>
+
+    <update id="updPurcPjtUnitDetSn" parameterType="map">
+        /*updPurcPjtUnitDetSn*/
+        UPDATE CAM_MNG.DJ_MNG_PURC
+        SET
+            PJT_UNIT_SN = null,
+            UNIT_CRM_SN = null
+        WHERE
+            PJT_UNIT_SN = #{pjtUnitSn} AND
+            UNIT_CRM_SN = #{unitCrmSn}
     </update>
 </mapper>
