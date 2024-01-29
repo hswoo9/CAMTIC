@@ -29,7 +29,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">인사기록카드</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드</div>
+            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 인사기록카드(개인)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <input type="button" id="filePrint" value="인쇄" onclick="userPrintPop();">
@@ -116,12 +116,8 @@
                                     <tr>
                                         <th>[우편번호] 현주소</th>
                                         <td colspan="3">
-                                            <input type="text" id="zipCode" name="zipCode" class="k-input k-textbox k-input-solid k-input-md" value="${uprList.zipCode}" style="width: 20%" placeholder="우편번호" onclick="addrSearch()" readonly>
-                                            <input type="button" class="k-button-solid-info k-button" value="우편번호 찾기" onclick="addrSearch()" /><br>
-                                            <input type="text" id="addr" name="addr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.addr}" placeholder="도로명주소" onclick="addrSearch()" readonly>
-                                            <input type="text" id="oldAddr" name="oldAddr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.oldAddr}" placeholder="지번주소" onclick="addrSearch()" readonly><br>
-                                            <input type="text" id="addrDetail" name="addrDetail" class="k-input k-textbox k-input-solid k-input-md" style="width: 50%;margin-top: 3px;" value="${uprList.addrDetail}" placeholder="상세주소">
-                                            <span id="guide" style="color:#999;display:none"></span>
+                                            <input type="text" id="zipCode" name="zipCode" class="k-input k-textbox k-input-solid k-input-md" value="${uprList.zipCode}" style="width: 20%" placeholder="우편번호" readonly>
+                                            <input type="text" id="addr" name="addr" class="k-input k-textbox k-input-solid k-input-md" style="width: 30%;margin-top: 3px;" value="${uprList.addr}" placeholder="도로명주소" readonly>
                                         </td>
                                     </tr>
                                     <tr>
@@ -163,7 +159,7 @@
                                     <tr>
                                         <th>법인 근무 년수</th>
                                         <td colspan="3">
-                                            <input type="text" id="" name="" placeholder="" value="" style="width: 100%;">
+                                            <input type="text" id="hire" name="" placeholder="" value="" style="width: 100%;" readonly>
                                         </td>
                                     </tr>
                                     </thead>
@@ -950,6 +946,17 @@
 
 
 <script>
+    $("#hire").val(fn_sethire('${uprList.prev_hire}','${uprList.prev_hire_mon}','${uprList.hire}','${uprList.hire_mon}'));
+    function fn_sethire(prevHire, prevHireMon, hire, hireMon){
+        var totalHire = parseInt(prevHire) + parseInt(hire);
+        var totalHireMon = parseInt(prevHireMon) + parseInt(hireMon);
+        if(totalHireMon > 12){
+            totalHire = parseInt(totalHire) + parseInt(String(totalHireMon/12).split(".")[0]);
+            totalHireMon = totalHireMon%12;
+        }
+        return totalHire + "년 " + totalHireMon + "개월 (전직경력 : " + prevHire + "년 " + prevHireMon + "개월 + 현직경력 : " + hire + "년 " + hireMon + "개월)" ;
+    }
+
     $(function(){
         $("#TabA").on("click",function(){
             $(".likeTab li.activeY").removeClass("activeY");
