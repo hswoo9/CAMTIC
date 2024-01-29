@@ -95,6 +95,12 @@ public interface DocumentService {
     void setSnackInsert(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     /**
+     * 식대대장 삭제
+     * @param params
+     */
+    void setSnackDel(Map<String, Object> params);
+
+    /**
      * 식대대장 승인요청
      * @param params
      */

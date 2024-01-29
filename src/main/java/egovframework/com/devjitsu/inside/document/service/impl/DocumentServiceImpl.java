@@ -290,7 +290,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         if(params.containsKey("cardArr")){
             documentRepository.delCardHist(params);
-
+            documentRepository.delSnackUseCardInfo(params);
             List<Map<String, Object>> list = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
             for(Map<String, Object> data : list){
                 data.put("snackInfoSn", params.get("snackInfoSn"));
@@ -304,6 +304,13 @@ public class DocumentServiceImpl implements DocumentService {
                 documentRepository.insCardHist(data);
             }
         }
+    }
+
+    @Override
+    public void setSnackDel(Map<String, Object> params) {
+        documentRepository.setSnackDel(params);
+        documentRepository.delCardHist(params);
+        documentRepository.delSnackUseCardInfo(params);
     }
 
     @Override
@@ -499,7 +506,17 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
-        return documentRepository.getCardList(params);
+        List<Map<String, Object>> resultMap = documentRepository.getCardList(params);
+
+        if(!resultMap.isEmpty()){
+            String[] fileNoArr = resultMap.get(0).get("FR_FILE_NO").toString().split(",");
+
+            for(int i = 0 ; i < fileNoArr.length ; i++){
+                resultMap.get(i).put("fileNo", fileNoArr[i]);
+            }
+        }
+
+        return resultMap;
     }
     @Override
     public List<Map<String, Object>> getFileList(Map<String, Object> params) {

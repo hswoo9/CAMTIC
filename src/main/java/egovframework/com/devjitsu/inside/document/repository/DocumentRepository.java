@@ -65,6 +65,8 @@ public class DocumentRepository extends AbstractDAO {
 
     public void setSnackUpdate(Map<String, Object> params) { update("document.setSnackUpdate", params);}
 
+    public void setSnackDel(Map<String, Object> params) { delete("document.setSnackDel", params); }
+
     public void setSnackCompanionInsert(Map<String, Object> params) { insert("document.setSnackCompanionInsert", params); }
 
     public void insCardHist(Map<String, Object> params) {
@@ -74,6 +76,8 @@ public class DocumentRepository extends AbstractDAO {
     public void delCardHist(Map<String, Object> params) {
         delete("document.delCardHist", params);
     }
+
+    public void delSnackUseCardInfo(Map<String, Object> params) { delete("document.delSnackUseCardInfo", params); }
 
     public void setSnackReqCert(Map<String, Object> params) {
         update("document.setSnackReqCert", params);

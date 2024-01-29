@@ -3,7 +3,9 @@ var snackReq = {
         userArr: [],
         snackData: {},
         attFiles : new Array(),
-        addAttFiles : new Array()
+        addAttFiles : new Array(),
+        cardList : new Array(),
+        fileNoArr : new Array()
     },
 
     init: function() {
@@ -11,6 +13,7 @@ var snackReq = {
     },
 
     dataSet: function(snackData) {
+        console.log("dataSet");
         customKendo.fn_textBox(["userText", "corporCard", "areaName", "usAmount", "useReason"]);
         customKendo.fn_datePicker("useDt", 'month', "yyyy-MM-dd", new Date());
         let snackTypeDataSource = [
@@ -75,6 +78,10 @@ var snackReq = {
                 $("#cardSearch").attr("disabled", true);
             } else {
                 snackReq.enableSetting(false);
+            }
+
+            if($("#mode").val() == "mod"){
+                snackReq.enableSetting(true);
             }
 
             if(snackData.STATUS != 100){
@@ -154,6 +161,14 @@ var snackReq = {
                     html += '</tr>';
                     $("#detailRow").append(html);
                 }
+
+                e.fileNo = cardMap.fileNo;
+                snackReq.global.cardList.push(e);
+
+                var fileNo = {
+                    fileNo: e.fileNo
+                };
+                snackReq.global.fileNoArr.push(fileNo);
             }
         }else{
 
@@ -283,7 +298,7 @@ var snackReq = {
             return;
         }
 
-        if((snackReq.global.attFiles.length + snackReq.global.addAttFiles.length) < 1) {
+        if((snackReq.global.attFiles.length + snackReq.global.addAttFiles.length + fCommon.global.attFiles.length) < 1) {
             alert("영수증이 첨부되지 않았습니다.");
             return;
         }
@@ -450,6 +465,10 @@ var snackReq = {
         var popup = window.open(url, name, option);
     },
 
+    fn_contentMod : function(){
+        location.href="/Inside/pop/snackPop.do?snackInfoSn=" + $("#snackInfoSn").val() + "&mode=mod";
+    },
+
     splitBill: function(){
         fn_inputNumberFormat(this);
         if(this.value == ""){
@@ -601,15 +620,18 @@ var snackReq = {
 
             var html = '';
             for (var i = 0; i < snackReq.global.attFiles.length; i++) {
-                size = snackReq.bytesToKB(snackReq.global.attFiles[i].fileSize);
-                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
-                html += '   <td>' + snackReq.global.attFiles[i].fileOrgName + ' <span style="color: dodgerblue;">[영수증 파일]</span></td>';
-                html += '   <td>' + snackReq.global.attFiles[i].fileExt + '</td>';
-                html += '   <td>' + size + '</td>';
-                html += '   <td>';
-                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="snackReq.commonFileDel(' + snackReq.global.attFiles[i].fileNo + ', this, '+ i +')">';
-                html += '   </td>';
-                html += '</tr>';
+
+                if(snackReq.global.attFiles[i].fileOrgName != null) {
+                    size = snackReq.bytesToKB(snackReq.global.attFiles[i].fileSize);
+                    html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                    html += '   <td>' + snackReq.global.attFiles[i].fileOrgName + ' <span style="color: dodgerblue;">[영수증 파일]</span></td>';
+                    html += '   <td>' + snackReq.global.attFiles[i].fileExt + '</td>';
+                    html += '   <td>' + size + '</td>';
+                    html += '   <td>';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="snackReq.commonFileDel(' + snackReq.global.attFiles[i].fileNo + ', this, '+ i +')">';
+                    html += '   </td>';
+                    html += '</tr>';
+                }
             }
 
             $("#fileGrid").append(html);
