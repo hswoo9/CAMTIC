@@ -1,13 +1,17 @@
 var reqCl = {
 
-
+    global: {
+        createHtmlStr : "",
+        itemIndex : 0,
+        cliamItemList : [],
+    },
 
     fn_defaultScript : function(){
 
         customKendo.fn_textBox(["pjtNm", "purcDeptName", "purcEmpName", "claimEtc"
                                 ,"claimTitle", "purcReqPurpose", "crmNm"
-                                ,"estAmt", "vatAmt", "totAmt", "itemNm", "itemStd"
-                                ,"itemEa", "itemUnitAmt", "itemUnit", "purcItemAmt", "itemAmt", "itemEtc", "difAmt"])
+                                ,"estAmt", "vatAmt", "totAmt", "itemNm0", "itemStd0"
+                                ,"itemEa0", "itemUnitAmt0", "itemUnit0", "purcItemAmt0", "itemAmt0", "itemEtc0", "difAmt0"])
 
         var radioDataSource = [
             { label: "법인운영", value: "" },
@@ -59,11 +63,14 @@ var reqCl = {
         $("input[name='purcType']").click(function(){
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
+                $("#claimTitle").val("");
             } else {
                 $("#project").css("display", "none");
-                $("#pjtSn").val("");
-                $("#pjtNm").val("");
+                $("#claimTitle").val("[법인운영] 구매청구");
             }
+            $("#pjtSn").val("");
+            $("#pjtNm").val("");
+            $("#pjtCd").val("");
         });
 
         customKendo.fn_datePicker("claimDe", "month", "yyyy-MM-dd", new Date());
@@ -214,6 +221,7 @@ var reqCl = {
             // 디폴트 선택
             $("#purcItemType0").data("kendoDropDownList").select(1);
             $("#productA0").data("kendoDropDownList").select(2);
+            reqCl.global.itemIndex += 1;
         }
 
         $("#vat").data("kendoRadioGroup").bind("change", function(e){
@@ -334,73 +342,72 @@ var reqCl = {
     },
 
     addRow : function(){
-        var len = $("#claimTbody > tr").length;
-        var html = '';
+        reqCl.global.createHtmlStr = "";
 
-        html += '<tr class="claimItem newArray" id="item'+len+'">';
-        html += '   <td style="text-align: center">' +
-            '           <div id="claimIndex">'+(len + 1)+'</div>' +
-            '       </td>' +
-            '           <td>' +
-            '               <input type="hidden" id="purcItemSn' + len + '" name="purcItemSn0" class="purcItemSn">' +
-            '               <input type="text" id="purcItemType' + len + '" class="purcItemType" style="width: 110px">' +
-            '               <input type="text" id="productA' + len + '" class="productA" style="width: 110px">' +
-            '               <input type="text" id="productB' + len + '" class="productB" style="width: 110px; display: none">' +
-            '               <input type="text" id="productC' + len + '" class="productC" style="width: 110px; display: none">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemNm'+len+'" class="itemNm">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemStd'+len+'" class="itemStd">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemEa'+len+'" style="text-align: right" class="itemEa" onkeyup="reqCl.fn_calcN(\''+len+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemUnitAmt'+len+'" style="text-align: right" class="itemUnitAmt" onkeyup="reqCl.fn_calcN(\''+len+'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemUnit'+len+'" class="itemUnit">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="itemAmt'+len+'" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="purcItemAmt'+len+'" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-            '       </td>' +
-            '       <td>' +
-            '           <input id="difAmt'+len+'" class="difAmt" value="'+comma(0)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-            '       </td>' +
-            '       <td>' +
-            '           <label for="itemEtc'+len+'"></label><input type="text" id="itemEtc'+len+'" class="itemEtc">' +
-            '       </td>' +
-            // '       <td>' +
-            // '           <span id="prodCd'+len+'"></span>' +
+        // reqCl.global.itemIndex++;
+
+        reqCl.global.createHtmlStr = "" +
+            '<tr class="claimItem newArray" id="item' + reqCl.global.itemIndex + '">' +
+            // '   <td style="text-align: center">' +
+            // '           <div id="claimIndex">' + (reqCl.global.itemIndex + 1) + '</div>' +
             // '       </td>' +
+            '           <td>' +
+            '               <input type="hidden" id="purcItemSn' + reqCl.global.itemIndex + '" name="purcItemSn0" class="purcItemSn">' +
+            '               <input type="text" id="purcItemType' + reqCl.global.itemIndex + '" class="purcItemType" style="width: 110px">' +
+            '               <input type="text" id="productA' + reqCl.global.itemIndex + '" class="productA" style="width: 110px">' +
+            '               <input type="text" id="productB' + reqCl.global.itemIndex + '" class="productB" style="width: 110px; display: none">' +
+            '               <input type="text" id="productC' + reqCl.global.itemIndex + '" class="productC" style="width: 110px; display: none">' +
+            '       </td>' +
+            '       <td>' +
+            '           <input type="text" id="itemNm' + reqCl.global.itemIndex + '" class="itemNm">' +
+            '       </td>' +
+            '       <td>' +
+            '           <input type="text" id="itemStd' + reqCl.global.itemIndex + '" class="itemStd">' +
+            '       </td>' +
+            '       <td>' +
+            '           <input type="text" id="itemEa' + reqCl.global.itemIndex + '" style="text-align: right" class="itemEa" onkeyup="reqCl.fn_calcN(\'' + reqCl.global.itemIndex + '\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       </td>' +
+            '       <td>' +
+            '           <input type="text" id="itemUnitAmt' + reqCl.global.itemIndex + '" style="text-align: right" class="itemUnitAmt" onkeyup="reqCl.fn_calcN(\'' + reqCl.global.itemIndex + '\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       </td>' +
+            '       <td>' +
+            '           <input type="text" id="itemUnit' + reqCl.global.itemIndex + '" class="itemUnit">' +
+            '       </td>' +
+            '       <td>' +
+            '           <input type="text" id="itemAmt' + reqCl.global.itemIndex + '" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       </td>' +
+            '       <td>' +
+            '           <input type="text" id="purcItemAmt' + reqCl.global.itemIndex + '" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       </td>' +
+            '       <td>' +
+            '           <input id="difAmt' + reqCl.global.itemIndex + '" class="difAmt" value="'+comma(0)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            '       </td>' +
+            '       <td>' +
+            '           <label for="itemEtc' + reqCl.global.itemIndex + '"></label><input type="text" id="itemEtc' + reqCl.global.itemIndex + '" class="itemEtc">' +
+            '       </td>' +
             '       <td style="text-align: center" class="listDelBtn">' +
-            '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">' +
+            '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(' + reqCl.global.itemIndex + ')">' +
             '               <span class="k-button-text">삭제</span>' +
             '           </button>' +
-            '       </td>';
-        html += '</tr>';
+            '       </td>' +
+            '</tr>';
 
-        $("#claimTbody").append(html);
+        $("#claimTbody").append(reqCl.global.createHtmlStr);
 
         var dataSourceB = [
             { text: "구매", value: "1"},
         ]
-        customKendo.fn_dropDownList("purcItemType" + len, dataSourceB, "text", "value", 2);
+        customKendo.fn_dropDownList("purcItemType" + reqCl.global.itemIndex, dataSourceB, "text", "value", 2);
 
 
-        customKendo.fn_textBox(["itemNm" + len, "itemStd" + len, "difAmt" + len
-            ,"itemEa" + len, "itemUnitAmt" + len, "itemUnit" + len, "itemAmt" + len, "purcItemAmt" + len, "itemEtc" + len])
+        customKendo.fn_textBox(["itemNm" + reqCl.global.itemIndex, "itemStd" + reqCl.global.itemIndex, "difAmt" + reqCl.global.itemIndex
+            ,"itemEa" + reqCl.global.itemIndex, "itemUnitAmt" + reqCl.global.itemIndex, "itemUnit" + reqCl.global.itemIndex, "itemAmt" + reqCl.global.itemIndex, "purcItemAmt" + reqCl.global.itemIndex, "itemEtc" + reqCl.global.itemIndex])
 
         let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
-        customKendo.fn_dropDownList("purcItemType" + len, productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+        customKendo.fn_dropDownList("purcItemType" + reqCl.global.itemIndex, productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
 
         let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
-        customKendo.fn_dropDownList("productA" + len, productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        customKendo.fn_dropDownList("productA" + reqCl.global.itemIndex, productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
 
         var radioProdDataSource = [
             { label: "해당없음", value: "N" },
@@ -408,7 +415,7 @@ var reqCl = {
             { label: "유지보수", value: "E" },
         ]
 
-        customKendo.fn_radioGroup("prodCd" + len, radioProdDataSource, "horizontal");
+        customKendo.fn_radioGroup("prodCd" + reqCl.global.itemIndex, radioProdDataSource, "horizontal");
 
         $(".productA").each(function (){
 
@@ -420,12 +427,15 @@ var reqCl = {
         });
 
         // 디폴트 선택
-        $("#purcItemType" + len).data("kendoDropDownList").select(1);
-        $("#productA" + len).data("kendoDropDownList").select(2);
+        $("#purcItemType" + reqCl.global.itemIndex).data("kendoDropDownList").select(1);
+        $("#productA" + reqCl.global.itemIndex).data("kendoDropDownList").select(2);
+        reqCl.global.itemIndex++;
     },
 
     fn_productCodeSetting : function(productId){
-        var i = productId.slice(-1);
+        var productId = productId;
+        var regex = /[^0-9]/g;
+        var i = productId.replace(regex, "");
 
         $("#productA" + i).bind("change", function(){
             if($("#productA" + i).data("kendoDropDownList").value() == "" || $("#productA" + i).data("kendoDropDownList").text() != "캠아이템"){
@@ -465,10 +475,14 @@ var reqCl = {
     },
 
     fn_delete : function(e){
-        var len = $("#claimTbody > tr").length
+        // var len = $("#claimTbody > tr").length
+        //
+        // if(len > 1){
+        //     $(e).closest("tr").remove()
+        // }
 
-        if(len > 1){
-            $(e).closest("tr").remove()
+        if($(".claimItem").length > 1){
+            $("#item" + e).remove();
         }
     },
 
@@ -567,54 +581,41 @@ var reqCl = {
 
         var len = $("#claimTbody > tr").length;
 
-        var flag = true;
         var itemArr = new Array()
-        for(var i = 0 ; i < len ; i++){
-            var itemParameters = {};
-            if(i == 0){
-                if($("#claimItemSn").val() != ""){
-                    itemParameters.claimItemSn = $("#claimItemSn").val();
-                }
-                itemParameters.itemNm = $("#itemNm").val();
-                itemParameters.itemStd = $("#itemStd").val();
-                itemParameters.itemEa = uncomma($("#itemEa").val());
-                itemParameters.itemUnitAmt = uncommaN($("#itemUnitAmt").val());
-                itemParameters.itemUnit = $("#itemUnit").val();
-                itemParameters.itemAmt = uncommaN($("#itemAmt").val());
-                itemParameters.purcItemAmt = $("#purcItemAmt").val() ? uncommaN($("#purcItemAmt").val()) : 0;
-                itemParameters.difAmt = $("#difAmt").val().replace(/,/g, '');
-                itemParameters.itemEtc = $("#itemEtc").val();
-                // itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").value();
-            } else {
-                if($("#claimItemSn").val() != ""){
-                    itemParameters.claimItemSn = $("#claimItemSn" + i).val();
-                }
-                itemParameters.itemNm = $("#itemNm" + i).val();
-                itemParameters.itemStd = $("#itemStd" + i).val();
-                itemParameters.itemEa = uncomma($("#itemEa" + i).val());
-                itemParameters.itemUnitAmt = uncommaN($("#itemUnitAmt" + i).val());
-                itemParameters.itemUnit = $("#itemUnit" + i).val();
-                itemParameters.itemAmt = uncommaN($("#itemAmt" + i).val());
-                itemParameters.purcItemAmt = $("#purcItemAmt").val() ? uncommaN($("#purcItemAmt").val()) : 0;
-                itemParameters.difAmt = $("#difAmt" + i).val().replace(/,/g, '');
-                itemParameters.itemEtc = $("#itemEtc" + i).val();
-                // itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").value();
+        var flag = true;
+        var flag2 = true;
+        var flag3 = true;
+        var flag4 = true;
+        var flag5 = true;
+        var flag6 = true;
+        $.each($(".claimItem"), function(i, v){
+            var index = $(this).attr("id").replace(/[^0-9]/g, '');
+
+            var data = {
+                claimItemSn : $(this).find("#claimItemSn" + index).val(),
+                itemNm : $("#itemNm" + index).val(),
+                itemStd : $("#itemStd" + index).val(),
+                itemEa : uncomma($("#itemEa" + index).val()),
+                itemUnitAmt : uncommaN($("#itemUnitAmt" + index).val()),
+                itemUnit : $("#itemUnit" + index).val(),
+                itemAmt : uncommaN($("#itemAmt" + index).val()),
+                purcItemAmt : $("#purcItemAmt" + index).val() ? uncommaN($("#purcItemAmt" + i).val()) : 0,
+                difAmt : uncommaN($("#difAmt" + index).val()),
+                itemEtc : $("#itemEtc" + index).val(),
+                purcItemType : $("#purcItemType" + index).val(),
+                productA : $("#productA" + index).val(),
+                productB : $("#productB" + index).val(),
+                productC : $("#productC" + index).val(),
             }
 
-            itemParameters.purcItemType = $("#purcItemType" + i).val();
-            itemParameters.productA = $("#productA" + i).val();
-            itemParameters.productB = $("#productB" + i).val();
-            itemParameters.productC = $("#productC" + i).val();
+            if(data.productA == ""){flag = false;}
+            if(data.itemNm == ""){flag2 = false;}
+            if(data.itemStd == ""){flag3 = false;}
+            if(data.itemUnitAmt == ""){flag4 = false;}
+            if(data.itemEa == ""){flag5 = false;}
+            if(data.itemUnit == ""){flag6 = false;}
 
-            if(itemParameters.itemNm != ""){
-                itemArr.push(itemParameters);
-            }
-
-            if(itemParameters.productA == ""){
-                flag = false;
-            }
-
-            if($("#productA" + i).val() == "3"){
+            if($("#productA" + index).val() == "3"){
                 if(itemParameters.productB == ""){
                     flag = false;
                 }
@@ -623,10 +624,31 @@ var reqCl = {
                     flag = false;
                 }
             }
-        }
+            itemArr.push(data);
+        })
 
         if(!flag){
             alert("구분값을 선택해주세요.");
+            return ;
+        }
+        if(!flag2){
+            alert("품명을 입력해주세요.");
+            return ;
+        }
+        if(!flag3){
+            alert("규격을 입력해주세요.");
+            return ;
+        }
+        if(!flag4){
+            alert("단가를 입력해주세요.");
+            return ;
+        }
+        if(!flag5){
+            alert("수량을 입력해주세요.");
+            return ;
+        }
+        if(!flag6){
+            alert("단위를 입력해주세요.");
             return ;
         }
 
@@ -679,125 +701,72 @@ var reqCl = {
     },
 
     fn_setItem : function(e){
-
+        console.log("fn_setItem");
         $("#crmSn").val(e.itemList[0].CRM_SN);
         $("#crmNm").val(e.itemList[0].CRM_NM);
 
         var len = e.itemList.length;
-        var index = 0;
-        var html = '';
+        // var index = 0;
+        reqCl.global.createHtmlStr = '';
         $("#claimTbody").html("");
 
-        for(var i = 0 ; i < len ; i++){
-            if(e.itemList[i].STATUS == "C"){
+        for(var i = 0 ; i < len ; i++) {
+            if (e.itemList[i].STATUS == "C") {
+                reqCl.global.createHtmlStr += "" +
+                    '<tr class="claimItem newArray" id="item' + reqCl.global.itemIndex + '">' +
+                    // '   <td style="text-align: center">' +
+                    // '           <div id="claimIndex">'+(reqCl.global.itemIndex+1)+'</div>' +
+                    // '           <input type="hidden" id="claimItemSn'+reqCl.global.itemIndex+'" />' +
+                    // '       </td>' +
+                    '       <td>' +
+                    '           <input type="hidden" id="purcItemSn' + reqCl.global.itemIndex + '" name="purcItemSn0" class="purcItemSn">' +
+                    '           <input type="text" id="purcItemType' + reqCl.global.itemIndex + '" class="purcItemType" style="width: 110px">' +
+                    '           <input type="text" id="productA' + reqCl.global.itemIndex + '" class="productA" style="width: 110px">' +
+                    '           <input type="text" id="productB' + reqCl.global.itemIndex + '" class="productB" style="width: 110px; display: none">' +
+                    '           <input type="text" id="productC' + reqCl.global.itemIndex + '" class="productC" style="width: 110px; display: none">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input type="text" id="itemNm' + reqCl.global.itemIndex + '" class="itemNm" value="' + e.itemList[i].PURC_ITEM_NAME + '">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input type="text" id="itemStd' + reqCl.global.itemIndex + '" class="itemStd" value="' + e.itemList[i].PURC_ITEM_STD + '">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input type="text" id="itemEa' + reqCl.global.itemIndex + '" style="text-align: right" class="itemEa" value="' + comma(e.itemList[i].PURC_ITEM_QTY) + '" onkeyup="reqCl.fn_calcN(\'' + reqCl.global.itemIndex + '\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input type="text" id="itemUnitAmt' + reqCl.global.itemIndex + '" style="text-align: right" class="itemUnitAmt" value="' + comma(e.itemList[i].PURC_ITEM_UNIT_PRICE) + '" onkeyup="reqCl.fn_calcN(\'' + reqCl.global.itemIndex + '\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input type="text" id="itemUnit' + reqCl.global.itemIndex + '" class="itemUnit" value="' + e.itemList[i].PURC_ITEM_UNIT + '">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input type="text" id="itemAmt' + reqCl.global.itemIndex + '" class="itemAmt" style="text-align: right" value="' + comma(e.itemList[i].PURC_ITEM_AMT) + '" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input id="purcItemAmt' + reqCl.global.itemIndex + '" class="purcItemAmt" value="' + comma(e.itemList[i].PURC_ITEM_AMT) + '" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <input id="difAmt' + reqCl.global.itemIndex + '" class="difAmt" value="' + comma(0) + '" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
+                    '       <td>' +
+                    '           <label for="itemEtc' + reqCl.global.itemIndex + '"></label><input type="text" id="itemEtc' + reqCl.global.itemIndex + '" value="' + e.itemList[i].RMK + '" class="itemEtc">' +
+                    '       </td>' +
+                    // '       <td>' +
+                    // '           <span id="prodCd'+index+'"></span>' +
+                    // '       </td>' +
+                    '       <td style="text-align: center" class="listDelBtn">' +
+                    '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(' + reqCl.global.itemIndex + ')">' +
+                    '               <span class="k-button-text">삭제</span>' +
+                    '           </button>' +
+                    '       </td>' +
+                    '</tr>';
 
-                if(index == 0){
-                    html += '<tr class="claimItem newArray" id="item">';
-                    html += '   <td style="text-align: center">' +
-                        '           <div id="claimIndex">'+(index+1)+'</div>' +
-                        '           <input type="hidden" id="claimItemSn" />' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">' +
-                        '           <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">' +
-                        '           <input type="text" id="productA0" class="productA" style="width: 110px">' +
-                        '           <input type="text" id="productB0" class="productB" style="width: 110px; display: none">' +
-                        '           <input type="text" id="productC0" class="productC" style="width: 110px; display: none">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemNm" class="itemNm" value="'+e.itemList[i].PURC_ITEM_NAME+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemStd" class="itemStd" value="'+e.itemList[i].PURC_ITEM_STD+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemEa" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_QTY)+'" class="itemEa" onkeyup="reqCl.fn_calcN(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemUnitAmt" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_UNIT_PRICE)+'" class="itemUnitAmt" onkeyup="reqCl.fn_calcN(\'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemUnit" class="itemUnit" value="'+e.itemList[i].PURC_ITEM_UNIT+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemAmt" class="itemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input id="purcItemAmt" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input id="difAmt" class="difAmt" value="'+comma(0)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].RMK+'" class="itemEtc">' +
-                        '       </td>' +
-                        // '       <td>' +
-                        // '           <span id="prodCd"></span>' +
-                        // '       </td>' +
-                        '       <td style="text-align: center" class="listDelBtn">' +
-                        '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">' +
-                        '               <span class="k-button-text">삭제</span>' +
-                        '           </button>' +
-                        '       </td>';
-                    html += '</tr>';
-                } else {
-                    html += '<tr class="claimItem newArray" id="item'+len+'">';
-                    html += '   <td style="text-align: center">' +
-                        '           <div id="claimIndex">'+(index+1)+'</div>' +
-                        '           <input type="hidden" id="claimItemSn'+index+'" />' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="hidden" id="purcItemSn'+index+'" name="purcItemSn0" class="purcItemSn">' +
-                        '           <input type="text" id="purcItemType'+index+'" class="purcItemType" style="width: 110px">' +
-                        '           <input type="text" id="productA'+index+'" class="productA" style="width: 110px">' +
-                        '           <input type="text" id="productB'+index+'" class="productB" style="width: 110px; display: none">' +
-                        '           <input type="text" id="productC'+index+'" class="productC" style="width: 110px; display: none">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemNm'+index+'" class="itemNm" value="'+e.itemList[i].PURC_ITEM_NAME+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemStd'+index+'" class="itemStd" value="'+e.itemList[i].PURC_ITEM_STD+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemEa'+index+'" style="text-align: right" class="itemEa" value="'+comma(e.itemList[i].PURC_ITEM_QTY)+'" onkeyup="reqCl.fn_calcN(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemUnitAmt'+index+'" style="text-align: right" class="itemUnitAmt" value="'+comma(e.itemList[i].PURC_ITEM_UNIT_PRICE)+'" onkeyup="reqCl.fn_calcN(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemUnit'+index+'" class="itemUnit" value="'+e.itemList[i].PURC_ITEM_UNIT+'">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input type="text" id="itemAmt'+index+'" class="itemAmt" style="text-align: right" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input id="purcItemAmt'+index+'" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <input id="difAmt'+index+'" class="difAmt" value="'+comma(0)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                        '       </td>' +
-                        '       <td>' +
-                        '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].RMK+'" class="itemEtc">' +
-                        '       </td>' +
-                        // '       <td>' +
-                        // '           <span id="prodCd'+index+'"></span>' +
-                        // '       </td>' +
-                        '       <td style="text-align: center" class="listDelBtn">' +
-                        '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">' +
-                        '               <span class="k-button-text">삭제</span>' +
-                        '           </button>' +
-                        '       </td>';
-                    html += '</tr>';
-                }
-
-                index++;
+                reqCl.global.itemIndex++;
             }
         }
 
-
-        $("#claimTbody").append(html);
-
+        $("#claimTbody").append(reqCl.global.createHtmlStr);
 
         var tLen = $("#claimTbody > tr").length;
         var radioProdDataSource = [
@@ -808,7 +777,7 @@ var reqCl = {
 
         for(var i = 0 ; i < tLen ; i++){
             if(i == 0){
-                customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "purcItemAmt", "difAmt", "itemEtc"]);
+                customKendo.fn_textBox(["itemNm0", "itemStd0", "itemEa0", "itemUnitAmt0", "itemUnit0", "itemAmt0", "purcItemAmt0", "difAmt0", "itemEtc0"]);
                 customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
             } else {
                 customKendo.fn_textBox(["itemNm" + i, "itemStd" + i
@@ -875,117 +844,63 @@ var reqCl = {
     },
 
     fn_setClaimItem : function(e){
+        console.log("fn_setClaimItem");
         var len = e.itemList.length;
-        var index = 0;
-        var html = '';
+        reqCl.global.createHtmlStr = '';
         $("#claimTbody").html("");
         for(var i = 0 ; i < len ; i++){
-            if(index == 0){
-                html += '<tr class="claimItem newArray" id="item">';
-                html += '   <td style="text-align: center">' +
-                    '           <div id="claimIndex">'+(index+1)+'</div>' +
-                    '           <input type="hidden" id="claimItemSn" value="'+e.itemList[i].CLAIM_ITEM_SN+'" />' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">' +
-                    '           <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">' +
-                    '           <input type="text" id="productA0" class="productA" style="width: 110px">' +
-                    '           <input type="text" id="productB0" class="productB" style="width: 110px; display: none">' +
-                    '           <input type="text" id="productC0" class="productC" style="width: 110px; display: none">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemNm" class="itemNm" value="'+e.itemList[i].ITEM_NM+'">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemStd" class="itemStd" value="'+e.itemList[i].ITEM_STD+'">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemEa" style="text-align: right" value="'+comma(e.itemList[i].ITEM_EA)+'" class="itemEa" onkeyup="reqCl.fn_calcN(\'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemUnitAmt" style="text-align: right" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" class="itemUnitAmt" onkeyup="reqCl.fn_calcN(\'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemUnit" class="itemUnit" value="'+e.itemList[i].ITEM_UNIT+'">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemAmt" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="purcItemAmt" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="difAmt" class="purcItemAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
-                    '       </td>' +
-                    // '       <td>' +
-                    // '           <span id="prodCd"></span>' +
-                    // '       </td>' +
-                    '       <td style="text-align: center" class="listDelBtn">' +
-                    '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">' +
-                    '               <span class="k-button-text">삭제</span>' +
-                    '           </button>' +
-                    '       </td>';
-                html += '</tr>';
-            } else {
-                html += '<tr class="claimItem newArray" id="item'+len+'">';
-                html += '   <td style="text-align: center">' +
-                    '           <div id="claimIndex">'+(index+1)+'</div>' +
-                    '           <input type="hidden" id="claimItemSn'+index+'" value="'+e.itemList[i].CLAIM_ITEM_SN+'" />' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="hidden" id="purcItemSn'+index+'" name="purcItemSn0" class="purcItemSn">' +
-                    '           <input type="text" id="purcItemType'+index+'" class="purcItemType" style="width: 110px">' +
-                    '           <input type="text" id="productA'+index+'" class="productA" style="width: 110px">' +
-                    '           <input type="text" id="productB'+index+'" class="productB" style="width: 110px; display: none">' +
-                    '           <input type="text" id="productC'+index+'" class="productC" style="width: 110px; display: none">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemNm'+index+'" class="itemNm" value="'+e.itemList[i].ITEM_NM+'">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemStd'+index+'" class="itemStd" value="'+e.itemList[i].ITEM_STD+'">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemEa'+index+'" style="text-align: right" class="itemEa" value="'+comma(e.itemList[i].ITEM_EA)+'" onkeyup="reqCl.fn_calcN(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemUnitAmt'+index+'" style="text-align: right" class="itemUnitAmt" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" onkeyup="reqCl.fn_calcN(\''+index+'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemUnit'+index+'" class="itemUnit" value="'+e.itemList[i].ITEM_UNIT+'">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="itemAmt'+index+'" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="purcItemAmt'+index+'" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="difAmt'+index+'" class="difAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
-                    '       <td>' +
-                    '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
-                    '       </td>' +
-                    // '       <td>' +
-                    // '           <span id="prodCd'+index+'"></span>' +
-                    // '       </td>' +
-                    '       <td style="text-align: center" class="listDelBtn">' +
-                    '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete(this)">' +
-                    '               <span class="k-button-text">삭제</span>' +
-                    '           </button>' +
-                    '       </td>';
-                html += '</tr>';
-            }
+            reqCl.global.createHtmlStr += "" +
+                '<tr class="claimItem newArray" id="item'+reqCl.global.itemIndex+'">' +
+                // '   <td style="text-align: center">' +
+                // '           <div id="claimIndex">'+(reqCl.global.itemIndex+1)+'</div>' +
+                // '           <input type="hidden" id="claimItemSn'+reqCl.global.itemIndex+'" value="'+e.itemList[i].CLAIM_ITEM_SN+'" />' +
+                // '       </td>' +
+                '       <td>' +
+                '           <input type="hidden" id="purcItemSn'+reqCl.global.itemIndex+'" name="purcItemSn0" class="purcItemSn">' +
+                '           <input type="text" id="purcItemType'+reqCl.global.itemIndex+'" class="purcItemType" style="width: 110px">' +
+                '           <input type="text" id="productA'+reqCl.global.itemIndex+'" class="productA" style="width: 110px">' +
+                '           <input type="text" id="productB'+reqCl.global.itemIndex+'" class="productB" style="width: 110px; display: none">' +
+                '           <input type="text" id="productC'+reqCl.global.itemIndex+'" class="productC" style="width: 110px; display: none">' +
+                '       </td>' +
+                '       <td>' +
+                '           <input type="text" id="itemNm'+reqCl.global.itemIndex+'" class="itemNm" value="'+e.itemList[i].ITEM_NM+'">' +
+                '       </td>' +
+                '       <td>' +
+                '           <input type="text" id="itemStd'+reqCl.global.itemIndex+'" class="itemStd" value="'+e.itemList[i].ITEM_STD+'">' +
+                '       </td>' +
+                '       <td>' +
+                '           <input type="text" id="itemEa'+reqCl.global.itemIndex+'" style="text-align: right" class="itemEa" value="'+comma(e.itemList[i].ITEM_EA)+'" onkeyup="reqCl.fn_calcN(\''+reqCl.global.itemIndex+'\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '       </td>' +
+                '       <td>' +
+                '           <input type="text" id="itemUnitAmt'+reqCl.global.itemIndex+'" style="text-align: right" class="itemUnitAmt" value="'+comma(e.itemList[i].ITEM_UNIT_AMT)+'" onkeyup="reqCl.fn_calcN(\''+reqCl.global.itemIndex+'\', this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '       </td>' +
+                '       <td>' +
+                '           <input type="text" id="itemUnit'+reqCl.global.itemIndex+'" class="itemUnit" value="'+e.itemList[i].ITEM_UNIT+'">' +
+                '       </td>' +
+                '       <td>' +
+                '           <input type="text" id="itemAmt'+reqCl.global.itemIndex+'" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '       </td>' +
+                '       <td>' +
+                '           <input type="text" id="purcItemAmt'+reqCl.global.itemIndex+'" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '       </td>' +
+                '       <td>' +
+                '           <input type="text" id="difAmt'+reqCl.global.itemIndex+'" class="difAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                '       </td>' +
+                '       <td>' +
+                '           <label for="itemEtc'+reqCl.global.itemIndex+'"></label><input type="text" id="itemEtc'+reqCl.global.itemIndex+'" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
+                '       </td>' +
+                '       <td style="text-align: center" class="listDelBtn">' +
+                '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqCl.fn_delete('+reqCl.global.itemIndex+')">' +
+                '               <span class="k-button-text">삭제</span>' +
+                '           </button>' +
+                '       </td>' +
+                '</tr>';
 
-            index++;
+
+            reqCl.global.itemIndex++;
         }
 
-
-        $("#claimTbody").append(html);
-
+        $("#claimTbody").append(reqCl.global.createHtmlStr);
 
         var tLen = $("#claimTbody > tr").length;
         var radioProdDataSource = [
@@ -995,7 +910,7 @@ var reqCl = {
         ]
         for(var i = 0 ; i < tLen ; i++){
             if(i == 0){
-                customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "purcItemAmt", "difAmt", "itemEtc"]);
+                customKendo.fn_textBox(["itemNm0", "itemStd0", "itemEa0", "itemUnitAmt0", "itemUnit0", "itemAmt0", "purcItemAmt0", "difAmt0", "itemEtc0"]);
                 customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
 
                 // $("#prodCd").data("kendoRadioGroup").value(e.itemList[i].PROD_CD);

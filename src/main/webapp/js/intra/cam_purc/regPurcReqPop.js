@@ -144,7 +144,6 @@ var prp = {
     vatCalcN : function(){
         let sum = 0;
         $.each($(".purcItemAmt"), function(){
-            console.log(this.value)
             sum += Number(uncommaN(this.value));
         });
 
@@ -233,24 +232,26 @@ var prp = {
         var flag7 = true;
         var itemSum = 0;
         $.each($(".purcItemInfo"), function(i, v){
+            var index = $(this).attr("id").replace(/[^0-9]/g, '');
+
             var data = {
-                purcItemSn : $(this).find("#purcItemSn" + i).val(),
-                purcItemType : $("#purcItemType" + i).val(),
-                productA : $("#productA" + i).val(),
-                productB : $("#productB" + i).val(),
-                productC : $("#productC" + i).val(),
-                purcItemName : $("#purcItemName" + i).val(),
-                purcItemStd : $("#purcItemStd" + i).val(),
-                purcItemUnitPrice : prp.uncommaN($("#purcItemUnitPrice" + i).val()),
-                purcItemQty : $("#purcItemQty" + i).val(),
-                purcItemUnit : $("#purcItemUnit" + i).val(),
-                purcItemAmt : prp.uncommaN($("#purcItemAmt" + i).val()),
-                crmSn : $("#crmSn" + i).val(),
-                rmk : $("#rmk" + i).val(),
+                purcItemSn : $(this).find("#purcItemSn" + index).val(),
+                purcItemType : $("#purcItemType" + index).val(),
+                productA : $("#productA" + index).val(),
+                productB : $("#productB" + index).val(),
+                productC : $("#productC" + index).val(),
+                purcItemName : $("#purcItemName" + index).val(),
+                purcItemStd : $("#purcItemStd" + index).val(),
+                purcItemUnitPrice : prp.uncommaN($("#purcItemUnitPrice" + index).val()),
+                purcItemQty : $("#purcItemQty" + index).val(),
+                purcItemUnit : $("#purcItemUnit" + index).val(),
+                purcItemAmt : prp.uncommaN($("#purcItemAmt" + index).val()),
+                crmSn : $("#crmSn" + index).val(),
+                rmk : $("#rmk" + index).val(),
                 status : e,
                 empSeq : $("#purcReqEmpSeq").val(),
             }
-            itemSum += Number(prp.uncommaN($("#purcItemAmt" + i).val()));
+            itemSum += Number(prp.uncommaN($("#purcItemAmt" + index).val()));
 
             if(data.productA == ""){flag = false;}
             if(data.purcItemName == ""){flag2 = false;}
@@ -391,7 +392,7 @@ var prp = {
     addRow : function(){
         prp.global.createHtmlStr = "";
 
-        prp.global.itemIndex++
+        prp.global.itemIndex++;
 
         prp.global.createHtmlStr = "" +
             '<tr class="purcItemInfo newArray" id="item' + prp.global.itemIndex + '">' +
@@ -439,7 +440,7 @@ var prp = {
         } else {
             prp.global.createHtmlStr += '' +
                 '<td>' +
-                '   <button type="button" id="delRowBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(this)">삭제</button>' +
+                '   <button type="button" id="delRowBtn' + prp.global.itemIndex + '" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="prp.delRow(' + prp.global.itemIndex + ')">삭제</button>' +
                 '</td>'
         }
         prp.global.createHtmlStr += '' +
@@ -573,8 +574,8 @@ var prp = {
         // }
 
         if($(".purcItemInfo").length > 1){
-            $("#item" + prp.global.itemIndex).remove();
-            prp.global.itemIndex--;
+            $("#item" + e).remove();
+            // prp.global.itemIndex--;
         }
     },
 
