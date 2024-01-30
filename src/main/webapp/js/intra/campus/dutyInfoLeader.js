@@ -155,7 +155,8 @@ var dutyInfoLeader = {
                                 }
                             }
                         }, {
-                            title : "본부장",
+                            /*title : "본부장",*/
+                            title : "부서장",
                             template: function(e){
                                 if(e.MNG_STATUS == 'N' && e.LD_STATUS == 'Y'){
                                     return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\')">승인</button>';
@@ -198,7 +199,7 @@ var dutyInfoLeader = {
                                 }
                             }
                         }, {
-                            title : "본부장",
+                            title : "부서장",
                             template: function(e){
                                 if(e.DUTY_MNG_STATUS == 'N' && e.DUTY_LD_STATUS == 'Y'){
                                     return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'mng\')">승인</button>';
