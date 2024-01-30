@@ -637,7 +637,8 @@ var regPay = {
 
             for(let i = 0 ; i < snackInfoSn.toString().split(",").length ; i++){
                 const data = {
-                    snackInfoSn : snackInfoSn.toString().split(",")[i]
+                    snackInfoSn : snackInfoSn.toString().split(",")[i],
+                    fileNo : 0
                 }
 
                 const result = customKendo.fn_customAjax("/inside/getSnackOne", data);
@@ -692,6 +693,7 @@ var regPay = {
                         $("#etc" + count).val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
                         $("#totCost" + count).val(regPay.comma(snackData.AMOUNT_SN));
                         $("#supCost" + count).val(regPay.comma(snackData.AMOUNT_SN));
+                        $("#crmNm" + count).val(snackData.AREA_NAME);
                         count++;
                     }else {
                         /** 법인카드 사용내역 */

@@ -271,11 +271,11 @@
                         <col style="width: 10%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
-                        <col style="width: 7%;">
+                        <col style="width: 10%;">
                         <col style="width: 5%;">
-                        <col style="width: 7%;">
-                        <col style="width: 7%;">
-                        <col style="width: 7%;">
+                        <col style="width: 10%;">
+                        <col style="width: 10%;">
+<%--                        <col style="width: 7%;">--%>
                         <col style="width: 7%;">
 <%--                        <col style="width: 18%;">--%>
                         <col style="width: 4%;">
@@ -291,7 +291,7 @@
                             <th>단위</th>
                             <th>금액</th>
                             <th>요청금액</th>
-                            <th>할인금액</th>
+<%--                            <th>할인금액</th>--%>
                             <th>비고</th>
 <%--                            <th>자산</th>--%>
                             <th>명령</th>
@@ -299,10 +299,10 @@
                     </thead>
                     <tbody id="claimTbody">
                         <tr class="claimItem newArray" id="item0">
-                            <td style="text-align: center">
-                                <div id="claimIndex">1</div>
-                                <input type="hidden" id="claimItemSn0" />
-                            </td>
+<%--                            <td style="text-align: center">--%>
+<%--                                <div id="claimIndex">1</div>--%>
+<%--                                <input type="hidden" id="claimItemSn0" />--%>
+<%--                            </td>--%>
                             <td>
                                 <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
                                 <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">
@@ -331,9 +331,9 @@
                             <td>
                                 <input type="text" id="purcItemAmt0" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
-                            <td>
-                                <input id="difAmt0" class="difAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                            </td>
+<%--                            <td>--%>
+<%--                                <input id="difAmt0" class="difAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">--%>
+<%--                            </td>--%>
                             <td>
                                 <label for="itemEtc0"></label><input type="text" id="itemEtc0" class="itemEtc">
                             </td>
@@ -347,6 +347,16 @@
                             </td>
                         </tr>
                     </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="8" style="text-align: right; font-weight: bold">
+                            할인금액
+                        </th>
+                        <td colspan="2" style="text-align: right; font-weight: bold">
+                            <input type="text" id="discountAmt" style="text-align: right;" onkeyup="reqCl.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />
+                        </td>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

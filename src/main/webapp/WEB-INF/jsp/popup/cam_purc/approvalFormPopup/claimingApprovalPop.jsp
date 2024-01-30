@@ -40,6 +40,10 @@
                         </tr>
                     </c:forEach>
                     <tr>
+                        <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>할인금액</b></p></td>
+                        <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; <c:out value="${data.DISCOUNT_AMT}"/></b></p></td>
+                    </tr>
+                    <tr>
                         <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>소       계</b></p></td>
                         <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; <c:out value="${data.TOTAL_SUM_COMMA_C}"/></b></p></td>
                     </tr>

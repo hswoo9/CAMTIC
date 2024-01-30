@@ -88,21 +88,22 @@ var snackReq = {
                 $("#cardSearch").attr("disabled", false);
             }
 
-            var values = "";
+            var fileNoArr = [];
             var result = "";
-            var finalResult = "";
 
             if(data.FR_FILE_NO != '' && data.FR_FILE_NO != null) {
-                values = data.FR_FILE_NO.split(',');
-                result = values.map(function (value) {
-                    return "'" + value + "'";
-                });
-                finalResult = result.join(',');
+                fileNoArr = data.FR_FILE_NO.split(',');
+
+                for(var i=0; i<fileNoArr.length; i++) {
+                    result += "," + fileNoArr[i];
+                }
+            } else {
+                result += ",0";
             }
 
             var snackSubmitData = {
                 snackInfoSn: $("#snackInfoSn").val(),
-                fileNo: finalResult.slice(1, -1)
+                fileNo: result.substring(1)
             };
 
             var returnData = customKendo.fn_customAjax("/snack/getFileList", snackSubmitData);

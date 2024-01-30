@@ -169,6 +169,8 @@ public class PurcController {
         model.addAttribute("purcItemList", purcService.getPurcItemList(params));
         Map<String, Object> data = purcService.getPurcItemAmtTotal(params);
         model.addAttribute("TOTAL_SUM_COMMA", data.get("TOTAL_SUM_COMMA"));
+        model.addAttribute("TOTAL_SUM_UNCOMMA", data.get("TOTAL_SUM_UNCOMMA"));
+        model.addAttribute("DISCOUNT_AMT", data.get("DISCOUNT_AMT"));
 
         return "popup/cam_purc/approvalFormPopup/purcApprovalPop";
     }

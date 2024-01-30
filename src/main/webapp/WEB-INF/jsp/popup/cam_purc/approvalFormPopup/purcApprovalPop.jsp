@@ -45,8 +45,13 @@
                         </tr>
                     </c:forEach>
                     <tr>
+                        <td colspan="7" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>할인금액</b></p></td>
+                        <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; <fmt:formatNumber value="${DISCOUNT_AMT}" pattern="#,###" /></b></p></td>
+                    </tr>
+                    <tr>
+                        <c:set var="total" value="${TOTAL_SUM_UNCOMMA - DISCOUNT_AMT}"></c:set>
                         <td colspan="7" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>합계</b></p></td>
-                        <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; <c:out value="${TOTAL_SUM_COMMA}"/></b></p></td>
+                        <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; <fmt:formatNumber value="${total}" pattern="#,###" /></b></p></td>
                     </tr>
                     <tr>
                         <td colspan="9" style="height:50px;background-color:#FFFFFF; text-align:center;"></td>

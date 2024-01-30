@@ -9,21 +9,22 @@ var snackReceipt = {
 
     fn_setFile : function(){
         var fileArray = [];
-        var values = "";
+        var fileNoArr = [];
         var result = "";
-        var finalResult = "";
 
         if($("#fileNo").val() != '' && $("#fileNo").val() != null) {
-            values = $("#fileNo").val().split(',');
-            result = values.map(function (value) {
-                return "'" + value + "'";
-            });
-            finalResult = result.join(',');
+            fileNoArr = $("#fileNo").val().split(',');
+
+            for(var i=0; i<fileNoArr.length; i++) {
+                result += "," + fileNoArr[i];
+            }
+        } else {
+            result += ",0";
         }
 
         var data = {
             snackInfoSn : $("#snackInfoSn").val(),
-            fileNo: finalResult.slice(1, -1)
+            fileNo: result.substring(1)
         }
 
         var fileResult = customKendo.fn_customAjax("/snack/getFileList", data)

@@ -631,8 +631,10 @@ public class PurcServiceImpl implements PurcService {
             }
         }
         searchMap.put("contentId", "inspect_" + params.get("purcSn"));
-        if(purcRepository.getPurcReqFileInfo(searchMap) != null){
-            list.add(purcRepository.getPurcReqFileInfo(searchMap));
+        if(purcRepository.getPurcReqFileList(searchMap) != null){
+            for(Map<String, Object> map : purcRepository.getPurcReqFileList(searchMap)){
+                list.add(map);
+            }
         }
 
         List<Map<String, Object>> ceFileList = purcRepository.getClaimExnpFileList(params);
