@@ -24,6 +24,16 @@ var eduAllStat = {
         fn_searchBind();
     },
 
+    dutyNameCompare : function (a,b){
+        if (a && !b) {
+            return -1; // a를 b보다 앞으로 위치시키기
+        } else if (!a && b) {
+            return 1; // b를 a보다 앞으로 위치시키기
+        } else {
+            return 0; // 그 외에는 변경 없음
+        }
+    },
+
     mainGrid: function() {
         var dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -50,6 +60,11 @@ var eduAllStat = {
                 }
             },
             pageSize: 10,
+            sort: [
+                { field: "DEPT", dir: "asc" },
+                { field: "EMP_NAME", dir: "asc" },
+                { field: "POSITION", dir: "desc", compare: eduAllStat.dutyNameCompare() }
+            ]
         });
 
         $("#mainGrid").kendoGrid({
@@ -59,7 +74,7 @@ var eduAllStat = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 30, 50, 100, "ALL"],
                 buttonCount : 5
             },
             toolbar: [
@@ -102,6 +117,13 @@ var eduAllStat = {
                         return row.PERSONAL_TIME+"시간 / "+row.PERSONAL_COUNT+"건"
                     }
                 }, {
+                    field: "COMMON_EDU_TIME",
+                    title: "공통학습",
+                    width: "8%",
+                    template: function(row){
+                        return row.COMMON_EDU_TIME+"시간 / "+row.COMMON_EDU_COUNT+"건"
+                    }
+                },{
                     field: "STUDY_TIME",
                     title: "학습조",
                     width: "8%",
@@ -129,14 +151,7 @@ var eduAllStat = {
                     template: function(row){
                         return row.OPEN_STUDY_TIME+"시간 / "+row.OPEN_STUDY_COUNT+"건"
                     }
-                }, {
-                    field: "COMMON_EDU_TIME",
-                    title: "공통학습",
-                    width: "8%",
-                    template: function(row){
-                        return row.COMMON_EDU_TIME+"시간 / "+row.COMMON_EDU_COUNT+"건"
-                    }
-                }, {
+                },  {
                     field: "TOTAL_STAT",
                     title: "합계",
                     width: "8%",
