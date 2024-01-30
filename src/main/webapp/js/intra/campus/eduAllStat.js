@@ -17,7 +17,7 @@ var eduAllStat = {
         $("#startDay, #endDay").attr("readonly", true);
         let activeDataSource = [
             { text: "미포함", value: "Y" },
-            { text: "포함", value: "N" },
+            { text: "포함", value: "N" }
         ]
         customKendo.fn_dropDownList("active", activeDataSource, "text", "value", 3);
         customKendo.fn_textBox(["sEmpName"]);
@@ -62,8 +62,8 @@ var eduAllStat = {
             pageSize: 10,
             sort: [
                 { field: "DEPT", dir: "asc" },
-                { field: "EMP_NAME", dir: "asc" },
-                { field: "POSITION", dir: "desc", compare: eduAllStat.dutyNameCompare() }
+                { field: "DUTY_NAME", dir: "desc", compare: eduAllStat.dutyNameCompare() },
+                { field: "EMP_NAME", dir: "asc" }
             ]
         });
 
@@ -102,9 +102,12 @@ var eduAllStat = {
                     field: "DEPT",
                     title: "부서"
                 }, {
-                    field: "POSITION",
+                    /*field: "POSITION",*/
                     title: "직위",
-                    width: "8%"
+                    width: "8%",
+                    template: function(row){
+                        return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
+                    }
                 }, {
                     field: "EMP_NAME",
                     title: "성명",
