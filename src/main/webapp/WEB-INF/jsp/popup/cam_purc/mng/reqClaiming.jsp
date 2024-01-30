@@ -299,10 +299,10 @@
                     </thead>
                     <tbody id="claimTbody">
                         <tr class="claimItem newArray" id="item0">
-                            <td style="text-align: center">
-                                <div id="claimIndex">1</div>
-                                <input type="hidden" id="claimItemSn0" />
-                            </td>
+<%--                            <td style="text-align: center">--%>
+<%--                                <div id="claimIndex">1</div>--%>
+<%--                                <input type="hidden" id="claimItemSn0" />--%>
+<%--                            </td>--%>
                             <td>
                                 <input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn">
                                 <input type="text" id="purcItemType0" class="purcItemType" style="width: 110px">
