@@ -692,6 +692,7 @@ var regPay = {
                         $("#etc" + count).val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
                         $("#totCost" + count).val(regPay.comma(snackData.AMOUNT_SN));
                         $("#supCost" + count).val(regPay.comma(snackData.AMOUNT_SN));
+                        $("#crmNm" + count).val(snackData.AREA_NAME);
                         count++;
                     }else {
                         /** 법인카드 사용내역 */
