@@ -221,6 +221,8 @@ var certificateAdmin = {
                             return "개인증빙용";
                         }else if (row.USAGE_NAME == "기타사유"){
                             return "기타사유";
+                        }else if (row.PAST_YN == "Y"){
+                            return row.USAGE_NAME;
                         }else{
                             return "데이터 오류";
                         }
@@ -242,10 +244,13 @@ var certificateAdmin = {
                 }, {
                     title: "발급",
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="certificateAdmin.certifiPrintPop('+e.USER_PROOF_SN+');">' +
-                            '	<span class="k-button-text">보기</span>' +
-                            '</button>';
-
+                        if(e.PAST_YN == "Y"){
+                            return '';
+                        }else{
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="certificateAdmin.certifiPrintPop('+e.USER_PROOF_SN+');">' +
+                                '	<span class="k-button-text">보기</span>' +
+                                '</button>';
+                        }
                     },
                     width: 120
                 }

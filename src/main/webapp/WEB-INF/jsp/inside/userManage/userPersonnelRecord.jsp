@@ -33,7 +33,7 @@
         </div>
         <input type="button" id="filePrint" value="인쇄" onclick="userPrintPop(${uprList.empSeq});">
         <div class="panel-body">
-            <input type="hidden"
+            <input type="hidden">
             <div>
                 <div id="tabstrip">
                     <ul class="likeTab">

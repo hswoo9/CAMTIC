@@ -579,6 +579,8 @@ var lineSettingPop = {
         lineSettingPop.global.approversArr = [];
         opener.parent.draft.drafterArrAdd();
 
+        let typeCk = "N";
+
         /** 결재선 */
         $.each($("#approvalLineDataTb tbody tr"), function(){
             var empNameTdSpan = $(this).find("td:last span").attr("approveType");
@@ -603,6 +605,8 @@ var lineSettingPop = {
                     approveDutyName : $(this).find("#approveDutyName").val(),
                     approveType : "2"
                 }
+
+                typeCk = "Y";
             }
         });
 
@@ -621,6 +625,12 @@ var lineSettingPop = {
 
         if(!lineSettingPop.global.flag){
             alert("마지막 결재자는 결재유형을 협조로 할수 없습니다.");
+
+            return;
+        }
+
+        if(typeCk == "N"){
+            alert("결재선에 전결자가 포함 되어야 합니다.");
 
             return;
         }

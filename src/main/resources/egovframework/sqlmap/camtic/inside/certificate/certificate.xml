@@ -6,71 +6,61 @@
     <select id="getCertificateList" resultType="map" parameterType="map">
         /* getCertificateList */
         SELECT
-            RE.*
+            IUP.USER_PROOF_SN,
+            DATE_FORMAT(IUP.REG_DE, '%Y-%m-%d') AS REG_DE,
+            IUP.PROOF_TYPE,
+            IUP.REG_DEPT_NAME,
+            IUP.REGTR_NAME,
+            DATE_FORMAT(IUP.SUBMISSION_DE, '%Y-%m-%d') AS SUBMISSION_DE,
+            IUP.USAGE_NAME,
+            IUP.STATUS,
+            DATE_FORMAT(IUP.APPROVAL_RESULT_DATE, '%Y-%m-%d') AS APPROVAL_RESULT_DATE,
+            HEI.EMP_NAME_KR AS APPROVAL_EMP_NAME,
+            IUP.NUMBER,
+            IUP.DOCU_YEAR_DE,
+            IUP.REG_DUTY_NAME,
+            IUP.ISSUE,
+            IUP.PAST_YN,
+            CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = DI.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = DI.DEPT_SEQ)) AS DEPT_FULL_NAME
         FROM
-            (
-                SELECT
-                    @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    IUP.USER_PROOF_SN,
-                    DATE_FORMAT(IUP.REG_DE, '%Y-%m-%d') AS REG_DE,
-                    IUP.PROOF_TYPE,
-                    IUP.REG_DEPT_NAME,
-                    IUP.REGTR_NAME,
-                    DATE_FORMAT(IUP.SUBMISSION_DE, '%Y-%m-%d') AS SUBMISSION_DE,
-                    IUP.USAGE_NAME,
-                    IUP.STATUS,
-                    DATE_FORMAT(IUP.APPROVAL_RESULT_DATE, '%Y-%m-%d') AS APPROVAL_RESULT_DATE,
-                    HEI.EMP_NAME_KR AS APPROVAL_EMP_NAME,
-                    IUP.NUMBER,
-                    IUP.DOCU_YEAR_DE,
-                    IUP.REG_DUTY_NAME,
-                    IUP.ISSUE,
-                    CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = DI.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = DI.DEPT_SEQ)) AS DEPT_FULL_NAME
-                FROM
-                    CAM_INSIDE.DJ_USER_PROOF IUP
-                LEFT JOIN
-                    CAM_HR.DJ_EMP_INFO HEI ON IUP.APPROVAL_EMP_SEQ = HEI.EMP_SEQ
-                LEFT JOIN
-                    CAM_HR.DJ_EMP_INFO HEIR ON IUP.CRTR_SN = HEIR.EMP_SEQ
-                LEFT JOIN
-                    CAM_HR.DJ_DEPT_INFO DI ON HEIR.DEPT_SEQ = DI.DEPT_SEQ,
-                (SELECT @ROWNUM := 0) TMP
-                WHERE
-                    1=1
-                <if test='manageCheck == null or "".equals(manageCheck)'>
-                    AND
-                        IUP.CRTR_SN = #{empSeq}
-                </if>
-                AND DATE_FORMAT(CREATE_DT, '%Y') = #{docuYearDe}
-                <if test='proofType != null and !"".equals(proofType)'>
-                    AND PROOF_TYPE = #{proofType}
-                </if>
-                <if test='purpose != null and !"".equals(purpose)'>
-                    AND USAGE_NAME = #{purpose}
-                </if>
-                <if test='status != null and !"".equals(status)'>
-                    AND STATUS = #{status}
-                </if>
-                <if test='manageCheck != null and !"".equals(manageCheck)'>
-                    AND
-                        STATUS IN (10, 30, 100, 110)
-                </if>
-                <choose>
-                    <when test='(searchText == null or "".equals(searchText)) or (searchType == null or "".equals(searchType))'>
-                        AND (REGTR_NAME like CONCAT('%', COALESCE(#{searchText}, ''), '%') OR REG_DUTY_NAME like CONCAT('%', COALESCE(#{searchText}, ''), '%'))
-                    </when>
-                    <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
-                        AND REGTR_NAME like CONCAT('%', #{searchText}, '%')
-                    </when>
-                    <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
-                        AND REG_DUTY_NAME like CONCAT('%', #{searchText}, '%')
-                    </when>
-                </choose>
-                AND
-                    IUP.ACTIVE = 'Y'
-                ORDER BY IUP.REG_DE
-            ) RE
-        ORDER BY RE.ROW_NUM DESC
+            CAM_INSIDE.DJ_USER_PROOF IUP
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON IUP.APPROVAL_EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEIR ON IUP.CRTR_SN = HEIR.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO DI ON HEIR.DEPT_SEQ = DI.DEPT_SEQ
+        WHERE
+        1=1
+        <if test='manageCheck == null or "".equals(manageCheck)'>
+            AND IUP.CRTR_SN = #{empSeq}
+        </if>
+            AND DATE_FORMAT(CREATE_DT, '%Y') = #{docuYearDe}
+        <if test='proofType != null and !"".equals(proofType)'>
+            AND PROOF_TYPE = #{proofType}
+        </if>
+        <if test='purpose != null and !"".equals(purpose)'>
+            AND USAGE_NAME = #{purpose}
+        </if>
+        <if test='status != null and !"".equals(status)'>
+            AND STATUS = #{status}
+        </if>
+        <if test='manageCheck != null and !"".equals(manageCheck)'>
+            AND STATUS IN (10, 30, 100, 110)
+        </if>
+        <choose>
+            <when test='(searchText == null or "".equals(searchText)) or (searchType == null or "".equals(searchType))'>
+                AND (REGTR_NAME like CONCAT('%', COALESCE(#{searchText}, ''), '%') OR REG_DUTY_NAME like CONCAT('%', COALESCE(#{searchText}, ''), '%'))
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "1".equals(searchType)'>
+                AND REGTR_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+            <when test='searchText != null and !"".equals(searchText) and "2".equals(searchType)'>
+                AND REG_DUTY_NAME like CONCAT('%', #{searchText}, '%')
+            </when>
+        </choose>
+        AND IUP.ACTIVE = 'Y'
+        ORDER BY DOCU_YEAR_DE DESC, NUMBER DESC
     </select>
 
     <select id="getCertificateOne" resultType="map" parameterType="map">
