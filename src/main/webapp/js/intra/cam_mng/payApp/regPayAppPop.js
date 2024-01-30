@@ -637,7 +637,8 @@ var regPay = {
 
             for(let i = 0 ; i < snackInfoSn.toString().split(",").length ; i++){
                 const data = {
-                    snackInfoSn : snackInfoSn.toString().split(",")[i]
+                    snackInfoSn : snackInfoSn.toString().split(",")[i],
+                    fileNo : 0
                 }
 
                 const result = customKendo.fn_customAjax("/inside/getSnackOne", data);
