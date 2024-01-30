@@ -17,6 +17,8 @@
         text-align: right;
     }
 </style>
+
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <body class="font-opensans" style="background-color:#fff;">
     <div style="padding:0;">
         <div class="table-responsive">

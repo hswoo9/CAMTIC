@@ -195,49 +195,49 @@ var busInit = {
             if(list[i].EMP_SEQ != null && list[i].DIVISION == 1){
                 let personTot = 0;
 
-                oilCostTotal += Number(list[i].OIL_COST.replace(",", ""));
-                trafCostTotal += Number(list[i].TRAF_COST.replace(",", ""));
-                tollCostTotal += Number(list[i].TOLL_COST.replace(",", ""));
-                dayCostTotal += Number(list[i].DAY_COST.replace(",", ""));
-                eatCostTotal += Number(list[i].EAT_COST.replace(",", ""));
-                parkingCostTotal += Number(list[i].PARKING_COST.replace(",", ""));
-                etcCostTotal += Number(list[i].ETC_COST.replace(",", ""));
+                oilCostTotal += Number(list[i].OIL_COST.replace(/,/g, ""));
+                trafCostTotal += Number(list[i].TRAF_COST.replace(/,/g, ""));
+                tollCostTotal += Number(list[i].TOLL_COST.replace(/,/g, ""));
+                dayCostTotal += Number(list[i].DAY_COST.replace(/,/g, ""));
+                eatCostTotal += Number(list[i].EAT_COST.replace(/,/g, ""));
+                parkingCostTotal += Number(list[i].PARKING_COST.replace(/,/g, ""));
+                etcCostTotal += Number(list[i].ETC_COST.replace(/,/g, ""));
 
                 html += '   <tr>';
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].EMP_NAME+'</p></td>';
 
-                personTot += Number(list[i].OIL_COST.replace(",", ""));
+                personTot += Number(list[i].OIL_COST.replace(/,/g, ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].OIL_COST+'</p></td>';
 
-                personTot += Number(list[i].TRAF_COST.replace(",", ""));
+                personTot += Number(list[i].TRAF_COST.replace(/,/g, ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].TRAF_COST+'</p></td>';
 
-                personTot += Number(list[i].TOLL_COST.replace(",", ""));
+                personTot += Number(list[i].TOLL_COST.replace(/,/g, ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].TOLL_COST+'</p></td>';
 
-                personTot += Number(list[i].DAY_COST.replace(",", ""));
+                personTot += Number(list[i].DAY_COST.replace(/,/g, ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].DAY_COST+'</p></td>';
 
-                personTot += Number(list[i].EAT_COST.replace(",", ""));
+                personTot += Number(list[i].EAT_COST.replace(/,/g, ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].EAT_COST+'</p></td>';
 
-                personTot += Number(list[i].PARKING_COST.replace(",", ""));
+                personTot += Number(list[i].PARKING_COST.replace(/,/g, ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].PARKING_COST+'</p></td>';
 
-                personTot += Number(list[i].ETC_COST.replace(",", ""));
+                personTot += Number(list[i].ETC_COST.replace(/,/g, ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].ETC_COST+'</p></td>';
 
                 html += '       <td style="height:25px;text-align:center;"><p>'+fn_numberWithCommas(personTot)+'</p></td>';
                 html += '   </tr>';
 
             }else if(list[i].DIVISION == 2){
-                oilCostTotal += Number(list[i].OIL_COST.replace(",", ""));
-                trafCostTotal += Number(list[i].TRAF_COST.replace(",", ""));
-                tollCostTotal += Number(list[i].TOLL_COST.replace(",", ""));
-                dayCostTotal += Number(list[i].DAY_COST.replace(",", ""));
-                eatCostTotal += Number(list[i].EAT_COST.replace(",", ""));
-                parkingCostTotal += Number(list[i].PARKING_COST.replace(",", ""));
-                etcCostTotal += Number(list[i].ETC_COST.replace(",", ""));
+                oilCostTotal += Number(list[i].OIL_COST.replace(/,/g, ""));
+                trafCostTotal += Number(list[i].TRAF_COST.replace(/,/g, ""));
+                tollCostTotal += Number(list[i].TOLL_COST.replace(/,/g, ""));
+                dayCostTotal += Number(list[i].DAY_COST.replace(/,/g, ""));
+                eatCostTotal += Number(list[i].EAT_COST.replace(/,/g, ""));
+                parkingCostTotal += Number(list[i].PARKING_COST.replace(/,/g, ""));
+                etcCostTotal += Number(list[i].ETC_COST.replace(/,/g, ""));
 
                 html += '                   <tr>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">법인카드</p></td>';
@@ -251,8 +251,8 @@ var busInit = {
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+ list[i].TOT_COST +'</p></td>';
                 html += '                   </tr>';
             }else if(list[i].DIVISION == 3){
-                oilCostTotal += Number(list[i].OIL_COST.replace(",", ""));
-                tollCostTotal += Number(list[i].TOLL_COST.replace(",", ""));
+                oilCostTotal += Number(list[i].OIL_COST.replace(/,/g, ""));
+                tollCostTotal += Number(list[i].TOLL_COST.replace(/,/g, ""));
 
                 html += '                   <tr>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">법인차량</p></td>';
@@ -267,7 +267,7 @@ var busInit = {
                 html += '                   </tr>';
             }
 
-            finalTotal += Number(list[i].TOT_COST.replace(",", ""));
+            finalTotal += Number(list[i].TOT_COST.replace(/,/g, ""));
         }
         
         html += '                   <tr>';

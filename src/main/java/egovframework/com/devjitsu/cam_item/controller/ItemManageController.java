@@ -1211,7 +1211,7 @@ public class ItemManageController {
     @RequestMapping("/item/pop/popInvenTransferReg.do")
     public String popInvenTransferReg(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
         return "popup/cam_item/popInvenTransferReg";
     }
