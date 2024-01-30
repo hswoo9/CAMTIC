@@ -469,6 +469,19 @@
         ORDER BY A.REG_DT DESC
     </select>
 
+    <select id="getCrmOldHistEngnList" parameterType="map" resultType="map">
+        SELECT
+            JSubject AS CRM_REL_PJT_NM
+            ,DATE_FORMAT(JWorkDate, '%Y-%m-%d') AS CRM_DATE
+            ,JTotal AS CRM_REL_PJT_AMT
+            ,UserName AS CRM_SHARE_EMP
+        FROM
+            CAM_CRM.CRM_HIST_ENGN
+        WHERE
+            CUID = #{cuid}
+        ORDER BY JWorkDate DESC
+    </select>
+
     <update id="setCrmHistDel" parameterType="map">
         /* setCrmHistDel */
         DELETE FROM CAM_CRM.DJ_CRM_HIST WHERE CRM_SN IN (${crmSn})

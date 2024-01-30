@@ -51,18 +51,14 @@ var chv = {
                     title: "순번",
                     width : 50
                 }, {
-                    field: "CRM_HIST_OBJ",
-                    title: "과제구분",
-                    width : 80
-                }, {
                     title: "건명",
                     template: function(row){
-                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='approveDocView(\""+row.DOC_ID+"\", \""+row.APPRO_KEY+"\", \""+row.DOC_MENU_CD+"\");'>" + row.CRM_REL_PJT_NM + "</a>";
+                        return row.CRM_REL_PJT_NM;
                     }
                 }, {
-                    title: "연구 기간",
+                    title: "연구일",
                     template: function(row){
-                        return row.START_DATE +" ~ "+row.END_DATE;
+                        return row.CRM_DATE;
                     },
                     width : 180
                 }, {
