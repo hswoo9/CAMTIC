@@ -146,7 +146,7 @@ var approvalLine = {
             }
 
         /** 기안자가 팀장급 일때 */
-        }else if(userInfo.DUTY_CODE == "5"){
+        }else if(userInfo.DUTY_CODE == "5" || userInfo.DUTY_CODE == "6"){
             const level = approvalLine.global.leaderLevel;
 
             if(level == 0 || level == null){
@@ -381,7 +381,7 @@ var approvalLine = {
             }
 
         /** 기안자가 팀장급 일때 */
-        }else if(userInfo.DUTY_CODE == "5"){
+        }else if(userInfo.DUTY_CODE == "5" || userInfo.DUTY_CODE == "6"){
 
             if(level == 0 || level == null){
                 return;

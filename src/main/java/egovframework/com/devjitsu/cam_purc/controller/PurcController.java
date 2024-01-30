@@ -733,4 +733,19 @@ public class PurcController {
         model.addAttribute("map", map);
         return "jsonView";
     }
+
+    @RequestMapping("/purcHist/purcHist.do")
+    private String projectHistEdu(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("loginVO", loginVO);
+        return "cam_purc/hist/purcHist";
+    }
+
+    @RequestMapping("/purcHist/getHistPurcList")
+    public String getHistPurcList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", purcService.getHistPurcList(params));
+        return "jsonView";
+    }
 }

@@ -6,6 +6,7 @@ import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.g20.repository.PRJRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -34,6 +35,9 @@ public class PurcServiceImpl implements PurcService {
 
     @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private PRJRepository prjRepository;
 
     @Override
     public List<Map<String, Object>> getPurcReqList(Map<String, Object> params) {
@@ -779,5 +783,10 @@ public class PurcServiceImpl implements PurcService {
     @Override
     public Map<String, Object> getBasicSetting(Map<String, Object> params) {
         return purcRepository.getBasicSetting(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getHistPurcList(Map<String, Object> params) {
+        return prjRepository.getHistPurcList(params);
     }
 }

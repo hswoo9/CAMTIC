@@ -107,4 +107,24 @@
         ORDER BY SeqNo DESC
         ]]>
     </select>
+
+    <select id="getHistPurcList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getHistPurcList */
+        <![CDATA[
+        SELECT
+            SeqNo,
+            IsDocNo,
+            RequestDate,
+            (SELECT Name FROM PRJDB.dbo.UserInfo WHERE UUID = A.UUID) AS Name,
+            IsReason,
+            CASE WHEN IsState = '0' Then '작성중' WHEN IsState = '1'Then '요청완료' WHEN IsState = '2' Then '접수완료' ELSE '' END AS STAT,
+            (Select Count(SeqNo) From PRJDB.dbo.JRequestItem where RequestNo = A.SeqNo AND IsState >= '1' AND IsType = '1') AS COUNT1,
+            (Select Count(SeqNo) From PRJDB.dbo.JRequestItem where RequestNo = A.SeqNo AND IsState = '-1' AND IsType = '1') AS COUNT2,
+            (Select Count(SeqNo) From PRJDB.dbo.JRequestItem where RequestNo = A.SeqNo AND IsState >= '1' AND IsType = '2') AS COUNT3,
+            (Select Count(SeqNo) From PRJDB.dbo.JRequestItem where RequestNo = A.SeqNo AND IsState = '-1' AND IsType = '2') AS COUNT4
+        FROM PRJDB.dbo.JRequestInfo A
+        WHERE YEAR(RequestDate) <= 2023
+        ]]>
+        ORDER BY SeqNo DESC
+    </select>
 </mapper>

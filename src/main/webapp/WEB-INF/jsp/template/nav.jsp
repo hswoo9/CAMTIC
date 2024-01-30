@@ -142,7 +142,14 @@
                             menu += "<ul class='innerMain children' menu ='"+ x.MENU_ID +"'>";
                             menu += "</ul>";
                         }else{
-                            menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
+                            /** TODO. 임시 하드코딩. 추후 수정 예정 */
+                            const id = $("#regId").val();
+                            let menuPath2 = "http://pre.camtic.or.kr/CAMsPot/Manager";
+                            if(x.MENU_PATH == menuPath2){
+                                menu += "       <a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+ menuPath2 +"' target='_blank' menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
+                            }else{
+                                menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain1' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
+                            }
                         }
 
                         $("li[menu='" + x.UPPER_MENU_ID + "']").append(menu);
@@ -154,9 +161,11 @@
                             menu += "<ul class='innerMain children' menu ='" + x.MENU_ID + "'>";
                             menu += "</ul>";
                         }else{
-
-                            if(x.MENU_PATH == "http://job.camtic.or.kr/admin/ygroup_list.php?s_year2=2023"){
-                                menu += "       <a href='http://job.camtic.or.kr/admin/ygroup_list.php?s_year2=2023' target='_blank' menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
+                            /** TODO. 임시 하드코딩. 추후 수정 예정 */
+                            const id = $("#regId").val();
+                            let menuPath3 = "http://job.camtic.or.kr/admin/ygroup_list.php?s_year2=2023";
+                            if(x.MENU_PATH == menuPath3){
+                                menu += "       <a href='http://pre.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id+"&LOCATION="+ menuPath3 +"' target='_blank' menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain2'>" + x.MENU_NAME + "</a>";
                             }else{
                                 menu += "<a href='#' onclick=\"open_in_frame('" + x.MENU_PATH + "')\" menuNamePath='업무 > " + x.MENU_NAME_PATH + "' menuNameKr='" + x.MENU_NAME + "' class='toggleMain1' children='" + x.MENU_CHILDREN_YN + "'>" + x.MENU_NAME + "</a>";
                             }
