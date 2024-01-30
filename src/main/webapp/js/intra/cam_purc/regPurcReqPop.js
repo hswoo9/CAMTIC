@@ -15,7 +15,7 @@ var prp = {
     fn_defaultScript : function (){
         customKendo.fn_datePicker("purcReqDate", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["purcReqPurpose", "purcItemName0", "purcItemStd0", "purcItemUnitPrice0",
-            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm", "estAmt", "vatAmt", "totAmt"]);
+            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm", "estAmt", "vatAmt", "totAmt", "discountAmt", "disRate"]);
 
         prp.global.radioGroupData = [
             { label: "법인운영", value: "" },
@@ -97,9 +97,12 @@ var prp = {
         });
 
         var sum = 0;
+        var disAmt = uncommaN($("#discountAmt").val());
         $.each($(".purcItemAmt"), function(){
             sum += Number(uncommaN(this.value));
         })
+        sum = Number(sum) - Number(disAmt);
+
         if($("#purcSn").val()){
             $("#totalPay").css("display", "");
             $("#totalPay").text("합계 : " + comma(sum));
@@ -142,10 +145,13 @@ var prp = {
     },
 
     vatCalcN : function(){
+        var disAmt = uncommaN($("#discountAmt").val()) ? uncommaN($("#discountAmt").val()) : 0;
         let sum = 0;
         $.each($(".purcItemAmt"), function(){
             sum += Number(uncommaN(this.value));
         });
+
+        sum = Number(sum) - Number(disAmt);
 
         /** 견적가 500*/
         /** 미포함 500 50 550*/
@@ -195,6 +201,7 @@ var prp = {
         formData.append("status", e);
         formData.append("empSeq", $("#purcReqEmpSeq").val());
         formData.append("vat", $("#vat").data("kendoRadioGroup").value());
+        formData.append("discountAmt", uncommaN($("#discountAmt").val()) ? uncommaN($("#discountAmt").val()) : 0);
 
         /** 증빙파일 첨부파일 */
         if(fCommon.global.attFiles != null){
@@ -548,6 +555,7 @@ var prp = {
         var unitPrice = Number(uncommaN($("#purcItemUnitPrice" + idx).val()));
         var qty = Number(uncomma($("#purcItemQty" + idx).val()));
         var amount = unitPrice * qty;
+        var disAmt = uncommaN($("#discountAmt").val()) ? uncommaN($("#discountAmt").val()) : 0;
 
         $("#purcItemAmt" + idx).val(comma(amount));
 
@@ -555,6 +563,8 @@ var prp = {
         $.each($(".purcItemAmt"), function () {
             sum += Number(uncommaN(this.value));
         });
+
+        sum = Number(sum) - Number(disAmt);
 
         if ($("#purcSn").val()) {
             $("#totalPay").css("display", "");
@@ -577,6 +587,8 @@ var prp = {
             $("#item" + e).remove();
             // prp.global.itemIndex--;
         }
+
+        this.fn_calcN();
     },
 
     fn_popCamCrmList : function(crmSnId, crmNmId){
@@ -598,6 +610,7 @@ var prp = {
     },
 
     purcDataSet : function(){
+        console.log("purcDataSet");
         prp.global.searchAjaxData = {
             purcSn : $("#purcSn").val()
         }
@@ -631,6 +644,7 @@ var prp = {
                 $("#file2Name").text(data.reqFile.file_org_name + "." + data.reqFile.file_ext);
             }*/
             $("#vat").data("kendoRadioGroup").value(data.VAT);
+            $("#discountAmt").val(comma(data.DISCOUNT_AMT));
 
             prp.purcItemDataSet(data);
 
@@ -640,6 +654,7 @@ var prp = {
     },
 
     purcItemDataSet : function(e){
+        console.log("purcItemDataSet");
         var data = e;
         var e = e.itemList;
         console.log(e);

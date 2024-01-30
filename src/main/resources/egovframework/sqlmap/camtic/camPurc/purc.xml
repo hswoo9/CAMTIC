@@ -234,6 +234,7 @@
             PURC_TYPE,
             PJT_SN,
             PJT_NM,
+            DISCOUNT_AMT,
             VAT,
             STATUS,
             REG_EMP_SEQ
@@ -247,6 +248,7 @@
             #{purcType},
             #{pjtSn},
             #{pjtNm},
+            #{discountAmt},
             #{vat},
             #{status},
             #{empSeq}
@@ -266,6 +268,7 @@
             PURC_REQ_DATE = #{purcReqDate},
             PURC_REQ_PURPOSE = #{purcReqPurpose},
             PURC_TYPE = #{purcType},
+            DISCOUNT_AMT = #{discountAmt},
             VAT = #{vat},
             MOD_EMP_SEQ = #{empSeq},
             STATUS = #{status},
@@ -441,7 +444,8 @@
         SELECT
             IFNULL(FORMAT(MPI.TOT_AMT , 0), 0) AS TOTAL_SUM_COMMA_A,
             IFNULL(FORMAT(MPI.VAT_AMT , 0), 0) AS TOTAL_SUM_COMMA_B,
-            IFNULL(FORMAT(MPI.EST_AMT , 0), 0) AS TOTAL_SUM_COMMA_C
+            IFNULL(FORMAT(MPI.EST_AMT , 0), 0) AS TOTAL_SUM_COMMA_C,
+            IFNULL(FORMAT(MPI.DISCOUNT_AMT, 0), 0) AS DISCOUNT_AMT
         FROM
             CAM_MNG.DJ_PURC_CLAIM MPI
         WHERE
@@ -451,7 +455,9 @@
     <select id="getPurcItemAmtTotal" parameterType="map" resultType="map">
         /* getPurcItemAmtTotal */
         SELECT
-            IFNULL(FORMAT(SUM(PURC_ITEM_AMT) , 0), 0) AS TOTAL_SUM_COMMA
+            IFNULL(FORMAT(SUM(PURC_ITEM_AMT) , 0), 0) AS TOTAL_SUM_COMMA,
+            REPLACE(IFNULL(FORMAT(SUM(PURC_ITEM_AMT) , 0), 0), ',','') AS TOTAL_SUM_UNCOMMA,
+            (SELECT DISCOUNT_AMT FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = MPI.PURC_SN) AS DISCOUNT_AMT
         FROM
             CAM_MNG.DJ_MNG_PURC_ITEM MPI
         LEFT JOIN
@@ -724,6 +730,7 @@
                 CRM_SN,
                 CRM_NM,
                 PRI_PAY,
+                DISCOUNT_AMT,
                 VAT,
                 EST_AMT,
                 VAT_AMT,
@@ -751,6 +758,7 @@
                 #{crmSn},
                 #{crmNm},
                 #{priPay},
+                #{discountAmt},
                 #{vat},
                 #{estAmt},
                 #{vatAmt},
@@ -785,6 +793,7 @@
             CRM_SN = #{crmSn},
             CRM_NM = #{crmNm},
             PRI_PAY = #{priPay},
+            DISCOUNT_AMT = #{discountAmt},
             VAT = #{vat},
             EST_AMT = #{estAmt},
             VAT_AMT = #{vatAmt},
@@ -1260,7 +1269,8 @@
             IFNULL((SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS REQ_AMT,
             IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN), 0) AS EXNP_AMT,
             REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
-            (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS DOC_NO
+            (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS DOC_NO,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ) AS PURC_EMP_NAME
         FROM CAM_MNG.DJ_PURC_CLAIM A
          LEFT JOIN
              CAM_MNG.DJ_CLAIM_EXNP B

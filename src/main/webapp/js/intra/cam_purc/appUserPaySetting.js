@@ -62,6 +62,9 @@ const appUserPaySetting = {
                 }
 
                 $("#payTableBody").html(html);
+
+                $("#empSeq").val(ls[0].PURC_EMP_SEQ);
+                $("#empName").val(ls[0].PURC_EMP_NAME);
             }
         })
     },

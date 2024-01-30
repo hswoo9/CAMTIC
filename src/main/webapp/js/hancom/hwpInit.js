@@ -163,7 +163,7 @@ var hwpInit = {
         //     purcTypeText = "협의회";
         // }
         // hwpDocCtrl.putFieldText('PURC_TYPE', purcTypeText);
-        hwpDocCtrl.putFieldText('PURC_TYPE', result.PJT_NM);
+        hwpDocCtrl.putFieldText('PURC_TYPE', result.PJT_NM ? result.PJT_NM : "법인운영");
     },
 
     claimInit: function(claimSn){

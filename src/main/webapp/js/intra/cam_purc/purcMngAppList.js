@@ -71,7 +71,7 @@ var purcMngAppList = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_appUserPaySetting()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_appUserPaySetting(0)">' +
                             '	<span class="k-button-text">다건지출요청</span>' +
                             '</button>';
                     }
@@ -192,7 +192,7 @@ var purcMngAppList = {
                         if(amt == 0){
                             return "";
                         } else {
-                            return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_callPayApp('+e.PURC_SN+', '+e.CLAIM_SN+', '+amt+', '+e.SETTING+')">지출요청</button>';
+                            return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_appUserPaySetting('+e.CLAIM_SN+', '+e.SETTING+')">지출요청</button>';
                         }
                     }
                 },
@@ -286,15 +286,23 @@ var purcMngAppList = {
     },
 
 
-    fn_appUserPaySetting : function (){
+    fn_appUserPaySetting : function (clmSn, e){
         purcMngAppList.global.clmList = [];
         var flag = true;
-        $("input[name='clm']:checked").each(function(){
-            if($(this).attr("setting") == 0){
+
+        if(clmSn == 0){
+            $("input[name='clm']:checked").each(function(){
+                if($(this).attr("setting") == 0){
+                    flag = false;
+                }
+                purcMngAppList.global.clmList.push($(this).val());
+            });
+        } else {
+            if(e == 0){
                 flag = false;
             }
-            purcMngAppList.global.clmList.push($(this).val());
-        });
+            purcMngAppList.global.clmList.push(clmSn);
+        }
 
         if(!flag){
             alert("지급설정이 완료되지 않았습니다.");
