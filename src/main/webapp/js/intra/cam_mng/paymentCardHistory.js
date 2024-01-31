@@ -387,7 +387,9 @@ var payCardHist = {
         opener.parent.$("#authDd" + index).val(data.AUTH_DD);
         opener.parent.$("#authHh" + index).val(data.AUTH_HH);
 
-        opener.parent.regPay.fn_changeAllCost();
+        if(opener.parent.regPay){
+            opener.parent.regPay.fn_changeAllCost();
+        }
         fn_setCardInfo(data.AUTH_NO, data.AUTH_DD, data.AUTH_HH, data.CARD_NO, data.BUY_STS, index);
 
 

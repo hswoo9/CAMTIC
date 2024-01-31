@@ -564,6 +564,16 @@
             FILE_NO = #{fileNo} AND FILE_CD = 'useCard'
     </update>
 
+    <update id="updFileOwnerClaimExnp" parameterType="map">
+        /*updFileOwnerClaimExnp*/
+        UPDATE
+            CAM_COMMON.DJ_FILE_INFO
+        SET
+            CONTENT_ID = #{contentId}
+        WHERE
+            FILE_NO = #{fileNo}
+    </update>
+
     <update id="updFileOwnerNull" parameterType="map">
         /*updFileOwnerNull*/
         UPDATE
