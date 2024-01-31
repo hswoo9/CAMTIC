@@ -128,7 +128,7 @@ var approvalLine = {
             userArr.push(userInfo);
 
         /** 기안자가 부서장급 일때 */
-        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4"){
+        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "7"){
             const level = approvalLine.global.headLevel;
 
             if(level == 0 || level == null){
@@ -364,7 +364,7 @@ var approvalLine = {
             userArr.push(userInfo);
 
         /** 기안자가 부서장급 일때 */
-        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4"){
+        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "7"){
 
             if(level == 0 || level == null){
                 return;
