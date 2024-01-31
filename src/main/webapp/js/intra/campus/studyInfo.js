@@ -203,7 +203,7 @@ var studyInfo = {
                     }
                 },*/ {
                     title: "진행현황",
-                    width: 120,
+                    width: 150,
                     template: function(row){
                         let studyClass = row.STUDY_CLASS_SN;
                         if(studyClass == 1){
@@ -247,7 +247,9 @@ var studyInfo = {
                                 return "신청서 반려됨";
                             }else if(row.STATUS == 100){
                                 return "OJT 진행중("+row.ST_CNT+"회)";
-                            }else if(row.STATUS == 101){
+                            } else if(row.STATUS == 101 && row.ADD_STATUS == "C"){
+                                return "결과보고서 승인요청중";
+                            }else if(row.STATUS == 101 && row.ADD_STATUS == "S"){
                                 return "OJT완료";
                             }
                         }

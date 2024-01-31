@@ -163,6 +163,7 @@
         if($("#resultMode").val() == "mng"){
             $("#savesBtn").hide();
             $("#modifyBtn").hide();
+            $("#START_DT, #END_DT, #END_DT, #ojtLocationTd, #ojtContentTd, #ojtAmtTd, #ojtAmtTextTd, #regDateTd").attr("readonly", true);
         }
 
         if(ojtInfo.ADD_STATUS == "C" || ojtInfo.ADD_STATUS == "S"){
@@ -179,6 +180,7 @@
         } else {
             if(ojtInfo.ADD_STATUS == "S"){
                 $("#saveBtn").css("display", "none");
+                $("#apprBtn").css("display", "none");
             }
         }
     });
