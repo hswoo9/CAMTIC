@@ -24,7 +24,7 @@ var invenAdjust = {
             '<tr>' +
                 '<td>' +
                     '<input type="text" id="whCdNm' + inx + '" class="whCdNm k-input k-textbox" value="' + e.WH_CD_NM + '" disabled>' +
-                    '<input type="hidden" id="invenSn' + e.invenSn + '" class="invenSn" value="' + e.invenSn + '">' +
+                    '<input type="hidden" id="masterSn' + e.MASTER_SN + '" class="masterSn" value="' + e.MASTER_SN + '">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="itemName' + inx + '" class="itemName k-input k-textbox" value="'+ e.itemName +'" disabled>' +
@@ -71,13 +71,13 @@ var invenAdjust = {
 
 
         $("#listTb tr").each(function(){
-            var invenSn = $(this).find(".invenSn").val();
+            var masterSn = $(this).find(".masterSn").val();
             var actualInven = $(this).find("#actualInven"+index).val();
             var invenAjm = $(this).find("#invenAjm"+index).val();
             var invenAjmNote = $(this).find("#invenAjmNote"+index).val();
 
             var data = {
-                invenSn : invenSn,
+                masterSn : masterSn,
                 actualInven : actualInven,
                 invenAjm : invenAjm,
                 invenAjmNote : invenAjmNote,

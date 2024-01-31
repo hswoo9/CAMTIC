@@ -97,4 +97,20 @@ public class ItemManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getItemInvenAdjustList(Map<String, Object> params) {
         return selectList("item.getItemInvenAdjustList", params);
     }
+
+    public void updItemMasterInfo(Map<String, Object> params) {
+        update("item.updItemMasterInfo", params);
+    }
+
+    public void delItemWhInfo(Map<String, Object> map) {
+        delete("item.delItemWhInfo", map);
+    }
+
+    public void updItemHistInfo(Map<String, Object> params) {
+        update("item.updItemHistInfo", params);
+    }
+
+    public void insItemHistOutData(Map<String, Object> params) {
+        insert("item.insItemHistOutData", params);
+    }
 }

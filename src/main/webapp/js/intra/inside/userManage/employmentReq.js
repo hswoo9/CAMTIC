@@ -8,7 +8,8 @@ var employmentReq = {
 
     gridReload : function() {
         employmentReq.global.searchAjaxData = {
-            empSeq : $("#empSeq").val()
+            empSeq : $("#empSeq").val(),
+            sendYn : 'Y'
         }
         employmentReq.mainGrid('/userManage/getEmploymentContList.do', employmentReq.global.searchAjaxData);
     },
@@ -66,7 +67,7 @@ var employmentReq = {
                     title: "성명"
                 }, {
                     field: "SALARY_CONTRACT_REQ_DT",
-                    title: "연봉근로계약서 작성일",
+                    title: "연봉근로계약서 작성일"
                 }, {
                     title : "연봉계약서",
                     template : function(e){

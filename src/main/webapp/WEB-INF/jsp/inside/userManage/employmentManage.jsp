@@ -3,8 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/inside/userManage/employmentManage.js?v=2"/></script>
-
+<script type="text/javascript" src="/js/intra/inside/userManage/employmentManage.js?v=${today}"/></script>
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">

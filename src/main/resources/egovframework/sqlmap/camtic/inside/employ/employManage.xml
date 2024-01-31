@@ -24,7 +24,8 @@
         JOIN
             CAM_HR.DJ_DEPT_INFO DI
         ON EC.DEPT_SEQ = DI.DEPT_SEQ
-        WHERE 1=1
+        WHERE
+            EC.ACTIVE = 'Y'
         <if test='startDate != null and !"".equals(startDate)'>
         <![CDATA[
 		AND
@@ -49,11 +50,15 @@
         AND
             EC.EMP_NAME LIKE CONCAT('%', #{empName}, '%')
         </if>
+        <if test='sendYn != null and !"".equals(sendYn)'>
+        AND
+            EC.SEND_YN = #{sendYn}
+        </if>
         <if test='empSeq != null and !"".equals(empSeq)'>
         AND
             EC.EMP_SEQ = #{empSeq}
         </if>
-        ORDER BY EC.REG_DATE DESC
+        ORDER BY EC.SALARY_CONTRACT_REQ_DT DESC
     </select>
 
     <select id="employmentExcelEmpList" parameterType="map" resultType="map">
@@ -159,6 +164,18 @@
                 #{item}
             </foreach>
             )
+    </update>
+
+    <update id="setSalaryContractDel" parameterType="map">
+        /* setSalaryContractDel */
+        UPDATE
+            CAM_INSIDE.DJ_EMPLOYMENT_CONTRACT
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DATE = NOW()
+        WHERE
+            SALARY_CONTRACT_ID IN (${salaryContractId})
     </update>
 
     <update id="setEmploymentInfoFlag" parameterType="map">

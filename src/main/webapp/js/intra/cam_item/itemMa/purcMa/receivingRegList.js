@@ -125,12 +125,16 @@ var recL = {
                     field: "ITEM_NAME",
                     width: 100,
                     template : function(e){
-                        if(e.INSPECTION == "N"){
-                            return '<a class="title" onclick="recL.fn_popReceivingRegMod(' + e.ITEM_WH_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
-                        }else if(e.INSPECTION == "C"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NAME + "</span>"
-                        }else {
-                            return e.ITEM_NAME
+                        if(e.ITEM_NO != undefined && e.ITEM_NO != null) {
+                            if (e.INSPECTION == "N") {
+                                return '<a class="title" onclick="recL.fn_popReceivingRegMod(' + e.ITEM_WH_SN + ')" style="cursor: pointer;">' + e.ITEM_NAME + '</a>'
+                            } else if (e.INSPECTION == "C") {
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NAME + "</span>"
+                            } else {
+                                return e.ITEM_NAME
+                            }
+                        } else {
+                            return '-';
                         }
 
                     }
