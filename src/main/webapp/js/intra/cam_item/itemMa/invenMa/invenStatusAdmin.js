@@ -73,7 +73,7 @@ var invenStAdmin = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox" onclick="fn_checkAll(\'checkAll\', \'agiPk\');"/>',
-                    template : "<input type='checkbox' id='agiPk#=INVEN_SN#' name='agiPk' value='#=INVEN_SN#' class='k-checkbox checkbox'/>",
+                    template : "<input type='checkbox' id='agiPk#=MASTER_SN#' name='agiPk' value='#=MASTER_SN#' class='k-checkbox checkbox'/>",
                     width : 35
                 }, {
                     title: "창고",
@@ -98,10 +98,10 @@ var invenStAdmin = {
                             title: "전월 재고수량",
                             width: 70,
                             template : function (e){
-                                if(e.CURRENT_INVEN < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                if(e.BEF_TOT_CNT < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.BEF_TOT_CNT) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                    return invenStAdmin.comma(e.BEF_TOT_CNT);
                                 }
                             },
                             attributes : {
@@ -111,7 +111,7 @@ var invenStAdmin = {
                             title: "입고현황",
                             width: 70,
                             template : function (e){
-                                return invenStAdmin.comma(e.RECEIVING_INVEN);
+                                return invenStAdmin.comma(e.IN_CNT);
                             },
                             attributes : {
                                 style : "text-align : right;"
@@ -120,7 +120,7 @@ var invenStAdmin = {
                             title: "출고현황",
                             width: 70,
                             template : function (e){
-                                return invenStAdmin.comma(e.FORWARDING_INVEN);
+                                return invenStAdmin.comma(e.OUT_CNT);
                             },
                             attributes : {
                                 style : "text-align : right;"
@@ -129,10 +129,10 @@ var invenStAdmin = {
                             title: "현재고",
                             width: 70,
                             template : function (e){
-                                if(e.CURRENT_INVEN < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                if(e.TOT_CNT < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.TOT_CNT) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                    return invenStAdmin.comma(e.TOT_CNT);
                                 }
                             },
                             attributes : {
@@ -142,10 +142,10 @@ var invenStAdmin = {
                             title: "안전재고",
                             width: 70,
                             template : function (e){
-                                if(e.SAFETY_INVEN < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.SAFETY_INVEN) + "</span>";
+                                if(e.SAFE_CNT < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.SAFE_CNT) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.SAFETY_INVEN);
+                                    return invenStAdmin.comma(e.SAFE_CNT);
                                 }
                             },
                             attributes : {
@@ -155,10 +155,10 @@ var invenStAdmin = {
                             title: "실사재고수량",
                             width: 70,
                             template : function (e){
-                                if(e.ACTUAL_INVEN < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.ACTUAL_INVEN) + "</span>";
+                                if(e.REAL_CNT < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.REAL_CNT) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.ACTUAL_INVEN);
+                                    return invenStAdmin.comma(e.REAL_CNT);
                                 }
                             },
                             attributes : {
@@ -168,7 +168,7 @@ var invenStAdmin = {
                             title: "차이",
                             width: 70,
                             template : function (e){
-                                var diffInven = e.CURRENT_INVEN - e.ACTUAL_INVEN;
+                                var diffInven = e.TOT_CNT - e.REAL_CNT;
 
                                 if(diffInven < 0){
                                     return "<span style='color: red'>" + invenStAdmin.comma(diffInven) + "</span>";
@@ -183,10 +183,10 @@ var invenStAdmin = {
                             title: "확정재고",
                             width: 70,
                             template : function (e){
-                                if(e.CURRENT_INVEN < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                if(e.TOT_CNT < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.TOT_CNT) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                    return invenStAdmin.comma(e.TOT_CNT);
                                 }
                             },
                             attributes : {
@@ -202,10 +202,10 @@ var invenStAdmin = {
                             field: "STANDARD",
                             width: 80,
                             template : function (e){
-                                if(e.CURRENT_INVEN < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                if(e.BEF_AMT < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.BEF_AMT) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                    return invenStAdmin.comma(e.BEF_AMT);
                                 }
                             },
                             attributes : {
@@ -216,10 +216,10 @@ var invenStAdmin = {
                             field: "STANDARD",
                             width: 80,
                             template : function (e){
-                                if(e.CURRENT_INVEN < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
+                                if(e.AMT < 0){
+                                    return "<span style='color: red'>" + invenStAdmin.comma(e.AMT) + "</span>";
                                 }else{
-                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                    return invenStAdmin.comma(e.AMT);
                                 }
                             },
                             attributes : {
@@ -230,11 +230,14 @@ var invenStAdmin = {
                             field: "STANDARD",
                             width: 80,
                             template : function (e){
-                                if(e.CURRENT_INVEN < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.CURRENT_INVEN) + "</span>";
-                                }else{
-                                    return invenStAdmin.comma(e.CURRENT_INVEN);
+                                if(e.BEF_AMT > e.AMT){
+                                    return "<span style='color: red; font-weight : bold'>" + invenStAdmin.comma(Number(e.BEF_AMT - e.AMT)) + "</span>";
+                                } else if(e.BEF_AMT < e.AMT){
+                                    return "<span style='color: blue; font-weight : bold'>" + invenStAdmin.comma(Number(e.AMT - e.BEF_AMT)) + "</span>";
+                                } else {
+                                    return invenStAdmin.comma(Number(e.BEF_AMT - e.AMT));
                                 }
+
                             },
                             attributes : {
                                 style : "text-align : right;"
@@ -306,9 +309,25 @@ var invenStAdmin = {
     },
 
     gridReload: function (){
+
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+
+        var befDate = new Date();
+        befDate.setMonth(befDate.getMonth() - 1);
+        let befYear    = befDate.getFullYear();
+        let befMonth   = befDate.getMonth() +  1;
+
+        var lastDay = new Date(year, month, 0);
+        var befLastDay = new Date(befYear, befMonth, 0);
         invenStAdmin.global.searchAjaxData = {
-            searchDt : $("#searchDt").val()
+            searchDt : $("#searchDt").val(),
+            nowMon : lastDay.getFullYear() + "-" + ('0' + ((lastDay.getMonth() + 1))).slice(-2) + "-" + lastDay.getDate(),
+            befMon : befLastDay.getFullYear() + "-" + ('0' + ((befLastDay.getMonth() + 1))).slice(-2) + "-" + befLastDay.getDate(),
         };
+
+
 
         invenStAdmin.mainGrid("/item/getItemInvenAdminList.do", invenStAdmin.global.searchAjaxData);
     },

@@ -207,10 +207,14 @@ var srrl = {
                     field: "RMK",
                     width: 200,
                     template : function(e){
+                        var rmk = "";
+                        if(e.RMK != null && e.RMK != undefined){
+                            rmk = e.RMK
+                        }
                         if(e.DELIVERY_AMT == e.DELIVERY_VOLUME){
-                            return e.RMK;
+                            return rmk;
                         }else {
-                            return "<input type='text' class='k-input k-textbox' id='rmk" + e.SM_RECORD_SN + "' value='" + e.RMK + "'>";
+                            return "<input type='text' class='k-input k-textbox' id='rmk" + e.SM_RECORD_SN + "' value='" + rmk + "'>";
                         }
                     }
                 }, {

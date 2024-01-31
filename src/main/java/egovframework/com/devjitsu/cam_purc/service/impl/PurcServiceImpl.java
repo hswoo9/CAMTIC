@@ -543,10 +543,10 @@ public class PurcServiceImpl implements PurcService {
 
         for(Map<String, Object> map : insList){
             if(map.get("PRODUCT_A").equals("3")){
-                purcRepository.insItemMaster(map);
-
-
+//                purcRepository.insItemMaster(map);
                 purcRepository.insItemWhInfo(map);
+
+                purcRepository.insItemMasterHist(map);
             }
         }
     }

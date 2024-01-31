@@ -78,8 +78,10 @@ var regRvM = {
                 whVolume : $("#whVolume").val(),
                 whWeight : $("#whWeight").val(),
                 whCd : $("#whCd").val(),
-                unitPrice : $("#unitPrice").val(),
-                amt : $("#amt").val(),
+                itemName : $("#itemName").val(),
+
+                unitPrice : regRvM.uncomma($("#unitPrice").val()),
+                amt : regRvM.uncomma($("#amt").val()),
                 rmk : $("#rmk").val(),
                 empSeq : $("#empSeq").val()
             }
@@ -107,6 +109,16 @@ var regRvM = {
                 window.close();
             }
         }
+    },
+
+    comma : function(str){
+        str = String(str);
+        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    },
+
+    uncomma : function(str){
+        str = String(str);
+        return str.replace(/[^\d]+/g, '');
     },
 
     fn_popCamCrmList : function (){

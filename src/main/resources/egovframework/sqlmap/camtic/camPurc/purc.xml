@@ -1420,7 +1420,7 @@
         ON
             A.PURC_SN = B.PURC_SN
         WHERE
-            B.PURC_SN = 432
+            B.PURC_SN = #{purcSn}
         AND
             B.STATUS = 'C'
     </select>
@@ -1450,7 +1450,6 @@
         /*insItemWhInfo*/
         INSERT INTO CAM_ITEM.DJ_ITEM_WH_INFO
             (
-                MASTER_SN,
                 CRM_SN,
                 WH_TYPE,
                 WH_CD,
@@ -1464,7 +1463,6 @@
             )
         VALUES
             (
-                #{MASTER_SN},
                 #{CRM_SN},
                 '101',
                 'TMP',
@@ -1475,6 +1473,29 @@
                 #{RMK},
                 DATE_FORMAT(now(), '%Y-%m-%d'),
                 #{REG_EMP_SEQ}
+            )
+        <selectKey keyProperty="ITEM_WH_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ITEM' AND TABLE_NAME = 'DJ_ITEM_WH_INFO'
+        </selectKey>
+    </insert>
+
+    <insert id="insItemMasterHist" parameterType="map">
+        /*insItemMasterHist*/
+        INSERT INTO CAM_ITEM.DJ_ITEM_HIST
+            (
+                ITEM_WH_SN,
+                IN_CNT,
+                OUT_CNT,
+                UNIT_AMT,
+                DEF_DATE
+            )
+        VALUES
+            (
+                #{ITEM_WH_SN},
+                #{PURC_ITEM_QTY},
+                '0',
+                #{PURC_ITEM_UNIT_PRICE},
+                DATE_FORMAT(now(), '%Y-%m-%d')
             )
     </insert>
 </mapper>
