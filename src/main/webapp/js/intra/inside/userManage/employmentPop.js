@@ -97,6 +97,12 @@ var employmentPop = {
         var result = customKendo.fn_customAjax("/userManage/getEmploymentInfo.do", employmentPop.global.searchAjaxData);
         if(result.flag){
             employmentPop.global.data = result.data;
+            
+            if(employmentPop.global.hwpCtrl.FieldExist("regYear")){
+                let regYear = result.data.SALARY_CONTRACT_REQ_DT.substr(0, 4) + '년도 연봉 명세서';
+                employmentPop.global.hwpCtrl.MoveToField('regYear', true, true, false);
+                employmentPop.putFieldText('regYear', regYear);
+            }
 
             if(employmentPop.global.hwpCtrl.FieldExist("empName")){
                 employmentPop.global.hwpCtrl.MoveToField('empName', true, true, false);
