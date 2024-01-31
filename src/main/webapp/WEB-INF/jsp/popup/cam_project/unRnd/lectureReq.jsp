@@ -5,6 +5,9 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 
+<style>
+    .k-window  div.k-window-content {overflow: hidden;}
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecturePopup.js?v=${today}'/>"></script>
@@ -27,6 +30,7 @@
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="type" name="type" />
 
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -39,6 +43,7 @@
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
+                <%--<button type="button" class="k-button k-button-solid-base" id="consultantBtn" style="display: none" onclick="lecturePop.consultantPop('${params.pk}');">컨설턴트관리</button>--%>
                 <button type="button" class="k-button k-button-solid-base" id="teacherBtn" style="display: none" onclick="lecturePop.lectureTeacherPop('${params.pk}');">강사관리</button>
                 <button type="button" class="k-button k-button-solid-base" id="personBtn" style="display: none" onclick="lecturePop.lecturePersonPop('${params.pk}');">수강신청관리</button>
                 <button type="button" class="k-button k-button-solid-base" id="eduBtn" style="display: none" onclick="lecturePop.lectureEduPop('${params.pk}');">이수관리</button>
@@ -49,7 +54,24 @@
             </div>
         </div>
 
-        <div style="padding: 20px 30px;">
+        <%--<div style="padding: 0 30px;">
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
+                </colgroup>
+                <tr>
+                    <th scope="row" class="text-center th-color" style="background-color: #8fa1c04a"><span class="red-star">*</span>구분</th>
+                    <td colspan="3">
+                        <input type="text" id="writeClass" style="width: 800px">
+                    </td>
+                </tr>
+            </table>
+        </div>--%>
+
+        <div class="lecture" style="padding: 20px 30px; display: none;">
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="15%">
@@ -59,16 +81,23 @@
                 </colgroup>
                 <thead>
                 <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업명</th>
+                    <td colspan="3">
+                        <input id="projectName" style="width: 800px;">
+                    </td>
+                </tr>
+                <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업구분</th>
                     <td>
                         <input id="projectType" style="width: 370px;">
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육분야</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육분야</th><%--컨설팅 컨설팅분야--%>
                     <td>
                         <input id="fieldType" style="width: 200px;">
+                        <input id="fieldType2" style="width: 200px;">
                     </td>
                 </tr>
-                <tr>
+                <%--<tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>과목명</th>
                     <td>
                         <input id="curriculumType" style="width: 200px;">
@@ -77,9 +106,9 @@
                     <td>
                         <input id="courseType" style="width: 200px;">
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>강좌명(사업명)</th>
+                    <th scope="row" class="text-center th-color"><%--<span class="red-star">*</span>--%>강좌명(사업명)</th><%--컨설팅 사업명--%>
                     <td colspan="3">
                         <input id="lectureName" style="width: 800px;">
                     </td>
@@ -90,26 +119,26 @@
                         <input id="lectureNameEx" style="width: 800px;">
                     </td>
                 </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>주제(CEO)</th>
+                <%--<tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>주제(CEO)</th>&lt;%&ndash;컨설팅 과제명&ndash;%&gt;
                     <td colspan="3">
                         <input id="title" style="width: 800px;">
                     </td>
-                </tr>
-                <tr>
+                </tr>--%>
+                <%--<tr>
                     <th scope="row" class="text-center th-color">과정안내 문구1</th>
                     <td colspan="3">
                         <textarea id="content1" style="width: 800px; height: 100px"></textarea>
                     </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">과정안내 문구2</th>
+                </tr>--%>
+                <%--<tr>
+                    <th scope="row" class="text-center th-color">과정안내 문구2</th
                     <td colspan="3">
                         <textarea id="content2" style="width: 800px; height: 100px"></textarea>
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육기간</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육기간</th><%--컨설팅 협약기간--%>
                     <td>
                         <input id="eduStartDt" style="width: 110px;">
                         ~
@@ -123,18 +152,18 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>모집인원</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>모집인원</th><%--컨설팅 수혜인원 수--%>
                     <td>
                         <input id="recruitNum" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;"> 명
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육시간</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>총 교육시간</th> <%--컨설팅 시간--%>
                     <td>
-                        <input id="eduTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;"> 시간/
-                        <input id="eduTimeEx" style="width: 140px;"> 예) 18:30~22:00
+                        총 <input id="eduTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;"> 시간<%--/
+                        <input id="eduTimeEx" style="width: 140px;"> 예) 18:30~22:00--%>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육장소</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육장소</th><%--컨설팅 수혜기업명, 수혜기업 담당자--%>
                     <td>
                         <input id="area" style="width: 400px;">
                     </td>
@@ -143,7 +172,7 @@
                         <input id="status" style="width: 200px;">
                     </td>
                 </tr>
-                <tr>
+                <%--<tr>
                     <th scope="row" class="text-center th-color">교육목표</th>
                     <td colspan="3">
                         <textarea id="goal" style="width: 800px; height: 100px"></textarea>
@@ -160,9 +189,9 @@
                     <td colspan="3">
                         <textarea id="targetUser" style="width: 800px; height: 100px"></textarea>
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
-                    <th scope="row" class="text-center th-color">교육일정(내용)<br>(HTML)</th>
+                    <th scope="row" class="text-center th-color">교육일정<%--(내용)<br>(HTML)--%></th>
                     <td colspan="3">
                         <textarea id="scheduleHtml" style="width: 800px; height: 150px"></textarea>
                     </td>
@@ -173,12 +202,12 @@
                         <textarea id="prospectus" style="width: 800px; height: 100px"></textarea>
                     </td>
                 </tr>
-                <tr>
+                <%--<tr>
                     <th scope="row" class="text-center th-color">준비물</th>
                     <td colspan="3">
                         <textarea id="materials" style="width: 800px; height: 100px"></textarea>
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육비(교재비)</th>
                     <td>
@@ -189,12 +218,12 @@
                         <span id="methodType" style="width: 300px;"></span>
                     </td>
                 </tr>
-                <tr>
+                <%--<tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>인증서</th>
                     <td colspan="3">
                         <span id="certType" style="width: 300px;"></span>
                     </td>
-                </tr>
+                </tr>--%>
                 <tr>
                     <th scope="row" class="text-center th-color">교재 이미지</th>
                     <td>
@@ -217,7 +246,7 @@
                         <span id="file2Name"></span>
                     </td>
                 </tr>
-                <tr>
+                <%--<tr>
                     <th scope="row" class="text-center th-color">메일첨부1</th>
                     <td colspan="3">
                         <input type="hidden" id="file3Sn" name="file1Sn">
@@ -234,13 +263,183 @@
                         <input type="file" id="file4" name="file2" onchange="prp.fileChange(this)" style="display: none">
                         <span id="file4Name"></span>
                     </td>
+                </tr>--%>
+                </thead>
+            </table>
+        </div>
+
+
+        <div class="consulting" style="padding: 20px 30px; display: none;">
+
+            <table class="popTable table table-bordered mb-20">
+                <colgroup>
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="row" class="text-center th-color">성명</th>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">생년월일</th>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">성별</th>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">전화번호</th>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">휴대폰 번호</th>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">이메일</th>
+                    <td colspan="3"></td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">주소</th>
+                    <td colspan="3"></td>
+                </tr>
+
+                </thead>
+            </table>
+
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>컨설팅분야</th>
+                    <td colspan="3">
+                        <input id="field" style="width: 200px;">
+                        <input id="field2" style="width: 200px;">
+                        <input id="field3" style="width: 200px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업명</th>
+                    <td colspan="3">
+                        <input id="conName" style="width: 800px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>과제명</th>
+                    <td colspan="3">
+                        <input id="conTitle" style="width: 800px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>세부 프로그램명</th>
+                    <td colspan="3">
+                        <input id="conDetailTitle" style="width: 800px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>협약기간</th>
+                    <td>
+                        <input id="agmStartDt" style="width: 110px;">
+                        ~
+                        <input id="agmEndDt" style="width: 110px;">
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>컨설팅 시간</th>
+                    <td>
+                        <input id="conTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;"> 시간
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">수혜기업명</th>
+                    <td colspan="3">
+                        <input id="conArea" style="width: 400px;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>수혜기업 담당자</th>
+                    <td>
+                        <input id="conPerson" style="width: 200px;">
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>수혜인원 수</th>
+                    <td>
+                        <input id="conNum" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;"> 명
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>메인게시여부</th>
+                    <td colspan="3">
+                        <span id="conMainType" style="width: 300px;"></span>
+                    </td>
                 </tr>
                 </thead>
             </table>
         </div>
     </div>
 </div>
+
+<div id="lecReqSelectModal" style="overflow-x: hidden ">
+</div>
+
 <script type="text/javascript">
+    $(function (){
+        $("#lecReqSelectModal").data("kendoWindow").open();
+    });
+
+    $("#lecReqSelectModal").kendoWindow({
+        title : "단위사업 작성",
+        width: "700px",
+        visible: false,
+        modal: true,
+        position : {
+            top : 200,
+            left : 400
+        },
+        open : function (){
+            var htmlStr =
+                '<div class="mb-10" style="text-align: right;">' +
+                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="lectureReq.fn_startProject()">등록</button>' +
+                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#lecReqSelectModal \').data(\'kendoWindow\').close()">닫기</button>' +
+                '</div>' +
+                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
+                '	<colgroup>' +
+                '		<col width="20%">' +
+                '		<col width="40%">' +
+                '		<col width="40%">' +
+                '	</colgroup>' +
+                '	<tbody>' +
+                '		<tr>' +
+                '			<th scope="row" class="text-center th-color" style="background-color: #4c7fbf; color : #ffffff"><span class="red-star">*</span>단위사업 선택</th>' +
+                '			<td>' +
+                '				<input type="radio" id="edu" value="1" name="lecReq" style="position: relative; top: 3px;" />' +
+                '				<label for="projectDepthB">교육</label>' +
+                '			</td>' +
+                '			<td>' +
+                '				<input type="radio" id="cnosulting" value="2" name="lecReq" style="position: relative; top: 3px;" />' +
+                '				<label for="projectDepthB">컨설팅</label>' +
+                '			</td>' +
+                '		</tr>' +
+                '	</tbody>' +
+                '</table>';
+
+            $("#lecReqSelectModal").html(htmlStr);
+        },
+        close: function () {
+            $("#pjSelect").empty();
+        }
+    });
+
+    /*function openModalSelect(){
+        $("#lecReqSelectModal").data("kendoWindow").open();
+    }*/
+    
     lectureReq.fn_defaultScript();
 </script>
 </body>

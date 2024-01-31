@@ -27,4 +27,8 @@ public class PRJRepository extends AbstractDAO {
     public List<Map<String, Object>> getHistPurcList(Map<String, Object> params) {
         return selectListMs("prj.getHistPurcList", params);
     }
+
+    public List<Map<String, Object>> getPersonAttendListG20(Map<String, Object> params) {
+        return selectListMs("prj.getPersonAttendListG20", params);
+    }
 }

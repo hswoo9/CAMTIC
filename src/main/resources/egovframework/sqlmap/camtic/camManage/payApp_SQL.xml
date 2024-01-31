@@ -1853,7 +1853,8 @@
                 BUY_STS,
                 LINK_STAT,
                 PAY_APP_SN,
-                SNACK_INFO_SN
+                SNACK_INFO_SN,
+                CE_GW_IDX
             )
         VALUES
             (
@@ -1864,7 +1865,8 @@
                 #{BUY_STS},
                 'Y',
                 #{PAY_APP_SN},
-                #{SNACK_INFO_SN}
+                #{SNACK_INFO_SN},
+                #{CE_GW_IDX}
             )
     </insert>
 
@@ -2069,14 +2071,16 @@
                 PAY_APP_SN,
                 ISS_NO,
                 CO_CD,
-                TAX_TY
+                TAX_TY,
+                CE_GW_IDX
             )
         VALUES
             (
                 #{PAY_APP_SN},
                 #{ISS_NO},
                 #{CO_CD},
-                #{TAX_TY}
+                #{TAX_TY},
+                #{CE_GW_IDX}
             )
     </insert>
 

@@ -485,8 +485,11 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            CONTENT_ID = (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn})
-        AND FILE_CD = 'payClaim'
+            (CONTENT_ID = (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn})
+                AND FILE_CD = 'payClaim')
+            OR
+            (CONTENT_ID LIKE CONCAT('payClaim_', (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn}))
+                AND FILE_CD IN ('etax','useCard'))
         ORDER BY REG_DATE DESC
     </select>
 
@@ -1291,6 +1294,7 @@
                 CLAIM_SN,
                 REQ_AMT,
                 CE_GW_IDX,
+                EVID_TYPE,
                 EMP_SEQ
             )
         VALUES
@@ -1298,6 +1302,7 @@
                 #{claimSn},
                 #{reqAmt},
                 #{ceGwIdx},
+                #{evidType},
                 #{empSeq}
             )
     </insert>

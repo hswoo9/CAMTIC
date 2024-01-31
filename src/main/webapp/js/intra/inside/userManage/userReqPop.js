@@ -248,7 +248,8 @@ var userReqPop = {
                     index: 0,
                     change : function(){
                         var data = {
-                            deptSeq : $("#deptName").val()
+                            deptSeq : $("#deptName").val(),
+                            useTeam : '1'
                         }
 
                         $.ajax({
@@ -829,6 +830,16 @@ var userReqPop = {
             return ;
         }
 
+        let deptSeq = ''
+        let deptName = ''
+        if($("#deptTeamName").val() == "" || $("#deptTeamName").val() == undefined){
+            deptSeq = $("#deptName").val();
+            deptName = $("#deptName").val() == "" ? "" : $("#deptName").data("kendoDropDownList").text();
+        }else{
+            deptSeq = $("#deptTeamName").val();
+            deptName = $("#deptTeamName").val() == "" ? "" : $("#deptTeamName").data("kendoDropDownList").text();
+        }
+
         var data = {
             //ERP_EMP_SEQ : "",
             EMP_NAME_KR : $("#empNameKr").val(), //이름
@@ -839,8 +850,8 @@ var userReqPop = {
 
             division : $("#divis").val(), //직원구분
             divisionSub : $("#divisDet").val(), //직원구분
-            DEPT_SEQ : $("#deptName").val(), //부서
-            DEPT_NAME : $("#deptName").val() == "" ? "" : $("#deptName").data("kendoDropDownList").text(),
+            DEPT_SEQ : deptSeq, //부서
+            DEPT_NAME : deptName,
             DEPT_TEAM_SEQ : $("#deptTeamName").val(), //팀
             DEPT_TEAM_NAME : $("#deptTeamName").val() == "" ? "" : $("#deptTeamName").data("kendoDropDownList").text(),
             JOB_DETAIL : $("#jobDetail").val(), //직무사항
