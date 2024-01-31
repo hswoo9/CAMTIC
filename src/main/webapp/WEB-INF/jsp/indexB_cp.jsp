@@ -347,20 +347,20 @@
         if (ds.flag) {
             var data = ds.list;
             for (var a = 0; a < data.length; a++) {
-                var start = ds.list[a].startDate;
-                var end = ds.list[a].endDate;
+                var start = ds.list[a].startDate == null ? ds.list[a].start : ds.list[a].startDate;
+                var end = ds.list[a].endDate == null ? ds.list[a].end : ds.list[a].endDate;
                 var id = ds.list[a].SCHEDULE_BOARD_ID;
                 //날짜비교
-                if (end >= start) {
-                    for (var i = start; i <= end; i++) {
-
-                        var pushData = {
-                            name: "offer",
-                            date: i,
-                            id : id
-                        };
-                        calendarData.push(pushData);
-                    }
+                var lastDate = new Date(end);
+                var curDate = new Date(start);
+                while(curDate <= lastDate) {
+                    var pushData = {
+                        name: "offer",
+                        date: curDate.getFullYear() + "-" + ("0" + (curDate.getMonth() + 1)).slice(-2) + "-" +  ("0" + curDate.getDate()).slice(-2),
+                        id : id
+                    };
+                    calendarData.push("pushData", pushData);
+                    curDate.setDate(curDate.getDate() + 1);
                 }
             }
 
@@ -545,43 +545,87 @@
         $("#schedule3Ul").append(html);
     }
 
+    function bustripDetail(hrBizReqId){
+        let url = "/bustrip/pop/bustripReqPop.do?hrBizReqId="+hrBizReqId;
+        let name = "bustripReqPop";
+        let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
+    }
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
 
     //주요일정 > 법인or직원 일정
     function getscheduleList(v, e){
         $("#" + v + " li").remove();
 
-        var data = {
-            publicClass : e
-        }
+        if(e == 'ES'){
+            var today = formatDate(new Date());
 
-        var result = customKendo.fn_customAjax("/spot/getScheduleList.do", data);
-        console.log(result);
-        if(result.flag){
-            var html = "";
+            var esData = customKendo.fn_customAjax('/spot/getMainScheduleList2', {selectedDate : today});
+            var htmlData =esData.list;
 
-            result.list.sort(function(a, b) {
-                return new Date(b.start) - new Date(a.start);
-            });
+            var htmlEs = "";
+            if(esData.flag) {
+                if (htmlData.length > 0) {
+                    for (var i = 0; i < htmlData.length; i++) {
 
-            if (result.list.length > 0){
-                var recentPosts = result.list.slice(0, 3);
-                for (var i = 0; i < recentPosts.length; i++) {
-                    console.log(recentPosts);
-                    var article  = result.list[i];
-                    var scheduleTypeList = {
-                        "EV": "행사",
-                        "ME": "회의",
-                        "ED": "교육",
-                        "WR": "업무관련",
-                        "BD": "생일",
-                        "TR": "출장",
-                        "HD": "휴일",
-                        "OT": "기타"
-                    };
-                    var scheduleType = scheduleTypeList[article.SCHEDULE_TYPE] || article.SCHEDULE_TYPE;
+                        htmlEs += '' +
+                            '<li style="border-top:0; border-bottom:0;">' +
+                            '<div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">' +
+                            '<div style="display:flex;">' +
+                            '<div style="font-weight:600; font-size:13px;margin-right:10px; width:100px;">직원일정</div>' +
+                            '<div style="width:80px;">' + htmlData[i].SCHEDULE_TYPE + '</div>' +
+                            '<div style="margin-left: 20px; display:flex; width:250px;">' + htmlData[i].DEPT_NAME + '</div>';
+                            if(htmlData[i].SCHEDULE_TYPE == '출장'){
+                                htmlEs +=    '<div style="margin-left: 20px; display:flex; font-weight: bold;"><a href="javascript:void(0)" onclick="bustripDetail(' + htmlData[i].HR_BIZ_REQ_ID + ');">' + htmlData[i].REG_EMP_NAME + '</a></div>';
+                            }else {
+                                htmlEs +=   '<div style="margin-left: 20px; display:flex;">' + htmlData[i].REG_EMP_NAME + '</div>';
+                            }
+                        htmlEs += '</div>' +
+                            '<div style="margin: 0 10px;">' + htmlData[i].start + ' ~ ' + htmlData[i].end + '</div>' +
+                        '</div>' +
+                        '</li>';
+                    }
+                } else {
+                    htmlEs += '<li>' +
+                        '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
+                        '</li>';
+                }
+                $("#" + v).append(htmlEs);
+            }
+        }else {
 
+            var data = {
+                publicClass: e
+            }
 
-                    if(v == "schedule1Ul"){
+            var result = customKendo.fn_customAjax("/spot/getScheduleList.do", data);
+            console.log(result);
+            if (result.flag) {
+                var html = "";
+
+                result.list.sort(function (a, b) {
+                    return new Date(b.start) - new Date(a.start);
+                });
+
+                if (result.list.length > 0) {
+                    var recentPosts = result.list.slice(0, 3);
+                    for (var i = 0; i < recentPosts.length; i++) {
+                        console.log(recentPosts);
+                        var article = result.list[i];
+
                         html += '' +
                             '<li style="border-top:0; border-bottom:0;">' +
                             '<div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">' +
@@ -592,28 +636,15 @@
                             '<div style="margin: 0 10px;">' + article.start + ' ~ ' + article.end + '</div>'
                         '</div>' +
                         '</li>';
-                    }else{
-                        html += '' +
-                            '<li style="border-top:0; border-bottom:0;">' +
-                            '<div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">' +
-                            '<div style="display:flex;">' +
-                            '<div style="font-weight:600; font-size:13px;margin-right:10px; width:100px;">직원일정</div>' +
-                            '<div style="width:80px;">' + scheduleType + '</div>' +
-                            '<div style="margin-left: 20px; display:flex; width:150px;">' + article.REG_EMP_NAME + '</div>' +
-                            '<div style="margin-left: 40px; display:flex;"><a href="javascript:fn_detailSchedule(' + article.SCHEDULE_BOARD_ID + ')">' + article.SCHEDULE_TITLE + '</a></div>' +
-                            '</div>' +
-                            '<div style="margin: 0 10px;">' + article.start + ' ~ ' + article.end + '</div>'
-                        '</div>' +
-                        '</li>';
                     }
+                } else {
+                    html += '<li>' +
+                        '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
+                        '</li>';
                 }
-            }else{
-                html += '<li>' +
-                    '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
-                    '</li>';
-            }
 
-            $("#" + v).append(html);
+                $("#" + v).append(html);
+            }
         }
     }
 

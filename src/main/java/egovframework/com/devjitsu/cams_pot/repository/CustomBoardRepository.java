@@ -47,7 +47,7 @@ public class CustomBoardRepository extends AbstractDAO {
 	public void setWatchBoardDel(Map<String, Object> params) { update("cb.setWatchBoardDel", params);}
 	public Map<String, Object> getWatchBoardOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("cb.getWatchBoardOne", params);}
 	public List<PostResponse> getMainScheduleList(ArticlePage articlePage) { return selectList("cb.getMainScheduleList", articlePage);}
-
+	public List<Map<String, Object>> getMainScheduleList2(Map<String, Object> params) { return selectList("cb.getMainScheduleList2", params);}
 	public Object getMainScheduleListCnt(ArticlePage articlePage) {
 		return (int) selectOne("cb.getMainScheduleListCnt", articlePage);
 	}
