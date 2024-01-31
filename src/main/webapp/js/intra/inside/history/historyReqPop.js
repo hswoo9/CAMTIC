@@ -640,6 +640,35 @@ const historyReq = {
                 ]
             });
 
+
+        $("#apntCdAll").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: "" },
+                { text: "임용 (정규직)", value: "1" },
+                { text: "임용 (계약직)", value: "2" },
+                { text: "임용 (인턴 사원)", value: "3" },
+                { text: "임용 (단기 직원)", value: "4" },
+                { text: "임용 (위촉 직원)", value: "5" },
+                { text: "임용 (경비 / 환경)", value: "6" },
+                { text: "승진 (직급)", value: "7" },
+                { text: "승진 (직위)", value: "8" },
+                { text: "전보", value: "9" },
+                { text: "겸직", value: "10" },
+                { text: "직무 대리", value: "11" },
+                { text: "파견", value: "12" },
+                { text: "면직", value: "13" },
+                { text: "강등", value: "14" },
+                { text: "조직 개편", value: "15" },
+                { text: "호칭 변경", value: "16" },
+                { text: "기타", value: "17" }
+            ],
+            index: 0,
+            change: historyReq.changeApntCdAll
+        });
+
+
     },
 
     loading: function(){

@@ -193,12 +193,19 @@ public class HistoryServiceImpl implements HistoryService {
             if(!StringUtils.isEmpty(map.get("AF_POSITION_NAME"))){
                 upDateMap.put("afPositionName", map.get("AF_POSITION_NAME"));
             }
+
             if(!StringUtils.isEmpty(map.get("AF_DUTY_CODE"))){
                 upDateMap.put("afDutyCode", map.get("AF_DUTY_CODE"));
+            }else{
+                upDateMap.put("afDutyCode", null);
             }
             if(!StringUtils.isEmpty(map.get("AF_DUTY_NAME"))){
-                upDateMap.put("afDutyName", map.get("AF_DUTY_NAME"));
+                upDateMap.put("afDutyName", null);
+            }else{
+
             }
+
+
             upDateMap.put("afJobDetail", map.get("AF_JOB_DETAIL"));
             upDateMap.put("empSeq", map.get("EMP_SEQ"));
             upDateMap.put("apntSn", map.get("APNT_SN"));
