@@ -36,5 +36,7 @@ public interface CustomBoardService {
 
     PagingResponse<PostResponse> getMainScheduleList(ArticlePage params);
 
+    List<Map<String, Object>> getMainScheduleList2(Map<String, Object> params);
+
     List<Map<String, Object>> getCustomSchedules(Map<String, Object> params);
 }

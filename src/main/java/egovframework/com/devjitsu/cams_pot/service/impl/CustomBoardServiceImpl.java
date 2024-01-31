@@ -290,6 +290,11 @@ public class CustomBoardServiceImpl implements CustomBoardService {
     }
 
     @Override
+    public List<Map<String, Object>> getMainScheduleList2(Map<String, Object> params){
+        return customBoardRepository.getMainScheduleList2(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getCustomSchedules(Map<String, Object> params) {
         return customBoardRepository.getCustomSchedules(params);
     }

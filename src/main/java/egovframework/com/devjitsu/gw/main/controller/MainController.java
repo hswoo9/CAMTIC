@@ -248,6 +248,15 @@ public class MainController {
         return "jsonView";
     }
 
+    @RequestMapping("/spot/getMainScheduleList2")
+    public String getMainScheduleList2(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = customBoardService.getMainScheduleList2(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /**
      * 즐겨찾기 팝업
      * */
