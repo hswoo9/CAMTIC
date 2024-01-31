@@ -321,6 +321,41 @@
         ORDER BY RE.EDU_INFO_ID DESC
     </select>
 
+    <select id="getEduResponsableList" resultType="map" parameterType="map">
+    /* getEduResponsableList */
+        SELECT
+            VEI.EMP_SEQ,
+            VEI.EMP_NAME_KR,
+            VEI.LOGIN_ID,
+            VEI.DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = VEI.DEPT_SEQ)) AS PARENT_DEPT_NAME,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE DEPT_SEQ = VEI.DEPT_SEQ) AS DEPT_NAME,
+            VEI.MOBILE_TEL_NUM,
+            VEI.OFFICE_TEL_NUM,
+            VEI.POSITION_CODE,
+            IFNULL(VEI.POSITION_NAME, '') AS POSITION_NAME,
+            (SELECT CONCAT(VEI.EMP_NAME_KR, ' ', COALESCE(VEI.POSITION_NAME, ''))) AS NAME_POSITION_TXT,
+            VEI.DUTY_CODE,
+            IFNULL(VEI.DUTY_NAME, '') AS DUTY_NAME,
+            VEI.JOB_DETAIL,
+            CASE WHEN VEI.DUTY_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 3 AND CM_CODE = VEI.DUTY_CODE)
+                 WHEN VEI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = VEI.POSITION_CODE)
+                 ELSE 999 END SORT
+        FROM
+            CAM_HR.DJ_EMP_INFO VEI
+        WHERE
+            1 = 1
+          AND VEI.ACTIVE = 'Y'
+          AND ((DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            OR (DIVISION IN(1) AND DIVISION_SUB IN(6))
+            OR (DIVISION IN(1) AND DIVISION_SUB IN(6))
+            OR (DIVISION IN(4) AND DIVISION_SUB IN(3))
+            )
+          AND WORK_STATUS_CODE = 'Y'
+          AND VEI.DEPT_SEQ = '1221'
+        ORDER BY DUTY_CODE DESC, EMP_NAME_KR ASC
+    </select>
+
     <update id="setEduInfoDelete" parameterType="map">
         /* setEduInfoDelete */
         UPDATE

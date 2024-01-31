@@ -217,4 +217,16 @@ public class PurcRepository extends AbstractDAO {
     public Map<String, Object> getBasicSetting(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("purc.getBasicSetting", params);
     }
+
+    public List<Map<String, Object>> getInsYList(Map<String, Object> params) {
+        return selectList("purc.getInsYList", params);
+    }
+
+    public void insItemWhInfo(Map<String, Object> map) {
+        insert("purc.insItemWhInfo", map);
+    }
+
+    public void insItemMaster(Map<String, Object> map) {
+        insert("purc.insItemMaster", map);
+    }
 }

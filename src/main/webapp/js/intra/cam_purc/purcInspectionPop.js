@@ -173,6 +173,10 @@ var pri = {
                 totalPay += Number(e[i].PURC_ITEM_AMT);
             }
             $("#item" + i).find("#retBtn" + i).val(e[i].CERT_CONTENT);
+
+            if(e[i].STATUS == 'R'){
+                $("#item" + i).remove();
+            }
         }
 
         if(data.DOC_ID != "" && data.DOC_ID != null){

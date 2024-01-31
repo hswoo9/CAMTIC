@@ -49,9 +49,11 @@ const historyPrintPop = {
         if(data.AF_DEPT_NAME != "") {
             if(data.CHNG_DEPT == ""){
                 historyVal += data.AF_DEPT_NAME + " ";
-                if(data.afTeamName != "") {
-                    historyVal += "\r\n" + data.AF_TEAM_NAME
-                        + " ";
+                if(data.AF_TEAM_NAME != "") {
+                    if (data.afTeamName != "") {
+                        historyVal += "\r\n" + data.AF_TEAM_NAME
+                            + " ";
+                    }
                 }
             }else{
                 historyVal += data.CHNG_DEPT + " ";
@@ -85,14 +87,14 @@ const historyPrintPop = {
             );
         }
 
-        var result = customKendo.fn_customAjax("/inside/getImageData", {});
+        var result = customKendo.fn_customAjax("/inside/getImageData", {customRegEmpSeq : data.REG_EMP_SEQ});
         console.log(result)
-        if(result.data.signImg != null){
+        if(result.data.sign2Img != null){
             if(historyPrintPop.global.hwpCtrl.FieldExist("사인")){
                 historyPrintPop.global.hwpCtrl.MoveToField('사인', true, true, false);
                 historyPrintPop.global.hwpCtrl.InsertBackgroundPicture(
                     "SelectedCell",
-                    "http://" + location.host + result.data.signImg.file_path + result.data.signImg.file_uuid,
+                    "http://" + location.host + result.data.sign2Img.file_path + result.data.sign2Img.file_uuid,
                     1,
                     6,
                     0,
@@ -111,9 +113,14 @@ const historyPrintPop = {
         historyPrintPop.global.hwpCtrl.PutFieldText("toDate", historyDt);
 
         historyPrintPop.global.hwpCtrl.PutFieldText("historyDt", historyDt);
-        historyPrintPop.global.hwpCtrl.PutFieldText("regEmpName", data.REG_EMP_NAME);
 
-        historyPrintPop.global.hwpCtrl.PutFieldText("JOB_DETAIL", data.ETC);
+        let regEmpNameText = data.REG_TEAM_NAME + " " + data.REG_EMP_NAME + " " + data.REG_POSITION_NAME + " (인)";
+
+        historyPrintPop.global.hwpCtrl.PutFieldText("regEmpName", regEmpNameText);
+
+        let jobDetailText = data.APNT_NAME + " " + data.ETC;
+
+        historyPrintPop.global.hwpCtrl.PutFieldText("JOB_DETAIL", jobDetailText);
     },
 
     saveHwp : function (){

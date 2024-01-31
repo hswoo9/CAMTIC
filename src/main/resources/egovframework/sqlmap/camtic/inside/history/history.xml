@@ -169,7 +169,11 @@
         SELECT
             HAI.NUMBER_NAME,
             DATE_FORMAT(HAI.HISTORY_DT, '%Y-%m-%d') AS HISTORY_DT,
+            HAI.APNT_NAME,
             HEI.ERP_EMP_SEQ,
+            (select position_name from cam_hr.dj_emp_info where emp_seq = HAI.REG_EMP_SEQ)  AS REG_POSITION_NAME,
+            (select dept_team_name from cam_hr.dj_emp_info where emp_seq = HAI.REG_EMP_SEQ) AS REG_TEAM_NAME,
+            HAI.REG_EMP_SEQ,
             HAI.EMP_NAME,
             HAI.REG_EMP_NAME,
             DATE_FORMAT(REG_DT, '%Y-%m-%d') AS REG_DT,
@@ -606,12 +610,8 @@
                 A.POSITION_NAME = TRIM(SUBSTRING_INDEX(#{afPositionName}, '/', 1)),
                 A.GRADE_NAME = TRIM(SUBSTRING_INDEX(#{afPositionName}, '/', -1)),
             </if>
-            <if test='afDutyCode != null and !"".equals(afDutyCode)'>
                 A.DUTY_CODE = #{afDutyCode},
-            </if>
-            <if test='afDutyName != null and !"".equals(afDutyName)'>
                 A.DUTY_NAME = #{afDutyName},
-            </if>
             A.JOB_DETAIL = #{afJobDetail}
         WHERE
             A.EMP_SEQ = #{empSeq}

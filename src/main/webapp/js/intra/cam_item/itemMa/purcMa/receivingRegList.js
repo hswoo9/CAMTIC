@@ -107,13 +107,18 @@ var recL = {
                     field: "ITEM_NO",
                     width: 120,
                     template : function(e){
-                        if(e.INSPECTION == "N"){
-                            return '<a class="title" onclick="recL.fn_popReceivingRegMod(' + e.ITEM_WH_SN + ')" style="cursor: pointer;">' + e.ITEM_NO + '</a>'
-                        }else if(e.INSPECTION == "C"){
-                            return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NO + "</span>"
-                        }else {
-                            return e.ITEM_NO
+                        if(e.ITEM_NO != undefined && e.ITEM_NO != null){
+                            if(e.INSPECTION == "N"){
+                                return '<a class="title" onclick="recL.fn_popReceivingRegMod(' + e.ITEM_WH_SN + ')" style="cursor: pointer;">' + e.ITEM_NO + '</a>'
+                            }else if(e.INSPECTION == "C"){
+                                return "<span style='text-decoration: line-through;text-decoration-color: red;'>" + e.ITEM_NO + "</span>"
+                            }else {
+                                return e.ITEM_NO
+                            }
+                        } else {
+                            return '<a class="title" onclick="recL.fn_popReceivingRegMod(' + e.ITEM_WH_SN + ')" style="color: red;cursor: pointer;">품번매칭</a>'
                         }
+
                     }
                 }, {
                     title: "품명",

@@ -1410,4 +1410,71 @@
         WHERE
             CLAIM_SN = #{claimSn}
     </select>
+
+    <select id="getInsYList" parameterType="map" resultType="map">
+        /*getInsYList*/
+        SELECT B.*
+        FROM CAM_MNG.DJ_MNG_PURC A
+        LEFT JOIN
+            CAM_MNG.DJ_MNG_PURC_ITEM B
+        ON
+            A.PURC_SN = B.PURC_SN
+        WHERE
+            B.PURC_SN = 432
+        AND
+            B.STATUS = 'C'
+    </select>
+
+    <insert id="insItemMaster" parameterType="map">
+        /*insItemMaster*/
+        INSERT INTO CAM_ITEM.DJ_ITEM_MASTER
+            (
+                ITEM_NAME,
+                STANDARD,
+                ACTIVE,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{PURC_ITEM_NAME},
+                #{PURC_ITEM_STD},
+                'Y',
+                #{REG_EMP_SEQ}
+            )
+        <selectKey keyProperty="MASTER_SN" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ITEM' AND TABLE_NAME = 'DJ_ITEM_MASTER'
+        </selectKey>
+    </insert>
+
+    <insert id="insItemWhInfo" parameterType="map">
+        /*insItemWhInfo*/
+        INSERT INTO CAM_ITEM.DJ_ITEM_WH_INFO
+            (
+                MASTER_SN,
+                CRM_SN,
+                WH_TYPE,
+                WH_CD,
+                WH_VOLUME,
+                UNIT_PRICE,
+                AMT,
+                INSPECTION,
+                RMK,
+                WH_DT,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{MASTER_SN},
+                #{CRM_SN},
+                '101',
+                'TMP',
+                #{PURC_ITEM_QTY},
+                #{PURC_ITEM_UNIT_PRICE},
+                #{PURC_ITEM_AMT},
+                'Y',
+                #{RMK},
+                DATE_FORMAT(now(), '%Y-%m-%d'),
+                #{REG_EMP_SEQ}
+            )
+    </insert>
 </mapper>

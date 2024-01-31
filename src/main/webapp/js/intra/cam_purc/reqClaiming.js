@@ -625,11 +625,11 @@ var reqCl = {
             if(data.itemUnit == ""){flag6 = false;}
 
             if($("#productA" + index).val() == "3"){
-                if(itemParameters.productB == ""){
+                if(data.productB == ""){
                     flag = false;
                 }
 
-                if(itemParameters.productC == ""){
+                if(data.productC == ""){
                     flag = false;
                 }
             }
