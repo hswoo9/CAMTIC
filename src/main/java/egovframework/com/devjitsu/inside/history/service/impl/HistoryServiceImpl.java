@@ -176,33 +176,36 @@ public class HistoryServiceImpl implements HistoryService {
         for(Map<String, Object> map : apntList){
             Map<String, Object> upDateMap = new HashMap<>();
             upDateMap.put("empSeq", map.get("EMP_SEQ"));
-            if(!StringUtils.isEmpty(map.get("AF_TEAM_SEQ"))){
-                upDateMap.put("afTeamSeq", map.get("AF_TEAM_SEQ"));
+            if(map.get("AF_TEAM_SEQ") != null){
+                if(map.get("AF_TEAM_SEQ").equals("")){
+                    upDateMap.put("afTeamSeq", map.get("AF_DEPT_SEQ"));
+                }else{
+                    upDateMap.put("afTeamSeq", map.get("AF_TEAM_SEQ"));
+                }
             }
-            if(!StringUtils.isEmpty(map.get("AF_DEPT_NAME"))){
+
+            if(map.get("AF_DEPT_NAME") != null){
                 upDateMap.put("afDeptName", map.get("AF_DEPT_NAME"));
             }
-            if(!StringUtils.isEmpty(map.get("AF_TEAM_NAME"))){
+
+            if(map.get("AF_TEAM_NAME") != null){
                 upDateMap.put("afTeamName", map.get("AF_TEAM_NAME"));
             }
 
-            if(!StringUtils.isEmpty(map.get("AF_POSITION_CODE"))){
+            if(map.get("AF_POSITION_CODE") != null){
                 upDateMap.put("afPositionCode", map.get("AF_POSITION_CODE"));
             }
 
-            if(!StringUtils.isEmpty(map.get("AF_POSITION_NAME"))){
+            if(map.get("AF_POSITION_NAME") != null){
                 upDateMap.put("afPositionName", map.get("AF_POSITION_NAME"));
             }
 
-            if(!StringUtils.isEmpty(map.get("AF_DUTY_CODE"))){
+            if(map.get("AF_DUTY_CODE") != null){
                 upDateMap.put("afDutyCode", map.get("AF_DUTY_CODE"));
-            }else{
-                upDateMap.put("afDutyCode", null);
             }
-            if(!StringUtils.isEmpty(map.get("AF_DUTY_NAME"))){
-                upDateMap.put("afDutyName", null);
-            }else{
 
+            if(map.get("AF_DUTY_NAME") != null){
+                upDateMap.put("afDutyName", map.get("AF_DUTY_NAME"));
             }
 
 

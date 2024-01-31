@@ -322,7 +322,7 @@
                     AF_POSITION_CODE,
                     AF_POSITION_NAME,
                 </if>
-                <if test='afDutyCode != null and !"".equals(afDutyCode)'>
+                <if test='afDutyCode != null'>
                     AF_DUTY_CODE,
                     AF_DUTY_NAME,
                 </if>
@@ -363,7 +363,7 @@
                     #{afPositionCode},
                     #{afPositionName},
                 </if>
-                <if test='afDutyCode != null and !"".equals(afDutyCode)'>
+                <if test='afDutyCode != null'>
                     #{afDutyCode},
                     #{afDutyName},
                 </if>
@@ -594,19 +594,19 @@
         UPDATE
             CAM_HR.DJ_EMP_INFO A
         SET
-            <if test='afTeamSeq != null and !"".equals(afTeamSeq)'>
+            <if test='afTeamSeq != null'>
                 A.DEPT_SEQ = #{afTeamSeq},
             </if>
-            <if test='afDeptName != null and !"".equals(afDeptName)'>
+            <if test='afDeptName != null'>
                 A.DEPT_NAME = #{afDeptName},
             </if>
-            <if test='afTeamName != null and !"".equals(afTeamName)'>
+            <if test='afTeamName != null'>
                 A.DEPT_TEAM_NAME = #{afTeamName},
             </if>
-            <if test='afPositionCode != null and !"".equals(afPositionCode)'>
+            <if test='afPositionCode != null'>
                 A.POSITION_CODE = #{afPositionCode},
             </if>
-            <if test='afPositionName != null and !"".equals(afPositionName)'>
+            <if test='afPositionName != null'>
                 A.POSITION_NAME = TRIM(SUBSTRING_INDEX(#{afPositionName}, '/', 1)),
                 A.GRADE_NAME = TRIM(SUBSTRING_INDEX(#{afPositionName}, '/', -1)),
             </if>

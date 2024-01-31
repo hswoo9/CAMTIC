@@ -508,7 +508,7 @@ const historyReq = {
         var data = {}
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
-        deptDsA.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
+        // deptDsA.rs.unshift({"dept_name" : "해당없음", "dept_seq" : ""});
         //deptDsA.rs.unshift({"dept_name" : "선택", "dept_seq" : ""});
         $(".afDept").kendoDropDownList({
             dataSource : deptDsA.rs,
@@ -594,7 +594,7 @@ const historyReq = {
         });
 
         var dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "4"});
-        dropDownDataSource.unshift({"CM_CODE_NM": "해당없음", "CM_CODE": ""});
+        // dropDownDataSource.unshift({"CM_CODE_NM": "해당없음", "CM_CODE": ""});
 
         $(".afPosition").kendoDropDownList({
                 dataTextField: "CM_CODE_NM",
