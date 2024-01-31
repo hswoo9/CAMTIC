@@ -11,10 +11,8 @@ var personAttend = {
     },
 
     pageSet: function(){
-        /* customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttend.global.now.setMonth(personAttend.global.now.getMonth() - 1))); */
-        /** 임시로 8월 한달치 데이터만 나오게 */
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date("2023-08-01"));
-        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date("2023-08-31"));
+         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttend.global.now.setMonth(personAttend.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         $("#startDt, #endDt").attr("readonly", true);
 
         $("#situation").kendoDropDownList({
