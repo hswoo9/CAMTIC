@@ -58,7 +58,7 @@
                         </th>
                         <td colspan="5">
                             <input type="text" id="searchType" style="width: 90px;">
-                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){rewardReq.mainGrid()}" style="width: 110px;">
+                            <input type="text" id="searchText" onkeypress="if(window.event.keyCode==13){rewardReq.gridReload()}" style="width: 110px;">
                         </td>
                     </tr>
                 </table>
@@ -69,5 +69,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    rewardReq.init();
+    rewardReq.fn_defaultScript();
 </script>
