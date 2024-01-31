@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_project.service.impl;
 
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
+import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectUnRndRepository;
@@ -52,6 +53,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private PurcRepository purcRepository;
+
+    @Autowired
+    private PayAppRepository payAppRepository;
 
     @Override
     public Map<String, Object> getProjectInfo(Map<String, Object> params) {
@@ -1315,6 +1319,15 @@ public class ProjectServiceImpl implements ProjectService {
                 }
 
                 for(Map<String, Object> data : memberData){
+                    if(!data.containsKey("EMP_SEQ")){
+                        Map<String, Object> tempMap = new HashMap<>();
+                        tempMap.put("empSeq", str);
+                        Map<String, Object> empInfo = payAppRepository.getEmpInfo(tempMap);
+
+                        data.put("EMP_NAME", empInfo.get("EMP_NAME_KR"));
+                        data.put("EMP_SEQ", empInfo.get("EMP_SEQ"));
+                    }
+
                     projectMemberInfo.add(data);
                 }
             //}

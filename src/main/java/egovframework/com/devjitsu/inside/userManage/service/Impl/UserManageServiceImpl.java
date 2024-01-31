@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -639,6 +640,8 @@ public class UserManageServiceImpl implements UserManageService {
         XSSFSheet sheet = workbook.getSheetAt(0);
         int rows = sheet.getPhysicalNumberOfRows();
 
+        DataFormatter dataFormatter = new DataFormatter();
+
         for(int i=5; i < rows; i++){
             Map<String, Object> salaryMap = new HashMap<>();
 
@@ -652,12 +655,18 @@ public class UserManageServiceImpl implements UserManageService {
             col6 = row.getCell(6);
             col7 = row.getCell(7);
 
-            /*Date now = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String nowString = sdf.format(now);*/
+            String regDt = "";
+            if(!cellValueToString(col5).equals("")) {
+                if (col5.getCellType() == Cell.CELL_TYPE_NUMERIC && org.apache.poi.ss.usermodel.DateUtil.isCellDateFormatted(col5)) {
+                    Date dateCellValue = col5.getDateCellValue();
+                    regDt = new SimpleDateFormat("yyyy-MM-dd").format(dateCellValue);
+                } else {
+                    regDt = dataFormatter.formatCellValue(col5);
+                }
+            }
 
             if(row != null){
-                if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") ||
+                if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") ||
                         cellValueToString(col3).equals("") || cellValueToString(col4).equals("") || cellValueToString(col5).equals("") ||
                         cellValueToString(col6).equals("") || cellValueToString(col7).equals("")){
                     return;
@@ -667,7 +676,7 @@ public class UserManageServiceImpl implements UserManageService {
                     salaryMap.put("deptSeq", cellValueToString(row.getCell(2)));
                     salaryMap.put("deptName", cellValueToString(row.getCell(3)));
                     salaryMap.put("positionName", cellValueToString(row.getCell(4)));
-                    salaryMap.put("regDt", cellValueToString(row.getCell(5)));
+                    salaryMap.put("regDt", regDt);
                     salaryMap.put("bySalary", cellValueToString(row.getCell(6)));
                     salaryMap.put("nyRaiseSalary", cellValueToString(row.getCell(7)));
                     salaryMap.put("nySalary", cellValueToString(row.getCell(8)));

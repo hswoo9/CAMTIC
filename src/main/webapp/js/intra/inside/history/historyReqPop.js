@@ -802,6 +802,17 @@ const historyReq = {
         const grid = $("#popMainGrid").data("kendoGrid");
 
         let flag = true;
+        let flag2 = true;
+
+        if($("input[name=checkUser]:checked").length == 0){
+            flag2 = false;
+        }
+
+        if (!flag2) {
+            alert("선택된 인원이 없습니다.");
+            return;
+        }
+
         $.each($('#popMainGrid .k-master-row'), function(i, v) {
             const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
@@ -823,15 +834,12 @@ const historyReq = {
         $.each($('#popMainGrid .k-master-row'), function(i, v){
             const dataItem = grid.dataItem($(this).closest("tr"));
             let empSeq = dataItem.EMP_SEQ;
-           
-            var apntSn = $(v).find('#apntSn' + empSeq + '_' + i).val();
+            let chk = $('#popMainGrid .k-master-row').find('#chk' + empSeq + '_' + dataItem.INDEX).is(':checked');
 
-            var data = {
-                apntSn : apntSn
+            if(chk){
+                var apntSn = $(v).find('#apntSn' + empSeq + '_' + dataItem.INDEX).val();
+                customKendo.fn_customAjax("/inside/pop/setTmpActiveUpdate.do", { apntSn : apntSn });
             }
-
-            let url = "/inside/pop/setTmpActiveUpdate.do";
-            customKendo.fn_customAjax(url, data);
         });
 
         alert("발령장 전송이 완료되었습니다.");
