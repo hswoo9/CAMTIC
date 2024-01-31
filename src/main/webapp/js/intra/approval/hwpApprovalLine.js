@@ -186,7 +186,8 @@ var hwpApprovalLine = {
             }
 
             /** 기안자 사인 */
-            if (docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[1].APPROVE_EMP_SEQ && list[0].APPROVE_STAT_CODE == 10) {
+            if ((list.length > 1 && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[1].APPROVE_EMP_SEQ && list[0].APPROVE_STAT_CODE == 10)
+                || list.length == 1) {
                 const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[0].APPROVE_EMP_SEQ});
                 if(result.data.signImg != null){
                     const imgMap = result.data.signImg;
@@ -205,6 +206,7 @@ var hwpApprovalLine = {
                     hwpDocCtrl.putFieldText('apprZ0', list[0].APPROVE_EMP_NAME);
                 }
             }
+
 
             let appArr = [];
             /** 부서장 전결 */

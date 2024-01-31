@@ -283,6 +283,9 @@ var approvalLine = {
                 amt = ResultData.EDU_MONEY;
             }
             requestAmt = Number(amt);
+            if(amt == null){
+                requestAmt = 0;
+            }
         }else if(data.menuCd == "purc"){
             const purcSn = data.approKey.split("_")[1];
 
@@ -298,6 +301,10 @@ var approvalLine = {
                 amt = ResultData.PURC_ITEM_AMT_SUM;
             }
             requestAmt = Number(amt);
+
+            if(amt == null){
+                requestAmt = 0;
+            }
         }else if(data.menuCd == "claim"){
             const claimSn = data.approKey.split("_")[1];
 
@@ -313,6 +320,9 @@ var approvalLine = {
                 amt = ResultData.TOT_AMT;
             }
             requestAmt = Number(amt);
+            if(amt == null){
+                requestAmt = 0;
+            }
         }else if(data.menuCd == "exnp"){
             const exnpSn = data.approKey.split("_")[1];
 
@@ -328,6 +338,9 @@ var approvalLine = {
                 amt = ResultData.TOT_COST;
             }
             requestAmt = Number(amt);
+            if(amt == null){
+                requestAmt = 0;
+            }
         }
 
         if(payCkList.length == 0){
