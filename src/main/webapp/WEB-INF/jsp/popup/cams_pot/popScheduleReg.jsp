@@ -77,8 +77,8 @@
                             <input type="radio" id="me" name="scheduleType" value="ME"><label for="me">회의</label>
                             <input type="radio" id="ed" name="scheduleType" value="ED"><label for="ed">교육</label>
                             <input type="radio" id="wr" name="scheduleType" value="WR"><label for="wr">업무관련</label>
-                            <input type="radio" id="bd" name="scheduleType" value="BD"><label for="bd">생일</label>
-                            <input type="radio" id="tr" name="scheduleType" value="TR"><label for="tr">출장</label>
+                            <%--<input type="radio" id="bd" name="scheduleType" value="BD"><label for="bd">생일</label>
+                            <input type="radio" id="tr" name="scheduleType" value="TR"><label for="tr">출장</label>--%>
                             <input type="radio" id="hd" name="scheduleType" value="HD"><label for="hd">휴일</label>
                             <input type="radio" id="other" name="scheduleType" value="OT"><label for="other">기타</label>
                         </td>
@@ -112,7 +112,7 @@
                             <span class="red-star">*</span>공개
                         </th>
                         <td>
-                            <input type="radio" id="es" name="publicClass" value="ES"><label for="es">직원일정</label>
+                            <%--<input type="radio" id="es" name="publicClass" value="ES"><label for="es">직원일정</label>--%>
                             <input type="radio" id="cs" name="publicClass" value="CS"><label for="cs">법인일정</label>
                             <input type="checkbox" id="camsPotPost"><label for="camsPotPost">캠스팟 게시안함</label>
                         </td>

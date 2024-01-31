@@ -165,7 +165,7 @@ public class ItemManageServiceImpl implements ItemManageService {
         for(Map<String, Object> map : shipmentlist){
 
             int reqQty = Integer.parseInt(map.get("REQ_QTY").toString());
-            int invenCnt = Integer.parseInt(map.get("INVEN_CNT").toString());
+//            int invenCnt = Integer.parseInt(map.get("INVEN_CNT").toString());
             int currentInven = Integer.parseInt(map.get("CURRENT_INVEN").toString());
             int safetyInven = Integer.parseInt(map.get("SAFETY_INVEN").toString());
 
@@ -185,17 +185,17 @@ public class ItemManageServiceImpl implements ItemManageService {
                 }
 
                 /** 창고 조회 */
-                if(!StringUtils.isEmpty(returnMap.get("success"))) {
-                    if (invenCnt == 0) {
-                        returnMap.put("error", "999");
-                        message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME") + " - [미입고 재고]\n";
-                    } else if (invenCnt > 1) {
-                        returnMap.put("whCd", "whCd");
-                        message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME") + " - [출고창고지정 필요]\n";
-                    } else {
-                        returnMap.put("success", "200");
-                    }
-                }
+//                if(!StringUtils.isEmpty(returnMap.get("success"))) {
+//                    if (invenCnt == 0) {
+//                        returnMap.put("error", "999");
+//                        message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME") + " - [미입고 재고]\n";
+//                    } else if (invenCnt > 1) {
+//                        returnMap.put("whCd", "whCd");
+//                        message += map.get("ITEM_NO") + " " + map.get("ITEM_NAME") + " - [출고창고지정 필요]\n";
+//                    } else {
+//                        returnMap.put("success", "200");
+//                    }
+//                }
             }else{
                 returnMap.put("success", "200");
             }
@@ -243,16 +243,21 @@ public class ItemManageServiceImpl implements ItemManageService {
                 }
                 searchMap = itemManageRepository.getItemInvenValidation(searchMap);
 
-                map.put("invenSn", searchMap.get("INVEN_SN"));
-                map.put("currentInven", searchMap.get("CURRENT_INVEN"));
+//                map.put("invenSn", searchMap.get("INVEN_SN"));
+//                map.put("currentInven", searchMap.get("CURRENT_INVEN"));
 
-                if(StringUtils.isEmpty(map.get("forwardingWhCd"))){
-                    map.put("forwardingWhCd", searchMap.get("WH_CD"));
-                }
+//                if(StringUtils.isEmpty(map.get("forwardingWhCd"))){
+//                    map.put("forwardingWhCd", searchMap.get("WH_CD"));
+//                }
             }
-
             params.put("newRateArr", transferArr);
-            itemManageRepository.setInvenTransferReg(params);
+
+            for(Map<String, Object> transMap : transferArr){
+                itemManageRepository.setInvenTransferReg(transMap);
+
+                itemManageRepository.insItemHistOutData(transMap);
+
+            }
         }
     }
 
@@ -712,7 +717,18 @@ public class ItemManageServiceImpl implements ItemManageService {
 
     @Override
     public void setReceivingRegUpd(Map<String, Object> params) {
+//        Map<String, Object> map = itemManageRepository.getItemWhInfo(params);
+//        params.put("befMasterSn", map.get("MASTER_SN"));
         itemManageRepository.setReceivingRegUpd(params);
+        itemManageRepository.updItemHistInfo(params);
+
+
+//        map.put("AF_MASTER_SN", params.get("masterSn"));
+//        if("".equals(params.get("ITEM_NO")) || map.get("ITEM_NO") == null){
+//            itemManageRepository.delItemWhInfo(map);
+//        }
+//
+//        itemManageRepository.updItemMasterInfo(params);
     }
 
     @Override

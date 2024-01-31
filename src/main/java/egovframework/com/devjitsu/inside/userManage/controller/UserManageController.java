@@ -906,6 +906,19 @@ public class UserManageController {
     }
 
     /**
+     * 연봉근로계약서 삭제
+     * @param params
+     * @return
+     */
+    @RequestMapping("/userManage/setSalaryContractDel.do")
+    public String setSalaryContractDel(@RequestParam Map<String, Object> params){
+        userManageService.setSalaryContractDel(params);
+        return "jsonView";
+    }
+
+
+
+    /**
      * 연봉근로계약서 보기 팝업
      * @param params
      * @param request

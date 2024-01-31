@@ -631,6 +631,7 @@ public class UserManageServiceImpl implements UserManageService {
         XSSFCell col4;
         XSSFCell col5;
         XSSFCell col6;
+        XSSFCell col7;
 
         FileInputStream inputStream = new FileInputStream(dest);
 
@@ -649,27 +650,28 @@ public class UserManageServiceImpl implements UserManageService {
             col4 = row.getCell(4);
             col5 = row.getCell(5);
             col6 = row.getCell(6);
+            col7 = row.getCell(7);
 
-            Date now = new Date();
+            /*Date now = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String nowString = sdf.format(now);
+            String nowString = sdf.format(now);*/
 
             if(row != null){
                 if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") ||
                         cellValueToString(col3).equals("") || cellValueToString(col4).equals("") || cellValueToString(col5).equals("") ||
-                        cellValueToString(col6).equals("")){
+                        cellValueToString(col6).equals("") || cellValueToString(col7).equals("")){
                     return;
                 } else {
-                    salaryMap.put("regDt", nowString);
                     salaryMap.put("empSeq", cellValueToString(row.getCell(0)));
                     salaryMap.put("empName", cellValueToString(row.getCell(1)));
                     salaryMap.put("deptSeq", cellValueToString(row.getCell(2)));
                     salaryMap.put("deptName", cellValueToString(row.getCell(3)));
                     salaryMap.put("positionName", cellValueToString(row.getCell(4)));
-                    salaryMap.put("bySalary", cellValueToString(row.getCell(5)));
-                    salaryMap.put("nyRaiseSalary", cellValueToString(row.getCell(6)));
-                    salaryMap.put("nySalary", cellValueToString(row.getCell(7)));
-                    salaryMap.put("nyDecisionSalary", cellValueToString(row.getCell(8)));
+                    salaryMap.put("regDt", cellValueToString(row.getCell(5)));
+                    salaryMap.put("bySalary", cellValueToString(row.getCell(6)));
+                    salaryMap.put("nyRaiseSalary", cellValueToString(row.getCell(7)));
+                    salaryMap.put("nySalary", cellValueToString(row.getCell(8)));
+                    salaryMap.put("nyDecisionSalary", cellValueToString(row.getCell(9)));
                     salaryMap.put("regEmpSeq", params.get("empSeq"));
                     userManageRepository.setEmploymentContract(salaryMap);
                 }
@@ -685,6 +687,11 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public void sendSalaryWorkerReq(List<String> params) {
         userManageRepository.sendSalaryWorkerReq(params);
+    }
+
+    @Override
+    public void setSalaryContractDel(Map<String, Object> params) {
+        userManageRepository.setSalaryContractDel(params);
     }
 
     @Override

@@ -68,6 +68,7 @@ public interface UserManageService{
     void employExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
     void setEmploymentContract(Map<String,Object> map);
     void sendSalaryWorkerReq(List<String> params);
+    void setSalaryContractDel(Map<String, Object> params);
     void setEmploymentInfoFlag(Map<String, Object> params);
 
     Object updateUserBankInfo(Map<String, Object> params);

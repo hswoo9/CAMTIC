@@ -377,7 +377,7 @@
         /* getShipmentRecordList */
         SELECT
             SR.*,
-            (SELECT IFNULL(SUM(CURRENT_INVEN), 0) FROM CAM_ITEM.dj_item_inventory WHERE MASTER_SN = IM.MASTER_SN) AS OVERALL_INVEN,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS OVERALL_INVEN,
             EI.EMP_NAME_KR,
             IM.MASTER_SN,
             IM.ITEM_NO,
@@ -506,17 +506,13 @@
             IM.ITEM_NO,
             IM.ITEM_NAME,
             IM.ITEM_TYPE,
-            IFNULL(MAX(II.UNIT_PRICE), 0) AS UNIT_PRICE,
-            COUNT(II.INVEN_SN) AS INVEN_CNT,
-            II.WH_CD,
-            IFNULL(CAST(SUM(II.CURRENT_INVEN) AS SIGNED INTEGER), 0) AS CURRENT_INVEN,
+            (SELECT IFNULL(UNIT_AMT, 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN ORDER BY MOD_DT DESC LIMIT 1) AS UNIT_PRICE,
+            IM.WH_CD,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS CURRENT_INVEN,
             #{reqQty} AS REQ_QTY,
             IM.SAFETY_INVEN
         FROM
             CAM_ITEM.DJ_ITEM_MASTER IM
-        LEFT JOIN
-            CAM_ITEM.DJ_ITEM_INVENTORY II
-        ON II.MASTER_SN = IM.MASTER_SN
         WHERE
             IM.MASTER_SN = #{masterSn}
         GROUP BY IM.MASTER_SN
@@ -1260,15 +1256,18 @@
         /* getItemWhInfoList */
         SELECT
             WI.*,
-            IM.*,
+            (SELECT IFNULL(ITEM_NO, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS ITEM_NO,
+            (SELECT IFNULL(ITEM_NAME, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS ITEM_NAME,
+            (SELECT IFNULL(ITEM_UNIT_CD, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS ITEM_UNIT_CD,
+            (SELECT IFNULL(ITEM_TYPE, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS ITEM_TYPE,
+            (SELECT IFNULL(STANDARD, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS STANDARD,
+            (SELECT IFNULL(WH_CD, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS WH_CD,
+            (SELECT IFNULL(SAFETY_INVEN, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS SAFETY_INVEN,
             CI.CRM_NM,
             WHC.ITEM_CD_NM AS WH_CD_NM,
             WTC.ITEM_CD_NM AS WH_TYPE_NM
         FROM
             CAM_ITEM.DJ_ITEM_WH_INFO WI
-        JOIN
-            CAM_ITEM.DJ_ITEM_MASTER IM
-        ON IM.MASTER_SN = WI.MASTER_SN
         JOIN
             CAM_CRM.DJ_CRM_INFO CI
         ON WI.CRM_SN = CI.CRM_SN
@@ -1337,15 +1336,18 @@
         /* getItemWhInfo */
         SELECT
             WI.*,
-            IM.*,
+            (SELECT IFNULL(ITEM_NO, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS ITEM_NO,
+            (SELECT IFNULL(ITEM_NAME, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS ITEM_NAME,
+            (SELECT IFNULL(ITEM_UNIT_CD, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS ITEM_UNIT_CD,
+            (SELECT IFNULL(ITEM_TYPE, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS ITEM_TYPE,
+            (SELECT IFNULL(STANDARD, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS STANDARD,
+            (SELECT IFNULL(WH_CD, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS WH_CD,
+            (SELECT IFNULL(SAFETY_INVEN, '') FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN = WI.MASTER_SN) AS SAFETY_INVEN,
             CI.CRM_NM,
             WHC.ITEM_CD_NM AS WH_CD_NM,
             WTC.ITEM_CD_NM AS WH_TYPE_NM
         FROM
             CAM_ITEM.DJ_ITEM_WH_INFO WI
-        JOIN
-            CAM_ITEM.DJ_ITEM_MASTER IM
-        ON IM.MASTER_SN = WI.MASTER_SN
         JOIN
             CAM_CRM.DJ_CRM_INFO CI
         ON WI.CRM_SN = CI.CRM_SN
@@ -1568,24 +1570,24 @@
 
     <select id="getItemInvenAdminList" parameterType="map" resultType="map">
         /* getItemInvenAdminList */
+        <![CDATA[
         SELECT
-            II.*,
             IM.*,
-            WHC.ITEM_CD_NM AS WH_CD_NM
+            (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE LG_CD = 'WH' AND ITEM_CD = IM.WH_CD) AS WH_CD_NM,
+            (SELECT IFNULL(SUM(IN_CNT), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS IN_CNT,
+            (SELECT IFNULL(SUM(OUT_CNT), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS OUT_CNT,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS TOT_CNT,
+            IM.SAFETY_INVEN AS SAFE_CNT,
+            IFNULL(ITEM_REAL_CNT, 0) AS REAL_CNT,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(MOD_DT, '%Y-%m-%d') <= #{befMon}) AS BEF_TOT_CNT,
+            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE UNIT_AMT IS NOT NULL ORDER BY MOD_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(MOD_DT, '%Y-%m-%d') <= #{befMon}) AS BEF_AMT,
+            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE UNIT_AMT IS NOT NULL ORDER BY MOD_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(MOD_DT, '%Y-%m-%d') <= #{nowMon}) AS AMT,
+            IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN ORDER BY MOD_DT DESC LIMIT 1), 0) AS UNIT_AMT
         FROM
-            CAM_ITEM.DJ_ITEM_INVENTORY II
-                JOIN
             CAM_ITEM.DJ_ITEM_MASTER IM
-            ON IM.MASTER_SN = II.MASTER_SN
-                JOIN
-            CAM_ITEM.DJ_ITEM_CD WHC
-            ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
-
-        ORDER BY
-            CASE WHEN II.MOD_DT IS NULL THEN II.REG_DT
-                 ELSE II.MOD_DT
-                 END
-        DESC
+        WHERE 1=1
+        ORDER BY IM.REG_DT DESC
+        ]]>
     </select>
 
     <select id="getItemInven" parameterType="map" resultType="map">
@@ -1609,35 +1611,36 @@
     <insert id="setInvenTransferReg" parameterType="map">
         /* setInvenTransferReg */
         INSERT INTO CAM_ITEM.DJ_ITEM_INVENTORY_TRANSFER
-        (
-            TRANSFER_TYPE,
-            FORWARDING_DATE,
-            FORWARDER,
-            INVEN_SN,
-            MASTER_SN,
-            CURRENT_INVEN,
-            TRANSFER_QTY,
-            FORWARDING_WH_CD,
-            RECEIVING_WH_CD,
-            RMK,
-            REG_EMP_SEQ
-        )
+            (
+                TRANSFER_TYPE,
+                FORWARDING_DATE,
+                FORWARDER,
+                INVEN_SN,
+                MASTER_SN,
+                CURRENT_INVEN,
+                TRANSFER_QTY,
+                FORWARDING_WH_CD,
+                RECEIVING_WH_CD,
+                RMK,
+                REG_EMP_SEQ
+            )
         VALUES
-        <foreach collection="newRateArr" item="item" separator=" , ">
-        (
-            #{item.transferType},
-            #{item.forwardingDate},
-            #{item.forwarder},
-            #{item.invenSn},
-            #{item.masterSn},
-            #{item.currentInven},
-            #{item.transferQty},
-            #{item.forwardingWhCd},
-            #{item.receivingWhCd},
-            #{item.rmk},
-            #{item.empSeq}
-        )
-        </foreach>
+            (
+                #{transferType},
+                #{forwardingDate},
+                #{forwarder},
+                #{invenSn},
+                #{masterSn},
+                #{currentInven},
+                #{transferQty},
+                #{forwardingWhCd},
+                #{receivingWhCd},
+                #{rmk},
+                #{empSeq}
+            )
+        <selectKey keyProperty="invenTransSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ITEM' AND TABLE_NAME = 'DJ_ITEM_INVENTORY_TRANSFER'
+        </selectKey>
     </insert>
 
     <update id="setInvenTransferRegUpd" parameterType="map">
@@ -1968,35 +1971,62 @@
 
     <update id="setInvenActual" parameterType="map">
         UPDATE
-            CAM_ITEM.DJ_ITEM_INVENTORY
-        SET ACTUAL_INVEN = #{actualInven},
+            CAM_ITEM.DJ_ITEM_MASTER
+        SET
+            ITEM_REAL_CNT = #{actualInven},
             INVEN_AJM = #{invenAjm},
             INVEN_AJM_NOTE = #{invenAjmNote},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
         WHERE
-            INVEN_SN = #{invenSn}
+            MASTER_SN = #{masterSn}
     </update>
 
     <select id="getItemInvenAdjustList" parameterType="map" resultType="map">
         /* getItemInvenAdjustList */
         SELECT
-            II.INVEN_SN AS invenSn,
+            IM.MASTER_SN AS MASTER_SN,
             WHC.ITEM_CD_NM AS WH_CD_NM,
             ITEM_NAME AS itemName,
-            CURRENT_INVEN AS currentInven,
-            ACTUAL_INVEN AS actualInven,
-            INVEN_AJM invenAjm,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS currentInven,
+            IFNULL(ITEM_REAL_CNT, 0) AS actualInven,
+            IFNULL(INVEN_AJM, 0) AS invenAjm,
             IFNULL(INVEN_AJM_NOTE, '') AS invenAjmNote
         FROM
-            CAM_ITEM.DJ_ITEM_INVENTORY II
-                JOIN
             CAM_ITEM.DJ_ITEM_MASTER IM
-            ON IM.MASTER_SN = II.MASTER_SN
                 JOIN
             CAM_ITEM.DJ_ITEM_CD WHC
-            ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
+            ON WHC.LG_CD = 'WH' AND WHC.ITEM_CD = IM.WH_CD
         WHERE
-            II.INVEN_SN IN (${invenSnArr})
+            IM.MASTER_SN IN (${invenSnArr})
     </select>
+
+    <update id="updItemHistInfo" parameterType="map">
+        /*updItemHistInfo*/
+        UPDATE CAM_ITEM.DJ_ITEM_HIST
+        SET
+            MASTER_SN = #{masterSn}
+        WHERE
+            ITEM_WH_SN = #{itemWhSn}
+    </update>
+
+    <insert id="insItemHistOutData" parameterType="map">
+        /*insItemHistOutData*/
+        INSERT INTO CAM_ITEM.DJ_ITEM_HIST
+            (
+                MASTER_SN,
+                INVEN_TRANS_SN,
+                IN_CNT,
+                OUT_CNT,
+                DEF_DATE
+            )
+        VALUES
+            (
+                #{masterSn},
+                #{invenTransSn},
+                0,
+                #{transferQty},
+                DATE_FORMAT(now(), '%Y-%m-%d')
+            )
+    </insert>
 </mapper>

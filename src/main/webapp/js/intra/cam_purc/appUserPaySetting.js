@@ -2,6 +2,8 @@ const appUserPaySetting = {
 
     global : {
         attFiles : [],
+        itemIndex : 1,
+        createHtmlStr : "",
     },
 
     fn_DefaultScript: function() {
@@ -12,6 +14,46 @@ const appUserPaySetting = {
         customKendo.fn_textBox(["empName"]);
         appUserPaySetting.fn_setData(array);
 
+        $("#eviType0").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: "" },
+                { text: "세금계산서", value: "1" },
+                // { text: "계산서", value: "2" },
+                { text: "신용카드", value: "3" },
+                // { text: "직원지급", value: "4" },
+                // { text: "사업소득자", value: "5" },
+                // { text: "기타소득자", value: "9" },
+                // { text: "기타", value: "6" }
+            ],
+            index: 0,
+            change : function (e){
+                var value = $("#eviType0").val();
+                var itemIndex = 0;
+
+                appUserPaySetting.fn_eviTypeReset(itemIndex);
+
+                if(value != ""){
+                    if(value == "6"){
+                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                    } else if(value == "1" || value == "2"){
+                        appUserPaySetting.fn_paymentEtaxHistory(value, itemIndex);
+                    } else if(value == "3"){
+                        appUserPaySetting.fn_paymentCardHistory(value, itemIndex);
+                    } else{
+                        appUserPaySetting.fn_popRegDet(value, itemIndex);
+                    }
+                }
+            }
+        });
+
+        customKendo.fn_textBox(["crmNm0", "regNo0", "crmBnkNm0", "crmAccHolder0", "crmAccNo0", "totCost0", "supCost0", "vatCost0"]);
+        customKendo.fn_datePicker("trDe0", "month", "yyyy-MM-dd", new Date());
+
+        $(".payDestInfo td input").css("font-size", "10px");
+        $(".payDestInfo td").css("padding", "0.35rem");
+        $(".payDestInfo td span").css("font-size", "10px");
     },
 
     fn_setData : function (array){
@@ -136,6 +178,27 @@ const appUserPaySetting = {
         var formData = new FormData();
         formData.append("regEmpSeq", $("#regEmpSeq").val());
         formData.append("itemArray", JSON.stringify(itemArr));
+
+        // 증빙유형
+        formData.append("evidType", $("#eviType0").val());
+        formData.append("authNo", $("#authNo0").val());
+        formData.append("authDd", $("#authDd0").val());
+        formData.append("authHh", $("#authHh0").val());
+        formData.append("issNo", $("#issNo0").val());
+        formData.append("coCd", $("#coCd0").val());
+        formData.append("taxTy", $("#taxTy0").val());
+        formData.append("crmNm", $("#crmNm0").val());
+        formData.append("regNo", $("#regNo0").val());
+        formData.append("trCd", $("#trCd0").val());
+        formData.append("crmBnkNm", $("#crmBnkNm0").val());
+        formData.append("crmAccNo", $("#crmAccNo0").val());
+        formData.append("trDe", $("#trDe0").val());
+        formData.append("totCost", appUserPaySetting.uncomma($("#totCost0").val()));
+        formData.append("supCost", appUserPaySetting.uncomma($("#supCost0").val()));
+        formData.append("vatCost", appUserPaySetting.uncomma($("#vatCost0").val()));
+        formData.append("buySts", $("#buySts0").val());
+        formData.append("cardNo", $("#cardNo0").val());
+        formData.append("fileNo", $("#fileNo0").val());
 
         if(appUserPaySetting.global.attFiles != null){
             for(var i = 0; i < appUserPaySetting.global.attFiles.length; i++){
@@ -270,4 +333,216 @@ const appUserPaySetting = {
         }
 
     },
+
+    fn_paymentCardHistory : function (v, i){
+        var url = "/mng/pop/paymentCardHistory.do?type=" + v + "&index=" + i;
+
+        var name = "_blank";
+        var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_paymentEtaxHistory : function (v, i){
+        var url = "/mng/pop/paymentEtaxHistory.do?type=" + v + "&index=" + i;
+
+        var name = "_blank";
+        var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_eviTypeReset: function(idx) {
+        $("#fileNo" + idx).val("");
+        $("#authNo" + idx).val("");
+        $("#authHh" + idx).val("");
+        $("#authDd" + idx).val("");
+        $("#issNo" + idx).val("");
+        $("#coCd" + idx).val("");
+        $("#taxTy" + idx).val("");
+        $("#crmNm" + idx).val("");
+        $("#buySts" + idx).val("");
+        $("#trCd" + idx).val("");
+        $("#regNo" + idx).val("");
+        $("#crmBnkNm" + idx).val("");
+        $("#crmAccNo" + idx).val("");
+        $("#crmAccHolder" + idx).val("");
+        $("#trDe" + idx).data("kendoDatePicker").value(new Date());
+        $("#totCost" + idx).val("");
+        $("#supCost" + idx).val("");
+        $("#vatCost" + idx).val("");
+        $("#card" + idx).val("");
+        $("#cardNo" + idx).val("");
+        $("#etc" + idx).val("");
+
+    },
+
+    addRow : function () {
+        appUserPaySetting.global.createHtmlStr = "";
+        var clIdx = appUserPaySetting.global.itemIndex;
+
+        appUserPaySetting.global.createHtmlStr = "" +
+            '<tr class="payDestInfo newArray" id="pay' + appUserPaySetting.global.itemIndex + '" style="text-align: center;">' +
+            '   <td>' +
+            '       <input type="hidden" style="width: 70%" id="payDestSn' + appUserPaySetting.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
+            '       <input type="text" id="eviType' + appUserPaySetting.global.itemIndex + '" class="eviType" style="width: 100%">' +
+            '       <input type="hidden" id="fileNo' + appUserPaySetting.global.itemIndex + '" class="fileNo" style="width: 100%">' +
+            '       <input type="hidden" id="authNo' + appUserPaySetting.global.itemIndex + '" class="authNo" style="width: 100%">' +
+            '       <input type="hidden" id="authHh' + appUserPaySetting.global.itemIndex + '" class="authHh" style="width: 100%">' +
+            '       <input type="hidden" id="authDd' + appUserPaySetting.global.itemIndex + '" class="authDd" style="width: 100%">' +
+            '       <input type="hidden" id="issNo' + appUserPaySetting.global.itemIndex + '" class="issNo" style="width: 100%">' +
+            '       <input type="hidden" id="coCd' + appUserPaySetting.global.itemIndex + '" class="coCd" style="width: 100%">' +
+            '       <input type="hidden" id="taxTy' + appUserPaySetting.global.itemIndex + '" class="taxTy" style="width: 100%">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" style="width: 100%" id="crmNm' + appUserPaySetting.global.itemIndex + '" class="crmNm" disabled>' +
+            '       <input type="hidden" id="buySts' + appUserPaySetting.global.itemIndex + '" class="buySts">' +
+            '       <input type="hidden" id="trCd' + appUserPaySetting.global.itemIndex + '" class="trCd">' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="regNo' + appUserPaySetting.global.itemIndex + '" class="regNo" style="width: 100%" disabled>' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="crmBnkNm' + appUserPaySetting.global.itemIndex + '" class="crmBnkNm" disabled>' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="crmAccNo' + appUserPaySetting.global.itemIndex + '" class="crmAccNo" disabled>' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="crmAccHolder' + appUserPaySetting.global.itemIndex + '" class="crmAccHolder" disabled>' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="trDe' + appUserPaySetting.global.itemIndex + '" class="trDe" disabled>' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="totCost' + appUserPaySetting.global.itemIndex + '" value="0" class="totCost" style="text-align: right" disabled>' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="supCost' + appUserPaySetting.global.itemIndex + '" value="0" class="supCost" style="text-align: right" disabled>' +
+            '   </td>' +
+            '   <td>' +
+            '       <input type="text" id="vatCost' + appUserPaySetting.global.itemIndex + '" value="0" class="vatCost" style="text-align: right" disabled>' +
+            '   </td>' +
+            '   <td>' +
+            '       <div style="text-align: center">' +
+            '           <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="appUserPaySetting.delRow(' + appUserPaySetting.global.itemIndex + ')">삭제</button>' +
+            '       </div>' +
+            '   </td>' +
+            '</tr>';
+
+        $("#payDestTb").append(appUserPaySetting.global.createHtmlStr);
+
+        var itemIndex = appUserPaySetting.global.itemIndex;
+        $("#eviType" + itemIndex).kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택", value: "" },
+                { text: "세금계산서", value: "1" },
+                // { text: "계산서", value: "2" },
+                { text: "신용카드", value: "3" },
+                // { text: "직원지급", value: "4" },
+                // { text: "사업소득자", value: "5" },
+                // { text: "기타소득자", value: "9" },
+                // { text: "기타", value: "6" },
+            ],
+            index: 0,
+            change : function (e){
+                var value = $("#eviType" + itemIndex).val();
+
+                appUserPaySetting.fn_eviTypeReset(itemIndex);
+
+                if(value != ""){
+                    if(value == "6"){
+                        alert("정규증빙이 없는 지출(지로, 오버헤드, 공공요금여입, 현금출금)\n등의 경우 선택합니다.")
+                    } else if(value == "1" || value == "2"){
+                        appUserPaySetting.fn_paymentEtaxHistory(value, itemIndex);
+                    } else if(value == "3"){
+                        appUserPaySetting.fn_paymentCardHistory(value, itemIndex);
+                    } else {
+                        appUserPaySetting.fn_popRegDet(value, itemIndex);
+                    }
+                }
+            }
+        });
+
+        customKendo.fn_textBox(["crmNm" + appUserPaySetting.global.itemIndex, "crmBnkNm"  + appUserPaySetting.global.itemIndex
+            , "crmAccHolder" + appUserPaySetting.global.itemIndex, "regNo" + appUserPaySetting.global.itemIndex
+            , "crmAccNo" + appUserPaySetting.global.itemIndex, "totCost" + appUserPaySetting.global.itemIndex
+            , "supCost" + appUserPaySetting.global.itemIndex, "vatCost" + appUserPaySetting.global.itemIndex]);
+
+        customKendo.fn_datePicker("trDe" + appUserPaySetting.global.itemIndex, "month", "yyyy-MM-dd", new Date());
+
+        appUserPaySetting.global.itemIndex++;
+
+        $(".payDestInfo td input").css("font-size", "10px");
+        $(".payDestInfo td").css("padding", "0.35rem");
+        $(".payDestInfo td span").css("font-size", "10px");
+    },
+
+    delRow : function (row){
+        if($(".payDestInfo").length > 1){
+            $("#pay" + row).remove();
+            /*appUserPaySetting.global.itemIndex--;*/
+        }
+    },
+}
+
+function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo, baNb, bankNm, depositor, tradeDe){
+    if(trNm == null || trNm == "" || trNm == "undefined"){
+        trNm = "";
+    }
+    if(isuDt == null || isuDt == "" || isuDt == "undefined"){
+        isuDt = "";
+    }
+    if(trregNb == null || trregNb == "" || trregNb == "undefined"){
+        trregNb = "";
+    }
+    if(trCd == null || trCd == "" || trCd == "undefined"){
+        trCd = "";
+    }
+    if(baNb == null || baNb == "" || baNb == "undefined"){
+        baNb = "";
+        $("#crmNm" + idx).css("border", "1px solid red");
+        $("#regNo" + idx).css("border", "1px solid red");
+    } else {
+        $("#crmNm" + idx).css("border", 0);
+        $("#regNo" + idx).css("border", 0);
+    }
+
+    if(bankNm == null || bankNm == "" || bankNm == "undefined"){
+        bankNm = "";
+        $("#crmNm" + idx).css("border", "1px solid red");
+        $("#regNo" + idx).css("border", "1px solid red");
+    }else {
+        $("#crmNm" + idx).css("border", 0);
+        $("#regNo" + idx).css("border", 0);
+    }
+
+    if(depositor == null || depositor == "" || depositor == "undefined"){
+        depositor = "";
+        $("#crmNm" + idx).css("border", "1px solid red");
+        $("#regNo" + idx).css("border", "1px solid red");
+    } else {
+        $("#crmNm" + idx).css("border", 0);
+        $("#regNo" + idx).css("border", 0);
+    }
+
+    if(tradeDe != null && tradeDe != "" && tradeDe != "undefined"){
+        $("#trDe" + idx).val(tradeDe);
+    } else {
+        $("#trDe" + idx).val(isuDt.substring(0, 4) + "-" + isuDt.substring(4, 6) + "-" + isuDt.substring(6, 8));
+    }
+
+    $("#regNo" + idx).val(trregNb);
+    $("#crmNm" + idx).val(trNm);
+    $("#trCd" + idx).val(trCd);
+    $("#totCost" + idx).val(comma(sumAm.toString().split(".")[0]));
+    $("#supCost" + idx).val(comma(supAm.toString().split(".")[0]));
+    $("#vatCost" + idx).val(comma(vatAm.toString().split(".")[0]));
+    $("#issNo" + idx).val(issNo);
+    $("#coCd" + idx).val(coCd);
+    $("#taxTy" + idx).val(taxTy);
+    $("#fileNo" + idx).val(fileNo);
+    $("#crmBnkNm" + idx).val(bankNm);
+    $("#crmAccNo" + idx).val(baNb);
+    $("#crmAccHolder" + idx).val(depositor);
 }

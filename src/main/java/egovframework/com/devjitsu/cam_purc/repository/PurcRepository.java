@@ -229,4 +229,8 @@ public class PurcRepository extends AbstractDAO {
     public void insItemMaster(Map<String, Object> map) {
         insert("purc.insItemMaster", map);
     }
+
+    public void insItemMasterHist(Map<String, Object> map) {
+        insert("purc.insItemMasterHist", map);
+    }
 }

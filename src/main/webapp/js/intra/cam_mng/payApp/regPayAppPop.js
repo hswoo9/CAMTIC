@@ -221,19 +221,34 @@ var regPay = {
             var ls = rs.itemList;
 
             for(let i = 0; i < 1; i++) {
-                $("#eviType" + i).data("kendoDropDownList").value(1);
+                $("#eviType" + i).data("kendoDropDownList").value(cem.EVID_TYPE);
                 $("#crmNm" + i).val(ls[i].CRM_NM);
                 $("#crmSn" + i).val(ls[i].CRM_SN);
                 $("#regNo" + i).val(ls[i].CRM_NO_TMP);
                 $("#crmBnkNm" + i).val(ls[i].CRM_BN);
                 $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM);
                 $("#crmAccHolder" + i).val(ls[i].BN_DEPO);
-                $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
-                $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
+                // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
+                // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
                 $("#budgetNm" + i).val(cem.BUDGET_NM);
                 $("#budgetSn" + i).val(cem.BUDGET_SN);
                 $("#budgetAmt" + i).val(9999999999);
 
+                var totalAmt = cem.TOT_AMT;
+                console.log(rs.VAT)
+                if(rs.VAT == "N"){
+                    $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
+                    $("#supCost" + i).val(regPay.comma(totalAmt));
+                    $("#vatCost" + i).val(regPay.comma(Math.floor(Number(totalAmt / 10))));
+                } else if(rs.VAT == "Y"){
+                    $("#totCost" + i).val(regPay.comma(totalAmt));
+                    $("#supCost" + i).val(regPay.comma(Math.ceil(Number(totalAmt / 1.1))));
+                    $("#vatCost" + i).val(regPay.comma(Number(totalAmt - Math.ceil(Number(totalAmt / 1.1)))));
+                } else if(rs.VAT == "D") {
+                    $("#totCost" + i).val(regPay.comma(totalAmt));
+                    $("#supCost" + i).val(regPay.comma(totalAmt));
+                    $("#vatCost" + i).val(0);
+                }
             }
 
             var fileResult = customKendo.fn_customAjax("/purc/purcFileList", data);

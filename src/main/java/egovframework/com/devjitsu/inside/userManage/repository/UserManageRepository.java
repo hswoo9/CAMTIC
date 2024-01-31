@@ -148,6 +148,7 @@ public class UserManageRepository extends AbstractDAO {
     public Map<String,Object> getEmploymentInfo(Map<String,Object> map) {return (Map<String,Object>) selectOne("employM.getEmploymentInfo", map);}
     public void setEmploymentContract(Map<String, Object> params){ insert("employM.setEmploymentContract", params);}
     public void sendSalaryWorkerReq(List<String> params){ insert("employM.sendSalaryWorkerReq", params);}
+    public void setSalaryContractDel(Map<String, Object> params) { update("employM.setSalaryContractDel", params);}
     public void setEmploymentInfoFlag(Map<String, Object> params){ insert("employM.setEmploymentInfoFlag", params);}
 
     public Object updateUserBankInfo(Map<String, Object> params) {
