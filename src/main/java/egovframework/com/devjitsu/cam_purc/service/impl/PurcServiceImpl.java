@@ -532,11 +532,23 @@ public class PurcServiceImpl implements PurcService {
             commonRepository.insFileInfo(list);
         }
         purcRepository.updPurcInspect(params);
+
     }
 
     @Override
     public void updPurcInspectStat(Map<String, Object> params) {
         purcRepository.updPurcInspectStat(params);
+
+        List<Map<String, Object>> insList = purcRepository.getInsYList(params);
+
+        for(Map<String, Object> map : insList){
+            if(map.get("PRODUCT_A").equals("3")){
+                purcRepository.insItemMaster(map);
+
+
+                purcRepository.insItemWhInfo(map);
+            }
+        }
     }
 
     @Override
