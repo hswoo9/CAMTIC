@@ -155,10 +155,10 @@ var personAttend = {
                     template: function(row){
                         console.log(row);
                         let text = "";
-                        if(row.HOLIDAY != ""){
+                        if(row.HOLIDAY != "" && row.HOLIDAY != null){
                             text += row.HOLIDAY
                         }
-                        if(row.BUSTRIP != ""){
+                        if(row.BUSTRIP != "" && row.BUSTRIP != null){
                             if(text != ""){
                                 text += ", ";
                             }

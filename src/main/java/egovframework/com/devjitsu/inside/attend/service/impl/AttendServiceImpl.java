@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +22,32 @@ public class AttendServiceImpl implements AttendService {
 
     @Override
     public List<Map<String, Object>> getPersonAttendList(Map<String, Object> params) {
-        List<Map<String, Object>> returnList;
+        List<Map<String, Object>> returnList = new ArrayList<>();
+
+        /** CapsData */
         List<Map<String, Object>> g20List = prjRepository.getPersonAttendListG20(params);
-        returnList = g20List;
+
+        /** 휴일근로 */
+        List<Map<String, Object>> offDayList = new ArrayList<>();
+
+        /** 24년 2월 1일 보다 작을시 구캠스팟 근태 데이터 조회 */
+        //int stDt = Integer.parseInt(params.get("startDt").toString().replaceAll("-", ""));
+        //if(stDt < 20240201){
+        //    offDayList = prjRepository.getOffDayListG20(params);
+        //}
+
+
+        for(Map<String, Object> data : g20List){
+            /** 휴일근로 size가 0보다 클 경우 포문 돌려서 데이터 세팅 */
+            //if(offDayList.size() > 0){
+            //    for(Map<String, Object> subData : offDayList){
+            //        if(subData.get("SDate").toString().equals(data.get("START_DATE").toString())){
+            //            data.put("HOLIDAY", "휴일근로");
+            //        }
+            //    }
+            //}
+            returnList.add(data);
+        }
 
         return returnList;
     }

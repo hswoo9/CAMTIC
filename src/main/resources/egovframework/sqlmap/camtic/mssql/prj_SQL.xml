@@ -133,11 +133,11 @@
         <![CDATA[
         WITH DateRange(Dates) AS
                  (
-                     SELECT CONVERT (DATETIME, '2023-12-01') --시작일자
+                     SELECT CONVERT (DATETIME, #{startDt}) --시작일자
                      UNION ALL
                      SELECT DATEADD(d, 1, Dates)
                      FROM DateRange
-                     WHERE Dates < CONVERT (DATETIME, '2023-12-31') --종료일자
+                     WHERE Dates < CONVERT (DATETIME, #{endDt}) --종료일자
                  )
 
         SELECT
@@ -150,7 +150,7 @@
                 From
                     PRJDB.dbo.CAPSData
                 Where
-                    CapsNum = (SELECT CapsNum FROM PRJDB.dbo.USERINFO WHERE UUID = '1160')
+                    CapsNum = (SELECT CapsNum FROM PRJDB.dbo.USERINFO WHERE UUID = #{empSeq})
                 AND Convert(datetime, (replace(InDate,' ','') +  ' ' + substring(InTime,1,2) + ':' + substring(InTime,3,2) + ':' + substring(InTime,5,2))) >= (Dates+' 08:00:00')
                 AND Convert(datetime, (replace(InDate,' ','') +  ' ' + substring(InTime,1,2) + ':' + substring(InTime,3,2) + ':' + substring(InTime,5,2))) <= (DATEADD(d, 1, Dates)+' 07:59:59')
                 AND IsType = 1
@@ -161,7 +161,7 @@
                 From
                     PRJDB.dbo.CAPSData
                 Where
-                    CapsNum = (SELECT CapsNum FROM PRJDB.dbo.USERINFO WHERE UUID = '1160')
+                    CapsNum = (SELECT CapsNum FROM PRJDB.dbo.USERINFO WHERE UUID = #{empSeq})
                 AND Convert(datetime, (replace(InDate,' ','') +  ' ' + substring(InTime,1,2) + ':' + substring(InTime,3,2) + ':' + substring(InTime,5,2))) >= (Dates+' 00:00:00')
                 AND Convert(datetime, (replace(InDate,' ','') +  ' ' + substring(InTime,1,2) + ':' + substring(InTime,3,2) + ':' + substring(InTime,5,2))) <= (Dates+' 23:59:59')
                 AND IsType = 2
@@ -169,8 +169,22 @@
         FROM
             DateRange
         LEFT JOIN
-            PRJDB.dbo.UserInfo ON UUID = '1160'
+            PRJDB.dbo.UserInfo ON UUID = #{empSeq}
         OPTION (MAXRECURSION 0)
+        ]]>
+    </select>
+
+    <select id="getOffDayListG20" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getOffDayListG20 */
+        <![CDATA[
+        SELECT * FROM PRJDB.dbo.UserOffDayList
+        WHERE OffNo IN (
+            SELECT OffNo FROM PRJDB.dbo.UserOffDay
+            WHERE IsState = 2
+            AND UUID = #{empSeq}
+        )
+        AND SDate >= #{startDt}
+        AND SDate <= #{endDt}
         ]]>
     </select>
 </mapper>

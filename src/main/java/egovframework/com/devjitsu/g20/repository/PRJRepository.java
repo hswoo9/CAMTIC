@@ -31,4 +31,8 @@ public class PRJRepository extends AbstractDAO {
     public List<Map<String, Object>> getPersonAttendListG20(Map<String, Object> params) {
         return selectListMs("prj.getPersonAttendListG20", params);
     }
+
+    public List<Map<String, Object>> getOffDayListG20(Map<String, Object> params) {
+        return selectListMs("prj.getOffDayListG20", params);
+    }
 }
