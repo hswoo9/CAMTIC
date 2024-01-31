@@ -369,7 +369,8 @@ var hwpDocCtrl = {
 
                     //요청일
                     // let toDate = year+"년 "+month+"월 "+date+"일";
-                    let toDate = regDe[0] + "년 " + regDe[1] + "월 " + regDe[2] + "일";
+                    let regDeFinal = ResultData.REG_DE.split("-"); // 재직자/퇴사자 구분없이 제출예정일
+                    let toDate = regDeFinal[0] + "년 " + regDeFinal[1] + "월 " + regDeFinal[2] + "일";
                     hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                     hwpDocCtrl.putFieldText('toDate', toDate);
 

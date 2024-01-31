@@ -9,14 +9,22 @@ const lectureReq = {
     },
 
     fn_pageSet: function(){
-        customKendo.fn_textBox(["lectureName", "lectureNameEx", "title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee"]);
+        customKendo.fn_textBox(["projectName", "lectureName", "lectureNameEx", "title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee", "field3", "conName", "conTitle", "conDetailTitle", "conTime", "conNum", "conArea", "conPerson"]);
         customKendo.fn_textArea(["content1", "content2", "goal", "intro", "targetUser", "scheduleHtml", "prospectus", "materials"]);
+
+        /** form구분 drop box */
+        /*ub.fn_writeTypeSet();*/
 
         /** 사업구분 drop box */
         ub.fn_projectTypeSet();
 
         /** 교육분야 drop box */
         ub.fn_fieldTypeSet();
+        ub.fn_fieldType2Set();
+
+        /** 컨설팅분야 drop box */
+        ub.fn_fieldSet();
+        ub.fn_field2Set();
 
         /** 과목명 drop box */
         ub.fn_curriculumTypeSet();
@@ -29,12 +37,16 @@ const lectureReq = {
 
         /** 메인게시여부 drop box */
         ub.fn_mainTypeSet();
+        ub.fn_conMainTypeSet();
 
         /** 교육기간 date picker */
         ub.fn_eduDtSet();
 
         /** 모집기간 date picker */
         ub.fn_recruitDtSet();
+
+        /** 컨설팅 협약기간 date picker */
+        ub.fn_agmDtSet();
 
         /** 운영방법 radio button */
         ub.fn_methodTypeSet();
@@ -101,92 +113,238 @@ const lectureReq = {
         }
     },
 
+    fn_startProject : function (){
+        if(!$("input[name='lecReq']").is(":checked")){
+            alert("단위사업을 선택해주세요.");
+            return;
+        }
+        
+        var lecValue = $("input[name='lecReq']:checked").val();
+        if(lecValue === "1"){
+            $(".consulting").css("display", "none");
+            $(".lecture").css("display", "");
+        } else if(lecValue === "2") {
+            $(".lecture").css("display", "none");
+            $(".consulting").css("display", "");
+        }
+
+        $("#lecReqSelectModal").data("kendoWindow").close();
+    },
+
     fn_saveBtn: function(){
-        const data = {
-            pjtSn: $("#pjtSn").val(),
+        if($("#writeClass").val() == 1) {
+            const data = {
+                pjtSn: $("#pjtSn").val(),
 
-            projectType: $("#projectType").data("kendoDropDownList").value(),
-            projectTypeName: $("#projectType").data("kendoDropDownList").text(),
-            fieldType: $("#fieldType").data("kendoDropDownList").value(),
-            fieldTypeName: $("#fieldType").data("kendoDropDownList").text(),
+                projectType: $("#projectType").data("kendoDropDownList").value(),
+                projectTypeName: $("#projectType").data("kendoDropDownList").text(),
+                fieldType: $("#fieldType").data("kendoDropDownList").value(),
+                fieldTypeName: $("#fieldType").data("kendoDropDownList").text(),
 
-            curriculumType: $("#curriculumType").data("kendoDropDownList").value(),
-            curriculumTypeName: $("#curriculumType").data("kendoDropDownList").text(),
-            courseType: $("#courseType").data("kendoDropDownList").value(),
-            courseTypeName: $("#courseType").data("kendoDropDownList").text(),
+                curriculumType: $("#curriculumType").data("kendoDropDownList").value(),
+                curriculumTypeName: $("#curriculumType").data("kendoDropDownList").text(),
+                courseType: $("#courseType").data("kendoDropDownList").value(),
+                courseTypeName: $("#courseType").data("kendoDropDownList").text(),
 
-            lectureName: $("#lectureName").val(),
-            lectureNameEx: $("#lectureNameEx").val(),
-            title: $("#title").val(),
-            content1: $("#content1").val(),
-            content2: $("#content2").val(),
+                lectureName: $("#lectureName").val(),
+                lectureNameEx: $("#lectureNameEx").val(),
+                title: $("#title").val(),
+                content1: $("#content1").val(),
+                content2: $("#content2").val(),
 
-            eduStartDt: $("#eduStartDt").val(),
-            eduEndDt: $("#eduEndDt").val(),
-            recruitStartDt: $("#recruitStartDt").val(),
-            recruitEndDt: $("#recruitEndDt").val(),
+                eduStartDt: $("#eduStartDt").val(),
+                eduEndDt: $("#eduEndDt").val(),
+                recruitStartDt: $("#recruitStartDt").val(),
+                recruitEndDt: $("#recruitEndDt").val(),
 
-            recruitNum: $("#recruitNum").val(),
-            eduTime: $("#eduTime").val(),
-            eduTimeEx: $("#eduTimeEx").val(),
+                recruitNum: $("#recruitNum").val(),
+                eduTime: $("#eduTime").val(),
+                eduTimeEx: $("#eduTimeEx").val(),
 
-            area: $("#area").val(),
-            status: $("#status").data("kendoDropDownList").value(),
-            statusName: $("#status").data("kendoDropDownList").text(),
+                area: $("#area").val(),
+                status: $("#status").data("kendoDropDownList").value(),
+                statusName: $("#status").data("kendoDropDownList").text(),
 
-            goal: $("#goal").val(),
-            intro: $("#intro").val(),
-            targetUser: $("#targetUser").val(),
-            scheduleHtml: $("#scheduleHtml").val(),
-            prospectus: $("#prospectus").val(),
-            materials: $("#materials").val(),
+                goal: $("#goal").val(),
+                intro: $("#intro").val(),
+                targetUser: $("#targetUser").val(),
+                scheduleHtml: $("#scheduleHtml").val(),
+                prospectus: $("#prospectus").val(),
+                materials: $("#materials").val(),
 
-            textbookFee: $("#textbookFee").val().replace(/,/g, ''),
-            textbookFeeEx: "",
-            methodType: $("#methodType").data("kendoRadioGroup").value(),
+                textbookFee: $("#textbookFee").val().replace(/,/g, ''),
+                textbookFeeEx: "",
+                methodType: $("#methodType").data("kendoRadioGroup").value(),
 
-            certType: $("#certType").data("kendoRadioGroup").value(),
+                certType: $("#certType").data("kendoRadioGroup").value(),
 
-            mainType: $("#mainType").data("kendoDropDownList").value(),
-            mainTypeName: $("#mainType").data("kendoDropDownList").text(),
+                mainType: $("#mainType").data("kendoDropDownList").value(),
+                mainTypeName: $("#mainType").data("kendoDropDownList").text(),
 
-            regEmpSeq: $("#regEmpSeq").val()
-        }
+                regEmpSeq: $("#regEmpSeq").val()
+            }
 
-        /** 유효성 검사 */
-        if(data.projectType == ""){ alert("사업구분이 선택되지 않았습니다."); return; }
-        if(data.fieldType == ""){ alert("교육분야가 선택되지 않았습니다."); return; }
-        if(data.curriculumType == ""){ alert("과목명이 선택되지 않았습니다."); return; }
-        if(data.courseType == ""){ alert("과정명이 선택되지 않았습니다."); return; }
-        if(data.lectureName == ""){ alert("강좌명(사업명)이 작성되지 않았습니다."); return; }
-        if(data.lectureNameEx == ""){ alert("강좌명(홍보용)이 작성되지 않았습니다."); return; }
-        if(data.title == ""){ alert("주제(CEO)가 작성되지 않았습니다."); return; }
-        if(data.recruitNum == ""){ alert("모집인원이 작성되지 않았습니다."); return; }
-        if(data.eduTime == "" || data.eduTimeEx == ""){ alert("교육시간이 작성되지 않았습니다."); return; }
-        if(data.area == ""){ alert("교육장소가 작성되지 않았습니다."); return; }
-        if(data.textbookFee == ""){ alert("교육비가 작성되지 않았습니다."); return; }
-        if(data.courseType == ""){ alert("메인게시여부가 선택되지 않았습니다."); return; }
+            /** 유효성 검사 */
+            if (data.projectType == "") {
+                alert("사업구분이 선택되지 않았습니다.");
+                return;
+            }
+            if (data.fieldType == "") {
+                alert("교육분야가 선택되지 않았습니다.");
+                return;
+            }
+            if (data.curriculumType == "") {
+                alert("과목명이 선택되지 않았습니다.");
+                return;
+            }
+            if (data.courseType == "") {
+                alert("과정명이 선택되지 않았습니다.");
+                return;
+            }
+            /*if(data.lectureName == ""){ alert("강좌명(사업명)이 작성되지 않았습니다."); return; }*/
+            if (data.lectureNameEx == "") {
+                alert("강좌명(홍보용)이 작성되지 않았습니다.");
+                return;
+            }
+            if (data.title == "") {
+                alert("주제(CEO)가 작성되지 않았습니다.");
+                return;
+            }
+            if (data.recruitNum == "") {
+                alert("모집인원이 작성되지 않았습니다.");
+                return;
+            }
+            if (data.eduTime == "" || data.eduTimeEx == "") {
+                alert("교육시간이 작성되지 않았습니다.");
+                return;
+            }
+            if (data.area == "") {
+                alert("교육장소가 작성되지 않았습니다.");
+                return;
+            }
+            if (data.textbookFee == "") {
+                alert("교육비가 작성되지 않았습니다.");
+                return;
+            }
+            if (data.courseType == "") {
+                alert("메인게시여부가 선택되지 않았습니다.");
+                return;
+            }
 
-        let url = "/projectUnRnd/insLectureInfo";
-        if($("#pk").val() != ""){
-            data.pk = $("#pk").val();
-            url = "/projectUnRnd/updLectureInfo";
-        }
+            let url = "/projectUnRnd/insLectureInfo";
+            if ($("#pk").val() != "") {
+                data.pk = $("#pk").val();
+                url = "/projectUnRnd/updLectureInfo";
+            }
 
-        const formData = new FormData();
-        for (let key in data) {
-            formData.append(key, data[key]);
-        }
+            const formData = new FormData();
+            for (let key in data) {
+                formData.append(key, data[key]);
+            }
 
-        const result = customKendo.fn_customFormDataAjax(url, formData);
+            const result = customKendo.fn_customFormDataAjax(url, formData);
 
-        if(result.code != 200){
-            alert("저장 중 오류가 발생하였습니다.");
-            window.close();
-        }else{
-            alert("단위사업이 등록되었습니다.");
-            opener.unRndLectList.mainGrid();
-            window.close();
+            if (result.code != 200) {
+                alert("저장 중 오류가 발생하였습니다.");
+                window.close();
+            } else {
+                alert("단위사업이 등록되었습니다.");
+                opener.unRndLectList.mainGrid();
+                window.close();
+            }
+        }else if($("#writeClass").val() == 2){
+            const data = {
+                pjtSn: $("#pjtSn").val(),
+
+                fieldType: $("#field").data("kendoDropDownList").value(),
+                fieldTypeName: $("#field").data("kendoDropDownList").text(),
+                /*fieldType2: $("#field2").data("kendoDropDownList").value(),
+                fieldTypeName2: $("#field2").data("kendoDropDownList").text(),
+                fieldType3: $("#field3").data("kendoDropDownList").value(),
+                fieldTypeName3: $("#field3").data("kendoDropDownList").text(),*/
+                lectureName: $("#conName").val(),
+                title: $("#conTitle").val(),
+                /*detailTitle: $("#conDetailTitle").val(),*/
+                eduStartDt: $("#agmStartDt").val(),
+                eduEndDt: $("#agmEndDt").val(),
+                eduTime: $("#conTime").val(),
+                area: $("#conArea").val(),
+                /*conPerson: $("#conPerson").val(),*/
+                recruitNum: $("#conNum").val(),
+
+                mainType: $("#conMainType").data("kendoDropDownList").value(),
+                mainTypeName: $("#conMainType").data("kendoDropDownList").text(),
+
+                regEmpSeq: $("#regEmpSeq").val()
+            }
+
+            /** 유효성 검사 */
+            if (data.fieldType == "") {
+                alert("컨선팅 분야가 선택되지 않았습니다.");
+                return;
+            }
+            /*if (data.fieldType2 == "") {
+                alert("컨선팅 분야가 선택되지 않았습니다.");
+                return;
+            }
+            if (data.fieldType3 == "") {
+                alert("컨선팅 분야가 작성되지 않았습니다.");
+                return;
+            }*/
+            if (data.lectureName == "") {
+                alert("사업명이 작성되지 않았습니다.");
+                return;
+            }
+            if (data.title == "") {
+                alert("과제명이 작성되지 않았습니다.");
+                return;
+            }
+            /*if (data.detailTitle == "") {
+                alert("세부 프로그램명이 작성되지 않았습니다.");
+                return;
+            }*/
+            if (data.eduStartDt == "") {
+                alert("협약기간이 작성되지 않았습니다.");
+                return;
+            }
+            if (data.eduEndDt == "") {
+                alert("협약기간이 작성되지 않았습니다.");
+                return;
+            }
+            if (data.eduTime == "") {
+                alert("컨설팅 시간이 작성되지 않았습니다.");
+                return;
+            }
+            if (data.conPerson == "") {
+                alert("수혜기업 담당자가 작성되지 않았습니다.");
+                return;
+            }
+            if (data.recruitNum == "") {
+                alert("수혜인원 수가 작성되지 않았습니다.");
+                return;
+            }
+
+            let url = "/projectUnRnd/insLectureInfo";
+            if ($("#pk").val() != "") {
+                data.pk = $("#pk").val();
+                url = "/projectUnRnd/updLectureInfo";
+            }
+
+            const formData = new FormData();
+            for (let key in data) {
+                formData.append(key, data[key]);
+            }
+
+            const result = customKendo.fn_customFormDataAjax(url, formData);
+
+            if (result.code != 200) {
+                alert("저장 중 오류가 발생하였습니다.");
+                window.close();
+            } else {
+                alert("단위사업이 등록되었습니다.");
+                opener.unRndLectList.mainGrid();
+                window.close();
+            }
         }
     },
 

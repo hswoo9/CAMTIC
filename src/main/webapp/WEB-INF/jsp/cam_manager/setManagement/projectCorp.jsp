@@ -16,7 +16,8 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">법인 프로젝트 관리</h4>
-            <div class="title-road">캠매니저 > 설정관리 &gt; 법인프로젝트관리</div>
+            <div class="title-road">캠매니저 > 설정관리 &gt; 법인
+                프로젝트관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

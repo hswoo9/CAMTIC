@@ -7,16 +7,96 @@ var ub = {
         $("#projectType").data("kendoDropDownList").value($("#pjtSn").val());
     },
 
+    fn_writeTypeSet: function(){
+        let writeDataSource = [
+            { text: "강의", value: "1" },
+            { text: "컨설팅", value: "2" }
+        ];
+        customKendo.fn_dropDownList("writeClass", writeDataSource, "text", "value", 3);
+
+        $("#writeClass").data("kendoDropDownList").bind("change", ub.dataSet);
+        $("#studyUserName, #startDt, #endDt, #regDate, #startTime, #endTime").attr("readonly", true);
+
+    },
+
     fn_fieldTypeSet: function(){
         let fieldDataSource = [
-            {text: "경영", value: "104"},
+            /*{text: "경영", value: "104"},
             {text: "품질", value: "106"},
             {text: "CEO", value: "107"},
             {text: "기술", value: "193"},
             {text: "현장교육", value: "195"},
-            {text: "창업", value: "289"}
+            {text: "창업", value: "289"}*/
+            {text: "경영", value: "경영"},
+            {text: "기술", value: "기술"},
+            {text: "마케팅", value: "마케팅"},
+            {text: "R&D", value: "R&D"},
+            {text: "창업", value: "창업"},
+            {text: "투자", value: "투자"},
+            {text: "공적개발원조", value: "공적개발원조"},
+            {text: "기타", value: "기타"}
         ];
         customKendo.fn_dropDownList("fieldType", fieldDataSource, "text", "value", 2);
+    },
+
+    fn_fieldType2Set: function(){
+        let fieldDataSource2 = [
+            {text: "사업관리", value: "사업관리"},
+            {text: "총무/인사", value: "총무/인사"},
+            {text: "재무/회계", value: "재무/회계"},
+            {text: "생산/품질관리", value: "생산/품질관리"},
+            {text: "보건/의료", value: "보건/의료"},
+            {text: "영업/판매", value: "영업/판매"},
+            {text: "건설", value: "건설"},
+            {text: "기계", value: "기계"},
+            {text: "재료", value: "재료"},
+            {text: "화학/바이오", value: "화학/바이오"},
+            {text: "섬유/의복", value: "섬유/의복"},
+            {text: "전기/전자", value: "전기/전자"},
+            {text: "정보통신", value: "정보통신"},
+            {text: "식품가공", value: "식품가공"},
+            {text: "환경/에너지/안전", value: "환경/에너지/안전"},
+            {text: "농림어업", value: "농림어업"},
+            {text: "기타", value: "기타"}
+        ];
+        customKendo.fn_dropDownList("fieldType2", fieldDataSource2, "text", "value", 2);
+    },
+
+    fn_fieldSet: function(){
+        let conFieldDataSource = [
+            {text: "경영", value: "경영"},
+            {text: "기술", value: "기술"},
+            {text: "마케팅", value: "마케팅"},
+            {text: "R&D", value: "R&D"},
+            {text: "창업", value: "창업"},
+            {text: "투자", value: "투자"},
+            {text: "공적개발원조", value: "공적개발원조"},
+            {text: "기타", value: "기타"}
+        ];
+        customKendo.fn_dropDownList("field", conFieldDataSource, "text", "value", 2);
+    },
+
+    fn_field2Set: function(){
+        let conFieldDataSource2 = [
+            {text: "사업관리", value: "사업관리"},
+            {text: "총무/인사", value: "총무/인사"},
+            {text: "재무/회계", value: "재무/회계"},
+            {text: "생산/품질관리", value: "생산/품질관리"},
+            {text: "보건/의료", value: "보건/의료"},
+            {text: "영업/판매", value: "영업/판매"},
+            {text: "건설", value: "건설"},
+            {text: "기계", value: "기계"},
+            {text: "재료", value: "재료"},
+            {text: "화학/바이오", value: "화학/바이오"},
+            {text: "섬유/의복", value: "섬유/의복"},
+            {text: "전기/전자", value: "전기/전자"},
+            {text: "정보통신", value: "정보통신"},
+            {text: "식품가공", value: "식품가공"},
+            {text: "환경/에너지/안전", value: "환경/에너지/안전"},
+            {text: "농림어업", value: "농림어업"},
+            {text: "기타", value: "기타"}
+        ];
+        customKendo.fn_dropDownList("field2", conFieldDataSource2, "text", "value", 2);
     },
 
     fn_curriculumTypeSet: function(){
@@ -86,10 +166,13 @@ var ub = {
 
     fn_statusSet: function(){
         let statusDataSource = [
-            {text: "강의개설중", value: "0"},
+            /*{text: "강의개설중", value: "0"},
             {text: "수강신청 진행중", value: "1"},
             {text: "교육/실습 중", value: "2"},
-            {text: "교육/실습 완료", value: "3"}
+            {text: "교육/실습 완료", value: "3"}*/
+            {text: "모집예정", value: "모집예정"},
+            {text: "모집중", value: "모집중"},
+            {text: "모집종료", value: "모집종료"}
         ];
         customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 3);
     },
@@ -100,6 +183,14 @@ var ub = {
             {text: "미게시", value: "1"}
         ];
         customKendo.fn_dropDownList("mainType", mainTypeDataSource, "text", "value", 2);
+    },
+
+    fn_conMainTypeSet: function(){
+        let conMainTypeDataSource = [
+            {text: "게시", value: "0"},
+            {text: "미게시", value: "1"}
+        ];
+        customKendo.fn_dropDownList("conMainType", conMainTypeDataSource, "text", "value", 2);
     },
 
     fn_paySet: function(){
@@ -150,6 +241,22 @@ var ub = {
         $("#recruitStartDt, #recruitEndDt").attr("readonly", true);
     },
 
+    fn_agmDtSet: function(){
+        customKendo.fn_datePicker("agmStartDt", 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("agmEndDt", 'month', "yyyy-MM-dd", new Date());
+        $("#agmStartDt").on("change", function(){
+            if($(this).val() > $("#agmEndDt").val()){
+                $("#agmEndDt").val($(this).val());
+            }
+        });
+        $("#agmEndDt").on("change", function(){
+            if($(this).val() < $("#agmStartDt").val()){
+                $("#agmStartDt").val($(this).val());
+            }
+        });
+        $("#agmStartDt, #agmEndDt").attr("readonly", true);
+    },
+
     fn_methodTypeSet: function(){
         let methodTypeDataSource = [
             { label: "재직자", value: "1" },
@@ -169,4 +276,15 @@ var ub = {
         customKendo.fn_radioGroup("certType", certTypeDataSource, "horizontal");
         $("#certType").data("kendoRadioGroup").value("N");
     },
+
+    dataSet: function(){
+        var writeClass = $("#writeClass").val();
+        if(writeClass == 1){
+            $(".consulting").css("display", "none");
+            $(".lecture").css("display", "");
+        }else if(writeClass == 2){
+            $(".lecture").css("display", "none");
+            $(".consulting").css("display", "");
+        }
+    }
 }

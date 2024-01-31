@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.attend.service.impl;
 
+import egovframework.com.devjitsu.g20.repository.PRJRepository;
 import egovframework.com.devjitsu.inside.attend.repository.AttendRepository;
 import egovframework.com.devjitsu.inside.attend.service.AttendService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,16 @@ public class AttendServiceImpl implements AttendService {
     @Autowired
     private AttendRepository attendRepository;
 
+    @Autowired
+    private PRJRepository prjRepository;
+
     @Override
     public List<Map<String, Object>> getPersonAttendList(Map<String, Object> params) {
-        return attendRepository.getPersonAttendList(params);
+        List<Map<String, Object>> returnList;
+        List<Map<String, Object>> g20List = prjRepository.getPersonAttendListG20(params);
+        returnList = g20List;
+
+        return returnList;
     }
 
     @Override
