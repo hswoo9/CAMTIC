@@ -978,11 +978,15 @@ public class UserManageController {
     }
 
     @RequestMapping("/inside/getImageData")
-    public String getImageData(HttpServletRequest request, Model model) {
+    public String getImageData(@RequestParam Map<String, Object> map, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         Map<String, Object> params = new HashMap<>();
         params.put("empSeq", login.getUniqId());
+
+        if(map.containsKey("customRegEmpSeq")) {
+            params.put("empSeq", map.get("customRegEmpSeq"));
+        }
 
         model.addAttribute("menuCd", request.getServletPath().split("/")[1]);
         model.addAttribute("toDate", getCurrentDateTime());

@@ -61,6 +61,10 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getEduResponsableList(Map<String, Object> params){
+        return campusRepository.getEduResponsableList(params);
+    }
+    @Override
     public void setEduInfoDelete(Map<String, Object> params) {
         campusRepository.setEduInfoDelete(params);
     }

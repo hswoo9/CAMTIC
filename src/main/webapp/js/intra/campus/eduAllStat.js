@@ -100,68 +100,78 @@ var eduAllStat = {
             columns: [
                 {
                     field: "DEPT",
-                    title: "부서"
+                    title: "부서",
+                    width: 455
                 }, {
                     /*field: "POSITION",*/
                     title: "직위",
-                    width: "8%",
+                    /*width: "8%",*/
+                    width: 125,
                     template: function(row){
                         return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
                     }
                 }, {
                     field: "EMP_NAME",
                     title: "성명",
-                    width: "6%"
+                    /*width: "6%",*/
+                    width: 100
                 }, {
                     field: "PERSONAL_TIME",
                     title: "개인학습",
-                    width: "8%",
+                    /*width: "8%",*/
+                    width: 125,
                     template: function(row){
-                        return row.PERSONAL_TIME+"시간 / "+row.PERSONAL_COUNT+"건"
+                        return row.PERSONAL_TIME+"시간 / "+row.PERSONAL_COUNT+"건";
                     }
                 }, {
                     field: "COMMON_EDU_TIME",
                     title: "공통학습",
-                    width: "8%",
+                    /*width: "8%",*/
+                    width: 125,
                     template: function(row){
-                        return row.COMMON_EDU_TIME+"시간 / "+row.COMMON_EDU_COUNT+"건"
+                        return row.COMMON_EDU_TIME+"시간 / "+row.COMMON_EDU_COUNT+"건";
                     }
                 },{
                     field: "STUDY_TIME",
                     title: "학습조",
-                    width: "8%",
+                    /*width: "8%",*/
+                    width: 125,
                     template: function(row){
-                        return row.STUDY_TIME+"시간 / "+row.STUDY_COUNT+"건"
+                        return row.STUDY_TIME+"시간 / "+row.STUDY_COUNT+"건";
                     }
                 }, {
                     field: "PROPAG_TIME",
                     title: "전파학습",
-                    width: "8%",
+                    /*width: "8%",*/
+                    width: 125,
                     template: function(row){
-                        return row.PROPAG_TIME+"시간 / "+row.PROPAG_COUNT+"건"
+                        return row.PROPAG_TIME+"시간 / "+row.PROPAG_COUNT+"건";
                     }
                 }, {
                     field: "OJT_TIME",
                     title: "OJT",
-                    width: "8%",
+                    /*width: "8%",*/
+                    width: 125,
                     template: function(row){
-                        return row.OJT_TIME+"시간 / "+row.OJT_COUNT+"건"
+                        return row.OJT_TIME+"시간 / "+row.OJT_COUNT+"건";
                     }
                 }, {
                     field: "OPEN_STUDY_TIME",
                     title: "오픈스터디",
-                    width: "8%",
+                    /*width: "8%",*/
+                    width: 125,
                     template: function(row){
-                        return row.OPEN_STUDY_TIME+"시간 / "+row.OPEN_STUDY_COUNT+"건"
+                        return row.OPEN_STUDY_TIME+"시간 / "+row.OPEN_STUDY_COUNT+"건";
                     }
                 },  {
                     field: "TOTAL_STAT",
                     title: "합계",
-                    width: "8%",
+                    /*width: "8%",*/
+                    width: 125,
                     template: function(row){
                         var totNum = Number(row.PERSONAL_TIME) + Number(row.STUDY_TIME) + Number(row.PROPAG_TIME) + Number(row.OJT_TIME) + Number(row.OPEN_STUDY_TIME) + Number(row.COMMON_EDU_TIME);
                         var totCount = Number(row.PERSONAL_COUNT) + Number(row.STUDY_COUNT) + Number(row.PROPAG_COUNT) + Number(row.OJT_COUNT) + Number(row.OPEN_STUDY_COUNT) + Number(row.COMMON_EDU_COUNT);
-                        return totNum+"시간 / "+totCount+"건"
+                        return totNum+"시간 / "+totCount+"건";
                     }
                 }
             ]

@@ -567,6 +567,28 @@ public class CampusController {
         return "popup/campus/eduResultViewPop";
     }
 
+    /** 회계담당자 설정 팝업 */
+    @RequestMapping("/Campus/pop/eduResponsablePop.do")
+    public String eduResponsablePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+
+        return "popup/campus/eduResponsablePop";
+    }
+
+    /** 회계담당자 리스트 */
+    @RequestMapping("/campus/getEduResponsableList")
+    public String getEduResponsableList(@RequestParam Map<String, Object> params, Model model) {
+        /*List<Map<String, Object>> list = campusService.getEduResponsableList(params);
+        model.addAttribute("list", list);*/
+
+        model.addAttribute("rs", campusService.getEduResponsableList(params));
+        return "jsonView";
+    }
+
     /** 직원학습관리 페이지 */
     @RequestMapping("/Campus/eduInfoMng.do")
     public String eduInfoMng(HttpServletRequest request, Model model) {

@@ -1,12 +1,13 @@
 var personAttend = {
     global: {
-        now: new Date()
+        now: new Date(),
+        searchAjaxData: {}
     },
 
-    init: function(){
+    fn_defaultScript: function(){
         personAttend.pageSet();
         personAttend.dataSet();
-        personAttend.mainGrid();
+        personAttend.gridReload();
     },
 
     pageSet: function(){
@@ -83,31 +84,40 @@ var personAttend = {
         $("#holidaywork").text(holidayData.HOLIDAYWORK+"일");
     },
 
-    mainGrid: function(){
+    gridReload: function(){
+        personAttend.global.searchAjaxData = {
+            startDt: $("#startDt").val(),
+            endDt: $("#endDt").val(),
+            empSeq: $("#regEmpSeq").val()
+        }
+        personAttend.mainGrid("/inside/getPersonAttendList", personAttend.global.searchAjaxData);
+    },
+
+    mainGrid: function(url, params){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
                 read: {
-                    url: "/inside/getPersonAttendList",
+                    url: url,
                     dataType: "json",
                     type: "post"
                 },
                 parameterMap: function(data){
-                    data.startDt = $("#startDt").val();
-                    data.endDt = $("#endDt").val();
-                    data.empSeq = $("#regEmpSeq").val();
+                    for(var key in params){
+                        data[key] = params[key];
+                    }
                     return data;
                 }
             },
-            schema : {
-                data: function (data) {
+            schema: {
+                data: function (data){
                     return data.list;
                 },
-                total: function (data) {
+                total: function (data){
                     return data.list.length;
                 },
             },
-            pageSize: 10,
+            pageSize: 10
         });
 
         $("#mainGrid").kendoGrid({

@@ -34,7 +34,7 @@
                                     <input type="text" id="attendanceItems" style="width: 200px;">
                                 </div>
                                 <div>
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload();">
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="personAttend.gridReload();">
                                         <span>검색</span>
                                     </button>
                                 </div>
@@ -123,5 +123,5 @@
 </div>
 </div><!-- col-md-9 -->
 <script type="text/javascript">
-    personAttend.init();
+    personAttend.fn_defaultScript();
 </script>

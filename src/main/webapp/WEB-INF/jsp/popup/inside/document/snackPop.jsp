@@ -130,7 +130,9 @@
                         <button type="button" class="k-button k-button-md k-button-solid-error" onclick="snackReq.fn_snackCertReq(30)">반려</button>
                     </c:when>
                     <c:when test="${status == 100}">
-                        <button type="button" class="k-button k-button-solid-info" onclick="snackReq.fn_contentMod();">수정</button>
+                        <c:if test="${data.PAY_APP_SN eq null}">
+                            <button type="button" class="k-button k-button-solid-info" onclick="snackReq.fn_contentMod();">수정</button>
+                        </c:if>
                         <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="snackReq.snackPrintPop();">증빙양식 출력</button>
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                     </c:when>
