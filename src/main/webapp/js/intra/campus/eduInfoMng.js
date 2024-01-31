@@ -174,6 +174,14 @@ fn_chngDeptComp : function (){
                 {
                     name: 'button',
                     template: function (e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="eduInfoMng.responsable();">' +
+                            '	<span class="k-button-text">회계담당자 설정</span>' +
+                            '</button>';
+                    }
+                },
+                {
+                    name: 'button',
+                    template: function (e){
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="eduInfoMng.mainGrid();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -322,6 +330,14 @@ fn_chngDeptComp : function (){
         url += "&mode="+mode;
         const name = "popup";
         const option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    responsable: function() {
+        let mode = "mng";
+        let url = "/Campus/pop/eduResponsablePop.do;";
+        const name = "popup";
+        const option = "width = 500, height = 450, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 

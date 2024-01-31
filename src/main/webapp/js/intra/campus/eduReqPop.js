@@ -368,6 +368,7 @@ const eduReq = {
             { label: "비R&D", value: "S" },
             { label: "엔지니어링", value: "D" },
             { label: "용역/기타", value: "V" },
+            { label: "캠아이템", value: "" }
         ]
         customKendo.fn_radioGroup("purcType", eduReq.global.radioGroupData, "horizontal");
 
