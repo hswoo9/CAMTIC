@@ -23,7 +23,7 @@
   <div class="card-header pop-header">
     <h3 class="card-title title_NM">회계담당자 설정</h3>
     <div class="btn-st popButton">
-
+        <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick=""/>
         <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
     </div>
   </div>
@@ -78,7 +78,5 @@
     customKendo.fn_dropDownList("responsable5", responList.rs, "NAME_POSITION_TXT", "EMP_SEQ",3);
     customKendo.fn_dropDownList("responsable6", responList.rs, "NAME_POSITION_TXT", "EMP_SEQ",3);
   });
-
-
 </script>
 </body>
