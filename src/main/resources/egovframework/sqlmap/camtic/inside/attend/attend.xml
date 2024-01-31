@@ -96,7 +96,7 @@
         /* getPersonHrStatus */
         <![CDATA[
         SELECT
-            SUM(DATEDIFF(TRIP_DAY_TO_2, TRIP_DAY_FR_2)+1) AS HR
+            IFNULL(SUM(DATEDIFF(TRIP_DAY_TO_2, TRIP_DAY_FR_2)+1), 0) AS HR
         FROM
             (
                 WITH RECURSIVE REQUEST AS (

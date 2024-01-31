@@ -1,42 +1,121 @@
-var now = new Date();
-
 var rewardReq = {
 
-    init: function(){
-        rewardReq.dataSet();
-        rewardReq.mainGrid();
+    global: {
+        now: new Date(),
+        searchAjaxData: {}
     },
 
-    mainGrid: function() {
-        var dataSource = new kendo.data.DataSource({
+    fn_defaultScript: function(){
+        rewardReq.pageSet();
+        rewardReq.gridReload();
+    },
+
+    pageSet: function() {
+        customKendo.fn_textBox(["searchText"])
+        $("#start_date").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(rewardReq.global.now.setMonth(rewardReq.global.now.getMonth() - 1))
+        });
+
+        $("#end_date").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
+        });
+
+        $("#rewardTypeA").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "선택하세요", value: "" },
+                { text: "내부", value: "0" },
+                { text: "외부", value: "1" }
+            ],
+            index: 0,
+            width: 300,
+            change: function(e) {
+                if(this.value()){
+                    let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
+                    rewardDataSource = rewardDataSource.filter(e => e.CM_CODE_DESC.indexOf(this.text()) > -1);
+                    rewardDataSource.unshift({CM_CODE_NM : "선택하세요", CM_CODE : ""});
+                    $("#rewardName").kendoDropDownList({
+                        dataTextField: "CM_CODE_NM",
+                        dataValueField: "CM_CODE",
+                        dataSource: rewardDataSource,
+                        index: 0
+                    });
+                }
+            }
+        });
+
+        $("#rewardName").kendoDropDownList({
+            dataTextField: "CM_CODE_NM",
+            dataValueField: "CM_CODE",
+            dataSource: [{
+                CM_CODE_NM : "선택하세요", CM_CODE : ""
+            }],
+            index: 0
+        });
+
+        $("#searchType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "성명", value: "1" },
+                { text: "공적 사항", value: "2" },
+                { text: "시행처", value: "3" },
+                { text: "포상번호", value: "4" }
+            ],
+            index: 0,
+            width: 300
+        });
+        fn_deptSetting();
+    },
+
+    gridReload: function(){
+        rewardReq.global.searchAjaxData = {
+            rewardTypeA : $("#rewardTypeA").val(),
+            rewardName : $("#rewardName").val(),
+            deptSeq : $("#dept").val(),
+            teamSeq : $("#team").val(),
+            start_date : $("#start_date").val().replace(/-/g, ""),
+            end_date : $("#end_date").val().replace(/-/g, ""),
+            searchType : $("#searchType").val(),
+            searchText : $("#searchText").val()
+        }
+        rewardReq.mainGrid("/inside/getRewardList", rewardReq.global.searchAjaxData);
+    },
+
+    mainGrid: function(url, params) {
+        let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
-                read : {
-                    url : '/inside/getRewardList',
-                    dataType : "json",
-                    type : "post"
+                read: {
+                    url: url,
+                    dataType: "json",
+                    type: "post"
                 },
-                parameterMap: function(data) {
-                    data.rewardTypeA = $("#rewardTypeA").val();
-                    data.rewardName = $("#rewardName").val();
-                    data.deptSeq = $("#dept").val();
-                    data.teamSeq = $("#team").val();
-                    data.start_date = $("#start_date").val().replace(/-/g, "");
-                    data.end_date = $("#end_date").val().replace(/-/g, "");
-                    data.searchType = $("#searchType").val();
-                    data.searchText = $("#searchText").val();
+                parameterMap: function(data){
+                    for(var key in params){
+                        data[key] = params[key];
+                    }
                     return data;
                 }
             },
-            schema : {
-                data: function (data) {
+            schema: {
+                data: function (data){
                     return data.list;
                 },
-                total: function (data) {
+                total: function (data){
                     return data.list.length;
                 },
             },
-            pageSize: 10,
+            pageSize: 10
         });
 
         $("#mainGrid").kendoGrid({
@@ -54,7 +133,7 @@ var rewardReq = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rewardReq.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -144,84 +223,6 @@ var rewardReq = {
         }).data("kendoGrid");
     },
 
-    dataSet: function() {
-        customKendo.fn_textBox(["searchText"])
-        $("#start_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
-
-        $("#end_date").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-
-       /* let statusDataSource = [
-            { text: "내부표창", value: "내부표창" },
-            { text: "외부표창", value: "외부표창" }
-        ]
-        customKendo.fn_dropDownList("rewardTypeA", statusDataSource, "text", "value", 2);*/
-
-        $("#rewardTypeA").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "선택하세요", value: "" },
-                { text: "내부", value: "0" },
-                { text: "외부", value: "1" }
-            ],
-            index: 0,
-            width: 300,
-            change: function(e) {
-                //var selectedValue = this.text();
-                //let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeListReward", { cmGroupCodeId: "32", specificValue: selectedValue });
-                //console.log("rewardDataSource",rewardDataSource);
-                //customKendo.fn_dropDownList("rewardName", rewardDataSource, "CM_CODE_NM", "CM_CODE", "2");
-                if(this.value()){
-                    let rewardDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "32"});
-                    rewardDataSource = rewardDataSource.filter(e => e.CM_CODE_DESC.indexOf(this.text()) > -1);
-                    rewardDataSource.unshift({CM_CODE_NM : "선택하세요", CM_CODE : ""});
-                    $("#rewardName").kendoDropDownList({
-                        dataTextField: "CM_CODE_NM",
-                        dataValueField: "CM_CODE",
-                        dataSource: rewardDataSource,
-                        index: 0
-                    });
-                }
-            }
-        });
-
-        //customKendo.fn_dropDownList("rewardName", [], "CM_CODE_NM", "CM_CODE", "2");
-        $("#rewardName").kendoDropDownList({
-            dataTextField: "CM_CODE_NM",
-            dataValueField: "CM_CODE",
-            dataSource: [{
-                CM_CODE_NM : "선택하세요", CM_CODE : ""
-            }],
-            index: 0
-        });
-
-        $("#searchType").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: "성명", value: "1" },
-                { text: "공적 사항", value: "2" },
-                { text: "시행처", value: "3" },
-                { text: "포상번호", value: "4" }
-            ],
-            index: 0,
-            width: 300
-        });
-        fn_deptSetting();
-    },
-
     rewardReqBatchPop : function(mode, pk) {
         var url = "/Inside/pop/rewardReqBatchPop.do";
         if(mode == "upd"){
@@ -238,4 +239,8 @@ var rewardReq = {
         var option = "width=550, height=450, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
+}
+
+function gridReload(){
+    rewardReq.gridReload();
 }
