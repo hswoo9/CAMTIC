@@ -352,7 +352,7 @@
             OR (DIVISION IN(4) AND DIVISION_SUB IN(3))
             )
           AND WORK_STATUS_CODE = 'Y'
-          AND VEI.DEPT_SEQ = '1221'
+          AND VEI.DEPT_SEQ = '1228'
         ORDER BY DUTY_CODE DESC, EMP_NAME_KR ASC
     </select>
 
