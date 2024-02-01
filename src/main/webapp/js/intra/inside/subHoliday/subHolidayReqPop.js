@@ -185,7 +185,7 @@ var subHolidayReqPop = {
 
                     while(true) {
                         var temp_date = firstDateObj;
-                        if(temp_date.getTime() > secondDateObj.getTime()) {
+                        if(temp_date.getTime() > secondDateObj.getTime() || $("#edtHolidayKindTop").val() == "8") {
                             break;
                         } else {
                             var tmp = temp_date.getDay();

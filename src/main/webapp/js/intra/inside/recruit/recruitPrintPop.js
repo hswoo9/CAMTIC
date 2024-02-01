@@ -120,15 +120,15 @@ const recruitPrintPop = {
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="5.5" style="border-collapse: collapse; margin: 0px;">';
         html += '               <tr>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 55px;"><p style="font-size:12px;font-family:바탕체;"><b>번호</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;font-family:바탕체;"><b>성명</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;font-family:바탕체;"><b>연령</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;font-family:바탕체;"><b>성별</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 150px;"><p style="font-size:12px;font-family:바탕체;"><b>학력</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 75px;"><p style="font-size:12px;font-family:바탕체;"><b>경력</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;font-family:바탕체;"><b>직무관련\n자격/면혀증</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 195px;"><p style="font-size:12px;font-family:바탕체;"><b>외국어\n점수</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center; width: 95px;"><p style="font-size:12px;font-family:바탕체;"><b>비고</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#F2F2F2; text-align:center; width: 55px;"><p style="font-size:15px;font-family:바탕체;"><b>번호</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#F2F2F2; text-align:center; width: 95px;"><p style="font-size:15px;font-family:바탕체;"><b>성명</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#F2F2F2; text-align:center; width: 75px;"><p style="font-size:15px;font-family:바탕체;"><b>연령</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#F2F2F2; text-align:center; width: 75px;"><p style="font-size:15px;font-family:바탕체;"><b>성별</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#F2F2F2; text-align:center; width: 150px;"><p style="font-size:15px;font-family:바탕체;"><b>학력</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#F2F2F2; text-align:center; width: 75px;"><p style="font-size:15px;font-family:바탕체;"><b>경력</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#F2F2F2; text-align:center; width: 195px;"><p style="font-size:15px;font-family:바탕체;"><b>직무관련\n자격/면혀증</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#F2F2F2; text-align:center; width: 195px;"><p style="font-size:15px;font-family:바탕체;"><b>외국어\n점수</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#F2F2F2; text-align:center; width: 95px;"><p style="font-size:15px;font-family:바탕체;"><b>비고</b></p></td>';
         html += '               </tr>';
         for(let i=0;  i < recruitArray.length; i++){
             const map = recruitArray[i];
