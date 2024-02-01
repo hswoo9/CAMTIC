@@ -19,18 +19,19 @@ var employmentManage = {
 			status : $("#status").val(),
 			empName : $("#empName").val()
 		}
-		employmentManage.mainGrid('/userManage/getEmploymentContList.do',employmentManage.global.searchAjaxData);
+		employmentManage.mainGrid('/userManage/getEmploymentContList.do', employmentManage.global.searchAjaxData);
 	},
 
 	mainGrid : function(url, params) {
 		var record = 0;
+
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             scrollable: true,
             height: 508,
             pageable : {
                 refresh : true,
-				pageSizes: [10, 20, "ALL"],
+				pageSizes: [10, 20, 100],
                 buttonCount : 5
             },
             toolbar : [
@@ -226,7 +227,7 @@ var employmentManage = {
 			start: "month",
 			culture : "ko-KR",
 			format : "yyyy-MM-dd",
-			value : new Date(now.setMonth(now.getMonth() - 1))
+			value : new Date('2024-01-01')
 		});
 
 		$("#endDate").kendoDatePicker({

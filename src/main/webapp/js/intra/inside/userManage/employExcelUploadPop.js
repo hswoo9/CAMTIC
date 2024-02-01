@@ -29,7 +29,7 @@ var employExcel = {
         formData.append("salaryFile", $("#file")[0].files[0]);
         formData.append("empSeq", $("#empSeq").val());
 
-
+        debugger;
         if(confirm("엑셀을 업로드 하시겠습니까?")){
             var result = customKendo.fn_customFormDataAjax(url, formData);
             if(result.flag){

@@ -790,7 +790,7 @@ public class UserManageController {
     @RequestMapping("/Inside/employmentReq.do")
     public String employmentReq(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        menuSession(request, session);
+        session.setAttribute("menuNm", request.getRequestURI());
 
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
@@ -807,7 +807,7 @@ public class UserManageController {
     @RequestMapping("/inside/employmentManage.do")
     public String employmentManage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        menuSession(request, session);
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("toDate", getCurrentDateTime());
