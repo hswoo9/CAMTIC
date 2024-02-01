@@ -37,8 +37,8 @@ var employmentManage = {
 				{
 					name : 'button',
 					template : function (e){
-						return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="employmentManage.gridReload()">' +
-							'	<span class="k-button-text">조회</span>' +
+						return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="employmentManage.setSalaryContractDel()">' +
+							'	<span class="k-button-text">삭제</span>' +
 							'</button>';
 					}
 				}, {
@@ -72,8 +72,15 @@ var employmentManage = {
                 }, {
                     name: 'excel',
                     text: '엑셀다운로드'
-                }
-            ],
+                },  {
+					name : 'button',
+					template : function (e){
+						return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="employmentManage.gridReload()">' +
+							'	<span class="k-button-text">조회</span>' +
+							'</button>';
+					}
+				}
+			],
             excel: {
 	 	        fileName:  '연봉근로계약서 리스트.xlsx',
 	 	        allPages: true
@@ -84,8 +91,16 @@ var employmentManage = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="employmentManage.selectAllcheck()"/>',
-                    template : "<input type='checkbox' id='btnCheck' name='btnCheck' value='#=SALARY_CONTRACT_ID#' class='tdCheckBox'/>",
-                    width: 50
+                    width: 50,
+					template : function (e) {
+						console.log(e);
+						if (e.SEND_YN == "Y"){
+							return '';
+						}else{
+							return '<input type="checkbox" id="scChk#=SALARY_CONTRACT_ID#" name="scChk" value='+ e.SALARY_CONTRACT_ID +' class="tdCheckBox"/>';
+						}
+
+					}
                 }, {
                     field: "",
                     title: "번호",    /*template : "<input type='checkbox' id='eqmnUsePk#=EQIPMN_USE_SN#' name='eqmnUsePk' value='#=EQIPMN_USE_SN#' class='k-checkbox checkbox'/>",*/
@@ -254,6 +269,32 @@ var employmentManage = {
 
 		employmentManage.gridReload()
 	},
+
+	setSalaryContractDel : function(){
+		if($("input[name='scChk']:checked").length == 0){
+			alert("삭제할 연봉계약을 선택해주세요.");
+			return
+		}
+
+		if(confirm("선택한 연봉계약를 삭제하시겠습니까?")){
+			var salaryContractId = "";
+
+			$.each($("input[name='scChk']:checked"), function(){
+				salaryContractId += "," + $(this).val()
+			})
+
+			var data = {
+				regEmpSeq : $("#empSeq").val(),
+				salaryContractId : salaryContractId.substring(1)
+			}
+
+			var result = customKendo.fn_customAjax("/userManage/setSalaryContractDel.do", data);
+			if(result.flag){
+				alert("처리되었습니다.");
+				employmentManage.gridReload();
+			}
+		}
+	}
 }
 
 function gridReload(){

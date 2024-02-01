@@ -565,7 +565,7 @@
                                             <td>${status.index + 1}</td>
                                             <td>${l.APNT_NAME}</td>
                                             <td>${l.historyDt}</td>
-                                            <td>${l.AF_DEPT_NAME} ${l.AF_DEPT_TEAM} ${l.AF_POSITION_NAME} ${l.AF_DUTY_NAME}</td>
+                                            <td>${l.AF_DEPT_NAME} ${l.AF_TEAM_NAME} ${l.AF_POSITION_NAME} ${l.AF_DUTY_NAME}</td>
                                             <td>${l.ETC}</td>
                                         </tr>
                                     </c:forEach>

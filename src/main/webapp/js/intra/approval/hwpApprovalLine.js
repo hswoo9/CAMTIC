@@ -50,11 +50,11 @@ var hwpApprovalLine = {
             let appArr = [];
             if(empData != null){
                 /**부서장 전결*/
-                if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장"){
+                if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장" || empData.approveDutyName == "센터장" || empData.approveDutyName == "실장"){
                     appArr = ["", "전결", ""];
 
                 /**팀장 전결*/
-                }else if(empData.approveDutyName == "팀장"){
+                }else if(empData.approveDutyName == "팀장" || empData.approveDutyName == "팀장 직무대리"){
                     appArr = ["전결", "공란", ""];
                 }
             }
@@ -101,14 +101,14 @@ var hwpApprovalLine = {
 
                 }else if(map.APPROVE_TYPE == "0" || map.APPROVE_TYPE == "2"){
 
-                    if(map.APPROVE_DUTY_NAME == "팀장"){
+                    if(map.APPROVE_DUTY_NAME == "팀장" || map.APPROVE_DUTY_NAME == "팀장 직무대리"){
                         let field = "docAppr1";
                         let field2 = "docAppr1011";
                         hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
                         if(map.APPROVE_STAT_CODE == 101){
                             hwpDocCtrl.putFieldText(field2, "전결");
                         }
-                    }else if(map.APPROVE_DUTY_NAME == "본부장" || map.APPROVE_DUTY_NAME == "사업부장" || map.APPROVE_DUTY_NAME == "센터장"){
+                    }else if(map.APPROVE_DUTY_NAME == "본부장" || map.APPROVE_DUTY_NAME == "사업부장" || map.APPROVE_DUTY_NAME == "센터장" || map.APPROVE_DUTY_NAME == "실장"){
                         let field = "docAppr2";
                         let field2 = "docAppr1012";
                         hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
@@ -185,13 +185,36 @@ var hwpApprovalLine = {
                 }
             }
 
+            /** 기안자 사인 */
+            if ((list.length > 1 && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[1].APPROVE_EMP_SEQ && list[0].APPROVE_STAT_CODE == 10)
+                || list.length == 1) {
+                const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[0].APPROVE_EMP_SEQ});
+                if(result.data.signImg != null){
+                    const imgMap = result.data.signImg;
+
+                    hwpDocCtrl.moveToField("apprZ0", true, true, false);
+                    hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                        ip + imgMap.file_path + imgMap.file_uuid,
+                        true, 3, false, false, 0, 0, function(ctrl){
+                            if(ctrl){
+                                console.log('성공');
+                            }else{
+                                console.log('실패');
+                            }
+                        });
+                }else{
+                    hwpDocCtrl.putFieldText('apprZ0', list[0].APPROVE_EMP_NAME);
+                }
+            }
+
+
             let appArr = [];
             /** 부서장 전결 */
-            if(empData.APPROVE_DUTY_NAME == "본부장" || empData.APPROVE_DUTY_NAME == "사업부장"){
+            if(empData.APPROVE_DUTY_NAME == "본부장" || empData.APPROVE_DUTY_NAME == "사업부장" || empData.APPROVE_DUTY_NAME == "센터장" || empData.APPROVE_DUTY_NAME == "실장"){
                 appArr = ["sigh1", "전결", "sigh2"];
                 let teamCk = "N";
                 for (let i = 0; i < list.length; i++) {
-                    if (list[i].APPROVE_DUTY_NAME == "팀장" && list[i].APPROVE_TYPE != "1" && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
+                    if ((list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1" && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
                         teamCk = "Y";
                         if(list[i].APPROVE_STAT_CODE == 20){
                             const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
@@ -218,7 +241,8 @@ var hwpApprovalLine = {
                 for(let i=0; i<list.length; i++){
                     if((list[i].APPROVE_DUTY_NAME == "본부장"
                     || list[i].APPROVE_DUTY_NAME == "센터장"
-                    || list[i].APPROVE_DUTY_NAME == "사업부장") && (list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101)){
+                    || list[i].APPROVE_DUTY_NAME == "사업부장"
+                        || list[i].APPROVE_DUTY_NAME == "실장") && (list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101)){
                         const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
                         if(result.data.signImg != null){
                             const imgMap = result.data.signImg;
@@ -268,7 +292,7 @@ var hwpApprovalLine = {
                 }
 
             /** 팀장 전결 */
-            }else if(empData.APPROVE_DUTY_NAME == "팀장"){
+            }else if(empData.APPROVE_DUTY_NAME == "팀장" || empData.APPROVE_DUTY_NAME == "팀장 직무대리"){
                 appArr = ["전결", "공란", "sigh1"];
                 for(let i=0; i<list.length; i++){
                     if(list[i].APPROVE_STAT_CODE == 100 || list[i].APPROVE_STAT_CODE == 101){
@@ -321,7 +345,7 @@ var hwpApprovalLine = {
                 let teamCk = "N";
                 let deptCk = "N";
                 for (let i = 0; i < list.length; i++) {
-                    if (list[i].APPROVE_DUTY_NAME == "팀장" && list[i].APPROVE_TYPE != "1" && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
+                    if ((list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1" && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
                         teamCk = "Y";
                         if(list[i].APPROVE_STAT_CODE == 20){
                             const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});
@@ -348,7 +372,8 @@ var hwpApprovalLine = {
                 for(let i=0; i<list.length; i++){
                     if((list[i].APPROVE_DUTY_NAME == "본부장"
                         || list[i].APPROVE_DUTY_NAME == "센터장"
-                        || list[i].APPROVE_DUTY_NAME == "사업부장") && list[i].APPROVE_TYPE != "1" && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ){
+                        || list[i].APPROVE_DUTY_NAME == "사업부장"
+                        || list[i].APPROVE_DUTY_NAME == "실장") && list[i].APPROVE_TYPE != "1" && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ){
                         deptCk = "Y";
                         if(list[i].APPROVE_STAT_CODE == 20){
                             const result = customKendo.fn_customAjax("/user/getSign", {empSeq: list[i].APPROVE_EMP_SEQ});

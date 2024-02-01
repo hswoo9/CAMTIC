@@ -128,7 +128,7 @@ var approvalLine = {
             userArr.push(userInfo);
 
         /** 기안자가 부서장급 일때 */
-        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4"){
+        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "7"){
             const level = approvalLine.global.headLevel;
 
             if(level == 0 || level == null){
@@ -283,6 +283,9 @@ var approvalLine = {
                 amt = ResultData.EDU_MONEY;
             }
             requestAmt = Number(amt);
+            if(amt == null){
+                requestAmt = 0;
+            }
         }else if(data.menuCd == "purc"){
             const purcSn = data.approKey.split("_")[1];
 
@@ -298,6 +301,10 @@ var approvalLine = {
                 amt = ResultData.PURC_ITEM_AMT_SUM;
             }
             requestAmt = Number(amt);
+
+            if(amt == null){
+                requestAmt = 0;
+            }
         }else if(data.menuCd == "claim"){
             const claimSn = data.approKey.split("_")[1];
 
@@ -313,6 +320,9 @@ var approvalLine = {
                 amt = ResultData.TOT_AMT;
             }
             requestAmt = Number(amt);
+            if(amt == null){
+                requestAmt = 0;
+            }
         }else if(data.menuCd == "exnp"){
             const exnpSn = data.approKey.split("_")[1];
 
@@ -328,6 +338,9 @@ var approvalLine = {
                 amt = ResultData.TOT_COST;
             }
             requestAmt = Number(amt);
+            if(amt == null){
+                requestAmt = 0;
+            }
         }
 
         if(payCkList.length == 0){
@@ -364,7 +377,7 @@ var approvalLine = {
             userArr.push(userInfo);
 
         /** 기안자가 부서장급 일때 */
-        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4"){
+        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "7"){
 
             if(level == 0 || level == null){
                 return;
