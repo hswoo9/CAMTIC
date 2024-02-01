@@ -310,21 +310,25 @@ var invenStAdmin = {
 
     gridReload: function (){
 
-        var date = new Date();
+        var date = new Date($("#searchDt").val());
+        date.setMonth(date.getMonth() - 1);
+
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
+        var day = date.getDate();
 
-        var befDate = new Date();
-        befDate.setMonth(befDate.getMonth() - 1);
+        var befDate = new Date($("#searchDt").val());
+        befDate.setMonth(befDate.getMonth() - 2);
         let befYear    = befDate.getFullYear();
         let befMonth   = befDate.getMonth() +  1;
+        var befDay = befDate.getDate();
 
-        var lastDay = new Date(year, month, 0);
-        var befLastDay = new Date(befYear, befMonth, 0);
+        var lastDay = new Date(year, month, day);
+        var befLastDay = new Date(befYear, befMonth, befDay);
         invenStAdmin.global.searchAjaxData = {
             searchDt : $("#searchDt").val(),
-            nowMon : lastDay.getFullYear() + "-" + ('0' + ((lastDay.getMonth() + 1))).slice(-2) + "-" + lastDay.getDate(),
-            befMon : befLastDay.getFullYear() + "-" + ('0' + ((befLastDay.getMonth() + 1))).slice(-2) + "-" + befLastDay.getDate(),
+            nowMon : lastDay.getFullYear() + "-" + ('0' + ((lastDay.getMonth() + 1))).slice(-2) + "-" + ('0' + (lastDay.getDate())).slice(-2), //lastDay.getDate(),
+            befMon : befLastDay.getFullYear() + "-" + ('0' + ((befLastDay.getMonth() + 1))).slice(-2) + "-" + ('0' + (befLastDay.getDate())).slice(-2), //befLastDay.getDate(),
         };
 
 
