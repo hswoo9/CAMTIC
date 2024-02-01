@@ -10,8 +10,8 @@
         <if test="parentDeptSeq != null and parentDeptSeq != ''">
         AND
             PARENT_DEPT_SEQ = #{parentDeptSeq}
-        AND USE_YN = 'Y'
         </if>
+        AND USE_YN = 'Y'
         ORDER BY DEPT_LEVEL, ORDER_SN
     </select>
 
