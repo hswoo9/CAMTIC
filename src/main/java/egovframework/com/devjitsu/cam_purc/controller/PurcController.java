@@ -407,6 +407,11 @@ public class PurcController {
         return "popup/cam_manager/docPrint/orderPrintPop";
     }
 
+    @RequestMapping("/purc/pop/orderSendMailPop.do")
+    public String orderSendMailPop(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+        return "popup/cam_purc/mng/orderSendMailPop";
+    }
 
     /** 하나의 프로젝트에 대한 모든 구매 합계 pjtSn */
     @RequestMapping("/purc/getPurcSum")

@@ -8,20 +8,25 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Map;
 import java.util.Properties;
 
 public class MailUtil {
 
-    public void sendMail(String SMTPServer, int SMTPPort, String SMTPID, String SMTPPW) throws AddressException, MessagingException {
+    public void sendMail(Map<String, Object> params, String SMTPServer, int SMTPPort, String SMTPID, String SMTPPW) throws AddressException, MessagingException {
         String host = SMTPServer;
         int port = SMTPPort;
 
         String email = SMTPID;
         String password = SMTPPW;
 
-        String recipient = "anhan0804@naver.com";
-        String subject = "TEST";
-        String contents = "내용";
+//        String recipient = "anhan0804@naver.com";
+//        String subject = "TEST";
+//        String contents = "내용";
+
+        String recipient = params.get("receiveEml").toString();
+        String subject = params.get("subject").toString();
+        String contents = params.get("contents").toString();
 
         // SMTP 서버 설정 정보 세팅
         Properties props = System.getProperties();

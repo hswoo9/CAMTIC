@@ -393,11 +393,11 @@ public class CommonController {
         return "jsonView";
     }
 
-    @RequestMapping("/test/testMail")
-    public String testMail(Model model) throws MessagingException {
+    @RequestMapping("/common/sendMail")
+    public String sendMail(@RequestParam Map<String, Object> params, Model model) throws MessagingException {
 
         MailUtil mailUtil = new MailUtil();
-        mailUtil.sendMail(SMTPServer, SMTPPort, SMTPID, SMTPPW);
+        mailUtil.sendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
 
         model.addAttribute("rs", "SUCCESS");
         return "jsonView";

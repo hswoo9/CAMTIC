@@ -441,12 +441,13 @@ const reqOr = {
     fn_OrderBtnSet : function(orderMap){
 
         let buttonHtml = "";
-        buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave()">발주 저장</button>';
+        buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave()">발주 저장</button>';
         if(orderMap.ORDER_CK != "Y"){
         }else{
-            buttonHtml += '<button type="button" id="printBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="reqOr.fn_orderPrint()">인쇄</button>';
+            buttonHtml += '<button type="button" id="sendBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-base" onclick="reqOr.fn_sendMailPop()">메일 전송</button>';
+            buttonHtml += '<button type="button" id="printBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-base" onclick="reqOr.fn_orderPrint()">인쇄</button>';
         }
-        buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
+        buttonHtml += '<button type="button" class="k-button k-button-solid-error" style="font-size: 12px;" onclick="window.close()">닫기</button>';
 
         $("#reqPurcBtnDiv").html(buttonHtml);
     },
@@ -456,6 +457,14 @@ const reqOr = {
         var url = "/purc/pop/orderPrintPop.do?claimSn="+claimSn;
         var name = "orderPrintPop";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    },
+
+    fn_sendMailPop : function(){
+        let claimSn = $("#claimSn").val();
+        var url = "/purc/pop/orderSendMailPop.do?claimSn="+claimSn;
+        var name = "sendMailPop";
+        var option = "width=960, height=480, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
     }
 }
