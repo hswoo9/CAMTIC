@@ -163,8 +163,8 @@ var employmentManage = {
         }).data("kendoGrid");
 
 		$("#checkAll").click(function(){
-			if($(this).is(":checked")) $("input[name=btnCheck]").prop("checked", true);
-			else $("input[name=btnCheck]").prop("checked", false);
+			if($(this).is(":checked")) $("input[name=scChk]").prop("checked", true);
+			else $("input[name=scChk]").prop("checked", false);
 		});
     },
 
@@ -176,7 +176,7 @@ var employmentManage = {
 	},
 
 	sendSalaryWorkerReq : function(){
-		if($("input[name='btnCheck']:checked").length == 0){
+		if($("input[name='scChk']:checked").length == 0){
 			alert("발송할 데이터를 선택해주세요.");
 			return;
 		}else if(!confirm("발송하시겠습니까?")){
@@ -184,7 +184,7 @@ var employmentManage = {
 		}
 
 		employmentManage.global.chkArr = [];
-		$("input[name='btnCheck']").each(function(){
+		$("input[name='scChk']").each(function(){
 			if(this.checked){
 				employmentManage.global.chkArr.push(this.value);
 			}

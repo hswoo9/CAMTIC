@@ -621,7 +621,7 @@
                 });
 
                 if (result.list.length > 0) {
-                    var recentPosts = result.list.slice(0, 3);
+                    var recentPosts = result.list.slice(0, 7);
                     for (var i = 0; i < recentPosts.length; i++) {
                         console.log(recentPosts);
                         var article = result.list[i];

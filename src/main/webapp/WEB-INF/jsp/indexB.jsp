@@ -540,6 +540,13 @@
         $("#schedule3Ul").append(html);
     }
 
+    function bustripDetail(hrBizReqId){
+        let url = "/bustrip/pop/bustripReqPop.do?hrBizReqId="+hrBizReqId;
+        let name = "bustripReqPop";
+        let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        window.open(url, name, option);
+    }
+
     function formatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
@@ -609,7 +616,7 @@
                 });
 
                 if (result.list.length > 0) {
-                    var recentPosts = result.list.slice(0, 3);
+                    var recentPosts = result.list.slice(0, 7);
                     for (var i = 0; i < recentPosts.length; i++) {
                         console.log(recentPosts);
                         var article = result.list[i];
