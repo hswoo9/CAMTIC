@@ -396,6 +396,8 @@ public class CommonController {
     @RequestMapping("/common/sendMail")
     public String sendMail(@RequestParam Map<String, Object> params, Model model) throws MessagingException {
 
+
+
         MailUtil mailUtil = new MailUtil();
         mailUtil.sendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
 

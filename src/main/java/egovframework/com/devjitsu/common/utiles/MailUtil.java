@@ -1,13 +1,14 @@
 package egovframework.com.devjitsu.common.utiles;
 
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import java.io.File;
 import java.util.Map;
 import java.util.Properties;
 
@@ -20,7 +21,7 @@ public class MailUtil {
         String email = SMTPID;
         String password = SMTPPW;
 
-//        String recipient = "anhan0804@naver.com";
+//        String recipient = "anhan0804@dev-jitsu.com";
 //        String subject = "TEST";
 //        String contents = "내용";
 
@@ -54,6 +55,12 @@ public class MailUtil {
         //MimeMessage 생성 & 메일 세팅
         Message mimeMessage = new MimeMessage(session);
         mimeMessage.setFrom(new InternetAddress(email)); // 발신자
+
+        File file = new File("");
+        FileDataSource fds = new FileDataSource(file.getAbsolutePath());
+
+        mimeMessage.setDataHandler(new DataHandler(fds));
+        mimeMessage.setFileName(file.getName());
 
         /** 다중 보낼때
          * recipient 에 스트링 배열
