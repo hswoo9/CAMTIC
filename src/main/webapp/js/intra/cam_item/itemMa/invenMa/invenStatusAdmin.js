@@ -311,12 +311,14 @@ var invenStAdmin = {
     gridReload: function (){
 
         var date = new Date($("#searchDt").val());
+        date.setMonth(date.getMonth() - 1);
+
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
         var day = date.getDate();
 
         var befDate = new Date($("#searchDt").val());
-        befDate.setMonth(befDate.getMonth() - 1);
+        befDate.setMonth(befDate.getMonth() - 2);
         let befYear    = befDate.getFullYear();
         let befMonth   = befDate.getMonth() +  1;
         var befDay = befDate.getDate();
