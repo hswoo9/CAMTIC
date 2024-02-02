@@ -464,7 +464,7 @@ const reqOr = {
         let claimSn = $("#claimSn").val();
         var url = "/purc/pop/orderSendMailPop.do?claimSn="+claimSn;
         var name = "sendMailPop";
-        var option = "width=960, height=480, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var option = "width=960, height=620, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
     }
 }

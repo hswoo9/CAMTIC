@@ -1,68 +1,56 @@
 const orderSendMail = {
 
     global : {
-
+        attFiles : [],
     },
 
     fn_defaultScript : function(){
         orderSendMail.fn_pageSet();
-        // reqOr.fn_dataSet();
+        orderSendMail.fn_dataSet();
     },
 
     fn_pageSet : function(){
-        customKendo.fn_textBox(["receiveEml" ,"sendEml", "subject", "contents"]);
-        customKendo.fn_textArea(["significant"]);
+        customKendo.fn_textBox(["receiveEml" ,"sendEml", "subject", "contents", "fileList"]);
+        $("#contents").kendoTextArea({
+            rows : 10,
+            value : "당 법인 발주서를 첨부합니다.\n확인 후 납품 진행 부탁드립니다."
+        });
     },
 
     fn_dataSet : function(){
         const result = customKendo.fn_customAjax("/purc/getPurcClaimData", {
-            claimSn : $("#claimSn").val(),
-            purcSn : $("#purcSn").val()
+            claimSn : $("#claimSn").val()
         });
-        const orderMap = result.data;
+        const rs = result.data;
 
-        $("#purcDeptName").text(orderMap.DEPT_NAME);
-        $("#purcEmpName").text(orderMap.EMP_NAME_KR);
+        $("#crmSn").val(rs.CRM_SN);
+        $("#crmNm").text(rs.CRM_NM);
+        // $("#receiveEml").val(rs.CRM_EMAIL);
 
-        $("#estAmt").val(comma(orderMap.EST_AMT));
-        $("#vatAmt").val(comma(orderMap.VAT_AMT));
-        $("#totAmt").val(comma(orderMap.TOT_AMT));
-
-        $("#vat").data("kendoRadioGroup").value(orderMap.VAT);
-
-        $("#expType").data("kendoRadioGroup").value(orderMap.EXP_TYPE);
-
-        $("#purcType").data("kendoRadioGroup").value(orderMap.PURC_TYPE);
-        if($("input[name='purcType']:checked").val() != ""){
-            $("#project").css("display", "");
-            $("#pjtNm").text(orderMap.PJT_NM);
-        } else {
-            $("#project").css("display", "none");
-        }
-
-        this.fn_setClaimItem(orderMap);
-        reqOr.fn_OrderBtnSet(orderMap);
-
-        if(orderMap.ORDER_CK == "Y"){
-            $("#orderDt").val(orderMap.ORDER_DT);
-            $("#goodsDt").val(orderMap.GOODS_DT);
-            $("#PHNum").val(orderMap.PH_NUM);
-            $("#FaxNum").val(orderMap.FAX_NUM);
-            $("#significant").val(orderMap.SIGNIFICANT);
-        }
+        $("#subject").val("CAMTIC 발주서 - " + rs.CRM_NM);
+        $("#sendEml").val(rs.EMAIL_ADDR);
     },
 
     fn_sendMail : function(){
-        var data = {
-            purcSn : $("#purcSn").val(),
-            claimSn : $("#claimSn").val(),
-            receiveEml : $("#receiveEml").val(),
-            sendEml : $("#sendEml").val(),
-            subject : $("#subject").val(),
-            contents : $("#contents").val()
+        var formData = new FormData();
+
+        formData.append("purcSn", $("#purcSn").val());
+        formData.append("claimSn", $("#claimSn").val());
+        formData.append("crmSn", $("#crmSn").val());
+        formData.append("crmNm", $("#crmNm").text());
+        formData.append("receiveEml", $("#receiveEml").val());
+        formData.append("sendEml", $("#sendEml").val());
+        formData.append("subject", $("#subject").val());
+        formData.append("contents", $("#contents").val());
+        formData.append("regEmpSeq", $("#regEmpSeq").val());
+
+        if(orderSendMail.global.attFiles != null){
+            for(var i = 0; i < orderSendMail.global.attFiles.length; i++){
+                formData.append("fileList", orderSendMail.global.attFiles[i]);
+            }
         }
 
-        const result = customKendo.fn_customAjax("/common/sendMail", data);
+        const result = customKendo.fn_customFormDataAjax("/purc/orderSendMail.do", formData);
         if(result.flag){
             var rs = result.rs;
             if(rs == "SUCCESS"){
@@ -71,5 +59,64 @@ const orderSendMail = {
             }
         }
 
+    },
+
+    fileChange : function(){
+
+        for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
+            orderSendMail.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+        }
+
+        $("#fileName").empty();
+        if(orderSendMail.global.attFiles.length > 0){
+            var html = '';
+            for (var i = 0; i < orderSendMail.global.attFiles.length; i++) {
+                if(i>0){
+                    html += ' | ';
+                }
+                html += orderSendMail.global.attFiles[i].name.substring(0, orderSendMail.global.attFiles[i].name.lastIndexOf("."));
+                html += orderSendMail.global.attFiles[i].name.substring(orderSendMail.global.attFiles[i].name.lastIndexOf("."));
+                html += '<input type="button" value="X" class="" style="border: none; background-color: transparent; color: red; font-weight: bold;" onclick="orderSendMail.fnUploadFile(' + i + ')">';
+                html += '';
+            }
+
+            $("#fileName").append(html);
+        }
+    },
+
+    fnUploadFile : function(e) {
+        const dataTransfer = new DataTransfer();
+        let fileArray = Array.from(orderSendMail.global.attFiles);
+        fileArray.splice(e, 1);
+        fileArray.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        orderSendMail.global.attFiles = dataTransfer.files;
+
+        if(orderSendMail.global.attFiles.length > 0){
+            $("#fileName").empty();
+
+            var html = '';
+            for (var i = 0; i < orderSendMail.global.attFiles.length; i++) {
+                if(i>0){
+                    html += ' | ';
+                }
+                html += orderSendMail.global.attFiles[i].name.substring(0, orderSendMail.global.attFiles[i].name.lastIndexOf("."));
+                html += orderSendMail.global.attFiles[i].name.substring(orderSendMail.global.attFiles[i].name.lastIndexOf("."));
+                html += '<input type="button" value="X" class="" style="border: none; background-color: transparent; color: red; font-weight: bold;" onclick="orderSendMail.fnUploadFile(' + i + ')">';
+                html += '';
+            }
+
+            $("#fileName").append(html);
+        } else {
+            $("#fileName").empty();
+        }
+
+        if(orderSendMail.global.attFiles.length == 0){
+            orderSendMail.global.attFiles = new Array();
+        }
+
+        orderSendMail.global.attFiles = Array.from(orderSendMail.global.attFiles);
     },
 }

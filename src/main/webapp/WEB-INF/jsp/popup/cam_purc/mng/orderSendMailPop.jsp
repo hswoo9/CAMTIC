@@ -9,23 +9,23 @@
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/orderSendMailPop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
-<input type="hidden" id="claimSn" name="claimSn" value="${map.CLAIM_SN}">
-<input type="hidden" id="purcSn" name="purcSn" value="${params.purcSn}">
+<input type="hidden" id="claimSn" name="claimSn" value="${params.claimSn}">
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    메일 전송
+                    발주서 메일 전송
                 </span>
             </h3>
             <div id="reqPurcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" id="sendBtn" onclick="orderSendMail.fn_sendMail();">전송</button>
+                <button type="button" class="k-button k-button-solid-info" id="sendBtn" style="font-size: 12px;" onclick="orderSendMail.fn_sendMail();">전송</button>
+                <button type="button" class="k-button k-button-solid-error" style="font-size: 12px;" onclick="window.close()">닫기</button>
             </div>
         </div>
 
         <div style="padding: 20px 30px;">
-            <input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}">
+            <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}">
             <input type="hidden" id="loginDeptSeq" value="${loginVO.orgnztId}">
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
@@ -34,27 +34,42 @@
                 </colgroup>
                 <thead id="order">
                 <tr>
-                    <th scope="row" class="text-center th-color">수신자</th>
+                    <th scope="row" class="text-center th-color">업체명</th>
                     <td>
-                        <input type="text" id="receiveEml" class="receiveEml" value="${map.CRM_NM}" style="width: 100%">
+                        <span id="crmNm" class="crmNm"></span>
+                        <input type="hidden" id="crmSn" class="crmSn" />
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">발신자</th>
+                    <th scope="row" class="text-center th-color">받는메일 주소</th>
                     <td>
-                        <input type="text" id="sendEml" class="sendEml" value="${map.CRM_NM}" style="width: 100%">
+                        <input type="text" id="receiveEml" class="receiveEml" value="" style="width: 100%">
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">제목</th>
+                    <th scope="row" class="text-center th-color">메일제목</th>
                     <td>
-                        <input type="text" id="subject" class="subject" value="" style="width: 100%">
+                        <input type="text" id="subject" class="subject" value="CAMTIC 발주서 - " style="width: 100%">
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">내용</th>
+                    <th scope="row" class="text-center th-color">메일내용</th>
                     <td>
-                        <input type="text" id="contents" class="contents" value="" style="width: 100%">
+                        <textarea id="contents" class="contents" style="line-height: 180%;"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">첨부파일</th>
+                    <td>
+                        <label for="fileList" class="k-button k-button-solid-base">파일첨부</label>
+                        <input type="file" id="fileList" name="fileList" onchange="orderSendMail.fileChange()" style="display: none" multiple />
+                        <span id="fileName" name="fileName"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">발송메일 주소</th>
+                    <td>
+                        <input type="text" id="sendEml" class="sendEml" value="" style="width: 100%">
                     </td>
                 </tr>
                 </thead>

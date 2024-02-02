@@ -832,4 +832,37 @@ public class PurcServiceImpl implements PurcService {
     public List<Map<String, Object>> getHistPurcList(Map<String, Object> params) {
         return prjRepository.getHistPurcList(params);
     }
+
+    public void setOrderSendMailInfo(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
+
+        purcRepository.setOrderSendMailInfo(params);
+
+        MainLib mainLib = new MainLib();
+        if(fileList.length > 0){
+            params.put("menuCd", "orderMail");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("mailSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                String[] fileName = list.get(i).get("orgFilename").toString().split("[.]");
+                String fileOrgName = "";
+                for(int j = 0 ; j < fileName.length - 1 ; j++){
+                    fileOrgName += fileName[j] + ".";
+                }
+                fileOrgName = fileOrgName.substring(0, fileOrgName.length() - 1);
+                list.get(i).put("fileExt", fileName[fileName.length - 1]);
+                list.get(i).put("fileOrgName", fileOrgName);
+
+//                commonRepository.insFileInfoOne(list.get(i));
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    public List<Map<String, Object>> getOrderSendFileList (Map<String, Object> params){
+        return purcRepository.getOrderSendFileList(params);
+    }
 }

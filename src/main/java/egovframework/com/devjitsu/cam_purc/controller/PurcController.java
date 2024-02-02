@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.common.utiles.MailUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,11 +14,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +47,22 @@ public class PurcController {
 
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
+
+
+    @Value("#{properties['Dev.Mail.SMTPName']}")
+    private String SMTPName;
+    @Value("#{properties['Dev.Mail.SMTPMail']}")
+    private String SMTPMail;
+    @Value("#{properties['Dev.Mail.SMTPServer']}")
+    private String SMTPServer;
+    @Value("#{properties['Dev.Mail.SMTPPort']}")
+    private int SMTPPort;
+    @Value("#{properties['Dev.Mail.SMTPID']}")
+    private String SMTPID;
+    @Value("#{properties['Dev.Mail.SMTPPW']}")
+    private String SMTPPW;
+    @Value("#{properties['Dev.Mail.MailPath']}")
+    private String MailPath;
 
     /**
      * 구매요청관리 리스트
@@ -408,9 +429,35 @@ public class PurcController {
     }
 
     @RequestMapping("/purc/pop/orderSendMailPop.do")
-    public String orderSendMailPop(@RequestParam Map<String, Object> params, Model model){
+    public String orderSendMailPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
         return "popup/cam_purc/mng/orderSendMailPop";
+    }
+
+    @RequestMapping("/purc/orderSendMail.do")
+    public String orderSendMail(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws MessagingException, UnsupportedEncodingException {
+
+        MultipartFile[] file = request.getFiles("fileList").toArray(new MultipartFile[0]);
+        purcService.setOrderSendMailInfo(params, file, SERVER_DIR, BASE_DIR);
+
+        List<Map<String, Object>> fileArray = purcService.getOrderSendFileList(params);
+        params.put("fileArray", fileArray);
+
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("218.158.231.186")){
+            params.put("fileServer", "http://218.158.231.186");
+        } else{
+            params.put("fileServer", "http://218.158.231.184");
+        }
+
+        MailUtil mailUtil = new MailUtil();
+        mailUtil.orderSendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
+
+        model.addAttribute("rs", "SUCCESS");
+        return "jsonView";
     }
 
     /** 하나의 프로젝트에 대한 모든 구매 합계 pjtSn */

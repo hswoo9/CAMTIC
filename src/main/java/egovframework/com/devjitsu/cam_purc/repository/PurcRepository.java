@@ -233,4 +233,12 @@ public class PurcRepository extends AbstractDAO {
     public void insItemMasterHist(Map<String, Object> map) {
         insert("purc.insItemMasterHist", map);
     }
+
+    public void setOrderSendMailInfo(Map<String, Object> params) {
+        insert("purc.setOrderSendMailInfo", params);
+    }
+
+    public List<Map<String, Object>> getOrderSendFileList(Map<String, Object> params) {
+        return selectList("purc.getOrderSendFileList", params);
+    }
 }

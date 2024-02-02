@@ -85,4 +85,8 @@ public interface PurcService {
     Map<String, Object> getBasicSetting(Map<String, Object> params);
 
     List<Map<String, Object>> getHistPurcList(Map<String, Object> params);
+
+    void setOrderSendMailInfo(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
+
+    List<Map<String, Object>> getOrderSendFileList (Map<String, Object> params);
 }

@@ -656,10 +656,12 @@
         /*getPurcClaimData*/
         SELECT
             A.*,
+            B.EMAIL AS CRM_EMAIL,
             EI.EMP_SEQ,
             EI.EMP_NAME_KR,
             EI.POSITION_NAME,
             EI.DEPT_SEQ,
+            EI.EMAIL_ADDR,
             DI.DOC_NO,
             CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)) AS DEPT_NAME,
             DI.APPRO_KEY,
@@ -674,6 +676,8 @@
             DJ_CAMTIC.A_DOC_INFO DI
         ON
             A.DOC_ID = DI.DOC_ID
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO B
+        ON A.CRM_SN = B.CRM_SN
         WHERE
             1=1
             <if test='(claimSn == null or "".equals(claimSn)) and (purcSn == null or "".equals(purcSn))'>
@@ -1503,4 +1507,44 @@
                 DATE_FORMAT(now(), '%Y-%m-%d')
             )
     </insert>
+
+    <insert id="setOrderSendMailInfo" parameterType="map">
+        /*setOrderSendMailInfo*/
+        INSERT INTO CAM_MNG.DJ_ORDER_MAIL_INFO
+        (
+            CLAIM_SN,
+            CRM_SN,
+            CRM_NM,
+            RECEIVE_MAIL,
+            SEND_MAIL,
+            MAIL_SUBJECT,
+            MAIL_CONTENT,
+            SEND_DATE
+        )
+        VALUES
+        (
+            #{claimSn},
+            #{crmSn},
+            #{crmNm},
+            #{receiveEml},
+            #{sendEml},
+            #{subject},
+            #{contents},
+            NOW()
+        )
+
+        <selectKey keyProperty="mailSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_ORDER_MAIL_INFO'
+        </selectKey>
+    </insert>
+
+    <select id="getOrderSendFileList" parameterType="map" resultType="map">
+        /*getOrderSendFileList*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = 'orderMail' AND CONTENT_ID = #{mailSn}
+    </select>
 </mapper>
