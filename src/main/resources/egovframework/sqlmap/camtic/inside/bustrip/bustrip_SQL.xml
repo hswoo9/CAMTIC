@@ -407,7 +407,7 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-                FILE_CD in ('bustripReq', 'exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+                FILE_CD in ('bustripReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
           AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 
@@ -482,7 +482,7 @@
         DELETE FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-                FILE_CD in ('exnpTraf', 'exnpTrafDay', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+                FILE_CD in ('exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
           AND CONTENT_ID = IFNULL(#{hrBizReqResultId}, '')
     </delete>
 
@@ -696,6 +696,7 @@
         SET
             OIL_COST = #{oilCost},
             TRAF_COST = #{trafCost},
+            ROOM_COST = #{roomCost},
             TOLL_COST = #{tollCost},
             DAY_COST = #{dayCost},
             EAT_COST = #{eatCost},
@@ -722,6 +723,7 @@
                 EMP_NAME,
                 OIL_COST,
                 TRAF_COST,
+                ROOM_COST,
                 TOLL_COST,
                 DAY_COST,
                 EAT_COST,
@@ -743,6 +745,7 @@
                 #{empName},
                 #{oilCost},
                 #{trafCost},
+                #{roomCost},
                 #{tollCost},
                 #{dayCost},
                 #{eatCost},
@@ -1284,7 +1287,7 @@
                 IHBE.*,
                 (
                     (CASE WHEN IHBE.TRAF_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'Y' THEN REPLACE(IHBE.ROOM_COST, ',', '') ELSE 0 END)+
                     (CASE WHEN IHBE.TOLL_CORP_YN = 'Y' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
                     (CASE WHEN IHBE.EAT_CORP_YN = 'Y' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
                     (CASE WHEN IHBE.PARKING_CORP_YN = 'Y' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
@@ -1296,7 +1299,7 @@
                 (
                     (CASE WHEN IHBE.OIL_CORP_YN = 'N' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
                     (CASE WHEN IHBE.TRAF_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'N' THEN REPLACE(IHBE.ROOM_COST, ',', '') ELSE 0 END)+
                     (CASE WHEN IHBE.TOLL_CORP_YN = 'N' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
                     REPLACE(IHBE.DAY_COST, ',', '')+
                     (CASE WHEN IHBE.EAT_CORP_YN = 'N' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
@@ -1400,7 +1403,7 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            FILE_CD in ('exnpAttach')
+            FILE_CD in ('exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
         AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 

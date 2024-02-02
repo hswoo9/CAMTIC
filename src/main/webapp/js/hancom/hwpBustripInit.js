@@ -166,6 +166,7 @@ var busInit = {
         //총합
         let oilCostTotal = 0;
         let trafCostTotal = 0;
+        let roomCostTotal = 0;
         let tollCostTotal = 0;
         let dayCostTotal = 0;
         let eatCostTotal = 0;
@@ -180,15 +181,16 @@ var busInit = {
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="1" style="border-collapse: collapse; margin-top: 0px;">';
         html += '               <tr>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px"><p style="font-weight: bold;">이름</p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px"><p style="font-weight: bold;">유류비</p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px"><p style="font-weight: bold;">교통비</p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px"><p style="font-weight: bold;">통행료</p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px"><p style="font-weight: bold;">일비</p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px"><p style="font-weight: bold;">식비</p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px"><p style="font-weight: bold;">주차비</p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px"><p style="font-weight: bold;">기타</p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px"><p style="font-weight: bold;">합계</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">이름</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">유류비</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">교통비</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">숙박비</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">통행료</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">일비</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">식비</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">주차비</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">기타</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 63px"><p style="font-weight: bold;">합계</p></td>';
         html += '               </tr>';
 
         for(let i=0; i<list.length; i++){
@@ -197,6 +199,7 @@ var busInit = {
 
                 oilCostTotal += Number(list[i].OIL_COST.replace(/,/g, ""));
                 trafCostTotal += Number(list[i].TRAF_COST.replace(/,/g, ""));
+                roomCostTotal += Number(list[i].ROOM_COST.replace(/,/g, ""));
                 tollCostTotal += Number(list[i].TOLL_COST.replace(/,/g, ""));
                 dayCostTotal += Number(list[i].DAY_COST.replace(/,/g, ""));
                 eatCostTotal += Number(list[i].EAT_COST.replace(/,/g, ""));
@@ -211,6 +214,9 @@ var busInit = {
 
                 personTot += Number(list[i].TRAF_COST.replace(/,/g, ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].TRAF_COST+'</p></td>';
+
+                personTot += Number(list[i].ROOM_COST.replace(/,/g, ""));
+                html += '       <td style="height:25px;text-align:center;"><p>'+list[i].ROOM_COST+'</p></td>';
 
                 personTot += Number(list[i].TOLL_COST.replace(/,/g, ""));
                 html += '       <td style="height:25px;text-align:center;"><p>'+list[i].TOLL_COST+'</p></td>';
@@ -233,6 +239,7 @@ var busInit = {
             }else if(list[i].DIVISION == 2){
                 oilCostTotal += Number(list[i].OIL_COST.replace(/,/g, ""));
                 trafCostTotal += Number(list[i].TRAF_COST.replace(/,/g, ""));
+                roomCostTotal += Number(list[i].ROOM_COST.replace(/,/g, ""));
                 tollCostTotal += Number(list[i].TOLL_COST.replace(/,/g, ""));
                 dayCostTotal += Number(list[i].DAY_COST.replace(/,/g, ""));
                 eatCostTotal += Number(list[i].EAT_COST.replace(/,/g, ""));
@@ -243,6 +250,7 @@ var busInit = {
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">법인카드</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+ (list[i].OIL_COST ? list[i].OIL_COST : 0) +'</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+ (list[i].TRAF_COST ? list[i].TRAF_COST : 0) +'</p></td>';
+                html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+ (list[i].ROOM_COST ? list[i].ROOM_COST : 0) +'</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+ (list[i].TOLL_COST ? list[i].TOLL_COST : 0) +'</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+ (list[i].DAY_COST ? list[i].DAY_COST : 0) +'</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+ (list[i].EAT_COST ? list[i].EAT_COST : 0) +'</p></td>';
@@ -257,6 +265,7 @@ var busInit = {
                 html += '                   <tr>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">법인차량</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+ list[i].OIL_COST +'</p></td>';
+                html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">0</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">0</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+ list[i].TOLL_COST +'</p></td>';
                 html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">0</p></td>';
@@ -274,6 +283,7 @@ var busInit = {
         html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">합계</p></td>';
         html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(oilCostTotal)+'</p></td>';
         html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(trafCostTotal)+'</p></td>';
+        html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(roomCostTotal)+'</p></td>';
         html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(tollCostTotal)+'</p></td>';
         html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(dayCostTotal)+'</p></td>';
         html += '                       <td style="height:25px; text-align:center;"><p style="font-weight: bold;">'+fn_comma(eatCostTotal)+'</p></td>';

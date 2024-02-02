@@ -17,13 +17,13 @@ const bustripExnpReq = {
 
     pageSet: function(type){
         window.resizeTo(1700, 900);
-        bustripExnpReq.global.costData = $(".oilCost, .trafCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, #corpCarTollCost");
+        bustripExnpReq.global.costData = $(".oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, #corpCarTollCost");
         let corpArr = [
             {text: "개인", value: "N"},
             {text: "법인", value: "Y"}
         ]
         if($("#mod").val() == "mng"){
-            $(".empName, .oilCost, .trafCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput, .corpCarInput").kendoTextBox({
+            $(".empName, .oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput, .corpCarInput").kendoTextBox({
             });
             $(".oilCost").attr('disabled', false);
             $(".corpYn").kendoDropDownList({
@@ -32,7 +32,7 @@ const bustripExnpReq = {
                 dataValueField: "value"
             });
         }else {
-            $(".empName, .oilCost, .trafCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput, .corpCarInput").kendoTextBox();
+            $(".empName, .oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput, .corpCarInput").kendoTextBox();
             $(".corpYn").kendoDropDownList({
                 dataSource : corpArr,
                 dataTextField: "text",
@@ -44,20 +44,101 @@ const bustripExnpReq = {
         costData.bind("keyup", bustripExnpReq.fn_setTableSum);
         $(".eatCorpYn").bind("keyup", bustripExnpReq.fn_setTableSum);
 
-        let exnpAttach = customKendo.fn_customAjax("/bustrip/getExnpFile", {
-            fileCd: "exnpAttach",
+        let exnpTraf = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpTraf",
             hrBizReqResultId: hrBizReqResultId
         }).list;
-        if(exnpAttach.length > 0){
+        if(exnpTraf.length > 0){
             var html = "";
-            for(let i=0; i<exnpAttach.length; i++){
-                let row = exnpAttach[i];
-                html += "<div style='display: inline;'>";
+            for(let i=0; i<exnpTraf.length; i++){
+                let row = exnpTraf[i];
+                html += "<div>";
                 html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
                 html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
                 html += "</div>";
             }
-            $("#exnpAttachDiv").html(html);
+            $("#exnpTrafDiv").html(html);
+        }
+
+        let exnpRoom = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpRoom",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        if(exnpRoom.length > 0){
+            var html = "";
+            for(let i=0; i<exnpRoom.length; i++){
+                let row = exnpRoom[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpRoomDiv").html(html);
+        }
+
+        let exnpToll = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpToll",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        if(exnpToll.length > 0){
+            var html = "";
+            for(let i=0; i<exnpToll.length; i++){
+                let row = exnpToll[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpTollDiv").html(html);
+        }
+
+        let exnpEat = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpEat",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        if(exnpEat.length > 0){
+            var html = "";
+            for(let i=0; i<exnpEat.length; i++){
+                let row = exnpEat[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpEatDiv").html(html);
+        }
+
+        let exnpParking = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpParking",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+        if(exnpParking.length > 0){
+            var html = "";
+            for(let i=0; i<exnpParking.length; i++){
+                let row = exnpParking[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpParkingDiv").html(html);
+        }
+
+        let exnpEtc = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "exnpEtc",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+
+        if(exnpEtc.length > 0){
+            var html = "";
+            for(let i=0; i<exnpEtc.length; i++){
+                let row = exnpEtc[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpEtcDiv").html(html);
         }
     },
 
@@ -83,16 +164,20 @@ const bustripExnpReq = {
         const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", data);
         const cardList = cardResult.list;
 
+        let corpMoney = 0;
+
         var selCorpType = {
             1 : '유류비',
             2 : '교통비',
-            3 : '통행료',
-            4 : '일비',
-            5 : '식비',
-            6 : '주차비',
-            7 : '기타'
+            3 : '숙박비',
+            4 : '통행료',
+            5 : '일비',
+            6 : '식비',
+            7 : '주차비',
+            8 : '기타'
         }
 
+        let html = '';
         for(let i=0; i<cardList.length; i++){
             const cardMap = cardList[i];
 
@@ -108,7 +193,6 @@ const bustripExnpReq = {
             const e = iBrenchResult.cardInfo;
 
             if(e != null){
-                let html = '';
                 html += '<tr class="cardData">';
                 index ++;
                 html += '    <input type="hidden" class="exnpType" value="'+cardMap.EXNP_TYPE+'" />';
@@ -129,11 +213,15 @@ const bustripExnpReq = {
                 html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
                 html += '    <td class="amt" style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
                 html += '</tr>';
-                $("#detailRow").append(html);
+                corpMoney += Number(e.AUTH_AMT);
 
-                corpTotalSet();
             }
+
         }
+
+        $("#corpUseTotal").text(fn_numberWithCommas(corpMoney));
+        $("#detailRow").append(html);
+        corpTotalSet();
 
         bustripExnpReq.fn_getExnpInfo(type);
         bustripExnpReq.fn_getFuelInfo(type);
@@ -358,6 +446,7 @@ const bustripExnpReq = {
         //세로합계
         var oilTotal = 0;
         var trafTotal = 0;
+        var roomTotal = 0;
         var tollTotal = 0;
         var dayTotal = 0;
         var eatTotal = 0;
@@ -370,23 +459,25 @@ const bustripExnpReq = {
             if (row.classList.value == 'addData') {
                 oilTotal += Number($(row.cells[1]).find("input[type=text]").val().replace(/,/g, ''));
                 trafTotal += Number($(row.cells[2]).find("input[type=text]").val().replace(/,/g, ''));
-                tollTotal += Number($(row.cells[3]).find("input[type=text]").val().replace(/,/g, ''));
-                dayTotal += Number($(row.cells[4]).find("input[type=text]").val().replace(/,/g, ''));
-                eatTotal += Number($(row.cells[5]).find("input[type=text]").val().replace(/,/g, ''));
-                parkingTotal += Number($(row.cells[6]).find("input[type=text]").val().replace(/,/g, ''));
-                etcTotal += Number($(row.cells[7]).find("input[type=text]").val().replace(/,/g, ''));
-                totalTotal += Number($(row.cells[8]).find("input[type=text]").val().replace(/,/g, ''));
+                roomTotal += Number($(row.cells[3]).find("input[type=text]").val().replace(/,/g, ''));
+                tollTotal += Number($(row.cells[4]).find("input[type=text]").val().replace(/,/g, ''));
+                dayTotal += Number($(row.cells[5]).find("input[type=text]").val().replace(/,/g, ''));
+                eatTotal += Number($(row.cells[6]).find("input[type=text]").val().replace(/,/g, ''));
+                parkingTotal += Number($(row.cells[7]).find("input[type=text]").val().replace(/,/g, ''));
+                etcTotal += Number($(row.cells[8]).find("input[type=text]").val().replace(/,/g, ''));
+                totalTotal += Number($(row.cells[9]).find("input[type=text]").val().replace(/,/g, ''));
             }
         });
 
         //법인카드 더하기
         oilTotal += Number(uncomma($("#corp1").val()));
         trafTotal += Number(uncomma($("#corp2").val()));
-        tollTotal += Number(uncomma($("#corp3").val()));
-        dayTotal += Number(uncomma($("#corp4").val()));
-        eatTotal += Number(uncomma($("#corp5").val()));
-        parkingTotal += Number(uncomma($("#corp6").val()));
-        etcTotal += Number(uncomma($("#corp7").val()));
+        roomTotal += Number(uncomma($("#corp3").val()));
+        tollTotal += Number(uncomma($("#corp4").val()));
+        dayTotal += Number(uncomma($("#corp5").val()));
+        eatTotal += Number(uncomma($("#corp6").val()));
+        parkingTotal += Number(uncomma($("#corp7").val()));
+        etcTotal += Number(uncomma($("#corp8").val()));
 
         //법인차량 더하기
         tollTotal += Number(uncomma($("#corpCarTollCost").val()));
@@ -394,6 +485,7 @@ const bustripExnpReq = {
 
         $("#oilTotalCost").val(comma(oilTotal));
         $("#trafTotalCost").val(comma(trafTotal));
+        $("#roomTotalCost").val(comma(roomTotal));
         $("#tollTotalCost").val(comma(tollTotal));
         $("#dayTotalCost").val(comma(dayTotal));
         $("#eatTotalCost").val(comma(eatTotal));
@@ -446,28 +538,38 @@ const bustripExnpReq = {
                     empSeq : $(row.cells[0]).find("input[name='empSeq']").val(),
                     oilCost : $(row.cells[1]).find("input[type=text]").val(),
                     trafCost : $(row.cells[2]).find("input[type=text]").val(),
-                    tollCost : $(row.cells[3]).find("input[type=text]").val(),
-                    dayCost : $(row.cells[4]).find("input[type=text]").val(),
-                    eatCost : $(row.cells[5]).find("input[type=text]").val(),
-                    parkingCost : $(row.cells[6]).find("input[type=text]").val(),
-                    etcCost : $(row.cells[7]).find("input[type=text]").val(),
-                    totCost : $(row.cells[8]).find("input[type=text]").val(),
+                    roomCost : $(row.cells[3]).find("input[type=text]").val(),
+                    tollCost : $(row.cells[4]).find("input[type=text]").val(),
+                    dayCost : $(row.cells[5]).find("input[type=text]").val(),
+                    eatCost : $(row.cells[6]).find("input[type=text]").val(),
+                    parkingCost : $(row.cells[7]).find("input[type=text]").val(),
+                    etcCost : $(row.cells[8]).find("input[type=text]").val(),
+                    totCost : $(row.cells[9]).find("input[type=text]").val(),
 
                     oilCorpYn : oilCk,
                     type : type,
                     division : '1'
                 };
+
+                /*if(data.oilCost != "" || data.trafCost != "" || data.roomCost != "" || data.tollCost != "" || data.eatCost != "" || data.parkingCost != "" || data.etcCost != ""){
+                    if($("#exnpTraf")[0].files.length == 0){
+                        alert("지출증빙 첨부파일을 확인해주세요. ");
+                        break;
+                    }
+
+                }*/
             }
 
             // 법인카드
             if(row.classList.value == 'corpData'){
                 var totalOilCost = $("#corp1").val();
                 var totalTrafCost = $("#corp2").val();
-                var totalTollCost = $("#corp3").val();
-                var totalDayCost = $("#corp4").val();
-                var totalEatCost = $("#corp5").val();
-                var totalParkingCost = $("#corp6").val();
-                var totalEtcCost = $("#corp7").val();
+                var totalRoomCost = $("#corp3").val();
+                var totalTollCost = $("#corp4").val();
+                var totalDayCost = $("#corp5").val();
+                var totalEatCost = $("#corp6").val();
+                var totalParkingCost = $("#corp7").val();
+                var totalEtcCost = $("#corp8").val();
                 var totalAmt = $("#corpTotal").val();
 
                 data = {
@@ -475,6 +577,7 @@ const bustripExnpReq = {
                     hrBizExnpId : $("#corpExnpId").val(),
                     oilCost : totalOilCost || 0,
                     trafCost : totalTrafCost,
+                    roomCost : totalRoomCost,
                     tollCost : totalTollCost,
                     dayCost : totalDayCost,
                     eatCost : totalEatCost,
@@ -493,6 +596,7 @@ const bustripExnpReq = {
                     hrBizExnpId : $("#corpCarExnpId").val(),
                     oilCost : $("#corpCarOilCost").val(),
                     trafCost : $("#corpCarTrafCost").val(),
+                    roomCost : $("#corpCarRoomCost").val(),
                     tollCost : $("#corpCarTollCost").val(),
                     dayCost : $("#corpCarDayCost").val(),
                     eatCost : $("#corpCarEatCost").val(),
@@ -540,16 +644,80 @@ const bustripExnpReq = {
         customKendo.fn_customAjax("/bustrip/setCardHist", parameters);
 
         /** 첨부파일 저장 프로세스 */
-
-        /** 지출증빙 파일 */
-        if($("#exnpAttach")[0].files.length > 0){
+        /** 교통비 파일 */
+        if($("#exnpTraf")[0].files.length > 0){
             var formData = new FormData();
-            formData.append("menuCd", "exnpAttach");
+            formData.append("menuCd", "exnpTraf");
             formData.append("empSeq", $("#regEmpSeq").val());
             formData.append("hrBizReqResultId", hrBizReqResultId);
 
-            for(let i=0; i<$("#exnpAttach")[0].files.length; i++){
-                formData.append("bustripFile", $("#exnpAttach")[0].files[i]);
+            for(let i=0; i<$("#exnpTraf")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpTraf")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 숙박비 파일 */
+        if($("#exnpRoom")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpRoom");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpRoom")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpRoom")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 통행료 파일 */
+        if($("#exnpToll")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpToll");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpToll")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpToll")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 식비 파일 */
+        if($("#exnpEat")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpEat");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpEat")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpEat")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 주차비 파일 */
+        if($("#exnpParking")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpParking");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpParking")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpParking")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 기타 파일 */
+        if($("#exnpEtc")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "exnpEtc");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<$("#exnpEtc")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpEtc")[0].files[i]);
             }
             customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
         }
@@ -608,10 +776,17 @@ const bustripExnpReq = {
             alert("삭제할 카드내역을 선택해주세요."); return;
         }
 
+        var total = Number($("#corpUseTotal").text().replace(/,/g, ''));
         $.each($("input[name='card']:checked"), function(){
             alert("저장을 해야 반영됩니다.");
+
+            var rowAmount = parseFloat($(this).closest("tr").find(".amt").text().replace(/,/g, ''));
+            total -= rowAmount;
+
             $(this).closest("tr").remove();
         });
+
+        $("#corpUseTotal").text(fn_numberWithCommas(total));
     },
 
     fn_setCorpCarTotal : function (){

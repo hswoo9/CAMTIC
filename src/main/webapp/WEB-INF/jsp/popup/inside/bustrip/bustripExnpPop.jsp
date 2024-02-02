@@ -69,6 +69,7 @@
                 <th>이름</th>
                 <th>유류비</th>
                 <th>교통비</th>
+                <th>숙박비</th>
                 <th>통행료</th>
                 <th>일비</th>
                 <th>식비</th>
@@ -80,7 +81,7 @@
             <c:choose>
                 <c:when test="${type eq 'ins'}">
                     <c:forEach var="list" items="${list}">
-                    <%--신규작성--%>
+                        <%--신규작성--%>
                         <c:if test="${list.DIVISION ne '1'}">
                             <tr class="addData">
                                 <td>
@@ -93,6 +94,9 @@
                                 </td>
                                 <td>
                                     <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="roomCost${list.EMP_SEQ}" class="roomCost" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%" />
                                 </td>
                                 <td>
                                     <input type="text" id="tollCost${list.EMP_SEQ}" class="tollCost" value="${list.TOLL_COST}" oninput="onlyNumber(this)" style="width: 100%" />
@@ -126,19 +130,22 @@
                             <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'toll')"/>
+                            <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'day')"/>
+                            <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'toll')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'eat')"/>
+                            <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'day')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'parking')"/>
+                            <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'eat')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'etc')"/>
+                            <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'parking')"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corp8" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
                         </td>
                         <td>
                             <input type="text" id="corpTotal" class="corpInput" style="width: 100%; text-align: right;" disabled/>
@@ -153,6 +160,9 @@
                         </td>
                         <td>
                             <input type="text" id="corpCarTrafCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled/>
+                        </td>
+                        <td>
+                            <input type="text" id="corpCarRoomCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="text-align:right;" disabled/>
                         </td>
                         <td>
                             <input type="text" id="corpCarTollCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
@@ -192,6 +202,9 @@
                                     <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%" />
                                 </td>
                                 <td>
+                                    <input type="text" id="roomCost${list.EMP_SEQ}" class="roomCost" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
                                     <input type="text" id="tollCost${list.EMP_SEQ}" class="tollCost" value="${list.TOLL_COST}" oninput="onlyNumber(this)" style="width: 100%" />
                                 </td>
                                 <td>
@@ -221,22 +234,25 @@
                                     <input type="text" id="corp1" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.OIL_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(1, 'oil')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.TRAF_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
+                                    <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.TRAF_COST}" onkeydown="event.returnValue=false;" readonly  onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.TOLL_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'toll')"/>
+                                    <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ROOM_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.DAY_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'day')"/>
+                                    <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.TOLL_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'toll')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.EAT_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'eat')"/>
+                                    <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.DAY_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'day')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.PARKING_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'parking')"/>
+                                    <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.EAT_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'eat')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ETC_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'etc')"/>
+                                    <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.PARKING_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'parking')"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corp8" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ETC_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
                                 </td>
                                 <td>
                                     <input type="text" id="corpTotal" class="corpInput" style="width: 100%; text-align: right;" value="${list.TOT_COST}" disabled/>
@@ -254,6 +270,9 @@
                                 </td>
                                 <td>
                                     <input type="text" id="corpCarTrafCost" class="corpCarInput" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCarRoomCost" class="corpCarInput" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="text-align:right;" disabled/>
                                 </td>
                                 <td>
                                     <input type="text" id="corpCarTollCost" class="corpCarInput" value="${list.TOLL_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
@@ -290,6 +309,9 @@
                     <input type="text" id="trafTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
                 </td>
                 <td>
+                    <input type="text" id="roomTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                </td>
+                <td>
                     <input type="text" id="tollTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
                 </td>
                 <td>
@@ -323,12 +345,47 @@
             </colgroup>
             <thead>
             <tr>
-                <th colspan="5">지츨증빙</th>
+                <th>교통비</th>
+                <th>숙박비</th>
+                <th>통행료</th>
+                <th>식비</th>
+                <th>주차비</th>
+                <th>기타</th>
             </tr>
             <tr>
-                <td colspan="5">
-                    <input type="file" id="exnpAttach" multiple style="width: 98%;" />
-                    <div id="exnpAttachDiv">
+                <td>
+                    <input type="file" id="exnpTraf" multiple style="width: 98%;" />
+                    <div id="exnpTrafDiv">
+
+                    </div>
+                </td>
+                <td>
+                    <input type="file" id="exnpRoom" multiple style="width: 98%;" />
+                    <div id="exnpRoomDiv">
+
+                    </div>
+                </td>
+                <td>
+                    <input type="file" id="exnpToll" multiple style="width: 98%;" />
+                    <div id="exnpTollDiv">
+
+                    </div>
+                </td>
+                <td>
+                    <input type="file" id="exnpEat" multiple style="width: 98%;" />
+                    <div id="exnpEatDiv">
+
+                    </div>
+                </td>
+                <td>
+                    <input type="file" id="exnpParking" multiple style="width: 98%;" />
+                    <div id="exnpParkingDiv">
+
+                    </div>
+                </td>
+                <td>
+                    <input type="file" id="exnpEtc" multiple style="width: 98%;" />
+                    <div id="exnpEtcDiv">
 
                     </div>
                 </td>
@@ -372,6 +429,10 @@
                     <th>금액</th>
                 </tr>
                 </thead>
+                <tr>
+                    <th colspan="8" style="text-align: center;background-color: #8fa1c04a;">합계</th>
+                    <td style="text-align: right;font-weight: bold;" id="corpUseTotal"></td>
+                </tr>
             </table>
         </div>
     </form>
@@ -462,6 +523,7 @@
         let selCorpType = {
             'oil' : '유류비',
             'traf' : '교통비',
+            'room' : '숙박비',
             'toll' : '통행료',
             'day' : '일비',
             'eat' : '식비',
@@ -499,12 +561,20 @@
             $("#detailRow").append(html);
             fn_setCardInfo(e.AUTH_NO, e.AUTH_DD, e.AUTH_HH, e.CARD_NO, e.BUY_STS, index);
         }
+
         if(corpMoney != '') {
             $("#corp" + exnpType).val(fn_numberWithCommas(corpMoney));
         }
         corpTotalSet();
 
         bustripExnpReq.fn_setTableSum();
+
+
+        if($("#corpUseTotal").text() != '' && $("#corpUseTotal").text() != 0) {
+	        corpMoney += Number(uncomma($("#corpUseTotal").text()));
+        }
+
+        $("#corpUseTotal").text(fn_numberWithCommas(corpMoney));
     }
 
     function fn_setCardInfo(authNo, authDate, authTime, cardNo, buySts, index){
@@ -606,8 +676,9 @@
         var corp5 = $("#corp5").val();
         var corp6 = $("#corp6").val();
         var corp7 = $("#corp7").val();
+        var corp8 = $("#corp8").val();
         var totalAmt = Number(uncomma(corp1)) + Number(uncomma(corp2)) + Number(uncomma(corp3)) +
-            Number(uncomma(corp4)) + Number(uncomma(corp5)) + Number(uncomma(corp6)) + Number(uncomma(corp7));
+            Number(uncomma(corp4)) + Number(uncomma(corp5)) + Number(uncomma(corp6)) + Number(uncomma(corp7)) + Number(uncomma(corp8));
 
         $("#corpTotal").val(fn_numberWithCommas(totalAmt));
     }
