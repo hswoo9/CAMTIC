@@ -17,7 +17,7 @@ const bustripExnpReq = {
 
     pageSet: function(type){
         window.resizeTo(1700, 900);
-        bustripExnpReq.global.costData = $(".oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, #corpCarTollCost");
+        bustripExnpReq.global.costData = $(".oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, #corpCarTollCost, .corpInput");
         let corpArr = [
             {text: "개인", value: "N"},
             {text: "법인", value: "Y"}
@@ -507,6 +507,7 @@ const bustripExnpReq = {
     },
 
     fn_saveBtn: function(id, type, mode){
+        var returnFlag = true;
         if(bustripExnpReq.global.flag){
             alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30,000)");
             return;
@@ -551,13 +552,11 @@ const bustripExnpReq = {
                     division : '1'
                 };
 
-                /*if(data.oilCost != "" || data.trafCost != "" || data.roomCost != "" || data.tollCost != "" || data.eatCost != "" || data.parkingCost != "" || data.etcCost != ""){
-                    if($("#exnpTraf")[0].files.length == 0){
-                        alert("지출증빙 첨부파일을 확인해주세요. ");
-                        break;
-                    }
-
-                }*/
+                var returnFlag = bustripExnpReq.fn_exnpAttachCheck(data);
+                if(!returnFlag[0]){
+                    alert(returnFlag[1]);
+                    break;
+                }
             }
 
             // 법인카드
@@ -610,6 +609,10 @@ const bustripExnpReq = {
 
 
             result = customKendo.fn_customAjax("/bustrip/saveBustripExnpPop", data);
+        }
+
+        if(!returnFlag[0]){
+            return false;
         }
 
         /** Ibrench 선택 내역 저장 */
@@ -800,5 +803,46 @@ const bustripExnpReq = {
         $("#corpCarTotalCost").val(comma(total));
     },
 
+    fn_exnpAttachCheck : function (e){
+        var type = $("#type").val();
+        var data = e;
+        var empName = data.empName;
+
+        var arr = ["trafCost", "roomCost", "tollCost", "eatCost", "parkingCost", "etcCost"];
+        var idArr = ["Traf", "Room", "Toll", "Eat", "Parking", "Etc"];
+
+        var map = {
+            trafCost : "교통비",
+            roomCost : "숙박비",
+            tollCost : "통행료",
+            eatCost : "식비",
+            parkingCost : "주차비",
+            etcCost : "기타"
+        }
+
+        if(type == 'ins'){ //신규
+            for(let i=0; i<arr.length; i++){
+                if(data[arr[i]] != '0'){
+                    if($("#exnp"+idArr[i])[0].files.length == 0){
+                        return [false, "["+empName+"] "+map[arr[i]]+" 지출증빙 첨부파일을\n확인해주세요."];
+                    }
+                }
+            }
+
+            return [true, ""];
+        }else if(type == 'upd'){ // 수정
+            for(let i=0; i<arr.length; i++){
+                if(data[arr[i]] != '0'){
+                    if($("#exnp"+idArr[i]+"Div div:visible").length == 0){
+                        if($("#exnp"+idArr[i])[0].files.length == 0){
+                            return [false, "["+empName+"] "+map[arr[i]]+" 지출증빙 첨부파일을\n확인해주세요."];
+                        }
+                    }
+                }
+            }
+
+            return [true, ""];
+        }
+    }
 
 }

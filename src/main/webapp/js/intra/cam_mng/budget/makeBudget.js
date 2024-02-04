@@ -125,7 +125,7 @@ var makeBudget = {
     fn_popBudgetDetail: function (key){
         var url = "/budget/pop/regMakeBudget.do";
 
-        if(key != ""){
+        if(key != "" && key != null){
             url += "?key=" + key;
         }
 

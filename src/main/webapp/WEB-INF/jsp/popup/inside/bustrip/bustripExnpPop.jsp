@@ -124,28 +124,28 @@
                             <div style="text-align: center">법인카드</div>
                         </td>
                         <td>
-                            <input type="text" id="corp1" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(1, 'oil')"/>
+                            <input type="text" id="corp1" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(1, 'oil')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
+                            <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
+                            <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'toll')"/>
+                            <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'toll')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'day')"/>
+                            <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'day')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'eat')"/>
+                            <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'eat')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'parking')"/>
+                            <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'parking')"/>
                         </td>
                         <td>
-                            <input type="text" id="corp8" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
+                            <input type="text" id="corp8" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
                         </td>
                         <td>
                             <input type="text" id="corpTotal" class="corpInput" style="width: 100%; text-align: right;" disabled/>
@@ -162,7 +162,7 @@
                             <input type="text" id="corpCarTrafCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled/>
                         </td>
                         <td>
-                            <input type="text" id="corpCarRoomCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="text-align:right;" disabled/>
+                            <input type="text" id="corpCarRoomCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%; text-align:right;" disabled/>
                         </td>
                         <td>
                             <input type="text" id="corpCarTollCost" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
@@ -231,28 +231,28 @@
                                     <input type="hidden" id="corpExnpId" class="hrBizExnpId" name="hrBizExnpId" value="${list.HR_BIZ_EXNP_ID}" />
                                 </td>
                                 <td>
-                                    <input type="text" id="corp1" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.OIL_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(1, 'oil')"/>
+                                    <input type="text" id="corp1" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.OIL_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(1, 'oil')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.TRAF_COST}" onkeydown="event.returnValue=false;" readonly  onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
+                                    <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.TRAF_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ROOM_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
+                                    <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ROOM_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.TOLL_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'toll')"/>
+                                    <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.TOLL_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'toll')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.DAY_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'day')"/>
+                                    <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.DAY_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'day')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.EAT_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'eat')"/>
+                                    <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.EAT_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'eat')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.PARKING_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'parking')"/>
+                                    <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.PARKING_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'parking')"/>
                                 </td>
                                 <td>
-                                    <input type="text" id="corp8" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ETC_COST}" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
+                                    <input type="text" id="corp8" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ETC_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
                                 </td>
                                 <td>
                                     <input type="text" id="corpTotal" class="corpInput" style="width: 100%; text-align: right;" value="${list.TOT_COST}" disabled/>
