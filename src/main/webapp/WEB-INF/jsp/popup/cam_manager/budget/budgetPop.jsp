@@ -10,6 +10,9 @@
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="key" value="${params.key}" />
+<input type="hidden" id="budgetVal" value="${params.budgetVal}" />
+
+<input type="hidden" id="idx" value="${params.idx}" />
 
 <input type="hidden" id="type" value="${params.type}"/>
 
@@ -68,7 +71,7 @@
                     type: "post"
                 },
                 parameterMap: function(data){
-                    data.budgetVal = "A";
+                    data.budgetVal = $("#budgetVal").val();
                     return data;
                 }
             },
@@ -139,8 +142,9 @@
                     }
                 }, {
                     title: "",
+                    width: 80,
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-solid-base">선택</button>';
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="fn_selRow('+idx+')">선택</button>';
                     }
                 }
             ],
@@ -148,5 +152,10 @@
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             },
         }).data("kendoGrid");
+    }
+
+
+    function fn_selRow(idx){
+
     }
 </script>

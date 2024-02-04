@@ -56,13 +56,13 @@
                 <td colspan="4">
                     <table class="popTable table table-bordered mb-0">
                         <colgroup>
-                            <col width="22%">
-                            <col width="22%">
-                            <col width="22%">
-                            <col width="22%">
-                            <col width="12%">
+                            <col width="21%">
+                            <col width="21%">
+                            <col width="21%">
+                            <col width="21%">
+                            <col width="16%">
                         </colgroup>
-                        <thead>
+                        <thead id="aRow">
                             <tr>
                                 <th scope="row" class="text-center th-color">
                                     <span class="red-star"></span>장
@@ -83,21 +83,21 @@
                             <tr>
                                 <td>
                                     <input type="text" id="jang0" value="" style="width: 80%">
-                                    <i class="k-i-plus k-icon" style="cursor: pointer" id="plusJangIcon0" onclick="fn_budgetPop('A', 0)"></i>
+                                    <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('A', 0, 'A')"></i>
                                 </td>
                                 <td>
                                     <input type="text" id="gwan0" value="" style="width: 80%">
-                                    <i class="k-i-plus k-icon" style="cursor: pointer" id="plusGwanIcon0" onclick="fn_budgetPop('B', 0)"></i>
+                                    <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('B', 0, 'A')"></i>
                                 </td>
                                 <td>
                                     <input type="text" id="hang0" value="" style="width: 80%">
-                                    <i class="k-i-plus k-icon" style="cursor: pointer" id="plusHangIcon0" onclick="fn_budgetPop('C', 0)"></i>
+                                    <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('C', 0, 'A')"></i>
                                 </td>
                                 <td>
                                     <input type="text" id="budgetAmt0" value="0" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 100%; text-align: right">
                                 </td>
-                                <td>
-
+                                <td style="text-align: center">
+                                    <button type="button" class="k-button k-button-solid-base" name="aButton" onclick="fn_addRow('A')">추가</button>
                                 </td>
                             </tr>
                         </thead>
@@ -107,7 +107,7 @@
                                     <span class="red-star"></span>합계
                                 </th>
                                 <td>
-                                    <input type="text" id="budgetTotAmt">
+                                    <input type="text" id="budgetTotAmt" disabled>
                                 </td>
                                 <th scope="row" class="text-center th-color">
                                     <span class="red-star"></span>
@@ -122,7 +122,70 @@
                     <span class="red-star">*</span>세출예산
                 </th>
             </tr>
-
+            <tr>
+                <td colspan="4">
+                    <table class="popTable table table-bordered mb-0">
+                        <colgroup>
+                            <col width="21%">
+                            <col width="21%">
+                            <col width="21%">
+                            <col width="21%">
+                            <col width="16%">
+                        </colgroup>
+                        <thead id="bRow">
+                        <tr>
+                            <th scope="row" class="text-center th-color">
+                                <span class="red-star"></span>장
+                            </th>
+                            <th scope="row" class="text-center th-color">
+                                <span class="red-star"></span>관
+                            </th>
+                            <th scope="row" class="text-center th-color">
+                                <span class="red-star"></span>항
+                            </th>
+                            <th scope="row" class="text-center th-color">
+                                <span class="red-star"></span>예산액
+                            </th>
+                            <th scope="row" class="text-center th-color">
+                                <span class="red-star"></span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" id="mJang0" value="" style="width: 80%">
+                                <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('A', 0, 'B')"></i>
+                            </td>
+                            <td>
+                                <input type="text" id="mGwan0" value="" style="width: 80%">
+                                <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('B', 0, 'B')"></i>
+                            </td>
+                            <td>
+                                <input type="text" id="mHang0" value="" style="width: 80%">
+                                <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('C', 0, 'B')"></i>
+                            </td>
+                            <td>
+                                <input type="text" id="mBudgetAmt0" value="0" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 100%; text-align: right">
+                            </td>
+                            <td style="text-align: center">
+                                <button type="button" class="k-button k-button-solid-base" name="bButton" onclick="fn_addRow('B')">추가</button>
+                            </td>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th scope="row" class="text-center th-color" style="text-align: right" colspan="3">
+                                <span class="red-star"></span>합계
+                            </th>
+                            <td>
+                                <input type="text" id="mBudgetTotAmt" disabled>
+                            </td>
+                            <th scope="row" class="text-center th-color">
+                                <span class="red-star"></span>
+                            </th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </td>
             </thead>
         </table>
     </div>
@@ -131,7 +194,8 @@
 <script>
 
     $(function(){
-        customKendo.fn_textBox(["jang0", "gwan0", "hang0", "budgetAmt0", "budgetTotAmt"]);
+        customKendo.fn_textBox(["jang0", "gwan0", "hang0", "budgetAmt0", "budgetTotAmt",
+                                "mJang0", "mGwan0", "mHang0", "mBudgetAmt0", "mBudgetTotAmt"]);
 
         customKendo.fn_datePicker("bsYear", "decade", "yyyy", new Date())
         customKendo.fn_datePicker("regDt", "year", "yyyy-MM-dd", new Date())
@@ -147,8 +211,8 @@
         })
     });
 
-    function fn_budgetPop(type, idx){
-        var url = "/budget/pop/budgetPop.do?type=" + type + "&idx=" + idx;
+    function fn_budgetPop(type, idx, value){
+        var url = "/budget/pop/budgetPop.do?type=" + type + "&idx=" + idx + "&budgetVal=" + value;
 
         var name = "_blank";
         var option = "width = 600, height = 750, top = 100, left = 200, location = no";
@@ -168,5 +232,100 @@
     function uncomma(str) {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
+    }
+
+    function fn_addRow(type){
+        var html = "";
+
+        if(type == "A"){
+
+            var len = $("#aRow").find("tr").length;
+
+            var i = len - 1;
+
+            html = '' +
+                '<tr>' +
+                '   <td>' +
+                '       <input type="text" id="jang'+i+'" value="" style="width: 80%">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'A\', '+i+', \'A\')"></i>' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="gwan'+i+'" value="" style="width: 80%">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'B\', '+i+', \'A\')"></i>' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="hang'+i+'" value="" style="width: 80%">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'C\', '+i+', \'A\')"></i>' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="budgetAmt'+i+'" value="0" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" style="width: 100%; text-align: right">' +
+                '   </td>' +
+                '   <td style="text-align: center">' +
+                '       <button type="button" class="k-button k-button-solid-base" name="aButton" onclick="fn_addRow(\'A\')">추가</button>' +
+                '       <button type="button" class="k-button k-button-solid-error" name="aDelButton" onclick="fn_removeRow(this)">삭제</button>' +
+                '   </td>' +
+                '</tr>';
+
+            $("#aRow").append(html);
+
+            customKendo.fn_textBox(["jang" + i , "gwan" + i, "hang" + i, "budgetAmt" + i]);
+
+        } else if(type == "B"){
+            var len = $("#bRow").find("tr").length;
+
+            var i = len - 1;
+
+            html = '' +
+                '<tr>' +
+                '   <td>' +
+                '       <input type="text" id="mJang'+i+'" value="" style="width: 80%">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'A\', '+i+', \'B\')"></i>' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="mGwan'+i+'" value="" style="width: 80%">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'B\', '+i+', \'B\')"></i>' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="mHang'+i+'" value="" style="width: 80%">' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'C\', '+i+', \'B\')"></i>' +
+                '   </td>' +
+                '   <td>' +
+                '       <input type="text" id="mBudgetAmt'+i+'" value="0" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" style="width: 100%; text-align: right">' +
+                '   </td>' +
+                '   <td style="text-align: center">' +
+                '       <button type="button" class="k-button k-button-solid-base" name="bButton" onclick="fn_addRow(\'B\')">추가</button>' +
+                '       <button type="button" class="k-button k-button-solid-error" name="bDelButton" onclick="fn_removeRow(this)">삭제</button>' +
+                '   </td>' +
+                '</tr>';
+
+            $("#bRow").append(html);
+
+            customKendo.fn_textBox(["mJang" + i, "mGwan" + i, "mHang" + i, "mBudgetAmt" + i])
+        } else {
+            alert("Error");
+            window.close();
+        }
+    }
+
+    function fn_removeRow(obj){
+        $(obj).parent().parent().remove();
+
+        $("#aRow").find("tr").each(function(){
+            var len = $(this).index()
+
+            $(this).find("td").eq(0).find("input").attr("id", "jang"+ (len - 1));
+            $(this).find("td").eq(1).find("input").attr("id", "gwan"+ (len - 1));
+            $(this).find("td").eq(2).find("input").attr("id", "hang"+ (len - 1));
+            $(this).find("td").eq(3).find("input").attr("id", "budgetAmt"+ (len - 1));
+        });
+
+        $("#bRow").find("tr").each(function(){
+            var len = $(this).index()
+
+            $(this).find("td").eq(0).find("input").attr("id", "mJang"+ (len - 1));
+            $(this).find("td").eq(1).find("input").attr("id", "mGwan"+ (len - 1));
+            $(this).find("td").eq(2).find("input").attr("id", "mHang"+ (len - 1));
+            $(this).find("td").eq(3).find("input").attr("id", "mBudgetAmt"+ (len - 1));
+        });
     }
 </script>
