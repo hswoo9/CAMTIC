@@ -1848,4 +1848,21 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public void setCertReqDetailInsert(Map<String,Object> params){userManageRepository.setCertReqDetailInsert(params);}
 
+    @Override
+    public void setTmpDuty(Map<String,Object> params){
+        userManageRepository.setTmpDuty(params);
+    }
+
+    @Override
+    public void setTmpDutyDel(Map<String,Object> params) {
+        userManageRepository.setTmpDutyDel(params);
+    }
+
+    // 학위별 현황 (팝업)
+    @Override
+    public List<Map<String, Object>> getTmpDutyList(Map<String ,Object> params){
+        List<Map<String, Object>> list = userManageRepository.getTmpDutyList(params);
+        return list;
+    }
+
 }

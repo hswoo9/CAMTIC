@@ -21,6 +21,10 @@ public class UserRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("user.getManagerInfo", params);
     }
 
+    public Map<String, Object> getTempMngInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("user.getTempMngInfo", params);
+    }
+
 
     public Map<String, Object> getIdCheck(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("user.getIdCheck", params);

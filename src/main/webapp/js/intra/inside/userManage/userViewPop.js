@@ -24,6 +24,9 @@ var userViewPop = {
 
         userViewPop.global.dropDownDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "3"});
         customKendo.fn_dropDownList("duty", userViewPop.global.dropDownDataSource, "CM_CODE_NM", "CM_CODE", "4");
+
+        /** 겸직 데이터 조회 */
+        tmpDuty.tmpDutySet();
     },
 
     fn_chngDeptComp : function (){
@@ -32,7 +35,12 @@ var userViewPop = {
         data.parentDeptSeq = this.value();
 
         var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
-        customKendo.fn_dropDownList("deptTeam", ds.rs, "dept_name", "dept_seq","5")
+
+        if(this.value() != ""){
+            customKendo.fn_dropDownList("deptTeam", ds.rs, "dept_name", "dept_seq","5");
+        }else{
+            customKendo.fn_dropDownList("deptTeam", [], "dept_name", "dept_seq","5");
+        }
     },
 
     /** 관리자 버튼*/

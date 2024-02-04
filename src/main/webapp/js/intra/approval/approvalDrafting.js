@@ -808,6 +808,14 @@ var draft = {
                 if($(e).hasClass("draft")){
                     hwpDocCtrl.putFieldText('doc_num', result.rs.docNo);
                     hwpDocCtrl.putFieldText('doc_runday', draft.global.dataType.nowCom);
+
+                    const field = "apprZ0";
+                    const empSeq = $("#empSeq").val();
+                    const empName = $("#empName").val();
+
+                    if(draft.global.params.formId != "1"){
+                        hwpApprovalLine.setSign(field, empSeq, empName);
+                    }
                 }
             }
         }

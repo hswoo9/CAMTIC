@@ -2238,5 +2238,40 @@ public class UserManageController {
         return "jsonView";
     }
 
+    /** 겸직 추가 */
+    @RequestMapping("/userManage/setTmpDuty")
+    public String setTmpDuty(@RequestParam Map<String,Object> params, Model model) {
+        try {
+            userManageService.setTmpDuty(params);
+            model.addAttribute("code", "500");
+        }catch (Exception e) {
+            model.addAttribute("code", "200");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /** 겸직 삭제 */
+    @RequestMapping("/userManage/setTmpDutyDel")
+    public String setTmpDutyDel(@RequestParam Map<String,Object> params, Model model) {
+        try {
+            userManageService.setTmpDutyDel(params);
+            model.addAttribute("code", "500");
+        }catch (Exception e) {
+            model.addAttribute("code", "200");
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    /** 겸직 리스트 */
+    @RequestMapping("/userManage/getTmpDutyList")
+    public String getTmpDutyList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", userManageService.getTmpDutyList(params));
+        return "jsonView";
+    }
+
 
 }

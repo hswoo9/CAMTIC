@@ -4168,4 +4168,53 @@
         </selectKey>
     </insert>
 
+    <insert id="setTmpDuty" parameterType="map">
+        /* setTmpDuty */
+        INSERT INTO CAM_HR.DJ_EMP_TMP_DUTY(
+            EMP_SEQ
+            , TMP_DEPT_SEQ
+            , TMP_DEPT_NAME
+            , TMP_DUTY_SN
+            , TMP_DUTY_NAME
+            , REG_EMP_SEQ
+        )VALUES(
+            #{empSeq}
+            , #{tmpDeptSeq}
+            , #{tmpDeptName}
+            , #{tmpDutySeq}
+            , #{tmpDutyName}
+            , #{regEmpSeq}
+        )
+    </insert>
+
+    <update id="setTmpDutyDel" parameterType="map">
+        /* setTmpDutyDel */
+        UPDATE
+            CAM_HR.DJ_EMP_TMP_DUTY
+        SET
+            ACTIVE = 'N'
+            , MOD_DT = NOW()
+            , MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            EMP_TMP_SN = #{empTmpSn}
+    </update>
+
+    <select id="getTmpDutyList" parameterType="map" resultType="map">
+        /*getTmpDutyList*/
+        SELECT
+            ETD.EMP_TMP_SN,
+            CASE WHEN DI.DEPT_LEVEL = '2' THEN CONCAT((SELECT IFNULL(DEPT_NAME, '') FROM CAM_HR.DJ_DEPT_INFO SDI WHERE DEPT_SEQ = DI.PARENT_DEPT_SEQ), ' ', DI.DEPT_NAME) ELSE DI.DEPT_NAME END AS TMP_DEPT_NAME,
+            ETD.TMP_DUTY_NAME
+        FROM
+            CAM_HR.DJ_EMP_TMP_DUTY ETD
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO DI ON ETD.TMP_DEPT_SEQ = DI.DEPT_SEQ
+        WHERE
+            ACTIVE = 'Y'
+        <if test="empSeq != null and empSeq != ''">
+        AND EMP_SEQ = #{empSeq}
+        </if>
+        ORDER BY EMP_TMP_SN DESC
+    </select>
+
 </mapper>

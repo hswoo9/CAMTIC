@@ -255,6 +255,8 @@ var lineSettingPop = {
                         $(approveTypeTd).attr("approveType", "0").text("상신");
                     }else if($(approveTypeTd).attr("approveType") == "0" && $(".apprLineTr").length == ($(i).closest("tr").index() + 1)){
                         $(approveTypeTd).attr("approveType", "0").text("결재");
+                    }else if($(approveTypeTd).attr("approveType") == "1"){
+                        $(approveTypeTd).attr("approveType", "1").text("협조");
                     }else{
                         $(approveTypeTd).attr("approveType", "0").text("검토");
                     }

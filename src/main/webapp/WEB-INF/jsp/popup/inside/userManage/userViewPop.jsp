@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userViewPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/userManage/tmpDuty.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
 
 <body class="font-opensans" style="background-color:#fff;">
@@ -14,6 +15,7 @@
     <div class="table-responsive">
         <div class="card-header pop-header">
             <input type="hidden" id="regEmpSeq" name="regEmpSeq" value="${loginVO.uniqId}">
+            <input type="hidden" id="userEmpSeq" name="userEmpSeq" value="${params.empSeq}">
             <c:if test="${params.empSeq != null && params.empSeq != ''}">
                 <h3 class="card-title title_NM">직원 기본정보</h3>
                 <div class="btn-st popButton" style="font-size : 13px;">
@@ -173,8 +175,11 @@
                         <input type="text" id="deptTeam" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
                         <input type="text" id="duty" style="width: 200px;" <c:if test="${uprinfList.WORK_STATUS_CODE eq 'N'}">disabled</c:if>>
                         <c:if test="${uprinfList.WORK_STATUS_CODE eq 'Y'}">
-                            <button type="button" class="k-button k-button-solid-info" onclick="">추가</button>
+                            <button type="button" class="k-button k-button-solid-info" onclick="tmpDuty.fn_addTmpDuty()">추가</button>
                         </c:if>
+                        <div id="tmpDutyDiv">
+
+                        </div>
                     </td>
                 </tr>
                 <tr>

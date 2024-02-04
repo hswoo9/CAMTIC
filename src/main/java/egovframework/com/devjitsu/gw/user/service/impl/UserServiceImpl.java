@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Map<String, Object> getTempMngInfo(Map<String, Object> params) {
+        return userRepository.getTempMngInfo(params);
+    }
+
+    @Override
     public Map<String, Object> getIdCheck(Map<String, Object> params) {
         return userRepository.getIdCheck(params);
     }

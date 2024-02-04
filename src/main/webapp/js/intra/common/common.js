@@ -382,5 +382,6 @@ function getUser(empSeq){
 /** 부서장, 팀장 공석 체크 */
 function getManager(empSeq, deptLevel){
     const empInfo = customKendo.fn_customAjax("/user/getManagerInfo", {empSeq: empSeq, deptLevel: deptLevel}).data;
+    console.log("function getManager :",empInfo);
     return empInfo;
 }

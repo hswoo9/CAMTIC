@@ -24,6 +24,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDocView.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalLine.js?v=${now}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/hwpApprovalLine.js?v=${now}'/>"></script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 <style>
     .pop_head{
         height: 40px;

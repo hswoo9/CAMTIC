@@ -733,6 +733,7 @@
             DAR.APPROVE_EMP_SEQ,
             DAR.APPROVE_EMP_NAME,
             DAR.APPROVE_DEPT_SEQ,
+            DAR.APPROVE_DEPT_NAME,
             DAR.APPROVE_TYPE,
             DAR.APPROVE_STAT_CODE_DESC,
             DAR.APPROVE_STAT_CODE,

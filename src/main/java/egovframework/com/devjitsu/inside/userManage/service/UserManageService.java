@@ -250,4 +250,8 @@ public interface UserManageService{
     void setCareerReqDetailInsert(Map<String,Object> params);
 
     void setCertReqDetailInsert(Map<String,Object> params);
+
+    void setTmpDuty(Map<String, Object> params);
+    void setTmpDutyDel(Map<String, Object> params);
+    List<Map<String, Object>> getTmpDutyList(Map<String, Object> params);
 }

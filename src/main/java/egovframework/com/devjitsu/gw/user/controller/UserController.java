@@ -104,6 +104,12 @@ public class UserController {
         model.addAttribute("data", data);
         return "jsonView";
     }
+    @RequestMapping("/user/getTempMngInfo")
+    public String getTempMngInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = userService.getTempMngInfo(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
 
     @RequestMapping("/user/getIdCheck")
     public String getIdCheck(@RequestParam Map<String, Object> params, Model model){

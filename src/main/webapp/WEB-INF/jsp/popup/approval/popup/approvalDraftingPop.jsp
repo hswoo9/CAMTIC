@@ -256,6 +256,7 @@
 
 <script>
     var editorContent = '${fn:trim(fn:replace(fn:replace(docContents, LF, ""), CR, ""))}';
+    const serverName = '${pageContext.request.serverName}';
 
     draft.global.dataType = {
         nowComSpace : "${nowComSpace}",

@@ -1,7 +1,7 @@
 /** 결재선 지정 프로세스 */
 
 /**
- * made : 2024.01.24
+ * made : 2024.1.24
  *
  * 1. 기안자 정보 조회
  * 1-1. 기안자가 부서에 속해있는지, 팀에 속해있는지 체크
@@ -9,10 +9,12 @@
  *
  * 2. 해당 문서 정보 조회
  * 2-1. 전결 구분 매칭
- * 2-1. 기안자 정보가 전결구분 직급보다 높은치 체크
- * 2-2. 협조있는지 체크(2024.1.28 추가)
- * 2-3. 협조자가 본인 부서인지 체크, 맞으면 협조 추가 X(2024.1.28 추가)
- * 2-4. 대결, 부재, 조기결재, 자리비움 체크(보류)
+ * 2-1. 직무대리 포함(직무대리는 추가 프로세스가 아닌 "팀장 직무대리"라는 직책을 만들기로 함 (2024.1.30)
+ * 2-1-1. 전결 구분에 빈자리가 있을 시 겸직 체크해서 있을시 2-1에 추가 (2024.2.4)
+ * 2-1-2. 기안자 정보가 전결구분 직급보다 높은치 체크
+ * 2-2. 협조있는지 체크(2024.1.28)
+ * 2-3. 협조자가 본인 부서인지 체크, 맞으면 협조 추가 안함 (2024.1.28)
+ * 2-4. 대결, 부재 체크
  *
  * 3. 최종 결재선 생성
  * */
@@ -109,131 +111,42 @@ var approvalLine = {
 
 
         /** 3. 결재선 생성 */
-        if(approvalType == "1"){
-            approvalLine.dutyLine();
-        }else if(approvalType == "2"){
-            approvalLine.payLine();
-        }
-    },
 
-    /** 직급별 세팅 */
-    dutyLine : function(){
-        const userInfo = approvalLine.global.userInfo;
-        const managerInfo = approvalLine.global.managerInfo;
-
-        const userArr = [];
-
-        /** 원장급 - 본인전결 */
-        if(userInfo.DUTY_CODE == "1"){
-            userArr.push(userInfo);
-
-        /** 기안자가 부서장급 일때 */
-        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "7"){
-            const level = approvalLine.global.headLevel;
-
-            if(level == 0 || level == null){
-                return;
-            }
-
-            /** 부서장급 - 원장전결 */
-            if(level == "1"){
-                userArr.push(userInfo);
-                userArr.push(managerInfo.GRAND_MNG_SEQ);
-
-            /** 부서장급 - 본인전결, 팀장전결(팀장전결이면 본인 전결) */
-            }else if(level == "2" || level == "3"){
-                userArr.push(userInfo);
-            }
-
-        /** 기안자가 팀장급 일때 */
-        }else if(userInfo.DUTY_CODE == "5" || userInfo.DUTY_CODE == "6"){
-            const level = approvalLine.global.leaderLevel;
-
-            if(level == 0 || level == null){
-                return;
-            }
-
-            /** 팀장급 - 원장전결 */
-            if(level == "1"){
-                userArr.push(userInfo);
-                if(managerInfo.DEPT_MNG_CK == "Y"){
-                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
-                }
-                userArr.push(managerInfo.GRAND_MNG_SEQ);
-
-            /** 팀장급 - 부서장전결 */
-            }else if(level == "2") {
-                userArr.push(userInfo);
-                if(managerInfo.DEPT_MNG_CK == "Y"){
-                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
-                /** 부서장이 부재일시 원장이 대신 함. */
-                }else{
-                }
-
-            /** 팀장급 - 자기전결 */
-            }else if(level == "3"){
-                userArr.push(userInfo);
-            }
-
-        /** 기안자가 팀원급 일때 */
-        }else{
-            const level = approvalLine.global.memberLevel;
-
-            if(level == 0 || level == null){
-                return;
-            }
-
-            /** 팀원급 - 원장전결 */
-            if(level == "1"){
-                userArr.push(userInfo);
-                if(managerInfo.TEAM_MNG_CK == "Y"){
-                    userArr.push(getUser(managerInfo.TEAM_MNG_SEQ));
-                }
-                if(managerInfo.DEPT_MNG_CK == "Y"){
-                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
-                }
-                userArr.push(managerInfo.GRAND_MNG_SEQ);
-
-            /** 팀원급 - 부서장전결 */
-            }else if(level == "2") {
-                userArr.push(userInfo);
-                if(managerInfo.TEAM_MNG_CK == "Y"){
-                    userArr.push(getUser(managerInfo.TEAM_MNG_SEQ));
-                }
-                if(managerInfo.DEPT_MNG_CK == "Y"){
-                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
-                }
-
-            /** 팀원급 - 팀장전결 */
-            }else if(level == "3"){
-                userArr.push(userInfo);
-                if(managerInfo.TEAM_MNG_CK == "Y"){
-                    userArr.push(getUser(managerInfo.TEAM_MNG_SEQ));
-
-                /** 팀장이 부재일시 부서장이 대신 함. */
-                }else if(managerInfo.DEPT_MNG_CK == "Y"){
-                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
-                }
-                console.log("userArr", userArr)
-            }
-        }
-
-        if(userArr.length != 0){
-            approvalLine.decision(userArr);
-        }
-    },
-
-    payLine: function(){
-        const userInfo = approvalLine.global.userInfo;
-        const managerInfo = approvalLine.global.managerInfo;
-
-        const payCkList = approvalLine.global.payCkList;
-
-        const data = draft.global.params;
-
-        let requestAmt = 0;
         let level = 0;
 
+        /** 결재구분 직급별 */
+        if(approvalType == "1"){
+            level = this.getDutyLevel();
+            
+        /** 결재구분 금액별 */
+        }else if(approvalType == "2"){
+            level = this.getPayLevel();
+        }
+
+        approvalLine.setLineArr(level);
+    },
+
+    getDutyLevel : function(){
+        const userInfo = approvalLine.global.userInfo;
+        let level = 0;
+        if(userInfo.DUTY_CODE == "1"){
+
+        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "7"){
+            level = approvalLine.global.headLevel;
+        }else if(userInfo.DUTY_CODE == "5" || userInfo.DUTY_CODE == "6"){
+            level = approvalLine.global.leaderLevel;
+        }else{
+            level = approvalLine.global.memberLevel;
+        }
+        return level;
+    },
+
+    getPayLevel : function(){
+        const payCkList = approvalLine.global.payCkList;
+        const data = draft.global.params;
+        let requestAmt = 0;
+        let level = 0;
+        
         if(data.menuCd == "delv") {
             const pjtSn = data.approKey.split("_")[1];
 
@@ -286,6 +199,7 @@ var approvalLine = {
             if(amt == null){
                 requestAmt = 0;
             }
+
         }else if(data.menuCd == "purc"){
             const purcSn = data.approKey.split("_")[1];
 
@@ -305,6 +219,7 @@ var approvalLine = {
             if(amt == null){
                 requestAmt = 0;
             }
+
         }else if(data.menuCd == "claim"){
             const claimSn = data.approKey.split("_")[1];
 
@@ -323,6 +238,7 @@ var approvalLine = {
             if(amt == null){
                 requestAmt = 0;
             }
+
         }else if(data.menuCd == "exnp"){
             const exnpSn = data.approKey.split("_")[1];
 
@@ -350,14 +266,14 @@ var approvalLine = {
         for(let i=0; i<payCkList.length; i++){
             const map = payCkList[i];
 
-            /** 시작 금액만 있으면 코드값 <= 금액인지 체크 */
+            /** 시작 금액만 있으면 (코드값 <= 금액) 인지 체크 */
             if(map.ED_PAY != "" || map.ED_PAY == null){
                 if(Number(map.ST_PAY) <= requestAmt){
                     level = map.DUTY_VAL;
                     break;
                 }
 
-            /** 시작 금액, 종료 금액 다 있으면 시작값 <= 금액 < 끝값 인지 체크 */
+                /** 시작 금액, 종료 금액 다 있으면 (시작값 <= 금액 < 끝값) 인지 체크 */
             }else{
                 if(Number(map.ST_PAY) <= requestAmt < Number(map.ED_PAY)){
                     level = map.DUTY_VAL;
@@ -365,41 +281,42 @@ var approvalLine = {
                 }
             }
         }
+        
+        return level;
+    },
 
-        if(level == 0){
-            return;
-        }
+    /** 직급별 세팅 */
+    setLineArr : function(level){
+        const userInfo = approvalLine.global.userInfo;
+        const managerInfo = approvalLine.global.managerInfo;
 
         const userArr = [];
 
+
+        if(level == 0 || level == null){
+            return;
+        }
+        
         /** 원장급 - 본인전결 */
-        if(userInfo.DUTY_CODE == "1"){
+        if(userInfo.DUTY_CODE == "1") {
             userArr.push(userInfo);
 
         /** 기안자가 부서장급 일때 */
         }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "7"){
-
-            if(level == 0 || level == null){
-                return;
-            }
-
+            
             /** 부서장급 - 원장전결 */
             if(level == "1"){
                 userArr.push(userInfo);
                 userArr.push(managerInfo.GRAND_MNG_SEQ);
 
-                /** 부서장급 - 본인전결 */
-            }else if(level == "2"){
+            /** 부서장급 - 본인전결, 팀장전결(팀장전결이면 본인 전결) */
+            }else if(level == "2" || level == "3"){
                 userArr.push(userInfo);
             }
 
         /** 기안자가 팀장급 일때 */
         }else if(userInfo.DUTY_CODE == "5" || userInfo.DUTY_CODE == "6"){
-
-            if(level == 0 || level == null){
-                return;
-            }
-
+            
             /** 팀장급 - 원장전결 */
             if(level == "1"){
                 userArr.push(userInfo);
@@ -408,24 +325,22 @@ var approvalLine = {
                 }
                 userArr.push(managerInfo.GRAND_MNG_SEQ);
 
-                /** 팀장급 - 부서장전결 */
+            /** 팀장급 - 부서장전결 */
             }else if(level == "2") {
                 userArr.push(userInfo);
                 if(managerInfo.DEPT_MNG_CK == "Y"){
                     userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
+                /** 부서장이 부재일시 원장이 대신 함. */
+                }else{
                 }
 
-                /** 팀장급 - 자기전결 */
+            /** 팀장급 - 자기전결 */
             }else if(level == "3"){
                 userArr.push(userInfo);
             }
 
         /** 기안자가 팀원급 일때 */
         }else{
-
-            if(level == 0 || level == null){
-                return;
-            }
 
             /** 팀원급 - 원장전결 */
             if(level == "1"){
@@ -438,37 +353,51 @@ var approvalLine = {
                 }
                 userArr.push(managerInfo.GRAND_MNG_SEQ);
 
-                /** 팀원급 - 부서장전결 */
+            /** 팀원급 - 부서장전결 */
             }else if(level == "2") {
                 userArr.push(userInfo);
                 if(managerInfo.TEAM_MNG_CK == "Y"){
                     userArr.push(getUser(managerInfo.TEAM_MNG_SEQ));
-                }
-                if(managerInfo.DEPT_MNG_CK == "Y"){
-                    userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
+
+                /** 팀장이 부재일시 겸직확인 함. */
+                }else if(managerInfo.TEAM_TMP_MNG_CK == "Y"){
+                    userArr.push(getUser(managerInfo.TEAM_TMP_MNG_SEQ));
                 }
 
-                /** 팀원급 - 팀장전결 */
+                /** 겸직이 있을때 겸직과 부서장이 같은 사람이면 패스 */
+                if(managerInfo.TEAM_TMP_MNG_CK == "Y" && (managerInfo.TEAM_TMP_MNG_SEQ == managerInfo.DEPT_MNG_SEQ)){
+
+                /** 아니면 부서장 결재선 추가 */
+                }else{
+                    if(managerInfo.DEPT_MNG_CK == "Y"){
+                        userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
+                    }
+                }
+                
+            /** 팀원급 - 팀장전결 */
             }else if(level == "3"){
                 userArr.push(userInfo);
                 if(managerInfo.TEAM_MNG_CK == "Y"){
                     userArr.push(getUser(managerInfo.TEAM_MNG_SEQ));
 
-                    /** 팀장이 부재일시 부서장이 대신 함. */
+                /** 팀장이 부재일시 겸직확인 함. */
+                }else if(managerInfo.TEAM_TMP_MNG_CK == "Y"){
+                    userArr.push(getUser(managerInfo.TEAM_TMP_MNG_SEQ));
+
+                /** 팀장이 부재일시 부서장이 대신 함. */
                 }else if(managerInfo.DEPT_MNG_CK == "Y"){
                     userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
                 }
             }
         }
 
-
         if(userArr.length != 0){
-            approvalLine.decision(userArr);
+            approvalLine.setLineData(userArr);
         }
     },
 
     /** 직급별 결재선 입력 */
-    decision: function(userArr){
+    setLineData: function(userArr){
         
         /** 결재자 */
         for(let i=0; i<userArr.length; i++){

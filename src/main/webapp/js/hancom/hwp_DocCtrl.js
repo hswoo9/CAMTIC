@@ -890,7 +890,7 @@ var hwpDocCtrl = {
 
         }
 
-        hwpApprovalLine.setHwpApprovalSignPut(formId);
+        hwpApprovalLine.setHwpApprovalDocuSignPut(formId);
     },
 
     defaultScript : function (HwpCtrl, openFormat, templateFormFile, templateFormOpt, templateCustomField, params, loginEmpSeq, mod) {

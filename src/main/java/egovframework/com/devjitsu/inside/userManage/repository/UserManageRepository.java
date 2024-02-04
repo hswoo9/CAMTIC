@@ -461,4 +461,17 @@ public class UserManageRepository extends AbstractDAO {
 
     public void setCertReqDetailInsert(Map<String,Object> map) {insert("userManage.setCertReqDetailInsert", map);}
 
+    public void setTmpDuty(Map<String,Object> map) {
+        insert("userManage.setTmpDuty", map);
+    }
+
+    public void setTmpDutyDel(Map<String,Object> map) {
+        insert("userManage.setTmpDutyDel", map);
+    }
+
+    /** 학위별 팝업 **/
+    public List<Map<String, Object>> getTmpDutyList(Map<String, Object> params){
+        return selectList("userManage.getTmpDutyList", params);
+    }
+
 }

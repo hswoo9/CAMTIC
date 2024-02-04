@@ -314,9 +314,13 @@ var docView = {
     },
 
     docApprove : function(){
-        docView.documentHwpDataCtrl($("#approveCode").val(), docView.global.rs.approveNowRoute.APPROVE_ORDER, docView.global.dataType.nowCom + "(" + $("#approveCodeNm").val() + ")");
+        docView.loading();
 
-        setTimeout(() => docView.docApproveAjax(), 200);
+        docView.documentHwpDataCtrl();
+
+        setTimeout(() => docView.documentHwpSave(), 1000);
+
+        setTimeout(() => docView.docApproveAjax(), 1500);
     },
 
     docApproveAjax : function(){
@@ -345,7 +349,7 @@ var docView = {
 
     docApproveCancel : function(){
         if(confirm("결재취소 하시겠습니까?")){
-            docView.documentHwpDataCtrl("cancel", docView.global.rs.approvePrevRoute.APPROVE_ORDER, "\n");
+            docView.documentHwpSave();
 
             setTimeout(() => docView.docApproveCancelAjax(), 200);
         }
@@ -378,9 +382,9 @@ var docView = {
     },
 
     docReturn : function(){
-        docView.documentHwpDataCtrl($("#approveCode").val() , docView.global.rs.approveNowRoute.APPROVE_ORDER, docView.global.dataType.nowCom + "(반려)");
+        docView.documentHwpSave();
 
-        setTimeout(() => docView.docReturnAjax(), 200);
+        setTimeout(() => docView.docReturnAjax(), 500);
     },
 
     docReturnAjax : function(){
@@ -413,26 +417,28 @@ var docView = {
         }
     },
 
-    documentHwpDataCtrl : function(code, order, text){
-        if(docView.global.rs.approveNowRoute.APPROVE_TYPE == 1){
-            var flag = false;
+    documentHwpDataCtrl : function(){
+        if($("#formId").val() != "1"){
+            /** 결재 사인 */
+            if(docView.global.rs.approveNowRoute.APPROVE_TYPE != 1){
+                hwpApprovalLine.setHwpApprovalSignPut();
 
-            for(var i = 0; i < docView.global.rs.approveRoute.length; i ++){
-                if(hwpDocCtrl.fieldExist("cooperation" + i)){
-                    if(hwpDocCtrl.getFieldText("cooperation" + i) == docView.global.rs.approveNowRoute.APPROVE_EMP_NAME){
-                        hwpDocCtrl.putFieldText('cooperation_st' + i, text);
-                        flag = true;
+            /** 협조 사인 */
+            }else{
+                for(var i = 0; i < 2; i ++){
+                    const field = "cApprText" + i;
+                    const signField = "cAppr" + i;
+                    if(hwpDocCtrl.fieldExist(field)){
+                        if(hwpDocCtrl.getFieldText(field) == docView.global.rs.approveNowRoute.APPROVE_DEPT_NAME+"장"){
+                            hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
+                        }
                     }
                 }
-
-                if(flag){
-                    return;
-                }
             }
-        }else{
         }
+    },
 
-
+    documentHwpSave : function(){
         hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
             docView.global.hwpFileTextData = data;
         })
@@ -1034,7 +1040,17 @@ var docView = {
             $("#returnEmpSeq").val(docView.global.loginVO.uniqId);
             $("#returnEmpName").val(docView.global.loginVO.name);
         }
-    }
+    },
+
+    loading : function(){
+        $.LoadingOverlay("show", {
+            background: "rgba(0, 0, 0, 0.5)",
+            image: "",
+            maxSize: 60,
+            fontawesome: "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor: "#FFFFFF",
+        });
+    },
 }
 
 function fileImgTag(ext){
