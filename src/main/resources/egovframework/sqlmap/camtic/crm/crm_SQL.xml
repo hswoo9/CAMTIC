@@ -482,6 +482,36 @@
         ORDER BY JWorkDate DESC
     </select>
 
+    <select id="getCrmOldHistRndList" parameterType="map" resultType="map">
+        SELECT
+            Kind AS CRM_HIST_OBJ
+            ,Subject AS CRM_REL_PJT_NM
+            ,DATE_FORMAT(PSDate, '%Y-%m-%d') AS START_DATE
+            ,DATE_FORMAT(PEDate, '%Y-%m-%d') AS END_DATE
+            ,TotalMoney AS CRM_REL_PJT_AMT
+            ,UserName AS CRM_SHARE_EMP
+        FROM
+            CAM_CRM.CRM_HIST_RND
+        WHERE
+            CUID = #{cuid}
+    </select>
+
+    <select id="getCrmOldHistNonRndList" parameterType="map" resultType="map">
+        SELECT
+            Name AS CRM_REL_PJT_NM
+            ,DATE_FORMAT(StartDate, '%Y-%m-%d') AS START_DATE
+            ,DATE_FORMAT(EndDate, '%Y-%m-%d') AS END_DATE
+            ,UserName AS EMP_NAME_KR
+            ,Part AS DEPT_NAME
+            ,Place AS POSITION_NAME
+        FROM
+            CAM_CRM.CRM_HIST_NON_RND
+        WHERE
+            CUID = #{cuid}
+        GROUP BY Name
+        ORDER BY StartDate DESC
+    </select>
+
     <update id="setCrmHistDel" parameterType="map">
         /* setCrmHistDel */
         DELETE FROM CAM_CRM.DJ_CRM_HIST WHERE CRM_SN IN (${crmSn})

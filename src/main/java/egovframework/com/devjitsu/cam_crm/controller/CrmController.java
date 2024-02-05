@@ -399,6 +399,30 @@ public class CrmController {
     }
 
     /**
+     * 이력관리 R&D 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getCrmHistRndList")
+    public String getCrmHistRndList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.getCrmHistRndList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 이력관리 비 R&D 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/crm/getCrmHistNonRndList")
+    public String getCrmHistNonRndList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", crmService.getCrmHistNonRndList(params));
+        return "jsonView";
+    }
+
+    /**
      * 이력관리 등록 팝업
      * @param request
      * @param params
