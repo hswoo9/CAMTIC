@@ -137,7 +137,13 @@ var regExnpRe = {
 
         $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD);
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
-        $("#exnpDe").text(rs.DT3);
+
+        if(ls[0].EVID_TYPE == "1" || ls[0].EVID_TYPE == "2" || ls[0].EVID_TYPE == "3"){
+            $("#exnpDe").text(rs.DT1);
+        } else {
+            $("#exnpDe").text(rs.DT3);
+        }
+
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
         $("#budgetNm").val(rs.BUDGET_NM);

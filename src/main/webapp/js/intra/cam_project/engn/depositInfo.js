@@ -129,7 +129,7 @@ var depoInfo = {
                         //     totAmt = e.TOT_AMT;
                         // }
 
-                        if(e.EVI_TYPE == "1" || e.EVI_TYPE == "3" || e.EVI_TYPE == "5"){
+                        if(e.EVI_TYPE == "1" || e.EVI_TYPE == "2" || e.EVI_TYPE == "3"){
                             if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined) {
                                 totAmt = e.RE_TOT_COST;
                             }
@@ -147,7 +147,7 @@ var depoInfo = {
                         //     totAmt = e.TOT_AMT;
                         // }
 
-                        if(e.EVI_TYPE == "1" || e.EVI_TYPE == "3" || e.EVI_TYPE == "5"){
+                        if(e.EVI_TYPE == "1" || e.EVI_TYPE == "2" || e.EVI_TYPE == "3"){
                             if(e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined) {
                                 totAmt = e.RE_TOT_COST;
                             }
