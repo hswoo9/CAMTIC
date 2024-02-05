@@ -15,7 +15,6 @@ var employmentReq = {
     },
 
     mainGrid : function(url, params) {
-        var record = 0;
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             scrollable: true,
@@ -46,9 +45,10 @@ var employmentReq = {
                 }, {
                     field: "",
                     title: "번호",
-                    template : function (e) {
+                    /*template : function (e) {
                         return ($("#mainGrid").data("kendoGrid").dataSource.total() - record++) + '<input type="hidden" + value="'+e.EMP_SEQ+'"/><input type="hidden" value="'+e.type+'"/><input type="hidden" value="'+e.ID+'"/><input type="hidden" value="'+e.key+'"/>';
-                    },
+                    },*/
+                    template: "#= --record #",
                     width: 50
                 }, {
                     field: "DEPT_NAME",
@@ -90,7 +90,10 @@ var employmentReq = {
                     },
                     width : 135
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = employmentReq.fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){
@@ -104,6 +107,24 @@ var employmentReq = {
         var name = "certifiPrintPop";
         var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_getRowNum : function(e, type){
+        /** type이 1이면 정순, 2면 역순, 3이면 페이징 없을때 역순 */
+        let pageSize = e.dataSource.pageSize();
+        if(pageSize == null){
+            pageSize = 9999;
+        }
+
+        if(type == 1){
+            return (e.dataSource.page() -1) * pageSize;
+        }else if(type == 2){
+            return e.dataSource._data.length+1 - ((e.dataSource.page() -1) * pageSize);
+        }else if(type == 3){
+            return e.dataSource._data.length+1 - ((0 -1) * 0);
+        }else{
+            return 0;
+        }
     }
 }
 
