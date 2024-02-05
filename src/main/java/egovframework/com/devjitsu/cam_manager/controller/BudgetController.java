@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_manager.controller;
 
 
 import egovframework.com.devjitsu.cam_manager.service.BudgetService;
+import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class BudgetController {
 
     @Autowired
     private BudgetService budgetService;
+
+    @Autowired
+    private G20Service g20Service;
 
 
     /**
@@ -46,7 +50,7 @@ public class BudgetController {
     public String getBudgetList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
 
         List<Map<String, Object>> list = new ArrayList<>();
-
+        list = budgetService.getProjectList(params);
         model.addAttribute("list", list);
 
         return "jsonView";
@@ -68,6 +72,19 @@ public class BudgetController {
         model.addAttribute("params", params);
 
         return "popup/cam_manager/budget/budgetPop";
+    }
+
+    @RequestMapping("/budget/pop/setBudget")
+    public String setBudget(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        try{
+            budgetService.setBudget(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
     }
 
 
