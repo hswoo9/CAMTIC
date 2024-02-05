@@ -265,16 +265,31 @@ var hwpApprovalLine = {
             const imgMap = result.data.signImg;
 
             hwpDocCtrl.moveToField(fieldName, true, true, false);
-            hwpDocCtrl.global.HwpCtrl.InsertPicture(
-                ip + imgMap.file_path + imgMap.file_uuid,
-                true, 3, false, false, 0, 0, function(ctrl){
-                    if(ctrl){
-                        console.log('성공');
-                    }else{
-                        console.log('실패');
+
+            /** 협조 사인 임시 조치 (실제 사이즈 높이를 30으로 줄여서 실제 크기로 들어가게 변경) */
+            if(fieldName == "cAppr0" || fieldName == "cAppr1"){
+                hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                    ip + imgMap.file_path + imgMap.file_uuid,
+                    true, 0, false, false, 0, 0, function(ctrl){
+                        if(ctrl){
+                            console.log('성공');
+                        }else{
+                            console.log('실패');
+                        }
                     }
-                }
-            );
+                );
+            }else{
+                hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                    ip + imgMap.file_path + imgMap.file_uuid,
+                    true, 3, false, false, 0, 0, function(ctrl){
+                        if(ctrl){
+                            console.log('성공');
+                        }else{
+                            console.log('실패');
+                        }
+                    }
+                );
+            }
         }else{
             hwpDocCtrl.putFieldText(fieldName, empName);
         }
