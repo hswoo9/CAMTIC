@@ -42,6 +42,17 @@ var hwpApprovalLine = {
             if(copperData != null){
                 hwpDocCtrl.putFieldText('cApprText0', copperData.approveDeptName+"장");
             }
+
+
+            setTimeout(function() {
+                /** 기안자 사인 */
+                const field = "apprZ0";
+                const empSeq = $("#empSeq").val();
+                const empName = $("#empName").val();
+                if(draft.global.params.formId != "1"){
+                    hwpApprovalLine.setSign(field, empSeq, empName);
+                }
+            }, 2000);
         }
         console.log("----- 양식 결재선 세팅 끝 -----");
     },
@@ -262,7 +273,8 @@ var hwpApprovalLine = {
                     }else{
                         console.log('실패');
                     }
-                });
+                }
+            );
         }else{
             hwpDocCtrl.putFieldText(fieldName, empName);
         }
