@@ -106,7 +106,7 @@ var approvalLine = {
             const copperUserInfo = approvalLine.global.copperUserInfo;
             console.log("협조자 는... " + copperUserInfo.EMP_NAME_KR);
         }else{
-            console.log("협조자 없음...");
+            console.log("협조자 없음...") ;
         }
 
 
