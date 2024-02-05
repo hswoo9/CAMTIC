@@ -1,6 +1,18 @@
 var lecturePop = {
     fn_lectureReqPop: function(pjtSn, pk){
         let url = "/projectUnRnd/lectureReqPop.do?pjtSn="+pjtSn;
+        url += "&type=lec";
+        if(pk != null && pk != ""){
+            url += "&pk="+pk;
+        }
+        const name = "lectureReqPop";
+        const option = "width = 1200, height = 762, top = 100, left = 300, location = no";
+        window.open(url, name, option);
+    },
+
+    fn_consultingReqPop: function(pjtSn, pk){
+        let url = "/projectUnRnd/lectureReqPop.do?pjtSn="+pjtSn;
+        url += "&type=con";
         if(pk != null && pk != ""){
             url += "&pk="+pk;
         }

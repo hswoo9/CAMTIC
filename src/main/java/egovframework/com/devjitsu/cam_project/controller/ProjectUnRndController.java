@@ -218,6 +218,16 @@ public class ProjectUnRndController {
         model.addAttribute("params", params);
         return "popup/cam_project/unRnd/lectureReq";
     }
+
+    /** 단위사업(컨설팅) 등록 팝업창 */
+    @RequestMapping("/projectUnRnd/consultingReqPop.do")
+    public String consultingReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/consultingReq";
+    }
     /** 단위사업(교육) 강사 관리 팝업창 */
     @RequestMapping("/projectUnRnd/lectureTeacherPop.do")
     public String lectureTeacherPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
