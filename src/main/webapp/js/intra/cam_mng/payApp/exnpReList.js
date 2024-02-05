@@ -80,7 +80,7 @@ var exnpReList = {
                 }, {
                     title: "결의일자",
                     width: 70,
-                    field: "DT3"
+                    field: "R_DT",
                 }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",

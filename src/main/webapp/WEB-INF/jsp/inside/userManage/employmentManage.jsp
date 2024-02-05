@@ -11,7 +11,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">연봉근로계약서</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 임용문서관리(관리자) > 연봉근로계약서</div>
+            <div class="title-road">캠인사이드 > 인사관리 > 인사관리 > 연봉계약 > 연봉근로계약서(관리자)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

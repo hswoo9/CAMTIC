@@ -466,7 +466,7 @@ var regExnp = {
         // $("#reqEndDe").val(rs.REQ_END_DE);
         $("#DT1").val(ls[0].TR_DE);
 
-        if($("#eviType0").val() == "1" || $("#eviType0").val() == "2" || $("#eviType0").val() == "3"){
+        if(ls[0].EVID_TYPE == "1" || ls[0].EVID_TYPE == "2" || ls[0].EVID_TYPE == "3"){
             $("#exnpDe").val(ls[0].TR_DE);
         } else {
             $("#exnpDe").val(rs.REQ_DE);
