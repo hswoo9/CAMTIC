@@ -1493,17 +1493,21 @@
         INSERT INTO CAM_ITEM.DJ_ITEM_HIST
             (
                 ITEM_WH_SN,
+                CRM_SN,
                 IN_CNT,
                 OUT_CNT,
                 UNIT_AMT,
+                TOT_AMT,
                 DEF_DATE
             )
         VALUES
             (
                 #{ITEM_WH_SN},
+                #{CRM_SN},
                 #{PURC_ITEM_QTY},
                 '0',
                 #{PURC_ITEM_UNIT_PRICE},
+                (${PURC_ITEM_QTY} * ${PURC_ITEM_UNIT_PRICE}),
                 DATE_FORMAT(now(), '%Y-%m-%d')
             )
     </insert>

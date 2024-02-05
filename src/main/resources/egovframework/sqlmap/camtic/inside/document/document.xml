@@ -11,14 +11,12 @@
             DATE_FORMAT(CCD.SHIPMENT_DT, '%Y-%m-%d') AS SHIPMENT_DATE,
             CFI.file_org_name,
             CFI.file_ext,
-            CFI.file_size,
-            IFNULL(CFI.file_no, 0) AS file_no,
             CFI.file_path,
             CFI.file_uuid
         FROM
             CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD
         LEFT JOIN
-            CAM_COMMON.DJ_FILE_INFO CFI ON CCD.DOCUMENT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'inCome'
+            CAM_COMMON.DJ_FILE_INFO CFI ON CCD.MIG_KEY = CFI.CONTENT_ID AND CFI.FILE_CD = 'inCome' AND CCD.DOCU_TYPE = 2
         WHERE
             CCD.DEL_STS != 999
             <if test='docuType != null and !"".equals(docuType)'>
@@ -74,18 +72,17 @@
         /* getDocuOrderList */
         SELECT
             RE.*,
-            CFI.*
+            CFI.file_org_name,
+            CFI.file_ext,
+            CFI.file_size,
+            IFNULL(CFI.file_no, 0) AS file_no,
+            CFI.file_path,
+            CFI.file_uuid
         FROM
             (
                 SELECT
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
-                    IDO.*,
-                    CFI.file_org_name,
-                    CFI.file_ext,
-                    CFI.file_size,
-                    IFNULL(CFI.file_no, 0) AS file_no,
-                    CFI.file_path,
-                    CFI.file_uuid
+                    IDO.*
                 FROM
                     CAM_INSIDE.DJ_DOCUMENT_ORDER IDO,
                     (SELECT @ROWNUM := 0) TMP
@@ -144,7 +141,7 @@
                 ORDER BY IDC.REG_DT
             ) RE
             LEFT JOIN
-                CAM_COMMON.DJ_FILE_INFO CFI ON RE.DOCUMENT_ORDER_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'contract'
+                CAM_COMMON.DJ_FILE_INFO CFI ON RE.DOCUMENT_CONTRACT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'contract'
         ORDER BY RE.ROW_NUM DESC
     </select>
 
@@ -1128,4 +1125,12 @@
         </if>
     </select>
 
+    <select id="migFileInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{migKey}
+    </select>
 </mapper>

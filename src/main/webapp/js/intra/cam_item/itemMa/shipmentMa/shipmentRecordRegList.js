@@ -340,7 +340,9 @@ var srrl = {
                             forwarder : $("#regEmpSeq").val(),
                             masterSn : String(dataItem.MASTER_SN),
                             transferQty : srrl.uncomma(Number($("#deliveryVolume" + dataItem.SM_RECORD_SN).val())),
-                            empSeq : $("#regEmpSeq").val()
+                            empSeq : $("#regEmpSeq").val(),
+                            crmSn : dataItem.CRM_SN,
+                            unitAmt : dataItem.UNIT_PRICE
                         }
                         transferArr.push(transfer);
                     }
@@ -351,7 +353,7 @@ var srrl = {
                     var data = {
                         smRecordSn : this.split(",")[0].split("_")[1],
                         deliveryAmt : this.split(",")[1].split("_")[1],
-                        empSeq : $("#regEmpSeq").val(),
+                        empSeq : $("#regEmpSeq").val()
                     }
                     srrl.global.smRecordSnArr.push(data)
                 })

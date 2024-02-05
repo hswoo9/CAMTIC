@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,10 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<Map<String, Object>> getDocumentList(Map<String, Object> params){
-        return documentRepository.getDocumentList(params);
+        List<Map<String, Object>> result = new ArrayList<>();
+        result = documentRepository.getDocumentList(params);
+
+        return result;
     }
 
     @Override

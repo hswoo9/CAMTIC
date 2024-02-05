@@ -2016,16 +2016,22 @@
             (
                 MASTER_SN,
                 INVEN_TRANS_SN,
+                CRM_SN,
                 IN_CNT,
                 OUT_CNT,
+                UNIT_AMT,
+                TOT_AMT,
                 DEF_DATE
             )
         VALUES
             (
                 #{masterSn},
                 #{invenTransSn},
+                #{crmSn},
                 0,
                 #{transferQty},
+                #{unitAmt},
+                (${transferQty} * ${unitAmt}),
                 DATE_FORMAT(now(), '%Y-%m-%d')
             )
     </insert>

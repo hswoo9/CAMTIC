@@ -60,13 +60,16 @@ var chv = {
                     template: function(row){
                         return row.CRM_DATE;
                     },
-                    width : 180
+                    width : 110
                 }, {
                     title: "총 연구비",
                     template: function(row){
                         return fn_numberWithCommas(row.CRM_REL_PJT_AMT);
                     },
-                    width : 80
+                    width : 110,
+                    attributes : {
+                        style : "text-align : right;"
+                    }
                 }, {
                     field: "CRM_SHARE_EMP",
                     title: "담당자",
@@ -80,9 +83,11 @@ var chv = {
     },
 
     mainGrid2 : function(){
+        const data = {
+            crmSn : $("#crmSn").val()
+        }
         $("#mainGrid2").kendoGrid({
-            /** TODO. 추후 변경해야함 (이력조회) */
-            // dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSource2("/crm/getCrmHistRndList", data),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -103,11 +108,11 @@ var chv = {
                 }, {
                     field: "CRM_HIST_OBJ",
                     title: "과제구분",
-                    width : 80
+                    width : 190
                 }, {
                     title: "건명",
                     template: function(row){
-                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='approveDocView(\""+row.DOC_ID+"\", \""+row.APPRO_KEY+"\", \""+row.DOC_MENU_CD+"\");'>" + row.CRM_REL_PJT_NM + "</a>";
+                        return row.CRM_REL_PJT_NM;
                     }
                 }, {
                     title: "연구 기간",
@@ -120,7 +125,10 @@ var chv = {
                     template: function(row){
                         return fn_numberWithCommas(row.CRM_REL_PJT_AMT);
                     },
-                    width : 80
+                    width : 110,
+                    attributes : {
+                        style : "text-align : right;"
+                    }
                 }, {
                     field: "CRM_SHARE_EMP",
                     title: "담당자",
@@ -134,9 +142,12 @@ var chv = {
     },
 
     mainGrid3 : function(){
+        const data = {
+            crmSn : $("#crmSn").val(),
+            crmHistType: 2
+        }
         $("#mainGrid3").kendoGrid({
-            /** TODO. 추후 변경해야함 (이력조회) */
-            // dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSource2("/crm/getCrmHistNonRndList", data),
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -155,13 +166,9 @@ var chv = {
                     title: "순번",
                     width : 50
                 }, {
-                    field: "CRM_HIST_OBJ",
-                    title: "과제구분",
-                    width : 80
-                }, {
                     title: "건명",
                     template: function(row){
-                        return "<a href='javascript:void(0);' style='font-weight: bold' onclick='approveDocView(\""+row.DOC_ID+"\", \""+row.APPRO_KEY+"\", \""+row.DOC_MENU_CD+"\");'>" + row.CRM_REL_PJT_NM + "</a>";
+                        return row.CRM_REL_PJT_NM;
                     }
                 }, {
                     title: "연구 기간",
@@ -170,15 +177,17 @@ var chv = {
                     },
                     width : 180
                 }, {
-                    title: "총 연구비",
-                    template: function(row){
-                        return fn_numberWithCommas(row.CRM_REL_PJT_AMT);
-                    },
-                    width : 80
-                }, {
-                    field: "CRM_SHARE_EMP",
+                    field: "EMP_NAME_KR",
                     title: "담당자",
-                    width : 80
+                    width : 100
+                }, {
+                    field: "DEPT_NAME",
+                    title: "부서",
+                    width : 120
+                }, {
+                    field: "POSITION_NAME",
+                    title: "직책",
+                    width : 100
                 }
             ],
             dataBinding: function(){
