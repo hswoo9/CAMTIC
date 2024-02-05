@@ -144,7 +144,19 @@
                     title: "",
                     width: 80,
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-solid-base" onclick="fn_selRow('+idx+')">선택</button>';
+                        var nm = "";
+                        var cd = "";
+                        if($("#type").val() == "A"){
+                            cd = e.JANG_CD
+                            nm = e.JANG_NM
+                        } else if ($("#type").val() == "B"){
+                            cd = e.GWAN_CD
+                            nm = e.GWAN_NM
+                        } else if ($("#type").val() == "C"){
+                            cd = e.HANG_CD
+                            nm = e.HANG_NM
+                        }
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="fn_selRow('+$("#idx").val()+', \''+cd+'\', \''+nm+'\')">선택</button>';
                     }
                 }
             ],
@@ -155,7 +167,31 @@
     }
 
 
-    function fn_selRow(idx){
+    function fn_selRow(idx, cd, nm){
+        if($("#budgetVal").val() == "A"){
+            if($("#type").val() == "A"){
+                opener.parent.$("#jang"+idx).val(nm);
+                opener.parent.$("#jangCd"+idx).val(cd);
+            } else if($("#type").val() == "B"){
+                opener.parent.$("#gwan"+idx).val(nm);
+                opener.parent.$("#gwanCd"+idx).val(cd);
+            } else if ($("#type").val() == "C"){
+                opener.parent.$("#hang"+idx).val(nm);
+                opener.parent.$("#hangCd"+idx).val(cd);
+            }
+        } else if ($("#budgetVal").val() == "B"){
+            if($("#type").val() == "A"){
+                opener.parent.$("#mJang"+idx).val(nm);
+                opener.parent.$("#mJangCd"+idx).val(cd);
+            } else if($("#type").val() == "B"){
+                opener.parent.$("#mGwan"+idx).val(nm);
+                opener.parent.$("#mGwanCd"+idx).val(cd);
+            } else if($("#type").val() == "C"){
+                opener.parent.$("#mHang"+idx).val(nm);
+                opener.parent.$("#mHangCd"+idx).val(cd);
+            }
+        }
 
+        window.close();
     }
 </script>

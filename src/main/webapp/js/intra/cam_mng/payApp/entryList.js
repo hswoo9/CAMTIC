@@ -112,19 +112,19 @@ var entryList = {
                         return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
                 }, {
-                    title: "지출요청일",
+                    title: "입금요청일",
                     width: 70,
                     field: "REQ_DE"
                 }, {
-                    title: "지출예정일",
+                    title: "입금예정일",
                     width: 70,
                     field: "DT3"
                 }, {
-                    title: "지출완료일",
+                    title: "입금완료일",
                     width: 70,
                     field: "REQ_END_DE"
                 }, {
-                    title: "지출금액",
+                    title: "입금금액",
                     width: 80,
                     template: function(e){
                         var cost = e.TOT_COST;

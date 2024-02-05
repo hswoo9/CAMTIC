@@ -25,6 +25,8 @@ var makeBudget = {
                 },
                 parameterMap: function(data) {
                     data.baseYear = $("#baseYear").val();
+                    data.pjtFromDate = $("#baseYear").val() + "-01-01";
+                    data.pjtToDate = $("#baseYear").val() + "-12-31";
                     return data;
                 }
             },

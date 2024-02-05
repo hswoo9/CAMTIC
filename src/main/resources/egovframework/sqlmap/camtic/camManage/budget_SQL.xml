@@ -4,5 +4,26 @@
 <mapper namespace="budget">
 
 
+    <select id="getProjectList" parameterType="map" resultType="map">
+        /*getProjectList*/
+        SELECT * FROM (SELECT CORP_PJT_CD AS PJT_CD,
+                              CORP_PJT_NM AS PJT_NM,
+                              STR_DT,
+                              END_DT
+                       FROM CAM_PJT_MNG.DJ_CORP_PROJECT
+                       WHERE STATUS = 100
+                       UNION ALL
+                       SELECT PJT_CD,
+                              PJT_NM,
+                              STR_DT,
+                              END_DT
+                       FROM CAM_PJT_MNG.DJ_PROJECT
+                       WHERE DELV_APPROVE_STAT = 100) A
+        WHERE
+            STR_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}
+           OR
+            END_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}
+        ORDER BY STR_DT DESC
+    </select>
 
 </mapper>
