@@ -4217,4 +4217,29 @@
         ORDER BY EMP_TMP_SN DESC
     </select>
 
+    <select id="getAllDutyList" parameterType="map" resultType="map">
+        /*getAllDutyList*/
+        SELECT
+            DI.DEPT_SEQ,
+            DI.DEPT_NAME
+        FROM
+            CAM_HR.DJ_EMP_INFO EI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO DI ON EI.DEPT_SEQ = DI.DEPT_SEQ
+        WHERE EI.EMP_SEQ = #{empSeq}
+
+        UNION ALL
+
+        SELECT
+            ETD.TMP_DEPT_SEQ,
+            DI.DEPT_NAME AS TMP_DEPT_NAME
+        FROM
+            CAM_HR.DJ_EMP_TMP_DUTY ETD
+                LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO DI ON ETD.TMP_DEPT_SEQ = DI.DEPT_SEQ
+        WHERE
+            ACTIVE = 'Y'
+        AND EMP_SEQ = #{empSeq}
+    </select>
+
 </mapper>

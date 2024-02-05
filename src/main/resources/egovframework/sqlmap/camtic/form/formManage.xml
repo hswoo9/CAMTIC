@@ -647,13 +647,21 @@
             (
                 FORM_ID,
                 APPROVAL_TYPE,
-                COPPER_EMP_SEQ
+                COPPER_EMP_SEQ1,
+                COPPER_EMP_SEQ2,
+                COPPER_TMP_DEPT1,
+                COPPER_TMP_DEPT2,
+                COPPER_DECISON_YN
             )
         VALUES
             (
                 #{formId},
                 #{approvalType},
-                #{otherEmpSeq}
+                #{otherEmpSeq1},
+                #{otherEmpSeq2},
+                #{otherTmpDept1},
+                #{otherTmpDept2},
+                #{copperDecisonYn}
             )
         <selectKey keyProperty="approvalMngSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_APPROVAL' AND TABLE_NAME = 'DJ_APPROVAL_MNG'
@@ -667,7 +675,11 @@
         SET
             FORM_ID = #{formId},
             APPROVAL_TYPE = #{approvalType},
-            COPPER_EMP_SEQ = #{otherEmpSeq}
+            COPPER_EMP_SEQ1 = #{otherEmpSeq1},
+            COPPER_EMP_SEQ2 = #{otherEmpSeq2},
+            COPPER_TMP_DEPT1 = #{otherTmpDept1},
+            COPPER_TMP_DEPT2 = #{otherTmpDept2},
+            COPPER_DECISON_YN = #{copperDecisonYn}
         WHERE
             APPROVAL_MNG_SN = #{approvalMngSn}
     </update>

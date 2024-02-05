@@ -2273,5 +2273,12 @@ public class UserManageController {
         return "jsonView";
     }
 
+    /** 본인 부서 포함 총 겸직 리스트 */
+    @RequestMapping("/userManage/getAllDutyList")
+    public String getAllDutyList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", userManageService.getAllDutyList(params));
+        return "jsonView";
+    }
+
 
 }

@@ -468,10 +468,11 @@ public class UserManageRepository extends AbstractDAO {
     public void setTmpDutyDel(Map<String,Object> map) {
         insert("userManage.setTmpDutyDel", map);
     }
-
-    /** 학위별 팝업 **/
     public List<Map<String, Object>> getTmpDutyList(Map<String, Object> params){
         return selectList("userManage.getTmpDutyList", params);
+    }
+    public List<Map<String, Object>> getAllDutyList(Map<String, Object> params){
+        return selectList("userManage.getAllDutyList", params);
     }
 
 }

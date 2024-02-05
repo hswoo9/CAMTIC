@@ -100,9 +100,9 @@ var approvalLine = {
         }
 
         /** 2-2. 협조 있는지 체크해서 있으면 global 변수 세팅 */
-        if(approvalMngData.COPPER_EMP_SEQ != null){
+        if(approvalMngData.COPPER_EMP_SEQ1 != null){
             console.log("협조자 있음...");
-            approvalLine.global.copperUserInfo = getUser(approvalMngData.COPPER_EMP_SEQ);
+            approvalLine.global.copperUserInfo = getUser(approvalMngData.COPPER_EMP_SEQ1);
             const copperUserInfo = approvalLine.global.copperUserInfo;
             console.log("협조자 는... " + copperUserInfo.EMP_NAME_KR);
         }else{

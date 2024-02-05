@@ -375,8 +375,8 @@
 							<input type="hidden" id="approvalMngSn">
 							<table class="searchTable table table-bordered" style="width: 99%">
 								<colgroup>
-									<col width="20%">
-									<col width="33%">
+									<col width="15%">
+									<col width="38%">
 								</colgroup>
 								<tbody>
 								<tr>
@@ -393,8 +393,8 @@
 							<div id="approvalType1">
 								<table class="searchTable table table-bordered" style="width: 99%; margin-top: 20px">
 									<colgroup>
-										<col width="20%">
-										<col width="33%">
+										<col width="15%">
+										<col width="38%">
 									</colgroup>
 									<tbody>
 									<tr class="approvalData">
@@ -447,23 +447,38 @@
 
 							<table class="searchTable table table-bordered" style="width: 99%">
 								<colgroup>
-									<col width="20%">
-									<col width="33%">
+									<col width="15%">
+									<col width="38%">
 								</colgroup>
 								<tbody>
 								<tr>
 									<th style="text-align: left">
-										협조 설정
+										협조 설정1
 									</th>
 									<td colspan="3">
-										<input id="other_emp" name="other_emp" class="defaultVal" style="width: 30%;" disabled>
-										<input type="hidden" id="otherEmpSeq">
-										<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_userMultiSelectPop()">검색</button>
-										<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="formM.dataClear();">선택 초기화</button>
+										<input id="other_emp1" name="other_emp" class="defaultVal" style="width: 15%;" disabled>
+										<input type="hidden" id="otherEmpSeq1">
+										<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="$('#otherEmpType').val(1); userSearch()">검색</button>
+										<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="formM.dataClear(1);">초기화</button>
+										<input id="otherTmpDept1" style="width: 30%;">
+										<input id="copperDecisonYn" style="width: 25%;">
+									</td>
+								</tr>
+								<tr>
+									<th style="text-align: left">
+										협조 설정2
+									</th>
+									<td colspan="3">
+										<input id="other_emp2" name="other_emp" class="defaultVal" style="width: 15%;" disabled>
+										<input type="hidden" id="otherEmpSeq2">
+										<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="$('#otherEmpType').val(2); userSearch()">검색</button>
+										<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="formM.dataClear(2);">초기화</button>
+										<input id="otherTmpDept2" style="width: 30%;">
 									</td>
 								</tr>
 								</tbody>
 							</table>
+							<input type="hidden" id="otherEmpType">
 						</div>
 					</div>
 				</div>
@@ -475,19 +490,29 @@
 <script>
 	formM.fnDefaultScript();
 
-	function userDataSet(userArr) {
-		console.log("userArr", userArr);
-		let other_emp = "";
-		let otherEmpSeq = "";
-		for(let i=0; i < userArr.length; i++) {
-			/*console.log(userArr[0].empName);*/
-			if(other_emp != ""){
-				other_emp += ", ";
-			}
-			other_emp += userArr[i].empName;
-			otherEmpSeq += userArr[i].empSeq;
+	function userSearch() {
+		window.open("/common/deptListPop.do?type=copper", "조직도", "width=750, height=650");
+	}
+
+	function userDataSet(userData) {
+		console.log("userData", userData);
+		let other_emp = userData.EMP_NAME_KR;
+		let otherEmpSeq = userData.EMP_SEQ;
+		$("#other_emp"+$("#otherEmpType").val()).val(other_emp);
+		$("#otherEmpSeq"+$("#otherEmpType").val()).val(otherEmpSeq);
+
+		const data = {
+			empSeq : otherEmpSeq
 		}
-		$("#other_emp").val(other_emp);
-		$("#otherEmpSeq").val(otherEmpSeq);
+		const result = customKendo.fn_customAjax("/userManage/getAllDutyList", data);
+		const allDutyList = result.list;
+
+		customKendo.fn_dropDownList("otherTmpDept"+$("#otherEmpType").val(), allDutyList, "DEPT_NAME", "DEPT_SEQ", 3);
+
+		if(allDutyList.length < 2){
+			$("#otherTmpDept"+$("#otherEmpType").val()).data("kendoDropDownList").enable(false);
+		}else{
+			$("#otherTmpDept"+$("#otherEmpType").val()).data("kendoDropDownList").enable(true);
+		}
 	}
 </script>

@@ -1858,10 +1858,15 @@ public class UserManageServiceImpl implements UserManageService {
         userManageRepository.setTmpDutyDel(params);
     }
 
-    // 학위별 현황 (팝업)
     @Override
     public List<Map<String, Object>> getTmpDutyList(Map<String ,Object> params){
         List<Map<String, Object>> list = userManageRepository.getTmpDutyList(params);
+        return list;
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllDutyList(Map<String ,Object> params){
+        List<Map<String, Object>> list = userManageRepository.getAllDutyList(params);
         return list;
     }
 

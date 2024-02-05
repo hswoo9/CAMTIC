@@ -254,4 +254,5 @@ public interface UserManageService{
     void setTmpDuty(Map<String, Object> params);
     void setTmpDutyDel(Map<String, Object> params);
     List<Map<String, Object>> getTmpDutyList(Map<String, Object> params);
+    List<Map<String, Object>> getAllDutyList(Map<String, Object> params);
 }

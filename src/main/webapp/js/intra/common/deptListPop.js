@@ -169,6 +169,15 @@ var deptListPop = {
                 }catch{
 
                 }
+            }else if($("#type").val() == "copper"){
+                var tr = $(e).closest("tr");
+                var row = $('#userList').data("kendoGrid").dataItem(tr);
+                try {
+                    opener.parent.userDataSet(row);
+                    window.close();
+                }catch{
+
+                }
             }else {
                 var tr = $(e).closest("tr");
                 var row = $('#userList').data("kendoGrid").dataItem(tr);

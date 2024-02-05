@@ -43,7 +43,7 @@ var formM = {
 
         customKendo.fn_textBox(['searchKeyWord']);
         customKendo.fn_textBox(['formName', 'sort', 'headerCampaign', 'footerCampaign']);
-        customKendo.fn_textBox(['formFileName', 'formLogoFileName', 'formSymbolFileName', 'other_emp']);
+        customKendo.fn_textBox(['formFileName', 'formLogoFileName', 'formSymbolFileName', 'other_emp1', 'other_emp2']);
 
 
         this.global.dropDownDataSource = [{
@@ -209,6 +209,12 @@ var formM = {
                 { text: "팀장 전결", value: "3" }
             ]
         });
+
+        let copperDecisonArr = [
+            { text: "해당없음", value: "N" },
+            { text: "협조1 전결", value: "Y" }
+        ];
+        customKendo.fn_dropDownList("copperDecisonYn", copperDecisonArr, "text", "value", 3);
     },
 
     mainGrid : function(url, params){
@@ -436,11 +442,40 @@ var formM = {
             $("#approvalType").data("kendoRadioGroup").value(approvalMngData.APPROVAL_TYPE);
             $("#approvalType").data("kendoRadioGroup").trigger("change");
 
-            if(approvalMngData.COPPER_EMP_SEQ != null){
-                $("#otherEmpSeq").val(approvalMngData.COPPER_EMP_SEQ);
-                const copperEmpInfo = getUser(approvalMngData.COPPER_EMP_SEQ)
-                $("#other_emp").val(copperEmpInfo.EMP_NAME_KR);
+            if(approvalMngData.COPPER_EMP_SEQ1 != null){
+                $("#otherEmpSeq1").val(approvalMngData.COPPER_EMP_SEQ1);
+                const copperEmpInfo = getUser(approvalMngData.COPPER_EMP_SEQ1);
+                $("#other_emp1").val(copperEmpInfo.EMP_NAME_KR);
+
+                const data = { empSeq : approvalMngData.COPPER_EMP_SEQ1 }
+                const result = customKendo.fn_customAjax("/userManage/getAllDutyList", data);
+                const allDutyList = result.list;
+                customKendo.fn_dropDownList("otherTmpDept1", allDutyList, "DEPT_NAME", "DEPT_SEQ", 3);
+                if(allDutyList.length < 2){
+                    $("#otherTmpDept1").data("kendoDropDownList").enable(false);
+                }else{
+                    $("#otherTmpDept1").data("kendoDropDownList").enable(true);
+                }
+                $("#otherTmpDept1").data("kendoDropDownList").value(approvalMngData.COPPER_TMP_DEPT1);
             }
+
+            if(approvalMngData.COPPER_EMP_SEQ2 != null){
+                $("#otherEmpSeq2").val(approvalMngData.COPPER_EMP_SEQ2);
+                const copperEmpInfo = getUser(approvalMngData.COPPER_EMP_SEQ2);
+                $("#other_emp2").val(copperEmpInfo.EMP_NAME_KR);
+
+                const data = { empSeq : approvalMngData.COPPER_EMP_SEQ2 }
+                const result = customKendo.fn_customAjax("/userManage/getAllDutyList", data);
+                const allDutyList = result.list;
+                customKendo.fn_dropDownList("otherTmpDept2", allDutyList, "DEPT_NAME", "DEPT_SEQ", 3);
+                if(allDutyList.length < 2){
+                    $("#otherTmpDept2").data("kendoDropDownList").enable(false);
+                }else{
+                    $("#otherTmpDept2").data("kendoDropDownList").enable(true);
+                }
+                $("#otherTmpDept2").data("kendoDropDownList").value(approvalMngData.COPPER_TMP_DEPT2);
+            }
+            $("#copperDecisonYn").data("kendoDropDownList").value(approvalMngData.COPPER_DECISON_YN);
 
             if(approvalMngData.APPROVAL_TYPE == "1"){
                 for(let i=0; i<approvalMngList.length; i++){
@@ -742,9 +777,21 @@ var formM = {
             formData.append("approvalDtArr", JSON.stringify(approvalDtArr));
         }
 
-        if($("#otherEmpSeq").val() != ""){
-            formData.append("otherEmpSeq", $("#otherEmpSeq").val());
+        if($("#otherEmpSeq1").val() != ""){
+            formData.append("otherEmpSeq1", $("#otherEmpSeq1").val());
         }
+        if($("#otherEmpSeq2").val() != ""){
+            formData.append("otherEmpSeq2", $("#otherEmpSeq2").val());
+        }
+
+        if($("#otherTmpDept1").data("kendoDropDownList").value() != ""){
+            formData.append("otherTmpDept1", $("#otherTmpDept1").data("kendoDropDownList").value());
+        }
+        if($("#otherTmpDept2").data("kendoDropDownList").value() != ""){
+            formData.append("otherTmpDept2", $("#otherTmpDept2").data("kendoDropDownList").value());
+        }
+        formData.append("copperDecisonYn", $("#copperDecisonYn").data("kendoDropDownList").value());
+
         return formData;
     },
 
@@ -816,12 +863,19 @@ var formM = {
 
         $("#approvalTbody").html("");
 
-        $("#other_emp").val("");
-        $("#otherEmpSeq").val("");
+        $("#other_emp1").val("");
+        $("#other_emp2").val("");
+        $("#otherEmpSeq1").val("");
+        $("#otherEmpSeq2").val("");
+
+        $("#copperDecisonYn").data("kendoDropDownList").value("N");
+
+        customKendo.fn_dropDownList("otherTmpDept1", [], "", "", 3);
+        customKendo.fn_dropDownList("otherTmpDept2", [], "", "", 3);
     },
 
-    dataClear : function () {
-        $("#other_emp").val("");
-        $("#otherEmpSeq").val("");
+    dataClear : function (otherEmpType) {
+        $("#other_emp"+otherEmpType).val("");
+        $("#otherEmpSeq"+otherEmpType).val("");
     },
 }
