@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,27 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<Map<String, Object>> getDocumentList(Map<String, Object> params){
-        return documentRepository.getDocumentList(params);
+        List<Map<String, Object>> result = new ArrayList<>();
+        result = documentRepository.getDocumentList(params);
+
+        if(params.get("docuType").equals('2')){
+            for(int x = 0; x < result.size(); x++){
+                Map<String, Object> map = result.get(x);
+                Map<String, Object> temp = new HashMap<>();
+                temp.put("migKey", map.get("MIG_KEY").toString());
+
+                Map<String, Object> migFileInfo = documentRepository.migFileInfo(temp);
+
+                if(migFileInfo != null){
+                    result.get(x).put("file_uuid", migFileInfo.get("FILE_UUID"));
+                    result.get(x).put("file_org_name", migFileInfo.get("FILE_ORG_NAME"));
+                    result.get(x).put("file_path", migFileInfo.get("FILE_PATH"));
+                    result.get(x).put("file_ext", migFileInfo.get("FILE_EXT"));
+
+                }
+            }    
+        }
+        return result;
     }
 
     @Override

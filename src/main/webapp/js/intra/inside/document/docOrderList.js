@@ -156,7 +156,7 @@ var docuOrderList = {
                     title: "계약서",
                     width: "5%",
                     template : function(row){
-                        if(row.file_no != null){
+                        if(row.file_no != 0){
                             var fileName = row.file_org_name;
                             if(fileName.indexOf(".") > -1){
                             }else{
@@ -173,7 +173,7 @@ var docuOrderList = {
                     title: "납품서",
                     width: "5%",
                     template : function(row){
-                        if(row.file_no != null){
+                        if(row.file_no != 0){
                             var fileName = row.file_org_name;
                             if(fileName.indexOf(".") > -1){
                             }else{

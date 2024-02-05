@@ -143,15 +143,10 @@ var regisList = {
                     title: "다운",
                     width: "5%",
                     template: function(row) {
-                        if (row.file_no !== 0){
-                            var fileName = row.file_org_name;
-                            if (fileName.indexOf(".") > -1) {
-                            } else {
-                                fileName = row.file_org_name + "." + row.file_ext;
-                            }
-                            return '<a style=\'color : blue;\' href=\"javascript:fileDown(\'' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">다운로드</a>';
+                        if (row.file_uuid != null){
+                            return '<a style=\'color : blue;\' href=\"javascript:fileDown(\'' + row.file_path + row.file_uuid + '\',\'' + row.file_org_name + '\');\">다운로드</a>';
 
-                        }else if(row.file_no == 0){
+                        }else{
                             return "<span>없음</span>";
                         }
                     }
