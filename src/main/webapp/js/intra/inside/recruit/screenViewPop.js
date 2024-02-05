@@ -76,7 +76,7 @@ var screenViewPop = {
         var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
         for(var i = 0; i < cnt.length; i++){
             html += '' +
-                '<div class="pdf_page mt-20">' +
+                '<div class="pdf_page mt-20" style="height: 560px">' +
                     '<h2 class="text-center">채용 서류심사 평가표(경력)</h2>' +
                     '<table class="searchTable table table-bordered mb-0 mt-20">' +
                         '<colgroup>' +
@@ -108,6 +108,7 @@ var screenViewPop = {
                             '</td>' +
                         '</tr>' +
                     '</table>' +
+                    '<div style="height: 380px;">' +
                     '<table class="searchTable table table-bordered mb-0" style="text-align: center">' +
                         '<colgroup>' +
                         '    <col style="width: 8%">' +
@@ -205,7 +206,7 @@ var screenViewPop = {
                 const imgMap = result.data.signImg;
                 imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '
                     +cnt[i].EMP_NAME_KR
-                    +'&nbsp;(인)</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"http://218.158.231.184'
+                    +'&nbsp;(인)</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"'
                     +imgMap.file_path+imgMap.file_uuid
                 +'\">';
             }else{
@@ -219,7 +220,8 @@ var screenViewPop = {
                 '△경력(50점)-응시분야 및 관련분야 실무능력 ' +
                 '△전문성(30점)-응시분야 직무에 대한 전문지식' +
                 '</p>' +
-                '<div style="text-align: right;font-size: 12px" class="mt-60">' +
+                '</div>' +
+                '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px;">' +
                 screenViewPop.global.nowH + "<br>" +
                 imgHtml +
                 '</div>' +
@@ -233,7 +235,7 @@ var screenViewPop = {
         var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
         for(var i = 0; i < cnt.length; i++){
             html += '' +
-                '<div class="pdf_page mt-20">' +
+                '<div class="pdf_page mt-20" style="height: 560px">' +
                     '<h2 class="text-center">채용 서류심사 평가표(신입)</h2>' +
                     '<table class="searchTable table table-bordered mb-0 mt-20">' +
                         '<colgroup>' +
@@ -258,6 +260,7 @@ var screenViewPop = {
                             '</td>' +
                         '</tr>' +
                     '</table>' +
+                    '<div style="height: 380px;">' +
                     '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
                         '<colgroup>' +
                         '    <col style="width: 8%">' +
@@ -337,7 +340,7 @@ var screenViewPop = {
                 let imgHtml = '';
                 if(result.data.signImg != null){
                     const imgMap = result.data.signImg;
-                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[i].EMP_NAME_KR+'&nbsp;(인)</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"http://218.158.231.184'+imgMap.file_path+imgMap.file_uuid+'\">';
+                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[i].EMP_NAME_KR+'&nbsp;(인)</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"'+imgMap.file_path+imgMap.file_uuid+'\">';
                 }else{
                     imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[i].EMP_NAME_KR+'&nbsp;<b style=\"\">'+cnt[i].EMP_NAME_KR+'</b></span>';
                 }
@@ -349,7 +352,8 @@ var screenViewPop = {
                     '△경력(50점)-응시분야 및 관련분야 실무능력 ' +
                     '△전문성(30점)-응시분야 직무에 대한 전문지식' +
                     '</p>' +
-                    '<div style="text-align: right;font-size: 12px" class="mt-60">' +
+                    '</div>' +
+                    '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px">' +
                     screenViewPop.global.nowH + "<br>" +
                     imgHtml +
                     '</div>' +
@@ -714,12 +718,11 @@ const pdfMake = () => {
 var contWidth2 = 190, // 너비(mm) (a4에 맞춤)
     padding2 = 10; //상하좌우 여백(mm)
 const pdfMake2 = () => {
+
     var lists = document.querySelectorAll(".pdf_page"),
         deferreds = [],
         doc = new jsPDF("p", "mm", "a4"),
         listsLeng = lists.length;
-
-    console.log(lists);
     for (var i = 0; i < listsLeng; i++) { // pdf_page 적용된 태그 개수만큼 이미지 생성
         var deferred = $.Deferred();
         deferreds.push(deferred.promise());
@@ -767,7 +770,7 @@ function generateCanvas(i, doc, deferred, curList, contW){ //페이지를 이미
         pdfHeight = $(curList).outerHeight() * 0.2645,
         heightCalc = contW * pdfHeight / pdfWidth; //비율에 맞게 높이 조절
 
-    html2canvas( curList ).then(
+    html2canvas( curList,  { logging: true, letterRendering: 1, useCORS: true } ).then(
         function (canvas) {
             var img = canvas.toDataURL('image/jpeg', 1.0); //이미지 형식 지정
             renderedImg.push({num:i, image:img, height:heightCalc}); //renderedImg 배열에 이미지 데이터 저장(뒤죽박죽 방지)

@@ -72,7 +72,7 @@
     <select id="getApplicationScoreBoardEvalCnt" parameterType="map" resultType="map">
         /* getApplicationScoreBoardEvalCnt */
         SELECT
-            *
+            *, DATE_FORMAT(A.REG_DATE, '%Y년%m월%d일') AS REG_DT
         FROM
             CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
         JOIN
