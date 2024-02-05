@@ -7,18 +7,6 @@ var ub = {
         $("#projectType").data("kendoDropDownList").value($("#pjtSn").val());
     },
 
-    fn_writeTypeSet: function(){
-        let writeDataSource = [
-            { text: "강의", value: "1" },
-            { text: "컨설팅", value: "2" }
-        ];
-        customKendo.fn_dropDownList("writeClass", writeDataSource, "text", "value", 3);
-
-        $("#writeClass").data("kendoDropDownList").bind("change", ub.dataSet);
-        $("#studyUserName, #startDt, #endDt, #regDate, #startTime, #endTime").attr("readonly", true);
-
-    },
-
     fn_fieldTypeSet: function(){
         let fieldDataSource = [
             /*{text: "경영", value: "104"},
@@ -275,16 +263,5 @@ var ub = {
         ];
         customKendo.fn_radioGroup("certType", certTypeDataSource, "horizontal");
         $("#certType").data("kendoRadioGroup").value("N");
-    },
-
-    dataSet: function(){
-        var writeClass = $("#writeClass").val();
-        if(writeClass == 1){
-            $(".consulting").css("display", "none");
-            $(".lecture").css("display", "");
-        }else if(writeClass == 2){
-            $(".lecture").css("display", "none");
-            $(".consulting").css("display", "");
-        }
     }
 }

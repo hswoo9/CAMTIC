@@ -11,6 +11,28 @@
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 
 <div style="padding: 10px">
+    <button type="button" id="conSaveBtn" style="float: right; margin: 8px; display: none;" class="k-button k-button-solid-info" onclick="lecturePop.fn_consultingReqPop(${params.pjtSn})">컨설팅단위사업 등록</button>
+    <button type="button" id="eduSaveBtn" style="float: right; margin: 8px; display: none;" class="k-button k-button-solid-info" onclick="lecturePop.fn_lectureReqPop(${params.pjtSn})">교육단위사업 등록</button>
+    <button type="button" id="lecsaveBtn" style="float: right; margin: 8px;" class="k-button k-button-solid-info" onclick="lecturePop.lectureTeamPop(${params.pjtSn})">단위사업 등록</button>
+
+    <div id="btnDiv" style="background-color: #eef6ff; padding: 10px; font-size: 13px;">
+        <span id="radioSelectLecType"></span>
+    </div>
+
+    <br>
+
+    <span style="font-size: 12px;" id="lecTitleWrap">◎ 단위사업 리스트</span>
+
+        <div id="unitMainGrid" style="margin-top:5px; margin-bottom: 20px;"></div>
+
+        <div id="lectureMainGrid" style="margin-top:5px; margin-bottom: 20px;display: none;"></div>
+
+        <div id="consultingMainGrid" style="margin-top:5px; margin-bottom: 20px;display: none;"></div>
+
+</div>
+
+
+<%--<div style="padding: 10px">
     <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="lecturePop.fn_lectureReqPop(${params.pjtSn})">교육단위사업 등록</button>
     <button type="button" style="float: right; margin-bottom: 5px; margin-right: 5px" class="k-button k-button-solid-info" onclick="lecturePop.lectureTeamPop(${params.pjtSn})">단위사업 등록</button>
 
@@ -21,7 +43,9 @@
     <span> ◎ 교육단위사업 리스트</span>
     <div id="lectureMainGrid" style="margin-top:5px;"></div>
 
-</div>
+</div>--%>
+
+
 
 <script>
     unRndLectList.fn_defaultScript();

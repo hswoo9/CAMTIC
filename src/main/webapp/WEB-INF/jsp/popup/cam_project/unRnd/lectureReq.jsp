@@ -36,7 +36,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    단위사업
+                    교육 단위사업
                     <c:if test="${params.stat != 'v'}">
                         작성
                     </c:if>
@@ -71,7 +71,7 @@
             </table>
         </div>--%>
 
-        <div class="lecture" style="padding: 20px 30px; display: none;">
+        <div class="lecture" style="padding: 20px 30px;">
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="15%">
@@ -389,56 +389,23 @@
 </div>
 
 <script type="text/javascript">
-    $(function (){
-        $("#lecReqSelectModal").data("kendoWindow").open();
-    });
+    const currentUrl = window.location.href;
+    const urlParams = new URLSearchParams(currentUrl);
+    const typeValue = urlParams.get('type');
 
-    $("#lecReqSelectModal").kendoWindow({
-        title : "단위사업 작성",
-        width: "700px",
-        visible: false,
-        modal: true,
-        position : {
-            top : 200,
-            left : 400
-        },
-        open : function (){
-            var htmlStr =
-                '<div class="mb-10" style="text-align: right;">' +
-                '	<button type="button" id="cmCodeCRSaveBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="lectureReq.fn_startProject()">등록</button>' +
-                '	<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="$(\'#lecReqSelectModal \').data(\'kendoWindow\').close()">닫기</button>' +
-                '</div>' +
-                '<table class="table table-bordered mb-0" style="margin-top: 10px">' +
-                '	<colgroup>' +
-                '		<col width="20%">' +
-                '		<col width="40%">' +
-                '		<col width="40%">' +
-                '	</colgroup>' +
-                '	<tbody>' +
-                '		<tr>' +
-                '			<th scope="row" class="text-center th-color" style="background-color: #4c7fbf; color : #ffffff"><span class="red-star">*</span>단위사업 선택</th>' +
-                '			<td>' +
-                '				<input type="radio" id="edu" value="1" name="lecReq" style="position: relative; top: 3px;" />' +
-                '				<label for="projectDepthB">교육</label>' +
-                '			</td>' +
-                '			<td>' +
-                '				<input type="radio" id="cnosulting" value="2" name="lecReq" style="position: relative; top: 3px;" />' +
-                '				<label for="projectDepthB">컨설팅</label>' +
-                '			</td>' +
-                '		</tr>' +
-                '	</tbody>' +
-                '</table>';
-
-            $("#lecReqSelectModal").html(htmlStr);
-        },
-        close: function () {
-            $("#pjSelect").empty();
+    $(function(){
+        if(typeValue == "lec"){
+            $(".consulting").css("display", "none");
+            $(".lecture").css("display", "");
+        }else if(typeValue == "con"){
+            $(".consulting").css("display", "");
+            $(".lecture").css("display", "none");
         }
     });
 
-    /*function openModalSelect(){
+    function openModalSelect(){
         $("#lecReqSelectModal").data("kendoWindow").open();
-    }*/
+    }
     
     lectureReq.fn_defaultScript();
 </script>

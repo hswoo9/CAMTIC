@@ -13,7 +13,7 @@ const lectureReq = {
         customKendo.fn_textArea(["content1", "content2", "goal", "intro", "targetUser", "scheduleHtml", "prospectus", "materials"]);
 
         /** form구분 drop box */
-        /*ub.fn_writeTypeSet();*/
+       /* ub.fn_writeTypeSet();*/
 
         /** 사업구분 drop box */
         ub.fn_projectTypeSet();
@@ -111,24 +111,6 @@ const lectureReq = {
             $("#eduBtn").show();
             $("#payBtn").show();
         }
-    },
-
-    fn_startProject : function (){
-        if(!$("input[name='lecReq']").is(":checked")){
-            alert("단위사업을 선택해주세요.");
-            return;
-        }
-        
-        var lecValue = $("input[name='lecReq']:checked").val();
-        if(lecValue === "1"){
-            $(".consulting").css("display", "none");
-            $(".lecture").css("display", "");
-        } else if(lecValue === "2") {
-            $(".lecture").css("display", "none");
-            $(".consulting").css("display", "");
-        }
-
-        $("#lecReqSelectModal").data("kendoWindow").close();
     },
 
     fn_saveBtn: function(){
