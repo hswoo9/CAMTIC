@@ -38,8 +38,12 @@ var approvalLine = {
         /** 금액별 코드설정 정보 */
         payCkList: [],
 
+        /** 협조 정보 */
+        approvalMngData: {},
+
         /** 협조자 정보 */
-        copperUserInfo: null,
+        copperUserInfo1: null,
+        copperUserInfo2: null,
 
         /** 결재선 배열 */
         approverArr: []
@@ -69,6 +73,7 @@ var approvalLine = {
 
         const approvalMngData = approvalMngResult.data;
         const approvalMngList = approvalMngResult.list;
+        approvalLine.global.approvalMngData = approvalMngData;
 
         /** 2-1. 전결 구분 매칭 */
         if(approvalMngData == null){
@@ -101,11 +106,24 @@ var approvalLine = {
 
         /** 2-2. 협조 있는지 체크해서 있으면 global 변수 세팅 */
         if(approvalMngData.COPPER_EMP_SEQ1 != null){
-            console.log("협조자 있음...");
-            approvalLine.global.copperUserInfo = getUser(approvalMngData.COPPER_EMP_SEQ1);
-            const copperUserInfo = approvalLine.global.copperUserInfo;
-            console.log("협조자 는... " + copperUserInfo.EMP_NAME_KR);
-        }else{
+            console.log("협조자1 있음...");
+            approvalLine.global.copperUserInfo1 = getUser(approvalMngData.COPPER_EMP_SEQ1);
+            const copperUserInfo1 = approvalLine.global.copperUserInfo1;
+            console.log("협조자1 은... " + copperUserInfo1.EMP_NAME_KR);
+        }
+
+        if(approvalMngData.COPPER_EMP_SEQ2 != null){
+            console.log("협조자2 있음...");
+            approvalLine.global.copperUserInfo2 = getUser(approvalMngData.COPPER_EMP_SEQ2);
+            const copperUserInfo2 = approvalLine.global.copperUserInfo2;
+            console.log("협조자2 는... " + copperUserInfo2.EMP_NAME_KR);
+        }
+
+        if(approvalMngData.COPPER_DECISON_YN == "Y"){
+            console.log("협조자1 전결 문서...");
+        }
+
+        if(approvalMngData.COPPER_EMP_SEQ1 == null){
             console.log("협조자 없음...") ;
         }
 
@@ -409,13 +427,8 @@ var approvalLine = {
              * 3. 같은부서가 아니면
              * 
              * return 마지막 결재자 직전에 협조자 결재선 추가 */
-            if(i == userArr.length-1
-                && userArr.length != 1
-                && approvalLine.global.copperUserInfo != null
-                && approvalLine.global.userInfo.DEPT_SEQ != approvalLine.global.copperUserInfo.DEPT_SEQ){
-
-                approveType = "1";
-                approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo, approveType);
+            if(i == userArr.length-1 && userArr.length != 1){
+                approvalLine.setCopperLineData();
             }
             
             if(i == userArr.length-1){
@@ -429,6 +442,75 @@ var approvalLine = {
 
         /** 결재선 송신 */
         approvalLine.setApproval();
+    },
+
+    copperLineCk: function(){
+        const approvalMngData = approvalLine.global.approvalMngData;
+        const cUserInfo1 = approvalLine.global.copperUserInfo1;
+        const cUserInfo2 = approvalLine.global.copperUserInfo2;
+
+        /** 협조 결재선 체크 */
+
+        /** 협조 타입
+         * A: 협조1 전결
+         * B: 협조1 -> 협조2
+         * C: 협조 없음
+         * */
+        let copperType = "C";
+
+        /** 1. 협조1 전결인지 체크 */
+        try {
+            if(cUserInfo1 != null && approvalMngData.COPPER_DECISON_YN == "Y"){
+                copperType = "A";
+            }else if(cUserInfo1 != null && cUserInfo2 != null){
+                copperType = "B";
+            }
+        }catch{
+            copperType = "C";
+        }
+        console.log("협조 타입 :", copperType);
+        approvalLine.global.copperType = copperType;
+    },
+
+    setCopperLineData: function(){
+        approvalLine.copperLineCk();
+
+        const userInfo = approvalLine.global.userInfo;
+        const userDept = userInfo.DEPT_SEQ;
+        const userParentDept = userInfo.deptId;
+
+        const approvalMngData = approvalLine.global.approvalMngData;
+        const cUserInfo1 = approvalLine.global.copperUserInfo1;
+        const cUserInfo2 = approvalLine.global.copperUserInfo2;
+
+        let cUserTempDept1 = null;
+        let cUserTempDept2 = null;
+
+        const copperType = approvalLine.global.copperType;
+
+        /** 2. 겸직 데이터 체크 */
+        if(approvalMngData.teamId1 != null){
+            cUserTempDept1 = approvalMngData.teamId1;
+        }
+        if(approvalMngData.teamId2 != null){
+            cUserTempDept2 = approvalMngData.teamId2;
+        }
+
+        /** 3. 협조 결재선 세팅 */
+        const approveType = "1";
+        if(copperType == "A"){
+            if(userDept != cUserTempDept1){
+                approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo1, approveType);
+            }
+        }else if(copperType == "B"){
+            if(userParentDept != cUserTempDept2){
+                /** 협조1과 2가 같은 사람이면 한번만 추가 */
+                if(cUserInfo1.empSeq != cUserInfo2.empSeq){
+                    approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo1, approveType);
+                }
+                approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo2, approveType);
+            }
+        }
     },
 
     /** 결재선 1줄 세팅 */

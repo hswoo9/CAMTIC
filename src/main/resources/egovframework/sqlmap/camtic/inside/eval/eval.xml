@@ -51,6 +51,7 @@
         /* getApplicationScoreBoard */
         SELECT
             *
+           ,DATE_FORMAT(REG_DATE, '%Y년%m월%d일') AS EVALUATION_DT
         FROM
             CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD
         WHERE 1=1

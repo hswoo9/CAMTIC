@@ -54,10 +54,10 @@ var popItemInvenList = {
                     width: 150
                 }, {
                     title: "재고",
-                    field: "CURRENT_INVEN",
+                    field: "TOT_CNT",
                     width: 100,
                     template : function (e){
-                        return popItemInvenList.comma(e.CURRENT_INVEN);
+                        return popItemInvenList.comma(e.TOT_CNT);
                     },
                     attributes : {
                         style : "text-align : right;"

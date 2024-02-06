@@ -114,4 +114,6 @@ public interface BustripService {
     List<Map<String, Object>> getPersonalExnpData(Map<String, Object> params);
 
     List<Map<String, Object>> getCorpExnpData(Map<String, Object> params);
+
+    Map<String, Object> getCorpCarExnpData(Map<String, Object> params);
 }

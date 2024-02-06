@@ -24,9 +24,24 @@ var busInit = {
         hwpDocCtrl.global.HwpCtrl.MoveToField('tripCode', true, true, false);
         hwpDocCtrl.putFieldText('tripCode', tripCodeText);
 
+        let startDate = new Date(busInfo.TRIP_DAY_FR + " " + busInfo.TRIP_TIME_FR);
+        let endDate = new Date(busInfo.TRIP_DAY_TO + " " + busInfo.TRIP_TIME_TO);
+
+        let diffInMs = endDate.getTime() - startDate.getTime();
+        let diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+        let dayText = "";
+
+        if (Number.isInteger(diffInDays)) {
+            dayText = " (" + diffInDays + " 일간)";
+        } else {
+            dayText = " (" + diffInDays.toFixed(1) + "일간)";
+        }
+
         let tripDate = busInfo.TRIP_DAY_FR.split("-")[0]+"년"+busInfo.TRIP_DAY_FR.split("-")[1]+"월"+busInfo.TRIP_DAY_FR.split("-")[2]+"일 "+busInfo.TRIP_TIME_FR
             +" ~ "
             +busInfo.TRIP_DAY_TO.split("-")[0]+"년"+busInfo.TRIP_DAY_TO.split("-")[1]+"월"+busInfo.TRIP_DAY_TO.split("-")[2]+"일 "+busInfo.TRIP_TIME_TO;
+
+        tripDate += dayText;
         hwpDocCtrl.global.HwpCtrl.MoveToField('tripDate', true, true, false);
         hwpDocCtrl.putFieldText('tripDate', tripDate);
 
@@ -104,9 +119,23 @@ var busInit = {
         }
         hwpDocCtrl.putFieldText('tripCode', tripCodeText);
 
+        let startDate = new Date(busInfo.TRIP_DAY_FR + " " + busInfo.TRIP_TIME_FR);
+        let endDate = new Date(busInfo.TRIP_DAY_TO + " " + busInfo.TRIP_TIME_TO);
+
+        let diffInMs = endDate.getTime() - startDate.getTime();
+        let diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+        let dayText = "";
+
+        if (Number.isInteger(diffInDays)) {
+            dayText = " (" + diffInDays + " 일간)";
+        } else {
+            dayText = " (" + diffInDays.toFixed(1) + "일간)";
+        }
+
         let tripDate = busInfo.TRIP_DAY_FR.split("-")[0]+"년"+busInfo.TRIP_DAY_FR.split("-")[1]+"월"+busInfo.TRIP_DAY_FR.split("-")[2]+"일 "+busInfo.TRIP_TIME_FR
             +" ~ "
             +busInfo.TRIP_DAY_TO.split("-")[0]+"년"+busInfo.TRIP_DAY_TO.split("-")[1]+"월"+busInfo.TRIP_DAY_TO.split("-")[2]+"일 "+busInfo.TRIP_TIME_TO;
+        tripDate += dayText;
         hwpDocCtrl.putFieldText('tripDate', tripDate);
 
         let visit = busInfo.VISIT_CRM + ", "+ busInfo.VISIT_LOC;
@@ -145,7 +174,7 @@ var busInit = {
 
         hwpDocCtrl.putFieldText('position', busInfo.POSITION_NAME);
 
-        hwpDocCtrl.putFieldText('title', busInfo.TITLE);
+        hwpDocCtrl.putFieldText('title', busInfo.RESULT);
 
         let regSign = busInfo.EMP_NAME+" (인)";
         hwpDocCtrl.putFieldText('regSign', regSign);
