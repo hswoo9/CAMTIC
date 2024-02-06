@@ -40,7 +40,50 @@ var hwpApprovalLine = {
             hwpDocCtrl.putFieldText('appr2', appArr[2]);
 
             if(copperData != null){
-                hwpDocCtrl.putFieldText('cApprText0', copperData.approveDeptName+"장");
+                const userInfo = approvalLine.global.userInfo;
+                const userDept = userInfo.DEPT_SEQ;
+                const userParentDept = userInfo.deptId;
+
+                const approvalMngData = approvalLine.global.approvalMngData;
+                const cUserInfo1 = approvalLine.global.copperUserInfo1;
+                const cUserInfo2 = approvalLine.global.copperUserInfo2;
+
+                let cUserTempDept1 = null;
+                let cUserTempDept2 = null;
+
+                const copperType = approvalLine.global.copperType;
+
+                /** 2. 겸직 데이터 체크 */
+                if(approvalMngData.teamId1 != null){
+                    cUserTempDept1 = approvalMngData.teamId1;
+                }
+                if(approvalMngData.teamId2 != null){
+                    cUserTempDept2 = approvalMngData.teamId2;
+                }
+
+                /** 3. 협조 결재선 세팅 */
+                const approveType = "1";
+                if(copperType == "A"){
+                    if(userDept != cUserTempDept1){
+                        hwpDocCtrl.putFieldText('cApprText0', approvalMngData.teamNm1+"장");
+                        hwpDocCtrl.putFieldText('cAppr0', "전결");
+                        hwpDocCtrl.putFieldText('cApprText1', approvalMngData.deptNm1+"장");
+                    }
+                }else if(copperType == "B"){
+                    if(userParentDept != cUserTempDept2){
+                        /** 협조1과 2가 같은 사람이면 한번만 추가 */
+
+                        hwpDocCtrl.putFieldText('cApprText0', approvalMngData.teamNm1+"장");
+
+                        if(cUserInfo1.empSeq == cUserInfo2.empSeq){
+                            hwpDocCtrl.putFieldText('cAppr0', "공란");
+                        }
+
+                        hwpDocCtrl.putFieldText('cApprText1', approvalMngData.deptNm1+"장");
+                    }
+                }else{
+                    hwpDocCtrl.putFieldText('cApprText0', approvalMngData.teamNm1+"장");
+                }
             }
 
 

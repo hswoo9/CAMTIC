@@ -426,10 +426,9 @@ var docView = {
             /** 협조 사인 */
             }else{
                 for(var i = 0; i < 2; i ++){
-                    const field = "cApprText" + i;
                     const signField = "cAppr" + i;
-                    if(hwpDocCtrl.fieldExist(field)){
-                        if(hwpDocCtrl.getFieldText(field) == docView.global.rs.approveNowRoute.APPROVE_DEPT_NAME+"장"){
+                    if(hwpDocCtrl.fieldExist(signField)){
+                        if(hwpDocCtrl.getFieldText(signField) == ""){
                             hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
                         }
                     }
