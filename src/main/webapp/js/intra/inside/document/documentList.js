@@ -5,6 +5,24 @@ var docuList = {
     },
 
     dataSet: function(){
+        var now = new Date();
+
+        $("#startDt").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() - 1))
+        });
+
+        $("#endDt").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() + 2))
+        });
+
         customKendo.fn_textBox(["searchText"]);
         let partArr = [
             { text: "미래전략기획본부", value: "56" },
@@ -51,6 +69,9 @@ var docuList = {
                     data.documentPart = $("#documentPart").val();
                     data.searchType = $("#searchType").val();
                     data.searchText = $("#searchText").val();
+                    data.start = $("#startDt").val();
+                    data.end = $("#endDt").val();
+
                     return data;
                 }
             },

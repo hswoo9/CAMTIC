@@ -28,6 +28,9 @@
             <if test='deptPart != null and !"".equals(deptPart)'>
                 AND CCD.DEPT_PART_TYPE = #{deptPart}
             </if>
+            <if test='start != null and !"".equals(start)'>
+                AND CCD.REG_DT BETWEEN #{start} AND #{end}
+            </if>
 
         <if test='searchText != null and !"".equals(searchText)'>
             <choose>

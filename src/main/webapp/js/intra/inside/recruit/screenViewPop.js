@@ -222,7 +222,7 @@ var screenViewPop = {
                 '</p>' +
                 '</div>' +
                 '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px;">' +
-                screenViewPop.global.nowH + "<br>" +
+                cnt[i].REG_DT + "<br>" +
                 imgHtml +
                 '</div>' +
                 '</div>';
@@ -354,7 +354,7 @@ var screenViewPop = {
                     '</p>' +
                     '</div>' +
                     '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px">' +
-                    screenViewPop.global.nowH + "<br>" +
+                    cnt[i].REG_DT + "<br>" +
                     imgHtml +
                     '</div>' +
                     '</div>';
