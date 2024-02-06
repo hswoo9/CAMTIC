@@ -20,18 +20,24 @@ public interface ProjectUnRndService {
     Map<String, Object> getPersonReqData(Map<String, Object> params);
     Map<String, Object> getTeacherData(Map<String, Object> params);
     List<Map<String, Object>> getLectureTeacherReqList(Map<String, Object> params);
+    List<Map<String, Object>> getConTeacherReqList(Map<String, Object> params);
     List<Map<String, Object>> getLecturePersonReqList(Map<String, Object> params);
     List<Map<String, Object>> getLecturePersonDupleCk(Map<String, Object> params);
     List<Map<String, Object>> getLectureList(Map<String, Object> params);
+    List<Map<String, Object>> getConsultingList(Map<String, Object> params);
     Map<String, Object> getLectureInfo(Map<String, Object> params);
+    Map<String, Object> getConsultingInfo(Map<String, Object> params);
     void insLectureTeacherInfo(Map<String, Object> params);
+    void insConTeacherInfo(Map<String, Object> params);
     void insLecturePersonInfo(Map<String, Object> params);
     void setLecturePersonData(Map<String, Object> params);
     void setLectureTeacherData(Map<String, Object> params);
     void delLecturePersonData(Map<String, Object> params);
     void delLectureTeacherData(Map<String, Object> params);
     void insLectureInfo(Map<String, Object> params);
+    void insConsultingInfo(Map<String, Object> params);
     void updLectureInfo(Map<String, Object> params);
+    void updConsultingInfo(Map<String, Object> params);
     void updPersonApp(Map<String, Object> params);
     void updPersonPartic(Map<String, Object> params);
     void updPersonAudit(Map<String, Object> params);
@@ -40,6 +46,7 @@ public interface ProjectUnRndService {
     void delLecturePersonInfo(Map<String, Object> params);
     void delLectureInfo(Map<String, Object> params);
     void delLectureTeacherInfo(Map<String, Object> params);
+    void delConTeacherInfo(Map<String, Object> params);
 
     /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
     void updateUnRndDelvDocState(Map<String, Object> bodyMap) throws Exception;

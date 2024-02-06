@@ -1,4 +1,4 @@
-const lectureTeacher = {
+const conTeacher = {
     fn_defaultScript: function(){
         /*this.fn_pageSet();*/
         this.fn_dataSet();
@@ -6,13 +6,11 @@ const lectureTeacher = {
     },
 
     fn_dataSet: function(){
+
         const data = {
             pk: $("#pk").val()
         }
-        const result = customKendo.fn_customAjax("/projectUnRnd/getLectureInfo", data);
-        const lecMap = result.data;
-
-        $("#lecTitleBs").text(lecMap.LEC_TITLE_BS);
+        const result = customKendo.fn_customAjax("/projectUnRnd/getConsultingInfo", data);
     },
 
     fn_mainGrid: function(){
@@ -45,7 +43,7 @@ const lectureTeacher = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : "/projectUnRnd/getLectureTeacherReqList",
+                    url : "/projectUnRnd/getConTeacherReqList",
                     dataType : "json",
                     type : "post"
                 },
@@ -77,7 +75,7 @@ const lectureTeacher = {
                     template: function (e) {
                         return '<div>' +
                             '<span style="position: relative; top: 5px; right: 5px">성명</span>'+
-                            '<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){lectureTeacher.fn_mainGrid();}">'+
+                            '<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){conTeacher.fn_mainGrid();}">'+
                             '</div>';
                     }
                 }, {
@@ -90,7 +88,7 @@ const lectureTeacher = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectureTeacher.fn_saveBtn()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="conTeacher.fn_saveBtn()">' +
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }
@@ -136,7 +134,7 @@ const lectureTeacher = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectureTeacher.fn_delBtn()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="conTeacher.fn_delBtn()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -196,7 +194,7 @@ const lectureTeacher = {
         }
         data.teacherList = JSON.stringify(arr);
 
-        const result = customKendo.fn_customAjax("/projectUnRnd/insLectureTeacherInfo", data);
+        const result = customKendo.fn_customAjax("/projectUnRnd/insConTeacherInfo", data);
 
         if(result.code != 200){
             alert("저장 중 오류가 발생하였습니다.");
@@ -218,7 +216,7 @@ const lectureTeacher = {
             return;
         }
 
-        const result = customKendo.fn_customAjax("/projectUnRnd/delLectureTeacherInfo", data);
+        const result = customKendo.fn_customAjax("/projectUnRnd/delConTeacherInfo", data);
 
         if(result.code != 200){
             alert("삭제 중 오류가 발생하였습니다.");

@@ -237,6 +237,15 @@ public class ProjectUnRndController {
         model.addAttribute("params", params);
         return "popup/cam_project/unRnd/lectureTeacher";
     }
+    /** 단위사업(컨설팅) 강사 관리 팝업창 */
+    @RequestMapping("/projectUnRnd/consultingTeacherPop.do")
+    public String consultingTeacherPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/conTeacher";
+    }
     /** 단위사업(교육) 수강신청 관리 팝업창 */
     @RequestMapping("/projectUnRnd/lecturePersonPop.do")
     public String lecturePersonPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
@@ -375,6 +384,13 @@ public class ProjectUnRndController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+    /** 단위사업(컨설팅) 선택강사 리스트 */
+    @RequestMapping("/projectUnRnd/getConTeacherReqList")
+    public String getConTeacherReqList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectUnRndService.getConTeacherReqList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
     /** 단위사업(교육) 수강신청 개인회원 리스트 */
     @RequestMapping("/projectUnRnd/getLecturePersonReqList")
     public String getLecturePersonReqList(@RequestParam Map<String, Object> params, Model model){
@@ -397,11 +413,26 @@ public class ProjectUnRndController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+    /** 단위사업(컨설팅) 리스트 */
+    @RequestMapping("/projectUnRnd/getConsultingList")
+    public String getConsultingList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectUnRndService.getConsultingList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 
     /** 단위사업(교육) 단일 데이터 */
     @RequestMapping("/projectUnRnd/getLectureInfo")
     public String getLectureInfo(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> data = projectUnRndService.getLectureInfo(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 단위사업(컨설팅) 단일 데이터 */
+    @RequestMapping("/projectUnRnd/getConsultingInfo")
+    public String getConsultingInfo(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = projectUnRndService.getConsultingInfo(params);
         model.addAttribute("data", data);
         return "jsonView";
     }
@@ -418,11 +449,34 @@ public class ProjectUnRndController {
         return "jsonView";
     }
 
+    /** 단위사업(컨설팅) 등록 */
+    @RequestMapping("/projectUnRnd/insConsultingInfo")
+    public String insConsultingInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.insConsultingInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     /** 단위사업(교육) 강사 등록 */
     @RequestMapping("/projectUnRnd/insLectureTeacherInfo")
     public String insLectureTeacherInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.insLectureTeacherInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+    /** 단위사업(컨설팅) 강사 등록 */
+    @RequestMapping("/projectUnRnd/insConTeacherInfo")
+    public String insConTeacherInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.insConTeacherInfo(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
@@ -495,6 +549,18 @@ public class ProjectUnRndController {
     public String updLectureInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.updLectureInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업(컨설팅) 수정 */
+    @RequestMapping("/projectUnRnd/updConsultingInfo")
+    public String updConsultingInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.updConsultingInfo(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
@@ -591,6 +657,18 @@ public class ProjectUnRndController {
     public String delLectureTeacherInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.delLectureTeacherInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업(교육) 강사 삭제 */
+    @RequestMapping("/projectUnRnd/delConTeacherInfo")
+    public String delConTeacherInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.delConTeacherInfo(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
