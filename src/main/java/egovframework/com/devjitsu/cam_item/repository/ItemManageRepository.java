@@ -113,4 +113,20 @@ public class ItemManageRepository extends AbstractDAO {
     public void insItemHistOutData(Map<String, Object> params) {
         insert("item.insItemHistOutData", params);
     }
+
+    public void setDeadLine(Map<String, Object> params) {
+        update("item.setDeadLine", params);
+    }
+
+    public void updItemManageRealCnt(Map<String, Object> params) {
+        update("item.updItemManageRealCnt", params);
+    }
+
+    public void insHistDeadLineCnt(Map<String, Object> params) {
+        insert("item.insHistDeadLineCnt", params);
+    }
+
+    public void updItemMasterConfCnt(Map<String, Object> params) {
+        update("item.updItemMasterConfCnt", params);
+    }
 }

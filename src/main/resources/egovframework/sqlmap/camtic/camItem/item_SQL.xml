@@ -1574,18 +1574,20 @@
         SELECT
             IM.*,
             (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE LG_CD = 'WH' AND ITEM_CD = IM.WH_CD) AS WH_CD_NM,
-            (SELECT IFNULL(SUM(IN_CNT), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(MOD_DT, '%Y-%m-%d') <= #{nowMon}) AS IN_CNT,
-            (SELECT IFNULL(SUM(OUT_CNT), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(MOD_DT, '%Y-%m-%d') <= #{nowMon}) AS OUT_CNT,
-            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(MOD_DT, '%Y-%m-%d') <= #{nowMon}) AS TOT_CNT,
+            (SELECT IFNULL(SUM(IN_CNT), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{nowStrDt} AND #{nowEndDt}) AS IN_CNT,
+            (SELECT IFNULL(SUM(OUT_CNT), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{nowStrDt} AND #{nowEndDt}) AS OUT_CNT,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{nowStrDt} AND #{nowEndDt}) AS TOT_CNT,
             IM.SAFETY_INVEN AS SAFE_CNT,
             IFNULL(ITEM_REAL_CNT, 0) AS REAL_CNT,
-            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(MOD_DT, '%Y-%m-%d') <= #{befMon}) AS BEF_TOT_CNT,
-            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE UNIT_AMT IS NOT NULL ORDER BY MOD_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(MOD_DT, '%Y-%m-%d') <= #{befMon}) AS BEF_AMT,
-            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE UNIT_AMT IS NOT NULL ORDER BY MOD_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(MOD_DT, '%Y-%m-%d') <= #{nowMon}) AS AMT,
-            IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN ORDER BY MOD_DT DESC LIMIT 1), 0) AS UNIT_AMT
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{befStrDt} AND #{befEndDt}) AS BEF_TOT_CNT,
+            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{befStrDt} AND #{befEndDt}) AS BEF_AMT,
+            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{nowStrDt} AND #{nowEndDt}) AS AMT,
+            IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN ORDER BY REG_DT DESC LIMIT 1), 0) AS UNIT_AMT
         FROM
             CAM_ITEM.DJ_ITEM_MASTER IM
         WHERE 1=1
+        AND
+            IM.ACTIVE = 'Y'
         ORDER BY IM.REG_DT DESC
         ]]>
     </select>
@@ -2035,4 +2037,53 @@
                 DATE_FORMAT(now(), '%Y-%m-%d')
             )
     </insert>
+
+    <update id="setDeadLine" parameterType="map">
+        /*setDeadLine*/
+        UPDATE CAM_ITEM.DJ_ITEM_HIST
+        SET
+            COFL_CHK = 'Y'
+        WHERE
+            1 = 1
+    </update>
+
+    <update id="updItemManageRealCnt" parameterType="map">
+        /*updItemManageRealCnt*/
+        UPDATE CAM_ITEM.DJ_ITEM_MASTER
+        SET
+            ITEM_REAL_CNT = 0
+        WHERE
+            1 = 1
+    </update>
+
+    <insert id="insHistDeadLineCnt" parameterType="map">
+        /*insHistDeadLineCnt*/
+        INSERT INTO CAM_ITEM.DJ_ITEM_HIST
+            (
+                MASTER_SN,
+                IN_CNT,
+                OUT_CNT,
+                COFL_CHK,
+                REG_DT,
+                MOD_DT
+            )
+        VALUES
+            (
+                #{masterSn},
+                #{inCnt},
+                #{outCnt},
+                'Y',
+                now(),
+                now()
+            )
+    </insert>
+
+    <update id="updItemMasterConfCnt" parameterType="map">
+        /*updItemMasterConfCnt*/
+        UPDATE CAM_ITEM.DJ_ITEM_MASTER
+        SET
+            ITEM_CONF_CNT = #{confCnt}
+        WHERE
+            MASTER_SN = #{masterSn}
+    </update>
 </mapper>

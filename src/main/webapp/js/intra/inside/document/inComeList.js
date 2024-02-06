@@ -10,6 +10,24 @@ var regisList = {
     },
 
     dataSet: function(){
+        var now = new Date();
+
+        $("#startDt").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() - 1))
+        });
+
+        $("#endDt").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date(now.setMonth(now.getMonth() + 2))
+        });
+
         customKendo.fn_textBox(["searchText"]);
         let partArr = [
             {text: "캠틱종합기술원", value: "1"}
@@ -144,7 +162,9 @@ var regisList = {
                     width: "5%",
                     template: function(row) {
                         if (row.file_uuid != null){
-                            return '<a style=\'color : blue;\' href=\"javascript:fileDown(\'' + row.file_path + row.file_uuid + '\',\'' + row.file_org_name + '\');\">다운로드</a>';
+                            var fileName = row.file_org_name + '.' + row.file_ext;
+
+                            return '<a style=\'color : blue;\' href=\"javascript:fileDown(\'' + row.file_path + row.file_uuid + '\',\'' + fileName + '\');\">다운로드</a>';
 
                         }else{
                             return "<span>없음</span>";
@@ -176,7 +196,9 @@ var regisList = {
             documentPart : $("#documentPart").val(),
             deptPart : $("#deptPart").val(),
             searchType : $("#searchType").val(),
-            searchText : $("#searchText").val()
+            searchText : $("#searchText").val(),
+            start : $("#startDt").val(),
+            end : $("#endDt").val()
         }
 
         regisList.mainGrid("/inside/getDocumentList", regisList.global.searchAjaxData);

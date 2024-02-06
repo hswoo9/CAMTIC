@@ -70,4 +70,8 @@ public interface ItemManageService {
     void itemExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
 
     void setItemInvenAdjust(Map<String, Object> params);
+
+    void setDeadLine(Map<String, Object> params);
+
+    void updItemManageRealCnt(Map<String, Object> params);
 }

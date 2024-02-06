@@ -1418,4 +1418,18 @@ public class ItemManageController {
         itemManageService.setItemInvenAdjust(params);
         return "jsonView";
     }
+
+    @RequestMapping("/item/setDeadLine")
+    public String setDeadLine(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            itemManageService.setDeadLine(params);
+            itemManageService.updItemManageRealCnt(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }
