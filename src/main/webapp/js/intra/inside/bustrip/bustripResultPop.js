@@ -1,4 +1,7 @@
 var bustripResultPop = {
+    global: {
+        data : ""
+    },
     init: function(){
         bustrip.fn_setPageName();
         bustripResultPop.pageSet();
@@ -10,6 +13,8 @@ var bustripResultPop = {
         }else{
             bustripResultPop.resDataSet();
         }
+
+        bustripResultPop.test123();
     },
 
     pageSet: function(){
@@ -50,6 +55,8 @@ var bustripResultPop = {
         const busInfo = result.rs.rs;
         const list = result.rs.list;
         const fileInfo = result.rs.fileInfo;
+
+        bustripResultPop.global.data = busInfo;
 
         /** 사번, 성명, 부서명, 신청일 */
         $("#empSeq").val(busInfo.EMP_SEQ);
@@ -173,7 +180,7 @@ var bustripResultPop = {
     },
 
     resDataSet: function() {
-        const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
+        const result = customKendo.fn_customAjax("/bustrip/getBustripResReqInfo", {
             hrBizReqId: hrBizReqId,
             hrBizReqResultId: hrBizReqResultId
         });
@@ -182,6 +189,8 @@ var bustripResultPop = {
         const resInfo = result.rs.rsRes;
         const resList = result.rs.resList;
         const fileInfo = result.rs.fileInfo;
+
+        bustripResultPop.global.data = resInfo;
 
         console.log(resInfo);
         $("#apprBtnBox").html("");
@@ -205,6 +214,7 @@ var bustripResultPop = {
                         "<span class='k-button-text'>상신</span>" +
                         "</button>";
                 } else if(resInfo.STATUS == 10){
+                    $("#fileUpload").css("display", "none");
                     apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+resInfo.DOC_ID+"\", \""+resInfo.DOC_APPRO_KEY+"\", 1, \"retrieve\");'>" +
                         "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
                         "<span class='k-button-text'>회수</span>" +
@@ -215,6 +225,8 @@ var bustripResultPop = {
                         "<span class='k-button-text'>재상신</span>" +
                         "</button>";
                 } else if(resInfo.STATUS == 100 || resInfo.STATUS == 101){
+                    $("#fileUpload").css("display", "none");
+                    $("#fileViewer").css("display", "");
                     apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+resInfo.DOC_ID+"\", \""+resInfo.DOC_APPRO_KEY+"\", \""+resInfo.DOC_MENU_CD+"\");'>" +
                         "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                         "<span class='k-button-text'>열람</span>" +
@@ -423,6 +435,13 @@ var bustripResultPop = {
 
         formData.append("companionChangeCheck", $("#companionChangeCheck").val());
 
+        /** 증빙파일 첨부파일 */
+        if(fCommon.global.attFiles != null){
+            for(var i = 0; i < fCommon.global.attFiles.length; i++){
+                formData.append("bustripResFile", fCommon.global.attFiles[i]);
+            }
+        }
+
         if(hrBizReqResultId == ""){
             if(!confirm("출장 결과보고를 저장하고 다음단계로 넘어가시겠습니까?")){ return; }
         }else{
@@ -594,6 +613,139 @@ var bustripResultPop = {
         var name = "mapOpen";
         var option = "width = 1200, height = 800, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    mapFormDown : function (){
+        var protocol = window.location.protocol + "//";
+        var locationHost = protocol + window.location.host;
+
+        var filePath = "/upload/templateForm/mapExnpForm.hwp";
+
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent('운행거리지출증빙.hwp'),
+        });
+    },
+
+    exnpPdfViewer : function (){
+
+    },
+
+    test123 : function(){
+        var selCorpType = {
+            1 : '유류비',
+            2 : '교통비',
+            3 : '숙박비',
+            4 : '통행료',
+            5 : '일비',
+            6 : '식비',
+            7 : '주차비',
+            8 : '기타'
+        }
+
+        const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", {hrBizReqResultId: hrBizReqResultId});
+        const cardList = cardResult.list;
+
+        var infoData = bustripResultPop.global.data;
+        console.log(infoData);
+        console.log("infoData");
+
+        const empInfo = customKendo.fn_customAjax("/bustrip/getBustripEmpInfo", {empSeq: infoData.REG_EMP_SEQ}).empInfo;
+
+        console.log(empInfo);
+
+        var emp = empInfo.PARENT_DEPT_NAME + " " + empInfo.DEPT_NAME + " " + empInfo.EMP_NAME_KR;
+
+        if(empInfo.DUTY_NAME != ""){
+            emp += " " + empInfo.DUTY_NAME;
+        }else{
+            emp += " " + empInfo.POSITION_NAME;
+        }
+
+        for(let i=0; i<cardList.length; i++){
+            const cardMap = cardList[i];
+
+            var data = {
+                hrBizReqResultId: hrBizReqResultId,
+                cardNo : cardMap.CARD_NO,
+                authDate : cardMap.AUTH_DD,
+                authNo : cardMap.AUTH_NO,
+                authTime : cardMap.AUTH_HH,
+                buySts : cardMap.BUY_STS
+            }
+
+            const corpCardHist = customKendo.fn_customAjax("/bustrip/getExnpHistOne", data).map;
+
+            const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", data);
+            const e = iBrenchResult.cardInfo;
+
+            let html = "";
+            let useDate = infoData.TRIP_DAY_FR.replace(/-/g, ".") + " ~ " + infoData.TRIP_DAY_TO.replace(/-/g, ".");
+            let useType = selCorpType[corpCardHist.EXNP_TYPE];
+            let useAmt = e.AUTH_AMT;
+            if(useAmt != ""){useAmt = comma(useAmt)}else{useAmt = "0";}
+            let usePurpose = "출장기간(" + infoData.TRIP_DAY_FR.replace(/-/g, "/") + " ~ " + infoData.TRIP_DAY_TO.replace(/-/g, "/") + ", "
+                                    + e.MER_NM + ")동안에 발생한 여비";
+
+            let corpCardHistFile;
+            if(corpCardHist.FILE_NO != "" && corpCardHist.FILE_NO != undefined){
+                let data2 = {
+                    hrBizReqResultId: hrBizReqResultId,
+                    exnpType: corpCardHist.EXNP_TYPE
+                };
+                corpCardHistFile = customKendo.fn_customAjax("/bustrip/getExnpHistFileList", data2).list;
+            }
+
+            let receiptFile = '<div style="width: 20%; height: 20%;">';
+            if(corpCardHist.FILE_NO != "" && corpCardHist.FILE_NO != undefined){
+                for(let i=0; i<corpCardHistFile.length; i++){
+                    receiptFile += '<img src="'+corpCardHistFile[i].file_path+corpCardHistFile[i].file_uuid+'" style="width: 100%; height: 100%;">';
+                }
+            }
+            receiptFile += '</div>';
+            
+            html += "<form class='pdfForm' style=\"padding: 20px 30px;width:100%;height: 100%;\">" +
+                "<h1 style=\"text-align: center;padding-bottom: 5px;\">여 비 지 출 증 빙 자 료</h1>" +
+                "<table style=\"padding-left: 5px;width:100%;height:100%;font-size: 16px;background: white;color: black;border: 2px solid black;\">" +
+                "<tr>" +
+                "<th style=\"width:110px;height: 60px;background-color: #ffe0e0;padding-left: 5px;border: 1px solid black;font-weight: bold;\">사용일</th>" +
+                "<td style=\"width:220px;border: 1px solid black;text-align:center;\">"+useDate+"</td>" +
+                "<th style=\"width:110px;background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;font-weight: bold;\">카드사용</th>" +
+                "<td style=\"width:220px;border: 1px solid black;text-align:center;\">법인</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<th style=\"width:110px;height: 60px; background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;font-weight: bold;\">사용구분</th>" +
+                "<td style=\"width:220px;padding-left: 5px; border: 1px solid black;text-align:center;\">"+useType+"</td>" +
+                "<th style=\"width:110px;background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;font-weight: bold;\">사용금액</th>" +
+                "<td style=\"width:220px;border: 1px solid black;text-align:center;\">"+useAmt+"원</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<th style=\"width:110px; height: 60px; background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;font-weight: bold;\">사용자</th>" +
+                "<td colspan=\"3\" style=\"padding-left: 5px; border: 1px solid black;\">"+emp+"</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<th style=\"width:110px; height: 60px; background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;font-weight: bold;\">사용목적</th>" +
+                "<td colspan=\"3\" style=\"padding-left: 5px; border: 1px solid black;\">"+usePurpose+"</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<th style=\"width:110px; height: 60px; background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;font-weight: bold;\">관련사업</th>" +
+                "<td colspan=\"3\" style=\"padding-left: 5px; border: 1px solid black;\">"+infoData.BUSN_NAME+"</td>" +
+                "</tr>" +
+                "<tr>" +
+                "<th colspan=\"4\" style=\"background-color: #ffe0e0; height: 40px; padding-left: 5px; text-align: center; border: 1px solid black;font-weight: bold;\">증 빙 서 류</th>" +
+                "</tr>" +
+                "<tr>" +
+                "<td colspan=\"4\" style=\"height: 900px;border: 1px solid black;\">" +
+                "<div style=\"display: flex; flex-wrap: wrap;\">"+
+                receiptFile+
+                "</div></td>" +
+                "</tr>" +
+                "</table>" +
+                "</form>";
+
+            $("#pdfDiv").append(html);
+        }
+
+
     }
 }
 
@@ -629,4 +781,100 @@ function userDataSet(userArr){
     }
 
     $("#companionChangeCheck").val("Y");
+}
+
+var renderedImg = new Array;
+var contWidth = 190, // 너비(mm) (a4에 맞춤)
+    padding = 10; //상하좌우 여백(mm)
+const bustripPdfMake = () => {
+
+    $("#pdfDiv").css("display", "");
+
+    var lists = document.querySelectorAll(".pdfForm"),
+        deferreds = [],
+        doc = new jsPDF("p", "mm", "a4"),
+        listsLeng = lists.length;
+    for (var i = 0; i < listsLeng; i++) { // pdf_page 적용된 태그 개수만큼 이미지 생성
+        var deferred = $.Deferred();
+        deferreds.push(deferred.promise());
+        generateCanvas(i, doc, deferred, lists[i], contWidth);
+    }
+
+    $.when.apply($, deferreds).then(function () { // 이미지 렌더링이 끝난 후
+        var sorted = renderedImg.sort(function (a, b) {
+                return a.num < b.num ? -1 : 1;
+            }), // 순서대로 정렬
+            curHeight = 30, //위 여백 (이미지가 들어가기 시작할 y축)
+            sortedLeng = sorted.length;
+
+        for (var i = 0; i < sortedLeng; i++) {
+            var sortedHeight = sorted[i].height, //이미지 높이
+                sortedImage = sorted[i].image; //이미지w
+
+            // 페이지 추가
+            if (i > 0) {
+                doc.addPage();
+                curHeight = 30;
+            }
+
+            // 이미지 추가
+            doc.addImage(sortedImage, 'jpeg', padding, curHeight, contWidth, sortedHeight);
+
+            var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+            doc.addFileToVFS('myFont.ttf', fontJs);
+            doc.addFont('myFont.ttf', 'myFont', 'normal');
+            doc.setFont('myFont');
+            doc.text("사단법인캠틱종합기술원", padding + contWidth / 2, pageHeight - 10, { align: 'center', baseline: 'middle' });
+            /*doc.text("사단법인캠틱종합기술원", 10, pageHeight  - 10, {align: 'left', baseline: 'middle'});*/
+
+            curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
+        }
+
+        doc.save('법인카드 지출증빙.pdf'); //pdf 저장
+
+        /*doc.output('blob', function(blob) {
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                var formData = new FormData();
+                formData.append('bustripPdfFile', reader.result);
+                formData.append('menuCd', "bustripPdf");
+
+                $.ajax({
+                    url: '/bustrip/setBustripPdfFile',
+                    data: formData,
+                    type: "post",
+                    async: false,
+                    datatype: "json",
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log('파일 업로드 성공:', response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('파일 업로드 실패:', error);
+                    }
+                });
+            };
+            reader.readAsDataURL(blob);
+        });*/
+
+        curHeight = padding; //y축 초기화
+        renderedImg = new Array; //이미지 배열 초기화
+    });
+}
+
+function generateCanvas(i, doc, deferred, curList, contW){ //페이지를 이미지로 만들기
+    var pdfWidth = $(curList).outerWidth() * 0.2645, //px -> mm로 변환
+        pdfHeight = $(curList).outerHeight() * 0.2645,
+        heightCalc = contW * pdfHeight / pdfWidth; //비율에 맞게 높이 조절
+
+    html2canvas( curList,  { logging: true, letterRendering: 1, useCORS: true } ).then(
+        function (canvas) {
+            var img = canvas.toDataURL('image/jpeg', 1.0); //이미지 형식 지정
+            renderedImg.push({num:i, image:img, height:heightCalc}); //renderedImg 배열에 이미지 데이터 저장(뒤죽박죽 방지)
+            deferred.resolve(); //결과 보내기
+            $("#pdfDiv").css("display", "none");
+        }
+    );
 }

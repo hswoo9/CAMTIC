@@ -1,9 +1,11 @@
 package egovframework.com.devjitsu.inside.bustrip.controller;
 
 import com.google.gson.Gson;
+import egovframework.com.devjitsu.cam_manager.service.ManageService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
+import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.apache.commons.collections4.MapUtils;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -29,6 +31,9 @@ public class BustripController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserManageService userManageService;
 
     @Autowired
     private BustripService bustripService;
@@ -177,6 +182,24 @@ public class BustripController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
         model.addAttribute("rs", bustripService.getBustripReqInfo(params));
+        model.addAttribute("params", params);
+
+        return "jsonView";
+    }
+
+    /**
+     * 출장결과보고 데이터 불러오기
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/bustrip/getBustripResReqInfo")
+    public String getBustripResReqInfo(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("rs", bustripService.getBustripResReqInfo(params));
         model.addAttribute("params", params);
 
         return "jsonView";
@@ -597,10 +620,11 @@ public class BustripController {
     }
 
     @RequestMapping("/bustrip/saveBustripResult")
-    public String saveBustripResult(@RequestParam Map<String, Object> params, Model model){
+    public String saveBustripResult(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        MultipartFile[] file = request.getFiles("bustripResFile").toArray(new MultipartFile[0]);
 
         try{
-            bustripService.saveBustripResult(params);
+            bustripService.saveBustripResult(params, file, SERVER_DIR, BASE_DIR);
             model.addAttribute("params", params);
         } catch (Exception e){
             e.printStackTrace();
@@ -963,6 +987,32 @@ public class BustripController {
         Map<String, Object> map = bustripService.getCorpCarExnpData(params);
         model.addAttribute("map", map);
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/getExnpHistOne")
+    public String getExnpHistOne(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = bustripService.getExnpHistOne(params);
+        model.addAttribute("map", map);
+        return "jsonView";
+    }
+    @RequestMapping("/bustrip/getExnpHistFileList")
+    public String getExnpHistFileList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getExnpHistFileList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/getBustripEmpInfo")
+    public String getBustripEmpInfo(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("empInfo", userManageService.getEmpInfo(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/setBustripPdfFile")
+    public String setBustripPdfFile(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        MultipartFile[] file = request.getFiles("bustripPdfFile").toArray(new MultipartFile[0]);
+        bustripService.setBustripPdfFile(params, file, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 }

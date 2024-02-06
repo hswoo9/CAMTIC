@@ -109,6 +109,20 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public Map<String, Object> getBustripResReqInfo(Map<String, Object> params) {
+        params.put("fileCd", "bustripResReq");
+        Map<String, Object> result = new HashMap<>();
+        result.put("rs", bustripRepository.getBustripReqInfo(params));
+        result.put("list", bustripRepository.getBustripCompanionInfo(params));
+        result.put("resList", bustripRepository.getBustripResCompanionInfo(params));
+        result.put("map", bustripRepository.getBustripExnpInfo(params));
+        result.put("rsRes", bustripRepository.getBustripResultInfo(params));
+        result.put("fileInfo", bustripRepository.getBustripResReqFileInfo(params));
+        result.put("fileInfo2", bustripRepository.getBustripReqFileInfo(params));
+        return result;
+    }
+
+    @Override
     public List<Map<String, Object>> getBustripReqFileInfo(Map<String, Object> params) {
         return bustripRepository.getBustripReqFileInfo(params);
     }
@@ -263,7 +277,7 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
-    public void saveBustripResult(Map<String, Object> params) {
+    public void saveBustripResult(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
 
         String compEmpSeq = "";
         String[] compEmpSeqArr;
@@ -319,6 +333,19 @@ public class BustripServiceImpl implements BustripService {
             }
         }
 
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("hrBizReqResultId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
 
     }
 
@@ -508,9 +535,41 @@ public class BustripServiceImpl implements BustripService {
     public List<Map<String, Object>> getCorpExnpData(Map<String, Object> params) {
         return bustripRepository.getCorpExnpData(params);
     }
+    
+    @Override
+    public List<Map<String, Object>> getExnpHistFileList(Map<String, Object> params) {
+        return bustripRepository.getExnpHistFileList(params);
+    }
+    @Override
+    public Map<String, Object> getExnpHistOne(Map<String, Object> params) {
+        Map<String, Object> histMap = bustripRepository.getExnpHistOne(params);
+
+        /*if(histMap.get("FILE_NO") != null){
+            histMap.putAll(bustripRepository.getExnpHistFileOne(histMap));
+        }*/
+
+        return histMap;
+    }
 
     @Override
     public Map<String, Object> getCorpCarExnpData(Map<String, Object> params) {
         return bustripRepository.getCorpCarExnpData(params);
+    }
+
+    @Override
+    public void setBustripPdfFile(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("hrBizReqResultId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+            }
+            commonRepository.insFileInfo(list);
+        }
     }
 }

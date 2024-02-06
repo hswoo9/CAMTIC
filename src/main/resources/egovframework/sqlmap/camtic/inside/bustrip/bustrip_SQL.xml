@@ -401,13 +401,24 @@
             FILE_CD = #{fileCd}
     </select>
 
+    <select id="getBustripResReqFileInfo" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{hrBizReqResultId}
+        AND
+            FILE_CD = #{fileCd}
+    </select>
+
     <select id="getBustripReqFileInfoR" parameterType="map" resultType="map">
         SELECT
             *
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-                FILE_CD in ('bustripReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+                FILE_CD in ('bustripReq', 'bustripResReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
           AND CONTENT_ID = #{hrBizReqResultId}
     </select>
 
@@ -1593,6 +1604,38 @@
             DIVISION = '3'
         AND
             (OIL_COST != 0 or TOLL_COST != 0)
+    </select>
+
+    <select id="getExnpHistFileOne" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO = #{FILE_NO}
+    </select>
+
+    <select id="getExnpHistFileList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO IN (select group_concat(FILE_NO) from cam_inside.dj_hr_card_hist where HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId} and exnp_type = #{exnpType} and file_no is not null)
+    </select>
+
+    <select id="getExnpHistOne" parameterType="map" resultType="map">
+        /* getExnpHistOne */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_CARD_HIST
+        WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+        AND CARD_NO = #{cardNo}
+        AND AUTH_DD = #{authDate}
+        AND AUTH_NO = #{authNo}
+        AND AUTH_HH = #{authTime}
+        AND BUY_STS = #{buySts}
     </select>
 </mapper>
 

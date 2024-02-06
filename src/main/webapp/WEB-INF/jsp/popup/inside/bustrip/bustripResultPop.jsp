@@ -6,12 +6,27 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
+
+<style>
+    .bustripExnpTable td {text-align: right;}
+
+    .pdfDiv table th{
+        background-color: #ffe0e0;
+        font-weight: bold;
+    };
+</style>
+
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/business/business.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
+
+<script type="text/javascript" src="/js/intra/inside/recruit/fontJs.js?v=${today}"></script>
+<script type="text/javascript" src="/js/jspdf.min.js"></script>
+<script type="text/javascript" src="/js/html2canvas.min.js"></script>
+
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
@@ -29,10 +44,6 @@
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
 <input type="hidden" id="companionChangeCheck" value="N"/>
-
-<style>
-    .bustripExnpTable td {text-align: right;}
-</style>
 
 <form id="bustripResDraftFrm" method="post">
     <input type="hidden" id="menuCd" name="menuCd" value="bustrip">
@@ -193,6 +204,7 @@
                 <td colspan="3">
                     <input type="text" id="moveDst" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="width: 10%; text-align: right"> km
                     <button type="button" class="k-button k-button-solid-base" id="moveBtn" onclick="bustripResultPop.fn_moveCheck()">거리계산</button>
+                    <button type="button" class="k-button k-button-solid-base" id="formDown" onclick="bustripResultPop.mapFormDown()">양식다운로드</button>
                     <button type="button" class="k-button k-button-solid-base" id="mapBtn" onclick="bustripResultPop.fn_mapOpen()">지도보기</button>
                     <button type="button" class="k-button k-button-solid-base" id="highpassBtn" disabled>하이패스</button>
                     ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
@@ -217,6 +229,19 @@
 
     <div>
         <form style="padding: 0px 30px;">
+            <div class="card-header" style="padding: 5px;">
+                <h3 class="card-title">첨부파일</h3>
+                <div class="card-options">
+                    <%--<button type="button" class="k-button k-button-solid-base" id="fileViewer" style="display: none;" onclick="bustripPdfMake()">뷰어</button>--%>
+                    <div class="filebox">
+                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
+                            <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
+                            <span class="k-button-text">파일첨부</span>
+                        </button>
+                        <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="popTable table table-bordered mb-0">
                     <colgroup>
@@ -247,6 +272,9 @@
         <input type="button" class="k-button k-button-solid-info" value="여비 변경" onclick="bustripResultPop.bustripExnpPop();"/>
     </div>--%>
     <form style="padding: 20px 30px;">
+        <div class="card-header" style="padding: 5px;">
+            <h3 class="card-title">경비 내역</h3>
+        </div>
         <table class="popTable table table-bordered mb-0 bustripExnpTable">
             <colgroup>
                 <col width="9%">
@@ -415,6 +443,44 @@
         </table>
     </form>
 
+</div>
+
+<div id="pdfDiv" class="pdfDiv" style="display: none;">
+    <%--<form style="padding: 20px 30px;width:60%;">
+        <h2 style="text-align: center;">여 비 지 출 증 빙 자 료</h2>
+        <table style="padding-left: 5px;height:100%;width:100%;font-size: 15px;background: white;font-weight: bold;color: black;outline: 1px solid black;">
+            <tr>
+                <th style="width:110px;height: 40px;background-color: #ffe0e0;padding-left: 5px;border: 1px solid black;">사용일</th>
+                <td style="padding-left: 5px; border: 1px solid black;"></td>
+                <th style="width:110px; background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;">카드사용</th>
+                <td style="padding-left: 5px; border: 1px solid black;"></td>
+            </tr>
+            <tr>
+                <th style="width:110px; height: 40px; background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;">사용구분</th>
+                <td style="padding-left: 5px; border: 1px solid black;"></td>
+                <th style="width:110px; background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;">사용금액</th>
+                <td style="padding-left: 5px; border: 1px solid black;"></td>
+            </tr>
+            <tr>
+                <th style="width:110px; height: 40px; background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;">사용자</th>
+                <td colspan="3" style="padding-left: 5px; border: 1px solid black;"></td>
+            </tr>
+            <tr>
+                <th style="width:110px; height: 40px; background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;">사용목적</th>
+                <td colspan="3" style="padding-left: 5px; border: 1px solid black;"></td>
+            </tr>
+            <tr>
+                <th style="width:110px; height: 40px; background-color: #ffe0e0; padding-left: 5px; border: 1px solid black;">관련사업</th>
+                <td colspan="3" style="padding-left: 5px; border: 1px solid black;"></td>
+            </tr>
+            <tr>
+                <th colspan="4" style="background-color: #ffe0e0; height: 40px; padding-left: 5px; text-align: center; border: 1px solid black;">증 빙 서 류</th>
+            </tr>
+            <tr>
+               <td colspan="4" style="height: 550px;border: 1px solid black;"></td>
+            </tr>
+        </table>
+    </form>--%>
 </div>
 <script>
     const hrBizReqId = $("#hrBizReqId").val();

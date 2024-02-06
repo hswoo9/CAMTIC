@@ -843,6 +843,17 @@ const bustripExnpReq = {
 
             return [true, ""];
         }
+    },
+
+    personalExnpFormDown : function (){
+        var protocol = window.location.protocol + "//";
+        var locationHost = protocol + window.location.host;
+
+        var filePath = "/upload/templateForm/personalExnpForm.hwp";
+
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent('개인여비지출증빙.hwp'),
+        });
     }
 
 }
