@@ -169,7 +169,7 @@ var busInit = {
         hwpDocCtrl.putFieldText('car', car);
 
         hwpDocCtrl.putFieldText('empName', busInfo.EMP_NAME);
-console.log(busInfo);
+
         hwpDocCtrl.putFieldText('dept', busInfo.DEPT_NAME+" "+busInfo.TEAM_NAME);
 
         hwpDocCtrl.putFieldText('position', busInfo.POSITION_NAME);

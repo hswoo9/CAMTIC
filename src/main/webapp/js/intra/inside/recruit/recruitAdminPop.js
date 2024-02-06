@@ -165,6 +165,8 @@ var recruitAdminPop = {
                                 str = '합격 (' + avg + "점)";
                             }else if(e.APPLICATION_STAT == "IF"){
                                 str = '불합격 (' + avg + "점)";
+                            }else if(e.APPLICATION_STAT == "D"){
+                                str = avg + '점';
                             }else{
                                 str = "";
                             }

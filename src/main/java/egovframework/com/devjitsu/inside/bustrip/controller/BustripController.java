@@ -218,6 +218,12 @@ public class BustripController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
+        List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
+
+        if(exnpData.size() != 0){
+            model.addAttribute("list", exnpData);
+        }
+
         model.addAttribute("rs", bustripService.getBustripOne(params));
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
