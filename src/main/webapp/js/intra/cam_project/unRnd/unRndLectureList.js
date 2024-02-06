@@ -81,9 +81,9 @@ var unRndLectList = {
                 },
                 total: function (data) {
                     return data.list.length;
-                },
+                }
             },
-            pageSize: 10,
+            pageSize: 10
         });
 
         $("#lectureMainGrid").kendoGrid({
@@ -212,9 +212,9 @@ var unRndLectList = {
                 },
                 total: function (data) {
                     return data.list.length;
-                },
+                }
             },
-            pageSize: 10,
+            pageSize: 10
         });
 
         $("#unitMainGrid").kendoGrid({
@@ -250,7 +250,7 @@ var unRndLectList = {
                 }, {
                     field: "LEC_NM",
                     title: "단위사업명",
-                    width: "15%",
+                    width: "15%"
                 }, {
                     title: "기간",
                     width: "10%",
@@ -295,7 +295,7 @@ var unRndLectList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : "/projectUnRnd/getLectureList",
+                    url : "/projectUnRnd/getConsultingList",
                     dataType : "json",
                     type : "post"
                 },
@@ -310,9 +310,9 @@ var unRndLectList = {
                 },
                 total: function (data) {
                     return data.list.length;
-                },
+                }
             },
-            pageSize: 10,
+            pageSize: 10
         });
 
         $("#consultingMainGrid").kendoGrid({
@@ -340,64 +340,24 @@ var unRndLectList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: this.onDataBound,
+            dataBound: this.onDataBound1,
             columns: [
                 {
                     title: "연번",
                     template: "#= --record #",
                     width: "3%"
                 }, {
-                    field: "LEC_FIELD_NAME",
+                    field: "CON_FIELD_NAME",
                     title: "분야",
                     width: "10%"
-                }, {
-                    field: "LEC_SBJ_CD_NAME",
-                    title: "과목",
-                    width: "10%"
-                }, {
-                    field: "LEC_TITLE_BS",
+                },  {
+                    field: "CON_BUSN_CLASS_NAME",
                     title: "단위사업명"
                 }, {
-                    title: "교육기간",
+                    title: "협약기간",
                     width: "15%",
                     template: function(e){
-                        return e.LEC_STR_DE + "~" + e.LEC_END_DE;
-                    }
-                }, {
-                    title: "정원",
-                    width: "3%",
-                    template: function(e){
-                        return e.RECR_MEM_CNT+"명";
-                    }
-                }, {
-                    title: "신청",
-                    width: "3%",
-                    template: function(e){
-                        return e.TOT_B+"명";
-                    }
-                }, {
-                    title: "대기",
-                    width: "3%",
-                    template: function(e){
-                        return e.TOT_C+"명";
-                    }
-                }, {
-                    title: "접수",
-                    width: "3%",
-                    template: function(e){
-                        return e.TOT_D+"명";
-                    }
-                }, {
-                    title: "취소",
-                    width: "3%",
-                    template: function(e){
-                        return e.TOT_E+"명";
-                    }
-                }, {
-                    title: "수료",
-                    width: "3%",
-                    template: function(e){
-                        return e.TOT_F+"명";
+                        return e.CON_STR_DE + "~" + e.CON_END_DE;
                     }
                 }, {
                     field: "LEC_STATUS_NAME",
@@ -409,6 +369,15 @@ var unRndLectList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+    },
+
+    onDataBound1: function(){
+        const grid = this;
+        grid.element.off('dblclick');
+        grid.tbody.find("tr").dblclick(function(){
+            const dataItem = grid.dataItem($(this).closest("tr"));
+            lecturePop.fn_consultingReqPop($("#pjtSn").val(), dataItem.CON_SN);
+        });
     },
 
     fn_delUnitBusn: function (key){

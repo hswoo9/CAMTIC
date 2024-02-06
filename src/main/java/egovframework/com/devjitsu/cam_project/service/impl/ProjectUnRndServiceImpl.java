@@ -211,6 +211,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     public List<Map<String, Object>> getLectureTeacherReqList(Map<String, Object> params) {
         return projectUnRndRepository.getLectureTeacherReqList(params);
     }
+    @Override
+    public List<Map<String, Object>> getConTeacherReqList(Map<String, Object> params) {
+        return projectUnRndRepository.getConTeacherReqList(params);
+    }
 
     @Override
     public List<Map<String, Object>> getLecturePersonReqList(Map<String, Object> params) {
@@ -228,9 +232,20 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public List<Map<String, Object>> getConsultingList(Map<String, Object> params) {
+        return projectUnRndRepository.getConsultingList(params);
+    }
+
+    @Override
     public Map<String, Object> getLectureInfo(Map<String, Object> params) {
         return projectUnRndRepository.getLectureInfo(params);
     }
+
+    @Override
+    public Map<String, Object> getConsultingInfo(Map<String, Object> params) {
+        return projectUnRndRepository.getConsultingInfo(params);
+    }
+
     @Override
     public void insLectureTeacherInfo(Map<String, Object> params) {
         Gson gson = new Gson();
@@ -238,6 +253,15 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         params.put("teacherList", TEACHER_LIST);
         projectUnRndRepository.insLectureTeacherInfo(params);
     }
+
+    @Override
+    public void insConTeacherInfo(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> TEACHER_LIST = gson.fromJson((String) params.get("teacherList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        params.put("teacherList", TEACHER_LIST);
+        projectUnRndRepository.insConTeacherInfo(params);
+    }
+
     @Override
     public void insLecturePersonInfo(Map<String, Object> params) {
         Gson gson = new Gson();
@@ -273,9 +297,18 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     public void insLectureInfo(Map<String, Object> params) {
         projectUnRndRepository.insLectureInfo(params);
     }
+
+    @Override
+    public void insConsultingInfo(Map<String, Object> params) {
+        projectUnRndRepository.insConsultingInfo(params);
+    }
     @Override
     public void updLectureInfo(Map<String, Object> params) {
         projectUnRndRepository.updLectureInfo(params);
+    }
+    @Override
+    public void updConsultingInfo(Map<String, Object> params) {
+        projectUnRndRepository.updConsultingInfo(params);
     }
     @Override
     public void updPersonApp(Map<String, Object> params) {
@@ -308,6 +341,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     @Override
     public void delLectureTeacherInfo(Map<String, Object> params) {
         projectUnRndRepository.delLectureTeacherInfo(params);
+    }
+    @Override
+    public void delConTeacherInfo(Map<String, Object> params) {
+        projectUnRndRepository.delConTeacherInfo(params);
     }
 
     @Override

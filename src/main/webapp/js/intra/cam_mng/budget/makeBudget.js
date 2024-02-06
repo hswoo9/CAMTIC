@@ -8,6 +8,9 @@ var makeBudget = {
 
         customKendo.fn_datePicker("baseYear", "decade", "yyyy", new Date());
 
+        $("#baseYear").change(function (){
+            makeBudget.makeBudgetGrid()
+        });
 
         makeBudget.makeBudgetGrid();
     },
@@ -59,6 +62,27 @@ var makeBudget = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="">' +
+                            '	<span class="k-button-text">마감</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-primary" onclick="makeBudget.fn_modBudget()">' +
+                            '	<span class="k-button-text">수정</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="makeBudget.fn_popBudgetDetail()">' +
                             '	<span class="k-button-text">예산등록</span>' +
                             '</button>';
@@ -74,50 +98,89 @@ var makeBudget = {
             ],
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" class="k-checkbox k-checkbox-item" name="checkAll"/>',
+                    width: 30,
+                    template: function(e){
+                        return '<input type="checkbox" class="k-checkbox k-checkbox-item" name="mChecks" value="' + e.BG_VAL + e.PJT_BUDGET_SN + '"/>';
+                    }
+                }, {
                     title: "순번",
                     template: "#= --record #",
-                    width: 50
+                    width: 30
                 }, {
-                    title : "구분",
-                    field : "",
+                    title : "분류",
+                    width: 80,
+                    template: function(e){
+                        var className = "";
+
+                        if(e.PJT_CLASS == "M"){
+                            className = "법인운영";
+                        } else if(e.PJT_CLASS == "S"){
+                            className = "비R&D";
+                        } else if(e.PJT_CLASS == "R"){
+                            className = "R&D";
+                        } else if(e.PJT_CLASS == "D"){
+                            className = "엔지니어링";
+                        } else if(e.PJT_CLASS == "V"){
+                            className = "기타/용역";
+                        }
+
+                        return className;
+                    }
+                }, {
+                    title : "예산코드",
+                    width: 100,
+                    template: function(e){
+                        return e.JANG_CD + e.GWAN_CD + e.HANG_CD;
+                    }
+                }, {
+                    title : "장",
+                    field : "JANG_NM",
                     width: 100
                 }, {
-                    title : "등록일자",
-                    width: 100
-                }, {
-                    field: "",
-                    title: "연도",
+                    field: "GWAN_NM",
+                    title: "관",
                     width: 100,
                 }, {
-                    field: "",
-                    title: "예산액",
+                    field: "HANG_NM",
+                    title: "항",
                     width: 80,
                 }, {
-                    field: "",
-                    title: "수입결산",
+                    title: "예산금액",
                     width: 80,
+                    template: function(e){
+                        return '<div style="text-align: right">'+comma(e.BUDGET_AMT)+'</div>';
+                    }
                 }, {
-                    field: "",
-                    title: "지출결산",
-                    width: 80,
+                    title: "변경이력",
+                    width: 50,
+                    template : function(e){
+                        return '<button type="button" class="k-button k-button-solid-base">변경이력</button>'
+                    }
                 }, {
-                    field: "",
-                    title: "이월금",
-                    width: 80,
-                }, {
-                    field: "",
-                    title: "전년대비증감",
-                    width: 80,
-                }, {
-                    field: "",
-                    title: "마감",
-                    width: 80,
+                    title: "수정",
+                    width: 40,
+                    template: function(e){
+                        if(e.DD_LINE_STAT == 'N'){
+                            return '<button type="button" class="k-button k-button-solid-primary" onclick="makeBudget.fn_modBudget(' + e.PJT_BUDGET_SN + ', \''+e.BG_VAL+'\')">수정</button>'
+                        } else {
+                            return "";
+                        }
+                    }
                 }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if(this.checked){
+                $("input[name='mChecks']").prop("checked", true);
+            } else {
+                $("input[name='mChecks']").prop("checked", false);
+            }
+        });
     },
 
     gridReload : function (){
@@ -135,5 +198,34 @@ var makeBudget = {
         var option = "width = 900, height = 750, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);
+    },
+
+    fn_modBudget : function (){
+        var arr = [];
+        $("input[name='mChecks']:checked").each(function(){
+            arr.push($(this).val());
+        });
+
+        if(arr.length == 0){
+            alert("수정하실 예산을 선택해주세요.");
+            return;
+        }
+
+        var url = "/budget/pop/regMakeBudget.do?arKey=" + arr;
+
+        var name = "_blank";
+        var option = "width = 900, height = 750, top = 100, left = 200, location = no";
+
+        var popup = window.open(url, name, option);
     }
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
 }

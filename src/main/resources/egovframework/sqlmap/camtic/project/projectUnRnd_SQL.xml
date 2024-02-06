@@ -311,6 +311,21 @@
         ORDER BY NAME
     </select>
 
+    <select id="getConTeacherReqList" parameterType="map" resultType="map">
+        /*getConTeacherReqList*/
+        SELECT
+            A.*,
+            B.NAME,
+            B.PERSON_SN
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ A
+                LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER B ON A.TEACHER_SN = B.TEACHER_SN
+        WHERE
+            CON_SN = #{pk}
+        ORDER BY NAME
+    </select>
+
     <select id="getLecturePersonReqList" parameterType="map" resultType="map">
         /*getLecturePersonReqList*/
         SELECT
@@ -358,6 +373,21 @@
         ORDER BY LEC_SN DESC
     </select>
 
+    <select id="getConsultingList" parameterType="map" resultType="map">
+        /*getConsultingList*/
+        SELECT
+            PL.*,
+            (SELECT IFNULL(COUNT(-1), 0) FROM CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ SLP WHERE PL.CON_SN = SLP.LEC_SN) AS TOT_B,
+            (SELECT IFNULL(COUNT(-1), 0) FROM CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ SLP WHERE PL.CON_SN = SLP.LEC_SN AND SLP.REQ_STATUS = 'H') AS TOT_C,
+            (SELECT IFNULL(COUNT(-1), 0) FROM CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ SLP WHERE PL.CON_SN = SLP.LEC_SN AND SLP.REQ_STATUS = 'Y') AS TOT_D,
+            (SELECT IFNULL(COUNT(-1), 0) FROM CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ SLP WHERE PL.CON_SN = SLP.LEC_SN AND SLP.REQ_STATUS = 'N') AS TOT_E,
+            (SELECT IFNULL(COUNT(-1), 0) FROM CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ SLP WHERE PL.CON_SN = SLP.LEC_SN AND SLP.REQ_STATUS = 'O') AS TOT_F
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CONSULTING PL
+        WHERE PJT_SN = #{pjtSn}
+        ORDER BY CON_SN DESC
+    </select>
+
     <select id="getLectureInfo" parameterType="map" resultType="map">
         /*getLectureInfo*/
         SELECT
@@ -366,6 +396,17 @@
             CAM_PJT_MNG.DJ_PJT_LECTURE
         WHERE
             LEC_SN = #{pk}
+    </select>
+
+
+    <select id="getConsultingInfo" parameterType="map" resultType="map">
+        /*getConsultingInfo*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_CONSULTING
+        WHERE
+            CON_SN = #{pk}
     </select>
 
     <insert id="insLectureTeacherInfo" parameterType="map">
@@ -380,6 +421,22 @@
             (
                 #{pk},
                 #{item.value}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insConTeacherInfo" parameterType="map">
+        /*insConTeacherInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
+        (
+        CON_SN,
+        TEACHER_SN
+        )
+        VALUES
+        <foreach collection="teacherList" item="item" separator=" , ">
+            (
+            #{pk},
+            #{item.value}
             )
         </foreach>
     </insert>
@@ -553,6 +610,8 @@
                 LEC_BUSN_CLASS_NAME,
                 LEC_FIELD,
                 LEC_FIELD_NAME,
+                LEC_FIELD1,
+                LEC_FIELD_NAME1,
                 LEC_SBJ_CD,
                 LEC_SBJ_CD_NAME,
                 LEC_PS_CD,
@@ -594,6 +653,8 @@
                 #{projectTypeName},
                 #{fieldType},
                 #{fieldTypeName},
+                #{fieldType1},
+                #{fieldTypeName1},
 
                 #{curriculumType},
                 #{curriculumTypeName},
@@ -642,6 +703,67 @@
         </selectKey>
     </insert>
 
+    <insert id="insConsultingInfo" parameterType="map">
+        /*insConsultingInfo*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_CONSULTING
+        (
+            PJT_SN,
+            CON_TC_SN,
+            CON_BUSN_CLASS,
+            CON_BUSN_CLASS_NAME,
+
+            CON_FIELD,
+            CON_FIELD_NAME,
+            CON_FIELD1,
+            CON_FIELD_NAME1,
+            CON_FIELD_NAME2,
+
+            CON_TITLE_PR,
+            CON_TOPIC,
+            CON_STR_DE,
+            CON_END_DE,
+
+            CON_TIME,
+            RECR_MEM_CNT,
+            CON_ADDR,
+            CON_PER,
+
+            CON_OPEN_BD,
+            CON_OPEN_BD_NAME,
+            REG_EMP_SEQ
+        )
+        VALUE
+        (
+            #{pjtSn},
+            #{teacherSn},
+            #{projectType},
+            #{projectTypeName},
+
+            #{fieldType},
+            #{fieldTypeName},
+            #{fieldType1},
+            #{fieldTypeName1},
+            #{fieldTypeName2},
+
+            #{conTitle},
+            #{conDetailTitle},
+            #{agmStartDt},
+            #{agmEndDt},
+
+            #{conTime},
+            #{conNum},
+            #{conArea},
+            #{conPerson},
+
+            #{mainType},
+            #{mainTypeName},
+            #{regEmpSeq}
+        )
+        <selectKey keyProperty="conSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_CONSULTING'
+        </selectKey>
+    </insert>
+
     <update id="updLectureInfo" parameterType="map">
         /*updLectureInfo*/
         UPDATE
@@ -651,6 +773,8 @@
             LEC_BUSN_CLASS_NAME = #{projectTypeName},
             LEC_FIELD = #{fieldType},
             LEC_FIELD_NAME = #{fieldTypeName},
+            LEC_FIELD1 = #{fieldType1},
+            LEC_FIELD_NAME1 = #{fieldTypeName1},
             LEC_SBJ_CD = #{curriculumType},
             LEC_SBJ_CD_NAME = #{curriculumTypeName},
             LEC_PS_CD = #{courseType},
@@ -686,6 +810,35 @@
             MOD_DT = NOW()
         WHERE
             LEC_SN = #{pk}
+    </update>
+
+    <update id="updConsultingInfo" parameterType="map">
+        /*updConsultingInfo*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_CONSULTING
+        SET
+            CON_TC_SN = #{teacherSn},
+            CON_BUSN_CLASS = #{projectType},
+            CON_BUSN_CLASS_NAME = #{projectTypeName},
+            CON_FIELD = #{fieldType},
+            CON_FIELD_NAME = #{fieldTypeName},
+            CON_FIELD1 = #{fieldType1},
+            CON_FIELD_NAME1 = #{fieldTypeName1},
+            CON_FIELD_NAME2 = #{fieldTypeName2},
+            CON_TITLE_PR = #{conTitle},
+            CON_TOPIC = #{conDetailTitle},
+            CON_STR_DE = #{agmStartDt},
+            CON_END_DE = #{agmEndDt},
+            CON_TIME = #{conTime},
+            RECR_MEM_CNT = #{conNum},
+            CON_ADDR = #{conArea},
+            CON_PER = #{conPerson},
+            CON_OPEN_BD = #{mainType},
+            CON_OPEN_BD_NAME = #{mainTypeName},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DT = NOW()
+        WHERE
+            CON_SN = #{pk}
     </update>
 
     <update id="updPersonApp" parameterType="map">
@@ -770,6 +923,13 @@
 
     <delete id="delLectureTeacherInfo" parameterType="map">
         /*delLectureTeacherInfo*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
+        WHERE
+            TEACHER_REQ_SN IN (${teacherList})
+    </delete>
+
+    <delete id="delConTeacherInfo" parameterType="map">
+        /*delConTeacherInfo*/
         DELETE FROM CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
         WHERE
             TEACHER_REQ_SN IN (${teacherList})

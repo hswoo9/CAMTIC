@@ -17,6 +17,7 @@ const lectureReq = {
 
         /** 사업구분 drop box */
         ub.fn_projectTypeSet();
+        ub.fn_conProjectTypeSet();
 
         /** 교육분야 drop box */
         ub.fn_fieldTypeSet();
@@ -52,54 +53,82 @@ const lectureReq = {
         ub.fn_methodTypeSet();
 
         /** 인증서 radio button */
-        ub.fn_certTypeSet();
+        /*ub.fn_certTypeSet();*/
     },
 
     fn_dataSet: function(){
+        const currentUrl = window.location.href;
+        const urlParams = new URLSearchParams(currentUrl);
+        const typeValue = urlParams.get('type');
+
         const data = {
             pk: $("#pk").val()
+        };
+
+        if(typeValue == "lec") {
+            const result = customKendo.fn_customAjax("/projectUnRnd/getLectureInfo", data);
+            const lecMap = result.data;
+
+            $("#projectType").data("kendoDropDownList").value(lecMap.LEC_BUSN_CLASS);
+            $("#fieldType").data("kendoDropDownList").value(lecMap.LEC_FIELD);
+            $("#fieldType2").data("kendoDropDownList").value(lecMap.LEC_FIELD1);
+            /*$("#curriculumType").data("kendoDropDownList").value(lecMap.LEC_SBJ_CD);
+            $("#courseType").data("kendoDropDownList").value(lecMap.LEC_PS_CD);*/
+
+            $("#lectureName").val(lecMap.LEC_TITLE_BS);
+            $("#lectureNameEx").val(lecMap.LEC_TITLE_PR);
+            $("#title").val(lecMap.LEC_TOPIC);
+            $("#content1").val(lecMap.LEC_PS_GUIDE_A);
+            $("#content2").val(lecMap.LEC_PS_GUIDE_B);
+
+            $("#eduStartDt").val(lecMap.LEC_STR_DE);
+            $("#eduEndDt").val(lecMap.LEC_END_DE);
+            $("#recruitStartDt").val(lecMap.RECR_STR_DE);
+            $("#recruitEndDt").val(lecMap.RECR_END_DE);
+
+            $("#recruitNum").val(lecMap.RECR_MEM_CNT);
+            $("#eduTime").val(lecMap.LEC_TIME);
+            $("#eduTimeEx").val(lecMap.LEC_TIME_RNG);
+
+            $("#area").val(lecMap.LEC_ADDR);
+            $("#status").data("kendoDropDownList").value(lecMap.LEC_STATUS);
+
+            $("#goal").val(lecMap.LEC_OBJ);
+            $("#intro").val(lecMap.LEC_SUMR);
+            $("#targetUser").val(lecMap.LEC_TARG);
+            $("#scheduleHtml").val(lecMap.LEC_SCH);
+            $("#prospectus").val(lecMap.LEC_INQ);
+            $("#materials").val(lecMap.LEC_MAT);
+
+            $("#textbookFee").val(lecMap.LEC_COST);
+            $("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);
+
+            /*$("#certType").data("kendoRadioGroup").value(lecMap.LEC_CERT);*/
+
+            $("#mainType").data("kendoDropDownList").value(lecMap.LEC_OPEN_BD);
+
+            this.fn_btnSet(lecMap);
+
+        }else if(typeValue == "con") {
+            const result = customKendo.fn_customAjax("/projectUnRnd/getConsultingInfo", data);
+            const conMap = result.data;
+
+            $("#field").data("kendoDropDownList").value(conMap.CON_FIELD);
+            $("#field2").data("kendoDropDownList").value(conMap.CON_FIELD1);
+            $("#field3").val(conMap.CON_FIELD_NAME2);
+            $("#projectType").data("kendoDropDownList").value(conMap.CON_BUSN_CLASS);
+            $("#conTitle").val(conMap.CON_TITLE_PR);
+            $("#conDetailTitle").val(conMap.CON_TOPIC);
+            $("#agmStartDt").val(conMap.CON_STR_DE);
+            $("#agmEndDt").val(conMap.CON_END_DE);
+            $("#conTime").val(conMap.CON_TIME);
+            $("#conArea").val(conMap.CON_ADDR);
+            $("#conPerson").val(conMap.CON_PER);
+            $("#conNum").val(conMap.RECR_MEM_CNT);
+            $("#conMainType").data("kendoDropDownList").value(conMap.CON_OPEN_BD);
+
+            this.fn_btnSet1(conMap);
         }
-        const result = customKendo.fn_customAjax("/projectUnRnd/getLectureInfo", data);
-        const lecMap = result.data;
-
-        $("#projectType").data("kendoDropDownList").value(lecMap.LEC_BUSN_CLASS);
-        $("#fieldType").data("kendoDropDownList").value(lecMap.LEC_FIELD);
-        $("#curriculumType").data("kendoDropDownList").value(lecMap.LEC_SBJ_CD);
-        $("#courseType").data("kendoDropDownList").value(lecMap.LEC_PS_CD);
-
-        $("#lectureName").val(lecMap.LEC_TITLE_BS);
-        $("#lectureNameEx").val(lecMap.LEC_TITLE_PR);
-        $("#title").val(lecMap.LEC_TOPIC);
-        $("#content1").val(lecMap.LEC_PS_GUIDE_A);
-        $("#content2").val(lecMap.LEC_PS_GUIDE_B);
-
-        $("#eduStartDt").val(lecMap.LEC_STR_DE);
-        $("#eduEndDt").val(lecMap.LEC_END_DE);
-        $("#recruitStartDt").val(lecMap.RECR_STR_DE);
-        $("#recruitEndDt").val(lecMap.RECR_END_DE);
-
-        $("#recruitNum").val(lecMap.RECR_MEM_CNT);
-        $("#eduTime").val(lecMap.LEC_TIME);
-        $("#eduTimeEx").val(lecMap.LEC_TIME_RNG);
-
-        $("#area").val(lecMap.LEC_ADDR);
-        $("#status").data("kendoDropDownList").value(lecMap.LEC_STATUS);
-
-        $("#goal").val(lecMap.LEC_OBJ);
-        $("#intro").val(lecMap.LEC_SUMR);
-        $("#targetUser").val(lecMap.LEC_TARG);
-        $("#scheduleHtml").val(lecMap.LEC_SCH);
-        $("#prospectus").val(lecMap.LEC_INQ);
-        $("#materials").val(lecMap.LEC_MAT);
-
-        $("#textbookFee").val(lecMap.LEC_COST);
-        $("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);
-
-        $("#certType").data("kendoRadioGroup").value(lecMap.LEC_CERT);
-
-        $("#mainType").data("kendoDropDownList").value(lecMap.LEC_OPEN_BD);
-
-        this.fn_btnSet(lecMap);
     },
 
     fn_btnSet: function(lecMap){
@@ -113,8 +142,24 @@ const lectureReq = {
         }
     },
 
+    fn_btnSet1: function(conMap){
+        if(conMap != null){
+            $("#saveBtn").hide();
+            $("#modBtn").show();
+            $("#consultantBtn").show();
+            $("#teacherBtn").hide();
+            $("#personBtn").hide();
+            $("#eduBtn").hide();
+            $("#payBtn").hide();
+        }
+    },
+
     fn_saveBtn: function(){
-        if($("#writeClass").val() == 1) {
+        const currentUrl = window.location.href;
+        const urlParams = new URLSearchParams(currentUrl);
+        const typeValue = urlParams.get('type');
+
+        if(typeValue == "lec") {
             const data = {
                 pjtSn: $("#pjtSn").val(),
 
@@ -122,17 +167,19 @@ const lectureReq = {
                 projectTypeName: $("#projectType").data("kendoDropDownList").text(),
                 fieldType: $("#fieldType").data("kendoDropDownList").value(),
                 fieldTypeName: $("#fieldType").data("kendoDropDownList").text(),
+                fieldType1: $("#fieldType2").data("kendoDropDownList").value(),
+                fieldTypeName1: $("#fieldType2").data("kendoDropDownList").text(),
 
-                curriculumType: $("#curriculumType").data("kendoDropDownList").value(),
+                /*curriculumType: $("#curriculumType").data("kendoDropDownList").value(),
                 curriculumTypeName: $("#curriculumType").data("kendoDropDownList").text(),
                 courseType: $("#courseType").data("kendoDropDownList").value(),
-                courseTypeName: $("#courseType").data("kendoDropDownList").text(),
+                courseTypeName: $("#courseType").data("kendoDropDownList").text(),*/
 
                 lectureName: $("#lectureName").val(),
                 lectureNameEx: $("#lectureNameEx").val(),
-                title: $("#title").val(),
+                /*title: $("#title").val(),
                 content1: $("#content1").val(),
-                content2: $("#content2").val(),
+                content2: $("#content2").val(),*/
 
                 eduStartDt: $("#eduStartDt").val(),
                 eduEndDt: $("#eduEndDt").val(),
@@ -147,18 +194,18 @@ const lectureReq = {
                 status: $("#status").data("kendoDropDownList").value(),
                 statusName: $("#status").data("kendoDropDownList").text(),
 
-                goal: $("#goal").val(),
+                /*goal: $("#goal").val(),
                 intro: $("#intro").val(),
-                targetUser: $("#targetUser").val(),
+                targetUser: $("#targetUser").val(),*/
                 scheduleHtml: $("#scheduleHtml").val(),
                 prospectus: $("#prospectus").val(),
-                materials: $("#materials").val(),
+                /*materials: $("#materials").val(),*/
 
                 textbookFee: $("#textbookFee").val().replace(/,/g, ''),
                 textbookFeeEx: "",
                 methodType: $("#methodType").data("kendoRadioGroup").value(),
 
-                certType: $("#certType").data("kendoRadioGroup").value(),
+                /*certType: $("#certType").data("kendoRadioGroup").value(),*/
 
                 mainType: $("#mainType").data("kendoDropDownList").value(),
                 mainTypeName: $("#mainType").data("kendoDropDownList").text(),
@@ -234,29 +281,28 @@ const lectureReq = {
                 opener.unRndLectList.mainGrid();
                 window.close();
             }
-        }else if($("#writeClass").val() == 2){
+        }else if(typeValue == "con"){
             const data = {
                 pjtSn: $("#pjtSn").val(),
-
+                teacherSn: $("#pjtSn").val(),
+                projectType: $("#conProjectType").data("kendoDropDownList").value(),
+                projectTypeName: $("#conProjectType").data("kendoDropDownList").text(),
                 fieldType: $("#field").data("kendoDropDownList").value(),
                 fieldTypeName: $("#field").data("kendoDropDownList").text(),
-                /*fieldType2: $("#field2").data("kendoDropDownList").value(),
-                fieldTypeName2: $("#field2").data("kendoDropDownList").text(),
-                fieldType3: $("#field3").data("kendoDropDownList").value(),
-                fieldTypeName3: $("#field3").data("kendoDropDownList").text(),*/
-                lectureName: $("#conName").val(),
-                title: $("#conTitle").val(),
-                /*detailTitle: $("#conDetailTitle").val(),*/
-                eduStartDt: $("#agmStartDt").val(),
-                eduEndDt: $("#agmEndDt").val(),
-                eduTime: $("#conTime").val(),
-                area: $("#conArea").val(),
-                /*conPerson: $("#conPerson").val(),*/
-                recruitNum: $("#conNum").val(),
-
+                fieldType1: $("#field2").data("kendoDropDownList").value(),
+                fieldTypeName1: $("#field2").data("kendoDropDownList").text(),
+                fieldTypeName2: $("#field3").val(),
+                /*conName: $("#conName").val(),*/
+                conTitle: $("#conTitle").val(),
+                conDetailTitle: $("#conDetailTitle").val(),
+                agmStartDt: $("#agmStartDt").val(),
+                agmEndDt: $("#agmEndDt").val(),
+                conTime: $("#conTime").val(),
+                conArea: $("#conArea").val(),
+                conPerson: $("#conPerson").val(),
+                conNum: $("#conNum").val(),
                 mainType: $("#conMainType").data("kendoDropDownList").value(),
                 mainTypeName: $("#conMainType").data("kendoDropDownList").text(),
-
                 regEmpSeq: $("#regEmpSeq").val()
             }
 
@@ -265,14 +311,14 @@ const lectureReq = {
                 alert("컨선팅 분야가 선택되지 않았습니다.");
                 return;
             }
-            /*if (data.fieldType2 == "") {
+            if (data.fieldType2 == "") {
                 alert("컨선팅 분야가 선택되지 않았습니다.");
                 return;
             }
             if (data.fieldType3 == "") {
                 alert("컨선팅 분야가 작성되지 않았습니다.");
                 return;
-            }*/
+            }
             if (data.lectureName == "") {
                 alert("사업명이 작성되지 않았습니다.");
                 return;
@@ -281,10 +327,10 @@ const lectureReq = {
                 alert("과제명이 작성되지 않았습니다.");
                 return;
             }
-            /*if (data.detailTitle == "") {
+            if (data.detailTitle == "") {
                 alert("세부 프로그램명이 작성되지 않았습니다.");
                 return;
-            }*/
+            }
             if (data.eduStartDt == "") {
                 alert("협약기간이 작성되지 않았습니다.");
                 return;
@@ -306,10 +352,10 @@ const lectureReq = {
                 return;
             }
 
-            let url = "/projectUnRnd/insLectureInfo";
+            let url = "/projectUnRnd/insConsultingInfo";
             if ($("#pk").val() != "") {
                 data.pk = $("#pk").val();
-                url = "/projectUnRnd/updLectureInfo";
+                url = "/projectUnRnd/updConsultingInfo";
             }
 
             const formData = new FormData();

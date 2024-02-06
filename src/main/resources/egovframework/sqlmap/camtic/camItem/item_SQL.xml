@@ -1524,25 +1524,21 @@
     <select id="getItemInvenList" parameterType="map" resultType="map">
         /* getItemInvenList */
         SELECT
-            II.*,
             IM.*,
-            WHC.ITEM_CD_NM AS WH_CD_NM
+            (SELECT ITEM_CD_NM FROM CAM_ITEM.DJ_ITEM_CD WHERE LG_CD = 'WH' AND ITEM_CD = IM.WH_CD) AS WH_CD_NM,
+            (SELECT IFNULL(SUM(IN_CNT), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS IN_CNT,
+            (SELECT IFNULL(SUM(OUT_CNT), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS OUT_CNT,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS TOT_CNT,
+            IM.SAFETY_INVEN AS SAFE_CNT,
+            IFNULL(ITEM_REAL_CNT, 0) AS REAL_CNT,
+            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS AMT,
+            IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1), 0) AS UNIT_AMT
         FROM
-            CAM_ITEM.DJ_ITEM_INVENTORY II
-        JOIN
             CAM_ITEM.DJ_ITEM_MASTER IM
-        ON IM.MASTER_SN = II.MASTER_SN
-        JOIN
-            CAM_ITEM.DJ_ITEM_CD WHC
-        ON WHC.LG_CD = 'WH' AND II.WH_CD = WHC.ITEM_CD
+        WHERE 1=1
         <if test='whCd != null and !"".equals(whCd)'>
-            AND II.WH_CD = #{whCd}
+            AND IM.WH_CD = #{whCd}
         </if>
-
-        <if test='masterSn != null and !"".equals(masterSn)'>
-            AND II.MASTER_SN = #{masterSn}
-        </if>
-
         <choose>
             <when test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND IM.${searchKeyword} LIKE CONCAT('%', #{searchValue}, '%')
@@ -1550,22 +1546,15 @@
             <otherwise>
                 <if test='searchValue != null and !"".equals(searchValue)'>
                     AND (
-                        IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
-                        IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
+                    IM.ITEM_NO LIKE CONCAT('%', #{searchValue}, '%') OR
+                    IM.ITEM_NAME LIKE CONCAT('%', #{searchValue}, '%')
                     )
                 </if>
             </otherwise>
         </choose>
-
-        <if test='"shipmentRecord".equals(reg)'>
-            AND II.CURRENT_INVEN > 0
-        </if>
-
-        ORDER BY
-            CASE WHEN II.MOD_DT IS NULL THEN II.REG_DT
-                ELSE II.MOD_DT
-            END
-        DESC
+          AND
+            IM.ACTIVE = 'Y'
+        ORDER BY IM.REG_DT DESC
     </select>
 
     <select id="getItemInvenAdminList" parameterType="map" resultType="map">
@@ -1580,9 +1569,9 @@
             IM.SAFETY_INVEN AS SAFE_CNT,
             IFNULL(ITEM_REAL_CNT, 0) AS REAL_CNT,
             (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{befStrDt} AND #{befEndDt}) AS BEF_TOT_CNT,
-            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{befStrDt} AND #{befEndDt}) AS BEF_AMT,
-            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{nowStrDt} AND #{nowEndDt}) AS AMT,
-            IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN ORDER BY REG_DT DESC LIMIT 1), 0) AS UNIT_AMT
+            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{befStrDt} AND #{befEndDt}) AS BEF_AMT,
+            (SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m-%d') BETWEEN #{nowStrDt} AND #{nowEndDt}) AS AMT,
+            IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1), 0) AS UNIT_AMT
         FROM
             CAM_ITEM.DJ_ITEM_MASTER IM
         WHERE 1=1

@@ -77,13 +77,13 @@ var invenSt = {
                     width: 150
                 }, {
                     title: "재고",
-                    field: "CURRENT_INVEN",
+                    field: "TOT_CNT",
                     width: 100,
                     template : function (e){
-                        if(e.CURRENT_INVEN < 0){
-                            return "<span style='color: red'>" + invenSt.comma(e.CURRENT_INVEN) + "</span>";
+                        if(e.TOT_CNT < 0){
+                            return "<span style='color: red'>" + invenSt.comma(e.TOT_CNT) + "</span>";
                         }else{
-                            return invenSt.comma(e.CURRENT_INVEN);
+                            return invenSt.comma(e.TOT_CNT);
                         }
                     },
                     attributes : {
@@ -91,12 +91,13 @@ var invenSt = {
                     }
                 }, {
                     title: "안전재고",
+                    filed: "SAFE_CNT",
                     width: 100,
                     template : function (e){
-                        if(e.SAFETY_INVEN < 0){
-                            return "<span style='color: red'>" + invenSt.comma(e.SAFETY_INVEN) + "</span>";
+                        if(e.SAFE_CNT < 0){
+                            return "<span style='color: red'>" + invenSt.comma(e.SAFE_CNT) + "</span>";
                         }else{
-                            return invenSt.comma(e.SAFETY_INVEN);
+                            return invenSt.comma(e.SAFE_CNT);
                         }
                     },
                     attributes : {
@@ -104,10 +105,10 @@ var invenSt = {
                     }
                 }, {
                     title: "입고",
-                    field: "RECEIVING_INVEN",
+                    field: "IN_CNT",
                     width: 100,
                     template : function (e){
-                        return invenSt.comma(e.RECEIVING_INVEN);
+                        return invenSt.comma(e.IN_CNT);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -115,9 +116,9 @@ var invenSt = {
                 }, {
                     title: "출고",
                     width: 100,
-                    field: "FORWARDING_INVEN",
+                    field: "OUT_CNT",
                     template : function (e){
-                        return invenSt.comma(e.FORWARDING_INVEN);
+                        return invenSt.comma(e.OUT_CNT);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -125,9 +126,9 @@ var invenSt = {
                 }, {
                     title: "단가",
                     width: 100,
-                    field: "UNIT_PRICE",
+                    field: "UNIT_AMT",
                     template: function(e){
-                        return invenSt.comma(e.UNIT_PRICE) + "원";
+                        return invenSt.comma(e.UNIT_AMT) + "원";
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -135,12 +136,12 @@ var invenSt = {
                 }, {
                     title: "재고금액",
                     width: 100,
-                    field: "INVEN_AMT",
+                    field: "AMT",
                     template: function(e){
-                        if(e.INVEN_AMT < 0){
-                            return "<span style='color: red'>" + invenSt.comma(e.INVEN_AMT) + "원</span>";
+                        if(e.AMT < 0){
+                            return "<span style='color: red'>" + invenSt.comma(e.AMT) + "원</span>";
                         }else{
-                            return invenSt.comma(e.INVEN_AMT) + "원";
+                            return invenSt.comma(e.AMT) + "원";
                         }
                     },
                     attributes : {

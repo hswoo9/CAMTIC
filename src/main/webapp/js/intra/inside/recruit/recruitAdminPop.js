@@ -151,20 +151,13 @@ var recruitAdminPop = {
                             var avg = e.IN_SCREEN_AVERAGE == null ? 0 : e.IN_SCREEN_AVERAGE;
                             var str = "";
 
-                            // [긴급]
-                            // 하드코딩 시작
-                            let decimalPart = avg - Math.floor(avg);
-                            if (decimalPart >= 0.5) {
-                                avg += 0.1;
-                            }
-                            avg = Number(avg.toFixed(1));
-                            // 끝
-                            
-                            
+
                             if(e.APPLICATION_STAT == "I"){
                                 str = '합격 (' + avg + "점)";
                             }else if(e.APPLICATION_STAT == "IF"){
                                 str = '불합격 (' + avg + "점)";
+                            }else if(e.APPLICATION_STAT == "D"){
+                                str = avg + '점';
                             }else{
                                 str = "";
                             }

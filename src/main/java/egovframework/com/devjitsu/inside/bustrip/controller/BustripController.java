@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.bustrip.controller;
 
+import com.google.gson.Gson;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
@@ -217,6 +218,13 @@ public class BustripController {
     public String bustripResultPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
+
+        if(exnpData.size() != 0){
+            model.addAttribute("list", exnpData);
+            model.addAttribute("jsonList", new Gson().toJson(exnpData));
+        }
 
         model.addAttribute("rs", bustripService.getBustripOne(params));
         model.addAttribute("params", params);
@@ -944,6 +952,16 @@ public class BustripController {
 
         List<Map<String, Object>> list = bustripService.getCorpExnpData(params);
         model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    /** 출장 여비정산 법인차량 데이터(지급신청용) */
+    @RequestMapping("/bustrip/getCorpCarExnpData")
+    public String getCorpCarExnpData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = bustripService.getCorpCarExnpData(params);
+        model.addAttribute("map", map);
 
         return "jsonView";
     }

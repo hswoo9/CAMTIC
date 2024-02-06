@@ -6,5 +6,13 @@ import java.util.Map;
 public interface BudgetService {
     void setBudget(Map<String, Object> params);
 
-    List<Map<String, Object>> getProjectList(Map<String, Object> params);
+    List<Map<String, Object>> getBudgetList(Map<String, Object> params);
+
+    int getBudgetCdDuplCnt(Map<String, Object> params);
+
+    List<Map<String, Object>> getBudgetAList(Map<String, Object> params);
+
+    List<Map<String, Object>> getBudgetBList(Map<String, Object> params);
+
+    List<Map<String, Object>> getBudgets(Map<String, Object> params);
 }

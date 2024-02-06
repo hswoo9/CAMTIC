@@ -508,4 +508,9 @@ public class BustripServiceImpl implements BustripService {
     public List<Map<String, Object>> getCorpExnpData(Map<String, Object> params) {
         return bustripRepository.getCorpExnpData(params);
     }
+
+    @Override
+    public Map<String, Object> getCorpCarExnpData(Map<String, Object> params) {
+        return bustripRepository.getCorpCarExnpData(params);
+    }
 }
