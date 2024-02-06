@@ -121,7 +121,7 @@ var certificateReqAdminPop = {
                 { text: "선택하세요", value: "" },
                 { text: "금융기관 제출용", value: "금융기관 제출용" },
                 { text: "교육기관 제출용", value: "교육기관 제출용" },
-                { text: "관공서 제출용", value: "관공서 제출용" },
+                { text: "기관제출용", value: "기관제출용" },
                 { text: "타사 제출용", value: "타사 제출용" },
                 { text: "개인증빙용", value: "개인증빙용" },
                 { text: "기타사유", value: "기타사유" }

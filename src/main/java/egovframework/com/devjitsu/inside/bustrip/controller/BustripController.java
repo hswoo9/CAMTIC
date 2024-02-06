@@ -947,4 +947,14 @@ public class BustripController {
 
         return "jsonView";
     }
+
+    /** 출장 여비정산 법인차량 데이터(지급신청용) */
+    @RequestMapping("/bustrip/getCorpCarExnpData")
+    public String getCorpCarExnpData(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = bustripService.getCorpCarExnpData(params);
+        model.addAttribute("map", map);
+
+        return "jsonView";
+    }
 }

@@ -430,7 +430,8 @@
             AM.RECRUIT_AREA_INFO_SN,
             AM.USER_NAME,
             A.*,
-            (select eval_item_main_id from cam_inside.dj_eval_item where eval_item_id = a.eval_item_id limit 1) AS EVAL_ITEM_MAIN_ID
+            (select eval_item_main_id from cam_inside.dj_eval_item where eval_item_id = a.eval_item_id limit 1) AS EVAL_ITEM_MAIN_ID,
+            (select EMP_SEQ from cam_hr.dj_emp_info where emp_name_kr = A.EMP_NAME_KR) AS EMP_SEQ
         FROM
             CAM_INSIDE.DJ_APPLICATION_MAIN AM
         JOIN
