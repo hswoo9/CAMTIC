@@ -437,6 +437,8 @@ var screenViewPop = {
                             }
 
 
+                            console.log(Number((sum/evalCnt)));
+                            console.log("Number((sum/evalCnt)).toFixed(1)");
                             if(result.list[i].APPLICATION_ID != result.list[index].APPLICATION_ID || result.list.length == (i+1)){
                                 html += '' +
                                     '<tr style="height: 50px;">' +

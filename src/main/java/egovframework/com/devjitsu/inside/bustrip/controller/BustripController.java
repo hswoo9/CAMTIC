@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.bustrip.controller;
 
+import com.google.gson.Gson;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
@@ -222,6 +223,7 @@ public class BustripController {
 
         if(exnpData.size() != 0){
             model.addAttribute("list", exnpData);
+            model.addAttribute("jsonList", new Gson().toJson(exnpData));
         }
 
         model.addAttribute("rs", bustripService.getBustripOne(params));

@@ -224,7 +224,7 @@ var bustripResList = {
                 }, {
                     title: "결과보고",
                     template: function(row){
-                        if(row.STATUS == 100){console.log(row);
+                        if(row.STATUS == 100){
                             if(row.HR_BIZ_REQ_RESULT_ID == ""){
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+row.HR_BIZ_REQ_ID+')">결과보고</button>'
                             }else{
@@ -300,11 +300,18 @@ var bustripResList = {
         }).data("kendoGrid");
     },
 
-    popBustripRes: function(e, d) {
+    popBustripRes: function(e, d, y) {
+        var status = "";
+        if(y == undefined){
+            status = 0;
+        }else{
+            status = 100;
+        }
+
         if(e == "N"){
             var url = "/bustrip/pop/bustripResultPop.do?hrBizReqId="+d;
         }else{
-            var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d;
+            var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d+"&status="+status;
         }
         var name = "bustripResListPop";
         var option = "width=1200, height=795, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"

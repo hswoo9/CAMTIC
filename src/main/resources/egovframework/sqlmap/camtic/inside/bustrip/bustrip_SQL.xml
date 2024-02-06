@@ -510,25 +510,25 @@
                 IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE B.HR_BIZ_REQ_RESULT_ID = SHBC.HR_BIZ_REQ_RESULT_ID), 0) AS COMPANION2,
                 IFNULL((SELECT SUM(REPLACE(SB.TOT_COST, ',', '')) FROM CAM_INSIDE.DJ_HR_BIZ_EXNP SB WHERE B.HR_BIZ_REQ_RESULT_ID = SB.HR_BIZ_REQ_RESULT_ID), 0) AS TOT_COST,
                 (
-                    (CASE WHEN IHBE.TRAF_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TOLL_CORP_YN = 'Y' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.EAT_CORP_YN = 'Y' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.PARKING_CORP_YN = 'Y' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.ETC_CORP_YN = 'Y' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.ROOM_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
                 ) AS CORP_SUM,
                 (
-                    (CASE WHEN IHBE.OIL_CORP_YN = 'Y' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)
                 ) AS CAR_SUM,
                 (
-                    (CASE WHEN IHBE.OIL_CORP_YN = 'N' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TRAF_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_DAY_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TOLL_CORP_YN = 'N' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.ROOM_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
                     REPLACE(IHBE.DAY_COST, ',', '')+
-                    (CASE WHEN IHBE.EAT_CORP_YN = 'N' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.PARKING_CORP_YN = 'N' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.ETC_CORP_YN = 'N' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
                 ) AS PERSON_SUM
             FROM
                 CAM_INSIDE.DJ_HR_BIZ_REQ IHBR
@@ -1286,25 +1286,25 @@
                 CAR_CLASS_NAME,
                 IHBE.*,
                 (
-                    (CASE WHEN IHBE.TRAF_CORP_YN = 'Y' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'Y' THEN REPLACE(IHBE.ROOM_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TOLL_CORP_YN = 'Y' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.EAT_CORP_YN = 'Y' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.PARKING_CORP_YN = 'Y' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.ETC_CORP_YN = 'Y' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.ROOM_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
                 ) AS CORP_SUM,
                 (
-                    (CASE WHEN IHBE.OIL_CORP_YN = 'Y' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)
+                    (CASE WHEN IHBE.DIVISION = '2' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)
                 ) AS CAR_SUM,
                 (
-                    (CASE WHEN IHBE.OIL_CORP_YN = 'N' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TRAF_CORP_YN = 'N' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TRAF_DAY_CORP_YN = 'N' THEN REPLACE(IHBE.ROOM_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.TOLL_CORP_YN = 'N' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.OIL_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.TRAF_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.ROOM_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.TOLL_COST, ',', '') ELSE 0 END)+
                     REPLACE(IHBE.DAY_COST, ',', '')+
-                    (CASE WHEN IHBE.EAT_CORP_YN = 'N' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.PARKING_CORP_YN = 'N' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
-                    (CASE WHEN IHBE.ETC_CORP_YN = 'N' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.EAT_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.PARKING_COST, ',', '') ELSE 0 END)+
+                    (CASE WHEN IHBE.DIVISION = '1' THEN REPLACE(IHBE.ETC_COST, ',', '') ELSE 0 END)
                 ) AS PERSON_SUM
             FROM
                 CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHBRR
