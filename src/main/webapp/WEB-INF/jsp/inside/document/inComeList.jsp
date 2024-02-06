@@ -37,11 +37,19 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="40%">
+                        <col width="20%">
                         <col width="10%">
-                        <col width="40%">
+                        <col width="10%">
+                        <col width="10%">
+                        <col width="auto">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">조회 기간</th>
+                        <td>
+                            <input type="text" id="startDt" style="width: 45%;">
+                            ~
+                            <input type="text" id="endDt" style="width: 45%;">
+                        </td>
                         <th class="text-center th-color">구분</th>
                         <td>
                             <input type="text" id="documentPart" style="width:130px;">
