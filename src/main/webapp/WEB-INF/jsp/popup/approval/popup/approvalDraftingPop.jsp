@@ -93,6 +93,8 @@
             <input type="hidden" id="deptName" name="deptName" value="${loginVO.orgnztNm}">
 
             <input type="hidden" id="reqContentId" name="reqContentId">
+
+            <input type="hidden" id="mySignCk" name="mySignCk" value="N">
         </div>
         <div class="mb-10" id="btnDiv" style="text-align: right;">
             <button type="button" name="temp" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base temp" onclick="draft.docTempInit(this)">
