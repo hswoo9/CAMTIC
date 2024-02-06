@@ -1073,4 +1073,41 @@ public class ItemManageServiceImpl implements ItemManageService {
         }
 
     }
+
+    @Override
+    public void setDeadLine(Map<String, Object> params) {
+        itemManageRepository.setDeadLine(params);
+        Gson gson = new Gson();
+        List<Map<String, Object>> list = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+        for(Map<String, Object> map : list){
+            int totCnt = Integer.parseInt(map.get("TOT_CNT").toString().split("[.]")[0]);
+            int realCnt = Integer.parseInt(map.get("REAL_CNT").toString().split("[.]")[0]);
+            int confCnt = 0;
+            if(totCnt > realCnt && realCnt > 0){
+                params.put("outCnt", totCnt - realCnt);
+                params.put("inCnt", 0);
+                confCnt = totCnt - realCnt;
+            } else if(realCnt > totCnt && realCnt > 0){
+                params.put("outCnt", 0);
+                params.put("inCnt", realCnt - totCnt);
+                confCnt = realCnt - totCnt;
+            } else {
+                params.put("outCnt", 0);
+                params.put("inCnt", 0);
+                confCnt = totCnt;
+            }
+
+            params.put("confCnt", confCnt);
+            params.put("masterSn", map.get("MASTER_SN"));
+
+            itemManageRepository.insHistDeadLineCnt(params);
+            itemManageRepository.updItemMasterConfCnt(params);
+        }
+    }
+
+    @Override
+    public void updItemManageRealCnt(Map<String, Object> params) {
+        itemManageRepository.updItemManageRealCnt(params);
+    }
 }

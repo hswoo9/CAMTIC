@@ -32,6 +32,13 @@ var invenStAdmin = {
                 {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="invenStAdmin.fn_setDeadLine()">' +
+                            '	<span class="k-button-text">마감</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.templateExcelFormDown()">' +
                             '	<span class="k-button-text">재고조정 양식 다운로드</span>' +
                             '</button>';
@@ -170,10 +177,14 @@ var invenStAdmin = {
                             template : function (e){
                                 var diffInven = e.TOT_CNT - e.REAL_CNT;
 
-                                if(diffInven < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(diffInven) + "</span>";
-                                }else{
-                                    return invenStAdmin.comma(diffInven);
+                                if(e.REAL_CNT == 0){
+                                   return "0";
+                                } else {
+                                    if(diffInven < 0){
+                                        return "<span style='color: red'>" + invenStAdmin.comma(diffInven) + "</span>";
+                                    }else{
+                                        return invenStAdmin.comma(diffInven);
+                                    }
                                 }
                             },
                             attributes : {
@@ -182,11 +193,12 @@ var invenStAdmin = {
                         }, {
                             title: "확정재고",
                             width: 70,
-                            template : function (e){
-                                if(e.TOT_CNT < 0){
-                                    return "<span style='color: red'>" + invenStAdmin.comma(e.TOT_CNT) + "</span>";
-                                }else{
-                                    return invenStAdmin.comma(e.TOT_CNT);
+                            field: "ITEM_CONF_CNT",
+                            template: function(e){
+                                if(e.ITEM_CONF_CNT != undefined && e.ITEM_CONF_CNT != null){
+                                    return e.ITEM_CONF_CNT;
+                                } else {
+                                    return "0"
                                 }
                             },
                             attributes : {
@@ -311,27 +323,20 @@ var invenStAdmin = {
     gridReload: function (){
 
         var date = new Date($("#searchDt").val());
-        date.setMonth(date.getMonth() - 1);
-
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
+        var nowStrDt = new Date(date.getFullYear(), date.getMonth(), 1);
+        var nowEndDt = new Date(date.getFullYear(), date.getMonth()+1, 0);
 
         var befDate = new Date($("#searchDt").val());
-        befDate.setMonth(befDate.getMonth() - 2);
-        let befYear    = befDate.getFullYear();
-        let befMonth   = befDate.getMonth() +  1;
-        var befDay = befDate.getDate();
+        var befStrDt = new Date(befDate.getFullYear(), befDate.getMonth() - 1, 1);
+        var befEndDt = new Date(befDate.getFullYear(), befDate.getMonth(), 0);
 
-        var lastDay = new Date(year, month, day);
-        var befLastDay = new Date(befYear, befMonth, befDay);
         invenStAdmin.global.searchAjaxData = {
             searchDt : $("#searchDt").val(),
-            nowMon : lastDay.getFullYear() + "-" + ('0' + ((lastDay.getMonth() + 1))).slice(-2) + "-" + ('0' + (lastDay.getDate())).slice(-2), //lastDay.getDate(),
-            befMon : befLastDay.getFullYear() + "-" + ('0' + ((befLastDay.getMonth() + 1))).slice(-2) + "-" + ('0' + (befLastDay.getDate())).slice(-2), //befLastDay.getDate(),
+            nowStrDt : nowStrDt.getFullYear() + "-" + ('0' + ((nowStrDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (nowStrDt.getDate())).slice(-2), //nowMon firstDay,
+            nowEndDt : nowEndDt.getFullYear() + "-" + ('0' + ((nowEndDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (nowEndDt.getDate())).slice(-2), //nowMon lastDay,
+            befStrDt : befStrDt.getFullYear() + "-" + ('0' + ((befStrDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (befStrDt.getDate())).slice(-2),   //befMon firstDay,
+            befEndDt : befEndDt.getFullYear() + "-" + ('0' + ((befEndDt.getMonth() + 1))).slice(-2) + "-" + ('0' + (befEndDt.getDate())).slice(-2),   //befMon lastDay,
         };
-
-
 
         invenStAdmin.mainGrid("/item/getItemInvenAdminList.do", invenStAdmin.global.searchAjaxData);
     },
@@ -357,5 +362,37 @@ var invenStAdmin = {
         var name = "_blank";
         var option = "width = 500, height = 230, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_setDeadLine : function (){
+
+        if(!confirm("마감하시겠습니까?")){
+            return;
+        }
+        var parameters = {
+
+        }
+        var result = customKendo.fn_customAjax("/item/getItemInvenAdminList.do", invenStAdmin.global.searchAjaxData)
+
+        console.log(result);
+
+        var itemArr= result.list;
+
+
+        parameters.itemArr = JSON.stringify(itemArr);
+
+        $.ajax({
+            url : "/item/setDeadLine",
+            data : parameters,
+            type : "post",
+            dataType : "json",
+            success:function (rs){
+                if(rs.code == 200){
+                    alert("마감되었습니다.");
+
+                    invenStAdmin.gridReload();
+                }
+            }
+        });
     }
 }
