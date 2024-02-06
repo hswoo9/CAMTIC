@@ -11,16 +11,18 @@
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="key" value="${params.key}" />
+<input type="hidden" id="arKey" value="${params.arKey}" />
 
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
-            <span style="position: relative; top: 3px;">
+            <span style="position: relative; top: 3px;" id="bgTitle">
                 예산신규등록
             </span>
         </h3>
         <div id="purcBtnDiv" class="btn-st popButton" style="font-size: 13px">
-            <button type="button" class="k-button k-button-solid-info" onclick="fn_save()">등록</button>
+            <button type="button" class="k-button k-button-solid-info" id="regBtn" onclick="fn_save()">등록</button>
+            <button type="button" class="k-button k-button-solid-primary" style="display: none;" id="modBtn" onclick="fn_save()">수정</button>
             <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
         </div>
     </div>
@@ -48,15 +50,12 @@
                     <input type="text" id="regDt" value="" style="width: 50%">
                 </td>
             </tr>
-            <tr>
+            <tr id="pjtClassTr">
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>프로젝트
+                    <span class="red-star">*</span>프로젝트 분류
                 </th>
                 <td colspan="3">
-                    <input type="text" id="pjtNm" value="" style="width: 80%">
-                    <input type="hidden" id="pjtSn" value="">
-                    <input type="hidden" id="pjtCd" value="">
-                    <button type="button" id="pjtBtn" class="k-button k-button-solid-base" onclick="fn_viewProject()">조회</button>
+                    <span id="radioGroup"></span>
                 </td>
             </tr>
             <tr>
@@ -251,6 +250,26 @@
             }
         });
 
+        $("#radioGroup").kendoRadioGroup({
+            items: [
+                { label : "법인운영", value : "M" },
+                { label : "R&D", value : "R" },
+                { label : "비R&D", value : "S" },
+                { label : "엔지니어링", value : "D" },
+                { label : "용역/기타", value : "V" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "1"
+        });
+
+        $("#radioGroup").data("kendoRadioGroup").value("M");
+
+
+        if($("#arKey").val() != ""){
+            fn_setData();
+        }
+
     });
 
     function fn_aKeyUp(){
@@ -427,9 +446,7 @@
         var parameters = {
             baseYear : $("#bsYear").val(),
             regDt : $("#regDt").val(),
-            pjtSn : $("#pjtSn").val(),
-            pjtNm : $("#pjtNm").val(),
-            pjtCd : $("#pjtCd").val(),
+            pjtClass : $("#radioGroup").data("kendoRadioGroup").value(),
             regEmpSeq : $("#empSeq").val()
         }
 
@@ -445,9 +462,12 @@
                 itemParameters.jang = $("#jang" + i).val();
                 itemParameters.gwan = $("#gwan" + i).val();
                 itemParameters.hang = $("#hang" + i).val();
+                itemParameters.jangCd = $("#jangCd" + i).val();
+                itemParameters.gwanCd = $("#gwanCd" + i).val();
+                itemParameters.hangCd = $("#hangCd" + i).val();
                 itemParameters.budgetAmt = uncomma($("#budgetAmt" + i).val());
 
-                if(len != 1 && (itemParameters.jang == "" || itemParameters.gwan == "" || itemParameters.hang == "" || itemParameters.budgetAmt == "")) {
+                if((itemParameters.jang == "" || itemParameters.gwan == "" || itemParameters.hang == "" || itemParameters.budgetAmt == "")) {
                     aFlag = false;
                 }
 
@@ -475,9 +495,12 @@
                 itemParameters.jang = $("#mJang" + i).val();
                 itemParameters.gwan = $("#mGwan" + i).val();
                 itemParameters.hang = $("#mHang" + i).val();
+                itemParameters.jangCd = $("#mJangCd" + i).val();
+                itemParameters.gwanCd = $("#mGwanCd" + i).val();
+                itemParameters.hangCd = $("#mHangCd" + i).val();
                 itemParameters.budgetAmt = uncomma($("#mBudgetAmt" + i).val());
 
-                if(len != 1 && (itemParameters.jang == "" || itemParameters.gwan == "" || itemParameters.hang == "" || itemParameters.budgetAmt == "")) {
+                if((itemParameters.jang == "" || itemParameters.gwan == "" || itemParameters.hang == "" || itemParameters.budgetAmt == "")) {
                     bFlag = false;
                 }
 
@@ -504,11 +527,39 @@
                 if (rs.code == 200){
                     alert("저장되었습니다.");
                     window.close();
+                } else {
+                    alert(rs.msg);
                 }
             }
         });
+    }
+
+    function fn_setData(){
+        $("#bgTitle").text("예산수정");
+
+        $("#regBtn").css("display", "none");
+        $("#modBtn").css("display", "");
+        $("#pjtClassTr").css("display", "none");
+
+        $("#bsYear").data("kendoDatePicker").enable(false);
+        $("#regDt").data("kendoDatePicker").enable(false);
 
 
+        var arKey = $("#arKey").val().split(",");
 
+        console.log(arKey)
+        var parameters = {
+            arKey : JSON.stringify(arKey)
+        }
+
+        $.ajax({
+            url : "/budget/pop/getBudget",
+            data : parameters,
+            type : "POST",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+            }
+        })
     }
 </script>

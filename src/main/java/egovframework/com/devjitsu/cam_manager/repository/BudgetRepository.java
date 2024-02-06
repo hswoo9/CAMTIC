@@ -10,8 +10,48 @@ import java.util.Map;
 public class BudgetRepository extends AbstractDAO {
 
 
-    public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
+    public List<Map<String, Object>> getBudgetList(Map<String, Object> params) {
 
-        return selectList("budget.getProjectList", params);
+        return selectList("budget.getBudgetList", params);
+    }
+
+    public void insBudgetAData(Map<String, Object> params) {
+
+        insert("budget.insBudgetAData", params);
+    }
+
+    public void insBudgetBData(List<Map<String, Object>> bList) {
+
+        insert("budget.insBudgetBData", bList);
+    }
+
+    public int getBudgetACdCheck(Map<String, Object> params) {
+
+        return (int) selectOne("budget.getBudgetACdCheck", params);
+    }
+
+    public int getBudgetBCdCheck(Map<String, Object> params) {
+
+        return (int) selectOne("budget.getBudgetBCdCheck", params);
+    }
+
+    public List<Map<String, Object>> getBudgetAList(Map<String, Object> params) {
+
+        return selectList("budget.getBudgetAList", params);
+    }
+
+    public List<Map<String, Object>> getBudgetBList(Map<String, Object> params) {
+
+        return selectList("budget.getBudgetBList", params);
+    }
+
+    public Map<String, Object> getBudgetAData(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("budget.getBudgetAData", params);
+    }
+
+    public Map<String, Object> getBudgetBData(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("budget.getBudgetBData", params);
     }
 }

@@ -4,26 +4,129 @@
 <mapper namespace="budget">
 
 
-    <select id="getProjectList" parameterType="map" resultType="map">
-        /*getProjectList*/
-        SELECT * FROM (SELECT CORP_PJT_CD AS PJT_CD,
-                              CORP_PJT_NM AS PJT_NM,
-                              STR_DT,
-                              END_DT
-                       FROM CAM_PJT_MNG.DJ_CORP_PROJECT
-                       WHERE STATUS = 100
-                       UNION ALL
-                       SELECT PJT_CD,
-                              PJT_NM,
-                              STR_DT,
-                              END_DT
-                       FROM CAM_PJT_MNG.DJ_PROJECT
-                       WHERE DELV_APPROVE_STAT = 100) A
+    <select id="getBudgetList" parameterType="map" resultType="map">
+        /*getBudgetList*/
+        SELECT *
+        FROM
+            (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
+             UNION ALL
+             SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_B) A
         WHERE
-            STR_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}
-           OR
-            END_DT BETWEEN #{pjtFromDate} AND #{pjtToDate}
-        ORDER BY STR_DT DESC
+            BS_YEAR = #{baseYear}
+    </select>
+
+    <select id="getBudgetAList" parameterType="map" resultType="map">
+        /*getBudgetList*/
+        SELECT *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_A
+    </select>
+
+    <select id="getBudgetBList" parameterType="map" resultType="map">
+        /*getBudgetList*/
+        SELECT *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_B
+    </select>
+
+    <insert id="insBudgetAData" parameterType="map">
+        /*insBudgetAData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_BUDGET_A
+            (
+                PJT_CLASS,
+                BS_YEAR,
+                JANG_CD,
+                JANG_NM,
+                GWAN_CD,
+                GWAN_NM,
+                HANG_CD,
+                HANG_NM,
+                BUDGET_AMT,
+                CD_REG_DE,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtClass},
+                #{baseYear},
+                #{jangCd},
+                #{jang},
+                #{gwanCd},
+                #{gwan},
+                #{hangCd},
+                #{hang},
+                #{budgetAmt},
+                #{regDt},
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <insert id="insBudgetBData" parameterType="map">
+        /*insBudgetBData*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_BUDGET_B
+            (
+                PJT_CLASS,
+                BS_YEAR,
+                JANG_CD,
+                JANG_NM,
+                GWAN_CD,
+                GWAN_NM,
+                HANG_CD,
+                HANG_NM,
+                CD_REG_DE,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{pjtClass},
+                #{baseYear},
+                #{jangCd},
+                #{jang},
+                #{gwanCd},
+                #{gwan},
+                #{hangCd},
+                #{hang},
+                #{regDt},
+                #{regEmpSeq}
+            )
+    </insert>
+
+    <select id="getBudgetACdCheck" parameterType="map" resultType="int">
+        /*getBudgetACdCheck*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_A
+        WHERE
+            BS_YEAR = #{baseYear} AND JANG_CD = #{jangCd} AND GWAN_CD = #{gwanCd} AND HANG_CD = #{hangCd}
+    </select>
+
+    <select id="getBudgetBCdCheck" parameterType="map" resultType="int">
+        /*getBudgetBCdCheck*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_B
+        WHERE
+            BS_YEAR = #{baseYear} AND JANG_CD = #{jangCd} AND GWAN_CD = #{gwanCd} AND HANG_CD = #{hangCd}
+    </select>
+
+    <select id="getBudgetAData" parameterType="map" resultType="map">
+        /*getBudgetAData*/
+        SELECT *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_A
+        WHERE
+            PJT_BUDGET_SN = #{pjtBudgetSn}
+    </select>
+
+    <select id="getBudgetBData" parameterType="map" resultType="map">
+        /*getBudgetBData*/
+        SELECT *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_B
+        WHERE
+            PJT_BUDGET_SN = #{pjtBudgetSn}
     </select>
 
 </mapper>

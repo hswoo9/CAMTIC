@@ -50,7 +50,27 @@ public class BudgetController {
     public String getBudgetList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
 
         List<Map<String, Object>> list = new ArrayList<>();
-        list = budgetService.getProjectList(params);
+        list = budgetService.getBudgetList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/budget/getBudgetAList")
+    public String getBudgetAList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = budgetService.getBudgetAList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/budget/getBudgetBList")
+    public String getBudgetBList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = budgetService.getBudgetBList(params);
         model.addAttribute("list", list);
 
         return "jsonView";
@@ -62,6 +82,7 @@ public class BudgetController {
 
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
 
         return "popup/cam_manager/budget/regMakeBudget";
     }
@@ -78,11 +99,31 @@ public class BudgetController {
     public String setBudget(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
 
         try{
-            budgetService.setBudget(params);
-            model.addAttribute("code", 200);
+            int duplCnt = budgetService.getBudgetCdDuplCnt(params);
+
+            if(duplCnt > 1){
+                model.addAttribute("code", 303);
+                model.addAttribute("msg", "이미 등록된 예산항목이 있습니다.");
+
+                return "jsonView";
+            } else {
+                budgetService.setBudget(params);
+                model.addAttribute("code", 200);
+            }
         } catch (Exception e){
             e.printStackTrace();
         }
+
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/budget/pop/getBudget")
+    public String getBudget(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = budgetService.getBudgets(params);
+        model.addAttribute("list", list);
 
         return "jsonView";
     }
