@@ -7,6 +7,13 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_item/itemMa/invenMa/invenStatusAdmin.js?v=${today}'/>"></script>
 <script src="https://kendo.cdn.telerik.com/2023.2.606/js/jszip.min.js"></script>
 
+<form id="invenDeadLineDraftFrm" method="post">
+    <input type="hidden" id="menuCd" name="menuCd" value="invenDeadLine">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+    <%--<input type="hidden" id="hrBizReqResultId" name="hrBizReqResultId"/>--%>
+</form>
+
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">

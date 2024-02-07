@@ -74,4 +74,5 @@ public interface ItemManageService {
     void setDeadLine(Map<String, Object> params);
 
     void updItemManageRealCnt(Map<String, Object> params);
+    void updateDocState(Map<String, Object> bodyMap) throws Exception;
 }

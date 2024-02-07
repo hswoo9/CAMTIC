@@ -1770,7 +1770,9 @@
             IFNULL(CSC.CONFIRM_AMT, 0) AS CONFIRM_AMT,
             IFNULL(CSC.CONFIRM_YN, 'N') AS CONFIRM_YN,
             EI.EMP_SEQ,
-            EI.EMP_NAME_KR
+            EI.EMP_NAME_KR,
+            (select IFNULL(sum(TOT_AMT),0) from cam_item.dj_item_hist where crm_sn = CI.CRM_SN and confirm_chk = 'Y' and date_format(MOD_DT, '%Y-%m') = #{yearMonth} and in_cnt = 0) AS DEADLINE_AMT,
+            (select confirm_chk from cam_item.dj_item_hist where crm_sn = CI.CRM_SN and date_format(MOD_DT, '%Y-%m') = #{yearMonth} limit 1) AS CONFIRM_CHK
         FROM
             CAM_CRM.DJ_CRM_INFO CI
         LEFT JOIN
@@ -1816,7 +1818,7 @@
     </select>
 
     <insert id="setCrmSalesConfirm" parameterType="map">
-        /* setCrmSalesConfirmUpd */
+        /* setCrmSalesConfirm */
         INSERT INTO CAM_ITEM.DJ_CRM_SALES_CONFIRM
         (
             CRM_SN,
@@ -1838,6 +1840,7 @@
     </insert>
 
     <update id="setCrmSalesConfirmUpd" parameterType="map">
+        /* setCrmSalesConfirmUpd */
         UPDATE
             CAM_ITEM.DJ_CRM_SALES_CONFIRM
         SET
@@ -2074,5 +2077,38 @@
             ITEM_CONF_CNT = #{confCnt}
         WHERE
             MASTER_SN = #{masterSn}
+    </update>
+
+    <select id="getIventDeadLineList" parameterType="map" resultType="map">
+        SELECT
+            IM.MASTER_SN,
+            (SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN) AS TOT_CNT,
+            IFNULL(ITEM_REAL_CNT, 0) AS REAL_CNT
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        WHERE 1=1
+          AND
+            IM.ACTIVE = 'Y'
+          AND (IM.ITEM_CONF_CNT = 0 OR IM.ITEM_CONF_CNT IS NULL)
+    </select>
+
+    <update id="setCrmHistConfirm" parameterType="map">
+        UPDATE CAM_ITEM.DJ_ITEM_HIST
+        SET
+            CONFIRM_CHK = 'Y'
+        WHERE
+            CRM_SN = #{crmSn}
+        AND
+            CONFIRM_CHK != 'Y'
+    </update>
+
+    <update id="setCrmHistConfirmCancle" parameterType="map">
+        UPDATE CAM_ITEM.DJ_ITEM_HIST
+        SET
+            CONFIRM_CHK = 'N'
+        WHERE
+            CRM_SN = #{crmSn}
+          AND
+            CONFIRM_CHK != 'N'
     </update>
 </mapper>

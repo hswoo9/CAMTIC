@@ -7,6 +7,9 @@ import egovframework.com.devjitsu.cam_item.service.ItemManageService;
 import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.inside.bustrip.controller.BustripController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,7 @@ import java.util.Map;
 
 @Controller
 public class ItemManageController {
+    private static final Logger logger = LoggerFactory.getLogger(BustripController.class);
 
     @Autowired
     private ItemManageService itemManageService;
@@ -1431,5 +1435,56 @@ public class ItemManageController {
         }
 
         return "jsonView";
+    }
+
+    @RequestMapping("/item/pop/approvalFormPopup/invenDeadLineApprovalPop.do")
+    public String invenDeadLineApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        LoginVO login = getLoginVO(request);
+
+        model.addAttribute("loginVO", login);
+        /*
+        List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
+        model.addAttribute("list", list);
+        List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
+
+        Map<String, Object> rs = bustripService.getBustripOne(params);
+        model.addAttribute("exnpList", exnpData);
+        model.addAttribute("rs", rs);
+        model.addAttribute("data", params);
+
+        params.put("hrBizReqId", rs.get("HR_BIZ_REQ_ID"));
+        params.put("fileCd", "bustripReq");
+        model.addAttribute("fileInfo", bustripService.getBustripReqFileInfo(params));*/
+
+        return "/popup/cam_item/invenDeadLineApprovalPop";
+    }
+
+    /**
+     * 재고마감 결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/item/invenDeadLineApp")
+    public String invenDeadLineApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            itemManageService.updateDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    private static LoginVO getLoginVO(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        return loginVO;
     }
 }
