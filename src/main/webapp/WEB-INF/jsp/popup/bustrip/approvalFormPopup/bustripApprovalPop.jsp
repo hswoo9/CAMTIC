@@ -14,8 +14,7 @@
                         <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 200px"><p style="font-weight: bold;">소 속</p></td>
                         <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 90px"><p style="font-weight: bold">직 위</p></td>
                         <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 73px"><p style="font-weight: bold">성 명</p></td>
-                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 130px"><p style="font-weight: bold">비 고</p></td>
-                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 140px"><p style="font-weight: bold">서 명</p></td>
+                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 270px"><p style="font-weight: bold">비 고</p></td>
                     </tr>
                     <c:forEach var="list" items="${list}">
                     <tr>
@@ -23,7 +22,6 @@
                         <td style="height:25px;text-align:center;"><p>${list.positionNm}</p></td>
                         <td style="height:25px;text-align:center;"><p>${list.EMP_NAME}</p></td>
                         <td style="height:25px;text-align:center;"><p></p></td>
-                        <td style="height:25px;text-align:center;"><p style="text-align: right">(서명)</p></td>
                     </tr>
                     </c:forEach>
                 </table>

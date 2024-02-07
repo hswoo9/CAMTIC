@@ -35,15 +35,15 @@
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
-                <span style="position: relative; top: 3px;">
+                <span id="topTitle" style="position: relative; top: 3px;">
                     교육 단위사업
-                    <c:if test="${params.stat != 'v'}">
-                        작성
-                    </c:if>
                 </span>
+                <c:if test="${params.stat != 'v'}">
+                    <span style="position: relative; top: 3px;">작성</span>
+                </c:if>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
-                <%--<button type="button" class="k-button k-button-solid-base" id="consultantBtn" style="display: none" onclick="lecturePop.consultantPop('${params.pk}');">컨설턴트관리</button>--%>
+                <button type="button" class="k-button k-button-solid-base" id="consultantBtn" style="display: none" onclick="lecturePop.consultingTeacherPop('${params.pk}');">컨설턴트관리</button>
                 <button type="button" class="k-button k-button-solid-base" id="teacherBtn" style="display: none" onclick="lecturePop.lectureTeacherPop('${params.pk}');">강사관리</button>
                 <button type="button" class="k-button k-button-solid-base" id="personBtn" style="display: none" onclick="lecturePop.lecturePersonPop('${params.pk}');">수강신청관리</button>
                 <button type="button" class="k-button k-button-solid-base" id="eduBtn" style="display: none" onclick="lecturePop.lectureEduPop('${params.pk}');">이수관리</button>
@@ -330,7 +330,8 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업명</th>
                     <td colspan="3">
-                        <input id="conName" style="width: 800px;">
+                        <%--<input id="conName" style="width: 800px;">--%>
+                        <input id="conProjectType" style="width: 370px;">
                     </td>
                 </tr>
                 <tr>
@@ -397,9 +398,11 @@
         if(typeValue == "lec"){
             $(".consulting").css("display", "none");
             $(".lecture").css("display", "");
+            $("#topTitle").text("교육 단위사업");
         }else if(typeValue == "con"){
             $(".consulting").css("display", "");
             $(".lecture").css("display", "none");
+            $("#topTitle").text("컨설팅 단위사업");
         }
     });
 

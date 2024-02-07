@@ -92,8 +92,9 @@ var hwpApprovalLine = {
                 const field = "apprZ0";
                 const empSeq = $("#empSeq").val();
                 const empName = $("#empName").val();
-                if(draft.global.params.formId != "1"){
+                if(draft.global.params.formId != "1" && $("#mySignCk").val() == "N"){
                     hwpApprovalLine.setSign(field, empSeq, empName);
+                    $("#mySignCk").val("Y");
                 }
             }, 2000);
         }
@@ -294,7 +295,15 @@ var hwpApprovalLine = {
         }
     },
 
-    setSign : function(fieldName, empSeq, empName){
+    setSign : function(fieldName, empSeq, empName, type){
+        /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
+        if(type == "view"){
+            if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
+                empSeq = $("#approveEmpSeq").val();
+                empName = "대결 "+$("#approveEmpName").val();
+            }
+        }
+
         let ip = "";
         if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
             ip = "http://218.158.231.184";
@@ -307,6 +316,11 @@ var hwpApprovalLine = {
         if(result.data.signImg != null){
             const imgMap = result.data.signImg;
 
+            if(type == "view"){
+                if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
+                    hwpDocCtrl.putFieldText(fieldName, "대결");
+                }
+            }
             hwpDocCtrl.moveToField(fieldName, true, true, false);
 
             /** 협조 사인 임시 조치 (실제 사이즈 높이를 30으로 줄여서 실제 크기로 들어가게 변경) */

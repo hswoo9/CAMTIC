@@ -429,7 +429,7 @@ var docView = {
                     const signField = "cAppr" + i;
                     if(hwpDocCtrl.fieldExist(signField)){
                         if(hwpDocCtrl.getFieldText(signField) == ""){
-                            hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
+                            hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                         }
                     }
                 }

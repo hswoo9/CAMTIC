@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.inside.bustrip.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ public interface BustripService {
     void delBustripReq(Map<String, Object> params);
 
     Map<String, Object> getBustripReqInfo(Map<String, Object> params);
+    Map<String, Object> getBustripResReqInfo(Map<String, Object> params);
 
     List<Map<String, Object>> getBustripReqCheck(Map<String, Object> params);
 
@@ -36,7 +38,7 @@ public interface BustripService {
      */
     void updateResDocState(Map<String, Object> bodyMap) throws Exception;
 
-    void saveBustripResult(Map<String, Object> params);
+    void saveBustripResult(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     Map<String, Object> getBustripOne(Map<String, Object> params);
 
@@ -114,6 +116,10 @@ public interface BustripService {
     List<Map<String, Object>> getPersonalExnpData(Map<String, Object> params);
 
     List<Map<String, Object>> getCorpExnpData(Map<String, Object> params);
+    List<Map<String, Object>> getExnpHistFileList(Map<String, Object> params);
+    Map<String, Object> getExnpHistOne(Map<String, Object> params);
 
     Map<String, Object> getCorpCarExnpData(Map<String, Object> params);
+
+    void setBustripPdfFile(Map<String, Object> params, MultipartFile[] file, String SERVER_DIR, String BASE_DIR);
 }

@@ -28,6 +28,13 @@ var lecturePop = {
         window.open(url, name, option);
     },
 
+    consultingTeacherPop: function(pk){
+        let url = "/projectUnRnd/consultingTeacherPop.do?pk="+pk;
+        const name = "consultingTeacherPop";
+        const option = "width = 1000, height = 700, top = 150, left = 400, location = no";
+        window.open(url, name, option);
+    },
+
     lecturePersonPop: function(pk){
         let url = "/projectUnRnd/lecturePersonPop.do?pk="+pk;
         const name = "lecturePersonPop";

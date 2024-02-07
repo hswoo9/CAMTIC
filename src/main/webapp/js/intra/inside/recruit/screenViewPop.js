@@ -437,6 +437,8 @@ var screenViewPop = {
                             }
 
 
+                            console.log(Number((sum/evalCnt)));
+                            console.log("Number((sum/evalCnt)).toFixed(1)");
                             if(result.list[i].APPLICATION_ID != result.list[index].APPLICATION_ID || result.list.length == (i+1)){
                                 html += '' +
                                     '<tr style="height: 50px;">' +
@@ -562,7 +564,7 @@ var screenViewPop = {
                             var imgHtml = '';
                             if(result2.data.signImg != null){
                                 const imgMap = result2.data.signImg;
-                                imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;(인)</div> <img id=\"signPhotoView\" style=\"position:relative; right: -92%; top: -33px\" width=\"50px;\" height=\"50px;\" src=\"http://218.158.231.184'+imgMap.file_path+imgMap.file_uuid+'\">';
+                                imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;(인)</div> <img id=\"signPhotoView\" style=\"position:relative; right: -92%; top: -33px\" width=\"50px;\" height=\"50px;\" src=\"'+imgMap.file_path+imgMap.file_uuid+'\">';
                             }else{
                                 imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;<b style=\"\">'+paramArr[x].empName+'</b>';
                             }

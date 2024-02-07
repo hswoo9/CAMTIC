@@ -820,11 +820,18 @@
         ON AM.APPLICATION_ID = IT.APPLICATION_ID
         WHERE
             AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
-        AND
-            AM.APPLICATION_STAT = 'D'
-        AND
-            AM.IN_AVOID = 'N'
+        <if test='"1".equals(searchType2)'>
+            AND
+                (AM.APPLICATION_STAT != 'DF' AND AM.APPLICATION_STAT != 'S')
+        </if>
+        <if test='"2".equals(searchType2)'>
+            AND
+                AM.APPLICATION_STAT = 'D'
+            AND
+                AM.IN_AVOID = 'N'
+        </if>
         GROUP BY AM.APPLICATION_ID
+        ORDER BY AM.USER_NAME
     </select>
 
     <update id="setPrePassAppl" parameterType="map">

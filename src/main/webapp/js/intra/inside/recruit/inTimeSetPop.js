@@ -17,8 +17,6 @@ var inTimeSetPop = {
     },
 
     mainGrid : function(url, params) {
-        var record = 0;
-
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
@@ -37,9 +35,7 @@ var inTimeSetPop = {
                 {
                     title: "연번",
                     width: 50,
-                    template : function(e){
-                        return $("#mainGrid").data("kendoGrid").dataSource.total() - record++
-                    }
+                    template: "#= ++record #"
                 }, {
                     field: "JOB",
                     title: "분야",
@@ -82,7 +78,10 @@ var inTimeSetPop = {
                         }
                     }
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 1);
+            }
         }).data("kendoGrid");
 
         $.each($("input[name='inTime']"), function(){
@@ -106,7 +105,8 @@ var inTimeSetPop = {
 
     gridReload : function() {
         inTimeSetPop.global.searchAjaxData = {
-            recruitAreaInfoSn : $("#recruitAreaInfoSn").val()
+            recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
+            searchType2 : "1"
         }
 
         inTimeSetPop.mainGrid("/inside/getInApplicationList.do", inTimeSetPop.global.searchAjaxData);
