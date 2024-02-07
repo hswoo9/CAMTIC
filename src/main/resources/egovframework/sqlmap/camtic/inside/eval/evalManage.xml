@@ -419,6 +419,7 @@
         AND
             AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
         GROUP BY AM.APPLICATION_ID
+        ORDER BY AM.USER_NAME
     </select>
 
     <select id="getApplicationInterViewList" parameterType="map" resultType="map">
@@ -482,7 +483,7 @@
         AND
             AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
         GROUP BY AM.APPLICATION_ID, A.EVAL_LOGIN_ID
-        ORDER BY AM.APPLICATION_ID
+        ORDER BY AM.USER_NAME
     </select>
 
     <delete id="delLoginChk" parameterType="map">

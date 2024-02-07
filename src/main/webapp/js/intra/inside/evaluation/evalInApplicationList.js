@@ -111,7 +111,8 @@ var evalInApplicationList = {
             recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
             searchType : "D",
             evalType : "in",
-            evalEmpSeq : $("#evalEmpSeq").val()
+            evalEmpSeq : $("#evalEmpSeq").val(),
+            searchType2 : "1"
         }
 
         evalInApplicationList.mainGrid("/inside/getInApplicationList.do", evalInApplicationList.global.searchAjaxData);
