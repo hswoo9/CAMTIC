@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -438,7 +439,7 @@ public class PurcController {
     }
 
     @RequestMapping("/purc/orderSendMail.do")
-    public String orderSendMail(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws MessagingException, UnsupportedEncodingException {
+    public String orderSendMail(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws MessagingException, IOException {
 
         MultipartFile[] file = request.getFiles("fileList").toArray(new MultipartFile[0]);
         purcService.setOrderSendMailInfo(params, file, SERVER_DIR, BASE_DIR);

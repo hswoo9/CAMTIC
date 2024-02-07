@@ -8,8 +8,12 @@ import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javax.mail.util.ByteArrayDataSource;
 import java.io.File;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -77,7 +81,7 @@ public class MailUtil {
 
     }
 
-    public void orderSendMail(Map<String, Object> params, String SMTPServer, int SMTPPort, String SMTPID, String SMTPPW) throws MessagingException, UnsupportedEncodingException {
+    public void orderSendMail(Map<String, Object> params, String SMTPServer, int SMTPPort, String SMTPID, String SMTPPW) throws MessagingException, IOException {
         String host = SMTPServer;
         int port = SMTPPort;
 
@@ -124,8 +128,12 @@ public class MailUtil {
                 // MimeMultipart 생성
                 MimeBodyPart fileBodyPart = new MimeBodyPart();
 
-                String filePath = params.get("fileServer").toString().replaceAll("/", "\\\\") + file.get("file_path").toString().replaceAll("/", "\\\\") + file.get("file_uuid");
-                DataSource source = new FileDataSource(filePath);
+                String fileUrlString = params.get("fileServer").toString() + file.get("file_path").toString() + file.get("file_uuid");
+                URL fileUrl = new URL(fileUrlString);
+                URLConnection connection = fileUrl.openConnection();
+                InputStream inputStream = connection.getInputStream();
+
+                DataSource source = new ByteArrayDataSource(inputStream, "application/octet-stream");
                 fileBodyPart.setDataHandler(new DataHandler(source));
 
                 String fileName = file.get("file_org_name") + "." + file.get("file_ext");
