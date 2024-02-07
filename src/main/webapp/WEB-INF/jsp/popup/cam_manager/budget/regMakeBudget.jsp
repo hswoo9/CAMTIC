@@ -559,6 +559,47 @@
             dataType : "json",
             success : function(rs){
                 console.log(rs);
+                var ls = rs.list;
+
+                for(var i = 0 ; i < ls.length ; i++){
+                    var item = ls[i];
+
+                    var aCnt = 0;
+                    if(item.BG_VAL == "A"){
+                        var html = "";
+                        html = '' +
+                            '<tr>' +
+                            '   <td>' +
+                            '       <input type="text" id="jang'+aCnt+'" value="" style="width: 80%">' +
+                            '       <input type="hidden" id="jangCd'+aCnt+'" value="" style="width: 80%">' +
+                            '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'A\', '+aCnt+', \'A\')"></i>' +
+                            '   </td>' +
+                            '   <td>' +
+                            '       <input type="text" id="gwan'+aCnt+'" value="" style="width: 80%">' +
+                            '       <input type="hidden" id="gwanCd'+aCnt+'" value="" style="width: 80%">' +
+                            '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'B\', '+aCnt+', \'A\')"></i>' +
+                            '   </td>' +
+                            '   <td>' +
+                            '       <input type="text" id="hang'+aCnt+'" value="" style="width: 80%">' +
+                            '       <input type="hidden" id="hangCd'+aCnt+'" value="" style="width: 80%">' +
+                            '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'C\', '+aCnt+', \'A\')"></i>' +
+                            '   </td>' +
+                            '   <td>' +
+                            '       <input type="text" id="budgetAmt'+aCnt+'" class="budgetAmt" value="0" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="width: 100%; text-align: right">' +
+                            '   </td>' +
+                            '   <td style="text-align: center">' +
+                            '       <button type="button" class="k-button k-button-solid-base" name="aButton" onclick="fn_addRow(\'A\')">추가</button>' +
+                            '       <button type="button" class="k-button k-button-solid-error" name="aDelButton" onclick="fn_removeRow(this)">삭제</button>' +
+                            '   </td>' +
+                            '</tr>';
+
+                        $("#aRow").append(html);
+
+                        customKendo.fn_textBox(["jang" + aCnt , "gwan" + aCnt, "hang" + aCnt, "budgetAmt" + aCnt]);
+
+                        aCnt++;
+                    }
+                }
             }
         })
     }
