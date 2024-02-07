@@ -11,7 +11,7 @@ const reqOr = {
 
     fn_pageSet : function(){
         customKendo.fn_textBox(["crmNm" ,"estAmt", "vatAmt", "totAmt", "itemNm", "itemStd"
-            ,"itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"]);
+            ,"itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc", "discountAmt"]);
 
         var radioDataSource = [
             { label: "법인운영", value: "" },
@@ -44,13 +44,14 @@ const reqOr = {
         customKendo.fn_radioGroup("purcType", radioDataSource, "horizontal");
         customKendo.fn_radioGroup("expType", radioExpDataSource, "horizontal");
         customKendo.fn_radioGroup("vat", radioVatDataSource, "horizontal");
-        customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
+        // customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
 
         $("#vat").data("kendoRadioGroup").bind("select", function(e){
             var len = $("#claimTbody > tr").length;
             var vatAmt = 0;
             var itemAmt = 0;
             var totAmt = 0;
+            var disAmt = uncommaN($("#discountAmt").val()) ? uncommaN($("#discountAmt").val()) : 0;
             for(var i = 0 ; i < len ; i++){
                 if(i == 0){
                     totAmt += Number(uncomma($("#itemAmt").val()));
@@ -58,6 +59,9 @@ const reqOr = {
                     totAmt += Number(uncomma($("#itemAmt" + i).val()));
                 }
             }
+
+            totAmt = Number(totAmt) - Number(disAmt);
+            console.log(totAmt);
 
             if(e.target.val() == "N"){
                 vatAmt = (totAmt / 10);
@@ -106,6 +110,17 @@ const reqOr = {
         $("#orderDt, #goodsDt").attr("readonly", true);
         customKendo.fn_textBox(["PHNum", "FaxNum"]);
         customKendo.fn_textArea(["significant"]);
+
+        var significantValue = "";
+        significantValue += "* 도번(최종승인일) : \n";
+        significantValue += "* 필요성적서 : \n";
+        significantValue += " (성적서에 기본 정보를 잘 기재하여 주시기 바랍니다.) \n";
+        significantValue += "* 납품장소 : \n";
+        significantValue += "* 담당자 : \n";
+        significantValue += "* 특이사항 : \n";
+
+       $("#significant").val(significantValue)
+
     },
 
     fn_dataSet : function(){
@@ -123,6 +138,7 @@ const reqOr = {
         $("#totAmt").val(comma(orderMap.TOT_AMT));
 
         $("#vat").data("kendoRadioGroup").value(orderMap.VAT);
+        $("#discountAmt").val(comma(orderMap.DISCOUNT_AMT))
 
         $("#expType").data("kendoRadioGroup").value(orderMap.EXP_TYPE);
 
@@ -174,6 +190,7 @@ const reqOr = {
         var vatAmt = 0;
         var itemAmt = 0;
         var totAmt = 0;
+        var disAmt = uncommaN($("#discountAmt").val()) ? uncommaN($("#discountAmt").val()) : 0;
         for(var i = 0 ; i < len ; i++){
             if(i == 0){
                 totAmt += Number(uncomma($("#itemAmt").val()));
@@ -181,6 +198,8 @@ const reqOr = {
                 totAmt += Number(uncomma($("#itemAmt" + i).val()));
             }
         }
+
+        totAmt = Number(totAmt) - Number(disAmt);
 
         if($("#vat").data("kendoRadioGroup").value() == "N"){
             vatAmt = (totAmt / 10);
@@ -273,7 +292,7 @@ const reqOr = {
                 itemParameters.itemUnit = $("#itemUnit").val();
                 itemParameters.itemAmt = uncomma($("#itemAmt").val());
                 itemParameters.itemEtc = $("#itemEtc").val();
-                itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").value();
+                // itemParameters.prodCd = $("#prodCd").data("kendoRadioGroup").value();
             } else {
                 if($("#claimItemSn").val() != ""){
                     itemParameters.claimItemSn = $("#claimItemSn" + i).val();
@@ -285,7 +304,7 @@ const reqOr = {
                 itemParameters.itemUnit = $("#itemUnit" + i).val();
                 itemParameters.itemAmt = uncomma($("#itemAmt" + i).val());
                 itemParameters.itemEtc = $("#itemEtc" + i).val();
-                itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").value();
+                // itemParameters.prodCd = $("#prodCd" + i).data("kendoRadioGroup").value();
             }
 
             if(itemParameters.itemNm != ""){
@@ -352,9 +371,9 @@ const reqOr = {
                     '       <td>' +
                     '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
                     '       </td>' +
-                    '       <td>' +
-                    '           <span id="prodCd"></span>' +
-                    '       </td>' +
+                    // '       <td>' +
+                    // '           <span id="prodCd"></span>' +
+                    // '       </td>' +
                     '       <td style="text-align: center" class="listDelBtn">' +
                     '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
                     '               <span class="k-button-text">삭제</span>' +
@@ -388,9 +407,9 @@ const reqOr = {
                     '       <td>' +
                     '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
                     '       </td>' +
-                    '       <td>' +
-                    '           <span id="prodCd'+index+'"></span>' +
-                    '       </td>' +
+                    // '       <td>' +
+                    // '           <span id="prodCd'+index+'"></span>' +
+                    // '       </td>' +
                     '       <td style="text-align: center" class="listDelBtn">' +
                     '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
                     '               <span class="k-button-text">삭제</span>' +
@@ -415,15 +434,15 @@ const reqOr = {
         for(var i = 0 ; i < tLen ; i++){
             if(i == 0){
                 customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"]);
-                customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
+                // customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
 
-                $("#prodCd").data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
+                // $("#prodCd").data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
             } else {
                 customKendo.fn_textBox(["itemNm" + i, "itemStd" + i
                     ,"itemEa" + i, "itemUnitAmt" + i, "itemUnit" + i, "itemAmt" + i, "itemEtc" + i])
 
-                customKendo.fn_radioGroup("prodCd" + i, radioProdDataSource, "horizontal");
-                $("#prodCd" + i).data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
+                // customKendo.fn_radioGroup("prodCd" + i, radioProdDataSource, "horizontal");
+                // $("#prodCd" + i).data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
             }
         }
 

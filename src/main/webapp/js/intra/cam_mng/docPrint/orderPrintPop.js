@@ -63,6 +63,9 @@ const orderPrintPop = {
             order.PH_NUM == "" ? order.FAX_NUM : order.PH_NUM+" / "+order.FAX_NUM
         );
         orderPrintPop.global.hwpCtrl.PutFieldText("GOODS_DT", order.GOODS_DT);
+        orderPrintPop.global.hwpCtrl.PutFieldText("PURC_EMP_NAME", order.EMP_NAME_KR);
+        orderPrintPop.global.hwpCtrl.PutFieldText("PURC_TEL", order.OFFICE_TEL_NUM);
+        orderPrintPop.global.hwpCtrl.PutFieldText("PURC_EMAIL", order.EMAIL_ADDR);
 
         /** 2. CRM 정보 */
         orderPrintPop.global.hwpCtrl.PutFieldText("CRM_NM", crmMap.CRM_NM);
@@ -94,13 +97,16 @@ const orderPrintPop = {
             orderPrintPop.global.hwpCtrl.PutFieldText("UNIT_AMT"+i, String(fn_numberWithCommas(list[i].ITEM_UNIT_AMT)));
             orderPrintPop.global.hwpCtrl.PutFieldText("PROD_EA"+i, String(list[i].ITEM_EA));
             orderPrintPop.global.hwpCtrl.PutFieldText("UNIT"+i, String(list[i].ITEM_UNIT));
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT"+i, String(fn_numberWithCommas(list[i].PURC_ITEM_AMT)));
+            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT"+i, String(fn_numberWithCommas(list[i].ITEM_AMT)));
             orderPrintPop.global.hwpCtrl.PutFieldText("ETC"+i, list[i].ITEM_ETC);
-            supAmtSum += list[i].PURC_ITEM_AMT;
+            supAmtSum += list[i].ITEM_AMT;
         }
 
         /** 4. 견적 합계 */
 
+        /** 할인금액 */
+        orderPrintPop.global.hwpCtrl.PutFieldText("DISCOUNT_AMT", fn_numberWithCommas(order.DISCOUNT_AMT));
+        supAmtSum -= order.DISCOUNT_AMT;
 
         /** 견적가 500*/
         /** 미포함 500 50 550*/
@@ -124,7 +130,7 @@ const orderPrintPop = {
             orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
             orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
         }
-        orderPrintPop.global.hwpCtrl.PutFieldText("ISS", String(order.SIGNIFICANT));
+        orderPrintPop.global.hwpCtrl.PutFieldText("ISS", order.SIGNIFICANT.replaceAll("\n", "\r"));
     },
 
     resize: function() {

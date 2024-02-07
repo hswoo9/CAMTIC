@@ -105,7 +105,7 @@ var purcClaim = {
                     width: 90,
                 }, {
                     title: "납품(예정)일",
-                    field: "DELV_DE",
+                    field: "GOODS_DT",
                     width: 90
                 }, {
                     title: "제목",

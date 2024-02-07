@@ -8,6 +8,7 @@ import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.common.utiles.MailUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.system.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,11 +24,8 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class PurcController {
@@ -42,6 +40,9 @@ public class PurcController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private MessageService messageService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -447,6 +448,7 @@ public class PurcController {
         List<Map<String, Object>> fileArray = purcService.getOrderSendFileList(params);
         params.put("fileArray", fileArray);
 
+        /** 메일 (업체) */
         HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("218.158.231.186")){
             params.put("fileServer", "http://218.158.231.186");
@@ -456,6 +458,21 @@ public class PurcController {
 
         MailUtil mailUtil = new MailUtil();
         mailUtil.orderSendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
+
+        /** 문자 (구매 담당자) */
+        Map<String, Object> claimMap = purcService.getPurcClaimData(params);
+        Map<String, Object> messageParam = new HashMap<>();
+        messageParam.put("dest_phone", claimMap.get("EMP_NAME_KR") + "^" + claimMap.get("MOBILE_TEL_NUM"));
+
+        String msgContents = "요청하신 구매품 " + claimMap.get("CLAIM_ITEM_CNT") + "건이 " + claimMap.get("CRM_NM") + "(으)로 발주되었습니다.";
+        messageParam.put("msg_content", msgContents);
+
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        messageParam.put("pkDate", dateFormat.format(currentDate));
+
+        messageParam.put("loginEmpSeq", "admin");
+        messageService.msgSend(messageParam);
 
         model.addAttribute("rs", "SUCCESS");
         return "jsonView";

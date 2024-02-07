@@ -32,9 +32,15 @@ const orderSendMail = {
     },
 
     fn_sendMail : function(){
+        if(!confirm("메일을 전송하시겠습니까?")){
+            return;
+        }
+
         var formData = new FormData();
 
-        formData.append("purcSn", $("#purcSn").val());
+        if($("#purcSn").val()){
+            formData.append("purcSn", $("#purcSn").val());
+        }
         formData.append("claimSn", $("#claimSn").val());
         formData.append("crmSn", $("#crmSn").val());
         formData.append("crmNm", $("#crmNm").text());
@@ -58,7 +64,6 @@ const orderSendMail = {
                 window.close();
             }
         }
-
     },
 
     fileChange : function(){
