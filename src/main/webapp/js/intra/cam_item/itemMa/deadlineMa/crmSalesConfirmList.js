@@ -101,10 +101,10 @@ var cscl = {
                     }
                 }, {
                     title : "확정금액",
-                    field : "CONFIRM_AMT",
+                    field : "DEADLINE_AMT",
                     width : 120,
                     template : function (e){
-                        return cscl.comma(e.CONFIRM_AMT);
+                        return cscl.comma(e.DEADLINE_AMT);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -113,7 +113,7 @@ var cscl = {
                     title: "부가세액",
                     width: 100,
                     template : function (e){
-                        return cscl.comma(e.CONFIRM_AMT * 0.1);
+                        return cscl.comma(e.DEADLINE_AMT * 0.1);
                     },
                     attributes : {
                         style : "text-align : right;"
@@ -121,9 +121,9 @@ var cscl = {
                 }, {
                     title: "구분",
                     width: 100,
-                    field: "CONFIRM_YN",
+                    field: "CONFIRM_CHK",
                     template : function (e){
-                        if(e.CONFIRM_YN == "N"){
+                        if(e.CONFIRM_CHK == "N" || e.CONFIRM_CHK == null){
                             return "미확정";
                         }else{
                             return "확정";
@@ -195,7 +195,8 @@ var cscl = {
                 var data = {
                     crmSalesConfirmSn : $(this).val(),
                     crmSn : String(dataItem.CRM_SN),
-                    empSeq : $("#regEmpSeq").val()
+                    empSeq : $("#regEmpSeq").val(),
+                    confirmGubun : c
                 }
 
                 if(c == "confirm"){

@@ -369,7 +369,17 @@ var invenStAdmin = {
         if(!confirm("마감하시겠습니까?")){
             return;
         }
-        var parameters = {
+
+        $("#invenDeadLineDraftFrm").one("submit", function() {
+            var url = "/item/pop/approvalFormPopup/invenDeadLineApprovalPop.do";
+            var name = "invenDeadLineApprovalPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/item/pop/approvalFormPopup/invenDeadLineApprovalPop.do";
+            this.method = 'POST';
+            this.target = 'invenDeadLineApprovalPop';
+        }).trigger("submit");
+        /*var parameters = {
 
         }
         var result = customKendo.fn_customAjax("/item/getItemInvenAdminList.do", invenStAdmin.global.searchAjaxData)
@@ -393,6 +403,6 @@ var invenStAdmin = {
                     invenStAdmin.gridReload();
                 }
             }
-        });
+        });*/
     }
 }
