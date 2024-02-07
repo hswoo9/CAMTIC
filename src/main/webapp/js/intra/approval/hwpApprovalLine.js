@@ -295,11 +295,13 @@ var hwpApprovalLine = {
         }
     },
 
-    setSign : function(fieldName, empSeq, empName){
+    setSign : function(fieldName, empSeq, empName, type){
         /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
-        if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
-            empSeq = $("#approveEmpSeq").val();
-            empName = "대결 "+$("#approveEmpName").val();
+        if(type == "view"){
+            if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
+                empSeq = $("#approveEmpSeq").val();
+                empName = "대결 "+$("#approveEmpName").val();
+            }
         }
 
         let ip = "";
@@ -314,8 +316,10 @@ var hwpApprovalLine = {
         if(result.data.signImg != null){
             const imgMap = result.data.signImg;
 
-            if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
-                hwpDocCtrl.putFieldText(fieldName, "대결");
+            if(type == "view"){
+                if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
+                    hwpDocCtrl.putFieldText(fieldName, "대결");
+                }
             }
             hwpDocCtrl.moveToField(fieldName, true, true, false);
 
