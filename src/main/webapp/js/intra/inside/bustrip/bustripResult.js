@@ -300,18 +300,11 @@ var bustripResList = {
         }).data("kendoGrid");
     },
 
-    popBustripRes: function(e, d, y) {
-        var status = "";
-        if(y == undefined){
-            status = 0;
-        }else{
-            status = 100;
-        }
-
+    popBustripRes: function(e, d) {
         if(e == "N"){
             var url = "/bustrip/pop/bustripResultPop.do?hrBizReqId="+d;
         }else{
-            var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d+"&status="+status;
+            var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d;
         }
         var name = "bustripResListPop";
         var option = "width=1200, height=795, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"

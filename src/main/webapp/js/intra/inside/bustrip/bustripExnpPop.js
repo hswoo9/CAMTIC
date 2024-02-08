@@ -741,6 +741,9 @@ const bustripExnpReq = {
             opener.gridReload();
             window.close();
         }
+
+        window.close();
+        opener.bustripResList.popBustripRes(hrBizReqResultId,hrBizReqId);
     },
 
     fn_setCertRep : function (p, key){

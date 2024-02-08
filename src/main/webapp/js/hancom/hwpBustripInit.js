@@ -92,7 +92,7 @@ var busInit = {
         hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
         hwpDocCtrl.putFieldText('title', busInfo.TITLE);
 
-        let regSign = busInfo.EMP_NAME+" (인)";
+        let regSign = busInfo.EMP_NAME;
         hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
         hwpDocCtrl.putFieldText('regSign', regSign);
     },
@@ -176,7 +176,7 @@ var busInit = {
 
         hwpDocCtrl.putFieldText('title', busInfo.RESULT);
 
-        let regSign = busInfo.EMP_NAME+" (인)";
+        let regSign = busInfo.EMP_NAME;
         hwpDocCtrl.putFieldText('regSign', regSign);
 
         let htmlData = '';
