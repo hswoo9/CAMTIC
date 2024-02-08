@@ -31,12 +31,34 @@
 </div>
 </div>
 <script>
+    let formId = "136";
+    let hrBizReqResultId = '${data.hrBizReqResultId}';
+
+    const result = customKendo.fn_customAjax("/bustrip/getBustripOne", { hrBizReqResultId: hrBizReqResultId });
+    const busInfo = result.map;
+    let tripCode = busInfo.TRIP_CODE;
+
+    /** 도내 */
+    if(tripCode == 1 || tripCode == 2) {
+        formId = "136"
+
+    /** 도외 */
+    }else if(tripCode == 3) {
+        formId = "170"
+
+    /** 해외 */
+    }else if(tripCode == 4) {
+        formId = "171"
+    }
+
+
+
     approvalDataInit();
 
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "136";
+        approvalParams.formId = formId;
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.docTitle = "[출장결과보고서]${loginVO.orgnztNm}-${loginVO.name}";

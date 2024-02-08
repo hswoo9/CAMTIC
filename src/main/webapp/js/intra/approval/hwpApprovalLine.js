@@ -136,6 +136,7 @@ var hwpApprovalLine = {
             if(empData.APPROVE_DUTY_NAME == "본부장" || empData.APPROVE_DUTY_NAME == "사업부장" || empData.APPROVE_DUTY_NAME == "센터장" || empData.APPROVE_DUTY_NAME == "실장"){
                 /** appArr = ["sigh1", "전결", "sigh2"] */
                 let teamCk = "N";
+
                 for (let i = 0; i < list.length; i++) {
                     if ((list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리")
                         && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
@@ -146,12 +147,19 @@ var hwpApprovalLine = {
                         hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
                     }
                 }
-                
-                if(teamCk == "N"){
-                    hwpDocCtrl.putFieldText('appr0', "공란");
-                }
 
                 if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+
+                    /** 팀장 공석 체크해서 없으면 공란 처리 */
+                    for (let i = 0; i < list.length; i++) {
+                        if ((list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1") {
+                            teamCk = "Y";
+                        }
+                    }
+                    if(teamCk == "N"){
+                        hwpDocCtrl.putFieldText('appr0', "공란");
+                    }
+
                     const signField = "appr2";
                     hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
                 }
@@ -172,8 +180,6 @@ var hwpApprovalLine = {
                     if ((list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리")
                         && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
 
-                        teamCk = "Y";
-
                         const signField = "appr0";
                         hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
                     }
@@ -183,21 +189,34 @@ var hwpApprovalLine = {
                     if ((list[i].APPROVE_DUTY_NAME == "본부장" || list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "사업부장" || list[i].APPROVE_DUTY_NAME == "실장")
                         && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
 
-                        deptCk = "Y";
+                        /** 팀장 공석 체크해서 없으면 공란 처리 */
+                        for (let i = 0; i < list.length; i++) {
+                            if ((list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1") {
+                                teamCk = "Y";
+                            }
+                        }
+                        if(teamCk == "N"){
+                            hwpDocCtrl.putFieldText('appr0', "공란");
+                        }
 
                         const signField = "appr1";
                         hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
                     }
                 }
 
-                if(teamCk == "N"){
-                    hwpDocCtrl.putFieldText('appr0', "공란");
-                }
-                if(deptCk == "N"){
-                    hwpDocCtrl.putFieldText('appr1', "공란");
-                }
-
                 if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+
+                    /** 부서장 공석 체크해서 없으면 공란 처리 */
+                    for (let i = 0; i < list.length; i++) {
+                        if ((list[i].APPROVE_DUTY_NAME == "본부장" || list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "사업부장" || list[i].APPROVE_DUTY_NAME == "실장")
+                            && list[i].APPROVE_TYPE != "1") {
+                            deptCk = "Y";
+                        }
+                    }
+                    if(deptCk == "N"){
+                        hwpDocCtrl.putFieldText('appr1', "공란");
+                    }
+
                     const signField = "appr2";
                     hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
                 }
