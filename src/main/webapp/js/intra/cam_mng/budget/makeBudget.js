@@ -157,16 +157,6 @@ var makeBudget = {
                     template : function(e){
                         return '<button type="button" class="k-button k-button-solid-base">변경이력</button>'
                     }
-                }, {
-                    title: "수정",
-                    width: 40,
-                    template: function(e){
-                        if(e.DD_LINE_STAT == 'N'){
-                            return '<button type="button" class="k-button k-button-solid-primary" onclick="makeBudget.fn_modBudget(' + e.PJT_BUDGET_SN + ', \''+e.BG_VAL+'\')">수정</button>'
-                        } else {
-                            return "";
-                        }
-                    }
                 }
             ],
             dataBinding: function(){

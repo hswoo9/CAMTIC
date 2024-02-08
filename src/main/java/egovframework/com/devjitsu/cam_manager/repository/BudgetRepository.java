@@ -54,4 +54,14 @@ public class BudgetRepository extends AbstractDAO {
 
         return (Map<String, Object>) selectOne("budget.getBudgetBData", params);
     }
+
+    public void updBudgetAData(List<Map<String, Object>> aList) {
+
+        update("budget.updBudgetAData", aList);
+    }
+
+    public void updBudgetBData(List<Map<String, Object>> bList) {
+
+        update("budget.updBudgetBData", bList);
+    }
 }

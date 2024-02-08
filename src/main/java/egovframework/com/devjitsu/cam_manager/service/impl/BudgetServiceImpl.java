@@ -35,8 +35,18 @@ public class BudgetServiceImpl implements BudgetService {
                 params.put("gwanCd", item.get("gwanCd"));
                 params.put("hangCd", item.get("hangCd"));
                 params.put("budgetAmt", item.get("budgetAmt"));
+
+                if(params.get("type").equals("M")){
+                    params.put("pjtBudgetSn", item.get("pjtBudgetSn"));
+                }
             }
-            budgetRepository.insBudgetAData(params);
+
+            if(params.get("type").equals("M")){
+                budgetRepository.updBudgetAData(aList);
+            } else {
+                budgetRepository.insBudgetAData(params);
+            }
+
         }
 
         if(params.get("bBg").equals("Y")) {
@@ -48,8 +58,17 @@ public class BudgetServiceImpl implements BudgetService {
                 params.put("gwanCd", item.get("gwanCd"));
                 params.put("hangCd", item.get("hangCd"));
                 params.put("budgetAmt", item.get("budgetAmt"));
+
+                if(params.get("type").equals("M")){
+                    params.put("pjtBudgetSn", item.get("pjtBudgetSn"));
+                }
             }
-            budgetRepository.insBudgetBData(bList);
+
+            if(params.get("type").equals("M")){
+                budgetRepository.updBudgetBData(bList);
+            } else {
+                budgetRepository.insBudgetBData(bList);
+            }
         }
     }
 

@@ -21,8 +21,8 @@
             </span>
         </h3>
         <div id="purcBtnDiv" class="btn-st popButton" style="font-size: 13px">
-            <button type="button" class="k-button k-button-solid-info" id="regBtn" onclick="fn_save()">등록</button>
-            <button type="button" class="k-button k-button-solid-primary" style="display: none;" id="modBtn" onclick="fn_save()">수정</button>
+            <button type="button" class="k-button k-button-solid-info" id="regBtn" onclick="fn_save('S')">등록</button>
+            <button type="button" class="k-button k-button-solid-primary" style="display: none;" id="modBtn" onclick="fn_save('M')">수정</button>
             <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
         </div>
     </div>
@@ -94,6 +94,7 @@
                             </tr>
                             <tr>
                                 <td>
+                                    <input type="hidden" id="pjtBudgetSn0" />
                                     <input type="text" id="jang0" value="" style="width: 80%">
                                     <input type="hidden" id="jangCd0" value="" >
                                     <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('A', 0, 'A')"></i>
@@ -168,6 +169,7 @@
                         </tr>
                         <tr>
                             <td>
+                                <input type="hidden" id="mPJtBudgetSn0" />
                                 <input type="text" id="mJang0" value="" style="width: 80%">
                                 <input type="hidden" id="mJangCd0" value="" >
                                 <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('A', 0, 'B')"></i>
@@ -335,6 +337,7 @@
             html = '' +
                 '<tr>' +
                 '   <td>' +
+                '       <input type="hidden" id="pjtBudgetSn'+i+'" value="" style="width: 80%">' +
                 '       <input type="text" id="jang'+i+'" value="" style="width: 80%">' +
                 '       <input type="hidden" id="jangCd'+i+'" value="" style="width: 80%">' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'A\', '+i+', \'A\')"></i>' +
@@ -370,6 +373,7 @@
             html = '' +
                 '<tr>' +
                 '   <td>' +
+                '       <input type="hidden" id="mPjtBudgetSn'+i+'" value="" style="width: 80%">' +
                 '       <input type="text" id="mJang'+i+'" value="" style="width: 80%">' +
                 '       <input type="hidden" id="mJang'+i+'" value="" style="width: 80%">' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'A\', '+i+', \'B\')"></i>' +
@@ -442,12 +446,13 @@
         $("#pjtCd").val(cd);
     }
 
-    function fn_save(){
+    function fn_save(type){
         var parameters = {
             baseYear : $("#bsYear").val(),
             regDt : $("#regDt").val(),
             pjtClass : $("#radioGroup").data("kendoRadioGroup").value(),
-            regEmpSeq : $("#empSeq").val()
+            regEmpSeq : $("#empSeq").val(),
+            type : type
         }
 
         if($("#aBg").is(":checked")){
@@ -459,6 +464,7 @@
             for(var i = 0 ; i < len ; i++){
                 var itemParameters = {};
 
+                itemParameters.pjtBudgetSn = $("#pjtBudgetSn" + i).val();
                 itemParameters.jang = $("#jang" + i).val();
                 itemParameters.gwan = $("#gwan" + i).val();
                 itemParameters.hang = $("#hang" + i).val();
@@ -492,6 +498,7 @@
             for(var i = 0 ; i < len ; i++){
                 var itemParameters = {};
 
+                itemParameters.pjtBudgetSn = $("#mPjtBudgetSn" + i).val();
                 itemParameters.jang = $("#mJang" + i).val();
                 itemParameters.gwan = $("#mGwan" + i).val();
                 itemParameters.hang = $("#mHang" + i).val();
@@ -560,45 +567,57 @@
             success : function(rs){
                 console.log(rs);
                 var ls = rs.list;
+                var aCnt = 0;
+                var bCnt = 0;
 
+                var aSum = 0;
+                var bSum = 0;
                 for(var i = 0 ; i < ls.length ; i++){
                     var item = ls[i];
 
-                    var aCnt = 0;
-                    if(item.BG_VAL == "A"){
-                        var html = "";
-                        html = '' +
-                            '<tr>' +
-                            '   <td>' +
-                            '       <input type="text" id="jang'+aCnt+'" value="" style="width: 80%">' +
-                            '       <input type="hidden" id="jangCd'+aCnt+'" value="" style="width: 80%">' +
-                            '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'A\', '+aCnt+', \'A\')"></i>' +
-                            '   </td>' +
-                            '   <td>' +
-                            '       <input type="text" id="gwan'+aCnt+'" value="" style="width: 80%">' +
-                            '       <input type="hidden" id="gwanCd'+aCnt+'" value="" style="width: 80%">' +
-                            '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'B\', '+aCnt+', \'A\')"></i>' +
-                            '   </td>' +
-                            '   <td>' +
-                            '       <input type="text" id="hang'+aCnt+'" value="" style="width: 80%">' +
-                            '       <input type="hidden" id="hangCd'+aCnt+'" value="" style="width: 80%">' +
-                            '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'C\', '+aCnt+', \'A\')"></i>' +
-                            '   </td>' +
-                            '   <td>' +
-                            '       <input type="text" id="budgetAmt'+aCnt+'" class="budgetAmt" value="0" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="width: 100%; text-align: right">' +
-                            '   </td>' +
-                            '   <td style="text-align: center">' +
-                            '       <button type="button" class="k-button k-button-solid-base" name="aButton" onclick="fn_addRow(\'A\')">추가</button>' +
-                            '       <button type="button" class="k-button k-button-solid-error" name="aDelButton" onclick="fn_removeRow(this)">삭제</button>' +
-                            '   </td>' +
-                            '</tr>';
+                    if(ls[i].BG_VAL == "A"){
+                        if(aCnt != 0){
+                            fn_addRow('A')
+                        }
 
-                        $("#aRow").append(html);
+                        aSum += item.BUDGET_AMT;
 
-                        customKendo.fn_textBox(["jang" + aCnt , "gwan" + aCnt, "hang" + aCnt, "budgetAmt" + aCnt]);
+                        $("#jang" + i).val(item.JANG_NM);
+                        $("#jangCd" + i).val(item.JANG_CD);
+                        $("#gwan" + i).val(item.GWAN_NM);
+                        $("#gwanCd" + i).val(item.GWAN_CD);
+                        $("#hang" + i).val(item.HANG_NM);
+                        $("#hangCd" + i).val(item.HANG_CD);
+                        $("#budgetAmt" + i).val(comma(item.BUDGET_AMT));
+                        $("#pjtBudgetSn" + i).val(item.PJT_BUDGET_SN);
 
                         aCnt++;
                     }
+
+                    if(ls[i].BG_VAL == "B"){
+                        if(bCnt != 0){
+                            fn_addRow('B')
+                        }
+
+                        bSum += item.BUDGET_AMT;
+
+                        $("#mJang" + i).val(item.JANG_NM);
+                        $("#mJangCd" + i).val(item.JANG_CD);
+                        $("#mGwan" + i).val(item.GWAN_NM);
+                        $("#mGwanCd" + i).val(item.GWAN_CD);
+                        $("#mHang" + i).val(item.HANG_NM);
+                        $("#mHangCd" + i).val(item.HANG_CD);
+                        $("#mBudgetAmt" + i).val(comma(item.BUDGET_AMT));
+                        $("#mPjtBudgetSn" + i).val(item.PJT_BUDGET_SN);
+
+                        bCnt++;
+
+                    }
+
+
+                    $("#budgetTotAmt").val(comma(aSum));
+                    $("#mBudgetTotAmt").val(comma(bSum));
+
                 }
             }
         })

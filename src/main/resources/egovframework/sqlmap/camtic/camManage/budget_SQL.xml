@@ -129,4 +129,38 @@
             PJT_BUDGET_SN = #{pjtBudgetSn}
     </select>
 
+    <update id="updBudgetAData" parameterType="map">
+        /*updBudgetAData*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_BUDGET_A
+        SET
+            JANG_CD = #{jangCd},
+            JANG_NM = #{jang},
+            GWAN_CD = #{gwanCd},
+            GWAN_NM = #{gwan},
+            HANG_CD = #{hangCd},
+            HANG_NM = #{hang},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            BUDGET_AMT = #{budgetAmt},
+            MOD_DT = now()
+        WHERE
+            PJT_BUDGET_SN = #{pjtBudgetSn}
+    </update>
+
+    <update id="updBudgetBData" parameterType="map">
+        /*updBudgetBData*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_BUDGET_B
+        SET
+            JANG_CD = #{jangCd},
+            JANG_NM = #{jang},
+            GWAN_CD = #{gwanCd},
+            GWAN_NM = #{gwan},
+            HANG_CD = #{hangCd},
+            HANG_NM = #{hang},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            BUDGET_AMT = #{budgetAmt},
+            MOD_DT = now()
+        WHERE
+            PJT_BUDGET_SN = #{pjtBudgetSn}
+    </update>
+
 </mapper>
