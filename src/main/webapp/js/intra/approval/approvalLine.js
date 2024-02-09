@@ -325,7 +325,7 @@ var approvalLine = {
             /** 부서장급 - 원장전결 */
             if(level == "1"){
                 userArr.push(userInfo);
-                userArr.push(managerInfo.GRAND_MNG_SEQ);
+                userArr.push(getUser(managerInfo.GRAND_MNG_SEQ));
 
             /** 부서장급 - 본인전결, 팀장전결(팀장전결이면 본인 전결) */
             }else if(level == "2" || level == "3"){
@@ -341,7 +341,7 @@ var approvalLine = {
                 if(managerInfo.DEPT_MNG_CK == "Y"){
                     userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
                 }
-                userArr.push(managerInfo.GRAND_MNG_SEQ);
+                userArr.push(getUser(managerInfo.GRAND_MNG_SEQ));
 
             /** 팀장급 - 부서장전결 */
             }else if(level == "2") {
@@ -369,7 +369,7 @@ var approvalLine = {
                 if(managerInfo.DEPT_MNG_CK == "Y"){
                     userArr.push(getUser(managerInfo.DEPT_MNG_SEQ));
                 }
-                userArr.push(managerInfo.GRAND_MNG_SEQ);
+                userArr.push(getUser(managerInfo.GRAND_MNG_SEQ));
 
             /** 팀원급 - 부서장전결 */
             }else if(level == "2") {
@@ -435,6 +435,8 @@ var approvalLine = {
                 approveType = "2";
             }
             approvalLine.rowApprovalSet(userArr[i], approveType);
+            console.log("userArr", userArr);
+            console.log("userArr[i]", userArr[i]);
         }
 
         /** 마지막 결재자 */
@@ -505,7 +507,7 @@ var approvalLine = {
         }else if(copperType == "B"){
             if(userParentDept != cUserTempDept2){
                 /** 협조1과 2가 같은 사람이면 한번만 추가 */
-                if(cUserInfo1.empSeq != cUserInfo2.empSeq){
+                if(cUserInfo1.EMP_SEQ != cUserInfo2.EMP_SEQ){
                     approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo1, approveType);
                 }
                 approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo2, approveType);
@@ -530,7 +532,7 @@ var approvalLine = {
             approveType : approveType
         }
 
-        console.log("추가 데이터", data)
+        console.log("추가 데이터", data);
         approvalLine.global.approverArr.push(data);
     },
 
