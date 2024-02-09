@@ -233,9 +233,9 @@ var bustList = {
                                     return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">결과보고</button>'
                                 }else{
                                     if(e.RS_STATUS == 100) {
-                                        return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes(' + e.HR_BIZ_REQ_RESULT_ID + ', ' + e.HR_BIZ_REQ_ID + ', ' + e.RS_STATUS + ')">결재완료</button>'
+                                        return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes(' + e.HR_BIZ_REQ_RESULT_ID + ', ' + e.HR_BIZ_REQ_ID + ')">결재완료</button>'
                                     }else if(e.RS_STATUS == 10){
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', ' + e.RS_STATUS + ')">결재진행중</button>'
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결재진행중</button>'
                                     } else {
                                         if(e.EXP_STAT == 100){
                                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>'
@@ -291,15 +291,15 @@ var bustList = {
                     footerTemplate: "출장완료 여비합계"
                 }, {
                     title: "입금상태",
-                    width: 50,
+                    width: 60,
                     template : function (e){
-                        var docStatus = e.DOC_STATUS;
+                        var docStatus = e.EXNP_DOC_STATUS;
                         var payExnpDe = e.PAY_EXNP_DE;
 
                         if(payExnpDe != undefined && docStatus != 100){
-                            return '미입금';
+                            return '입금예정';
                         }else if(docStatus == 100){
-                            return '입금';
+                            return '입금완료';
                         }else{
                             return '-';
                         }
@@ -309,7 +309,7 @@ var bustList = {
                     width: 60,
                     template : function (e){
                         var payExnpDe = e.PAY_EXNP_DE;
-                        var docStatus = e.DOC_STATUS;
+                        var docStatus = e.EXNP_DOC_STATUS;
                         var approvalDate = e.APPROVAL_DATE;
 
                         if((payExnpDe == undefined || payExnpDe == null || payExnpDe == "") && docStatus != 100){

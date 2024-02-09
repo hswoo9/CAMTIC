@@ -570,6 +570,7 @@
 </div><!--// pop_wrap -->
 <script>
     const hrBizReqResultId = '${params.hrBizReqResultId}';
+    const hrBizReqId = '${rs.HR_BIZ_REQ_ID}';
     const tripDayFr = '${rs.TRIP_DAY_FR}';
     const tripDayTo = '${rs.TRIP_DAY_TO}';
     const tripNum = '${fn:length(list)}';
