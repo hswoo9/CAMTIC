@@ -1,12 +1,31 @@
 package egovframework.com.devjitsu.inside.bustrip.controller;
 
 import com.google.gson.Gson;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorker;
+import com.itextpdf.tool.xml.XMLWorkerFontProvider;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.css.CssFile;
+import com.itextpdf.tool.xml.css.StyleAttrCSSResolver;
+import com.itextpdf.tool.xml.html.CssAppliers;
+import com.itextpdf.tool.xml.html.CssAppliersImpl;
+import com.itextpdf.tool.xml.html.Tags;
+import com.itextpdf.tool.xml.parser.XMLParser;
+import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
+import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
+import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 import egovframework.com.devjitsu.cam_manager.service.ManageService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +40,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.List;
 
 @Controller
 public class BustripController {
@@ -1014,5 +1038,54 @@ public class BustripController {
         MultipartFile[] file = request.getFiles("bustripPdfFile").toArray(new MultipartFile[0]);
         bustripService.setBustripPdfFile(params, file, SERVER_DIR, BASE_DIR);
         return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/makeHtmlToPdf")
+    public String makeHtmlToPdf(@RequestParam Map<String, Object> params, Model model){
+        createPdf(params);
+
+        return "jsonView";
+    }
+
+    public void createPdf(Map<String, Object> params){
+        Document document = new Document();
+
+        try {
+            // PDF 파일 생성
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("D:\\HJO\\99.bak\\test.pdf"));
+            // PDF 파일 열기
+            document.open();
+
+            String htmlStr = "<html><body style='font-family: gulim;'>"+ params.get("html") +"</body></html>";
+
+            XMLWorkerHelper helper = XMLWorkerHelper.getInstance();
+
+            CSSResolver cssResolver = new StyleAttrCSSResolver();
+
+            XMLWorkerFontProvider fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
+            fontProvider.register("/egovframework/fonts/gulim.ttf", "gulim"); //MalgunGothic은 font-family용 alias
+
+            CssAppliers cssAppliers = new CssAppliersImpl(fontProvider);
+            HtmlPipelineContext htmlContext = new HtmlPipelineContext(cssAppliers);
+            htmlContext.setTagFactory(Tags.getHtmlTagProcessorFactory());
+
+            // html을 pdf로 변환시작
+            PdfWriterPipeline pdf = new PdfWriterPipeline(document, pdfWriter);
+            HtmlPipeline html = new HtmlPipeline(htmlContext, pdf);
+            CssResolverPipeline css = new CssResolverPipeline(cssResolver, html);
+
+            XMLWorker worker = new XMLWorker(css, true);
+            //캐릭터 셋 설정
+            XMLParser xmlParser = new XMLParser(worker, Charset.forName("UTF-8"));
+
+            StringReader strReader = new StringReader(htmlStr);
+            xmlParser.parse(strReader);
+
+            document.close();
+            pdfWriter.close();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

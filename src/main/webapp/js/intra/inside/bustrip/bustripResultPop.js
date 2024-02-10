@@ -14,7 +14,7 @@ var bustripResultPop = {
             bustripResultPop.resDataSet();
         }
 
-        bustripResultPop.test123();
+
     },
 
     pageSet: function(){
@@ -660,6 +660,7 @@ var bustripResultPop = {
         }else{
             emp += " " + empInfo.POSITION_NAME;
         }
+        var html = "";
 
         for(let i=0; i<cardList.length; i++){
             const cardMap = cardList[i];
@@ -678,7 +679,6 @@ var bustripResultPop = {
             const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", data);
             const e = iBrenchResult.cardInfo;
 
-            let html = "";
             let useDate = infoData.TRIP_DAY_FR.replace(/-/g, ".") + " ~ " + infoData.TRIP_DAY_TO.replace(/-/g, ".");
             let useType = selCorpType[corpCardHist.EXNP_TYPE];
             let useAmt = e.AUTH_AMT;
@@ -698,7 +698,7 @@ var bustripResultPop = {
             let receiptFile = '<div style="width: 20%; height: 20%;">';
             if(corpCardHist.FILE_NO != "" && corpCardHist.FILE_NO != undefined){
                 for(let i=0; i<corpCardHistFile.length; i++){
-                    receiptFile += '<img src="'+corpCardHistFile[i].file_path+corpCardHistFile[i].file_uuid+'" style="width: 100%; height: 100%;">';
+                    receiptFile += '<img src="'+corpCardHistFile[i].file_path+corpCardHistFile[i].file_uuid+'" style="width: 100%; height: 100%;" />';
                 }
             }
             receiptFile += '</div>';
@@ -745,6 +745,16 @@ var bustripResultPop = {
             $("#pdfDiv").append(html);
         }
 
+        $.ajax({
+            url : "/bustrip/makeHtmlToPdf",
+            data: {html : html},
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+            }
+        });
+
 
     }
 }
@@ -790,78 +800,78 @@ const bustripPdfMake = () => {
 
     $("#pdfDiv").css("display", "");
 
-    var lists = document.querySelectorAll(".pdfForm"),
-        deferreds = [],
-        doc = new jsPDF("p", "mm", "a4"),
-        listsLeng = lists.length;
-    for (var i = 0; i < listsLeng; i++) { // pdf_page 적용된 태그 개수만큼 이미지 생성
-        var deferred = $.Deferred();
-        deferreds.push(deferred.promise());
-        generateCanvas(i, doc, deferred, lists[i], contWidth);
-    }
+    // var lists = document.querySelectorAll(".pdfForm"),
+    //     deferreds = [],
+    //     doc = new jsPDF("p", "mm", "a4"),
+    //     listsLeng = lists.length;
+    // for (var i = 0; i < listsLeng; i++) { // pdf_page 적용된 태그 개수만큼 이미지 생성
+    //     var deferred = $.Deferred();
+    //     deferreds.push(deferred.promise());
+    //     generateCanvas(i, doc, deferred, lists[i], contWidth);
+    // }
 
-    $.when.apply($, deferreds).then(function () { // 이미지 렌더링이 끝난 후
-        var sorted = renderedImg.sort(function (a, b) {
-                return a.num < b.num ? -1 : 1;
-            }), // 순서대로 정렬
-            curHeight = 30, //위 여백 (이미지가 들어가기 시작할 y축)
-            sortedLeng = sorted.length;
-
-        for (var i = 0; i < sortedLeng; i++) {
-            var sortedHeight = sorted[i].height, //이미지 높이
-                sortedImage = sorted[i].image; //이미지w
-
-            // 페이지 추가
-            if (i > 0) {
-                doc.addPage();
-                curHeight = 30;
-            }
-
-            // 이미지 추가
-            doc.addImage(sortedImage, 'jpeg', padding, curHeight, contWidth, sortedHeight);
-
-            var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
-
-            doc.addFileToVFS('myFont.ttf', fontJs);
-            doc.addFont('myFont.ttf', 'myFont', 'normal');
-            doc.setFont('myFont');
-            doc.text("사단법인캠틱종합기술원", padding + contWidth / 2, pageHeight - 10, { align: 'center', baseline: 'middle' });
-            /*doc.text("사단법인캠틱종합기술원", 10, pageHeight  - 10, {align: 'left', baseline: 'middle'});*/
-
-            curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
-        }
-
-        doc.save('법인카드 지출증빙.pdf'); //pdf 저장
-
-        /*doc.output('blob', function(blob) {
-            var reader = new FileReader();
-            reader.onloadend = function() {
-                var formData = new FormData();
-                formData.append('bustripPdfFile', reader.result);
-                formData.append('menuCd', "bustripPdf");
-
-                $.ajax({
-                    url: '/bustrip/setBustripPdfFile',
-                    data: formData,
-                    type: "post",
-                    async: false,
-                    datatype: "json",
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        console.log('파일 업로드 성공:', response);
-                    },
-                    error: function (xhr, status, error) {
-                        console.error('파일 업로드 실패:', error);
-                    }
-                });
-            };
-            reader.readAsDataURL(blob);
-        });*/
-
-        curHeight = padding; //y축 초기화
-        renderedImg = new Array; //이미지 배열 초기화
-    });
+    // $.when.apply($, deferreds).then(function () { // 이미지 렌더링이 끝난 후
+    //     var sorted = renderedImg.sort(function (a, b) {
+    //             return a.num < b.num ? -1 : 1;
+    //         }), // 순서대로 정렬
+    //         curHeight = 30, //위 여백 (이미지가 들어가기 시작할 y축)
+    //         sortedLeng = sorted.length;
+    //
+    //     for (var i = 0; i < sortedLeng; i++) {
+    //         var sortedHeight = sorted[i].height, //이미지 높이
+    //             sortedImage = sorted[i].image; //이미지w
+    //
+    //         // 페이지 추가
+    //         if (i > 0) {
+    //             doc.addPage();
+    //             curHeight = 30;
+    //         }
+    //
+    //         // 이미지 추가
+    //         doc.addImage(sortedImage, 'jpeg', padding, curHeight, contWidth, sortedHeight);
+    //
+    //         var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+    //
+    //         doc.addFileToVFS('myFont.ttf', fontJs);
+    //         doc.addFont('myFont.ttf', 'myFont', 'normal');
+    //         doc.setFont('myFont');
+    //         doc.text("사단법인캠틱종합기술원", padding + contWidth / 2, pageHeight - 10, { align: 'center', baseline: 'middle' });
+    //         /*doc.text("사단법인캠틱종합기술원", 10, pageHeight  - 10, {align: 'left', baseline: 'middle'});*/
+    //
+    //         curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
+    //     }
+    //
+    //     doc.save('법인카드 지출증빙.pdf'); //pdf 저장
+    //
+    //     /*doc.output('blob', function(blob) {
+    //         var reader = new FileReader();
+    //         reader.onloadend = function() {
+    //             var formData = new FormData();
+    //             formData.append('bustripPdfFile', reader.result);
+    //             formData.append('menuCd', "bustripPdf");
+    //
+    //             $.ajax({
+    //                 url: '/bustrip/setBustripPdfFile',
+    //                 data: formData,
+    //                 type: "post",
+    //                 async: false,
+    //                 datatype: "json",
+    //                 contentType: false,
+    //                 processData: false,
+    //                 success: function (response) {
+    //                     console.log('파일 업로드 성공:', response);
+    //                 },
+    //                 error: function (xhr, status, error) {
+    //                     console.error('파일 업로드 실패:', error);
+    //                 }
+    //             });
+    //         };
+    //         reader.readAsDataURL(blob);
+    //     });*/
+    //
+    //     curHeight = padding; //y축 초기화
+    //     renderedImg = new Array; //이미지 배열 초기화
+    // });
 }
 
 function generateCanvas(i, doc, deferred, curList, contW){ //페이지를 이미지로 만들기

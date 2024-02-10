@@ -234,6 +234,7 @@
                 <div class="card-options">
                     <%--<button type="button" class="k-button k-button-solid-base" id="fileViewer" style="display: none;" onclick="bustripPdfMake()">뷰어</button>--%>
                     <div class="filebox">
+                        <button type="button" class="k-button k-button-solid-info" id="testBtn" onclick="bustripResultPop.test123()">테스트</button>
                         <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
                             <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
                             <span class="k-button-text">파일첨부</span>
