@@ -87,16 +87,18 @@ var hwpApprovalLine = {
             }
 
 
-            setTimeout(function() {
-                /** 기안자 사인 */
-                const field = "apprZ0";
-                const empSeq = $("#empSeq").val();
-                const empName = $("#empName").val();
-                if(draft.global.params.formId != "1" && $("#mySignCk").val() == "N"){
-                    hwpApprovalLine.setSign(field, empSeq, empName);
-                    $("#mySignCk").val("Y");
-                }
-            }, 2000);
+            const field = "apprZ0";
+            if(hwpDocCtrl.fieldExist(field)){
+                setTimeout(function() {
+                    /** 기안자 사인 */
+                    const empSeq = $("#empSeq").val();
+                    const empName = $("#empName").val();
+                    if(draft.global.params.formId != "1" && $("#mySignCk").val() == "N"){
+                        hwpApprovalLine.setSign(field, empSeq, empName);
+                        $("#mySignCk").val("Y");
+                    }
+                }, 2500);
+            }
         }
         console.log("----- 양식 결재선 세팅 끝 -----");
     },
@@ -144,7 +146,7 @@ var hwpApprovalLine = {
                         teamCk = "Y";
 
                         const signField = "appr0";
-                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
+                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                     }
                 }
 
@@ -161,7 +163,7 @@ var hwpApprovalLine = {
                     }
 
                     const signField = "appr2";
-                    hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
+                    hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                 }
 
             /** 팀장 전결 */
@@ -169,7 +171,7 @@ var hwpApprovalLine = {
                 /** appArr = ["전결", "공란", "sigh1"] */
                 if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
                     const signField = "appr2";
-                    hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
+                    hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                 }
 
             }else{
@@ -181,7 +183,7 @@ var hwpApprovalLine = {
                         && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
 
                         const signField = "appr0";
-                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
+                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                     }
                 }
 
@@ -200,7 +202,7 @@ var hwpApprovalLine = {
                         }
 
                         const signField = "appr1";
-                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
+                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                     }
                 }
 
@@ -218,7 +220,7 @@ var hwpApprovalLine = {
                     }
 
                     const signField = "appr2";
-                    hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME);
+                    hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                 }
             }
         }
