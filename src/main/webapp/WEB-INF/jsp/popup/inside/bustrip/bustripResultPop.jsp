@@ -234,12 +234,12 @@
                 <div class="card-options">
                     <%--<button type="button" class="k-button k-button-solid-base" id="fileViewer" style="display: none;" onclick="bustripPdfMake()">뷰어</button>--%>
                     <div class="filebox">
-                        <button type="button" class="k-button k-button-solid-info" id="testBtn" onclick="bustripResultPop.test123()">테스트</button>
+<%--                        <button type="button" class="k-button k-button-solid-info" id="testBtn" onclick="bustripResultPop.makeHtmlToPdf()">테스트</button>--%>
                         <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
                             <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
                             <span class="k-button-text">파일첨부</span>
                         </button>
-                        <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                        <input type="file" id="fileList" name="fileList" onchange="bustripResultPop.addFileInfoTable();" multiple style="display: none"/>
                     </div>
                 </div>
             </div>
@@ -248,7 +248,8 @@
                     <colgroup>
                         <col width="50%">
                         <col width="10%">
-                        <col width="30%">
+                        <col width="10%">
+                        <col width="10%">
                         <col width="10%">
                     </colgroup>
                     <thead>
@@ -256,6 +257,7 @@
                         <th>파일명</th>
                         <th>확장자</th>
                         <th>용량</th>
+                        <th>뷰어</th>
                         <th>기타</th>
                     </tr>
                     </thead>

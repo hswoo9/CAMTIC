@@ -1,6 +1,7 @@
 var bustripResultPop = {
     global: {
-        data : ""
+        data : "",
+        attFiles : new Array(),
     },
     init: function(){
         bustrip.fn_setPageName();
@@ -47,6 +48,7 @@ var bustripResultPop = {
     },
 
     reqDataSet: function(){
+        console.log("reqDataSet");
         if(hrBizReqId == ""){ return; }
 
         const result = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {
@@ -125,7 +127,7 @@ var bustripResultPop = {
         $("#bustObj").val(busInfo.TITLE);
 
         /** 첨부파일 */
-        bustripInit.settingTempFileDataInit(fileInfo);
+        bustripInit.settingTempFileDataInit(fileInfo, 'result');
 
         /** 해외출장일시 폼 변경 */
         if(busInfo.TRIP_CODE == "4"){
@@ -180,6 +182,7 @@ var bustripResultPop = {
     },
 
     resDataSet: function() {
+        console.log("resDataSet");
         const result = customKendo.fn_customAjax("/bustrip/getBustripResReqInfo", {
             hrBizReqId: hrBizReqId,
             hrBizReqResultId: hrBizReqResultId
@@ -320,7 +323,31 @@ var bustripResultPop = {
         bustripInit.settingExnpDataInit(map);
 
         /** 첨부파일 */
-        bustripInit.settingTempFileDataInit(fileInfo, 'result');
+        const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", {
+            hrBizReqResultId: hrBizReqResultId
+        });
+
+        let tempArr = [];
+        let count = 0;
+        const bustripList = fileInfo;
+        const cardList = cardResult.list;
+
+        for(let i=0; i<bustripList.length; i++){
+            tempArr[count] = bustripList[i];
+            count ++;
+        }
+
+        for(let i=0; i<cardList.length; i++){
+            if(cardList[i].FILE_NO != null){
+                const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
+                    fileNo: cardList[i].FILE_NO
+                }).data;
+                tempArr[count] = fileData;
+                count ++;
+            }
+        }
+
+        bustripInit.settingTempFileDataInit(tempArr, 'result');
 
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
         if(resInfo.STATUS == 100 || $("#mod").val() == "mng"){
@@ -436,9 +463,9 @@ var bustripResultPop = {
         formData.append("companionChangeCheck", $("#companionChangeCheck").val());
 
         /** 증빙파일 첨부파일 */
-        if(fCommon.global.attFiles != null){
-            for(var i = 0; i < fCommon.global.attFiles.length; i++){
-                formData.append("bustripResFile", fCommon.global.attFiles[i]);
+        if(bustripResultPop.global.attFiles != null){
+            for(var i = 0; i < bustripResultPop.global.attFiles.length; i++){
+                formData.append("bustripResFile", bustripResultPop.global.attFiles[i]);
             }
         }
 
@@ -630,7 +657,14 @@ var bustripResultPop = {
 
     },
 
-    test123 : function(){
+    makeHtmlToPdf : function(){
+        var hostUrl = "";
+        if(window.location.host.indexOf("218.158.231.184") > -1 || window.location.host.indexOf("new.camtic.or.kr") > -1){
+            hostUrl = "http://218.158.231.184";
+        } else {
+            hostUrl = "http://218.158.231.186";
+        }
+
         var selCorpType = {
             1 : '유류비',
             2 : '교통비',
@@ -675,7 +709,6 @@ var bustripResultPop = {
             }
 
             const corpCardHist = customKendo.fn_customAjax("/bustrip/getExnpHistOne", data).map;
-
             const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", data);
             const e = iBrenchResult.cardInfo;
 
@@ -695,10 +728,10 @@ var bustripResultPop = {
                 corpCardHistFile = customKendo.fn_customAjax("/bustrip/getExnpHistFileList", data2).list;
             }
 
-            let receiptFile = '<div style="width: 20%; height: 20%;">';
+            let receiptFile = '<div style="width: 70%; text-align: center; margin: 0 auto;">';
             if(corpCardHist.FILE_NO != "" && corpCardHist.FILE_NO != undefined){
                 for(let i=0; i<corpCardHistFile.length; i++){
-                    receiptFile += '<img src="'+corpCardHistFile[i].file_path+corpCardHistFile[i].file_uuid+'" style="width: 100%; height: 100%;" />';
+                    receiptFile += '<img src="' + hostUrl + corpCardHistFile[i].file_path + corpCardHistFile[i].file_uuid + '" />';
                 }
             }
             receiptFile += '</div>';
@@ -747,16 +780,89 @@ var bustripResultPop = {
 
         $.ajax({
             url : "/bustrip/makeHtmlToPdf",
-            data: {html : html},
+            data: {
+                html : html,
+                hrBizReqResultId: hrBizReqResultId
+            },
             type : "post",
             dataType : "json",
             success : function(rs){
                 console.log(rs);
             }
         });
+    },
 
+    addFileInfoTable : function(){
+        let size = 0;
+        for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
+            bustripResultPop.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+        }
 
-    }
+        if(bustripResultPop.global.attFiles.length > 0){
+            $("#fileGrid").find(".defultTr").remove();
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i < bustripResultPop.global.attFiles.length; i++) {
+                size = fCommon.bytesToKB(bustripResultPop.global.attFiles[i].size);
+                html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
+                html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(0, bustripResultPop.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
+                html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(bustripResultPop.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td></td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="bustripResultPop.fnUploadFile(' + i + ')">'
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }
+    },
+
+    fnUploadFile : function(e) {
+        let size = 0;
+        const dataTransfer = new DataTransfer();
+        let fileArray = Array.from(bustripResultPop.global.attFiles);
+        fileArray.splice(e, 1);
+        fileArray.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        bustripResultPop.global.attFiles = dataTransfer.files;
+
+        if(bustripResultPop.global.attFiles.length > 0){
+            $("#fileGrid").find(".addFile").remove();
+
+            var html = '';
+            for (var i = 0; i <bustripResultPop.global.attFiles.length; i++) {
+                size = bustripResultPop.bytesToKB(bustripResultPop.global.attFiles[i].size);
+                html += '<tr style="text-align: center;" class="addFile">';
+                html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(0, bustripResultPop.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
+                html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(bustripResultPop.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
+                html += '   <td>' + size + '</td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="bustripResultPop.fnUploadFile(' + i + ')">';
+                html += '   </td>';
+                html += '</tr>';
+            }
+
+            $("#fileGrid").append(html);
+        }else{
+            $("#fileGrid").find(".addFile").remove();
+
+            if($("#fileGrid").find("tr").length == 0){
+                $("#fileGrid").html('<tr class="defultTr">' +
+                    '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
+                    '</tr>');
+            }
+        }
+
+        if(bustripResultPop.global.attFiles.length == 0){
+            bustripResultPop.global.attFiles = new Array();
+        }
+
+    },
 }
 
 function userDataSet(userArr){

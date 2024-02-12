@@ -18,15 +18,11 @@ import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
 import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
 import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
-import egovframework.com.devjitsu.cam_manager.service.ManageService;
+import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +38,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
@@ -61,6 +57,9 @@ public class BustripController {
 
     @Autowired
     private BustripService bustripService;
+
+    @Autowired
+    private CommonService commonService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -1052,7 +1051,23 @@ public class BustripController {
 
         try {
             // PDF 파일 생성
-            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("D:\\HJO\\99.bak\\test.pdf"));
+            String fileUUID=  UUID.randomUUID().toString();
+            String fileOrgName = "법인카드 지출증빙";
+            String fileCd = "bustripResReq";
+            String fileExt = "pdf";
+
+            LocalDate now = LocalDate.now();
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            String fmtNow = now.format(fmt);
+            String filePath = "/upload/" + fileCd + "/" + fmtNow + "/";
+
+            // PDF 생성을 위한 OutputStream 생성
+            File f = new File(filePath);
+            if(!f.exists()) {
+                f.mkdirs();
+            }
+
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(filePath + fileUUID + "." + fileExt));
             // PDF 파일 열기
             document.open();
 
@@ -1083,6 +1098,18 @@ public class BustripController {
 
             document.close();
             pdfWriter.close();
+
+            // DB에 데이터 저장
+            Map<String, Object> fileParameters = new HashMap<>();
+            fileParameters.put("fileCd", fileCd);
+            fileParameters.put("fileUUID", fileUUID+"."+fileExt);
+            fileParameters.put("fileOrgName", fileOrgName);
+            fileParameters.put("filePath", filePath);
+            fileParameters.put("fileExt", fileExt);
+            fileParameters.put("fileSize", 99);
+            fileParameters.put("contentId", params.get("hrBizReqResultId"));
+            fileParameters.put("empSeq", "1");
+            commonService.insFileInfoOne(fileParameters);
 
         } catch (Exception e){
             e.printStackTrace();

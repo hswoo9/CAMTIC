@@ -312,6 +312,9 @@ var bustripResList = {
     },
 
     bustripResDrafting: function(hrBizReqResultId) {
+        // pdf 생성 및 저장
+        bustripResultPop.makeHtmlToPdf();
+
         $("#hrBizReqResultId").val(hrBizReqResultId);
         $("#bustripResDraftFrm").one("submit", function() {
             var url = "/Inside/pop/approvalFormPopup/bustripResApprovalPop.do";
@@ -322,6 +325,8 @@ var bustripResList = {
             this.method = 'POST';
             this.target = 'bustripResApprovalPop';
         }).trigger("submit");
+
+        window.close();
     },
 
     fn_reqRegPopup : function (key){

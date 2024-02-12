@@ -470,4 +470,9 @@ public class CommonServiceImpl implements CommonService {
             }
         }
     }
+
+    @Override
+    public void insFileInfoOne(Map<String, Object> params) {
+        commonRepository.insFileInfoOne(params);
+    }
 }

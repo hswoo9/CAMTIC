@@ -416,10 +416,17 @@
         SELECT
             *
         FROM
-            CAM_COMMON.DJ_FILE_INFO
-        WHERE
-                FILE_CD in ('bustripReq', 'bustripResReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
-          AND CONTENT_ID = #{hrBizReqResultId}
+            (
+                SELECT
+                    *,
+                    ROW_NUMBER() OVER (PARTITION BY file_org_name ORDER BY file_org_name) AS row_num
+                FROM
+                    CAM_COMMON.DJ_FILE_INFO
+                WHERE
+                        FILE_CD in ('bustripReq', 'bustripResReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc')
+                  AND CONTENT_ID = #{hrBizReqResultId}
+            ) AS sub
+        WHERE row_num = 1;
     </select>
 
     <update id="updBustripReq" parameterType="map">
@@ -1616,6 +1623,7 @@
     </select>
 
     <select id="getExnpHistFileList" parameterType="map" resultType="map">
+        /*getExnpHistFileList*/
         SELECT
             *
         FROM

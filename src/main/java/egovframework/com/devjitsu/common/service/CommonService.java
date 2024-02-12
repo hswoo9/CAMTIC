@@ -103,4 +103,6 @@ public interface CommonService {
     void setHangInfo(Map<String, Object> params);
 
     void delBudgetCode(Map<String, Object> params);
+
+    void insFileInfoOne(Map<String, Object> params);
 }
