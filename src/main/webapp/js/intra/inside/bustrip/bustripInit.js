@@ -304,8 +304,8 @@ var bustripInit = {
     },
 
     /** 첨부파일 데이터 세팅 */
-    settingTempFileDataInit: function(e){
-        let p = bustrip.global.pageName;
+    settingTempFileDataInit: function(e, p){
+        // let p = bustrip.global.pageName;
         var html = '';
 
         if(p == "result"){
@@ -314,13 +314,23 @@ var bustripInit = {
                     html += '<tr style="text-align: center">';
                     html += '   <td>'+ e[i].file_org_name +'</td>';
                     html += '   <td>'+ e[i].file_ext +'</td>';
-                    html += '   <td>'+ e[i].file_size +'</td>';
+                    html += '   <td>'+ fCommon.bytesToKB(e[i].file_size) +'</td>';
+                    html += '   <td>';
+                    if(e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "jpeg"){
+                        html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="bustripInit.fileViewer(\'' + e[i].file_path + e[i].file_uuid +'\')">'
+                    }
+                    html += '   </td>';
+                    html += '   <td>';
+                    html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                        '			<span class="k-button-text">삭제1</span>' +
+                        '		</button>';
+                    html += '   </td>';
                     html += '</tr>';
                 }
                 $("#fileGrid").html(html);
             }else{
-                $("#fileGrid").html('<tr>' +
-                    '	<td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                $("#fileGrid").html('<tr class="defultTr">' +
+                    '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
                     '</tr>');
             }
         }else{
@@ -344,5 +354,11 @@ var bustripInit = {
                     '</tr>');
             }
         }
-    }
+    },
+
+    fileViewer : function (path, name){
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open("http://218.158.231.186" + path, name, option);
+    },
 }

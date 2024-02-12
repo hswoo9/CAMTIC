@@ -143,6 +143,7 @@ const bustripExnpReq = {
     },
 
     dataSet: function(type){
+        console.log("dataSet")
         let costData = bustripExnpReq.global.costData;
         if(type != "upd"){
             costData.val(0);
@@ -201,7 +202,7 @@ const bustripExnpReq = {
                 html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
                 html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
                 html += '    <input type="hidden" class="buySts" value="'+e.BUY_STS+'" />';
-                html += '    <input type="hidden" class="fileNo'+index+'" value="'+e.FILE_NO+'" />';
+                html += '    <input type="hidden" class="fileNo" value="'+e.FILE_NO+'" />';
 
                 html += '    <td style="text-align: center"><input type="checkbox" name="card" style="position: relative; top: 2px"/></td>';
                 html += '    <td style="text-align: center">'+selCorpType[cardMap.EXNP_TYPE]+'</td>';

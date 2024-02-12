@@ -117,7 +117,7 @@ public class BustripServiceImpl implements BustripService {
         result.put("resList", bustripRepository.getBustripResCompanionInfo(params));
         result.put("map", bustripRepository.getBustripExnpInfo(params));
         result.put("rsRes", bustripRepository.getBustripResultInfo(params));
-        result.put("fileInfo", bustripRepository.getBustripResReqFileInfo(params));
+        result.put("fileInfo", bustripRepository.getBustripReqFileInfoR(params));
         result.put("fileInfo2", bustripRepository.getBustripReqFileInfo(params));
         return result;
     }
