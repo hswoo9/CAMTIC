@@ -179,6 +179,7 @@ public class SubHolidayServiceImpl implements SubHolidayService {
             data.put("altHoly", 0);
             data.put("compHoly", 0);
             data.put("workHoly", 0);
+            data.put("remainWorkHoly", 0);
         }else{
             data.put("befYear", befYearData.get("befYear"));
             data.put("bef2Year", befYearData.get("bef2Year"));
@@ -191,6 +192,7 @@ public class SubHolidayServiceImpl implements SubHolidayService {
             data.put("altHoly", befYearData.get("altHoly"));
             data.put("compHoly", befYearData.get("compHoly"));
             data.put("workHoly", befYearData.get("workHoly"));
+            data.put("remainWorkHoly", befYearData.get("remainWorkHoly"));
         }
 
         return data;
