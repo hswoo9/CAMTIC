@@ -225,7 +225,7 @@
         AND
             VUH.ACTIVE = 'Y'
         AND
-            VUH.DOC_ID != 'AA'
+            (VUH.DOC_ID != 'AA' OR VUH.DOC_ID IS NULL)
         <if test='status != null and !"".equals(status)'>
             AND VUH.APPR_STAT = #{status}
         </if>
