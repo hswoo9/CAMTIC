@@ -216,31 +216,11 @@ var subHolidayStat = {
                     title: "이름",
                     width: 50
                 }, {
-                    title: "발생",
-                    columns: [
-                        {
-                            field: "total_vacation",
-                            title: "총연차",
-                            width: 45,
-                            template: function(row){
-                                return (row.total_vacation == "" || row.total_vacation) == null ? "0" : row.total_vacation
-                            }
-                        }, {
-                            field: "grant_day",
-                            title: "기존",
-                            width: 45,
-                            template: function(row){
-                                return (row.grant_day == "" || row.grant_day) == null ? "0" : row.grant_day
-                            }
-                        }, {
-                            field: "comp_vac",
-                            title: "보상",
-                            width: 45,
-                            template: function(row){
-                                return (row.comp_vac == "" || row.comp_vac) == null ? "0" : row.comp_vac
-                            }
-                        }
-                    ]
+                    title: "발생<br>연차",
+                    width: 45,
+                    template: function(row){
+                        return (row.grant_day == "" || row.grant_day) == null ? "0" : row.grant_day
+                    }
                 }, {
                     title: "연가",
                     columns: [
@@ -266,30 +246,10 @@ var subHolidayStat = {
                             width: 45
                         }, {
                             title: "잔여연차",
-                            columns: [
-                                {
-                                    field: "REMAIN_VAC",
-                                    title: "총잔여",
-                                    width: 45,
-                                    template: function(row){
-                                        return (row.REMAIN_VAC == "" || row.REMAIN_VAC) == null ? "0" : row.REMAIN_VAC
-                                    }
-                                }, {
-                                    field: "REMAIN_VAC",
-                                    title: "기존",
-                                    width: 45,
-                                    template: function(row){
-                                        return (row.REMAIN_VAC == "" || row.REMAIN_VAC) == null ? "0" : row.REMAIN_VAC
-                                    }
-                                }, {
-                                    field: "",
-                                    title: "보상",
-                                    width: 45,
-                                    template: function(row){
-                                        return "0"
-                                    }
-                                }
-                            ]
+                            width: 45,
+                            template: function(row){
+                                return (row.REMAIN_VAC == "" || row.REMAIN_VAC) == null ? "0" : row.REMAIN_VAC
+                            }
                         }
                     ]
                 }, {
