@@ -1401,6 +1401,10 @@ public class PayAppServiceImpl implements PayAppService {
     public List<Map<String, Object>> getPayAppFileList(Map<String, Object> params) {
         return payAppRepository.getPayAppFileList(params);
     }
+    @Override
+    public List<Map<String, Object>> getPayAppDocFileList(Map<String, Object> params) {
+        return payAppRepository.getPayAppDocFileList(params);
+    }
 
     @Override
     public List<Map<String, Object>> getApprovalExnpFileData(Map<String, Object> params) {

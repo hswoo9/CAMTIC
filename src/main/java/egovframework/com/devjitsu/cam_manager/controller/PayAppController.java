@@ -583,6 +583,18 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/payApp/pop/getExnpDocData")
+    public String getExnpDocData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        Map<String, Object> map = payAppService.getExnpData(params);
+
+        // 지출결의서 양식 DOC_ID
+        params.put("exnpDocId", map.get("DOC_ID"));
+
+        List<Map<String, Object>> fileList = payAppService.getPayAppDocFileList(params);
+        model.addAttribute("fileList", fileList);
+        return "jsonView";
+    }
+
     @RequestMapping("/payApp/pop/getApprovalExnpFileData")
     public String getApprovalExnpFileData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
         Map<String, Object> map = payAppService.getExnpData(params);

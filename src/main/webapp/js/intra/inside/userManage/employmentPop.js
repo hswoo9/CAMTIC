@@ -109,9 +109,19 @@ var employmentPop = {
                 employmentPop.putFieldText('empName', result.data.EMP_NAME_KR);
             }
 
+            let deptName2 = result.data.DEPT_NAME2;
+            let newDeptName = result.data.NEW_DEPT_NAME;
+            let finalDeptName = "";
+
+            if(deptName2.indexOf('캠틱종합기술원') > -1){
+                finalDeptName = newDeptName;
+            }else{
+                finalDeptName = deptName2.replace(/\s/g, '\r\n');
+            }
+
             if(employmentPop.global.hwpCtrl.FieldExist("deptName")){
                 employmentPop.global.hwpCtrl.MoveToField('deptName', true, true, false);
-                employmentPop.putFieldText('deptName', result.data.DEPT_NAME2);
+                employmentPop.putFieldText('deptName', finalDeptName);
             }
 
             if(employmentPop.global.hwpCtrl.FieldExist("positionName")){
