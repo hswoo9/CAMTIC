@@ -15,4 +15,8 @@ public interface BudgetService {
     List<Map<String, Object>> getBudgetBList(Map<String, Object> params);
 
     List<Map<String, Object>> getBudgets(Map<String, Object> params);
+
+    List<Map<String, Object>> getPreConditionA(Map<String, Object> params);
+
+    List<Map<String, Object>> getPreConditionB(Map<String, Object> params);
 }
