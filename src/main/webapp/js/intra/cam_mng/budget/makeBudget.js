@@ -76,7 +76,7 @@ var makeBudget = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="makeBudget.fn_delBudget()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
@@ -107,6 +107,16 @@ var makeBudget = {
                     title: "순번",
                     template: "#= --record #",
                     width: 30
+                },{
+                    title: "구분",
+                    width: 80,
+                    template: function(e){
+                        if(e.BG_VAL == "A"){
+                            return "세출";
+                        } else if(e.BG_VAL == "B"){
+                            return "세입";
+                        }
+                    }
                 }, {
                     title : "분류",
                     width: 80,
@@ -207,6 +217,53 @@ var makeBudget = {
         var option = "width = 900, height = 750, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);
+    },
+
+    fn_delBudget : function(){
+        var arr = [];
+        var aItem = "";
+        var bItem = "";
+        $("input[name='mChecks']:checked").each(function(){
+            arr.push($(this).val());
+        });
+
+        if(arr.length == 0){
+            alert("선택된 예산이 없습니다.");
+            return;
+        }
+
+        if(!confirm("삭제하시겠습니까?\n삭제한 데이터는 복구할 수 없습니다.")){
+            return;
+        }
+
+        var parameters = {}
+        for(var i = 0; i < arr.length; i++){
+            if(arr[i].slice(0,1) == "A"){
+                aItem += "," + arr[i].slice(1);
+            } else if(arr[i].slice(0,1) == "B"){
+                bItem += "," + arr[i].slice(1);
+            }
+        }
+
+        parameters.aItemArr = aItem.slice(1);
+        parameters.bItemArr = bItem.slice(1);
+
+        console.log(parameters);
+
+        $.ajax({
+            url : "/budget/delPjtBudgetItem",
+            data : parameters,
+            type : "POST",
+            dataType : "json",
+            success : function(rs){
+                if (rs.code == 200){
+                    alert("삭제되었습니다.");
+                    makeBudget.gridReload();
+                } else {
+
+                }
+            }
+        });
     }
 }
 

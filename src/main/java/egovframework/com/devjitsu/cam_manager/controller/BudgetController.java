@@ -101,7 +101,7 @@ public class BudgetController {
         try{
             int duplCnt = budgetService.getBudgetCdDuplCnt(params);
 
-            if(duplCnt > 1){
+            if(duplCnt > 0){
                 model.addAttribute("code", 303);
                 model.addAttribute("msg", "이미 등록된 예산항목이 있습니다.");
 
@@ -125,6 +125,13 @@ public class BudgetController {
         list = budgetService.getBudgets(params);
         model.addAttribute("list", list);
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/budget/delPjtBudgetItem")
+    public String delBudgetItem(@RequestParam Map<String, Object> params, Model model) {
+        budgetService.delPjtBudgetItem(params);
+        model.addAttribute("code", 200);
         return "jsonView";
     }
 
