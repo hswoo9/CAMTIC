@@ -73,6 +73,7 @@
                 GWAN_NM,
                 HANG_CD,
                 HANG_NM,
+                BUDGET_AMT,
                 CD_REG_DE,
                 REG_EMP_SEQ
             )
@@ -86,6 +87,7 @@
                 #{gwan},
                 #{hangCd},
                 #{hang},
+                #{budgetAmt},
                 #{regDt},
                 #{regEmpSeq}
             )
@@ -213,4 +215,19 @@
         (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_B WHERE PJT_BUDGET_SN = #{pjtBudgetSn})
     </insert>
 
+    <delete id="delPjtBudgetA" parameterType="map">
+        /*delPjtBudgetA*/
+        DELETE FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_A
+        WHERE
+            PJT_BUDGET_SN IN (${aItemArr})
+    </delete>
+
+    <delete id="delPjtBudgetB" parameterType="map">
+        /*delPjtBudgetB*/
+        DELETE FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_B
+        WHERE
+            PJT_BUDGET_SN IN (${bItemArr})
+    </delete>
 </mapper>

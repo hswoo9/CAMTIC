@@ -95,17 +95,17 @@
                             <tr>
                                 <td>
                                     <input type="hidden" id="pjtBudgetSn0" />
-                                    <input type="text" id="jang0" value="" style="width: 80%">
+                                    <input type="text" id="jang0" value="" style="width: 80%" readonly />
                                     <input type="hidden" id="jangCd0" value="" >
                                     <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('A', 0, 'A')"></i>
                                 </td>
                                 <td>
-                                    <input type="text" id="gwan0" value="" style="width: 80%">
+                                    <input type="text" id="gwan0" value="" style="width: 80%" readonly />
                                     <input type="hidden" id="gwanCd0" value="" >
                                     <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('B', 0, 'A')"></i>
                                 </td>
                                 <td>
-                                    <input type="text" id="hang0" value="" style="width: 80%">
+                                    <input type="text" id="hang0" value="" style="width: 80%" readonly />
                                     <input type="hidden" id="hangCd0" value="" >
                                     <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('C', 0, 'A')"></i>
                                 </td>
@@ -170,17 +170,17 @@
                         <tr>
                             <td>
                                 <input type="hidden" id="mPjtBudgetSn0" />
-                                <input type="text" id="mJang0" value="" style="width: 80%">
+                                <input type="text" id="mJang0" value="" style="width: 80%" readonly />
                                 <input type="hidden" id="mJangCd0" value="" >
                                 <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('A', 0, 'B')"></i>
                             </td>
                             <td>
-                                <input type="text" id="mGwan0" value="" style="width: 80%">
+                                <input type="text" id="mGwan0" value="" style="width: 80%" readonly />
                                 <input type="hidden" id="mGwanCd0" value="" >
                                 <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('B', 0, 'B')"></i>
                             </td>
                             <td>
-                                <input type="text" id="mHang0" value="" style="width: 80%">
+                                <input type="text" id="mHang0" value="" style="width: 80%" readonly />
                                 <input type="hidden" id="mHangCd0" value="" >
                                 <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('C', 0, 'B')"></i>
                             </td>
@@ -338,17 +338,17 @@
                 '<tr>' +
                 '   <td>' +
                 '       <input type="hidden" id="pjtBudgetSn'+i+'" value="" style="width: 80%">' +
-                '       <input type="text" id="jang'+i+'" value="" style="width: 80%">' +
+                '       <input type="text" id="jang'+i+'" value="" style="width: 80%" readonly />' +
                 '       <input type="hidden" id="jangCd'+i+'" value="" style="width: 80%">' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'A\', '+i+', \'A\')"></i>' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="gwan'+i+'" value="" style="width: 80%">' +
+                '       <input type="text" id="gwan'+i+'" value="" style="width: 80%" readonly />' +
                 '       <input type="hidden" id="gwanCd'+i+'" value="" style="width: 80%">' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'B\', '+i+', \'A\')"></i>' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="hang'+i+'" value="" style="width: 80%">' +
+                '       <input type="text" id="hang'+i+'" value="" style="width: 80%" readonly />' +
                 '       <input type="hidden" id="hangCd'+i+'" value="" style="width: 80%">' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'C\', '+i+', \'A\')"></i>' +
                 '   </td>' +
@@ -374,18 +374,18 @@
                 '<tr>' +
                 '   <td>' +
                 '       <input type="hidden" id="mPjtBudgetSn'+i+'" value="" style="width: 80%">' +
-                '       <input type="text" id="mJang'+i+'" value="" style="width: 80%">' +
-                '       <input type="hidden" id="mJang'+i+'" value="" style="width: 80%">' +
+                '       <input type="text" id="mJang'+i+'" value="" style="width: 80%" readonly />' +
+                '       <input type="hidden" id="mJangCd'+i+'" value="" style="width: 80%">' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'A\', '+i+', \'B\')"></i>' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="mGwan'+i+'" value="" style="width: 80%">' +
-                '       <input type="hidden" id="mGwan'+i+'" value="" style="width: 80%">' +
+                '       <input type="text" id="mGwan'+i+'" value="" style="width: 80%" readonly />' +
+                '       <input type="hidden" id="mGwanCd'+i+'" value="" style="width: 80%">' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'B\', '+i+', \'B\')"></i>' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="mHang'+i+'" value="" style="width: 80%">' +
-                '       <input type="hidden" id="mHang'+i+'" value="" style="width: 80%">' +
+                '       <input type="text" id="mHang'+i+'" value="" style="width: 80%" readonly />' +
+                '       <input type="hidden" id="mHangCd'+i+'" value="" style="width: 80%">' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop(\'C\', '+i+', \'B\')"></i>' +
                 '   </td>' +
                 '   <td>' +
@@ -535,6 +535,7 @@
                 if (rs.code == 200){
                     alert("저장되었습니다.");
                     window.close();
+                    opener.makeBudget.gridReload();
                 } else {
                     alert(rs.msg);
                 }
@@ -617,7 +618,17 @@
 
                     $("#budgetTotAmt").val(comma(aSum));
                     $("#mBudgetTotAmt").val(comma(bSum));
+                }
 
+                if(aCnt == 0){
+                    $("#aBg").prop("checked", false);
+                    $("#aRow").css("display", "none");
+                    $("#aFoot").css("display", "none");
+                }
+                if(bCnt == 0){
+                    $("#bBg").prop("checked", false);
+                    $("#bRow").css("display", "none");
+                    $("#bFoot").css("display", "none");
                 }
             }
         })
