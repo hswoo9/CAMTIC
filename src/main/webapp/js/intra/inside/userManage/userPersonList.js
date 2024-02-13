@@ -730,6 +730,13 @@ var userPersonList = {
 
             userPersonList.mainGrid('/userManage/getEmpInfoList',userPersonList.global.searchAjaxData);
         }
+
+
+        var dsiResult = customKendo.fn_customAjax("/userManage/getCountForDsI", userPersonList.global.searchAjaxData);
+        console.log("dsiResult", dsiResult);
+        if(dsiResult != null && dsiResult.data != null && dsiResult.data.dsI != null){
+            $("#dsIText").text(dsiResult.data.dsI);
+        }
     },
 
     gridReloadDetail : function() {

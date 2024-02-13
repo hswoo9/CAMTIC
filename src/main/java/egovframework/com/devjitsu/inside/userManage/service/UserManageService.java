@@ -168,6 +168,7 @@ public interface UserManageService{
     Map<String, Integer> getCountMap();
 
     Map<String, Integer> getCountMap2();
+    Map<String, Object> getCountForDsI(Map<String,Object> params);
 
     void userDegreeInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
     void userDegreeInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);

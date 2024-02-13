@@ -306,14 +306,11 @@ var approvalLine = {
 
         for(let i=0; i<payCkList.length; i++){
             const map = payCkList[i];
-            console.log("여기야", map);
 
             /** 시작 금액만 있으면 (코드값 <= 금액) 인지 체크 */
             if(map.ED_PAY == "" || map.ED_PAY == null){
                 if(Number(map.ST_PAY) <= requestAmt){
                     level = map.DUTY_VAL;
-                    console.log("여기야2", map.DUTY_VAL);
-                    console.log("여기야3", map);
                     break;
                 }
 
@@ -321,8 +318,6 @@ var approvalLine = {
             }else{
                 if(Number(map.ST_PAY) <= requestAmt && requestAmt < Number(map.ED_PAY)){
                     level = map.DUTY_VAL;
-                    console.log("여기야2", map.DUTY_VAL);
-                    console.log("여기야3", map);
                     break;
                 }
             }

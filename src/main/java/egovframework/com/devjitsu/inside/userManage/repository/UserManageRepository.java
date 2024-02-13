@@ -314,7 +314,7 @@ public class UserManageRepository extends AbstractDAO {
     public int getCountForDsF() {return (Integer) selectOne("userManage.getCountForDsF");}
     public int getCountForDsG() {return (Integer) selectOne("userManage.getCountForDsG");}
     public int getCountForDsH() {return (Integer) selectOne("userManage.getCountForDsH");}
-    public int getCountForDsI() {return (Integer) selectOne("userManage.getCountForDsI");}
+    public int getCountForDsI(Map<String, Object> params) {return (Integer) selectOne("userManage.getCountForDsI", params);}
     public int getCountForDsJ() {return (Integer) selectOne("userManage.getCountForDsJ");}
 
 

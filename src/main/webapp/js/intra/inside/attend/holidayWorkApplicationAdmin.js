@@ -121,41 +121,41 @@ var holidayWorkApplicationAdmin ={
                             return "";
                         }
                     },
-                    width: 80
+                    width: 50
                 },
                 {
-                    field: "ROW_NUM",
                     title: "순번",
-                    width: 80
+                    template: "#= --record #",
+                    width: 50
                 },
                 {
                     field:"DEPT_NAME2",
                     title:"부서/팀",
-                    width:150
+                    width: 250
                 },
                 {
                     field:"EMP_NAME_KR",
                     title:"이름",
-                    width:80
+                    width: 80
                 },
                 {
                     field:"SUBHOLIDAY_DT_CODE_NM",
                     title:"구분",
-                    width:250
+                    width: 100
                 },
                 {
                     title:"신청일자",
                     field: "APPLY_DAY",
-                    width:"15%"
+                    width: 100
                 },
                 {
                     field: "SUBHOLIDAY_WORK_DAY",
                     title: "근로일자",
-                    width: 200
+                    width: 100
                 }, {
                     field: "APPR_STAT",
                     title: "승인상태",
-                    width: "20%",
+                    width: 100,
                     template : function(e){
                         if(e.ADMIN_APPR_STAT == "N"){
                             return "관리자 대기중";
@@ -170,7 +170,7 @@ var holidayWorkApplicationAdmin ={
                         }
 
                     },
-                    width: 200,
+                    width: 100,
                 }, {
                     title: "신청자문서",
                     template : function(e){
@@ -206,7 +206,8 @@ var holidayWorkApplicationAdmin ={
                         } else {
                             return "-";
                         }
-                    }
+                    },
+                    width: 100,
                 }, {
                     title: "담당자문서",
                     template : function(e){
@@ -247,8 +248,13 @@ var holidayWorkApplicationAdmin ={
                         } else {
                             return "-";
                         }
-                    }
-                }]
+                    },
+                    width: 100,
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 

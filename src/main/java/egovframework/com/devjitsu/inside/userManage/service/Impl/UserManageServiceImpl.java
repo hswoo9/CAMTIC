@@ -987,6 +987,7 @@ public class UserManageServiceImpl implements UserManageService {
     }
     public Map<String, Integer> getCountMap() {
         Map<String, Integer> countMap = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         countMap.put("dsA", userManageRepository.getCountForDsA());
         countMap.put("dsB", userManageRepository.getCountForDsB());
         countMap.put("dsC", userManageRepository.getCountForDsC());
@@ -995,7 +996,7 @@ public class UserManageServiceImpl implements UserManageService {
         countMap.put("dsF", userManageRepository.getCountForDsF());
         countMap.put("dsG", userManageRepository.getCountForDsG());
         countMap.put("dsH", userManageRepository.getCountForDsH());
-        countMap.put("dsI", userManageRepository.getCountForDsI());
+        countMap.put("dsI", userManageRepository.getCountForDsI(params));
         countMap.put("dsJ", userManageRepository.getCountForDsJ());
 
         return countMap;
@@ -1009,6 +1010,13 @@ public class UserManageServiceImpl implements UserManageService {
         countMap.put("dsE", userManageRepository.getCountForDsE2());
         countMap.put("dsG", userManageRepository.getCountForDsG2());
 
+        return countMap;
+    }
+
+    @Override
+    public Map<String, Object> getCountForDsI(Map<String, Object> params) {
+        Map<String, Object> countMap = new HashMap<>();
+        countMap.put("dsI", userManageRepository.getCountForDsI(params));
         return countMap;
     }
 

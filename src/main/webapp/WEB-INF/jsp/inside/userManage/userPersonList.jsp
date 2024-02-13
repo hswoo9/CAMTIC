@@ -87,7 +87,7 @@
                                 <input type="checkbox" class="detailSearch" division="10" style="margin-left: 10px;" id="dsH">
                                 <label for="dsH">기타 [${countMap.dsH}]</label>
                                 <input type="checkbox" class="detailSearch" style="margin-left: 10px;" id="dsI">
-                                <label for="dsI">임시직원 [${countMap.dsI}]</label>
+                                <label for="dsI">임시직원 [<span id="dsIText">${countMap.dsI}</span>]</label>
                                 <%--<input type="checkbox" class="detailSearch" division="9999" style="margin-left: 10px;" id="dsJ">--%>
                                 <input type="checkbox" class="detailSearch" division="9999" style="margin-left: 10px;" id="dsJ" onclick="uncheckOtherCheckboxes()">
                                 <label for="dsJ">퇴사직원</label>

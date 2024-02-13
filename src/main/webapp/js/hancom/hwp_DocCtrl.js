@@ -335,6 +335,14 @@ var hwpDocCtrl = {
                     hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
                     hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
 
+                    const userInfo = getUser(ResultData.EMP_SEQ);
+                    console.log(userInfo);
+                    if(userInfo.DIVISION == "1" && userInfo.DIVISION_SUB == "6"){
+                        hwpDocCtrl.putFieldText('positionName', "위촉직원");
+                    }else if(userInfo.DIVISION == "2"){
+                        hwpDocCtrl.putFieldText('positionName', "연수생");
+                    }
+
                     // 직무
                     hwpDocCtrl.putFieldText('jobTitle', ResultData.JOB_DETAIL);
 

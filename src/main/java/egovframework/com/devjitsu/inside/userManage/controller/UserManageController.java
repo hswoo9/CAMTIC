@@ -2280,5 +2280,11 @@ public class UserManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/userManage/getCountForDsI")
+    public String getCountForDsI(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", userManageService.getCountForDsI(params));
+        return "jsonView";
+    }
+
 
 }

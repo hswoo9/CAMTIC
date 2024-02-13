@@ -2947,8 +2947,31 @@
         SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 10 AND TEMP_DIVISION = 'N';
     </select>
 
-    <select id="getCountForDsI" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND TEMP_DIVISION = "Y" AND WORK_STATUS_CODE = 'Y';
+    <select id="getCountForDsI" resultType="int" parameterType="map">
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_HR.DJ_EMP_INFO AS HEI
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        WHERE
+            HEI.ACTIVE = 'Y'
+        AND TEMP_DIVISION = 'Y'
+        AND WORK_STATUS_CODE = 'Y'
+        <choose>
+            <when test='startDate != null and !"".equals(startDate)'>
+                <![CDATA[
+                AND
+                    DATE_FORMAT(#{startDate}, '%Y%m%d') >= DATE_FORMAT(HEI.JOIN_DAY, '%Y%m%d')
+                ]]>
+            </when>
+            <otherwise>
+                <![CDATA[
+                AND
+                    DATE_FORMAT(NOW(), '%Y%m%d') >= DATE_FORMAT(HEI.JOIN_DAY, '%Y%m%d')
+                ]]>
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getCountForDsJ" resultType="int" parameterType="java.util.Map">

@@ -36,7 +36,9 @@
             HEI.EMAIL_ADDR,
             HEI.MOBILE_TEL_NUM,
             HEI.HOME_TEL_NUM,
-            HDI.DEPT_LEVEL
+            HDI.DEPT_LEVEL,
+            HEI.DIVISION,
+            HEI.DIVISION_SUB
         FROM
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN

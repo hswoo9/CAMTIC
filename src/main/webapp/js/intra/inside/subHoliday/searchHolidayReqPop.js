@@ -197,7 +197,7 @@ var searchHolidayReqPop = {
             $("#edtHolidayEndMinuteTop").data("kendoDropDownList").value(String(endMinute));
             $("#apprStat").val(dataItem.APPR_STAT);
             $("#vacUseHistId").val(dataItem.SUBHOLIDAY_USE_ID);
-            //여기야
+
             var diff = monthDiffEdtHolidayModal();
             var vacationMin = makeDateForm($("#edtHolidayStartHourTop").val() + ":" + $("#edtHolidayStartMinuteTop").val(), $("#edtHolidayEndHourTop").val() + ":" + $("#edtHolidayEndMinuteTop").val());
             if(parseInt($("#edtHolidayStartHourTop").val()) < 13){
