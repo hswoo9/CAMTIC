@@ -724,6 +724,13 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/getPurcClaimDocFile")
+    public String getPurcClaimDocFile(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = purcService.getPurcClaimDocFile(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     @RequestMapping("/purc/pop/appUserPaySetting.do")
     public String appUserPaySetting(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
 

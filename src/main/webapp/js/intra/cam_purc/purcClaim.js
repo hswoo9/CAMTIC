@@ -168,9 +168,15 @@ var purcClaim = {
                     width: 100,
                     template: function (e){
                         if(e.STATUS == 100){
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
-                                '	<span class="k-button-text">발주처리</span>' +
-                                '</button>';
+                            if(e.GOODS_DT == null || e.GOODS_DT == ""){
+                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
+                                    '	<span class="k-button-text">발주처리</span>' +
+                                    '</button>';
+                            } else {
+                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
+                                    '	<span class="k-button-text">발주처리</span>' +
+                                    '</button>';
+                            }
                         } else{
                             return ""
                         }

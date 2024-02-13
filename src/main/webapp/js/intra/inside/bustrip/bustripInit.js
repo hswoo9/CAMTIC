@@ -322,7 +322,7 @@ var bustripInit = {
                     html += '   </td>';
                     html += '   <td>';
                     html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
-                        '			<span class="k-button-text">삭제1</span>' +
+                        '			<span class="k-button-text">삭제</span>' +
                         '		</button>';
                     html += '   </td>';
                     html += '</tr>';

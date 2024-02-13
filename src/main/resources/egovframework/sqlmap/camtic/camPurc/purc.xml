@@ -1271,6 +1271,21 @@
             FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_MNG_PURC_FILE WHERE PURC_SN = #{purcSn})
     </select>
 
+    <select id="getPurcClaimDocId" parameterType="map" resultType="map">
+        /*getPurcClaimDocId*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD IN ('purc', 'claim')
+        AND
+            DOC_ID IN
+        <foreach collection="docIdArr" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
     <select id="getClaimMngList" parameterType="map" resultType="map">
         /*getClaimMngList*/
         SELECT
