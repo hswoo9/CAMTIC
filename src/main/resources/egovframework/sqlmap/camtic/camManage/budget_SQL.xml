@@ -260,4 +260,34 @@
         WHERE
             PJT_BUDGET_SN IN (${bItemArr})
     </delete>
+
+    <select id="getBudgetDetR" parameterType="map" resultType="map">
+        /*getBudgetDetR*/
+        SELECT
+            A.*,
+            IFNULL((SELECT TOT_COST FROM cam_mng.dj_exnp_det WHERE PJT_BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+        FROM
+            (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
+             UNION ALL
+             SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_B) A
+        WHERE
+            A.BS_YEAR = #{baseYear}
+          AND
+            A.PJT_CLASS = 'R'
+    </select>
+
+    <select id="getBudgetDetM" parameterType="map" resultType="map">
+        /*getBudgetDetM*/
+        SELECT
+            A.*,
+            IFNULL((SELECT TOT_COST FROM cam_mng.dj_exnp_det WHERE PJT_BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+        FROM
+            (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
+             UNION ALL
+             SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_B) A
+        WHERE
+            A.BS_YEAR = #{baseYear}
+          AND
+            A.PJT_CLASS = 'M'
+    </select>
 </mapper>

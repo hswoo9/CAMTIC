@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -161,6 +162,18 @@ public class BudgetController {
         model.addAttribute("listA", listA);
         model.addAttribute("listB", listB);
 
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/budget/getBudgetDetail")
+    public String getBudgetDetail(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        map = budgetService.getBudgetDetail(params);
+
+        model.addAttribute("rs", map);
 
         return "jsonView";
     }

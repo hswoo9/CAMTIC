@@ -10,10 +10,11 @@ var bdgPreCon = {
 
         $("#baseYear").change(function (){
             bdgPreCon.fn_calcBudgetPreCondition();
+            bdgPreCon.fn_calcBudgetDetail();
         });
 
         bdgPreCon.fn_calcBudgetPreCondition();
-
+        bdgPreCon.fn_calcBudgetDetail();
     },
 
     fn_calcBudgetPreCondition : function (){
@@ -111,6 +112,16 @@ var bdgPreCon = {
         $("#sumB1").text(comma(sumB1));
         $("#sumB2").text(comma(sumB2));
         $("#sumB3").text(comma(sumB3));
+    },
+
+    fn_calcBudgetDetail : function(){
+        var data = {
+            baseYear : $("#baseYear").val()
+        }
+
+        var result = customKendo.fn_customAjax("/budget/getBudgetDetail", data);
+
+        console.log(result);
     },
 
 

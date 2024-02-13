@@ -94,4 +94,14 @@ public class BudgetRepository extends AbstractDAO {
 
         delete("budget.delPjtBudgetB", params);
     }
+
+    public List<Map<String, Object>> getBudgetDetR(Map<String, Object> params) {
+
+        return selectList("budget.getBudgetDetR", params);
+    }
+
+    public List<Map<String, Object>> getBudgetDetM(Map<String, Object> params) {
+
+        return selectList("budget.getBudgetDetM", params);
+    }
 }

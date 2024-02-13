@@ -21,4 +21,6 @@ public interface BudgetService {
     List<Map<String, Object>> getPreConditionB(Map<String, Object> params);
 
     void delPjtBudgetItem(Map<String, Object> params);
+
+    Map<String, Object> getBudgetDetail(Map<String, Object> params);
 }

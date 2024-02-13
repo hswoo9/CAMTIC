@@ -201,4 +201,17 @@ public class BudgetServiceImpl implements BudgetService {
     public List<Map<String, Object>> getPreConditionB(Map<String, Object> params) {
         return budgetRepository.getPreConditionB(params);
     }
+
+    @Override
+    public Map<String, Object> getBudgetDetail(Map<String, Object> params) {
+
+        Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> rList = budgetRepository.getBudgetDetR(params);
+        List<Map<String, Object>> mList = budgetRepository.getBudgetDetM(params);
+
+        result.put("rList", rList);
+        result.put("mList", mList);
+
+        return result;
+    }
 }

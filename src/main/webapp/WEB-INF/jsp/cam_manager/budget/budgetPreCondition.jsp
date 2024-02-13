@@ -12,6 +12,10 @@
         text-decoration: underline !important;
         cursor: pointer;
     }
+
+    .table > tbody + tbody {
+        border-top: none !important;
+    }
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
@@ -136,81 +140,95 @@
                 <table class="totalTable table table-bordered" style="margin-bottom: 0px; text-align: center">
                     <thead>
                     <colgroup>
-                        <col width="22%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
-                        <col width="13%">
+                        <col width="11%">
+                        <col width="9%">
+                        <col width="9%">
+                        <col width="9%">
+                        <col width="9%">
+                        <col width="9%">
+                        <col width="9%">
+                        <col width="9%">
+                        <col width="9%">
+                        <col width="9%">
+                        <col width="9%">
                     </colgroup>
                     <tr style="color : white ; background-color: #698bb4;">
                         <td rowspan="2"><b>사업구분</b></td>
-                        <td colspan="3"><b>세입</b></td>
-                        <td colspan="3"><b>세출</b></td>
+                        <td colspan="5"><b>세입예산</b></td>
+                        <td colspan="5"><b>세출예산</b></td>
                     </tr>
                     <tr style="color : black ; background-color: #f0f6ff;">
-                        <td style="text-align: center;"><b>예산</b></td>
-                        <td style="text-align: center;"><b>결산</b></td>
-                        <td style="text-align: center;"><b>잔액</b></td>
-                        <td style="text-align: center;"><b>예산</b></td>
-                        <td style="text-align: center;"><b>결산</b></td>
-                        <td style="text-align: center;"><b>잔액</b></td>
+                        <td style="text-align: center;"><b>장</b></td>
+                        <td style="text-align: center;"><b>관</b></td>
+                        <td style="text-align: center;"><b>항</b></td>
+                        <td style="text-align: center;"><b>예산액</b></td>
+                        <td style="text-align: center;"><b>결산액</b></td>
+                        <td style="text-align: center;"><b>장</b></td>
+                        <td style="text-align: center;"><b>관</b></td>
+                        <td style="text-align: center;"><b>항</b></td>
+                        <td style="text-align: center;"><b>예산액</b></td>
+                        <td style="text-align: center;"><b>결산액</b></td>
                     </tr>
                     <tr>
-                        <td style="text-align: center; background-color: #FFFFFF"><b>R&D</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="RA1">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="RA2">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="RA3">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="RB1">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="RB2">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="RB3">0</span></td>
+                        <td style="text-align: center; background-color: #f0f6ff;"><b>R&D</b></td>
+                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="ARP">0</span></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="ARM">0</span></td>
+                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="BRP">0</span></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="BRM">0</span></td>
                     </tr>
+                    <tbody id="rBody">
+
+                    </tbody>
                     <tr>
-                        <td style="text-align: center; background-color: #FFFFFF"><b>비R&D</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="SA1">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="SA2">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="SA3">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="SB1">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="SB2">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="SB3">0</span></td>
+                        <td style="text-align: center; background-color: #f0f6ff;"><b>비R&D</b></td>
+                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="ASP">0</span></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="ASM">0</span></td>
+                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="BSP">0</span></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="BSM">0</span></td>
                     </tr>
+                    <tbody id="sBody">
+
+                    </tbody>
                     <tr>
-                        <td style="text-align: center; background-color: #FFFFFF"><b>법인운영</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="MA1">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="MA2">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="MA3">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="MB1">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="MB2">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="MB3">0</span></td>
+                        <td style="text-align: center; background-color: #f0f6ff;"><b>법인운영</b></td>
+                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="AMP">0</span></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="AMM">0</span></td>
+                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="BMP">0</span></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="BMM">0</span></td>
                     </tr>
+                    <tbody id="mBody">
+
+                    </tbody>
                     <tr>
-                        <td style="text-align: center; background-color: #FFFFFF"><b>엔지니어링</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="DA1">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="DA2">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="DA3">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="DB1">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="DB2">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="DB3">0</span></td>
+                        <td style="text-align: center; background-color: #f0f6ff;"><b>엔지니어링</b></td>
+                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="ADP">0</span></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="ADM">0</span></td>
+                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="BDP">0</span></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="BDM">0</span></td>
                     </tr>
+                    <tbody id="dBody">
+
+                    </tbody>
                     <tr>
-                        <td style="text-align: center; background-color: #FFFFFF"><b>용역/기타</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="VA1">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="VA2">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="VA3">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="VB1">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="VB2">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="VB3">0</span></td>
+                        <td style="text-align: center; background-color: #f0f6ff;"><b>용역/기타</b></td>
+                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="AVP">0</span></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="AVM">0</span></td>
+                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="BVP">0</span></td>
+                        <td style="text-align: right; background-color: #FFFFFF"><span id="BVM">0</span></td>
                     </tr>
-                    <tr>
-                        <td style="text-align: center; background-color: #f0f6ff"><b>합계</b></td>
-                        <td style="text-align: right; background-color: #f0f6ff"><b><span id="sumA1">0</span></b></td>
-                        <td style="text-align: right; background-color: #f0f6ff"><b><span id="sumA2">0</span></b></td>
-                        <td style="text-align: right; background-color: #f0f6ff"><b><span id="sumA3">0</span></b></td>
-                        <td style="text-align: right; background-color: #f0f6ff"><b><span id="sumB1">0</span></b></td>
-                        <td style="text-align: right; background-color: #f0f6ff"><b><span id="sumB2">0</span></b></td>
-                        <td style="text-align: right; background-color: #f0f6ff"><b><span id="sumB3">0</span></b></td>
-                    </tr>
+                    <tbody id="vBody">
+
+                    </tbody>
                     </thead>
                 </table>
             </div>
