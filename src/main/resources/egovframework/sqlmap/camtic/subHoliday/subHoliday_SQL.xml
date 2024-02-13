@@ -243,7 +243,7 @@
                 DATE_FORMAT(#{endDate}, '%Y-%m-%d') >= DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d')
             ]]>
         </if>
-        ORDER BY REG_DATE DESC
+        ORDER BY SUBHOLIDAY_ST_DT DESC
     </select>
 
     <select id="getVacUseHistoryOne" resultType="map" parameterType="map">

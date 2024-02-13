@@ -627,19 +627,14 @@ const historyReq = {
         });
          */
 
-            $(".afDuty").kendoDropDownList({
-                dataTextField: "text",
-                dataValueField: "value",
-                dataSource: [
-                    {text: "해당없음", value: ""},
-                    {text: "원장", value: "1"},
-                    {text: "본부장", value: "2"},
-                    {text: "사업부장", value: "3"},
-                    {text: "센터장", value: "4"},
-                    {text: "팀장", value: "5"}
-                ]
-            });
+        var dropDownDataSource2 = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId : "3"});
+        dropDownDataSource2.unshift({"CM_CODE_NM" : "해당없음", "CM_CODE" : ""});
 
+        $(".afDuty").kendoDropDownList({
+            dataTextField: "CM_CODE_NM",
+            dataValueField: "CM_CODE",
+            dataSource: dropDownDataSource2
+        });
 
         $("#apntCdAll").kendoDropDownList({
             dataTextField: "text",
