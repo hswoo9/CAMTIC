@@ -165,7 +165,7 @@ var makeBudget = {
                     title: "변경이력",
                     width: 50,
                     template : function(e){
-                        return '<button type="button" class="k-button k-button-solid-base">변경이력</button>'
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="makeBudget.fn_budgetHistPop(\'' + e.BG_VAL + '\', ' + e.PJT_BUDGET_SN + ')">변경이력</button>'
                     }
                 }
             ],
@@ -264,6 +264,13 @@ var makeBudget = {
                 }
             }
         });
+    },
+
+    fn_budgetHistPop : function(type, key){
+        var url = "/budget/pop/budgetHistPop.do?type=" + type + "&key=" + key;
+        var name = "_blank";
+        var option = "width = 1000, height = 460, top = 100, left = 200, location = no";
+        var popup = window.open(url, name, option);
     }
 }
 

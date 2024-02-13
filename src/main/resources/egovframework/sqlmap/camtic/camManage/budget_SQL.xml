@@ -230,4 +230,24 @@
         WHERE
             PJT_BUDGET_SN IN (${bItemArr})
     </delete>
+
+    <select id="getPjtBudgetAHistList" parameterType="map" resultType="map">
+        /*getPjtBudgetAHistList*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_A_HIST
+        WHERE
+            PJT_BUDGET_SN = #{pjtBudgetSn}
+    </select>
+
+    <select id="getPjtBudgetBHistList" parameterType="map" resultType="map">
+        /*getPjtBudgetBHistList*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_B_HIST
+        WHERE
+            PJT_BUDGET_SN = #{pjtBudgetSn}
+    </select>
 </mapper>
