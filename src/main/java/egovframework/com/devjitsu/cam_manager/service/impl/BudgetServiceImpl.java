@@ -204,4 +204,14 @@ public class BudgetServiceImpl implements BudgetService {
 
         return result;
     }
+
+    @Override
+    public List<Map<String, Object>> getPreConditionA(Map<String, Object> params) {
+        return budgetRepository.getPreConditionA(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPreConditionB(Map<String, Object> params) {
+        return budgetRepository.getPreConditionB(params);
+    }
 }

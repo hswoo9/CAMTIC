@@ -147,4 +147,34 @@ public class BudgetController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+    @RequestMapping("/budget/budgetPreCondition.do")
+    public String budgetPreCondition(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/budget/budgetPreCondition";
+    }
+
+    @RequestMapping("/budget/getPreCondition")
+    public String getPreCondition(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        List<Map<String, Object>> listA = new ArrayList<>();
+        listA = budgetService.getPreConditionA(params);
+
+        List<Map<String, Object>> listB = new ArrayList<>();
+        listB = budgetService.getPreConditionB(params);
+
+        model.addAttribute("listA", listA);
+        model.addAttribute("listB", listB);
+
+
+        return "jsonView";
+    }
+
+
 }
