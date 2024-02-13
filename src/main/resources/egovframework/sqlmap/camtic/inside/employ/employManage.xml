@@ -87,7 +87,15 @@
                 HEI.WORK_STATUS_CODE = 'Y'
             AND
                 HEI.DEPT_SEQ IS NOT NULL
-        )A
+            AND
+                HEI.EMP_SEQ NOT IN (1,2)
+            AND
+                (
+                (HEI.DIVISION IN(0))
+                OR
+                (HEI.DIVISION IN(4) AND HEI.DIVISION_SUB IN(1,2))
+                )
+            )A
         ORDER BY SORT
     </select>
     <select id="getEmploymentInfo" parameterType="map" resultType="map">
