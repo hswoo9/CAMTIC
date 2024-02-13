@@ -109,13 +109,20 @@ var employmentManage = {
 					template: "#= --record #",
 					width: 50
                 }, {
-                    field: "DEPT_NAME",
+                    field: "parentDeptName",
                     title: "근무부서",
 					width : 180
                 }, {
-                    field: "DEPT_TEAM_NAME",
+                    field: "DEPT_NAME",
                     title: "팀",
-					width : 180
+					width : 180,
+					template : function (e){
+						if(e.parentDeptName == e.DEPT_NAME){
+							return "";
+						}else{
+							return e.DEPT_NAME;
+						}
+					}
                 }, {
                     field: "POSITION_NAME",
                     title: "직위",
@@ -237,7 +244,7 @@ var employmentManage = {
 			start: "month",
 			culture : "ko-KR",
 			format : "yyyy-MM-dd",
-			value : new Date()
+			value : new Date('2024-12-31')
 		});
 
 		$("#status").kendoDropDownList({

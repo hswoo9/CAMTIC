@@ -10,12 +10,12 @@
             EC.EMP_SEQ,
             EC.EMP_NAME,
             EC.DEPT_SEQ,
-            EI.DEPT_NAME,
-            EI.DEPT_TEAM_NAME,
-            EI.POSITION_NAME,
+            EC.DEPT_NAME,
+            EC.POSITION_NAME,
             EC.SALARY_CONTRACT_REQ_DT,
             EC.SEND_YN,
-            EC.FLAG
+            EC.FLAG,
+            (CASE WHEN EC.dept_seq = 1000 then EC.dept_name when DI.parent_dept_seq = 1000 then DI.dept_name ELSE DI2.dept_name end) AS parentDeptName
         FROM
             CAM_INSIDE.DJ_EMPLOYMENT_CONTRACT EC
         JOIN
@@ -24,6 +24,9 @@
         JOIN
             CAM_HR.DJ_DEPT_INFO DI
         ON EC.DEPT_SEQ = DI.DEPT_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO DI2
+        ON DI.parent_dept_seq = DI2.DEPT_SEQ
         WHERE
             EC.ACTIVE = 'Y'
         <if test='startDate != null and !"".equals(startDate)'>
@@ -72,7 +75,7 @@
                 HEI.EMP_NAME_KR,
                 HEI.DEPT_SEQ,
                 IF(HEI.EMP_SEQ = '32', '캠틱종합기술원', IF(HEI.DEPT_TEAM_NAME = '' OR HEI.DEPT_TEAM_NAME IS NULL, HEI.DEPT_NAME, HEI.DEPT_TEAM_NAME)) AS DEPT_NAME,
-                IF(HEI.EMP_SEQ = '32', '원장', HEI.POSITION_NAME) AS POSITION_NAME,
+                IF(HEI.EMP_SEQ = '32', '원장', IF(HEI.DUTY_NAME = '',HEI.POSITION_NAME, HEI.DUTY_NAME)) AS POSITION_NAME,
                 IF(HEI.EMP_SEQ = '32', 0, IFNULL((SELECT SORT FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 4 AND TRIM(SUBSTRING_INDEX(CM_CODE_NM, '/', 1)) = HEI.POSITION_NAME), 999)) AS SORT
             FROM
                 CAM_HR.DJ_EMP_INFO	AS HEI
@@ -95,6 +98,7 @@
             EI.EMP_NAME_KR,
             EC.DEPT_SEQ,
             EI.DEPT_NAME,
+            EC.DEPT_NAME AS NEW_DEPT_NAME,
             CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, 'KR') AS DEPT_NAME2,
             EI.DEPT_TEAM_NAME,
             EC.POSITION_NAME,
