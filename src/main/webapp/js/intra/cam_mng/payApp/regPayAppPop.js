@@ -255,6 +255,9 @@ var regPay = {
             var fileList = fileResult.listMap;
             var fileThumbText = "";
 
+            // 구매요청서, 구매청구서 결재문서 포함
+            var purcClaimDocFiles = customKendo.fn_customAjax("/purc/getPurcClaimDocFile", data).list;
+            fileList = fileList.concat(purcClaimDocFiles);
 
             for(let i=0; i<fileList.length; i++){
                 if(fileThumbText != ""){

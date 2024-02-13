@@ -262,7 +262,7 @@ const appUserPaySetting = {
                 html += '   </td>';
                 if($("#type").val() != "exnp"){
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제1" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="appUserPaySetting.fnUploadFile(' + i + ')">'
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="appUserPaySetting.fnUploadFile(' + i + ')">'
                     html += '   </td>';
                 }
                 html += '</tr>';
@@ -311,7 +311,7 @@ const appUserPaySetting = {
                 html += '   </td>';
                 if($("#type").val() != "exnp"){
                     html += '   <td>';
-                    html += '       <input type="button" value="삭제2" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="appUserPaySetting.fnUploadFile(' + i + ')">';
+                    html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="appUserPaySetting.fnUploadFile(' + i + ')">';
                     html += '   </td>';
                 }
                 html += '</tr>';

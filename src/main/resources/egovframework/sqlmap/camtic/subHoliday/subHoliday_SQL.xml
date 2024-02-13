@@ -354,7 +354,7 @@
             VC.use_day,
             (
                 (
-                    VC.grant_day + VC.comp_vac
+                    VC.grant_day
                 )
                 -
                 (
@@ -372,6 +372,14 @@
                 WHEN VUH.subholiday_code_id = 4  AND APPR_STAT = 'Y' THEN 0.5
                 ELSE 0
                 END)
+                +
+                (SELECT IFNULL(USE_DAY, 0) FROM CAM_INSIDE.DJ_HOLIDAY VC WHERE VC.EMP_SEQ = VUI.EMP_SEQ AND VC.APPLY_YEAR = (${holidayYear} -1))
+                +
+                (CASE
+                   WHEN VC.GRANT_DAY = 0
+                    THEN IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND LEFT(APPLY_DATE, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0)
+                     ELSE 0
+                END)
                 )
             ) AS REMAIN_VAC,
             VC.active,
@@ -379,7 +387,16 @@
             VC.comp_vac,
             VC.grant_day + VC.comp_vac AS total_vacation,
             VUH.apply_date,
-            IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND LEFT(APPLY_DATE, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0) AS befUseDay,
+            ((CASE
+                WHEN
+                    VC.GRANT_DAY = 0
+                THEN
+                    IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND LEFT(APPLY_DATE, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0)
+                ELSE
+                    0
+            END)
+            +
+            IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE ACTIVE = 'Y' AND EMP_SEQ = VUI.EMP_SEQ AND APPLY_YEAR = (${holidayYear} -1)), 0)) AS befUseDay,
             IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE apply_date = #{bef2Year} AND EMP_SEQ = VUI.EMP_SEQ), 0) AS bef2UseDay,
             CASE WHEN VUI.DUTY_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 3 AND CM_CODE = VUI.DUTY_CODE)
             WHEN VUI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = VUI.POSITION_CODE)
@@ -528,8 +545,18 @@
     <select id="getUserBefHolyData" parameterType="map" resultType="map">
         /* getUserBefHolyData */
         SELECT
+            ((CASE
+                WHEN
+                    DH.GRANT_DAY = 0
+                THEN
+                    IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE ACTIVE = 'Y' AND LEFT(APPLY_DATE, 4) = (${year} -1) AND SUBHOLIDAY_CODE_ID IN ( 1, 3, 4 ) AND APPLY_SEQ = DH.EMP_SEQ), 0)
+                ELSE
+                    0
+            END)
+            +
+            IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE ACTIVE = "Y" AND EMP_SEQ = #{loginEmpSeq} AND APPLY_YEAR = (${year} -1)), 0)
+            ) AS befYear,
             IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{befYear} AND DH.EMP_SEQ = EMP_SEQ), 0) AS befYear,
-            IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{befYear2} and DH.EMP_SEQ = EMP_SEQ), 0) AS bef2Year,
             IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID = 1 AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS ann,
             IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (3,4) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS halfAnn,
             IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (5) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS sickLv,
