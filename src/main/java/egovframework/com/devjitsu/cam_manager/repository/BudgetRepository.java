@@ -74,4 +74,24 @@ public class BudgetRepository extends AbstractDAO {
 
         insert("budget.insBudgetBHist", params);
     }
+
+    public List<Map<String, Object>> getPreConditionA(Map<String, Object> params) {
+
+        return selectList("budget.getPreConditionA", params);
+    }
+
+    public List<Map<String, Object>> getPreConditionB(Map<String, Object> params) {
+
+        return selectList("budget.getPreConditionB", params);
+    }
+
+    public void delPjtBudgetA(Map<String, Object> params) {
+
+        delete("budget.delPjtBudgetA", params);
+    }
+
+    public void delPjtBudgetB(Map<String, Object> params) {
+
+        delete("budget.delPjtBudgetB", params);
+    }
 }

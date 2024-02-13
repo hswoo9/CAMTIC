@@ -73,6 +73,7 @@
                 GWAN_NM,
                 HANG_CD,
                 HANG_NM,
+                BUDGET_AMT,
                 CD_REG_DE,
                 REG_EMP_SEQ
             )
@@ -86,6 +87,7 @@
                 #{gwan},
                 #{hangCd},
                 #{hang},
+                #{budgetAmt},
                 #{regDt},
                 #{regEmpSeq}
             )
@@ -213,4 +215,49 @@
         (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_B WHERE PJT_BUDGET_SN = #{pjtBudgetSn})
     </insert>
 
+    <select id="getPreConditionA" parameterType="map" resultType="map">
+        /*getPreConditionA*/
+        SELECT
+            A.BG_VAL,
+            A.PJT_CLASS,
+            IFNULL(SUM(BUDGET_AMT), 0) AS SUM_BUDGET_AMT,
+            IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD) AND EXNP_STAT = 'Y'),0) AS SUM_EXNP_AMT,
+            IFNULL(IFNULL(SUM(BUDGET_AMT), 0) - IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD) AND EXNP_STAT = 'Y'),0),0) AS BUDGET_AMT
+        FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_A A
+        WHERE
+            A.BS_YEAR = #{baseYear}
+        GROUP BY PJT_CLASS
+    </select>
+
+    <select id="getPreConditionB" parameterType="map" resultType="map">
+        /*getPreConditionB*/
+        SELECT
+            A.BG_VAL,
+            A.PJT_CLASS,
+            IFNULL(SUM(BUDGET_AMT), 0) AS SUM_BUDGET_AMT,
+            IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD) AND EXNP_STAT = 'Y'),0) AS SUM_EXNP_AMT,
+            IFNULL(IFNULL(SUM(BUDGET_AMT), 0) - IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD) AND EXNP_STAT = 'Y'),0),0) AS BUDGET_AMT
+        FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_B A
+        WHERE
+            A.BS_YEAR = #{baseYear}
+        GROUP BY PJT_CLASS
+    </select>
+
+    <delete id="delPjtBudgetA" parameterType="map">
+        /*delPjtBudgetA*/
+        DELETE FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_A
+        WHERE
+            PJT_BUDGET_SN IN (${aItemArr})
+    </delete>
+
+    <delete id="delPjtBudgetB" parameterType="map">
+        /*delPjtBudgetB*/
+        DELETE FROM
+            CAM_PJT_MNG.DJ_PJT_BUDGET_B
+        WHERE
+            PJT_BUDGET_SN IN (${bItemArr})
+    </delete>
 </mapper>

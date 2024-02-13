@@ -51,11 +51,11 @@ var employmentReq = {
                     template: "#= --record #",
                     width: 50
                 }, {
-                    field: "DEPT_NAME",
+                    field: "parentDeptName",
                     title: "근무부서",
                     width : 180
                 }, {
-                    field: "DEPT_TEAM_NAME",
+                    field: "DEPT_NAME",
                     title: "팀",
                     width : 180
                 }, {

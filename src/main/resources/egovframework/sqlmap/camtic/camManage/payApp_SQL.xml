@@ -1792,6 +1792,16 @@
         OR FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn})
     </select>
 
+    <select id="getPayAppDocFileList" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE 1=1
+        AND FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'payApp' AND DOC_ID IN (select doc_id from cam_mng.dj_pay_app where pay_app_sn = #{payAppSn}))
+        OR FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'exnp' AND DOC_ID = #{exnpDocId})
+    </select>
+
     <delete id="delPayAppFileList" parameterType="map">
         /* delPayAppFileList */
         DELETE FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}

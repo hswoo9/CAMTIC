@@ -99,8 +99,8 @@ var regExnpRe = {
         $("#payAppBtnDiv").html(buttonHtml);
     },
 
-    fn_regExnpInPop : function(payAppSn){
-        var url = "/payApp/pop/regExnpPop.do?payAppSn=" + payAppSn + "&status=in";
+    fn_regExnpInPop : function(payAppSn, exnpSn){
+        var url = "/payApp/pop/regExnpPop.do?payAppSn=" + payAppSn + "&exnpSn=" + exnpSn + "&status=in";
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
@@ -128,6 +128,18 @@ var regExnpRe = {
             fileThumbText += "." + fileList[i].file_ext;
         }
 
+        // 지급/지출 양식 첨부 추가
+        var result2 = customKendo.fn_customAjax("/payApp/pop/getExnpDocData", data);
+        var fileList2 = result2.fileList;
+        for(let i=0; i<fileList2.length; i++){
+            if(fileThumbText != ""){
+                fileThumbText += " | ";
+            }
+            fileThumbText += fileList2[i].file_org_name;
+            fileThumbText += "." + fileList2[i].file_ext;
+
+            regExnpRe.global.fileArray.push(fileList2[i]);
+        }
         $("#fileText").text(fileThumbText);
 
         if($("#exnpSn").val() != ""){

@@ -39,14 +39,15 @@ public class BudgetServiceImpl implements BudgetService {
                 if(params.get("type").equals("M")){
                     params.put("pjtBudgetSn", item.get("pjtBudgetSn"));
                 }
+
+                if(params.get("type").equals("M") && !params.get("pjtBudgetSn").equals("")){
+                    budgetRepository.insBudgetAHist(params);
+                    budgetRepository.updBudgetAData(params);
+                } else {
+                    budgetRepository.insBudgetAData(params);
+                }
             }
 
-            if(params.get("type").equals("M")){
-                budgetRepository.insBudgetAHist(params);
-                budgetRepository.updBudgetAData(params);
-            } else {
-                budgetRepository.insBudgetAData(params);
-            }
 
         }
 
@@ -63,14 +64,15 @@ public class BudgetServiceImpl implements BudgetService {
                 if(params.get("type").equals("M")){
                     params.put("pjtBudgetSn", item.get("pjtBudgetSn"));
                 }
+
+                if(params.get("type").equals("M") && !params.get("pjtBudgetSn").equals("")){
+                    budgetRepository.insBudgetBHist(params);
+                    budgetRepository.updBudgetBData(params);
+                } else {
+                    budgetRepository.insBudgetBData(params);
+                }
             }
 
-            if(params.get("type").equals("M")){
-                budgetRepository.insBudgetBHist(params);
-                budgetRepository.updBudgetBData(params);
-            } else {
-                budgetRepository.insBudgetBData(params);
-            }
         }
     }
 
@@ -88,18 +90,20 @@ public class BudgetServiceImpl implements BudgetService {
 
         if(params.get("aBg").equals("Y")) {
             for(Map<String, Object> item : aList) {
-                params.put("jang", item.get("jang"));
-                params.put("gwan", item.get("gwan"));
-                params.put("hang", item.get("hang"));
-                params.put("jangCd", item.get("jangCd"));
-                params.put("gwanCd", item.get("gwanCd"));
-                params.put("hangCd", item.get("hangCd"));
-                params.put("budgetAmt", item.get("budgetAmt"));
-
                 int cnt = 0;
-                cnt = budgetRepository.getBudgetACdCheck(params);
+                if(item.get("pjtBudgetSn") == null || item.get("pjtBudgetSn").equals("")){
+                    params.put("jang", item.get("jang"));
+                    params.put("gwan", item.get("gwan"));
+                    params.put("hang", item.get("hang"));
+                    params.put("jangCd", item.get("jangCd"));
+                    params.put("gwanCd", item.get("gwanCd"));
+                    params.put("hangCd", item.get("hangCd"));
+                    params.put("budgetAmt", item.get("budgetAmt"));
 
-                if(cnt > 1){
+                    cnt = budgetRepository.getBudgetACdCheck(params);
+                }
+
+                if(cnt > 0){
                     return cnt;
                 }
             }
@@ -107,18 +111,20 @@ public class BudgetServiceImpl implements BudgetService {
 
         if(params.get("bBg").equals("Y")) {
             for(Map<String, Object> item : bList) {
-                params.put("jang", item.get("jang"));
-                params.put("gwan", item.get("gwan"));
-                params.put("hang", item.get("hang"));
-                params.put("jangCd", item.get("jangCd"));
-                params.put("gwanCd", item.get("gwanCd"));
-                params.put("hangCd", item.get("hangCd"));
-                params.put("budgetAmt", item.get("budgetAmt"));
-
                 int cnt = 0;
-                cnt = budgetRepository.getBudgetBCdCheck(params);
+                if(item.get("pjtBudgetSn") == null || item.get("pjtBudgetSn").equals("")){
+                    params.put("jang", item.get("jang"));
+                    params.put("gwan", item.get("gwan"));
+                    params.put("hang", item.get("hang"));
+                    params.put("jangCd", item.get("jangCd"));
+                    params.put("gwanCd", item.get("gwanCd"));
+                    params.put("hangCd", item.get("hangCd"));
+                    params.put("budgetAmt", item.get("budgetAmt"));
 
-                if(cnt > 1){
+                    cnt = budgetRepository.getBudgetBCdCheck(params);
+                }
+
+                if(cnt > 0){
                     return cnt;
                 }
             }
@@ -161,5 +167,38 @@ public class BudgetServiceImpl implements BudgetService {
         }
 
         return list;
+    }
+
+    @Override
+    public void delPjtBudgetItem(Map<String, Object> params) {
+        Gson gson = new Gson();
+
+//        List<Map<String, Object>> aList = gson.fromJson((String) params.get("aItemArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+//        List<Map<String, Object>> bList = gson.fromJson((String) params.get("bItemArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+//        if(aList.size() > 0) {
+//            for(Map<String, Object> item : aList) {
+//                params.put("pjtBudgetSn", item.get("pjtBudgetSn"));
+//                budgetRepository.delPjtBudgetItem(params);
+//            }
+//        }
+
+        if(!params.get("aItemArr").equals("")){
+            budgetRepository.delPjtBudgetA(params);
+        }
+
+        if(!params.get("bItemArr").equals("")){
+            budgetRepository.delPjtBudgetB(params);
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> getPreConditionA(Map<String, Object> params) {
+        return budgetRepository.getPreConditionA(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPreConditionB(Map<String, Object> params) {
+        return budgetRepository.getPreConditionB(params);
     }
 }

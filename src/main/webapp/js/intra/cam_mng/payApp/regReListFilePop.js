@@ -146,11 +146,18 @@ const regReListFilePop = {
             exnpSn : $("#exnpSn").val()
         }
 
-        var fileResult = customKendo.fn_customAjax("/pay/payExnpFileList", data)
-
-        console.log(fileResult);
-
+        var fileResult = customKendo.fn_customAjax("/pay/payExnpFileList", data);
         regReListFilePop.global.fileArray = fileResult.listMap;
+
+        // 지급/지출 양식 첨부 추가
+        var result2 = customKendo.fn_customAjax("/payApp/pop/getExnpDocData", data);
+        var fileList2 = result2.fileList;
+        if(fileList2.length > 0 && fileList2 != null){
+            for(let i=0; i<fileList2.length; i++){
+                regReListFilePop.global.fileArray.push(fileList2[i]);
+            }
+        }
+
         fileArray = regReListFilePop.global.fileArray;
         let size = 0;
         if(fileArray.length > 0){

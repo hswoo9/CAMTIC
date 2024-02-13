@@ -101,7 +101,7 @@ public class BudgetController {
         try{
             int duplCnt = budgetService.getBudgetCdDuplCnt(params);
 
-            if(duplCnt > 1){
+            if(duplCnt > 0){
                 model.addAttribute("code", 303);
                 model.addAttribute("msg", "이미 등록된 예산항목이 있습니다.");
 
@@ -124,6 +124,43 @@ public class BudgetController {
         List<Map<String, Object>> list = new ArrayList<>();
         list = budgetService.getBudgets(params);
         model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/budget/delPjtBudgetItem")
+    public String delBudgetItem(@RequestParam Map<String, Object> params, Model model) {
+        budgetService.delPjtBudgetItem(params);
+        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/budget/budgetPreCondition.do")
+    public String budgetPreCondition(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/budget/budgetPreCondition";
+    }
+
+    @RequestMapping("/budget/getPreCondition")
+    public String getPreCondition(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        List<Map<String, Object>> listA = new ArrayList<>();
+        listA = budgetService.getPreConditionA(params);
+
+        List<Map<String, Object>> listB = new ArrayList<>();
+        listB = budgetService.getPreConditionB(params);
+
+        model.addAttribute("listA", listA);
+        model.addAttribute("listB", listB);
+
 
         return "jsonView";
     }
