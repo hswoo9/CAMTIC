@@ -169,7 +169,7 @@
                         </tr>
                         <tr>
                             <td>
-                                <input type="hidden" id="mPJtBudgetSn0" />
+                                <input type="hidden" id="mPjtBudgetSn0" />
                                 <input type="text" id="mJang0" value="" style="width: 80%">
                                 <input type="hidden" id="mJangCd0" value="" >
                                 <i class="k-i-plus k-icon" style="cursor: pointer" onclick="fn_budgetPop('A', 0, 'B')"></i>
@@ -472,6 +472,7 @@
                 itemParameters.gwanCd = $("#gwanCd" + i).val();
                 itemParameters.hangCd = $("#hangCd" + i).val();
                 itemParameters.budgetAmt = uncomma($("#budgetAmt" + i).val());
+                itemParameters.pjtClass = parameters.pjtClass;
 
                 if((itemParameters.jang == "" || itemParameters.gwan == "" || itemParameters.hang == "" || itemParameters.budgetAmt == "")) {
                     aFlag = false;
@@ -506,7 +507,7 @@
                 itemParameters.gwanCd = $("#mGwanCd" + i).val();
                 itemParameters.hangCd = $("#mHangCd" + i).val();
                 itemParameters.budgetAmt = uncomma($("#mBudgetAmt" + i).val());
-
+                itemParameters.pjtClass = parameters.pjtClass;
                 if((itemParameters.jang == "" || itemParameters.gwan == "" || itemParameters.hang == "" || itemParameters.budgetAmt == "")) {
                     bFlag = false;
                 }
@@ -582,14 +583,14 @@
 
                         aSum += item.BUDGET_AMT;
 
-                        $("#jang" + i).val(item.JANG_NM);
-                        $("#jangCd" + i).val(item.JANG_CD);
-                        $("#gwan" + i).val(item.GWAN_NM);
-                        $("#gwanCd" + i).val(item.GWAN_CD);
-                        $("#hang" + i).val(item.HANG_NM);
-                        $("#hangCd" + i).val(item.HANG_CD);
-                        $("#budgetAmt" + i).val(comma(item.BUDGET_AMT));
-                        $("#pjtBudgetSn" + i).val(item.PJT_BUDGET_SN);
+                        $("#jang" + aCnt).val(item.JANG_NM);
+                        $("#jangCd" + aCnt).val(item.JANG_CD);
+                        $("#gwan" + aCnt).val(item.GWAN_NM);
+                        $("#gwanCd" + aCnt).val(item.GWAN_CD);
+                        $("#hang" + aCnt).val(item.HANG_NM);
+                        $("#hangCd" + aCnt).val(item.HANG_CD);
+                        $("#budgetAmt" + aCnt).val(comma(item.BUDGET_AMT));
+                        $("#pjtBudgetSn" + aCnt).val(item.PJT_BUDGET_SN);
 
                         aCnt++;
                     }
@@ -601,17 +602,16 @@
 
                         bSum += item.BUDGET_AMT;
 
-                        $("#mJang" + i).val(item.JANG_NM);
-                        $("#mJangCd" + i).val(item.JANG_CD);
-                        $("#mGwan" + i).val(item.GWAN_NM);
-                        $("#mGwanCd" + i).val(item.GWAN_CD);
-                        $("#mHang" + i).val(item.HANG_NM);
-                        $("#mHangCd" + i).val(item.HANG_CD);
-                        $("#mBudgetAmt" + i).val(comma(item.BUDGET_AMT));
-                        $("#mPjtBudgetSn" + i).val(item.PJT_BUDGET_SN);
+                        $("#mJang" + bCnt).val(item.JANG_NM);
+                        $("#mJangCd" + bCnt).val(item.JANG_CD);
+                        $("#mGwan" + bCnt).val(item.GWAN_NM);
+                        $("#mGwanCd" + bCnt).val(item.GWAN_CD);
+                        $("#mHang" + bCnt).val(item.HANG_NM);
+                        $("#mHangCd" + bCnt).val(item.HANG_CD);
+                        $("#mBudgetAmt" + bCnt).val(comma(item.BUDGET_AMT));
+                        $("#mPjtBudgetSn" + bCnt).val(item.PJT_BUDGET_SN);
 
                         bCnt++;
-
                     }
 
 

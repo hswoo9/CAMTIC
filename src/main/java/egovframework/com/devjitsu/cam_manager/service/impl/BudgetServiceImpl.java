@@ -42,7 +42,8 @@ public class BudgetServiceImpl implements BudgetService {
             }
 
             if(params.get("type").equals("M")){
-                budgetRepository.updBudgetAData(aList);
+                budgetRepository.insBudgetAHist(params);
+                budgetRepository.updBudgetAData(params);
             } else {
                 budgetRepository.insBudgetAData(params);
             }
@@ -65,9 +66,10 @@ public class BudgetServiceImpl implements BudgetService {
             }
 
             if(params.get("type").equals("M")){
-                budgetRepository.updBudgetBData(bList);
+                budgetRepository.insBudgetBHist(params);
+                budgetRepository.updBudgetBData(params);
             } else {
-                budgetRepository.insBudgetBData(bList);
+                budgetRepository.insBudgetBData(params);
             }
         }
     }
@@ -120,7 +122,6 @@ public class BudgetServiceImpl implements BudgetService {
                     return cnt;
                 }
             }
-            budgetRepository.insBudgetBData(bList);
         }
 
 
