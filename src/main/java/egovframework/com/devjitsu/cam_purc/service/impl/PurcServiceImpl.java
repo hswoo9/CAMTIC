@@ -717,6 +717,24 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
+    public List<Map<String, Object>> getPurcClaimDocFile(Map<String, Object> params) {
+
+        List<String> docIdArr = new ArrayList<>();
+        if(params.containsKey("purcSn")){
+            Map<String, Object> purcInfo = purcRepository.getPurcReq(params);
+            docIdArr.add(purcInfo.get("DOC_ID").toString());
+        }
+        if(params.containsKey("claimSn")){
+            Map<String, Object> claimInfo = purcRepository.getClaimData(params);
+            docIdArr.add(claimInfo.get("DOC_ID").toString());
+        }
+
+        params.put("docIdArr", docIdArr);
+
+        return purcRepository.getPurcClaimDocId(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getClaimMngList(Map<String, Object> params) {
 
         String[] claimSnArr = params.get("itemArray").toString().split(",");
