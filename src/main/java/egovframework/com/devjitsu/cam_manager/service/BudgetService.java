@@ -23,4 +23,6 @@ public interface BudgetService {
     void delPjtBudgetItem(Map<String, Object> params);
 
     Map<String, Object> getBudgetDetail(Map<String, Object> params);
+
+    List<Map<String, Object>> getPjtBudgetHistList(Map<String, Object> params);
 }

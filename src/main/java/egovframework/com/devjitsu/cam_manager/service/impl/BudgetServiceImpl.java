@@ -193,6 +193,19 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
+    public List<Map<String, Object>> getPjtBudgetHistList(Map<String, Object> params) {
+        List<Map<String, Object>> result = new ArrayList<>();
+
+        if(params.get("pjtBudgetType").equals("A")){
+            result = budgetRepository.getPjtBudgetAHistList(params);
+        } else if(params.get("pjtBudgetType").equals("B")){
+            result = budgetRepository.getPjtBudgetBHistList(params);
+        }
+
+        return result;
+    }
+
+    @Override
     public List<Map<String, Object>> getPreConditionA(Map<String, Object> params) {
         return budgetRepository.getPreConditionA(params);
     }

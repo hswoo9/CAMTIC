@@ -358,12 +358,27 @@ public class PurcServiceImpl implements PurcService {
                         purcFile.add(tempMap);
                     }
                 }
+
                 searchMap.put("contentId", "purcClaim_" + params.get("claimSn"));
                 if(purcRepository.getPurcReqFileList(searchMap) != null){
                     for(Map<String, Object> tempMap : purcRepository.getPurcReqFileList(searchMap)){
                         purcFile.add(tempMap);
                     }
                 }
+
+                // 결재문서
+                List<String> docIdArr = new ArrayList<>();
+                map.put("purcSn", map.get("PURC_SN"));
+
+                Map<String, Object> purcInfo = purcRepository.getPurcReq(map);
+                docIdArr.add(purcInfo.get("DOC_ID").toString());
+                params.put("docIdArr", docIdArr);
+                if(purcRepository.getPurcClaimDocId(params) != null){
+                    for(Map<String, Object> tempMap : purcRepository.getPurcClaimDocId(params)){
+                        purcFile.add(tempMap);
+                    }
+                }
+
                 result.put("purcFile", purcFile);
             }
         } else {
@@ -671,6 +686,27 @@ public class PurcServiceImpl implements PurcService {
                 list.add(map);
             }
         }
+
+        // 결재문서
+        List<String> docIdArr = new ArrayList<>();
+        if(params.containsKey("purcSn")){
+            Map<String, Object> purcInfo = purcRepository.getPurcReq(params);
+            docIdArr.add(purcInfo.get("DOC_ID").toString());
+            params.put("docIdArr", docIdArr);
+        }
+        if(params.containsKey("claimSn")){
+            Map<String, Object> claimInfo = purcRepository.getClaimData(params);
+            docIdArr.add(claimInfo.get("DOC_ID").toString());
+            params.put("docIdArr", docIdArr);
+        }
+
+        if(purcRepository.getPurcClaimDocId(params) != null){
+            for(Map<String, Object> map : purcRepository.getPurcClaimDocId(params)){
+                list.add(map);
+            }
+        }
+
+        params.put("docIdArr", docIdArr);
 
         return list;
     }

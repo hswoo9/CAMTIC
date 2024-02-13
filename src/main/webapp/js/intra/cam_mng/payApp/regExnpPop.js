@@ -189,6 +189,18 @@ var regExnp = {
             fileThumbText += "." + fileList[i].file_ext;
         }
 
+        // 지급/지출 양식 첨부 추가
+        var result2 = customKendo.fn_customAjax("/payApp/pop/getExnpDocData", data);
+        var fileList2 = result2.fileList;
+        for(let i=0; i<fileList2.length; i++){
+            if(fileThumbText != ""){
+                fileThumbText += " | ";
+            }
+            fileThumbText += fileList2[i].file_org_name;
+            fileThumbText += "." + fileList2[i].file_ext;
+
+            regExnp.global.fileArray.push(fileList2[i]);
+        }
         $("#fileText").text(fileThumbText);
 
         if($("#exnpSn").val() != ""){
@@ -441,6 +453,19 @@ var regExnp = {
             }
             fileThumbText += fileList[i].file_org_name;
             fileThumbText += "." + fileList[i].file_ext;
+        }
+
+        // 지급/지출 양식 첨부 추가
+        var result2 = customKendo.fn_customAjax("/payApp/pop/getExnpDocData", {exnpSn: $("#exnpSn").val(), payAppSn : $("#payAppSn").val()});
+        var fileList2 = result2.fileList;
+        for(let i=0; i<fileList2.length; i++){
+            if(fileThumbText != ""){
+                fileThumbText += " | ";
+            }
+            fileThumbText += fileList2[i].file_org_name;
+            fileThumbText += "." + fileList2[i].file_ext;
+
+            regExnp.global.fileArray.push(fileList2[i]);
         }
 
         $("#fileText").text(fileThumbText);

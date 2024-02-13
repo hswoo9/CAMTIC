@@ -136,7 +136,18 @@ public class BudgetController {
         return "jsonView";
     }
 
+    @RequestMapping("/budget/pop/budgetHistPop.do")
+    public String budgetHistPop(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("params", params);
+        return "popup/cam_manager/budget/budgetHistPop";
+    }
 
+    @RequestMapping("/budget/getPjtBudgetHistList")
+    public String getPjtBudgetHistList(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list =  budgetService.getPjtBudgetHistList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
     @RequestMapping("/budget/budgetPreCondition.do")
     public String budgetPreCondition(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
 
