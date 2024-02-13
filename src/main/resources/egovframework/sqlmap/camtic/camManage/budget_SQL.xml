@@ -163,4 +163,54 @@
             PJT_BUDGET_SN = #{pjtBudgetSn}
     </update>
 
+    <insert id="insBudgetAHist" parameterType="map">
+        /*insBudgetHist*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_BUDGET_A_HIST
+            (
+                PJT_BUDGET_SN,
+                PJT_CLASS,
+                BS_YEAR,
+                BG_VAL,
+                JANG_CD,
+                JANG_NM,
+                GWAN_CD,
+                GWAN_NM,
+                HANG_CD,
+                HANG_NM,
+                BUDGET_AMT,
+                DD_LINE_STAT,
+                CD_REG_DE,
+                REG_DT,
+                REG_EMP_SEQ,
+                MOD_DT,
+                MOD_EMP_SEQ
+            )
+        (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A WHERE PJT_BUDGET_SN = #{pjtBudgetSn})
+    </insert>
+
+    <insert id="insBudgetBHist" parameterType="map">
+        /*insBudgetHist*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_BUDGET_B_HIST
+            (
+                 PJT_BUDGET_SN,
+                 PJT_CLASS,
+                 BS_YEAR,
+                 BG_VAL,
+                 JANG_CD,
+                 JANG_NM,
+                 GWAN_CD,
+                 GWAN_NM,
+                 HANG_CD,
+                 HANG_NM,
+                 BUDGET_AMT,
+                 DD_LINE_STAT,
+                 CD_REG_DE,
+                 REG_DT,
+                 REG_EMP_SEQ,
+                 MOD_DT,
+                 MOD_EMP_SEQ
+            )
+        (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_B WHERE PJT_BUDGET_SN = #{pjtBudgetSn})
+    </insert>
+
 </mapper>
