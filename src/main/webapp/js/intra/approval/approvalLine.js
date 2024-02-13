@@ -232,6 +232,7 @@ var approvalLine = {
             if(ResultData.PURC_ITEM_AMT_SUM != null || ResultData.PURC_ITEM_AMT_SUM != ""){
                 amt = ResultData.PURC_ITEM_AMT_SUM;
             }
+
             requestAmt = Number(amt);
 
             if(amt == null){
@@ -257,6 +258,28 @@ var approvalLine = {
                 requestAmt = 0;
             }
 
+        }else if(data.menuCd == "payApp"){
+            const payAppSn = data.approKey.split("_")[1];
+
+            if (payAppSn == null || payAppSn == undefined || payAppSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+
+            const result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", {
+                payAppSn: payAppSn
+            });
+            const ResultData = result.list;
+
+            let amt = 0;
+
+            for(let i=0; i<ResultData.length; i++){
+                amt += ResultData[i].TOT_COST;
+            }
+            requestAmt = Number(amt);
+
+            if(amt == null){
+                requestAmt = 0;
+            }
         }else if(data.menuCd == "exnp"){
             const exnpSn = data.approKey.split("_")[1];
 
@@ -283,18 +306,23 @@ var approvalLine = {
 
         for(let i=0; i<payCkList.length; i++){
             const map = payCkList[i];
+            console.log("여기야", map);
 
             /** 시작 금액만 있으면 (코드값 <= 금액) 인지 체크 */
-            if(map.ED_PAY != "" || map.ED_PAY == null){
+            if(map.ED_PAY == "" || map.ED_PAY == null){
                 if(Number(map.ST_PAY) <= requestAmt){
                     level = map.DUTY_VAL;
+                    console.log("여기야2", map.DUTY_VAL);
+                    console.log("여기야3", map);
                     break;
                 }
 
             /** 시작 금액, 종료 금액 다 있으면 (시작값 <= 금액 < 끝값) 인지 체크 */
             }else{
-                if(Number(map.ST_PAY) <= requestAmt < Number(map.ED_PAY)){
+                if(Number(map.ST_PAY) <= requestAmt && requestAmt < Number(map.ED_PAY)){
                     level = map.DUTY_VAL;
+                    console.log("여기야2", map.DUTY_VAL);
+                    console.log("여기야3", map);
                     break;
                 }
             }
@@ -494,8 +522,8 @@ var approvalLine = {
         if(approvalMngData.teamId1 != null){
             cUserTempDept1 = approvalMngData.teamId1;
         }
-        if(approvalMngData.teamId2 != null){
-            cUserTempDept2 = approvalMngData.teamId2;
+        if(approvalMngData.deptId2 != null){
+            cUserTempDept2 = approvalMngData.deptId2;
         }
 
         /** 3. 협조 결재선 세팅 */

@@ -57,8 +57,8 @@ var hwpApprovalLine = {
                 if(approvalMngData.teamId1 != null){
                     cUserTempDept1 = approvalMngData.teamId1;
                 }
-                if(approvalMngData.teamId2 != null){
-                    cUserTempDept2 = approvalMngData.teamId2;
+                if(approvalMngData.deptId2 != null){
+                    cUserTempDept2 = approvalMngData.deptId2;
                 }
 
                 /** 3. 협조 결재선 세팅 */
@@ -75,7 +75,7 @@ var hwpApprovalLine = {
 
                         hwpDocCtrl.putFieldText('cApprText0', approvalMngData.teamNm1+"장");
 
-                        if(cUserInfo1.empSeq == cUserInfo2.empSeq){
+                        if(cUserInfo1.EMP_SEQ == cUserInfo2.EMP_SEQ){
                             hwpDocCtrl.putFieldText('cAppr0', "공란");
                         }
 
