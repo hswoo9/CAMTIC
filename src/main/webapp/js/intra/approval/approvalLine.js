@@ -319,8 +319,10 @@ var approvalLine = {
 
             /** 시작 금액, 종료 금액 다 있으면 (시작값 <= 금액 < 끝값) 인지 체크 */
             }else{
-                if(Number(map.ST_PAY) <= requestAmt < Number(map.ED_PAY)){
+                if(Number(map.ST_PAY) <= requestAmt && requestAmt < Number(map.ED_PAY)){
                     level = map.DUTY_VAL;
+                    console.log("여기야2", map.DUTY_VAL);
+                    console.log("여기야3", map);
                     break;
                 }
             }
