@@ -1676,8 +1676,9 @@
         LEFT JOIN
         CAM_INSIDE.DJ_EQIPMN_MST B
         ON A.eqipmn_mst_sn = B.eqipmn_mst_sn
-        JOIN (select EMP_NAME_KR,DEPT_NAME from cam_hr.DJ_EMP_INFO order by EMP_NAME_KR desc) C
-        ON A.user_name = c.EMP_NAME_KR
+        LEFT JOIN
+            (select EMP_NAME_KR, DEPT_NAME, EMP_SEQ from cam_hr.DJ_EMP_INFO order by EMP_NAME_KR desc) C
+        ON A.user_sn = c.EMP_SEQ
         WHERE
         1=1
         <if test="usePdStrDe != null and usePdStrDe != '' and usePdEndDe != null and usePdEndDe != ''">
