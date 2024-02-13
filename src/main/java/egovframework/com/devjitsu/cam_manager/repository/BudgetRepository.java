@@ -20,9 +20,9 @@ public class BudgetRepository extends AbstractDAO {
         insert("budget.insBudgetAData", params);
     }
 
-    public void insBudgetBData(List<Map<String, Object>> bList) {
+    public void insBudgetBData(Map<String, Object> params) {
 
-        insert("budget.insBudgetBData", bList);
+        insert("budget.insBudgetBData", params);
     }
 
     public int getBudgetACdCheck(Map<String, Object> params) {
@@ -55,13 +55,23 @@ public class BudgetRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("budget.getBudgetBData", params);
     }
 
-    public void updBudgetAData(List<Map<String, Object>> aList) {
+    public void updBudgetAData(Map<String, Object> params) {
 
-        update("budget.updBudgetAData", aList);
+        update("budget.updBudgetAData", params);
     }
 
-    public void updBudgetBData(List<Map<String, Object>> bList) {
+    public void updBudgetBData(Map<String, Object> params) {
 
-        update("budget.updBudgetBData", bList);
+        update("budget.updBudgetBData", params);
+    }
+
+    public void insBudgetAHist(Map<String, Object> params) {
+
+        insert("budget.insBudgetAHist", params);
+    }
+
+    public void insBudgetBHist(Map<String, Object> params) {
+
+        insert("budget.insBudgetBHist", params);
     }
 }
