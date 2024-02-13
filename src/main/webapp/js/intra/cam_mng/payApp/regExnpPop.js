@@ -456,7 +456,7 @@ var regExnp = {
         }
 
         // 지급/지출 양식 첨부 추가
-        var result2 = customKendo.fn_customAjax("/payApp/pop/getExnpDocData", {"exnpSn": $("#exnpSn").val(), payAppSn : $("#payAppSn").val()});
+        var result2 = customKendo.fn_customAjax("/payApp/pop/getExnpDocData", {exnpSn: $("#exnpSn").val(), payAppSn : $("#payAppSn").val()});
         var fileList2 = result2.fileList;
         for(let i=0; i<fileList2.length; i++){
             if(fileThumbText != ""){

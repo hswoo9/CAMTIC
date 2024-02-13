@@ -41,7 +41,7 @@ const regPayAtt = {
 
         if($("#reqType").val() == "claimExnp"){
             $("#emptyTr").remove();
-            regPayAtt.fn_claimExnpFile();
+            // regPayAtt.fn_claimExnpFile();
         } else {
             if($("#purcSn").val() != ""){
                 $("#emptyTr").remove();
@@ -53,23 +53,23 @@ const regPayAtt = {
 
     fn_claimExnpFile : function (){
         console.log("fn_claimExnpFile");
-        var fileArray = [];
+        var fileArray = regPayAtt.global.fileArray;
         var attFiles = regPayAtt.global.attFiles;
         var html1 = '';
         var html2 = '';
 
-        var data = {
-            purcSn : $("#purcSn").val(),
-            claimSn : $("#claimSn").val(),
-            claimExnpSn : $("#claimExnpSn").val()
-        }
+        // var data = {
+        //     purcSn : $("#purcSn").val(),
+        //     claimSn : $("#claimSn").val(),
+        //     claimExnpSn : $("#claimExnpSn").val()
+        // }
 
         $("#fileGrid").find(".defultTr").remove();
         $("#fileGrid").find(".addFile").remove();
 
-        var fileResult = customKendo.fn_customAjax("/purc/purcFileList", data)
-
-        fileArray = fileResult.listMap;
+        // var fileResult = customKendo.fn_customAjax("/purc/purcFileList", data)
+        //
+        // fileArray = fileResult.listMap;
 
         let size = 0;
         if(fileArray.length > 0) {
