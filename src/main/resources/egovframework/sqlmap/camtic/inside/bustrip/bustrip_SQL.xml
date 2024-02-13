@@ -413,13 +413,24 @@
     </select>
 
     <select id="getBustripReqFileInfoR" parameterType="map" resultType="map">
+        /*getBustripReqFileInfoR*/
         SELECT
             *
         FROM
             (
                 SELECT
-                    *,
-                    ROW_NUMBER() OVER (PARTITION BY file_org_name ORDER BY file_org_name) AS row_num
+                    file_no,
+                    file_cd,
+                    file_uuid,
+                    file_org_name,
+                    CASE
+                        WHEN file_path LIKE '/home/upload/%' THEN REPLACE(file_path, '/home/upload/', '/upload/')
+                        ELSE file_path
+                    END AS file_path,
+                    file_size,
+                    file_ext,
+                    content_id,
+                    ROW_NUMBER() OVER (PARTITION BY FILE_ORG_NAME ORDER BY FILE_NO DESC) AS row_num
                 FROM
                     CAM_COMMON.DJ_FILE_INFO
                 WHERE

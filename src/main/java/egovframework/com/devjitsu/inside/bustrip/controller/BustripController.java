@@ -1059,7 +1059,7 @@ public class BustripController {
             LocalDate now = LocalDate.now();
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             String fmtNow = now.format(fmt);
-            String filePath = "/upload/" + fileCd + "/" + fmtNow + "/";
+            String filePath = SERVER_DIR + fileCd + "/" + fmtNow + "/";
 
             // PDF 생성을 위한 OutputStream 생성
             File f = new File(filePath);
