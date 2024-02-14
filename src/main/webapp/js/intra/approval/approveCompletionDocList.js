@@ -93,7 +93,7 @@ var approveCompletion = {
                         style : "text-align : left;"
                     }
                 }, {
-                    field : "REG_EMP_NAME",
+                    field : "DRAFT_EMP_NAME",
                     title : "기안자",
                     width : "120px"
                 }, {

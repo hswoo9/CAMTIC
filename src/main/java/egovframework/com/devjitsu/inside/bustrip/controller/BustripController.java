@@ -399,11 +399,12 @@ public class BustripController {
 
     //경유지기준정보 설정 팝업
     @RequestMapping("/bustrip/pop/waypointCostReqPop.do")
-    public String waypointCostReqPop(HttpServletRequest request, Model model) {
+    public String waypointCostReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/inside/bustrip/waypointCostReqPop";
     }
 
@@ -817,6 +818,19 @@ public class BustripController {
     @RequestMapping("/bustrip/setWaypointCostInsert")
     public String setWaypointCostInsert(@RequestParam Map<String, Object> params){
         bustripService.setWaypointCostInsert(params);
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/getWaypointCostOne")
+    public String getWaypointCostOne(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = bustripService.getWaypointCostOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/setWaypointCostDelete")
+    public String setWaypointCostDelete(@RequestParam Map<String, Object> params, Model model){
+        bustripService.setWaypointCostDelete(params);
         return "jsonView";
     }
 

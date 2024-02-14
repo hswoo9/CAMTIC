@@ -323,7 +323,8 @@ const bustripExnpReq = {
     },
 
     fn_getFuelInfo: function(type){
-        if(type != "upd") {
+        console.log("fn_getFuelInfo");
+        // if(type != "upd") {
             let bustripInfo = bustripExnpReq.global.bustripInfo;
             var empSeq = bustripInfo.DRIVER_EMP_SEQ;
 
@@ -355,7 +356,7 @@ const bustripExnpReq = {
                     $("#corpCarOilCost").val(fn_comma(amt));
                 }
             }
-        }
+        // }
         bustripExnpReq.fn_setTableSum();
     },
 
