@@ -459,35 +459,35 @@ var statementList = {
 
         var dialog = $("#dialog").data("kendoWindow");
 
-        $("#cardFromDe").val(toDe);
+        dialog.center();
+        dialog.open();
+
+        // $("#cardFromDe").val(toDe);
         $("#tmpCardToDe").val(toDe);
         $("#cardToSnModal").val(key);
         $("#tmpCardBaNb").val(cardBaNb);
-
-        dialog.center();
-        dialog.open();
     },
 
     fn_updFromDe : function (){
 
-        var data = {
-            startDt: $("#tmpCardToDe").val(),
-            endDt: $("#cardFromDe").val(),
-            cardToSn : $("#cardToSnModal").val(),
-            searchValue : $("#tmpCardBaNb").val(),
-        }
-        var result = customKendo.fn_customAjax("/card/cardToUseList", data);
+        // var data = {
+        //     startDt: $("#tmpCardToDe").val(),
+        //     endDt: $("#cardFromDe").val(),
+        //     cardToSn : $("#cardToSnModal").val(),
+        //     searchValue : $("#tmpCardBaNb").val(),
+        // }
+        // var result = customKendo.fn_customAjax("/card/cardToUseList", data);
+        //
+        // console.log(result);
 
-        console.log(result);
-
-        if(result.list.length > 0){
-            if(!confirm("[해당 카드 사용내역이 있습니다.] \n사용내역 등록 후 반납처리하시기 바랍니다.")) {
-                return;
-            } else {
-                statementList.fn_addCardHist(data.cardToSn, data.endDt);
-                $("#dialog").data("kendoWindow").close();
-            }
-        } else {
+        // if(result.list.length > 0){
+        //     if(!confirm("[해당 카드 사용내역이 있습니다.] \n사용내역 등록 후 반납처리하시기 바랍니다.")) {
+        //         return;
+        //     } else {
+        //         statementList.fn_addCardHist(data.cardToSn, data.endDt);
+        //         $("#dialog").data("kendoWindow").close();
+        //     }
+        // } else {
             if(!confirm("반납처리 하시겠습니까?")){
                 return;
             }
@@ -512,6 +512,6 @@ var statementList = {
                     }
                 }
             });
-        }
+        // }
     }
 }
