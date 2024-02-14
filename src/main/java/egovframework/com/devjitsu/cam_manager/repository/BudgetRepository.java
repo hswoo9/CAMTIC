@@ -115,6 +115,23 @@ public class BudgetRepository extends AbstractDAO {
         return selectList("budget.getBudgetDetM", params);
     }
 
+    public List<Map<String, Object>> getBudgetDetS(Map<String, Object> params) {
+
+        return selectList("budget.getBudgetDetS", params);
+    }
+
+    public List<Map<String, Object>> getBudgetDetD(Map<String, Object> params) {
+
+        return selectList("budget.getBudgetDetD", params);
+    }
+
+    public List<Map<String, Object>> getBudgetDetV(Map<String, Object> params) {
+
+        return selectList("budget.getBudgetDetV", params);
+    }
+
+
+
     public List<Map<String, Object>> getPjtBudgetAHistList(Map<String, Object> params) {
 
         return selectList("budget.getPjtBudgetAHistList", params);
@@ -124,4 +141,6 @@ public class BudgetRepository extends AbstractDAO {
 
         return selectList("budget.getPjtBudgetBHistList", params);
     }
+
+
 }

@@ -169,63 +169,18 @@
                         <td style="text-align: center;"><b>예산액</b></td>
                         <td style="text-align: center;"><b>결산액</b></td>
                     </tr>
-                    <tr>
-                        <td style="text-align: center; background-color: #f0f6ff;"><b>R&D</b></td>
-                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="ARP">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="ARM">0</span></td>
-                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="BRP">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="BRM">0</span></td>
-                    </tr>
                     <tbody id="rBody">
 
                     </tbody>
-                    <tr>
-                        <td style="text-align: center; background-color: #f0f6ff;"><b>비R&D</b></td>
-                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="ASP">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="ASM">0</span></td>
-                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="BSP">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="BSM">0</span></td>
-                    </tr>
                     <tbody id="sBody">
 
                     </tbody>
-                    <tr>
-                        <td style="text-align: center; background-color: #f0f6ff;"><b>법인운영</b></td>
-                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="AMP">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="AMM">0</span></td>
-                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="BMP">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="BMM">0</span></td>
-                    </tr>
                     <tbody id="mBody">
 
                     </tbody>
-                    <tr>
-                        <td style="text-align: center; background-color: #f0f6ff;"><b>엔지니어링</b></td>
-                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="ADP">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="ADM">0</span></td>
-                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="BDP">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="BDM">0</span></td>
-                    </tr>
                     <tbody id="dBody">
 
                     </tbody>
-                    <tr>
-                        <td style="text-align: center; background-color: #f0f6ff;"><b>용역/기타</b></td>
-                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="AVP">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="AVM">0</span></td>
-                        <td style="text-align: center;" colspan="3"><b>총계</b></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="BVP">0</span></td>
-                        <td style="text-align: right; background-color: #FFFFFF"><span id="BVM">0</span></td>
-                    </tr>
                     <tbody id="vBody">
 
                     </tbody>
