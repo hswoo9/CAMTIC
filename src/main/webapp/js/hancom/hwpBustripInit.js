@@ -97,6 +97,9 @@ var busInit = {
         hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
         hwpDocCtrl.putFieldText('title', busInfo.TITLE);
 
+        hwpDocCtrl.global.HwpCtrl.MoveToField('pjtName', true, true, false);
+        hwpDocCtrl.putFieldText('pjtName', busInfo.BUSN_NAME);
+
         let regSign = busInfo.EMP_NAME;
         hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
         hwpDocCtrl.putFieldText('regSign', regSign);
@@ -185,6 +188,8 @@ var busInit = {
         hwpDocCtrl.putFieldText('position', busInfo.POSITION_NAME);
 
         hwpDocCtrl.putFieldText('title', busInfo.RESULT);
+
+        hwpDocCtrl.putFieldText('pjtName', busInfo.BUSN_NAME);
 
         let regSign = busInfo.EMP_NAME;
         hwpDocCtrl.putFieldText('regSign', regSign);

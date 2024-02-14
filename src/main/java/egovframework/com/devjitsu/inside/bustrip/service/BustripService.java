@@ -70,9 +70,13 @@ public interface BustripService {
 
     void setBusinessCostInsert(Map<String, Object> params);
 
+    Map<String, Object> getBusinessCostOne(Map<String, Object> params);
+
     void insNationCode(Map<String, Object> params);
 
     void setBustripFuelCostInsert(Map<String, Object> params);
+
+    void setFuelCostDelete(Map<String, Object> params);
 
     void setExchangeRateUpdate(Map<String, Object> params);
 
@@ -89,6 +93,8 @@ public interface BustripService {
     void setBusiCert(Map<String, Object> params);
 
     List<Map<String, Object>> getBustripFuelCostList(Map<String, Object> params);
+
+    Map<String, Object> getBustripFuelCostOne(Map<String, Object> params);
 
     Map<String, Object> getBustripFuelCostInfo(Map<String, Object> params);
 

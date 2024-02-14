@@ -20,7 +20,7 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
-<input type="hidden" id="hrCostInfoSn" value=""/>
+<input type="hidden" id="hrCostInfoSn" value="${params.key}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-11" style="padding:0;">
     <div class="table-responsive">
@@ -85,7 +85,7 @@
                     <span class="red-star"></span>금액
                 </th>
                 <td>
-                    <input id="costAmt" oninput="onlyNumber(this)" style="width: 100%;">
+                    <input id="costAmt" oninput="inputNumberFormat(this)" style="width: 100%;">
                 </td>
             </tr>
             <tr>
