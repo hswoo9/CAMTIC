@@ -1,11 +1,26 @@
 const waypointReq = {
     init: function(){
         waypointReq.dataSet();
+
+        if($("#hrWaypointInfoSn").val() != "") {
+            waypointReq.setSaveData();
+        }
     },
 
     dataSet: function(){
         customKendo.fn_textBox(["waypoint", "distance"]);
         customKendo.fn_textArea(["remarkCn"]);
+    },
+
+    setSaveData : function(){
+        var result = customKendo.fn_customAjax("/bustrip/getWaypointCostOne", { hrWaypointInfoSn : $("#hrWaypointInfoSn").val() });
+        if(result.flag){
+            var rs = result.data;
+            console.log(rs)
+            $("#waypoint").val(rs.WAYPOINT_NAME);
+            $("#distance").val(rs.DISTANCE);
+            $("#remarkCn").val(rs.REMARK_CN);
+        }
     },
 
     saveBtn: function(){
@@ -23,21 +38,25 @@ const waypointReq = {
             regEmpName: regEmpName
         }
 
+        if($("#hrWaypointInfoSn").val() != "") {
+            data.hrWaypointInfoSn = $("#hrWaypointInfoSn").val();
+        }
+
         if(waypointName == "") { alert("경유지명을 작성하지 않았습니다."); return; }
         if(distance == "") { alert("거리를 작성하지 않았습니다."); return; }
 
+        var confirmText = "";
+
         if($("#hrWaypointInfoSn").val() == "") {
-            if(!confirm("경유지를 등록하시겠습니까?")){
-                return;
-            }
-            waypointReq.setWaypointCostInsert(data);
+            confirmText = "등록하시겠습니까?";
         }else {
-            if(!confirm("경유지를 수정하시겠습니까?")){
-                return;
-            }
-            waypointReq.setWaypointCostUpdate(data);
+            confirmText = "수정하시겠습니까?";
         }
 
+        if(!confirm(confirmText)) {
+            return;
+        }
+        waypointReq.setWaypointCostInsert(data);
     },
 
     setWaypointCostInsert: function(data){
@@ -48,7 +67,7 @@ const waypointReq = {
             dataType : "json",
             async : false,
             success : function(result){
-                alert("경유지 저장이 완료됐습니다.");
+                alert("저장되었습니다.");
                 opener.gridReload();
                 window.close();
             },
