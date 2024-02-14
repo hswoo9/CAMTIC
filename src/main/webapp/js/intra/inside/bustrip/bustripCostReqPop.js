@@ -1,6 +1,10 @@
 const costReq = {
     init: function(){
         costReq.dataSet();
+
+        if($("#hrCostInfoSn").val() != "") {
+            costReq.setSaveData();
+        }
     },
 
     dataSet: function(){
@@ -68,6 +72,20 @@ const costReq = {
         customKendo.fn_textArea(["remarkCn"]);
     },
 
+    setSaveData : function(){
+        var result = customKendo.fn_customAjax("/bustrip/getBusinessCostOne", { hrCostInfoSn : $("#hrCostInfoSn").val() });
+        if(result.flag){
+            var rs = result.data;
+            console.log(rs)
+            $("#startDt").val(rs.START_DT);
+            $("#endDt").val(rs.END_DT);
+            $("#tripCode").data("kendoDropDownList").value(rs.TRIP_CODE);
+            $("#exnpCode").data("kendoDropDownList").value(rs.EXNP_CODE);
+            $("#costAmt").val(comma(rs.COST_AMT));
+            $("#remarkCn").val(rs.REMARK_CN);
+        }
+    },
+
     saveBtn: function(){
         let startDt = $("#startDt").val();
         let endDt = $("#endDt").val();
@@ -83,7 +101,7 @@ const costReq = {
         if(tripCode == "1" && exnpCode == "dayCost"){
             km = $("#km").val();
         }
-        let costAmt = $("#costAmt").val();
+        let costAmt = uncomma($("#costAmt").val());
         let remarkCn = $("#remarkCn").val();
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
@@ -103,6 +121,10 @@ const costReq = {
             regEmpName: regEmpName
         }
 
+        if($("#hrCostInfoSn").val() != "") {
+            data.hrCostInfoSn = $("#hrCostInfoSn").val();
+        }
+
         if(startDt == "" || endDt == "") { alert("적용일자가 선택되지 않았습니다."); return; }
         if(tripCode == "") { alert("출장구분이 선택되지 않았습니다."); return; }
         if(exnpCode == "") { alert("여비 종류가 선택되지 않았습니다."); return; }
@@ -110,18 +132,17 @@ const costReq = {
         if(tripCode == "3" && exnpCode == "dayCost" && exnpDetailCode == "") { alert("세부항목이 선택되지 않았습니다."); return; }
         if(tripCode == "1" && exnpCode == "dayCost" && km == "0") { alert("거리가 입력되지 않았습니다."); return; }
 
+        var confirmText = "";
         if($("#hrCostInfoSn").val() == "") {
-            if(!confirm("여비를 등록하시겠습니까?")){
-                return;
-            }
-            costReq.setBustripCostInsert(data);
+            confirmText = "등록하시겠습니까?";
         }else {
-            if(!confirm("여비를 수정하시겠습니까?")){
-                return;
-            }
-            costReq.setBustripCostUpdate(data);
+            confirmText = "수정하시겠습니까?";
         }
 
+        if(!confirm(confirmText)) {
+            return;
+        }
+        costReq.setBustripCostInsert(data);
     },
 
     setBustripCostInsert: function(data){
@@ -132,7 +153,7 @@ const costReq = {
             dataType : "json",
             async : false,
             success : function(result){
-                alert("여비 저장이 완료됐습니다.");
+                alert("저장되었습니다.");
                 opener.gridReload();
                 window.close();
             },
@@ -146,4 +167,18 @@ const costReq = {
     setBustripCostUpdate: function(data){
         console.log(data);
     }
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
+}
+
+function inputNumberFormat (obj){
+    obj.value = comma(uncomma(obj.value));
 }

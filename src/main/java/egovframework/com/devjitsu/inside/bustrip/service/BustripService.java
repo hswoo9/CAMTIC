@@ -70,6 +70,8 @@ public interface BustripService {
 
     void setBusinessCostInsert(Map<String, Object> params);
 
+    Map<String, Object> getBusinessCostOne(Map<String, Object> params);
+
     void insNationCode(Map<String, Object> params);
 
     void setBustripFuelCostInsert(Map<String, Object> params);

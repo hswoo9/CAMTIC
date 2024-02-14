@@ -69,6 +69,10 @@ var costList = {
                     template : "<input type='checkbox' id='costPk#=HR_COST_INFO_SN#' name='costPk' class='costPk' value='#=HR_COST_INFO_SN#'/>",
                     width: 50
                 }, {
+                    title: "순번",
+                    template: "#= --record #",
+                    width: 50
+                }, {
                     title: "적용기간",
                     template: function(row){
                         return row.START_DT+" ~ "+row.END_DT;
@@ -83,11 +87,14 @@ var costList = {
                     field: "EXNP_TEXT",
                     title: "여비 종류",
                     template: function(row){
+                        var text = "";
                         if(row.EXNP_CODE == "dayCost" && row.TRIP_CODE == "3"){
-                            return row.EXNP_TEXT + " - " + row.EXNP_DETAIL_TEXT
+                            text =  row.EXNP_TEXT + " - " + row.EXNP_DETAIL_TEXT;
                         }else{
-                            return row.EXNP_TEXT
+                            text =  row.EXNP_TEXT;
                         }
+
+                        return '<a onclick="costList.bustripCostReqPop(' +  row.HR_COST_INFO_SN + ')" style="font-weight: bold; cursor:pointer;">' + text + '</a>';
                     }
                 }, {
                     title: "여비지급 금액",
@@ -98,14 +105,22 @@ var costList = {
                     field: "REMARK_CN",
                     title: "비고"
                 }
-            ]
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 3);
+            }
         }).data("kendoGrid");
     },
 
-    bustripCostReqPop : function() {
-        const url = "/bustrip/pop/bustripCostReqPop.do";
+    bustripCostReqPop : function(key) {
+        let url = "/bustrip/pop/bustripCostReqPop.do";
         const name = "bustripCostReqPop";
         const option = "width=865, height=475, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+
+        if(key) {
+            url += "?key=" + key;
+        }
+
         window.open(url, name, option);
     },
 

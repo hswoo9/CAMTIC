@@ -1001,6 +1001,37 @@
             )
     </insert>
 
+    <update id="setBustripCostUpdate" parameterType="map">
+        /*setBustripCostUpdate*/
+        UPDATE CAM_INSIDE.DJ_HR_COST_INFO
+        SET
+            START_DT =  #{startDt},
+            END_DT = #{endDt},
+            TRIP_CODE = #{tripCode},
+            EXNP_CODE = #{exnpCode},
+            EXNP_TEXT = #{exnpText},
+            EXNP_DETAIL_CODE = #{exnpDetailCode},
+            EXNP_DETAIL_TEXT = #{exnpDetailText},
+            KM = #{km},
+            COST_AMT = #{costAmt},
+            REMARK_CN = #{remarkCn},
+            MOD_DT = NOW()
+        WHERE
+            HR_COST_INFO_SN = #{hrCostInfoSn}
+    </update>
+
+    <select id="getBusinessCostOne" parameterType="map" resultType="map">
+        /*getBusinessCostOne*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_COST_INFO
+        WHERE
+            1=1
+          AND
+            HR_COST_INFO_SN = #{hrCostInfoSn}
+    </select>
+
     <insert id="setBusinessCostInsert" parameterType="map">
         /* setBusinessCostInsert */
         INSERT INTO CAM_INSIDE.DJ_HR_BUSI_COST_INFO

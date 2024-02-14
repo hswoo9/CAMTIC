@@ -454,11 +454,19 @@ public class BustripController {
 
     //국내출장여비 설정 팝업
     @RequestMapping("/bustrip/pop/bustripCostReqPop.do")
-    public String bustripCostReqPop(HttpServletRequest request, Model model) {
+    public String bustripCostReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/inside/bustrip/bustripCostReqPop";
+    }
+
+    @RequestMapping("/bustrip/getBusinessCostOne")
+    public String getBusinessCostOne(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = bustripService.getBusinessCostOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
     }
 
     //해외출장여비 리스트 페이지

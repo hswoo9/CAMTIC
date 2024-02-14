@@ -403,12 +403,21 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public void setBustripCostInsert(Map<String, Object> params) {
-        bustripRepository.setBustripCostInsert(params);
+        if(params.containsKey("hrCostInfoSn")){
+            bustripRepository.setBustripCostUpdate(params);
+        } else {
+            bustripRepository.setBustripCostInsert(params);
+        }
     }
 
     @Override
     public void setBusinessCostInsert(Map<String, Object> params) {
         bustripRepository.setBusinessCostInsert(params);
+    }
+
+    @Override
+    public Map<String, Object> getBusinessCostOne(Map<String, Object> params) {
+        return bustripRepository.getBusinessCostOne(params);
     }
 
     @Override

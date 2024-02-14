@@ -178,8 +178,16 @@ public class BustripRepository extends AbstractDAO {
         insert("bustrip.setBustripCostInsert", params);
     }
 
+    public void setBustripCostUpdate(Map<String, Object> params) {
+        insert("bustrip.setBustripCostUpdate", params);
+    }
+
     public void setBusinessCostInsert(Map<String, Object> params) {
         insert("bustrip.setBusinessCostInsert", params);
+    }
+
+    public Map<String, Object> getBusinessCostOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getBusinessCostOne", params);
     }
 
     public void insNationCode(Map<String, Object> params) {
