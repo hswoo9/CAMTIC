@@ -162,7 +162,7 @@ var employmentPop = {
             }
 
             if(result.data.FLAG == "N" && employmentPop.global.loginVO.uniqId == employmentPop.global.data.EMP_SEQ){
-                $("#popBtnDiv").prepend("<button type=\"button\" class=\"k-button k-button-solid-info\" id=\"okBtn\" onClick=\"employmentPop.ok()\">서명</button>")
+                $("#popBtnDiv").prepend("<button type=\"button\" class=\"k-button k-button-solid-info\" id=\"okBtn\" onClick=\"employmentPop.ok()\">확인</button>")
 
             }
         }
@@ -182,7 +182,7 @@ var employmentPop = {
     },
 
     ok : function(){
-        if(confirm("서명하시겠습니까?")){
+        if(confirm("확인하시겠습니까?")){
             if(employmentPop.global.hwpCtrl.FieldExist("empSign")){
                 employmentPop.global.hwpCtrl.MoveToField('empSign', true, true, false);
                 employmentPop.putFieldText('empSign', employmentPop.global.data.EMP_NAME);

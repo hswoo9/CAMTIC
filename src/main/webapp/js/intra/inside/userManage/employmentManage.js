@@ -150,7 +150,7 @@ var employmentManage = {
 						var str = "";
 						if(e.FLAG == "Y"){
 							rgb = "info";
-							str = "연봉계약 체결";
+							str = "연봉계약 확인";
 						}else if(e.FLAG == "N"){
 							rgb = "error";
 							str = "연봉계약서 미확인";
