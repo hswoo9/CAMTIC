@@ -80,6 +80,10 @@ public interface BustripService {
 
     void setWaypointCostInsert(Map<String, Object> params);
 
+    Map<String, Object> getWaypointCostOne(Map<String, Object> params);
+
+    void setWaypointCostDelete(Map<String, Object> params);
+
     void setReqCert(Map<String, Object> params);
 
     void setBusiCert(Map<String, Object> params);

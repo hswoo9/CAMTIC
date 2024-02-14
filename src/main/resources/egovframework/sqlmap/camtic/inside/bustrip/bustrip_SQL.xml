@@ -1091,6 +1091,35 @@
             )
     </insert>
 
+    <update id="setWaypointCostUpdate" parameterType="map">
+        /*setWaypointCostUpdate*/
+        UPDATE CAM_INSIDE.DJ_HR_WAYPOINT_INFO
+        SET
+            WAYPOINT_NAME = #{waypointName},
+            DISTANCE = #{distance},
+            REMARK_CN = #{remarkCn},
+            MOD_DT = NOW()
+        WHERE
+            HR_WAYPOINT_INFO_SN = #{hrWaypointInfoSn}
+    </update>
+
+    <select id="getWaypointCostOne" parameterType="map" resultType="map">
+        /*getWaypointCostOne*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_WAYPOINT_INFO
+        WHERE
+            1=1
+          AND
+            HR_WAYPOINT_INFO_SN = #{hrWaypointInfoSn}
+    </select>
+
+    <delete id="setWaypointCostDelete" parameterType="map">
+        /*setWaypointCostDelete*/
+        DELETE FROM CAM_INSIDE.DJ_HR_WAYPOINT_INFO WHERE HR_WAYPOINT_INFO_SN IN (${wpSnArr})
+    </delete>
+
     <update id="setReqCert" parameterType="map">
         /* bustrip.setReqCert */
         UPDATE

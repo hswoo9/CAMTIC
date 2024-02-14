@@ -214,10 +214,17 @@ public class BudgetServiceImpl implements BudgetService {
 
         Map<String, Object> result = new HashMap<>();
         List<Map<String, Object>> rList = budgetRepository.getBudgetDetR(params);
+        List<Map<String, Object>> sList = budgetRepository.getBudgetDetS(params);
         List<Map<String, Object>> mList = budgetRepository.getBudgetDetM(params);
+        List<Map<String, Object>> dList = budgetRepository.getBudgetDetD(params);
+        List<Map<String, Object>> vList = budgetRepository.getBudgetDetV(params);
 
         result.put("rList", rList);
+        result.put("sList", sList);
         result.put("mList", mList);
+        result.put("dList", dList);
+        result.put("vList", vList);
+
 
         return result;
     }

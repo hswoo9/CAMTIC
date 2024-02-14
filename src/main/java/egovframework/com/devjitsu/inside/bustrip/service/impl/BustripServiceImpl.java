@@ -434,7 +434,21 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public void setWaypointCostInsert(Map<String, Object> params) {
-        bustripRepository.setWaypointCostInsert(params);
+        if(params.containsKey("hrWaypointInfoSn")){
+            bustripRepository.setWaypointCostUpdate(params);
+        } else {
+            bustripRepository.setWaypointCostInsert(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getWaypointCostOne(Map<String, Object> params) {
+        return bustripRepository.getWaypointCostOne(params);
+    }
+
+    @Override
+    public void setWaypointCostDelete(Map<String, Object> params) {
+        bustripRepository.setWaypointCostDelete(params);
     }
 
     @Override
