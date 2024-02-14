@@ -24,18 +24,23 @@ var busInit = {
         hwpDocCtrl.global.HwpCtrl.MoveToField('tripCode', true, true, false);
         hwpDocCtrl.putFieldText('tripCode', tripCodeText);
 
-        let startDate = new Date(busInfo.TRIP_DAY_FR + " " + busInfo.TRIP_TIME_FR);
-        let endDate = new Date(busInfo.TRIP_DAY_TO + " " + busInfo.TRIP_TIME_TO);
+        let startDate = new Date(busInfo.TRIP_DAY_FR);
+        let endDate = new Date(busInfo.TRIP_DAY_TO);
 
-        let diffInMs = endDate.getTime() - startDate.getTime();
-        let diffInDays = diffInMs / (1000 * 60 * 60 * 24);
         let dayText = "";
+        let diffInDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+        let weekends = 0;
 
-        if (Number.isInteger(diffInDays)) {
-            dayText = " (" + diffInDays + " 일간)";
-        } else {
-            dayText = " (" + diffInDays.toFixed(1) + "일간)";
+        // 주말제외
+        for(let i = 0; i < diffInDays; i++){
+            if(startDate.getDay() == 0 || startDate.getDay() == 6){
+                weekends++;
+            }
+            startDate.setDate(startDate.getDate() + 1);
         }
+
+        diffInDays = diffInDays - weekends + 1;
+        dayText = " (" + diffInDays + "일간)";
 
         let tripDate = busInfo.TRIP_DAY_FR.split("-")[0]+"년"+busInfo.TRIP_DAY_FR.split("-")[1]+"월"+busInfo.TRIP_DAY_FR.split("-")[2]+"일 "+busInfo.TRIP_TIME_FR
             +" ~ "
@@ -119,18 +124,23 @@ var busInit = {
         }
         hwpDocCtrl.putFieldText('tripCode', tripCodeText);
 
-        let startDate = new Date(busInfo.TRIP_DAY_FR + " " + busInfo.TRIP_TIME_FR);
-        let endDate = new Date(busInfo.TRIP_DAY_TO + " " + busInfo.TRIP_TIME_TO);
+        let startDate = new Date(busInfo.TRIP_DAY_FR);
+        let endDate = new Date(busInfo.TRIP_DAY_TO);
 
-        let diffInMs = endDate.getTime() - startDate.getTime();
-        let diffInDays = diffInMs / (1000 * 60 * 60 * 24);
         let dayText = "";
+        let diffInDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+        let weekends = 0;
 
-        if (Number.isInteger(diffInDays)) {
-            dayText = " (" + diffInDays + " 일간)";
-        } else {
-            dayText = " (" + diffInDays.toFixed(1) + "일간)";
+        // 주말제외
+        for(let i = 0; i < diffInDays; i++){
+            if(startDate.getDay() == 0 || startDate.getDay() == 6){
+                weekends++;
+            }
+            startDate.setDate(startDate.getDate() + 1);
         }
+
+        diffInDays = diffInDays - weekends + 1;
+        dayText = " (" + diffInDays + "일간)";
 
         let tripDate = busInfo.TRIP_DAY_FR.split("-")[0]+"년"+busInfo.TRIP_DAY_FR.split("-")[1]+"월"+busInfo.TRIP_DAY_FR.split("-")[2]+"일 "+busInfo.TRIP_TIME_FR
             +" ~ "
