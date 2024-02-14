@@ -20,6 +20,7 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
+<input type="hidden" id="hrFuelCostInfoSn" value="${params.key}"/>
 <div class="col-lg-11" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
@@ -42,6 +43,10 @@
                 </th>
                 <td>
                     <input type="text" name="startDt" id="startDt" style="width: 120px;">
+                    <span id="endDtWrap" style="display: none;"> ~
+                        <input type="text" name="endDt" id="endDt" style="width: 120px;">
+                        <input type="hidden" id="endDtChk" value="N">
+                    </span>
                 </td>
             </tr>
             <tr>
@@ -49,7 +54,7 @@
                     <span class="red-star"></span>기준거리
                 </th>
                 <td>
-                    <input type="text" id="distance" style="width: 80px;"> Km
+                    <input type="text" id="distance" oninput="inputNumberFormat(this)" style="width: 80px;"> Km
                 </td>
             </tr>
             <tr>
@@ -57,7 +62,7 @@
                     <span class="red-star"></span>적용금액
                 </th>
                 <td>
-                    <input type="text" id="costAmt" oninput="onlyNumber(this)" style="width: 120px;"> 원
+                    <input type="text" id="costAmt" oninput="inputNumberFormat(this)" style="width: 120px;"> 원
                 </td>
             </tr>
             <tr>

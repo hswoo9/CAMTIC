@@ -1208,6 +1208,26 @@
         ORDER BY HR_FUEL_COST_INFO_SN DESC LIMIT 1
     </update>
 
+    <update id="setBustripFuelCostInfoUpdate" parameterType="map">
+        /*setBustripFuelCostInfoUpdate*/
+        UPDATE CAM_INSIDE.DJ_HR_FUEL_COST_INFO
+        SET
+            START_DT = #{startDt},
+            END_DT = #{endDt},
+            DISTANCE = #{distance},
+            COST_AMT = #{costAmt},
+            PROJECT_CD = #{projectCd},
+            PROJECT_NM = #{projectText},
+            MOD_DT = NOW()
+        WHERE
+            HR_FUEL_COST_INFO_SN = #{hrFuelCostInfoSn}
+    </update>
+
+    <delete id="setFuelCostDelete" parameterType="map">
+        /*setFuelCostDelete*/
+        DELETE FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO WHERE HR_FUEL_COST_INFO_SN IN (${fcSnArr})
+    </delete>
+
     <update id="setExchangeRateUpdate" parameterType="map">
         /* setExchangeRateUpdate */
         UPDATE
@@ -1225,6 +1245,18 @@
         WHERE
             1=1
         ORDER BY IHFCI.REG_DT DESC
+    </select>
+
+    <select id="getBustripFuelCostOne" parameterType="map" resultType="map">
+        /* getBustripFuelCostOne */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_FUEL_COST_INFO
+        WHERE
+            1=1
+        AND
+            HR_FUEL_COST_INFO_SN = #{hrFuelCostInfoSn}
     </select>
 
     <select id="getBustripFuelCostInfo" parameterType="map" resultType="map">

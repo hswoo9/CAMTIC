@@ -421,12 +421,19 @@ public class BustripController {
 
     //유가 기준정보 추가 팝업
     @RequestMapping("/bustrip/pop/bustripFuelCostReqPop.do")
-    public String bustripFuelCostReqPop(HttpServletRequest request, Model model) {
+    public String bustripFuelCostReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/inside/bustrip/bustripFuelCostReqPop";
+    }
+
+    @RequestMapping("/bustrip/getBustripFuelCostOne")
+    public String getBustripFuelCostOne(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("data", bustripService.getBustripFuelCostOne(params));
+        return "jsonView";
     }
 
     //환율 관리 팝업
@@ -804,6 +811,12 @@ public class BustripController {
     @RequestMapping("/bustrip/setBustripFuelCostInsert")
     public String setBustripFuelCostInsert(@RequestParam Map<String, Object> params, Model model){
         bustripService.setBustripFuelCostInsert(params);
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/setFuelCostDelete")
+    public String setFuelCostDelete(@RequestParam Map<String, Object> params, Model model){
+        bustripService.setFuelCostDelete(params);
         return "jsonView";
     }
 
