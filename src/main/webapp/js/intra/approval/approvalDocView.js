@@ -418,7 +418,7 @@ var docView = {
     },
 
     documentHwpDataCtrl : function(){
-        if($("#formId").val() != "1"){
+        if(docView.global.rs.docInfo.FORM_ID != "1"){
             /** 결재 사인 */
             if(docView.global.rs.approveNowRoute.APPROVE_TYPE != 1){
                 hwpApprovalLine.setHwpApprovalSignPut();

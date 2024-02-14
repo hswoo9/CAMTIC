@@ -250,11 +250,7 @@ var hwpApprovalLine = {
                     break;
                 }
 
-                if(map.APPROVE_STAT_CODE == 10 || (String(map.DRAFT_EMP_SEQ) == String(map.LAST_APPROVE_EMP_SEQ))){
-                    let field = "docAppr0";
-                    hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
-
-                }else if(map.APPROVE_TYPE == "0" || map.APPROVE_TYPE == "2"){
+                if(map.APPROVE_TYPE == "0" || map.APPROVE_TYPE == "2"){
 
                     if(map.APPROVE_DUTY_NAME == "팀장" || map.APPROVE_DUTY_NAME == "팀장 직무대리"){
                         let field = "docAppr1";
@@ -376,6 +372,8 @@ var hwpApprovalLine = {
     documentLinePut : function(){
         /** 기안문서 결재선 지정시 공문 하단 결재선 입력 */
         hwpDocCtrl.putFieldText('docApprNm0', "기안자");
+        let field = "docAppr0";
+        hwpDocCtrl.putFieldText(field, $("#empName").val());
 
         let list = draft.global.approversArr;
         console.log("approversArr", draft.global.approversArr)
