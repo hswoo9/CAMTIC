@@ -1107,6 +1107,27 @@ public class CampusController {
         return "/popup/campus/approvalFormPopup/propagPrintPop";
     }
 
+    //캠퍼스 - OJT 학습일지 한글뷰어
+    @RequestMapping("/Campus/pop/ojtPrintPop.do")
+    public String ojtPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+        return "/popup/campus/approvalFormPopup/ojtPrintPop";
+    }
+
 
 
 

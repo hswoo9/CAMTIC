@@ -549,7 +549,7 @@ const ojtView = {
                     title: "처리명령",
                     width: 200,
                     template: function(row){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="studyView.tmp('+row.OJT_RESULT_SN+')">인쇄</button> ' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="ojtView.ojtPrintPop('+row.OJT_RESULT_SN+')">인쇄</button> ' +
                             '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="ojtView.fn_delete('+row.OJT_RESULT_SN+')">삭제</button>';
                     }
                 }
@@ -578,6 +578,13 @@ const ojtView = {
         let url = "/Campus/pop/ojtResultPop.do?mode="+mode+"&pk="+pk+"&ojtResultSn="+ojtResultSn;
         let name = "ojtResultPop";
         let option = "width = 1060, height = 600, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    ojtPrintPop: function(pk){
+        let url = "/Campus/pop/ojtPrintPop.do?mode=upd&studyInfoSn="+$("#pk").val()+"&ojtResultSn="+pk;
+        let name = "ojtPrintPop";
+        let option = "width = 965, height = 900, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 
