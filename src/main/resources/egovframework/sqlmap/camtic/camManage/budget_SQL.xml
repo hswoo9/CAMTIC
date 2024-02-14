@@ -291,7 +291,7 @@
         /*getBudgetDetR*/
         SELECT
             A.*,
-            IFNULL((SELECT TOT_COST FROM cam_mng.dj_exnp_det WHERE PJT_BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
         FROM
             (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
              UNION ALL
@@ -306,7 +306,7 @@
         /*getBudgetDetM*/
         SELECT
             A.*,
-            IFNULL((SELECT TOT_COST FROM cam_mng.dj_exnp_det WHERE PJT_BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
         FROM
             (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
              UNION ALL
@@ -315,6 +315,51 @@
             A.BS_YEAR = #{baseYear}
           AND
             A.PJT_CLASS = 'M'
+    </select>
+
+    <select id="getBudgetDetS" parameterType="map" resultType="map">
+        /*getBudgetDetS*/
+        SELECT
+            A.*,
+            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+        FROM
+            (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
+             UNION ALL
+             SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_B) A
+        WHERE
+            A.BS_YEAR = #{baseYear}
+          AND
+            A.PJT_CLASS = 'S'
+    </select>
+
+    <select id="getBudgetDetD" parameterType="map" resultType="map">
+        /*getBudgetDetD*/
+        SELECT
+            A.*,
+            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+        FROM
+            (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
+             UNION ALL
+             SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_B) A
+        WHERE
+            A.BS_YEAR = #{baseYear}
+          AND
+            A.PJT_CLASS = 'D'
+    </select>
+
+    <select id="getBudgetDetV" parameterType="map" resultType="map">
+        /*getBudgetDetV*/
+        SELECT
+            A.*,
+            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+        FROM
+            (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
+             UNION ALL
+             SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_B) A
+        WHERE
+            A.BS_YEAR = #{baseYear}
+          AND
+            A.PJT_CLASS = 'V'
     </select>
 
     <select id="getPjtBudgetAHistList" parameterType="map" resultType="map">
