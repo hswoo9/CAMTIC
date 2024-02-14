@@ -199,6 +199,69 @@ var approvalLine = {
 
             requestAmt = Number(delvMap.TOT_RES_COST);
 
+        }else if(data.menuCd == "dev"){
+            const devSn = data.approKey.split("_")[1];
+            if (devSn == null || devSn == undefined || devSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+            const pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: devSn}).rs.PJT_SN;
+            const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
+            const map = result.map;
+
+            requestAmt = Number(map.PJT_AMT);
+
+        }else if(data.menuCd == "rndDev"){
+            const devSn = data.approKey.split("_")[1];
+            if (devSn == null || devSn == undefined || devSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+            const pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: devSn}).rs.PJT_SN;
+            const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: pjtSn});
+            const delvMap = rndInfo.map;
+
+            requestAmt = Number(delvMap.TOT_RES_COST);
+
+        }else if(data.menuCd == "unRndDev"){
+            const devSn = data.approKey.split("_")[1];
+            if (devSn == null || devSn == undefined || devSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+            const pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: devSn}).rs.PJT_SN;
+            const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: pjtSn});
+            const delvMap = unRndInfo.map;
+
+            requestAmt = Number(delvMap.TOT_RES_COST);
+
+        }else if(data.menuCd == "pjtRes"){
+            const pjtSn = data.approKey.split("_")[1];
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+            const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
+            const delvMap = result.delvMap;
+
+            requestAmt = Number(delvMap.PJT_AMT);
+
+        }else if(data.menuCd == "rndRes"){
+            const pjtSn = data.approKey.split("_")[1];
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+            const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: pjtSn});
+            const delvMap = rndInfo.map;
+
+            requestAmt = Number(delvMap.TOT_RES_COST);
+
+        }else if(data.menuCd == "unRndRes"){
+            const pjtSn = data.approKey.split("_")[1];
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+            const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: pjtSn});
+            const delvMap = unRndInfo.map;
+
+            requestAmt = Number(delvMap.TOT_RES_COST);
+
         }else if(data.menuCd == "campus"){
             const eduInfoId = data.approKey.split("_")[1];
 

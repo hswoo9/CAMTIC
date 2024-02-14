@@ -162,7 +162,7 @@ var employmentPop = {
             }
 
             if(result.data.FLAG == "N" && employmentPop.global.loginVO.uniqId == employmentPop.global.data.EMP_SEQ){
-                $("#popBtnDiv").prepend("<button type=\"button\" class=\"k-button k-button-solid-info\" id=\"okBtn\" onClick=\"employmentPop.ok()\">서명</button>")
+                $("#popBtnDiv").prepend("<button type=\"button\" class=\"k-button k-button-solid-info\" id=\"okBtn\" onClick=\"employmentPop.ok()\">확인</button>")
 
             }
         }

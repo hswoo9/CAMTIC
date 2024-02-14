@@ -306,6 +306,7 @@
             CAM_HR.DJ_DEPT_INFO HDI ON VUI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
             VUI.ACTIVE = "Y"
+        AND WORK_STATUS_CODE = 'Y'
         <if test='dept != null and !"".equals(dept)'>
             <if test='team != null and !"".equals(team)'>
                 AND (VUI.DEPT_SEQ = #{dept} OR VUI.DEPT_SEQ = #{team})
