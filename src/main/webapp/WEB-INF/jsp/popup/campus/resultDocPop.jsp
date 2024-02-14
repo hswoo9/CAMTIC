@@ -12,8 +12,14 @@
 
 <body class="font-opensans" style="background-color:#fff;">
 
+<form id="studyDraftFrm" method="post">
+    <input type="hidden" id="studyResultSn" name="studyResultSn" value="${params.studyResultSn}" />
+    <input type="hidden" id="menuCd" name="menuCd" value="studyRes">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
+
 <input type="hidden" id="pk" value="${params.pk}"/>
-<input type="hidden" id="studyResultSn" value="${params.studyResultSn}" />
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 
@@ -30,7 +36,7 @@
             <input type="button" id="apprBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인" onclick="fn_approval();"/>
             <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="fn_saveing();"/>
             <input type="button" id="modBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-primary" value="수정" onclick="fn_saveing();"/>
-            <input type="button" id="approvalBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="결재요청" onclick="fn_save();"/>
+            <input type="button" id="approvalBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="상신" onclick="fn_save();"/>
             <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
         </div>
     </div>
@@ -378,7 +384,17 @@
     }
 
     function fn_save(){
-        let studyInfoSn = $("#pk").val();
+        $("#studyDraftFrm").one("submit", function() {
+            var url = "/Campus/pop/studyResApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/Campus/pop/studyResApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
+
+        /*let studyInfoSn = $("#pk").val();
         let data = {
             studyInfoSn: studyInfoSn
         }
@@ -394,11 +410,11 @@
                     window.close();
                 }
             }
-        })
+        })*/
     }
 
     function fn_approval(){
-        if($("#resultMode").val() == "mng"){
+        /*if($("#resultMode").val() == "mng"){
             var data = {
                 studyInfoSn : $("#pk").val(),
             }
@@ -415,7 +431,12 @@
                     }
                 }
             });
-        }
+        }*/
+
+        const studyResult = customKendo.fn_customAjax("/campus/getStudyResultData", {studyResultSn: $("#studyResultSn").val()});
+        const studyInfo = studyResult.data;
+
+        approveDocView(studyInfo.DOC_ID, studyInfo.APPRO_KEY, studyInfo.DOC_MENU_CD);
     }
 </script>
 </body>

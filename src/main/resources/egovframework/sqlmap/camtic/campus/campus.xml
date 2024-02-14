@@ -2134,7 +2134,14 @@
 
     <select id="getStudyResultData" parameterType="map" resultType="map">
         /*getStudyResultData*/
-        SELECT * FROM CAMPUS.DJ_STUDY_RESULT
+        SELECT
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAMPUS.DJ_STUDY_RESULT A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             STUDY_RESULT_SN = #{studyResultSn}
     </select>
@@ -2841,6 +2848,31 @@
             APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d')
         WHERE
             STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
+    <update id="updateStudyResApprStat" parameterType="map">
+        /* updateStudyResApprStat */
+        UPDATE
+            CAMPUS.DJ_STUDY_RESULT
+        SET
+        <if test='docId != null and !"".equals(docId)'>
+            DOC_ID = #{docId},
+        </if>
+        STATUS = #{status}
+        WHERE
+        STUDY_RESULT_SN = #{studyResultSn}
+    </update>
+
+    <update id="updateStudyResFinalApprStat" parameterType="map">
+        /* updateStudyResFinalApprStat */
+        UPDATE
+            CAMPUS.DJ_STUDY_RESULT
+        SET
+            STATUS = #{status},
+            APPROVAL_EMP_SEQ = #{empSeq},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d')
+        WHERE
+            STUDY_RESULT_SN = #{studyResultSn}
     </update>
 
     <insert id="setEduCode" parameterType="map">

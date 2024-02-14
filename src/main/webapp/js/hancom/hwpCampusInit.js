@@ -369,5 +369,117 @@ var campusInit = {
         html += '</table>';
 
         return html.replaceAll("\n", "<br>");
+    },
+
+    studyResInit: function(studyResultSn){
+        campusInit.global.userInfo = getUser($("#empSeq").val());
+
+        const studyResult = customKendo.fn_customAjax("/campus/getStudyResultData", {studyResultSn: studyResultSn});
+        const studyInfo = studyResult.data;
+        campusInit.global.studyInfo = studyInfo;
+
+        const userResult = customKendo.fn_customAjax("/campus/getStudyResultList", {pk: studyInfo.STUDY_INFO_SN});
+        const userList = userResult.list;
+        campusInit.global.userList = userList;
+
+        hwpDocCtrl.putFieldText("STUDY_TITLE", "학습조 결과보고서");
+        
+        hwpDocCtrl.putFieldText('STUDY_SUBJECT', studyInfo.STUDY_NAME);
+
+        let htmlStudy = "";
+        htmlStudy = campusInit.htmlCustomStudyRes();
+
+        hwpDocCtrl.moveToField('USER_TABLE', true, true, false);
+        hwpDocCtrl.setTextFile(htmlStudy, "HTML", "insertfile", {});
+    },
+
+    htmlCustomStudyRes: function(){
+        const studyInfo = campusInit.global.studyInfo;
+        const userList = campusInit.global.userList;
+
+        let rowspan = 10;
+        if(userList.length > 8){
+            rowspan = userList.length+2;
+        }
+
+        let html = '';
+        html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="3" style="border-collapse: collapse; margin: 0px;">';
+
+        html += '               <tr>';
+        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습자</b></p></td>';
+        html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>구분</b></p></td>';
+        html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 170px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
+        html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 93px;"><p style="font-family:굴림;font-size:14px;"><b>직위</b></p></td>';
+        html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 93px;"><p style="font-family:굴림;font-size:14px;"><b>성명</b></p></td>';
+        html += '                   <td colspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 140px;"><p style="font-family:굴림;font-size:14px;"><b>이수시간</b></p></td>';
+        html += '               </tr>';
+        html += '               <tr>'
+        html += '                   <td style="height:23px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>회</b></p></td>';
+        html += '                   <td style="height:23px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>시간</b></p></td>';
+        html += '               </tr>';
+        for(let i=0; i<userList.length; i++){
+            const map = userList[i];
+
+            html += '               <tr>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_CLASS_TEXT +'</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_DEPT_NAME+ ' '+map.STUDY_TEAM_NAME +'</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_POSITION_NAME +'</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_EMP_NAME +'</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_EMP_CNT +'</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_TIME +'</p></td>';
+            html += '               </tr>';
+        }
+        if(userList.length < 8){
+            for(let i=0; i<8-userList.length; i++){
+                html += '               <tr>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '               </tr>';
+            }
+        }
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습기간</b></p></td>';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.STUDY_RESULT_DT+' '+studyInfo.STUDY_RESULT_START_TIME+' ~ '+studyInfo.STUDY_RESULT_END_TIME +'</p></td>';
+        html += '               </tr>';
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습장소</b></p></td>';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.STUDY_RESULT_LOCATE+'</p></td>';
+        html += '               </tr>';
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습내용</b></p></td>';
+        html += '                   <td colspan="6" style="height:110px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.STUDY_RESULT_CONTENT+'</p></td>';
+        html += '               </tr>';
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>소요비용</b></p></td>';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ comma(studyInfo.STUDY_RESULT_AMT)+'</p></td>';
+        html += '               </tr>';
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>산출내역</b></p></td>';
+        html += '                   <td colspan="6" style="height:60px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;"></p></td>';
+        html += '               </tr>';
+
+        html += '               <tr>';
+        html += '                   <td colspan="7" style="height:150px;background-color:#FFFFFF; text-align:center;">' +
+            '<p style="font-family:굴림;font-size:14px;margin-bottom: 3px">위와 같이 학습조 결과보고서를 제출하오니 승인하여 주시기 바랍니다.<br><br>' +
+            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p><br><br>' +
+            '<p style="font-family:굴림;font-size:14px;text-align: right; margin-right: 10px">신 청 자 : '+$("#empName").val()+'</p>' +
+            '</td>';
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>첨부서류</b></p></td>';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;"></p></td>';
+        html += '               </tr>';
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
     }
 }

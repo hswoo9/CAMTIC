@@ -10,19 +10,9 @@
     approvalDataInit();
 
     function approvalDataInit(){
-        var studyType = "${data.studyType}";
-
-
-        let formId = "183";
-        let menuCd = "study";
-        let docTitle = "[학습조 신청서]";
-        if(studyType == "propag"){
-            menuCd = studyType;
-            docTitle = "[전파학습 신청서]";
-        }else if(studyType == "ojt"){
-            menuCd = studyType;
-            docTitle = "[OJT 신청서]";
-        }
+        let formId = "184";
+        let menuCd = "studyRes";
+        let docTitle = "[학습조 결과보고서]";
 
         var approvalParams = {};
         approvalParams.mod = "W";
@@ -35,10 +25,10 @@
         approvalParams.docType = "A";
         approvalParams.docTitle = docTitle+"${loginVO.orgnztNm}-${loginVO.name}";
 
-        approvalParams.linkageProcessId = "45";
+        approvalParams.linkageProcessId = "46";
         approvalParams.linkageType = "2";
-        approvalParams.linkageProcessCode = "camticStudy";
-        approvalParams.approKey = "camticStudy_${data.studyInfoSn}";
+        approvalParams.linkageProcessCode = "camticStudyRes";
+        approvalParams.approKey = "camticStudyRes_${data.studyResultSn}";
 
         linkageProcessOn(approvalParams);
     }
