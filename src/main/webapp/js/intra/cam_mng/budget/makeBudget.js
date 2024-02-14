@@ -12,6 +12,13 @@ var makeBudget = {
             makeBudget.makeBudgetGrid()
         });
 
+        var dropDownDataSource = [
+            { text : "세출", value : "A" },
+            { text : "세입", value : "B" },
+        ]
+        customKendo.fn_dropDownList("budgetType", dropDownDataSource, "text", "value");
+        $("#budgetType").data("kendoDropDownList").bind("change", makeBudget.makeBudgetGrid);
+
         makeBudget.makeBudgetGrid();
     },
 
@@ -30,6 +37,7 @@ var makeBudget = {
                     data.baseYear = $("#baseYear").val();
                     data.pjtFromDate = $("#baseYear").val() + "-01-01";
                     data.pjtToDate = $("#baseYear").val() + "-12-31";
+                    data.budgetType = $("#budgetType").data("kendoDropDownList").value();
                     return data;
                 }
             },
@@ -62,7 +70,7 @@ var makeBudget = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-dark" onclick="makeBudget.fn_regCloseBudget()">' +
                             '	<span class="k-button-text">마감</span>' +
                             '</button>';
                     }
@@ -101,7 +109,11 @@ var makeBudget = {
                     headerTemplate: '<input type="checkbox" id="checkAll" class="k-checkbox k-checkbox-item" name="checkAll"/>',
                     width: 30,
                     template: function(e){
-                        return '<input type="checkbox" class="k-checkbox k-checkbox-item" name="mChecks" value="' + e.BG_VAL + e.PJT_BUDGET_SN + '"/>';
+                        if(e.DD_LINE_STAT == "N"){
+                            return '<input type="checkbox" class="k-checkbox k-checkbox-item" name="mChecks" value="' + e.BG_VAL + e.PJT_BUDGET_SN + '"/>';
+                        } else {
+                            return "";
+                        }
                     }
                 }, {
                     title: "순번",
@@ -258,6 +270,31 @@ var makeBudget = {
             success : function(rs){
                 if (rs.code == 200){
                     alert("삭제되었습니다.");
+                    makeBudget.gridReload();
+                } else {
+
+                }
+            }
+        });
+    },
+
+    fn_regCloseBudget : function(){
+        var baseYear = $("#baseYear").val();
+
+        if(!confirm(baseYear + "년 예산등록을 마감하시겠습니까?\n마감 후 수정 및 삭제가 불가능합니다.")){
+            return;
+        }
+
+        $.ajax({
+            url : "/budget/regCloseBudget",
+            data : {
+                baseYear : baseYear
+            },
+            type : "POST",
+            dataType : "json",
+            success : function(rs){
+                if (rs.code == 200){
+                    alert("마감되었습니다.");
                     makeBudget.gridReload();
                 } else {
 

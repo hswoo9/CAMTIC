@@ -41,6 +41,10 @@
                         <td>
                             <input type="text" id="baseYear" style="width: 150px;">
                         </td>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="budgetType" style="width: 150px;">
+                        </td>
                     </tr>
                 </table>
 

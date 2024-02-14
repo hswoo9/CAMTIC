@@ -71,7 +71,7 @@ var budgetHist = {
                 }, {
                     title : "장",
                     field : "JANG_NM",
-                    width: 100
+                    width: 80
                 }, {
                     field: "GWAN_NM",
                     title: "관",
@@ -86,7 +86,11 @@ var budgetHist = {
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.BUDGET_AMT)+'</div>';
                     }
-                },
+                }, {
+                    field: "CD_REG_DE",
+                    title: "등록일",
+                    width: 70,
+                }
             ],
 
             dataBinding: function(){
