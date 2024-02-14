@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.campus.controller;
 
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.campus.service.CampusService;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,9 @@ public class CampusController {
 
     @Autowired
     private CampusService campusService;
+
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -1059,6 +1063,27 @@ public class CampusController {
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/campus/approvalFormPopup/studyApprovalPop";
+    }
+
+    //캠퍼스 - 학습조 학습일지 한글뷰어
+    @RequestMapping("/Campus/pop/studyPrintPop.do")
+    public String studyPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+        return "/popup/campus/approvalFormPopup/studyPrintPop";
     }
 
 

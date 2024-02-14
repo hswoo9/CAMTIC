@@ -216,7 +216,7 @@ const studyView = {
                 }, {
                     width: 150,
                     template: function(row){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="studyView.tmp('+row.STUDY_JOURNAL_SN+')">인쇄</button> ' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="studyView.studyPrintPop('+row.STUDY_JOURNAL_SN+')">인쇄</button> ' +
                             '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="studyView.fn_delete('+row.STUDY_JOURNAL_SN+')">삭제</button>';
                     }
                 }
@@ -292,7 +292,11 @@ const studyView = {
         studyView.setStudyUserMngUpdate(data);
     },
 
-    tmp: function(pk){
+    studyPrintPop: function(pk){
+        let url = "/Campus/pop/studyPrintPop.do?mode=upd&studyInfoSn="+$("#pk").val()+"&studyJournalSn="+pk;
+        let name = "studyPrintPop";
+        let option = "width = 965, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     },
 
     setStudyUserMngUpdate: function(data){
