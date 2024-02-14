@@ -136,6 +136,13 @@ public class BudgetController {
         return "jsonView";
     }
 
+    @RequestMapping("/budget/regCloseBudget")
+    public String regCloseBudget(@RequestParam Map<String, Object> params, Model model) {
+        budgetService.regCloseBudget(params);
+        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
     @RequestMapping("/budget/pop/budgetHistPop.do")
     public String budgetHistPop(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("params", params);

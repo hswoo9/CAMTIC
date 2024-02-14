@@ -171,18 +171,6 @@ public class BudgetServiceImpl implements BudgetService {
 
     @Override
     public void delPjtBudgetItem(Map<String, Object> params) {
-        Gson gson = new Gson();
-
-//        List<Map<String, Object>> aList = gson.fromJson((String) params.get("aItemArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
-//        List<Map<String, Object>> bList = gson.fromJson((String) params.get("bItemArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
-
-//        if(aList.size() > 0) {
-//            for(Map<String, Object> item : aList) {
-//                params.put("pjtBudgetSn", item.get("pjtBudgetSn"));
-//                budgetRepository.delPjtBudgetItem(params);
-//            }
-//        }
-
         if(!params.get("aItemArr").equals("")){
             budgetRepository.delPjtBudgetA(params);
         }
@@ -190,6 +178,12 @@ public class BudgetServiceImpl implements BudgetService {
         if(!params.get("bItemArr").equals("")){
             budgetRepository.delPjtBudgetB(params);
         }
+    }
+
+    @Override
+    public void regCloseBudget(Map<String, Object> params) {
+        budgetRepository.regCloseBudgetA(params);
+        budgetRepository.regCloseBudgetB(params);
     }
 
     @Override

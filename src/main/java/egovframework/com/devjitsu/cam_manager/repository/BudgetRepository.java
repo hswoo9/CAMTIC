@@ -95,6 +95,16 @@ public class BudgetRepository extends AbstractDAO {
         delete("budget.delPjtBudgetB", params);
     }
 
+    public void regCloseBudgetA(Map<String, Object> params) {
+
+        update("budget.regCloseBudgetA", params);
+    }
+
+    public void regCloseBudgetB(Map<String, Object> params) {
+
+        update("budget.regCloseBudgetB", params);
+    }
+
     public List<Map<String, Object>> getBudgetDetR(Map<String, Object> params) {
 
         return selectList("budget.getBudgetDetR", params);

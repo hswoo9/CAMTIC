@@ -13,17 +13,21 @@
              SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_B) A
         WHERE
             BS_YEAR = #{baseYear}
+        <if test='budgetType != null and !"".equals(budgetType)'>
+            AND
+                BG_VAL = #{budgetType}
+        </if>
     </select>
 
     <select id="getBudgetAList" parameterType="map" resultType="map">
-        /*getBudgetList*/
+        /*getBudgetAList*/
         SELECT *
         FROM
             CAM_PJT_MNG.DJ_PJT_BUDGET_A
     </select>
 
     <select id="getBudgetBList" parameterType="map" resultType="map">
-        /*getBudgetList*/
+        /*getBudgetBList*/
         SELECT *
         FROM
             CAM_PJT_MNG.DJ_PJT_BUDGET_B
@@ -260,6 +264,28 @@
         WHERE
             PJT_BUDGET_SN IN (${bItemArr})
     </delete>
+
+    <update id="regCloseBudgetA" parameterType="map">
+        /*regCloseBudgetA*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_BUDGET_A
+        SET
+            DD_LINE_STAT = 'Y',
+            MOD_DT = NOW()
+        WHERE
+            BS_YEAR = #{baseYear}
+    </update>
+
+    <update id="regCloseBudgetB" parameterType="map">
+        /*regCloseBudgetB*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_BUDGET_B
+        SET
+            DD_LINE_STAT = 'Y',
+            MOD_DT = NOW()
+        WHERE
+            BS_YEAR = #{baseYear}
+    </update>
 
     <select id="getBudgetDetR" parameterType="map" resultType="map">
         /*getBudgetDetR*/
