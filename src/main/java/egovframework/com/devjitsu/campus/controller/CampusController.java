@@ -1033,7 +1033,7 @@ public class CampusController {
 
     //캠퍼스 - 학습신청서 전자결재
     @RequestMapping("/Campus/pop/campusApprovalPop.do")
-    public String workHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+    public String campusApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("data", params);
@@ -1049,6 +1049,16 @@ public class CampusController {
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/campus/approvalFormPopup/campusResApprovalPop";
+    }
+    
+    //캠퍼스 - 단체학습신청서 전자결재
+    @RequestMapping("/Campus/pop/studyApprovalPop.do")
+    public String studyApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/campus/approvalFormPopup/studyApprovalPop";
     }
 
 
@@ -2028,6 +2038,29 @@ public class CampusController {
         String resultMessage = "성공하였습니다.";
         try{
             campusService.updateResDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /**
+     * 단체학습신청서 결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/campus/studyReqApp")
+    public String studyReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            campusService.updateStudyDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";

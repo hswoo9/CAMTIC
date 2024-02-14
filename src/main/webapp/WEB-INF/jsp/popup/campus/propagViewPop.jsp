@@ -31,18 +31,18 @@
 <input type="hidden" id="studyResultSn" value="${resultData.STUDY_RESULT_SN}" />
 <body class="font-opensans" style="background-color:#fff;">
 
+<form id="studyDraftFrm" method="post">
+    <input type="hidden" id="studyInfoSn" name="studyInfoSn" value="${params.pk}" />
+    <input type="hidden" id="menuCd" name="menuCd" value="study">
+    <input type="hidden" id="studyType" name="studyType" value="propag">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
+
 
     <div class="card-header pop-header barFixed">
         <h3 class="card-title title_NM">전파학습 신청서 조회</h3>
-        <div class="btn-st popButton">
-            <button type="button" id="modBtn" style="display: none" class="k-button k-button-solid-primary" onclick="propagView.fn_propagMod();">수정</button>
-            <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(100);">승인</button>
-            <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="propagView.fn_propagCertReq(30);">반려</button>
-            <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-error" onclick="propagView.fn_propagCertReq(0);">요청취소</button>
-            <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_propagCertReq(10);">승인요청</button>
-            <button type="button" id="compBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_studyComplete();">학습완료</button>
-            <button type="button" id="resultBtn" style="display: none" class="k-button k-button-solid-info" onclick="propagView.fn_resultDocPop();">결과보고서</button>
-            <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
+        <div id="studyBtn" class="btn-st popButton">
         </div>
     </div>
     <div class="table-responsive mt60">

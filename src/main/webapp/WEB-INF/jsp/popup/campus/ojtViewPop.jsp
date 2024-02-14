@@ -32,20 +32,20 @@
 <input type="hidden" id="ojtOjtResultSn" value="${params.ojtOjtResultSn}" />
 <input type="hidden" id="status"/>
 <body class="font-opensans" style="background-color:#fff;">
+
+<form id="studyDraftFrm" method="post">
+    <input type="hidden" id="studyInfoSn" name="studyInfoSn" value="${params.pk}" />
+    <input type="hidden" id="menuCd" name="menuCd" value="study">
+    <input type="hidden" id="studyType" name="studyType" value="ojt">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
+
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header barFixed">
             <h3 class="card-title title_NM">OJT 신청서 조회</h3>
-            <div class="btn-st popButton">
-                <button type="button" id="resultBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_resultPop()">결과보고서</button>
-                <button type="button" id="finBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(101);">지도완료</button>
-                <button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(100);">승인</button>
-                <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="ojtView.fn_ojtCertReq(30);">반려</button>
-                <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(0);">승인요청 취소</button>
-                <input type="button" id="studyModBtn" style="display: none" class="k-button k-button-solid-primary" value="수정" onclick="ojtView.fn_ojtUpdatePop();"/>
-                <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="ojtView.fn_ojtCertReq(10);">승인요청</button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
-            </div>
+            <div id="studyBtn" class="btn-st popButton"></div>
         </div>
         <div class="card-header" style="padding-top:60px;">
             <div class="col-lg-12" style="margin:0 auto;">

@@ -339,7 +339,7 @@ var docView = {
             try {
                 opener.parent.gridReload();
             }catch (e) {
-
+                opener.parent.location.reload();
             }
             window.close();
         }else{

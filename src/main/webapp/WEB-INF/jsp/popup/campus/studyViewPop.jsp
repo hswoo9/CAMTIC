@@ -35,6 +35,15 @@
 <input type="hidden" id="status" value="${data.STATUS}"/>
 <input type="hidden" id="studyResultSn" value="${resultData.STUDY_RESULT_SN}" />
 <input type="hidden" id="addStatus" value="${data.ADD_STATUS}"/>
+
+<form id="studyDraftFrm" method="post">
+    <input type="hidden" id="studyInfoSn" name="studyInfoSn" value="${params.pk}" />
+    <input type="hidden" id="menuCd" name="menuCd" value="study">
+    <input type="hidden" id="studyType" name="studyType" value="study">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
+
 <div class="col-lg-12" style="padding:0;">
 <div class="card-header pop-header barFixed">
     <h3 class="card-title title_NM">
@@ -42,24 +51,8 @@
                     학습조 내용 조회
                 </span>
     </h3>
-    <div class="btn-st popButton">
-        <input type="button" style="display: none;" class="k-button k-button-solid-info" value="결과보고서" id="resultBtn" onclick="studyView.fn_resultDocPop();"/>
-        <input type="button" style="display: none;" class="k-button k-button-solid-info" value="학습완료" id="compBtn" onclick="studyView.fn_studyComplete();"/>
-        <%--<input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>--%>
-        <input type="button" id="studyModBtn" style="display: none" class="k-button k-button-solid-primary" value="수정" onclick="studyView.studyUpdatePop();"/>
-        <input type="button" id="studyReqBtn" style="display: none" class="k-button k-button-solid-info" value="승인요청" onclick="studyView.studyReq(10);"/>
-        <input type="button" id="studyCancelBtn" style="display: none" class="k-button k-button-solid-info" value="승인요청취소" onclick="studyView.studyReq(0);"/>
-        <input type="button" id="studyAppBtn" style="display: none" class="k-button k-button-solid-info" value="승인" onclick="studyView.studyReq(100);"/>
-        <input type="button" id="studyComBtn" style="display: none" class="k-button k-button-solid-error" value="반려" onclick="studyView.studyReq(30);"/>
-        <input type="button" id="studyCloseBtn" style="display: none" class="k-button k-button-solid-info" value="닫기" onclick="window.close();"/>
+    <div id="studyBtn" class="btn-st popButton">
     </div>
-   <%-- <div class="btn-st popButton" &lt;%&ndash;style="margin-top:10px; text-align:center;"&ndash;%&gt;>
-        <input type="button" id="studyModBtn" style="display: none" class="k-button k-button-solid-primary" value="수정" onclick="studyView.studyUpdatePop();"/>
-        <input type="button" id="studyReqBtn" style="display: none" class="k-button k-button-solid-info" value="승인요청" onclick="studyView.studyReq(10);"/>
-        <input type="button" id="studyCancelBtn" style="display: none" class="k-button k-button-solid-info" value="승인요청취소" onclick="studyView.studyReq(0);"/>
-        <input type="button" id="studyAppBtn" style="display: none" class="k-button k-button-solid-info" value="승인" onclick="studyView.studyReq(100);"/>
-        <input type="button" id="studyComBtn" style="display: none" class="k-button k-button-solid-error" value="반려" onclick="studyView.studyReq(30);"/>
-    </div>--%>
 </div>
 <div class="table-responsive" style="padding-top: 40px;">
 

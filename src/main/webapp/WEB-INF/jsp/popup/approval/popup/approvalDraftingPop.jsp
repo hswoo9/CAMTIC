@@ -19,6 +19,7 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpUnRndInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpPayInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpBustripInit.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/hwpCampusInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDrafting.js?v=${now}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalLine.js?v=${now}'/>"></script>
