@@ -68,7 +68,7 @@ const waypointReq = {
             async : false,
             success : function(result){
                 alert("저장되었습니다.");
-                opener.gridReload();
+                opener.waypointList.mainGrid();
                 window.close();
             },
             error : function() {

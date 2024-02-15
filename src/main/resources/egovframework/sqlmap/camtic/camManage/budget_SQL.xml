@@ -291,7 +291,7 @@
         /*getBudgetDetR*/
         SELECT
             A.*,
-            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD) AND EXNP_STAT = 'Y'), 0) AS EXNP_AMT
         FROM
             (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
              UNION ALL
@@ -306,7 +306,7 @@
         /*getBudgetDetM*/
         SELECT
             A.*,
-            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD) AND EXNP_STAT = 'Y'), 0) AS EXNP_AMT
         FROM
             (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
              UNION ALL
@@ -321,7 +321,7 @@
         /*getBudgetDetS*/
         SELECT
             A.*,
-            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD) AND EXNP_STAT = 'Y'), 0) AS EXNP_AMT
         FROM
             (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
              UNION ALL
@@ -336,7 +336,7 @@
         /*getBudgetDetD*/
         SELECT
             A.*,
-            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD) AND EXNP_STAT = 'Y'), 0) AS EXNP_AMT
         FROM
             (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
              UNION ALL
@@ -351,7 +351,7 @@
         /*getBudgetDetV*/
         SELECT
             A.*,
-            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD)), 0) AS EXNP_AMT
+            IFNULL((SELECT SUM(TOT_COST) FROM cam_mng.dj_exnp_det WHERE BUDGET_SN = CONCAT(A.JANG_CD, A.GWAN_CD, A.HANG_CD) AND EXNP_STAT = 'Y'), 0) AS EXNP_AMT
         FROM
             (SELECT * FROM CAM_PJT_MNG.DJ_PJT_BUDGET_A
              UNION ALL

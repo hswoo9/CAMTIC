@@ -46,8 +46,8 @@ const costReq = {
 
         customKendo.fn_customAjax("/bustrip/setBusinessCostInsert", data);
         alert("저장되었습니다.");
-        opener.gridReload();
-        //window.close();
+        opener.costList.mainGrid();
+        window.close();
 
     },
 

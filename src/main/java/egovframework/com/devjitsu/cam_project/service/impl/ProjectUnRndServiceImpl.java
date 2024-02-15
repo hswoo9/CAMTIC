@@ -238,12 +238,32 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
 
     @Override
     public Map<String, Object> getLectureInfo(Map<String, Object> params) {
-        return projectUnRndRepository.getLectureInfo(params);
+        Map<String, Object> lecInfo = projectUnRndRepository.getLectureInfo(params);
+
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("fileNo", lecInfo.get("LEC_BOOK_IMG_SN"));
+        lecInfo.put("file1", commonRepository.getContentFileOne(searchMap));
+
+        searchMap.put("fileNo", lecInfo.get("LEC_APPL_SN"));
+        lecInfo.put("file2", commonRepository.getContentFileOne(searchMap));
+
+        searchMap.put("fileNo", lecInfo.get("LEC_MAIN_IMG_SN"));
+        lecInfo.put("file3", commonRepository.getContentFileOne(searchMap));
+
+        /*return projectUnRndRepository.getLectureInfo(params);*/
+        return lecInfo;
     }
 
     @Override
     public Map<String, Object> getConsultingInfo(Map<String, Object> params) {
-        return projectUnRndRepository.getConsultingInfo(params);
+        Map<String, Object> consultingInfo = projectUnRndRepository.getConsultingInfo(params);
+        Map<String, Object> searchMap = new HashMap<>();
+
+        searchMap.put("TEACHER_SN", consultingInfo.get("CON_TC_SN"));
+        consultingInfo.put("teacherInfo", projectUnRndRepository.getConsultingTeacherInfo(searchMap));
+
+        return consultingInfo;
+        /*return projectUnRndRepository.getConsultingInfo(params);*/
     }
 
     @Override
@@ -260,6 +280,7 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         List<Map<String, Object>> TEACHER_LIST = gson.fromJson((String) params.get("teacherList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
         params.put("teacherList", TEACHER_LIST);
         projectUnRndRepository.insConTeacherInfo(params);
+        projectUnRndRepository.updConTeacherInfo(params);
     }
 
     @Override
@@ -294,7 +315,56 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         projectUnRndRepository.delTeacherData(params);
     }
     @Override
-    public void insLectureInfo(Map<String, Object> params) {
+    public void insLectureInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        params.put("menuCd", "lecReq");
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile file1 = request.getFile("file1");
+        MultipartFile file2 = request.getFile("file2");
+        MultipartFile file3 = request.getFile("file3");
+
+        if(file1 != null) {
+            if (!file1.isEmpty()) {
+                fileInsMap  = mainLib.fileUpload(file1, filePath(params, SERVER_DIR));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                fileInsMap.put("fileCd", "lecBookImgSn");
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                params.put("lecBookImgSn", fileInsMap.get("file_no"));
+            }
+        }
+
+        if(file2 != null) {
+            if (!file2.isEmpty()) {
+                fileInsMap  = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                fileInsMap.put("fileCd", "lecApplSn");
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                params.put("lecApplSn", fileInsMap.get("file_no"));
+            }
+        }
+
+        if(file3 != null) {
+            if (!file3.isEmpty()) {
+                fileInsMap  = mainLib.fileUpload(file3, filePath(params, SERVER_DIR));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                fileInsMap.put("fileCd", "lecMainImgSn");
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                params.put("lecMainImgSn", fileInsMap.get("file_no"));
+            }
+        }
         projectUnRndRepository.insLectureInfo(params);
     }
 
@@ -303,7 +373,72 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         projectUnRndRepository.insConsultingInfo(params);
     }
     @Override
-    public void updLectureInfo(Map<String, Object> params) {
+    public void updLectureInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        params.put("menuCd", "lecReq");
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile file1 = request.getFile("file1");
+        MultipartFile file2 = request.getFile("file2");
+        MultipartFile file3 = request.getFile("file3");
+
+        String file1sn = (String) params.get("file1sn");
+        String file2sn = (String) params.get("file2sn");
+        String file3sn = (String) params.get("file3sn");
+
+        if(file1 != null) {
+            if (!file1.isEmpty()) {
+                if(file1sn != null || file1sn != ""){
+                    commonRepository.getContentFileDelOne(params);
+                }
+
+                fileInsMap  = mainLib.fileUpload(file1, filePath(params, SERVER_DIR));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                fileInsMap.put("fileCd", "lecBookImgSn");
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                params.put("lecBookImgSn", fileInsMap.get("file_no"));
+            }
+        }
+
+        if(file2 != null) {
+            if (!file2.isEmpty()) {
+                if(file2sn != null || file2sn != "") {
+                    commonRepository.getContentFileDelOne(params);
+                }
+
+                fileInsMap  = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                fileInsMap.put("fileCd", "lecApplSn");
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                params.put("lecApplSn", fileInsMap.get("file_no"));
+            }
+        }
+
+        if(file3 != null) {
+            if (!file3.isEmpty()) {
+                if(file3sn != null || file3sn != "") {
+                    commonRepository.getContentFileDelOne(params);
+                }
+                fileInsMap  = mainLib.fileUpload(file3, filePath(params, SERVER_DIR));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                fileInsMap.put("fileCd", "lecMainImgSn");
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                commonRepository.insOneFileInfo(fileInsMap);
+
+                params.put("lecMainImgSn", fileInsMap.get("file_no"));
+            }
+        }
+
         projectUnRndRepository.updLectureInfo(params);
     }
     @Override

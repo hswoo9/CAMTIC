@@ -151,7 +151,7 @@ var fuelCostList = {
         var data = {
             fcSnArr : fcSn.substring(1)
         }
-console.log(data);
+
         var result = customKendo.fn_customAjax("/bustrip/setFuelCostDelete", data);
         if(result.flag){
             alert("삭제되었습니다.");

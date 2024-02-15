@@ -99,7 +99,7 @@ var draft = {
                     $("#readerTr").show();
                 }else{
                     draft.global.readersArr = [];
-                    $("#readerName").val("");
+                    // $("#readerName").val("");
                     // $("#readerTr").hide();
                 }
             }
@@ -270,7 +270,12 @@ var draft = {
             //     draft.global.receiversArr.push(receiverData);
             // }
 
-            $("#readerName").val(result.readerName);
+            var readerName = "";
+
+            if($("#readerName").val() != ""){
+                readerName += $("#readerName").val();
+            }
+            $("#readerName").val(readerName);
             // if(formInfoReqOpt.DOC_GBN == "001"){
             //     $("#receiverName").val(result.receiverName);
             // }
@@ -457,6 +462,7 @@ var draft = {
 
     readerSelectPopClose : function(e, readerNameStr){
         $("#readerName").val(readerNameStr);
+
         draft.global.readersArr = e;
     },
 
@@ -1381,6 +1387,46 @@ var draft = {
             tempArr[0] = result.map;
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
+        }
+
+        if(params.menuCd == "subHoliday"){
+            data.subHolidayId = params.APPRO_KEY.split("_")[1];
+
+            var result = customKendo.fn_customAjax("/subHoliday/getVacUseHistoryOne", {subholidayUseId : data.subHolidayId})
+
+            console.log(result)
+            var readerEmpNameStr = "";
+            var len = result.data.OTHER_EMP_SEQ.toString().split(",").length;
+            for(var i = 0 ; i < len ; i++){
+                var empSeq = result.data.OTHER_EMP_SEQ.toString().split(",")[i];
+                var subData = {
+                    empSeq : empSeq
+                }
+
+                var result = customKendo.fn_customAjax("/user/getUserInfo", subData);
+                if(result.flag){
+                    var tmpData = {
+                        empSeq : $("#empSeq").val(),
+                        seqType: "u",
+                        readerEmpSeq: result.EMP_SEQ.toString(),
+                        readerEmpName: result.EMP_NAME_KR,
+                        readerDeptSeq: result.DEPT_SEQ,
+                        readerDeptName: result.DEPT_NAME,
+                        readerDutyCode: result.DUTY_CODE,
+                        readerDutyName: result.DUTY_NAME,
+                        readerPositionCode: result.POSITION_CODE,
+                        readerPositionName: result.POSITION_NAME,
+                        docId : ""
+                    };
+                    readerEmpNameStr += "," + tmpData.readerEmpName + "(" + fn_getSpot(tmpData.readerDutyName, tmpData.readerPositionName) + ")";
+
+
+                    draft.global.readersArr.push(tmpData);
+                }
+
+            }
+
+            $("#readerName").val(readerEmpNameStr.substring(1));
         }
 
         if(params.menuCd == "pjtRes") {

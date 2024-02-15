@@ -607,6 +607,7 @@
             CAM_HR.DJ_DEPT_INFO DI
         WHERE
             DI.DEPT_LEVEL = 1
+          AND DI.USE_YN = 'Y'
         ORDER BY DI.DEPT_LEVEL, DI.ORDER_SN
     </select>
 
@@ -619,9 +620,7 @@
             CAM_HR.DJ_DEPT_INFO
         WHERE
             PARENT_DEPT_SEQ = #{deptSeq}
-        <if test='useTeam != null and !"".equals(useTeam)'>
-            AND USE_YN = 'Y'
-        </if>
+        AND USE_YN = 'Y'
         ORDER BY DEPT_LEVEL, ORDER_SN
     </select>
     <select id="getEmpInfoList" parameterType="map" resultType="map">
@@ -1527,7 +1526,7 @@
             cam_hr.dj_emp_info AS b
             on
             a.emp_seq = b.emp_seq
-            WHERE a.RWD_ETC = ''
+            WHERE a.RWD_ETC = '' AND a.ACTIVE = 'Y'
             UNION
             SELECT
             a.DUTY_ID AS 'ID',
@@ -2511,6 +2510,7 @@
             #{item}
         </foreach>
         )
+        AND ACTIVE = 'Y'
     </select>
 
 
@@ -2673,6 +2673,7 @@
             CAM_HR.DJ_EMP_REWORD
         WHERE
             REWORD_ID = #{pk}
+          AND ACTIVE = 'Y'
     </select>
 
     <select id="getProinfoList" parameterType="map" resultType="map">

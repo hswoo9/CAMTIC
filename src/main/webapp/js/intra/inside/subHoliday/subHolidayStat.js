@@ -73,14 +73,14 @@ var subHolidayStat = {
                 var ds = result.list;
                 ds.unshift({deptName: '전체', deptSeq: ''});
 
-                $("#deptName").kendoDropDownList({
+                $("#sDeptSeq").kendoDropDownList({
                     dataTextField: "deptName",
                     dataValueField: "deptSeq",
                     dataSource: ds,
                     index: 0,
                     change : function(){
                         var data = {
-                            deptSeq : $("#deptName").val()
+                            deptSeq : $("#sDeptSeq").val()
                         }
 
                         $.ajax({
@@ -93,7 +93,7 @@ var subHolidayStat = {
                                 var ds = result.list;
                                 ds.unshift({text: '전체', value: ''});
 
-                                $("#deptTeamName").kendoDropDownList({
+                                $("#sDeptTeamSeq").kendoDropDownList({
                                     dataTextField: "text",
                                     dataValueField: "value",
                                     dataSource: ds,
@@ -106,7 +106,7 @@ var subHolidayStat = {
             }
         });
 
-        $("#deptTeamName").kendoDropDownList({
+        $("#sDeptTeamSeq").kendoDropDownList({
             dataTextField: "TEXT",
             dataValueField: "VALUE",
             dataSource: [
@@ -189,32 +189,32 @@ var subHolidayStat = {
                     text: '엑셀다운로드'
                 }
             ],
+            excel: {
+                allPages: true,
+            },
             dataBound: subHolidayStat.onDataBound,
             columns: [
                 {
                     field: "DEPT_NAME",
                     title: "부서",
-                    width: 100
+                    width: 90
                 }, {
                     field: "TEAM_NAME",
                     title: "팀",
-                    width: 100
+                    width: 90
                 }, {
+                    field: "POSDUT",
                     title: "직위",
-                    width: 70,
-                    template: function(row){
-                        return fn_getSpot(row.DUTY_NAME, row.POSITION_NAME);
-                    }
+                    width: 70
                 }, {
                     field: "EMP_NAME_KR",
                     title: "이름",
                     width: 50
                 }, {
-                    title: "발생<br>연차",
-                    width: 45,
-                    template: function(row){
-                        return (row.grant_day == "" || row.grant_day) == null ? "0" : row.grant_day
-                    }
+                    field: "grant_day",
+                    title: "발생연차",
+                    width: 40,
+
                 }, {
                     title: "연가",
                     columns: [
@@ -224,61 +224,59 @@ var subHolidayStat = {
                             width: 50
                         }, */{
                             field: "befUseDay",
-                            title: "전년<br>사용",
+                            title: "전년사용",
                             width: 45
                         }, {
                             field: "ANNUAL",
-                            title: "금년<br>사용",
+                            title: "금년사용",
                             width: 45
                         }, {
                             field: "MORNING",
-                            title: "오전<br>반차",
+                            title: "오전반차",
                             width: 45
                         }, {
                             field: "AFTERNOON",
-                            title: "오후<br>반차",
+                            title: "오후반차",
                             width: 45
                         }, {
+                            field: "REMAIN_VAC",
                             title: "잔여연차",
-                            width: 45,
-                            template: function(row){
-                                return (row.REMAIN_VAC == "" || row.REMAIN_VAC) == null ? "0" : row.REMAIN_VAC
-                            }
+                            width: 45
                         }
                     ]
                 }, {
                     field: "SICK",
                     title: "병가",
-                    width: 45
+                    width: 35
                 }, {
                     field: "PUBLICHOLI",
                     title: "공가",
-                    width: 45
+                    width: 35
                 }, {
                     field: "CONDOLENCES",
-                    title: "경조<br>휴가",
+                    title: "경조휴가",
                     width: 45
                 }, {
                     field: "MATERNITY",
-                    title: "출산<br>휴가",
+                    title: "출산휴가",
                     width: 45
                 }, {
                     title: "대체휴가",
                     columns: [
                         {
                             field: "HOLIDAYWORK",
-                            title: "발생<br>일수",
+                            title: "발생일수",
                             width: 45
                         }, {
                             field: "ALTERNATIVE",
-                            title: "사용<br>일수",
+                            title: "사용일수",
                             width: 45
                         }
                     ]
                 }, {
                     field: "LONGAWARD",
-                    title: "근속<br>포상<br>휴가",
-                    width: 45
+                    title: "근속포상휴가",
+                    width: 65
                 }
             ]
         }).data("kendoGrid");
@@ -299,9 +297,10 @@ var subHolidayStat = {
     gridReload : function(){
         subHolidayStat.global.searchAjaxData = {
             holidayYear : $('#holidayYear').val(),
-            deptName : $("#deptName").val(),
-            deptTeamName : $("#deptTeamName").val(),
+            deptSeq : $("#sDeptSeq").val(),
+            deptTeamSeq : $("#sDeptTeamSeq").val(),
             edtHolidayKindTop : $("#edtHolidayKindTop").val(),
+            searchType : $("#searchType").val(),
             searchVal : $("#searchVal").val()
         }
 

@@ -153,9 +153,9 @@ var partRate = {
                     nationalPension = e.LIMIT_AMT;
                 }
                 /** 건강보험 */
-                var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
+                var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10;
                 /** 장기요양보험 */
-                var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10
+                var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10;
                 /** 고용보험 */
                 var employInsurance = Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10;
                 /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
@@ -175,13 +175,18 @@ var partRate = {
                 } else {
                     partRateDet = mem[i].PART_RATE_DET;
                 }
+
                 memHtml += '<tr style="text-align: center" class="bodyTr">';
                 memHtml += '   <td>';
                 memHtml += '       <input type="hidden" name="partEmpSeq" value="'+mem[i].EMP_SEQ+'" />';
                 memHtml += '       <input type="text" id="gubun'+i+'" name="gubun" value="'+mem[i].GUBUN+'" />';
                 memHtml += '   </td>';
                 memHtml += '   <td>' + (mem[i].EMP_NAME || mem[i].JOIN_MEM_NM) + '<input type="hidden" name="partEmpName" value="'+(mem[i].EMP_NAME || mem[i].JOIN_MEM_NM)+'" /></td>';
-                memHtml += '   <td style="text-align: right"><input type="hidden" id="basicSalary" name="basicSalary" value="'+uncomma(bsSal)+'"/> ' + comma(bsSal) + '</td>';
+                if(bsSal == '' || bsSal == null) {
+                    memHtml += '   <td style="text-align: center"><input type="hidden" id="basicSalary" name="basicSalary" value="0"/><span style="color: red;text-align:center;">미설정</span></td>';
+                }else{
+                    memHtml += '   <td style="text-align: right"><input type="hidden" id="basicSalary" name="basicSalary" value="' + uncomma(bsSal) + '"/> ' + comma(bsSal) + '</td>';
+                }
                 memHtml += '   <td>';
                 memHtml += '        <input type="text" id="memChngSal'+i+'" name="chngSal" value="'+comma(totAmt)+'" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+(rs.PAY_BUDGET + rs.ITEM_BUDGET)+','+ i +', this);" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />';
                 memHtml += '   </td>';
@@ -435,6 +440,17 @@ var partRate = {
     },
 
     fn_save: function(){
+
+        var saveFlag = true;
+        $("input[name='basicSalary']").each(function(e){
+            if(this.value == 0 || this.value == "0"){
+                saveFlag = false;
+            }
+        });
+        if(!saveFlag){
+            alert("기준급여 설정이 안된인원이 존재합니다.");
+            return false;
+        }
 
         if(Number(uncomma($("#allPayTotal").val())) > $("#budgetAmt").val()){
             alert("인건비 총액이 인건비 예산보다 큽니다.");

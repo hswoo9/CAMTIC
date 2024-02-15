@@ -262,6 +262,9 @@
         AND
             PUBLIC_CLASS = #{publicClass}
         </if>
+        <if test="selectedDate != null and selectedDate != ''">
+            AND DATE_FORMAT(#{selectedDate}, '%Y-%m') BETWEEN DATE_FORMAT(SC.START_DT, '%Y-%m') AND DATE_FORMAT(SC.END_DT, '%Y-%m')
+        </if>
         AND ACTIVE = 'Y'
     </select>
 
@@ -784,7 +787,14 @@
             PUBLIC_CLASS = #{publicClass}
         </if>
         <if test="selectedDate != null and selectedDate != ''">
-            AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+            <choose>
+                <when test="'more'.equals(requestType)">
+                    AND DATE_FORMAT(#{selectedDate}, '%Y%m') BETWEEN DATE_FORMAT(SC.START_DT, '%Y%m') AND DATE_FORMAT(SC.END_DT, '%Y%m')
+                </when>
+                <otherwise>
+                    AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+                </otherwise>
+            </choose>
         </if>
         <if test="searchInput != null and searchInput != ''">
             AND
@@ -809,7 +819,14 @@
             PUBLIC_CLASS = #{publicClass}
         </if>
         <if test="selectedDate != null and selectedDate != ''">
-            AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+            <choose>
+                <when test="'more'.equals(requestType)">
+                    AND DATE_FORMAT(#{selectedDate}, '%Y%m') BETWEEN DATE_FORMAT(SC.START_DT, '%Y%m') AND DATE_FORMAT(SC.END_DT, '%Y%m')
+                </when>
+                <otherwise>
+                    AND #{selectedDate} BETWEEN SC.START_DT AND SC.END_DT
+                </otherwise>
+            </choose>
         </if>
         <if test="searchInput != null and searchInput != ''">
             AND
@@ -877,8 +894,16 @@
             AND
                 DEI.BDAY != ''
         )A
-        WHERE
-            #{selectedDate} BETWEEN A.start AND A.end
+        WHERE 1=1
+        <!--<choose>
+            <when test="'more'.equals(requestType)">
+                AND DATE_FORMAT(#{selectedDate}, '%Y%m') BETWEEN DATE_FORMAT(A.start, '%Y%m') AND DATE_FORMAT(A.end, '%Y%m')
+            </when>
+            <otherwise>
+                AND #{selectedDate} BETWEEN A.start AND A.end
+            </otherwise>
+        </choose>-->
+        AND #{selectedDate} BETWEEN A.start AND A.end
         <if test="searchInput != null and searchInput != ''">
             AND (
                 A.SCHEDULE_TYPE LIKE CONCAT('%', #{searchInput}, '%') OR
@@ -945,8 +970,17 @@
             AND
                 DEI.BDAY != ''
         )A
-        WHERE
-            #{selectedDate} BETWEEN A.start AND A.end
+        WHERE 1=1
+        <!--<choose>
+            <when test="'more'.equals(requestType)">
+                AND DATE_FORMAT(#{selectedDate}, '%Y%m') BETWEEN DATE_FORMAT(A.start, '%Y%m') AND DATE_FORMAT(A.end, '%Y%m')
+            </when>
+            <otherwise>
+                AND #{selectedDate} BETWEEN A.start AND A.end
+            </otherwise>
+        </choose>-->
+        AND #{selectedDate} BETWEEN A.start AND A.end
+
         <if test="searchInput != null and searchInput != ''">
         AND (
             A.SCHEDULE_TYPE LIKE CONCAT('%', #{searchInput}, '%') OR

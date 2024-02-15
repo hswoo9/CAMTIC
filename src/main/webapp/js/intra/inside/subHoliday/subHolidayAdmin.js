@@ -200,6 +200,7 @@ var subHolidayAdmin = {
         params.endDate = $("#endDate").val();
         params.status = $("#status").val();
         params.edtHolidayKindTop = $("#edtHolidayKindTop").val();
+        params.searchType = $("#searchType").val();
         params.searchVal = $("#searchVal").val();
 
         subHolidayAdmin.mainGrid("/subHoliday/getVacUseHistoryListAdmin", params);

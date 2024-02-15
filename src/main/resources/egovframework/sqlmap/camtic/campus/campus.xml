@@ -996,6 +996,10 @@
                     (SELECT @ROWNUM := 0) TMP
                 WHERE
                     1=1
+                <![CDATA[
+                AND DATE_FORMAT(COSI.OPEN_STUDY_DT, '%Y%m') <= DATE_FORMAT(NOW(), '%Y%m')
+                AND DATE_FORMAT(NOW(), '%Y%m') <= DATE_FORMAT(COSI.OPEN_STUDY_DT, '%Y%m')
+                ]]>
                 <if test='step != null and !"".equals(step)'>
                     AND STEP = #{step}
                 </if>

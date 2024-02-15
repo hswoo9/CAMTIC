@@ -45,11 +45,11 @@
                         </td>
                         <th class="text-center th-color">부서</th>
                         <td>
-                            <input type="text" id="deptName" style="width: 150px;">
+                            <input type="text" id="sDeptSeq" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">팀</th>
                         <td>
-                            <input type="text" id="deptTeamName" style="width: 180px;">
+                            <input type="text" id="sDeptTeamSeq" style="width: 180px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

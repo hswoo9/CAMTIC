@@ -409,6 +409,16 @@
             CON_SN = #{pk}
     </select>
 
+    <select id="getConsultingTeacherInfo" parameterType="map" resultType="map">
+        /*getConsultingTeacherInfo*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER
+        WHERE
+            TEACHER_SN = #{TEACHER_SN}
+    </select>
+
     <insert id="insLectureTeacherInfo" parameterType="map">
         /*insLectureTeacherInfo*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
@@ -440,6 +450,18 @@
             )
         </foreach>
     </insert>
+
+    <update id="updConTeacherInfo" parameterType="map">
+        /*updConTeacherInfo*/
+        <foreach collection="teacherList" item="item" separator=" ; ">
+            UPDATE
+                CAM_PJT_MNG.DJ_PJT_CONSULTING
+            SET
+                CON_TC_SN = #{item.value}
+            WHERE
+                CON_SN = #{pk}
+        </foreach>
+    </update>
 
     <insert id="insLecturePersonInfo" parameterType="map">
         /*insLecturePersonInfo*/
@@ -643,7 +665,10 @@
                 LEC_CERT,
                 LEC_OPEN_BD,
                 LEC_OPEN_BD_NAME,
-                REG_EMP_SEQ
+                REG_EMP_SEQ,
+                LEC_BOOK_IMG_SN,
+                LEC_APPL_SN,
+                LEC_MAIN_IMG_SN
             )
         VALUE
             (
@@ -696,7 +721,10 @@
                 #{mainType},
                 #{mainTypeName},
 
-                #{regEmpSeq}
+                #{regEmpSeq},
+                #{lecBookImgSn},
+                #{lecApplSn},
+                #{lecMainImgSn}
             )
         <selectKey keyProperty="lecSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_LECTURE'
@@ -807,7 +835,10 @@
             LEC_OPEN_BD = #{mainType},
             LEC_OPEN_BD_NAME = #{mainTypeName},
             MOD_EMP_SEQ = #{regEmpSeq},
-            MOD_DT = NOW()
+            MOD_DT = NOW(),
+            LEC_BOOK_IMG_SN = #{lecBookImgSn},
+            LEC_APPL_SN = #{lecApplSn},
+            LEC_MAIN_IMG_SN = #{lecMainImgSn}
         WHERE
             LEC_SN = #{pk}
     </update>

@@ -159,6 +159,11 @@ public class HistoryServiceImpl implements HistoryService {
 
     }
 
+    @Override
+    public void setRewardDelete(Map<String, Object> params) {
+        historyRepository.setRewardDelete(params);
+    }
+
 
     @Override
     public void modAf(Map<String, Object> params) {
