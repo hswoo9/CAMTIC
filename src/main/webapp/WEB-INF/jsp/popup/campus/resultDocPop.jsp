@@ -32,12 +32,8 @@
                     학습조 결과보고서
                 </span>
         </h3>
-        <div class="btn-st popButton">
-            <input type="button" id="apprBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인" onclick="fn_approval();"/>
-            <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="fn_saveing();"/>
-            <input type="button" id="modBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-primary" value="수정" onclick="fn_saveing();"/>
-            <input type="button" id="approvalBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="상신" onclick="fn_save();"/>
-            <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
+        <div id="studyBtn" class="btn-st popButton">
+
         </div>
     </div>
     <form id="studyJournalForm">
@@ -131,6 +127,36 @@
         var name = "inEvalRegPop";
         var option = "width=800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
+    }
+
+    let buttonHtml = "";
+    buttonHtml += '<input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="fn_saveing();"/>';
+    buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"결과보고서\" id=\"compBtn\" onclick=\"propagView.fn_resultDocPop();\"/>";
+
+    const studyResult = customKendo.fn_customAjax("/campus/getStudyResultData", {studyResultSn: $("#studyResultSn").val()});
+    const studyInfo = studyResult.data;
+    if(studyInfo != null){
+        let status = studyInfo.STATUS;
+        if(status == "0" || status == null){
+            buttonHtml += '<input type="button" id="modBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-primary" value="수정" onclick="fn_saveing();"/>';
+            buttonHtml += "<button type=\"button\" id=\"approvalBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"fn_save()\">상신</button>";
+        }else if(status == "10" || status == "20" || status == "50"){
+            buttonHtml += "<button type=\"button\" id=\"approvalBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+            buttonHtml += "<button type=\"button\" id=\"apprBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', '"+studyInfo.DOC_MENU_CD+"');\">결재</button>";
+        }else if(status == "30" || status == "40"){
+            buttonHtml += '<input type="button" id="modBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-primary" value="수정" onclick="fn_saveing();"/>';
+            buttonHtml += "<button type=\"button\" id=\"approvalBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+studyInfo.DOC_ID+"', '"+studyInfo.DOC_MENU_CD+"', '"+studyInfo.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+        }else if(status == "100"){
+            buttonHtml += "<button type=\"button\" id=\"approvalBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', '"+studyInfo.DOC_MENU_CD+"');\">열람</button>";
+        }else if(status == "111"){
+            buttonHtml += "<button type=\"button\" id=\"approvalBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+studyInfo.DOC_ID+"', '"+studyInfo.DOC_MENU_CD+"', '"+studyInfo.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
+        }
+    }
+    buttonHtml += "<input type=\"button\" id=\"cancelBtn\" class=\"k-button k-button-solid-error\" value=\"닫기\" onclick=\"window.close();\"/>";
+
+    $("#studyBtn").html(buttonHtml);
+    if($("#resultMode").val() == "mng"){
+
     }
 
     if($("#resultMode").val() == "mng"){
