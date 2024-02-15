@@ -80,6 +80,7 @@
         <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="publicClass" name="publicClass" value="${params.publicClass}">
         <input type="hidden" id="selectedDate" name="selectedDate" value="${params.selectedDate}">
+        <input type="hidden" id="type" name="type" value="${params.type}">
         <input type="hidden" id="scheduleBoardId" name="scheduleBoardId" value="${rs.SCHEDULE_BOARD_ID}">
 
         <div class="card-header pop-header">
@@ -181,7 +182,7 @@
         recordSize : 10,
         publicClass : $("#publicClass").val(),
         selectedDate : $("#selectedDate").val(),
-
+        type : $("#type").val()
     });
 
     var flag = false;
@@ -231,9 +232,12 @@
         const queryParams = {
             page: (page) ? page : 1,
             recordSize: 10,
-            pageSize: 10
+            pageSize: 10,
+            publicClass : $("#publicClass").val(),
+            selectedDate : $("#selectedDate").val(),
+            type : $("#type").val()
         }
-
+        var inputText = $("#inputText").val();
         var result = fn_customAjax("/spot/getMainScheduleList?" + new URLSearchParams(queryParams).toString() + '&recordSize=10&searchInput=' + inputText, "");
         flag = true;
 
@@ -334,7 +338,7 @@
     }
 
     function fn_searchInput(){
-        inputText = $("#inputText").val();
+        var inputText = $("#inputText").val();
         var result = fn_customAjax('/spot/getMainScheduleList?recordSize=10&searchInput=' + encodeURI(inputText, "UTF-8"),'');
 
         flag = true;
