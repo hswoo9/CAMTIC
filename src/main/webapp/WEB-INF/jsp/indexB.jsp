@@ -168,6 +168,11 @@
         <div style="padding: 25px 0 0 25px;">
             <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">주요일정</h4>
         </div>
+        <div>
+            <i class="k-i-plus k-icon" style="cursor: pointer; float: right;font-size:20px; margin:35px 20px 0 0;" onclick="goMoreView();"></i>
+            <input type="hidden" id="moreId" value="" />
+        </div>
+
         <div class="panel-body">
             <div class="card">
                 <!-- 메일함 -->
@@ -390,19 +395,26 @@
                     }
                 });
                 if (haveSchedule) {
-                    openSchedulePopup(selectedDate, publicClass);
+                    openSchedulePopup(selectedDate, publicClass, "calendar");
                     /*if (publicClass === 'ES') {
                         openSchedulePopup(selectedDate);
                     } else if (publicClass === 'CS') {
                         fn_detailSchedule(finalId, selectedDate);
                     }*/
                 }
-            }
+            },
+
+        });
+
+        $('.pignose-calendar-top-month').css('cursor', 'pointer');
+        $('.pignose-calendar-top-month').click(function() {
+            var monthText = $(this).text();
+            open_in_frame('/spot/empScheduleList.do');
         });
     }
     //일정 조회 팝업
-    function openSchedulePopup(selectedDate, publicClass) {
-        var url = "/spot/pop/popMainScheduleView.do?selectedDate=" + selectedDate + "&publicClass=" + publicClass;
+    function openSchedulePopup(selectedDate, publicClass, type) {
+        var url = "/spot/pop/popMainScheduleView.do?selectedDate=" + selectedDate + "&publicClass=" + publicClass + "&type=" + type;
         /*var url = "/spot/pop/popStaffScheduleView.do?selectDate=" + selectedDate;*/
         var name = "_blank";
         var option = "width = 1000, height = 700, top = 50, left = 400, location = no, scrollbars=yes, resizable=yes"
@@ -501,6 +513,8 @@
 
     //주요일정 > 오픈스터디
     function getOpenStudy(e) {
+        $("#moreId").val("study");
+
         $.ajax({
             url: '/campus/getOpenStudyInfoAdminList',
             type: 'GET',
@@ -519,24 +533,30 @@
 
         let html = "";
 
-        data.forEach((item, index) => {
-            html += '' +
-                '<li style="border-top:0; border-bottom:0;">' +
-                '<div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">' +
-                '<div style="display:flex; width:280px;">' +
-                '<div style="font-weight:600; font-size:13px; width:150px;">오픈스터디</div>' +
-                '<div><a href="javascript:openStudyReqPop('+item.OPEN_STUDY_INFO_SN+')">' + item.OPEN_STUDY_NAME + '</a></div>' +
-                '</div>' +
-                '<div style="display:flex; width:100px;">' +
-                '<div>' + item.OPEN_STUDY_LOCATION + '</div>' +
-                '</div>' +
-                '<div style="display:flex; width:100px;">' +
-                '<div>' + item.MEMBER_COUNT_TOTAL + "명" + '</div>' +
-                '</div>' +
-                '<div style="margin: 0 10px;">' + item.OPEN_STUDY_DT + ' ' + item.START_TIME + ' ~ ' + item.OPEN_STUDY_DT + ' ' + item.END_TIME + '</div>'
+        if(data.length != 0 &&  data != null) {
+            data.forEach((item, index) => {
+                html += '' +
+                    '<li style="border-top:0; border-bottom:0;">' +
+                    '<div style="padding: 10px 10px 0px; display:flex; justify-content: space-between;">' +
+                    '<div style="display:flex; width:280px;">' +
+                    '<div style="font-weight:600; font-size:13px; width:150px;">오픈스터디</div>' +
+                    '<div><a href="javascript:openStudyReqPop(' + item.OPEN_STUDY_INFO_SN + ')">' + item.OPEN_STUDY_NAME + '</a></div>' +
+                    '</div>' +
+                    '<div style="display:flex; width:100px;">' +
+                    '<div>' + item.OPEN_STUDY_LOCATION + '</div>' +
+                    '</div>' +
+                    '<div style="display:flex; width:100px;">' +
+                    '<div>' + item.MEMBER_COUNT_TOTAL + "명" + '</div>' +
+                    '</div>' +
+                    '<div style="margin: 0 10px;">' + item.OPEN_STUDY_DT + ' ' + item.START_TIME + ' ~ ' + item.OPEN_STUDY_DT + ' ' + item.END_TIME + '</div>'
                 '</div>' +
                 '</li>';
-        });
+            });
+        }else{
+            html += '<li>' +
+                '<p style="padding: 10px 10px 0px;">등록된 게시글이 없습니다.<span style="position:absolute; right:10px;"></span></p>' +
+                '</li>';
+        }
         $("#schedule3Ul").append(html);
     }
 
@@ -564,9 +584,10 @@
     //주요일정 > 법인or직원 일정
     function getscheduleList(v, e){
         $("#" + v + " li").remove();
+        $("#moreId").val(e);
+        var today = formatDate(new Date());
 
         if(e == 'ES'){
-            var today = formatDate(new Date());
 
             var esData = customKendo.fn_customAjax('/spot/getMainScheduleList2', {selectedDate : today});
             var htmlData =esData.list;
@@ -601,9 +622,9 @@
                 $("#" + v).append(htmlEs);
             }
         }else {
-
             var data = {
-                publicClass: e
+                publicClass: e,
+                selectedDate : today
             }
 
             var result = customKendo.fn_customAjax("/spot/getScheduleList.do", data);
@@ -766,6 +787,18 @@
             open_in_frame(menuPath);
         });
         data.data("kendoWindow").center().open();
+    }
+    function goMoreView(){
+        var moreId = $("#moreId").val();
+        var today = formatDate(new Date());
+
+        if(moreId == "CS"){ //법인일정
+            openSchedulePopup(today, "CS", "more");
+        }else if(moreId == "ES"){ //직원일정
+            openSchedulePopup(today, "ES", "more");
+        }else if(moreId == "study"){ //오픈스터디
+            open_in_frame('/Campus/openStudyInfo.do');
+        }
     }
 </script>
 <script src="/js/schedule/custom.min.js"></script>

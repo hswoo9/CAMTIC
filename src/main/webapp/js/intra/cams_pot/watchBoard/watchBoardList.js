@@ -23,9 +23,9 @@ var wbl = {
 			wbl.global.articleList = result.boardArticleList;
             wbl.global.params = result.params;
 
-			if(isAdmin) {
+			/*if(isAdmin) {
 				$("#writeBtn").show()
-			}
+			}*/
 
 			var articleListStr = "";
 			$("#listUl li").remove();
