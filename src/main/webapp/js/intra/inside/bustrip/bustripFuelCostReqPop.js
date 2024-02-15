@@ -94,7 +94,7 @@ const fuelCostReq = {
             async : false,
             success : function(result){
                 alert("등록되었습니다.");
-                opener.gridReload();
+                opener.fuelCostList.mainGrid();
                 window.close();
             },
             error : function() {
