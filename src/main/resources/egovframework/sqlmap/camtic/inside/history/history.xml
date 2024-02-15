@@ -261,6 +261,7 @@
                     AND HER.RWD_SN like CONCAT('%', #{searchText}, '%')
                 </when>
             </choose>
+            AND HER.ACTIVE = 'Y'
         ORDER BY HER.REWORD_ID DESC
     </select>
 
@@ -288,8 +289,9 @@
         WHERE
         1=1
         <if test='pk != null and !"".equals(pk)'>
-            AND RWD_SN = (SELECT SER.RWD_SN FROM CAM_HR.DJ_EMP_REWORD SER WHERE SER.REWORD_ID = #{pk})
+            AND RWD_SN = (SELECT SER.RWD_SN FROM CAM_HR.DJ_EMP_REWORD SER WHERE SER.REWORD_ID = #{pk} AND ACTIVE = 'Y')
         </if>
+        AND HER.ACTIVE = 'Y'
         ORDER BY HER.REWORD_ID DESC
     </select>
 
@@ -545,6 +547,18 @@
             MOD_DATE = NOW()
         WHERE
             REWORD_ID = #{rewordId}
+    </update>
+
+    <update id="setRewardDelete" parameterType="map">
+        /* setRewardDelete */
+        UPDATE
+            CAM_HR.DJ_EMP_REWORD
+        SET
+            ACTIVE = 'N',
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
+        WHERE
+            REWORD_ID IN (${rewordArr})
     </update>
 
     <update id="modAf" parameterType="map">

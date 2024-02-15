@@ -277,47 +277,42 @@
 
 
         <div class="consulting" style="padding: 20px 30px; display: none;">
-
-            <table class="popTable table table-bordered mb-20">
-                <colgroup>
-                    <col width="15%">
-                    <col width="35%">
-                    <col width="15%">
-                    <col width="35%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th scope="row" class="text-center th-color">성명</th>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">생년월일</th>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">성별</th>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">전화번호</th>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">휴대폰 번호</th>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">이메일</th>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">주소</th>
-                    <td colspan="3"></td>
-                </tr>
-
-                </thead>
-            </table>
-
+            <div id="conTeacherInfo" style="display: none;">
+                <table class="popTable table table-bordered mb-20">
+                    <colgroup>
+                        <col width="15%">
+                        <col width="35%">
+                        <col width="15%">
+                        <col width="35%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="row" class="text-center th-color">성명</th>
+                        <td colspan="3" id="tcName"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">생년월일</th>
+                        <td colspan="3" id="tcBirth"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">성별</th>
+                        <td colspan="3" id="tcGender"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">전화번호</th>
+                        <td colspan="3" id="tcNum"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">휴대폰 번호</th>
+                        <td colspan="3" id="tcNumP"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">이메일</th>
+                        <td colspan="3" id="tcEmail"></td>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="15%">

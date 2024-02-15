@@ -1,7 +1,5 @@
 package egovframework.com.devjitsu.hp.board.util;
 
-import egovframework.com.devjitsu.hp.board.util.Pagination;
-
 public class ArticlePage {
 
     private String boardId;

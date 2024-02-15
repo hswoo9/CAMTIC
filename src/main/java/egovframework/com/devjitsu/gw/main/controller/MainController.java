@@ -3,29 +3,21 @@ package egovframework.com.devjitsu.gw.main.controller;
 import egovframework.com.devjitsu.cams_pot.service.CustomBoardService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalUserService;
-import egovframework.com.devjitsu.gw.login.controller.LoginController;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
-import egovframework.com.devjitsu.gw.login.service.LoginService;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
 import egovframework.com.devjitsu.hp.board.util.ArticlePage;
 import egovframework.com.devjitsu.hp.board.util.PagingResponse;
 import egovframework.com.devjitsu.hp.board.util.PostResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -236,6 +228,7 @@ public class MainController {
         int recordSize = Integer.parseInt(String.valueOf(param.get("recordSize")));
 
         articlePage.setSearchInput((String) param.get("searchInput"));
+        articlePage.setRequestType((String) param.get("type"));
         articlePage.setRecordSize(recordSize);
 
         PagingResponse<PostResponse> response = customBoardService.getMainScheduleList(articlePage);

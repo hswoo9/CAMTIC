@@ -55,6 +55,10 @@ public class HistoryRepository extends AbstractDAO {
         insert("history.setRewardUpdate", params);
     }
 
+    public void setRewardDelete(Map<String, Object> params) {
+        update("history.setRewardDelete", params);
+    }
+
     public void modAf(Map<String, Object> params) {
         update("history.modAf", params);
     }

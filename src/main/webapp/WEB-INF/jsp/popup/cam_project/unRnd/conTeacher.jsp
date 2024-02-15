@@ -35,7 +35,7 @@
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
+                <button type="button" class="k-button k-button-solid-error" onclick="wClose()">닫기</button>
             </div>
         </div>
 
@@ -71,6 +71,10 @@
 </div>
 <script type="text/javascript">
     conTeacher.fn_defaultScript();
+    function wClose(){
+        opener.location.reload();
+        window.close();
+    }
 </script>
 </body>
 </html>
