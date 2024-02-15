@@ -90,12 +90,18 @@ public class ProjectUnRndRepository extends AbstractDAO {
     public Map<String, Object> getConsultingInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("unRnd.getConsultingInfo", params);
     }
+    public Map<String, Object> getConsultingTeacherInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("unRnd.getConsultingTeacherInfo", params);
+    }
     public void insLectureTeacherInfo(Map<String, Object> params) {
         insert("unRnd.insLectureTeacherInfo", params);
     }
 
     public void insConTeacherInfo(Map<String, Object> params) {
         insert("unRnd.insConTeacherInfo", params);
+    }
+    public void updConTeacherInfo(Map<String, Object> params) {
+        insert("unRnd.updConTeacherInfo", params);
     }
     public void insLecturePersonInfo(Map<String, Object> params) {
         insert("unRnd.insLecturePersonInfo", params);

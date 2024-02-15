@@ -409,6 +409,16 @@
             CON_SN = #{pk}
     </select>
 
+    <select id="getConsultingTeacherInfo" parameterType="map" resultType="map">
+        /*getConsultingTeacherInfo*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER
+        WHERE
+            TEACHER_SN = #{TEACHER_SN}
+    </select>
+
     <insert id="insLectureTeacherInfo" parameterType="map">
         /*insLectureTeacherInfo*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
@@ -440,6 +450,18 @@
             )
         </foreach>
     </insert>
+
+    <update id="updConTeacherInfo" parameterType="map">
+        /*updConTeacherInfo*/
+        <foreach collection="teacherList" item="item" separator=" ; ">
+            UPDATE
+                CAM_PJT_MNG.DJ_PJT_CONSULTING
+            SET
+                CON_TC_SN = #{item.value}
+            WHERE
+                CON_SN = #{pk}
+        </foreach>
+    </update>
 
     <insert id="insLecturePersonInfo" parameterType="map">
         /*insLecturePersonInfo*/
