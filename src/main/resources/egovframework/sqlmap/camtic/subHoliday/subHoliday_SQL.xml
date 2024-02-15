@@ -201,8 +201,10 @@
     <select id="getVacUseHistoryListAdmin" parameterType="map" resultType="map">
         /* getVacUseHistoryListAdmin */
         SELECT
-            VUH.*,
+            HDI2.DEPT_NAME,
+            DEI.DEPT_TEAM_NAME,
             DEI.EMP_NAME_KR,
+            VUH.*,
             VCD.SUBHOLIDAY_DT_CODE_NM,
             DI.DOC_ID,
             DI.APPRO_KEY,
@@ -214,10 +216,13 @@
             CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD
         ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
         LEFT JOIN
-            CAM_HR.DJ_EMP_INFO DEI
-        ON VUH.REG_EMP_SEQ = DEI.EMP_SEQ
+            CAM_HR.DJ_EMP_INFO DEI ON VUH.REG_EMP_SEQ = DEI.EMP_SEQ
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON VUH.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HDI.DEPT_SEQ = DEI.DEPT_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI2 ON HDI.PARENT_DEPT_SEQ = HDI2.DEPT_SEQ
         where
             1=1
         AND
@@ -232,9 +237,30 @@
         <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
             AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
         </if>
-        <if test='searchVal != null and !"".equals(searchVal)'>
-            AND DEI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
-        </if>
+        <choose>
+            <when test='searchType == "1" and searchVal != null and !"".equals(searchVal)'>
+                AND DEI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
+            </when>
+            <when test='searchType == "2" and searchVal != null and !"".equals(searchVal)'>
+                AND HDI2.DEPT_NAME LIKE CONCAT('%',#{searchVal},'%')
+            </when>
+            <when test='searchType == "3" and searchVal != null and !"".equals(searchVal)'>
+                AND HDI.DEPT_NAME LIKE CONCAT('%',#{searchVal},'%')
+            </when>
+            <when test='searchType == "4" and searchVal != null and !"".equals(searchVal)'>
+                AND (DEI.DUTY_NAME LIKE CONCAT('%',#{searchVal},'%') OR DEI.POSITION_NAME LIKE CONCAT('%',#{searchVal},'%'))
+            </when>
+            <otherwise>
+                AND
+                (
+                    DEI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%') OR
+                    HDI2.DEPT_NAME LIKE CONCAT('%',#{searchVal},'%') OR
+                    HDI.DEPT_NAME LIKE CONCAT('%',#{searchVal},'%') OR
+                    DEI.DUTY_NAME LIKE CONCAT('%',#{searchVal},'%') OR
+                    DEI.POSITION_NAME LIKE CONCAT('%',#{searchVal},'%')
+                )
+            </otherwise>
+        </choose>
         <if test='startDate != null and !"".equals(startDate)'>
             <![CDATA[
             AND
