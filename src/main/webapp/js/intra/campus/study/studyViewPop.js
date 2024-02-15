@@ -10,6 +10,7 @@ const studyView = {
     },
 
     dataSet: function(){
+        studyView.studyBtnSetting();
 
         if($("#addStatus").val() == "Y" /*|| $("#addStatus").val() == "C"*/) {
             $("#resultDoc").html("<div style='color : red'> 결과보고서가 등록되지 않았습니다.</div>");
@@ -23,7 +24,6 @@ const studyView = {
         }
 
         studyView.studyUserSetting();
-        studyView.studyBtnSetting();
     },
 
     studyUserSetting: function(){
@@ -73,9 +73,37 @@ const studyView = {
 
     studyBtnSetting: function(){
 
+        const studyResult = customKendo.fn_customAjax("/campus/getStudyInfoOne", {pk: $("#pk").val()});
+        const studyInfo = studyResult.data;
+
+        let buttonHtml = "";
+        buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"결과보고서\" id=\"resultBtn\" onclick=\"studyView.fn_resultDocPop();\"/>";
+        buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"학습완료\" id=\"compBtn\" onclick=\"studyView.fn_studyComplete();\"/>";
+        if(studyInfo != null){
+            let status = studyInfo.STATUS;
+            if(status == "0"){
+                buttonHtml += "<input type=\"button\" id=\"studyModBtn\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-primary\" value=\"수정\" onclick=\"studyView.studyUpdatePop();\"/>";
+                buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"studyView.studyReq()\">상신</button>";
+            }else if(status == "10" || status == "20" || status == "50"){
+                buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                buttonHtml += "<button type=\"button\" id=\"studyAppBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', '"+studyInfo.DOC_MENU_CD+"');\">결재</button>";
+            }else if(status == "30" || status == "40"){
+                buttonHtml += "<input type=\"button\" id=\"studyModBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-primary\" value=\"수정\" onclick=\"studyView.studyUpdatePop();\"/>";
+                buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+studyInfo.DOC_ID+"', '"+studyInfo.DOC_MENU_CD+"', '"+studyInfo.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+            }else if(status == "100"){
+                buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', '"+studyInfo.DOC_MENU_CD+"');\">열람</button>";
+            }else if(status == "111"){
+                buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+studyInfo.DOC_ID+"', '"+studyInfo.DOC_MENU_CD+"', '"+studyInfo.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
+            }
+        }
+        buttonHtml += "<input type=\"button\" id=\"studyCloseBtn\" class=\"k-button k-button-solid-error\" value=\"닫기\" onclick=\"window.close();\"/>";
+        $("#studyBtn").html(buttonHtml);
+        console.log("buttonHtml", buttonHtml);
+
+
         if($("#mode").val() == "mng"){
             /** 관리자일때 승인 및 반려 가능 */
-            if($("#status").val() == 10) {
+            if($("#status").val() == 10 || $("#status").val() == 20) {
                 $("#studyAppBtn").show();
                 $("#studyComBtn").show();
             }
@@ -84,8 +112,8 @@ const studyView = {
 
         }else /*if(studyView.global.mngEmpSeq == $("#regEmpSeq").val())*/{
             /** 학습자 중에 조장만 수정 및 승인요청, 승인취소 가능 */
+            $("#studyReqBtn").show();
             if($("#status").val() == 0 || $("#status").val() == 30){
-                $("#studyReqBtn").show();
                 $("#studyModBtn").show();
                 $("#studyCloseBtn").show();
             }else if($("#status").val() == 10) {
@@ -188,7 +216,7 @@ const studyView = {
                 }, {
                     width: 150,
                     template: function(row){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" disabled onclick="studyView.tmp('+row.STUDY_JOURNAL_SN+')">인쇄</button> ' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="studyView.studyPrintPop('+row.STUDY_JOURNAL_SN+')">인쇄</button> ' +
                             '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="studyView.fn_delete('+row.STUDY_JOURNAL_SN+')">삭제</button>';
                     }
                 }
@@ -216,14 +244,25 @@ const studyView = {
             return;
         }
 
+
+        $("#studyDraftFrm").one("submit", function() {
+            var url = "/Campus/pop/studyApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/Campus/pop/studyApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
+
         /*if(studyView.global.mngEmpSeq != $("#regEmpSeq").val()){
             alert("승인요청은 조장만 가능합니다.");
             return;
         }*/
 
-        var result = customKendo.fn_customAjax("/campus/studyReq", data);
+        //var result = customKendo.fn_customAjax("/campus/studyReq", data);
 
-        if(result.flag){
+        /*if(result.flag){
             if(status == 10){
                 alert("승인 요청이 완료되었습니다.");
             }else if(status == 0){
@@ -235,7 +274,7 @@ const studyView = {
             }
             window.close();
             opener.gridReload();
-        }
+        }*/
     },
 
     updBtn: function(pk, fk, studyClass, studyText){
@@ -253,7 +292,11 @@ const studyView = {
         studyView.setStudyUserMngUpdate(data);
     },
 
-    tmp: function(pk){
+    studyPrintPop: function(pk){
+        let url = "/Campus/pop/studyPrintPop.do?mode=upd&studyInfoSn="+$("#pk").val()+"&studyJournalSn="+pk;
+        let name = "studyPrintPop";
+        let option = "width = 965, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     },
 
     setStudyUserMngUpdate: function(data){

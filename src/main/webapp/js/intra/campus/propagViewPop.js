@@ -6,11 +6,12 @@ const propagView = {
 
     init: function(){
         propagView.dataSet();
-        propagView.buttonSet();
         propagView.mainGrid();
     },
 
     dataSet: function(){
+        propagView.buttonSet();
+
         let propagInfo = customKendo.fn_customAjax("/campus/getStudyInfoOne", {
             pk: $("#pk").val()
         }).data;
@@ -54,21 +55,49 @@ const propagView = {
     },
 
     buttonSet: function(){
+
+        const studyResult = customKendo.fn_customAjax("/campus/getStudyInfoOne", {pk: $("#pk").val()});
+        const studyInfo = studyResult.data;
+        console.log("studyR",studyResult);
+
+        let buttonHtml = "";
+        buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"학습완료\" id=\"resultBtn\" onclick=\"propagView.fn_studyComplete();\"/>";
+        buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"결과보고서\" id=\"compBtn\" onclick=\"propagView.fn_resultDocPop();\"/>";
+        if(studyInfo != null){
+            let status = studyInfo.STATUS;
+            if(status == "0"){
+                buttonHtml += "<button type=\"button\" id=\"modBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-primary\" onclick=\"propagView.fn_propagMod();\">수정</button>";
+                buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"propagView.fn_propagCertReq()\">상신</button>";
+            }else if(status == "10" || status == "20" || status == "50"){
+                buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                buttonHtml += "<button type=\"button\" id=\"recBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', '"+studyInfo.DOC_MENU_CD+"');\">결재</button>";
+            }else if(status == "30" || status == "40"){
+                buttonHtml += "<button type=\"button\" id=\"modBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-primary\" onclick=\"propagView.fn_propagMod();\">수정</button>";
+                buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+studyInfo.DOC_ID+"', '"+studyInfo.DOC_MENU_CD+"', '"+studyInfo.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+            }else if(status == "100"){
+                buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', '"+studyInfo.DOC_MENU_CD+"');\">열람</button>";
+            }else if(status == "111"){
+                buttonHtml += "<button type=\"button\" id=\"appBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+studyInfo.DOC_ID+"', '"+studyInfo.DOC_MENU_CD+"', '"+studyInfo.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
+            }
+        }
+        buttonHtml += "<input type=\"button\" id=\"studyCloseBtn\" class=\"k-button k-button-solid-error\" value=\"닫기\" onclick=\"window.close();\"/>";
+        $("#studyBtn").html(buttonHtml);
+        console.log("buttonHtml", buttonHtml)
+
         let mode = $("#mode").val();
-        let status = propagView.global.propagInfo.STATUS;
-        if(mode == "upd"){
+        let status = studyInfo.STATUS;
+        if(mode == "mng"){
+            $("#saveBtn").hide();
+            if(status == "10" || status == "20"){
+                $("#recBtn").show();
+                $("#comBtn").show();
+            }
+        }else{
             if(status == "0" || status == "30"){
                 $("#appBtn").show();
                 $("#modBtn").show();
             }else if(status == "10"){
-                $("#canBtn").show();
-            }
-        }
-        if(mode == "mng"){
-            $("#saveBtn").hide();
-            if(status == "10"){
-                $("#recBtn").show();
-                $("#comBtn").show();
+                $("#appBtn").show();
             }
         }
     },
@@ -286,7 +315,7 @@ const propagView = {
                 }, {
                     title: "처리명령",
                     template: function(row){
-                        return '<button type="button" style="margin-right:5px;" class="k-button k-button-solid-base" onclick="">인쇄</button>' +
+                        return '<button type="button" style="margin-right:5px;" class="k-button k-button-solid-base" onclick="propagView.propagPrintPop('+row.STUDY_PROPAG_SN+')">인쇄</button>' +
                             '<button type="button" class="k-button k-button-solid-error" onclick="propagView.fn_delBtn('+row.STUDY_PROPAG_SN+')">삭제</button>';
                     }
                 }
@@ -298,7 +327,7 @@ const propagView = {
     },
 
     fn_propagCertReq: function(status){
-        let data = {
+        /*let data = {
             studyInfoSn : $("#pk").val(),
             status : status
         }
@@ -317,7 +346,17 @@ const propagView = {
             }
             opener.gridReload();
             window.close();
-        }
+        }*/
+
+        $("#studyDraftFrm").one("submit", function() {
+            var url = "/Campus/pop/studyApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/Campus/pop/studyApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     },
 
     studyPropagPop: function(type, fk, pk){
@@ -331,6 +370,13 @@ const propagView = {
         }
         let name = "studyPropagPop";
         let option = "width = 800, height = 600, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    propagPrintPop: function(pk){
+        let url = "/Campus/pop/propagPrintPop.do?mode=upd&studyInfoSn="+$("#pk").val()+"&studyPropagSn="+pk;
+        let name = "propagPrintPop";
+        let option = "width = 965, height = 900, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 

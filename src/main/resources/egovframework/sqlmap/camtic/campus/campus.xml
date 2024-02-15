@@ -763,13 +763,17 @@
             HEI.POSITION_NAME AS positionNm,
             HEI.DUTY_NAME AS dutyNm,
             HEI.JOB_DETAIL AS jobDetailNm,
-            DATE_FORMAT(CSI.REG_DATE,'%Y-%m-%d') AS regDate
+            DATE_FORMAT(CSI.REG_DATE,'%Y-%m-%d') AS regDate,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAMPUS.DJ_STUDY_INFO CSI
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO HEI ON CSI.REG_EMP_SEQ = HEI.EMP_SEQ
         LEFT JOIN
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON CSI.DOC_ID = DI.DOC_ID
         WHERE STUDY_INFO_SN = #{pk}
     </select>
 
@@ -2130,7 +2134,14 @@
 
     <select id="getStudyResultData" parameterType="map" resultType="map">
         /*getStudyResultData*/
-        SELECT * FROM CAMPUS.DJ_STUDY_RESULT
+        SELECT
+            A.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAMPUS.DJ_STUDY_RESULT A
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON A.DOC_ID = DI.DOC_ID
         WHERE
             STUDY_RESULT_SN = #{studyResultSn}
     </select>
@@ -2812,6 +2823,56 @@
         WHERE
             TARGET_YEAR = #{targetYear}
         AND REG_EMP_SEQ = #{empSeq}
+    </update>
+
+    <update id="updateStudyApprStat" parameterType="map">
+        /* updateStudyApprStat */
+        UPDATE
+            CAMPUS.DJ_STUDY_INFO
+        SET
+        <if test='docId != null and !"".equals(docId)'>
+            DOC_ID = #{docId},
+        </if>
+            STATUS = #{status}
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
+    <update id="updateStudyFinalApprStat" parameterType="map">
+        /* updateStudyFinalApprStat */
+        UPDATE
+            CAMPUS.DJ_STUDY_INFO
+        SET
+            STATUS = #{status},
+            APPROVAL_EMP_SEQ = #{empSeq},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d')
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
+    <update id="updateStudyResApprStat" parameterType="map">
+        /* updateStudyResApprStat */
+        UPDATE
+            CAMPUS.DJ_STUDY_RESULT
+        SET
+        <if test='docId != null and !"".equals(docId)'>
+            DOC_ID = #{docId},
+        </if>
+        STATUS = #{status}
+        WHERE
+        STUDY_RESULT_SN = #{studyResultSn}
+    </update>
+
+    <update id="updateStudyResFinalApprStat" parameterType="map">
+        /* updateStudyResFinalApprStat */
+        UPDATE
+            CAMPUS.DJ_STUDY_RESULT
+        SET
+            STATUS = #{status},
+            APPROVAL_EMP_SEQ = #{empSeq},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d')
+        WHERE
+            STUDY_RESULT_SN = #{studyResultSn}
     </update>
 
     <insert id="setEduCode" parameterType="map">

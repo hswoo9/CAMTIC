@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.campus.controller;
 
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.campus.service.CampusService;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,9 @@ public class CampusController {
 
     @Autowired
     private CampusService campusService;
+
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -1033,7 +1037,7 @@ public class CampusController {
 
     //캠퍼스 - 학습신청서 전자결재
     @RequestMapping("/Campus/pop/campusApprovalPop.do")
-    public String workHolidayApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+    public String campusApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("data", params);
@@ -1049,6 +1053,109 @@ public class CampusController {
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/campus/approvalFormPopup/campusResApprovalPop";
+    }
+    
+    //캠퍼스 - 단체학습신청서 전자결재
+    @RequestMapping("/Campus/pop/studyApprovalPop.do")
+    public String studyApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/campus/approvalFormPopup/studyApprovalPop";
+    }
+
+    //캠퍼스 - 학습조 학습일지 한글뷰어
+    @RequestMapping("/Campus/pop/studyPrintPop.do")
+    public String studyPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+        return "/popup/campus/approvalFormPopup/studyPrintPop";
+    }
+
+    //캠퍼스 - 전파학습 학습일지 한글뷰어
+    @RequestMapping("/Campus/pop/propagPrintPop.do")
+    public String propagPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+        return "/popup/campus/approvalFormPopup/propagPrintPop";
+    }
+
+    //캠퍼스 - OJT 학습일지 한글뷰어
+    @RequestMapping("/Campus/pop/ojtPrintPop.do")
+    public String ojtPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+        return "/popup/campus/approvalFormPopup/ojtPrintPop";
+    }
+
+    //캠퍼스 - 단체학습 학습조 결과보고서 전자결재
+    @RequestMapping("/Campus/pop/studyResApprovalPop.do")
+    public String studyResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/campus/approvalFormPopup/studyResApprovalPop";
+    }
+
+    //캠퍼스 - 단체학습 전파학습 결과보고서 전자결재
+    @RequestMapping("/Campus/pop/studyPropagApprovalPop.do")
+    public String studyPropagApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/campus/approvalFormPopup/studyPropagApprovalPop";
+    }
+
+    //캠퍼스 - 단체학습 OJT 결과보고서 전자결재
+    @RequestMapping("/Campus/pop/studyOjtApprovalPop.do")
+    public String studyOjtApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/campus/approvalFormPopup/studyOjtApprovalPop";
     }
 
 
@@ -2028,6 +2135,52 @@ public class CampusController {
         String resultMessage = "성공하였습니다.";
         try{
             campusService.updateResDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /**
+     * 단체학습신청서 결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/campus/studyReqApp")
+    public String studyReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            campusService.updateStudyDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /**
+     * 단체학습 학습조 결과보고서  결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/campus/studyResReqApp")
+    public String studyResReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            campusService.updateStudyResDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";

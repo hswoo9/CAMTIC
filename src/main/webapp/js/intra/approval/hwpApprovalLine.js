@@ -386,7 +386,7 @@ var hwpApprovalLine = {
                 if(map.approveDutyName == "팀장"){
                     hwpDocCtrl.putFieldText('docApprNm1', "팀 장");
                 }
-                if((map.approveDutyName == "본부장") || map.approveDutyName == "사업부장" || map.approveDutyName == "센터장"){
+                if((map.approveDutyName == "본부장") || map.approveDutyName == "사업부장" || map.approveDutyName == "센터장" || map.approveDutyName == "실장"){
                     hwpDocCtrl.putFieldText('docApprNm2', "부서장");
                 }
                 if(map.approveDutyName == "원장"){

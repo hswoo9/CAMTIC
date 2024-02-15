@@ -38,7 +38,8 @@
             HEI.HOME_TEL_NUM,
             HDI.DEPT_LEVEL,
             HEI.DIVISION,
-            HEI.DIVISION_SUB
+            HEI.DIVISION_SUB,
+            HEI.JOB_DETAIL
         FROM
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN

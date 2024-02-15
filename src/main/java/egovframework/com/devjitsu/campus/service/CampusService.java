@@ -177,6 +177,8 @@ public interface CampusService {
     /** 전자결재 시작 */
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
     void updateResDocState(Map<String, Object> bodyMap) throws Exception;
+    void updateStudyDocState(Map<String, Object> bodyMap) throws Exception;
+    void updateStudyResDocState(Map<String, Object> bodyMap) throws Exception;
 
     void deleteStudyJournal(Map<String, Object> params);
 
