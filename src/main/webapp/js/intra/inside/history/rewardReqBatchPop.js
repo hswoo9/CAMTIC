@@ -2,7 +2,8 @@ const rewardBatch = {
     global: {
         userArr : [],
         nowUserArr: [],
-        editDataSource: {}
+        editDataSource: {},
+        delArr: [],
     },
 
     init: function(){
@@ -522,6 +523,25 @@ const rewardBatch = {
             fCommon.global.attFiles = [];
         });
 
+        if(rewardBatch.global.delArr.length > 0){
+            var rewordArr = "";
+            for(var i=0; i<rewardBatch.global.delArr.length; i++){
+                rewordArr += "," + rewardBatch.global.delArr[i];
+            }
+
+            $.ajax({
+                url : "/inside/setRewardDelete",
+                type : "POST",
+                data : {
+                    "rewordArr" : rewordArr.substring(1),
+                    "empSeq" : $("#empSeq").val()
+                },
+                success : function(){
+                    console.log("success");
+                }
+            })
+        }
+
         alert("처리되었습니다.");
         opener.gridReload();
         window.close();
@@ -534,6 +554,9 @@ const rewardBatch = {
 
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
             dataItemAr.push(grid.dataItem($(this).closest("tr")));
+            if(grid.dataItem($(this).closest("tr")).REWORD_ID){
+                rewardBatch.global.delArr.push(grid.dataItem($(this).closest("tr")).REWORD_ID);
+            }
         });
 
         for(let i = 0; i < dataItemAr.length; i++){

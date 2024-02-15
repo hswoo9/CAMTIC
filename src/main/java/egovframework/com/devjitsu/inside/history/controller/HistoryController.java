@@ -287,7 +287,11 @@ public class HistoryController {
         return "jsonView";
     }
 
-
+    @RequestMapping("/inside/setRewardDelete")
+    public String setRewardDelete(@RequestParam Map<String, Object> params) {
+        historyService.setRewardDelete(params);
+        return "jsonView";
+    }
 
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
