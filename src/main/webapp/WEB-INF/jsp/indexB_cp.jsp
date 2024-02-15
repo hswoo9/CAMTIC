@@ -338,6 +338,24 @@
             open_in_frame(menuNm);
         }
         updateScheduleCont();
+
+        var transparentLink = document.createElement('a');
+        transparentLink.href = "javascript:open_in_frame('/spot/empScheduleList.do')"
+        transparentLink.style.position = 'absolute';
+        transparentLink.style.top = '0';
+        transparentLink.style.left = '0';
+        transparentLink.style.width = '100%';
+        transparentLink.style.height = '100%';
+        transparentLink.style.opacity = '0';
+        transparentLink.style.cursor = 'pointer';
+        transparentLink.onclick = function() {
+            open_in_frame('/spot/empScheduleList.do');
+        };
+
+        $('.pignose-calendar-top-month').each(function() {
+            var parent = $(this).parent();
+            parent.append(transparentLink.cloneNode(true));
+        });
     });
     //대쉬보드 일정 표시
     function updateScheduleCont() {
@@ -403,12 +421,6 @@
                     }*/
                 }
             }
-        });
-
-        $('.pignose-calendar-top-month').css('cursor', 'pointer');
-        $('.pignose-calendar-top-month').click(function() {
-            var monthText = $(this).text();
-            open_in_frame('/spot/empScheduleList.do');
         });
     }
     //일정 조회 팝업

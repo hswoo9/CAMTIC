@@ -33,6 +33,16 @@
     .__lab {display:inline-flex;gap:0.2rem;align-items:center;position:relative;}
     .__lab span{font-weight: normal;}
 
+    #transparent-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+        background-color: transparent;
+        cursor: pointer;
+    }
 </style>
 
 <div id="mainContent">
@@ -296,7 +306,6 @@
     </div>
 </div>
 </div>
-
 <script>
     /*var currentDate = new Date();
     var currentYear = currentDate.getFullYear();
@@ -339,7 +348,25 @@
         }
         updateScheduleCont();
 
+        var transparentLink = document.createElement('a');
+        transparentLink.href = "javascript:open_in_frame('/spot/empScheduleList.do')"
+        transparentLink.style.position = 'absolute';
+        transparentLink.style.top = '0';
+        transparentLink.style.left = '0';
+        transparentLink.style.width = '100%';
+        transparentLink.style.height = '100%';
+        transparentLink.style.opacity = '0';
+        transparentLink.style.cursor = 'pointer';
+        transparentLink.onclick = function() {
+            open_in_frame('/spot/empScheduleList.do');
+        };
+
+        $('.pignose-calendar-top-month').each(function() {
+            var parent = $(this).parent();
+            parent.append(transparentLink.cloneNode(true));
+        });
     });
+
     //대쉬보드 일정 표시
     function updateScheduleCont() {
         var publicClass = $("input[name='scheBtn']:checked").val();
@@ -405,13 +432,8 @@
             },
 
         });
-
-        $('.pignose-calendar-top-month').css('cursor', 'pointer');
-        $('.pignose-calendar-top-month').click(function() {
-            var monthText = $(this).text();
-            open_in_frame('/spot/empScheduleList.do');
-        });
     }
+
     //일정 조회 팝업
     function openSchedulePopup(selectedDate, publicClass, type) {
         var url = "/spot/pop/popMainScheduleView.do?selectedDate=" + selectedDate + "&publicClass=" + publicClass + "&type=" + type;
