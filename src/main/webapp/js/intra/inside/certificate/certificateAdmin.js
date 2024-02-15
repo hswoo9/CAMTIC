@@ -219,6 +219,8 @@ var certificateAdmin = {
                             return "타사 제출용";
                         }else if (row.USAGE_NAME == "개인증빙용"){
                             return "개인증빙용";
+                        }else if (row.USAGE_NAME == "관공서 제출용"){
+                            return "관공서 제출용";
                         }else if (row.USAGE_NAME == "기타사유"){
                             return "기타사유";
                         }else if (row.PAST_YN == "Y"){
