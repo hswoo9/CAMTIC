@@ -481,5 +481,27 @@ var campusInit = {
         html += '</table>';
 
         return html.replaceAll("\n", "<br>");
-    }
+    },
+
+    propagResInit: function(studyResultSn){
+        campusInit.global.userInfo = getUser($("#empSeq").val());
+
+        const studyResult = customKendo.fn_customAjax("/campus/getStudyResultData", {studyResultSn: studyResultSn});
+        const studyInfo = studyResult.data;
+        campusInit.global.studyInfo = studyInfo;
+
+        const userResult = customKendo.fn_customAjax("/campus/getStudyResultList", {pk: studyInfo.STUDY_INFO_SN});
+        const userList = userResult.list;
+        campusInit.global.userList = userList;
+
+        hwpDocCtrl.putFieldText("STUDY_TITLE", "전파학습 결과보고서");
+
+        hwpDocCtrl.putFieldText('STUDY_SUBJECT', studyInfo.STUDY_NAME);
+
+        let htmlStudy = "";
+        htmlStudy = campusInit.htmlCustomStudyRes();
+
+        hwpDocCtrl.moveToField('USER_TABLE', true, true, false);
+        hwpDocCtrl.setTextFile(htmlStudy, "HTML", "insertfile", {});
+    },
 }

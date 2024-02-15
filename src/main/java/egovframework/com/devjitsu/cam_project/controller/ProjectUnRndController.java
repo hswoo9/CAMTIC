@@ -439,9 +439,9 @@ public class ProjectUnRndController {
 
     /** 단위사업(교육) 등록 */
     @RequestMapping("/projectUnRnd/insLectureInfo")
-    public String insLectureInfo(@RequestParam Map<String, Object> params, Model model){
+    public String insLectureInfo(@RequestParam Map<String, Object> params, Model model,  MultipartHttpServletRequest request){
         try{
-            projectUnRndService.insLectureInfo(params);
+            projectUnRndService.insLectureInfo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
@@ -546,9 +546,9 @@ public class ProjectUnRndController {
 
     /** 단위사업(교육) 수정 */
     @RequestMapping("/projectUnRnd/updLectureInfo")
-    public String updLectureInfo(@RequestParam Map<String, Object> params, Model model){
+    public String updLectureInfo(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request){
         try{
-            projectUnRndService.updLectureInfo(params);
+            projectUnRndService.updLectureInfo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

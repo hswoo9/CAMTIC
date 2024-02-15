@@ -34,9 +34,9 @@ public interface ProjectUnRndService {
     void setLectureTeacherData(Map<String, Object> params);
     void delLecturePersonData(Map<String, Object> params);
     void delLectureTeacherData(Map<String, Object> params);
-    void insLectureInfo(Map<String, Object> params);
+    void insLectureInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
     void insConsultingInfo(Map<String, Object> params);
-    void updLectureInfo(Map<String, Object> params);
+    void updLectureInfo(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);
     void updConsultingInfo(Map<String, Object> params);
     void updPersonApp(Map<String, Object> params);
     void updPersonPartic(Map<String, Object> params);
