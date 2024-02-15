@@ -341,7 +341,7 @@
             VUI.emp_seq,
             VUI.EMP_NAME_KR,
             (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE VUI.DEPT_NAME END) AS DEPT_NAME,
-            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN VUI.DEPT_NAME ELSE "" END) AS TEAM_NAME,
+            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN VUI.DEPT_TEAM_NAME ELSE '' END) AS TEAM_NAME,
             VUI.DUTY_NAME,
             VUI.POSITION_NAME,
             Date_format(VUI.join_day, '%Y-%m-%d') AS JOIN_DAY,
@@ -454,15 +454,40 @@
         </if>
 
         WHERE 1=1
-        <if test='deptName != null and !"".equals(deptName)'>
-            AND VUI.DEPT_NAME = #{deptName}
+        <if test='deptSeq != null and !"".equals(deptSeq)'>
+            <choose>
+                <when test='deptTeamSeq != null and !"".equals(deptTeamSeq)'>
+                    AND VUI.DEPT_SEQ = #{deptTeamSeq}
+                </when>
+                <otherwise>
+                    AND (VUI.DEPT_SEQ = #{deptSeq} OR HDI.PARENT_DEPT_SEQ = #{deptSeq})
+                </otherwise>
+            </choose>
         </if>
-        <if test='deptTeamName != null and !"".equals(deptTeamName)'>
-            AND VUI.DEPT_NAME = #{deptTeamName}
-        </if>
-        <if test='searchVal != null and !"".equals(searchVal)'>
-            AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
-        </if>
+        <choose>
+            <when test='searchType == "1" and searchVal != null and !"".equals(searchVal)'>
+                AND VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%')
+            </when>
+            <when test='searchType == "2" and searchVal != null and !"".equals(searchVal)'>
+                AND (VUI.DUTY_NAME LIKE CONCAT('%',#{searchVal},'%') OR VUI.POSITION_NAME LIKE CONCAT('%',#{searchVal},'%'))
+            </when>
+            <when test='searchType == "3" and searchVal != null and !"".equals(searchVal)'>
+                AND VUI.GRADE_NAME LIKE CONCAT('%',#{searchVal},'%')
+            </when>
+            <when test='searchType == "4" and searchVal != null and !"".equals(searchVal)'>
+                AND VUI.EMAIL_ADDR LIKE CONCAT('%',#{searchVal},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                    VUI.EMP_NAME_KR LIKE CONCAT('%',#{searchVal},'%') OR
+                    VUI.DUTY_NAME LIKE CONCAT('%',#{searchVal},'%') OR
+                    VUI.POSITION_NAME LIKE CONCAT('%',#{searchVal},'%') OR
+                    VUI.GRADE_NAME LIKE CONCAT('%',#{searchVal},'%') OR
+                    VUI.EMAIL_ADDR LIKE CONCAT('%',#{searchVal},'%')
+                )
+            </otherwise>
+        </choose>
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">

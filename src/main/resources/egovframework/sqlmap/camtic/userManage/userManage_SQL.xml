@@ -607,6 +607,7 @@
             CAM_HR.DJ_DEPT_INFO DI
         WHERE
             DI.DEPT_LEVEL = 1
+          AND DI.USE_YN = 'Y'
         ORDER BY DI.DEPT_LEVEL, DI.ORDER_SN
     </select>
 
@@ -619,9 +620,7 @@
             CAM_HR.DJ_DEPT_INFO
         WHERE
             PARENT_DEPT_SEQ = #{deptSeq}
-        <if test='useTeam != null and !"".equals(useTeam)'>
-            AND USE_YN = 'Y'
-        </if>
+        AND USE_YN = 'Y'
         ORDER BY DEPT_LEVEL, ORDER_SN
     </select>
     <select id="getEmpInfoList" parameterType="map" resultType="map">

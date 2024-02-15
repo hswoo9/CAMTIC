@@ -73,14 +73,14 @@ var subHolidayStat = {
                 var ds = result.list;
                 ds.unshift({deptName: '전체', deptSeq: ''});
 
-                $("#deptName").kendoDropDownList({
+                $("#sDeptSeq").kendoDropDownList({
                     dataTextField: "deptName",
                     dataValueField: "deptSeq",
                     dataSource: ds,
                     index: 0,
                     change : function(){
                         var data = {
-                            deptSeq : $("#deptName").val()
+                            deptSeq : $("#sDeptSeq").val()
                         }
 
                         $.ajax({
@@ -93,7 +93,7 @@ var subHolidayStat = {
                                 var ds = result.list;
                                 ds.unshift({text: '전체', value: ''});
 
-                                $("#deptTeamName").kendoDropDownList({
+                                $("#sDeptTeamSeq").kendoDropDownList({
                                     dataTextField: "text",
                                     dataValueField: "value",
                                     dataSource: ds,
@@ -106,7 +106,7 @@ var subHolidayStat = {
             }
         });
 
-        $("#deptTeamName").kendoDropDownList({
+        $("#sDeptTeamSeq").kendoDropDownList({
             dataTextField: "TEXT",
             dataValueField: "VALUE",
             dataSource: [
@@ -305,9 +305,10 @@ var subHolidayStat = {
     gridReload : function(){
         subHolidayStat.global.searchAjaxData = {
             holidayYear : $('#holidayYear').val(),
-            deptName : $("#deptName").val(),
-            deptTeamName : $("#deptTeamName").val(),
+            deptSeq : $("#sDeptSeq").val(),
+            deptTeamSeq : $("#sDeptTeamSeq").val(),
             edtHolidayKindTop : $("#edtHolidayKindTop").val(),
+            searchType : $("#searchType").val(),
             searchVal : $("#searchVal").val()
         }
 
