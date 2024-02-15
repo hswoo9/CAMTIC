@@ -130,6 +130,23 @@ const lectureReq = {
             const result = customKendo.fn_customAjax("/projectUnRnd/getConsultingInfo", data);
             const conMap = result.data;
 
+
+
+            if(conMap.teacherInfo != null && conMap.teacherInfo != ""){
+                $("#tcName").text(conMap.teacherInfo.NAME);
+                $("#tcBirth").text(conMap.teacherInfo.BIRTH);
+                if (conMap.teacherInfo.GENDER === 'F') {
+                    $("#tcGender").text("여");
+                } else if (conMap.teacherInfo.GENDER === 'M') {
+                    $("#tcGender").text("남");
+                } else {
+                    $("#tcGender").text(conMap.teacherInfo.GENDER);
+                }
+                $("#tcNum").text(conMap.teacherInfo.TEL_NUM);
+                $("#tcNumP").text(conMap.teacherInfo.HP_NUM);
+                $("#tcEmail").text(conMap.teacherInfo.EMAIL);
+            }
+
             $("#field").data("kendoDropDownList").value(conMap.CON_FIELD);
             $("#field2").data("kendoDropDownList").value(conMap.CON_FIELD1);
             $("#field3").val(conMap.CON_FIELD_NAME2);
@@ -164,6 +181,7 @@ const lectureReq = {
             $("#saveBtn").hide();
             $("#modBtn").show();
             $("#consultantBtn").show();
+            $("#conTeacherInfo").show();
             $("#teacherBtn").hide();
             $("#personBtn").hide();
             $("#eduBtn").hide();

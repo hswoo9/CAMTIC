@@ -256,7 +256,14 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
 
     @Override
     public Map<String, Object> getConsultingInfo(Map<String, Object> params) {
-        return projectUnRndRepository.getConsultingInfo(params);
+        Map<String, Object> consultingInfo = projectUnRndRepository.getConsultingInfo(params);
+        Map<String, Object> searchMap = new HashMap<>();
+
+        searchMap.put("TEACHER_SN", consultingInfo.get("CON_TC_SN"));
+        consultingInfo.put("teacherInfo", projectUnRndRepository.getConsultingTeacherInfo(searchMap));
+
+        return consultingInfo;
+        /*return projectUnRndRepository.getConsultingInfo(params);*/
     }
 
     @Override
@@ -273,6 +280,7 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         List<Map<String, Object>> TEACHER_LIST = gson.fromJson((String) params.get("teacherList"), new TypeToken<List<Map<String, Object>>>(){}.getType());
         params.put("teacherList", TEACHER_LIST);
         projectUnRndRepository.insConTeacherInfo(params);
+        projectUnRndRepository.updConTeacherInfo(params);
     }
 
     @Override
