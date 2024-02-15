@@ -232,7 +232,7 @@ var hwpApprovalLine = {
             let list = docView.global.rs.approveRoute;
 
             let DText = "";
-            for (let i = 0; i < list.length; i++) {
+            for (let i = 1; i < list.length; i++) {
                 const map = list[i];
 
                 if(map.APPROVE_STAT_CODE == null){
@@ -255,20 +255,20 @@ var hwpApprovalLine = {
                     if(map.APPROVE_DUTY_NAME == "팀장" || map.APPROVE_DUTY_NAME == "팀장 직무대리"){
                         let field = "docAppr1";
                         let field2 = "docAppr1011";
-                        hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
+                        hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ);
                         if(map.APPROVE_STAT_CODE == 101){
                             hwpDocCtrl.putFieldText(field2, "전결");
                         }
                     }else if(map.APPROVE_DUTY_NAME == "본부장" || map.APPROVE_DUTY_NAME == "사업부장" || map.APPROVE_DUTY_NAME == "센터장" || map.APPROVE_DUTY_NAME == "실장"){
                         let field = "docAppr2";
                         let field2 = "docAppr1012";
-                        hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
+                        hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ);
                         if(map.APPROVE_STAT_CODE == 101){
                             hwpDocCtrl.putFieldText(field2, "전결");
                         }
                     }else if(map.APPROVE_DUTY_NAME == "원장"){
                         let field = "docAppr3";
-                        hwpDocCtrl.putFieldText(field, map.APPROVE_EMP_NAME);
+                        hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ);
                     }
 
                 }else{
@@ -277,7 +277,7 @@ var hwpApprovalLine = {
                         DText += ", ";
                     }
                     DText += map.APPROVE_EMP_NAME;
-                    hwpDocCtrl.putFieldText(field, DText);
+                    hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ);
 
                 }
 
@@ -310,6 +310,15 @@ var hwpApprovalLine = {
             hwpDocCtrl.putFieldText('SECURITY_TYPE', docInfo.SECURITY_TYPE == "000" ? "공개" : "비공개");
 
         }
+    },
+
+    setName : function(fieldName, APPROVE_EMP_NAME, PROXY_APPROVE_EMP_SEQ){
+        /** 부재설정이 되어있으면 대결자의 정자가 들어감 */
+        let empName = APPROVE_EMP_NAME;
+        if(PROXY_APPROVE_EMP_SEQ != null && PROXY_APPROVE_EMP_SEQ != undefined){
+            empName = getUser(PROXY_APPROVE_EMP_SEQ).EMP_NAME_KR;
+        }
+        hwpDocCtrl.putFieldText(fieldName, empName);
     },
 
     setSign : function(fieldName, empSeq, empName, type){

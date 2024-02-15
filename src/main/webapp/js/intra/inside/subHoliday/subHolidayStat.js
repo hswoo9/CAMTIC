@@ -153,13 +153,7 @@ var subHolidayStat = {
                     return data.list.length;
                 },
             },
-            pageSize: 15,
-            sort: [
-                { field: "DEPT_NAME", dir: "asc" },
-                { field: "TEAM_NAME", dir: "asc" },
-                { field: "DUTY_NAME", dir: "desc", compare: subHolidayStat.dutyNameCompare() },
-                { field: "EMP_NAME_KR", dir: "asc" }
-            ]
+            pageSize: 15
         });
 
         $("#mainGrid").kendoGrid({

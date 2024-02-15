@@ -93,7 +93,7 @@ var inTimeSetPop = {
 
             $("#" + $(this).attr("id")).kendoDateTimePicker({
                 dateInput : true,
-                format: "yyyy-MM-dd hh:mm",
+                format: "yyyy-MM-dd HH:mm",
                 value : inTimeDate,
                 culture : "ko-KR"
             });

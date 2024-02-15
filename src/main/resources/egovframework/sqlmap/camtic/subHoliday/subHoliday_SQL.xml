@@ -337,15 +337,14 @@
         /* getUserVacListStat */
         /*1(연차), 3(오전반차), 4(오후반차), 5(병가), 6(공가), 7(경조휴가), 8(출산휴가), 9(대체휴가), 10(근속포상휴가), 11(휴일근로)*/
 
-        SELECT
+        SELECT RE. * FROM (SELECT
             VUI.emp_seq,
             VUI.EMP_NAME_KR,
-            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE VUI.DEPT_NAME END) AS DEPT_NAME,
-            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN VUI.DEPT_NAME ELSE "" END) AS TEAM_NAME,
+            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) END) AS DEPT_NAME,
+            (CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.DEPT_SEQ = DI.DEPT_SEQ) ELSE "" END) AS TEAM_NAME,
             VUI.DUTY_NAME,
             VUI.POSITION_NAME,
             Date_format(VUI.join_day, '%Y-%m-%d') AS JOIN_DAY,
-            VUI.active,
             VC.apply_year,
             Concat(VC.apply_year, '-01-01') AS ST_APPLY_DATE,
             Concat(VC.apply_year, '-12-31') AS EN_APPLY_DATE,
@@ -473,7 +472,13 @@
             AND
             TEMP_DIVISION = "Y"
         </if>
-        GROUP BY VUI.EMP_SEQ
+        GROUP BY VUI.EMP_SEQ ) RE
+
+        <![CDATA[
+        ORDER BY (
+            CASE WHEN DEPT_NAME = '캠틱종합기술원' THEN 1 WHEN ASCII(SUBSTRING(DEPT_NAME,1)) < 123 THEN 3 ELSE 2 END
+        ), DEPT_NAME, TEAM_NAME, DUTY_NAME, POSITION_NAME
+        ]]>
     </select>
 
     <update id="updateApprStat" parameterType="map">

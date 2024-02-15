@@ -22,10 +22,6 @@ var docView = {
     },
 
     fnDefaultScript : function(params, rs, loginVO){
-        if(rs.docInfo.SECURITY_TYPE == "009"){
-            docView.readPermissionChk(loginVO, params);
-        }
-
         document.querySelector('body').style.overflow = 'hidden';
         $("#loadingText").text("문서를 불러오는 중입니다.");
 
@@ -33,6 +29,11 @@ var docView = {
         docView.global.rs = rs;
         docView.global.loginVO = loginVO;
         docView.global.mod = params.mod;
+
+        if(rs.docInfo.SECURITY_TYPE == "009"){
+            docView.readPermissionChk(loginVO, params);
+        }
+
 
         $(document).ready(function() {
             docView.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", docView.global.params.hwpUrl, function () {docView.editorComplete();});
@@ -62,7 +63,7 @@ var docView = {
         }
 
         var result = customKendo.fn_customAjax("/approval/getDocSecurityIndexOfUserChk.do", docView.global.searchAjaxData);
-        if(!result.confirm){
+        if(!result.confirm && (docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL != 'Y')){
             alert("열람 권한이 없습니다.");
             window.close();
             return;
@@ -418,6 +419,15 @@ var docView = {
     },
 
     documentHwpDataCtrl : function(){
+        /** TODO. 문서번호 임시로 휴가원만 들어가게 함
+         * 문서번호 관련 최종적으로 어떻게 할지 정의 필요
+         * */
+        if(docView.global.rs.docInfo.FORM_ID == "88"){
+            if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+                hwpDocCtrl.putFieldText("DOC_NUM", docView.global.rs.docInfo.DOC_NO);
+            }
+        }
+
         if(docView.global.rs.docInfo.FORM_ID != "1"){
             /** 결재 사인 */
             if(docView.global.rs.approveNowRoute.APPROVE_TYPE != 1){
@@ -649,7 +659,7 @@ var docView = {
                     }
                 },{
                     field : "APPROVE_DUTY_NAME",
-                    title: "직급",
+                    title: "직위",
                     template : function(e){
                         if(e.PROXY_TYPE == "Y"){
                             return e.PROXY_APPROVE_DUTY_NAME;

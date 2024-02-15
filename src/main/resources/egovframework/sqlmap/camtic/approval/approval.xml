@@ -823,10 +823,22 @@
                 END
         FROM
             DJ_CAMTIC.A_DOC_APPROVE_ROUTE DAR
+
+
+        LEFT JOIN DJ_CAMTIC.A_ABSENTINFO AF ON AF.C_UIUSERKEY = DAR.APPROVE_EMP_SEQ
+            AND (DATE_FORMAT(NOW(),'%Y%m%d%H%i') BETWEEN CONCAT(DATE_FORMAT(AF.C_AISDAY, '%Y%m%d'), REPLACE(AF.C_AISTIME , ':', ''))
+            AND CONCAT(DATE_FORMAT(AF.C_AIEDAY ,'%Y%m%d'), REPLACE(AF.C_AIETIME  , ':', '')))
+            AND AF.C_AISTATUS = '1'
+        LEFT JOIN DJ_CAMTIC.A_VICARIOUSINFO AVF ON AF.C_UIUSERKEY =  AVF.C_UIUSERKEY
+            AND AF.C_OIORGCODE = AVF.C_OIORGCODE AND AF.C_AISEQNUM = AVF.C_AISEQNUM
         WHERE
             DOC_ID = #{docId}
           AND
-            FIND_IN_SET (#{empSeq}, DAR.APPROVE_EMP_SEQ)
+            (
+                    FIND_IN_SET (#{empSeq}, DAR.APPROVE_EMP_SEQ)
+                    OR
+                    AVF.C_VIUSERKEY = #{empSeq}
+                )
     </select>
 
     <select id="getUserDocReadUserChk" parameterType="map" resultType="int">
@@ -998,7 +1010,7 @@
             DAR.APPROVE_EMP_NAME,
             DAR.APPROVE_DEPT_NAME,
             DAR.APPROVE_DUTY_NAME,
-            DAR.APPROVE_POSITION_NAME,
+            CASE WHEN DAR.APPROVE_DUTY_NAME IS NULL OR DAR.APPROVE_DUTY_NAME = '' THEN IFNULL(DAR.APPROVE_POSITION_NAME, "") ELSE DAR.APPROVE_DUTY_NAME END AS APPROVE_POSITION_NAME,
             IFNULL(DATE_FORMAT(DAR.DOC_READ_DT, '%Y-%m-%d'), '-') AS DOC_READ_DT,
             CASE WHEN DAR.APPROVE_STAT_CODE IS NOT NULL THEN DATE_FORMAT(DAR.APPROVE_DT, '%Y-%m-%d')
                  ELSE DATE_FORMAT(DAR.APPROVE_CANCEL_DT, '%Y-%m-%d')
