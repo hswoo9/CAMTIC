@@ -228,7 +228,7 @@ var hwpApprovalLine = {
     },
 
     setHwpApprovalDocuSignPut : function(formId){
-        if(formId == "1"){
+        if(formId == "1") {
             let list = docView.global.rs.approveRoute;
 
             let DText = "";
