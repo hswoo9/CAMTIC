@@ -107,6 +107,23 @@ const lectureReq = {
 
             $("#mainType").data("kendoDropDownList").value(lecMap.LEC_OPEN_BD);
 
+            if(lecMap.file1 != null){
+                $("#file1Name").text(lecMap.file1.file_org_name + '.' +lecMap.file1.file_ext);
+            }
+            if(lecMap.file2 != null){
+                $("#file2Name").text(lecMap.file2.file_org_name + '.' +lecMap.file2.file_ext);
+            }
+            if(lecMap.file3 != null){
+                $("#file3Name").text(lecMap.file3.file_org_name + '.' +lecMap.file3.file_ext);
+            }
+            /*$("#file1Name").text(lecMap.file1.file_org_name + '.' +lecMap.file1.file_ext);
+            $("#file2Name").text(lecMap.file2.file_org_name + '.' +lecMap.file2.file_ext);
+            $("#file3Name").text(lecMap.file3.file_org_name + '.' +lecMap.file3.file_ext);*/
+
+            $("#file1Sn").val(lecMap.LEC_BOOK_IMG_SN);
+            $("#file2Sn").val(lecMap.LEC_APPL_SN);
+            $("#file3Sn").val(lecMap.LEC_MAIN_IMG_SN);
+
             this.fn_btnSet(lecMap);
 
         }else if(typeValue == "con") {
@@ -169,18 +186,15 @@ const lectureReq = {
                 fieldTypeName: $("#fieldType").data("kendoDropDownList").text(),
                 fieldType1: $("#fieldType2").data("kendoDropDownList").value(),
                 fieldTypeName1: $("#fieldType2").data("kendoDropDownList").text(),
-
                 /*curriculumType: $("#curriculumType").data("kendoDropDownList").value(),
                 curriculumTypeName: $("#curriculumType").data("kendoDropDownList").text(),
                 courseType: $("#courseType").data("kendoDropDownList").value(),
                 courseTypeName: $("#courseType").data("kendoDropDownList").text(),*/
-
                 lectureName: $("#lectureName").val(),
                 lectureNameEx: $("#lectureNameEx").val(),
                 /*title: $("#title").val(),
                 content1: $("#content1").val(),
                 content2: $("#content2").val(),*/
-
                 eduStartDt: $("#eduStartDt").val(),
                 eduEndDt: $("#eduEndDt").val(),
                 recruitStartDt: $("#recruitStartDt").val(),
@@ -210,7 +224,14 @@ const lectureReq = {
                 mainType: $("#mainType").data("kendoDropDownList").value(),
                 mainTypeName: $("#mainType").data("kendoDropDownList").text(),
 
-                regEmpSeq: $("#regEmpSeq").val()
+                regEmpSeq: $("#regEmpSeq").val(),
+
+                file1 : $("#file1")[0].files[0],
+                file2 : $("#file2")[0].files[0],
+                file3 : $("#file3")[0].files[0],
+                file1sn : $("#file1Sn").val(),
+                file2sn : $("#file2Sn").val(),
+                file3sn : $("#file3Sn").val()
             }
 
             /** 유효성 검사 */
@@ -275,7 +296,7 @@ const lectureReq = {
 
             if (result.code != 200) {
                 alert("저장 중 오류가 발생하였습니다.");
-                window.close();
+                /*window.close();*/
             } else {
                 alert("단위사업이 등록되었습니다.");
                 opener.unRndLectList.mainGrid();

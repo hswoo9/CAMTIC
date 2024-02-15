@@ -229,7 +229,7 @@
                     <td>
                         <input type="hidden" id="file1Sn" name="file1Sn">
                         <label for="file1" id="file1Label" class="k-button k-button-solid-base">파일첨부</label>
-                        <input type="file" id="file1" name="file1" onchange="prp.fileChange(this)" style="display: none">
+                        <input type="file" id="file1" name="file1" onchange="fileChange(this)" style="display: none">
                         <span id="file1Name"></span>
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>메인게시여부</th>
@@ -239,11 +239,18 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">수강신청서</th>
-                    <td colspan="3">
-                        <input type="hidden" id="file2Sn" name="file1Sn">
+                    <td>
+                        <input type="hidden" id="file2Sn" name="file2Sn">
                         <label for="file2" id="file2Label" class="k-button k-button-solid-base">파일첨부</label>
-                        <input type="file" id="file2" name="file2" onchange="prp.fileChange(this)" style="display: none">
+                        <input type="file" id="file2" name="file2" onchange="fileChange(this)" style="display: none">
                         <span id="file2Name"></span>
+                    </td>
+                    <th scope="row" class="text-center th-color">메인이미지</th>
+                    <td>
+                        <input type="hidden" id="file3Sn" name="file3Sn">
+                        <label for="file3" id="file3Label" class="k-button k-button-solid-base">파일첨부</label>
+                        <input type="file" id="file3" name="file3" onchange="fileChange(this)" style="display: none">
+                        <span id="file3Name"></span>
                     </td>
                 </tr>
                 <%--<tr>
@@ -408,6 +415,10 @@
 
     function openModalSelect(){
         $("#lecReqSelectModal").data("kendoWindow").open();
+    }
+
+    function fileChange(e){
+        $(e).next().text($(e)[0].files[0].name);
     }
     
     lectureReq.fn_defaultScript();
