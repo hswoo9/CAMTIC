@@ -8,6 +8,7 @@ var pri = {
         crmSnId : "",
         crmNmId : "",
         saveAjaxData : "",
+        fileArray : [],
     },
 
     fn_defaultScript: function(){
@@ -118,6 +119,9 @@ var pri = {
 
             console.log(data.inspectFile);
             if(data.inspectFile != null){
+                for(var i = 0; i < data.inspectFile.length; i++){
+                    pri.global.fileArray.push(data.inspectFile[i]);
+                }
                 pri.settingTempFileDataInit(data.inspectFile);
             }
 
@@ -391,7 +395,7 @@ var pri = {
                 html += '<tr style="text-align: center">';
                 html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">'+e[i].file_org_name+'</span></td>';
                 html += '   <td>'+ e[i].file_ext +'</td>';
-                html += '   <td>'+ e[i].file_size +'</td>';
+                html += '   <td>'+ fCommon.bytesToKB(e[i].file_size) +'</td>';
                 html += '   <td>';
                 if(e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "jpeg"){
                     html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="pri.fileViewer(\''+e[i].file_path+e[i].file_uuid+'\', \''+e[i].file_org_name+'.'+e[i].file_ext+'\')">' +
@@ -428,9 +432,9 @@ var pri = {
 
     addFileInfoTable : function (){
         let size = 0;
-        if($("input[name='fileList']")[0].files.length == 1){
-            $("#fileGrid").html("");
-        }
+        // if($("input[name='fileList']")[0].files.length == 1){
+        //     $("#fileGrid").html("");
+        // }
         for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
             fCommon.global.attFiles.push($("input[name='fileList']")[0].files[i]);
         }
@@ -443,8 +447,8 @@ var pri = {
             for (var i = 0; i < fCommon.global.attFiles.length; i++) {
                 size = fCommon.bytesToKB(fCommon.global.attFiles[i].size);
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
-                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
-                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
+                html += '   <td>' + fCommon.global.attFiles[i].name.substring(0, fCommon.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
+                html += '   <td>' + fCommon.global.attFiles[i].name.substring(fCommon.global.attFiles[i].name.lastIndexOf(".")+1) + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
                 html += '   </td>';
@@ -480,7 +484,9 @@ var pri = {
                 html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
-                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">';
+                html += '   </td>';
+                html += '   <td>';
+                html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="pri.fnUploadFile(' + i + ')">';
                 html += '   </td>';
                 html += '</tr>';
             }

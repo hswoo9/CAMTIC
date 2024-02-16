@@ -80,7 +80,7 @@ const orderSendMail = {
                     html += ' | ';
                 }
                 html += orderSendMail.global.attFiles[i].name.substring(0, orderSendMail.global.attFiles[i].name.lastIndexOf("."));
-                html += orderSendMail.global.attFiles[i].name.substring(orderSendMail.global.attFiles[i].name.lastIndexOf("."));
+                html += orderSendMail.global.attFiles[i].name.substring(orderSendMail.global.attFiles[i].name.lastIndexOf(".")+1);
                 html += '<input type="button" value="X" class="" style="border: none; background-color: transparent; color: red; font-weight: bold;" onclick="orderSendMail.fnUploadFile(' + i + ')">';
                 html += '';
             }
@@ -108,7 +108,7 @@ const orderSendMail = {
                     html += ' | ';
                 }
                 html += orderSendMail.global.attFiles[i].name.substring(0, orderSendMail.global.attFiles[i].name.lastIndexOf("."));
-                html += orderSendMail.global.attFiles[i].name.substring(orderSendMail.global.attFiles[i].name.lastIndexOf("."));
+                html += orderSendMail.global.attFiles[i].name.substring(orderSendMail.global.attFiles[i].name.lastIndexOf(".")+1);
                 html += '<input type="button" value="X" class="" style="border: none; background-color: transparent; color: red; font-weight: bold;" onclick="orderSendMail.fnUploadFile(' + i + ')">';
                 html += '';
             }
