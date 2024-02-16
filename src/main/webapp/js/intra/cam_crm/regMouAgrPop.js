@@ -131,7 +131,7 @@ var mouReg = {
             for (var i = 0; i < mouReg.global.attFiles.length; i++) {
                 html += '<li>'
                 html += mouReg.global.attFiles[i].name.substring(0, mouReg.global.attFiles[i].name.lastIndexOf("."));
-                html += mouReg.global.attFiles[i].name.substring(mouReg.global.attFiles[i].name.lastIndexOf("."));
+                html += mouReg.global.attFiles[i].name.substring(mouReg.global.attFiles[i].name.lastIndexOf(".")+1);
                 html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="mouReg.fnUploadFile(' + i + ')">';
                 html += '</li>';
             }
@@ -158,7 +158,7 @@ var mouReg = {
             for (var i = 0; i < mouReg.global.attFiles.length; i++) {
                 html += '<li>'
                 html += mouReg.global.attFiles[i].name.substring(0, mouReg.global.attFiles[i].name.lastIndexOf("."));
-                html += mouReg.global.attFiles[i].name.substring(mouReg.global.attFiles[i].name.lastIndexOf("."));
+                html += mouReg.global.attFiles[i].name.substring(mouReg.global.attFiles[i].name.lastIndexOf(".")+1);
                 html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="mouReg.fnUploadFile(' + i + ')">';
                 html += '</li>';
             }

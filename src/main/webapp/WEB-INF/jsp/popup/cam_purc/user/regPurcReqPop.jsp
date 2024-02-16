@@ -329,7 +329,7 @@
                     <tfoot>
                     <tr>
                         <th colspan="9" style="text-align: right; font-weight: bold">
-                            할인금액
+                            가격조정
                         </th>
                         <td colspan="2" style="text-align: right; font-weight: bold">
                             <input type="text" id="discountAmt" style="text-align: right;" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />

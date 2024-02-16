@@ -807,7 +807,7 @@ var bustripResultPop = {
                 size = fCommon.bytesToKB(bustripResultPop.global.attFiles[i].size);
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(0, bustripResultPop.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
-                html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(bustripResultPop.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
+                html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(bustripResultPop.global.attFiles[i].name.lastIndexOf(".")+1) + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td></td>';
                 html += '   <td>';
@@ -839,7 +839,7 @@ var bustripResultPop = {
                 size = bustripResultPop.bytesToKB(bustripResultPop.global.attFiles[i].size);
                 html += '<tr style="text-align: center;" class="addFile">';
                 html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(0, bustripResultPop.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
-                html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(bustripResultPop.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
+                html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(bustripResultPop.global.attFiles[i].name.lastIndexOf(".")+1) + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
                 html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="bustripResultPop.fnUploadFile(' + i + ')">';

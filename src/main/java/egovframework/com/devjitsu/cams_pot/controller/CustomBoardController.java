@@ -2,7 +2,6 @@ package egovframework.com.devjitsu.cams_pot.controller;
 
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.cams_pot.service.CustomBoardService;
-import egovframework.com.devjitsu.cams_pot.service.camsBoardService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.hp.board.util.ArticlePage;
 import egovframework.com.devjitsu.hp.board.util.PagingResponse;
@@ -19,7 +18,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -160,9 +158,11 @@ public class CustomBoardController {
      * @return
      */
     @RequestMapping("/spot/empScheduleList.do")
-    public String empScheduleList(HttpServletRequest request){
+    public String empScheduleList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("params", params);
         return "camspot/empSchedule/empScheduleList";
     }
 

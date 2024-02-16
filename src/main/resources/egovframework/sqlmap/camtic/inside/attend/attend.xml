@@ -108,14 +108,15 @@
                 SELECT
                     IHR.TRIP_DAY_FR,
                     IHR.TRIP_DAY_TO,
-                    CASE WHEN IHR.TRIP_DAY_FR < R.START_DATE THEN R.START_DATE ELSE IHR.TRIP_DAY_FR END AS TRIP_DAY_FR_2,
-                    CASE WHEN IHR.TRIP_DAY_TO > R.END_DATE THEN R.END_DATE ELSE IHR.TRIP_DAY_TO END AS TRIP_DAY_TO_2
+                    CASE WHEN IHR.TRIP_DAY_FR <= R.START_DATE THEN R.START_DATE ELSE IHR.TRIP_DAY_FR END AS TRIP_DAY_FR_2,
+                    CASE WHEN IHR.TRIP_DAY_TO >= R.END_DATE THEN R.END_DATE ELSE IHR.TRIP_DAY_TO END AS TRIP_DAY_TO_2
                 FROM
                     CAM_INSIDE.DJ_HR_BIZ_REQ IHR,
                     REQUEST R
                 WHERE
-                    IHR.TRIP_DAY_TO > R.START_DATE
-                AND IHR.TRIP_DAY_FR < R.END_DATE
+                    IHR.TRIP_DAY_TO >= R.START_DATE
+                AND IHR.TRIP_DAY_FR <= R.END_DATE
+                AND IHR.EMP_SEQ = R.EMP_SEQ
             ) RR
         ]]>
     </select>
@@ -133,71 +134,111 @@
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 1
-               AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS ANNUAL,
+               AND APPLY_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y'
+               AND ACTIVE = 'Y'
+               AND DATE_FORMAT(SUBHOLIDAY_ST_DT, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(R.END_DATE, '%Y%m%d')
+               AND DATE_FORMAT(SUBHOLIDAY_EN_DT, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(R.START_DATE, '%Y%m%d')
+             ) AS ANNUAL,
 
             /** 3오전반차 */
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 3
-               AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS MORNING,
+               AND APPLY_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y'
+               AND ACTIVE = 'Y'
+               AND DATE_FORMAT(SUBHOLIDAY_ST_DT, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(R.END_DATE, '%Y%m%d')
+               AND DATE_FORMAT(SUBHOLIDAY_EN_DT, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(R.START_DATE, '%Y%m%d')
+             ) AS MORNING,
 
             /** 4오후반차 */
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 4
-               AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS AFTERNOON,
+               AND APPLY_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y'
+               AND ACTIVE = 'Y'
+               AND DATE_FORMAT(SUBHOLIDAY_ST_DT, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(R.END_DATE, '%Y%m%d')
+               AND DATE_FORMAT(SUBHOLIDAY_EN_DT, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(R.START_DATE, '%Y%m%d')
+             ) AS AFTERNOON,
 
             /** 5병가 */
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 5
-               AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS SICK,
+               AND APPLY_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y'
+               AND ACTIVE = 'Y'
+               AND DATE_FORMAT(SUBHOLIDAY_ST_DT, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(R.END_DATE, '%Y%m%d')
+               AND DATE_FORMAT(SUBHOLIDAY_EN_DT, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(R.START_DATE, '%Y%m%d')
+             ) AS SICK,
 
             /** 6공가 */
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 6
-               AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS PUBLICHOLI,
+               AND APPLY_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y'
+               AND ACTIVE = 'Y'
+               AND DATE_FORMAT(SUBHOLIDAY_ST_DT, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(R.END_DATE, '%Y%m%d')
+               AND DATE_FORMAT(SUBHOLIDAY_EN_DT, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(R.START_DATE, '%Y%m%d')
+             ) AS PUBLICHOLI,
 
             /** 7경조휴가 */
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 7
-               AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS CONDOLENCES,
+               AND APPLY_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y'
+               AND ACTIVE = 'Y'
+               AND DATE_FORMAT(SUBHOLIDAY_ST_DT, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(R.END_DATE, '%Y%m%d')
+               AND DATE_FORMAT(SUBHOLIDAY_EN_DT, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(R.START_DATE, '%Y%m%d')
+             ) AS CONDOLENCES,
 
             /** 8출산휴가 */
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 8
-               AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS MATERNITY,
+               AND APPLY_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y'
+               AND ACTIVE = 'Y'
+               AND DATE_FORMAT(SUBHOLIDAY_ST_DT, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(R.END_DATE, '%Y%m%d')
+               AND DATE_FORMAT(SUBHOLIDAY_EN_DT, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(R.START_DATE, '%Y%m%d')
+             ) AS MATERNITY,
 
             /** 9대체휴가 */
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 9
-               AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS ALTERNATIVE,
+               AND APPLY_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y'
+               AND ACTIVE = 'Y'
+               AND DATE_FORMAT(SUBHOLIDAY_ST_DT, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(R.END_DATE, '%Y%m%d')
+               AND DATE_FORMAT(SUBHOLIDAY_EN_DT, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(R.START_DATE, '%Y%m%d')
+             ) AS ALTERNATIVE,
 
             /** 10근속포상휴가 */
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 10
-               AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS LONGAWARD,
+               AND APPLY_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y'
+               AND ACTIVE = 'Y'
+               AND DATE_FORMAT(SUBHOLIDAY_ST_DT, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(R.END_DATE, '%Y%m%d')
+               AND DATE_FORMAT(SUBHOLIDAY_EN_DT, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(R.START_DATE, '%Y%m%d')
+             ) AS LONGAWARD,
 
             /** 11휴일근로 */
             (SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0)
              FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST A
              WHERE SUBHOLIDAY_CODE_ID = 11
-               AND REG_EMP_SEQ = R.EMP_SEQ
-               AND APPR_STAT = 'Y') AS HOLIDAYWORK
+               AND APPLY_SEQ = R.EMP_SEQ
+               AND APPR_STAT = 'Y'
+               AND ACTIVE = 'Y'
+               AND DATE_FORMAT(SUBHOLIDAY_ST_DT, '%Y%m%d') <![CDATA[<=]]> DATE_FORMAT(R.END_DATE, '%Y%m%d')
+               AND DATE_FORMAT(SUBHOLIDAY_EN_DT, '%Y%m%d') <![CDATA[>=]]> DATE_FORMAT(R.START_DATE, '%Y%m%d')
+             ) AS HOLIDAYWORK
         FROM
             REQUEST R
     </select>

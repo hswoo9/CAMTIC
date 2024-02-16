@@ -42,7 +42,7 @@ const reqOr = {
         ]
 
         customKendo.fn_radioGroup("purcType", radioDataSource, "horizontal");
-        customKendo.fn_radioGroup("expType", radioExpDataSource, "horizontal");
+        // customKendo.fn_radioGroup("expType", radioExpDataSource, "horizontal");
         customKendo.fn_radioGroup("vat", radioVatDataSource, "horizontal");
         // customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
 
@@ -140,7 +140,7 @@ const reqOr = {
         $("#vat").data("kendoRadioGroup").value(orderMap.VAT);
         $("#discountAmt").val(comma(orderMap.DISCOUNT_AMT))
 
-        $("#expType").data("kendoRadioGroup").value(orderMap.EXP_TYPE);
+        // $("#expType").data("kendoRadioGroup").value(orderMap.EXP_TYPE);
 
         $("#purcType").data("kendoRadioGroup").value(orderMap.PURC_TYPE);
         if($("input[name='purcType']:checked").val() != ""){
@@ -240,7 +240,7 @@ const reqOr = {
         var parameters = {
             purcSn : $("#purcSn").val(),
             purcType : $("#purcType").data("kendoRadioGroup").value(),
-            expType : $("#expType").data("kendoRadioGroup").value(),
+            // expType : $("#expType").data("kendoRadioGroup").value(),
             loginEmpSeq : $("#loginEmpSeq").val(),
             crmSn : $("#crmSn").val(),
             crmNm : $("#crmNm").val(),
