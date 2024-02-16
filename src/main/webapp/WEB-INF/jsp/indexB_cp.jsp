@@ -339,8 +339,10 @@
         }
         updateScheduleCont();
 
+        /*var paramYear = $(".pignose-calendar-top-year").text();
+        var paramMonth = $(".pignose-calendar-top-month").text().replace("월", "");
         var transparentLink = document.createElement('a');
-        transparentLink.href = "javascript:open_in_frame('/spot/empScheduleList.do')"
+        transparentLink.href = "javascript:open_in_frame('/spot/empScheduleList.do?year=" + paramYear + "&month=" + paramMonth + "')";
         transparentLink.style.position = 'absolute';
         transparentLink.style.top = '0';
         transparentLink.style.left = '0';
@@ -349,13 +351,13 @@
         transparentLink.style.opacity = '0';
         transparentLink.style.cursor = 'pointer';
         transparentLink.onclick = function() {
-            open_in_frame('/spot/empScheduleList.do');
+            open_in_frame('/spot/empScheduleList.do?year=' + paramYear + '&month=' + paramMonth);
         };
 
         $('.pignose-calendar-top-month').each(function() {
             var parent = $(this).parent();
             parent.append(transparentLink.cloneNode(true));
-        });
+        });*/
     });
     //대쉬보드 일정 표시
     function updateScheduleCont() {
@@ -423,10 +425,12 @@
             },
 
         });
-        $('.pignose-calendar-top-month').css('cursor', 'pointer');
+        /*$('.pignose-calendar-top-month').css('cursor', 'pointer');
         $('.pignose-calendar-top .pignose-calendar-top-month').click(function() {
-            open_in_frame('/spot/empScheduleList.do');
-        });
+            let paramYear = $(".pignose-calendar-top-year").text();
+            let paramMonth = $(".pignose-calendar-top-month").text().replace("월", "");
+            open_in_frame('/spot/empScheduleList.do?year=' + paramYear + '&month=' + paramMonth);
+        });*/
     }
     //일정 조회 팝업
     function openSchedulePopup(selectedDate, publicClass, type) {
