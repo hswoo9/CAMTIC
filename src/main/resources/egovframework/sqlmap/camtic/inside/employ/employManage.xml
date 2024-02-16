@@ -57,10 +57,17 @@
         AND
             EC.SEND_YN = #{sendYn}
         </if>
-        <if test='empSeq != null and !"".equals(empSeq)'>
-        AND
-            EC.EMP_SEQ = #{empSeq}
-        </if>
+
+        <choose>
+            <when test='empSeq != null and !"".equals(empSeq)'>
+                AND
+                    EC.EMP_SEQ = #{empSeq}
+            </when>
+            <otherwise>
+                AND
+                    EC.EMP_SEQ = 0
+            </otherwise>
+        </choose>
         ORDER BY EC.SALARY_CONTRACT_REQ_DT DESC
     </select>
 

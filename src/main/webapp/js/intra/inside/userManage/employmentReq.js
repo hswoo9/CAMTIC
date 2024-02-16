@@ -103,10 +103,16 @@ var employmentReq = {
     },
 
     employmentPop : function(salaryContractId) {
-        var url = "/inside/pop/employmentPop.do?salaryContractId="+salaryContractId;
-        var name = "certifiPrintPop";
-        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-        var popup = window.open(url, name, option);
+        $("#employR").val(salaryContractId);
+        $("#employRF").one("submit", function() {
+            var url = "/inside/pop/employmentPop.do";
+            var name = "employmentPop";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+            this.action = "/inside/pop/employmentPop.do";
+            this.method = 'POST';
+            this.target = 'employmentPop';
+        }).trigger("submit");
     },
 
     fn_getRowNum : function(e, type){
@@ -126,8 +132,4 @@ var employmentReq = {
             return 0;
         }
     }
-}
-
-function gridReload(){
-    employmentReq.gridReload();
 }

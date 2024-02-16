@@ -22,6 +22,9 @@
     }
 </style>
 
+<form id="employRF" method="post">
+    <input type="hidden" id="employR" name="employR" value="">
+</form>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
