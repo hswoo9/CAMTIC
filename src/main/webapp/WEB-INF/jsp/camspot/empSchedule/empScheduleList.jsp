@@ -51,8 +51,8 @@
 <script src="/js/schedule/fullcalendar.min.js"></script>
 <script src="/js/schedule/fullcalendar-init.js?v=${today}"></script>
 <script>
-    /*var returnYear = '${params.year}';
-    var returnMonth = '${params.month}';*/
+    var returnYear = '${params.year}';
+    var returnMonth = '${params.month}';
 
     jQuery.noConflict();
     $("#publicClass").data("kendoDropDownList").bind("change", function(){
@@ -60,12 +60,12 @@
         esl.global.cal.init()
     });
 
-    /*$(function () {
+    $(function () {
         if(returnYear != '' && returnMonth != ''){
             console.log(returnMonth.toString().padStart(2, '0'));
             console.log("03");
             //esl.global.cal.$calendar.fullCalendar('gotoDate', new Date(returnYear.toString() + '-' + returnMonth.toString().padStart(2, '0') + '-01'));
             esl.global.cal.$calendar.fullCalendar('gotoDate', new Date(returnYear.toString() + '-' + returnMonth.toString().padStart(2, '0') + '-01'));
         }
-    });*/
+    });
 </script>
