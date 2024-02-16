@@ -367,19 +367,21 @@ public class PurcServiceImpl implements PurcService {
                 }
 
                 // 결재문서
-                List<String> docIdArr = new ArrayList<>();
-                map.put("purcSn", map.get("PURC_SN"));
+                if(map.get("PURC_SN") != null){
+                    List<String> docIdArr = new ArrayList<>();
+                    map.put("purcSn", map.get("PURC_SN"));
 
-                Map<String, Object> purcInfo = purcRepository.getPurcReq(map);
-                docIdArr.add(purcInfo.get("DOC_ID").toString());
-                params.put("docIdArr", docIdArr);
-                if(purcRepository.getPurcClaimDocId(params) != null){
-                    for(Map<String, Object> tempMap : purcRepository.getPurcClaimDocId(params)){
-                        purcFile.add(tempMap);
+                    Map<String, Object> purcInfo = purcRepository.getPurcReq(map);
+                    docIdArr.add(purcInfo.get("DOC_ID").toString());
+                    params.put("docIdArr", docIdArr);
+                    if(purcRepository.getPurcClaimDocId(params) != null){
+                        for(Map<String, Object> tempMap : purcRepository.getPurcClaimDocId(params)){
+                            purcFile.add(tempMap);
+                        }
                     }
-                }
 
-                result.put("purcFile", purcFile);
+                    result.put("purcFile", purcFile);
+                }
             }
         } else {
             result = null;

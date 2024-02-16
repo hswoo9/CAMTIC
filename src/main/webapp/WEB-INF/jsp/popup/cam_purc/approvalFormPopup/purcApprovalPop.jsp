@@ -45,7 +45,7 @@
                         </tr>
                     </c:forEach>
                     <tr>
-                        <td colspan="7" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>할인금액</b></p></td>
+                        <td colspan="7" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>가격조정</b></p></td>
                         <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; <fmt:formatNumber value="${DISCOUNT_AMT}" pattern="#,###" /></b></p></td>
                     </tr>
                     <tr>

@@ -1423,7 +1423,7 @@
 
     <select id="getGwIdx" parameterType="map" resultType="int">
         SELECT
-            MAX(CE_GW_IDX) + 1 AS MAX_IDX
+            IF(CE_GW_IDX IS NULL, 1, MAX(CE_GW_IDX) + 1) AS MAX_IDX
         FROM
             CAM_MNG.DJ_CLAIM_EXNP
     </select>
