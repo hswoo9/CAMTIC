@@ -160,33 +160,6 @@ var subHolidaySetting = {
                             },
                         }*/
                     ]
-                }, {
-                    title : "보상",
-                    columns : [
-                        {
-                            field: "COMP_VAC",
-                            title : "발생연차",
-                            width : 70
-                        }, {
-                            title : "전년사용",
-                            width : 70,
-                            editable: function(){
-                                return false;
-                            },
-                            template : function(e){
-                                return 0;
-                            }
-                        }/*, {
-                            title : "전전년사용",
-                            width : 70,
-                            editable: function(){
-                                return false;
-                            },
-                            template : function(e){
-                                return 0;
-                            }
-                        }*/
-                    ]
                 }
             ]
         }).data("kendoGrid");
