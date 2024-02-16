@@ -331,7 +331,7 @@ const rewardBatch = {
                 }, {
                     title: "스캔파일",
                     template : function(row){
-                        if(row.file_no != null){
+                        if(row.file_no != 0){
                             return '<span id="file' + row.EMP_SEQ + 'Name" style="font-size:11px;cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">' + row.file_org_name + '.' + row.file_ext + '</span>' +
                                 '<input type="hidden" id="file' + row.EMP_SEQ + 'Sn" name="file' + row.EMP_SEQ + 'Sn" value="' + row.file_no + '">' +
                                 '<label For="file' + row.EMP_SEQ + '" class="k-button k-button-solid-base" style="float:left;">파일첨부</label>' +
