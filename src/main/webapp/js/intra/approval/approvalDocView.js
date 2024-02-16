@@ -424,7 +424,7 @@ var docView = {
          * */
         if(docView.global.rs.docInfo.FORM_ID == "88"){
             if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
-                hwpDocCtrl.putFieldText("DOC_NUM", docView.global.rs.docInfo.DOC_NO);
+                hwpDocCtrl.putFieldText("DOC_NUM", "문서번호 : "+docView.global.rs.docInfo.DOC_NO);
             }
         }
 
@@ -637,6 +637,7 @@ var docView = {
                 {
                     field : "APPROVE_STAT_CODE_DESC",
                     title: "구분",
+                    width : 80
                 }, {
                     field : "APPROVE_EMP_NAME",
                     title: "이름",
@@ -646,16 +647,13 @@ var docView = {
                         }else{
                             return e.APPROVE_EMP_NAME
                         }
-                    }
+                    },
+                    width : 80
                 },{
-                    field : "APPROVE_DEPT_NAME",
+                    field : "DEPT_FULL_NAME",
                     title: "부서",
                     template : function(e){
-                        if(e.PROXY_TYPE == "Y"){
-                            return e.PROXY_APPROVE_DEPT_NAME;
-                        }else{
-                            return e.APPROVE_DEPT_NAME
-                        }
+                        return e.DEPT_FULL_NAME
                     }
                 },{
                     field : "APPROVE_DUTY_NAME",
@@ -666,13 +664,15 @@ var docView = {
                         }else{
                             return e.APPROVE_POSITION_NAME
                         }
-                    }
+                    },
+                    width : 100
                 },{
                     field : "DOC_READ_DT",
-                    title: "열람일시",
+                    title: "열람일자",
+                    width : 120
                 },{
                     field : "APPROVE_DT",
-                    title: "결재일시",
+                    title: "결재일자",
                     template : function(e){
                         if(e.APPROVE_DT == null){
                             return "-";
@@ -680,7 +680,8 @@ var docView = {
                             return e.APPROVE_DT
                         }
                     },
-                },{
+                    width : 120
+                }/*,{
                     field : "PROXY_TYPE",
                     title : "비고",
                     template : function(e){
@@ -691,7 +692,8 @@ var docView = {
                         }
                     },
                     width : 150
-                }]
+                }*/
+            ]
         }).data("kendoGrid");
 
         $("#approveHistModal").data("kendoWindow").open();

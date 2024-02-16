@@ -84,6 +84,16 @@ var formM = {
             value : "Y",
         });
 
+        $("#visibleAppr").kendoRadioGroup({
+            items: [
+                { label : "노출", value : "Y" },
+                { label : "미노출", value : "N" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "Y",
+        });
+
         $("#emailAddress").kendoRadioGroup({
             items: [
                 { label : "사용", value : "Y" },
@@ -349,6 +359,7 @@ var formM = {
         $("#formName").val(e.FORM_NAME);
         $("#active").getKendoRadioGroup().value(e.ACTIVE);
         $("#visible").getKendoRadioGroup().value(e.VISIBLE);
+        $("#visibleAppr").getKendoRadioGroup().value(e.VISIBLE_APPR);
         $("#emailAddress").getKendoRadioGroup().value(e.EMAIL_ADDRESS);
         $("#approverMark").getKendoRadioGroup().value(e.APPROVER_MARK);
         $("#sort").val(e.SORT);
@@ -684,6 +695,7 @@ var formM = {
         formData.append("formName", $("#formName").val());
         formData.append("active", $("#active").getKendoRadioGroup().value());
         formData.append("visible", $("#visible").getKendoRadioGroup().value());
+        formData.append("visibleAppr", $("#visibleAppr").getKendoRadioGroup().value());
         formData.append("emailAddress", $("#emailAddress").getKendoRadioGroup().value());
         formData.append("approverMark", $("#approverMark").getKendoRadioGroup().value());
         formData.append("sort", $("#sort").val());
@@ -822,6 +834,7 @@ var formM = {
         $("#formName").val("");
         $("#active").getKendoRadioGroup().value("Y");
         $("#visible").getKendoRadioGroup().value("Y");
+        $("#visibleAppr").getKendoRadioGroup().value("Y");
         $("#emailAddress").getKendoRadioGroup().value("Y");
         $("#approverMark").getKendoRadioGroup().value("D");
         $("#sort").val("");

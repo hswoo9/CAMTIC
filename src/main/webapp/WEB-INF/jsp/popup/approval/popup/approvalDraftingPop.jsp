@@ -102,7 +102,7 @@
                 <span class="k-button-text" style="font-size: 13px">임시저장</span>
             </button>
 
-            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.approvalLinePop()">
+            <button id="apprBtn" type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="draft.approvalLinePop()">
                 <span class="k-button-text" style="font-size: 13px">결재선 지정</span>
             </button>
 

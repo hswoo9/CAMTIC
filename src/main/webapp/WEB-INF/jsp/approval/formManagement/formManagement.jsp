@@ -235,6 +235,14 @@
 											세로 <input type="text" id="linkagePopHeight"style="width: 45px" class="k-input k-textbox k-input-solid k-input-md" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
 										</td>
 									</tr>
+									<tr>
+										<th class="text-center th-color">
+											<span class="red-star">*</span>결재선관리<br>노출여부
+										</th>
+										<td colspan="3">
+											<span type="text" id="visibleAppr" name="visibleAppr" style="width: 100%;"></span>
+										</td>
+									</tr>
 								</tbody>
 							</table>
 						</div>

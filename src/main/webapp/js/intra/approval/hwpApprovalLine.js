@@ -255,17 +255,17 @@ var hwpApprovalLine = {
                     if(map.APPROVE_DUTY_NAME == "팀장" || map.APPROVE_DUTY_NAME == "팀장 직무대리"){
                         let field = "docAppr1";
                         let field2 = "docAppr1011";
-                        hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ);
                         if(map.APPROVE_STAT_CODE == 101){
                             hwpDocCtrl.putFieldText(field2, "전결");
                         }
+                        hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ, field2);
                     }else if(map.APPROVE_DUTY_NAME == "본부장" || map.APPROVE_DUTY_NAME == "사업부장" || map.APPROVE_DUTY_NAME == "센터장" || map.APPROVE_DUTY_NAME == "실장"){
                         let field = "docAppr2";
                         let field2 = "docAppr1012";
-                        hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ);
                         if(map.APPROVE_STAT_CODE == 101){
                             hwpDocCtrl.putFieldText(field2, "전결");
                         }
+                        hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ, field2);
                     }else if(map.APPROVE_DUTY_NAME == "원장"){
                         let field = "docAppr3";
                         hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ);
@@ -312,11 +312,12 @@ var hwpApprovalLine = {
         }
     },
 
-    setName : function(fieldName, APPROVE_EMP_NAME, PROXY_APPROVE_EMP_SEQ){
+    setName : function(fieldName, APPROVE_EMP_NAME, PROXY_APPROVE_EMP_SEQ, field2){
         /** 부재설정이 되어있으면 대결자의 정자가 들어감 */
         let empName = APPROVE_EMP_NAME;
         if(PROXY_APPROVE_EMP_SEQ != null && PROXY_APPROVE_EMP_SEQ != undefined){
             empName = getUser(PROXY_APPROVE_EMP_SEQ).EMP_NAME_KR;
+            hwpDocCtrl.putFieldText(field2, "대결");
         }
         hwpDocCtrl.putFieldText(fieldName, empName);
     },
