@@ -122,7 +122,7 @@ var pri = {
             }
 
             if(data.INSPECT_STATUS == "100"){
-                $("#saveBtn").hide();
+                // $("#saveBtn").hide();
                 $("#inspectBtn").hide();
             }
 
@@ -356,7 +356,11 @@ var pri = {
 
         var result = customKendo.fn_customFormDataAjax("/purc/updPurcInspect.do", formData);
         if(result.flag){
-            alert("저장되었습니다.");
+            if(fCommon.global.attFiles.length != 0){
+                pri.setInspectApp('100');
+            } else {
+                alert("저장되었습니다.");
+            }
             try {
                 opener.parent.prm.gridReload();
             }catch{
