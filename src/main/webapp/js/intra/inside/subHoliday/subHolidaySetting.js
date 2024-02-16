@@ -112,28 +112,24 @@ var subHolidaySetting = {
                 {
                     field : "DEPT_NAME",
                     title : "부서",
-                    width : 90,
                     editable: function(){
                         return false;
                     },
                 }, {
                     field : "TEAM_NAME",
                     title : "팀",
-                    width : 90,
+                    editable: function(){
+                        return false;
+                    },
+                }, {
+                    field : "SPOT",
+                    title : "직위",
                     editable: function(){
                         return false;
                     },
                 }, {
                     field : "EMP_NAME_KR",
                     title : "이름",
-                    width : 60,
-                    editable: function(){
-                        return false;
-                    },
-                }, {
-                    field : "SPOT",
-                    title : "직급",
-                    width : 90,
                     editable: function(){
                         return false;
                     },
@@ -143,11 +139,9 @@ var subHolidaySetting = {
                         {
                             field : "GRANT_DAY",
                             title : "발생연차",
-                            width : 70
                         }, {
                             field : "befUseDay",
                             title : "전년사용",
-                            width : 70,
                             editable: function(){
                                 return false;
                             },
