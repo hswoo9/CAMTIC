@@ -6,7 +6,7 @@ var personAttend = {
 
     fn_defaultScript: function(){
         personAttend.pageSet();
-        personAttend.dataSet();
+        // personAttend.dataSet();
         personAttend.gridReload();
     },
 
@@ -83,6 +83,7 @@ var personAttend = {
     },
 
     gridReload: function(){
+        personAttend.dataSet();
         personAttend.global.searchAjaxData = {
             startDt: $("#startDt").val(),
             endDt: $("#endDt").val(),
