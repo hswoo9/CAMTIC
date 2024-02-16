@@ -524,6 +524,17 @@ var partRate = {
     },
 
     fn_confirm: function(){
+        var saveFlag = true;
+        $("input[name='basicSalary']").each(function(e){
+            if(this.value == 0 || this.value == "0"){
+                saveFlag = false;
+            }
+        });
+        if(!saveFlag){
+            alert("기준급여 설정이 안된인원이 존재합니다.");
+            return false;
+        }
+
         if(Number(uncomma($("#allPayTotal").val())) > $("#budgetAmt").val()){
             alert("인건비 총액이 인건비 예산보다 큽니다.");
             return;
