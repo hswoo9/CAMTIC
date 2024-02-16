@@ -432,6 +432,10 @@
             },
 
         });
+        $('.pignose-calendar-top-month').css('cursor', 'pointer');
+        $('.pignose-calendar-top .pignose-calendar-top-month').click(function() {
+            open_in_frame('/spot/empScheduleList.do');
+        });
     }
 
     //일정 조회 팝업
@@ -471,8 +475,8 @@
     $("#calendar").kendoCalendar();
     setClock();
     getActiveList('tab1Ul', 'all');
-    getscheduleList('schedule1Ul','CS')
     getOpenStudy();
+    getscheduleList('schedule1Ul','CS')
     getRecentImage();
     getEmpBirthDayList();
     getFvList();
