@@ -375,12 +375,14 @@
             <when test='approveType != null and "completion".equals(approveType)'>
                 AND (
                 DAR.APPROVE_STAT_CODE = 20 OR
+                DAR.APPROVE_STAT_CODE = 30 OR
                 DAR.APPROVE_STAT_CODE = 100 OR
                 DAR.APPROVE_STAT_CODE = 101 OR
                 DAR.APPROVE_STAT_CODE = 102
                 )
                 AND (
                 DI.APPROVE_STAT_CODE = 20 OR
+                DI.APPROVE_STAT_CODE = 30 OR
                 DI.APPROVE_STAT_CODE = 100 OR
                 DI.APPROVE_STAT_CODE = 101 OR
                 DI.APPROVE_STAT_CODE = 102
