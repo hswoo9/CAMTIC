@@ -238,7 +238,7 @@ var subHolidayReqPop = {
                             }).trigger("submit");
                         }
                     }else {
-                        opener.gridReload();
+                        opener.subHolidayList.gridReload();
                         window.close();
                     }
                 },

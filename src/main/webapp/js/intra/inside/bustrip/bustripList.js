@@ -256,12 +256,12 @@ var bustripList = {
         $("#hrBizReqId").val(hrBizReqId);
         $("#bustripDraftFrm").one("submit", function(){
             let url = "/Inside/pop/approvalFormPopup/bustripApprovalPop.do";
-            let name = "bustripApprovalPop";
+            let name = "_self";
             let option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
             window.open(url, name, option);
             this.action = "/Inside/pop/approvalFormPopup/bustripApprovalPop.do";
             this.method = 'POST';
-            this.target = 'bustripApprovalPop';
+            this.target = '_self';
         }).trigger("submit");
     }
 }

@@ -626,8 +626,13 @@ public class UserManageController {
     public String personalInformation(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        Map<String,Object> userPersonnelinformList = new HashMap<>();
 
-        Map<String,Object> userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+        /** 파라미터로 empSeq가 있으면 조회 안함 (보안) */
+        if(!params.containsKey("empSeq")){
+            params.put("empSeq", params.get("userR"));
+            userPersonnelinformList = userManageService.getUserPersonnelinformList(params);
+        }
 
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);

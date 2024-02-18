@@ -94,7 +94,6 @@ var employmentPop = {
         if(employmentPop.global.params.employR == null){
             alert("잘못된 접근 입니다."); return;
         }
-        alert(employmentPop.global.params.employR);
         employmentPop.global.searchAjaxData = {
             salaryContractId : employmentPop.global.params.employR,
         }

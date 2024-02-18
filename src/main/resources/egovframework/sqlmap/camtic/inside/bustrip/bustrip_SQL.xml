@@ -64,6 +64,7 @@
             A.TRIP_TIME_TO,
             A.USE_TRSPT,
             A.STATUS,
+            A.BF_PAY_APP_SN,
             B.STATUS AS RS_STATUS,
             A.PJT_SN,
             A.BF_EXP_STAT,

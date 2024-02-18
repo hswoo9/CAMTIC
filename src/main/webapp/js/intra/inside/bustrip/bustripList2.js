@@ -248,16 +248,21 @@ var bustList = {
                                 return "-";
                             }
                         }else{
-                            /** 결과보고 작성 -> 사후정산 -> -> 결과보고 전자결재 */
-                            if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.EXP_STAT == null){
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">결과보고</button>';
-                            } else if(e.EXP_STAT == "0"){
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>';
-                            } else if(e.EXP_STAT == "100" && e.RS_STATUS != "100"){
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>';
-                            } else if(e.RS_STATUS == "100"){
-                                return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결과보고</button>';
-                            } else {
+                            /** 사전정산 -> 지급신청 */
+                            if(e.BF_PAY_APP_SN != null){
+                                /** 결과보고 작성 -> 사후정산 -> -> 결과보고 전자결재 */
+                                if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.EXP_STAT == null){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">결과보고</button>';
+                                } else if(e.EXP_STAT == "0"){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>';
+                                } else if(e.EXP_STAT == "100" && e.RS_STATUS != "100"){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>';
+                                } else if(e.RS_STATUS == "100"){
+                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결과보고</button>';
+                                } else {
+                                    return "-";
+                                }
+                            }else{
                                 return "-";
                             }
                         }

@@ -80,8 +80,12 @@
                     <ul class="list-group notice-list">
                       <li class="list-group-item unread">
                         <div class="row">
+
+                            <form id="userRF" method="post">
+                                <input type="hidden" id="userR" name="userR" value="">
+                            </form>
                           <div class="col-xs-12">
-                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="openPopup('/Inside/pop/personalInformation.do?empSeq='+ ${loginVO.uniqId})">개인정보</a></div>
+                            <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="openPopup(${loginVO.uniqId})">개인정보</a></div>
                             <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/Inside/imageManage.do')">이미지관리</a></div>
                             <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#">참여내역</a></div>
                             <div style="font-size: 13px; line-height: 30px; font-weight: 600; text-align:center;"><a href="#" onclick="open_in_frame('/Inside/userPersonnelRecordOne.do')">인사기록카드</a></div>
@@ -316,9 +320,17 @@
     window.open(url, 'popup', 'width=800, height=600, scrollbars=yes');
   }*/
 
-  function openPopup(url) {
-    window.open(url, 'popup', 'width=1100, height=1100, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no');
-
+  function openPopup(pk) {
+    $("#userR").val(pk);
+    $("#userRF").one("submit", function() {
+      var url = '/Inside/pop/personalInformation.do';
+      var name = "personalInformation";
+      var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+      var popup = window.open(url, name, option);
+      this.action = '/Inside/pop/personalInformation.do';
+      this.method = 'POST';
+      this.target = 'personalInformation';
+    }).trigger("submit");
   }
 
   function pastPage(){
