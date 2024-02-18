@@ -551,6 +551,8 @@ public class BustripServiceImpl implements BustripService {
                 data.put("hrBizReqResultId", params.get("hrBizReqResultId"));
                 bustripRepository.insCardHist(data);
             }
+        }else{
+            bustripRepository.delCardHist(params);
         }
     }
 

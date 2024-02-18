@@ -792,7 +792,14 @@ const bustripExnpReq = {
             total -= rowAmount;
 
             $(this).closest("tr").remove();
+
+            var rowExnpType = $(this).closest("tr").find(".exnpType").val();
+            $("#corp" + rowExnpType).val(fn_numberWithCommas(uncomma($("#corp" + rowExnpType).val()) - rowAmount));
         });
+
+        corpTotalSet();
+
+        bustripExnpReq.fn_setTableSum();
 
         $("#corpUseTotal").text(fn_numberWithCommas(total));
     },
