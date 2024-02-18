@@ -1641,7 +1641,7 @@
                 IHBE.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
         ) RE
         WHERE
-            RE.PERSON_SUM != 0 AND RE.PERSON_SUM IS NOT NULL
+            RE.PERSON_SUM IS NOT NULL
     </select>
 
     <select id="getPersonalBusiExnpData" parameterType="map" resultType="map">
