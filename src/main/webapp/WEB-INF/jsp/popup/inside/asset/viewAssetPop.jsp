@@ -209,7 +209,7 @@
                     <th scope="row" class="text-center th-color">자산 사진</th>
                     <td colspan="3" style="padding:5px;">
                         <c:if test="${data.astFile ne null}">
-                            <img src="${data.astFile.file_path}${data.astFile.file_uuid}">
+                            <%--<img src="${data.astFile.file_path}${data.astFile.file_uuid}">--%>
                         </c:if>
                     </td>
                 </tr>
