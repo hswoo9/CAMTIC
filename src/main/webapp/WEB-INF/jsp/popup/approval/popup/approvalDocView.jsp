@@ -117,6 +117,11 @@
                 <span class='k-icon k-i-align-justify k-button-icon'></span>
                 <span class='k-button-text' style="font-size: 13px">의견보기</span>
             </button>
+            </button>
+            <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="docApprovalOpinView2Btn" onclick="docView.docApprovalOpinView2()" style="display: none">
+                <span class='k-icon k-i-align-justify k-button-icon'></span>
+                <span class='k-button-text' style="font-size: 13px">반려사유보기</span>
+            </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="docApprovalRouteHistViewBtn" onclick="docView.docApprovalRouteHistView()" style="display: none">
                 <span class='k-icon k-i-list-unordered k-button-icon'></span>
                 <span class='k-button-text' style="font-size: 13px">결재이력</span>
@@ -331,6 +336,30 @@
                             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick="$('#opinViewModal').data('kendoWindow').close();">
                                 <span class='k-icon k-i-check k-button-icon'></span>
                                 <span class='k-button-text'>확인</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <%--반려사유보기 모달 --%>
+                    <div id="opinViewModal2" class="pop_wrap_dir">
+                        <table class="table table-bordered">
+                            <colgroup>
+                                <col width="20%">
+                                <col width="auto">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th class="th-color text-right">반려사유</th>
+                                <td id="opinReason">
+
+                                </td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="mt-15" style="text-align: right">
+                            <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick="$('#opinViewModal2').data('kendoWindow').close();">
+                                <span class='k-icon k-i-check k-button-icon'></span>
+                                <span class='k-button-text'>닫기</span>
                             </button>
                         </div>
                     </div>

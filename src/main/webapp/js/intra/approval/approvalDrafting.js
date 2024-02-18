@@ -821,9 +821,8 @@ var draft = {
                 $("#docNo").val(result.rs.docNo);
 
                 hwpDocCtrl.putFieldText('doc_title', $("#docTitle").val());
-                if($(e).hasClass("draft")){
-                    hwpDocCtrl.putFieldText('doc_num', result.rs.docNo);
-                    hwpDocCtrl.putFieldText('doc_runday', draft.global.dataType.nowCom);
+                if(draft.global.lastApprover.approveEmpSeq == $("#empSeq").val()){
+                    hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
                 }
             }
         }

@@ -34,6 +34,11 @@ var docView = {
             docView.readPermissionChk(loginVO, params);
         }
 
+        /** 반려시 반려사유 확인 버튼 생성 */
+        if(rs.docInfo.APPROVE_STAT_CODE == "30"){
+            $("#docApprovalOpinView2Btn").show()
+        }
+
 
         $(document).ready(function() {
             docView.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", docView.global.params.hwpUrl, function () {docView.editorComplete();});
@@ -148,14 +153,28 @@ var docView = {
             }
         });
 
+        $("#opinViewModal2").kendoWindow({
+            title: "반려의견보기",
+            visible: false,
+            modal: true,
+            width : 600,
+            position : {
+                top : 50,
+                left : 200
+            },
+            close: function () {
+                $("#opinViewModal2").load(location.href + ' #opinViewModal2');
+            }
+        });
+
         $("#approveHistModal").kendoWindow({
             title: "결재이력",
             visible: false,
             modal: true,
-            width : 800,
+            width : 960,
             position : {
                 top : 50,
-                left : 100
+                left : 10
             },
             close: function () {
                 $("#approveHistModal").load(location.href + ' #approveHistModal');
@@ -419,14 +438,10 @@ var docView = {
     },
 
     documentHwpDataCtrl : function(){
-        /** TODO. 문서번호 임시로 휴가원만 들어가게 함
+        /** TODO. 문서번호 임시
          * 문서번호 관련 최종적으로 어떻게 할지 정의 필요
          * */
-        if(docView.global.rs.docInfo.FORM_ID == "88"){
-            if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
-                hwpDocCtrl.putFieldText("DOC_NUM", "문서번호 : "+docView.global.rs.docInfo.DOC_NO);
-            }
-        }
+        hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
 
         if(docView.global.rs.docInfo.FORM_ID != "1"){
             /** 결재 사인 */
@@ -612,6 +627,18 @@ var docView = {
         $("#opinViewModal").data("kendoWindow").open();
     },
 
+    docApprovalOpinView2 : function(){
+        let opinText = "";
+        for(let i=0; i<docView.global.rs.approveRoute.length; i++){
+            const map = docView.global.rs.approveRoute[i];
+            if(map.APPROVE_STAT_CODE == 30){
+                opinText = map.APPROVE_OPIN;
+            }
+        }
+        $("#opinReason").text(opinText);
+        $("#opinViewModal2").data("kendoWindow").open();
+    },
+
     docApprovalRouteHistView : function(e){
         docView.global.searchAjaxData = {
             docId : docView.global.rs.docInfo.DOC_ID
@@ -666,6 +693,36 @@ var docView = {
                         }
                     },
                     width : 100
+                },{
+                    field : "DRAFT_DOCU_DT",
+                    title: "기안일자",
+                    template : function(e){
+                        if(e.APPROVE_DT == null){
+                            return "-";
+                        }else{
+                            if(e.APPROVE_ORDER == "0" && docView.global.rs.docInfo.FORM_ID == 1){
+                                return e.APPROVE_DT;
+                            }else{
+                                return "-";
+                            }
+                        }
+                    },
+                    width : 120
+                },{
+                    field : "DRAFT_DT",
+                    title: "상신일자",
+                    template : function(e){
+                        if(e.APPROVE_DT == null){
+                            return "-";
+                        }else{
+                            if(e.APPROVE_ORDER == "0" && docView.global.rs.docInfo.FORM_ID != 1){
+                                return e.APPROVE_DT;
+                            }else{
+                                return "-";
+                            }
+                        }
+                    },
+                    width : 120
                 },{
                     field : "DOC_READ_DT",
                     title: "열람일자",
