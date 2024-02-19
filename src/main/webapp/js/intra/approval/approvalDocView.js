@@ -630,11 +630,20 @@ var docView = {
 
     docApprovalOpinView2 : function(){
         let opinText = "";
+        let opinEmpSeq = "";
+        let opinUser = {};
         for(let i=0; i<docView.global.rs.approveRoute.length; i++){
             const map = docView.global.rs.approveRoute[i];
             if(map.APPROVE_STAT_CODE == 30){
                 opinText = map.APPROVE_OPIN;
+                opinEmpSeq = map.APPROVE_EMP_SEQ;
             }
+        }
+        if(opinEmpSeq != "" && opinEmpSeq != null){
+            opinUser = getUser(opinEmpSeq);
+            $("#opinName").text(opinUser.EMP_NAME_KR);
+            $("#opinDept").text(opinUser.deptNm + " " +opinUser.teamNm);
+            $("#opinSpot").text(opinUser.DUTY_NAME == "" ? opinUser.POSITION_NAME : opinUser.DUTY_NAME);
         }
         $("#opinReason").text(opinText);
         $("#opinViewModal2").data("kendoWindow").open();

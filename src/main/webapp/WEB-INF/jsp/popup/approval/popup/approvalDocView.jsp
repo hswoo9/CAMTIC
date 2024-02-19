@@ -344,15 +344,23 @@
                     <div id="opinViewModal2" class="pop_wrap_dir">
                         <table class="table table-bordered">
                             <colgroup>
-                                <col width="20%">
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="15%">
                                 <col width="auto">
                             </colgroup>
                             <thead>
                             <tr>
-                                <th class="th-color text-right">반려사유</th>
-                                <td id="opinReason">
-
-                                </td>
+                                <th style="background-color: #f0f7ff; text-align: center">이름</th>
+                                <th style="background-color: #f0f7ff; text-align: center">부서</th>
+                                <th style="background-color: #f0f7ff; text-align: center">직위</th>
+                                <th style="background-color: #f0f7ff; text-align: center">반려사유</th>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center" id="opinName"></td>
+                                <td style="text-align: center" id="opinDept"></td>
+                                <td style="text-align: center" id="opinSpot"></td>
+                                <td style="text-align: center" id="opinReason"></td>
                             </tr>
                             </thead>
                         </table>
