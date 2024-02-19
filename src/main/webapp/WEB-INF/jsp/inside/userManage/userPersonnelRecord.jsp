@@ -19,6 +19,21 @@
     .table > thead > tr > th, .table > tfoot > tr > th{ background-color: #00397f96; color: white;}
     .table > thead > tr > td, .table > thead > tr > th{border: 1px solid #dee2e6;}
     #filePrint{float: right; margin-right: 25px;}
+
+    .jb-text {
+        padding: 15px 20px;
+        background-color: #444444;
+        border-radius: 5px;
+        color: #ffffff;
+        position: absolute;
+        display: none;
+        right: 34px;
+        width: 200px;
+    }
+
+    .jb-title:hover + .jb-text {
+        display: block;
+    }
 </style>
 
 
@@ -217,9 +232,7 @@
                                                 </c:if>
                                                 <c:if test="${l.gradeFile ne null}">
                                                 <td style="cursor: pointer">
-                                                  <span onclick="fileDown('${l.gradeFile.file_path}${l.gradeFile.file_uuid}', '${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}')">
-                                                      ${l.gradeFile.file_org_name}
-                                                  </span>
+                                                  <img src="/images/ico/file.gif" onclick="fileDown('${l.gradeFile.file_path}${l.gradeFile.file_uuid}', '${l.gradeFile.file_org_name}.${l.gradeFile.file_ext}')">
                                                 </td>
                                                 </c:if>
                                                 <c:if test="${l.socreFile == null}">
@@ -227,9 +240,7 @@
                                                 </c:if>
                                                 <c:if test="${l.socreFile ne null}">
                                                 <td style="cursor: pointer">
-                                                  <span onclick="fileDown('${l.socreFile.file_path}${l.socreFile.file_uuid}', '${l.socreFile.file_org_name}.${l.socreFile.file_ext}')">
-                                                      ${l.socreFile.file_org_name}
-                                                  </span>
+                                                    <img src="/images/ico/file.gif" onclick="fileDown('${l.socreFile.file_path}${l.socreFile.file_uuid}', '${l.socreFile.file_org_name}.${l.socreFile.file_ext}')">
                                                 </td>
                                                 </c:if>
                                                 <td>${l.RMK}</td>
@@ -329,12 +340,10 @@
                                                     </c:if>
                                                     <c:if test="${l.addFile ne null}">
                                                     <td style="cursor: pointer">
-                                                      <span onclick="fileDown('${l.addFile.file_path}${l.addFile.file_uuid}', '${l.addFile.file_org_name}.${l.addFile.file_ext}')">
-                                                          ${l.addFile.file_org_name}
-                                                      </span>
+                                                        <img src="/images/ico/file.gif" onclick="fileDown('${l.addFile.file_path}${l.addFile.file_uuid}', '${l.addFile.file_org_name}.${l.addFile.file_ext}')">
                                                     </td>
                                                     </c:if>
-                                                <td>${l.RMK}</td>
+                                                <td><p class="jb-title">보기</p><div class="jb-text">${l.RMK}</div></td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
@@ -481,9 +490,7 @@
                                                 </c:if>
                                                 <c:if test="${l.certificateAddFile ne null}">
                                                 <td style="cursor: pointer">
-                                                  <span onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
-                                                      ${l.certificateAddFile.file_org_name}
-                                                  </span>
+                                                    <img src="/images/ico/file.gif" onclick="fileDown('${l.certificateAddFile.file_path}${l.certificateAddFile.file_uuid}', '${l.certificateAddFile.file_org_name}.${l.certificateAddFile.file_ext}')">
                                                 </td>
                                                 </c:if>
                                                 <td>${l.RMK}</td>
@@ -628,9 +635,7 @@
                                                 </c:if>
                                                 <c:if test="${l.rewardAddFile ne null}">
                                                 <td style="cursor: pointer">
-                                                  <span onclick="fileDown('${l.rewardAddFile.file_path}${l.rewardAddFile.file_uuid}', '${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}')">
-                                                      ${l.rewardAddFile.file_org_name}
-                                                  </span>
+                                                    <img src="/images/ico/file.gif" onclick="fileDown('${l.rewardAddFile.file_path}${l.rewardAddFile.file_uuid}', '${l.rewardAddFile.file_org_name}.${l.rewardAddFile.file_ext}')">
                                                 </td>
                                                 </c:if>
                                             </tr>
