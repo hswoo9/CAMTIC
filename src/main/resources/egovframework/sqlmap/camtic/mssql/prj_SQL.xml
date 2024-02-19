@@ -105,7 +105,7 @@
             PRJDB.dbo.VM_RecruitInfo_Item A
         WHERE YEAR(SDate) <= 2023
         ]]>
-        AND SDate = #{recruitYear}
+        AND YEAR(SDate) = #{recruitYear}
         <choose>
             <when test='searchVal != null and !"".equals(searchVal) and "1".equals(searchType)'>
                 AND RecruitName like '%'+#{searchVal}+'%'
