@@ -584,9 +584,9 @@ var partRate = {
             }
         }
 
-        for(let i = 0; i < memNmAr.length; i++) {
+        /*for(let i = 0; i < memNmAr.length; i++) {
             joinMemNm += memNmAr[i] + ",";
-        }
+        }*/
 
         for(let i = 0; i < memSnAr.length; i++) {
             if(memSnAr[i] == empSn)  {
@@ -599,7 +599,7 @@ var partRate = {
             joinMemSn += memSnAr[i] + ",";
         }
 
-        data.joinMem = joinMemNm.slice(0, -1);
+        /*data.joinMem = joinMemNm.slice(0, -1);*/
         data.joinMemSn = joinMemSn.slice(0, -1);
         data.partRateVerSn = $("#partRateVerSn").val();
 
