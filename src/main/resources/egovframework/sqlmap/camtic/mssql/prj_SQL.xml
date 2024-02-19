@@ -104,8 +104,23 @@
         FROM
             PRJDB.dbo.VM_RecruitInfo_Item A
         WHERE YEAR(SDate) <= 2023
-        ORDER BY SeqNo DESC
         ]]>
+        AND SDate = #{recruitYear}
+        <choose>
+            <when test='searchVal != null and !"".equals(searchVal) and "1".equals(searchType)'>
+                AND RecruitName like '%'+#{searchVal}+'%'
+            </when>
+            <when test='searchVal != null and !"".equals(searchVal) and "2".equals(searchType)'>
+                AND Name like '%'+#{searchVal}+'%'
+            </when>
+            <when test='searchVal != null and !"".equals(searchVal) and "3".equals(searchType)'>
+                AND IsNumber like '%'+#{searchVal}+'%'
+            </when>
+            <when test='searchVal != null and !"".equals(searchVal) and "4".equals(searchType)'>
+                AND InfoCode in (select InfoCode from PRJDB.dbo.RecruitAccept where Name_Ko LIKE '%'+#{searchVal}+'%')
+            </when>
+        </choose>
+        ORDER BY SeqNo DESC
     </select>
 
     <select id="getHistPurcList" resultType="java.util.Map" parameterType="java.util.Map">

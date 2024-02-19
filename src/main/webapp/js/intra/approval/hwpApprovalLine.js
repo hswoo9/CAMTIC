@@ -27,7 +27,11 @@ var hwpApprovalLine = {
             if(empData != null){
                 /**부서장 전결*/
                 if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장" || empData.approveDutyName == "센터장" || empData.approveDutyName == "실장"){
-                    appArr = ["", "전결", ""];
+                    if(draft.global.approversArr[0].approveDutyName == "팀장"){
+                        appArr = ["공란", "전결", ""];
+                    }else{
+                        appArr = ["", "전결", ""];
+                    }
 
                 /**팀장 전결*/
                 }else if(empData.approveDutyName == "팀장" || empData.approveDutyName == "팀장 직무대리"){

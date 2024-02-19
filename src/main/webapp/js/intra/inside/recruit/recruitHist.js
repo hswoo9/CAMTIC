@@ -4,11 +4,41 @@ var histRecruit = {
     },
 
     fn_defaultScript : function (){
+        this.pageSet();
         this.gridReload();
     },
 
+    pageSet: function(){
+        $("#recruitYear").kendoDatePicker({
+            start: "decade",
+            depth: "decade",
+            culture : "ko-KR",
+            format : "yyyy",
+            value : new Date()
+        });
+
+        $("#searchType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "모집분야", value: "1" },
+                { text: "공고명", value: "2" },
+                { text: "공고번호", value: "3" },
+                { text: "지원자", value: "4" }
+            ],
+            index: 0
+        });
+
+        $("#searchVal").kendoTextBox();
+        $('#recruitYear').val("2023");
+    },
+
     gridReload: function(){
-        histRecruit.global.searchAjaxData = {}
+        histRecruit.global.searchAjaxData = {
+            recruitYear: $('#recruitYear').val(),
+            searchType: $("#searchType").val(),
+            searchVal: $("#searchVal").val()
+        }
         histRecruit.mainGrid("/inside/getRecruitHistList", histRecruit.global.searchAjaxData);
     },
 
