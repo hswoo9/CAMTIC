@@ -132,7 +132,7 @@ var dutyInfoLeader = {
                                 }
                             },
                         } ,{
-                            title : "팀장",
+                            title : "승인",
                             template: function(e){
                                 /** 승인 요청자가 팀원급 */
                                 if(e.DUTY_CODE == ""){
@@ -152,10 +152,9 @@ var dutyInfoLeader = {
                                     }else{
                                         return '';
                                     }
-                                }
 
                                 /** 승인 요청자가 팀장급 */
-                                if(e.DUTY_CODE == "5"){
+                                }else if(e.DUTY_CODE == "5"){
                                     /** 부서장 단계 */
                                     if(e.LD_STATUS == 'N' && e.TARGET_STATUS == 10 &&
                                         ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "4" || $("#regDutyCode").val() == "7")){
@@ -172,19 +171,20 @@ var dutyInfoLeader = {
                                     }else{
                                         return '';
                                     }
-                                }
 
                                 /** 승인 요청자가 부서장급 */
-                                if(e.DUTY_CODE == "2" || e.DUTY_CODE == "5" || e.DUTY_CODE == "6" || e.DUTY_CODE == "7"){
+                                }else if(e.DUTY_CODE == "2" || e.DUTY_CODE == "5" || e.DUTY_CODE == "6" || e.DUTY_CODE == "7"){
                                     /** 원장 단계 */
                                     if(e.LD_STATUS == 'N' && e.TARGET_STATUS == 10 && $("#regDutyCode").val() == "1") {
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\')">원장 승인</button>';
 
-                                    }else if(e.MNG_STATUS =='Y'){
+                                    }else if(e.MNG_STATUS == 'Y'){
                                         return '원장 승인';
                                     }else{
                                         return '';
                                     }
+                                }else{
+                                    return '';
                                 }
                             }
                         }
@@ -208,7 +208,7 @@ var dutyInfoLeader = {
                                     return "작성안함";
                                 }
                             },
-                        } ,{
+                        }, {
                             title : "승인",
                             template: function(e){
                                 /** 승인 요청자가 팀원급 */
@@ -222,46 +222,41 @@ var dutyInfoLeader = {
                                         ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "4" || $("#regDutyCode").val() == "7")) {
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'mng\')">부서장 승인</button>';
 
-                                    }else if(e.DUTY_MNG_STATUS =='Y'){
-                                        return '부서장 승인';
-                                    }else if(e.DUTY_LD_STATUS == 'Y'){
+                                    }else if(e.DUTY_MNG_STATUS == 'N' && e.DUTY_LD_STATUS == 'Y'){
                                         return '팀장 승인';
+                                    }else if(e.DUTY_MNG_STATUS == 'Y'){
+                                        return '부서장 승인';
                                     }else{
                                         return '';
                                     }
-                                }
 
                                 /** 승인 요청자가 팀장급 */
-                                if(e.DUTY_CODE == "5"){
+                                }else if(e.DUTY_CODE == "5"){
                                     /** 부서장 단계 */
                                     if(e.DUTY_LD_STATUS == 'N' && e.DUTY_STATUS == 10 &&
                                     ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "4" || $("#regDutyCode").val() == "7")){
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'ld\')">부서장 승인</button>';
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'mng\')">부서장 승인</button>';
 
-                                    /** 원장 단계 */
-                                    }else if(e.DUTY_MNG_STATUS == 'N' && e.DUTY_LD_STATUS == 'Y' && $("#regDutyCode").val() == "1") {
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'mng\')">원장 승인</button>';
-
-                                    }else if(e.DUTY_MNG_STATUS =='Y'){
-                                        return '원장 승인';
-                                    }else if(e.DUTY_LD_STATUS == 'Y'){
+                                    }else if(e.DUTY_MNG_STATUS == 'Y'){
                                         return '부서장 승인';
                                     }else{
                                         return '';
                                     }
-                                }
 
                                 /** 승인 요청자가 부서장급 */
-                                if(e.DUTY_CODE == "2" || e.DUTY_CODE == "5" || e.DUTY_CODE == "6" || e.DUTY_CODE == "7"){
+                                }else if(e.DUTY_CODE == "2" || e.DUTY_CODE == "5" || e.DUTY_CODE == "6" || e.DUTY_CODE == "7"){
                                     /** 원장 단계 */
-                                    if(e.DUTY_LD_STATUS == 'N' && e.DUTY_STATUS == 10 && $("#regDutyCode").val() == "1") {
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'ld\')">원장 승인</button>';
+                                    if(e.DUTY_LD_STATUS == 'N' && e.DUTY_STATUS == 10 &&
+                                        ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "4" || $("#regDutyCode").val() == "7")) {
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'ld\')">부서장 승인</button>';
 
                                     }else if(e.DUTY_MNG_STATUS =='Y'){
-                                        return '원장 승인';
+                                        return '부서장 승인';
                                     }else{
                                         return '';
                                     }
+                                }else{
+                                    return '';
                                 }
                             }
                         }
