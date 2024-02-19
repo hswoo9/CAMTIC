@@ -794,7 +794,14 @@ const bustripExnpReq = {
             $(this).closest("tr").remove();
 
             var rowExnpType = $(this).closest("tr").find(".exnpType").val();
-            $("#corp" + rowExnpType).val(fn_numberWithCommas(uncomma($("#corp" + rowExnpType).val()) - rowAmount));
+            var corpInputValue = Number(uncomma($("#corp" + rowExnpType).val()));
+
+            if(corpInputValue > 0){
+                $("#corp" + rowExnpType).val(fn_numberWithCommas(corpInputValue - rowAmount));
+            }else{
+                $("#corp" + rowExnpType).val(0);
+            }
+
         });
 
         corpTotalSet();
