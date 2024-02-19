@@ -143,12 +143,12 @@ var dutyInfoLeader = {
                                         /** 부서장 단계 */
                                     }else if(e.MNG_STATUS == 'N' && e.LD_STATUS == 'Y' &&
                                         ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "4" || $("#regDutyCode").val() == "7")) {
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\')">부서장 승인</button>';
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\', '+e.EMP_SEQ+')">부서장 승인</button>';
 
+                                    }else if(e.MNG_STATUS == 'N' && e.LD_STATUS == 'Y'){
+                                        return '팀장 승인';
                                     }else if(e.MNG_STATUS =='Y'){
                                         return '부서장 승인';
-                                    }else if(e.LD_STATUS == 'Y'){
-                                        return '팀장 승인';
                                     }else{
                                         return '';
                                     }
@@ -158,15 +158,9 @@ var dutyInfoLeader = {
                                     /** 부서장 단계 */
                                     if(e.LD_STATUS == 'N' && e.TARGET_STATUS == 10 &&
                                         ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "4" || $("#regDutyCode").val() == "7")){
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'ld\')">부서장 승인</button>';
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\', '+e.EMP_SEQ+')">부서장 승인</button>';
 
-                                        /** 원장 단계 */
-                                    }else if(e.MNG_STATUS == 'N' && e.LD_STATUS == 'Y' && $("#regDutyCode").val() == "1") {
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\')">원장 승인</button>';
-
-                                    }else if(e.MNG_STATUS =='Y'){
-                                        return '원장 승인';
-                                    }else if(e.LD_STATUS == 'Y'){
+                                    }else if(e.MNG_STATUS == 'Y'){
                                         return '부서장 승인';
                                     }else{
                                         return '';
@@ -176,7 +170,7 @@ var dutyInfoLeader = {
                                 }else if(e.DUTY_CODE == "2" || e.DUTY_CODE == "5" || e.DUTY_CODE == "6" || e.DUTY_CODE == "7"){
                                     /** 원장 단계 */
                                     if(e.LD_STATUS == 'N' && e.TARGET_STATUS == 10 && $("#regDutyCode").val() == "1") {
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\')">원장 승인</button>';
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\', '+e.EMP_SEQ+')">부서장 승인</button>';
 
                                     }else if(e.MNG_STATUS == 'Y'){
                                         return '원장 승인';
@@ -266,7 +260,7 @@ var dutyInfoLeader = {
         }).data("kendoGrid");
     },
 
-    fn_agreeLeader : function(id, type){
+    fn_agreeLeader : function(id, type, empSeq){
         if(!confirm("승인하시겠습니까?")){
             return;
         }
@@ -278,7 +272,7 @@ var dutyInfoLeader = {
 
         if(rs.code == 200){
             if(type == "mng"){
-                dutyInfoLeader.fn_targetCertReq(100)
+                dutyInfoLeader.fn_targetCertReq(100, empSeq)
             } else {
                 gridReload()
             }
@@ -311,10 +305,10 @@ var dutyInfoLeader = {
         window.open(url, name, option);
     },
 
-    fn_targetCertReq: function(status){
+    fn_targetCertReq: function(status, empSeq){
         let data = {
             targetYear : $("#requestYear").val(),
-            empSeq : $("#myEmpSeq").val(),
+            empSeq : empSeq,
             regEmpSeq : $("#myEmpSeq").val(),
             regEmpName : $("#myEmpName").val(),
             status : status

@@ -37,7 +37,6 @@ var docView = {
         /** 반려시 반려사유 확인 버튼 생성 */
         if(rs.docInfo.APPROVE_STAT_CODE == "30"){
             $("#docApprovalOpinView2Btn").show();
-            $("#approvalCancelBtn").hide();
         }
 
 
@@ -57,6 +56,11 @@ var docView = {
         setTimeout(function() {
             docView.initData();
         }, 1500);
+
+        /** 반려시 반려사유 확인 버튼 생성 */
+        if(rs.docInfo.APPROVE_STAT_CODE == "30"){
+            $("#approvalCancelBtn").hide();
+        }
     },
 
     readPermissionChk : function(loginVO, params){

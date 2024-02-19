@@ -7,6 +7,10 @@ var dutyInfo = {
     dataSet: function(){
     },
 
+    gridReload: function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
     mainGrid: function(){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,

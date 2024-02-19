@@ -190,7 +190,7 @@ const dutyInfoReq = {
         const result = customKendo.fn_customAjax(url, data);
         if(result.flag){
             alert("직무기술서 저장이 완료되었습니다.");
-            opener.gridReload();
+            opener.dutyInfo.gridReload();
             window.close();
         }
     },
@@ -215,7 +215,7 @@ const dutyInfoReq = {
             }else if(status == 0){
                 alert("승인 요청이 취소되었습니다.");
             }
-            opener.gridReload();
+            opener.dutyInfo.gridReload();
             window.close();
         }
     }
