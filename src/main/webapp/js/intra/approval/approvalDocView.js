@@ -36,7 +36,8 @@ var docView = {
 
         /** 반려시 반려사유 확인 버튼 생성 */
         if(rs.docInfo.APPROVE_STAT_CODE == "30"){
-            $("#docApprovalOpinView2Btn").show()
+            $("#docApprovalOpinView2Btn").show();
+            $("#approvalCancelBtn").hide();
         }
 
 
@@ -441,7 +442,7 @@ var docView = {
         /** TODO. 문서번호 임시
          * 문서번호 관련 최종적으로 어떻게 할지 정의 필요
          * */
-        hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
+        hwpDocCtrl.putFieldText("DOC_NUM", docView.global.rs.docInfo.DOC_NO);
 
         if(docView.global.rs.docInfo.FORM_ID != "1"){
             /** 결재 사인 */

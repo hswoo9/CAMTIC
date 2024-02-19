@@ -152,7 +152,7 @@
         WHERE
             DOC_TYPE = #{docType}
           AND
-            DEPT_SEQ = #{deptSeq}
+            DEPT_SEQ = (SELECT CASE SA.DEPT_LEVEL WHEN 2 THEN SA.PARENT_DEPT_SEQ ELSE SA.DEPT_SEQ END FROM CAM_HR.DJ_DEPT_INFO SA WHERE DEPT_SEQ = #{deptSeq})
           AND
             APPLY_YEAR = DATE_FORMAT(NOW(), '%Y')
     </select>
