@@ -619,7 +619,23 @@
             DI.ACTIVE = 'Y'
         <if test='deptSeq != null and !"".equals(deptSeq)'>
         AND
-            DI.DRAFT_DEPT_SEQ IN (SELECT dept.DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO dept WHERE dept.PATH LIKE CONCAT('%', #{deptSeq} ,'%'))
+            DI.DRAFT_DEPT_SEQ IN (
+                SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO
+                    WHERE
+                        CASE
+                            WHEN (SELECT DEPT_LEVEL FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = #{deptSeq}) = 1
+                            THEN (
+                                DEPT_SEQ = #{deptSeq}
+                                OR DEPT_SEQ IN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE PARENT_DEPT_SEQ = (#{deptSeq}))
+                            )
+                            WHEN (SELECT DEPT_LEVEL FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = #{deptSeq}) = 2
+                            THEN (
+                                DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = #{deptSeq})
+                                OR DEPT_SEQ IN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE PARENT_DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = #{deptSeq}))
+                            )
+                            ELSE PATH LIKE CONCAT('%', #{deptSeq} ,'%')
+                        END
+            )
         </if>
         AND (
                 DI.APPROVE_STAT_CODE = 100 OR
