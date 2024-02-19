@@ -13,14 +13,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -266,14 +268,13 @@ public class SalaryManageServiceImpl implements SalaryManageService {
 
             if(row != null){
                 if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") ||
-                        cellValueToString(col4).equals("") || cellValueToString(col5).equals("") ||
-                        cellValueToString(col6).equals("") || cellValueToString(col7).equals("")){
+                        cellValueToString(col4).equals("")){
                     return;
                 } else {
                     Map<String, Object> dataMap = new HashMap<>();
                     dataMap.put("startDt", cellValueToString(col2));
                     
-                    if(col3 == null){
+                    if(col3 == null || "".equals(String.valueOf(col3))){
                         dataMap.put("endDt", "9999-12-31");
                     }else{
                         dataMap.put("endDt", cellValueToString(col3));    
