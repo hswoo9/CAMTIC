@@ -629,7 +629,11 @@
         }
 
         if(corpMoney != '') {
-            $("#corp" + exnpType).val(fn_numberWithCommas(corpMoney));
+            if($("#corp" + exnpType).val() == 0) {
+                $("#corp" + exnpType).val(fn_numberWithCommas(corpMoney));
+            }else{
+                $("#corp" + exnpType).val(fn_numberWithCommas(Number(uncomma($("#corp" + exnpType).val())) + corpMoney));
+            }
         }
         corpTotalSet();
 

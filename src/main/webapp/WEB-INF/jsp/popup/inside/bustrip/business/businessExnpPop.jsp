@@ -79,7 +79,7 @@
             <tr>
                 <th>환율</th>
                 <td>
-                    <input id="exchangeRate" style="text-align: right; width: 100px" value="0" onkeyup="busiExnp.fn_calc(this)" oninput="onlyNumber(this)"/> 원 <b>환율은 출장비 지급신청 당일 기준 고시 환율(주거래은행/현찰 살떄 기준)을 적용한다. <a href="https://www.jbbank.co.kr/fxec_xriq_xriq.act" target="_blank">전북은행 사이트 바로가기</a></b>
+                    <input id="exchangeRate" style="text-align: right; width: 100px" value="0" onkeyup="busiExnp.fn_calc(this)" oninput="onlyNumber(this)"/> 원 <b>환율은 출장비 지급신청 당일 기준 고시 환율(주거래은행/현찰 살때 기준)을 적용한다. <a href="https://www.jbbank.co.kr/fxec_xriq_xriq.act" target="_blank">전북은행 사이트 바로가기</a></b>
                 </td>
             </tr>
             <tr>
