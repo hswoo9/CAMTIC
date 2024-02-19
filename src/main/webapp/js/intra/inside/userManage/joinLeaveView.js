@@ -12,20 +12,37 @@ var joinLeaveView = {
         $('.detailSearch').on('change', function () {
             joinLeaveView.gridReload();
         });
-
     },
 
+    gridReload : function(){
+        var requestArr = "";
+        if($(".detailSearch:checked").length == 0){
+            requestArr += "|999&N"
+        }else{
+            $(".detailSearch:checked").each(function(){
+                if($(this).attr("id") == "dsA"){
+                    requestArr += "|0&N|4&1,2"
+                }else{
+                    requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
+                }
+
+            })
+        }
+
+        var arr = requestArr.substring(1);
+        console.log("arr :", arr);
+
+        joinLeaveView.getTotalEmpCount(arr);
+    },
 
     getTotalEmpCount: function(arr) {
-        console.log("ajax arr : ",arr);
-
         $.ajax({
             type: "GET",
             data: { arr : arr },
             url: "/Inside/getTotalEmpCount.do",
             dataType: "json",
             success: function(data) {
-                console.log("js data : ",data);
+                console.log("js data : ", data);
                 const empTotalList = data.empTotalList;
                 const arr = joinLeaveView.transformedArr(data.arr);
 
@@ -78,12 +95,10 @@ var joinLeaveView = {
         $("#countTable").append(html);
     },
 
-
     getTotalEmpCountTable2: function(empTotalList, arr) {
         console.log("getTotalEmpCountTable2 arr", arr);
         var html = "";
         html = '<table class="centerTable table table-bordered"><tbody>';
-
 
         for (var i = 0; i < empTotalList.length; i += 7) {
             html += '<tr style="background-color: #d8dce3;"><td>년 도 </td>';
@@ -151,34 +166,9 @@ var joinLeaveView = {
         return resultString;
     },
 
-    gridReload : function(){
-        var requestArr = "";
-        if($(".detailSearch:checked").length == 0){
-            requestArr += "|999&N"
-        }else{
-            $(".detailSearch:checked").each(function(){
-                if($(this).attr("id") == "dsA"){
-                    requestArr += "|0&N|4&1,2"
-                }else{
-                    requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
-                }
-
-            })
-        }
-
-        var arr = requestArr.substring(1);
-        console.log("arr :",arr);
-
-        joinLeaveView.getTotalEmpCount(arr);
-    },
-
-
-
-
-
     userViewPop : function(currentYear,sectionTitle,arr) {
         var encodedArr = encodeURIComponent(arr);
-        console.log("userViewPop 함수 인코딩arr:"+encodedArr);
+        console.log("userViewPop 함수 인코딩 arr: ", encodedArr);
         var url = "/Inside/pop/joinLeaveViewPop.do?currentYear="+currentYear+ "&sectionTitle=" +sectionTitle+ "&encodedArr="+encodedArr;
         var name = "joinLeaveViewPop";
         var option = "width=1800, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"

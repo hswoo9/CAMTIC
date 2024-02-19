@@ -26,6 +26,7 @@ public class ApprovalRepository extends AbstractDAO {
     public void setApproveFileDocIdUpD(Map<String, Object> params){ insert("approval.setApproveFileDocIdUpD", params);}
     public void setApproveDocOpt(Map<String, Object> params){ insert("approval.setApproveDocOpt", params);}
     public void setApproveDocOptUpd(Map<String, Object> params){ insert("approval.setApproveDocOptUpd", params);}
+    public void setApproveDocOptUpd2(Map<String, Object> params){ insert("approval.setApproveDocOptUpd2", params);}
     public void setDocApproveRoute(Map<String, Object> params){ insert("approval.setDocApproveRoute", params);}
     public void setDocReceiver(List<Map<String, Object>> params){ insert("approval.setDocReceiver", params);}
     public void setDocReferences(Map<String, Object> params){ insert("approval.setDocReferences", params);}

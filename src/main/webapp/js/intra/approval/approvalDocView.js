@@ -1016,6 +1016,11 @@ var docView = {
 
         formData.append("docHWPFileData", docView.global.hwpFileTextData);
 
+        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+            && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"){
+            formData.append("securityTypeUpd", $("#securityType").getKendoRadioGroup().value());
+        }
+
         return formData;
     },
 
@@ -1096,6 +1101,29 @@ var docView = {
         $("#publicTypeKr").text(docView.global.rs.docInfo.PUBLIC_TYPE_KR);
         $("#urgentTypeKr").text(docView.global.rs.docInfo.URGENT_TYPE_KR);
         $("#securityTypeKr").text(docView.global.rs.docInfo.SECURITY_TYPE_KR);
+
+        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+            && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"){
+            $("#securityTypeKr").html('<span id="securityType"></span>');
+
+            $("#securityType").kendoRadioGroup({
+                items: docView.kendoRadioGroupDataSource(29),
+                layout : "horizontal",
+                labelPosition : "after",
+                value : "000",
+                change : function(e){
+                    if(this.value() == "009"){
+                        $("#readerTr").show();
+                    }else{
+                        docView.global.readersArr = [];
+                        // $("#readerName").val("");
+                        // $("#readerTr").hide();
+                    }
+                }
+            });
+            $("#securityType").data("kendoRadioGroup").value(docView.global.rs.docInfo.SECURITY_TYPE);
+        }
+
         $("#docGbnKr").text(docView.global.rs.docInfo.DOC_GBN_KR);
         $("#aiTitle").text(docView.global.rs.docInfo.AITITLE);
 
@@ -1122,6 +1150,29 @@ var docView = {
             $("#returnEmpSeq").val(docView.global.loginVO.uniqId);
             $("#returnEmpName").val(docView.global.loginVO.name);
         }
+    },
+
+    kendoRadioGroupDataSource : function(cmGroupCodeId){
+        docView.global.radioGroupData = {
+            cmGroupCodeId : cmGroupCodeId
+        }
+
+        var radioArr = new Array();
+
+        var result = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", docView.global.radioGroupData);
+
+        if(result.flag){
+            var data = result;
+            for(var i = 0; i < data.length; i++){
+                if(data[i].CM_CODE_NM == "보안문서"){
+                    radioArr.push({label : data[i].CM_CODE_NM + " (결재선소유자 열람)", value : data[i].CM_CODE});
+                }else{
+                    radioArr.push({label : data[i].CM_CODE_NM, value : data[i].CM_CODE});
+                }
+            }
+        }
+
+        return radioArr;
     },
 
     loading : function(){

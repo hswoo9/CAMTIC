@@ -793,6 +793,11 @@ public class ApprovalServiceImpl implements ApprovalService {
                 approvalRepository.setDocApproveRouteNoApproveUp(map);
             }
         }
+
+        /** 최종결재권자가 보안여부 업데이트 가능 */
+        if (params.containsKey("securityTypeUpd")){
+            approvalRepository.setApproveDocOptUpd2(params);
+        }
     }
 
     private void setApprovalDocDataFileCancelUpd(Map<String, Object> params, String base_dir){

@@ -59,6 +59,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-joinLeaveView.fn_defaultScript();
-
+    joinLeaveView.fn_defaultScript();
 </script>

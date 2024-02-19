@@ -345,6 +345,16 @@
             DOC_ID = #{docId}
     </update>
 
+    <update id="setApproveDocOptUpd2" parameterType="map">
+        /* setApproveDocOptUpd2 */
+        UPDATE
+            DJ_CAMTIC.A_DOC_OPT
+        SET
+            SECURITY_TYPE = #{securityTypeUpd}
+        WHERE
+            DOC_ID = #{docId}
+    </update>
+
     <insert id="setDocApproveRoute" parameterType="map">
         /* setDocApproveRoute */
         INSERT INTO DJ_CAMTIC.A_DOC_APPROVE_ROUTE
