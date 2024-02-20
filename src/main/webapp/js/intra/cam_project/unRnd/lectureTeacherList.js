@@ -11,11 +11,25 @@ var lectureTeacherList = {
 
     fn_pageSet: function(){
         customKendo.fn_textBox(["sEmpName"]);
+
+        $("#teacherType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "신강사", value: "newTeacher" },
+                { text: "구강사", value: "existingTeacher" }
+            ],
+            index: 0
+        });
+
+        $("#teacherType").data("kendoDropDownList").bind("change", lectureTeacherList.gridReload);
     },
 
     gridReload: function(){
         lectureTeacherList.global.searchAjaxData = {
-            sEmpName : $("#sEmpName").val()
+            sEmpName : $("#sEmpName").val(),
+            teacherType : $("#teacherType").val()
         }
 
         lectureTeacherList.mainGrid("/projectUnRnd/getLectureTeacherList", lectureTeacherList.global.searchAjaxData);

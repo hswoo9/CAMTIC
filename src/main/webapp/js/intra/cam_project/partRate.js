@@ -169,11 +169,16 @@ var partRate = {
                 if(mem[i].CHNG_SAL != undefined && mem[i].CHNG_SAL != null){
                     totAmt = mem[i].CHNG_SAL;
                 }
+
                 var partRateDet = "";
                 if(mem[i].PART_RATE_DET == undefined || mem[i].PART_RATE_DET == "" || mem[i].PART_RATE_DET == null){
                     partRateDet = "";
                 } else {
                     partRateDet = mem[i].PART_RATE_DET;
+                }
+
+                if(bsSal == '' || bsSal == null) {
+                    totAmt = 0;
                 }
 
                 memHtml += '<tr style="text-align: center" class="bodyTr">';
@@ -183,7 +188,7 @@ var partRate = {
                 memHtml += '   </td>';
                 memHtml += '   <td>' + (mem[i].EMP_NAME || mem[i].JOIN_MEM_NM) + '<input type="hidden" name="partEmpName" value="'+(mem[i].EMP_NAME || mem[i].JOIN_MEM_NM)+'" /></td>';
                 if(bsSal == '' || bsSal == null) {
-                    memHtml += '   <td style="text-align: center"><input type="hidden" id="basicSalary" name="basicSalary" value="0"/><span style="color: red;text-align:center;">미설정</span></td>';
+                    memHtml += '   <td style="text-align: center"><input type="hidden" id="basicSalary" name="basicSalary" value="0"/><span style="color: red;text-align:center;"></span></td>';
                 }else{
                     memHtml += '   <td style="text-align: right"><input type="hidden" id="basicSalary" name="basicSalary" value="' + uncomma(bsSal) + '"/> ' + comma(bsSal) + '</td>';
                 }
@@ -441,7 +446,7 @@ var partRate = {
 
     fn_save: function(){
 
-        var saveFlag = true;
+        /*var saveFlag = true;
         $("input[name='basicSalary']").each(function(e){
             if(this.value == 0 || this.value == "0"){
                 saveFlag = false;
@@ -450,7 +455,7 @@ var partRate = {
         if(!saveFlag){
             alert("기준급여 설정이 안된인원이 존재합니다.");
             return false;
-        }
+        }*/
 
         if(Number(uncomma($("#allPayTotal").val())) > $("#budgetAmt").val()){
             alert("인건비 총액이 인건비 예산보다 큽니다.");
@@ -524,7 +529,7 @@ var partRate = {
     },
 
     fn_confirm: function(){
-        var saveFlag = true;
+        /*var saveFlag = true;
         $("input[name='basicSalary']").each(function(e){
             if(this.value == 0 || this.value == "0"){
                 saveFlag = false;
@@ -533,7 +538,7 @@ var partRate = {
         if(!saveFlag){
             alert("기준급여 설정이 안된인원이 존재합니다.");
             return false;
-        }
+        }*/
 
         if(Number(uncomma($("#allPayTotal").val())) > $("#budgetAmt").val()){
             alert("인건비 총액이 인건비 예산보다 큽니다.");

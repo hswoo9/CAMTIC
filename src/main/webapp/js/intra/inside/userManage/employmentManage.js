@@ -17,7 +17,7 @@ var employmentManage = {
 			deptSeq : $("#deptSeq").val(),
 			team : $("#team").val(),
 			status : $("#status").val(),
-			empName : $("#empName").val(),
+			empName : $("#name").val(),
 			adminYn : 'Y'
 		}
 		employmentManage.mainGrid('/userManage/getEmploymentContList.do', employmentManage.global.searchAjaxData);

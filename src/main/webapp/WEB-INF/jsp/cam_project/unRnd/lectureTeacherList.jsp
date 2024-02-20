@@ -26,14 +26,18 @@
                         <col width="10%">
                         <col width="25%">
                         <col width="10%">
-                        <col width="20%">
                         <col width="10%">
                         <col width="25%">
+                        <col width="10%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">이름</th>
-                        <td colspan="4">
+                        <td colspan="2">
                             <input type="text" id="sEmpName" onkeypress="if(event.keyCode==13){ gridReload(); }" style="width: 200px;">
+                        </td>
+                        <th class="text-center th-color">강사구분</th>
+                        <td colspan="2">
+                            <input type="text" id="teacherType" style="width: 200px;">
                         </td>
                     </tr>
                 </table>

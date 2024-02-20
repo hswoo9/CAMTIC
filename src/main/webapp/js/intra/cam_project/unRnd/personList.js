@@ -11,11 +11,25 @@ var personList = {
 
     fn_pageSet: function(){
         customKendo.fn_textBox(["sEmpName"]);
+
+        $("#lectureType").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전체", value: "" },
+                { text: "신회원", value: "newLecture" },
+                { text: "구회원", value: "existingLecture" }
+            ],
+            index: 0
+        });
+
+        $("#lectureType").data("kendoDropDownList").bind("change", personList.gridReload);
     },
 
     gridReload: function(){
         personList.global.searchAjaxData = {
-            sEmpName : $("#sEmpName").val()
+            sEmpName : $("#sEmpName").val(),
+            lectureType : $("#lectureType").val()
         }
 
         personList.mainGrid("/projectUnRnd/getPersonList", personList.global.searchAjaxData);
