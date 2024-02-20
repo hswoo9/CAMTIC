@@ -238,6 +238,13 @@
         <if test="sEmpName != null and sEmpName != ''">
             AND NAME LIKE CONCAT('%', #{sEmpName}, '%')
         </if>
+        <if test="lectureType == 'newLecture' and lectureType != null and lectureType != ''">
+            AND EXISTING_YN = 'N'
+        </if>
+        <if test="lectureType == 'existingLecture' and lectureType != null and lectureType != ''">
+            AND EXISTING_YN = 'Y'
+        </if>
+
         AND ACTIVE = 'Y'
         ORDER BY NAME
     </select>
@@ -292,6 +299,12 @@
         </if>
         <if test="sEmpName != null and sEmpName != ''">
             AND NAME LIKE CONCAT('%', #{sEmpName}, '%')
+        </if>
+        <if test="teacherType == 'newTeacher' and teacherType != null and teacherType != ''">
+            AND PERSON_SN != '0'
+        </if>
+        <if test="teacherType == 'existingTeacher' and teacherType != null and teacherType != ''">
+            AND PERSON_SN = '0'
         </if>
         AND ACTIVE = 'Y'
         ORDER BY NAME

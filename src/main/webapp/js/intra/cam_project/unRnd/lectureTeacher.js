@@ -3,9 +3,12 @@ const lectureTeacher = {
         /*this.fn_pageSet();*/
         this.fn_dataSet();
         this.fn_mainGrid();
+        $("input[name='teacherType']:radio").change(function(){
+            lectureTeacher.fn_mainGrid();
+        });
     },
 
-    fn_dataSet: function(){
+    fn_dataSet: function() {
         const data = {
             pk: $("#pk").val()
         }
@@ -16,7 +19,6 @@ const lectureTeacher = {
     },
 
     fn_mainGrid: function(){
-
         let dataSourceA = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -28,6 +30,7 @@ const lectureTeacher = {
                 parameterMap: function(data){
                     data.notIn = $("#pk").val();
                     data.sEmpName = $("#sEmpName").val();
+                    data.teacherType = $('input[name="teacherType"]:checked').val();
                     return data;
                 }
             },
@@ -83,7 +86,7 @@ const lectureTeacher = {
                 }, {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lectureTeacher.fn_mainGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -94,8 +97,22 @@ const lectureTeacher = {
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }
+                },
+                {
+                    name: 'radioButtons',
+                    template: function (e) {
+                        return '<label class="k-radio-label">' +
+                            '<input type="radio" name="teacherType" value="newTeacher" class="k-radio" >' +
+                            '<span class="k-radio-wrapper"></span>' +
+                            '신강사' +
+                            '</label>' +
+                            '<label class="k-radio-label">' +
+                            '<input type="radio" name="teacherType" value="existingTeacher" class="k-radio" checked>' +
+                            '<span class="k-radio-wrapper"></span>' +
+                            '구강사' +
+                            '</label>';
+                    }
                 }
-
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
