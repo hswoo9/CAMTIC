@@ -1016,9 +1016,17 @@ var docView = {
 
         formData.append("docHWPFileData", docView.global.hwpFileTextData);
 
+        /** 최종결재자가 보안여부 설정시 */
         if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
             && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"){
             formData.append("securityTypeUpd", $("#securityType").getKendoRadioGroup().value());
+        }
+
+        /** 최종결재자가 열람자 설정시 */
+        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+            && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"
+            && docView.global.readersArr.length > 0) {
+            formData.append("readersArrUpd", JSON.stringify(docView.global.readersArr));
         }
 
         return formData;
@@ -1134,6 +1142,15 @@ var docView = {
 
         $("#readerNameTd").text(docView.global.rs.displayReaderName);
 
+        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+            && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"){
+            $("#readerNameTd").html('<input type="text" id="readerName" name="readerName" class="k-input k-textbox k-input-solid k-input-md" style="width: 93%; margin-right: 5px" onclick="docView.readerSelectPopup2()" readonly>' +
+                '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docView.readerSelectPopup2()" style="vertical-align: middle;">' +
+                '   <span class="k-button-text">선택</span>' +
+                '</button>');
+            $("#readerName").val(docView.global.rs.displayReaderName);
+        }
+
         /** 문서 hidden 값 */
         $("#docId").val(docView.global.rs.docInfo.DOC_ID);
         $("#menuCd").val(docView.global.rs.docInfo.FILE_CD);
@@ -1173,6 +1190,20 @@ var docView = {
         }
 
         return radioArr;
+    },
+
+    readerSelectPopup2 : function(){
+        docView.global.windowPopUrl = "/approval/approvalReaderSelectPopup2.do";
+        docView.global.popName = "readerSelectPopup2";
+        docView.global.popStyle ="width=1170, height=612, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+
+        window.open(docView.global.windowPopUrl, docView.global.popName, docView.global.popStyle);
+    },
+
+    readerSelectPopClose : function(e, readerNameStr){
+        $("#readerName").val(readerNameStr);
+
+        docView.global.readersArr = e;
     },
 
     loading : function(){

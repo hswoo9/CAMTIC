@@ -221,6 +221,18 @@ public class ApprovalController {
         return "popup/approval/popup/approvalReaderSelectPopup";
     }
 
+    /** 결재선 지정 (뷰어)*/
+    @RequestMapping("/approval/approvalReaderSelectPopup2.do")
+    public String approvalReaderSelectPopup2(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+        model.addAttribute("loginVO", loginVO);
+
+        return "popup/approval/popup/approvalReaderSelectPopup2";
+    }
+
     /** 상신전 부여할 문서번호 조회 */
     @RequestMapping("/approval/getDeptDocNum")
     @ResponseBody

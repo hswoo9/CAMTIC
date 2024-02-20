@@ -798,6 +798,25 @@ public class ApprovalServiceImpl implements ApprovalService {
         if (params.containsKey("securityTypeUpd")){
             approvalRepository.setApproveDocOptUpd2(params);
         }
+
+        /** 최종결재권자가 열람자 업데이트 가능 */
+        if (params.containsKey("readersArrUpd")){
+            Gson gson = new Gson();
+            List<Map<String, Object>> readersList = gson.fromJson((String) params.get("readersArrUpd"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+            for(Map<String, Object> reader : readersList){
+                if(StringUtils.isEmpty(params.get("docId"))){
+                    reader.put("docId", params.get("DOC_ID"));
+                }else{
+                    reader.put("docId", params.get("docId"));
+                }
+                reader.put("empSeq", params.get("empSeq"));
+
+            }
+
+            approvalRepository.setDocReaderDel(params);
+            approvalRepository.setDocReader(readersList);
+        }
     }
 
     private void setApprovalDocDataFileCancelUpd(Map<String, Object> params, String base_dir){

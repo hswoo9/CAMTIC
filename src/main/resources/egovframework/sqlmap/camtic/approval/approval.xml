@@ -457,40 +457,40 @@
     <insert id="setDocReader" parameterType="list">
         /* setDocReader */
         INSERT INTO DJ_CAMTIC.A_DOC_READER
-        (
-        DOC_ID,
-        SEQ_TYPE,
-        READER_EMP_SEQ,
-        READER_EMP_NAME,
-        READER_DEPT_SEQ,
-        READER_DEPT_NAME,
-        READER_DUTY_CODE,
-        READER_DUTY_NAME,
-        READER_POSITION_CODE,
-        READER_POSITION_NAME,
-        READING_START_DT,
-        READING_END_DT,
-        REG_EMP_SEQ
-        )
+            (
+                DOC_ID,
+                SEQ_TYPE,
+                READER_EMP_SEQ,
+                READER_EMP_NAME,
+                READER_DEPT_SEQ,
+                READER_DEPT_NAME,
+                READER_DUTY_CODE,
+                READER_DUTY_NAME,
+                READER_POSITION_CODE,
+                READER_POSITION_NAME,
+                READING_START_DT,
+                READING_END_DT,
+                REG_EMP_SEQ
+            )
         VALUES
         <foreach collection="list" item="item" separator=",">
             (
-            <choose>
-                <when test='item.DOC_ID != null and !"".equals(item.DOC_ID)'>#{item.DOC_ID},</when>
-                <when test='item.docId != null and !"".equals(item.docId)'>#{item.docId},</when>
-            </choose>
-            #{item.seqType},
-            #{item.readerEmpSeq},
-            #{item.readerEmpName},
-            #{item.readerDeptSeq},
-            #{item.readerDeptName},
-            #{item.readerDutyCode},
-            #{item.readerDutyName},
-            #{item.readerPositionCode},
-            #{item.readerPositionName},
-            #{item.readingStartDt},
-            #{item.readingEndDt},
-            #{item.empSeq}
+                <choose>
+                    <when test='item.DOC_ID != null and !"".equals(item.DOC_ID)'>#{item.DOC_ID},</when>
+                    <when test='item.docId != null and !"".equals(item.docId)'>#{item.docId},</when>
+                </choose>
+                #{item.seqType},
+                #{item.readerEmpSeq},
+                #{item.readerEmpName},
+                #{item.readerDeptSeq},
+                #{item.readerDeptName},
+                #{item.readerDutyCode},
+                #{item.readerDutyName},
+                #{item.readerPositionCode},
+                #{item.readerPositionName},
+                #{item.readingStartDt},
+                #{item.readingEndDt},
+                #{item.empSeq}
             )
         </foreach>
     </insert>
