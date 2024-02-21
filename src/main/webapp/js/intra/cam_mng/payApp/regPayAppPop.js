@@ -309,7 +309,7 @@ var regPay = {
             } else {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
-
+            
             let totalList = exnpList.length + cardList.length - 1;
             for (let i = 0; i < totalList; i++) {
                 regPayDet.addRow();
