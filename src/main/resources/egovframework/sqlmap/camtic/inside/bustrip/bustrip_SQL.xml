@@ -1639,7 +1639,7 @@
             LEFT JOIN
                 CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT BRR ON IHBE.HR_BIZ_REQ_RESULT_ID = BRR.HR_BIZ_REQ_RESULT_ID
             WHERE
-                IHBE.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+                IHBE.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId} AND IHBE.DIVISION = 1
         ) RE
         WHERE
             RE.PERSON_SUM IS NOT NULL

@@ -346,8 +346,9 @@
         FROM
             CAM_INSIDE.DJ_SOCIAL_RATE
         WHERE
-           (START_DATE BETWEEN #{startDt} AND #{endDt})
-        OR (#{endDt} BETWEEN START_DATE AND END_DATE)
+            (IF(#{endDt} = '9999-12-31',
+            (#{startDt} BETWEEN START_DATE AND #{endDt}) OR (#{endDt} BETWEEN START_DATE AND END_DATE),
+            ((#{startDt} BETWEEN START_DATE AND END_DATE) AND #{endDt} BETWEEN START_DATE AND END_DATE)))
         ORDER BY SOCIAL_RATE_SN
         LIMIT 1
     </select>
