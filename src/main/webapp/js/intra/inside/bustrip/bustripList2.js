@@ -204,9 +204,11 @@ var bustList = {
                             if(e.STATUS == 100){
                                 return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재완료</button>';
                             }else if(e.STATUS == 10){
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재진행중</button>';
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재중</button>';
+                            }else if(e.STATUS == 30){
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">반려</button>';
                             }else {
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">작성중</button>';
                             }
                         }else{
                             if(e.STATUS != "100"){
@@ -216,7 +218,7 @@ var bustList = {
                             } else if(e.STATUS == "100" && e.BF_EXP_STAT == "100"){
                                 return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">사전정산</button>';
                             } else {
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">출장신청서</button>';
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재완료</button>';
                             }
                         }
                     }
@@ -235,7 +237,9 @@ var bustList = {
                                     if(e.RS_STATUS == 100) {
                                         return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes(' + e.HR_BIZ_REQ_RESULT_ID + ', ' + e.HR_BIZ_REQ_ID + ')">결재완료</button>'
                                     }else if(e.RS_STATUS == 10){
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결재진행중</button>'
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결재중</button>'
+                                    } else if(e.RS_STATUS == 30){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">반려</button>'
                                     } else {
                                         if(e.EXP_STAT == 100){
                                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>'
@@ -258,7 +262,7 @@ var bustList = {
                                 } else if(e.EXP_STAT == "100" && e.RS_STATUS != "100"){
                                     return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>';
                                 } else if(e.RS_STATUS == "100"){
-                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결과보고</button>';
+                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결재완료</button>';
                                 } else {
                                     return "-";
                                 }

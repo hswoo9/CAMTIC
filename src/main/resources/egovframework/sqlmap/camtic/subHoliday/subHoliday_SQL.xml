@@ -35,6 +35,7 @@
                     @ROWNUM := @ROWNUM + 1 AS ROW_NUM,
                     VUH.*,
                     VCD.SUBHOLIDAY_DT_CODE_NM,
+                    IFNULL(DI.APPROVE_STAT_CODE,0) AS APPROVE_STAT_CODE,
                     DI.APPRO_KEY,
                     DI.DOC_MENU_CD
                 FROM
@@ -209,6 +210,7 @@
             VUH.*,
             VCD.SUBHOLIDAY_DT_CODE_NM,
             DI.DOC_ID,
+            IFNULL(DI.APPROVE_STAT_CODE, 0) AS APPROVE_STAT_CODE,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD,
             DATE_FORMAT(VUH.REG_DATE, '%Y-%m-%d') AS REG_DT

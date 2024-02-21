@@ -83,17 +83,19 @@ var subHolidayList = {
                     title: "사용 일수",
                     width: 200,
                 }, {
-                    field : "APPR_STAT",
-                    title : "승인상태",
+                    field : "APPROVE_STAT_CODE",
+                    title : "결재상태",
                     template : function(e){
-                        if(e.APPR_STAT == "N"){
-                            return "작성 중";
-                        } else if(e.APPR_STAT == "Y"){
-                            return "승인";
-                        } else if(e.APPR_STAT =="C"){
-                            return "제출";
-                        } else if(e.APPR_STAT =="E"){
-                            return "작성중";
+                        if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
+                            return '작성중';
+                        } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
+                            return '결재중';
+                        } else if(e.APPROVE_STAT_CODE == '30') {
+                            return '반려';
+                        } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
+                            return '결재완료';
+                        } else {
+                            return '-';
                         }
                     },
                     width: 200,
