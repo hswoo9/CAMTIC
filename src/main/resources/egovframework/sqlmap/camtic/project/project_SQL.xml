@@ -2915,11 +2915,35 @@
     <select id="partRateEmpInfo" parameterType="map" resultType="map">
         /*partRateEmpInfo*/
         SELECT
-            *
+            A.EMP_NAME_KR,
+            A.DEPT_NAME,
+            A.DEPT_TEAM_NAME,
+            A.POSITION_NAME,
+            A.JOIN_DAY,
+            A.RES_REGIS_NUM,
+            A.EMAIL_ADDR,
+            A.MOBILE_TEL_NUM,
+            B.SCHOOL_NAME AS SCHOOL,
+            YEAR(B.GRADUATION_DAY) AS GRADE,
+            C.HR_DT_CODE_NM AS GUBUN_CODE_NM,
+            C2.HR_DT_CODE_NM AS DEGREE_CODE_NM,
+            C3.HR_DT_CODE_NM AS GRADUATION_CODE_NM
         FROM
-            CAM_HR.DJ_EMP_INFO
+            CAM_HR.DJ_EMP_INFO A
+        JOIN
+            CAM_HR.DJ_EMP_EDUCATIONAL B
+        ON A.EMP_SEQ = B.EMP_SEQ
+        JOIN
+            CAM_HR.DJ_HR_CODE C
+        ON B.GUBUN_CODE = CONCAT(C.HR_MC_CODE, C.HR_MD_CODE, C.HR_DT_CODE)
+        JOIN
+            CAM_HR.DJ_HR_CODE C2
+        ON B.DEGREE_CODE = CONCAT(C2.HR_MC_CODE, C2.HR_MD_CODE, C2.HR_DT_CODE)
+        JOIN
+            CAM_HR.DJ_HR_CODE C3
+        ON B.GRADUATION_CODE = CONCAT(C3.HR_MC_CODE, C3.HR_MD_CODE, C3.HR_DT_CODE)
         WHERE
-            EMP_SEQ IN
+            A.EMP_SEQ IN
         <foreach item="item" index="index" collection="array"
                  open="(" separator="," close=")">
             #{item}
