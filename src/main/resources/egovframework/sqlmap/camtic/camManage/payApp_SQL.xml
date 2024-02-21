@@ -1870,6 +1870,7 @@
                 LINK_STAT,
                 PAY_APP_SN,
                 SNACK_INFO_SN,
+                HR_BIZ_REQ_RESULT_ID,
                 CE_GW_IDX
             )
         VALUES
@@ -1882,6 +1883,7 @@
                 'Y',
                 #{PAY_APP_SN},
                 #{SNACK_INFO_SN},
+                #{HR_BIZ_REQ_RESULT_ID},
                 #{CE_GW_IDX}
             )
     </insert>
@@ -1919,6 +1921,13 @@
         DELETE FROM CAM_MNG.DJ_USE_CARD_INFO
         WHERE
             PAY_APP_SN = #{PAY_APP_SN}
+    </delete>
+
+    <delete id="delBustripUseCardInfo" parameterType="map">
+        /*delBustripUseCardInfo*/
+        DELETE FROM CAM_MNG.DJ_USE_CARD_INFO
+        WHERE
+            HR_BIZ_REQ_RESULT_ID = #{HR_BIZ_REQ_RESULT_ID}
     </delete>
 
     <delete id="delUseEtaxInfo" parameterType="map">

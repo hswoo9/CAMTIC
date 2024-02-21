@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
+import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
@@ -33,6 +34,8 @@ public class BustripServiceImpl implements BustripService {
     @Autowired
     private CrmRepository crmRepository;
 
+    @Autowired
+    private PayAppRepository payAppRepository;
 
     @Override
     public List<Map<String, Object>> getBustripList(Map<String, Object> params) {
@@ -543,13 +546,28 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public void setCardHist(Map<String, Object> params) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("HR_BIZ_REQ_RESULT_ID", params.get("hrBizReqResultId"));
+
         if(params.containsKey("cardArr")){
             bustripRepository.delCardHist(params);
+            payAppRepository.delBustripUseCardInfo(paramMap);
+
             Gson gson = new Gson();
             List<Map<String, Object>> list = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
             for(Map<String, Object> data : list){
                 data.put("hrBizReqResultId", params.get("hrBizReqResultId"));
                 bustripRepository.insCardHist(data);
+
+                // DJ_USE_CARD_INFO INSERT
+                if(!"".equals(data.get("authNo")) && !"".equals(data.get("authHh")) && !"".equals(data.get("authDd")) && !"".equals(data.get("cardNo")) && !"".equals(data.get("buySts"))){
+                    paramMap.put("AUTH_NO", data.get("authNum"));
+                    paramMap.put("AUTH_HH", data.get("authTime"));
+                    paramMap.put("AUTH_DD", data.get("authDate"));
+                    paramMap.put("CARD_NO", data.get("cardNo"));
+                    paramMap.put("BUY_STS", data.get("buySts"));
+                    payAppRepository.insUseCardInfo(paramMap);
+                }
             }
         }else{
             bustripRepository.delCardHist(params);
