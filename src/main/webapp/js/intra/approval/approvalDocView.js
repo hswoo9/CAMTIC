@@ -1016,17 +1016,19 @@ var docView = {
 
         formData.append("docHWPFileData", docView.global.hwpFileTextData);
 
-        /** 최종결재자가 보안여부 설정시 */
-        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
-            && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"){
-            formData.append("securityTypeUpd", $("#securityType").getKendoRadioGroup().value());
-        }
+        if(type == "approve"){
+            /** 최종결재자가 보안여부 설정시 */
+            if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+                && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"){
+                formData.append("securityTypeUpd", $("#securityType").getKendoRadioGroup().value());
+            }
 
-        /** 최종결재자가 열람자 설정시 */
-        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
-            && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"
-            && docView.global.readersArr.length > 0) {
-            formData.append("readersArrUpd", JSON.stringify(docView.global.readersArr));
+            /** 최종결재자가 열람자 설정시 */
+            if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+                && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"
+                && docView.global.readersArr != null && docView.global.readersArr.length > 0) {
+                formData.append("readersArrUpd", JSON.stringify(docView.global.readersArr));
+            }
         }
 
         return formData;
