@@ -34,9 +34,19 @@ var docView = {
             docView.readPermissionChk(loginVO, params);
         }
 
+        if(docView.global.loginVO == null){
+            alert("장시간 미사용으로 로그인 세션이 만료되었습니다. 로그아웃 후 재시도 바랍니다.");
+            return;
+        }
+
         /** 반려시 반려사유 확인 버튼 생성 */
         if(rs.docInfo.APPROVE_STAT_CODE == "30"){
             $("#docApprovalOpinView2Btn").show();
+
+            /** 기안자 일 시 수정 버튼 생성 */
+            if(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId){
+                $("#modBtn").show();
+            }
         }
 
 
@@ -554,6 +564,44 @@ var docView = {
             return false;
         }else{
             $('#returnModal').data('kendoWindow').open();
+        }
+    },
+
+    contentMod : function(){
+        const approKey = docView.global.params.approKey;
+        const pk = approKey.split('_')[1];
+
+        const menuCd = docView.global.params.menuCd;
+        if(menuCd == "bustrip"){
+            let url = "/bustrip/pop/bustripReqPop.do?hrBizReqId="+pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "bustripRes"){
+            const result = customKendo.fn_customAjax("/bustrip/getBustripOne", { hrBizReqResultId: pk });
+            const busInfo = result.map;
+
+            let url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+pk+"&hrBizReqId="+busInfo.HR_BIZ_REQ_ID;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "subHoliday"){
+            let url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + pk + "&apprStat=" + dataItem.APPR_STAT;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "purc") {
+            let url = "/purc/pop/regPurcReqPop.do?purcSn=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "claim") {
+            const result = customKendo.fn_customAjax("/purc/getPurcClaimData", data).data;
+
+            let url = "/purc/pop/reqClaiming.do?claimSn=" + pk + "&purcSn" + result.PURC_SN;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
         }
     },
 

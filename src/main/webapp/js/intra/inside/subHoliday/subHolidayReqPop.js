@@ -24,6 +24,7 @@ var subHolidayReqPop = {
     },
 
     fn_defaultScript: function(){
+        window.resizeTo(1030, 850);
         var data = {
             mcCode : subHolidayReqPop.global.mcCode,
             mdCode : subHolidayReqPop.global.mdCode,

@@ -25,9 +25,19 @@ var hwpApprovalLine = {
 
             let appArr = [];
             if(empData != null){
+                /**원장 전결*/
+                if(empData.approveDutyName == "원장") {
+                    const approveDutyName = draft.global.approversArr[0].approveDutyName;
+                    if (approveDutyName == "본부장" || approveDutyName == "사업부장" || approveDutyName == "센터장" || approveDutyName == "실장") {
+                        appArr = ["공란", "", ""];
+                    }
+
                 /**부서장 전결*/
-                if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장" || empData.approveDutyName == "센터장" || empData.approveDutyName == "실장"){
-                    if(draft.global.approversArr[0].approveDutyName == "팀장"){
+                }else if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장" || empData.approveDutyName == "센터장" || empData.approveDutyName == "실장"){
+                    const approveDutyName = draft.global.approversArr[0].approveDutyName;
+                    if(approveDutyName == "본부장" || approveDutyName == "사업부장" || approveDutyName == "센터장" || approveDutyName == "실장"){
+                        appArr = ["공란", "전결", ""];
+                    }else if(approveDutyName == "팀장"){
                         appArr = ["공란", "전결", ""];
                     }else{
                         appArr = ["", "전결", ""];

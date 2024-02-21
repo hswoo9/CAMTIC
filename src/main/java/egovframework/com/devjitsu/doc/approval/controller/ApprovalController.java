@@ -264,14 +264,23 @@ public class ApprovalController {
 
         Map<String, Object> result = new HashMap<>();
 
+        /** 한글기안기 문서가 읽히지 않았을 때 재요청 */
         try {
+            /** 공백일때 */
             if(EgovStringUtil.nullConvert(params.get("docHWPFileData")).equals("")){
-                throw new Exception();
+                result.put("code", 500);
+                return result;
+                /*throw new Exception();*/
             }
+        /** docHWPFileData 자체가 없을 때 */
         } catch (Exception e) {
             e.printStackTrace();
+            result.put("code", 500);
+            return result;
         }
+
         approvalService.setApproveDocInfo(params, BASE_DIR);
+        result.put("code", 200);
         result.put("params", params);
         return result;
     }

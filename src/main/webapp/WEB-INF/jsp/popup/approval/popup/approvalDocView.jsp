@@ -113,6 +113,9 @@
                 <span class='k-icon k-i-track-changes-reject k-button-icon'></span>
                 <span class='k-button-text' style="font-size: 13px">반려</span>
             </button>
+            <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="modBtn" onclick="docView.contentMod()" style="display: none">
+                <span class='k-button-text' style="font-size: 13px">수정</span>
+            </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="docApprovalOpinViewBtn" onclick="docView.docApprovalOpinView()" style="display: none">
                 <span class='k-icon k-i-align-justify k-button-icon'></span>
                 <span class='k-button-text' style="font-size: 13px">의견보기</span>

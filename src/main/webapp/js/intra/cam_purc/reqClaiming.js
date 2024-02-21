@@ -7,7 +7,7 @@ var reqCl = {
     },
 
     fn_defaultScript : function(){
-
+        window.resizeTo(1500, 840);
         customKendo.fn_textBox(["pjtNm", "purcDeptName", "purcEmpName", "claimEtc"
                                 ,"claimTitle", "purcReqPurpose", "crmNm"
                                 ,"estAmt", "vatAmt", "totAmt", "itemNm0", "itemStd0"

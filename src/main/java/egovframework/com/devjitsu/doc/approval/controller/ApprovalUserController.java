@@ -120,6 +120,24 @@ public class ApprovalUserController {
     }
 
     /**
+     * 완료문서
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/approvalUser/storageBoxResultDocList.do")
+    public String storageBoxResultDocList(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", login);
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "approval/approvalUser/approvalDocStorageBox/storageBoxResultDocList";
+    }
+
+    /**
      * 전자문서 > 전자결재 > 결재함
      */
 

@@ -1,4 +1,4 @@
-var storageBoxDraft = {
+var storageBoxResult = {
     global : {
         now : new Date(),
         searchAjaxData : "",
@@ -7,29 +7,21 @@ var storageBoxDraft = {
     init : function(params){
         customKendo.fn_textBox(["docTitle"]);
 
-        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxDraft.global.now.setMonth(storageBoxDraft.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(storageBoxResult.global.now.setMonth(storageBoxResult.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
-
-        let studyDataSource = [
-            { text: "전체", value: "" },
-            { text: "진행중", value: "1" }
-        ]
-        customKendo.fn_dropDownList("search", studyDataSource, "text", "value", 3);
 
         $("#docStatus").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
                 {text: "전체", value: ""},
-                {text: "상신", value: "10"},
-                {text: "결재", value: "20"},
-                {text: "재상신", value: "50"},
+                {text: "최종결재", value: "100"},
+                {text: "전결", value: "101"}
             ]
         })
-        $("#search").data("kendoDropDownList").value("1");
 
-        storageBoxDraft.gridReload();
+        storageBoxResult.gridReload();
     },
 
     mainGrid : function(url, params){
@@ -52,7 +44,7 @@ var storageBoxDraft = {
                 {
                     name: 'button',
                     template: function (e) {
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="storageBoxDraft.gridReload()">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="storageBoxResult.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -144,7 +136,7 @@ var storageBoxDraft = {
                     width : 80,
                     template : function(e){
                         if(e.APPROVE_STAT_CODE == "10" || e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "50"){
-                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick=\"storageBoxDraft.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick=\"storageBoxResult.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
                                 '<span class="k-icon k-i-change-manually k-button-icon"></span>' +
                                 '<span class="k-button-text">회수</span>' +
                                 '</button>';
@@ -157,19 +149,19 @@ var storageBoxDraft = {
     },
 
     gridReload : function() {
-        storageBoxDraft.global.searchAjaxData = {
+        storageBoxResult.global.searchAjaxData = {
             empSeq : $("#empSeq").val(),
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
-            approveStat : $("#search").data("kendoDropDownList").value() != "1" ? "draft" : "draft2",
+            approveStat : "result",
             docStatus : $("#docStatus").data("kendoDropDownList").value()
         }
 
-        storageBoxDraft.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxDraft.global.searchAjaxData);
+        storageBoxResult.mainGrid("/approvalUser/getUserDocStorageBoxList", storageBoxResult.global.searchAjaxData);
     },
 
     setDocApprovalRetrieve : function(docId, approKey, linkageType, type){
-        docApprovalRetrieve(docId, approKey, linkageType, type, function(){storageBoxDraft.gridReload()});
+        docApprovalRetrieve(docId, approKey, linkageType, type, function(){storageBoxResult.gridReload()});
     }
 }
