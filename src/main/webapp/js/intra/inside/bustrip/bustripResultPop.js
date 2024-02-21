@@ -19,6 +19,7 @@ var bustripResultPop = {
     },
 
     pageSet: function(){
+        window.resizeTo(1200, 795);
         /** Kendo 위젯 세팅 */
         customKendo.fn_textBox(["busnName", "popEmpName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName"]);
         customKendo.fn_textArea(["bustObj", "result"]);

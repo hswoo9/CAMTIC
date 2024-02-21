@@ -7,6 +7,7 @@ const bustripReq = {
     },
 
     pageSet: function(){
+        window.resizeTo(1200, 700);
         /** Kendo 위젯 세팅 */
         customKendo.fn_textBox(["busnName", "popEmpName", "externalName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName"]);
         customKendo.fn_textArea(["bustObj"]);

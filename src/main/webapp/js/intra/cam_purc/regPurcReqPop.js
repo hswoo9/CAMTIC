@@ -13,6 +13,7 @@ var prp = {
     },
 
     fn_defaultScript : function (){
+        window.resizeTo(1690, 820);
         customKendo.fn_datePicker("purcReqDate", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["purcReqPurpose", "purcItemName0", "purcItemStd0", "purcItemUnitPrice0",
             "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm", "estAmt", "vatAmt", "totAmt", "discountAmt", "disRate"]);
