@@ -516,6 +516,123 @@ var regPay = {
                 }
             }
 
+            /*if (exnpList[0].PJT_SN != null) {
+                if(pjtMap != null){
+                    var busnClass = pjtMap.BUSN_CLASS;
+                    $("#pjtSn").val(pjtMap.PJT_SN);
+                    $("#pjtNm").val(pjtMap.PJT_NM);
+                    if (!($("#pjtSn").val() != "" && busnClass == "D" && busnClass == "V")) {
+                        if (corpCar != null) {
+                            const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
+                                searchValue: '법인차량',
+                                cardVal: 'P'
+                            }).list
+
+                            let index = count;
+
+                            regPayDet.addRow();
+
+                            const f = g20CardList[0];
+                            var trCd = f.TR_CD;
+                            var trNm = f.TR_NM;
+                            var cardBaNb = f.CARD_BA_NB;
+                            var jiro = f.JIRO_NM;
+                            var baNb = f.BA_NB;
+                            var depositor = f.DEPOSITOR;
+
+                            if (trNm == null || trNm == "" || trNm == "undefined") {
+                                trNm = "";
+                            }
+                            if (cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined") {
+                                cardBaNb = "";
+                            }
+                            if (baNb == null || baNb == "" || baNb == "undefined") {
+                                baNb = "";
+                            }
+                            if (jiro == null || jiro == "" || jiro == "undefined") {
+                                jiro = "";
+                            }
+                            if (depositor == null || depositor == "" || depositor == "undefined") {
+                                depositor = "";
+                            }
+                            if (trCd == null || trCd == "" || trCd == "undefined") {
+                                trCd = "";
+                            }
+
+                            $("#eviType" + index).data("kendoDropDownList").value(3);
+                            $("#crmNm" + index).val(depositor)
+                            $("#card" + index).val(trNm);
+                            $("#cardNo" + index).val(cardBaNb);
+                            $("#trCd" + index).val(trCd);
+                            $("#crmBnkNm" + index).val(jiro);
+                            $("#crmAccNo" + index).val(baNb);
+                            $("#crmAccHolder" + index).val(depositor);
+
+                            if (corpCar.map != null) {
+                                $("#totCost" + index).val(comma(corpCar.map.TOT_COST));
+                                $("#supCost" + index).val(comma(corpCar.map.TOT_COST));
+                            }
+
+                            count++;
+                        }
+                    }
+                }
+            }else{
+                if (corpCar != null) {
+                    const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
+                        searchValue: '법인차량',
+                        cardVal: 'P'
+                    }).list
+
+                    let index = count;
+
+                    regPayDet.addRow();
+
+                    const f = g20CardList[0];
+                    var trCd = f.TR_CD;
+                    var trNm = f.TR_NM;
+                    var cardBaNb = f.CARD_BA_NB;
+                    var jiro = f.JIRO_NM;
+                    var baNb = f.BA_NB;
+                    var depositor = f.DEPOSITOR;
+
+                    if (trNm == null || trNm == "" || trNm == "undefined") {
+                        trNm = "";
+                    }
+                    if (cardBaNb == null || cardBaNb == "" || cardBaNb == "undefined") {
+                        cardBaNb = "";
+                    }
+                    if (baNb == null || baNb == "" || baNb == "undefined") {
+                        baNb = "";
+                    }
+                    if (jiro == null || jiro == "" || jiro == "undefined") {
+                        jiro = "";
+                    }
+                    if (depositor == null || depositor == "" || depositor == "undefined") {
+                        depositor = "";
+                    }
+                    if (trCd == null || trCd == "" || trCd == "undefined") {
+                        trCd = "";
+                    }
+
+                    $("#eviType" + index).data("kendoDropDownList").value(3);
+                    $("#crmNm" + index).val(depositor)
+                    $("#card" + index).val(trNm);
+                    $("#cardNo" + index).val(cardBaNb);
+                    $("#trCd" + index).val(trCd);
+                    $("#crmBnkNm" + index).val(jiro);
+                    $("#crmAccNo" + index).val(baNb);
+                    $("#crmAccHolder" + index).val(depositor);
+
+                    if (corpCar.map != null) {
+                        $("#totCost" + index).val(comma(corpCar.map.TOT_COST));
+                        $("#supCost" + index).val(comma(corpCar.map.TOT_COST));
+                    }
+
+                    count++;
+                }
+            }*/
+
             var blist = "";
             var fileThumbText = "";
             var docFileThumbText = "";

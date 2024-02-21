@@ -571,6 +571,7 @@ public class BustripServiceImpl implements BustripService {
             }
         }else{
             bustripRepository.delCardHist(params);
+            payAppRepository.delBustripUseCardInfo(paramMap);
         }
     }
 
