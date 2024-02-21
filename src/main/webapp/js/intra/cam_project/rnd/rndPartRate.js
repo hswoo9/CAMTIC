@@ -100,7 +100,7 @@ var rndPR = {
                     width: 100
                 }, {
                     title: "최종학력",
-                    field: "LAST_DEGREE",
+                    field: "GUBUN_CODE_NM",
                     width: 100
                 }, {
                     title: "졸업연도",
@@ -108,7 +108,7 @@ var rndPR = {
                     width: 100
                 }, {
                     title: "학위",
-                    field: "DEGREE",
+                    field: "DEGREE_CODE_NM",
                     width: 100
                 }, {
                     title: "출신학교/전공",
