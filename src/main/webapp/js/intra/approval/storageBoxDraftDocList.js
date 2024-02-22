@@ -27,7 +27,6 @@ var storageBoxDraft = {
                 {text: "재상신", value: "50"},
             ]
         })
-        $("#search").data("kendoDropDownList").value("1");
 
         storageBoxDraft.gridReload();
     },
@@ -162,7 +161,7 @@ var storageBoxDraft = {
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
-            approveStat : $("#search").data("kendoDropDownList").value() != "1" ? "draft" : "draft2",
+            approveStat : "draft",
             docStatus : $("#docStatus").data("kendoDropDownList").value()
         }
 
