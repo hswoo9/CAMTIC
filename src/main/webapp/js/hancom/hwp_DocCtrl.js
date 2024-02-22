@@ -1147,6 +1147,10 @@ var hwpDocCtrl = {
      */
     modOpenCallBack : function(){
         hwpDocCtrl.global.HwpCtrl.EditMode = 2;
+
+        if($("#formId").val() == "1") {
+            hwpDocCtrl.global.HwpCtrl.EditMode = 1
+        }
         hwpDocCtrl.global.HwpCtrl.SetToolBar(2, "TOOLBAR_MENU");
         hwpDocCtrl.global.HwpCtrl.SetToolBar(2, "TOOLBAR_STANDARD");
         hwpDocCtrl.global.HwpCtrl.ShowRibbon(true);
