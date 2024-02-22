@@ -1563,7 +1563,6 @@ var draft = {
         if(params.menuCd == "bustripRes"){
             const hrBizReqResultId = params.APPRO_KEY.split("_")[1];
 
-            let ds = customKendo.fn_customAjax(url, data);
             const result = customKendo.fn_customAjax("/bustrip/getBustripResTotInfo", { hrBizReqResultId: hrBizReqResultId });
             const busInfo = result.list;
 
