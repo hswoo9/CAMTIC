@@ -19,6 +19,7 @@ public class ApprovalRepository extends AbstractDAO {
     public Map<String, Object> getLinkageProcessDocInterlock(Map<String, Object> params) { return (Map<String, Object>) selectOne("approval.getLinkageProcessDocInterlock", params);}
     public Map<String, Object> getDeptDocNum(Map<String, Object> params){ return (Map<String, Object>) selectOne("approval.getDeptDocNum", params);}
     public void setDeptDocNumUpd(Map<String, Object> params) { update("approval.setDeptDocNumUpd", params);}
+    public void setDocNumUpd(Map<String, Object> params) { update("approval.setDocNumUpd", params);}
     public String getApprovalDocNoChk(Map<String, Object> params) { return (String) selectOne("approval.getApprovalDocNoChk", params);}
     public void setApproveDocInfo(Map<String, Object> params){ insert("approval.setApproveDocInfo", params);}
     public String getApproveDocFileInfo(Map<String, Object> params) { return (String) selectOne("approval.getApproveDocFileInfo", params);}

@@ -84,6 +84,9 @@ public class ApprovalServiceImpl implements ApprovalService {
             Map<String, Object> docNumMap = approvalRepository.getDeptDocNum(params);
             params.put("docNo", docNumMap.get("docNo"));
             approvalRepository.setDeptDocNumUpd(docNumMap);
+
+            /** 최종결재시 문서번호 업데이트 */
+            approvalRepository.setDocNumUpd(params);
         }
 
         return params;

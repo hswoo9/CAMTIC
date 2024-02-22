@@ -357,6 +357,31 @@ var docView = {
     docApprove : function(){
         docView.loading();
 
+
+        /** 문서번호
+         *  최종결재 할때 추가
+         * */
+        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+            const draftDeptSeq = getUser(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ).DEPT_SEQ;
+            const searchAjaxData = {
+                type : "approve",
+                docId : $("#docId").val(),
+                deptSeq : draftDeptSeq,
+                docType : "A"
+            }
+
+            var result = customKendo.fn_customAjax("/approval/getDeptDocNum", searchAjaxData);
+            if(result.flag){
+                $("#docNo").val(result.rs.docNo);
+
+                hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
+            }
+
+            if(!result.flag || result.rs.docNo == null){
+                alert("문서번호 생성 중 오류가 발생하였습니다. 새로고침 후 재시도 바랍니다."); return;
+            }
+        }
+
         docView.documentHwpDataCtrl();
 
         setTimeout(() => docView.documentHwpSave(), 1000);
@@ -463,11 +488,6 @@ var docView = {
     },
 
     documentHwpDataCtrl : function(){
-        /** TODO. 문서번호 임시
-         * 문서번호 관련 최종적으로 어떻게 할지 정의 필요
-         * */
-        hwpDocCtrl.putFieldText("DOC_NUM", docView.global.rs.docInfo.DOC_NO);
-
         if(docView.global.rs.docInfo.FORM_ID != "1"){
             /** 결재 사인 */
             if(docView.global.rs.approveNowRoute.APPROVE_TYPE != 1){
@@ -475,11 +495,26 @@ var docView = {
 
             /** 협조 사인 */
             }else{
-                for(var i = 0; i < 2; i ++){
-                    const signField = "cAppr" + i;
-                    if(hwpDocCtrl.fieldExist(signField)){
-                        if(hwpDocCtrl.getFieldText(signField) == ""){
+                const approveRoute = docView.global.rs.approveRoute;
+                const cRoute = approveRoute.filter(tempArr => tempArr.APPROVE_TYPE == 1);
+
+                if(cRoute.length == 1){
+                    for(var i = 0; i < 2; i ++){
+                        const signField = "cAppr" + i;
+                        if(hwpDocCtrl.fieldExist(signField)){
+                            if(hwpDocCtrl.getFieldText(signField) == ""){
+                                hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                                break;
+                            }
+                        }
+                    }
+                }else if(cRoute.length == 2){
+                    for(var i = 0; i < cRoute.length; i ++){
+                        const cRouteMap = cRoute[i];
+                        if(cRouteMap.APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+                            const signField = "cAppr" + i;
                             hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                            break;
                         }
                     }
                 }

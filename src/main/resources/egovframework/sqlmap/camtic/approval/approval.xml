@@ -170,6 +170,15 @@
             APPLY_YEAR = DATE_FORMAT(NOW(), '%Y')
     </update>
 
+    <update id="setDocNumUpd" parameterType="map">
+        UPDATE
+            DJ_CAMTIC.A_DOC_INFO
+        SET
+            DOC_NO = #{docNo}
+        WHERE
+            DOC_ID = #{docId}
+    </update>
+
     <select id="getApprovalDocNoChk" parameterType="map" resultType="String">
         /* getApprovalDocNoChk */
         SELECT
