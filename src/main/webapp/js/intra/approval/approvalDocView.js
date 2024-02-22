@@ -838,7 +838,7 @@ var docView = {
                     field : "APPROVE_DT",
                     title: "결재일자",
                     template : function(e){
-                        if(e.APPROVE_DT == null){
+                        if(e.APPROVE_ORDER == "0" || e.APPROVE_DT == null){
                             return "-";
                         }else{
                             return e.APPROVE_DT
