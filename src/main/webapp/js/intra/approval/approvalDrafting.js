@@ -809,22 +809,7 @@ var draft = {
         $("#loadingText").text("문서를 변환 중 입니다.");
 
         if(!$("#docNo").val() && !$(e).hasClass("temp")){
-            draft.global.searchAjaxData = {
-                type : draft.global.type,
-                docId : $("#docId").val(),
-                deptSeq : $("#deptSeq").val(),
-                docType : $("#docType").val()
-            }
-
-            var result = customKendo.fn_customAjax("/approval/getDeptDocNum", draft.global.searchAjaxData);
-            if(result.flag){
-                $("#docNo").val(result.rs.docNo);
-
-                hwpDocCtrl.putFieldText('doc_title', $("#docTitle").val());
-                if(draft.global.lastApprover.approveEmpSeq == $("#empSeq").val()){
-                    hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
-                }
-            }
+            hwpDocCtrl.putFieldText('doc_title', $("#docTitle").val());
         }
 
         function sleep(sec) {
