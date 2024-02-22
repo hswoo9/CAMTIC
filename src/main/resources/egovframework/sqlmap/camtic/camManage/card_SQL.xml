@@ -110,6 +110,9 @@
             A.AUTH_DD = #{authDate} AND A.AUTH_HH = #{authTime}
         AND
             A.BUY_STS = #{buySts}
+        <if test='hrBizReqResultId != null and !"".equals(hrBizReqResultId)'>
+        AND C.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+        </if>
     </select>
 
     <select id="getCardTOData" parameterType="map" resultType="map">
