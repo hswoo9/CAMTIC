@@ -475,11 +475,26 @@ var docView = {
 
             /** 협조 사인 */
             }else{
-                for(var i = 0; i < 2; i ++){
-                    const signField = "cAppr" + i;
-                    if(hwpDocCtrl.fieldExist(signField)){
-                        if(hwpDocCtrl.getFieldText(signField) == ""){
+                const approveRoute = docView.global.rs.approveRoute;
+                const cRoute = approveRoute.filter(tempArr => tempArr.APPROVE_TYPE == 1);
+
+                if(cRoute.length == 1){
+                    for(var i = 0; i < 2; i ++){
+                        const signField = "cAppr" + i;
+                        if(hwpDocCtrl.fieldExist(signField)){
+                            if(hwpDocCtrl.getFieldText(signField) == ""){
+                                hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                                break;
+                            }
+                        }
+                    }
+                }else if(cRoute.length == 2){
+                    for(var i = 0; i < cRoute.length; i ++){
+                        const cRouteMap = cRoute[i];
+                        if(cRouteMap.APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+                            const signField = "cAppr" + i;
                             hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                            break;
                         }
                     }
                 }
