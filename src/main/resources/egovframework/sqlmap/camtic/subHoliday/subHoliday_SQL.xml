@@ -52,7 +52,20 @@
                 AND
                     VUH.REG_EMP_SEQ = #{empSeq}
                     <if test='status != null and !"".equals(status)'>
-                        AND VUH.APPR_STAT = #{status}
+                        <choose>
+                            <when test='"W".equals(status)'>
+                                AND (DI.APPROVE_STAT_CODE IS NULL OR DI.APPROVE_STAT_CODE IN (40,60))
+                            </when>
+                            <when test='"A".equals(status)'>
+                                AND DI.APPROVE_STAT_CODE IN (10,20,50)
+                            </when>
+                            <when test='"R".equals(status)'>
+                                AND DI.APPROVE_STAT_CODE IN (30)
+                            </when>
+                            <when test='"Y".equals(status)'>
+                                AND DI.APPROVE_STAT_CODE IN (100,101)
+                            </when>
+                        </choose>
                     </if>
                     <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
                         AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
@@ -236,7 +249,20 @@
         AND
             (VUH.DOC_ID != 'AA' OR VUH.DOC_ID IS NULL)
         <if test='status != null and !"".equals(status)'>
-            AND VUH.APPR_STAT = #{status}
+            <choose>
+                <when test='"W".equals(status)'>
+                    AND (DI.APPROVE_STAT_CODE IS NULL OR DI.APPROVE_STAT_CODE IN (40,60))
+                </when>
+                <when test='"A".equals(status)'>
+                    AND DI.APPROVE_STAT_CODE IN (10,20,50)
+                </when>
+                <when test='"R".equals(status)'>
+                    AND DI.APPROVE_STAT_CODE IN (30)
+                </when>
+                <when test='"Y".equals(status)'>
+                    AND DI.APPROVE_STAT_CODE IN (100,101)
+                </when>
+            </choose>
         </if>
         <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
             AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
