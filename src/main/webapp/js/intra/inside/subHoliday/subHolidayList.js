@@ -209,10 +209,10 @@ var subHolidayList = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "요청진행전", value: "N" },
-                { text: "승인", value: "Y" },
-                { text: "진행중", value: "C" },
-                { text: "반려", value: "E" }
+                { text: "작성중", value: "W" },
+                { text: "결재중", value: "A" },
+                { text: "반려", value: "R" },
+                { text: "결재완료", value: "Y" }
             ],
             index: 0
         });
