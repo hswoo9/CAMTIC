@@ -47,6 +47,12 @@ var docView = {
             if(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId){
                 $("#modBtn").show();
             }
+
+            const menuCd = docView.global.params.menuCd;
+            if(menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "purc" || menuCd == "claim"){
+            }else{
+                $("#modBtn").hide();
+            }
         }
 
 
@@ -427,6 +433,10 @@ var docView = {
             alert("반려의견을 입력해주세요."); return;
         }
 
+        if(docView.global.loginVO == null){
+            alert("세션이 만료되었습니다. 로그인 후 재시도 바랍니다."); return;
+        }
+
         docView.global.searchAjaxData = docView.makeApprovalFormData("return");
 
         var result = customKendo.fn_customFormDataAjax("/approval/setDocApproveNReturn", docView.global.searchAjaxData);
@@ -586,7 +596,7 @@ var docView = {
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
         }else if(menuCd == "subHoliday"){
-            let url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + pk + "&apprStat=" + dataItem.APPR_STAT;
+            let url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + pk;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
@@ -596,7 +606,7 @@ var docView = {
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
         }else if(menuCd == "claim") {
-            const result = customKendo.fn_customAjax("/purc/getPurcClaimData", data).data;
+            const result = customKendo.fn_customAjax("/purc/getPurcClaimData", {claimSn: pk}).data;
 
             let url = "/purc/pop/reqClaiming.do?claimSn=" + pk + "&purcSn" + result.PURC_SN;
             let name = "_self";
@@ -1050,7 +1060,7 @@ var docView = {
                 formData.append("proxyApproveDeptSeq", docView.global.loginVO.orgnztId);
                 formData.append("proxyApproveEmpSeq", docView.global.loginVO.uniqId);
             }else{
-                formData.append("approveEmpSeq", $("#approveEmpSeq").val());
+                formData.append("approveEmpSeq", docView.global.loginVO.uniqId);
             }
         }else if(type == "cancel"){
             formData.append("approveOrder", docView.global.rs.approvePrevRoute.APPROVE_ORDER);
@@ -1060,7 +1070,7 @@ var docView = {
 
         /** 파일 STRING DATA */
         formData.append("docFileName", docView.global.rs.docInfo.DOC_TITLE);
-        formData.append("empSeq", $("#approveEmpSeq").val());
+        formData.append("empSeq", docView.global.loginVO.uniqId);
 
         formData.append("docHWPFileData", docView.global.hwpFileTextData);
 
