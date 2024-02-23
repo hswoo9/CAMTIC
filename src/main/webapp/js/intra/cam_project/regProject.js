@@ -209,7 +209,7 @@ var regPrj = {
 
             /** 첫줄에 사업관리 문구 추가 */
             var html2 = '<div style="padding: 6px 12px"><b style="color: red">사업관리</b></div>';
-            var doc2 = parser.parseFromString(html2, 'text/html');4
+            var doc2 = parser.parseFromString(html2, 'text/html');
             $("#tabstrip li")[0].before(doc2.body.firstChild);
 
             /** 둘째줄에 운영관리 문구 추가 */
@@ -346,14 +346,14 @@ var regPrj = {
         var busnLgClass = $("#busnLgClass").data("kendoDropDownList");
         var busnClass;
 
-        if(p.BUSN_CLASS == "D"){
+        if(p.BUSN_CLASS == "D" || p.BUSN_CLASS == "V"){
             busnLgClass.value(2);
             busnLgClass.trigger("change");
             busnClass = $("#busnClass").data("kendoDropDownList");
             busnClass.value(p.BUSN_CLASS);
         }
 
-        if(p.BUSN_CLASS == "D"){
+        if(p.BUSN_CLASS == "D" || p.BUSN_CLASS == "V"){
             $("#vEngi").css("display", "");
             $("#commFileHtml").css("display", "");
         } else {
@@ -400,7 +400,7 @@ var regPrj = {
         var value = this.value();
 
         console.log(value);
-        if(value == "D"){
+        if(value == "D" || value == "V"){
             $("#vEngi").css("display", "");
             $("#commFileHtml").css("display", "");
         } else if (value == "R") {
@@ -557,6 +557,9 @@ var regPrj = {
             var busnClass = $("#busnClass").data("kendoDropDownList");
             busnClass.select(1);
         } else if (smValue == "S"){
+            var busnClass = $("#busnClass").data("kendoDropDownList");
+            busnClass.select(2);
+        } else if (smValue == "V"){
             var busnClass = $("#busnClass").data("kendoDropDownList");
             busnClass.select(2);
         }

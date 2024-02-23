@@ -809,22 +809,7 @@ var draft = {
         $("#loadingText").text("문서를 변환 중 입니다.");
 
         if(!$("#docNo").val() && !$(e).hasClass("temp")){
-            draft.global.searchAjaxData = {
-                type : draft.global.type,
-                docId : $("#docId").val(),
-                deptSeq : $("#deptSeq").val(),
-                docType : $("#docType").val()
-            }
-
-            var result = customKendo.fn_customAjax("/approval/getDeptDocNum", draft.global.searchAjaxData);
-            if(result.flag){
-                $("#docNo").val(result.rs.docNo);
-
-                hwpDocCtrl.putFieldText('doc_title', $("#docTitle").val());
-                if(draft.global.lastApprover.approveEmpSeq == $("#empSeq").val()){
-                    hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
-                }
-            }
+            hwpDocCtrl.putFieldText('doc_title', $("#docTitle").val());
         }
 
         function sleep(sec) {
@@ -1482,29 +1467,32 @@ var draft = {
             console.log(result)
             var readerEmpNameStr = "";
             var len = result.data.OTHER_EMP_SEQ.toString().split(",").length;
+
+            if(result.data.OTHER_EMP_SEQ == "" || result.data.OTHER_EMP_SEQ == null){
+                return;
+            }
+
             for(var i = 0 ; i < len ; i++){
                 var empSeq = result.data.OTHER_EMP_SEQ.toString().split(",")[i];
 
                 if(empSeq == $("#empSeq").val()){
                     continue;
                 }
-                var subData = {
-                    empSeq : empSeq
-                }
+                alert(empSeq);
 
-                var result = customKendo.fn_customAjax("/user/getUserInfo", subData);
-                if(result.flag){
+                const userResult = getUser(empSeq);
+                if(userResult != null){
                     var tmpData = {
                         empSeq : $("#empSeq").val(),
                         seqType: "u",
-                        readerEmpSeq: result.EMP_SEQ.toString(),
-                        readerEmpName: result.EMP_NAME_KR,
-                        readerDeptSeq: result.DEPT_SEQ,
-                        readerDeptName: result.DEPT_NAME,
-                        readerDutyCode: result.DUTY_CODE,
-                        readerDutyName: result.DUTY_NAME,
-                        readerPositionCode: result.POSITION_CODE,
-                        readerPositionName: result.POSITION_NAME,
+                        readerEmpSeq: userResult.EMP_SEQ.toString(),
+                        readerEmpName: userResult.EMP_NAME_KR,
+                        readerDeptSeq: userResult.DEPT_SEQ,
+                        readerDeptName: userResult.DEPT_NAME,
+                        readerDutyCode: userResult.DUTY_CODE,
+                        readerDutyName: userResult.DUTY_NAME,
+                        readerPositionCode: userResult.POSITION_CODE,
+                        readerPositionName: userResult.POSITION_NAME,
                         docId : ""
                     };
                     readerEmpNameStr += "," + tmpData.readerEmpName + "(" + fn_getSpot(tmpData.readerDutyName, tmpData.readerPositionName) + ")";
@@ -1563,7 +1551,6 @@ var draft = {
         if(params.menuCd == "bustripRes"){
             const hrBizReqResultId = params.APPRO_KEY.split("_")[1];
 
-            let ds = customKendo.fn_customAjax(url, data);
             const result = customKendo.fn_customAjax("/bustrip/getBustripResTotInfo", { hrBizReqResultId: hrBizReqResultId });
             const busInfo = result.list;
 

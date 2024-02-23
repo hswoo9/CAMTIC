@@ -23,11 +23,10 @@ var storageBoxDraft = {
             dataSource: [
                 {text: "전체", value: ""},
                 {text: "상신", value: "10"},
-                {text: "결재", value: "20"},
+                {text: "결재중", value: "20"},
                 {text: "재상신", value: "50"},
             ]
         })
-        $("#search").data("kendoDropDownList").value("1");
 
         storageBoxDraft.gridReload();
     },
@@ -130,7 +129,14 @@ var storageBoxDraft = {
                 }, {
                     field : "APPROVE_STAT_CODE_DESC",
                     title : "결재상태",
-                    width : "120px"
+                    width : "120px",
+                    template : function(e){
+                        if(e.APPROVE_STAT_CODE_DESC == "결재"){
+                            return "결재중";
+                        }else{
+                            return e.APPROVE_STAT_CODE_DESC;
+                        }
+                    }
                 }, {
                     title : "결재선",
                     width : 80,
@@ -162,7 +168,7 @@ var storageBoxDraft = {
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
-            approveStat : $("#search").data("kendoDropDownList").value() != "1" ? "draft" : "draft2",
+            approveStat : "draft",
             docStatus : $("#docStatus").data("kendoDropDownList").value()
         }
 

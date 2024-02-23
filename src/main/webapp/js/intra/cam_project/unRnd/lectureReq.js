@@ -69,6 +69,7 @@ const lectureReq = {
             const result = customKendo.fn_customAjax("/projectUnRnd/getLectureInfo", data);
             const lecMap = result.data;
 
+            console.log(lecMap)
             $("#projectType").data("kendoDropDownList").value(lecMap.LEC_BUSN_CLASS);
             $("#fieldType").data("kendoDropDownList").value(lecMap.LEC_FIELD);
             $("#fieldType2").data("kendoDropDownList").value(lecMap.LEC_FIELD1);
@@ -109,12 +110,18 @@ const lectureReq = {
 
             if(lecMap.file1 != null){
                 $("#file1Name").text(lecMap.file1.file_org_name + '.' +lecMap.file1.file_ext);
+                $("#file1Name").attr("onclick", "fileDown('" + lecMap.file1.file_path + lecMap.file1.file_uuid +"', '" + lecMap.file1.file_org_name + "." + lecMap.file1.file_ext + "')");
+                $("#file1Name").css("cursor", "pointer");
             }
             if(lecMap.file2 != null){
                 $("#file2Name").text(lecMap.file2.file_org_name + '.' +lecMap.file2.file_ext);
+                $("#file2Name").attr("onclick", "fileDown('" + lecMap.file2.file_path + lecMap.file2.file_uuid +"', '" + lecMap.file2.file_org_name + "." + lecMap.file2.file_ext + "')");
+                $("#file2Name").css("cursor", "pointer");
             }
             if(lecMap.file3 != null){
                 $("#file3Name").text(lecMap.file3.file_org_name + '.' +lecMap.file3.file_ext);
+                $("#file3Name").attr("onclick", "fileDown('" + lecMap.file3.file_path + lecMap.file3.file_uuid +"', '" + lecMap.file3.file_org_name + "." + lecMap.file3.file_ext + "')");
+                $("#file3Name").css("cursor", "pointer");
             }
             /*$("#file1Name").text(lecMap.file1.file_org_name + '.' +lecMap.file1.file_ext);
             $("#file2Name").text(lecMap.file2.file_org_name + '.' +lecMap.file2.file_ext);
@@ -455,4 +462,10 @@ const lectureReq = {
 
         $("#mainType").data("kendoDropDownList").select(1);
     }
+}
+
+function fileDown(filePath, fileName){
+    kendo.saveAs({
+        dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+    });
 }

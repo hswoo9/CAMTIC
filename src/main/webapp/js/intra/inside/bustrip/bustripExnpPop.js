@@ -187,7 +187,8 @@ const bustripExnpReq = {
                 authDate : cardMap.AUTH_DD,
                 authNo : cardMap.AUTH_NO,
                 authTime : cardMap.AUTH_HH,
-                buySts : cardMap.BUY_STS
+                buySts : cardMap.BUY_STS,
+                hrBizReqResultId : hrBizReqResultId
             }
 
             const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", data);

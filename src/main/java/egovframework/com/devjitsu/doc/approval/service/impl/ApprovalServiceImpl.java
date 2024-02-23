@@ -84,6 +84,9 @@ public class ApprovalServiceImpl implements ApprovalService {
             Map<String, Object> docNumMap = approvalRepository.getDeptDocNum(params);
             params.put("docNo", docNumMap.get("docNo"));
             approvalRepository.setDeptDocNumUpd(docNumMap);
+
+            /** 최종결재시 문서번호 업데이트 */
+            approvalRepository.setDocNumUpd(params);
         }
 
         return params;
@@ -361,15 +364,15 @@ public class ApprovalServiceImpl implements ApprovalService {
     @Override
     public List<Map<String, Object>> getDocApproveHistOpinList(Map<String, Object> params) {
         List<Map<String, Object>> approveHistOpinList = approvalRepository.getDocApproveHistOpinList(params);
-//        for(Map<String, Object> map : approveHistOpinList){
-//            if(map.get("PROXY_TYPE").equals("Y")){
-//                map.put("empSeq", map.get("PROXY_APPROVE_EMP_SEQ"));
-//                Map<String, Object> proxyApproveUserInfo = userService.getUserInfo(map);
-//                map.put("PROXY_APPROVE_EMP_NAME", proxyApproveUserInfo.get("EMP_NAME_KR"));
-//                map.put("PROXY_APPROVE_DUTY_NAME", proxyApproveUserInfo.get("DUTY_NAME"));
-//                map.put("PROXY_APPROVE_DEPT_NAME", proxyApproveUserInfo.get("DEPT_NAME"));
-//            }
-//        }
+        for(Map<String, Object> map : approveHistOpinList){
+            if(map.get("PROXY_TYPE").equals("Y")){
+                map.put("empSeq", map.get("PROXY_APPROVE_EMP_SEQ"));
+                Map<String, Object> proxyApproveUserInfo = userService.getUserInfo(map);
+                map.put("PROXY_APPROVE_EMP_NAME", proxyApproveUserInfo.get("EMP_NAME_KR"));
+                map.put("PROXY_APPROVE_DUTY_NAME", proxyApproveUserInfo.get("DUTY_NAME"));
+                map.put("PROXY_APPROVE_DEPT_NAME", proxyApproveUserInfo.get("DEPT_NAME"));
+            }
+        }
 
         return approveHistOpinList;
     }
@@ -377,15 +380,15 @@ public class ApprovalServiceImpl implements ApprovalService {
     @Override
     public List<Map<String, Object>> getDocApproveStatusHistList(Map<String, Object> params) {
         List<Map<String, Object>> approveHistList = approvalRepository.getDocApproveStatusHistList(params);
-//        for(Map<String, Object> map : approveHistList){
-//            if(map.get("PROXY_TYPE").equals("Y")){
-//                map.put("empSeq", map.get("PROXY_APPROVE_EMP_SEQ"));
-//                Map<String, Object> proxyApproveUserInfo = userService.getUserInfo(map);
-//                map.put("PROXY_APPROVE_EMP_NAME", proxyApproveUserInfo.get("EMP_NAME_KR"));
-//                map.put("PROXY_APPROVE_DUTY_NAME", proxyApproveUserInfo.get("DUTY_NAME"));
-//                map.put("PROXY_APPROVE_DEPT_NAME", proxyApproveUserInfo.get("DEPT_NAME"));
-//            }
-//        }
+        for(Map<String, Object> map : approveHistList){
+            if(map.get("PROXY_TYPE").equals("Y")){
+                map.put("empSeq", map.get("PROXY_APPROVE_EMP_SEQ"));
+                Map<String, Object> proxyApproveUserInfo = userService.getUserInfo(map);
+                map.put("PROXY_APPROVE_EMP_NAME", proxyApproveUserInfo.get("EMP_NAME_KR"));
+                map.put("PROXY_APPROVE_DUTY_NAME", proxyApproveUserInfo.get("DUTY_NAME"));
+                map.put("PROXY_APPROVE_DEPT_NAME", proxyApproveUserInfo.get("DEPT_NAME"));
+            }
+        }
         return approveHistList;
     }
 

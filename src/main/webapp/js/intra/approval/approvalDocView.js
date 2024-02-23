@@ -40,12 +40,20 @@ var docView = {
         }
 
         /** 반려시 반려사유 확인 버튼 생성 */
-        if(rs.docInfo.APPROVE_STAT_CODE == "30"){
-            $("#docApprovalOpinView2Btn").show();
+        if(rs.docInfo.APPROVE_STAT_CODE == "30" || rs.docInfo.APPROVE_STAT_CODE == "40"){
+            if(rs.docInfo.APPROVE_STAT_CODE == "30"){
+                $("#docApprovalOpinView2Btn").show();
+            }
 
             /** 기안자 일 시 수정 버튼 생성 */
             if(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId){
                 $("#modBtn").show();
+            }
+
+            const menuCd = docView.global.params.menuCd;
+            if(menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "purc" || menuCd == "claim"){
+            }else{
+                $("#modBtn").hide();
             }
         }
 
@@ -351,6 +359,31 @@ var docView = {
     docApprove : function(){
         docView.loading();
 
+
+        /** 문서번호
+         *  최종결재 할때 추가
+         * */
+        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+            const draftDeptSeq = getUser(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ).DEPT_SEQ;
+            const searchAjaxData = {
+                type : "approve",
+                docId : $("#docId").val(),
+                deptSeq : draftDeptSeq,
+                docType : "A"
+            }
+
+            var result = customKendo.fn_customAjax("/approval/getDeptDocNum", searchAjaxData);
+            if(result.flag){
+                $("#docNo").val(result.rs.docNo);
+
+                hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
+            }
+
+            if(!result.flag || result.rs.docNo == null){
+                alert("문서번호 생성 중 오류가 발생하였습니다. 새로고침 후 재시도 바랍니다."); return;
+            }
+        }
+
         docView.documentHwpDataCtrl();
 
         setTimeout(() => docView.documentHwpSave(), 1000);
@@ -427,6 +460,10 @@ var docView = {
             alert("반려의견을 입력해주세요."); return;
         }
 
+        if(docView.global.loginVO == null){
+            alert("세션이 만료되었습니다. 로그인 후 재시도 바랍니다."); return;
+        }
+
         docView.global.searchAjaxData = docView.makeApprovalFormData("return");
 
         var result = customKendo.fn_customFormDataAjax("/approval/setDocApproveNReturn", docView.global.searchAjaxData);
@@ -453,11 +490,6 @@ var docView = {
     },
 
     documentHwpDataCtrl : function(){
-        /** TODO. 문서번호 임시
-         * 문서번호 관련 최종적으로 어떻게 할지 정의 필요
-         * */
-        hwpDocCtrl.putFieldText("DOC_NUM", docView.global.rs.docInfo.DOC_NO);
-
         if(docView.global.rs.docInfo.FORM_ID != "1"){
             /** 결재 사인 */
             if(docView.global.rs.approveNowRoute.APPROVE_TYPE != 1){
@@ -465,11 +497,26 @@ var docView = {
 
             /** 협조 사인 */
             }else{
-                for(var i = 0; i < 2; i ++){
-                    const signField = "cAppr" + i;
-                    if(hwpDocCtrl.fieldExist(signField)){
-                        if(hwpDocCtrl.getFieldText(signField) == ""){
+                const approveRoute = docView.global.rs.approveRoute;
+                const cRoute = approveRoute.filter(tempArr => tempArr.APPROVE_TYPE == 1);
+
+                if(cRoute.length == 1){
+                    for(var i = 0; i < 2; i ++){
+                        const signField = "cAppr" + i;
+                        if(hwpDocCtrl.fieldExist(signField)){
+                            if(hwpDocCtrl.getFieldText(signField) == ""){
+                                hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                                break;
+                            }
+                        }
+                    }
+                }else if(cRoute.length == 2){
+                    for(var i = 0; i < cRoute.length; i ++){
+                        const cRouteMap = cRoute[i];
+                        if(cRouteMap.APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+                            const signField = "cAppr" + i;
                             hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                            break;
                         }
                     }
                 }
@@ -586,7 +633,7 @@ var docView = {
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
         }else if(menuCd == "subHoliday"){
-            let url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + pk + "&apprStat=" + dataItem.APPR_STAT;
+            let url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + pk;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
@@ -596,7 +643,7 @@ var docView = {
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
         }else if(menuCd == "claim") {
-            const result = customKendo.fn_customAjax("/purc/getPurcClaimData", data).data;
+            const result = customKendo.fn_customAjax("/purc/getPurcClaimData", {claimSn: pk}).data;
 
             let url = "/purc/pop/reqClaiming.do?claimSn=" + pk + "&purcSn" + result.PURC_SN;
             let name = "_self";
@@ -726,7 +773,16 @@ var docView = {
                 {
                     field : "APPROVE_STAT_CODE_DESC",
                     title: "구분",
-                    width : 80
+                    width : 80,
+                    template : function(e){
+                        console.log("1", e.APPROVE_STAT_CODE)
+                        console.log("2", e.APPROVE_TYPE)
+                        if(e.APPROVE_STAT_CODE == "20" && e.APPROVE_TYPE == "1"){
+                            return "협조";
+                        }else{
+                            return e.APPROVE_STAT_CODE_DESC
+                        }
+                    },
                 }, {
                     field : "APPROVE_EMP_NAME",
                     title: "이름",
@@ -748,11 +804,7 @@ var docView = {
                     field : "APPROVE_DUTY_NAME",
                     title: "직위",
                     template : function(e){
-                        if(e.PROXY_TYPE == "Y"){
-                            return e.PROXY_APPROVE_DUTY_NAME;
-                        }else{
-                            return e.APPROVE_POSITION_NAME
-                        }
+                        return e.APPROVE_POSITION_NAME;
                     },
                     width : 100
                 },{
@@ -793,7 +845,7 @@ var docView = {
                     field : "APPROVE_DT",
                     title: "결재일자",
                     template : function(e){
-                        if(e.APPROVE_DT == null){
+                        if(e.APPROVE_ORDER == "0" || e.APPROVE_DT == null){
                             return "-";
                         }else{
                             return e.APPROVE_DT
@@ -1050,7 +1102,7 @@ var docView = {
                 formData.append("proxyApproveDeptSeq", docView.global.loginVO.orgnztId);
                 formData.append("proxyApproveEmpSeq", docView.global.loginVO.uniqId);
             }else{
-                formData.append("approveEmpSeq", $("#approveEmpSeq").val());
+                formData.append("approveEmpSeq", docView.global.loginVO.uniqId);
             }
         }else if(type == "cancel"){
             formData.append("approveOrder", docView.global.rs.approvePrevRoute.APPROVE_ORDER);
@@ -1060,7 +1112,7 @@ var docView = {
 
         /** 파일 STRING DATA */
         formData.append("docFileName", docView.global.rs.docInfo.DOC_TITLE);
-        formData.append("empSeq", $("#approveEmpSeq").val());
+        formData.append("empSeq", docView.global.loginVO.uniqId);
 
         formData.append("docHWPFileData", docView.global.hwpFileTextData);
 
