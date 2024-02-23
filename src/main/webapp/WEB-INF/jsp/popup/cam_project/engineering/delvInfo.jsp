@@ -265,7 +265,12 @@
         var pjCodeDs = customKendo.fn_customAjax("/common/commonCodeList", data)
         customKendo.fn_dropDownList("pjCode", pjCodeDs.rs, "CM_CODE_NM", "CM_CODE", 2);
 
-        $("#pjCode").data("kendoDropDownList").select(3);
+
+        if($("#busnClass").val() == "V"){
+            $("#pjCode").data("kendoDropDownList").select(4);
+        } else {
+            $("#pjCode").data("kendoDropDownList").select(3);
+        }
 
         data.grpSn = "SUP_DEP";
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", data);
