@@ -15,7 +15,7 @@ var prp = {
     fn_defaultScript : function (){
         window.resizeTo(1690, 820);
         customKendo.fn_datePicker("purcReqDate", "month", "yyyy-MM-dd", new Date());
-        customKendo.fn_textBox(["purcReqPurpose", "purcItemName0", "purcItemStd0", "purcItemUnitPrice0",
+        customKendo.fn_textBox(["purcReqPurpose", "purcLink", "purcItemName0", "purcItemStd0", "purcItemUnitPrice0",
             "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm", "estAmt", "vatAmt", "totAmt", "discountAmt", "disRate"]);
 
         prp.global.radioGroupData = [
@@ -27,6 +27,13 @@ var prp = {
         ]
         customKendo.fn_radioGroup("purcType", prp.global.radioGroupData, "horizontal");
 
+        var radioPaymentMethod = [
+            { label: "계좌이체", value: "A" },
+            { label: "인터넷구매", value: "I" },
+            { label: "현장(카드) 결제", value: "C" },
+        ]
+        customKendo.fn_radioGroup("paymentMethod", radioPaymentMethod, "horizontal");
+
         var radioVatDataSource = [
             { label: "부가세 포함", value: "Y" },
             { label: "부가세 미포함", value: "N" },
@@ -37,6 +44,24 @@ var prp = {
         /** 부가세 Change function */
         $("#vat").data("kendoRadioGroup").bind("change", function(){
             prp.vatCalcN();
+        });
+
+        $("input[name='paymentMethod']").click(function(){
+            if($("input[name='paymentMethod']:checked").val() == "I"){
+                $("#chgTxt").text('견적서 파일');
+                $("#chgTxtArea").css("display", "");
+                $("#purcLinkTr").css("display", "");
+            } else if($("input[name='paymentMethod']:checked").val() == "C"){
+                $("#chgTxt").text('검수 파일');
+                $("#chgTxtArea").css("display", "none");
+                $("#purcLinkTr").css("display", "none");
+                $("#purcLink").val("");
+            } else {
+                $("#chgTxt").text('견적서 파일');
+                $("#chgTxtArea").css("display", "");
+                $("#purcLinkTr").css("display", "none");
+                $("#purcLink").val("");
+            }
         });
 
         $("input[name='purcType']").click(function(){
@@ -199,6 +224,8 @@ var prp = {
         formData.append("purcReqDeptSeq", $("#purcReqDeptSeq").val());
         formData.append("purcReqPurpose", $("#purcReqPurpose").val());
         formData.append("purcType", $("#purcType").data("kendoRadioGroup").value());
+        formData.append("paymentMethod", $("#paymentMethod").data("kendoRadioGroup").value());
+        formData.append("purcLink", $("#purcLink").val());
         formData.append("status", e);
         formData.append("empSeq", $("#purcReqEmpSeq").val());
         formData.append("vat", $("#vat").data("kendoRadioGroup").value());
@@ -211,9 +238,27 @@ var prp = {
             }
         }
 
+        if($("#paymentMethod").data("kendoRadioGroup").value() == "" || $("#paymentMethod").data("kendoRadioGroup").value() == undefined){
+            alert("비용지급방식을 선택해주세요."); return;
+        }
+
+        if($("#paymentMethod").data("kendoRadioGroup").value() == "I"){
+            if($("#purcLink").val() == ""){
+                alert("구매링크를 입력해주세요."); return;
+            }
+        } else if($("#paymentMethod").data("kendoRadioGroup").value() == "C"){
+            if(uncommaN($("#totAmt").val()) >= 300000){
+                alert("현장(카드)결제는 부가세 포함 30만원 미만만 가능합니다."); return;
+            }
+        }
+
         if($("#purcSn").val() == ""){
             if(fCommon.global.attFiles.length == 0){
-                alert("견적서 등록해주세요."); return;
+                if($("#paymentMethod").data("kendoRadioGroup").value() == "C"){
+                    alert("검수 파일을 등록해주세요."); return;
+                } else {
+                    alert("견적서 파일을 등록해주세요."); return;
+                }
             }
         }else{
             if($(".addFile").length == 0){
@@ -238,7 +283,9 @@ var prp = {
         var flag5 = true;
         var flag6 = true;
         var flag7 = true;
+        var flag8 = true;
         var itemSum = 0;
+        var crmSn = "";
         $.each($(".purcItemInfo"), function(i, v){
             var index = $(this).attr("id").replace(/[^0-9]/g, '');
 
@@ -260,6 +307,13 @@ var prp = {
                 empSeq : $("#purcReqEmpSeq").val(),
             }
             itemSum += Number(prp.uncommaN($("#purcItemAmt" + index).val()));
+
+            if(crmSn != ""){
+                if(crmSn != $("#crmSn" + index).val()) {
+                    flag8 = false;
+                }
+            }
+            crmSn = $("#crmSn" + index).val();
 
             if(data.productA == ""){flag = false;}
             if(data.purcItemName == ""){flag2 = false;}
@@ -338,9 +392,12 @@ var prp = {
             alert("단위를 입력해주세요.");
             return ;
         }
-
         if(!flag7){
             alert("업체를 선택해주세요.");
+            return ;
+        }
+        if(!flag8){
+            alert("현장(카드)결제는 같은 업체만 저장 가능합니다.");
             return ;
         }
         formData.append("itemArr", JSON.stringify(itemArr))
@@ -627,6 +684,7 @@ var prp = {
             $("#purcReqDeptName").text(data.DEPT_NAME);
             $("#purcReqPurpose").val(data.PURC_REQ_PURPOSE);
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
+            $("#paymentMethod").data("kendoRadioGroup").value(data.PAYMENT_METHOD);
 
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
@@ -634,6 +692,23 @@ var prp = {
                 $("#pjtNm").val(data.PJT_NM);
             } else {
                 $("#project").css("display", "none");
+            }
+
+            if($("input[name='paymentMethod']:checked").val() == "I"){
+                $("#chgTxt").text('견적서 파일');
+                $("#chgTxtArea").css("display", "");
+                $("#purcLinkTr").css("display", "");
+                $("#purcLink").val(data.PURC_LINK);
+            } else if($("input[name='paymentMethod']:checked").val() == "C"){
+                $("#chgTxt").text('검수 파일');
+                $("#chgTxtArea").css("display", "none");
+                $("#purcLinkTr").css("display", "none");
+                $("#purcLink").val("");
+            } else {
+                $("#chgTxt").text('견적서 파일');
+                $("#chgTxtArea").css("display", "");
+                $("#purcLinkTr").css("display", "none");
+                $("#purcLink").val("");
             }
 
             if(data.purcFile != null){
@@ -1023,8 +1098,8 @@ var prp = {
             var html = '';
             for (var i = 0; i < fCommon.global.attFiles.length; i++) {
                 size = fCommon.bytesToKB((fCommon.global.attFiles[i].file_size || fCommon.global.attFiles[i].size));
-                fileName = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.split(".")[0] : fCommon.global.attFiles[i].file_org_name;
-                fileExt = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.split(".")[1] : fCommon.global.attFiles[i].file_ext;
+                fileName = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.substring(0, fCommon.global.attFiles[i].name.lastIndexOf(".")) : fCommon.global.attFiles[i].file_org_name;
+                fileExt = fCommon.global.attFiles[i].name ? fCommon.global.attFiles[i].name.substring(fCommon.global.attFiles[i].name.lastIndexOf(".")+1) : fCommon.global.attFiles[i].file_ext;
 
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html += '   <td>' + fileName + '</td>';

@@ -16,9 +16,9 @@
         margin-right: 7px;
     }
 
-    .k-radio-list.k-list-horizontal {
-        justify-content: space-around;
-    }
+    /*.k-radio-list.k-list-horizontal {*/
+    /*    justify-content: space-around;*/
+    /*}*/
 </style>
 
 <input type="hidden" id="stat" value="${params.stat}" />
@@ -109,6 +109,16 @@
                     <td>
                         <span id="expType"></span>
                     </td>--%>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">비용지급방식</th>
+                    <td>
+                        <span id="paymentMethod"></span>
+                    </td>
+                    <th scope="row" class="purcLinkTh text-center th-color" style="display: none;">구매 링크</th>
+                    <td class="purcLinkTh" style="display: none;">
+                        <input id="purcLink" style="width: 90%;" />
+                    </td>
                 </tr>
                 <tr id="project" style="display: none;">
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>프로젝트</th>
