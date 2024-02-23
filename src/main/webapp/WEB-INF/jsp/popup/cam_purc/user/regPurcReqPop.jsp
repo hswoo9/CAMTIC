@@ -84,8 +84,18 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">사업구분</th>
-                    <td colspan="3">
+                    <td>
                         <span id="purcType"></span>
+                    </td>
+                    <th scope="row" class="text-center th-color">비용지급방식</th>
+                    <td>
+                        <span id="paymentMethod"></span>
+                    </td>
+                </tr>
+                <tr id="purcLinkTr" style="display: none;">
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매 링크</th>
+                    <td colspan="3">
+                        <input id="purcLink" style="width: 90%;" />
                     </td>
                 </tr>
                 <tr id="project" style="display: none;">
@@ -100,11 +110,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>견적서 파일<br>(구매 참고파일)</th>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>
+                        <span id="chgTxt">견적서 파일</span>
+                        <br>(구매 참고파일)
+                    </th>
                     <td colspan="3">
                         <form style="padding: 0px 30px;">
                             <div class="card-header" style="padding: 5px;">
-                                <h3 class="card-title">첨부파일 (견적서 必 첨부, 인터넷 구매등은 해당 화면 캡쳐하여 업로드)</h3>
+                                <h3 id="chgTxtArea" class="card-title">첨부파일 (견적서 必 첨부, 인터넷 구매등은 해당 화면 캡쳐하여 업로드)</h3>
                                 <div class="card-options">
                                     <div class="filebox">
                                         <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">

@@ -70,9 +70,9 @@ public class PurcServiceImpl implements PurcService {
             for(int i = 0 ; i < list.size() ; i++){
                 list.get(i).put("contentId", "purcReq_" + params.get("purcSn"));
                 list.get(i).put("fileCd", params.get("menuCd"));
-                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf('.')));
                 list.get(i).put("filePath", filePath(params, BASE_DIR));
-                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf('.')+1));
                 list.get(i).put("empSeq", params.get("empSeq"));
             }
             commonRepository.insFileInfo(list);
@@ -262,6 +262,23 @@ public class PurcServiceImpl implements PurcService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
             params.put("approveStatCode", 100);
             purcRepository.updateClaimFinalApprStat(params);
+
+            // 현장(카드)결제일때 청구서 결재완료시 검수처리
+            Map<String, Object> claimData = purcRepository.getClaimData(params);
+            Map<String, Object> paramMap = new HashMap<>();
+            if(claimData.get("PAYMENT_METHOD").equals("C")){
+                paramMap.put("purcSn", claimData.get("PURC_SN"));
+                paramMap.put("inspectEmpName", claimData.get("EMP_NAME_KR"));
+                paramMap.put("status", "100");
+
+                LocalDate now = LocalDate.now();
+                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String fmtNow = now.format(fmt);
+                paramMap.put("inspectDt", fmtNow);
+
+                purcRepository.updPurcInspect(paramMap);
+                purcRepository.updPurcInspectStat(paramMap);
+            }
         }
     }
 
@@ -611,6 +628,99 @@ public class PurcServiceImpl implements PurcService {
     public void delPurcReq(Map<String, Object> params) {
         purcRepository.delPurcReq(params);
         purcRepository.delPurcItem(params);
+    }
+
+    @Override
+    public void setOnSiteCardPurcClaimData(Map<String, Object> params) {
+        Map<String, Object> purcMap = purcRepository.getPurcReq(params);
+        List<Map<String, Object>> purcItemMap = purcRepository.getPurcItemList(params);
+        Map<String, Object> claimMap = purcRepository.getPurcClaimData(params);
+
+        params.put("purcEmpSeq", purcMap.get("PURC_REQ_EMP_SEQ"));
+        params.put("purcType", purcMap.get("PURC_TYPE"));
+        params.put("pjtSn", purcMap.get("PJT_SN"));
+        params.put("pjtNm", purcMap.get("PJT_NM"));
+        params.put("paymentMethod", purcMap.get("PAYMENT_METHOD"));
+        params.put("purcLink", purcMap.get("PURC_LINK"));
+        params.put("claimDe", purcMap.get("PURC_REQ_DATE"));
+        params.put("expDe", purcMap.get("PURC_REQ_DATE"));
+        params.put("purcReqPurpose", purcMap.get("PURC_REQ_PURPOSE"));
+        params.put("crmSn", purcItemMap.get(0).get("CRM_SN"));
+        params.put("crmNm", purcItemMap.get(0).get("CRM_NM"));
+        params.put("priPay", "Y");
+        params.put("discountAmt", purcMap.get("DISCOUNT_AMT"));
+        params.put("vat", purcMap.get("VAT"));
+        params.put("checkProfit", "N");
+
+        // 제목
+        if(purcMap.get("PURC_TYPE").equals("")){
+            params.put("claimTitle", "[법인운영] 구매청구");
+        } else if(purcMap.get("PURC_TYPE").equals("R")){
+            params.put("claimTitle", "[R&D] 구매청구");
+        } else if(purcMap.get("PURC_TYPE").equals("S")){
+            params.put("claimTitle", "[비R&D] 구매청구");
+        } else if(purcMap.get("PURC_TYPE").equals("D")){
+            params.put("claimTitle", "[엔지니어링] 구매청구");
+        } else if(purcMap.get("PURC_TYPE").equals("V")){
+            params.put("claimTitle", "[용역/기타] 구매청구");
+        }
+
+        // 부가세
+        int sum = 0;
+        double sum2 = 0;
+        double sum3 = 0;
+        double sum4 = 0;
+
+        for(Map<String, Object> purcItem : purcItemMap){
+            sum += Integer.parseInt(purcItem.get("PURC_ITEM_AMT").toString());
+        }
+        sum2 = Math.floor(sum/10);
+        sum3 = Math.ceil(sum/1.1);
+        sum4 = sum - sum3;
+
+        if(purcMap.get("VAT").equals("N")){
+            params.put("estAmt", sum);
+            params.put("vatAmt", sum2);
+            params.put("totAmt", sum + sum2);
+        } else if(purcMap.get("VAT").equals("Y")){
+            params.put("estAmt", sum3);
+            params.put("vatAmt", sum4);
+            params.put("totAmt", sum);
+        } else if(purcMap.get("VAT").equals("D")){
+            params.put("estAmt", sum);
+            params.put("vatAmt", 0);
+            params.put("totAmt", sum);
+        }
+
+        System.out.println("params : " + params);
+
+
+        if(claimMap == null || claimMap.isEmpty()){
+            purcRepository.insPurcClaimData(params);
+        }else{
+            params.put("claimSn", claimMap.get("CLAIM_SN"));
+            purcRepository.updPurcClaimData(params);
+        }
+
+        purcRepository.delPurcClaimItem(params);
+
+        for(Map<String, Object> map : purcItemMap){
+            params.put("item", map.get("PURC_ITEM_SN"));
+            params.put("purcItemType", map.get("PURC_ITEM_TYPE"));
+            params.put("productA", map.get("PRODUCT_A"));
+            params.put("productB", map.get("PRODUCT_B"));
+            params.put("productC", map.get("PRODUCT_C"));
+            params.put("itemNm", map.get("PURC_ITEM_NAME"));
+            params.put("itemStd", map.get("PURC_ITEM_STD"));
+            params.put("itemEa", map.get("PURC_ITEM_QTY"));
+            params.put("itemUnitAmt", map.get("PURC_ITEM_UNIT_PRICE"));
+            params.put("itemUnit", map.get("PURC_ITEM_UNIT"));
+            params.put("itemAmt", map.get("PURC_ITEM_AMT"));
+            params.put("purcItemAmt", map.get("PURC_ITEM_AMT"));
+            params.put("itemEtc", map.get("RMK"));
+            purcRepository.updPurcItemStatusChange(params);
+            purcRepository.insPurcClaimItem(params);
+        }
     }
 
     @Override

@@ -62,6 +62,8 @@ public interface PurcService {
 
     void delPurcReq(Map<String, Object> params);
 
+    void setOnSiteCardPurcClaimData(Map<String, Object> params);
+
     Map<String, Object> getPurcAndClaimData(Map<String, Object> params);
 
     List<Map<String, Object>> getProjectReqFile(Map<String, Object> map);

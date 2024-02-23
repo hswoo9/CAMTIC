@@ -387,6 +387,24 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/setOnSiteCardPurcClaimData")
+    public String setOnSiteCardPurcClaimData(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+
+        try{
+            HttpSession session = request.getSession();
+            LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+            params.put("loginEmpSeq", loginVO.getUniqId());
+
+            purcService.setOnSiteCardPurcClaimData(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     /**
      * 발주처리 팝업
      * @param params

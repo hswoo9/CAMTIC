@@ -9,7 +9,7 @@ var reqCl = {
     fn_defaultScript : function(){
         window.resizeTo(1500, 840);
         customKendo.fn_textBox(["pjtNm", "purcDeptName", "purcEmpName", "claimEtc"
-                                ,"claimTitle", "purcReqPurpose", "crmNm"
+                                ,"claimTitle", "purcReqPurpose", "purcLink", "crmNm"
                                 ,"estAmt", "vatAmt", "totAmt", "itemNm0", "itemStd0"
                                 ,"itemEa0", "itemUnitAmt0", "itemUnit0", "purcItemAmt0", "itemAmt0", "itemEtc0", "difAmt0", "discountAmt"])
 
@@ -28,6 +28,13 @@ var reqCl = {
             { label: "엔지니어링", value: "D" },
             { label: "용역/기타", value: "V" },
         ]
+
+        var radioPaymentMethod = [
+            { label: "계좌이체", value: "A" },
+            { label: "인터넷구매", value: "I" },
+            { label: "현장(카드) 결제", value: "C" },
+        ]
+        customKendo.fn_radioGroup("paymentMethod", radioPaymentMethod, "horizontal");
 
         var radioVatDataSource = [
             { label: "부가세 포함", value: "Y" },
@@ -71,6 +78,15 @@ var reqCl = {
             $("#pjtSn").val("");
             $("#pjtNm").val("");
             $("#pjtCd").val("");
+        });
+
+        $("input[name='paymentMethod']").click(function(){
+            if($("input[name='paymentMethod']:checked").val() == "I"){
+                $(".purcLinkTh").css("display", "");
+            } else {
+                $(".purcLinkTh").css("display", "none");
+                $("#purcLink").val("");
+            }
         });
 
         customKendo.fn_datePicker("claimDe", "month", "yyyy-MM-dd", new Date());
@@ -161,6 +177,21 @@ var reqCl = {
             } else {
                 $("#project").css("display", "none");
             }
+
+            $("#paymentMethod").data("kendoRadioGroup").value(data.PAYMENT_METHOD);
+
+            if($("input[name='paymentMethod']:checked").val() == "I"){
+                $(".purcLinkTh").css("display", "");
+                $("#purcLink").val(data.PURC_LINK);
+            } else if($("input[name='paymentMethod']:checked").val() == "C"){
+                $("#priPay").prop("checked", true).prop('disabled', true);
+                $(".purcLinkTh").css("display", "none");
+                $("#purcLink").val("");
+            } else {
+                $(".purcLinkTh").css("display", "none");
+                $("#purcLink").val("");
+            }
+
         } else if($("#claimSn").val() != "") {
             var data = {
                 claimSn : $("#claimSn").val(),
@@ -520,6 +551,9 @@ var reqCl = {
             vatAmt : uncommaN($("#vatAmt").val()),
             totAmt : uncommaN($("#totAmt").val()),
             itemSn : $("#itemSn").val(),
+
+            paymentMethod : $("#paymentMethod").data("kendoRadioGroup").value(),
+            purcLink : $("#purcLink").val(),
         }
 
         if($("#priPay").is(":checked")){
@@ -555,6 +589,22 @@ var reqCl = {
         //    return;
 
         //}
+
+        if(parameters.paymentMethod == undefined || parameters.paymentMethod == null){
+            alert("비용지급방식을 선택해주세요.");
+            return;
+        }
+
+        if(parameters.paymentMethod == "I"){
+            if($("#purcLink").val() == ""){
+                alert("구매링크를 입력해주세요."); return;
+            }
+        } else if(parameters.paymentMethod == "C"){
+            if(uncommaN($("#totAmt").val()) >= 300000){
+                alert("현장(카드)결제는 부가세 포함 30만원 미만만 가능합니다."); return;
+            }
+        }
+
 
         if(parameters.vat == undefined || parameters.vat == null){
             alert("부가세 분류를 선택해주세요.");

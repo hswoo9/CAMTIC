@@ -165,17 +165,22 @@ var purcClaim = {
                         }
                     }
                 }, {
+                    title: "발주상태",
                     width: 100,
                     template: function (e){
                         if(e.STATUS == 100){
-                            if(e.GOODS_DT == null || e.GOODS_DT == ""){
-                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
-                                    '	<span class="k-button-text">발주처리</span>' +
-                                    '</button>';
+                            if(e.PAYMENT_METHOD == "I" || e.PAYMENT_METHOD == "C"){
+                                return "발주생략";
                             } else {
-                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
-                                    '	<span class="k-button-text">발주처리</span>' +
-                                    '</button>';
+                                if(e.GOODS_DT == null || e.GOODS_DT == ""){
+                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
+                                        '	<span class="k-button-text">발주대기</span>' +
+                                        '</button>';
+                                } else {
+                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
+                                        '	<span class="k-button-text">발주완료</span>' +
+                                        '</button>';
+                                }
                             }
                         } else{
                             return ""
