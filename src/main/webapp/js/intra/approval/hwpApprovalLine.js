@@ -7,6 +7,16 @@ var hwpApprovalLine = {
         if(formId == "1"){
             this.documentLinePut();
         }else{
+            /** 결재선 초기화 */
+            /*hwpDocCtrl.putFieldText('apprZ0', " ");
+            hwpDocCtrl.putFieldText('appr0', " ");
+            hwpDocCtrl.putFieldText('appr1', " ");
+            hwpDocCtrl.putFieldText('appr2', " ");
+            hwpDocCtrl.putFieldText('cApprText0', " ");
+            hwpDocCtrl.putFieldText('cAppr0', " ");
+            hwpDocCtrl.putFieldText('cApprText1', " ");
+            hwpDocCtrl.putFieldText('cApprText1', " ");
+            $("#mySignCk").val("N");*/
 
             const list = draft.global.approversArr;
 

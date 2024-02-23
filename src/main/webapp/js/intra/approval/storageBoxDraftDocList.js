@@ -23,7 +23,7 @@ var storageBoxDraft = {
             dataSource: [
                 {text: "전체", value: ""},
                 {text: "상신", value: "10"},
-                {text: "결재", value: "20"},
+                {text: "결재중", value: "20"},
                 {text: "재상신", value: "50"},
             ]
         })
@@ -129,7 +129,14 @@ var storageBoxDraft = {
                 }, {
                     field : "APPROVE_STAT_CODE_DESC",
                     title : "결재상태",
-                    width : "120px"
+                    width : "120px",
+                    template : function(e){
+                        if(e.APPROVE_STAT_CODE_DESC == "결재"){
+                            return "결재중";
+                        }else{
+                            return e.APPROVE_STAT_CODE_DESC;
+                        }
+                    }
                 }, {
                     title : "결재선",
                     width : 80,
