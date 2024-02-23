@@ -263,17 +263,6 @@ var hwpApprovalLine = {
                     continue;
                 }
 
-                /** 반려일때 초기화 */
-                if(map.APPROVE_STAT_CODE == 30){
-                    let field = "docAppr1";
-                    hwpDocCtrl.putFieldText(field, " ");
-                    field = "docAppr2";
-                    hwpDocCtrl.putFieldText(field, " ");
-                    field = "docAppr3";
-                    hwpDocCtrl.putFieldText(field, " ");
-                    break;
-                }
-
                 if(map.APPROVE_TYPE == "0" || map.APPROVE_TYPE == "2"){
 
                     if(map.APPROVE_DUTY_NAME == "팀장" || map.APPROVE_DUTY_NAME == "팀장 직무대리"){
