@@ -94,48 +94,53 @@ var hwpDocCtrl = {
                             hwpDocCtrl.putFieldText('OHTER_EMP_SIGN', ohterSign);
                         }
 
-                        let html = '';
-                        if(ResultData.SUBHOLIDAY_CODE_ID == "1"){
-                            html += '■연가□오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
-                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "3"){
-                            html += '□연가■오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
-                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "4"){
-                            html += '□연가□오전반차■오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
-                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "5"){
-                            html += '□연가□오전반차□오후반차□경조휴가<br>■병가□공가□대체휴가□근속포상휴가';
-                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "6"){
-                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가■공가□대체휴가□근속포상휴가';
-                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "7"){
-                            html += '□연가□오전반차□오후반차■경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
-                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "9"){
-                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가□공가■대체휴가□근속포상휴가';
-                        }else if(ResultData.SUBHOLIDAY_CODE_ID == "10"){
-                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가■근속포상휴가';
+                        let holiTextBox = '';
+                        let holiTextBox2 = '';
+
+                        if (ResultData.SUBHOLIDAY_CODE_ID == "1") {
+                            holiTextBox = "■연가□오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
+                        } else if (ResultData.SUBHOLIDAY_CODE_ID == "3") {
+                            holiTextBox = "□연가■오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
+                        } else if (ResultData.SUBHOLIDAY_CODE_ID == "4") {
+                            holiTextBox = "□연가□오전반차■오후반차□경조휴가";
+                            holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
+                        } else if (ResultData.SUBHOLIDAY_CODE_ID == "5") {
+                            holiTextBox = "□연가□오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "■병가□공가□대체휴가□근속포상휴가";
+                        } else if (ResultData.SUBHOLIDAY_CODE_ID == "6") {
+                            holiTextBox = "□연가□오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "□병가■공가□대체휴가□근속포상휴가";
+                        } else if (ResultData.SUBHOLIDAY_CODE_ID == "7") {
+                            holiTextBox = "□연가□오전반차□오후반차■경조휴가";
+                            holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
+                        } else if (ResultData.SUBHOLIDAY_CODE_ID == "9") {
+                            holiTextBox = "□연가□오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "□병가□공가■대체휴가□근속포상휴가";
+                        } else if (ResultData.SUBHOLIDAY_CODE_ID == "10") {
+                            holiTextBox = "□연가□오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "□병가□공가□대체휴가■근속포상휴가";
                         }
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('HOLI_TEXT_BOX', true, true, false);
-                        hwpDocCtrl.setTextFile(html, "html","insertfile");
+                        hwpDocCtrl.putFieldText('HOLI_TEXT_BOX', holiTextBox);
+                        hwpDocCtrl.putFieldText('HOLI_TEXT_BOX2', holiTextBox2);
                     }else {
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('rmk', true, true, false);
                         hwpDocCtrl.putFieldText('rmk', ResultData.RMK);
 
                         let subHolidayWorkDay = ResultData.SUBHOLIDAY_WORK_DAY.split("-");
                         let subHolidayWorkDayText = subHolidayWorkDay[0]+"년"+subHolidayWorkDay[1]+"월"+subHolidayWorkDay[2]+"일";
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayWorkDay', true, true, false);
                         hwpDocCtrl.putFieldText('subHolidayWorkDay', subHolidayWorkDayText);
 
                         let startTime = ResultData.SUBHOLIDAY_ST_TIME;
                         let endTime = ResultData.SUBHOLIDAY_EN_TIME;
 
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayTime', true, true, false);
                         hwpDocCtrl.putFieldText('subHolidayTime', startTime+" ~ "+endTime);
 
                         let subHolidayAlternativeDay = ResultData.SUBHOLIDAY_ALTERNATIVE_DAY.split("-");
                         let subHolidayAlternativeDayText = subHolidayAlternativeDay[0]+"년"+subHolidayAlternativeDay[1]+"월"+subHolidayAlternativeDay[2]+"일";
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayAlternativeDay', true, true, false);
                         hwpDocCtrl.putFieldText('subHolidayAlternativeDay', subHolidayAlternativeDayText);
 
                         let toDate = year+"년"+month+"월"+date+"일";
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                         hwpDocCtrl.putFieldText('toDate', toDate);
                     }
                 },
@@ -850,48 +855,53 @@ var hwpDocCtrl = {
                             hwpDocCtrl.putFieldText('OHTER_EMP_SIGN', ohterSign);
                         }
 
-                        let html = '';
+                        let holiTextBox = '';
+                        let holiTextBox2 = '';
+
                         if (ResultData.SUBHOLIDAY_CODE_ID == "1") {
-                            html += '■연가□오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                            holiTextBox = "■연가□오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
                         } else if (ResultData.SUBHOLIDAY_CODE_ID == "3") {
-                            html += '□연가■오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                            holiTextBox = "□연가■오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
                         } else if (ResultData.SUBHOLIDAY_CODE_ID == "4") {
-                            html += '□연가□오전반차■오후반차□경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                            holiTextBox = "□연가□오전반차■오후반차□경조휴가";
+                            holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
                         } else if (ResultData.SUBHOLIDAY_CODE_ID == "5") {
-                            html += '□연가□오전반차□오후반차□경조휴가<br>■병가□공가□대체휴가□근속포상휴가';
+                            holiTextBox = "□연가□오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "■병가□공가□대체휴가□근속포상휴가";
                         } else if (ResultData.SUBHOLIDAY_CODE_ID == "6") {
-                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가■공가□대체휴가□근속포상휴가';
+                            holiTextBox = "□연가□오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "□병가■공가□대체휴가□근속포상휴가";
                         } else if (ResultData.SUBHOLIDAY_CODE_ID == "7") {
-                            html += '□연가□오전반차□오후반차■경조휴가<br>□병가□공가□대체휴가□근속포상휴가';
+                            holiTextBox = "□연가□오전반차□오후반차■경조휴가";
+                            holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
                         } else if (ResultData.SUBHOLIDAY_CODE_ID == "9") {
-                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가□공가■대체휴가□근속포상휴가';
+                            holiTextBox = "□연가□오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "□병가□공가■대체휴가□근속포상휴가";
                         } else if (ResultData.SUBHOLIDAY_CODE_ID == "10") {
-                            html += '□연가□오전반차□오후반차□경조휴가<br>□병가□공가□대체휴가■근속포상휴가';
+                            holiTextBox = "□연가□오전반차□오후반차□경조휴가";
+                            holiTextBox2 = "□병가□공가□대체휴가■근속포상휴가";
                         }
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('HOLI_TEXT_BOX', true, true, false);
-                        hwpDocCtrl.setTextFile(html, "html", "");
+                        hwpDocCtrl.putFieldText('HOLI_TEXT_BOX', holiTextBox);
+                        hwpDocCtrl.putFieldText('HOLI_TEXT_BOX2', holiTextBox2);
                     } else {
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('rmk', true, true, false);
                         hwpDocCtrl.putFieldText('rmk', ResultData.RMK);
 
                         let subHolidayWorkDay = ResultData.SUBHOLIDAY_WORK_DAY.split("-");
                         let subHolidayWorkDayText = subHolidayWorkDay[0] + "년" + subHolidayWorkDay[1] + "월" + subHolidayWorkDay[2] + "일";
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayWorkDay', true, true, false);
                         hwpDocCtrl.putFieldText('subHolidayWorkDay', subHolidayWorkDayText);
 
                         let startTime = ResultData.SUBHOLIDAY_ST_TIME;
                         let endTime = ResultData.SUBHOLIDAY_EN_TIME;
 
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayTime', true, true, false);
                         hwpDocCtrl.putFieldText('subHolidayTime', startTime + " ~ " + endTime);
 
                         let subHolidayAlternativeDay = ResultData.SUBHOLIDAY_ALTERNATIVE_DAY.split("-");
                         let subHolidayAlternativeDayText = subHolidayAlternativeDay[0] + "년" + subHolidayAlternativeDay[1] + "월" + subHolidayAlternativeDay[2] + "일";
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('subHolidayAlternativeDay', true, true, false);
                         hwpDocCtrl.putFieldText('subHolidayAlternativeDay', subHolidayAlternativeDayText);
 
                         let toDate = year + "년" + month + "월" + date + "일";
-                        hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                         hwpDocCtrl.putFieldText('toDate', toDate);
                     }
                 },
