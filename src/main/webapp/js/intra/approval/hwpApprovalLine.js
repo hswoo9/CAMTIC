@@ -394,6 +394,17 @@ var hwpApprovalLine = {
 
     documentLinePut : function(){
         /** 기안문서 결재선 지정시 공문 하단 결재선 입력 */
+        hwpDocCtrl.putFieldText("docAppr1", " ");
+        hwpDocCtrl.putFieldText("docAppr2", " ");
+        hwpDocCtrl.putFieldText("docAppr3", " ");
+        hwpDocCtrl.putFieldText("docDApprNm", " ");
+        hwpDocCtrl.putFieldText("docDAppr", " ");
+        hwpDocCtrl.putFieldText("docAppr1011", " ");
+        hwpDocCtrl.putFieldText("docAppr1012", " ");
+        hwpDocCtrl.putFieldText("docApprNm1", " ");
+        hwpDocCtrl.putFieldText("docApprNm2", " ");
+        hwpDocCtrl.putFieldText("docApprNm3", " ");
+
         hwpDocCtrl.putFieldText('docApprNm0', "기안자");
         let field = "docAppr0";
         hwpDocCtrl.putFieldText(field, $("#empName").val());

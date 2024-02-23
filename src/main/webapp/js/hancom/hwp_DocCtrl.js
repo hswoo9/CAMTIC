@@ -907,13 +907,9 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText("docAppr1", " ");
             hwpDocCtrl.putFieldText("docAppr2", " ");
             hwpDocCtrl.putFieldText("docAppr3", " ");
-            hwpDocCtrl.putFieldText("docDApprNm", " ");
             hwpDocCtrl.putFieldText("docDAppr", " ");
             hwpDocCtrl.putFieldText("docAppr1011", " ");
             hwpDocCtrl.putFieldText("docAppr1012", " ");
-            hwpDocCtrl.putFieldText("docApprNm1", " ");
-            hwpDocCtrl.putFieldText("docApprNm2", " ");
-            hwpDocCtrl.putFieldText("docApprNm3", " ");
         }
     },
 
