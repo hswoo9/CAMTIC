@@ -1478,7 +1478,6 @@ var draft = {
                 if(empSeq == $("#empSeq").val()){
                     continue;
                 }
-                alert(empSeq);
 
                 const userResult = getUser(empSeq);
                 if(userResult != null){

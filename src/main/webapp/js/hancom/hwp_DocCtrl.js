@@ -483,7 +483,7 @@ var hwpDocCtrl = {
 
             const hrBizReqResultId = data.approKey.split("_")[1];
             if(hrBizReqResultId == null || hrBizReqResultId == undefined || hrBizReqResultId == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); }
-            busInit.bustripResInit(hrBizReqResultId);
+            busInit.bustripResInit(hrBizReqResultId, "draft");
 
         }else if(data.menuCd == "workPlan") {
             const workPlanApprovalId = data.approKey.split("_")[1];
@@ -775,7 +775,7 @@ var hwpDocCtrl = {
 
             const hrBizReqResultId = data.approKey.split("_")[1];
             if(hrBizReqResultId == null || hrBizReqResultId == undefined || hrBizReqResultId == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); }
-            busInit.bustripResInit(hrBizReqResultId);
+            busInit.bustripResInit(hrBizReqResultId, "reDraft");
 
         }else if(data.menuCd == "subHoliday"){
 

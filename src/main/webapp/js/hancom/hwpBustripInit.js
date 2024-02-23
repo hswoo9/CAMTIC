@@ -105,7 +105,7 @@ var busInit = {
         hwpDocCtrl.putFieldText('regSign', regSign);
     },
 
-    bustripResInit: function(hrBizReqResultId){
+    bustripResInit: function(hrBizReqResultId, type){
         const result = customKendo.fn_customAjax("/bustrip/getBustripOne", { hrBizReqResultId: hrBizReqResultId });
         const busInfo = result.map;
 
@@ -202,8 +202,10 @@ var busInit = {
             htmlData = busInit.htmlBusiExnp(bfExnpList, exnpList);
         }
 
-        hwpDocCtrl.moveToField('exnpTable', true, true, false);
-        hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
+        if(type != "reDraft"){
+            hwpDocCtrl.moveToField('exnpTable', true, true, false);
+            hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
+        }
     },
 
     htmlBusExnp: function(list){
