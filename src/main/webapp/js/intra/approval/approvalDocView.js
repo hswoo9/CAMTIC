@@ -40,8 +40,10 @@ var docView = {
         }
 
         /** 반려시 반려사유 확인 버튼 생성 */
-        if(rs.docInfo.APPROVE_STAT_CODE == "30"){
-            $("#docApprovalOpinView2Btn").show();
+        if(rs.docInfo.APPROVE_STAT_CODE == "30" || rs.docInfo.APPROVE_STAT_CODE == "40"){
+            if(rs.docInfo.APPROVE_STAT_CODE == "30"){
+                $("#docApprovalOpinView2Btn").show();
+            }
 
             /** 기안자 일 시 수정 버튼 생성 */
             if(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId){
