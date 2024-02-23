@@ -771,7 +771,16 @@ var docView = {
                 {
                     field : "APPROVE_STAT_CODE_DESC",
                     title: "구분",
-                    width : 80
+                    width : 80,
+                    template : function(e){
+                        console.log("1", e.APPROVE_STAT_CODE)
+                        console.log("2", e.APPROVE_TYPE)
+                        if(e.APPROVE_STAT_CODE == "20" && e.APPROVE_TYPE == "1"){
+                            return "협조";
+                        }else{
+                            return e.APPROVE_STAT_CODE_DESC
+                        }
+                    },
                 }, {
                     field : "APPROVE_EMP_NAME",
                     title: "이름",
@@ -793,11 +802,7 @@ var docView = {
                     field : "APPROVE_DUTY_NAME",
                     title: "직위",
                     template : function(e){
-                        if(e.PROXY_TYPE == "Y"){
-                            return e.PROXY_APPROVE_DUTY_NAME;
-                        }else{
-                            return e.APPROVE_POSITION_NAME
-                        }
+                        return e.APPROVE_POSITION_NAME;
                     },
                     width : 100
                 },{
