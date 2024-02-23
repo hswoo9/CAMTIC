@@ -9,7 +9,7 @@ const lectureReq = {
     },
 
     fn_pageSet: function(){
-        customKendo.fn_textBox(["projectName", "lectureName", "lectureNameEx", "title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee", "field3", "conName", "conTitle", "conDetailTitle", "conTime", "conNum", "conArea", "conPerson"]);
+        customKendo.fn_textBox(["projectName", "lectureName", "lectureNameEx", "methodType","title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee", "field3", "conName", "conTitle", "conDetailTitle", "conTime", "conNum", "conArea", "conPerson"]);
         customKendo.fn_textArea(["content1", "content2", "goal", "intro", "targetUser", "scheduleHtml", "prospectus", "materials"]);
 
         /** form구분 drop box */
@@ -50,7 +50,7 @@ const lectureReq = {
         ub.fn_agmDtSet();
 
         /** 운영방법 radio button */
-        ub.fn_methodTypeSet();
+        /*ub.fn_methodTypeSet();*/
 
         /** 인증서 radio button */
         /*ub.fn_certTypeSet();*/
@@ -102,7 +102,8 @@ const lectureReq = {
             $("#materials").val(lecMap.LEC_MAT);
 
             $("#textbookFee").val(lecMap.LEC_COST);
-            $("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);
+            /*$("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);*/
+            $("#methodType").val(lecMap.LEC_OPER);
 
             /*$("#certType").data("kendoRadioGroup").value(lecMap.LEC_CERT);*/
 
@@ -242,7 +243,8 @@ const lectureReq = {
 
                 textbookFee: $("#textbookFee").val().replace(/,/g, ''),
                 textbookFeeEx: "",
-                methodType: $("#methodType").data("kendoRadioGroup").value(),
+                /*methodType: $("#methodType").data("kendoRadioGroup").value(),*/
+                methodType: $("#methodType").val(),
 
                 /*certType: $("#certType").data("kendoRadioGroup").value(),*/
 

@@ -213,9 +213,10 @@
                     <td>
                         <input id="textbookFee" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 80px;" value="0"> 원 (없으면 0원 입력)
                     </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>운영방법</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>운영방법(대상자)</th>
                     <td>
-                        <span id="methodType" style="width: 300px;"></span>
+                        <%--<span id="methodType" style="width: 300px;"></span>--%>
+                        <input id="methodType" style="width: 200px;">
                     </td>
                 </tr>
                 <%--<tr>
