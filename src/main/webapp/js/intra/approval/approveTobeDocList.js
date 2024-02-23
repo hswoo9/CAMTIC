@@ -128,7 +128,14 @@ var approveTobe = {
                 }, {
                     field : "APPROVE_STAT_CODE_DESC",
                     title : "결재상태",
-                    width : "120px"
+                    width : "120px",
+                    template : function(e){
+                        if(e.APPROVE_STAT_CODE_DESC == "결재"){
+                            return "결재중";
+                        }else{
+                            return e.APPROVE_STAT_CODE_DESC;
+                        }
+                    }
                 }, {
                     title : "결재선",
                     width : 80,

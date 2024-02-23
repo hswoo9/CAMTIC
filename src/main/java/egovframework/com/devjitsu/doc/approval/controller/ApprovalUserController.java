@@ -62,6 +62,7 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/storageBoxTempSaveDocList.do")
     public String storageBoxTempSaveDocList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());
@@ -96,6 +97,7 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/storageBoxReturnDocList.do")
     public String storageBoxReturnDocList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());
@@ -112,6 +114,7 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/storageBoxReaderDocList.do")
     public String storageBoxReaderDocList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());
@@ -150,6 +153,7 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/approveWaitDocList.do")
     public String approveWaitDocList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());
@@ -166,6 +170,7 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/approveTobeDocList.do")
     public String approveTobeDocList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());
@@ -182,6 +187,7 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/approveCompletionDocList.do")
     public String approveCompletionDocList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());
@@ -198,6 +204,7 @@ public class ApprovalUserController {
     @RequestMapping("/approvalUser/approveReturnDocList.do")
     public String approveReturnDocList(HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         model.addAttribute("toDate", getCurrentDateTime());
