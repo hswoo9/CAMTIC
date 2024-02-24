@@ -59,7 +59,12 @@ var subHolidayReqPop = {
             $("#edtHolidayKindTop").data("kendoDropDownList").enable(false);
         }
 
-        subHolidayReqPop.fn_btnSet();
+
+        if($("#mode").val() != "mng"){
+            subHolidayReqPop.fn_btnSet();
+        }else{
+            $(".request").hide();
+        }
     },
 
     fn_btnSet: function(){

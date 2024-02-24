@@ -103,6 +103,7 @@ var lineSettingPop = {
                     }
                     data.fullTime2 = "1";
                     data.DEPT_SEQ = dept;
+                    data.tempType = "N";
                     return data;
                 }
             },

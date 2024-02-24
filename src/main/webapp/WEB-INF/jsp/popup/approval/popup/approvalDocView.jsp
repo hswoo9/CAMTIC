@@ -356,7 +356,7 @@
                             <thead>
                             <tr>
                                 <th style="background-color: #f0f7ff; text-align: center">이름</th>
-                                <th style="background-color: #f0f7ff; text-align: center">부서</th>
+                                <th style="background-color: #f0f7ff; text-align: center">부서/팀</th>
                                 <th style="background-color: #f0f7ff; text-align: center">직위</th>
                                 <th style="background-color: #f0f7ff; text-align: center">반려사유</th>
                             </tr>

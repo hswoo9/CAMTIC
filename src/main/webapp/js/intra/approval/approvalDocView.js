@@ -798,7 +798,7 @@ var docView = {
                     width : 80
                 },{
                     field : "DEPT_FULL_NAME",
-                    title: "부서",
+                    title: "부서/팀",
                     template : function(e){
                         if(e.APPROVE_DUTY_NAME == "원장"){
                             return "캠틱종합기술원";
@@ -900,7 +900,7 @@ var docView = {
             columns: [
                 {
                     field : "DEPT_NAME",
-                    title: "부서",
+                    title: "부서/팀",
                     width : 180
                 },{
                     field : "DUTY_NAME",

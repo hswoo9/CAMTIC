@@ -44,6 +44,9 @@
                 )
             AND WORK_STATUS_CODE = 'Y'
         </if>
+        <if test="tempType != null and tempType != ''">
+            AND TEMP_DIVISION = #{tempType}
+        </if>
         <if test="notDivision != null and notDivision != ''">
             AND VEI.DIVISION != #{notDivision}
         </if>

@@ -290,7 +290,7 @@ var hwpApprovalLine = {
                         DText += ", ";
                     }
                     DText += map.APPROVE_EMP_NAME;
-                    hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ);
+                    hwpApprovalLine.setNameD(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ, map.APPROVE_DEPT_NAME);
 
                 }
 
@@ -333,6 +333,18 @@ var hwpApprovalLine = {
             hwpDocCtrl.putFieldText(field2, "대결");
         }
         hwpDocCtrl.putFieldText(fieldName, empName);
+    },
+
+    /** 협조용 */
+    setNameD : function(fieldName, APPROVE_EMP_NAME, PROXY_APPROVE_EMP_SEQ, APPROVE_DEPT_NAME){
+        /** 부재설정이 되어있으면 대결자의 정자가 들어감 */
+        let empName = APPROVE_EMP_NAME;
+        let deptName = APPROVE_DEPT_NAME;
+        if(PROXY_APPROVE_EMP_SEQ != null && PROXY_APPROVE_EMP_SEQ != undefined){
+            empName = getUser(PROXY_APPROVE_EMP_SEQ).EMP_NAME_KR;
+            deptName = getUser(PROXY_APPROVE_EMP_SEQ).DEPT_NAME;
+        }
+        hwpDocCtrl.putFieldText(fieldName, deptName + " " +empName);
     },
 
     setSign : function(fieldName, empSeq, empName, type){

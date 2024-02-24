@@ -185,10 +185,14 @@ var subHolidayAdmin = {
         grid.tbody.find("tr").dblclick(function (e) {
             var dataItem = grid.dataItem($(this));
 
-            var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;;
-            var name = "subHolidayReqPop";
-            var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
+            if(dataItem.APPROVE_STAT_CODE == '0' || dataItem.APPROVE_STAT_CODE == '40' || dataItem.APPROVE_STAT_CODE == '60'){
+                var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT + "&mode=mng";
+                var name = "subHolidayReqPop";
+                var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+                var popup = window.open(url, name, option);
+            }else{
+                approveDocView(dataItem.DOC_ID, dataItem.APPRO_KEY, dataItem.DOC_MENU_CD);
+            }
         });
     },
 

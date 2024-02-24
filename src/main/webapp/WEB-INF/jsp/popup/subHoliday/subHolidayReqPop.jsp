@@ -28,6 +28,7 @@
             <input type="hidden" id="apprStat" value="N">
             <input type="hidden" id="vacUseHistId" value="${params.subholidayUseId}">
             <input type="hidden" id="code" value="${code}">
+            <input type="hidden" id="mode" value="${params.mode}">
             <table class="popTable table table-bordered mb-0" id="holidayPlanReqPopTb" style="margin-top: 10px;">
                 <colgroup>
                     <col width="15%">
