@@ -6,28 +6,6 @@
 <body>
 <div class="approval_div" id="approvePop">
 <div id="approveDataPop">
-    <table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">
-        <tr>
-            <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">
-                <table border="1" style="border-collapse: collapse; margin-top: 0px;">
-                    <tr>
-                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 200px"><p style="font-weight: bold;">소 속</p></td>
-                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 90px"><p style="font-weight: bold">직 위</p></td>
-                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 73px"><p style="font-weight: bold">성 명</p></td>
-                        <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 270px"><p style="font-weight: bold">비 고</p></td>
-                    </tr>
-                    <c:forEach var="list" items="${list}">
-                    <tr>
-                        <td style="height:25px;text-align:center;"><p>${list.deptNm} ${list.teamNm}</p></td>
-                        <td style="height:25px;text-align:center;"><p>${list.positionNm}</p></td>
-                        <td style="height:25px;text-align:center;"><p>${list.EMP_NAME}</p></td>
-                        <td style="height:25px;text-align:center;"><p></p></td>
-                    </tr>
-                    </c:forEach>
-                </table>
-            </td>
-        </tr>
-    </table>
 </div>
 </div>
 <script>

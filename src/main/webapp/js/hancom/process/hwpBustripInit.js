@@ -6,8 +6,12 @@ var busInit = {
         });
         const busInfo = result.rs.rs;
 
+        const companionResult = customKendo.fn_customAjax("/bustrip/getBustripTotInfo", {
+            hrBizReqId: hrBizReqId
+        });
+        const companionList = companionResult.list;
+
         //요청일
-        hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
         hwpDocCtrl.putFieldText('toDate', fn_getNowDate(1));
 
         let tripCode = busInfo.TRIP_CODE;
@@ -21,7 +25,6 @@ var busInit = {
         }else if (tripCode == 4) {
             tripCodeText = "해외";
         }
-        hwpDocCtrl.global.HwpCtrl.MoveToField('tripCode', true, true, false);
         hwpDocCtrl.putFieldText('tripCode', tripCodeText);
 
         let startDate = new Date(busInfo.TRIP_DAY_FR);
@@ -47,7 +50,6 @@ var busInit = {
             +busInfo.TRIP_DAY_TO.split("-")[0]+"년"+busInfo.TRIP_DAY_TO.split("-")[1]+"월"+busInfo.TRIP_DAY_TO.split("-")[2]+"일 "+busInfo.TRIP_TIME_TO;
 
         tripDate += dayText;
-        hwpDocCtrl.global.HwpCtrl.MoveToField('tripDate', true, true, false);
         hwpDocCtrl.putFieldText('tripDate', tripDate);
 
 
@@ -55,9 +57,7 @@ var busInit = {
         if(busInfo.VISIT_LOC_SUB != ""){
             visit = busInfo.VISIT_CRM + ", " + busInfo.VISIT_LOC_SUB+" / "+busInfo.VISIT_LOC;
         }
-        hwpDocCtrl.global.HwpCtrl.MoveToField('visit', true, true, false);
         hwpDocCtrl.putFieldText('visit', visit);
-
 
 
         let carText = "";
@@ -82,27 +82,22 @@ var busInit = {
             carText = "기타";
         }
         let car = carText;
-        hwpDocCtrl.global.HwpCtrl.MoveToField('car', true, true, false);
+
         hwpDocCtrl.putFieldText('car', car);
-
-        hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
         hwpDocCtrl.putFieldText('empName', busInfo.EMP_NAME);
-
-        hwpDocCtrl.global.HwpCtrl.MoveToField('dept', true, true, false);
         hwpDocCtrl.putFieldText('dept', busInfo.DEPT_NAME+" "+busInfo.TEAM_NAME);
-
-        hwpDocCtrl.global.HwpCtrl.MoveToField('position', true, true, false);
         hwpDocCtrl.putFieldText('position', busInfo.POSITION_NAME);
-
-        hwpDocCtrl.global.HwpCtrl.MoveToField('title', true, true, false);
         hwpDocCtrl.putFieldText('title', busInfo.TITLE);
-
-        hwpDocCtrl.global.HwpCtrl.MoveToField('pjtName', true, true, false);
         hwpDocCtrl.putFieldText('pjtName', busInfo.BUSN_NAME);
 
         let regSign = busInfo.EMP_NAME;
-        hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
-        hwpDocCtrl.putFieldText('regSign', regSign);
+        hwpDocCtrl.putFieldText('regSign', regSign)
+
+        hwpDocCtrl.putFieldText("COMPANION_HTML", " ");
+        let htmlData = '';
+        htmlData = busInit.htmlCompanion(companionList);
+        hwpDocCtrl.moveToField("COMPANION_HTML", true, true, false);
+        hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
     },
 
     bustripResInit: function(hrBizReqResultId, type){
@@ -207,6 +202,37 @@ var busInit = {
             hwpDocCtrl.moveToField('exnpTable', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
         }
+    },
+
+    htmlCompanion: function(list){
+        var html = '';
+        html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="1" style="border-collapse: collapse; margin-top: 0px;">';
+        html += '               <tr>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 200px"><p style="font-weight: bold;">소 속</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 90px"><p style="font-weight: bold">직 위</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 73px"><p style="font-weight: bold">성 명</p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 270px"><p style="font-weight: bold">비 고</p></td>';
+        html += '               </tr>';
+
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+            html += '   <tr>';
+            html += '       <td style="height:25px;text-align:center;"><p>'+map.deptNm+" "+ map.teamNm +'</p></td>';
+            html += '       <td style="height:25px;text-align:center;"><p>'+map.positionNm+'</p></td>';
+            html += '       <td style="height:25px;text-align:center;"><p>'+map.EMP_NAME+'</p></td>';
+            html += '       <td style="height:25px;text-align:center;"></td>';
+            html += '   </tr>';
+        }
+
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
     },
 
     htmlBusExnp: function(list){
