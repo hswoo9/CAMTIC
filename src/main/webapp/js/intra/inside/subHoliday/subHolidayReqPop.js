@@ -20,7 +20,9 @@ var subHolidayReqPop = {
         minuteList : new Array(),
 
         type: "",
-        code: ""
+        code: "",
+
+        holidayData: new Object(),
     },
 
     fn_defaultScript: function(){
@@ -56,16 +58,16 @@ var subHolidayReqPop = {
             subHolidayReqPop.dataSetChange();
             $("#edtHolidayKindTop").data("kendoDropDownList").enable(false);
         }
-        if(subHolidayReqPop.global.type == "drafting"){
-            $(".request").hide();
-            $(".drafting").show();
-        }else {
-            $(".request").show();
-            $(".drafting").hide();
-        }
+
+        subHolidayReqPop.fn_btnSet();
     },
 
-    fn_vacEdtHolidaySaveModal: function(){
+    fn_btnSet: function(){
+        let html = makeApprBtnHtml(subHolidayReqPop.global.holidayData, 'subHolidayReqPop.subHolidayDrafting("drafting")');
+        $("#holiApprBtnBox").html(html);
+    },
+
+    fn_vacEdtHolidaySaveModal: function(draftType){
         var flag = true;
         var startDay = $("#edtHolidayStartDateTop").val() + " " + $("#edtHolidayStartHourTop").val();
         var endDay = $("#edtHolidayEndDateTop").val() + " " + $("#edtHolidayEndHourTop").val();
@@ -212,35 +214,12 @@ var subHolidayReqPop = {
                 type : "post",
                 success: function (rs) {
                     alert("신청 데이터 저장이 완료되었습니다.");
-                    //subHolidayReqPop.fn_topTableClear();
-                    /* $("#scheduler").data("kendoScheduler").dataSource.read();*/
-                    if(subHolidayReqPop.global.type == "drafting") {
-                        if($("#edtHolidayKindTop").val() != 11){
-                            $("#subHolidayId").val(rs.vacUseHistId);
-                            $("#subHolidayDraftFrm").one("submit", function() {
-                                var url = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
-                                var name = "_self";
-                                var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-                                var popup = window.open(url, name, option);
-                                this.action = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
-                                this.method = 'POST';
-                                this.target = '_self';
-                            }).trigger("submit");
-                        }else{
-                            $("#subHolidayId").val(rs.vacUseHistId);
-                            $("#subHolidayDraftFrm").one("submit", function() {
-                                var url = "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do";
-                                var name = "_self";
-                                var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-                                var popup = window.open(url, name, option);
-                                this.action = "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do";
-                                this.method = 'POST';
-                                this.target = '_self';
-                            }).trigger("submit");
-                        }
-                    }else {
+
+                    if($("#type").val() != "drafting"){
                         opener.subHolidayList.gridReload();
                         window.close();
+                    }else{
+                        location.href = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + rs.vacUseHistId;
                     }
                 },
                 error: function () {
@@ -248,6 +227,18 @@ var subHolidayReqPop = {
                 }
             });
         }
+    },
+
+    subHolidayDrafting : function(){
+        $("#subHolidayDraftFrm").one("submit", function() {
+            var url = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     },
 
     getApplyDateAttCheck : function(strDt, endDt){
@@ -873,7 +864,10 @@ var subHolidayReqPop = {
     },
 
     getVacUseHistoryOne : function(){
-        var result = customKendo.fn_customAjax("/subHoliday/getVacUseHistoryOne", {subholidayUseId : $("#vacUseHistId").val()})
+        var result = customKendo.fn_customAjax("/subHoliday/getVacUseHistoryOne", {subholidayUseId : $("#vacUseHistId").val()});
+
+        subHolidayReqPop.global.holidayData = result.data;
+
         if(result.flag){
             $("#edtHolidayKindTop").data("kendoDropDownList").value(result.data.SUBHOLIDAY_CODE_ID);
             $("#edtHolidayKindTop").data("kendoDropDownList").trigger("change");

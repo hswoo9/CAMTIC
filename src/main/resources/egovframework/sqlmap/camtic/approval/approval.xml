@@ -1047,7 +1047,7 @@
             DAH.PROXY_TYPE
         FROM
             DJ_CAMTIC.A_DOC_APPROVE_HIST DAH
-        JOIN
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_APPROVE_ROUTE DAR ON DAH.APPROVE_ROUTE_ID = DAR.APPROVE_ROUTE_ID
         WHERE
             DAH.DOC_ID = #{docId}

@@ -180,10 +180,10 @@ var docView = {
             title: "반려의견보기",
             visible: false,
             modal: true,
-            width : 600,
+            width : 800,
             position : {
                 top : 50,
-                left : 200
+                left : 100
             },
             close: function () {
                 $("#opinViewModal2").load(location.href + ' #opinViewModal2');
@@ -450,6 +450,8 @@ var docView = {
     },
 
     docReturn : function(){
+        docView.loading();
+
         docView.documentHwpSave();
 
         setTimeout(() => docView.docReturnAjax(), 500);
@@ -504,7 +506,7 @@ var docView = {
                     for(var i = 0; i < 2; i ++){
                         const signField = "cAppr" + i;
                         if(hwpDocCtrl.fieldExist(signField)){
-                            if(hwpDocCtrl.getFieldText(signField) == ""){
+                            if(hwpDocCtrl.getFieldText(signField) == "" || hwpDocCtrl.getFieldText(signField) == " "){
                                 hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                                 break;
                             }

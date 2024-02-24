@@ -114,6 +114,7 @@
                 <span class='k-button-text' style="font-size: 13px">반려</span>
             </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="modBtn" onclick="docView.contentMod()" style="display: none">
+                <span class='k-icon k-i-track-changes-enable k-button-icon'></span>
                 <span class='k-button-text' style="font-size: 13px">수정</span>
             </button>
             <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' id="docApprovalOpinViewBtn" onclick="docView.docApprovalOpinView()" style="display: none">
@@ -347,9 +348,9 @@
                     <div id="opinViewModal2" class="pop_wrap_dir">
                         <table class="table table-bordered">
                             <colgroup>
-                                <col width="15%">
-                                <col width="15%">
-                                <col width="15%">
+                                <col width="12%">
+                                <col width="30%">
+                                <col width="12%">
                                 <col width="auto">
                             </colgroup>
                             <thead>
