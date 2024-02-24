@@ -39,9 +39,12 @@
                     </c:if>
                 </span>
             </h3>
-            <div id="purcBtnDiv" class="btn-st popButton">
+            <div class="btn-st popButton">
+                <span id="purcApprBtnBox">
+
+                </span>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="prp.setPurcReq('W');">저장</button>
-                <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
 

@@ -777,7 +777,7 @@ var prp = {
             $("#item" + i).find("#retBtn" + i).val(e[i].CERT_CONTENT);
         }
 
-        if(data.DOC_ID != "" && data.DOC_ID != null){
+        if(data.DOC_ID != "" && data.DOC_ID != null && !(data.DOC_STATUS == "30" || data.DOC_STATUS == "40")){
             $("#totalPay").css("display", "");
             $("#totalPay").text("합계 : " + comma(totalPay));
             $("#allModViewBtn").css("display", "none");
@@ -786,31 +786,8 @@ var prp = {
     },
 
     purcBtnSet : function(purcMap){
-        console.log(purcMap);
-        let buttonHtml = "";
-        if(purcMap != null){
-            if(purcMap.DOC_STATUS == "0"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq(\'W\')">저장</button>';
-                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.purcDrafting()">상신</button>';
-            }else if(purcMap.DOC_STATUS == "10"){
-                buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+purcMap.DOC_ID+'\', \''+purcMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
-            }else if(purcMap.DOC_STATUS == "30" || purcMap.DOC_STATUS == "40"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq()">저장</button>';
-                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+purcMap.DOC_ID+'\', \''+purcMap.DOC_MENU_CD+'\', \''+purcMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
-            }else if(purcMap.DOC_STATUS == "100"){
-                if(purcMap.INSPECT_YN == "Y"){
-                    // buttonHtml += '<button type="button" id="payBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.fn_reqRegPopup()">지급신청서 작성</button>';
-                }
-                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+purcMap.DOC_ID+'\', \''+purcMap.APPRO_KEY+'\', \''+purcMap.DOC_MENU_CD+'\');">열람</button>';
-            }else{
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq()">저장</button>';
-            }
-        }else{
-            buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="prp.setPurcReq(\'W\')">저장</button>';
-        }
-        buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
-
-        $("#purcBtnDiv").html(buttonHtml);
+        let html = makeApprBtnHtml(purcMap, 'prp.purcDrafting()', 2);
+        $("#purcApprBtnBox").html(html);
     },
 
     fileChange : function(e){

@@ -1061,29 +1061,8 @@ var reqCl = {
     },
 
     fn_ClaimBtnSet : function(claimMap){
-
-        let claimSn = $("#claimSn").val();
-        let buttonHtml = "";
-        if(claimMap != null){
-            if(claimMap.STATUS == "0"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqCl.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqCl.claimDrafting()">상신</button>';
-            }else if(claimMap.STATUS == "10"){
-                buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+claimMap.DOC_ID+'\', \''+claimMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
-            }else if(claimMap.STATUS == "30" || claimMap.STATUS == "40"){
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqCl.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+claimMap.DOC_ID+'\', \''+claimMap.DOC_MENU_CD+'\', \''+claimMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
-            }else if(claimMap.STATUS == "100"){
-                buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+claimMap.DOC_ID+'\', \''+claimMap.APPRO_KEY+'\', \''+claimMap.DOC_MENU_CD+'\');">열람</button>';
-            }else{
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="reqCl.fn_save()">저장</button>';
-            }
-        }else{
-            buttonHtml += '<button type="button" id="saveBtn" style="margin-right:5px; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="reqCl.fn_save()">저장</button>';
-        }
-        buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
-
-        $("#reqPurcBtnDiv").html(buttonHtml);
+        let html = makeApprBtnHtml(claimMap, 'reqCl.claimDrafting()');
+        $("#claimBtnBox").html(html);
     },
 
     claimDrafting : function(){

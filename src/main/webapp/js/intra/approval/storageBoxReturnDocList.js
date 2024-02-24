@@ -139,7 +139,7 @@ var storageBoxReturn = {
                             '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                             '</button>'
                     }
-                }, {
+                }/*, {
                     title : "",
                     width : 100,
                     template : function(e){
@@ -148,7 +148,8 @@ var storageBoxReturn = {
                             '<span class="k-button-text">재상신</span>' +
                             '</button>';
                     }
-                }]
+                }*/
+            ]
         }).data("kendoGrid");
 
         $("#checkAll").click(function(){

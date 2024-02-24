@@ -16,12 +16,22 @@
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <%--<input type="hidden" id="eduInfoId" value=""/>--%>
-<input type="hidden" id="eduFormType" value="${data.eduFormType}"/>
-<input type="hidden" id="eduInfoId" value="${data.eduInfoId}"/>
+
+<form id="campusDraftFrm" method="post">
+  <input type="hidden" id="menuCd" name="menuCd" value="campus">
+  <input type="hidden" id="type" name="type" value="drafting">
+  <input type="hidden" id="nowUrl" name="nowUrl" />
+  <input type="hidden" id="eduInfoId" name="eduInfoId" value="${data.eduInfoId}"/>
+  <input type="hidden" id="eduFormType" name="eduFormType" value="${data.eduFormType}"/>
+</form>
+
 <div class="col-lg-12" style="padding:0;">
   <div class="card-header pop-header">
     <h3 class="card-title title_NM">교육수강 신청서 작성</h3>
     <div class="btn-st popButton">
+        <span id="campusBtnBox">
+
+        </span>
         <input type="button" class="k-button k-button-solid-info" value="저장" onclick="eduReq.saveEduInfo();"/>
         <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
     </div>
@@ -298,66 +308,13 @@
   </div>
 </div>
 <script>
-  eduReq.init();
+  eduReq.fn_defaultScript();
 
   function selectProject(sn, nm, cd, baseYear){
     $("#pjtSn").val(sn);
     $("#pjtNm").val(nm);
     $("#pjtCd").val(cd);
   }
-
-  $(function (){
-    if($("#eduInfoId").val() != ""){
-      $.ajax({
-        url : "/campus/getEduInfoOne",
-        data : {
-          eduInfoId : $("#eduInfoId").val()
-        },
-        type: "post",
-        dataType : "json",
-        success :function(rs) {
-          $("#eduCategoryDetailName").val(rs.data.EDU_CATEGORY_DETAIL_NAME);
-          $("#eduCategoryDetailId").val(rs.data.EDU_CATEGORY_DETAIL_ID);
-          $("#levelId").val(rs.data.LEVEL_ID);
-          $("#dutyClass").val(rs.data.DUTY_CLASS);
-          $("#eduName").val(rs.data.EDU_NAME);
-          $("#bookWriter").val(rs.data.BOOK_WRITER_NAME);
-          $("#objectForumType").val(rs.data.OBJECT_FORUM_TYPE);
-          $("#objectForumVal").val(rs.data.OBJECT_FORUM_VAL);
-          $("#bookPage").val(rs.data.BOOK_PAGE_VAL);
-          $("#bookPulish").val(rs.data.BOOK_PULISH_NAME);
-          $("#treaOrigin").val(rs.data.TREA_ORIGIN);
-          $("#treaUnit").val(rs.data.TREA_UNIT);
-          $("#treaType").val(rs.data.TREA_TYPE);
-          $("#treaUser").val(rs.data.TREA_USER);
-          $("#bookUnit").val(rs.data.BOOK_UNIT);
-          $("#compType").val(rs.data.COMP_TYPE);
-          $("#eduObject").val(rs.data.EDU_OBJECT);
-          $("#eduContent").val(rs.data.EDU_CONTENT);
-          $("#startDt").val(rs.data.START_DT);
-          $("#endDt").val(rs.data.END_DT);
-          $("#termDay").val(rs.data.TERM_DAY);
-          $("#termTime").val(rs.data.TERM_TIME);
-          $("#careName").val(rs.data.CARE_NAME);
-          $("#careLocation").val(rs.data.CARE_LOCATION);
-          $("#firstCareTelNum").val(rs.data.CARE_TEL_NUM);
-          /*$("#secondCareTelNum").val(rs.data.);*/
-          $("#eduMoney").val(rs.data.EDU_MONEY);
-          $("#eduMoneyType").val(rs.data.EDU_MONEY_TYPE);
-          $("#returnMoney").val(rs.data.RETURN_MONEY);
-          $("#returnDoc").val(rs.data.RETURN_DOC);
-          /*$("#purcType").val(rs.data.);
-          $("#pjtNm").val(rs.data.);
-          $("#pjtSn").val(rs.data.);
-          $("#pjtCd").val(rs.data.);
-          $("#pjtSelBtn").val(rs.data.);*/
-          $("#regDate").val(rs.data.REG_DT);
-          $("#attachDocName").val(rs.data.ATTACH_DOC_NAME);
-
-        }
-        })
-    }
-  })
 
 
 </script>

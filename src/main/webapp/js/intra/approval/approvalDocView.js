@@ -450,6 +450,15 @@ var docView = {
     },
 
     docReturn : function(){
+
+        if($("#returnOpin").val() == ""){
+            alert("반려의견을 입력해주세요."); return;
+        }
+
+        if(docView.global.loginVO == null){
+            alert("세션이 만료되었습니다. 로그인 후 재시도 바랍니다."); return;
+        }
+
         docView.loading();
 
         docView.documentHwpSave();
@@ -458,13 +467,6 @@ var docView = {
     },
 
     docReturnAjax : function(){
-        if($("#returnOpin").val() == ""){
-            alert("반려의견을 입력해주세요."); return;
-        }
-
-        if(docView.global.loginVO == null){
-            alert("세션이 만료되었습니다. 로그인 후 재시도 바랍니다."); return;
-        }
 
         docView.global.searchAjaxData = docView.makeApprovalFormData("return");
 

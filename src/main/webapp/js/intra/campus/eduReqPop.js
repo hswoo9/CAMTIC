@@ -2,10 +2,194 @@ const eduReq = {
 
     global: {
         radioGroupData : "",
+        eduInfo : new Object()
     },
 
-    init: function(){
-        eduReq.dataSet();
+    fn_defaultScript: function(){
+        eduReq.pageSet();
+    },
+
+    pageSet: function(){
+        $("#eduCategoryDetailName").kendoTextBox();
+        $("#levelId").kendoTextBox();
+        $("#eduName").kendoTextBox();
+        $("#eduObject").kendoTextArea();
+        $("#eduContent").kendoTextArea();
+        $("#startDt, #endDt").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : new Date()
+        });
+        $("#termDay").kendoTextBox();
+        $("#termTime").kendoTextBox();
+        $("#careName").kendoTextBox();
+        $("#careLocation").kendoTextBox();
+        $("#firstCareTelNum").kendoTextBox();
+        $("#secondCareTelNum").kendoTextBox();
+        $("#thirdCareTelNum").kendoTextBox();
+        $("#eduMoney").kendoTextBox();
+        $("#pjtNm").kendoTextBox();
+        $("#eduMoneyType").kendoRadioGroup({
+            items: [
+                { label : "법인카드", value : "1" },
+                { label : "사업비카드", value : "2" },
+                { label : "계좌이체", value : "3" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "1"
+        });
+        $("#returnMoney").kendoTextBox();
+        $("#returnDoc").kendoTextBox();
+        $("#attachDocName").kendoTextBox();
+        $("#regDate").kendoDatePicker({
+            depth: "month",
+            start: "month",
+            culture : "ko-KR",
+            format : "yyyy-MM-dd",
+            value : now
+        });
+        $("#objectForumType").kendoRadioGroup({
+            items: [
+                { label : "단순참가", value : "0" },
+                { label : "주제발표", value : "1" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "0"
+        });
+        $("#objectForumVal").kendoTextBox();
+        $("#bookWriter").kendoTextBox();
+        $("#bookPage").kendoTextBox();
+        $("#bookPulish").kendoTextBox();
+        $("#treaOrigin").kendoTextBox();
+        $("#treaUnit").kendoTextBox();
+        $("#treaType").kendoRadioGroup({
+            items: [
+                { label : "국내", value : "0" },
+                { label : "국외", value : "1" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "0"
+        });
+        $("#treaUser").kendoRadioGroup({
+            items: [
+                { label : "저자", value : "0" },
+                { label : "교신저자", value : "1" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "0"
+        });
+        $("#bookUnit").kendoTextBox();
+        $("#compType").kendoRadioGroup({
+            items: [
+                { label : "기술사", value : "1" },
+                { label : "기사", value : "2" },
+                { label : "산업기사", value : "3" },
+                { label : "기타", value : "4" }
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "1"
+        });
+        $("#eduCategoryDetailName, #levelId, #startDt, #endDt, #regDate").attr("readonly", true);
+
+        eduReq.global.radioGroupData = [
+            { label: "법인운영", value: "" },
+            { label: "R&D", value: "R" },
+            { label: "비R&D", value: "S" },
+            { label: "엔지니어링", value: "D" },
+            { label: "용역/기타", value: "V" },
+            { label: "캠아이템", value: "" }
+        ]
+        customKendo.fn_radioGroup("purcType", eduReq.global.radioGroupData, "horizontal");
+
+        $("input[name='purcType']").click(function(){
+            if($("input[name='purcType']:checked").val() != ""){
+                $("#project").css("display", "");
+            } else {
+                $("#project").css("display", "none");
+                $("#pjtSn").val("");
+                $("#pjtNm").val("");
+            }
+        });
+
+        if($("#pjtSn").val() != ""){
+            $("#purcType").data("kendoRadioGroup").value($("#busnClass").val());
+            $("input[name='purcType']").trigger("click");
+            $("#purcType").data("kendoRadioGroup").enable(false);
+            $("#pjtSelBtn").prop("disabled", true);
+            $("#pjtNm").prop("disabled", true);
+        }
+
+        if($("#eduInfoId").val() != ""){
+            eduReq.dataSet();
+        }
+
+        eduReq.fn_btnSet();
+    },
+
+    dataSet : function(){
+        const data = {
+            eduInfoId : $("#eduInfoId").val()
+        }
+        const rs = customKendo.fn_customAjax("/campus/getEduInfoOne", data);
+        const eduInfo = rs.data;
+        eduReq.global.eduInfo = eduInfo;
+
+        $("#eduCategoryDetailName").val(eduInfo.EDU_CATEGORY_DETAIL_NAME);
+        $("#eduCategoryDetailId").val(eduInfo.EDU_CATEGORY_DETAIL_ID);
+        $("#levelId").val(eduInfo.LEVEL_ID);
+        $("#dutyClass").val(eduInfo.DUTY_CLASS);
+        $("#eduName").val(eduInfo.EDU_NAME);
+        $("#bookWriter").val(eduInfo.BOOK_WRITER_NAME);
+        $("#objectForumType").val(eduInfo.OBJECT_FORUM_TYPE);
+        $("#objectForumVal").val(eduInfo.OBJECT_FORUM_VAL);
+        $("#bookPage").val(eduInfo.BOOK_PAGE_VAL);
+        $("#bookPulish").val(eduInfo.BOOK_PULISH_NAME);
+        $("#treaOrigin").val(eduInfo.TREA_ORIGIN);
+        $("#treaUnit").val(eduInfo.TREA_UNIT);
+        $("#treaType").val(eduInfo.TREA_TYPE);
+        $("#treaUser").val(eduInfo.TREA_USER);
+        $("#bookUnit").val(eduInfo.BOOK_UNIT);
+        $("#compType").val(eduInfo.COMP_TYPE);
+        $("#eduObject").val(eduInfo.EDU_OBJECT);
+        $("#eduContent").val(eduInfo.EDU_CONTENT);
+        $("#startDt").val(eduInfo.START_DT);
+        $("#endDt").val(eduInfo.END_DT);
+        $("#termDay").val(eduInfo.TERM_DAY);
+        $("#termTime").val(eduInfo.TERM_TIME);
+        $("#careName").val(eduInfo.CARE_NAME);
+        $("#careLocation").val(eduInfo.CARE_LOCATION);
+        $("#firstCareTelNum").val(eduInfo.CARE_TEL_NUM);
+        $("#eduMoney").val(eduInfo.EDU_MONEY);
+        $("#eduMoneyType").val(eduInfo.EDU_MONEY_TYPE);
+        $("#returnMoney").val(eduInfo.RETURN_MONEY);
+        $("#returnDoc").val(eduInfo.RETURN_DOC);
+        $("#regDate").val(eduInfo.REG_DT);
+        $("#attachDocName").val(eduInfo.ATTACH_DOC_NAME);
+    },
+
+    fn_btnSet: function(){
+        console.log("eduInfo", eduReq.global.eduInfo);
+        let html = makeApprBtnHtml(eduReq.global.eduInfo, 'eduReq.campusDrafting()');
+        $("#campusBtnBox").html(html);
+    },
+
+    campusDrafting: function() {
+        $("#campusDraftFrm").one("submit", function() {
+            var url = "/Campus/pop/campusApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/Campus/pop/campusApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     },
 
     saveEduInfo: function(){
@@ -271,128 +455,6 @@ const eduReq = {
         const name = "targetEduSetPop";
         const option = "width = 1200, height = 800, top = 100, left = 200, location = no";
         window.open(url, name, option);
-    },
-
-    dataSet: function(){
-        $("#eduCategoryDetailName").kendoTextBox();
-        $("#levelId").kendoTextBox();
-        $("#eduName").kendoTextBox();
-        $("#eduObject").kendoTextArea();
-        $("#eduContent").kendoTextArea();
-        $("#startDt, #endDt").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
-        $("#termDay").kendoTextBox();
-        $("#termTime").kendoTextBox();
-        $("#careName").kendoTextBox();
-        $("#careLocation").kendoTextBox();
-        $("#firstCareTelNum").kendoTextBox();
-        $("#secondCareTelNum").kendoTextBox();
-        $("#thirdCareTelNum").kendoTextBox();
-        $("#eduMoney").kendoTextBox();
-        $("#pjtNm").kendoTextBox();
-        $("#eduMoneyType").kendoRadioGroup({
-            items: [
-                { label : "법인카드", value : "1" },
-                { label : "사업비카드", value : "2" },
-                { label : "계좌이체", value : "3" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "1"
-        });
-        $("#returnMoney").kendoTextBox();
-        $("#returnDoc").kendoTextBox();
-        $("#attachDocName").kendoTextBox();
-        $("#regDate").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : now
-        });
-        $("#objectForumType").kendoRadioGroup({
-            items: [
-                { label : "단순참가", value : "0" },
-                { label : "주제발표", value : "1" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "0"
-        });
-        $("#objectForumVal").kendoTextBox();
-        $("#bookWriter").kendoTextBox();
-        $("#bookPage").kendoTextBox();
-        $("#bookPulish").kendoTextBox();
-        $("#treaOrigin").kendoTextBox();
-        $("#treaUnit").kendoTextBox();
-        $("#treaType").kendoRadioGroup({
-            items: [
-                { label : "국내", value : "0" },
-                { label : "국외", value : "1" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "0"
-        });
-        $("#treaUser").kendoRadioGroup({
-            items: [
-                { label : "저자", value : "0" },
-                { label : "교신저자", value : "1" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "0"
-        });
-        $("#bookUnit").kendoTextBox();
-        $("#compType").kendoRadioGroup({
-            items: [
-                { label : "기술사", value : "1" },
-                { label : "기사", value : "2" },
-                { label : "산업기사", value : "3" },
-                { label : "기타", value : "4" }
-            ],
-            layout : "horizontal",
-            labelPosition : "after",
-            value : "1"
-        });
-        $("#eduCategoryDetailName, #levelId, #startDt, #endDt, #regDate").attr("readonly", true);
-
-        eduReq.global.radioGroupData = [
-            { label: "법인운영", value: "" },
-            { label: "R&D", value: "R" },
-            { label: "비R&D", value: "S" },
-            { label: "엔지니어링", value: "D" },
-            { label: "용역/기타", value: "V" },
-            { label: "캠아이템", value: "" }
-        ]
-        customKendo.fn_radioGroup("purcType", eduReq.global.radioGroupData, "horizontal");
-
-        $("input[name='purcType']").click(function(){
-            if($("input[name='purcType']:checked").val() != ""){
-                $("#project").css("display", "");
-            } else {
-                $("#project").css("display", "none");
-                $("#pjtSn").val("");
-                $("#pjtNm").val("");
-            }
-        });
-
-        if($("#pjtSn").val() != ""){
-            $("#purcType").data("kendoRadioGroup").value($("#busnClass").val());
-            $("input[name='purcType']").trigger("click");
-            $("#purcType").data("kendoRadioGroup").enable(false);
-            $("#pjtSelBtn").prop("disabled", true);
-            $("#pjtNm").prop("disabled", true);
-        }
-
-        if($("#purcSn").val()){
-            eduReq.purcDataSet();
-        }
     },
 
     fn_projectPop: function (){

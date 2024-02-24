@@ -42,7 +42,10 @@
                     구매정보
                 </span>
             </h3>
-            <div id="reqPurcBtnDiv" class="btn-st popButton">
+            <div class="btn-st popButton">
+                <span id="claimBtnBox">
+
+                </span>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="reqCl.fn_save();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>

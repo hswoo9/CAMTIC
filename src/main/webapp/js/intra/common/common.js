@@ -387,9 +387,14 @@ function getManager(empSeq, deptLevel){
 }
 
 /** 전자결재 버튼 공용 */
-function makeApprBtnHtml(dataInfo, onClick){
+function makeApprBtnHtml(dataInfo, onClick, type){
 
-    const status = dataInfo.STATUS;
+    let status = "";
+    if(type != "2"){
+        status = dataInfo.STATUS;
+    }else{
+        status = dataInfo.DOC_STATUS;
+    }
     let html = "";
 
     if(dataInfo == null || dataInfo == "undefined" || dataInfo == ""){ return html; }
