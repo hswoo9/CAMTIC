@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop.js?v=${today}"></script>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <body class="font-opensans" style="background-color:#fff;">
@@ -13,12 +14,10 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">휴가신청</h3>
             <div class="btn-st popButton">
+                <span id="holiApprBtnBox">
+
+                </span>
                 <button type="button" class="k-button k-button-solid-info request" onclick="subHolidayReqPop.fn_vacEdtHolidaySaveModal()" id="saveBtn">저장</button>
-                <%--<input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>--%>
-                <button type='button' class='k-button k-button-md k-button-solid k-button-solid-info drafting' onclick='subHolidayReqPop.fn_vacEdtHolidaySaveModal()' style="display: none">
-                    <span class='k-icon k-i-track-changes-accept k-button-icon'></span>
-                    <span class='k-button-text'>상신</span>
-                </button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="subHolidayReqPop.fn_topTableClose()">닫기</button>
             </div>
         </div>
@@ -150,10 +149,9 @@
     <input type="hidden" id="menuCd" name="menuCd" value="subHoliday">
     <input type="hidden" id="type" name="type" value="${type}">
     <input type="hidden" id="nowUrl" name="nowUrl" />
-    <input type="hidden" id="subHolidayId" name="subHolidayId" value=""/>
+    <input type="hidden" id="subHolidayId" name="subHolidayId" value="${params.subholidayUseId}"/>
 </form>
 
-<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayReqPop.js?v=${today}"></script>
 <script>
     subHolidayReqPop.fn_defaultScript();
 

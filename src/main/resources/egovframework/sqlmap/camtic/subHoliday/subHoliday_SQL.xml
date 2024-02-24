@@ -305,7 +305,42 @@
     <select id="getVacUseHistoryOne" resultType="map" parameterType="map">
         /* getVacUseHistoryOne */
         SELECT
-            SUH.*,
+            SUH.SUBHOLIDAY_USE_ID,
+            SUH.SUBHOLIDAY_CODE_ID,
+            SUH.APPLY_SEQ,
+            SUH.APPLY_DATE,
+            SUH.SAVE_SEQ,
+            SUH.SAVE_DATE,
+            SUH.SUBHOLIDAY_ST_DT,
+            SUH.SUBHOLIDAY_ST_TIME,
+            SUH.SUBHOLIDAY_EN_DT,
+            SUH.SUBHOLIDAY_EN_TIME,
+            SUH.SUBHOLIDAY_USE_DAY,
+            SUH.SUBHOLIDAY_USE_HOUR,
+            SUH.SUBHOLIDAY_USE_TIME,
+            SUH.RMK,
+            SUH.SUBHOLIDAY_WORK_DAY,
+            SUH.SUBHOLIDAY_WORK_DAY_YN,
+            SUH.SUBHOLIDAY_ALTERNATIVE_DAY,
+            SUH.SH_WORK_STAT,
+            SUH.RMK_OTHER,
+            SUH.APPR_STAT,
+            SUH.ADMIN_APPR_STAT,
+            SUH.DOC_ID,
+            SUH.ADMIN_DOC_ID,
+            SUH.DOC_STS,
+            SUH.APPROVAL_REASON,
+            SUH.APPROVAL_EMP_SEQ,
+            SUH.APPROVAL_DATE,
+            SUH.APPROVAL_SEND_DATE,
+            SUH.SUBHOLIDAY_TARGET_SEQ,
+            SUH.OHTER_EMP,
+            SUH.OTHER_EMP_SEQ,
+            SUH.ACTIVE,
+            SUH.REG_EMP_SEQ,
+            SUH.REG_DATE,
+            SUH.MOD_EMP_SEQ,
+            SUH.MOD_DATE,
             CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, 'KR') AS DEPT_NAME2,
             DATE_FORMAT(SUH.SAVE_DATE, '%Y-%m-%d') AS SAVE_DT,
             SCD.SUBHOLIDAY_DT_CODE_NM,
@@ -316,13 +351,18 @@
             EI.POSITION_CODE,
             IFNULL(EI.POSITION_NAME, '') AS POSITION_NAME,
             IFNULL(EI.DUTY_NAME, '') AS DUTY_NAME,
-            EI.DUTY_CODE
+            EI.DUTY_CODE,
+            IFNULL(DI.APPROVE_STAT_CODE, '0') AS STATUS,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SUH
         LEFT JOIN
             CAM_INSIDE.DJ_SUBHOLIDAY_CODE SCD ON SUH.SUBHOLIDAY_CODE_ID = SCD.SUBHOLIDAY_CODE_ID
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO EI ON EI.EMP_SEQ = SUH.REG_EMP_SEQ
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON SUH.DOC_ID = DI.DOC_ID
         WHERE
             SUH.SUBHOLIDAY_USE_ID = #{subholidayUseId}
     </select>

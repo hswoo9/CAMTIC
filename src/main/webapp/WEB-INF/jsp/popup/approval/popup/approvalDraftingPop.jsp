@@ -14,16 +14,18 @@
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=${now}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpInit.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwpEngnInit.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwpRndInit.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwpUnRndInit.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwpPayInit.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwpBustripInit.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/hancom/hwpCampusInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDrafting.js?v=${now}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalLine.js?v=${now}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/hwpApprovalLine.js?v=${now}'/>"></script>
+
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpBustripInit.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpCampusInit.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpEngnInit.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpHolidayInit.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpPayInit.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpRndInit.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpUnRndInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <style>

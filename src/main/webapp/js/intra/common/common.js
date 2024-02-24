@@ -385,3 +385,46 @@ function getManager(empSeq, deptLevel){
     console.log("function getManager :",empInfo);
     return empInfo;
 }
+
+/** 전자결재 버튼 공용 */
+function makeApprBtnHtml(dataInfo, onClick){
+
+    const status = dataInfo.STATUS;
+    let html = "";
+
+    if(dataInfo == null || dataInfo == "undefined" || dataInfo == ""){ return html; }
+
+    const docId = dataInfo.DOC_ID;
+    const approKey = dataInfo.APPRO_KEY;
+    const menuCd = dataInfo.DOC_MENU_CD;
+
+    if(status == "0"){
+        html =
+            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='"+onClick+"'>" +
+            "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+            "   <span class='k-button-text'>상신</span>" +
+            "</button>";
+    }else if(status == "10" || status == "20" || status == "50"){
+        html =
+            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+docId+"\", \""+approKey+"\", 1, \"retrieve\");'>" +
+            "   <span class='k-icon k-i-x-circle k-button-icon'></span>" +
+            "   <span class='k-button-text'>회수</span>" +
+            "</button>";
+    }else if(status == "30" || status == "40"){
+        html =
+            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+docId+"\", \""+menuCd+"\", \""+approKey+"\", 2, \"reDrafting\");'>" +
+            "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+            "   <span class='k-button-text'>재상신</span>" +
+            "</button>";
+    }else if(status == "100"){
+        html =
+            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+docId+"\", \""+approKey+"\", \""+menuCd+"\");'>" +
+            "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+            "   <span class='k-button-text'>열람</span>" +
+            "</button>";
+    }else{
+        html = "";
+    }
+
+    return html;
+}
