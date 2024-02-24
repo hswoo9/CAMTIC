@@ -47,7 +47,7 @@
                 <button type="button" class="k-button k-button-solid-base" id="teacherBtn" style="display: none" onclick="lecturePop.lectureTeacherPop('${params.pk}');">강사관리</button>
                 <button type="button" class="k-button k-button-solid-base" id="personBtn" style="display: none" onclick="lecturePop.lecturePersonPop('${params.pk}');">수강신청관리</button>
                 <button type="button" class="k-button k-button-solid-base" id="eduBtn" style="display: none" onclick="lecturePop.lectureEduPop('${params.pk}');">이수관리</button>
-                <button type="button" class="k-button k-button-solid-base" id="payBtn" style="display: none" onclick="lecturePop.lecturePayPop('${params.pk}');">교육비관리</button>
+               <%-- <button type="button" class="k-button k-button-solid-base" id="payBtn" style="display: none" onclick="lecturePop.lecturePayPop('${params.pk}');">교육비관리</button>--%>
                 <button type="button" class="k-button k-button-solid-primary" id="modBtn" style="display: none" onclick="lectureReq.fn_saveBtn();">수정</button>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="lectureReq.fn_saveBtn();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
@@ -209,13 +209,14 @@
                     </td>
                 </tr>--%>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육비(교재비)</th>
+                    <%--<th scope="row" class="text-center th-color"><span class="red-star">*</span>교육비(교재비)</th>
                     <td>
                         <input id="textbookFee" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 80px;" value="0"> 원 (없으면 0원 입력)
-                    </td>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>운영방법</th>
-                    <td>
-                        <span id="methodType" style="width: 300px;"></span>
+                    </td>--%>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>운영방법(대상자)</th>
+                    <td colspan="3">
+                        <%--<span id="methodType" style="width: 300px;"></span>--%>
+                        <input id="methodType" style="width: 800px;">
                     </td>
                 </tr>
                 <%--<tr>
