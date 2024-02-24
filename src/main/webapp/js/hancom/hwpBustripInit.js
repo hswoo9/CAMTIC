@@ -111,6 +111,7 @@ var busInit = {
 
         const exnpList = customKendo.fn_customAjax("/inside/getBustripExnpInfo", { hrBizReqResultId: hrBizReqResultId }).list;
 
+        console.log("exnpList", exnpList);
         //요청일
         hwpDocCtrl.putFieldText('toDate', fn_getNowDate(1));
 
@@ -240,6 +241,7 @@ var busInit = {
         html += '               </tr>';
 
         for(let i=0; i<list.length; i++){
+            console.log("list[i]", list[i]);
             if(list[i].EMP_SEQ != null && list[i].DIVISION == 1){
                 let personTot = 0;
 

@@ -238,7 +238,7 @@ const bustripExnpReq = {
         }).list;
         console.log("bustripInfo", bustripInfo);
         console.log("costList", costList);
-        if(type != "upd") {
+        // if(type != "upd") {
             for(let i=0; i<costList.length; i++){
                 $("."+String(costList[i].EXNP_CODE)).val(fn_comma(costList[i].COST_AMT));
             }
@@ -320,7 +320,7 @@ const bustripExnpReq = {
                     }*/
                 }
             }
-        }
+        // }
     },
 
     fn_getFuelInfo: function(type){
@@ -528,9 +528,9 @@ const bustripExnpReq = {
         var result = "";
         for(var i = 1 ; i < rowList.length-1 ; i++){
             var row = rowList[i];
-            if(i == 1) {
+            // if(i == 1) {
                 var hrBizExnpId = $(row.cells[0]).find("input[name='hrBizExnpId']").val();
-            }
+            // }
 
             var data = {};
 
