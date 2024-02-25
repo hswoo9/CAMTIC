@@ -923,22 +923,8 @@ var draft = {
                                     }
 
                                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
+                                        draft.global.uploadFlag = true;
                                         $("#files").data("kendoUpload").upload();
-
-                                        setTimeout(function() {
-                                            alert("처리되었습니다.");
-                                            try {
-                                                opener.parent.gridReload();
-                                            }catch{
-
-                                            }
-                                            try{
-                                                opener.opener.gridReload();
-                                            }catch{
-
-                                            }
-                                            window.close();
-                                        }, 3000);
                                     }else{
                                         alert("처리되었습니다.");
                                         try {
@@ -1045,22 +1031,8 @@ var draft = {
                     }
 
                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
+                        draft.global.uploadFlag = true;
                         $("#files").data("kendoUpload").upload();
-
-                        setTimeout(function() {
-                            alert("처리되었습니다.");
-                            try {
-                                opener.parent.gridReload();
-                            }catch{
-
-                            }
-                            try{
-                                opener.opener.gridReload();
-                            }catch{
-
-                            }
-                            window.close();
-                        }, 3000);
                     }else{
                         try {
                             opener.parent.gridReload();

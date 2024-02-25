@@ -171,9 +171,7 @@ var subHolidayReqPop = {
                     }
                 }
 
-                if($("#edtHolidayKindTop").val() == 3 || $("#edtHolidayKindTop").val() == 4) {
-                    data.useDay = 0.5;
-                }else if($("#edtHolidayKindTop").val() != 11) {
+                if($("#edtHolidayKindTop").val() != 11) {
                     var result = customKendo.fn_customAjax('/subHoliday/getHolidayList', {});
                     var firstDate;
                     var secondDate;
@@ -207,6 +205,14 @@ var subHolidayReqPop = {
                         }
                     }
                     data.useDay = Math.floor(betweenTime / (1000 * 60 * 60 * 24)+1) - holidayCnt;
+
+                    if($("#edtHolidayKindTop").val() == 3 || $("#edtHolidayKindTop").val() == 4) {
+                        if(Math.floor(betweenTime / (1000 * 60 * 60 * 24)+1) - holidayCnt == 0){
+                            data.useDay = 0;
+                        }else{
+                            data.useDay = 0.5;
+                        }
+                    }
                 }else {
                     data.useDay = 0;
                 }
@@ -847,6 +853,14 @@ var subHolidayReqPop = {
                     /*subHolidayReqPop.fn_getEmpWorkPlanTimeModal($("#edtHolidayKindTop").val());*/
                 }
             });
+        }
+
+        if($("#edtHolidayKindTop").val() == 3){
+            $("#edtHolidayStartHourTop_1").val("09:00");
+            $("#edtHolidayEndHourTop_1").val("14:00");
+        }else if($("#edtHolidayKindTop").val() == 4){
+            $("#edtHolidayStartHourTop_1").val("14:00");
+            $("#edtHolidayEndHourTop_1").val("18:00");
         }
     },
 

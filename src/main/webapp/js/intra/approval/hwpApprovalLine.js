@@ -256,6 +256,7 @@ var hwpApprovalLine = {
             let list = docView.global.rs.approveRoute;
 
             let DText = "";
+
             for (let i = 1; i < list.length; i++) {
                 const map = list[i];
 
@@ -284,14 +285,25 @@ var hwpApprovalLine = {
                         hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ);
                     }
 
+                /** 협조 사인 */
                 }else{
-                    let field = "docDAppr";
+
+                    let empName = map.APPROVE_EMP_NAME;
+                    let deptName = map.APPROVE_DEPT_NAME;
+
+                    /** 부재설정이 되어있으면 대결자의 정자가 들어감 */
+                    if(map.PROXY_APPROVE_EMP_SEQ != null){
+                        empName = getUser(map.PROXY_APPROVE_EMP_SEQ).EMP_NAME_KR;
+                        deptName = getUser(map.PROXY_APPROVE_EMP_SEQ).DEPT_NAME;
+                    }
+
                     if(DText != ""){
                         DText += ", ";
                     }
-                    DText += map.APPROVE_EMP_NAME;
-                    hwpApprovalLine.setNameD(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ, map.APPROVE_DEPT_NAME);
 
+                    if(map.APPROVE_STAT_CODE == "20"){
+                        DText += deptName+"장 "+empName;
+                    }
                 }
 
                 if(map.APPROVE_STAT_CODE == 100 || map.APPROVE_STAT_CODE == 101){
@@ -316,6 +328,11 @@ var hwpApprovalLine = {
                 }
             }
 
+            if(DText != ""){
+                const field = "docDAppr";
+                hwpDocCtrl.putFieldText(field, DText);
+            }
+
             const docInfo =docView.global.rs.docInfo;
             console.log(docInfo);
 
@@ -337,14 +354,6 @@ var hwpApprovalLine = {
 
     /** 협조용 */
     setNameD : function(fieldName, APPROVE_EMP_NAME, PROXY_APPROVE_EMP_SEQ, APPROVE_DEPT_NAME){
-        /** 부재설정이 되어있으면 대결자의 정자가 들어감 */
-        let empName = APPROVE_EMP_NAME;
-        let deptName = APPROVE_DEPT_NAME;
-        if(PROXY_APPROVE_EMP_SEQ != null && PROXY_APPROVE_EMP_SEQ != undefined){
-            empName = getUser(PROXY_APPROVE_EMP_SEQ).EMP_NAME_KR;
-            deptName = getUser(PROXY_APPROVE_EMP_SEQ).DEPT_NAME;
-        }
-        hwpDocCtrl.putFieldText(fieldName, deptName+"장" + " " +empName);
     },
 
     setSign : function(fieldName, empSeq, empName, type){

@@ -371,13 +371,17 @@ var docView = {
     },
 
     docApprove : function(){
+        if(docView.global.loginVO == null){
+            alert("장시간 미사용으로 로그인 세션이 만료되었습니다. 로그인 후 재시도 바랍니다."); return;
+        }
+
         docView.loading();
 
 
         /** 문서번호
          *  최종결재 할때 추가
          * */
-        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.loginVO.uniqId){
             const draftDeptSeq = getUser(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ).DEPT_SEQ;
             const searchAjaxData = {
                 type : "approve",

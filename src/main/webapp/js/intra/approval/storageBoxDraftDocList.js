@@ -149,12 +149,12 @@ var storageBoxDraft = {
                     title : "",
                     width : 80,
                     template : function(e){
-                        if(e.APPROVE_STAT_CODE == "10" || e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "50"){
+                        if(e.APPROVE_STAT_CODE == "10" || e.APPROVE_STAT_CODE == "50"){
                             return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick=\"storageBoxDraft.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
                                 '<span class="k-icon k-i-change-manually k-button-icon"></span>' +
                                 '<span class="k-button-text">회수</span>' +
                                 '</button>';
-                        } else if(e.APPROVE_STAT_CODE == "100" || e.APPROVE_STAT_CODE == "101"){
+                        }else{
                             return "-";
                         }
                     }
