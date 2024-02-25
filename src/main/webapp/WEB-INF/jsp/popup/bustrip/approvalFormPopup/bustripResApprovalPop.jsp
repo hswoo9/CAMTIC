@@ -31,6 +31,8 @@
 </div>
 </div>
 <script>
+    window.resizeTo(965, 900);
+
     let formId = "136";
     let hrBizReqResultId = '${data.hrBizReqResultId}';
 

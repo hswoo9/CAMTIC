@@ -303,6 +303,30 @@ public class PurcController {
         return "cam_purc/mng/purcDif";
     }
 
+    @RequestMapping("/purc/getPurcItemAmtTotal")
+    public String getPurcItemAmtTotal(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", purcService.getPurcItemAmtTotal(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/getPurcClaimItemAmtTotal")
+    public String getPurcClaimItemAmtTotal(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", purcService.getPurcClaimItemAmtTotal(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/getPurcItemList")
+    public String getPurcItemList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", purcService.getPurcItemList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/getClaimItemList")
+    public String getClaimItemList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", purcService.getClaimItemList(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/purc/getPurcClaimList")
     public String getPurcClaimList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", purcService.getPurcClaimList(params));
