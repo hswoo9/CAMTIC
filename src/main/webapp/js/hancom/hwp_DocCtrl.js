@@ -536,7 +536,10 @@ var hwpDocCtrl = {
     modDataSet : function() {
         const data = hwpDocCtrl.global.params;
         const menuCd = data.menuCd;
-        const pk = data.approKey.split("_")[1];
+        let pk = "";
+        if(data.approKey != null){
+            pk = data.approKey.split("_")[1];
+        }
         const errorText = "";
 
         if(menuCd == "bustrip"){

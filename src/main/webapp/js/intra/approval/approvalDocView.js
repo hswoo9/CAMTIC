@@ -51,9 +51,13 @@ var docView = {
             }
 
             const menuCd = docView.global.params.menuCd;
-            if(menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "purc" || menuCd == "claim"){
+            if(menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus"){
             }else{
                 $("#modBtn").hide();
+            }
+
+            if(docView.global.rs.docInfo.FORM_ID == "1"){
+                $("#modBtn2").show();
             }
         }
 
@@ -654,6 +658,11 @@ var docView = {
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
         }
+    },
+
+    contentMod2 : function(){
+        const docInfo = docView.global.rs.docInfo;
+        tempOrReDraftingPop(docInfo.DOC_ID, docInfo.DOC_MENU_CD, docInfo.APPRO_KEY, 1, "reDrafting");
     },
 
     docApprovalOpinView : function(){
