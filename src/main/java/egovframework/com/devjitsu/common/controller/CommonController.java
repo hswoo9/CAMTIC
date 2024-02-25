@@ -227,7 +227,7 @@ public class CommonController {
 
                         result.get(i).put("dir", dir);
                     }
-                    zipName = URLEncoder.encode(result.get(0).get("APPR_ZIP_NAME").toString(), "UTF-8");
+                    zipName = URLEncoder.encode(result.get(0).get("ZIP_NAME").toString(), "UTF-8");
                 }
                 multiFileDownload(result, dir, zipName, response);
                 return;

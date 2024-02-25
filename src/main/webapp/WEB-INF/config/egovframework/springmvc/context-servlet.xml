@@ -32,6 +32,8 @@
     </bean>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="1048576000" />
+        <property name="maxUploadSizePerFile" value="1048576000" />
     </bean>
 
     <!--<util:properties id="properties" location="classpath*:/egovframework/egovProps/config-#{systemProperties['spring.profiles.active']}.properties" />-->

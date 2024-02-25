@@ -27,6 +27,7 @@ var draft = {
         windowPopUrl : "",
         popName : "",
         popStyle : "",
+        uploadFlag              : false,
 
         /** 기안기 셋팅 옵션 (파일, editing mode)*/
         templateFormFile : "",
@@ -582,6 +583,21 @@ var draft = {
         }else if(e.operation == "remove"){
             alert(e.XMLHttpRequest.responseJSON.rs.message);
         }
+
+        if(draft.global.uploadFlag){
+            alert("처리되었습니다.");
+            try {
+                opener.parent.gridReload();
+            }catch{
+
+            }
+            try{
+                opener.opener.gridReload();
+            }catch{
+
+            }
+            window.close();
+        }
     },
 
     onComplete : function(){
@@ -966,22 +982,8 @@ var draft = {
                         }
 
                         if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
+                            draft.global.uploadFlag = true;
                             $("#files").data("kendoUpload").upload();
-
-                            setTimeout(function() {
-                                alert("처리되었습니다.");
-                                try {
-                                    opener.parent.gridReload();
-                                }catch{
-
-                                }
-                                try{
-                                    opener.opener.gridReload();
-                                }catch{
-
-                                }
-                                window.close();
-                            }, 3000);
                         }else{
                             alert("처리되었습니다.");
                             try {
