@@ -15,7 +15,10 @@ var bustripResultPop = {
             bustripResultPop.resDataSet();
         }
 
-
+        if($("#carList").data("kendoDropDownList").value() == "0"){
+            $("#moveDst").val(0)
+            $(".bustripTr").hide();
+        }
     },
 
     pageSet: function(){
@@ -217,7 +220,7 @@ var bustripResultPop = {
                         "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                         "<span class='k-button-text'>상신</span>" +
                         "</button>";
-                } else if(resInfo.STATUS == 10){
+                } else if(resInfo.STATUS == 10 || resInfo.STATUS == 50){
                     $("#fileUpload").css("display", "none");
                     apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+resInfo.DOC_ID+"\", \""+resInfo.DOC_APPRO_KEY+"\", 1, \"retrieve\");'>" +
                         "<span class='k-icon k-i-x-circle k-button-icon'></span>" +

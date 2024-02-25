@@ -48,6 +48,17 @@ var bustrip = {
         carArr.push({text: "자가", value: "10"});
         carArr.push({text: "대중교통", value: "0"});
         customKendo.fn_dropDownList("carList", carArr, "text", "value", 2);
+
+        $("#carList").data("kendoDropDownList").bind("change", function(){
+            if($("#carList").data("kendoDropDownList").value() == "0"){
+                $("#moveDst").val(0);
+                $(".bustripTr").hide();
+            } else {
+                $(".bustripTr").show();
+
+            }
+        })
+
     },
 
     /** 경유지코드 세팅 */

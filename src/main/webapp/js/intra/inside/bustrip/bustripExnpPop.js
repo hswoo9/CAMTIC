@@ -236,6 +236,7 @@ const bustripExnpReq = {
         let costList = customKendo.fn_customAjax("/bustrip/getBustripCostList", {
             hrBizReqResultId: hrBizReqResultId
         }).list;
+
         console.log("bustripInfo", bustripInfo);
         console.log("costList", costList);
         // if(type != "upd") {
@@ -261,53 +262,95 @@ const bustripExnpReq = {
 
             for(let i=0; i<dayCostArr.length; i++){
                 var costN = 0;
-                if(dayCostArr[i].dayCost.replace(",", "") > 0){
+                if(dayCostArr[i].dayCost.replace(",", "") > 0 && false){
                     $("#dayCost"+String(dayCostArr[i].empSeq)).val(0);
-                }else{
+                } else{
                     if(bustripInfo.TRIP_CODE == "3") {
-
                         /** 대중교통 */
                         if(bustripInfo.USE_TRSPT == "0"){
+                            var costAmt = 0;
                             for(let j=0; j<costList.length; j++){
                                 if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "1"){
-                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
+                                    costAmt = costList[j].COST_AMT;
+                                }
+                            }
+
+                            for(let j=0; j<dayCostArr.length; j++){
+                                if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "1"){
+                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
                                 }
                             }
                         }
 
                         /** 자가(운행시) */
                         if(bustripInfo.USE_TRSPT == "10" && String(bustripInfo.DRIVER_EMP_SEQ) == String(dayCostArr[i].empSeq)){
+                            var costAmt = 0;
                             for(let j=0; j<costList.length; j++){
                                 if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "2"){
-                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
+                                    costAmt = costList[j].COST_AMT;
                                 }
+                            }
+
+                            for(let j=0; j<dayCostArr.length; j++){
+                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
                             }
                         }
 
                         /** 자가(동행시) */
                         if(bustripInfo.USE_TRSPT == "10" && String(bustripInfo.DRIVER_EMP_SEQ) != String(dayCostArr[i].empSeq)){
+                            var costAmt = 0;
                             for(let j=0; j<costList.length; j++){
                                 if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "3"){
-                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
+                                    costAmt = costList[j].COST_AMT;
                                 }
+                            }
+
+                            for(let j=0; j<dayCostArr.length; j++){
+                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
                             }
                         }
 
                         /** 법인차량 */
                         if(bustripInfo.USE_TRSPT != "0" && bustripInfo.USE_TRSPT != "10"){
+                            var costAmt = 0;
                             for(let j=0; j<costList.length; j++){
                                 if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "4"){
-                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
+                                    costAmt = costList[j].COST_AMT;
                                 }
+                            }
+
+                            for(let j=0; j<dayCostArr.length; j++){
+                                $("#dayCost"+dayCostArr[j].empSeq).val(fn_comma(costAmt));
                             }
                         }
                         
                     /** 시내출장 여비추가 n km이상일때 일비 지급*/
                     }else if(bustripInfo.TRIP_CODE == "1" && (bustripInfo.USE_TRSPT == "10" || bustripInfo.USE_TRSPT == "0")){
-                        for(let j=0; j<costList.length; j++){
-                            if(costList[j].TRIP_CODE == "1" && costList[j].EXNP_CODE == "dayCost" && bustripInfo.MOVE_DST >= costList[j].EXNP_DETAIL_CODE){
-                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costList[j].COST_AMT));
+                        for(let j=0; j<dayCostArr.length; j++){
+                            var costAmt = 0;
+                            if(costList[j] != undefined){
+                                costAmt = Number(costList[j].COST_AMT);
+                            } else if (costList.length == 0) {
+                                $("#dayCost"+dayCostArr[i].empSeq).val(0);
+                            } else{
+                                if(costList[j].TRIP_CODE == "1" && costList[j].EXNP_CODE == "dayCost" && bustripInfo.MOVE_DST >= costList[j].EXNP_DETAIL_CODE){
+                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
+                                }
                             }
+                        }
+                    } else if (bustripInfo.TRIP_CODE == "2") {
+                        var costAmt = 0;
+                        for(let j=0; j<dayCostArr.length; j++) {
+                            if (costList[j] != undefined) {
+                                costAmt = Number(costList[j].COST_AMT);
+                            }
+                        }
+                        for(let j=0; j<dayCostArr.length; j++){
+                            $("#dayCost"+dayCostArr[j].empSeq).val(fn_comma(costAmt));
+                        }
+                    } else {
+                        for(let j=0; j<dayCostArr.length; j++){
+                            $("#dayCost"+dayCostArr[j].empSeq).val(0);
                         }
                     }
                     /*if(bustripInfo.TRIP_CODE == "3" && (bustripInfo.USE_TRSPT == "0" || bustripInfo.DRIVER_EMP_SEQ == dayCostArr[i].empSeq)){
@@ -349,9 +392,9 @@ const bustripExnpReq = {
                     $("#oilCost"+String(empSeq)).val(fn_comma(10000));
                 }
             }else if(bustripInfo.TRIP_CODE == 1 && bustripInfo.USE_TRSPT != 10){ //도내(시내) 자가X + 10km 이상일 때 유류비 10,000원 고정
-                if(bustripInfo.MOVE_DST >= 10) {
-                    $("#corpCarOilCost").val(fn_comma(10000));
-                }
+                // if(bustripInfo.MOVE_DST >= 10) {
+                //     $("#corpCarOilCost").val(fn_comma(10000));
+                // }
 
                 if(bustripInfo.USE_TRSPT != 0 || bustripInfo.USE_TRSPT != 10){
                     $("#corpCarOilCost").val(fn_comma(0));
