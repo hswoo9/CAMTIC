@@ -93,6 +93,7 @@ var busInit = {
         let regSign = busInfo.EMP_NAME;
         hwpDocCtrl.putFieldText('regSign', regSign)
 
+        /** 2. 출장자 리스트 */
         hwpDocCtrl.putFieldText("COMPANION_HTML", " ");
         let htmlData = '';
         htmlData = busInit.htmlCompanion(companionList);
@@ -103,6 +104,9 @@ var busInit = {
     bustripResInit: function(hrBizReqResultId, type){
         const result = customKendo.fn_customAjax("/bustrip/getBustripOne", { hrBizReqResultId: hrBizReqResultId });
         const busInfo = result.map;
+
+        const companionResult = customKendo.fn_customAjax("/bustrip/getBustripResTotInfo", { hrBizReqResultId: hrBizReqResultId });
+        const companionList = companionResult.list;
 
         const exnpList = customKendo.fn_customAjax("/inside/getBustripExnpInfo", { hrBizReqResultId: hrBizReqResultId }).list;
 
@@ -190,18 +194,27 @@ var busInit = {
         let regSign = busInfo.EMP_NAME;
         hwpDocCtrl.putFieldText('regSign', regSign);
 
+        /** 2. 출장자 리스트 */
+        hwpDocCtrl.putFieldText("COMPANION_HTML", " ");
         let htmlData = '';
+        htmlData = busInit.htmlCompanion(companionList);
+        hwpDocCtrl.moveToField("COMPANION_HTML", true, true, false);
+        hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
+
+        /** 3. 여비 리스트 */
+        let htmlData2 = '';
         if(busInfo.TRIP_CODE != "4"){
-            htmlData = busInit.htmlBusExnp(exnpList);
+            htmlData2 = busInit.htmlBusExnp(exnpList);
         }else{
             const bfExnpList = customKendo.fn_customAjax("/inside/getBusinessExnpInfo", { hrBizReqId: busInfo.HR_BIZ_REQ_ID }).list;
-            htmlData = busInit.htmlBusiExnp(bfExnpList, exnpList);
+            htmlData2 = busInit.htmlBusiExnp(bfExnpList, exnpList);
         }
 
-        if(type != "reDraft"){
-            hwpDocCtrl.moveToField('exnpTable', true, true, false);
-            hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("EXNP_TABLE", " ");
+            hwpDocCtrl.moveToField("EXNP_TABLE", true, true, false);
+            hwpDocCtrl.setTextFile(htmlData2, "html","insertfile");
+        }, 2000);
     },
 
     htmlCompanion: function(list){
