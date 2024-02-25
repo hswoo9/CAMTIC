@@ -239,8 +239,13 @@ var docView = {
             approKey : docView.global.rs.docInfo.APPRO_KEY,
         }
 
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "bustrip"){
+            docView.global.searchAjaxData.bustripSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "bustrip";
+        }
+
         if(docView.global.rs.docInfo.DOC_MENU_CD == "bustripRes"){
-            docView.global.searchAjaxData.claimSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.bustripResSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
             docView.global.searchAjaxData.type = "bustripRes";
         }
 

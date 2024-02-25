@@ -169,7 +169,7 @@ const bustripReq = {
         $("#bustObj").val(busInfo.TITLE);
 
         /** 첨부파일 */
-        bustripInit.settingTempFileDataInit(fileInfo);
+        bustripInit.settingTempFileDataInit(fileInfo, busInfo);
 
         /** 해외출장일시 폼 변경 */
         if(busInfo.TRIP_CODE == "4"){

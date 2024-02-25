@@ -321,9 +321,11 @@ var bustripInit = {
                     }
                     html += '   </td>';
                     html += '   <td>';
-                    html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
-                        '			<span class="k-button-text">삭제</span>' +
-                        '		</button>';
+                    if(p.STATUS != 100){
+                        html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                            '			    <span class="k-button-text">삭제</span>' +
+                            '		    </button>';
+                    }
                     html += '   </td>';
                     html += '</tr>';
                 }
@@ -341,9 +343,11 @@ var bustripInit = {
                     html += '   <td>'+ e[i].file_ext +'</td>';
                     html += '   <td>'+ e[i].file_size +'</td>';
                     html += '   <td>';
-                    html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
-                        '			<span class="k-button-text">삭제</span>' +
-                        '		</button>';
+                    if(p.STATUS != 100){
+                        html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
+                            '			    <span class="k-button-text">삭제</span>' +
+                            '		    </button>';
+                    }
                     html += '   </td>';
                     html += '</tr>';
                 }
