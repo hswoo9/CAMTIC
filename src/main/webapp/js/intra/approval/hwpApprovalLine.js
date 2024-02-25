@@ -344,7 +344,7 @@ var hwpApprovalLine = {
             empName = getUser(PROXY_APPROVE_EMP_SEQ).EMP_NAME_KR;
             deptName = getUser(PROXY_APPROVE_EMP_SEQ).DEPT_NAME;
         }
-        hwpDocCtrl.putFieldText(fieldName, deptName + " " +empName);
+        hwpDocCtrl.putFieldText(fieldName, deptName+"장" + " " +empName);
     },
 
     setSign : function(fieldName, empSeq, empName, type){

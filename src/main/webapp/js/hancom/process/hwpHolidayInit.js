@@ -32,10 +32,14 @@ var holidayInit = {
             hwpDocCtrl.putFieldText("regSign", regSign);
 
 
+            console.log("ResultData", ResultData);
+            let otherEmp = " ";
+            let ohterSign = "";
             if(ResultData.OHTER_EMP != null && ResultData.OHTER_EMP != ""){
-                let ohterSign = "업무인수자 : "+ResultData.OHTER_EMP;
-                hwpDocCtrl.putFieldText("OHTER_EMP_SIGN", ohterSign);
+                otherEmp = ResultData.OHTER_EMP;
+                ohterSign = "업무인수자 : "+otherEmp;
             }
+            hwpDocCtrl.putFieldText("OHTER_EMP_SIGN", ohterSign);
 
             let holiTextBox = '';
             let holiTextBox2 = '';
