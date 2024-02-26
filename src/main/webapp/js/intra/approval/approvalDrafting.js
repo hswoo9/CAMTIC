@@ -674,11 +674,7 @@ var draft = {
 
             }
 
-            if(draft.global.approversArr.find(element => element.approveType === "1") != null){
-                draft.global.lastApprover = draft.global.approversArr.find(element => element.approveType === "1");
-            }else {
-                draft.global.lastApprover = draft.global.approversArr.find(element => element.approveOrder === approveOrder);
-            }
+            draft.global.lastApprover = draft.global.approversArr.find(element => element.approveOrder === approveOrder);
 
             draft.global.originalApproversArr = draft.global.approversArr;
 
