@@ -381,8 +381,9 @@ var docView = {
         /** 문서번호
          *  최종결재 할때 추가
          * */
-        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.loginVO.uniqId){
-            const draftDeptSeq = getUser(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ).DEPT_SEQ;
+        let list = docView.global.rs.approveRoute;
+        if(list[list.length - 1].APPROVE_EMP_SEQ == docView.global.loginVO.uniqId){
+            const draftDeptSeq = docView.global.rs.approveRoute[0].APPROVE_DEPT_SEQ;
             const searchAjaxData = {
                 type : "approve",
                 docId : $("#docId").val(),
@@ -1196,9 +1197,9 @@ var docView = {
         if(docView.global.rs.approvePrevRoute != null){
             if(docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ != null && docView.global.rs.docInfo.APPROVE_STAT_CODE != '100' && docView.global.rs.docInfo.APPROVE_STAT_CODE != '101'){
                 if(docView.global.rs.approvePrevRoute.PROXY_APPROVE_EMP_SEQ == docView.global.loginVO.uniqId){
-                    $("#approvalCancelBtn").show();
+                    /*$("#approvalCancelBtn").show();*/
                 }else if(!docView.global.rs.approvePrevRoute.PROXY_APPROVE_EMP_SEQ && docView.global.rs.approvePrevRoute.APPROVE_EMP_SEQ == docView.global.loginVO.uniqId){
-                    $("#approvalCancelBtn").show();
+                    /*$("#approvalCancelBtn").show();*/
                 }
             }
         }
