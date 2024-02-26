@@ -178,29 +178,16 @@ var subHolidayReqPop2 = {
                     //subHolidayReqPop.fn_topTableClear();
                     /* $("#scheduler").data("kendoScheduler").dataSource.read();*/
                     if(subHolidayReqPop2.global.type == "drafting") {
-                        if($("#edtHolidayKindTop").val() != 11){
-                            $("#subHolidayId").val(rs.vacUseHistId);
-                            $("#subHolidayDraftFrm").one("submit", function() {
-                                var url = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
-                                var name = "_self";
-                                var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-                                var popup = window.open(url, name, option);
-                                this.action = "/popup/subHoliday/approvalFormPopup/subHolidayApprovalPop.do";
-                                this.method = 'POST';
-                                this.target = '_self';
-                            }).trigger("submit");
-                        }else{
-                            $("#subHolidayId").val(rs.vacUseHistId);
-                            $("#subHolidayDraftFrm").one("submit", function() {
-                                var url = "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do";
-                                var name = "_self";
-                                var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-                                var popup = window.open(url, name, option);
-                                this.action = "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do";
-                                this.method = 'POST';
-                                this.target = '_self';
-                            }).trigger("submit");
-                        }
+                        $("#subHolidayId").val(rs.vacUseHistId);
+                        $("#subHolidayDraftFrm").one("submit", function() {
+                            var url = "/popup/subHoliday/approvalFormPopup/workHolidayUserApprovalPop.do";
+                            var name = "_self";
+                            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+                            var popup = window.open(url, name, option);
+                            this.action = "/popup/subHoliday/approvalFormPopup/workHolidayUserApprovalPop.do";
+                            this.method = 'POST';
+                            this.target = '_self';
+                        }).trigger("submit");
                     }else {
                         opener.gridReload();
                         window.close();
