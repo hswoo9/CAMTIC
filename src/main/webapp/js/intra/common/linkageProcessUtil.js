@@ -214,7 +214,7 @@ function docApproveLineView(docId){
 	pop = window.open(url, '결재선 보기', "width=" + width + ", height=" + height + ", top="+ windowY +", left="+ windowX +", resizable=NO, scrollbars=NO");
 }
 
-function tempOrReDraftingPop(docId, menuCd, approKey, linkageType, type){
+function tempOrReDraftingPop(docId, menuCd, approKey, linkageType, type, target){
 	var rs = getDocInfo(docId);
 
 	var approvalParams = {};
@@ -235,7 +235,7 @@ function tempOrReDraftingPop(docId, menuCd, approKey, linkageType, type){
 		approvalParams.approKey = approKey;
 	}
 
-	linkageProcessOn(approvalParams);
+	linkageProcessOn(approvalParams, target);
 }
 
 function getDocInfo(docId){
