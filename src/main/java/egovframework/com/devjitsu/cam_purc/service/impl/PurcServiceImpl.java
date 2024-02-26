@@ -396,9 +396,9 @@ public class PurcServiceImpl implements PurcService {
                             purcFile.add(tempMap);
                         }
                     }
-
-                    result.put("purcFile", purcFile);
                 }
+
+                result.put("purcFile", purcFile);
             }
         } else {
             result = null;

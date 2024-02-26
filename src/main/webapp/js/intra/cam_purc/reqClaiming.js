@@ -248,6 +248,20 @@ var reqCl = {
                 $("#project").css("display", "none");
             }
 
+            $("#paymentMethod").data("kendoRadioGroup").value(data.PAYMENT_METHOD);
+
+            if($("input[name='paymentMethod']:checked").val() == "I"){
+                $(".purcLinkTh").css("display", "");
+                $("#purcLink").val(data.PURC_LINK);
+            } else if($("input[name='paymentMethod']:checked").val() == "C"){
+                $("#priPay").prop("checked", true).prop('disabled', true);
+                $(".purcLinkTh").css("display", "none");
+                $("#purcLink").val("");
+            } else {
+                $(".purcLinkTh").css("display", "none");
+                $("#purcLink").val("");
+            }
+
             this.fn_setClaimItem(data);
             reqCl.fn_kendoUIEnableSet(data);
             reqCl.fn_ClaimBtnSet(data);

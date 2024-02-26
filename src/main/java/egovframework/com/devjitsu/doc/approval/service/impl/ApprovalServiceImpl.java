@@ -517,6 +517,7 @@ public class ApprovalServiceImpl implements ApprovalService {
             }
 
             params.put("contentId", "purcClaim_" + params.get("claimSn"));
+            params.put("purcSn", map.get("PURC_SN"));
             if(approvalRepository.getDocAttachmentList(params) != null){
                 for(Map<String, Object> tempMap : approvalRepository.getDocAttachmentList(params)){
                     returnMap.add(tempMap);

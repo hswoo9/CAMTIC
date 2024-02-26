@@ -179,6 +179,7 @@ const reqOr = {
         if(result.flag){
             alert("데이터 저장이 완료되었습니다.");
             location.reload();
+            opener.purcClaim.gridReload();
         }else{
             alert("저장 중 오류가 발생하였습니다.");
         }
