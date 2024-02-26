@@ -23,17 +23,37 @@ const dutyInfoReq = {
 
             $("#dutyMonth").val(dutyInfo.DUTY_MONTH);
             $("#dutyName").val(dutyInfo.DUTY_NAME);
+            $("#dutyNameMng").text(dutyInfo.DUTY_NAME);
             $("#outlineName").val(dutyInfo.OUTLINE_NAME);
+            $("#outlineNameMng").text(dutyInfo.OUTLINE_NAME);
             $("#outlineDetail").val(dutyInfo.OUTLINE_DETAIL);
+            $("#outlineDetailMng").text(dutyInfo.OUTLINE_DETAIL);
             $("#internal").val(dutyInfo.INTERNAL);
+            $("#internalMng").text(dutyInfo.INTERNAL);
             $("#external").val(dutyInfo.EXTERNAL);
+            $("#externalMng").text(dutyInfo.EXTERNAL);
             $("#appLine").val(dutyInfo.APP_LINE);
+            $("#appLineMng").text(dutyInfo.APP_LINE);
             $("#abilityA").val(dutyInfo.ABILITY_A);
+            $("#abilityAMng").text(dutyInfo.ABILITY_A);
             $("#abilityB").val(dutyInfo.ABILITY_B);
+            $("#abilityBMng").text(dutyInfo.ABILITY_B);
             $("#abilityC").val(dutyInfo.ABILITY_C);
+            $("#abilityCMng").text(dutyInfo.ABILITY_C);
             $("#abilityD").val(dutyInfo.ABILITY_D);
+            $("#abilityDMng").text(dutyInfo.ABILITY_D);
             $("#abilityE").val(dutyInfo.ABILITY_E);
+            $("#abilityEMng").text(dutyInfo.ABILITY_E);
             $("#responsibility").val(dutyInfo.RESPONSIBILITY);
+            $("#responsibilityMng").text(dutyInfo.RESPONSIBILITY);
+
+            if(dutyInfo.STATUS == "100"){
+                $(".mng-mode").show();
+                $(".upd-mode").hide();
+            } else {
+                $(".mng-mode").hide();
+                $(".upd-mode").show();
+            }
         }
 
         if(mode == "mng"){
