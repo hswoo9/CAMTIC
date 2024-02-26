@@ -65,9 +65,10 @@
             DI.APPRO_KEY,
             DI.DOC_NO,
             DI.DOC_TITLE,
-            DI.APPROVE_STAT_CODE_DESC,
+            CASE WHEN DI.LAST_APPROVE_EMP_SEQ = '32' and DI.APPROVE_STAT_CODE_DESC = '전결' THEN '최종결재' ELSE DI.APPROVE_STAT_CODE_DESC END AS APPROVE_STAT_CODE_DESC,
             DI.APPROVE_STAT_CODE,
             DI.REPTIT_DRFT_YN,
+            IFNULL(DI.LAST_APPROVE_EMP_SEQ, '') AS LAST_APPROVE_EMP_SEQ,
             DATE_FORMAT(DI.DRAFT_DT,'%Y-%m-%d') AS DRAFT_DT,
             DATE_FORMAT(DI.REPTIT_DRFT_DT,'%Y-%m-%d') AS REPTIT_DRFT_DT,
             DATE_FORMAT(DI.LAST_APPROVE_DT,'%Y-%m-%d') AS LAST_APPROVE_DT,
@@ -114,9 +115,14 @@
                 )
             </when>
         </choose>
-        <if test='docStatus != null and !"".equals(docStatus)'>
+        <if test='docStatus != null and !"".equals(docStatus) and !"100".equals(docStatus)'>
             AND
                 DI.APPROVE_STAT_CODE = #{docStatus}
+        </if>
+        <if test='"100".equals(docStatus)'>
+            AND (
+                (DI.APPROVE_STAT_CODE = '100' OR DI.APPROVE_STAT_CODE = '101') AND DI.LAST_APPROVE_EMP_SEQ = '32'
+            )
         </if>
         AND
             DI.ACTIVE = 'Y'
@@ -312,7 +318,7 @@
             DATE_FORMAT(DI.LAST_APPROVE_DT, '%Y-%m-%d') AS LAST_APPROVE_DT,
             DI.DRAFT_DEPT_NAME,
             DI.DRAFT_EMP_NAME,
-            DI.APPROVE_STAT_CODE_DESC
+            CASE WHEN DI.LAST_APPROVE_EMP_SEQ = '32' and DI.APPROVE_STAT_CODE_DESC = '전결' THEN '최종결재' ELSE DI.APPROVE_STAT_CODE_DESC END AS APPROVE_STAT_CODE_DESC
         <choose>
             <when test='approveType != null and ("wait".equals(approveType) or "tobe".equals(approveType))'>
                 , CASE WHEN AF.C_UIUSERKEY = #{empSeq} THEN 'N' ELSE 'Y' END AS SUB_APPROVAL

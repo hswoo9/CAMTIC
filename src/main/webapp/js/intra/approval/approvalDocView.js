@@ -713,7 +713,11 @@ var docView = {
                         }else if(e.APPROVE_STAT_CODE == "100"){
                             return "최종결재의견";
                         }else if(e.APPROVE_STAT_CODE == "101"){
-                            return "최종결재(전결)의견";
+                            if(e.APPROVE_EMP_SEQ == "32"){
+                                return "최종결재의견";
+                            }else{
+                                return "최종결재(전결)의견";
+                            }
                         }
                     }
                 }, {
