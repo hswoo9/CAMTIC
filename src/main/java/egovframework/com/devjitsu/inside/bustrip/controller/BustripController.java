@@ -1,13 +1,11 @@
 package egovframework.com.devjitsu.inside.bustrip.controller;
 
 import com.google.gson.Gson;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorker;
 import com.itextpdf.tool.xml.XMLWorkerFontProvider;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
-import com.itextpdf.tool.xml.css.CssFile;
 import com.itextpdf.tool.xml.css.StyleAttrCSSResolver;
 import com.itextpdf.tool.xml.html.CssAppliers;
 import com.itextpdf.tool.xml.html.CssAppliersImpl;
@@ -36,13 +34,14 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.List;
 
 @Controller
 public class BustripController {
@@ -1094,7 +1093,7 @@ public class BustripController {
             LocalDate now = LocalDate.now();
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             String fmtNow = now.format(fmt);
-            String filePath = SERVER_DIR + fileCd + "/" + fmtNow + "/";
+            String filePath = "/upload/" + fileCd + "/" + fmtNow + "/";
 
             // PDF 생성을 위한 OutputStream 생성
             File f = new File(filePath);
