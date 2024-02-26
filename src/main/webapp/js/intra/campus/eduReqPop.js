@@ -43,7 +43,6 @@ const eduReq = {
         });
         $("#returnMoney").kendoTextBox();
         $("#returnDoc").kendoTextBox();
-        $("#attachDocName").kendoTextBox();
         $("#regDate").kendoDatePicker({
             depth: "month",
             start: "month",
@@ -171,7 +170,6 @@ const eduReq = {
         $("#returnMoney").val(eduInfo.RETURN_MONEY);
         $("#returnDoc").val(eduInfo.RETURN_DOC);
         $("#regDate").val(eduInfo.REG_DT);
-        $("#attachDocName").val(eduInfo.ATTACH_DOC_NAME);
     },
 
     fn_btnSet: function(){
@@ -226,7 +224,7 @@ const eduReq = {
         let eduMoneyType = "";
         let returnMoney = $("#returnMoney").val() == null ? "0" : $("#returnMoney").val().replace(/,/g, "");
         let returnDoc = $("#returnDoc").val();
-        let attachDocName = $("#attachDocName").val();
+        let attachDocName = "";
         let regDate = $("#regDate").val();
         let eduFormType = $("#eduFormType").val();
         let objectForumType = "";

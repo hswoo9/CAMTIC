@@ -30,7 +30,7 @@
             </c:if>
             <input type="button" class="k-button k-button-solid-info" value="학습신청서 열람" onclick="eduResultViewPop.approveDocView('${data.DOC_ID}', '${data.APPRO_KEY}', '${data.DOC_MENU_CD}');"/>
             <c:if test="${params.mode != 'mng'}">
-              <input type="button" class="k-button k-button-solid-info" value="결재요청" onclick="eduResultViewPop.campusResDrafting();"/>
+              <input type="button" class="k-button k-button-solid-info" value="상신" onclick="eduResultViewPop.campusResDrafting();"/>
             </c:if>
           </c:when>
           <c:when test="${data.RES_STATUS == 10}">

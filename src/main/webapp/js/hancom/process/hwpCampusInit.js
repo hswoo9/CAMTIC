@@ -114,7 +114,7 @@ var campusInit = {
                 hwpDocCtrl.global.HwpCtrl.MoveToField('bookUnit', true, true, false);
                 hwpDocCtrl.putFieldText('bookUnit', ResultData.BOOK_UNIT+" 권");
 
-                let regSign = "신 청 자 : "+ResultData.EMP_NAME_KR+" (서명)";
+                let regSign = "신 청 자 : "+ResultData.EMP_NAME_KR;
                 hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
                 hwpDocCtrl.putFieldText('regSign', regSign);
 
