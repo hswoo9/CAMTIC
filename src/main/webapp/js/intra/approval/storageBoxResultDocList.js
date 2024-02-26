@@ -122,7 +122,15 @@ var storageBoxResult = {
                 }, {
                     field : "APPROVE_STAT_CODE_DESC",
                     title : "결재상태",
-                    width : "120px"
+                    width : "120px",
+                    template : function(e){
+                        /** TODO. 최종결재자가 원장일 경우 최종결재로 뜨게 임시조치*/
+                        if(e.LAST_APPROVE_EMP_SEQ == "32"){
+                            return "최종결재";
+                        }else{
+                            return e.APPROVE_STAT_CODE_DESC;
+                        }
+                    }
                 }, {
                     title : "결재선",
                     width : 80,
@@ -131,20 +139,8 @@ var storageBoxResult = {
                             '<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
                             '</button>'
                     }
-                }, {
-                    title : "",
-                    width : 80,
-                    template : function(e){
-                        if(e.APPROVE_STAT_CODE == "10" || e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "50"){
-                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick=\"storageBoxResult.setDocApprovalRetrieve('+ e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.LINKAGE_TYPE + '\',\'retrieve\')\">' +
-                                '<span class="k-icon k-i-change-manually k-button-icon"></span>' +
-                                '<span class="k-button-text">회수</span>' +
-                                '</button>';
-                        } else if(e.APPROVE_STAT_CODE == "100" || e.APPROVE_STAT_CODE == "101"){
-                            return "-";
-                        }
-                    }
-                }]
+                }
+            ]
         }).data("kendoGrid");
     },
 

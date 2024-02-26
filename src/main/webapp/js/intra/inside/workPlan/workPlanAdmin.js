@@ -205,7 +205,7 @@ var workPlanAdmin = {
                                 "<span class='k-button-text'>상신</span>" +
                                 "</button>";
                         } else if(e.ADMIN_APPR_STAT == "E"){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.ADMIN_DOC_ID+"\", \""+e.ADMIN_DOC_MENU_CD+"\", \""+e.ADMIN_APPRO_KEY+"\", 2, \"reDrafting\");'>" +
+                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.ADMIN_DOC_ID+"\", \""+e.ADMIN_DOC_MENU_CD+"\", \""+e.ADMIN_APPRO_KEY+"\", 2, \"reDrafting\", \"target\");'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>재상신</span>" +
                                 "</button>";

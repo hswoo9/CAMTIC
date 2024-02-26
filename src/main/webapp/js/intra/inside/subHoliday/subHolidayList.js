@@ -108,7 +108,7 @@ var subHolidayList = {
                                 "<span class='k-button-text'>상신</span>" +
                                 "</button>";
                         } else if(e.APPR_STAT == "E"){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='subHolidayList.tempOrReDraftingPop(\""+e.DOC_ID+"\", \""+e.DOC_MENU_CD+"\", \""+e.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
+                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.DOC_ID+"\", \""+e.DOC_MENU_CD+"\", \""+e.APPRO_KEY+"\", 2, \"reDrafting\", \"target\");'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>재상신</span>" +
                                 "</button>";
@@ -238,30 +238,6 @@ var subHolidayList = {
             this.method = 'POST';
             this.target = 'subHolidayApprovalPop';
         }).trigger("submit");
-    },
-
-    tempOrReDraftingPop : function(docId, menuCd, approKey, linkageType, type){
-        var rs = getDocInfo(docId);
-
-        var approvalParams = {};
-        approvalParams.linkageType = linkageType;
-
-        approvalParams.mod = "RW";
-        approvalParams.formId = rs.FORM_ID;
-        approvalParams.compSeq = "1000";
-        approvalParams.empSeq = rs.DRAFT_EMP_SEQ;
-        approvalParams.content = rs.DOC_CONTENT;
-        approvalParams.type = type;
-        approvalParams.menuCd = menuCd;
-        approvalParams.docType = "A";
-        approvalParams.docId = rs.DOC_ID;
-
-        if(linkageType == 2){
-            approvalParams.linkageProcessCode = approKey.split("_")[0];
-            approvalParams.approKey = approKey;
-        }
-
-        linkageProcessOn(approvalParams, 'target');
     },
 
     workHolidayDrafting : function(subHolidayId) {

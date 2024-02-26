@@ -302,7 +302,11 @@ var hwpApprovalLine = {
                     }
 
                     if(map.APPROVE_STAT_CODE == "20"){
-                        DText += deptName+"장 "+empName;
+                        if(map.APPROVE_DUTY_NAME != ""){
+                            DText += deptName+"장 "+empName;
+                        }else{
+                            DText += deptName+" "+empName;
+                        }
                     }
                 }
 
