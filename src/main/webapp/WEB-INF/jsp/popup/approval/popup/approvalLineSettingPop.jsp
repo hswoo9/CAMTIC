@@ -43,6 +43,9 @@
 						<div style="margin-left: 100px;">
 							<span>성명</span>
 							<input type="text" id="sEmpName" style="width: 180px;" class="k-input" onkeypress="if(window.event.keyCode==13){lineSettingPop.treeViewReload();}">
+							<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="lineSettingPop.treeViewReload()">
+								<span class="k-icon k-i-search k-button-icon"></span>
+							</button>
 						</div>
 					</ul>
 					<div style="height:447px;width: 490px;">
