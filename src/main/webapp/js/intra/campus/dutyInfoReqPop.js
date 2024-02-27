@@ -47,7 +47,7 @@ const dutyInfoReq = {
             $("#responsibility").val(dutyInfo.RESPONSIBILITY);
             $("#responsibilityMng").text(dutyInfo.RESPONSIBILITY);
 
-            if(dutyInfo.STATUS == "100"){
+            if(dutyInfo.STATUS == "100" || mode =="mng"){
                 $(".mng-mode").show();
                 $(".upd-mode").hide();
             } else {
@@ -221,6 +221,12 @@ const dutyInfoReq = {
             regEmpSeq : $("#regEmpSeq").val(),
             regEmpName : $("#regEmpName").val(),
             status : status
+        }
+
+        if(status == 10){
+            if(!confirm("요청하시겠습니까?")){
+                return;
+            }
         }
 
         var result = customKendo.fn_customAjax("/campus/setDutyCertReq", data);

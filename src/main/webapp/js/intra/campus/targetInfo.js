@@ -30,11 +30,19 @@ var targetInfo = {
             }
         });
 
+        let index = 0;
+        for(let i = 0; i < targetInfo.global.yearDropDown.length; i++){
+            if(targetInfo.global.yearDropDown[i].VALUE == new Date().getFullYear()){
+                index = i;
+                break;
+            }
+        }
+
         $("#targetYear").kendoDropDownList({
             dataTextField: "TEXT",
             dataValueField: "VALUE",
             dataSource: targetInfo.global.yearDropDown,
-            index: 0,
+            index: index,
             change: function(e) {
                 targetInfo.dataSet();
                 targetInfo.tableSet();
@@ -367,6 +375,16 @@ var targetInfo = {
         if($("#targetYear").val() == "") {
             alert("목표기술서를 등록해주세요.");
             return;
+        }
+
+        if(status == "10") {
+            if(!confirm("요청하시겠습니까?")){
+                return;
+            }
+        } else if(status == "0"){
+            if(!confirm("취소하시겠습니까?")){
+                return;
+            }
         }
 
         $.ajax({

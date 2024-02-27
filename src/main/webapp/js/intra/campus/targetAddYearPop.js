@@ -2,40 +2,53 @@ var now = new Date();
 
 var targetAddYearPop = {
 
+    global : {
+        flag : false,
+        dataSource : [],
+    },
+
     init : function(){
         targetAddYearPop.dataSet();
     },
 
     dataSet : function() {
-        $("#targetYear").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                { text: new Date().getFullYear()+"년", value: new Date().getFullYear() },
-                { text: new Date().getFullYear()+1+"년", value: new Date().getFullYear()+1 },
-            ],
-            index: 0
-        });
-    },
-
-    saveTarget : function() {
-        var flag = false;
         $.ajax({
             url : "/campus/getTargetOne",
             data : {
-                targetYear : $("#targetYear").val(),
+                targetYear : new Date().getFullYear(),
                 empSeq : $("#empSeq").val()
             },
             type : "post",
             dataType : "json",
             async : false,
             success : function(result){
-                flag = result.flag;
+                targetAddYearPop.global.flag = result.flag;
+
+                if(!result.flag && result.list[0].STATUS == "100"){
+                    targetAddYearPop.global.dataSource = [
+                        { text: new Date().getFullYear()+1+"년", value: new Date().getFullYear()+1 },
+                    ]
+                } else {
+                    targetAddYearPop.global.dataSource = [
+                        { text: new Date().getFullYear()+"년", value: new Date().getFullYear() },
+                        { text: new Date().getFullYear()+1+"년", value: new Date().getFullYear()+1 },
+                    ]
+                }
             }
         });
 
+        $("#targetYear").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: targetAddYearPop.global.dataSource,
+            index: 0
+        });
+    },
+
+    saveTarget : function() {
+
         //해당년도 데이터 조회해서 없을경우(true) 데이터 입력
-        if(flag) {
+        if(targetAddYearPop.global.flag) {
             $.ajax({
                 url : "/campus/setTargetInsert",
                 data : {
@@ -60,6 +73,7 @@ var targetAddYearPop = {
             });
         }else {
             alert("해당 년도는 이미 등록되어 있습니다.");
+            window.location.href = "targetInfoPop.do?targetYear="+ $("#targetYear").val();
         }
     }
 }
