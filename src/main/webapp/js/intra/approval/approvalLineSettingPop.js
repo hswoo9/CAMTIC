@@ -632,7 +632,8 @@ var lineSettingPop = {
             return;
         }
 
-        if(typeCk == "N"){
+        const list = lineSettingPop.global.approversArr;
+        if(typeCk == "N" && (list.length == 1 || ( list.length != 1 && list[list.length - 1].approveDutyName != "원장"))){
             alert("결재선에 전결자가 포함 되어야 합니다.");
 
             return;
