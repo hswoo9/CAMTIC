@@ -310,35 +310,107 @@ const busiExnp = {
         var rowList = bustExnpTb.rows;
 
         var result = "";
+
         for(var i = 1 ; i < rowList.length-1 ; i++){
             var row = rowList[i];
 
+            var data = {};
             let empSeq = $(row.cells[0]).find("input[name='empSeq']").val();
-            var data = {
-                hrBizReqId : $("#hrBizReqId").val(),
-                hrBizExnpId : $(row.cells[0]).find("input[name='hrBizExnpId']").val(),
-                empName : $(row.cells[0]).find("input[type=text]").val(),
-                empSeq : $(row.cells[0]).find("input[name='empSeq']").val(),
-                oilCost : $(row.cells[1]).find("input[type=text]").val(),
-                trafCost : $(row.cells[2]).find("input[type=text]").val(),
-                trafDayCost : $(row.cells[3]).find("input[type=text]").val(),
-                tollCost : $(row.cells[4]).find("input[type=text]").val(),
-                dayCost : $(row.cells[5]).find("input[type=text]").val(),
-                eatCost : $(row.cells[6]).find("input[type=text]").val(),
-                parkingCost : $(row.cells[7]).find("input[type=text]").val(),
-                etcCost : $(row.cells[8]).find("input[type=text]").val(),
-                totCost : $(row.cells[9]).find("input[type=text]").val(),
+            if(row.classList.value == 'addData'){
+                data = {
+                    hrBizReqId : $("#hrBizReqId").val(),
+                    hrBizExnpId : $(row.cells[0]).find("input[name='hrBizExnpId']").val(),
+                    empName : $(row.cells[0]).find("input[type=text]").val(),
+                    empSeq : $(row.cells[0]).find("input[name='empSeq']").val(),
+                    oilCost : $(row.cells[1]).find("input[type=text]").val(),
+                    trafCost : $(row.cells[2]).find("input[type=text]").val(),
+                    trafDayCost : $(row.cells[3]).find("input[type=text]").val(),
+                    tollCost : $(row.cells[4]).find("input[type=text]").val(),
+                    dayCost : $(row.cells[5]).find("input[type=text]").val(),
+                    eatCost : $(row.cells[6]).find("input[type=text]").val(),
+                    parkingCost : $(row.cells[7]).find("input[type=text]").val(),
+                    etcCost : $(row.cells[8]).find("input[type=text]").val(),
+                    totCost : $(row.cells[9]).find("input[type=text]").val(),
 
-                oilCorpYn : $(row.cells[1]).find("#oilCorpYn"+empSeq).data("kendoDropDownList").value(),
-                trafCorpYn : $(row.cells[2]).find("#trafCorpYn"+empSeq).data("kendoDropDownList").value(),
-                trafDayCorpYn : $(row.cells[3]).find("#trafDayCorpYn"+empSeq).data("kendoDropDownList").value(),
-                tollCorpYn : $(row.cells[4]).find("#tollCorpYn"+empSeq).data("kendoDropDownList").value(),
-                eatCorpYn : "Y",
-                parkingCorpYn : $(row.cells[7]).find("#parkingCorpYn"+empSeq).data("kendoDropDownList").value(),
-                etcCorpYn : $(row.cells[8]).find("#etcCorpYn"+empSeq).data("kendoDropDownList").value(),
-                expStat : "Y",
-                type : type
+                    oilCorpYn : $(row.cells[1]).find("#oilCorpYn"+empSeq).data("kendoDropDownList").value(),
+                    trafCorpYn : $(row.cells[2]).find("#trafCorpYn"+empSeq).data("kendoDropDownList").value(),
+                    trafDayCorpYn : $(row.cells[3]).find("#trafDayCorpYn"+empSeq).data("kendoDropDownList").value(),
+                    tollCorpYn : $(row.cells[4]).find("#tollCorpYn"+empSeq).data("kendoDropDownList").value(),
+                    eatCorpYn : "Y",
+                    parkingCorpYn : $(row.cells[7]).find("#parkingCorpYn"+empSeq).data("kendoDropDownList").value(),
+                    etcCorpYn : $(row.cells[8]).find("#etcCorpYn"+empSeq).data("kendoDropDownList").value(),
+                    expStat : "Y",
+                    type : type
+                }
+
+                // 법인카드
+                if(row.classList.value == 'corpCardData'){
+                    var totalAirCost = $("#corp1").val();
+                    var totalTrafCost = $("#corp2").val();
+                    var totalRoomCost = $("#corp3").val();
+                    var totalVisaCost = $("#corp4").val();
+                    var totalDayCost = $("#corp5").val();
+                    var totalEatCost = $("#corp6").val();
+                    var totalInsCost = $("#corp7").val();
+                    var totalEtcCost = $("#corp8").val();
+                    var totalAmt = $("#corp9").val();
+
+                    data = {
+                        hrBizReqResultId : hrBizReqResultId,
+                        hrBizExnpId : $("#corpExnpId").val(),
+                        airCost : totalAirCost || 0,
+                        trafCost : totalTrafCost,
+                        roomCost : totalRoomCost,
+                        visaCost : totalVisaCost,
+                        dayCost : totalDayCost,
+                        eatCost : totalEatCost,
+                        insCost : totalInsCost,
+                        etcCost : totalEtcCost,
+                        totCost : totalAmt,
+                        type : type,
+                        division : '2'
+                    };
+                }
+
+                // 법인차량
+                if(row.classList.value == 'corpCarData'){
+                    data = {
+                        hrBizReqResultId : hrBizReqResultId,
+                        hrBizExnpId : $("#corpCarExnpId").val(),
+                        airCost : $("#corpCar1").val(),
+                        trafCost : $("#corpCar2").val(),
+                        roomCost : $("#corpCar3").val(),
+                        visaCost : $("#corpCar4").val(),
+                        dayCost : $("#corpCar5").val(),
+                        eatCost : $("#corpCar6").val(),
+                        insCost : $("#corpCar7").val(),
+                        etcCost : $("#corpCar8").val(),
+                        totCost : $("#corpCar9").val(),
+                        type : type,
+                        division : '3'
+                    };
+                }
+
+                // 업체지급
+                if(row.classList.value == 'corpCrmData'){
+                    data = {
+                        hrBizReqResultId : hrBizReqResultId,
+                        hrBizExnpId : $("#corpCrmExnpId").val(),
+                        airCost : $("#corpCrm1").val(),
+                        trafCost : $("#corpCrm2").val(),
+                        roomCost : $("#corpCrm3").val(),
+                        visaCost : $("#corpCrm4").val(),
+                        dayCost : $("#corpCrm5").val(),
+                        eatCost : $("#corpCrm6").val(),
+                        insCost : $("#corpCrm7").val(),
+                        etcCost : $("#corpCrm8").val(),
+                        totCost : $("#corpCrm9").val(),
+                        type : type,
+                        division : '3'
+                    };
+                }
             }
+
 
             result = customKendo.fn_customAjax("/bustrip/saveBustripExnpPop", data);
         }

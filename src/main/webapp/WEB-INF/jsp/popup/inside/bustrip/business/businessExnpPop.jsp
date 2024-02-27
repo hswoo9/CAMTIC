@@ -157,6 +157,7 @@
                 <tr class="corpCrmData">
                     <td>
                         <div style="text-align: center">업체지급</div>
+                        <input type="hidden" id="corpCrmExnpId" class="hrBizExnpId" name="hrBizExnpId" value="" />
                     </td>
                     <td>
                         <input type="text" id="corpCrm1" class="corpCarInput"  value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
@@ -186,9 +187,10 @@
                         <input type="text" id="corpCrm9" class="corpCarInput" value="0" style="width: 100%;text-align:right;" disabled />
                     </td>
                 </tr>
-                <tr class="corpData">
+                <tr class="corpCardData">
                     <td>
                         <div style="text-align: center">법인카드</div>
+                        <input type="hidden" id="corpExnpId" class="hrBizExnpId" name="hrBizExnpId" value="" />
                     </td>
                     <td>
                         <input type="text" id="corp1" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(1, 'air')"/>
@@ -221,6 +223,7 @@
                 <tr class="corpCarData">
                     <td>
                         <div style="text-align: center">법인차량</div>
+                        <input type="hidden" id="corpCarExnpId" class="hrBizExnpId" name="hrBizExnpId" value="" />
                     </td>
                     <td>
                         <input type="text" id="corpCar1" class="corpCarInput"  value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
