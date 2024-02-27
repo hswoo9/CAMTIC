@@ -9,7 +9,7 @@ const lectureReq = {
     },
 
     fn_pageSet: function(){
-        customKendo.fn_textBox(["projectName", "lectureName", "lectureNameEx", "methodType","title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee", "field3", "conName", "conTitle", "conDetailTitle", "conTime", "conNum", "conArea", "conPerson"]);
+        customKendo.fn_textBox(["projectName", "lectureName", "lectureNameEx", "methodTypePr", "title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee", "field3", "conName", "conTitle", "conDetailTitle", "conTime", "conNum", "conArea", "conPerson"]);
         customKendo.fn_textArea(["content1", "content2", "goal", "intro", "targetUser", "scheduleHtml", "prospectus", "materials"]);
 
         /** form구분 drop box */
@@ -50,7 +50,7 @@ const lectureReq = {
         ub.fn_agmDtSet();
 
         /** 운영방법 radio button */
-        /*ub.fn_methodTypeSet();*/
+        ub.fn_methodTypeSet();
 
         /** 인증서 radio button */
         /*ub.fn_certTypeSet();*/
@@ -101,9 +101,9 @@ const lectureReq = {
             $("#prospectus").val(lecMap.LEC_INQ);
             $("#materials").val(lecMap.LEC_MAT);
 
-            $("#textbookFee").val(lecMap.LEC_COST);
-            /*$("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);*/
-            $("#methodType").val(lecMap.LEC_OPER);
+            /*$("#textbookFee").val(lecMap.LEC_COST);*/
+            $("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);
+            $("#methodTypePr").val(lecMap.LEC_OPER_PR);
 
             /*$("#certType").data("kendoRadioGroup").value(lecMap.LEC_CERT);*/
 
@@ -241,10 +241,10 @@ const lectureReq = {
                 prospectus: $("#prospectus").val(),
                 /*materials: $("#materials").val(),*/
 
-                textbookFee: $("#textbookFee").val().replace(/,/g, ''),
+                /*textbookFee: $("#textbookFee").val().replace(/,/g, ''),*/
                 textbookFeeEx: "",
-                /*methodType: $("#methodType").data("kendoRadioGroup").value(),*/
-                methodType: $("#methodType").val(),
+                methodType: $("#methodType").data("kendoRadioGroup").value(),
+                methodTypePr: $("#methodTypePr").val(),
 
                 /*certType: $("#certType").data("kendoRadioGroup").value(),*/
 
@@ -299,10 +299,10 @@ const lectureReq = {
                 alert("교육장소가 작성되지 않았습니다.");
                 return;
             }
-            if (data.textbookFee == "") {
+            /*if (data.textbookFee == "") {
                 alert("교육비가 작성되지 않았습니다.");
                 return;
-            }
+            }*/
             if (data.courseType == "") {
                 alert("메인게시여부가 선택되지 않았습니다.");
                 return;

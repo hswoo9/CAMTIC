@@ -281,12 +281,6 @@
               </td>
             </tr>
             <tr>
-              <th>첨부서류</th>
-              <td colspan="3">
-                <input type="text" id="attachDocName" style="width: 800px">
-              </td>
-            </tr>
-            <tr>
               <th>첨부파일</th>
               <td colspan="3">
                 <label for="eduFile" class="k-button k-button-solid-base">파일첨부</label>

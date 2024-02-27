@@ -216,13 +216,13 @@ var holidayWorkApplication ={
     workHolidayDrafting : function(subHolidayId) {
         $("#subHolidayId").val(subHolidayId);
         $("#subHolidayDraftFrm").one("submit", function() {
-            var url = "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do";
-            var name = "workHolidayApprovalPop";
+            var url = "/popup/subHoliday/approvalFormPopup/workHolidayUserApprovalPop.do";
+            var name = "workHolidayUserApprovalPop";
             var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
             var popup = window.open(url, name, option);
-            this.action = "/popup/subHoliday/approvalFormPopup/workHolidayApprovalPop.do";
+            this.action = "/popup/subHoliday/approvalFormPopup/workHolidayUserApprovalPop.do";
             this.method = 'POST';
-            this.target = 'workHolidayApprovalPop';
+            this.target = 'workHolidayUserApprovalPop';
         }).trigger("submit");
     },
 

@@ -25,7 +25,7 @@
       <c:choose>
         <c:when test="${data.STATUS == 0 || data.STATUS == 30}">
           <input type="button" class="k-button k-button-solid-info usrBtn" value="수정" onclick="eduInfoViewPop.campusModify();"/>
-          <input type="button" class="k-button k-button-solid-info usrBtn" value="결재요청" onclick="eduInfoViewPop.campusDrafting();"/>
+          <input type="button" class="k-button k-button-solid-info usrBtn" value="상신" onclick="eduInfoViewPop.campusDrafting();"/>
         </c:when>
         <c:when test="${data.STATUS == 10}">
           <input type="button" class="k-button k-button-solid-info usrBtn" value="회수" onclick="docApprovalRetrieve('${data.DOC_ID}', '${data.APPRO_KEY}', 1, 'retrieve');"/>
@@ -271,12 +271,6 @@
               <th>관련사업</th>
               <td colspan="3">
                 임시사업
-              </td>
-            </tr>
-            <tr>
-              <th>첨부서류</th>
-              <td colspan="3">
-                ${data.ATTACH_DOC_NAME}
               </td>
             </tr>
             <tr>
