@@ -42,6 +42,7 @@
             IHCR.CAR_CLASS_TEXT,
             IHCR.CAR_TYPE_SN,
             IHCR.CAR_TYPE_TEXT,
+            IHCR.CAR_CLASS_RMK,
             IHCR.CAR_TITLE_NAME,
             IHCR.VISIT_NAME,
             IHCR.WAY_POINT_NAME,
@@ -67,7 +68,10 @@
         /* getCarRequestList */
         SELECT
             IHCR.CAR_REQ_SN,
-            CONCAT('[',IHCR.CAR_CLASS_TEXT,'] ',IHCR.START_TIME,'~',IHCR.END_TIME) AS title,
+            CASE
+                WHEN IHCR.CAR_CLASS_TEXT = '기타' THEN CONCAT('[',IHCR.CAR_CLASS_TEXT,'(',IHCR.CAR_CLASS_RMK,')]',IHCR.START_TIME,'~',IHCR.END_TIME)
+                ELSE CONCAT('[',IHCR.CAR_CLASS_TEXT,'] ',IHCR.START_TIME,'~',IHCR.END_TIME)
+            END AS title,
             DATE_FORMAT(IHCR.START_DT, '%Y-%m-%d') AS startDate,
             DATE_FORMAT(IHCR.END_DT, '%Y-%m-%d') AS endDate,
             CONCAT(IHCR.START_DT, ' ',IHCR.START_TIME) AS start,
@@ -305,6 +309,7 @@
                 USE_DEPT_NAME,
                 CAR_CLASS_SN,
                 CAR_CLASS_TEXT,
+                CAR_CLASS_RMK,
                 CAR_TYPE_SN,
                 CAR_TYPE_TEXT,
                 CAR_TITLE_NAME,
@@ -330,6 +335,7 @@
                 #{useDeptName},
                 #{carClassSn},
                 #{carClassText},
+                #{carClassRmk},
                 #{carTypeSn},
                 #{carTypeText},
                 #{carTitleName},
@@ -361,6 +367,7 @@
             USE_DEPT_NAME = #{useDeptName},
             CAR_CLASS_SN = #{carClassSn},
             CAR_CLASS_TEXT = #{carClassText},
+            CAR_CLASS_RMK = #{carClassRmk},
             CAR_TYPE_SN = #{carTypeSn},
             CAR_TYPE_TEXT = #{carTypeText},
             CAR_TITLE_NAME = #{carTitleName},

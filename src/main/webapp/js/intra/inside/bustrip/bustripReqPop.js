@@ -9,7 +9,7 @@ const bustripReq = {
     pageSet: function(){
         window.resizeTo(1200, 700);
         /** Kendo 위젯 세팅 */
-        customKendo.fn_textBox(["busnName", "popEmpName", "externalName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName"]);
+        customKendo.fn_textBox(["busnName", "popEmpName", "externalName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName", "carRmk"]);
         customKendo.fn_textArea(["bustObj"]);
         customKendo.fn_datePicker("reqDate", 'month', "yyyy-MM-dd", new Date());
         $("#visitCrm").attr("readonly", true);
@@ -159,10 +159,16 @@ const bustripReq = {
 
         /** 차량 */
         $("#carList").data("kendoDropDownList").value(busInfo.USE_TRSPT);
+        $("#carRmk").val(busInfo.USE_TRSPT_RMK);
         if(busInfo.USE_CAR == "Y"){
             $("#car2").prop("checked", true);
         } else {
             $("#car1").prop("checked", true);
+        }
+        if($("#carList").data("kendoDropDownList").text() == "기타"){
+            $("#inputWrap").show();
+        } else {
+            $("#inputWrap").hide();
         }
 
         /** 출장목적 */
@@ -235,6 +241,7 @@ const bustripReq = {
 
         if($("#tripCode").data("kendoRadioGroup").value() != 4 && $("#tripCode").data("kendoRadioGroup").value() != ""){
             if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
+            if($("#carList").data("kendoDropDownList").text() == "기타" && $("#carRmk").val() == ""){ alert("차량을 입력해주세요."); return; }
         }
 
         var formData = new FormData();
@@ -277,6 +284,7 @@ const bustripReq = {
         formData.append("useCar", "Y");
         formData.append("useTrspt", $("#carList").val());
         formData.append("title", $("#bustObj").val());
+        formData.append("useTrsptRmk", $("#carRmk").val());
 
         /** 증빙파일 첨부파일 */
         if(fCommon.global.attFiles != null){
@@ -296,6 +304,7 @@ const bustripReq = {
                 useDeptName : $("#regDeptName").val(),
                 carClassSn : $("#carList").val(),
                 carClassText : $("#carList").data("kendoDropDownList").text(),
+                carClassRmk : $("#carRmk").val(),
                 carTypeSn : 1,
                 carTypeText : "업무용",
                 carTitleName : $("#bustObj").val(),
@@ -307,7 +316,12 @@ const bustripReq = {
                 regEmpName : $("#regEmpName").val(),
                 type: "bustripReq"
             }
-            carReq.searchDuplicateCar(data);
+
+            if($("#carList").data("kendoDropDownList").text() != "기타"){
+                carReq.searchDuplicateCar(data);
+            } else {
+                flag = true;
+            }
 
             if(flag) {
                 carReq.setCarRequestInsert(data);

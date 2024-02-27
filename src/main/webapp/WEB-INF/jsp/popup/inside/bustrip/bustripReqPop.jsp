@@ -185,6 +185,7 @@
                 <th><span class="red-star">*</span>차량</th>
                 <td colspan="3">
                     <input id="carList" style="width: 180px;">
+                    <span id="inputWrap" style="display: none;"><input type="text" id="carRmk" style="width: 200px;"></span>
                     <input type="button" id="carBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="운행확인" onclick="bustripReq.carViewPop()"/><br>
                 </td>
             </tr>

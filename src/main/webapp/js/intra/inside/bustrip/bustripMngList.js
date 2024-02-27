@@ -142,7 +142,30 @@ var bustripMngList = {
                 }, {
                     field: "CAR_CLASS_NAME",
                     title: "차량",
-                    width: 80
+                    width: 80,
+                    template : function (e){
+                        if(e.USE_TRSPT == 1){
+                            return "카니발";
+                        } else if(e.USE_TRSPT == 5){
+                            return "아반떼";
+                        } else if (e.USE_TRSPT == 3){
+                            return "트럭";
+                        } else if (e.USE_TRSPT == 12){
+                            return "모하비";
+                        } else if (e.USE_TRSPT == 13){
+                            return "솔라티";
+                        } else if (e.USE_TRSPT == 14){
+                            return "드론관제차량";
+                        } else if (e.USE_TRSPT == 10){
+                            return "자가";
+                        } else if (e.USE_TRSPT == 0){
+                            return "대중교통";
+                        } else if (e.USE_TRSPT == 15){
+                            return "기타(" + e.USE_TRSPT_RMK + ")";
+                        } else {
+                            return "-";
+                        }
+                    }
                 }, {
                     title: "결재상태",
                     template: function(row){

@@ -63,6 +63,7 @@
             IFNULL(B.TRIP_DAY_TO, A.TRIP_DAY_TO) AS TRIP_DAY_TO,
             IFNULL(B.TRIP_TIME_TO, A.TRIP_TIME_TO) AS TRIP_TIME_TO,
             IFNULL(B.USE_TRSPT, A.USE_TRSPT) AS USE_TRSPT,
+            IFNULL(B.USE_TRSPT_RMK, A.USE_TRSPT_RMK) AS USE_TRSPT_RMK,
             A.STATUS,
             A.BF_PAY_APP_SN,
             B.STATUS AS RS_STATUS,
@@ -147,6 +148,7 @@
                 TITLE,
                 USE_CAR,
                 USE_TRSPT,
+                USE_TRSPT_RMK,
             <if test="nationCode != null and !''.equals(nationCode)">
                 NATION_CODE,
             </if>
@@ -177,6 +179,7 @@
                 #{title},
                 #{useCar},
                 #{useTrspt},
+                #{useTrsptRmk},
             <if test="nationCode != null and !''.equals(nationCode)">
                 #{nationCode},
             </if>
@@ -214,6 +217,7 @@
                 TITLE,
                 USE_CAR,
                 USE_TRSPT,
+                USE_TRSPT_RMK,
             <if test="nationCode != null and !''.equals(nationCode)">
                 NATION_CODE,
             </if>
@@ -249,6 +253,7 @@
                 #{title},
                 #{useCar},
                 #{useTrspt},
+                #{useTrsptRmk},
             <if test="nationCode != null and !''.equals(nationCode)">
                 #{nationCode},
             </if>
@@ -468,6 +473,7 @@
     </update>
 
     <update id="updBustripResReq" parameterType="map">
+        /*updBustripResReq*/
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
         SET
             CRM_SN = #{crmSn},
@@ -484,6 +490,7 @@
             TITLE = #{title},
             USE_CAR = #{useCar},
             USE_TRSPT = #{useTrspt},
+            USE_TRSPT_RMK = #{useTrsptRmk},
         <if test="nationCode != null and !''.equals(nationCode)">
             NATION_CODE = #{nationCode},
         </if>

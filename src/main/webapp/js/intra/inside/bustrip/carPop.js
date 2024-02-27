@@ -7,12 +7,21 @@ var carReq = {
     },
 
     pageSet: function(){
-        customKendo.fn_textBox(["carTitle", "visit", "waypoint", "empName", "emergencyName", "emergencyTel"]);
+        customKendo.fn_textBox(["carTitle", "visit", "waypoint", "empName", "emergencyName", "emergencyTel", "carClassRmk"]);
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", $("#startDt").val() == "" ? new Date() : $("#startDt").val());
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("applyDt", '', "yyyy-MM-dd", new Date());
+
         const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;
         customKendo.fn_dropDownList("carClass", carArr, "text", "value", 1);
+        $("#carClass").data("kendoDropDownList").bind("change", function(){
+            if($("#carClass").data("kendoDropDownList").text() == "기타"){
+                $("#inputWrap").show();
+            } else {
+                $("#inputWrap").hide();
+            }
+        })
+
         let carTypeArr = [
             {text: "업무용", value: "1"},
             {text: "개인 사유", value: "2"}
@@ -42,6 +51,7 @@ var carReq = {
             $("#dept").data("kendoDropDownList").value(data.USE_DEPT_SEQ);
             $("#carClass").data("kendoDropDownList").value(data.CAR_CLASS_SN);
             $("#carType").data("kendoDropDownList").value(data.CAR_TYPE_SN);
+            $("#carClassRmk").val(data.CAR_CLASS_RMK);
             $("#carTitle").val(data.CAR_TITLE_NAME);
             $("#visit").val(data.VISIT_NAME);
             $("#waypoint").val(data.WAY_POINT_NAME);
@@ -51,6 +61,12 @@ var carReq = {
             $("#emergencyName").val(data.EMERGENCY_NAME);
             $("#emergencyTel").val(data.EMERGENCY_TEL);
             carReq.fn_buttonSet(data);
+
+            if($("#carClass").data("kendoDropDownList").text() == "기타"){
+                $("#inputWrap").show();
+            } else {
+                $("#inputWrap").hide();
+            }
         }
     },
 
@@ -64,6 +80,7 @@ var carReq = {
         let useDeptName = $("#dept").data("kendoDropDownList").text();
         let carClassSn = $("#carClass").data("kendoDropDownList").value();
         let carClassText = $("#carClass").data("kendoDropDownList").text();
+        let carClassRmk = $("#carClassRmk").val();
         let carTypeSn = $("#carType").data("kendoDropDownList").value();
         let carTypeText = $("#carType").data("kendoDropDownList").text();
         let carTitle = $("#carTitle").val();
@@ -81,6 +98,7 @@ var carReq = {
         if(startDt == ""||endDt == ""){ alert("운행일시가 작성되지 않았습니다."); return;}
         if(useDeptSeq == ""){ alert("사용부서가 선택되지 않았습니다."); return;}
         if(carClassSn == ""){ alert("사용차량이 선택되지 않았습니다."); return;}
+        if(carClassText == "기타" && carClassRmk == ""){ alert("사용 차량이 입력되지 않았습니다."); return;}
         if(carTypeSn == ""){ alert("운행구분 선택되지 않았습니다."); return;}
         if(empSeq == ""){ alert("운행자 선택되지 않았습니다."); return;}
         if(carTypeSn == "2" && emergencyName == ""){ alert("비상연락처가 작성되지 않았습니다."); return;}
@@ -96,6 +114,7 @@ var carReq = {
             useDeptName : useDeptName,
             carClassSn : carClassSn,
             carClassText : carClassText,
+            carClassRmk : carClassRmk,
             carTypeSn : carTypeSn,
             carTypeText : carTypeText,
             carTitleName : carTitle,
@@ -108,13 +127,17 @@ var carReq = {
             regEmpSeq : regEmpSeq,
             regEmpName : regEmpName
         }
-        carReq.searchDuplicateCar(data);
 
-        var chkData = customKendo.fn_customAjax("/inside/carRequestCheck", data).cnt;
+        if(carClassText != "기타") {
+            carReq.searchDuplicateCar(data);
 
-        if(chkData > 0){
-            alert("선택하신 일시에 해당 차량 신청건이 존재합니다");
-            return false;
+            var chkData = customKendo.fn_customAjax("/inside/carRequestCheck", data).cnt;
+            if(chkData > 0){
+                alert("선택하신 일시에 해당 차량 신청건이 존재합니다");
+                return false;
+            }
+        } else {
+            flag = true;
         }
 
         if(flag) {

@@ -166,8 +166,21 @@ var bustripResMngList = {
                                 return "사용 (아반떼)";
                             } else if(row.USE_TRSPT == 3){
                                 return "사용 (트럭)";
+                            } else if (row.USE_TRSPT == 12){
+                                return "사용 (모하비)";
+                            } else if (row.USE_TRSPT == 13){
+                                return "사용 (솔라티)";
+                            } else if (row.USE_TRSPT == 14){
+                                return "사용 (드론관제차량)";
+                            } else if (row.USE_TRSPT == 10){
+                                return "사용 (자가)";
+                            } else if (row.USE_TRSPT == 0){
+                                return "사용 (대중교통)";
+                            } else if (row.USE_TRSPT == 15){
+                                return "사용 (기타(" + row.USE_TRSPT_RMK + "))";
+                            } else {
+                                return "사용";
                             }
-                            return "사용";
                         } else {
                             return "사용안함";
                         }

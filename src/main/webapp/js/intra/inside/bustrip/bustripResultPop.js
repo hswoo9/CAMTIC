@@ -19,12 +19,17 @@ var bustripResultPop = {
             $("#moveDst").val(0)
             $(".bustripTr").hide();
         }
+        if($("#carList").data("kendoDropDownList").text() == "기타"){
+            $("#inputWrap").show();
+        } else {
+            $("#inputWrap").hide();
+        }
     },
 
     pageSet: function(){
         window.resizeTo(1200, 795);
         /** Kendo 위젯 세팅 */
-        customKendo.fn_textBox(["busnName", "popEmpName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName"]);
+        customKendo.fn_textBox(["busnName", "popEmpName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName", "carRmk"]);
         customKendo.fn_textArea(["bustObj", "result"]);
         customKendo.fn_datePicker("reqDate", 'month', "yyyy-MM-dd", new Date());
         $("#visitCrm").attr("readonly", true);
@@ -121,10 +126,16 @@ var bustripResultPop = {
 
         /** 차량 */
         $("#carList").data("kendoDropDownList").value(busInfo.USE_TRSPT);
+        $("#carRmk").val(busInfo.USE_TRSPT_RMK);
         if(busInfo.USE_CAR == "Y"){
             $("#car2").prop("checked", true);
         } else {
             $("#car1").prop("checked", true);
+        }
+        if($("#carList").data("kendoDropDownList").text() == "기타"){
+            $("#inputWrap").show();
+        } else {
+            $("#inputWrap").hide();
         }
 
         /** 출장목적 */
@@ -165,6 +176,7 @@ var bustripResultPop = {
             $("#time2").data("kendoTimePicker").enable(false);
 
             $("#carList").data("kendoDropDownList").enable(false);
+            $("#carRmk").data("kendoDropDownList").enable(false);
             $("#carBtn").css("display", "none");
 
             $("#bustObj").data("kendoTextArea").enable(false);
@@ -299,10 +311,16 @@ var bustripResultPop = {
         /** 차량 */
         $("#bustObj").val(resInfo.TITLE);
         $("#carList").data("kendoDropDownList").value(resInfo.USE_TRSPT);
+        $("#carRmk").val(resInfo.USE_TRSPT_RMK);
         if(resInfo.USE_CAR == "Y"){
             $("#car2").prop("checked", true);
         } else {
             $("#car1").prop("checked", true);
+        }
+        if($("#carList").data("kendoDropDownList").text() == "기타"){
+            $("#inputWrap").show();
+        } else {
+            $("#inputWrap").hide();
         }
 
         /** 출장목적 */
@@ -378,6 +396,7 @@ var bustripResultPop = {
             $("#time2").data("kendoTimePicker").enable(false);
 
             $("#carList").data("kendoDropDownList").enable(false);
+            $("#carRmk").data("kendoDropDownList").enable(false);
             $("#carBtn").css("display", "none");
 
             $("#bustObj").data("kendoTextArea").enable(false);
@@ -409,6 +428,7 @@ var bustripResultPop = {
         if($("#bustObj").val() == ""){ alert("출장목적을 입력해주세요."); return; }
         if($("#tripCode").data("kendoRadioGroup").value() != 4 && $("#tripCode").data("kendoRadioGroup").value() != "") {
             if($("#carList").val() == ""){ alert("차량을 선택해주세요."); return; }
+            if($("#carList").data("kendoDropDownList").text() == "기타" && $("#carRmk").val() == ""){ alert("차량을 입력해주세요."); return; }
         }
         if($("#tripCode").data("kendoRadioGroup").value() != 4){
             if($("#realDriver").val() == ""){ alert("운행자를 선택해주세요."); return; }
@@ -463,6 +483,7 @@ var bustripResultPop = {
         formData.append("useTrspt", $("#carList").val());
         formData.append("title", $("#bustObj").val());
         formData.append("result", $("#result").val());
+        formData.append("useTrsptRmk", $("#carRmk").val());
 
         formData.append("companionChangeCheck", $("#companionChangeCheck").val());
 

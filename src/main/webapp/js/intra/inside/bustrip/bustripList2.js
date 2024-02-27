@@ -190,6 +190,8 @@ var bustList = {
                             return "자가";
                         } else if (e.USE_TRSPT == 0){
                             return "대중교통";
+                        } else if (e.USE_TRSPT == 15){
+                            return "기타(" + e.USE_TRSPT_RMK + ")";
                         } else {
                             return "-";
                         }

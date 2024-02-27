@@ -57,6 +57,12 @@ var bustrip = {
                 $(".bustripTr").show();
 
             }
+
+            if($("#carList").data("kendoDropDownList").text() == "기타"){
+                $("#inputWrap").show();
+            } else {
+                $("#inputWrap").hide();
+            }
         })
 
     },
