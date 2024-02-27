@@ -2,18 +2,45 @@ var now = new Date();
 
 var targetAddYearPop = {
 
+    global : {
+        dataSource : [],
+    },
+
     init : function(){
         targetAddYearPop.dataSet();
     },
 
     dataSet : function() {
+        var flag = false;
+        $.ajax({
+            url : "/campus/getTargetOne",
+            data : {
+                targetYear : new Date().getFullYear(),
+                empSeq : $("#empSeq").val()
+            },
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                flag = result.flag;
+
+                if(!result.flag && result.list[0].STATUS == "100"){
+                    targetAddYearPop.global.dataSource = [
+                        { text: new Date().getFullYear()+1+"년", value: new Date().getFullYear()+1 },
+                    ]
+                } else {
+                    targetAddYearPop.global.dataSource = [
+                        { text: new Date().getFullYear()+"년", value: new Date().getFullYear() },
+                        { text: new Date().getFullYear()+1+"년", value: new Date().getFullYear()+1 },
+                    ]
+                }
+            }
+        });
+
         $("#targetYear").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
-            dataSource: [
-                { text: new Date().getFullYear()+"년", value: new Date().getFullYear() },
-                { text: new Date().getFullYear()+1+"년", value: new Date().getFullYear()+1 },
-            ],
+            dataSource: targetAddYearPop.global.dataSource,
             index: 0
         });
     },
@@ -60,6 +87,7 @@ var targetAddYearPop = {
             });
         }else {
             alert("해당 년도는 이미 등록되어 있습니다.");
+            window.location.href = "targetInfoPop.do?targetYear="+ $("#targetYear").val();
         }
     }
 }

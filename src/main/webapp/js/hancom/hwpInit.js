@@ -332,11 +332,20 @@ var hwpInit = {
         const carInfo = customKendo.fn_customAjax("/bustrip/getCarRequestInfo", {carReqSn: carReqSn});
         const map = carInfo.data;
         hwpDocCtrl.putFieldText('CAR_DT', map.START_DT+" "+map.START_TIME+" ~ "+map.END_DT+" "+map.END_TIME);
-        hwpDocCtrl.putFieldText('CAR_CLASS_TEXT', map.CAR_CLASS_TEXT);
+        // hwpDocCtrl.putFieldText('CAR_CLASS_TEXT', map.CAR_CLASS_TEXT);
         hwpDocCtrl.putFieldText('CAR_TITLE_NAME', map.CAR_TITLE_NAME);
         hwpDocCtrl.putFieldText('VISIT_NAME', map.VISIT_NAME);
         hwpDocCtrl.putFieldText('EMERGENCY_NAME', map.EMERGENCY_NAME+" "+map.EMERGENCY_TEL);
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
         hwpDocCtrl.putFieldText('EMP_NAME', map.REG_EMP_NAME);
+
+        /** 차량 */
+        let carClassTxt = "";
+        if(map.CAR_CLASS_TEXT == "기타"){
+            carClassTxt = map.CAR_CLASS_TEXT + "(" + map.CAR_CLASS_RMK + ")";
+        } else {
+            carClassTxt = map.CAR_CLASS_TEXT;
+        }
+        hwpDocCtrl.putFieldText('CAR_CLASS_TEXT', carClassTxt);
     }
 }

@@ -46,4 +46,16 @@ public interface CompanyCardService {
     void setCardManager(Map<String, Object> params);
 
     void setCardHolder(Map<String, Object> params);
+
+    List<Map<String, Object>> getCardAuthList(Map<String, Object> params);
+
+    List<Map<String, Object>> getCardAuthUserList(Map<String, Object> params);
+
+    void setCardAuthData(Map<String, Object> params);
+
+    void delCardAuthData(Map<String, Object> params);
+
+    void setCardAuthUserData(Map<String, Object> params);
+
+    void delCardAuthUserData(Map<String, Object> params);
 }

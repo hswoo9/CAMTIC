@@ -591,9 +591,29 @@ var payDetView = {
 
     fn_selCardInfo: function (trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor){
         var idx = $("#index").val();
-        opener.parent.fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx);
 
-        window.close();
+        if(idx == "9999"){
+            $.ajax({
+                url: "/card/getCardAuthList",
+                data: {
+                    cardNo: cardBaNb
+                },
+                dataType: "json",
+                type: "POST",
+                success: function(rs){
+                    if(rs.list.length > 0){
+                        alert("이미 등록된 카드입니다.");
+                        return;
+                    } else {
+                        opener.parent.cardAuthMng.fn_selCardInfo(trCd, trNm, cardBaNb);
+                        window.close();
+                    }
+                }
+            });
+        } else {
+            opener.parent.fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx);
+            window.close();
+        }
     },
 
     fn_selEtaxInfo : function (trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm) {

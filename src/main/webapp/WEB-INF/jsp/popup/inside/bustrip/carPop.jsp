@@ -71,6 +71,7 @@
                     </th>
                     <td>
                         <input type="text" id="carClass" style="width: 40%;">
+                        <span id="inputWrap" style="display: none;"><input type="text" id="carClassRmk" style="width: 40%;"></span>
                     </td>
                 </tr>
                 <tr>

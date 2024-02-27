@@ -191,6 +191,7 @@
                 <th><span class="red-star">*</span>차량</th>
                 <td colspan="3">
                     <input id="carList" style="width: 180px;">
+                    <span id="inputWrap" style="display: none;"><input type="text" id="carRmk" style="width: 200px;"></span>
                 </td>
             </tr>
             <tr>
