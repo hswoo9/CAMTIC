@@ -229,4 +229,34 @@ public class CompanyCardServiceImpl implements CompanyCardService {
             }
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getCardAuthList(Map<String, Object> params) {
+        return companyCardRepository.getCardAuthList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCardAuthUserList(Map<String, Object> params) {
+        return companyCardRepository.getCardAuthUserList(params);
+    }
+
+    @Override
+    public void setCardAuthData(Map<String, Object> params) {
+        companyCardRepository.setCardAuthData(params);
+    }
+
+    @Override
+    public void delCardAuthData(Map<String, Object> params) {
+        companyCardRepository.delCardAuthData(params);
+    }
+
+    @Override
+    public void setCardAuthUserData(Map<String, Object> params) {
+        companyCardRepository.setCardAuthUserData(params);
+    }
+
+    @Override
+    public void delCardAuthUserData(Map<String, Object> params) {
+        companyCardRepository.delCardAuthUserData(params);
+    }
 }

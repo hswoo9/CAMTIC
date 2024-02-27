@@ -420,4 +420,71 @@ public class CompanyCardController {
 
         return "jsonView";
     }
+
+    /** 카드권한관리 */
+    @RequestMapping("/card/cardAuthMng.do")
+    public String cardAuthMng(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        return "cam_manager/companyCard/cardAuthMng";
+    }
+
+    @RequestMapping("/card/getCardAuthList")
+    public String getCardAuthList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", companyCardService.getCardAuthList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/getCardAuthUserList")
+    public String getCardAuthUserList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", companyCardService.getCardAuthUserList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/setCardAuthData")
+    public String setCardAuthData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            companyCardService.setCardAuthData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/delCardAuthData")
+    public String delCardAuthData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            companyCardService.delCardAuthData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/setCardAuthUserData")
+    public String setCardAuthUserData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            companyCardService.setCardAuthUserData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/delCardAuthUserData")
+    public String delCardAuthUserData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            companyCardService.delCardAuthUserData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
 }

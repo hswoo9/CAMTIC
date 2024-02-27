@@ -820,4 +820,68 @@
           AND
             TR_CD = #{TR_CD}
     </update>
+
+    <select id="getCardAuthList" parameterType="map" resultType="map">
+        /*getCardAuthList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_AUTH_MNG
+        WHERE 1=1
+        <if test='cardNo != null and cardNo != ""'>
+            AND REPLACE(CARD_NO, '-', '') = REPLACE(#{cardNo}, '-', '')
+        </if>
+    </select>
+
+    <select id="getCardAuthUserList" parameterType="map" resultType="map">
+        /*getCardAuthUserList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_AUTH_USER_MNG
+        WHERE 1=1
+        <if test='empSeq != null and empSeq != ""'>
+            AND EMP_SEQ = #{empSeq}
+        </if>
+    </select>
+
+    <insert id="setCardAuthData" parameterType="map">
+        /*setCardAuthData*/
+        INSERT INTO CAM_MNG.DJ_CARD_AUTH_MNG
+        (
+            TR_CD,
+            CARD_NO,
+            TR_NM
+        )
+        VALUES
+        (
+            #{trCd},
+            #{cardNo},
+            #{trNm}
+        )
+    </insert>
+
+    <delete id="delCardAuthData" parameterType="map">
+        /*delCardAuthData*/
+        DELETE FROM CAM_MNG.DJ_CARD_AUTH_MNG WHERE CARD_AUTH_SN IN (${cardAuthSn})
+    </delete>
+
+    <insert id="setCardAuthUserData" parameterType="map">
+        /*setCardAuthUserData*/
+        INSERT INTO CAM_MNG.DJ_CARD_AUTH_USER_MNG
+        (
+            EMP_SEQ,
+            EMP_NAME
+        )
+        VALUES
+        (
+            #{empSeq},
+            #{empName}
+        )
+    </insert>
+
+    <delete id="delCardAuthUserData" parameterType="map">
+        /*delCardAuthUserData*/
+        DELETE FROM CAM_MNG.DJ_CARD_AUTH_USER_MNG WHERE CARD_AUTH_USER_SN IN (${cardAuthUserSn})
+    </delete>
 </mapper>

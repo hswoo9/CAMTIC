@@ -178,6 +178,27 @@ var deptListPop = {
                 }catch{
 
                 }
+            }else if($("#type").val() == "cardAuthUser"){
+                var tr = $(e).closest("tr");
+                var row = $('#userList').data("kendoGrid").dataItem(tr);
+
+                $.ajax({
+                    url: "/card/getCardAuthUserList",
+                    data: {
+                        empSeq: row.EMP_SEQ
+                    },
+                    dataType: "json",
+                    type: "POST",
+                    success: function(rs){
+                        if(rs.list.length > 0){
+                            alert("이미 등록된 직원입니다.");
+                            return;
+                        } else {
+                            opener.parent.cardAuthMng.fn_cardAuthUser(row.EMP_SEQ, row.EMP_NAME_KR);
+                            window.close();
+                        }
+                    }
+                });
             }else {
                 var tr = $(e).closest("tr");
                 var row = $('#userList').data("kendoGrid").dataItem(tr);
