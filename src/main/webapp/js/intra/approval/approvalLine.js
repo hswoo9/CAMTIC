@@ -513,7 +513,7 @@ var approvalLine = {
              * 3. 같은부서가 아니면
              * 
              * return 마지막 결재자 직전에 협조자 결재선 추가 */
-            if(i == userArr.length-1 && userArr.length != 1){
+            if(i == 1 && userArr.length != 1){
                 approvalLine.setCopperLineData();
             }
             

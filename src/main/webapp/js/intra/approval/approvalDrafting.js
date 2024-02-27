@@ -1168,6 +1168,9 @@ var draft = {
     },
 
     approveKendoSetting : function(){
+        const signField = "appr2";
+        hwpApprovalLine.setSign(signField, $("#approveEmpSeq").val(), $("#approveEmpName").val());
+
         $("#approveEmpName").kendoTextBox({
             readonly : true
         });
@@ -1183,6 +1186,23 @@ var draft = {
     docApprove : function(){
         draft.loading();
 
+        draft.global.searchAjaxData = {
+            type : draft.global.type,
+            docId : draft.global.draftDocInfo.DOC_ID,
+            deptSeq : $("#deptSeq").val(),
+            docType : $("#docType").val()
+        }
+
+        var result = customKendo.fn_customAjax("/approval/getDeptDocNum", draft.global.searchAjaxData);
+        if(result.flag){
+            $("#docNo").val(result.rs.docNo);
+
+            hwpDocCtrl.putFieldText('doc_title', $("#docTitle").val());
+            if(draft.global.lastApprover.approveEmpSeq == $("#empSeq").val()){
+                hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
+            }
+        }
+
         hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
             draft.global.hwpFileTextData = data;
         })
@@ -1191,7 +1211,7 @@ var draft = {
             draft.global.htmlFileTextData = data;
         })
 
-        setTimeout(() => draft.docApproveAjax(), 200);
+        setTimeout(() => draft.docApproveAjax(), 3000);
     },
 
     loading : function(){
