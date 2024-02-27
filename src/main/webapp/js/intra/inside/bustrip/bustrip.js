@@ -34,10 +34,14 @@ var bustrip = {
                 business.fn_nationCodeSet();
                 $(".bustripTh").hide();
                 $(".businessTh").show();
+                $("#crmYn").prop("checked", false);
+                $("#visitCrm").data("kendoTextBox").enable(true);
             } else {
                 $("#carLine").css("display", "");
                 $(".bustripTh").show();
                 $(".businessTh").hide();
+                $("#crmYn").prop("checked", true);
+                $("#visitCrm").data("kendoTextBox").enable(false);
             }
         })
     },

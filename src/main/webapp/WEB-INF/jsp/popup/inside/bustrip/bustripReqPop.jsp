@@ -116,7 +116,7 @@
             <tr>
                 <th>출장자</th>
                 <td>
-                    <input id="popEmpName" name="bustripAdd" readonly style="width: 335px;">
+                    <input id="popEmpName" name="bustripAdd" readonly style="width: 300px;">
                     <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
                     <div id="companionList">
                         <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
@@ -126,7 +126,7 @@
                 </td>
                 <th>외부인력</th>
                 <td>
-                    <input id="externalName" name="bustripAdd" readonly style="width: 325px;">
+                    <input id="externalName" name="bustripAdd" readonly style="width: 290px;">
                     <button type="button" id="exAddBtn" class="k-button k-button-solid-info" onclick="bustripPop.addExternalWorkforcePop();">외부인력 추가</button>
                     <div id="externalList">
                         <input type="hidden" id="externalBelong" name="externalEmpSeq" value="">

@@ -34,7 +34,15 @@ const busiExnp = {
             dataValueField: "value"
         });
 
+        $(".corpYn").css("display", "none");
+
         customKendo.fn_textBox(["exchangeRate"]);
+
+        for(var i = 1 ; i <= 9; i++ ){
+            customKendo.fn_textBox(["corp"+i]);
+            customKendo.fn_textBox(["corpCar"+i]);
+            customKendo.fn_textBox(["corpCrm"+i]);
+        }
 
         /** 합계 자동계산 바인드 */
         let costData = busiExnp.global.costData;
@@ -188,21 +196,22 @@ const busiExnp = {
     },
 
     fn_calc: function(e){
-        const rate = uncomma($("#exchangeRate").val());
+        const rate = $("#exchangeRate").val();
 
         /** 일비(정액) */
         const dayCost = Number(rate) * Number(busiExnp.global.dayCost) * Number(busiExnp.global.days);
-        $(".dayCost").val(comma(dayCost));
+        $(".dayCost").val(comma(Math.floor(Math.floor(dayCost) / 1000) * 1000));
 
         /** 식비(정액) */
         const eatCost = Number(rate) * Number(busiExnp.global.eatCost) * Number(busiExnp.global.days);
-        $(".eatCost").val(comma(eatCost));
+        $(".eatCost").val(comma(Math.floor(Math.floor(eatCost) / 1000) * 1000));
 
         /** 최대 숙박비 계산 */
         this.fn_roomCostCheck();
 
         /** 환율에 콤마 찍어서 리턴 */
-        return fn_inputNumberFormat(e);
+        // return fn_inputNumberFormat(e);
+        return e;
     },
 
     fn_setTableSum: function(){
@@ -271,7 +280,7 @@ const busiExnp = {
 
     fn_roomCostCheck: function(){
         /** 식비(정액) */
-        const rate = uncomma($("#exchangeRate").val());
+        const rate = $("#exchangeRate").val();
         const maxRoomCost = Number(rate) * Number(busiExnp.global.maxRoomCost) * Number($("#nights").val());
 
         $("span > .trafDayCost").each(function(){
@@ -279,9 +288,11 @@ const busiExnp = {
             console.log(roomCost);
             console.log(maxRoomCost);
             if(roomCost > maxRoomCost){
-                this.value = comma(maxRoomCost);
+                this.value = comma(Math.floor(Math.floor(maxRoomCost) / 1000) * 1000);
             }
         })
+
+        $("#roomMaxPay").text( " (" + comma(Math.floor(Math.floor(maxRoomCost) / 1000) * 1000) + ") ");
     },
 
     fn_saveBtn: function(id, type, mode){
