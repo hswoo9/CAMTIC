@@ -3,7 +3,6 @@ var now = new Date();
 var targetAddYearPop = {
 
     global : {
-        flag : false,
         dataSource : [],
     },
 
@@ -12,6 +11,7 @@ var targetAddYearPop = {
     },
 
     dataSet : function() {
+        var flag = false;
         $.ajax({
             url : "/campus/getTargetOne",
             data : {
@@ -22,7 +22,7 @@ var targetAddYearPop = {
             dataType : "json",
             async : false,
             success : function(result){
-                targetAddYearPop.global.flag = result.flag;
+                flag = result.flag;
 
                 if(!result.flag && result.list[0].STATUS == "100"){
                     targetAddYearPop.global.dataSource = [
@@ -46,9 +46,23 @@ var targetAddYearPop = {
     },
 
     saveTarget : function() {
+        var flag = false;
+        $.ajax({
+            url : "/campus/getTargetOne",
+            data : {
+                targetYear : $("#targetYear").val(),
+                empSeq : $("#empSeq").val()
+            },
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(result){
+                flag = result.flag;
+            }
+        });
 
         //해당년도 데이터 조회해서 없을경우(true) 데이터 입력
-        if(targetAddYearPop.global.flag) {
+        if(flag) {
             $.ajax({
                 url : "/campus/setTargetInsert",
                 data : {
