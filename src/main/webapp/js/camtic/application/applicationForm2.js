@@ -36,8 +36,8 @@ var applicationForm2 = {
                     '</select>' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="admissionDt' + applicationForm2.global.schoolIndex + '" class="admissionDt" style="width: 110px"> ~ ' +
-                    '<input type="text" id="graduationDt' + applicationForm2.global.schoolIndex + '" class="graduationDt" style="width: 110px">' +
+                    '<input type="text" id="admissionDt' + applicationForm2.global.schoolIndex + '" class="admissionDt" name="admissionDt" style="width: 110px"> ~ ' +
+                    '<input type="text" id="graduationDt' + applicationForm2.global.schoolIndex + '" class="graduationDt" name="graduationDt" style="width: 110px">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="schoolName' + applicationForm2.global.schoolIndex + '" class="__inp schoolName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
@@ -123,8 +123,8 @@ var applicationForm2 = {
                     '<input type="text" id="careerOrgName' + applicationForm2.global.careerIndex + '" class="__inp careerOrgName" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
                 '</td>' +
                 '<td>' +
-                    '<input type="text" id="workStDt' + applicationForm2.global.careerIndex + '" class="workStDt period" style="width: 110px"> ~ ' +
-                    '<input type="text" id="workEnDt' + applicationForm2.global.careerIndex + '" class="workEnDt period" style="width: 110px">' +
+                    '<input type="text" id="workStDt' + applicationForm2.global.careerIndex + '" class="workStDt period" name="workStDt" style="width: 110px"> ~ ' +
+                    '<input type="text" id="workEnDt' + applicationForm2.global.careerIndex + '" class="workEnDt period" name="workEnDt" style="width: 110px">' +
                 '</td>' +
                 '<td>' +
                     '<input type="text" id="position' + applicationForm2.global.careerIndex + '" class="__inp position" style="width: 100px; height:40px; border: 1px solid #ddd; text-align:center; display: inline-block;">' +
@@ -188,8 +188,8 @@ var applicationForm2 = {
                 $(this).find(".schoolBaseId").attr("id", "schoolBaseId" + i);
                 $(this).find(".schoolBaseId").attr("name", "schoolBaseId" + i);
 
-                $(this).find(".admissionDt").attr("id", "admissionDt" + i);
-                $(this).find(".graduationDt").attr("id", "graduationDt" + i);
+                $(this).find("input[name='admissionDt']").attr("id", "admissionDt" + i);
+                $(this).find("input[name='graduationDt']").attr("id", "graduationDt" + i);
                 $(this).find(".schoolName").attr("id", "schoolName" + i);
                 $(this).find(".dept").attr("id", "dept" + i);
                 $(this).find(".major").attr("id", "major" + i);
@@ -216,8 +216,8 @@ var applicationForm2 = {
                 $(this).find(".careerBaseId").attr("id", "careerBaseId" + i);
                 $(this).find(".careerBaseId").attr("name", "careerBaseId" + i);
                 $(this).find(".careerOrgName").attr("id", "careerOrgName" + i);
-                $(this).find(".workStDt").attr("id", "workStDt" + i);
-                $(this).find(".workEnDt").attr("id", "workEnDt" + i);
+                $(this).find("input[name='workStDt']").attr("id", "workStDt" + i);
+                $(this).find("input[name='workEnDt']").attr("id", "workEnDt" + i);
 
                 $(this).find(".position").attr("id", "position" + i);
                 $(this).find(".chargeWork").attr("id", "chargeWork" + i);
@@ -230,7 +230,6 @@ var applicationForm2 = {
                 $(this).find(".careerFileLabel").attr("for", "careerFile" + i);
                 $(this).find(".careerFile").attr("id", "careerFile" + i);
                 $(this).find(".careerFile").attr("name", "careerFile" + i);
-
             }
         })
     },

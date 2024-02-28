@@ -141,6 +141,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getBusinessOverExnpInfo(Map<String, Object> params) {
+        return bustripRepository.getBusinessOverExnpInfo(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getBustripExnpInfo(Map<String, Object> params) {
         return bustripRepository.getBustripExnpInfo(params);
     }
@@ -361,6 +366,15 @@ public class BustripServiceImpl implements BustripService {
         }
         if(params.containsKey("driverEmpSeq")){
             bustripRepository.updBustripReqDriver(params);
+        }
+    }
+
+    @Override
+    public void saveBustripOverExnpPop(Map<String, Object> params) {
+        if(!"upd".equals(params.get("type"))){
+            bustripRepository.saveBustripOutExnpPop(params);
+        } else {
+            bustripRepository.updateBustripOutExnpPop(params);
         }
     }
 

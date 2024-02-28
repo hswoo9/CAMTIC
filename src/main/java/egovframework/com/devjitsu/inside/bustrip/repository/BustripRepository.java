@@ -339,4 +339,16 @@ public class BustripRepository extends AbstractDAO {
     public Map<String, Object> getCorpCarExnpData(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("bustrip.getCorpCarExnpData", params);
     }
+
+    public void saveBustripOutExnpPop(Map<String, Object> params) {
+        insert("bustrip.saveBustripOutExnpPop", params);
+    }
+
+    public void updateBustripOutExnpPop(Map<String, Object> params) {
+        update("bustrip.updateBustripOutExnpPop", params);
+    }
+
+    public List<Map<String, Object>> getBusinessOverExnpInfo(Map<String, Object> params) {
+        return selectList("bustrip.getBusinessOverExnpInfo", params);
+    }
 }
