@@ -132,4 +132,8 @@ public interface BustripService {
     Map<String, Object> getCorpCarExnpData(Map<String, Object> params);
 
     void setBustripPdfFile(Map<String, Object> params, MultipartFile[] file, String SERVER_DIR, String BASE_DIR);
+
+    void saveBustripOverExnpPop(Map<String, Object> params);
+
+    List<Map<String, Object>> getBusinessOverExnpInfo(Map<String, Object> params);
 }

@@ -747,6 +747,26 @@
             DIVISION = #{division}
     </update>
 
+    <update id="updateBustripOutExnpPop" parameterType="map">
+        /*updateBustripOutExnpPop*/
+        UPDATE CAM_INSIDE.DJ_HR_BIZ_OVER_EXNP
+        SET
+            AIR_COST = #{airCost},
+            TRAF_COST = #{trafCost},
+            ROOM_COST = #{roomCost},
+            VISA_COST = #{visaCost},
+            DAY_COST = #{dayCost},
+            EAT_COST = #{eatCost},
+            INS_COST = #{insCost},
+            ETC_COST = #{etcCost},
+            TOT_COST = #{totCost},
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            HR_BIZ_OVER_EXNP_ID = #{hrBizOverExnpId}
+          AND
+            DIVISION = #{division}
+    </update>
+
     <insert id="saveBustripExnpPop" parameterType="map">
         INSERT INTO CAM_INSIDE.DJ_HR_BIZ_EXNP
             (
@@ -798,6 +818,58 @@
         </selectKey>
     </insert>
 
+    <insert id="saveBustripOutExnpPop" parameterType="map">
+        /*saveBustripOutExnpPop*/
+        INSERT INTO CAM_INSIDE.DJ_HR_BIZ_OVER_EXNP
+        (
+            <if test="hrBizReqResultId != null and !''.equals(hrBizReqResultId)">
+                HR_BIZ_REQ_RESULT_ID,
+            </if>
+            <if test="hrBizReqId != null and !''.equals(hrBizReqId)">
+                HR_BIZ_REQ_ID,
+            </if>
+            EMP_SEQ,
+            EMP_NAME,
+            AIR_COST,
+            TRAF_COST,
+            ROOM_COST,
+            VISA_COST,
+            DAY_COST,
+            EAT_COST,
+            INS_COST,
+            ETC_COST,
+            TOT_COST,
+            REG_EMP_SEQ,
+            DIVISION
+        )
+        VALUES
+        (
+            <if test="hrBizReqResultId != null and !''.equals(hrBizReqResultId)">
+                #{hrBizReqResultId},
+            </if>
+            <if test="hrBizReqId != null and !''.equals(hrBizReqId)">
+                #{hrBizReqId},
+            </if>
+            #{empSeq},
+            #{empName},
+            #{airCost},
+            #{trafCost},
+            #{roomCost},
+            #{visaCost},
+            #{dayCost},
+            #{eatCost},
+            #{insCost},
+            #{etcCost},
+            #{totCost},
+            #{regEmpSeq},
+            #{division}
+        )
+
+        <selectKey keyProperty="hrBizOverExnpId" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_BIZ_OVER_EXNP'
+        </selectKey>
+    </insert>
+
     <insert id="insBustripExnpResult" parameterType="map">
         INSERT INTO CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
             (
@@ -826,6 +898,16 @@
             *
         FROM
             CAM_INSIDE.DJ_HR_BIZ_EXNP
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <select id="getBusinessOverExnpInfo" parameterType="map" resultType="map">
+        /*getBusinessOverExnpInfo*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_OVER_EXNP
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </select>
