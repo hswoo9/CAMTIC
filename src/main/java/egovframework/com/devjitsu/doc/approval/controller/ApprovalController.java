@@ -357,6 +357,23 @@ public class ApprovalController {
         return "popup/approval/popup/approvalDocView";
     }
 
+    /** 결재문서 rs */
+    @RequestMapping("/approval/getDocViewRs")
+    public String getDocViewRs(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        params.put("deptSeq", loginVO.getOrgnztId());
+
+        Map<String, Object> rs = approvalService.getDocInfoApproveRoute(params);
+        rs.put("approveNowRoute", approvalService.getDocApproveNowRoute(params));
+        rs.put("approvePrevRoute", approvalService.getDocApprovePrevRoute(params));
+        rs.remove("docContent");
+
+        model.addAttribute("data", rs);
+        return "jsonView";
+    }
+
     /**
      * 보안문서 페이시 로드시 (결재자, 열람자) 한번 더 체크
      * @param params

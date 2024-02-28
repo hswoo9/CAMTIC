@@ -426,6 +426,6 @@
         nowSlash : "${nowSlash}"
     }
 
-    docView.fnDefaultScript(JSON.parse('${params}'), JSON.parse('${rs}'), JSON.parse('${loginVO}'));
+    docView.fnDefaultScript(JSON.parse('${params}'), JSON.parse('${loginVO}'));
 </script>
 </html>

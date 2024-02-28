@@ -21,9 +21,11 @@ var docView = {
         searchAjaxData : "",
     },
 
-    fnDefaultScript : function(params, rs, loginVO){
+    fnDefaultScript : function(params, loginVO){
         document.querySelector('body').style.overflow = 'hidden';
         $("#loadingText").text("문서를 불러오는 중입니다.");
+
+        var rs = customKendo.fn_customAjax("/approval/getDocViewRs", params).data;
 
         docView.global.params = params;
         docView.global.rs = rs;
