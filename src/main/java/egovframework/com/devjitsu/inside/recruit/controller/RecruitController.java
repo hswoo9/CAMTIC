@@ -262,6 +262,12 @@ public class RecruitController {
                 System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
             }
 
+            // 인사총무팀장, 경영지원실장
+            if(("1227".equals(commissionerDeptSeq) && "팀장".equals(commissionerDutyName)) || "1219".equals(commissionerDeptSeq) && "실장".equals(commissionerDutyName)) {
+                allMatchingDeptMaps.add(commissionerMap);
+                System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
+            }
+
             if (comparatorMatches(commissionerDeptSeq, newMap.get("deptSeq"))) {
                 if ("본부장".equals(commissionerDutyName) || "센터장".equals(commissionerDutyName)) {
                     allMatchingDeptMaps.add(commissionerMap);
