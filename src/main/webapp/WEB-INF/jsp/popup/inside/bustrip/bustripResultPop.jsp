@@ -44,6 +44,7 @@
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
 <input type="hidden" id="companionChangeCheck" value="N"/>
+<input type="hidden" id="tripType" value="${params.tripType}"/>
 
 <form id="bustripResDraftFrm" method="post">
     <input type="hidden" id="menuCd" name="menuCd" value="bustrip">
@@ -275,36 +276,39 @@
     <%--<div id="bustExnpDiv" style="text-align: right; display: none; margin-top: 10px">
         <input type="button" class="k-button k-button-solid-info" value="여비 변경" onclick="bustripResultPop.bustripExnpPop();"/>
     </div>--%>
-    <form style="padding: 20px 30px;">
-        <div class="card-header" style="padding: 5px;">
-            <h3 class="card-title">경비 내역</h3>
-        </div>
-        <table class="popTable table table-bordered mb-0 bustripExnpTable">
-            <colgroup>
-                <col width="9%">
-                <col width="9%">
-                <col width="9%">
-                <col width="9%">
-                <col width="9%">
-                <col width="9%">
-                <col width="9%">
-                <col width="9%">
-                <col width="9%">
-                <col width="9%">
-            </colgroup>
-            <thead>
-            <tr>
-                <th>이름</th>
-                <th>유류비</th>
-                <th>교통비</th>
-                <th>숙박비</th>
-                <th>통행료</th>
-                <th>일비</th>
-                <th>식비</th>
-                <th>주차비</th>
-                <th>기타</th>
-                <th>합계</th>
-            </tr>
+
+    <%--  국내 경비내역  --%>
+    <c:if test="${params.tripType ne '4'}">
+        <form style="padding: 20px 30px;">
+            <div class="card-header" style="padding: 5px;">
+                <h3 class="card-title">경비 내역</h3>
+            </div>
+            <table class="popTable table table-bordered mb-0 bustripExnpTable">
+                <colgroup>
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>유류비</th>
+                    <th>교통비</th>
+                    <th>숙박비</th>
+                    <th>통행료</th>
+                    <th>일비</th>
+                    <th>식비</th>
+                    <th>주차비</th>
+                    <th>기타</th>
+                    <th>합계</th>
+                </tr>
                 <c:if test="${list ne null}">
                     <c:forEach var="list" items="${list}">
                         <c:if test="${list.DIVISION eq '1'}">
@@ -313,31 +317,31 @@
                                     <div style="text-align: center">${list.EMP_NAME}</div>
                                 </td>
                                 <td>
-                                    ${list.OIL_COST}
+                                        ${list.OIL_COST}
                                 </td>
                                 <td>
-                                    ${list.TRAF_COST}
+                                        ${list.TRAF_COST}
                                 </td>
                                 <td>
-                                    ${list.ROOM_COST}
+                                        ${list.ROOM_COST}
                                 </td>
                                 <td>
-                                    ${list.TOLL_COST}
+                                        ${list.TOLL_COST}
                                 </td>
                                 <td>
-                                    ${list.DAY_COST}
+                                        ${list.DAY_COST}
                                 </td>
                                 <td>
-                                    ${list.EAT_COST}
+                                        ${list.EAT_COST}
                                 </td>
                                 <td>
-                                    ${list.PARKING_COST}
+                                        ${list.PARKING_COST}
                                 </td>
                                 <td>
-                                    ${list.ETC_COST}
+                                        ${list.ETC_COST}
                                 </td>
                                 <td>
-                                    ${list.TOT_COST}
+                                        ${list.TOT_COST}
                                 </td>
                             </tr>
                         </c:if>
@@ -347,31 +351,31 @@
                                     <div style="text-align: center">법인카드</div>
                                 </td>
                                 <td>
-                                    ${empty list.OIL_COST ? '0' : list.OIL_COST}
+                                        ${empty list.OIL_COST ? '0' : list.OIL_COST}
                                 </td>
                                 <td>
-                                    ${empty list.TRAF_COST ? '0' : list.TRAF_COST}
+                                        ${empty list.TRAF_COST ? '0' : list.TRAF_COST}
                                 </td>
                                 <td>
-                                    ${empty list.ROOM_COST ? '0' : list.ROOM_COST}
+                                        ${empty list.ROOM_COST ? '0' : list.ROOM_COST}
                                 </td>
                                 <td>
-                                    ${empty list.TOLL_COST ? '0' : list.TOLL_COST}
+                                        ${empty list.TOLL_COST ? '0' : list.TOLL_COST}
                                 </td>
                                 <td>
-                                    ${empty list.DAY_COST ? '0' : list.DAY_COST}
+                                        ${empty list.DAY_COST ? '0' : list.DAY_COST}
                                 </td>
                                 <td>
-                                    ${empty list.EAT_COST ? '0' : list.EAT_COST}
+                                        ${empty list.EAT_COST ? '0' : list.EAT_COST}
                                 </td>
                                 <td>
-                                    ${empty list.PARKING_COST ? '0' : list.PARKING_COST}
+                                        ${empty list.PARKING_COST ? '0' : list.PARKING_COST}
                                 </td>
                                 <td>
-                                    ${empty list.ETC_COST ? '0' : list.ETC_COST}
+                                        ${empty list.ETC_COST ? '0' : list.ETC_COST}
                                 </td>
                                 <td>
-                                    ${empty list.TOT_COST ? '0' : list.TOT_COST}
+                                        ${empty list.TOT_COST ? '0' : list.TOT_COST}
                                 </td>
                             </tr>
                         </c:if>
@@ -381,31 +385,31 @@
                                     <div style="text-align: center">법인차량</div>
                                 </td>
                                 <td>
-                                    ${list.OIL_COST}
+                                        ${list.OIL_COST}
                                 </td>
                                 <td>
-                                    ${list.TRAF_COST}
+                                        ${list.TRAF_COST}
                                 </td>
                                 <td>
-                                    ${list.ROOM_COST}
+                                        ${list.ROOM_COST}
                                 </td>
                                 <td>
-                                    ${list.TOLL_COST}
+                                        ${list.TOLL_COST}
                                 </td>
                                 <td>
-                                    ${list.DAY_COST}
+                                        ${list.DAY_COST}
                                 </td>
                                 <td>
-                                    ${list.EAT_COST}
+                                        ${list.EAT_COST}
                                 </td>
                                 <td>
-                                    ${list.PARKING_COST}
+                                        ${list.PARKING_COST}
                                 </td>
                                 <td>
-                                    ${list.ETC_COST}
+                                        ${list.ETC_COST}
                                 </td>
                                 <td>
-                                    ${list.TOT_COST}
+                                        ${list.TOT_COST}
                                 </td>
                             </tr>
                         </c:if>
@@ -443,9 +447,461 @@
                         </td>
                     </tr>
                 </c:if>
-            </thead>
-        </table>
-    </form>
+                </thead>
+            </table>
+        </form>
+    </c:if>
+    <c:if test="${params.tripType eq '4'}">
+        <form style="padding: 20px 30px;">
+            <div class="card-header" style="padding: 5px;">
+                <h3 class="card-title">경비 내역</h3>
+            </div>
+            <table class="popTable table table-bordered mb-0 bustripExnpTable">
+                <colgroup>
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="12%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                    <col width="9%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th colspan="10" style="font-size: 13px; font-weight: bold;">사전정산</th>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <th>항공료</th>
+                    <th>국내이동교통비</th>
+                    <th>숙박비</th>
+                    <th>비자발급비</th>
+                    <th>일비</th>
+                    <th>식비</th>
+                    <th>보험료</th>
+                    <th>기타</th>
+                    <th>합계</th>
+                </tr>
+                <c:if test="${list ne null}">
+                    <c:forEach var="list" items="${list}">
+                        <%-- 개인 --%>
+                        <c:if test="${list.DIVISION eq '1'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">${list.EMP_NAME}</div>
+                                </td>
+                                <td>
+                                        ${list.AIR_COST}
+                                </td>
+                                <td>
+                                        ${list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${list.VISA_COST}
+                                </td>
+                                <td>
+                                        ${list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${list.INS_COST}
+                                </td>
+                                <td>
+                                        ${list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION eq '4'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">업체지급</div>
+                                </td>
+                                <td>
+                                        ${empty list.AIR_COST ? '0' : list.AIR_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TRAF_COST ? '0' : list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ROOM_COST ? '0' : list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${empty list.VISA_COST ? '0' : list.VISA_COST}
+                                </td>
+                                <td>
+                                        ${empty list.DAY_COST ? '0' : list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${empty list.EAT_COST ? '0' : list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${empty list.INS_COST ? '0' : list.INS_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ETC_COST ? '0' : list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TOT_COST ? '0' : list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION eq '2'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">법인카드</div>
+                                </td>
+                                <td>
+                                        ${empty list.AIR_COST ? '0' : list.AIR_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TRAF_COST ? '0' : list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ROOM_COST ? '0' : list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${empty list.VISA_COST ? '0' : list.VISA_COST}
+                                </td>
+                                <td>
+                                        ${empty list.DAY_COST ? '0' : list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${empty list.EAT_COST ? '0' : list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${empty list.INS_COST ? '0' : list.INS_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ETC_COST ? '0' : list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TOT_COST ? '0' : list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION eq '3'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">법인차량</div>
+                                </td>
+                                <td>
+                                        ${empty list.AIR_COST ? '0' : list.AIR_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TRAF_COST ? '0' : list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ROOM_COST ? '0' : list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${empty list.VISA_COST ? '0' : list.VISA_COST}
+                                </td>
+                                <td>
+                                        ${empty list.DAY_COST ? '0' : list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${empty list.EAT_COST ? '0' : list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${empty list.INS_COST ? '0' : list.INS_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ETC_COST ? '0' : list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TOT_COST ? '0' : list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                    <tr>
+                        <td>
+                            <div style="text-align: center; font-weight: bold;">합계</div>
+                        </td>
+                        <td>
+                            <span type="text" id="airTotalCost1" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="trafTotalCost1" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="roomTotalCost1" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="visaTotalCost1" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="dayTotalCost1" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="eatTotalCost1" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="insTotalCost1" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="etcTotalCost1" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="totalTotalCost1" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                    </tr>
+                </c:if>
+
+                <tr>
+                    <th colspan="10" style="font-size: 13px; font-weight: bold;">사후정산</th>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <th>항공료</th>
+                    <th>국내이동교통비</th>
+                    <th>숙박비</th>
+                    <th>비자발급비</th>
+                    <th>일비</th>
+                    <th>식비</th>
+                    <th>보험료</th>
+                    <th>기타</th>
+                    <th>합계</th>
+                </tr>
+                <c:if test="${list2 ne null}">
+                    <c:forEach var="list" items="${list2}">
+                        <%-- 개인 --%>
+                        <c:if test="${list.DIVISION eq '1'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">${list.EMP_NAME}</div>
+                                </td>
+                                <td>
+                                        ${empty list.AIR_COST ? '0' : list.AIR_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TRAF_COST ? '0' : list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ROOM_COST ? '0' : list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${empty list.VISA_COST ? '0' : list.VISA_COST}
+                                </td>
+                                <td>
+                                        ${empty list.DAY_COST ? '0' : list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${empty list.EAT_COST ? '0' : list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${empty list.INS_COST ? '0' : list.INS_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ETC_COST ? '0' : list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TOT_COST ? '0' : list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION eq '4'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">업체지급</div>
+                                </td>
+                                <td>
+                                        ${empty list.AIR_COST ? '0' : list.AIR_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TRAF_COST ? '0' : list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ROOM_COST ? '0' : list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${empty list.VISA_COST ? '0' : list.VISA_COST}
+                                </td>
+                                <td>
+                                        ${empty list.DAY_COST ? '0' : list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${empty list.EAT_COST ? '0' : list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${empty list.INS_COST ? '0' : list.INS_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ETC_COST ? '0' : list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TOT_COST ? '0' : list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION eq '2'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">법인카드</div>
+                                </td>
+                                <td>
+                                        ${empty list.AIR_COST ? '0' : list.AIR_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TRAF_COST ? '0' : list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ROOM_COST ? '0' : list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${empty list.VISA_COST ? '0' : list.VISA_COST}
+                                </td>
+                                <td>
+                                        ${empty list.DAY_COST ? '0' : list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${empty list.EAT_COST ? '0' : list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${empty list.INS_COST ? '0' : list.INS_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ETC_COST ? '0' : list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TOT_COST ? '0' : list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION eq '3'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">법인차량</div>
+                                </td>
+                                <td>
+                                        ${empty list.AIR_COST ? '0' : list.AIR_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TRAF_COST ? '0' : list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ROOM_COST ? '0' : list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${empty list.VISA_COST ? '0' : list.VISA_COST}
+                                </td>
+                                <td>
+                                        ${empty list.DAY_COST ? '0' : list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${empty list.EAT_COST ? '0' : list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${empty list.INS_COST ? '0' : list.INS_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ETC_COST ? '0' : list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TOT_COST ? '0' : list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                    <tr>
+                        <td>
+                            <div style="text-align: center; font-weight: bold;">합계</div>
+                        </td>
+                        <td>
+                            <span type="text" id="airTotalCost2" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="trafTotalCost2" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="roomTotalCost2" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="visaTotalCost2" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="dayTotalCost2" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="eatTotalCost2" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="insTotalCost2" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="etcTotalCost2" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                        <td>
+                            <span type="text" id="totalTotalCost2" class="totalCost" style="font-weight: bold;"></span>
+                        </td>
+                    </tr>
+                </c:if>
+
+                <tr>
+                    <th colspan="10" style="font-size: 13px; font-weight: bold;">총합</th>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <th>항공료</th>
+                    <th>국내이동교통비</th>
+                    <th>숙박비</th>
+                    <th>비자발급비</th>
+                    <th>일비</th>
+                    <th>식비</th>
+                    <th>보험료</th>
+                    <th>기타</th>
+                    <th>합계</th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div style="text-align: center; font-weight: bold;">합계</div>
+                    </td>
+                    <td>
+                        <span type="text" id="airTotalCost3" class="totalCost" style="font-weight: bold;"></span>
+                    </td>
+                    <td>
+                        <span type="text" id="trafTotalCost3" class="totalCost" style="font-weight: bold;"></span>
+                    </td>
+                    <td>
+                        <span type="text" id="roomTotalCost3" class="totalCost" style="font-weight: bold;"></span>
+                    </td>
+                    <td>
+                        <span type="text" id="visaTotalCost3" class="totalCost" style="font-weight: bold;"></span>
+                    </td>
+                    <td>
+                        <span type="text" id="dayTotalCost3" class="totalCost" style="font-weight: bold;"></span>
+                    </td>
+                    <td>
+                        <span type="text" id="eatTotalCost3" class="totalCost" style="font-weight: bold;"></span>
+                    </td>
+                    <td>
+                        <span type="text" id="insTotalCost3" class="totalCost" style="font-weight: bold;"></span>
+                    </td>
+                    <td>
+                        <span type="text" id="etcTotalCost3" class="totalCost" style="font-weight: bold;"></span>
+                    </td>
+                    <td>
+                        <span type="text" id="totalTotalCost3" class="totalCost" style="font-weight: bold;"></span>
+                    </td>
+                </tr>
+
+                </thead>
+            </table>
+        </form>
+    </c:if>
+</div>
 
 </div>
 
@@ -492,41 +948,174 @@
     bustripResultPop.init();
 
     var modelData = '${jsonList}';
+    var modelData2 = '${jsonList2}';
+
+    var airTot = 0;
+    var trafTot = 0;
+    var roomTot = 0;
+    var visaTot = 0;
+    var dayTot = 0;
+    var eatTot = 0;
+    var insTot = 0;
+    var etcTot = 0;
+    var totTot = 0;
+
     $(function () {
+
+        // 사전정산
         if(modelData != null || modelData != ""){
             var dataList = JSON.parse(modelData);
+            if($("#tripType").val() != '4'){
 
-            var oilTotal = 0;
-            var trafTotal = 0;
-            var roomTotal = 0;
-            var tollTotal = 0;
-            var dayTotal = 0;
-            var eatTotal = 0;
-            var parkingTotal = 0;
-            var etcTotal = 0;
-            var totTotal = 0;
+                var oilTotal = 0;
+                var trafTotal = 0;
+                var roomTotal = 0;
+                var tollTotal = 0;
+                var dayTotal = 0;
+                var eatTotal = 0;
+                var parkingTotal = 0;
+                var etcTotal = 0;
+                var totTotal = 0;
 
-            $.each(dataList, function(index, item) {
-                oilTotal += Number(item.OIL_COST ? item.OIL_COST.replace(/,/g, '') : 0);
-                trafTotal += Number(item.TRAF_COST ? item.TRAF_COST.replace(/,/g, '') : 0);
-                roomTotal += Number(item.ROOM_COST ? item.ROOM_COST.replace(/,/g, '') : 0);
-                tollTotal += Number(item.TOLL_COST ? item.TOLL_COST.replace(/,/g, '') : 0);
-                dayTotal += Number(item.DAY_COST ? item.DAY_COST.replace(/,/g, '') : 0);
-                eatTotal += Number(item.EAT_COST ? item.EAT_COST.replace(/,/g, '') : 0);
-                parkingTotal += Number(item.PARKING_COST ? item.PARKING_COST.replace(/,/g, '') : 0);
-                etcTotal += Number(item.ETC_COST ? item.ETC_COST.replace(/,/g, '') : 0);
-                totTotal += Number(item.TOT_COST ? item.TOT_COST.replace(/,/g, '') : 0);
-            });
+                $.each(dataList, function(index, item) {
+                    oilTotal += Number(item.OIL_COST ? item.OIL_COST.replace(/,/g, '') : 0);
+                    trafTotal += Number(item.TRAF_COST ? item.TRAF_COST.replace(/,/g, '') : 0);
+                    roomTotal += Number(item.ROOM_COST ? item.ROOM_COST.replace(/,/g, '') : 0);
+                    tollTotal += Number(item.TOLL_COST ? item.TOLL_COST.replace(/,/g, '') : 0);
+                    dayTotal += Number(item.DAY_COST ? item.DAY_COST.replace(/,/g, '') : 0);
+                    eatTotal += Number(item.EAT_COST ? item.EAT_COST.replace(/,/g, '') : 0);
+                    parkingTotal += Number(item.PARKING_COST ? item.PARKING_COST.replace(/,/g, '') : 0);
+                    etcTotal += Number(item.ETC_COST ? item.ETC_COST.replace(/,/g, '') : 0);
+                    totTotal += Number(item.TOT_COST ? item.TOT_COST.replace(/,/g, '') : 0);
+                });
 
-            $('#oilTotalCost').text(oilTotal.toLocaleString());
-            $('#trafTotalCost').text(trafTotal.toLocaleString());
-            $('#roomTotalCost').text(roomTotal.toLocaleString());
-            $('#tollTotalCost').text(tollTotal.toLocaleString());
-            $('#dayTotalCost').text(dayTotal.toLocaleString());
-            $('#eatTotalCost').text(eatTotal.toLocaleString());
-            $('#parkingTotalCost').text(parkingTotal.toLocaleString());
-            $('#etcTotalCost').text(etcTotal.toLocaleString());
-            $('#totalTotalCost').text(totTotal.toLocaleString());
+                $('#oilTotalCost').text(oilTotal.toLocaleString());
+                $('#trafTotalCost').text(trafTotal.toLocaleString());
+                $('#roomTotalCost').text(roomTotal.toLocaleString());
+                $('#tollTotalCost').text(tollTotal.toLocaleString());
+                $('#dayTotalCost').text(dayTotal.toLocaleString());
+                $('#eatTotalCost').text(eatTotal.toLocaleString());
+                $('#parkingTotalCost').text(parkingTotal.toLocaleString());
+                $('#etcTotalCost').text(etcTotal.toLocaleString());
+                $('#totalTotalCost').text(totTotal.toLocaleString());
+
+            } else {
+                var airTotal = 0;
+                var trafTotal = 0;
+                var roomTotal = 0;
+                var visaTotal = 0;
+                var dayTotal = 0;
+                var eatTotal = 0;
+                var insTotal = 0;
+                var etcTotal = 0;
+                var totTotal = 0;
+
+                $.each(dataList, function(index, item) {
+                    airTotal += Number(item.AIR_COST ? item.AIR_COST.replace(/,/g, '') : 0);
+                    trafTotal += Number(item.TRAF_COST ? item.TRAF_COST.replace(/,/g, '') : 0);
+                    roomTotal += Number(item.ROOM_COST ? item.ROOM_COST.replace(/,/g, '') : 0);
+                    visaTotal += Number(item.VISA_COST ? item.VISA_COST.replace(/,/g, '') : 0);
+                    dayTotal += Number(item.DAY_COST ? item.DAY_COST.replace(/,/g, '') : 0);
+                    eatTotal += Number(item.EAT_COST ? item.EAT_COST.replace(/,/g, '') : 0);
+                    insTotal += Number(item.INS_COST ? item.INS_COST.replace(/,/g, '') : 0);
+                    etcTotal += Number(item.ETC_COST ? item.ETC_COST.replace(/,/g, '') : 0);
+                    totTotal += Number(item.TOT_COST ? item.TOT_COST.replace(/,/g, '') : 0);
+                });
+
+                airTot += airTotal;
+                trafTot += trafTotal;
+                roomTot += roomTotal;
+                visaTot += visaTotal;
+                dayTot += dayTotal;
+                eatTot += eatTotal;
+                insTot += insTotal;
+                etcTot += etcTotal;
+                totTot += totTotal;
+
+                $('#airTotalCost1').text(airTotal.toLocaleString());
+                $('#trafTotalCost1').text(trafTotal.toLocaleString());
+                $('#roomTotalCost1').text(roomTotal.toLocaleString());
+                $('#visaTotalCost1').text(visaTotal.toLocaleString());
+                $('#dayTotalCost1').text(dayTotal.toLocaleString());
+                $('#eatTotalCost1').text(eatTotal.toLocaleString());
+                $('#insTotalCost1').text(insTotal.toLocaleString());
+                $('#etcTotalCost1').text(etcTotal.toLocaleString());
+                $('#totalTotalCost1').text(totTotal.toLocaleString());
+            }
+
+            // 총합
+            $('#airTotalCost3').text(airTot.toLocaleString());
+            $('#trafTotalCost3').text(trafTot.toLocaleString());
+            $('#roomTotalCost3').text(roomTot.toLocaleString());
+            $('#visaTotalCost3').text(visaTot.toLocaleString());
+            $('#dayTotalCost3').text(dayTot.toLocaleString());
+            $('#eatTotalCost3').text(eatTot.toLocaleString());
+            $('#insTotalCost3').text(insTot.toLocaleString());
+            $('#etcTotalCost3').text(etcTot.toLocaleString());
+            $('#totalTotalCost3').text(totTot.toLocaleString());
+        }
+
+        // 사후정산
+        if(modelData2 != null || modelData2 != ""){
+            var dataList = JSON.parse(modelData2);
+            console.log(dataList);
+
+            if($("#tripType").val() != '4'){
+
+            } else {
+                var airTotal = 0;
+                var trafTotal = 0;
+                var roomTotal = 0;
+                var visaTotal = 0;
+                var dayTotal = 0;
+                var eatTotal = 0;
+                var insTotal = 0;
+                var etcTotal = 0;
+                var totTotal = 0;
+
+                $.each(dataList, function(index, item) {
+                    airTotal += Number(item.AIR_COST ? item.AIR_COST.replace(/,/g, '') : 0);
+                    trafTotal += Number(item.TRAF_COST ? item.TRAF_COST.replace(/,/g, '') : 0);
+                    roomTotal += Number(item.ROOM_COST ? item.ROOM_COST.replace(/,/g, '') : 0);
+                    visaTotal += Number(item.VISA_COST ? item.VISA_COST.replace(/,/g, '') : 0);
+                    dayTotal += Number(item.DAY_COST ? item.DAY_COST.replace(/,/g, '') : 0);
+                    eatTotal += Number(item.EAT_COST ? item.EAT_COST.replace(/,/g, '') : 0);
+                    insTotal += Number(item.INS_COST ? item.INS_COST.replace(/,/g, '') : 0);
+                    etcTotal += Number(item.ETC_COST ? item.ETC_COST.replace(/,/g, '') : 0);
+                    totTotal += Number(item.TOT_COST ? item.TOT_COST.replace(/,/g, '') : 0);
+                });
+
+                airTot += airTotal;
+                trafTot += trafTotal;
+                roomTot += roomTotal;
+                visaTot += visaTotal;
+                dayTot += dayTotal;
+                eatTot += eatTotal;
+                insTot += insTotal;
+                etcTot += etcTotal;
+                totTot += totTotal;
+
+                $('#airTotalCost2').text(airTotal.toLocaleString());
+                $('#trafTotalCost2').text(trafTotal.toLocaleString());
+                $('#roomTotalCost2').text(roomTotal.toLocaleString());
+                $('#visaTotalCost2').text(visaTotal.toLocaleString());
+                $('#dayTotalCost2').text(dayTotal.toLocaleString());
+                $('#eatTotalCost2').text(eatTotal.toLocaleString());
+                $('#insTotalCost2').text(insTotal.toLocaleString());
+                $('#etcTotalCost2').text(etcTotal.toLocaleString());
+                $('#totalTotalCost2').text(totTotal.toLocaleString());
+
+                // 총합
+                $('#airTotalCost3').text(airTot.toLocaleString());
+                $('#trafTotalCost3').text(trafTot.toLocaleString());
+                $('#roomTotalCost3').text(roomTot.toLocaleString());
+                $('#visaTotalCost3').text(visaTot.toLocaleString());
+                $('#dayTotalCost3').text(dayTot.toLocaleString());
+                $('#eatTotalCost3').text(eatTot.toLocaleString());
+                $('#insTotalCost3').text(insTot.toLocaleString());
+                $('#etcTotalCost3').text(etcTot.toLocaleString());
+                $('#totalTotalCost3').text(totTot.toLocaleString());
+            }
         }
     });
 </script>

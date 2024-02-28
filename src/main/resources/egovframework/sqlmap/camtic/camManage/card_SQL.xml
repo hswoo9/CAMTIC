@@ -113,6 +113,9 @@
         <if test='hrBizReqResultId != null and !"".equals(hrBizReqResultId)'>
         AND C.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
         </if>
+        <if test='hrBizReqId != null and !"".equals(hrBizReqId)'>
+            AND C.HR_BIZ_REQ_ID = #{hrBizReqId}
+        </if>
     </select>
 
     <select id="getCardTOData" parameterType="map" resultType="map">

@@ -730,9 +730,8 @@ var regPay = {
             console.log("exnpList");
             console.log(exnpList);
 
-            const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
-
-            if(exnpList[0].PJT_SN != null){
+            if(exnpList.length > 0 && exnpList[0].PJT_SN != null){
+                const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
                 var busnClass = pjtMap.BUSN_CLASS;
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);

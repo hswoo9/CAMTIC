@@ -321,6 +321,10 @@ public class PayAppRepository extends AbstractDAO {
         delete("payApp.delBustripUseCardInfo", payAppInfo);
     }
 
+    public void delBusiUseCardInfo(Map<String, Object> payAppInfo) {
+        delete("payApp.delBusiUseCardInfo", payAppInfo);
+    }
+
     public List<Map<String, Object>> getPayAppItemList(Map<String, Object> params) {
         return selectList("payApp.getPayAppItemList", params);
     }

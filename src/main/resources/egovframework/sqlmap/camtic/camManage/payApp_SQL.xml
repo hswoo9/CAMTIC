@@ -1870,6 +1870,7 @@
                 LINK_STAT,
                 PAY_APP_SN,
                 SNACK_INFO_SN,
+                HR_BIZ_REQ_ID,
                 HR_BIZ_REQ_RESULT_ID,
                 CE_GW_IDX
             )
@@ -1883,6 +1884,7 @@
                 'Y',
                 #{PAY_APP_SN},
                 #{SNACK_INFO_SN},
+                #{HR_BIZ_REQ_ID},
                 #{HR_BIZ_REQ_RESULT_ID},
                 #{CE_GW_IDX}
             )
@@ -1928,6 +1930,13 @@
         DELETE FROM CAM_MNG.DJ_USE_CARD_INFO
         WHERE
             HR_BIZ_REQ_RESULT_ID = #{HR_BIZ_REQ_RESULT_ID}
+    </delete>
+
+    <delete id="delBusiUseCardInfo" parameterType="map">
+        /*delBusiUseCardInfo*/
+        DELETE FROM CAM_MNG.DJ_USE_CARD_INFO
+        WHERE
+            HR_BIZ_REQ_ID = #{HR_BIZ_REQ_ID}
     </delete>
 
     <delete id="delUseEtaxInfo" parameterType="map">

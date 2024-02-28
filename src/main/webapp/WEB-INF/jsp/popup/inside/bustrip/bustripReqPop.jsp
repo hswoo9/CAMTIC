@@ -198,7 +198,7 @@
             </thead>
         </table>
     </form>
-    <div>
+    <div style="margin-bottom: 20px;">
         <form style="padding: 0px 30px;">
             <div class="card-header" style="padding: 5px;">
                 <h3 class="card-title">첨부파일</h3>
@@ -217,7 +217,8 @@
                     <colgroup>
                         <col width="50%">
                         <col width="10%">
-                        <col width="30%">
+                        <col width="10%">
+                        <col width="10%">
                         <col width="10%">
                     </colgroup>
                     <thead>
@@ -225,6 +226,7 @@
                         <th>파일명</th>
                         <th>확장자</th>
                         <th>용량</th>
+                        <th>뷰어</th>
                         <th>기타</th>
                     </tr>
                     </thead>

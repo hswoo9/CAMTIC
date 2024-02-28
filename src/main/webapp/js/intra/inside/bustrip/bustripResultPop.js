@@ -2,6 +2,7 @@ var bustripResultPop = {
     global: {
         data : "",
         attFiles : new Array(),
+        tripCode : "",
     },
     init: function(){
         bustrip.fn_setPageName();
@@ -77,6 +78,7 @@ var bustripResultPop = {
 
         /** 구분 */
         $("#tripCode").data("kendoRadioGroup").value(busInfo.TRIP_CODE);
+        bustripResultPop.global.tripCode = busInfo.TRIP_CODE;
 
         /** 관련사업, 프로젝트명 */
         bustripInit.settingProjectDataInit(busInfo);
@@ -514,10 +516,10 @@ var bustripResultPop = {
                 console.log(result);
                 if(hrBizReqResultId == ""){
                     alert("출장 결과보고 저장이 완료되었습니다.");
-                    var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+result.params.hrBizReqResultId;
+                    var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+result.params.hrBizReqResultId+"&hrBizReqId="+hrBizReqId+"&tripCode="+$("#tripCode").data("kendoRadioGroup").value();
                 }else{
                     alert("출장 결과보고 수정이 완료되었습니다.");
-                    var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+hrBizReqResultId;
+                    var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+hrBizReqResultId+"&hrBizReqId="+hrBizReqId+"&tripType="+$("#tripCode").data("kendoRadioGroup").value();
                 }
                 var name = "_self";
                 var option = "width=1700, height=750, scrollbars=no, top=100, left=100, resizable=no, toolbars=no, menubar=no"
