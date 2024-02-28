@@ -123,6 +123,8 @@ public interface BustripService {
 
     List<Map<String, Object>> getCardList(Map<String, Object> params);
 
+    void setBusiCardHist(Map<String, Object> params);
+
     List<Map<String, Object>> getPersonalExnpData(Map<String, Object> params);
 
     List<Map<String, Object>> getCorpExnpData(Map<String, Object> params);

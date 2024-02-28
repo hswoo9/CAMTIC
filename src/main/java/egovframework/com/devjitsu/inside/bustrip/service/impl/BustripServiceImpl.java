@@ -108,6 +108,7 @@ public class BustripServiceImpl implements BustripService {
         result.put("map", bustripRepository.getBustripExnpInfo(params));
         result.put("rsRes", bustripRepository.getBustripResultInfo(params));
         result.put("fileInfo", bustripRepository.getBustripReqFileInfo(params));
+        result.put("fileInfo2", bustripRepository.getBustripReqFileInfo(params));
         return result;
     }
 
@@ -592,6 +593,37 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
         return bustripRepository.getCardList(params);
+    }
+
+    @Override
+    public void setBusiCardHist(Map<String, Object> params) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("HR_BIZ_REQ_ID", params.get("hrBizReqId"));
+
+        if(params.containsKey("cardArr")){
+            bustripRepository.delBusiCardHist(params);
+            payAppRepository.delBusiUseCardInfo(paramMap);
+
+            Gson gson = new Gson();
+            List<Map<String, Object>> list = gson.fromJson((String) params.get("cardArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            for(Map<String, Object> data : list){
+                data.put("hrBizReqId", params.get("hrBizReqId"));
+                bustripRepository.insCardHist(data);
+
+                // DJ_USE_CARD_INFO INSERT
+                if(!"".equals(data.get("authNo")) && !"".equals(data.get("authHh")) && !"".equals(data.get("authDd")) && !"".equals(data.get("cardNo")) && !"".equals(data.get("buySts"))){
+                    paramMap.put("AUTH_NO", data.get("authNum"));
+                    paramMap.put("AUTH_HH", data.get("authTime"));
+                    paramMap.put("AUTH_DD", data.get("authDate"));
+                    paramMap.put("CARD_NO", data.get("cardNo"));
+                    paramMap.put("BUY_STS", data.get("buySts"));
+                    payAppRepository.insUseCardInfo(paramMap);
+                }
+            }
+        }else{
+            bustripRepository.delBusiCardHist(params);
+            payAppRepository.delBusiUseCardInfo(paramMap);
+        }
     }
 
     @Override

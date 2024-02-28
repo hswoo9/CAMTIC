@@ -50,6 +50,104 @@ const busiExnp = {
         costData.bind("keyup", busiExnp.fn_setTableSum);
 
         busiExnp.fn_setTableSum();
+
+        /** 지출증빙 첨부파일 */
+        let exnpAir = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "busiExnpAir",
+            hrBizReqResultId: $("#hrBizReqId").val()
+        }).list;
+        if(exnpAir.length > 0){
+            var html = "";
+            for(let i=0; i<exnpAir.length; i++){
+                let row = exnpAir[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpAirDiv").html(html);
+        }
+
+        let exnpTraf = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "busiExnpTraf",
+            hrBizReqResultId: $("#hrBizReqId").val()
+        }).list;
+        if(exnpTraf.length > 0){
+            var html = "";
+            for(let i=0; i<exnpTraf.length; i++){
+                let row = exnpTraf[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpTrafDiv").html(html);
+        }
+
+        let exnpRoom = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "busiExnpRoom",
+            hrBizReqResultId: $("#hrBizReqId").val()
+        }).list;
+        if(exnpRoom.length > 0){
+            var html = "";
+            for(let i=0; i<exnpRoom.length; i++){
+                let row = exnpRoom[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpRoomDiv").html(html);
+        }
+
+        let exnpVisa = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "busiExnpVisa",
+            hrBizReqResultId: $("#hrBizReqId").val()
+        }).list;
+        if(exnpVisa.length > 0){
+            var html = "";
+            for(let i=0; i<exnpVisa.length; i++){
+                let row = exnpVisa[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpVisaDiv").html(html);
+        }
+
+        let exnpIns = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "busiExnpIns",
+            hrBizReqResultId: $("#hrBizReqId").val()
+        }).list;
+        if(exnpIns.length > 0){
+            var html = "";
+            for(let i=0; i<exnpIns.length; i++){
+                let row = exnpIns[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpInsDiv").html(html);
+        }
+
+        let exnpEtc = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "busiExnpEtc",
+            hrBizReqResultId: $("#hrBizReqId").val()
+        }).list;
+
+        if(exnpEtc.length > 0){
+            var html = "";
+            for(let i=0; i<exnpEtc.length; i++){
+                let row = exnpEtc[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += "</div>";
+            }
+            $("#exnpEtcDiv").html(html);
+        }
     },
 
     dataSet: function(type){
@@ -71,7 +169,6 @@ const busiExnp = {
         let nationText = nationInfo.LG_CD_NM+"등급 "+nationInfo.NATION_CD_NM;
         $("#grade").text(nationText);
 
-
         /** 출장기간 */
         const date1 = new Date(busInfo.TRIP_DAY_FR);
         const date2 = new Date(busInfo.TRIP_DAY_TO);
@@ -82,9 +179,12 @@ const busiExnp = {
         if(diff > 1){
             nights = diff - 2;
         }
-        let bustripDtHtml = busInfo.TRIP_DAY_FR+' ~ '+busInfo.TRIP_DAY_TO+' (<input id="nights" style="width: 30px; text-align: right" oninput="onlyNumber(this)" value="'+nights+'">박 '+ diff+'일)';
+        let bustripDtHtml = busInfo.TRIP_DAY_FR+' ~ '+busInfo.TRIP_DAY_TO+' (<input id="nights" style="width: 30px; text-align: right" oninput="onlyNumber(this)" onkeyup="busiExnp.fn_calc(this)" value="'+nights+'">박 '+ diff+'일)';
         $("#bustripDt").html(bustripDtHtml);
         customKendo.fn_textBox(["nights"]);
+
+        /** 환율 */
+        $("#exchangeRate").val(busInfo.EXCHANGE_RATE);
 
         /** 동반자 */
         const companion = [];
@@ -143,6 +243,73 @@ const busiExnp = {
         busiExnp.global.days = diff;
 
         busiExnp.fn_getExnpInfo();
+
+        /** 법인카드 사용내역 */
+        var data = {
+            hrBizReqId: $("#hrBizReqId").val()
+        }
+        const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", data);
+        const cardList = cardResult.list;
+
+        let corpMoney = 0;
+
+        var selCorpType = {
+            1 : '유류비',
+            2 : '교통비',
+            3 : '숙박비',
+            4 : '통행료',
+            5 : '일비',
+            6 : '식비',
+            7 : '주차비',
+            8 : '기타'
+        }
+
+        let html = '';
+        let index = 0;
+        for(let i=0; i<cardList.length; i++){
+            const cardMap = cardList[i];
+
+            var data = {
+                cardNo : cardMap.CARD_NO,
+                authDate : cardMap.AUTH_DD,
+                authNo : cardMap.AUTH_NO,
+                authTime : cardMap.AUTH_HH,
+                buySts : cardMap.BUY_STS,
+                hrBizReqId : $("#hrBizReqId").val(),
+            }
+
+            const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", data);
+            const e = iBrenchResult.cardInfo;
+
+            if(e != null){
+                html += '<tr class="cardData">';
+                index ++;
+                html += '    <input type="hidden" class="exnpType" value="'+cardMap.EXNP_TYPE+'" />';
+                html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
+                html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
+                html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
+                html += '    <input type="hidden" class="authTime" value="'+e.AUTH_HH+'" />';
+                html += '    <input type="hidden" class="buySts" value="'+e.BUY_STS+'" />';
+                html += '    <input type="hidden" class="fileNo" value="'+e.FILE_NO+'" />';
+
+                html += '    <td style="text-align: center"><input type="checkbox" name="card" style="position: relative; top: 2px"/></td>';
+                html += '    <td style="text-align: center">'+selCorpType[cardMap.EXNP_TYPE]+'</td>';
+                html += '    <td>'+e.AUTH_DD.substring(0, 4) + '-' + e.AUTH_DD.substring(4, 6) + '-' + e.AUTH_DD.substring(6, 8)+'</td>';
+                html += '    <td>'+e.AUTH_NO+'</td>';
+                html += '    <td>'+e.MER_NM+'</td>';
+                html += '    <td>'+e.MER_BIZNO.substring(0, 3) + '-' + e.MER_BIZNO.substring(3, 5) + '-' + e.MER_BIZNO.substring(5, 11)+'</td>';
+                html += '    <td>'+(e.TR_NM == undefined ? "" : e.TR_NM)+'</td>';
+                html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
+                html += '    <td class="amt" style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
+                html += '</tr>';
+                corpMoney += Number(e.AUTH_AMT);
+            }
+        }
+
+        $("#corpUseTotal").text(fn_numberWithCommas(corpMoney));
+        $("#detailRow").append(html);
+        corpTotalSet();
+        busiExnp.fn_calc();
     },
 
     /** 해당 해외출장에 맞는 여비 데이터 세팅 */
@@ -195,6 +362,7 @@ const busiExnp = {
         busiExnp.global.dayCost = dayCost;
         busiExnp.global.maxRoomCost = maxRoomCost;
         busiExnp.global.eatCost = eatCost;
+        busiExnp.fn_roomCostCheck();
     },
 
     fn_calc: function(e){
@@ -299,9 +467,9 @@ const busiExnp = {
 
     fn_saveBtn: function(id, type, mode){
         const nights = $("#nights").val();
-        const exchangeRate = uncomma($("#exchangeRate").val());
+        const exchangeRate = busiExnp.uncomma($("#exchangeRate").val());
 
-        if(exchangeRate == ""){
+        if(exchangeRate == "" || exchangeRate == 0){
             alert("환율을 입력해주세요."); return;
         }
         if(nights == ""){
@@ -326,7 +494,7 @@ const busiExnp = {
                     empSeq : $(row.cells[0]).find("input[name='empSeq']").val(),
                     airCost : $(row.cells[1]).find("input[type=text]").val(),
                     trafCost : $(row.cells[2]).find("input[type=text]").val(),
-                    trafDayCost : $(row.cells[3]).find("input[type=text]").val(),
+                    roomCost : $(row.cells[3]).find("input[type=text]").val(),
                     visaCost : $(row.cells[4]).find("input[type=text]").val(),
                     dayCost : $(row.cells[5]).find("input[type=text]").val(),
                     eatCost : $(row.cells[6]).find("input[type=text]").val(),
@@ -344,6 +512,32 @@ const busiExnp = {
                     expStat : "Y",
                     type : type,
                     division : '1'
+                }
+            }
+
+            // 업체지급
+            if(row.classList.value == 'corpCrmData'){
+                data = {
+                    hrBizReqId : $("#hrBizReqId").val(),
+                    hrBizOverExnpId : $("#corpCrmExnpId").val(),
+                    airCost : $("#corpCrm1").val(),
+                    trafCost : $("#corpCrm2").val(),
+                    roomCost : $("#corpCrm3").val(),
+                    visaCost : $("#corpCrm4").val(),
+                    dayCost : $("#corpCrm5").val(),
+                    eatCost : $("#corpCrm6").val(),
+                    insCost : $("#corpCrm7").val(),
+                    etcCost : $("#corpCrm8").val(),
+                    totCost : $("#corpCrm9").val(),
+                    type : type,
+                    division : '4'
+                };
+
+                var returnFlag = busiExnp.fn_exnpAttachCheck(data);
+                busiExnp.global.flag = returnFlag[0];
+                if(!returnFlag[0]){
+                    alert(returnFlag[1]);
+                    break;
                 }
             }
 
@@ -395,27 +589,121 @@ const busiExnp = {
                 };
             }
 
-            // 업체지급
-            if(row.classList.value == 'corpCrmData'){
-                data = {
-                    hrBizReqId : $("#hrBizReqId").val(),
-                    hrBizOverExnpId : $("#corpCrmExnpId").val(),
-                    airCost : $("#corpCrm1").val(),
-                    trafCost : $("#corpCrm2").val(),
-                    roomCost : $("#corpCrm3").val(),
-                    visaCost : $("#corpCrm4").val(),
-                    dayCost : $("#corpCrm5").val(),
-                    eatCost : $("#corpCrm6").val(),
-                    insCost : $("#corpCrm7").val(),
-                    etcCost : $("#corpCrm8").val(),
-                    totCost : $("#corpCrm9").val(),
-                    type : type,
-                    division : '4'
-                };
-            }
-
-
             result = customKendo.fn_customAjax("/bustrip/saveBustripOverExnpPop", data);
+        }
+
+        if(!returnFlag[0]){
+            return false;
+        }
+
+        /** Ibrench 선택 내역 저장 */
+        var parameters = {
+            hrBizReqId : $("#hrBizReqId").val()
+        }
+        let cardArr = [];
+        $.each($(".cardData"), function(i, v){
+            const cardData = {};
+            const exnpType = $(v).find('.exnpType').val();
+            const cardNo = $(v).find('.cardNo').val();
+            const authDate = $(v).find('.authDate').val();
+            const authNum = $(v).find('.authNum').val();
+            const authTime = $(v).find('.authTime').val();
+            const buySts = $(v).find('.buySts').val();
+            const fileNo = $(v).find('.fileNo').val();
+
+            cardData.exnpType = exnpType;
+            cardData.cardNo = cardNo;
+            cardData.authDate = authDate;
+            cardData.authNum = authNum;
+            cardData.authTime = authTime;
+            cardData.buySts = buySts;
+            cardData.fileNo = fileNo;
+
+            cardArr.push(cardData);
+        });
+
+        if(cardArr.length != 0){
+            parameters.cardArr = JSON.stringify(cardArr);
+        }
+        customKendo.fn_customAjax("/bustrip/setBusiCardHist", parameters);
+
+        /** 첨부파일 저장 프로세스 */
+        /** 항공료 파일 */
+        if($("#exnpAir")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "busiExnpAir");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", $("#hrBizReqId").val());
+
+            for(let i=0; i<$("#exnpAir")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpAir")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 국내이동교통비 파일 */
+        if($("#exnpTraf")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "busiExnpTraf");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", $("#hrBizReqId").val());
+
+            for(let i=0; i<$("#exnpTraf")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpTraf")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 숙박비 파일 */
+        if($("#exnpRoom")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "busiExnpRoom");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", $("#hrBizReqId").val());
+
+            for(let i=0; i<$("#exnpRoom")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpRoom")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 비자발급비 파일 */
+        if($("#exnpVisa")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "busiExnpVisa");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", $("#hrBizReqId").val());
+
+            for(let i=0; i<$("#exnpVisa")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpVisa")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 보험료 파일 */
+        if($("#exnpIns")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "busiExnpIns");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", $("#hrBizReqId").val());
+
+            for(let i=0; i<$("#exnpIns")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpIns")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
+        /** 기타 파일 */
+        if($("#exnpEtc")[0].files.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "busiExnpEtc");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", $("#hrBizReqId").val());
+
+            for(let i=0; i<$("#exnpEtc")[0].files.length; i++){
+                formData.append("bustripFile", $("#exnpEtc")[0].files[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
         }
 
         var data = {
@@ -437,4 +725,50 @@ const busiExnp = {
             window.close();
         }
     },
+
+    fn_exnpAttachCheck : function (e){
+        var type = $("#type").val();
+        var data = e;
+
+        var arr = ["airCost", "trafCost", "roomCost", "visaCost", "insCost", "etcCost"];
+        var idArr = ["Air", "Traf", "Room", "Visa", "Ins", "Etc"];
+
+        var map = {
+            airCost : "항공료",
+            trafCost : "국내이동교통비",
+            roomCost : "숙박비",
+            visaCost : "비자발급비",
+            insCost : "보험료",
+            etcCost : "기타"
+        }
+
+        if(type == 'ins'){ //신규
+            for(let i=0; i<arr.length; i++){
+                if(data[arr[i]] != '0'){
+                    if($("#exnp"+idArr[i])[0].files.length == 0){
+                        return [false, map[arr[i]]+" 지출증빙 첨부파일을\n확인해주세요."];
+                    }
+                }
+            }
+
+            return [true, ""];
+        }else if(type == 'upd'){ // 수정
+            for(let i=0; i<arr.length; i++){
+                if(data[arr[i]] != '0'){
+                    if($("#exnp"+idArr[i]+"Div div:visible").length == 0){
+                        if($("#exnp"+idArr[i])[0].files.length == 0){
+                            return [false, map[arr[i]]+" 지출증빙 첨부파일을\n확인해주세요."];
+                        }
+                    }
+                }
+            }
+
+            return [true, ""];
+        }
+    },
+
+    uncomma : function(str) {
+        str = String(str);
+        return str.replace(/[^\d.]+/g, '');
+    }
 }

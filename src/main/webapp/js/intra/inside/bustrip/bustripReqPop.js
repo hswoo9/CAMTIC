@@ -175,7 +175,31 @@ const bustripReq = {
         $("#bustObj").val(busInfo.TITLE);
 
         /** 첨부파일 */
-        bustripInit.settingTempFileDataInit(fileInfo, busInfo);
+        const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", {
+            hrBizReqId: hrBizReqId
+        });
+
+        let tempArr = [];
+        let count = 0;
+        const bustripList = fileInfo;
+        const cardList = cardResult.list;
+
+        for(let i=0; i<bustripList.length; i++){
+            tempArr[count] = bustripList[i];
+            count ++;
+        }
+
+        for(let i=0; i<cardList.length; i++){
+            if(cardList[i].FILE_NO != null){
+                const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
+                    fileNo: cardList[i].FILE_NO
+                }).data;
+                tempArr[count] = fileData;
+                count ++;
+            }
+        }
+
+        bustripInit.settingTempFileDataInit(tempArr, 'result');
 
         /** 해외출장일시 폼 변경 */
         if(busInfo.TRIP_CODE == "4"){

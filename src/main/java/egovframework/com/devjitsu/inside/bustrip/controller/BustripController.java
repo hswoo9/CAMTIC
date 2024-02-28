@@ -264,11 +264,29 @@ public class BustripController {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
 
-        List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
+        List<Map<String, Object>> exnpData = new ArrayList<>();
+        List<Map<String, Object>> exnpData2 = new ArrayList<>();
+        Map<String, Object> paramsMap = new HashMap<>();
+
+        if(params.get("tripType").equals("4")){
+            paramsMap.put("hrBizReqId", params.get("hrBizReqId"));
+            exnpData = bustripService.getBusinessOverExnpInfo(paramsMap);
+            if(params.containsKey("hrBizReqResultId")){
+                paramsMap.put("hrBizReqResultId", params.get("hrBizReqResultId"));
+                exnpData2 = bustripService.getBusinessOverExnpInfo(paramsMap);
+            }
+        } else {
+            exnpData = bustripService.getBustripExnpInfo(params);
+        }
 
         if(exnpData.size() != 0){
             model.addAttribute("list", exnpData);
             model.addAttribute("jsonList", new Gson().toJson(exnpData));
+        }
+
+        if(exnpData2.size() != 0){
+            model.addAttribute("list2", exnpData2);
+            model.addAttribute("jsonList2", new Gson().toJson(exnpData2));
         }
 
         model.addAttribute("rs", bustripService.getBustripOne(params));
@@ -285,7 +303,12 @@ public class BustripController {
 
         List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
         //params.put("BType", "B");
-        List<Map<String, Object>> exnpData = bustripService.getBustripExnpInfo(params);
+        List<Map<String, Object>> exnpData = new ArrayList<>();
+        if(params.get("tripType").equals("4")){
+            exnpData = bustripService.getBusinessOverExnpInfo(params);
+        } else {
+            exnpData = bustripService.getBustripExnpInfo(params);
+        }
 
         Map<String, Object> data = bustripService.getBustripOne(params);
         model.addAttribute("rs", data);
@@ -1010,6 +1033,20 @@ public class BustripController {
     public String getCardList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = bustripService.getCardList(params);
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** ibrench 카드 이력 등록 (해외출장 사전정산) */
+    @RequestMapping("/bustrip/setBusiCardHist")
+    public String setBusiCardHist(@RequestParam Map<String, Object> params, Model model){
+        try{
+            bustripService.setBusiCardHist(params);
+            model.addAttribute("code", 200);
+            model.addAttribute("rep", params);
+        } catch(Exception e){
+            e.printStackTrace();
+            model.addAttribute("code", 500);
+        }
         return "jsonView";
     }
 

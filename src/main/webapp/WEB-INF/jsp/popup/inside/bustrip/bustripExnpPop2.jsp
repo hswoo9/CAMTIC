@@ -33,6 +33,7 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}"/>
+<input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="type" value="${type}"/>
 <div class="table-responsive">
@@ -44,9 +45,9 @@
                     <input type="button" class="k-button k-button-solid-primary" value="수정" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqResultId}', '${type}', '${params.mode}')" />
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
                 </c:when>
-                <c:when test="${rs.EXP_STAT == 100}">
-                    <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
-                </c:when>
+<%--                <c:when test="${rs.EXP_STAT == 100}">--%>
+<%--                    <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />--%>
+<%--                </c:when>--%>
                 <c:when test="${rs.EXP_STAT != 10}">
                     <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqResultId}', '${type}')" />
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
@@ -75,56 +76,142 @@
                     <th>기타</th>
                     <th>합계</th>
                 </tr>
-            <c:forEach var="list" items="${list}">
-                <tr class="addData">
-                    <td>
-                        <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
-                        <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
-                        <input type="hidden" id="hrBizExnpId" class="hrBizExnpId" name="hrBizExnpId" value="${list.HR_BIZ_EXNP_ID}" />
-                    </td>
-                    <td>
-                        <%--<input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_CORP_YN}">--%>
-                        <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%" />
-                    </td>
-                    <td>
-                        <%--<input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_DAY_CORP_YN}">--%>
-                        <input type="text" id="trafDayCost${list.EMP_SEQ}" class="trafDayCost" value="${list.TRAF_DAY_COST}" oninput="onlyNumber(this)" style="width: 100%" />
-                    </td>
-                    <td>
-                        <%--<input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.ETC_CORP_YN}">--%>
-                        <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%" />
-                    </td>
-                    <td>
-                        <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="${list.TOT_COST}" disabled />
-                    </td>
-                </tr>
-            </c:forEach>
-                <tr class="corpData">
-                    <td>
-                        <div style="text-align: center">법인</div>
-                    </td>
-                    <td>
-                        <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="bustripExnpReq.fn_popRegDet(3, 2)"></i>
-                        <input type="text" id="corp2" class="corpInput"  style="width: 50%;" disabled/>
-                        <input type="hidden" id="corpCardNum2" value=""/>
-                        <input type="button" class="k-button k-button-solid-info" value="추가" onclick="bustripExnpReq.fn_paymentCardHistory(2)" />
-                    </td>
-                    <td>
-                        <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="bustripExnpReq.fn_popRegDet(3, 3)"></i>
-                        <input type="text" id="corp3" class="corpInput" style="width: 50%;" disabled/>
-                        <input type="hidden" id="corpCardNum3" value=""/>
-                        <input type="button" class="k-button k-button-solid-info" value="추가" onclick="bustripExnpReq.fn_paymentCardHistory(3)" />
-                    </td>
-                    <td>
-                        <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="bustripExnpReq.fn_popRegDet(3, 8)"></i>
-                        <input type="text" id="corp8" class="corpInput" style="width: 50%;" disabled/>
-                        <input type="hidden" id="corpCardNum8" value=""/>
-                        <input type="button" class="k-button k-button-solid-info" value="추가" onclick="bustripExnpReq.fn_paymentCardHistory(8)" />
-                    </td>
-                    <td>
-                        <input type="text" id="corpTotal" class="corpInput" style="width: 100%; text-align: right;" disabled/>
-                    </td>
-                </tr>
+
+                <c:choose>
+                    <c:when test="${type eq 'ins'}">
+                        <c:forEach var="list" items="${list}">
+                            <c:if test="${list.DIVISION ne 1}">
+                                <tr class="addData">
+                                    <td>
+                                        <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
+                                        <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
+                                        <input type="hidden" id="hrBizOverExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
+                                    </td>
+                                    <td>
+                                            <%--<input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_CORP_YN}">--%>
+                                        <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                    </td>
+                                    <td>
+                                            <%--<input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_DAY_CORP_YN}">--%>
+                                        <input type="text" id="roomCost${list.EMP_SEQ}" class="roomCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                    </td>
+                                    <td>
+                                            <%--<input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.ETC_CORP_YN}">--%>
+                                        <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="" disabled />
+                                    </td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
+                        <tr class="corpCrmData">
+                            <td>
+                                <div style="text-align: center">업체지급</div>
+                                <input type="hidden" id="corpCrmExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
+                            </td>
+                            <td>
+                                <input type="text" id="corpCrm2" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                            </td>
+                            <td>
+                                <input type="text" id="corpCrm3" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                            </td>
+                            <td>
+                                <input type="text" id="corpCrm8" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                            </td>
+                            <td>
+                                <input type="text" id="corpCrm9" class="corpCarInput" value="0" style="width: 100%;text-align:right;" disabled />
+                            </td>
+                        </tr>
+                        <tr class="corpData">
+                            <td>
+                                <div style="text-align: center">법인카드</div>
+                                <input type="hidden" id="corpExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
+                            </td>
+                            <td>
+                                <input type="text" id="corp2" class="corpInput" value="0"  style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')" />
+                            </td>
+                            <td>
+                                <input type="text" id="corp3" class="corpInput" value="0" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
+                            </td>
+                            <td>
+                                <input type="text" id="corp8" class="corpInput" value="0" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
+                            </td>
+                            <td>
+                                <input type="text" id="corpTotal" class="corpInput" value="0" style="width: 100%; text-align: right;" disabled/>
+                            </td>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="list" items="${list}">
+                            <c:if test="${list.DIVISION == 1}">
+                                <tr class="addData">
+                                    <td>
+                                        <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
+                                        <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
+                                        <input type="hidden" id="hrBizOverExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
+                                    </td>
+                                    <td>
+                                            <%--<input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_CORP_YN}">--%>
+                                        <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                    </td>
+                                    <td>
+                                            <%--<input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_DAY_CORP_YN}">--%>
+                                        <input type="text" id="roomCost${list.EMP_SEQ}" class="roomCost" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                    </td>
+                                    <td>
+                                            <%--<input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.ETC_CORP_YN}">--%>
+                                        <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="${list.TOT_COST}" disabled />
+                                    </td>
+                                </tr>
+                            </c:if>
+                            <c:if test="${list.DIVISION == 4}">
+                                <tr class="corpCrmData">
+                                    <td>
+                                        <div style="text-align: center">업체지급</div>
+                                        <input type="hidden" id="corpCrmExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="corpCrm2" class="corpCarInput" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="corpCrm3" class="corpCarInput" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="corpCrm8" class="corpCarInput" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="corpCrm9" class="corpCarInput" value="${list.TOT_COST}" style="width: 100%;text-align:right;" disabled />
+                                    </td>
+                                </tr>
+                            </c:if>
+                            <c:if test="${list.DIVISION == 2}">
+                                <tr class="corpData">
+                                    <td>
+                                        <div style="text-align: center">법인카드</div>
+                                        <input type="hidden" id="corpExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="corp2" class="corpInput" value="${list.TRAF_COST}" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="corp3" class="corpInput" value="${list.ROOM_COST}" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="corp8" class="corpInput" value="${list.ETC_COST}" style="width: 100%; cursor: pointer; text-align: right;" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="corpTotal" class="corpInput" value="${list.TOT_COST}" style="width: 100%; text-align: right;" disabled/>
+                                    </td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+
                 <tr class="TotalData">
                     <td>
                         <div style="text-align: center">합계</div>
@@ -144,6 +231,15 @@
                 </tr>
             </thead>
         </table>
+    </form>
+
+    <div class="card-header pop-header">
+        <h3 class="card-title title_NM">개인여비 지출증빙 첨부</h3>
+        <div class="btn-st popButton">
+            <input type="button" class="k-button k-button-solid-info" style="margin-right: 5px" value="증빙양식 다운로드" onclick="bustripExnpReq.personalExnpFormDown()" />
+        </div>
+    </div>
+    <form id="fileForm" style="padding: 20px 30px;">
         <table class="popTable table table-bordered mb-0">
             <colgroup>
 
@@ -162,8 +258,8 @@
                     </div>
                 </td>
                 <td>
-                    <input type="file" id="exnpTrafDay" multiple style="width: 98%;" />
-                    <div id="exnpTrafDayDiv">
+                    <input type="file" id="exnpRoom" multiple style="width: 98%;" />
+                    <div id="exnpRoomDiv">
 
                     </div>
                 </td>
@@ -191,17 +287,19 @@
             <table class="teamGrid popTable table table-bordered mb-0" style="margin-top: 0px">
                 <colgroup>
                     <col width="4%">
-                    <col width="15%">
+                    <col width="7%">
+                    <col width="13%">
                     <col width="10%">
                     <col width="17%">
                     <col width="11%">
-                    <col width="18%">
                     <col width="15%">
+                    <col width="13%">
                     <col width="10%">
                 </colgroup>
                 <thead id="detailRow">
                 <tr>
                     <th><input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll('checkAll', 'card');"/></th>
+                    <th>구분</th>
                     <th>승인일자</th>
                     <th>승인번호</th>
                     <th>사용처</th>
@@ -211,6 +309,10 @@
                     <th>금액</th>
                 </tr>
                 </thead>
+                <tr>
+                    <th colspan="8" style="text-align: center;background-color: #8fa1c04a;">합계</th>
+                    <td style="text-align: right;font-weight: bold;" id="corpUseTotal"></td>
+                </tr>
             </table>
         </div>
     </form>
@@ -292,9 +394,22 @@
 
     let index = 0;
 
-    function cardHistSet(list){
+    function cardHistSet(list, exnpType, corpType){
         console.log("list");
         console.log(list);
+
+        let corpMoney = 0;
+
+        let selCorpType = {
+            'oil' : '유류비',
+            'traf' : '교통비',
+            'room' : '숙박비',
+            'toll' : '통행료',
+            'day' : '일비',
+            'eat' : '식비',
+            'parking' : '주차비',
+            'etc' : '기타'
+        }
 
         let html = '';
         for(let i=0; i<list.length; i++){
@@ -303,6 +418,7 @@
 
             const e = list[i];
             html += '<tr class="cardData">';
+            html += '    <input type="hidden" class="exnpType" value="'+exnpType+'" />';
             html += '    <input type="hidden" class="cardNo" value="'+e.CARD_NO+'" />';
             html += '    <input type="hidden" class="authDate" value="'+e.AUTH_DD+'" />';
             html += '    <input type="hidden" class="authNum" value="'+e.AUTH_NO+'" />';
@@ -311,6 +427,7 @@
             html += '    <input type="hidden" id="fileNo'+index+'" class="fileNo"/>';
 
             html += '    <td style="text-align: center"><input type="checkbox" name="card" style="position: relative; top: 2px"/></td>';
+            html += '    <td style="text-align: center">'+selCorpType[corpType]+'</td>';
             html += '    <td>'+e.AUTH_DD.substring(0, 4) + '-' + e.AUTH_DD.substring(4, 6) + '-' + e.AUTH_DD.substring(6, 8)+'</td>';
             html += '    <td>'+e.AUTH_NO+'</td>';
             html += '    <td>'+e.MER_NM+'</td>';
@@ -319,9 +436,29 @@
             html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
             html += '    <td class="amt" style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
             html += '</tr>';
+            corpMoney += Number(e.AUTH_AMT);
+
             $("#detailRow").append(html);
             fn_setCardInfo(e.AUTH_NO, e.AUTH_DD, e.AUTH_HH, e.CARD_NO, e.BUY_STS, index);
         }
+
+        if(corpMoney != '') {
+            if($("#corp" + exnpType).val() == 0) {
+                $("#corp" + exnpType).val(fn_numberWithCommas(corpMoney));
+            }else{
+                $("#corp" + exnpType).val(fn_numberWithCommas(Number(uncomma($("#corp" + exnpType).val())) + corpMoney));
+            }
+        }
+        corpTotalSet();
+
+        bustripExnpReq.fn_setTableSum();
+
+
+        if($("#corpUseTotal").text() != '' && $("#corpUseTotal").text() != 0) {
+            corpMoney += Number(uncomma($("#corpUseTotal").text()));
+        }
+
+        $("#corpUseTotal").text(fn_numberWithCommas(corpMoney));
     }
 
     function fn_setCardInfo(authNo, authDate, authTime, cardNo, buySts, index){
@@ -411,16 +548,21 @@
         });
 
         $("#capture").css("display", "none");
-
-        corpTotalSet();
     }
 
     function corpTotalSet(){
-        var totalAmt = 0;
+        $("#corpTotal").val(0);
 
-        $('.amt').each(function(){
-            totalAmt += Number($(this).text().replace(/,/g, ''));
-        });
+        var corp1 = $("#corp1").val();
+        var corp2 = $("#corp2").val();
+        var corp3 = $("#corp3").val();
+        var corp4 = $("#corp4").val();
+        var corp5 = $("#corp5").val();
+        var corp6 = $("#corp6").val();
+        var corp7 = $("#corp7").val();
+        var corp8 = $("#corp8").val();
+        var totalAmt = Number(uncomma(corp1)) + Number(uncomma(corp2)) + Number(uncomma(corp3)) +
+            Number(uncomma(corp4)) + Number(uncomma(corp5)) + Number(uncomma(corp6)) + Number(uncomma(corp7)) + Number(uncomma(corp8));
 
         $("#corpTotal").val(fn_numberWithCommas(totalAmt));
     }

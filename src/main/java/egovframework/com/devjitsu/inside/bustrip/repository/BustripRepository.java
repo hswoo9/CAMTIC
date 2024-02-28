@@ -311,6 +311,10 @@ public class BustripRepository extends AbstractDAO {
         delete("bustrip.delCardHist", params);
     }
 
+    public void delBusiCardHist(Map<String, Object> params) {
+        delete("bustrip.delBusiCardHist", params);
+    }
+
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
         return selectList("bustrip.getCardList", params);
     }

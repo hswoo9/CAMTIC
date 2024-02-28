@@ -908,8 +908,18 @@
             *
         FROM
             CAM_INSIDE.DJ_HR_BIZ_OVER_EXNP
-        WHERE
-            HR_BIZ_REQ_ID = #{hrBizReqId}
+        WHERE 1=1
+        <if test='hrBizReqId != null and !"".equals(hrBizReqId)'>
+            AND HR_BIZ_REQ_ID = #{hrBizReqId}
+        </if>
+        <choose>
+            <when test='hrBizReqResultId != null and !"".equals(hrBizReqResultId)'>
+                AND HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+            </when>
+            <otherwise>
+                AND HR_BIZ_REQ_RESULT_ID IS NULL
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getBustripExnpInfo" parameterType="map" resultType="map">
@@ -1669,6 +1679,7 @@
         /* insCardHist */
         INSERT INTO CAM_INSIDE.DJ_HR_CARD_HIST
             (
+                HR_BIZ_REQ_ID,
                 HR_BIZ_REQ_RESULT_ID,
                 EXNP_TYPE,
                 CARD_NO,
@@ -1680,6 +1691,7 @@
             )
         VALUES
             (
+                #{hrBizReqId},
                 #{hrBizReqResultId},
                 #{exnpType},
                 #{cardNo},
@@ -1696,6 +1708,11 @@
         DELETE FROM CAM_INSIDE.DJ_HR_CARD_HIST WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </delete>
 
+    <delete id="delBusiCardHist" parameterType="map">
+        /* delBusiCardHist */
+        DELETE FROM CAM_INSIDE.DJ_HR_CARD_HIST WHERE HR_BIZ_REQ_ID = #{hrBizReqId}
+    </delete>
+
     <select id="getCardList" parameterType="map" resultType="map">
         /* getCardList */
         SELECT
@@ -1703,6 +1720,9 @@
         FROM
             CAM_INSIDE.DJ_HR_CARD_HIST
         WHERE HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+        <if test='hrBizReqId != null and !"".equals(hrBizReqId)'>
+            OR HR_BIZ_REQ_ID = #{hrBizReqId}
+        </if>
     </select>
 
     <select id="getPersonalExnpData" parameterType="map" resultType="map">
