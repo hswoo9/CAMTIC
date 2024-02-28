@@ -324,25 +324,12 @@ public class BustripController {
         Map<String, Object> corpMap = new HashMap<>();
         Map<String, Object> carMap = new HashMap<>();
 
-        for(Map<String, Object> map : exnpData){
-            if(map.get("DIVISION").equals(2)){
-                corpMap = map;
-            } else if(map.get("DIVISION").equals(3)){
-                carMap = map;
-            } else if(map.get("DIVISION").equals(4)){
-                crmMap = map;
-            }
-        }
-
         if(exnpData.size() == 0){
             model.addAttribute("list", list);
             model.addAttribute("type", "ins");
         } else{
             model.addAttribute("list", exnpData);
             model.addAttribute("type", "upd");
-            model.addAttribute("corpMap", corpMap);
-            model.addAttribute("carMap", carMap);
-            model.addAttribute("crmMap", crmMap);
         }
 
         model.addAttribute("rs", bustripService.getBustripOne(params));
