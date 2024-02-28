@@ -23,6 +23,10 @@
     height: 50px !important;
   }
 
+  .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 4px 15px;
+  }
+
 
 </style>
 <body class="font-opensans" style="background-color:#fff;">
