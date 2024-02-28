@@ -3,6 +3,7 @@ var recruitAdminPop = {
         searchAjaxData : "",
         saveAjaxData : "",
         dropDownDataSource : "",
+        applicationCount : 0
     },
 
     init : function(){
@@ -218,6 +219,7 @@ var recruitAdminPop = {
             console.log("result", result);
             console.log("recruit", recruit);
             console.log("applicationCount", recruit.applicationCount);
+            recruitAdminPop.global.applicationCount = recruit.applicationCount;
 
             var html = "";
             if ($("#recruitStatusSn").val() == "1") {
@@ -384,6 +386,12 @@ var recruitAdminPop = {
                 recruitInfoSn : $("#recruitInfoSn").val(),
                 recruitStatusSn : e,
                 recruitStatusText : t
+            }
+
+            if(e == "3" && recruitAdminPop.global.applicationCount == 0){
+                $("#recruitStatusSn").val('E');
+                recruitAdminPop.global.saveAjaxData.recruitStatusSn = 'E';
+                recruitAdminPop.global.saveAjaxData.recruitStatusText = '채용완료';
             }
 
             var result = customKendo.fn_customAjax("/inside/setRecruitStatusUpd.do", recruitAdminPop.global.saveAjaxData);
