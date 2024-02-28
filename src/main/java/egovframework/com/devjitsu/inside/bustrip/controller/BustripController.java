@@ -317,8 +317,22 @@ public class BustripController {
 
         /** 해외출장 사전정산 추가 */
         List<Map<String, Object>> list = bustripService.getBustripTotInfo(params);
-        List<Map<String, Object>> exnpData = bustripService.getBusinessExnpInfo(params);
+        List<Map<String, Object>> exnpData = bustripService.getBusinessOverExnpInfo(params);
         model.addAttribute("rs", bustripService.getBusinessOne(params));
+
+        Map<String, Object> crmMap = new HashMap<>();
+        Map<String, Object> corpMap = new HashMap<>();
+        Map<String, Object> carMap = new HashMap<>();
+
+        for(Map<String, Object> map : exnpData){
+            if(map.get("DIVISION").equals(2)){
+                corpMap = map;
+            } else if(map.get("DIVISION").equals(3)){
+                carMap = map;
+            } else if(map.get("DIVISION").equals(4)){
+                crmMap = map;
+            }
+        }
 
         if(exnpData.size() == 0){
             model.addAttribute("list", list);
@@ -326,6 +340,9 @@ public class BustripController {
         } else{
             model.addAttribute("list", exnpData);
             model.addAttribute("type", "upd");
+            model.addAttribute("corpMap", corpMap);
+            model.addAttribute("carMap", carMap);
+            model.addAttribute("crmMap", crmMap);
         }
 
         model.addAttribute("rs", bustripService.getBustripOne(params));
@@ -703,6 +720,23 @@ public class BustripController {
         try{
             bustripService.saveBustripExnpPop(params);
             model.addAttribute("hrBizExnpId", params.get("hrBizExnpId"));
+            model.addAttribute("hrBizReqId", params.get("hrBizReqId"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/saveBustripOverExnpPop")
+    public String saveBustripOverExnpPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("regEmpSeq", loginVO.getUniqId());
+        try{
+            bustripService.saveBustripOverExnpPop(params);
+            model.addAttribute("hrBizOverExnpId", params.get("hrBizOverExnpId"));
             model.addAttribute("hrBizReqId", params.get("hrBizReqId"));
         } catch (Exception e){
             e.printStackTrace();
