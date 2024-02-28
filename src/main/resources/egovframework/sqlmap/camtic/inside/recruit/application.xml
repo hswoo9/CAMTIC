@@ -222,7 +222,7 @@
             MOBILE_TEL_NUM = #{mobileTelNum},
             ZIP_CODE = #{zipCode},
             ADDR = #{addr},
-            ADDR_DETAIL = #{addr},
+            ADDR_DETAIL = #{addrDetail},
             HOBBY = #{hobby},
             SPECIALTY = #{specialty},
             VETERANS = #{veterans},
