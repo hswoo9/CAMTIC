@@ -78,7 +78,7 @@ var draft = {
         $("#compSeq").val(draft.global.params.compSeq);
         $("#linkageType").val(draft.global.params.linkageType);
         $("#processId").val(draft.global.params.processId);
-        $("#docTitle").val(draft.global.params.docTitle);
+        $("#docTitle").val(draft.global.params.docTitle.replace("%26", "&"));
 
 
         customKendo.fn_textBox(["docTitle"]);

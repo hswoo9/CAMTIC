@@ -294,7 +294,7 @@ var docView = {
                     }
                 }, {
                     template : function(e){
-                        if(e.FILE_EXT == "pdf" || e.FILE_EXT == "png" || e.FILE_EXT == "PNG" || e.FILE_EXT == "jpg" || e.FILE_EXT == "JPEG" || e.FILE_EXT == "gif"){
+                        if(e.FILE_EXT == "pdf" || e.FILE_EXT == "png" || e.FILE_EXT == "PNG" || e.FILE_EXT == "jpg" || e.FILE_EXT == "JPG" || e.FILE_EXT == "JPEG" || e.FILE_EXT == "gif"){
                             return '<button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onClick="docView.fileViewer(\'' + e.FILE_DOWN_PATH + e.fileUUID + '\', \'' + e.filename + '\')">' +
                                         '<span class="k-button-text">보기</span>' +
                                     '</button>'
@@ -739,7 +739,7 @@ var docView = {
                         if(e.APPROVE_STAT_CODE == 10){
                             return "-";
                         }else{
-                            return e.APPROVE_OPIN;
+                            return e.APPROVE_OPIN.replaceAll("\n", "<br/>");
                         }
                     }
                 },{

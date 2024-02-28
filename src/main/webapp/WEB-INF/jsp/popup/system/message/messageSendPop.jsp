@@ -9,7 +9,7 @@
 <script type="text/javascript" src="/js/intra/system/message/messageSendPop.js?v=${today}"></script>
 <style>
     .msg_con_wrap .msg_mms_box{padding-top:50px; text-align:left; width:100%;height:480px;background:#fff url('/images/system/msg_mms_bg.png') no-repeat top left; margin-right:20px;}
-    .msg_con_wrap .msg_mms_box .MsgBox{margin-left: 12px;text-align:center;width:213px;height:330px; resize:none;padding:21px 17px;background-color: transparent;border-top-style: solid;border-right-style:solid;border-bottom-style: solid;border-left-style: solid;overflow: hidden;overflow-y: auto;font-size: 9pt;word-break: break-all;left: 0px;margin-top: 23px;}
+    .msg_con_wrap .msg_mms_box .MsgBox{margin-left: 12px;text-align:left;width:213px;height:330px; resize:none;padding:21px 17px;background-color: transparent;border-top-style: solid;border-right-style:solid;border-bottom-style: solid;border-left-style: solid;overflow: hidden;overflow-y: auto;font-size: 9pt;word-break: break-all;left: 0px;margin-top: 23px;}
     .msg_con_wrap .msg_mms_box .MsgByte{margin:0 auto; text-align: center;width:282px;}
     .msg_con_wrap .msg_mms_box .MsgByte .ByteText1{font-size : 9pt;font-weight : bold;}
     .msg_con_wrap .msg_mms_box .MsgByte .ByteText2{font-size : 9pt;}

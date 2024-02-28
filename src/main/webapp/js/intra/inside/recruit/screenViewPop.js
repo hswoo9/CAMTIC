@@ -78,7 +78,7 @@ var screenViewPop = {
             html += '' +
                 '<div class="pdf_page mt-20" style="height: 700px">' +
                     '<h2 class="text-center" style="margin: 0">채용 서류심사 평가표(경력)</h2>' +
-                    '<table class="searchTable table table-bordered mb-0 mt-10">' +
+                    '<table class="searchTable table table-bordered mb-0 mt-20">' +
                         '<colgroup>' +
                             '<col style="width: 10%">' +
                             '<col style="width: 17%">' +
@@ -221,7 +221,7 @@ var screenViewPop = {
                 '△전문성(30점)-응시분야 직무에 대한 전문지식' +
                 '</p>' +
                 '</div>' +
-                '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px; margin-top: 150px;">' +
+                '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px; margin-top: 130px;">' +
                 cnt[i].REG_DT + "<br>" +
                 imgHtml +
                 '</div>' +
@@ -237,7 +237,7 @@ var screenViewPop = {
             html += '' +
                 '<div class="pdf_page mt-20" style="height: 700px">' +
                     '<h2 class="text-center" style="margin: 0">채용 서류심사 평가표(신입)</h2>' +
-                    '<table class="searchTable table table-bordered mb-0 mt-10">' +
+                    '<table class="searchTable table table-bordered mb-0 mt-20">' +
                         '<colgroup>' +
                             '<col style="width: 10%">' +
                         '</colgroup>' +
@@ -353,7 +353,7 @@ var screenViewPop = {
                     '△전문성(30점)-응시분야 직무에 대한 전문지식' +
                     '</p>' +
                     '</div>' +
-                    '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px; margin-top: 150px">' +
+                    '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px; margin-top: 130px">' +
                     cnt[i].REG_DT + "<br>" +
                     imgHtml +
                     '</div>' +

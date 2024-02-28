@@ -129,7 +129,7 @@ var carManage = {
                     title: "사용 부서",
                     template: function(row){
                         if(row.CAR_USE_DEPT_ACTIVE == "Y"){
-                            const useDeptArr = row.CAR_USE_DEPT_NAME.split(",");
+                            const useDeptArr = (row.CAR_USE_DEPT_NAME == null ? "" : row.CAR_USE_DEPT_NAME).split(",");
                             $("#useDept").data("kendoDropDownTree").value(useDeptArr);
                             const deptLength = useDeptArr.length
                             if(deptLength != 1) {
