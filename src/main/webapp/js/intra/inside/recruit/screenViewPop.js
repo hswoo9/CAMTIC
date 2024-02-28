@@ -76,9 +76,9 @@ var screenViewPop = {
         var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
         for(var i = 0; i < cnt.length; i++){
             html += '' +
-                '<div class="pdf_page mt-20" style="height: 560px">' +
-                    '<h2 class="text-center">채용 서류심사 평가표(경력)</h2>' +
-                    '<table class="searchTable table table-bordered mb-0 mt-20">' +
+                '<div class="pdf_page mt-20" style="height: 700px">' +
+                    '<h2 class="text-center" style="margin: 0">채용 서류심사 평가표(경력)</h2>' +
+                    '<table class="searchTable table table-bordered mb-0 mt-10">' +
                         '<colgroup>' +
                             '<col style="width: 10%">' +
                             '<col style="width: 17%">' +
@@ -215,13 +215,13 @@ var screenViewPop = {
 
             html +=     '</tbody>' +
                 '</table>' +
-                '<p style="font-size: 13px;text-align: center" class="mt-20">' +
+                '<p style="font-size: 13px;text-align: center" class="mt-15">' +
                 '■평점요소: △학력(20점)-응시분야 직무에 대한 학력 전공 ' +
                 '△경력(50점)-응시분야 및 관련분야 실무능력 ' +
                 '△전문성(30점)-응시분야 직무에 대한 전문지식' +
                 '</p>' +
                 '</div>' +
-                '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px;">' +
+                '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px; margin-top: 150px;">' +
                 cnt[i].REG_DT + "<br>" +
                 imgHtml +
                 '</div>' +
@@ -235,9 +235,9 @@ var screenViewPop = {
         var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
         for(var i = 0; i < cnt.length; i++){
             html += '' +
-                '<div class="pdf_page mt-20" style="height: 560px">' +
-                    '<h2 class="text-center">채용 서류심사 평가표(신입)</h2>' +
-                    '<table class="searchTable table table-bordered mb-0 mt-20">' +
+                '<div class="pdf_page mt-20" style="height: 700px">' +
+                    '<h2 class="text-center" style="margin: 0">채용 서류심사 평가표(신입)</h2>' +
+                    '<table class="searchTable table table-bordered mb-0 mt-10">' +
                         '<colgroup>' +
                             '<col style="width: 10%">' +
                         '</colgroup>' +
@@ -347,13 +347,13 @@ var screenViewPop = {
 
                 html +=     '</tbody>' +
                     '</table>' +
-                    '<p style="font-size: 13px;text-align: center" class="mt-20">' +
+                    '<p style="font-size: 13px;text-align: center" class="mt-15">' +
                     '■평점요소: △학력(20점)-응시분야 직무에 대한 학력 전공 ' +
                     '△경력(50점)-응시분야 및 관련분야 실무능력 ' +
                     '△전문성(30점)-응시분야 직무에 대한 전문지식' +
                     '</p>' +
                     '</div>' +
-                    '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px">' +
+                    '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px; margin-top: 150px">' +
                     cnt[i].REG_DT + "<br>" +
                     imgHtml +
                     '</div>' +
@@ -663,7 +663,7 @@ const pdfMake = () => {
 
     var lists = document.querySelectorAll(".pdf_page"),
         deferreds = [],
-        doc = new jsPDF("l", "mm", [425, 734]),
+        doc = new jsPDF("l", "mm", [518, 734]),
         listsLeng = lists.length;
     for (var i = 0; i < listsLeng; i++) { // pdf_page 적용된 태그 개수만큼 이미지 생성
         var deferred = $.Deferred();
@@ -687,7 +687,7 @@ const pdfMake = () => {
             }
 
             if (i!=0 && curHeight + sortedHeight - 20 > 100 - padding * 2) { // a4 높이에 맞게 남은 공간이 이미지높이보다 작을 경우 페이지 추가
-                doc.addPage(734, 425); // 페이지를 추가함
+                doc.addPage(734, 518); // 페이지를 추가함
                 curHeight = 10; // 이미지가 들어갈 y축을 초기 여백값으로 초기화
                 doc.addImage(sortedImage, padding, curHeight, contWidth, sortedHeight); //이미지 넣기
                 curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
