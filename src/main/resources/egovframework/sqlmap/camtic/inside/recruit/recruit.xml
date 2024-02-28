@@ -69,9 +69,6 @@
         ON IRI.RECRUIT_INFO_SN = AAA.RECRUIT_INFO_SN
         <if test='page != null and !"".equals(page)'>
             <choose>
-                <when test='"tl".equals(page)'>
-                    AND (AI.TEAM_SEQ = #{deptSeq} OR AI.DEPT_SEQ = #{deptSeq})
-                </when>
                 <when test='"eval".equals(page)'>
                     JOIN
                         CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN EL
@@ -107,6 +104,9 @@
         </choose>
         AND
             IRI.ACTIVE = 'Y'
+        <if test='page != null and !"".equals(page) and "tl".equals(page)'>
+           AND (AI.TEAM_SEQ = #{deptSeq} OR AI.DEPT_SEQ = #{deptSeq})
+        </if>
         GROUP BY IRI.RECRUIT_INFO_SN
         ORDER BY IRI.REG_DT DESC
     </select>
@@ -122,7 +122,7 @@
             CAM_INSIDE.DJ_RECRUIT_INFO RI
         LEFT JOIN
             CAM_INSIDE.DJ_APPLICATION_MAIN APP
-        ON APP.RECRUIT_INFO_SN = RI.RECRUIT_INFO_SN
+        ON APP.RECRUIT_INFO_SN = RI.RECRUIT_INFO_SN AND APP.SAVE_TYPE = 'S'
         LEFT JOIN
             CAM_INSIDE.DJ_RECRUIT_EVAL_SHEET RES
         ON RES.RECRUIT_INFO_SN = RI.RECRUIT_INFO_SN
