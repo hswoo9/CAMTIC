@@ -516,7 +516,7 @@ var bustripResultPop = {
                 console.log(result);
                 if(hrBizReqResultId == ""){
                     alert("출장 결과보고 저장이 완료되었습니다.");
-                    var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+result.params.hrBizReqResultId+"&hrBizReqId="+hrBizReqId+"&tripCode="+$("#tripCode").data("kendoRadioGroup").value();
+                    var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+result.params.hrBizReqResultId+"&hrBizReqId="+hrBizReqId+"&tripType="+$("#tripCode").data("kendoRadioGroup").value();
                 }else{
                     alert("출장 결과보고 수정이 완료되었습니다.");
                     var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+hrBizReqResultId+"&hrBizReqId="+hrBizReqId+"&tripType="+$("#tripCode").data("kendoRadioGroup").value();

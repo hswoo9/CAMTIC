@@ -232,7 +232,7 @@
                     </thead>
                     <tbody id="fileGrid">
                     <tr class="defultTr">
-                        <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                        <td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>
                     </tr>
                     </tbody>
                 </table>

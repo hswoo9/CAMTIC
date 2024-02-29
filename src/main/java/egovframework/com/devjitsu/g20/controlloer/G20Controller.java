@@ -146,6 +146,7 @@ public class G20Controller {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
         params.put("empSeq", loginVO.getUniqId());
+        params.put("adminEmpSeq", loginVO.getUniqId());
 
         List<Map<String, Object>> list = g20Service.getCardList(params);
 
@@ -158,6 +159,7 @@ public class G20Controller {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        params.put("adminEmpSeq", loginVO.getUniqId());
         List<Map<String, Object>> list = g20Service.getCardAdminList(params);
 
         model.addAttribute("list", list);

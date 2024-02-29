@@ -281,6 +281,9 @@ var payDetView = {
                     data.searchValue = $("#searchValue").val();
                     data.searchType = $("#type").val();
                     data.cardVal = $("#cardVal").val();
+                    if($("#type").val() == "8" && $("#index").val() == "9999"){
+                        data.privateYn = "Y";
+                    }
                     return data;
                 }
             },
