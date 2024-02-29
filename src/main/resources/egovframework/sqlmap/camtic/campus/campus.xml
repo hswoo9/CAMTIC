@@ -1428,6 +1428,7 @@
                 CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
             WHERE
                 1=1
+            AND HEI.TEMP_DIVISION = 'N'
         <if test='dept != null and !"".equals(dept)'>
             AND (HEI.DEPT_SEQ = #{dept} OR HDI.PARENT_DEPT_SEQ = #{dept})
         </if>
