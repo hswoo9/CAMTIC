@@ -725,7 +725,6 @@
                 #{prospectus},
                 #{materials},
 
-                #{textbookFee},
                 #{textbookFeeEx},
                 #{methodType},
                 #{methodTypePr},
