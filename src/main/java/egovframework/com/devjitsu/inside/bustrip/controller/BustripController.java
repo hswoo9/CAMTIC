@@ -1207,4 +1207,12 @@ public class BustripController {
             e.printStackTrace();
         }
     }
+
+    @RequestMapping("/bustrip/pop/cardToBustripListView.do")
+    public String cardToBustripListView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        return "popup/inside/bustrip/cardToBustripListView";
+    }
 }

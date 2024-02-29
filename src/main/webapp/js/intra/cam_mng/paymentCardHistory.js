@@ -109,7 +109,8 @@ var payCardHist = {
                 },
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
-                    data.cardVal = type
+                    data.cardVal = type;
+                    data.auth = 'user';
                     return data;
                 }
             },
