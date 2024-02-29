@@ -10,7 +10,8 @@ const busiExnp = {
         dayCost : 0,
         maxRoomCost : 0,
         eatCost : 0,
-        days : 0
+        days : 0,
+        personnel: 0,
     },
 
     init: function(type){
@@ -209,6 +210,7 @@ const busiExnp = {
             }
             companion.push(comData);
         }
+        busiExnp.global.personnel = companion;
 
         let companionText = "";
 
@@ -254,13 +256,13 @@ const busiExnp = {
         let corpMoney = 0;
 
         var selCorpType = {
-            1 : '유류비',
-            2 : '교통비',
+            1 : '항공료',
+            2 : '국내이동교통비',
             3 : '숙박비',
-            4 : '통행료',
+            4 : '비자발급비',
             5 : '일비',
             6 : '식비',
-            7 : '주차비',
+            7 : '보험료',
             8 : '기타'
         }
 

@@ -118,6 +118,9 @@
         <if test="empSeq != null and !''.equals(empSeq)">
             AND (A.REG_EMP_SEQ = #{empSeq} OR (SELECT EMP_SEQ FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION WHERE A.HR_BIZ_REQ_ID = HR_BIZ_REQ_ID AND EMP_SEQ = #{empSeq}) IS NOT NULL)
         </if>
+        <if test='cardToBustrip != null and !"".equals(cardToBustrip) and "Y".equals(cardToBustrip)'>
+            AND A.STATUS = 100
+        </if>
         GROUP BY A.HR_BIZ_REQ_ID
         ORDER BY A.REG_DT DESC
     </select>
@@ -397,6 +400,7 @@
     </delete>
 
     <select id="getBustripReqFileInfo" parameterType="map" resultType="map">
+        /*getBustripReqFileInfo*/
         SELECT
             *
         FROM
@@ -405,6 +409,18 @@
             CONTENT_ID = #{hrBizReqId}
         AND
             FILE_CD = #{fileCd}
+    </select>
+
+    <select id="getAbroadBustripReqFileInfo" parameterType="map" resultType="map">
+        /*getAbroadBustripReqFileInfo*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            CONTENT_ID = #{hrBizReqId}
+        AND
+            FILE_CD IN ('busiExnpAir','busiExnpTraf','busiExnpRoom','busiExnpVisa','busiExnpIns','busiExnpEtc')
     </select>
 
     <select id="getBustripResReqFileInfo" parameterType="map" resultType="map">

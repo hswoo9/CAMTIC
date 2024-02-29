@@ -217,16 +217,16 @@
                         <div style="text-align: center">합계</div>
                     </td>
                     <td>
-                        <input type="text" id="trafTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                        <input type="text" id="trafTotalCost" class="totalCost" value="0" style="width: 100%; text-align: right" disabled />
                     </td>
                     <td>
-                        <input type="text" id="trafDayTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                        <input type="text" id="roomTotalCost" class="totalCost" value="0" style="width: 100%; text-align: right" disabled />
                     </td>
                     <td>
-                        <input type="text" id="etcTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                        <input type="text" id="etcTotalCost" class="totalCost" value="0" style="width: 100%; text-align: right" disabled />
                     </td>
                     <td>
-                        <input type="text" id="totalTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                        <input type="text" id="totalTotalCost" class="totalCost" value="0" style="width: 100%; text-align: right" disabled />
                     </td>
                 </tr>
             </thead>
@@ -553,16 +553,10 @@
     function corpTotalSet(){
         $("#corpTotal").val(0);
 
-        var corp1 = $("#corp1").val();
         var corp2 = $("#corp2").val();
         var corp3 = $("#corp3").val();
-        var corp4 = $("#corp4").val();
-        var corp5 = $("#corp5").val();
-        var corp6 = $("#corp6").val();
-        var corp7 = $("#corp7").val();
         var corp8 = $("#corp8").val();
-        var totalAmt = Number(uncomma(corp1)) + Number(uncomma(corp2)) + Number(uncomma(corp3)) +
-            Number(uncomma(corp4)) + Number(uncomma(corp5)) + Number(uncomma(corp6)) + Number(uncomma(corp7)) + Number(uncomma(corp8));
+        var totalAmt = Number(uncomma(corp2)) + Number(uncomma(corp3)) + Number(uncomma(corp8));
 
         $("#corpTotal").val(fn_numberWithCommas(totalAmt));
     }

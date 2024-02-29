@@ -795,7 +795,7 @@ const bustripExnpReq = {
         }
 
         window.close();
-        opener.bustripResList.popBustripRes(hrBizReqResultId,hrBizReqId);
+        opener.bustripResList.popBustripRes(hrBizReqResultId,hrBizReqId,$("#tripType").val());
     },
 
     fn_setCertRep : function (p, key){
