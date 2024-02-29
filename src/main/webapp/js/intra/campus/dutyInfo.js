@@ -59,7 +59,7 @@ var dutyInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : dutyInfo.onDataBound,
+            // dataBound : dutyInfo.onDataBound,
             columns: [
                 {
                     title: "순번",
@@ -70,7 +70,10 @@ var dutyInfo = {
                     title: "적용년도"
                 }, {
                     field: "DUTY_NAME",
-                    title: "직무명"
+                    title: "직무명",
+                    template: function(row){
+                        return '<a href="javascript:dutyInfo.dutyInfoReqPop(\'upd\', \''+row.DUTY_INFO_SN+'\');" style="font-weight: bold;">' + row.DUTY_NAME + '</a>'
+                    }
                 }, {
                     field: "DUTY_NAME",
                     title: "상태",
