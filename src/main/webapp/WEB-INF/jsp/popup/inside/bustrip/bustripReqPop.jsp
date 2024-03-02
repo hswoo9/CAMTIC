@@ -208,7 +208,7 @@
                             <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
                             <span class="k-button-text">파일첨부</span>
                         </button>
-                        <input type="file" id="fileList" name="fileList" onchange="fCommon.addFileInfoTable();" multiple style="display: none"/>
+                        <input type="file" id="fileList" name="fileList" onchange="bustrip.addFileInfoTable();" multiple style="display: none"/>
                     </div>
                 </div>
             </div>

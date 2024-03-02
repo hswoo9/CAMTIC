@@ -23,6 +23,14 @@
 <body class="font-opensans" style="background-color:#fff;">
 <style>
     .table-bordered thead td { border-bottom-width: 1px; }
+    td > pre {
+        background-color: #fff;
+        font-size: 12px;
+        border-width: 0px;
+        font-family: inherit;
+        margin: 0;
+        padding: 5px;
+    }
 </style>
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
@@ -62,21 +70,21 @@
                         <span class="red-star">*</span>직무명
                     </th>
                     <td class="upd-mode"><input type="text" id="dutyName" style="width: 709px;"></td>
-                    <td class="mng-mode" style="display: none;"><span id="dutyNameMng"></span></td>
+                    <td class="mng-mode" style="display: none;"><pre id="dutyNameMng"></pre></td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>직무개요
                     </th>
                     <td class="upd-mode"><textarea id="outlineName" style="width: 709px; height: 50px;"></textarea></td>
-                    <td class="mng-mode" style="display: none;"><span id="outlineNameMng"></span></td>
+                    <td class="mng-mode" style="display: none;"><pre id="outlineNameMng"></pre></td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>직무내용
                     </th>
                     <td class="upd-mode"><textarea id="outlineDetail" style="width: 709px; height: 100px;"></textarea></td>
-                    <td class="mng-mode" style="display: none;"><span id="outlineDetailMng"></span></td>
+                    <td class="mng-mode" style="display: none;"><pre id="outlineDetailMng"></pre></td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
@@ -90,14 +98,14 @@
                             </colgroup>
                             <thead>
                                 <tr>
-                                    <td style="text-align: center">내 부 고 객</td>
+                                    <td style="text-align: center; vertical-align: middle;">내 부 고 객</td>
                                     <td class="upd-mode"><textarea id="internal" style="width: 550px; height: 50px;"></textarea></td>
-                                    <td class="mng-mode" style="background-color: #fff; display: none;"><span id="internalMng"></span></td>
+                                    <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="internalMng"></pre></td>
                                 </tr>
                                 <tr>
-                                    <td style="text-align: center;">외 부 고 객</td>
+                                    <td style="text-align: center; vertical-align: middle;">외 부 고 객</td>
                                     <td span class="upd-mode"><textarea id="external" style="width: 550px; height: 50px;"></textarea>
-                                    <td class="mng-mode" style="background-color: #fff; display: none;"><span id="externalMng"></span></td>
+                                    <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="externalMng"></pre></td>
                                 </tr>
                             </thead>
                         </table>
@@ -107,10 +115,8 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>보고체계
                     </th>
-                    <td>
-                        <span class="upd-mode"><input type="text" id="appLine" style="width: 709px;"></span>
-                        <span class="mng-mode" id="appLineMng" style="width: 100%; display: none;"></span>
-                    </td>
+                    <td class="upd-mode"><input type="text" id="appLine" style="width: 709px;"></td>
+                    <td class="mng-mode" style="display: none;"><pre id="appLineMng"></pre></td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
@@ -124,29 +130,29 @@
                             </colgroup>
                             <thead>
                             <tr>
-                                <td style="text-align: center">학력 및 경력</td>
+                                <td style="text-align: center; vertical-align: middle;">학력 및 경력</td>
                                 <td class="upd-mode"><textarea id="abilityA" style="width: 550px; height: 50px;"></textarea></td>
-                                <td class="mng-mode" style="background-color: #fff; display: none;"><span id="abilityAMng"></span></td>
+                                <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="abilityAMng"></pre></td>
                             </tr>
                             <tr>
-                                <td style="text-align: center">전 문 지 식</td>
+                                <td style="text-align: center; vertical-align: middle;">전 문 지 식</td>
                                 <td class="upd-mode"><textarea id="abilityB" style="width: 550px; height: 50px;"></textarea></td>
-                                <td class="mng-mode" style="background-color: #fff; display: none;"><span id="abilityBMng"></span></td>
+                                <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="abilityBMng"></pre></td>
                             </tr>
                             <tr>
-                                <td style="text-align: center">필 수 자 질</td>
+                                <td style="text-align: center; vertical-align: middle;">필 수 자 질</td>
                                 <td class="upd-mode"><textarea id="abilityC" style="width: 550px; height: 50px;"></textarea></td>
-                                <td class="mng-mode" style="background-color: #fff; display: none;"><span id="abilityCMng"></span></td>
+                                <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="abilityCMng"></pre></td>
                             </tr>
                             <tr>
-                                <td style="text-align: center">자격 및 면허</td>
+                                <td style="text-align: center; vertical-align: middle;">자격 및 면허</td>
                                 <td class="upd-mode"><textarea id="abilityD" style="width: 550px; height: 50px;"></textarea></td>
-                                <td class="mng-mode" style="background-color: #fff; display: none;"><span id="abilityDMng"></span></td>
+                                <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="abilityDMng"></pre></td>
                             </tr>
                             <tr>
-                                <td style="text-align: center">기타 참고사항</td>
+                                <td style="text-align: center; vertical-align: middle;">기타 참고사항</td>
                                 <td class="upd-mode"><textarea id="abilityE" style="width: 550px; height: 50px;"></textarea></td>
-                                <td class="mng-mode" style="background-color: #fff; display: none;"><span id="abilityEMng"></span></td>
+                                <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="abilityEMng"></pre></td>
                             </tr>
                             </thead>
                         </table>
@@ -157,7 +163,7 @@
                         <span class="red-star">*</span>주요책무
                     </th>
                     <td class="upd-mode"><textarea id="responsibility" style="width: 709px; height: 300px;"></textarea></td>
-                    <td class="mng-mode" style="display: none;"><span id="responsibilityMng"></span></td>
+                    <td class="mng-mode" style="display: none;"><pre id="responsibilityMng"></pre></td>
                 </tr>
                 </thead>
             </table>

@@ -60,6 +60,7 @@ const bustripReq = {
         const busInfo = result.rs.rs;
         const list = result.rs.list;
         const fileInfo = result.rs.fileInfo;
+        const fileInfo2 = result.rs.fileInfo2;
         var mode = $("#mod").val();
 
         console.log(busInfo);
@@ -182,10 +183,16 @@ const bustripReq = {
         let tempArr = [];
         let count = 0;
         const bustripList = fileInfo;
+        const bustripList2 = fileInfo2;
         const cardList = cardResult.list;
 
         for(let i=0; i<bustripList.length; i++){
             tempArr[count] = bustripList[i];
+            count ++;
+        }
+
+        for(let i=0; i<bustripList2.length; i++){
+            tempArr[count] = bustripList2[i];
             count ++;
         }
 

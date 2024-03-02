@@ -48,6 +48,11 @@ public class BustripRepository extends AbstractDAO {
     public List<Map<String, Object>> getBustripReqFileInfo(Map<String, Object> params) {
         return selectList("bustrip.getBustripReqFileInfo", params);
     }
+
+    public List<Map<String, Object>> getAbroadBustripReqFileInfo(Map<String, Object> params) {
+        return selectList("bustrip.getAbroadBustripReqFileInfo", params);
+    }
+
     public List<Map<String, Object>> getBustripResReqFileInfo(Map<String, Object> params) {
         return selectList("bustrip.getBustripResReqFileInfo", params);
     }

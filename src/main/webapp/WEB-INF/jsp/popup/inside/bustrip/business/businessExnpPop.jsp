@@ -124,19 +124,19 @@
                                          <input type="hidden" id="hrBizOverExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
                                      </td>
                                      <td>
-                                         <input id="oilCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.OIL_CORP_YN}">
+                                         <input id="oilCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
                                          <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
                                      </td>
                                      <td>
-                                         <input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_CORP_YN}">
+                                         <input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
                                          <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
                                      </td>
                                      <td>
-                                         <input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_DAY_CORP_YN}">
+                                         <input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
                                          <input type="text" id="trafDayCost${list.EMP_SEQ}" class="trafDayCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
                                      </td>
                                      <td>
-                                         <input id="tollCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TOLL_CORP_YN}">
+                                         <input id="tollCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
                                          <input type="text" id="tollCost${list.EMP_SEQ}" class="tollCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
                                      </td>
                                      <td>
@@ -146,11 +146,11 @@
                                          <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" name="eatCost" value="" oninput="onlyNumber(this)" disabled/>
                                      </td>
                                      <td>
-                                         <input id="parkingCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.PARKING_CORP_YN}">
+                                         <input id="parkingCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
                                          <input type="text" id="parkingCost${list.EMP_SEQ}" class="parkingCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
                                      </td>
                                      <td>
-                                         <input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.ETC_CORP_YN}">
+                                         <input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
                                          <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
                                      </td>
                                      <td>

@@ -162,7 +162,7 @@ const bustripExnpReq = {
                 html += '    <td>'+e.MER_BIZNO.substring(0, 3) + '-' + e.MER_BIZNO.substring(3, 5) + '-' + e.MER_BIZNO.substring(5, 11)+'</td>';
                 html += '    <td>'+(e.TR_NM == undefined ? "" : e.TR_NM)+'</td>';
                 html += '    <td>'+e.CARD_NO.substring(0,4) + '-' + e.CARD_NO.substring(4,8) + '-' + e.CARD_NO.substring(8,12) + '-' + e.CARD_NO.substring(12,16)+'</td>';
-                html += '    <td style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
+                html += '    <td class="amt" style="text-align: right">'+fn_numberWithCommas(e.AUTH_AMT)+'</td>';
                 html += '</tr>';
                 corpMoney += Number(e.AUTH_AMT);
             }
@@ -204,12 +204,21 @@ const bustripExnpReq = {
             var tdsNum = row.childElementCount;
             var totalCost = 0;
 
-            for (var j = 1; j < tdsNum - 1; j++) {
-                totalCostArr[j] += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
-                totalCost += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
-                console.log("j = " + j + ", " + $(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
+            if(i != rowList.length-2){
+                for (var j = 1; j < tdsNum - 1; j++) {
+                    totalCostArr[j] += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
+                    totalCost += parseInt($(row.cells[j]).find("input[type=text]").val().replace(/,/g, ""));
+                }
+            }else{
+                var totalAmt = 0;
+                $(".cardData").each(function(k, v){
+                    const exnpType = $(v).find('.exnpType').val();
+                    totalCostArr[exnpType] += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    totalAmt += Number($(v).find('.amt').text().replace(/,/g, ''));
+                    console.log("k = " + k + ", " + Number($(v).find('.amt').text().replace(/,/g, '')));
+                });
+                totalCost += totalAmt;
             }
-            console.log(totalCostArr);
 
             if(totalCost != 0){
                 $(row.cells[tdsNum - 1]).find("input[type=text]").val(fn_comma(totalCost));
@@ -220,24 +229,42 @@ const bustripExnpReq = {
         }
 
         //세로합계
-        for(var i = 1 ; i < $("#bustExnpTb").find("tr").length -1; i++){
-            var row = rowList[rowList.length-1];
-            var tdsNum = row.childElementCount;
+        var trafTotal = 0;
+        var roomTotal = 0;
+        var etcTotal = 0;
+        var totalTotal = 0;
 
-            for (var j = 1; j < tdsNum - 2; j++) {
-                if(totalCostArr[j] != 0){
-                    $(row.cells[j]).find("input[type=text]").val(fn_comma(totalCostArr[j]));
-                } else {
-                    $(row.cells[j]).find("input[type=text]").val(0);
-                }
+        $(".addData").each(function () {
+            var row = this;
+            if (row.classList.value == 'addData') {
+                trafTotal += Number($(row.cells[1]).find("input[type=text]").val().replace(/,/g, ''));
+                roomTotal += Number($(row.cells[2]).find("input[type=text]").val().replace(/,/g, ''));
+                etcTotal += Number($(row.cells[3]).find("input[type=text]").val().replace(/,/g, ''));
+                totalTotal += Number($(row.cells[4]).find("input[type=text]").val().replace(/,/g, ''));
             }
+        });
 
-            if(totalTotalCost != 0){
-                $(row.cells[tdsNum - 1]).find("input[type=text]").val(fn_comma(totalTotalCost));
-            } else {
-                $(row.cells[tdsNum - 1]).find("input[type=text]").val(0);
-            }
-        }
+        //업체지급 더하기
+        trafTotal += Number(uncomma($("#corpCrm2").val()));
+        roomTotal += Number(uncomma($("#corpCrm3").val()));
+        etcTotal += Number(uncomma($("#corpCrm8").val()));
+
+        //법인카드 더하기
+        trafTotal += Number(uncomma($("#corp2").val()));
+        roomTotal += Number(uncomma($("#corp3").val()));
+        etcTotal += Number(uncomma($("#corp8").val()));
+
+        $("#trafTotalCost").val(comma(trafTotal));
+        $("#roomTotalCost").val(comma(roomTotal));
+        $("#etcTotalCost").val(comma(etcTotal));
+        $("#totalTotalCost").val(comma(totalTotal));
+
+        corpTotalSet();
+
+        //합계의 총합은 마지막
+        totalTotal += Number(uncomma($("#corpCrm9").val()));
+        totalTotal += Number(uncomma($("#corpTotal").val()));
+        $("#totalTotalCost").val(comma(totalTotal));
     },
 
     fn_saveBtn: function(id, type, mode){
