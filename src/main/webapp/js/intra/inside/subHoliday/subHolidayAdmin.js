@@ -148,7 +148,10 @@ var subHolidayAdmin = {
                 }, {
                     field: "RMK",
                     title: "내용",
-                    align:"center"
+                    align:"center",
+                    template : function(e){
+                        return '<div style="text-align: center"><a style="cursor: pointer;" onclick="subHolidayAdmin.fn_regPop(\'' + e.APPROVE_STAT_CODE + '\', \'' + e.SUBHOLIDAY_USE_ID + '\', \'' + e.APPR_STAT + '\', \'' + e.DOC_ID + '\', \'' + e.APPRO_KEY + '\', \'' + e.DOC_MENU_CD + '\');"><b>' + e.RMK + '</b></a></div>'
+                    }
                 }, {
                     field: "REG_DT",
                     title: "신청일자",
@@ -179,21 +182,16 @@ var subHolidayAdmin = {
         }).data("kendoGrid");
 
     },
-    onDataBound : function(){
-        var grid = this;
 
-        grid.tbody.find("tr").dblclick(function (e) {
-            var dataItem = grid.dataItem($(this));
-
-            if(dataItem.APPROVE_STAT_CODE == '0' || dataItem.APPROVE_STAT_CODE == '40' || dataItem.APPROVE_STAT_CODE == '60'){
-                var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT + "&mode=mng";
-                var name = "subHolidayReqPop";
-                var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-                var popup = window.open(url, name, option);
-            }else{
-                approveDocView(dataItem.DOC_ID, dataItem.APPRO_KEY, dataItem.DOC_MENU_CD);
-            }
-        });
+    fn_regPop: function(APPROVE_STAT_CODE, SUBHOLIDAY_USE_ID, APPR_STAT, DOC_ID, APPRO_KEY, DOC_MENU_CD){
+        if(APPROVE_STAT_CODE == '0' || APPROVE_STAT_CODE == '40' || APPROVE_STAT_CODE == '60'){
+            var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + SUBHOLIDAY_USE_ID + "&apprStat=" + APPR_STAT + "&mode=mng";
+            var name = "subHolidayReqPop";
+            var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }else{
+            approveDocView(DOC_ID, APPRO_KEY, DOC_MENU_CD);
+        }
     },
 
     gridReload : function(){

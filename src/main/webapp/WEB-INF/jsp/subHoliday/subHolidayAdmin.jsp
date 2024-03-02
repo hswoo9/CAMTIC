@@ -13,6 +13,7 @@
 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
 <input type="hidden" id="apprStat" value="N">
 <input type="hidden" id="vacUseHistId" value="">
+<input type="hidden" id="apprMngStat" value="M">
 
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">

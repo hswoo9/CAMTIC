@@ -368,7 +368,7 @@
                                 <td style="text-align: center" id="opinName"></td>
                                 <td style="text-align: center" id="opinDept"></td>
                                 <td style="text-align: center" id="opinSpot"></td>
-                                <td style="text-align: center" id="opinReason"></td>
+                                <td style="text-align: left" id="opinReason"></td>
                             </tr>
                             </thead>
                         </table>

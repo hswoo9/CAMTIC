@@ -82,6 +82,7 @@ var readerPop2 = {
                     }
                     data.fullTime2 = "1";
                     data.DEPT_SEQ = dept;
+                    data.tempType = "N";
                     return data;
                 }
             },

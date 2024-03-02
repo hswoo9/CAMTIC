@@ -48,7 +48,6 @@ var subHolidayList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound : subHolidayList.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="subHolidayList.fn_checkAll();" class=""/>',
@@ -59,15 +58,15 @@ var subHolidayList = {
                             return "";
                         }
                     },
-                    width: 80
+                    width: 50
                 }, {
                     field: "ROW_NUM",
                     title: "순번",
-                    width: 80
+                    width: 50
                 }, {
                     field: "SUBHOLIDAY_DT_CODE_NM",
                     title: "구분",
-                    width: 250,
+                    width: 200
                 }, {
                     title: "기간",
                     template: function(dataItem) {
@@ -77,11 +76,18 @@ var subHolidayList = {
                         else {
                             return dataItem.SUBHOLIDAY_ST_DT + " ~ " + dataItem.SUBHOLIDAY_EN_DT;
                         }
+                    },
+                    width: 250
+                }, {
+                    field: "RMK",
+                    title: "내용",
+                    template : function(e){
+                        return '<div style="text-align: center"><a style="cursor: pointer;" onclick="subHolidayList.fn_regPop(' + e.SUBHOLIDAY_USE_ID + ');"><b>' + e.RMK + '</b></a></div>'
                     }
                 }, {
                     field: "SUBHOLIDAY_USE_DAY",
                     title: "사용 일수",
-                    width: 200,
+                    width: 150,
                 }, {
                     field : "APPROVE_STAT_CODE",
                     title : "결재상태",
@@ -98,7 +104,7 @@ var subHolidayList = {
                             return '-';
                         }
                     },
-                    width: 200,
+                    width: 150,
                 }, {
                     title : "승인요청",
                     template : function(e){
@@ -139,23 +145,18 @@ var subHolidayList = {
                         } else {
                             return "-";
                         }
-                    }
+                    },
+                    width: 150,
                 }
             ],
         }).data("kendoGrid");
     },
 
-    onDataBound : function(){
-        var grid = this;
-
-        grid.tbody.find("tr").dblclick(function (e) {
-            var dataItem = grid.dataItem($(this));
-
-            var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID;
-            var name = "subHolidayReqPop";
-            var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-        });
+    fn_regPop: function(SUBHOLIDAY_USE_ID){
+        var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + SUBHOLIDAY_USE_ID;
+        var name = "subHolidayReqPop";
+        var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     },
 
     gridReload: function (){

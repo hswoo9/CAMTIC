@@ -47,18 +47,18 @@ var docView = {
                 $("#docApprovalOpinView2Btn").show();
             }
 
-            /** 기안자 일 시 수정 버튼 생성 */
-            if(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId){
-                $("#modBtn").show();
-            }
-
             const menuCd = docView.global.params.menuCd;
-            if(menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus"){
+            /** 기안자 일 시 수정 버튼 생성 (외부시스템) */
+            if(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId
+                && menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus") {
+                
+                $("#modBtn").show();
             }else{
                 $("#modBtn").hide();
             }
-
-            if(docView.global.rs.docInfo.FORM_ID == "1"){
+            
+            /** 기안자 일 시 수정 버튼 생성 (기안문) */
+            if(docView.global.rs.docInfo.FORM_ID == "1" && docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId){
                 $("#modBtn2").show();
             }
         }
@@ -97,7 +97,7 @@ var docView = {
         }
 
         var result = customKendo.fn_customAjax("/approval/getDocSecurityIndexOfUserChk.do", docView.global.searchAjaxData);
-        if(!result.confirm && (docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL != 'Y')){
+        if(!result.confirm && (docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL != 'Y') && docView.global.params.vType != 'M'){
             alert("열람 권한이 없습니다.");
             window.close();
             return;
@@ -711,7 +711,7 @@ var docView = {
                         if(e.APPROVE_STAT_CODE == "20"){
                             return "결재의견";
                         }else if(e.APPROVE_STAT_CODE == "30"){
-                            return "반려의견";
+                            return "최종결재(전결)의견";
                         }else if(e.APPROVE_STAT_CODE == "100"){
                             return "최종결재의견";
                         }else if(e.APPROVE_STAT_CODE == "101"){
@@ -721,7 +721,8 @@ var docView = {
                                 return "최종결재(전결)의견";
                             }
                         }
-                    }
+                    },
+                    width: "17%"
                 }, {
                     field : "APPROVE_EMP_NAME",
                     title: "작성자",
@@ -731,7 +732,8 @@ var docView = {
                         }else{
                             return e.APPROVE_EMP_NAME
                         }
-                    }
+                    },
+                    width: "10%"
                 },{
                     field : "APPROVE_OPIN",
                     title: "의견",
@@ -739,12 +741,13 @@ var docView = {
                         if(e.APPROVE_STAT_CODE == 10){
                             return "-";
                         }else{
-                            return e.APPROVE_OPIN.replaceAll("\n", "<br/>");
+                            return "<div style='text-align: left'>"+e.APPROVE_OPIN.replaceAll("\n", "<br/>")+"</div>";
                         }
                     }
                 },{
                     field : "APPROVE_DT",
                     title: "작성일",
+                    width: "15%"
                 },{
                     field : "PROXY_TYPE",
                     title: "비고",
@@ -752,9 +755,10 @@ var docView = {
                         if(e.PROXY_TYPE == "Y"){
                             return "원결재 : [" + e.APPROVE_DUTY_NAME+ "] " + e.APPROVE_EMP_NAME;
                         }else{
-                            return ""
+                            return "";
                         }
                     },
+                    width: "15%"
                 }]
         }).data("kendoGrid");
 
@@ -778,7 +782,7 @@ var docView = {
             $("#opinDept").text(opinUser.deptNm + " " +opinUser.teamNm);
             $("#opinSpot").text(opinUser.DUTY_NAME == "" ? opinUser.POSITION_NAME : opinUser.DUTY_NAME);
         }
-        $("#opinReason").text(opinText);
+        $("#opinReason").html(opinText.replaceAll("\n", "<br/>"));
         $("#opinViewModal2").data("kendoWindow").open();
     },
 

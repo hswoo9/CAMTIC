@@ -229,9 +229,8 @@ var subHolidayReqPop = {
                     if($("#type").val() != "drafting"){
                         opener.subHolidayList.gridReload();
                         window.close();
-                    }else{
-                        location.href = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + rs.vacUseHistId;
                     }
+                    location.href = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + rs.vacUseHistId;
                 },
                 error: function () {
                     alert("신청 데이터 저장 중 에러가 발생했습니다.");

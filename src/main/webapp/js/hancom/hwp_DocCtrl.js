@@ -517,8 +517,12 @@ var hwpDocCtrl = {
             campusInit.studyResInit(studyResultSn);
         }
 
+        /** 문서제목 양식 최초 입력 */
+        if($("#docTitle").val() != null && $("#docTitle").val() != ""){
+            hwpDocCtrl.putFieldText('결재제목', $("#docTitle").val());
+        }
+
         if($("#formId").val() == "1"){
-            hwpDocCtrl.global.HwpCtrl.EditMode = 1
             const draftEmpSeq = $("#empSeq").val();
             const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
             hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
@@ -865,10 +869,6 @@ var hwpDocCtrl = {
      */
     modOpenCallBack : function(){
         hwpDocCtrl.global.HwpCtrl.EditMode = 2;
-
-        if($("#formId").val() == "1") {
-            hwpDocCtrl.global.HwpCtrl.EditMode = 1
-        }
         hwpDocCtrl.global.HwpCtrl.SetToolBar(2, "TOOLBAR_MENU");
         hwpDocCtrl.global.HwpCtrl.SetToolBar(2, "TOOLBAR_STANDARD");
         hwpDocCtrl.global.HwpCtrl.ShowRibbon(true);

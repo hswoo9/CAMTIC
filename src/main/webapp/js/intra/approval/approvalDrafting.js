@@ -908,6 +908,8 @@ var draft = {
                                 if(params.draftDocInfo != null){
                                     if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                                         $("#files").data("kendoUpload").upload();
+                                    }else{
+                                        alert("처리되었습니다.");
                                     }
 
                                     draft.global.draftDocInfo = params.draftDocInfo;
@@ -953,6 +955,8 @@ var draft = {
                     if(params.draftDocInfo != null){
                         if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                             $("#files").data("kendoUpload").upload();
+                        }else{
+                            alert("처리되었습니다.");
                         }
 
                         draft.global.draftDocInfo = params.draftDocInfo;
