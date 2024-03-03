@@ -1028,7 +1028,6 @@ var draft = {
 
                     draft.approveKendoSetting();
                 }else{
-                    alert("처리되었습니다.");
                     var result = draft.setAlarmEvent();
                     if(result.rs != "SUCCESS"){
                         alert(result.message);
@@ -1038,6 +1037,7 @@ var draft = {
                         draft.global.uploadFlag = true;
                         $("#files").data("kendoUpload").upload();
                     }else{
+                        alert("처리되었습니다.");
                         try {
                             opener.parent.gridReload();
                         }catch{

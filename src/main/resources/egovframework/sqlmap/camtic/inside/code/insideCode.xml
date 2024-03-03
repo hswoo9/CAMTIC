@@ -13,6 +13,7 @@
         WHERE
             IHCC.ACTIVE = 'Y'
         AND IHCC.VISIBLE = 'Y'
+        AND (CAR_USE_DEPT_ACTIVE = 'N' OR (CAR_USE_DEPT_ACTIVE = 'Y' AND CAR_USE_DEPT_SN LIKE CONCAT('%', #{deptSeq}, '%')))
     </select>
 
     <select id="getRoomCode" parameterType="map" resultType="map">

@@ -70,7 +70,7 @@
                 AND HAI.EMP_SEQ = #{empSeq}
                 AND HAI.TMP_ACTIVE = 'Y'
             </if>
-        ORDER BY HAI.APNT_SN DESC
+        ORDER BY HAI.HISTORY_DT DESC
     </select>
 
     <select id="getHistoryListAdmin" resultType="map" parameterType="map">

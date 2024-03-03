@@ -48,7 +48,7 @@ var bustrip = {
 
     /** 차량코드 세팅 */
     fn_carCodeSet: function(){
-        const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;
+        const carArr = customKendo.fn_customAjax('/inside/getCarCode', {deptSeq: $("#regDeptSeq").val()}).list;
         carArr.push({text: "자가", value: "10"});
         carArr.push({text: "대중교통", value: "0"});
         customKendo.fn_dropDownList("carList", carArr, "text", "value", 2);
