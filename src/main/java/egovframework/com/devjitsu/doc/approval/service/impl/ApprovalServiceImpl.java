@@ -862,6 +862,11 @@ public class ApprovalServiceImpl implements ApprovalService {
         }
     }
 
+    @Override
+    public void setFormIdUpd(Map<String, Object> params) {
+        approvalRepository.setFormIdUpd(params);
+    }
+
     /** 대결자 추출 */
     private String getAbsentUserQuery(Map<String, Object> paramMap) {
         String np307 = "";

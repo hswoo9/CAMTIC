@@ -224,11 +224,34 @@ var subHolidayReqPop = {
                 dataType : "json",
                 type : "post",
                 success: function (rs) {
+                    /** 재상신일때 formId 체크해서 업데이트 */
+                    if(subHolidayReqPop.global.holidayData != null && subHolidayReqPop.global.holidayData.DOC_ID != null){
+
+                        const subHolidayCodeId = $("#edtHolidayKindTop").val();
+
+                        /** 연차, 반가 */
+                        if(subHolidayCodeId == 1 || subHolidayCodeId == 3 || subHolidayCodeId == 4) {
+                            formId = "88";
+
+                            /** 병가, 공가, 경조휴가, 대체휴가, 근속포상휴가 */
+                        }else if(subHolidayCodeId == 5 || subHolidayCodeId == 6 || subHolidayCodeId == 7 || subHolidayCodeId == 9 || subHolidayCodeId == 10) {
+                            formId = "189";
+
+                            /** 출산휴가 */
+                        }else if(subHolidayCodeId == 8) {
+                            formId = "190";
+                        }
+
+                        customKendo.fn_customAjax("/approval/setFormIdUpd", {
+                            docId : subHolidayReqPop.global.holidayData.DOC_ID,
+                            formId : formId
+                        });
+                    }
+
                     alert("신청 데이터 저장이 완료되었습니다.");
 
-                    if($("#type").val() != "drafting"){
+                    if($("#type").val() == "request"){
                         opener.subHolidayList.gridReload();
-                        window.close();
                     }
                     location.href = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + rs.vacUseHistId;
                 },

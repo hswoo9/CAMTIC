@@ -448,6 +448,20 @@ public class ApprovalController {
         return "jsonView";
     }
 
+    /** 결재 재상신 할때 formId 업데이트 */
+    @RequestMapping("/approval/setFormIdUpd")
+    public String setFormIdUpd(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            approvalService.setFormIdUpd(params);
+            model.addAttribute("params", params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+            model.addAttribute("code", 500);
+        }
+        return "jsonView";
+    }
+
 
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {

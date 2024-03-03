@@ -1442,5 +1442,13 @@
             APPROVE_ROUTE_ID = #{approveRouteId}
     </update>
 
+    <update id="setFormIdUpd" parameterType="map">
+        UPDATE
+            DJ_CAMTIC.A_DOC_INFO
+        SET
+            FORM_ID = #{formId}
+        WHERE
+            DOC_ID = #{docId}
+    </update>
 
 </mapper>

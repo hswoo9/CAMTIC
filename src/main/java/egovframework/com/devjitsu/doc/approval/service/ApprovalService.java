@@ -147,4 +147,6 @@ public interface ApprovalService {
 
 
     void setApproveDraftFile(Map<String, Object> params, MultipartFile[] mpf, String serverDir, String baseDir);
+
+    void setFormIdUpd(Map<String, Object> params);
 }

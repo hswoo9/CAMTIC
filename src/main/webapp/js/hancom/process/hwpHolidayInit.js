@@ -8,6 +8,8 @@ var holidayInit = {
         });
         const ResultData = result.data;
 
+        
+
         hwpDocCtrl.putFieldText("deptName", ResultData.DEPT_NAME2);
 
         hwpDocCtrl.putFieldText("empName", ResultData.EMP_NAME_KR);

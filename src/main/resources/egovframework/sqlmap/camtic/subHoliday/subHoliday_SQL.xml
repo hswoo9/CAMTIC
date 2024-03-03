@@ -485,7 +485,7 @@
                 +
                 (CASE
                    WHEN VC.GRANT_DAY = 0
-                    THEN IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND LEFT(APPLY_DATE, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0)
+                    THEN IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0)
                      ELSE 0
                 END)
                 ), 0)
@@ -499,7 +499,7 @@
                 WHEN
                     VC.GRANT_DAY = 0
                 THEN
-                    IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND LEFT(APPLY_DATE, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0)
+                    IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM cam_inside.dj_subholiday_use_hist WHERE ACTIVE = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = (${holidayYear} -1) AND subholiday_code_id IN ( 1, 3, 4 ) AND APPLY_SEQ = VUI.EMP_SEQ), 0)
                 ELSE
                     0
             END)
@@ -546,7 +546,7 @@
                 ELSE 0
             END) AS LONGAWARD,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 11 AND ADMIN_APPR_STAT = 'Y' THEN 1
+                WHEN VUH2.subholiday_code_id = 11 AND ADMIN_APPR_STAT = 'Y' THEN 1
                 ELSE 0
             END) AS HOLIDAYWORK
         FROM cam_hr.dj_emp_info VUI
@@ -555,7 +555,9 @@
 
         LEFT JOIN cam_inside.dj_holiday VC ON VC.emp_seq = VUI.emp_seq AND VC.APPLY_YEAR = #{holidayYear}
 
-        LEFT JOIN cam_inside.dj_subholiday_use_hist VUH ON VUI.emp_seq = VUH.reg_emp_seq AND VUH.ACTIVE = 'Y' AND LEFT(VUH.APPLY_DATE, 4) = #{holidayYear} AND VUH.subholiday_code_id IN ( 1, 3, 4, 5, 6, 7, 8, 9, 10, 11 )
+        LEFT JOIN cam_inside.dj_subholiday_use_hist VUH ON VUI.emp_seq = VUH.reg_emp_seq AND VUH.SUBHOLIDAY_ST_DT = 'Y' AND LEFT(VUH.SUBHOLIDAY_ST_DT, 4) = #{holidayYear} AND VUH.subholiday_code_id IN ( 1, 3, 4, 5, 6, 7, 8, 9, 10 )
+
+        LEFT JOIN cam_inside.dj_subholiday_use_hist VUH2 ON VUI.emp_seq = VUH.reg_emp_seq AND VUH.ACTIVE = 'Y' AND LEFT(VUH.APPLY_DATE, 4) = #{holidayYear} AND VUH.subholiday_code_id IN ( 11 )
         <if test='edtHolidayKindTop != null and !"".equals(edtHolidayKindTop)'>
             AND VUH.SUBHOLIDAY_CODE_ID = #{edtHolidayKindTop}
         </if>
@@ -690,7 +692,7 @@
                 WHEN
                     DH.GRANT_DAY = 0
                 THEN
-                    IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE ACTIVE = 'Y' AND LEFT(APPLY_DATE, 4) = (${year} -1) AND SUBHOLIDAY_CODE_ID IN ( 1, 3, 4 ) AND APPLY_SEQ = DH.EMP_SEQ), 0)
+                    IFNULL((SELECT SUM(SUBHOLIDAY_USE_DAY) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE ACTIVE = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = (${year} -1) AND SUBHOLIDAY_CODE_ID IN ( 1, 3, 4 ) AND APPLY_SEQ = DH.EMP_SEQ), 0)
                 ELSE
                     0
             END)
@@ -698,14 +700,14 @@
             IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE ACTIVE = "Y" AND EMP_SEQ = #{loginEmpSeq} AND APPLY_YEAR = (${year} -1)), 0)
             ) AS befYear,
             IFNULL((SELECT USE_DAY FROM CAM_INSIDE.DJ_HOLIDAY WHERE APPLY_YEAR = #{befYear} AND DH.EMP_SEQ = EMP_SEQ), 0) AS befYear,
-            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID = 1 AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS ann,
-            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (3,4) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS halfAnn,
-            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (5) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS sickLv,
-            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (6) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS pubHoly,
-            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (7) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS congHoly,
-            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (8) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS matHoly,
-            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (9) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS altHoly,
-            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (10) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS compHoly,
+            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID = 1 AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS ann,
+            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (3,4) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS halfAnn,
+            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (5) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS sickLv,
+            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (6) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS pubHoly,
+            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (7) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS congHoly,
+            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (8) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS matHoly,
+            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (9) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS altHoly,
+            IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (10) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS compHoly,
             IFNULL((SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (11) AND ACTIVE = 'Y' AND ADMIN_APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS workHoly,
             IFNULL((SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (11) AND ACTIVE = 'Y' AND ADMIN_APPR_STAT = 'Y' AND SUBHOLIDAY_WORK_DAY_YN = 'N' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS remainWorkHoly
         FROM

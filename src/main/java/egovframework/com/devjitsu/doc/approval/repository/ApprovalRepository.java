@@ -69,4 +69,6 @@ public class ApprovalRepository extends AbstractDAO {
     /** 시스템 연동 첨부파일 조회(구매계약) */
     public List<Map<String, Object>> getDocAttachmentListForSys(Map<String, Object> params) { return selectList("approval.getDocAttachmentListForSys", params);}
 
+    public void setFormIdUpd(Map<String, Object> params){ delete("approval.setFormIdUpd", params);}
+
 }

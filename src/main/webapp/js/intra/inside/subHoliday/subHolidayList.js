@@ -153,7 +153,7 @@ var subHolidayList = {
     },
 
     fn_regPop: function(SUBHOLIDAY_USE_ID){
-        var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + SUBHOLIDAY_USE_ID;
+        var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + SUBHOLIDAY_USE_ID + "&type=request";
         var name = "subHolidayReqPop";
         var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
@@ -222,7 +222,7 @@ var subHolidayList = {
     },
 
     subHolidayReqPop : function() {
-        var url = "/subHoliday/pop/subHolidayReqPop.do";
+        var url = "/subHoliday/pop/subHolidayReqPop.do?type=request";
         var name = "subHolidayReqPop";
         var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
