@@ -771,6 +771,7 @@
 
             CON_OPEN_BD,
             CON_OPEN_BD_NAME,
+            REG_DT,
             REG_EMP_SEQ
         )
         VALUE
@@ -798,6 +799,7 @@
 
             #{mainType},
             #{mainTypeName},
+            NOW(),
             #{regEmpSeq}
         )
         <selectKey keyProperty="conSn" resultType="Integer" order="BEFORE">
