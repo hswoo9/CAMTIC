@@ -42,6 +42,7 @@
 <input type="hidden" id="sList" value="" />
 
 
+<input type="hidden" id="apprMngStat" value="${params.vType}">
 
 <div style="padding:0;">
     <div class="table-responsive">
