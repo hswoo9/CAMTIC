@@ -183,10 +183,10 @@ var ub = {
 
     fn_conMainTypeSet: function(){
         let conMainTypeDataSource = [
-            {text: "게시", value: "0"},
-            {text: "미게시", value: "1"}
+            {text: "미게시", value: "1"},
+            {text: "게시", value: "0"}
         ];
-        customKendo.fn_dropDownList("conMainType", conMainTypeDataSource, "text", "value", 2);
+        customKendo.fn_dropDownList("conMainType", conMainTypeDataSource, "text", "value", 3);
     },
 
     fn_paySet: function(){

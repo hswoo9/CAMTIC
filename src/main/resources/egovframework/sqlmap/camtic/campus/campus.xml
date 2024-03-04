@@ -1403,7 +1403,8 @@
     <select id="getDutyInfoMngList" resultType="map" parameterType="map">
         /* getDutyInfoMngList */
         SELECT
-            RE.*
+            RE.*,
+            CONCAT(RE.DEPT_NAME, " ", RE.TEAM_NAME) AS DEPT
         FROM (
             SELECT
                 HEI.EMP_SEQ AS EMP_SEQ,
