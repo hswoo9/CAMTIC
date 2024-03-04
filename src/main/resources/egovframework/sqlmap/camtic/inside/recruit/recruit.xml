@@ -68,13 +68,9 @@
         LEFT JOIN CAM_INSIDE.DJ_APPLICATION_MAIN AAA
         ON IRI.RECRUIT_INFO_SN = AAA.RECRUIT_INFO_SN
         <if test='page != null and !"".equals(page)'>
-            <choose>
-                <when test='"eval".equals(page)'>
-                    JOIN
-                        CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN EL
-                    ON EL.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AI.RECRUIT_AREA_INFO_SN = EL.RECRUIT_AREA_INFO_SN AND EMP_SEQ = #{empSeq}
-                </when>
-            </choose>
+            JOIN
+                CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN EL
+            ON EL.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AI.RECRUIT_AREA_INFO_SN = EL.RECRUIT_AREA_INFO_SN AND EMP_SEQ = #{empSeq}
         </if>
         WHERE
             1=1
@@ -105,7 +101,8 @@
         AND
             IRI.ACTIVE = 'Y'
         <if test='page != null and !"".equals(page) and "tl".equals(page)'>
-           AND (AI.TEAM_SEQ = #{deptSeq} OR AI.DEPT_SEQ = #{deptSeq})
+           AND
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') <![CDATA[>]]> 0
         </if>
         GROUP BY IRI.RECRUIT_INFO_SN
         ORDER BY IRI.REG_DT DESC

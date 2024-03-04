@@ -141,13 +141,13 @@ var dutyInfoLeader = {
                                     if(e.LD_STATUS == 'N' && e.TARGET_STATUS == 10 &&
                                         ($("#regDutyCode").val() == "4" || $("#regDutyCode").val() == "5")){
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'ld\')">팀장 승인</button>' +
-                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_targetCertReq(30, '+e.EMP_SEQ+');">반려</button>';
+                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_targetCertReq(30, '+e.EMP_SEQ+', \'ld\');">반려</button>';
 
                                         /** 부서장 단계 */
                                     }else if(e.MNG_STATUS == 'N' && e.LD_STATUS == 'Y' && e.TARGET_STATUS == 10 &&
                                         ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7")) {
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\', '+e.EMP_SEQ+')">부서장 승인</button>' +
-                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_targetCertReq(30, '+e.EMP_SEQ+');">반려</button>';
+                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_targetCertReq(30, '+e.EMP_SEQ+', \'mng\');">반려</button>';
 
                                     }else if(e.MNG_STATUS == 'N' && e.LD_STATUS == 'Y' && e.TARGET_STATUS == 100){
                                         return '팀장 승인';
@@ -163,7 +163,7 @@ var dutyInfoLeader = {
                                     if(e.LD_STATUS == 'N' && e.TARGET_STATUS == 10 &&
                                         ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7")){
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\', '+e.EMP_SEQ+')">부서장 승인</button>' +
-                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_targetCertReq(30, '+e.EMP_SEQ+');">반려</button>';
+                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_targetCertReq(30, '+e.EMP_SEQ+', \'mng\');">반려</button>';
 
                                     }else if(e.MNG_STATUS == 'Y' && e.TARGET_STATUS == 100){
                                         return '부서장 승인';
@@ -176,7 +176,7 @@ var dutyInfoLeader = {
                                     /** 부서장 단계 */
                                     if(e.LD_STATUS == 'N' && e.TARGET_STATUS == 10 && $("#regDutyCode").val() == "1") {
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\', '+e.EMP_SEQ+')">부서장 승인</button>' +
-                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_targetCertReq(30, '+e.EMP_SEQ+');">반려</button>';
+                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_targetCertReq(30, '+e.EMP_SEQ+', \'mng\');">반려</button>';
 
                                     }else if(e.MNG_STATUS == 'Y' && e.TARGET_STATUS == 100){
                                         return '부서장 승인';
@@ -217,13 +217,13 @@ var dutyInfoLeader = {
                                     if(e.DUTY_LD_STATUS == 'N' && e.DUTY_STATUS == 10 &&
                                         ($("#regDutyCode").val() == "4" || $("#regDutyCode").val() == "5")){
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'ld\')">팀장 승인</button>' +
-                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_dutyCertReq(30, '+e.DUTY_CHECK+');">반려</button>';
+                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_dutyCertReq(30, '+e.DUTY_CHECK+', \'ld\');">반려</button>';
                                         
                                     /** 부서장 단계 */
                                     }else if(e.DUTY_MNG_STATUS == 'N' && e.DUTY_LD_STATUS == 'Y' && e.DUTY_STATUS == 10 &&
                                         ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7")) {
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'mng\')">부서장 승인</button>' +
-                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_dutyCertReq(30, '+e.DUTY_CHECK+');">반려</button>';
+                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_dutyCertReq(30, '+e.DUTY_CHECK+', \'mng\');">반려</button>';
 
                                     }else if(e.DUTY_MNG_STATUS == 'N' && e.DUTY_LD_STATUS == 'Y' && e.DUTY_STATUS == 100){
                                         return '팀장 승인';
@@ -239,7 +239,7 @@ var dutyInfoLeader = {
                                     if(e.DUTY_LD_STATUS == 'N' && e.DUTY_STATUS == 10 &&
                                     ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7")){
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'mng\')">부서장 승인</button>' +
-                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_dutyCertReq(30, '+e.DUTY_CHECK+');">반려</button>';
+                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_dutyCertReq(30, '+e.DUTY_CHECK+', \'mng\');">반려</button>';
 
                                     }else if(e.DUTY_MNG_STATUS == 'Y' && e.DUTY_STATUS == 100){
                                         return '부서장 승인';
@@ -253,7 +253,7 @@ var dutyInfoLeader = {
                                     if(e.DUTY_LD_STATUS == 'N' && e.DUTY_STATUS == 10 &&
                                         ($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7")) {
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'ld\')">부서장 승인</button>' +
-                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_dutyCertReq(30, '+e.DUTY_CHECK+');">반려</button>';
+                                            '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_dutyCertReq(30, '+e.DUTY_CHECK+', \'ld\');">반려</button>';
 
                                     }else if(e.DUTY_MNG_STATUS =='Y' && e.DUTY_STATUS == 100){
                                         return '부서장 승인';
@@ -317,13 +317,14 @@ var dutyInfoLeader = {
         window.open(url, name, option);
     },
 
-    fn_targetCertReq: function(status, empSeq){
+    fn_targetCertReq: function(status, empSeq, type){
         let data = {
             targetYear : $("#requestYear").val(),
             empSeq : empSeq,
             regEmpSeq : $("#myEmpSeq").val(),
             regEmpName : $("#myEmpName").val(),
-            status : status
+            status : status,
+            type : type
         }
 
         if(status == 30){
@@ -348,12 +349,13 @@ var dutyInfoLeader = {
         }
     },
 
-    fn_dutyCertReq: function(status, id){
+    fn_dutyCertReq: function(status, id, type){
         let data = {
             pk : id,
             regEmpSeq : $("#myEmpSeq").val(),
             regEmpName : $("#myEmpName").val(),
-            status : status
+            status : status,
+            type : type
         }
 
         if(status == 30){
