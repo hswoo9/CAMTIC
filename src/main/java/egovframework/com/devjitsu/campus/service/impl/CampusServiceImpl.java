@@ -1412,11 +1412,17 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public void setTargetCertReq(Map<String, Object> params) {
+        if(params.get("status").equals("30") && params.get("type").equals("mng")){
+            params.put("returnStat", "Y");
+        }
         campusRepository.setTargetCertReq(params);
     }
 
     @Override
     public void setDutyCertReq(Map<String, Object> params) {
+        if(params.get("status").equals("30") && params.get("type").equals("mng")){
+            params.put("returnStat", "Y");
+        }
         campusRepository.setDutyCertReq(params);
     }
 
