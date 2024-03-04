@@ -251,7 +251,7 @@ var bustripResultPop = {
         const resList = result.rs.resList;
         const fileInfo = result.rs.fileInfo;
         const fileInfo2 = result.rs.fileInfo2;
-        // const fileInfo3 = result.rs.fileInfo3;
+        const fileInfo3 = result.rs.fileInfo3;
         const fileInfo4 = result.rs.fileInfo4;
 
         bustripResultPop.global.data = resInfo;
@@ -399,7 +399,7 @@ var bustripResultPop = {
         let count = 0;
         const bustripList = fileInfo;
         const bustripList2 = fileInfo2;
-        // const bustripList3 = fileInfo3;
+        const bustripList3 = fileInfo3;
         const bustripList4 = fileInfo4;
         const cardList = cardResult.list;
 
@@ -413,10 +413,10 @@ var bustripResultPop = {
             count ++;
         }
 
-        // for(let i=0; i<bustripList3.length; i++){
-        //     tempArr[count] = bustripList3[i];
-        //     count ++;
-        // }
+        for(let i=0; i<bustripList3.length; i++){
+            tempArr[count] = bustripList3[i];
+            count ++;
+        }
 
         for(let i=0; i<bustripList4.length; i++){
             tempArr[count] = bustripList4[i];

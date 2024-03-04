@@ -132,8 +132,8 @@ public class BustripServiceImpl implements BustripService {
         result.put("rsRes", bustripRepository.getBustripResultInfo(params));
         result.put("fileInfo", bustripRepository.getBustripReqFileInfoR(params));       // 출장 결과보고 첨부파일
         result.put("fileInfo2", bustripRepository.getBustripReqFileInfo(params));       // 출장신청서 첨부파일
-//        result.put("fileInfo3", bustripRepository.getAbroadBustripReqFileInfo(params)); // 해외출장 사전정산 첨부파일
-        result.put("fileInfo3", ""); // 해외출장 사전정산 첨부파일
+        result.put("fileInfo3", bustripRepository.getAbroadBustripReqFileInfo(params)); // 해외출장 사전정산 첨부파일
+//        result.put("fileInfo3", ""); // 해외출장 사전정산 첨부파일
         if(infoMap != null && infoMap.get("DOC_ID") != null){
             params.put("docId", infoMap.get("DOC_ID"));
             result.put("fileInfo4", bustripRepository.getBustripReqDocFileList(params));    // 출장신청서 상신 첨부파일
