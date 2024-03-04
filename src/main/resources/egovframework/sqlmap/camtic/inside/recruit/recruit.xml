@@ -101,7 +101,7 @@
         AND
             IRI.ACTIVE = 'Y'
         <if test='page != null and !"".equals(page) and "tl".equals(page)'>
-            AND IRI.RECRUIT_STATUS_SN IN (3,4)
+            AND IRI.RECRUIT_STATUS_SN IN (2,3,4)
         </if>
         GROUP BY IRI.RECRUIT_INFO_SN
         ORDER BY IRI.REG_DT DESC
