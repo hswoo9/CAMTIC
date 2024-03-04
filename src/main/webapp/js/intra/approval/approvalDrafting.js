@@ -548,6 +548,33 @@ var draft = {
                 select : "파일업로드",
                 dropFilesHere : ""
             },
+            select: function(e) {
+                const files = e.files;
+                draft.global.kendoFiles = files;
+
+                if( files.length  > 10 ) {
+                    alert("최대 10개의 파일까지 업로드 가능합니다.");
+                    e.preventDefault();
+                    return false;
+                }
+
+                for(let i = 0; i < files.length; i++) {
+                    if( files[i].size > 104857600 ) {
+                        alert("파일은 최대100MB 까지 업로드 가능합니다.");
+                        e.preventDefault();
+                        return false;
+                    }
+
+                    let fileName = files[i].name;
+                    console.log(fileName);
+
+                    if( fileName.indexOf("&#39") != -1 ){
+                        alert("파일명에 ' 문자가 있는 경우 파일을 첨부하실 수 없습니다.");
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            },
             upload: this.onUpload,
             remove : this.onRemove,
             success : this.onSuccess,
@@ -604,7 +631,7 @@ var draft = {
         }
     },
 
-    onComplete : function(){
+    onComplete : function(e){
         if(!draft.global.fileUploadFlag){
             alert("첨부파일 등록 중 에러가 발생했습니다.");
         }else{

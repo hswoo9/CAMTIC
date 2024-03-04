@@ -101,8 +101,7 @@
         AND
             IRI.ACTIVE = 'Y'
         <if test='page != null and !"".equals(page) and "tl".equals(page)'>
-           AND
-            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_APPLICATION_MAIN AM WHERE AM.RECRUIT_INFO_SN = IRI.RECRUIT_INFO_SN AND AM.SAVE_TYPE = 'S' AND AM.APPLICATION_STAT = 'I' AND AM.IN_AVOID = 'N') <![CDATA[>]]> 0
+            AND IRI.RECRUIT_STATUS_SN IN (3,4)
         </if>
         GROUP BY IRI.RECRUIT_INFO_SN
         ORDER BY IRI.REG_DT DESC
