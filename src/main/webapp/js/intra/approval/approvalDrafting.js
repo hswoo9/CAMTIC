@@ -541,7 +541,8 @@ var draft = {
             async : {
                 saveUrl : "/approval/setApproveDraftFileInit.do",
                 removeUrl : "/common/commonFileDel",
-                autoUpload : false
+                autoUpload : false,
+                batch : true
             },
             files : fileArr,
             localization : {
