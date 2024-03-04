@@ -950,6 +950,7 @@
                 AND HR_BIZ_REQ_RESULT_ID IS NULL
             </otherwise>
         </choose>
+        GROUP BY EMP_SEQ, HR_BIZ_REQ_ID, DIVISION
     </select>
 
     <select id="getBustripExnpInfo" parameterType="map" resultType="map">

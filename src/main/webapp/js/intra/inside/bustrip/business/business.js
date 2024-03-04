@@ -19,8 +19,16 @@ var business = {
     fn_nationCodeSet: function(){
         const nationArr = customKendo.fn_customAjax('/bustrip/getNationCode').list;
         business.global.nationList = nationArr;
-        customKendo.fn_dropDownList("nationList", nationArr, "NATION_CD_NM", "NATION_CD", 2);
+        // customKendo.fn_dropDownList("nationList", nationArr, "NATION_CD_NM", "NATION_CD", 2);
 
+        business.global.nationList.unshift({"NATION_CD_NM" : "선택하세요", "NATION_CD" : ""});
+
+        $("#nationList").kendoDropDownList({
+            filter: "startswith",
+            dataTextField: "NATION_CD_NM",
+            dataValueField: "NATION_CD",
+            dataSource: business.global.nationList
+        });
         $("#nationList").data("kendoDropDownList").bind("change", function(){
             console.log(business.global.nationList);
             console.log($("#nationList").data("kendoDropDownList").value());
