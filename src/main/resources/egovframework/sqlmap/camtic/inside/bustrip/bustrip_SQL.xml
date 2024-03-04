@@ -951,6 +951,7 @@
             </otherwise>
         </choose>
         GROUP BY EMP_SEQ, HR_BIZ_REQ_ID, DIVISION
+        ORDER BY HR_BIZ_OVER_EXNP_ID
     </select>
 
     <select id="getBustripExnpInfo" parameterType="map" resultType="map">
