@@ -1848,6 +1848,9 @@
         SELECT * FROM
         (
             SELECT
+            IHBE.HR_BIZ_OVER_EXNP_ID,
+            IHBE.EMP_SEQ AS UNIQ_KEY,
+            IHBE.HR_BIZ_REQ_ID AS PK,
             IHBE.EMP_NAME AS EXNP_NAME,
             IHBE.DIVISION,
             (
@@ -1880,6 +1883,8 @@
         ) RE
         WHERE
         1=1
+        GROUP BY UNIQ_KEY, PK, DIVISION
+        ORDER BY HR_BIZ_OVER_EXNP_ID
     </select>
 
     <select id="getCorpCarExnpData" parameterType="map" resultType="map">
