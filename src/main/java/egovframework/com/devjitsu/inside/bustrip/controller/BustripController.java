@@ -297,6 +297,14 @@ public class BustripController {
         return "popup/inside/bustrip/bustripResultPop";
     }
 
+    //해외 출장 여비 조회
+    @RequestMapping("/bustrip/getBusinessOverExnpInfo")
+    public String getBusinessOverExnpInfo(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = bustripService.getBusinessOverExnpInfo(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     @RequestMapping("/bustrip/pop/bustripExnpPop.do")
     public String bustripExnpPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();

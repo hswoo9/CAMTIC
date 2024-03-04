@@ -290,6 +290,7 @@ var approvalLine = {
 
             const result = customKendo.fn_customAjax("/purc/getPurcReq.do", {purcSn: purcSn});
             const ResultData = result.data;
+            console.log("ResultData PURC ", ResultData);
 
             let amt = 0;
             if(ResultData.PURC_ITEM_AMT_SUM != null || ResultData.PURC_ITEM_AMT_SUM != ""){

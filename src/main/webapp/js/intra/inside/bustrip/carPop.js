@@ -12,7 +12,7 @@ var carReq = {
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("applyDt", '', "yyyy-MM-dd", new Date());
 
-        const carArr = customKendo.fn_customAjax('/inside/getCarCode').list;
+        const carArr = customKendo.fn_customAjax('/inside/getCarCode', {deptSeq: $("#regDeptSeq").val()}).list;
         customKendo.fn_dropDownList("carClass", carArr, "text", "value", 1);
         $("#carClass").data("kendoDropDownList").bind("change", function(){
             if($("#carClass").data("kendoDropDownList").text() == "기타"){
