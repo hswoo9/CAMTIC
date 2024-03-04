@@ -23,6 +23,10 @@
         ON
             B.TR_CD = BB.TR_CD AND B.CARD_BA_NB = BB.CARD_BA_NB
         LEFT JOIN
+            CAM_MNG.DJ_CARD_AUTH_MNG BC
+        ON
+            BB.CARD_BA_NB = BC.CARD_NO AND BB.TR_CD = BC.TR_CD
+        LEFT JOIN
             CAM_MNG.DJ_USE_CARD_INFO C
         ON
             A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.BUY_STS = C.BUY_STS AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
@@ -63,7 +67,7 @@
         </if>
         AND
             CASE
-            WHEN #{empSeq} IN (SELECT EMP_SEQ FROM CAM_MNG.DJ_CARD_AUTH_USER_MNG) THEN 1=1
+            WHEN #{empSeq} IN (SELECT EMP_SEQ FROM CAM_MNG.DJ_CARD_AUTH_USER_MNG) THEN (BB.TR_CD IS NULL OR BC.TR_CD IS NOT NULL)
             ELSE BB.TR_CD IS NULL
             END
         AND
@@ -714,6 +718,10 @@
         ON
             A.TR_CD = B.TR_CD AND A.CARD_BA_NB = B.CARD_BA_NB
         LEFT JOIN
+            CAM_MNG.DJ_CARD_AUTH_MNG BB
+        ON
+            B.CARD_BA_NB = BB.CARD_NO AND B.TR_CD = BB.TR_CD
+        LEFT JOIN
             (SELECT
                 *
             FROM(
@@ -743,8 +751,8 @@
             <if test='adminEmpSeq != null and !"".equals(adminEmpSeq)'>
                 AND
                     CASE
-                        WHEN #{adminEmpSeq} IN (SELECT EMP_SEQ FROM CAM_MNG.DJ_CARD_AUTH_USER_MNG) THEN 1=1
-                        ELSE B.TR_CD IS NULL
+                        WHEN #{adminEmpSeq} IN (SELECT EMP_SEQ FROM CAM_MNG.DJ_CARD_AUTH_USER_MNG) THEN (B.TR_CD IS NULL OR BB.TR_CD IS NOT NULL)
+                        ELSE (B.TR_CD IS NULL)
                     END
             </if>
             <if test='adminEmpSeq == null and "".equals(adminEmpSeq)'>
