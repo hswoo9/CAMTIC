@@ -332,7 +332,7 @@ const lectureReq = {
         }else if(typeValue == "con"){
             const data = {
                 pjtSn: $("#pjtSn").val(),
-                teacherSn: $("#pjtSn").val(),
+                /*teacherSn: $("#pjtSn").val(),*/
                 projectType: $("#conProjectType").data("kendoDropDownList").value(),
                 projectTypeName: $("#conProjectType").data("kendoDropDownList").text(),
                 fieldType: $("#field").data("kendoDropDownList").value(),

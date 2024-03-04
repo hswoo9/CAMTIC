@@ -861,7 +861,6 @@
         UPDATE
             CAM_PJT_MNG.DJ_PJT_CONSULTING
         SET
-            CON_TC_SN = #{teacherSn},
             CON_BUSN_CLASS = #{projectType},
             CON_BUSN_CLASS_NAME = #{projectTypeName},
             CON_FIELD = #{fieldType},
