@@ -45,6 +45,7 @@ var draft = {
         formData : new FormData(),
         searchAjaxData : "",
         saveAjaxData : "",
+        kendoFiles : []
     },
 
     fnDefaultScript : function (params) {
@@ -542,7 +543,7 @@ var draft = {
                 saveUrl : "/approval/setApproveDraftFileInit.do",
                 removeUrl : "/common/commonFileDel",
                 autoUpload : false,
-                batch : true
+                // batch : true
             },
             files : fileArr,
             localization : {
@@ -616,20 +617,6 @@ var draft = {
             alert(e.XMLHttpRequest.responseJSON.rs.message);
         }
 
-        if(draft.global.uploadFlag){
-            alert("처리되었습니다.");
-            try {
-                opener.parent.gridReload();
-            }catch{
-
-            }
-            try{
-                opener.opener.gridReload();
-            }catch{
-
-            }
-            window.close();
-        }
     },
 
     onComplete : function(e){
@@ -638,6 +625,20 @@ var draft = {
         }else{
             if(draft.global.draftDocInfo == null || draft.global.draftDocInfo == ""){
                 // window.close();
+            }
+            if(draft.global.uploadFlag){
+                alert("처리되었습니다.");
+                try {
+                    opener.parent.gridReload();
+                }catch{
+
+                }
+                try{
+                    opener.opener.gridReload();
+                }catch{
+
+                }
+                window.close();
             }
         }
     },
