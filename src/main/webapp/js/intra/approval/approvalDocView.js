@@ -50,7 +50,7 @@ var docView = {
             const menuCd = docView.global.params.menuCd;
             /** 기안자 일 시 수정 버튼 생성 (외부시스템) */
             if(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId
-                && menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus") {
+                && (menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus")) {
                 
                 $("#modBtn").show();
             }else{

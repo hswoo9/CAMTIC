@@ -64,6 +64,9 @@ var holidayInit = {
             } else if (ResultData.SUBHOLIDAY_CODE_ID == "7") {
                 holiTextBox = "□연가□오전반차□오후반차■경조휴가";
                 holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
+            } else if (ResultData.SUBHOLIDAY_CODE_ID == "8") {
+                holiTextBox = "□연가□오전반차□오후반차■출산휴가";
+                holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
             } else if (ResultData.SUBHOLIDAY_CODE_ID == "9") {
                 holiTextBox = "□연가□오전반차□오후반차□경조휴가";
                 holiTextBox2 = "□병가□공가■대체휴가□근속포상휴가";

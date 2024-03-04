@@ -52,7 +52,7 @@ var subHolidayList = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="subHolidayList.fn_checkAll();" class=""/>',
                     template : function(e){
-                        if(e.APPR_STAT == "N"){
+                        if(e.APPR_STAT == "N" || e.APPR_STAT == "E"){
                             return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class=''/>";
                         } else {
                             return "";
