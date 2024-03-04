@@ -59,6 +59,11 @@ public class CompanyCardController {
     @RequestMapping("/card/cardUseList")
     public String cardUseList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        
+        params.put("empSeq", loginVO.getUniqId());
+
         List<Map<String, Object>> list = new ArrayList<>();
         list = companyCardService.cardUseList(params);
 
