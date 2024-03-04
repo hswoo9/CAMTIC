@@ -128,6 +128,11 @@ public interface BustripService {
     List<Map<String, Object>> getPersonalExnpData(Map<String, Object> params);
 
     List<Map<String, Object>> getCorpExnpData(Map<String, Object> params);
+
+    List<Map<String, Object>> getBusinessOverExnpData(Map<String, Object> params);
+
+    List<Map<String, Object>> getBusinessCorpOverExnpData(Map<String, Object> params);
+
     List<Map<String, Object>> getExnpHistFileList(Map<String, Object> params);
     Map<String, Object> getExnpHistOne(Map<String, Object> params);
 

@@ -13,7 +13,7 @@
     .pdfDiv table th{
         background-color: #ffe0e0;
         font-weight: bold;
-    };
+    }
 </style>
 
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>

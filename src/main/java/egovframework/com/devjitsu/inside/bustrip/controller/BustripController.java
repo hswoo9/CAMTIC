@@ -1105,6 +1105,26 @@ public class BustripController {
         return "jsonView";
     }
 
+    /** 해외출장 여비정산 - 개인, 업체지급 (지급신청용) */
+    @RequestMapping("/bustrip/getBusinessOverExnpData")
+    public String getBusinessOverExnpData(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = bustripService.getBusinessOverExnpData(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    /** 해외출장 여비정산 - 법인카드 (지급신청용) */
+    @RequestMapping("/bustrip/getBusinessCorpOverExnpData")
+    public String getBusinessCorpOverExnpData(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = bustripService.getBusinessCorpOverExnpData(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/bustrip/getExnpHistOne")
     public String getExnpHistOne(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = bustripService.getExnpHistOne(params);

@@ -36,12 +36,14 @@ var bustrip = {
                 $(".businessTh").show();
                 $("#crmYn").prop("checked", false);
                 $("#visitCrm").data("kendoTextBox").enable(true);
+                $("#crmBtn").attr('disabled', true);
             } else {
                 $("#carLine").css("display", "");
                 $(".bustripTh").show();
                 $(".businessTh").hide();
                 $("#crmYn").prop("checked", true);
                 $("#visitCrm").data("kendoTextBox").enable(false);
+                $("#crmBtn").attr('disabled', false);
             }
         })
     },

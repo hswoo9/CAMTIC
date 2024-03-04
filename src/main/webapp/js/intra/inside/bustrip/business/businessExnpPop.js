@@ -176,8 +176,8 @@ const busiExnp = {
         let diff = Math.abs(date1.getTime() - date2.getTime());
         diff = Math.ceil(diff / (1000 * 60 * 60 * 24)) + 1;
 
-        let nights = 0;
-        if(diff > 1){
+        let nights = busInfo.NIGHTS ? busInfo.NIGHTS : 0; console.log("nights " + nights);
+        if(diff > 1 && nights == 0){
             nights = diff - 2;
         }
         let bustripDtHtml = busInfo.TRIP_DAY_FR+' ~ '+busInfo.TRIP_DAY_TO+' (<input id="nights" style="width: 30px; text-align: right" oninput="onlyNumber(this)" onkeyup="busiExnp.fn_calc(this)" value="'+nights+'">박 '+ diff+'일)';
@@ -454,17 +454,22 @@ const busiExnp = {
         /** 식비(정액) */
         const rate = $("#exchangeRate").val();
         const maxRoomCost = Number(rate) * Number(busiExnp.global.maxRoomCost) * Number($("#nights").val());
+        const maxRoomCost2 = Math.floor(Math.floor(maxRoomCost * Number(busiExnp.global.personnel.length) / 1000) * 1000);  // 최대숙박비 * 인원수
+        let sum = 0;
 
         $("span > .trafDayCost").each(function(){
-            const roomCost = Number(uncomma(this.value))
+            const roomCost = Number(uncomma(this.value));
             console.log(roomCost);
-            console.log(maxRoomCost);
-            if(roomCost > maxRoomCost){
-                this.value = comma(Math.floor(Math.floor(maxRoomCost) / 1000) * 1000);
+            console.log(maxRoomCost2);
+            sum += Number(uncomma(this.value));
+            console.log(sum);
+            if(sum > maxRoomCost2){
+                this.value = comma(this.value - (sum - maxRoomCost2));
+                return false;
             }
         })
 
-        $("#roomMaxPay").text( " (" + comma(Math.floor(Math.floor(maxRoomCost) / 1000) * 1000) + ") ");
+        $("#roomMaxPay").text( " (1인: " + comma(Math.floor(Math.floor(maxRoomCost) / 1000) * 1000) + ") ");
     },
 
     fn_saveBtn: function(id, type, mode){

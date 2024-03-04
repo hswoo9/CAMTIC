@@ -53,6 +53,10 @@ public class BustripRepository extends AbstractDAO {
         return selectList("bustrip.getAbroadBustripReqFileInfo", params);
     }
 
+    public List<Map<String, Object>> getBustripReqDocFileList(Map<String, Object> params) {
+        return selectList("bustrip.getBustripReqDocFileList", params);
+    }
+
     public List<Map<String, Object>> getBustripResReqFileInfo(Map<String, Object> params) {
         return selectList("bustrip.getBustripResReqFileInfo", params);
     }
@@ -335,6 +339,15 @@ public class BustripRepository extends AbstractDAO {
     public List<Map<String, Object>> getCorpExnpData(Map<String, Object> params) {
         return selectList("bustrip.getCorpExnpData", params);
     }
+
+    public List<Map<String, Object>> getBusinessOverExnpData(Map<String, Object> params) {
+        return selectList("bustrip.getBusinessOverExnpData", params);
+    }
+
+    public List<Map<String, Object>> getBusinessCorpOverExnpData(Map<String, Object> params) {
+        return selectList("bustrip.getBusinessCorpOverExnpData", params);
+    }
+
     public Map<String, Object> getExnpHistFileOne(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("bustrip.getExnpHistFileOne", params);
     }

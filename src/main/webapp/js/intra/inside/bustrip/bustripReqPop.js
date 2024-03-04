@@ -61,6 +61,7 @@ const bustripReq = {
         const list = result.rs.list;
         const fileInfo = result.rs.fileInfo;
         const fileInfo2 = result.rs.fileInfo2;
+        const fileInfo3 = result.rs.fileInfo3;
         var mode = $("#mod").val();
 
         console.log(busInfo);
@@ -175,7 +176,7 @@ const bustripReq = {
         /** 출장목적 */
         $("#bustObj").val(busInfo.TITLE);
 
-        /** 첨부파일 */
+        /** 첨부파일 - 카드사용내역 */
         const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", {
             hrBizReqId: hrBizReqId
         });
@@ -184,6 +185,7 @@ const bustripReq = {
         let count = 0;
         const bustripList = fileInfo;
         const bustripList2 = fileInfo2;
+        const bustripList3 = fileInfo3;
         const cardList = cardResult.list;
 
         for(let i=0; i<bustripList.length; i++){
@@ -193,6 +195,11 @@ const bustripReq = {
 
         for(let i=0; i<bustripList2.length; i++){
             tempArr[count] = bustripList2[i];
+            count ++;
+        }
+
+        for(let i=0; i<bustripList3.length; i++){
+            tempArr[count] = bustripList3[i];
             count ++;
         }
 
@@ -458,10 +465,10 @@ const bustripReq = {
 
     fn_crmChk : function(){
         if($("#crmYn").is(':checked')){
-            $("#visitCrm").attr("readonly", true)
+            $("#visitCrm").data("kendoTextBox").enable(false);
             $("#crmBtn").attr('disabled', false);
         } else {
-            $("#visitCrm").attr('readonly', false);
+            $("#visitCrm").data("kendoTextBox").enable(true);
             $("#crmBtn").attr('disabled', true);
         }
     },

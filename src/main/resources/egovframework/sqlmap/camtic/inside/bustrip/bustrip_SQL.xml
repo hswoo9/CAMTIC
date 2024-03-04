@@ -423,6 +423,20 @@
             FILE_CD IN ('busiExnpAir','busiExnpTraf','busiExnpRoom','busiExnpVisa','busiExnpIns','busiExnpEtc')
     </select>
 
+    <select id="getBustripReqDocFileList" parameterType="map" resultType="map">
+        /*getBustripReqDocFileList*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            DOC_ID = #{docId}
+          AND
+            FILE_CD = 'bustrip'
+          AND
+            FR_KEY = '0'
+    </select>
+
     <select id="getBustripResReqFileInfo" parameterType="map" resultType="map">
         SELECT
             *
@@ -1827,6 +1841,45 @@
         GROUP BY RE.CORP
     </select>
 
+    <select id="getBusinessOverExnpData" parameterType="map" resultType="map">
+        /* getBusinessOverExnpData */
+        SELECT * FROM
+        (
+            SELECT
+            IHBE.EMP_NAME AS EXNP_NAME,
+            IHBE.DIVISION,
+            (
+                IFNULL(REPLACE(IHBE.AIR_COST, ',', ''),0) +
+                IFNULL(REPLACE(IHBE.TRAF_COST, ',', ''),0) +
+                IFNULL(REPLACE(IHBE.ROOM_COST, ',', ''),0) +
+                IFNULL(REPLACE(IHBE.VISA_COST, ',', ''),0) +
+                IFNULL(REPLACE(IHBE.DAY_COST, ',', ''),0) +
+                IFNULL(REPLACE(IHBE.EAT_COST, ',', ''),0) +
+                IFNULL(REPLACE(IHBE.INS_COST, ',', ''),0) +
+                IFNULL(REPLACE(IHBE.ETC_COST, ',', ''),0)
+            ) AS PERSON_SUM,
+            IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE IHBE.HR_BIZ_REQ_ID = SHBC.HR_BIZ_REQ_ID AND HR_BIZ_REQ_RESULT_ID IS NULL), 0) AS COMPANION,
+            BR.*,
+            IFNULL(CI.CARD_BA_NB, 'X') AS CARD_NO
+            FROM
+                CAM_INSIDE.DJ_HR_BIZ_OVER_EXNP IHBE
+            LEFT JOIN
+                CAM_INSIDE.DJ_HR_BIZ_REQ BR ON IHBE.HR_BIZ_REQ_ID = BR.HR_BIZ_REQ_ID
+            LEFT JOIN
+                CAM_MNG.DJ_CARD_INFO CI ON CI.DEPOSITOR = IHBE.EMP_NAME
+            WHERE
+            <if test='hrBizReqId != null and !"".equals(hrBizReqId)'>
+                IHBE.HR_BIZ_REQ_ID = #{hrBizReqId} AND IHBE.HR_BIZ_REQ_RESULT_ID IS NULL
+            </if>
+            <if test='hrBizReqResultId != null and !"".equals(hrBizReqResultId)'>
+                IHBE.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+            </if>
+            AND IHBE.DIVISION != 2
+        ) RE
+        WHERE
+        1=1
+    </select>
+
     <select id="getCorpCarExnpData" parameterType="map" resultType="map">
         SELECT
             REPLACE(OIL_COST, ',', '') AS OIL_COST,
@@ -1840,6 +1893,26 @@
             DIVISION = '3'
         AND
             (OIL_COST != 0 or TOLL_COST != 0)
+    </select>
+
+    <select id="getBusinessCorpOverExnpData" parameterType="map" resultType="map">
+        /* getBusinessCorpOverExnpData */
+        SELECT
+            A.HR_BIZ_REQ_ID, A.HR_BIZ_REQ_RESULT_ID, B.CARD_NO, B.AUTH_DD, B.AUTH_NO, B.AUTH_HH, B.AUTH_AMT, B.BUY_STS, C.TR_NM
+        FROM
+            CAM_MNG.DJ_USE_CARD_INFO A
+        LEFT JOIN
+            CAM_HR.ERP_HIST_CORPCD_USE B
+        ON B.AUTH_NO = A.AUTH_NO AND B.AUTH_DD = A.AUTH_DD AND B.AUTH_HH = A.AUTH_HH AND B.CARD_NO = A.CARD_NO AND B.BUY_STS = A.BUY_STS
+        LEFT JOIN CAM_MNG.DJ_CARD_INFO C
+        ON REPLACE(C.CARD_BA_NB, '-', '') = B.CARD_NO
+        WHERE
+        <if test='hrBizReqId != null and !"".equals(hrBizReqId)'>
+            A.HR_BIZ_REQ_ID = #{hrBizReqId}
+        </if>
+        <if test='hrBizReqResultId != null and !"".equals(hrBizReqResultId)'>
+            A.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+        </if>
     </select>
 
     <select id="getExnpHistFileOne" parameterType="map" resultType="map">

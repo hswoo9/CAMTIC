@@ -67,6 +67,8 @@ var bustripResultPop = {
         const busInfo = result.rs.rs;
         const list = result.rs.list;
         const fileInfo = result.rs.fileInfo;
+        const fileInfo2 = result.rs.fileInfo2;
+        const fileInfo3 = result.rs.fileInfo3;
 
         bustripResultPop.global.data = busInfo;
 
@@ -143,8 +145,44 @@ var bustripResultPop = {
         /** 출장목적 */
         $("#bustObj").val(busInfo.TITLE);
 
-        /** 첨부파일 */
-        bustripInit.settingTempFileDataInit(fileInfo, 'result');
+        /** 첨부파일 - 카드사용내역 */
+        const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", {
+            hrBizReqId: hrBizReqId
+        });
+
+        let tempArr = [];
+        let count = 0;
+        const bustripList = fileInfo;
+        const bustripList2 = fileInfo2;
+        const bustripList3 = fileInfo3;
+        const cardList = cardResult.list;
+
+        for(let i=0; i<bustripList.length; i++){
+            tempArr[count] = bustripList[i];
+            count ++;
+        }
+
+        for(let i=0; i<bustripList2.length; i++){
+            tempArr[count] = bustripList2[i];
+            count ++;
+        }
+
+        for(let i=0; i<bustripList3.length; i++){
+            tempArr[count] = bustripList3[i];
+            count ++;
+        }
+
+        for(let i=0; i<cardList.length; i++){
+            if(cardList[i].FILE_NO != null){
+                const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
+                    fileNo: cardList[i].FILE_NO
+                }).data;
+                tempArr[count] = fileData;
+                count ++;
+            }
+        }
+
+        bustripInit.settingTempFileDataInit(tempArr, 'result');
 
         /** 해외출장일시 폼 변경 */
         if(busInfo.TRIP_CODE == "4"){
@@ -210,6 +248,9 @@ var bustripResultPop = {
         const resInfo = result.rs.rsRes;
         const resList = result.rs.resList;
         const fileInfo = result.rs.fileInfo;
+        const fileInfo2 = result.rs.fileInfo2;
+        // const fileInfo3 = result.rs.fileInfo3;
+        const fileInfo4 = result.rs.fileInfo4;
 
         bustripResultPop.global.data = resInfo;
 
@@ -354,10 +395,28 @@ var bustripResultPop = {
         let tempArr = [];
         let count = 0;
         const bustripList = fileInfo;
+        const bustripList2 = fileInfo2;
+        // const bustripList3 = fileInfo3;
+        const bustripList4 = fileInfo4;
         const cardList = cardResult.list;
 
         for(let i=0; i<bustripList.length; i++){
             tempArr[count] = bustripList[i];
+            count ++;
+        }
+
+        for(let i=0; i<bustripList2.length; i++){
+            tempArr[count] = bustripList2[i];
+            count ++;
+        }
+
+        // for(let i=0; i<bustripList3.length; i++){
+        //     tempArr[count] = bustripList3[i];
+        //     count ++;
+        // }
+
+        for(let i=0; i<bustripList4.length; i++){
+            tempArr[count] = bustripList4[i];
             count ++;
         }
 
