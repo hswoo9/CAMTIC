@@ -268,7 +268,8 @@ public class BustripController {
         List<Map<String, Object>> exnpData2 = new ArrayList<>();
         Map<String, Object> paramsMap = new HashMap<>();
 
-        if(params.get("tripType").equals("4")){
+        /** tripType이 있을때만 실행되게 수정 (전자결재에서 수정버튼 누를시에 tripType 파라미터 없음) */
+        if(params.containsKey("tripType") && params.get("tripType").equals("4")){
             paramsMap.put("hrBizReqId", params.get("hrBizReqId"));
             exnpData = bustripService.getBusinessOverExnpInfo(paramsMap);
             if(params.containsKey("hrBizReqResultId")){

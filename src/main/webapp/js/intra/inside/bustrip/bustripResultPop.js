@@ -1,9 +1,11 @@
 var bustripResultPop = {
     global: {
-        data : "",
+        data : new Object(),
         attFiles : new Array(),
         tripCode : "",
+        busResData : new Object(),
     },
+
     init: function(){
         bustrip.fn_setPageName();
         bustripResultPop.pageSet();
@@ -253,6 +255,7 @@ var bustripResultPop = {
         const fileInfo4 = result.rs.fileInfo4;
 
         bustripResultPop.global.data = resInfo;
+        bustripResultPop.global.busResData = resInfo;
 
         console.log(resInfo);
         $("#apprBtnBox").html("");
@@ -572,6 +575,30 @@ var bustripResultPop = {
             enctype : 'multipart/form-data',
             async : false,
             success : function(result){
+                if(bustripResultPop.global.busResData != null && bustripResultPop.global.busResData.DOC_ID != null){
+                    let formId = "136";
+
+                    let tripCode = $("#tripCode").data("kendoRadioGroup").value();
+
+                    /** 도내 */
+                    if(tripCode == 1 || tripCode == 2) {
+                        formId = "136";
+
+                    /** 도외 */
+                    }else if(tripCode == 3) {
+                        formId = "170";
+
+                    /** 해외 */
+                    }else if(tripCode == 4) {
+                        formId = "171";
+                    }
+
+                    customKendo.fn_customAjax("/approval/setFormIdUpd", {
+                        docId : bustripResultPop.global.busResData.DOC_ID,
+                        formId : formId
+                    });
+                }
+
                 console.log(result);
                 if(hrBizReqResultId == ""){
                     alert("출장 결과보고 저장이 완료되었습니다.");

@@ -97,9 +97,6 @@ var prm = {
                         return e.CP_CNT + "건 / " + '<span style="color:red;">'+e.RP_CNT+'</span>' + "건"
                     }
                 }, {
-                    title: "외주",
-                    width: 100
-                }, {
                     title: "상태",
                     field: "STATUS",
                     width: 100,

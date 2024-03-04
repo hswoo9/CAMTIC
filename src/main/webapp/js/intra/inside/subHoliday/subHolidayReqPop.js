@@ -227,6 +227,7 @@ var subHolidayReqPop = {
                     /** 재상신일때 formId 체크해서 업데이트 */
                     if(subHolidayReqPop.global.holidayData != null && subHolidayReqPop.global.holidayData.DOC_ID != null){
 
+                        let formId = "88";
                         const subHolidayCodeId = $("#edtHolidayKindTop").val();
 
                         /** 연차, 반가 */

@@ -1203,8 +1203,11 @@ var draft = {
     },
 
     approveKendoSetting : function(){
+
         const signField = "appr2";
-        hwpApprovalLine.setSign(signField, $("#approveEmpSeq").val(), $("#approveEmpName").val());
+        if(hwpDocCtrl.fieldExist(signField)){
+            hwpApprovalLine.setSign(signField, $("#approveEmpSeq").val(), $("#approveEmpName").val());
+        }
 
         $("#approveEmpName").kendoTextBox({
             readonly : true
@@ -1482,134 +1485,6 @@ var draft = {
             tempArr[0] = result.map;
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
-        }
-
-        if(params.menuCd == "subHoliday"){
-            data.subHolidayId = params.APPRO_KEY.split("_")[1];
-
-            var result = customKendo.fn_customAjax("/subHoliday/getVacUseHistoryOne", {subholidayUseId : data.subHolidayId})
-
-            console.log(result)
-            var readerEmpNameStr = "";
-            var len = result.data.OTHER_EMP_SEQ.toString().split(",").length;
-
-            if(result.data.OTHER_EMP_SEQ == "" || result.data.OTHER_EMP_SEQ == null){
-                return;
-            }
-
-            for(var i = 0 ; i < len ; i++){
-                var empSeq = result.data.OTHER_EMP_SEQ.toString().split(",")[i];
-
-                if(empSeq == $("#empSeq").val()){
-                    continue;
-                }
-
-                const userResult = getUser(empSeq);
-                if(userResult != null){
-                    var tmpData = {
-                        empSeq : $("#empSeq").val(),
-                        seqType: "u",
-                        readerEmpSeq: userResult.EMP_SEQ.toString(),
-                        readerEmpName: userResult.EMP_NAME_KR,
-                        readerDeptSeq: userResult.DEPT_SEQ,
-                        readerDeptName: userResult.DEPT_NAME,
-                        readerDutyCode: userResult.DUTY_CODE,
-                        readerDutyName: userResult.DUTY_NAME,
-                        readerPositionCode: userResult.POSITION_CODE,
-                        readerPositionName: userResult.POSITION_NAME,
-                        docId : ""
-                    };
-                    readerEmpNameStr += "," + tmpData.readerEmpName + "(" + fn_getSpot(tmpData.readerDutyName, tmpData.readerPositionName) + ")";
-
-
-                    draft.global.readersArr.push(tmpData);
-                }
-
-            }
-
-            $("#readerName").val(readerEmpNameStr.substring(1));
-        }
-
-        if(params.menuCd == "bustrip"){
-            const hrBizReqId = params.APPRO_KEY.split("_")[1];
-
-            const result = customKendo.fn_customAjax("/bustrip/getBustripTotInfo", {
-                hrBizReqId: hrBizReqId
-            });
-            const busInfo = result.list;
-
-            var readerEmpNameStr = "";
-            for(var i = 0 ; i < busInfo.length ; i++){
-                var empSeq = busInfo[i].EMP_SEQ;
-
-                if(empSeq == $("#empSeq").val()){
-                    continue;
-                }
-
-                const userResult = getUser(empSeq);
-                if(userResult != null){
-                    var tmpData = {
-                        empSeq : $("#empSeq").val(),
-                        seqType: "u",
-                        readerEmpSeq: userResult.EMP_SEQ.toString(),
-                        readerEmpName: userResult.EMP_NAME_KR,
-                        readerDeptSeq: userResult.DEPT_SEQ,
-                        readerDeptName: userResult.DEPT_NAME,
-                        readerDutyCode: userResult.DUTY_CODE,
-                        readerDutyName: userResult.DUTY_NAME,
-                        readerPositionCode: userResult.POSITION_CODE,
-                        readerPositionName: userResult.POSITION_NAME,
-                        docId : ""
-                    };
-                    readerEmpNameStr += "," + tmpData.readerEmpName + "(" + fn_getSpot(tmpData.readerDutyName, tmpData.readerPositionName) + ")";
-
-
-                    draft.global.readersArr.push(tmpData);
-                }
-
-            }
-
-            $("#readerName").val(readerEmpNameStr.substring(1));
-        }
-
-        if(params.menuCd == "bustripRes"){
-            const hrBizReqResultId = params.APPRO_KEY.split("_")[1];
-
-            const result = customKendo.fn_customAjax("/bustrip/getBustripResTotInfo", { hrBizReqResultId: hrBizReqResultId });
-            const busInfo = result.list;
-
-            var readerEmpNameStr = "";
-            for(var i = 0 ; i < busInfo.length ; i++){
-                var empSeq = busInfo[i].EMP_SEQ;
-
-                if(empSeq == $("#empSeq").val()){
-                    continue;
-                }
-
-                const userResult = getUser(empSeq);
-                if(userResult != null){
-                    var tmpData = {
-                        empSeq : $("#empSeq").val(),
-                        seqType: "u",
-                        readerEmpSeq: userResult.EMP_SEQ.toString(),
-                        readerEmpName: userResult.EMP_NAME_KR,
-                        readerDeptSeq: userResult.DEPT_SEQ,
-                        readerDeptName: userResult.DEPT_NAME,
-                        readerDutyCode: userResult.DUTY_CODE,
-                        readerDutyName: userResult.DUTY_NAME,
-                        readerPositionCode: userResult.POSITION_CODE,
-                        readerPositionName: userResult.POSITION_NAME,
-                        docId : ""
-                    };
-                    readerEmpNameStr += "," + tmpData.readerEmpName + "(" + fn_getSpot(tmpData.readerDutyName, tmpData.readerPositionName) + ")";
-
-
-                    draft.global.readersArr.push(tmpData);
-                }
-
-            }
-
-            $("#readerName").val(readerEmpNameStr.substring(1));
         }
 
         if(params.menuCd == "pjtRes") {

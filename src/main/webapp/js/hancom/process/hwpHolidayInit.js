@@ -64,6 +64,9 @@ var holidayInit = {
             } else if (ResultData.SUBHOLIDAY_CODE_ID == "7") {
                 holiTextBox = "□연가□오전반차□오후반차■경조휴가";
                 holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
+            } else if (ResultData.SUBHOLIDAY_CODE_ID == "8") {
+                holiTextBox = "□연가□오전반차□오후반차■출산휴가";
+                holiTextBox2 = "□병가□공가□대체휴가□근속포상휴가";
             } else if (ResultData.SUBHOLIDAY_CODE_ID == "9") {
                 holiTextBox = "□연가□오전반차□오후반차□경조휴가";
                 holiTextBox2 = "□병가□공가■대체휴가□근속포상휴가";
@@ -88,5 +91,49 @@ var holidayInit = {
             const subHolidayAlternativeDayText = subHolidayAlternativeDay[0]+"년"+subHolidayAlternativeDay[1]+"월"+subHolidayAlternativeDay[2]+"일";
             hwpDocCtrl.putFieldText("subHolidayAlternativeDay", subHolidayAlternativeDayText);
         }
+
+        /** 2. 업무인수자 열람자 세팅 */
+        draft.global.readersArr = [];
+        $("#readerName").val();
+
+        var readerEmpNameStr = "";
+
+        const otherMap = ResultData;
+        console.log("otherMap", otherMap);
+
+        var len = otherMap.OTHER_EMP_SEQ.toString().split(",").length;
+
+        if(otherMap.OTHER_EMP_SEQ == "" || otherMap.OTHER_EMP_SEQ == null){
+            return;
+        }
+
+        for(var i = 0 ; i < len ; i++){
+            var empSeq = otherMap.OTHER_EMP_SEQ.toString().split(",")[i];
+
+            if(empSeq == $("#empSeq").val()){
+                continue;
+            }
+
+            const userResult = getUser(empSeq);
+            if(userResult != null){
+                var tmpData = {
+                    empSeq : $("#empSeq").val(),
+                    seqType: "u",
+                    readerEmpSeq: userResult.EMP_SEQ.toString(),
+                    readerEmpName: userResult.EMP_NAME_KR,
+                    readerDeptSeq: userResult.DEPT_SEQ,
+                    readerDeptName: userResult.DEPT_NAME,
+                    readerDutyCode: userResult.DUTY_CODE,
+                    readerDutyName: userResult.DUTY_NAME,
+                    readerPositionCode: userResult.POSITION_CODE,
+                    readerPositionName: userResult.POSITION_NAME,
+                    docId : ""
+                };
+                readerEmpNameStr += "," + tmpData.readerEmpName + "(" + fn_getSpot(tmpData.readerDutyName, tmpData.readerPositionName) + ")";
+                draft.global.readersArr.push(tmpData);
+            }
+        }
+
+        $("#readerName").val(readerEmpNameStr.substring(1));
     }
 }

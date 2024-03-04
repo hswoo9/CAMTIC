@@ -1,4 +1,8 @@
 const bustripReq = {
+    global: {
+        bustripData : new Object(),
+    },
+
     init: function(){
         bustrip.fn_setPageName();
         bustripReq.pageSet();
@@ -58,6 +62,8 @@ const bustripReq = {
             hrBizReqId: hrBizReqId
         });
         const busInfo = result.rs.rs;
+        bustripReq.global.bustripData = busInfo;
+
         const list = result.rs.list;
         const fileInfo = result.rs.fileInfo;
         const fileInfo2 = result.rs.fileInfo2;
@@ -386,7 +392,31 @@ const bustripReq = {
                 enctype : 'multipart/form-data',
                 async : false,
                 success : function(rs){
-                    var loadType = "";
+                    if(bustripReq.global.bustripData != null && bustripReq.global.bustripData.DOC_ID != null){
+                        let formId = "135";
+
+                        let tripCode = $("#tripCode").data("kendoRadioGroup").value();
+
+                        /** 도내 */
+                        if(tripCode == 1 || tripCode == 2) {
+                            formId = "135";
+
+                        /** 도외 */
+                        }else if(tripCode == 3) {
+                            formId = "168";
+
+                        /** 해외 */
+                        }else if(tripCode == 4) {
+                            formId = "169";
+                        }
+
+                        customKendo.fn_customAjax("/approval/setFormIdUpd", {
+                            docId : bustripReq.global.bustripData.DOC_ID,
+                            formId : formId
+                        });
+                    }
+
+                    var reloadType = "";
                     if(hrBizReqId == ""){
                         alert("출장 신청이 완료되었습니다.");
                         reloadType = "href"

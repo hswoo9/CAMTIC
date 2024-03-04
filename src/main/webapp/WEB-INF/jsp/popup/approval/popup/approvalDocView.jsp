@@ -81,6 +81,9 @@
         flex-direction: column;
         align-items: center;
     }
+    .k-grid td {
+        line-height: 1.42857143;
+    }
 </style>
 </head>
 <body>

@@ -435,7 +435,7 @@
             CAR_CLASS_NAME = #{carClassName},
             CAR_NUM_NAME = #{carNum},
             CAR_USE_DEPT_ACTIVE = #{useDeptType},
-            <if test='"1".equals(carType)'>
+            <if test='"Y".equals(useDeptType)'>
                 CAR_USE_DEPT_SN = #{carUseDeptSn},
                 CAR_USE_DEPT_NAME = #{carUseDeptName},
             </if>

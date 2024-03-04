@@ -771,6 +771,7 @@
 
             CON_OPEN_BD,
             CON_OPEN_BD_NAME,
+            REG_DT,
             REG_EMP_SEQ
         )
         VALUE
@@ -798,6 +799,7 @@
 
             #{mainType},
             #{mainTypeName},
+            NOW(),
             #{regEmpSeq}
         )
         <selectKey keyProperty="conSn" resultType="Integer" order="BEFORE">
@@ -861,7 +863,6 @@
         UPDATE
             CAM_PJT_MNG.DJ_PJT_CONSULTING
         SET
-            CON_TC_SN = #{teacherSn},
             CON_BUSN_CLASS = #{projectType},
             CON_BUSN_CLASS_NAME = #{projectTypeName},
             CON_FIELD = #{fieldType},
