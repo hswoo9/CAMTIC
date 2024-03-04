@@ -28,7 +28,20 @@ var purcInit = {
         hwpDocCtrl.putFieldText('DEPT_NAME', result.DEPT_NAME);
         hwpDocCtrl.putFieldText('EMP_NAME', result.EMP_NAME_KR);
         hwpDocCtrl.putFieldText('PURC_REQ_PURPOSE', result.PURC_REQ_PURPOSE);
-        hwpDocCtrl.putFieldText('PURC_TYPE', result.PJT_NM ? result.PJT_NM : "법인운영");
+        let purcTypeText = "법인운영";
+        if(result.PURC_TYPE == "R"){
+            purcTypeText = "R&D";
+        }else if(result.PURC_TYPE == "S"){
+            purcTypeText = "비R&D";
+        }else if(result.PURC_TYPE == "D"){
+            purcTypeText = "엔지니어링";
+        }else if(result.PURC_TYPE == "V"){
+            purcTypeText = "용역/기타";
+        }
+        if(result.PJT_NM != null){
+            purcTypeText += " "+result.PJT_NM;
+        }
+        hwpDocCtrl.putFieldText('PURC_TYPE', purcTypeText);
 
         /** 2. 구매요청서 아이템 리스트*/
         hwpDocCtrl.putFieldText("PURC_ITEM_HTML", " ");

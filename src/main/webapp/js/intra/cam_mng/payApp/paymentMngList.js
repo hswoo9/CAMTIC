@@ -263,6 +263,7 @@ var paymentMngList = {
         if(auth != null && auth != ""){
             url += "&auth=" + auth;
         }
+        url += "&vType=M";
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
