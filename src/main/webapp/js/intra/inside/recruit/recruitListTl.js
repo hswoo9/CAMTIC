@@ -197,6 +197,7 @@ var recruitListTl = {
             searchType: $('#searchType').val(),
             searchVal: $('#searchVal').val(),
             deptSeq : $("#deptSeq").val(),
+            empSeq : $("#empSeq").val(),
             page : "tl"
         };
         var recruitYear = recruitListTl.global.searchAjaxData.recruitYear;
