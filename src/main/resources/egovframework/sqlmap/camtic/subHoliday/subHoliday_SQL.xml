@@ -152,6 +152,7 @@
         SUBHOLIDAY_WORK_DAY = #{vacWorkDt},
         SUBHOLIDAY_ALTERNATIVE_DAY = #{vacUseAlDt},
         OHTER_EMP = #{otherEmp},
+        OTHER_EMP_SEQ = #{otherEmpSeq},
         RMK = #{rmk},
         RMK_OTHER = #{rmkOther},
         MOD_DATE = NOW(),

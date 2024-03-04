@@ -99,6 +99,44 @@ var busInit = {
         htmlData = busInit.htmlCompanion(companionList);
         hwpDocCtrl.moveToField("COMPANION_HTML", true, true, false);
         hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
+
+        /** 3. 출장자 열람자 세팅 */
+        draft.global.readersArr = [];
+        $("#readerName").val();
+
+        var readerEmpNameStr = "";
+
+        for(var i = 0 ; i < companionList.length ; i++){
+            var empSeq = companionList[i].EMP_SEQ;
+
+            if(empSeq == $("#empSeq").val()){
+                continue;
+            }
+
+            const userResult = getUser(empSeq);
+            if(userResult != null){
+                var tmpData = {
+                    empSeq : $("#empSeq").val(),
+                    seqType: "u",
+                    readerEmpSeq: userResult.EMP_SEQ.toString(),
+                    readerEmpName: userResult.EMP_NAME_KR,
+                    readerDeptSeq: userResult.DEPT_SEQ,
+                    readerDeptName: userResult.DEPT_NAME,
+                    readerDutyCode: userResult.DUTY_CODE,
+                    readerDutyName: userResult.DUTY_NAME,
+                    readerPositionCode: userResult.POSITION_CODE,
+                    readerPositionName: userResult.POSITION_NAME,
+                    docId : ""
+                };
+                readerEmpNameStr += "," + tmpData.readerEmpName + "(" + fn_getSpot(tmpData.readerDutyName, tmpData.readerPositionName) + ")";
+
+
+                draft.global.readersArr.push(tmpData);
+            }
+
+        }
+
+        $("#readerName").val(readerEmpNameStr.substring(1));
     },
 
     bustripResInit: function(hrBizReqResultId, type){
@@ -215,6 +253,44 @@ var busInit = {
             hwpDocCtrl.moveToField("EXNP_TABLE", true, true, false);
             hwpDocCtrl.setTextFile(htmlData2, "html","insertfile");
         }, 2000);
+
+        /** 4. 출장자 열람자 세팅 */
+        draft.global.readersArr = [];
+        $("#readerName").val();
+
+        var readerEmpNameStr = "";
+
+        for(var i = 0 ; i < companionList.length ; i++){
+            var empSeq = companionList[i].EMP_SEQ;
+
+            if(empSeq == $("#empSeq").val()){
+                continue;
+            }
+
+            const userResult = getUser(empSeq);
+            if(userResult != null){
+                var tmpData = {
+                    empSeq : $("#empSeq").val(),
+                    seqType: "u",
+                    readerEmpSeq: userResult.EMP_SEQ.toString(),
+                    readerEmpName: userResult.EMP_NAME_KR,
+                    readerDeptSeq: userResult.DEPT_SEQ,
+                    readerDeptName: userResult.DEPT_NAME,
+                    readerDutyCode: userResult.DUTY_CODE,
+                    readerDutyName: userResult.DUTY_NAME,
+                    readerPositionCode: userResult.POSITION_CODE,
+                    readerPositionName: userResult.POSITION_NAME,
+                    docId : ""
+                };
+                readerEmpNameStr += "," + tmpData.readerEmpName + "(" + fn_getSpot(tmpData.readerDutyName, tmpData.readerPositionName) + ")";
+
+
+                draft.global.readersArr.push(tmpData);
+            }
+
+        }
+
+        $("#readerName").val(readerEmpNameStr.substring(1));
     },
 
     htmlCompanion: function(list){
