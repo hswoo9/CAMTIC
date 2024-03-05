@@ -2073,8 +2073,9 @@ public class CampusController {
 
     /** 캠퍼스 직무기술서 등록 */
     @RequestMapping("/campus/setDutyInfoIns")
-    public String setDutyInfoIns(@RequestParam Map<String, Object> params) {
+    public String setDutyInfoIns(@RequestParam Map<String, Object> params, Model model) {
         campusService.setDutyInfoIns(params);
+        model.addAttribute("params", params);
         return "jsonView";
     }
 

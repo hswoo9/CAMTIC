@@ -211,7 +211,7 @@ const dutyInfoReq = {
         if(result.flag){
             alert("직무기술서 저장이 완료되었습니다.");
             opener.dutyInfo.gridReload();
-            window.close();
+            location.href = "/Campus/pop/dutyInfoReqPop.do?mode=upd&pk=" + result.params.dutyInfoSn;
         }
     },
 
@@ -225,6 +225,10 @@ const dutyInfoReq = {
 
         if(status == 10){
             if(!confirm("요청하시겠습니까?")){
+                return;
+            }
+        } else if(status == 0){
+            if(!confirm("취소하시겠습니까?")){
                 return;
             }
         }

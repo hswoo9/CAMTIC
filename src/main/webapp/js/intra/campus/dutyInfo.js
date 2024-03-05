@@ -91,6 +91,19 @@ var dutyInfo = {
                             return "-";
                         }
                     }
+                }, {
+                    field: "",
+                    title: "",
+                    width: 120,
+                    template: function(row){
+                        if(row.STATUS == 0){
+                            return '<button type="button" id="appBtn" class="k-button k-button-solid-info" onclick="dutyInfo.fn_dutyCertReq('+row.DUTY_INFO_SN+', 10);">승인요청</button>';
+                        } else if (row.STATUS == 10) {
+                            return '<button type="button" id="canBtn" class="k-button k-button-solid-error" onclick="dutyInfo.fn_dutyCertReq('+row.DUTY_INFO_SN+', 0);">승인요청취소</button>';
+                        } else {
+                            return "-";
+                        }
+                    }
                 }
             ],
             dataBinding: function(){
@@ -116,5 +129,35 @@ var dutyInfo = {
         const name = "dutyInfoReqPop";
         const option = "width = 1000, height = 800, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    fn_dutyCertReq: function(key, status){
+        let data = {
+            pk : key,
+            regEmpSeq : $("#regEmpSeq").val(),
+            regEmpName : $("#regEmpName").val(),
+            status : status
+        }
+
+        if(status == 10){
+            if(!confirm("요청하시겠습니까?")){
+                return;
+            }
+        } else if(status == 0){
+            if(!confirm("취소하시겠습니까?")){
+                return;
+            }
+        }
+
+        var result = customKendo.fn_customAjax("/campus/setDutyCertReq", data);
+
+        if(result.flag){
+            if(status == 10){
+                alert("승인 요청이 완료되었습니다.");
+            }else if(status == 0){
+                alert("승인 요청이 취소되었습니다.");
+            }
+            dutyInfo.gridReload();
+        }
     }
 }
