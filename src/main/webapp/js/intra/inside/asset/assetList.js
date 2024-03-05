@@ -208,7 +208,7 @@ var assetList = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
+            value : new Date("2000-01-01")
         });
         $("#endDate").kendoDatePicker({
             depth: "month",

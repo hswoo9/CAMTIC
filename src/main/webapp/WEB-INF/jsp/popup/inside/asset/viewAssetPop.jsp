@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<script type="text/javascript" src="/js/intra/inside/asset/viewAssetPop.js?v=${today}"/></script>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <style>
@@ -207,10 +208,7 @@
                 </c:if>
                 <tr>
                     <th scope="row" class="text-center th-color">자산 사진</th>
-                    <td colspan="3" style="padding:5px;">
-                        <c:if test="${data.astFile ne null}">
-                            <%--<img src="${data.astFile.file_path}${data.astFile.file_uuid}">--%>
-                        </c:if>
+                    <td colspan="3" style="padding:5px;" id="assetImg">
                     </td>
                 </tr>
                 <c:if test="${astInfo eq 'Y'}">
@@ -402,6 +400,8 @@
 </div>
 </body>
 <script>
+    viewAssetPop.fnDefaultScript();
+
     function printAssetCard() {
         let astInfoSn = $("#astInfoSn").val();
         var url = "/inside/pop/assetPrintPop.do?astInfoSn="+astInfoSn;
