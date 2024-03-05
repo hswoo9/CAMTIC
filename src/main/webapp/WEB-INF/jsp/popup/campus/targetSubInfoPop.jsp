@@ -23,6 +23,7 @@
 <div class="card-header pop-header">
   <h3 class="card-title title_NM">학습 목표기술서 설정</h3>
   <div class="btn-st popButton">
+    <input type="button" class="k-button k-button-solid k-button-solid-error" value="이전단계" onclick="targetSubInfoPop.prevStep();"/>
       <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="targetSubInfoPop.saveTarget();"/>
       <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close();"/>
   </div>

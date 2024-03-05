@@ -132,6 +132,10 @@ var targetMainSetPop = {
         });
     },
 
+    prevStep: function(){
+        window.location.href = "targetInfoPop.do?targetYear="+ $("#targetYear").val();
+    },
+
     nextStep: function(){
         window.location.href = "targetSubInfoPop.do?targetYear="+ $("#targetYear").val();
     }

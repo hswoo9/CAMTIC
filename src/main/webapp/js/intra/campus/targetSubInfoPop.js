@@ -250,5 +250,9 @@ var targetSubInfoPop = {
                 window.close();
             }
         });
-    }
+    },
+
+    prevStep: function(){
+        window.location.href = "targetMainSetPop.do?targetYear="+ $("#targetYear").val();
+    },
 }

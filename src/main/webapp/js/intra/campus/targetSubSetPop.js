@@ -130,5 +130,9 @@ var targetSubSetPop = {
                 opener.targetInfo.tableSet();
             }
         });
+    },
+
+    prevStep: function(){
+        window.location.href = "targetSubInfoPop.do?targetYear="+ $("#targetYear").val();
     }
 }
