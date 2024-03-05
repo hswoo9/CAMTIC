@@ -217,8 +217,8 @@ const regPayAtt = {
         if(attFiles.length > 0){
             for (var i = 0; i < attFiles.length; i++) {
                 size = attFiles[i].size > 0 ? fCommon.bytesToKB(attFiles[i].size) : '0 KB';
-                var fileName = attFiles[i].name.toString().split(".")[0];
-                var fileExt = attFiles[i].name.toString().split(".")[1];
+                var fileName = attFiles[i].name.substring(0, attFiles[i].name.lastIndexOf("."));
+                var fileExt = attFiles[i].name.substring(attFiles[i].name.lastIndexOf(".") + 1);
 
                 html2 += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html2 += '   <td style="text-align: left">' + fileName + '</td>';
@@ -255,8 +255,8 @@ const regPayAtt = {
         if(attFiles.length > 0){
             for (var i = 0; i < attFiles.length; i++) {
                 var size = attFiles[i].size > 0 ? fCommon.bytesToKB(attFiles[i].size) : '0 KB';
-                var fileName = attFiles[i].name.toString().split(".")[0];
-                var fileExt = attFiles[i].name.toString().split(".")[1];
+                var fileName = attFiles[i].name.substring(0, attFiles[i].name.lastIndexOf("."));
+                var fileExt = attFiles[i].name.substring(attFiles[i].name.lastIndexOf(".") + 1);
 
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html += '   <td style="text-align: left">' + fileName + '</td>';

@@ -301,7 +301,7 @@ var regPay = {
                     var busnClass = pjtMap.BUSN_CLASS;
                     $("#pjtSn").val(pjtMap.PJT_SN);
                     $("#pjtNm").val(pjtMap.PJT_NM);
-                    if ($("#pjtSn").val() != "" && busnClass == "D" && busnClass == "V") {
+                    if ($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")) {
                         selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
                     } else {
                         selectProject('', '[2024년]법인운영', 'Mm1m124010');
@@ -461,7 +461,7 @@ var regPay = {
                 var busnClass = pjtMap.BUSN_CLASS;
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
-                if ($("#pjtSn").val() != "" && busnClass == "D" && busnClass == "V") {
+                if ($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")) {
 
                     if (corpCar != null) {
                         const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
@@ -741,7 +741,7 @@ var regPay = {
                 var busnClass = pjtMap.BUSN_CLASS;
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
-                if($("#pjtSn").val() != "" && busnClass == "D" && busnClass == "V"){
+                if($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")){
                     selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
                 }else{
                     selectProject('', '[2024년]법인운영', 'Mm1m124010');
@@ -950,6 +950,7 @@ var regPay = {
                 blist += fileInfo[y].file_no;
                 fileThumbText += fileInfo[y].file_org_name;
                 fileThumbText += "." + fileInfo[y].file_ext;
+                regPay.global.fileArray.push(fileInfo[y]);
             }
 
             for (let y = 0; y < fileInfo2.length; y++) {
@@ -962,6 +963,7 @@ var regPay = {
                 blist += fileInfo2[y].file_no;
                 fileThumbText += fileInfo2[y].file_org_name;
                 fileThumbText += "." + fileInfo2[y].file_ext;
+                regPay.global.fileArray.push(fileInfo2[y]);
             }
 
             for (let y = 0; y < fileInfo3.length; y++) {
@@ -974,6 +976,7 @@ var regPay = {
                 blist += fileInfo3[y].file_no;
                 fileThumbText += fileInfo3[y].file_org_name;
                 fileThumbText += "." + fileInfo3[y].file_ext;
+                regPay.global.fileArray.push(fileInfo3[y]);
             }
 
             for(let i=0; i<cardList.length; i++){
@@ -982,6 +985,7 @@ var regPay = {
                         fileNo: cardList[i].FILE_NO
                     }).data;
                     tempExnpFile.push(fileData);
+                    regPay.global.fileArray.push(fileData);
                 }
             }
 
@@ -996,6 +1000,14 @@ var regPay = {
                 fileThumbText += tempExnpFile[y].file_org_name;
                 fileThumbText += "." + tempExnpFile[y].file_ext;
             }
+
+            var fileNameArray = fileThumbText.split(' | ');
+            var setValues = Array.from(new Set(fileNameArray));
+            var resultFileName = setValues.join(' | ');
+
+            var blistArray = blist.split(',');
+            var setValues2 = Array.from(new Set(blistArray));
+            var resultBlist = setValues2.join(',');
 
             $("#fileText").text(fileThumbText);
             $("#bList").val(resultBlist);
@@ -1753,9 +1765,15 @@ var regPay = {
         }
 
         if($("#reqType").val() == "business"){
-            parameters.hrBizReqId = $("#hrBizReqId").val();
-            parameters.linkKey = $("#hrBizReqResultId").val();
-            parameters.linkKeyType = "사전정산";
+            if($("#hrBizReqId").val() != ""){
+                parameters.hrBizReqId = $("#hrBizReqId").val();
+                parameters.linkKey = $("#hrBizReqId").val();
+                parameters.linkKeyType = "사전정산";
+            } else if($("#hrBizReqResultId").val() != ""){
+                parameters.hrBizReqResultId = $("#hrBizReqResultId").val();
+                parameters.linkKey = $("#hrBizReqResultId").val();
+                parameters.linkKeyType = "사후정산";
+            }
 
             if($("#bList").val() != ""){
                 parameters.bList = $("#bList").val();
