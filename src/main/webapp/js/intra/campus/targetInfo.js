@@ -178,12 +178,12 @@ var targetInfo = {
     tableSet: function () {
         targetInfo.tableDetailSet();
 
-        const list = targetInfo.global.targetCategoryMainList;
-        const subList = targetInfo.global.targetCategorySubList;
-        const detailList = targetInfo.global.targetCategoryMainDetailList;
-        const subDetailList = targetInfo.global.targetCategorySubDetailList;
-        const planList = targetInfo.global.eduPlanList;
-        const subPlanList = targetInfo.global.subEduPlanList;
+        const list = targetInfo.global.targetCategoryMainList;      // 주업무 구분
+        const subList = targetInfo.global.targetCategorySubList;    // 연계업무 구분
+        const detailList = targetInfo.global.targetCategoryMainDetailList;      // 주업무 선택
+        const subDetailList = targetInfo.global.targetCategorySubDetailList;    // 연계업무 선택
+        const planList = targetInfo.global.eduPlanList;         // 주업무 학습계획
+        const subPlanList = targetInfo.global.subEduPlanList;   // 연계업무 학습계획
 
         let color = "#ffffff";
         let eduCategoryIdArr = [];
@@ -283,7 +283,7 @@ var targetInfo = {
                             }
                         }
 
-                        html += "       <input type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' value='학습계획' onclick='targetInfo.eduPlanReqPop("+list[i].EDU_CATEGORY_ID+", 1);'/>";
+                        html += "       <input type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' value='학습계획' onclick='targetInfo.eduPlanReqPop("+list[i].EDU_CATEGORY_ID+", 1, "+targetInfo.global.targetInfo.STATUS+");'/>";
                         html += "   </td>";
                     }
                 }
@@ -299,7 +299,7 @@ var targetInfo = {
                             }
                         }
 
-                        html += "       <input type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' value='학습계획' onclick='targetInfo.eduPlanReqPop("+subList[i].EDU_CATEGORY_ID+", 2);'/>";
+                        html += "       <input type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' value='학습계획' onclick='targetInfo.eduPlanReqPop("+subList[i].EDU_CATEGORY_ID+", 2, "+targetInfo.global.targetInfo.STATUS+");'/>";
                         html += "   </td>";
                     }
                 }
@@ -364,8 +364,8 @@ var targetInfo = {
         var popup = window.open(url, name, option);
     },
 
-    eduPlanReqPop: function(eduCategoryId, dutyClass) {
-        var url = "/Campus/pop/eduPlanReqPop.do?targetYear="+$("#targetYear").val()+"&eduCategoryId="+eduCategoryId+"&dutyClass="+dutyClass;
+    eduPlanReqPop: function(eduCategoryId, dutyClass, status) {
+        var url = "/Campus/pop/eduPlanReqPop.do?targetYear="+$("#targetYear").val()+"&eduCategoryId="+eduCategoryId+"&dutyClass="+dutyClass+"&status="+status;
         var name = "eduPlanReqPop";
         var option = "width = 860, height = 500, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
@@ -378,6 +378,12 @@ var targetInfo = {
         }
 
         if(status == "10") {
+            if((targetInfo.global.eduPlanList.length != targetInfo.global.targetCategoryMainList.length) ||
+                (targetInfo.global.subEduPlanList.length != targetInfo.global.targetCategorySubList.length)) {
+                alert("학습계획을 작성해주세요.");
+                return;
+            }
+
             if(!confirm("요청하시겠습니까?")){
                 return;
             }
@@ -404,6 +410,7 @@ var targetInfo = {
                     alert("승인 요청이 취소되었습니다.");
                 }
                 targetInfo.dataSet();
+                targetInfo.tableSet();
             }
         });
     }

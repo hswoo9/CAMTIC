@@ -57,13 +57,15 @@
               학습계획
             </td>
             <td>
-              <textarea id="eduPlan" style="width: 100%; height: 200px"></textarea>
+              <textarea id="eduPlan" style="width: 100%; height: 200px" <c:if test="${data.status eq 100 || data.status eq 10}">readonly</c:if>></textarea>
             </td>
           </tr>
         </table>
       </div>
       <div class="btn-st mt10" style="text-align: center">
-        <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="eduPlanReq.savePlan();"/>
+        <c:if test="${data.status ne 100 && data.status ne 10}">
+          <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="eduPlanReq.savePlan();"/>
+        </c:if>
         <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close();"/>
       </div>
     </div>
