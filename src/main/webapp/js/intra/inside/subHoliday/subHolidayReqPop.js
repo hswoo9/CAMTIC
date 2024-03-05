@@ -104,6 +104,10 @@ var subHolidayReqPop = {
             alert("휴가구분을 선택해주세요.");
             flag = false;
             return;
+        }else if (!$("#holiday_reason").val()) {
+            alert("사유를 입력해주세요.");
+            flag = false;
+            return;
         }/*else if (!$("#edtHolidayStartDateTop_1").val()){
             alert("휴가 시작일을 선택해주세요.");
             flag = false;
@@ -471,7 +475,7 @@ var subHolidayReqPop = {
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">사유</th>\n' +
+                '                <th scope="row" class="text-center th-color"><span class="red-star">*</span>사유</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>\n' +
                 '                </td>\n' +
@@ -623,7 +627,7 @@ var subHolidayReqPop = {
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">사유</th>\n' +
+                '                <th scope="row" class="text-center th-color"><span class="red-star">*</span>사유</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" <!--style="width:100%; border: 1px solid #eee;padding-left: 10px;-->"></textarea>\n' +
                 '                </td>\n' +
@@ -780,7 +784,7 @@ var subHolidayReqPop = {
                 '                </td>\n' +
                 '              </tr>\n' +
                 '              <tr>\n' +
-                '                <th scope="row" class="text-center th-color">사유</th>\n' +
+                '                <th scope="row" class="text-center th-color"><span class="red-star">*</span>사유</th>\n' +
                 '                <td colspan="3">\n' +
                 '                  <textarea name="holiday_reason" id="holiday_reason" rows="5" <!--style="width:100%; border: 1px solid #eee;padding-left: 10px;-->"></textarea>\n' +
                 '                </td>\n' +
