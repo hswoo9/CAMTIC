@@ -3,6 +3,9 @@ const conTeacher = {
         /*this.fn_pageSet();*/
         this.fn_dataSet();
         this.fn_mainGrid();
+        $("input[name='teacherType']:radio").change(function(){
+            conTeacher.fn_mainGrid();
+        });
     },
 
     fn_dataSet: function(){
@@ -26,6 +29,7 @@ const conTeacher = {
                 parameterMap: function(data){
                     data.notIn = $("#pk").val();
                     data.sEmpName = $("#sEmpName").val();
+                    data.teacherType = $('input[name="teacherType"]:checked').val();
                     return data;
                 }
             },
@@ -92,8 +96,22 @@ const conTeacher = {
                             '	<span class="k-button-text">등록</span>' +
                             '</button>';
                     }
+                },
+                {
+                    name: 'radioButtons',
+                    template: function (e) {
+                        return '<label class="k-radio-label">' +
+                            '<input type="radio" name="teacherType" value="newTeacher" class="k-radio" >' +
+                            '<span class="k-radio-wrapper"></span>' +
+                            '신강사' +
+                            '</label>' +
+                            '<label class="k-radio-label">' +
+                            '<input type="radio" name="teacherType" value="existingTeacher" class="k-radio" checked>' +
+                            '<span class="k-radio-wrapper"></span>' +
+                            '구강사' +
+                            '</label>';
+                    }
                 }
-
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
