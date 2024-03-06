@@ -36,21 +36,23 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    이수 관리
+                    <%--이수 관리--%>
+                    수강생 관리
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-primary" onclick="lecturePop.personPrintPop()">수료증</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="lecturePop.lecturePersonReqPop(${params.pk})">수강자 추가</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePop.sendSmsPop()">SMS 발송</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('Y')">접수처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('N')">취소처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('X')">불참처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('O')">수료처리</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('F')">미수료처리</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="lectureEdu.fn_auditBtn()">청강처리</button>
+                <%--<button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('F')">미수료처리</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="lectureEdu.fn_auditBtn()">청강처리</button>--%>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_delBtn()">선택삭제</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_particBtn('N')">불참사유서 접수</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_particBtn('Y')">불참사유서 미접수</button>
+                <%--<button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_particBtn('N')">불참사유서 접수</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_particBtn('Y')">불참사유서 미접수</button>--%>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
