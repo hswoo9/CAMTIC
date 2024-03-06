@@ -1336,6 +1336,7 @@ var regPay = {
     },
 
     setData : function (){
+        console.log("setData");
         var data = {
             payAppSn : $("#payAppSn").val()
         }
@@ -1929,6 +1930,10 @@ var regPay = {
                 fd.append("fileList", regPay.global.fileArray[i]);
             }
         }
+
+        // 법인카드 증빙자료 생성
+        var htmlContents = payAppDoc.fn_makeHtmlToPdf();
+        fd.append("htmlContents", htmlContents);
 
         $.ajax({
             url : "/payApp/payAppSetData",
