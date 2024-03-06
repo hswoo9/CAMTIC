@@ -244,6 +244,17 @@ const bustripExnpReq = {
             }
         });
 
+        // 외부인력
+        $(".extData").each(function () {
+            var row = this;
+            if (row.classList.value == 'extData') {
+                trafTotal += Number($(row.cells[1]).find("input[type=text]").val().replace(/,/g, ''));
+                roomTotal += Number($(row.cells[2]).find("input[type=text]").val().replace(/,/g, ''));
+                etcTotal += Number($(row.cells[3]).find("input[type=text]").val().replace(/,/g, ''));
+                totalTotal += Number($(row.cells[4]).find("input[type=text]").val().replace(/,/g, ''));
+            }
+        });
+
         //업체지급 더하기
         trafTotal += Number(uncomma($("#corpCrm2").val()));
         roomTotal += Number(uncomma($("#corpCrm3").val()));

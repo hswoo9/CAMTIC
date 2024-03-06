@@ -435,7 +435,7 @@ const busiExnp = {
             var row = rowList[rowList.length-1];
             var tdsNum = row.childElementCount;
 
-            for (var j = 1; j < tdsNum - 2; j++) {
+            for (var j = 1; j < tdsNum - 1; j++) {
                 if(totalCostArr[j] != 0){
                     $(row.cells[j]).find("input[type=text]").val(fn_comma(totalCostArr[j]));
                 } else {
