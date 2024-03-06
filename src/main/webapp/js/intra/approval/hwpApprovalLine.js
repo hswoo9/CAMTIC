@@ -95,10 +95,25 @@ var hwpApprovalLine = {
                         hwpDocCtrl.putFieldText('cApprText0', approvalMngData.teamNm1+"장");
                         hwpDocCtrl.putFieldText('cAppr0', "전결");
                         hwpDocCtrl.putFieldText('cApprText1', approvalMngData.deptNm1+"장");
+                    }else{
+                        const userArr = approvalLine.global.userArr;
+                        let ck = true;
+                        for(let i=0; i<userArr.length; i++){
+                            const map = userArr[i];
+                            /** 협조자가 결재선에 포함되있으면 추가 X */
+                            if(map.EMP_SEQ == approvalLine.global.copperUserInfo1.EMP_SEQ){
+                                ck = false;
+                            }
+                        }
+                        if(ck){
+                            hwpDocCtrl.putFieldText('cApprText0', approvalMngData.teamNm1+"장");
+                            hwpDocCtrl.putFieldText('cApprText1', approvalMngData.deptNm1+"장");
+                            hwpDocCtrl.putFieldText('cAppr1', "공란");
+                        }
                     }
                 }else if(copperType == "B"){
+
                     if(userParentDept != cUserTempDept2){
-                        /** 협조1과 2가 같은 사람이면 한번만 추가 */
 
                         hwpDocCtrl.putFieldText('cApprText0', approvalMngData.teamNm1+"장");
 
@@ -107,6 +122,33 @@ var hwpApprovalLine = {
                         }
 
                         hwpDocCtrl.putFieldText('cApprText1', approvalMngData.deptNm1+"장");
+                    }else{
+                        const userArr = approvalLine.global.userArr;
+                        let ck1 = true;
+                        let ck2 = true;
+                        for(let i=0; i<userArr.length; i++){
+                            const map = userArr[i];
+                            /** 협조자가 결재선에 포함되있으면 추가 X */
+                            if(map.EMP_SEQ == approvalLine.global.copperUserInfo1.EMP_SEQ){
+                                ck1 = false;
+                            }
+                            if(map.EMP_SEQ == approvalLine.global.copperUserInfo2.EMP_SEQ){
+                                ck2 = false;
+                            }
+                        }
+
+                        /** 협조1과 2가 같은 사람이면 한번만 추가 */
+                        hwpDocCtrl.putFieldText('cApprText0', approvalMngData.teamNm1+"장");
+                        if(ck1 && cUserInfo1.EMP_SEQ != cUserInfo2.EMP_SEQ){
+                        }else{
+                            hwpDocCtrl.putFieldText('cAppr0', "공란");
+                        }
+
+                        hwpDocCtrl.putFieldText('cApprText1', approvalMngData.deptNm1+"장");
+                        if(ck2){
+                        }else{
+                            hwpDocCtrl.putFieldText('cAppr1', "공란");
+                        }
                     }
                 }else{
                     hwpDocCtrl.putFieldText('cApprText0', approvalMngData.teamNm1+"장");

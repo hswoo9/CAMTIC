@@ -45,8 +45,11 @@ var approvalLine = {
         copperUserInfo1: null,
         copperUserInfo2: null,
 
-        /** 결재선 배열 */
-        approverArr: []
+        /** 현재 결재선 배열 */
+        approverArr: [],
+
+        /** 일반 결재선(협조 x) 배열 */
+        normalArr: []
     },
 
     linkStart : function(){
@@ -522,6 +525,7 @@ var approvalLine = {
                 approveType = "2";
             }
             approvalLine.rowApprovalSet(userArr[i], approveType);
+            approvalLine.global.userArr = userArr;
             console.log("userArr", userArr);
             console.log("userArr[i]", userArr[i]);
         }
@@ -562,6 +566,7 @@ var approvalLine = {
     },
 
     setCopperLineData: function(){
+        const userArr = approvalLine.global.userArr;
         approvalLine.copperLineCk();
 
         const userInfo = approvalLine.global.userInfo;
@@ -588,15 +593,38 @@ var approvalLine = {
         /** 3. 협조 결재선 세팅 */
         const approveType = "1";
         if(copperType == "A"){
-            if(userDept != cUserTempDept1){
+            let ck = true;
+            for(let i=0; i<userArr.length; i++){
+                const map = userArr[i];
+                /** 협조자가 결재선에 포함되있으면 추가 X */
+                console.log("map.approveEmpSeq", map.approveEmpSeq);
+                console.log("approvalLine.global.copperUserInfo1.EMP_SEQ", approvalLine.global.copperUserInfo1.EMP_SEQ);
+                if(map.EMP_SEQ == approvalLine.global.copperUserInfo1.EMP_SEQ){
+                    ck = false;
+                }
+            }
+            if(ck){
                 approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo1, approveType);
             }
         }else if(copperType == "B"){
-            if(userParentDept != cUserTempDept2){
-                /** 협조1과 2가 같은 사람이면 한번만 추가 */
-                if(cUserInfo1.EMP_SEQ != cUserInfo2.EMP_SEQ){
-                    approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo1, approveType);
+            let ck1 = true;
+            let ck2 = true;
+            for(let i=0; i<userArr.length; i++){
+                const map = userArr[i];
+                /** 협조자가 결재선에 포함되있으면 추가 X */
+                if(map.EMP_SEQ == approvalLine.global.copperUserInfo1.EMP_SEQ){
+                    ck1 = false;
                 }
+                if(map.EMP_SEQ == approvalLine.global.copperUserInfo2.EMP_SEQ){
+                    ck2 = false;
+                }
+            }
+
+            /** 협조1과 2가 같은 사람이면 한번만 추가 */
+            if(ck1 && cUserInfo1.EMP_SEQ != cUserInfo2.EMP_SEQ){
+                approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo1, approveType);
+            }
+            if(ck2){
                 approvalLine.rowApprovalSet(approvalLine.global.copperUserInfo2, approveType);
             }
         }
