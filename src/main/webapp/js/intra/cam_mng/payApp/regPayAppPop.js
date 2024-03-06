@@ -321,12 +321,18 @@ var regPay = {
             let count = 0;
             for (let i = 0; i < exnpList.length; i++) {
                 const exnpMap = exnpList[i];
+                console.log(exnpMap)
                 const index = count;
 
                 /** 개인여비 */
-                $("#eviType" + index).data("kendoDropDownList").value(3);
                 $("#crmNm" + index).val(exnpMap.EXNP_NAME);
-                $("#etc" + index).val(exnpMap.EXNP_NAME + " 개인여비");
+                if(exnpMap.DIVISION == 1){
+                    $("#eviType" + index).data("kendoDropDownList").value(3);
+                    $("#etc" + index).val(exnpMap.EXNP_NAME + " 개인여비");
+                } else if (exnpMap.DIVISION == 5){
+                    $("#eviType" + index).data("kendoDropDownList").value(6);
+                    $("#etc" + index).val(exnpMap.EXNP_NAME);
+                }
                 $("#totCost" + index).val(regPay.comma(exnpMap.PERSON_SUM));
                 $("#supCost" + index).val(regPay.comma(exnpMap.PERSON_SUM));
 
@@ -334,8 +340,6 @@ var regPay = {
                     searchValue: exnpMap.EXNP_NAME,
                     cardVal : ""
                 }).list
-                console.log("g20CardList");
-                console.log(g20CardList);
 
                 if (g20CardList.length > 0) {
                     const f = g20CardList[0];

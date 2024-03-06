@@ -184,6 +184,43 @@
                             </tr>
                         </c:if>
                     </c:forEach>
+                    <c:forEach var="list" items="${extData}">
+                        <%--신규작성--%>
+                        <tr class="extData">
+                            <td>
+                                <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EXT_NM}" disabled style="text-align: center">
+                                <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EXT_MEM_SN}">
+                                <input type="hidden" id="hrBizExnpId" class="hrBizExnpId" name="hrBizExnpId" value="${list.HR_BIZ_EXNP_ID}" />
+                            </td>
+                            <td>
+                                <input type="text" id="oilCost${list.EXT_MEM_SN}" class="extCost" value="${list.OIL_COST}" value="0" oninput="onlyNumber(this)" style="width: 100%" />
+                            </td>
+                            <td>
+                                <input type="text" id="trafCost${list.EXT_MEM_SN}" class="extCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                            </td>
+                            <td>
+                                <input type="text" id="roomCost${list.EXT_MEM_SN}" class="extCost" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                            </td>
+                            <td>
+                                <input type="text" id="tollCost${list.EXT_MEM_SN}" class="extCost" value="${list.TOLL_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                            </td>
+                            <td>
+                                <input type="text" id="dayCost${list.EXT_MEM_SN}" class="extCost" value="${list.DAY_COST}" oninput="onlyNumber(this)" />
+                            </td>
+                            <td>
+                                <input type="text" id="eatCost${list.EXT_MEM_SN}" class="extCost eatCost" name="eatCost" value="${list.EAT_COST}"<%-- onkeyup="bustripExnpReq.fn_eatCostCheck(this);"--%> oninput="onlyNumber(this)" style="width: 100%" />
+                            </td>
+                            <td>
+                                <input type="text" id="parkingCost${list.EXT_MEM_SN}" class="extCost" value="${list.PARKING_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                            </td>
+                            <td>
+                                <input type="text" id="etcCost${list.EXT_MEM_SN}" class="extCost" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                            </td>
+                            <td>
+                                <input type="text" id="totalCost${list.EXT_MEM_SN}" class="totalCost" value="${list.TOT_COST}" disabled />
+                            </td>
+                        </tr>
+                    </c:forEach>
                     <tr class="corpData">
                         <td>
                             <div style="text-align: center">법인카드</div>
@@ -283,6 +320,42 @@
                                 </td>
                                 <td>
                                     <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="${list.TOT_COST}" disabled />
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION eq '5'}">
+                            <tr class="extData">
+                                <td>
+                                    <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
+                                    <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
+                                    <input type="hidden" id="hrBizExnpId" class="hrBizExnpId" name="hrBizExnpId" value="${list.HR_BIZ_EXNP_ID}" />
+                                </td>
+                                <td>
+                                    <input type="text" id="oilCost${list.EMP_SEQ}" class="extCost" value="0"  oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="trafCost${list.EMP_SEQ}" class="extCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="roomCost${list.EMP_SEQ}" class="extCost" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="tollCost${list.EMP_SEQ}" class="extCost" value="${list.TOLL_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="dayCost${list.EMP_SEQ}" class="extCost" value="${list.DAY_COST}" oninput="onlyNumber(this)" />
+                                </td>
+                                <td>
+                                    <input type="text" id="eatCost${list.EMP_SEQ}" class="extCost eatCost" name="eatCost" value="${list.EAT_COST}"<%-- onkeyup="bustripExnpReq.fn_eatCostCheck(this);"--%> oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="parkingCost${list.EMP_SEQ}" class="extCost" value="${list.PARKING_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="etcCost${list.EMP_SEQ}" class="extCost" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%" />
                                 </td>
                                 <td>
                                     <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="${list.TOT_COST}" disabled />

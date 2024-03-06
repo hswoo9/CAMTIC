@@ -35,7 +35,6 @@
     <div class="col-md-4 col-lg-4">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <h4 class="mt20">· 외부인력 추가</h4>
-            <button type="button" class="k-button k-button-solid-info" id="hanker" onclick="fn_hanker();">추가</button>
             <button type="button" class="k-button k-button-solid-info" id="addBtn" onclick="externalReq.fn_saveBtn();">저장</button>
         </div>
         <table class="table table-bordered mb-0" id="externalWorkforceReqTb">
@@ -95,14 +94,6 @@
 </div>
 <script>
     externalReq.init();
-
-
-    function fn_hanker(){
-        $("#belong").val("데브짓수");
-        $("#spot").val("사원");
-        $("#name").val("한재옥");
-        $("#etc").val("1");
-    }
 </script>
 </body>
 </html>

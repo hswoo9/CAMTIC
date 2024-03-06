@@ -162,7 +162,7 @@
                     <c:forEach var="list" items="${extData}">
                         <tr class="extData">
                             <td>
-                                <input type="text" class="extCrmInput" style="text-align: center" disabled value="${list.EXT_NM}" >
+                                <input type="text" class="empName" style="text-align: center" disabled value="${list.EXT_NM}" >
                                 <input type="hidden" id="extCrmExnpId${list.EXT_MEM_SN}" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
                                 <input type="hidden" id="extMemSn${list.EXT_MEM_SN}" class="extMemSn" name="extMemSn" value="${list.EXT_MEM_SN}" />
                             </td>

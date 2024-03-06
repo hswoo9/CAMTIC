@@ -266,6 +266,7 @@ public class BustripController {
 
         List<Map<String, Object>> exnpData = new ArrayList<>();
         List<Map<String, Object>> exnpData2 = new ArrayList<>();
+        List<Map<String, Object>> extData = new ArrayList<>();
         Map<String, Object> paramsMap = new HashMap<>();
 
         /** tripType이 있을때만 실행되게 수정 (전자결재에서 수정버튼 누를시에 tripType 파라미터 없음) */
@@ -278,6 +279,7 @@ public class BustripController {
             }
         } else {
             exnpData = bustripService.getBustripExnpInfo(params);
+            extData = bustripService.getExtData(params);
         }
 
         if(exnpData.size() != 0){
@@ -290,6 +292,7 @@ public class BustripController {
             model.addAttribute("jsonList2", new Gson().toJson(exnpData2));
         }
 
+        model.addAttribute("extData", extData);
         model.addAttribute("rs", bustripService.getBustripOne(params));
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());

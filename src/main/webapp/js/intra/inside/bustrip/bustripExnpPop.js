@@ -17,14 +17,13 @@ const bustripExnpReq = {
 
     pageSet: function(type){
         window.resizeTo(1700, 900);
-        bustripExnpReq.global.costData = $(".oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, #corpCarTollCost, .corpInput");
+        bustripExnpReq.global.costData = $(".oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, #corpCarTollCost, .corpInput, .extCost");
         let corpArr = [
             {text: "개인", value: "N"},
             {text: "법인", value: "Y"}
         ]
         if($("#mod").val() == "mng"){
-            $(".empName, .oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput, .corpCarInput").kendoTextBox({
-            });
+            $(".empName, .oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput, .corpCarInput, .extCost").kendoTextBox({});
             $(".oilCost").attr('disabled', false);
             $(".corpYn").kendoDropDownList({
                 dataSource : corpArr,
@@ -32,7 +31,7 @@ const bustripExnpReq = {
                 dataValueField: "value"
             });
         }else {
-            $(".empName, .oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput, .corpCarInput").kendoTextBox();
+            $(".empName, .oilCost, .trafCost, .roomCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpInput, .corpCarInput, .extCost").kendoTextBox();
             $(".corpYn").kendoDropDownList({
                 dataSource : corpArr,
                 dataTextField: "text",
@@ -609,6 +608,28 @@ const bustripExnpReq = {
                     alert(returnFlag[1]);
                     break;
                 }
+            }
+
+            // 외부인원
+            if(row.classList.value == 'extData'){
+                data = {
+                    hrBizReqResultId : hrBizReqResultId,
+                    hrBizExnpId : hrBizExnpId,
+                    empName : $(row.cells[0]).find("input[type=text]").val(),
+                    empSeq : $(row.cells[0]).find("input[name='empSeq']").val(),
+                    oilCost : $(row.cells[1]).find("input[type=text]").val(),
+                    trafCost : $(row.cells[2]).find("input[type=text]").val(),
+                    roomCost : $(row.cells[3]).find("input[type=text]").val(),
+                    tollCost : $(row.cells[4]).find("input[type=text]").val(),
+                    dayCost : $(row.cells[5]).find("input[type=text]").val(),
+                    eatCost : $(row.cells[6]).find("input[type=text]").val(),
+                    parkingCost : $(row.cells[7]).find("input[type=text]").val(),
+                    etcCost : $(row.cells[8]).find("input[type=text]").val(),
+                    totCost : $(row.cells[9]).find("input[type=text]").val(),
+
+                    type : type,
+                    division : '5'
+                };
             }
 
             // 법인카드
