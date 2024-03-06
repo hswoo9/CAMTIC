@@ -10,6 +10,7 @@ var busInit = {
             hrBizReqId: hrBizReqId
         });
         const companionList = companionResult.list;
+        const extList = result.rs.extData;
 
         //요청일
         hwpDocCtrl.putFieldText('toDate', fn_getNowDate(1));
@@ -96,7 +97,7 @@ var busInit = {
         /** 2. 출장자 리스트 */
         hwpDocCtrl.putFieldText("COMPANION_HTML", " ");
         let htmlData = '';
-        htmlData = busInit.htmlCompanion(companionList);
+        htmlData = busInit.htmlCompanion(companionList, extList);
         hwpDocCtrl.moveToField("COMPANION_HTML", true, true, false);
         hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
 
@@ -145,6 +146,9 @@ var busInit = {
 
         const companionResult = customKendo.fn_customAjax("/bustrip/getBustripResTotInfo", { hrBizReqResultId: hrBizReqResultId });
         const companionList = companionResult.list;
+
+        const bustripResult = customKendo.fn_customAjax("/bustrip/getBustripReqInfo", {hrBizReqId: busInfo.HR_BIZ_REQ_ID});
+        const extList = bustripResult.rs.extData;
 
         const exnpList = customKendo.fn_customAjax("/inside/getBustripExnpInfo", { hrBizReqResultId: hrBizReqResultId }).list;
 
@@ -235,7 +239,7 @@ var busInit = {
         /** 2. 출장자 리스트 */
         hwpDocCtrl.putFieldText("COMPANION_HTML", " ");
         let htmlData = '';
-        htmlData = busInit.htmlCompanion(companionList);
+        htmlData = busInit.htmlCompanion(companionList, extList);
         hwpDocCtrl.moveToField("COMPANION_HTML", true, true, false);
         hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
 
@@ -294,7 +298,7 @@ var busInit = {
         $("#readerName").val(readerEmpNameStr.substring(1));
     },
 
-    htmlCompanion: function(list){
+    htmlCompanion: function(list, extList){
         var html = '';
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
@@ -314,6 +318,16 @@ var busInit = {
             html += '       <td style="height:25px;text-align:center;"><p>'+map.positionNm+'</p></td>';
             html += '       <td style="height:25px;text-align:center;"><p>'+map.EMP_NAME+'</p></td>';
             html += '       <td style="height:25px;text-align:center;"></td>';
+            html += '   </tr>';
+        }
+
+        for(let i=0; i<extList.length; i++){
+            const map = extList[i];
+            html += '   <tr>';
+            html += '       <td style="height:25px;text-align:center;"><p>'+map.EXT_BELONG+'</p></td>';
+            html += '       <td style="height:25px;text-align:center;"><p>'+map.EXT_SPOT+'</p></td>';
+            html += '       <td style="height:25px;text-align:center;"><p>'+map.EXT_NM+'</p></td>';
+            html += '       <td style="height:25px;text-align:center;"><p>'+map.EXT_ETC+'</p></td>';
             html += '   </tr>';
         }
 
@@ -358,7 +372,7 @@ var busInit = {
 
         for(let i=0; i<list.length; i++){
             console.log("list[i]", list[i]);
-            if(list[i].EMP_SEQ != null && list[i].DIVISION == 1){
+            if(list[i].EMP_SEQ != null && (list[i].DIVISION == 1 || list[i].DIVISION == 5)){
                 let personTot = 0;
 
                 oilCostTotal += Number(list[i].OIL_COST.replace(/,/g, ""));
@@ -508,7 +522,7 @@ var busInit = {
 
         for(let i=0; i<bfList.length; i++){
             const map = bfList[i];
-            if(map.DIVISION == "1"){
+            if(map.DIVISION == "1" || map.DIVISION == "5"){
                 oilCostTotalP = 0;
                 trafCostTotalP = 0;
                 roomCostTotalP = 0;
