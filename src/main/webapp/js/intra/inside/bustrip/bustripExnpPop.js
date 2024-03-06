@@ -418,7 +418,7 @@ const bustripExnpReq = {
     },
 
     fn_eatCostCheck : function (){
-        bustripExnpReq.global.flag =  false;
+        // bustripExnpReq.global.flag =  false;
         var frDate = new Date(tripDayFr);
         var toDate = new Date(tripDayTo);
 
@@ -434,17 +434,24 @@ const bustripExnpReq = {
         }
 
         var bustripDays = diffDays - weekends + 1;      // 주말제외한 출장일수
-        var bustripNum = tripNum;                        // 출장인원
-        var eatCostTotal = bustripDays * bustripNum * 30000;    // 식비 한도
+        var bustripNum = $(".addData").length;           // 출장인원
+        var extNum = $(".extData").length;               // 외부인원
+        var maxEatCost = Number(bustripDays * (bustripNum + extNum) * 30000);    // 식비 한도
+        var sum = 0;
 
-        if(Number($("#eatTotalCost").val().toString().toMoney2()) > Number(eatCostTotal)){
-            bustripExnpReq.global.flag = true;
-        }
-
-        if(bustripExnpReq.global.flag){
-            alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30,000)")
-            return;
-        }
+        $("span > .eatCost").each(function(){
+            const eatCost = Number(uncomma(this.value));
+            console.log("eatCost", eatCost);
+            console.log("maxEatCost", maxEatCost);
+            sum += Number(uncomma(this.value));
+            console.log("sum ", sum);
+            if(sum > maxEatCost){
+                this.value = comma(Number(uncomma(this.value) - (sum - maxEatCost)));
+                // bustripExnpReq.global.flag = true;
+                bustripExnpReq.fn_setTableSum();
+                return false;
+            }
+        })
     },
 
     fn_setTableSum: function(){
@@ -505,9 +512,26 @@ const bustripExnpReq = {
         var etcTotal = 0;
         var totalTotal = 0;
 
+        // 개인
         $(".addData").each(function () {
             var row = this;
             if (row.classList.value == 'addData') {
+                oilTotal += Number($(row.cells[1]).find("input[type=text]").val().replace(/,/g, ''));
+                trafTotal += Number($(row.cells[2]).find("input[type=text]").val().replace(/,/g, ''));
+                roomTotal += Number($(row.cells[3]).find("input[type=text]").val().replace(/,/g, ''));
+                tollTotal += Number($(row.cells[4]).find("input[type=text]").val().replace(/,/g, ''));
+                dayTotal += Number($(row.cells[5]).find("input[type=text]").val().replace(/,/g, ''));
+                eatTotal += Number($(row.cells[6]).find("input[type=text]").val().replace(/,/g, ''));
+                parkingTotal += Number($(row.cells[7]).find("input[type=text]").val().replace(/,/g, ''));
+                etcTotal += Number($(row.cells[8]).find("input[type=text]").val().replace(/,/g, ''));
+                totalTotal += Number($(row.cells[9]).find("input[type=text]").val().replace(/,/g, ''));
+            }
+        });
+
+        // 외부인력
+        $(".extData").each(function () {
+            var row = this;
+            if (row.classList.value == 'extData') {
                 oilTotal += Number($(row.cells[1]).find("input[type=text]").val().replace(/,/g, ''));
                 trafTotal += Number($(row.cells[2]).find("input[type=text]").val().replace(/,/g, ''));
                 roomTotal += Number($(row.cells[3]).find("input[type=text]").val().replace(/,/g, ''));
@@ -559,10 +583,10 @@ const bustripExnpReq = {
 
     fn_saveBtn: function(id, type, mode){
         var returnFlag = true;
-        if(bustripExnpReq.global.flag){
-            alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30,000)");
-            return;
-        }
+        // if(bustripExnpReq.global.flag){
+        //     alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30,000)");
+        //     return;
+        // }
 
         var bustExnpTb = document.getElementById('bustExnpTb');
         var rowList = bustExnpTb.rows;

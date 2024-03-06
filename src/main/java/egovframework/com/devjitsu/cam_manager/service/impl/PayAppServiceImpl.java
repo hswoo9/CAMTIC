@@ -1594,7 +1594,7 @@ public class PayAppServiceImpl implements PayAppService {
         try {
             // PDF 파일 생성
             String fileUUID=  UUID.randomUUID().toString();
-            String fileOrgName = "법인카드 지출증빙";
+            String fileOrgName = "법인카드 지출증빙(지급신청서)";
             String fileCd = "payApp";
             String fileExt = "pdf";
 

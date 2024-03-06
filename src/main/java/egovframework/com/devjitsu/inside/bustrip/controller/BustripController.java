@@ -732,8 +732,12 @@ public class BustripController {
         params.put("fileCd", "bustripReq");
         params.put("hrBizReqId", map.get("HR_BIZ_REQ_ID"));
 
-        model.addAttribute("fileInfo", bustripService.getBustripReqFileInfoR(params));
-
+        List<Map<String, Object>> resultMap = bustripService.getBustripReqFileInfoR(params);
+        List<Map<String, Object>> tempMap = bustripService.getAbroadBustripReqFileInfo(params);
+        if(map.get("TRIP_CODE").equals("4") && tempMap != null){
+            resultMap.addAll(tempMap);
+        }
+        model.addAttribute("fileInfo", resultMap);
 
         return "jsonView";
     }
@@ -1007,6 +1011,13 @@ public class BustripController {
     @RequestMapping("/bustrip/getBustripDocFile")
     public String getBustripDocFile(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = bustripService.getBustripDocFile(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/getBustripReqDocFile")
+    public String getBustripReqDocFile(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getBustripReqDocFile(params);
         model.addAttribute("list", list);
         return "jsonView";
     }

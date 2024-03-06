@@ -108,12 +108,16 @@ public interface BustripService {
 
     List<Map<String, Object>> getBustripReqFileInfoR(Map<String, Object> params);
 
+    List<Map<String, Object>> getAbroadBustripReqFileInfo(Map<String, Object> params);
+
     void setExnpFile(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
     List<Map<String, Object>> getExnpFile(Map<String, Object> params);
 
     List<Map<String, Object>> getExnpFileNum(Map<String, Object> params);
     List<Map<String, Object>> getBustripDocFile(Map<String, Object> params);
+
+    List<Map<String, Object>> getBustripReqDocFile(Map<String, Object> params);
 
     Map<String, Object> getBustripExnpSum(Map<String, Object> params);
     void delBustripCost(Map<String, Object> params);

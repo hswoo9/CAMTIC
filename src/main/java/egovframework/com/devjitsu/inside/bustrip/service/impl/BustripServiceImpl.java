@@ -117,16 +117,10 @@ public class BustripServiceImpl implements BustripService {
         result.put("resList", bustripRepository.getBustripResCompanionInfo(params));
         result.put("map", bustripRepository.getBustripExnpInfo(params));
         result.put("rsRes", bustripRepository.getBustripResultInfo(params));
-        result.put("fileInfo", bustripRepository.getBustripReqFileInfo(params));        // 출장신청서 첨부파일
+        result.put("fileInfo", bustripRepository.getBustripReqFileInfoR(params));        // 출장신청서 첨부파일
         result.put("fileInfo2", bustripRepository.getAbroadBustripReqFileInfo(params)); // 해외출장 사전정산 첨부파일
-
+        result.put("fileInfo3", ""); // 오류방지
         result.put("extData", bustripRepository.getExtData(params));
-        if(infoMap != null && infoMap.get("DOC_ID") != null){
-            params.put("docId", infoMap.get("DOC_ID"));
-            result.put("fileInfo3", bustripRepository.getBustripReqDocFileList(params));    // 출장신청서 상신 첨부파일
-        } else {
-            result.put("fileInfo3", "");
-        }
 
         return result;
     }
@@ -146,15 +140,24 @@ public class BustripServiceImpl implements BustripService {
         result.put("resList", bustripRepository.getBustripResCompanionInfo(params));
         result.put("map", bustripRepository.getBustripExnpInfo(params));
         result.put("rsRes", bustripRepository.getBustripResultInfo(params));
-        result.put("fileInfo", bustripRepository.getBustripReqFileInfoR(params));       // 출장 결과보고 첨부파일
-        result.put("fileInfo2", bustripRepository.getBustripReqFileInfo(params));       // 출장신청서 첨부파일
-        result.put("fileInfo3", bustripRepository.getAbroadBustripReqFileInfo(params)); // 해외출장 사전정산 첨부파일
-//        result.put("fileInfo3", ""); // 해외출장 사전정산 첨부파일
+
         if(infoMap != null && infoMap.get("DOC_ID") != null){
             params.put("docId", infoMap.get("DOC_ID"));
-            result.put("fileInfo4", bustripRepository.getBustripReqDocFileList(params));    // 출장신청서 상신 첨부파일
+            params.put("hrBizReqId", infoMap.get("HR_BIZ_REQ_ID"));
+            result.put("fileInfo", bustripRepository.getBustripReqFileInfoR(params));       // 출장 결과보고 첨부파일
+            result.put("fileInfo2", bustripRepository.getBustripReqFileInfo(params));       // 출장신청서 첨부파일
+            result.put("fileInfo3", bustripRepository.getAbroadBustripReqFileInfo(params)); // 해외출장 사전정산 첨부파일
+            result.put("fileInfo4", "");    // 출장신청서 상신 첨부파일
         } else {
-            result.put("fileInfo4", "");
+            Map<String, Object> bustripId = bustripRepository.getBustripId(params);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("docId", bustripId.get("docId"));
+            map.put("hrBizReqId", bustripId.get("hrBizReqId"));
+            result.put("fileInfo", "");       // 출장 결과보고 첨부파일
+            result.put("fileInfo2", "");       // 출장신청서 첨부파일
+            result.put("fileInfo3", bustripRepository.getAbroadBustripReqFileInfo(map)); // 해외출장 사전정산 첨부파일
+            result.put("fileInfo4", "");    // 출장신청서 상신 첨부파일
         }
         return result;
     }
@@ -167,6 +170,11 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public List<Map<String, Object>> getBustripReqFileInfoR(Map<String, Object> params) {
         return bustripRepository.getBustripReqFileInfoR(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAbroadBustripReqFileInfo(Map<String, Object> params) {
+        return bustripRepository.getAbroadBustripReqFileInfo(params);
     }
 
     @Override
@@ -199,6 +207,26 @@ public class BustripServiceImpl implements BustripService {
 
         Map<String, Object> map = new HashMap<>();
         map.put("docId", bustripId.get("docId"));
+
+        List<Map<String, Object>> resultList = bustripRepository.getBustripDocFile(map);
+
+        params.put("hrBizReqId", bustripId.get("hrBizReqId").toString());
+        List<Map<String, Object>> resFileList = bustripRepository.getBustripReqFileInfoR(params);  // 출장신청서&출장결과보고 첨부파일
+
+        if(resFileList != null){
+            for(Map<String, Object> resFile : resFileList){
+                resultList.add(resFile);
+            }
+        }
+        return resultList;
+    }
+
+    @Override
+    public List<Map<String, Object>> getBustripReqDocFile(Map<String, Object> params) {
+        Map<String, Object> bustripInfo = bustripRepository.getBustripReqInfo(params);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("docId", bustripInfo.get("DOC_ID"));
 
         return bustripRepository.getBustripDocFile(map);
     }

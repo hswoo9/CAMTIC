@@ -1666,7 +1666,8 @@
         SELECT
             B.DOC_ID AS bustripDocId,
             A.DOC_ID AS bustripResDocId,
-            CONCAT(B.DOC_ID,',',A.DOC_ID) AS docId
+            CONCAT(B.DOC_ID,',',A.DOC_ID) AS docId,
+            B.HR_BIZ_REQ_ID AS hrBizReqId
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT A
         JOIN
@@ -1683,8 +1684,9 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            FILE_CD in ('bustrip', 'bustripRes')
+            FILE_CD IN ('bustrip', 'bustripRes')
         AND DOC_ID IN (${docId})
+        AND FR_KEY IS NULL
     </select>
 
     <select id="getBustripExnpSum" parameterType="map" resultType="map">
