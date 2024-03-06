@@ -68,7 +68,7 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         // 법인카드 증빙서류 생성
-        createPdf(params);
+        createPdf(params, serverDir, baseDir);
 
         // 구매청구에서 지급신청시 claimSn Key 가져옴
 
@@ -1588,28 +1588,26 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
 
-    public void createPdf(Map<String, Object> params){
+    public void createPdf(Map<String, Object> params, String serverDir, String baseDir) {
         Document document = new Document();
 
         try {
             // PDF 파일 생성
-            String fileUUID=  UUID.randomUUID().toString();
+            String fileUUID = UUID.randomUUID().toString();
             String fileOrgName = "법인카드 지출증빙(지급신청서)";
             String fileCd = "payApp";
             String fileExt = "pdf";
 
-            LocalDate now = LocalDate.now();
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            String fmtNow = now.format(fmt);
-            String filePath = "/upload/" + fileCd + "/" + fmtNow + "/";
+            params.put("menuCd", fileCd);
+            String filePathTxt = filePath(params, serverDir);
 
             // PDF 생성을 위한 OutputStream 생성
-            File f = new File(filePath);
+            File f = new File(filePathTxt);
             if(!f.exists()) {
                 f.mkdirs();
             }
 
-            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(filePath + fileUUID + "." + fileExt));
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(filePathTxt + fileUUID + "." + fileExt));
             // PDF 파일 열기
             document.open();
 
@@ -1646,7 +1644,7 @@ public class PayAppServiceImpl implements PayAppService {
             fileParameters.put("fileCd", fileCd);
             fileParameters.put("fileUUID", fileUUID+"."+fileExt);
             fileParameters.put("fileOrgName", fileOrgName);
-            fileParameters.put("filePath", filePath);
+            fileParameters.put("filePath", filePath(params, baseDir));
             fileParameters.put("fileExt", fileExt);
             fileParameters.put("fileSize", 99);
             fileParameters.put("contentId", params.get("payAppSn"));
