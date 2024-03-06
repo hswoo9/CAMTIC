@@ -102,12 +102,17 @@ const lectureTeacher = {
                     name: 'radioButtons',
                     template: function (e) {
                         return '<label class="k-radio-label">' +
+                            '<input type="radio" name="teacherType" value="allTeacher" class="k-radio" checked>' +
+                            '<span class="k-radio-wrapper"></span>' +
+                            '전체' +
+                            '</label>' +
+                            '<label class="k-radio-label">' +
                             '<input type="radio" name="teacherType" value="newTeacher" class="k-radio" >' +
                             '<span class="k-radio-wrapper"></span>' +
                             '신강사' +
                             '</label>' +
                             '<label class="k-radio-label">' +
-                            '<input type="radio" name="teacherType" value="existingTeacher" class="k-radio" checked>' +
+                            '<input type="radio" name="teacherType" value="existingTeacher" class="k-radio">' +
                             '<span class="k-radio-wrapper"></span>' +
                             '구강사' +
                             '</label>';

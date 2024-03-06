@@ -461,8 +461,9 @@ var regPay = {
                 count++;
             }
 
-            if (exnpList[0].PJT_SN != null) {
-                var busnClass = pjtMap.BUSN_CLASS;
+            if (exnpList.length > 0 && exnpList[0].PJT_SN != null) {
+                const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
+                var busnClass = pjtMap.BUSN_CLASS; console.log(busnClass);
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
                 if ($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")) {
@@ -647,26 +648,26 @@ var regPay = {
 
             for(let i = 0 ; i < hrBizReqResultId.toString().split(",").length; i++) {
                 /** 첨부파일 */
-                const exnpFile = customKendo.fn_customAjax("/bustrip/getExnpFileNum", {
-                    hrBizReqResultId: hrBizReqResultId.toString().split(",")[i]
-                }).list;
-
-                for(let x = 0 ; x < exnpFile.length; x++) {
-                    regPay.global.fileArray.push(exnpFile[x]);
-                    tempExnpFile.push(exnpFile[x]);
-                }
-
-                for (let y = 0; y < exnpFile.length; y++) {
-                    if (blist != "") {
-                        blist += ",";
-                    }
-                    if (fileThumbText != "") {
-                        fileThumbText += " | ";
-                    }
-                    blist += exnpFile[y].file_no;
-                    fileThumbText += exnpFile[y].file_org_name;
-                    fileThumbText += "." + exnpFile[y].file_ext;
-                }
+                // const exnpFile = customKendo.fn_customAjax("/bustrip/getExnpFileNum", {
+                //     hrBizReqResultId: hrBizReqResultId.toString().split(",")[i]
+                // }).list;
+                //
+                // for(let x = 0 ; x < exnpFile.length; x++) {
+                //     regPay.global.fileArray.push(exnpFile[x]);
+                //     tempExnpFile.push(exnpFile[x]);
+                // }
+                //
+                // for (let y = 0; y < exnpFile.length; y++) {
+                //     if (blist != "") {
+                //         blist += ",";
+                //     }
+                //     if (fileThumbText != "") {
+                //         fileThumbText += " | ";
+                //     }
+                //     blist += exnpFile[y].file_no;
+                //     fileThumbText += exnpFile[y].file_org_name;
+                //     fileThumbText += "." + exnpFile[y].file_ext;
+                // }
 
                 //출장신청서,출장결과보고 전자결재 file_no 추가
                 const bustripDocFiles = customKendo.fn_customAjax("/bustrip/getBustripDocFile", {
@@ -739,12 +740,16 @@ var regPay = {
 
             if(exnpList.length > 0 && exnpList[0].PJT_SN != null){
                 const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
-                var busnClass = pjtMap.BUSN_CLASS;
-                $("#pjtSn").val(pjtMap.PJT_SN);
-                $("#pjtNm").val(pjtMap.PJT_NM);
-                if($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")){
-                    selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
-                }else{
+                if (pjtMap != null) {
+                    var busnClass = pjtMap.BUSN_CLASS; console.log(busnClass);
+                    $("#pjtSn").val(pjtMap.PJT_SN);
+                    $("#pjtNm").val(pjtMap.PJT_NM);
+                    if($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")){
+                        selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
+                    }else{
+                        selectProject('', '[2024년]법인운영', 'Mm1m124010');
+                    }
+                }else {
                     selectProject('', '[2024년]법인운영', 'Mm1m124010');
                 }
             }else {
@@ -930,6 +935,37 @@ var regPay = {
             const fileInfo2 = exnpFile.rs.fileInfo2;
             const fileInfo3 = exnpFile.rs.fileInfo3;
             let tempExnpFile = [];
+
+            //출장신청서,출장결과보고 전자결재 file_no 추가
+            let bizReqUrl = "";
+            let bizReqData = [];
+            if($("#hrBizReqId").val() != null && $("#hrBizReqId").val() != "" && $("#hrBizReqId").val() != "undefined"){
+                bizReqUrl = "/bustrip/getBustripReqDocFile";
+                bizReqData = {
+                    hrBizReqId: $("#hrBizReqId").val()
+                };
+            } else if ($("#hrBizReqResultId").val() != null && $("#hrBizReqResultId").val() != "" && $("#hrBizReqResultId").val() != "undefined") {
+                bizReqUrl = "/bustrip/getBustripDocFile";
+                bizReqData = {
+                    hrBizReqResultId: $("#hrBizReqResultId").val(),
+                    reqType: $("#reqType").val()
+                };
+            }
+
+            const bustripDocFiles = customKendo.fn_customAjax(bizReqUrl, bizReqData).list;
+
+            for (let y = 0; y < bustripDocFiles.length; y++) {
+                if (blist != "") {
+                    blist += ",";
+                }
+                if (fileThumbText != "") {
+                    fileThumbText += " | ";
+                }
+                blist += bustripDocFiles[y].file_no;
+                fileThumbText += bustripDocFiles[y].file_org_name;
+                fileThumbText += "." + bustripDocFiles[y].file_ext;
+                regPay.global.fileArray.push(bustripDocFiles[y]);
+            }
 
             /** 첨부파일 - 카드사용내역 */
             const cardResult = customKendo.fn_customAjax("/bustrip/getCardList", {
