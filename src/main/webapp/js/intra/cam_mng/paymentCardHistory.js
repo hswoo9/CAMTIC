@@ -38,9 +38,17 @@ var payCardHist = {
         if(reqType == "bustrip" || reqType == "snack"){
             $("#saveBtn").hide();
             $("#saveBtnBustrip").show();
+
+        }
+
+        if(reqType == "bustrip"){
+            $("#startDt").val(opener.parent.$("#tripDayFr").val());
+            $("#endDt").val(opener.parent.$("#tripDayTo").val());
         }
 
         if(requestType != "" && requestType != null && requestType != undefined){
+            // $("#startDt").val(opener.parent.$("#tripDayFr").val());
+            // $("#endDt").val(opener.parent.$("#tripDayTo").val());
 
             if(requestType == 1){
                 $("#cardM").attr("class", "k-button k-button-solid-base");

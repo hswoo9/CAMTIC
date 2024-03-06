@@ -152,7 +152,7 @@
                     <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="우편번호 검색" onclick="bustripReq.addrSearch();"/>
                 </td>
 
-                <th class="businessTh" style="display: none"><span class="red-star">*</span>출장국가</th>
+                <th class="businessTh" style="display: none"><span class="red-star">*</span>출장 도시 및 국가</th>
                 <td class="businessTh" style="display: none">
                     <input id="nationList" style="width: 75%;" />
                     <span style="margin-left: 3px; color: red" id="nationText"></span>
