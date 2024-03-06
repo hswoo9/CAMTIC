@@ -45,8 +45,9 @@
             <div id="purcBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-base" id="consultantBtn" style="display: none" onclick="lecturePop.consultingTeacherPop('${params.pk}');">컨설턴트관리</button>
                 <button type="button" class="k-button k-button-solid-base" id="teacherBtn" style="display: none" onclick="lecturePop.lectureTeacherPop('${params.pk}');">강사관리</button>
-                <button type="button" class="k-button k-button-solid-base" id="personBtn" style="display: none" onclick="lecturePop.lecturePersonPop('${params.pk}');">수강신청관리</button>
-                <button type="button" class="k-button k-button-solid-base" id="eduBtn" style="display: none" onclick="lecturePop.lectureEduPop('${params.pk}');">이수관리</button>
+                <%--<button type="button" class="k-button k-button-solid-base" id="personBtn" style="display: none" onclick="lecturePop.lecturePersonPop('${params.pk}');">수강신청관리</button>
+                <button type="button" class="k-button k-button-solid-base" id="eduBtn" style="display: none" onclick="lecturePop.lectureEduPop('${params.pk}');">이수관리</button>--%>
+                <button type="button" class="k-button k-button-solid-base" id="eduBtn" style="display: none" onclick="lecturePop.lectureEduPop('${params.pk}');">수강생관리</button>
                <%-- <button type="button" class="k-button k-button-solid-base" id="payBtn" style="display: none" onclick="lecturePop.lecturePayPop('${params.pk}');">교육비관리</button>--%>
                 <button type="button" class="k-button k-button-solid-primary" id="modBtn" style="display: none" onclick="lectureReq.fn_saveBtn();">수정</button>
                 <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="lectureReq.fn_saveBtn();">저장</button>
@@ -158,7 +159,7 @@
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>총 교육시간</th> <%--컨설팅 시간--%>
                     <td>
-                        총 <input id="eduTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;"> 시간<%--/
+                        총 <input id="eduTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;" disabled> 시간<%--/
                         <input id="eduTimeEx" style="width: 140px;"> 예) 18:30~22:00--%>
                     </td>
                 </tr>
@@ -191,13 +192,13 @@
                     </td>
                 </tr>--%>
                 <tr>
-                    <th scope="row" class="text-center th-color">교육일정<%--(내용)<br>(HTML)--%></th>
+                    <th scope="row" class="text-center th-color">교육내용<%--(내용)<br>(HTML)--%></th>
                     <td colspan="3">
                         <textarea id="scheduleHtml" style="width: 800px; height: 150px"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">교육문의</th>
+                    <th scope="row" class="text-center th-color">교육문의 및 안내사항</th>
                     <td colspan="3">
                         <textarea id="prospectus" style="width: 800px; height: 100px"></textarea>
                     </td>
@@ -249,7 +250,7 @@
                         <input type="file" id="file2" name="file2" onchange="fileChange(this)" style="display: none">
                         <span id="file2Name"></span>
                     </td>
-                    <th scope="row" class="text-center th-color">메인이미지</th>
+                    <th scope="row" class="text-center th-color">포스터</th>
                     <td>
                         <input type="hidden" id="file3Sn" name="file3Sn">
                         <label for="file3" id="file3Label" class="k-button k-button-solid-base">파일첨부</label>
