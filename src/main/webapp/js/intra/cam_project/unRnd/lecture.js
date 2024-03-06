@@ -253,11 +253,21 @@ var ub = {
         $("#agmStartDt, #agmEndDt").attr("readonly", true);
     },
 
-    fn_methodTypeSet: function(){
+    /*fn_methodTypeSet: function(){
         let methodTypeDataSource = [
             { label: "재직자", value: "1" },
             { label: "미취업자", value: "2" },
             { label: "연수생", value: "3" }
+        ];
+        customKendo.fn_radioGroup("methodType", methodTypeDataSource, "horizontal");
+        $("#methodType").data("kendoRadioGroup").value(1);
+    },*/
+
+    fn_methodTypeSet: function(){
+        let methodTypeDataSource = [
+            { label: "일반", value: "N" },
+            { label: "재직자", value: "C" },
+            { label: "학생", value: "S" }
         ];
         customKendo.fn_radioGroup("methodType", methodTypeDataSource, "horizontal");
         $("#methodType").data("kendoRadioGroup").value(1);

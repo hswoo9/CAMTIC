@@ -15,9 +15,9 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">업체 담당자 선택</span>
             </h3>
-
         </div>
         <div>
+
             <div id="popMainGrid" style="margin:20px 0;"></div>
         </div>
 

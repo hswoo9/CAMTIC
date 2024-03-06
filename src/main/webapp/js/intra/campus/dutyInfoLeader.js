@@ -149,15 +149,20 @@ var dutyInfoLeader = {
                             title : "승인",
                             template: function(e){
                                 /** 승인 요청자가 팀원급 */
-                                if(e.DUTY_CODE == ""){
+                                if(e.DUTY_CODE == "") {
+                                    var textDuty = "팀장 승인";
+                                    if(e.DUTY_CNT == 0){
+                                        textDuty = "부서장 승인"
+                                    }
+
                                     /** 팀장 단계 */
                                     if(e.LD_STATUS == 'N' && e.TARGET_STATUS == 10 &&
                                         (($("#regDutyCode").val() == "4" || $("#regDutyCode").val() == "5") ||
                                         (dutyInfoLeader.global.subTeamYn == "Y") && dutyInfoLeader.global.allDutyList.findIndex((item) => item.DEPT_SEQ == e.DEPT_SEQ) != -1)){
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'ld\')">팀장 승인</button>' +
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'ld\', '+e.EMP_SEQ+', '+e.DUTY_CNT+')">'+textDuty+'</button>' +
                                             '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_targetCertReq(30, '+e.EMP_SEQ+', \'ld\');">반려</button>';
 
-                                        /** 부서장 단계 */
+                                    /** 부서장 단계 */
                                     }else if(e.MNG_STATUS == 'N' && e.LD_STATUS == 'Y' && e.TARGET_STATUS == 10 &&
                                         (($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7") ||
                                         (dutyInfoLeader.global.subTeamYn == "Y") && dutyInfoLeader.global.allDutyList.findIndex((item) => item.DEPT_SEQ == e.DEPT_SEQ) != -1)){
@@ -230,13 +235,18 @@ var dutyInfoLeader = {
                         }, {
                             title : "승인",
                             template: function(e){
+                                var textDuty = "팀장 승인";
+                                if(e.DUTY_CNT == 0){
+                                    textDuty = "부서장 승인"
+                                }
+
                                 /** 승인 요청자가 팀원급 */
                                 if(e.DUTY_CODE == ""){
                                     /** 팀장 단계 */
                                     if(e.DUTY_LD_STATUS == 'N' && e.DUTY_STATUS == 10 &&
                                         (($("#regDutyCode").val() == "4" || $("#regDutyCode").val() == "5") ||
                                         (dutyInfoLeader.global.subTeamYn == "Y") && dutyInfoLeader.global.allDutyList.findIndex((item) => item.DEPT_SEQ == e.DEPT_SEQ) != -1)){
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'ld\')">팀장 승인</button>' +
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'ld\', '+e.EMP_SEQ+', '+e.DUTY_CNT+')">'+textDuty+'</button>' +
                                             '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_dutyCertReq(30, '+e.DUTY_CHECK+', \'ld\');">반려</button>';
                                         
                                     /** 부서장 단계 */
@@ -295,10 +305,13 @@ var dutyInfoLeader = {
         }).data("kendoGrid");
     },
 
-    fn_agreeLeader : function(id, type, empSeq){
-        if(!confirm("승인하시겠습니까?")){
-            return;
+    fn_agreeLeader : function(id, type, empSeq, dutyCnt){
+        if(dutyCnt == undefined || dutyCnt == null){
+            if(!confirm("승인하시겠습니까?")){
+                return;
+            }
         }
+
         var data = {
             eduTargetId : id,
             type : type
@@ -306,7 +319,9 @@ var dutyInfoLeader = {
         var rs = customKendo.fn_customAjax("/campus/agreeSubject", data)
 
         if(rs.code == 200){
-            if(type == "mng"){
+            if(dutyCnt != undefined && dutyCnt != null){
+                dutyInfoLeader.fn_agreeLeader(id, 'mng', empSeq)
+            } else if(type == "mng"){
                 dutyInfoLeader.fn_targetCertReq(100, empSeq)
             } else {
                 alert("완료되었습니다.");
@@ -315,9 +330,11 @@ var dutyInfoLeader = {
         }
     },
 
-    fn_agreeDutyLeader: function(id, type){
-        if(!confirm("승인하시겠습니까?")){
-            return;
+    fn_agreeDutyLeader: function(id, type, empSeq, dutyCnt){
+        if(dutyCnt == undefined || dutyCnt == null){
+            if(!confirm("승인하시겠습니까?")){
+                return;
+            }
         }
         var data = {
             dutyInfoSn : id,
@@ -326,7 +343,9 @@ var dutyInfoLeader = {
         var rs = customKendo.fn_customAjax("/campus/agreeDutySubject", data)
 
         if(rs.code == 200){
-            if(type == "mng"){
+            if(dutyCnt != undefined && dutyCnt != null){
+                dutyInfoLeader.fn_agreeDutyLeader(id, 'mng', empSeq)
+            } else if(type == "mng"){
                 dutyInfoLeader.fn_dutyCertReq(100, id)
             } else {
                 gridReload()
