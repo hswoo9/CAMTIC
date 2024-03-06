@@ -86,6 +86,7 @@
         (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = B.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS,
         C.PAY_EXNP_DE,
         C.DOC_STATUS,
+        IFNULL(D.DOC_STATUS, 0) AS BF_DOC_STATUS,
         DATE_FORMAT(C.APPROVAL_DATE, '%Y-%m-%d') AS APPROVAL_DATE
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
@@ -97,6 +98,10 @@
             CAM_MNG.DJ_PAY_APP C
         ON
             B.PAY_APP_SN = C.PAY_APP_SN
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_APP D
+        ON
+            A.BF_PAY_APP_SN = D.PAY_APP_SN
         WHERE
         <![CDATA[
             A.TRIP_DAY_FR >= #{startDate} AND A.TRIP_DAY_TO <= #{endDate}
@@ -337,7 +342,8 @@
             CASE WHEN HEI.DUTY_NAME IS NULL OR HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME,
             IFNULL(IHWI.DISTANCE, 0) AS DISTANCE,
             DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DATE,
-            DI.APPRO_KEY
+            DI.APPRO_KEY,
+            IFNULL(C.DOC_STATUS, 0) AS BF_DOC_STATUS
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN
@@ -348,6 +354,8 @@
             CAM_INSIDE.DJ_HR_WAYPOINT_INFO IHWI ON A.VISIT_LOC_CODE = IHWI.HR_WAYPOINT_INFO_SN
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
         ON A.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_APP C ON A.BF_PAY_APP_SN = C.PAY_APP_SN
         WHERE
             A.HR_BIZ_REQ_ID = #{hrBizReqId}
     </select>

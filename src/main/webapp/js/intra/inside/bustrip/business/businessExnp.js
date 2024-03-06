@@ -16,7 +16,7 @@ var busiExnp = {
             let p = resInfo;
             let html = '';
 
-            if(e.BF_PAY_APP_SN == "" || e.BF_PAY_APP_SN == null){
+            if((e.BF_PAY_APP_SN == "" || e.BF_PAY_APP_SN) == null && e.BF_DOC_STATUS != 100){
                 html += '<td style="text-align: center"><button type="button" class="k-button k-button-solid-base" onclick="bustPop.fn_busiPayAppPopup('+e.HR_BIZ_REQ_ID+')">지급신청</button></td>';
             }else{
                 html += '<td style="text-align: center"><button type="button" class="k-button k-button-solid-info" onclick="bustPop.fn_busiPayAppPopup('+e.BF_PAY_APP_SN+', 2)">지급신청</button></td>';

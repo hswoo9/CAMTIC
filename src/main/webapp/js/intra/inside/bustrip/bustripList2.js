@@ -232,6 +232,7 @@ var bustList = {
                     title : "결과보고",
                     width: 60,
                     template : function (e){
+                        console.log("bustrip:", e);
                         /** 국내출장 해외출장 분기 */
                         if(e.TRIP_CODE != "4"){
                             if(e.STATUS == 100){
@@ -259,7 +260,7 @@ var bustList = {
                             /** 사전정산 -> 지급신청 */
                             if(e.BF_PAY_APP_SN != null){
                                 /** 결과보고 작성 -> 사후정산 -> -> 결과보고 전자결재 */
-                                if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.EXP_STAT == null){
+                                if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.BF_DOC_STATUS == "100" && e.DOC_STATUS == null){
                                     return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">작성중</button>';
                                 } else if(e.EXP_STAT == "0" || e.EXP_STAT == "10" || e.RS_STATUS == "10"){
                                     return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">결재중</button>';
