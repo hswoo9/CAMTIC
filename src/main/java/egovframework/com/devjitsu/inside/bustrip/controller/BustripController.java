@@ -1191,23 +1191,21 @@ public class BustripController {
 
         try {
             // PDF 파일 생성
-            String fileUUID=  UUID.randomUUID().toString();
+            String fileUUID = UUID.randomUUID().toString();
             String fileOrgName = "법인카드 지출증빙";
             String fileCd = "bustripResReq";
             String fileExt = "pdf";
 
-            LocalDate now = LocalDate.now();
-            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            String fmtNow = now.format(fmt);
-            String filePath = "/upload/" + fileCd + "/" + fmtNow + "/";
+            params.put("menuCd", fileCd);
+            String filePathTxt = filePath(params, SERVER_DIR);
 
             // PDF 생성을 위한 OutputStream 생성
-            File f = new File(filePath);
+            File f = new File(filePathTxt);
             if(!f.exists()) {
                 f.mkdirs();
             }
 
-            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(filePath + fileUUID + "." + fileExt));
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(filePathTxt + fileUUID + "." + fileExt));
             // PDF 파일 열기
             document.open();
 
@@ -1244,7 +1242,7 @@ public class BustripController {
             fileParameters.put("fileCd", fileCd);
             fileParameters.put("fileUUID", fileUUID+"."+fileExt);
             fileParameters.put("fileOrgName", fileOrgName);
-            fileParameters.put("filePath", filePath);
+            fileParameters.put("filePath", filePath(params, BASE_DIR));
             fileParameters.put("fileExt", fileExt);
             fileParameters.put("fileSize", 99);
             fileParameters.put("contentId", params.get("hrBizReqResultId"));
@@ -1254,6 +1252,16 @@ public class BustripController {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
     }
 
     @RequestMapping("/bustrip/pop/cardToBustripListView.do")
