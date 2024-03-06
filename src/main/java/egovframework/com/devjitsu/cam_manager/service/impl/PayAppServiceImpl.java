@@ -2,6 +2,21 @@ package egovframework.com.devjitsu.cam_manager.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorker;
+import com.itextpdf.tool.xml.XMLWorkerFontProvider;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.css.StyleAttrCSSResolver;
+import com.itextpdf.tool.xml.html.CssAppliers;
+import com.itextpdf.tool.xml.html.CssAppliersImpl;
+import com.itextpdf.tool.xml.html.Tags;
+import com.itextpdf.tool.xml.parser.XMLParser;
+import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
+import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
+import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
@@ -14,12 +29,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PayAppServiceImpl implements PayAppService {
@@ -50,6 +66,9 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updPayAppData(params);
             payAppRepository.delPayAppDetailData(params);
         }
+
+        // 법인카드 증빙서류 생성
+        createPdf(params);
 
         // 구매청구에서 지급신청시 claimSn Key 가져옴
 
@@ -1566,5 +1585,76 @@ public class PayAppServiceImpl implements PayAppService {
     @Override
     public Map<String, Object> getPayIncpReData(Map<String, Object> params) {
         return payAppRepository.getPayIncpReData(params);
+    }
+
+
+    public void createPdf(Map<String, Object> params){
+        Document document = new Document();
+
+        try {
+            // PDF 파일 생성
+            String fileUUID=  UUID.randomUUID().toString();
+            String fileOrgName = "법인카드 지출증빙";
+            String fileCd = "payApp";
+            String fileExt = "pdf";
+
+            LocalDate now = LocalDate.now();
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            String fmtNow = now.format(fmt);
+            String filePath = "/upload/" + fileCd + "/" + fmtNow + "/";
+
+            // PDF 생성을 위한 OutputStream 생성
+            File f = new File(filePath);
+            if(!f.exists()) {
+                f.mkdirs();
+            }
+
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(filePath + fileUUID + "." + fileExt));
+            // PDF 파일 열기
+            document.open();
+
+            String htmlStr = "<html><body style='font-family: gulim;'>"+ params.get("htmlContents") +"</body></html>";
+
+            XMLWorkerHelper helper = XMLWorkerHelper.getInstance();
+
+            CSSResolver cssResolver = new StyleAttrCSSResolver();
+
+            XMLWorkerFontProvider fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
+            fontProvider.register("/egovframework/fonts/gulim.ttf", "gulim"); //MalgunGothic은 font-family용 alias
+
+            CssAppliers cssAppliers = new CssAppliersImpl(fontProvider);
+            HtmlPipelineContext htmlContext = new HtmlPipelineContext(cssAppliers);
+            htmlContext.setTagFactory(Tags.getHtmlTagProcessorFactory());
+
+            // html을 pdf로 변환시작
+            PdfWriterPipeline pdf = new PdfWriterPipeline(document, pdfWriter);
+            HtmlPipeline html = new HtmlPipeline(htmlContext, pdf);
+            CssResolverPipeline css = new CssResolverPipeline(cssResolver, html);
+
+            XMLWorker worker = new XMLWorker(css, true);
+            //캐릭터 셋 설정
+            XMLParser xmlParser = new XMLParser(worker, Charset.forName("UTF-8"));
+
+            StringReader strReader = new StringReader(htmlStr);
+            xmlParser.parse(strReader);
+
+            document.close();
+            pdfWriter.close();
+
+            // DB에 데이터 저장
+            Map<String, Object> fileParameters = new HashMap<>();
+            fileParameters.put("fileCd", fileCd);
+            fileParameters.put("fileUUID", fileUUID+"."+fileExt);
+            fileParameters.put("fileOrgName", fileOrgName);
+            fileParameters.put("filePath", filePath);
+            fileParameters.put("fileExt", fileExt);
+            fileParameters.put("fileSize", 99);
+            fileParameters.put("contentId", params.get("payAppSn"));
+            fileParameters.put("empSeq", "1");
+            commonRepository.insFileInfoOne(fileParameters);
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
