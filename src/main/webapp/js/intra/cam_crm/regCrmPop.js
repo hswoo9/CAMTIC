@@ -18,8 +18,11 @@ var crmReg = {
 
         if($("#crmSn").val() != null && $("#crmSn").val() != ""){
             tabStrip.enable(tabStrip.tabGroup.children());
-            tabStrip.select(0);
-            // tabStrip.select(6);
+            if($("#type").val() == "set"){
+                tabStrip.select(1);
+            } else {
+                tabStrip.select(0);
+            }
         }
 
         if($("#crmSn").val() != null && $("#crmSn").val() != ""){
@@ -34,6 +37,8 @@ var crmReg = {
         crmMgScale.fn_defaultScript();
         /** TODO. 관심분야 삭제 */
         // crmI.fn_defaultScript();
+
+
     },
 
     fn_setData: function (){

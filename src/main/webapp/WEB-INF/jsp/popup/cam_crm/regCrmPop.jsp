@@ -43,6 +43,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userReqPop.js?v=${today}'/>"></script>
 
 <input type="hidden" id="crmSn" value="${params.crmSn}" />
+<input type="hidden" id="type" value="${params.type}" />
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">

@@ -47,6 +47,16 @@ var popCrmMemList = {
             dataSource: dataSource,
             sortable: true,
             selectable: "row",
+            toolbar: [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="popCrmMemList.fn_setCrmPop('+$("#crmSn").val()+')">' +
+                            '	<span class="k-button-text">등록</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
@@ -107,6 +117,17 @@ var popCrmMemList = {
         opener.parent.$("#crmPhNum").val(rs.CRM_MEM_PHN);
 
         window.close();
+    },
+
+
+    fn_setCrmPop: function (key){
+        var url = "/crm/pop/regCrmPop.do";
+        if(key != null && key != ""){
+            url = "/crm/pop/regCrmPop.do?crmSn=" + key + "&type=set";
+        }
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 
 }
