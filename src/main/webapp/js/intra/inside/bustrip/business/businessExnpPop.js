@@ -21,9 +21,9 @@ const busiExnp = {
 
     pageSet: function(type){
         window.resizeTo(1700, 750);
-        busiExnp.global.costData = $(".oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .corpCarInput, .corpInput");
+        busiExnp.global.costData = $(".oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .extCrmInput, .corpCarInput, .corpInput");
 
-        $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost").kendoTextBox();
+        $(".empName, .oilCost, .trafCost, .trafDayCost, .tollCost, .dayCost, .eatCost, .parkingCost, .etcCost, .totalCost, .extCrmInput, .corpCarInput").kendoTextBox();
 
         const corpArr = [
             {text: "개인", value: "N"},
@@ -377,6 +377,7 @@ const busiExnp = {
         /** 식비(정액) */
         const eatCost = Number(rate) * Number(busiExnp.global.eatCost) * Number(busiExnp.global.days);
         $(".eatCost").val(comma(Math.floor(Math.floor(eatCost) / 1000) * 1000));
+        $(".extCrm6").val(comma(Math.floor(Math.floor(eatCost) / 1000) * 1000));
 
         /** 최대 숙박비 계산 */
         this.fn_roomCostCheck();
@@ -520,6 +521,27 @@ const busiExnp = {
                     type : type,
                     division : '1'
                 }
+            }
+
+            // 외부인력
+            if(row.classList.value == 'extData') {
+                data = {
+                    hrBizReqId : $("#hrBizReqId").val(),
+                    empName : $(row.cells[0]).find("input[type=text]").val(),
+                    empSeq : 'A99' + $(row.cells[0]).find("input[name='extMemSn']").val(),
+                    hrBizOverExnpId : $(row.cells[0]).find("input[name='hrBizOverExnpId']").val(),
+                    airCost : $(row.cells[1]).find("input[type=text]").val(),
+                    trafCost : $(row.cells[2]).find("input[type=text]").val(),
+                    roomCost : $(row.cells[3]).find("input[type=text]").val(),
+                    visaCost : $(row.cells[4]).find("input[type=text]").val(),
+                    dayCost : $(row.cells[5]).find("input[type=text]").val(),
+                    eatCost : $(row.cells[6]).find("input[type=text]").val(),
+                    insCost : $(row.cells[7]).find("input[type=text]").val(),
+                    etcCost : $(row.cells[8]).find("input[type=text]").val(),
+                    totCost : $(row.cells[9]).find("input[type=text]").val(),
+                    type : type,
+                    division : '5'
+                };
             }
 
             // 업체지급

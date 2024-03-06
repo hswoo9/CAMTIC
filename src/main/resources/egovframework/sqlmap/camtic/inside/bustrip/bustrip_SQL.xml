@@ -1955,6 +1955,41 @@
         AND AUTH_HH = #{authTime}
         AND BUY_STS = #{buySts}
     </select>
+
+    <select id="getExtData" parameterType="map" resultType="map">
+        /* getExtData */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_EXT_MEM
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <insert id="insBustripExternal" parameterType="map">
+        /*insBustripExternal*/
+        INSERT INTO CAM_INSIDE.DJ_HR_EXT_MEM
+            (
+                HR_BIZ_REQ_ID,
+                EXT_NM,
+                EXT_BELONG,
+                EXT_SPOT,
+                EXT_ETC
+            )
+            VALUES
+            (
+                #{hrBizReqId},
+                #{name},
+                #{belong},
+                #{spot},
+                #{etc}
+            )
+    </insert>
+
+    <delete id="delBustripExternal" parameterType="map">
+        /*delBustripExternal*/
+        DELETE FROM CAM_INSIDE.DJ_HR_EXT_MEM WHERE HR_BIZ_REQ_ID = #{hrBizReqId}
+    </delete>
 </mapper>
 
 

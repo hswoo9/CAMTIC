@@ -143,4 +143,6 @@ public interface BustripService {
     void saveBustripOverExnpPop(Map<String, Object> params);
 
     List<Map<String, Object>> getBusinessOverExnpInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getExtData(Map<String, Object> params);
 }

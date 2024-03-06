@@ -322,6 +322,8 @@ public class BustripController {
         Map<String, Object> data = bustripService.getBustripOne(params);
         model.addAttribute("rs", data);
 
+        List<Map<String, Object>> extData = bustripService.getExtData(params);
+        model.addAttribute("extData", extData);
         if(exnpData.size() == 0){
             model.addAttribute("list", list);
             model.addAttribute("type", "ins");
@@ -363,6 +365,9 @@ public class BustripController {
             model.addAttribute("list", exnpData);
             model.addAttribute("type", "upd");
         }
+
+        List<Map<String, Object>> extData = bustripService.getExtData(params);
+        model.addAttribute("extData", extData);
 
         model.addAttribute("rs", bustripService.getBustripOne(params));
         model.addAttribute("params", params);

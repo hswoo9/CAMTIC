@@ -811,7 +811,10 @@ var regPay = {
 
                     } else {
                         $("#eviType" + index).data("kendoDropDownList").value(6);
-                        if(exnpMap.DIVISION == "4"){
+                        console.log(exnpMap)
+                        if(exnpMap.DIVISION == "5"){
+                            $("#etc"+index).val(exnpMap.EXNP_NAME);
+                        } else if(exnpMap.DIVISION == "4"){
                             $("#etc"+index).val("업체지급");
                         } else {
                             $("#etc"+index).val("법인차량");

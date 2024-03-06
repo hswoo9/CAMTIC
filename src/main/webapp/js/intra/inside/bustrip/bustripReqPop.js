@@ -70,7 +70,8 @@ const bustripReq = {
         const fileInfo3 = result.rs.fileInfo3;
         var mode = $("#mod").val();
 
-        console.log(busInfo);
+        var extData = result.rs.extData;
+
         var apprBtnBoxHtml = "";
 
         if($("#mod").val() == "mng"){
@@ -272,6 +273,27 @@ const bustripReq = {
                 $("#nationList").data("kendoDropDownList").enable(false);
             }
         }
+
+        if(extData.length != 0){
+            var extName = "";
+            var extBelong = "";
+            var extSpot = "";
+            var extEtc = "";
+
+            for(var i = 0 ; i < extData.length ; i++){
+                extName += extData[i].EXT_NM + ",";
+                extBelong += extData[i].EXT_BELONG + ",";
+                extSpot += extData[i].EXT_SPOT + ",";
+                extEtc += extData[i].EXT_ETC + ",";
+            }
+            $("#externalName").val(extName.substring(0,extName.length-1));
+            $("#externalBelong").val(extBelong.substring(0,extBelong.length-1));
+            $("#externalSpot").val(extSpot.substring(0,extSpot.length-1));
+            $("#externalEtc").val(extEtc.substring(0,extEtc.length-1));
+        }
+
+
+
     },
 
     fn_saveBtn: function(){
@@ -373,6 +395,25 @@ const bustripReq = {
         }else {
             flag = true;
         }
+
+        var extArr = [];
+
+        if($("#externalName").val() != ""){
+            for(let i=0; i<$("#externalName").val().toString().split(",").length; i++){
+
+                if($("#externalName").val().split(",")[i] != ""){
+                    extArr.push({
+                        belong : $("#externalBelong").val().split(",")[i] || "",
+                        spot : $("#externalSpot").val().split(",")[i] || "",
+                        name : $("#externalName").val().split(",")[i] || "",
+                        etc : $("#externalEtc").val().split(",")[i] || ""
+                    });
+                }
+            }
+        }
+
+        formData.append("externalArr", JSON.stringify(extArr));
+
 
         if(flag || (!flag && carType == "B")){
             if(hrBizReqId == ""){

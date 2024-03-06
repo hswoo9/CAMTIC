@@ -77,7 +77,7 @@ const externalReq = {
         });
 
         opener.parent.externalDataSet(externalArr);
-        //window.close();
+        window.close();
     },
 
 

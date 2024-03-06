@@ -1,4 +1,4 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -14,7 +14,7 @@
 </style>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/business/businessExnpPop.js?v=${today}"></script>
- <script type="text/javascript" src="/js/intra/inside/bustrip/bustripExnpPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripExnpPop.js?v=${today}"></script>
 
 <!-- 공통팝업 호출 -->
 
@@ -100,350 +100,421 @@
 
             </colgroup>
             <thead>
-                <tr>
-                    <th>이름</th>
-                    <th>항공료</th>
-                    <th>국내이동교통비</th>
-                    <th>숙박비 <span id="roomMaxPay" style="color: blue"></span></th>
-                    <th>비자발급비</th>
-                    <th>일비</th>
-                    <th>식비</th>
-                    <th>보험료</th>
-                    <th>기타</th>
-                    <th>합계</th>
-                </tr>
+            <tr>
+                <th>이름</th>
+                <th>항공료</th>
+                <th>국내이동교통비</th>
+                <th>숙박비 <span id="roomMaxPay" style="color: blue"></span></th>
+                <th>비자발급비</th>
+                <th>일비</th>
+                <th>식비</th>
+                <th>보험료</th>
+                <th>기타</th>
+                <th>합계</th>
+            </tr>
 
-                 <c:choose>
-                     <c:when test="${type eq 'ins'}">
-                         <c:forEach var="list" items="${list}">
-                             <c:if test="${list.DIVISION ne 1}">
-                                 <tr class="addData">
-                                     <td>
-                                         <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
-                                         <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
-                                         <input type="hidden" id="hrBizOverExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
-                                     </td>
-                                     <td>
-                                         <input id="oilCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
-                                         <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
-                                         <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
-                                         <input type="text" id="trafDayCost${list.EMP_SEQ}" class="trafDayCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input id="tollCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
-                                         <input type="text" id="tollCost${list.EMP_SEQ}" class="tollCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="dayCost${list.EMP_SEQ}" class="dayCost" value="" oninput="onlyNumber(this)" disabled />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" name="eatCost" value="" oninput="onlyNumber(this)" disabled/>
-                                     </td>
-                                     <td>
-                                         <input id="parkingCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
-                                         <input type="text" id="parkingCost${list.EMP_SEQ}" class="parkingCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
-                                         <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="" disabled />
-                                     </td>
-                                 </tr>
-                             </c:if>
-                         </c:forEach>
-                         <tr class="corpCrmData">
-                             <td>
-                                 <div style="text-align: center">업체지급</div>
-                                 <input type="hidden" id="corpCrmExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCrm1" class="corpCarInput"  value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCrm2" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCrm3" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCrm4" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCrm5" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCrm6" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCrm7" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCrm8" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCrm9" class="corpCarInput" value="0" style="width: 100%;text-align:right;" disabled />
-                             </td>
-                         </tr>
-                         <tr class="corpCardData">
-                             <td>
-                                 <div style="text-align: center">법인카드</div>
-                                 <input type="hidden" id="corpExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corp1" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(1, 'air')"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'visa')"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'day')"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'eat')"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'ins')"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corp8" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corp9" class="corpInput" style="width: 100%; text-align: right;" value="0" disabled/>
-                             </td>
-                         </tr>
-                         <tr class="corpCarData" style="display: none">
-                             <td>
-                                 <div style="text-align: center">법인차량</div>
-                                 <input type="hidden" id="corpCarExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCar1" class="corpCarInput"  value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCar2" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCar3" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCar4" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCar5" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCar6" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCar7" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCar8" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                             </td>
-                             <td>
-                                 <input type="text" id="corpCar9" class="corpCarInput" value="0" style="width: 100%;text-align:right;" disabled />
-                             </td>
-                         </tr>
-                     </c:when>
-                     <c:otherwise>
-                         <c:forEach var="list" items="${list}">
-                             <c:if test="${list.DIVISION == 1}">
-                                 <tr class="addData">
-                                     <td>
-                                         <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
-                                         <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
-                                         <input type="hidden" id="hrBizOverExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
-                                     </td>
-                                     <td>
-                                         <input id="oilCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.OIL_CORP_YN}">
-                                         <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" value="${list.AIR_COST}" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_CORP_YN}">
-                                         <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_DAY_CORP_YN}">
-                                         <input type="text" id="trafDayCost${list.EMP_SEQ}" class="trafDayCost" value="${list.ROOM_COST == '' ? 0 : list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input id="tollCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TOLL_CORP_YN}">
-                                         <input type="text" id="tollCost${list.EMP_SEQ}" class="tollCost" value="${list.VISA_COST}" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="dayCost${list.EMP_SEQ}" class="dayCost" value="${list.DAY_COST}" oninput="onlyNumber(this)" disabled />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" name="eatCost" value="${list.EAT_COST}" oninput="onlyNumber(this)" disabled/>
-                                     </td>
-                                     <td>
-                                         <input id="parkingCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.PARKING_CORP_YN}">
-                                         <input type="text" id="parkingCost${list.EMP_SEQ}" class="parkingCost" value="${list.INS_COST}" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.ETC_CORP_YN}">
-                                         <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="${list.TOT_COST}" disabled />
-                                     </td>
-                                 </tr>
-                             </c:if>
-                             <c:if test="${list.DIVISION == 4}">
-                                 <tr class="corpCrmData">
-                                     <td>
-                                         <div style="text-align: center">업체지급</div>
-                                         <input type="hidden" id="corpCrmExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCrm1" class="corpCarInput"  value="${list.AIR_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCrm2" class="corpCarInput" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCrm3" class="corpCarInput" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCrm4" class="corpCarInput" value="${list.VISA_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCrm5" class="corpCarInput" value="${list.DAY_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCrm6" class="corpCarInput" value="${list.EAT_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCrm7" class="corpCarInput" value="${list.INS_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCrm8" class="corpCarInput" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCrm9" class="corpCarInput" value="${list.TOT_COST}" style="width: 100%;text-align:right;" disabled />
-                                     </td>
-                                 </tr>
-                             </c:if>
-                             <c:if test="${list.DIVISION == 2}">
-                                 <tr class="corpCardData">
-                                     <td>
-                                         <div style="text-align: center">법인카드</div>
-                                         <input type="hidden" id="corpExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corp1" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.AIR_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(1, 'air')"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.TRAF_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ROOM_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.VISA_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'visa')"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.DAY_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'day')"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.EAT_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'eat')"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.INS_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'ins')"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corp8" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ETC_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corp9" class="corpInput" style="width: 100%; text-align: right;" value="${list.TOT_COST}" disabled/>
-                                     </td>
-                                 </tr>
-                             </c:if>
-                             <c:if test="${list.DIVISION == 3}">
-                                 <tr class="corpCarData" style="display: none">
-                                     <td>
-                                         <div style="text-align: center">법인차량</div>
-                                         <input type="hidden" id="corpCarExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCar1" class="corpCarInput"  value="${list.AIR_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCar2" class="corpCarInput" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCar3" class="corpCarInput" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCar4" class="corpCarInput" value="${list.VISA_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCar5" class="corpCarInput" value="${list.DAY_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCar6" class="corpCarInput" value="${list.EAT_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCar7" class="corpCarInput" value="${list.INS_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCar8" class="corpCarInput" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
-                                     </td>
-                                     <td>
-                                         <input type="text" id="corpCar9" class="corpCarInput" value="0" style="width: 100%;text-align:right;" disabled />
-                                     </td>
-                                 </tr>
-                             </c:if>
-                         </c:forEach>
-                     </c:otherwise>
-                 </c:choose>
+            <c:choose>
+                <c:when test="${type eq 'ins'}">
+                    <c:forEach var="list" items="${list}">
+                        <c:if test="${list.DIVISION ne 1}">
+                            <tr class="addData">
+                                <td>
+                                    <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
+                                    <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
+                                    <input type="hidden" id="hrBizOverExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
+                                </td>
+                                <td>
+                                    <input id="oilCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
+                                    <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
+                                    <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
+                                    <input type="text" id="trafDayCost${list.EMP_SEQ}" class="trafDayCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input id="tollCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
+                                    <input type="text" id="tollCost${list.EMP_SEQ}" class="tollCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="dayCost${list.EMP_SEQ}" class="dayCost" value="" oninput="onlyNumber(this)" disabled />
+                                </td>
+                                <td>
+                                    <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" name="eatCost" value="" oninput="onlyNumber(this)" disabled/>
+                                </td>
+                                <td>
+                                    <input id="parkingCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
+                                    <input type="text" id="parkingCost${list.EMP_SEQ}" class="parkingCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="">
+                                    <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="" disabled />
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                    <c:forEach var="list" items="${extData}">
+                        <tr class="extData">
+                            <td>
+                                <input type="text" class="extCrmInput" style="text-align: center" disabled value="${list.EXT_NM}" >
+                                <input type="hidden" id="extCrmExnpId${list.EXT_MEM_SN}" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
+                                <input type="hidden" id="extMemSn${list.EXT_MEM_SN}" class="extMemSn" name="extMemSn" value="${list.EXT_MEM_SN}" />
+                            </td>
+                            <td>
+                                <input type="text" id="extCrm1" class="extCrmInput"  value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                            </td>
+                            <td>
+                                <input type="text" id="extCrm2" class="extCrmInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                            </td>
+                            <td>
+                                <input type="text" id="extCrm3" class="extCrmInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                            </td>
+                            <td>
+                                <input type="text" id="extCrm4" class="extCrmInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                            </td>
+                            <td>
+                                <input type="text" id="extCrm5" class="extCrmInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                            </td>
+                            <td>
+                                <input type="text" id="extCrm6" class="extCrmInput extCrm6" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled />
+                            </td>
+                            <td>
+                                <input type="text" id="extCrm7" class="extCrmInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                            </td>
+                            <td>
+                                <input type="text" id="extCrm8" class="extCrmInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                            </td>
+                            <td>
+                                <input type="text" id="extCrm9" class="extCrmInput" value="0" style="width: 100%;text-align:right;" disabled />
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    <tr class="corpCrmData">
+                        <td>
+                            <div style="text-align: center">업체지급</div>
+                            <input type="hidden" id="corpCrmExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
+                        </td>
+                        <td>
+                            <input type="text" id="corpCrm1" class="corpCarInput"  value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                        </td>
+                        <td>
+                            <input type="text" id="corpCrm2" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                        </td>
+                        <td>
+                            <input type="text" id="corpCrm3" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                        </td>
+                        <td>
+                            <input type="text" id="corpCrm4" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                        </td>
+                        <td>
+                            <input type="text" id="corpCrm5" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corpCrm6" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corpCrm7" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corpCrm8" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corpCrm9" class="corpCarInput" value="0" style="width: 100%;text-align:right;" disabled />
+                        </td>
+                    </tr>
+                    <tr class="corpCardData">
+                        <td>
+                            <div style="text-align: center">법인카드</div>
+                            <input type="hidden" id="corpExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
+                        </td>
+                        <td>
+                            <input type="text" id="corp1" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(1, 'air')"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'visa')"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'day')"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'eat')"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'ins')"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corp8" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="0" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corp9" class="corpInput" style="width: 100%; text-align: right;" value="0" disabled/>
+                        </td>
+                    </tr>
+                    <tr class="corpCarData" style="display: none">
+                        <td>
+                            <div style="text-align: center">법인차량</div>
+                            <input type="hidden" id="corpCarExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
+                        </td>
+                        <td>
+                            <input type="text" id="corpCar1" class="corpCarInput"  value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corpCar2" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corpCar3" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corpCar4" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                        </td>
+                        <td>
+                            <input type="text" id="corpCar5" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                        </td>
+                        <td>
+                            <input type="text" id="corpCar6" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                        </td>
+                        <td>
+                            <input type="text" id="corpCar7" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                        </td>
+                        <td>
+                            <input type="text" id="corpCar8" class="corpCarInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                        </td>
+                        <td>
+                            <input type="text" id="corpCar9" class="corpCarInput" value="0" style="width: 100%;text-align:right;" disabled />
+                        </td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="list" items="${list}">
+                        <c:if test="${list.DIVISION == 1}">
+                            <tr class="addData">
+                                <td>
+                                    <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
+                                    <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
+                                    <input type="hidden" id="hrBizOverExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
+                                </td>
+                                <td>
+                                    <input id="oilCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.OIL_CORP_YN}">
+                                    <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" value="${list.AIR_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input id="trafCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_CORP_YN}">
+                                    <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input id="trafDayCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TRAF_DAY_CORP_YN}">
+                                    <input type="text" id="trafDayCost${list.EMP_SEQ}" class="trafDayCost" value="${list.ROOM_COST == '' ? 0 : list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input id="tollCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.TOLL_CORP_YN}">
+                                    <input type="text" id="tollCost${list.EMP_SEQ}" class="tollCost" value="${list.VISA_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="dayCost${list.EMP_SEQ}" class="dayCost" value="${list.DAY_COST}" oninput="onlyNumber(this)" disabled />
+                                </td>
+                                <td>
+                                    <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" name="eatCost" value="${list.EAT_COST}" oninput="onlyNumber(this)" disabled/>
+                                </td>
+                                <td>
+                                    <input id="parkingCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.PARKING_CORP_YN}">
+                                    <input type="text" id="parkingCost${list.EMP_SEQ}" class="parkingCost" value="${list.INS_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input id="etcCorpYn${list.EMP_SEQ}" name="corpYn" class="corpYn" style="width: 40%" value="${list.ETC_CORP_YN}">
+                                    <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="${list.TOT_COST}" disabled />
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION == 5}">
+                            <tr class="extData">
+                                <td>
+                                    <input type="text" style="text-align: center !important;" class="empName" value="${list.EMP_NAME}" disabled />
+                                    <input type="hidden" id="extExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
+                                </td>
+                                <td>
+                                    <input type="text" id="extCrm1" class="extCrmInput"  value="${list.AIR_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="extCrm2" class="extCrmInput" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="extCrm3" class="extCrmInput" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="extCrm4" class="extCrmInput" value="${list.VISA_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="extCrm5" class="extCrmInput" value="${list.DAY_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="extCrm6" class="extCrmInput" value="${list.EAT_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" disabled/>
+                                </td>
+                                <td>
+                                    <input type="text" id="extCrm7" class="extCrmInput" value="${list.INS_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="extCrm8" class="extCrmInput" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="extCrm9" class="extCrmInput" value="${list.TOT_COST}" style="width: 100%;text-align:right;" disabled />
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION == 4}">
+                            <tr class="corpCrmData">
+                                <td>
+                                    <div style="text-align: center">업체지급</div>
+                                    <input type="hidden" id="corpCrmExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCrm1" class="corpCarInput"  value="${list.AIR_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCrm2" class="corpCarInput" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCrm3" class="corpCarInput" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCrm4" class="corpCarInput" value="${list.VISA_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCrm5" class="corpCarInput" value="${list.DAY_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCrm6" class="corpCarInput" value="${list.EAT_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCrm7" class="corpCarInput" value="${list.INS_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCrm8" class="corpCarInput" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCrm9" class="corpCarInput" value="${list.TOT_COST}" style="width: 100%;text-align:right;" disabled />
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION == 2}">
+                            <tr class="corpCardData">
+                                <td>
+                                    <div style="text-align: center">법인카드</div>
+                                    <input type="hidden" id="corpExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corp1" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.AIR_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(1, 'air')"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corp2" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.TRAF_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(2, 'traf')"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corp3" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ROOM_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(3, 'room')"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corp4" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.VISA_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(4, 'visa')"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corp5" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.DAY_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(5, 'day')"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corp6" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.EAT_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(6, 'eat')"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corp7" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.INS_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(7, 'ins')"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corp8" class="corpInput" style="width: 100%; cursor: pointer; text-align: right;" value="${list.ETC_COST}" onkeydown="return false;" onpaste="return false;" oninput="onlyNumber(this)" onclick="bustripExnpReq.fn_paymentCardHistory(8, 'etc')"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corp9" class="corpInput" style="width: 100%; text-align: right;" value="${list.TOT_COST}" disabled/>
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION == 3}">
+                            <tr class="corpCarData" style="display: none">
+                                <td>
+                                    <div style="text-align: center">법인차량</div>
+                                    <input type="hidden" id="corpCarExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCar1" class="corpCarInput"  value="${list.AIR_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCar2" class="corpCarInput" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCar3" class="corpCarInput" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCar4" class="corpCarInput" value="${list.VISA_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCar5" class="corpCarInput" value="${list.DAY_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCar6" class="corpCarInput" value="${list.EAT_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCar7" class="corpCarInput" value="${list.INS_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCar8" class="corpCarInput" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                </td>
+                                <td>
+                                    <input type="text" id="corpCar9" class="corpCarInput" value="0" style="width: 100%;text-align:right;" disabled />
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
 
-                <tr class="TotalData">
-                    <td>
-                        <div style="text-align: center">합계</div>
-                    </td>
-                    <td>
-                        <input type="text" id="oilTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
-                    </td>
-                    <td>
-                        <input type="text" id="trafTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
-                    </td>
-                    <td>
-                        <input type="text" id="trafDayTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
-                    </td>
-                    <td>
-                        <input type="text" id="tollTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
-                    </td>
-                    <td>
-                        <input type="text" id="dayTotalCost" class="totalCost" value="0" style="width: 100%; text-align: right" disabled />
-                    </td>
-                    <td>
-                        <input type="text" id="eatTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
-                    </td>
-                    <td>
-                        <input type="text" id="parkingTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
-                    </td>
-                    <td>
-                        <input type="text" id="etcTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
-                    </td>
-                    <td>
-                        <input type="text" id="totalTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
-                    </td>
-                </tr>
+            <tr class="TotalData">
+                <td>
+                    <div style="text-align: center">합계</div>
+                </td>
+                <td>
+                    <input type="text" id="oilTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                </td>
+                <td>
+                    <input type="text" id="trafTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                </td>
+                <td>
+                    <input type="text" id="trafDayTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                </td>
+                <td>
+                    <input type="text" id="tollTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                </td>
+                <td>
+                    <input type="text" id="dayTotalCost" class="totalCost" value="0" style="width: 100%; text-align: right" disabled />
+                </td>
+                <td>
+                    <input type="text" id="eatTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                </td>
+                <td>
+                    <input type="text" id="parkingTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                </td>
+                <td>
+                    <input type="text" id="etcTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                </td>
+                <td>
+                    <input type="text" id="totalTotalCost" class="totalCost" value="0" style="width: 98%; text-align: right" disabled />
+                </td>
+            </tr>
             </thead>
         </table>
     </form>

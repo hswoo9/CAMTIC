@@ -243,6 +243,25 @@
 <script>
     var hrBizReqId = $("#hrBizReqId").val();
     bustripReq.init();
+
+    function externalDataSet(arr){
+        var extName = "";
+        var extEtc = "";
+        var extSpot = "";
+        var extBelong = "";
+        for(var i = 0 ; i < arr.length ; i++){
+            extName += arr[i].name + ",";
+            extEtc += arr[i].etc + ",";
+            extSpot += arr[i].spot + ",";
+            extBelong += arr[i].belong + ",";
+        }
+
+        $("#externalName").val(extName.substring(0,extName.length-1));
+        $("#externalEtc").val(extEtc.substring(0,extEtc.length-1));
+        $("#externalSpot").val(extSpot.substring(0,extSpot.length-1));
+        $("#externalBelong").val(extBelong.substring(0,extBelong.length-1));
+
+    }
 </script>
 </body>
 

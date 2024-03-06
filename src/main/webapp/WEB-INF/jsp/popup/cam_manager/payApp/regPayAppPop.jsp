@@ -455,7 +455,6 @@
             pjtCd : cd
         }
 
-        console.log(cd.substring(0, 1));
         if(cd.substring(0, 1) == "M") {
             $("#reasonTh").css("display", "none");
             $(".reasonTr").css("display", "none");

@@ -105,6 +105,27 @@
                                 </tr>
                             </c:if>
                         </c:forEach>
+                        <c:forEach var="list" items="${extData}">
+                            <tr class="extData">
+                                <td>
+                                    <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EXT_NM}" disabled style="text-align: center">
+                                    <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EXT_MEM_SN}">
+                                    <input type="hidden" id="hrBizOverExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
+                                </td>
+                                <td>
+                                    <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="roomCost${list.EMP_SEQ}" class="roomCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="etcCost${list.EMP_SEQ}" class="etcCost" value="" oninput="onlyNumber(this)" style="width: 100%" />
+                                </td>
+                                <td>
+                                    <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="" disabled />
+                                </td>
+                            </tr>
+                        </c:forEach>
                         <tr class="corpCrmData">
                             <td>
                                 <div style="text-align: center">업체지급</div>
@@ -165,6 +186,27 @@
                                     </td>
                                     <td>
                                         <input type="text" id="totalCost${list.EMP_SEQ}" class="totalCost" value="${list.TOT_COST}" disabled />
+                                    </td>
+                                </tr>
+                            </c:if>
+                            <c:if test="${list.DIVISION == 5}">
+                                <tr class="extData">
+                                    <td>
+                                        <input type="text" id="empName" class="empName" class="defaultVal" value="${list.EMP_NAME}" disabled style="text-align: center">
+                                        <input type="hidden" id="empSeq" class="empSeq" name="empSeq" class="defaultVal" value="${list.EMP_SEQ}">
+                                        <input type="hidden" id="corpCrmExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="extCrm2" class="corpCarInput" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="extCrm3" class="corpCarInput" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="extCrm8" class="corpCarInput" value="${list.ETC_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;"/>
+                                    </td>
+                                    <td>
+                                        <input type="text" id="extCrm9" class="corpCarInput" value="${list.TOT_COST}" style="width: 100%;text-align:right;" disabled />
                                     </td>
                                 </tr>
                             </c:if>
