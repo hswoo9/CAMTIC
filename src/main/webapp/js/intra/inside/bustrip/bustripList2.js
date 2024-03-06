@@ -338,10 +338,16 @@ var bustList = {
                     title : "여비금액",
                     width: 70,
                     template : function (e){
-                        if(e.RS_STATUS == "100"){
-                            bustSum  += Number(e.RES_EXNP_SUM);
+                        if(e.TRIP_CODE != "4"){
+                            if(e.RS_STATUS == "100"){
+                                bustSum  += Number(e.RES_EXNP_SUM);
+                            }
+                            return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
+                        } else {
+                            console.log(e)
+                            return "<div style='text-align: right'>"+comma(e.OVER_TOT_COST)+"</div>";
                         }
-                        return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
+
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(bustSum)+"</div>";
