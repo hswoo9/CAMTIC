@@ -178,7 +178,7 @@ const busiExnp = {
 
         let nights = busInfo.NIGHTS ? busInfo.NIGHTS : 0; console.log("nights " + nights);
         if(diff > 1 && nights == 0){
-            nights = diff - 2;
+            nights = diff - 1;
         }
         let bustripDtHtml = busInfo.TRIP_DAY_FR+' ~ '+busInfo.TRIP_DAY_TO+' (<input id="nights" style="width: 30px; text-align: right" oninput="onlyNumber(this)" onkeyup="busiExnp.fn_calc(this)" value="'+nights+'">박 '+ diff+'일)';
         $("#bustripDt").html(bustripDtHtml);
@@ -724,12 +724,14 @@ const busiExnp = {
         if(mode != null && mode == "mng"){
             alert("수정이 완료되었습니다.");
             opener.window.location.reload();
-            window.close();
+            // window.close();
+            location.reload();
         }else{
             var result = customKendo.fn_customAjax("/bustrip/setBusiCert", data);
             alert("저장이 완료되었습니다.");
             opener.gridReload();
-            window.close();
+            // window.close();
+            location.reload();
         }
     },
 

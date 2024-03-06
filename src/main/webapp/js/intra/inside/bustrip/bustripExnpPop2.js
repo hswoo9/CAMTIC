@@ -428,12 +428,14 @@ const bustripExnpReq = {
         if(mode != null && mode == "mng"){
             alert("수정이 완료되었습니다.");
             opener.window.location.reload();
-            window.close();
+            // window.close();
+            location.reload()
         }else{
             var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
             alert("저장이 완료되었습니다.");
             opener.gridReload();
-            window.close();
+            // window.close();
+            location.reload()
         }
     },
 

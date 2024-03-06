@@ -225,7 +225,7 @@
                                  <input type="text" id="corp9" class="corpInput" style="width: 100%; text-align: right;" value="0" disabled/>
                              </td>
                          </tr>
-                         <tr class="corpCarData">
+                         <tr class="corpCarData" style="display: none">
                              <td>
                                  <div style="text-align: center">법인차량</div>
                                  <input type="hidden" id="corpCarExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="" />
@@ -374,7 +374,7 @@
                                  </tr>
                              </c:if>
                              <c:if test="${list.DIVISION == 3}">
-                                 <tr class="corpCarData">
+                                 <tr class="corpCarData" style="display: none">
                                      <td>
                                          <div style="text-align: center">법인차량</div>
                                          <input type="hidden" id="corpCarExnpId" class="hrBizOverExnpId" name="hrBizOverExnpId" value="${list.HR_BIZ_OVER_EXNP_ID}" />
