@@ -708,10 +708,10 @@ var docView = {
                     field : "APPROVE_STAT_CODE",
                     title: "구분",
                     template : function (e){
-                        if(e.APPROVE_STAT_CODE == "20"){
+                        if(e.APPROVE_TYPE == "1"){
+                            return "협조의견";
+                        }else if(e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "30"){
                             return "결재의견";
-                        }else if(e.APPROVE_STAT_CODE == "30"){
-                            return "최종결재(전결)의견";
                         }else if(e.APPROVE_STAT_CODE == "100"){
                             return "최종결재의견";
                         }else if(e.APPROVE_STAT_CODE == "101"){

@@ -1023,7 +1023,8 @@
             DAH.APPROVE_OPIN,
             DAH.PROXY_APPROVE_DEPT_SEQ,
             DAH.PROXY_APPROVE_EMP_SEQ,
-            DAH.PROXY_TYPE
+            DAH.PROXY_TYPE,
+            DAH.APPROVE_TYPE
         FROM
             DJ_CAMTIC.A_DOC_APPROVE_HIST DAH
         WHERE
