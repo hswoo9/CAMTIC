@@ -10,6 +10,7 @@
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regPayAppPop.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regPayAppDocument.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
 
 
@@ -23,7 +24,12 @@
 <input type="hidden" id="status" name="status" value="${params.status}" />
 <input type="hidden" id="auth" name="auth" value="${params.auth}" />
 
+<input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="loginEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="loginDeptSeq" value="${loginVO.orgnztId}"/>
+<input type="hidden" id="loginDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="loginTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="loginTeamName" value="${loginVO.teamNm}"/>
 
 <input type="hidden" id="reqType" value="${params.reqType}" />
 <input type="hidden" id="bsYm" value="${params.bsYm}" />
@@ -455,7 +461,6 @@
             pjtCd : cd
         }
 
-        console.log(cd.substring(0, 1));
         if(cd.substring(0, 1) == "M") {
             $("#reasonTh").css("display", "none");
             $(".reasonTr").css("display", "none");

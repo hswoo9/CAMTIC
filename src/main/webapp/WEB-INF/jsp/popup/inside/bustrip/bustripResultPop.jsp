@@ -345,6 +345,40 @@
                                 </td>
                             </tr>
                         </c:if>
+                        <c:if test="${list.DIVISION eq '5'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">${list.EMP_NAME}</div>
+                                </td>
+                                <td>
+                                        ${list.OIL_COST}
+                                </td>
+                                <td>
+                                        ${list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${list.TOLL_COST}
+                                </td>
+                                <td>
+                                        ${list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${list.PARKING_COST}
+                                </td>
+                                <td>
+                                        ${list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
                         <c:if test="${list.DIVISION eq '2'}">
                             <tr>
                                 <td>
@@ -489,6 +523,40 @@
                     <c:forEach var="list" items="${list}">
                         <%-- 개인 --%>
                         <c:if test="${list.DIVISION eq '1'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">${list.EMP_NAME}</div>
+                                </td>
+                                <td>
+                                        ${list.AIR_COST}
+                                </td>
+                                <td>
+                                        ${list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${list.VISA_COST}
+                                </td>
+                                <td>
+                                        ${list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${list.INS_COST}
+                                </td>
+                                <td>
+                                        ${list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION eq '5'}">
                             <tr>
                                 <td>
                                     <div style="text-align: center">${list.EMP_NAME}</div>
@@ -678,6 +746,40 @@
                     <c:forEach var="list" items="${list2}">
                         <%-- 개인 --%>
                         <c:if test="${list.DIVISION eq '1'}">
+                            <tr>
+                                <td>
+                                    <div style="text-align: center">${list.EMP_NAME}</div>
+                                </td>
+                                <td>
+                                        ${empty list.AIR_COST ? '0' : list.AIR_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TRAF_COST ? '0' : list.TRAF_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ROOM_COST ? '0' : list.ROOM_COST}
+                                </td>
+                                <td>
+                                        ${empty list.VISA_COST ? '0' : list.VISA_COST}
+                                </td>
+                                <td>
+                                        ${empty list.DAY_COST ? '0' : list.DAY_COST}
+                                </td>
+                                <td>
+                                        ${empty list.EAT_COST ? '0' : list.EAT_COST}
+                                </td>
+                                <td>
+                                        ${empty list.INS_COST ? '0' : list.INS_COST}
+                                </td>
+                                <td>
+                                        ${empty list.ETC_COST ? '0' : list.ETC_COST}
+                                </td>
+                                <td>
+                                        ${empty list.TOT_COST ? '0' : list.TOT_COST}
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.DIVISION eq '5'}">
                             <tr>
                                 <td>
                                     <div style="text-align: center">${list.EMP_NAME}</div>

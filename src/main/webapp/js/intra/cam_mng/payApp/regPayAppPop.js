@@ -811,7 +811,10 @@ var regPay = {
 
                     } else {
                         $("#eviType" + index).data("kendoDropDownList").value(6);
-                        if(exnpMap.DIVISION == "4"){
+                        console.log(exnpMap)
+                        if(exnpMap.DIVISION == "5"){
+                            $("#etc"+index).val(exnpMap.EXNP_NAME);
+                        } else if(exnpMap.DIVISION == "4"){
                             $("#etc"+index).val("업체지급");
                         } else {
                             $("#etc"+index).val("법인차량");
@@ -1327,6 +1330,7 @@ var regPay = {
     },
 
     setData : function (){
+        console.log("setData");
         var data = {
             payAppSn : $("#payAppSn").val()
         }
@@ -1920,6 +1924,10 @@ var regPay = {
                 fd.append("fileList", regPay.global.fileArray[i]);
             }
         }
+
+        // 법인카드 증빙자료 생성
+        var htmlContents = payAppDoc.fn_makeHtmlToPdf();
+        fd.append("htmlContents", htmlContents);
 
         $.ajax({
             url : "/payApp/payAppSetData",

@@ -64,6 +64,7 @@
             IFNULL(B.TRIP_TIME_TO, A.TRIP_TIME_TO) AS TRIP_TIME_TO,
             IFNULL(B.USE_TRSPT, A.USE_TRSPT) AS USE_TRSPT,
             IFNULL(B.USE_TRSPT_RMK, A.USE_TRSPT_RMK) AS USE_TRSPT_RMK,
+            IFNULL((SELECT SUM(REPLACE(TOT_COST, ',', '')) FROM CAM_INSIDE.DJ_HR_BIZ_OVER_EXNP WHERE HR_BIZ_REQ_ID = A.HR_BIZ_REQ_ID), 0 ) AS OVER_TOT_COST,
             A.STATUS,
             A.BF_PAY_APP_SN,
             B.STATUS AS RS_STATUS,
@@ -466,7 +467,7 @@
                     file_size,
                     file_ext,
                     content_id,
-                    ROW_NUMBER() OVER (PARTITION BY FILE_ORG_NAME ORDER BY FILE_NO DESC) AS row_num
+                    ROW_NUMBER() OVER (PARTITION BY FILE_ORG_NAME, FILE_CD ORDER BY FILE_NO DESC) AS row_num
                 FROM
                     CAM_COMMON.DJ_FILE_INFO
                 WHERE
@@ -1954,6 +1955,41 @@
         AND AUTH_HH = #{authTime}
         AND BUY_STS = #{buySts}
     </select>
+
+    <select id="getExtData" parameterType="map" resultType="map">
+        /* getExtData */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_EXT_MEM
+        WHERE
+            HR_BIZ_REQ_ID = #{hrBizReqId}
+    </select>
+
+    <insert id="insBustripExternal" parameterType="map">
+        /*insBustripExternal*/
+        INSERT INTO CAM_INSIDE.DJ_HR_EXT_MEM
+            (
+                HR_BIZ_REQ_ID,
+                EXT_NM,
+                EXT_BELONG,
+                EXT_SPOT,
+                EXT_ETC
+            )
+            VALUES
+            (
+                #{hrBizReqId},
+                #{name},
+                #{belong},
+                #{spot},
+                #{etc}
+            )
+    </insert>
+
+    <delete id="delBustripExternal" parameterType="map">
+        /*delBustripExternal*/
+        DELETE FROM CAM_INSIDE.DJ_HR_EXT_MEM WHERE HR_BIZ_REQ_ID = #{hrBizReqId}
+    </delete>
 </mapper>
 
 

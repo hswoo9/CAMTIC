@@ -305,6 +305,23 @@ const bustripExnpReq = {
                 }
             }
 
+            // 개인
+            if(row.classList.value == 'extData'){
+                data = {
+                    hrBizReqId : $("#hrBizReqId").val(),
+                    hrBizReqResultId : hrBizReqResultId,
+                    hrBizOverExnpId : $(row.cells[0]).find("input[name='hrBizOverExnpId']").val(),
+                    empName : $(row.cells[0]).find("input[type=text]").val(),
+                    empSeq : 'A99' + $(row.cells[0]).find("input[name='empSeq']").val(),
+                    trafCost : $(row.cells[1]).find("input[type=text]").val(),
+                    roomCost : $(row.cells[2]).find("input[type=text]").val(),
+                    etcCost : $(row.cells[3]).find("input[type=text]").val(),
+                    totCost : $(row.cells[4]).find("input[type=text]").val(),
+                    type : type,
+                    division : '5'
+                }
+            }
+
             // 업체지급
             if(row.classList.value == 'corpCrmData'){
                 data = {

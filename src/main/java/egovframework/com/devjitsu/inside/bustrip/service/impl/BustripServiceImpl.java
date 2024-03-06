@@ -44,10 +44,14 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public void setBustripReq(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> externalArr = gson.fromJson((String) params.get("externalArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
 
         if(params.containsKey("hrBizReqId")){
             bustripRepository.updBustripReq(params);
             bustripRepository.delBustripCompanion(params);
+
+            bustripRepository.delBustripExternal(params);
         } else {
             bustripRepository.insBustripReq(params);
         }
@@ -86,6 +90,11 @@ public class BustripServiceImpl implements BustripService {
             }
             commonRepository.insFileInfo(list);
         }
+
+        for(Map<String, Object> extMap : externalArr){
+            extMap.put("hrBizReqId", params.get("hrBizReqId"));
+            bustripRepository.insBustripExternal(extMap);
+        }
     }
 
     private String filePath (Map<String, Object> params, String base_dir){
@@ -110,6 +119,8 @@ public class BustripServiceImpl implements BustripService {
         result.put("rsRes", bustripRepository.getBustripResultInfo(params));
         result.put("fileInfo", bustripRepository.getBustripReqFileInfo(params));        // 출장신청서 첨부파일
         result.put("fileInfo2", bustripRepository.getAbroadBustripReqFileInfo(params)); // 해외출장 사전정산 첨부파일
+
+        result.put("extData", bustripRepository.getExtData(params));
         if(infoMap != null && infoMap.get("DOC_ID") != null){
             params.put("docId", infoMap.get("DOC_ID"));
             result.put("fileInfo3", bustripRepository.getBustripReqDocFileList(params));    // 출장신청서 상신 첨부파일
@@ -118,6 +129,11 @@ public class BustripServiceImpl implements BustripService {
         }
 
         return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getExtData(Map<String, Object> params) {
+        return bustripRepository.getExtData(params);
     }
 
     @Override

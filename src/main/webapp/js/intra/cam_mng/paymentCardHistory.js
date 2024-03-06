@@ -42,8 +42,11 @@ var payCardHist = {
         }
 
         if(reqType == "bustrip"){
-            $("#startDt").val(opener.parent.$("#tripDayFr").val());
-            $("#endDt").val(opener.parent.$("#tripDayTo").val());
+            if(opener.parent.$("#tripDayFr").val() != "" && opener.parent.$("#tripDayTo").val() != ""
+                && opener.parent.$("#tripDayFr").val() != null && opener.parent.$("#tripDayTo").val() != null){
+                $("#startDt").val(opener.parent.$("#tripDayFr").val());
+                $("#endDt").val(opener.parent.$("#tripDayTo").val());
+            }
         }
 
         if(requestType != "" && requestType != null && requestType != undefined){

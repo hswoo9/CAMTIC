@@ -261,10 +261,10 @@ var bustList = {
                                 /** 결과보고 작성 -> 사후정산 -> -> 결과보고 전자결재 */
                                 if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.EXP_STAT == null){
                                     return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">작성중</button>';
-                                } else if(e.EXP_STAT == "0" || e.EXP_STAT == "10"){
-                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">작성중</button>';
+                                } else if(e.EXP_STAT == "0" || e.EXP_STAT == "10" || e.RS_STATUS == "10"){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">결재중</button>';
                                 } else if(e.EXP_STAT == "100" && e.RS_STATUS != "100"){
-                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">작성중</button>';
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">결재중</button>';
                                 } else if(e.RS_STATUS == "100"){
                                     return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">결재완료</button>';
                                 } else {
@@ -338,10 +338,16 @@ var bustList = {
                     title : "여비금액",
                     width: 70,
                     template : function (e){
-                        if(e.RS_STATUS == "100"){
-                            bustSum  += Number(e.RES_EXNP_SUM);
+                        if(e.TRIP_CODE != "4"){
+                            if(e.RS_STATUS == "100"){
+                                bustSum  += Number(e.RES_EXNP_SUM);
+                            }
+                            return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
+                        } else {
+                            console.log(e)
+                            return "<div style='text-align: right'>"+comma(e.OVER_TOT_COST)+"</div>";
                         }
-                        return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
+
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(bustSum)+"</div>";
