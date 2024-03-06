@@ -11,6 +11,7 @@
     table { background-color: #ffffff; }
     .table > tbody > tr > th, .table > tfoot > tr > th{ background-color: #8fa1c04a;}
 </style>
+<input type="hidden" id="regId" value="${loginVO.id}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
@@ -214,7 +215,7 @@
                 <c:if test="${astInfo eq 'Y'}">
                     <tr>
                         <th scope="row" class="text-center th-color">관련 청구서</th>
-                        <td colspan="3" style="padding:5px;">
+                        <td colspan="3" style="padding:5px;" id="purcLink">
 
                         </td>
                     </tr>
