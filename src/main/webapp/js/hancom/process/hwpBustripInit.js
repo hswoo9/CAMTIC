@@ -555,7 +555,7 @@ var busInit = {
 
                 for(let j=0;j<list.length; j++){
                     const jMap = list[j];
-                    if(jMap.DIVISION == "1" && (map.EMP_SEQ == jMap.EMP_SEQ)){
+                    if((jMap.DIVISION == "1" && (map.EMP_SEQ == jMap.EMP_SEQ)) || (jMap.DIVISION == "5" && (map.EMP_SEQ == jMap.EMP_SEQ))){
                         trafCostTotal += Number(jMap.TRAF_COST.replaceAll(",", ""));
                         roomCostTotal += Number(jMap.ROOM_COST.replaceAll(",", ""));
                         etcCostTotal += Number(jMap.ETC_COST.replaceAll(",", ""));

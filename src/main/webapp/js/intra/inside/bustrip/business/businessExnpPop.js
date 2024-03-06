@@ -488,6 +488,38 @@ const busiExnp = {
         var rowList = bustExnpTb.rows;
 
         var result = "";
+        for(var i = 1 ; i < rowList.length-1 ; i++){
+            var row = rowList[i];
+            var data = {};
+            // 업체지급
+            if(row.classList.value == 'corpCrmData'){
+                data = {
+                    hrBizReqId : $("#hrBizReqId").val(),
+                    hrBizOverExnpId : $("#corpCrmExnpId").val(),
+                    airCost : $("#corpCrm1").val(),
+                    trafCost : $("#corpCrm2").val(),
+                    roomCost : $("#corpCrm3").val(),
+                    visaCost : $("#corpCrm4").val(),
+                    dayCost : $("#corpCrm5").val(),
+                    eatCost : $("#corpCrm6").val(),
+                    insCost : $("#corpCrm7").val(),
+                    etcCost : $("#corpCrm8").val(),
+                    totCost : $("#corpCrm9").val(),
+                    type : type,
+                    division : '4'
+                };
+
+                var returnFlag = busiExnp.fn_exnpAttachCheck(data);
+                busiExnp.global.flag = returnFlag[0];
+                if(!returnFlag[0]){
+                    alert(returnFlag[1]);
+                    break;
+                }
+            }
+        }
+        if(!returnFlag[0]){
+            return false;
+        }
 
         for(var i = 1 ; i < rowList.length-1 ; i++){
             var row = rowList[i];
@@ -561,13 +593,6 @@ const busiExnp = {
                     type : type,
                     division : '4'
                 };
-
-                var returnFlag = busiExnp.fn_exnpAttachCheck(data);
-                busiExnp.global.flag = returnFlag[0];
-                if(!returnFlag[0]){
-                    alert(returnFlag[1]);
-                    break;
-                }
             }
 
             // 법인카드
@@ -619,10 +644,6 @@ const busiExnp = {
             }
 
             result = customKendo.fn_customAjax("/bustrip/saveBustripOverExnpPop", data);
-        }
-
-        if(!returnFlag[0]){
-            return false;
         }
 
         /** Ibrench 선택 내역 저장 */
