@@ -175,7 +175,7 @@
                                 <input type="text" id="extCrm2" class="extCrmInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
                             </td>
                             <td>
-                                <input type="text" id="extCrm3" class="extCrmInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                <input type="text" id="extCrm3" class="extCrmInput trafDayCost" value="0" oninput="onlyNumber(this)" onkeyup="busiExnp.fn_calc(this)" style="width: 100%;text-align:right;" />
                             </td>
                             <td>
                                 <input type="text" id="extCrm4" class="extCrmInput" value="0" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
@@ -354,7 +354,7 @@
                                     <input type="text" id="extCrm2" class="extCrmInput" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
                                 </td>
                                 <td>
-                                    <input type="text" id="extCrm3" class="extCrmInput" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
+                                    <input type="text" id="extCrm3" class="extCrmInput trafDayCost" value="${list.ROOM_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
                                 </td>
                                 <td>
                                     <input type="text" id="extCrm4" class="extCrmInput" value="${list.VISA_COST}" oninput="onlyNumber(this)" style="width: 100%;text-align:right;" />
