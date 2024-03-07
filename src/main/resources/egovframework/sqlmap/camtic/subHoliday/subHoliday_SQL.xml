@@ -1079,4 +1079,19 @@
         WHERE
             SUBHOLIDAY_USE_ID = #{subholidayUseId}
     </update>
+
+    <delete id="setDocReaderReset" parameterType="map">
+        /*setDocReaderReset*/
+        DELETE FROM DJ_CAMTIC.A_DOC_READER WHERE DOC_ID = #{docId}
+    </delete>
+
+    <select id="getDocInfo" parameterType="map" resultType="map">
+        /*getDocInfo*/
+        SELECT
+            *
+        FROM
+            DJ_CAMTIC.A_DOC_INFO
+        WHERE
+            APPRO_KEY = #{approKey}
+    </select>
 </mapper>

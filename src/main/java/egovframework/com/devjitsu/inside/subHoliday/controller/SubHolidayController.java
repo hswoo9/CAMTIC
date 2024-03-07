@@ -488,4 +488,16 @@ public class SubHolidayController {
         model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
+
+    @RequestMapping("/subHoliday/setDocReaderReset")
+    public String setDocReaderReset(@RequestParam Map<String, Object> params) {
+        try{
+
+            subHolidayService.setDocReaderReset(params);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

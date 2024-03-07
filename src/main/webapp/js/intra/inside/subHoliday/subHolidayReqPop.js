@@ -889,6 +889,8 @@ var subHolidayReqPop = {
             $("#edtHolidayStartHourTop_1").val("14:00");
             $("#edtHolidayEndHourTop_1").val("18:00");
         }
+
+        subHolidayReqPop.dataClear()
     },
 
     searchHolidayPop : function() {
@@ -907,6 +909,15 @@ var subHolidayReqPop = {
     dataClear : function () {
         $("#other_emp").val("");
         $("#other_emp_seq").val("");
+
+        if($("#vacUseHistId").val() != ""){
+            var data = {
+                approKey : 'camticHoliday_' + $("#vacUseHistId").val()
+            }
+
+            customKendo.fn_customAjax("/subHoliday/setDocReaderReset", data);
+        }
+
     },
 
     getVacUseHistoryOne : function(){
