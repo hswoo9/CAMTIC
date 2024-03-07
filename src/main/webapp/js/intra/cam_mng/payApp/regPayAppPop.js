@@ -301,7 +301,7 @@ var regPay = {
                     var busnClass = pjtMap.BUSN_CLASS;
                     $("#pjtSn").val(pjtMap.PJT_SN);
                     $("#pjtNm").val(pjtMap.PJT_NM);
-                    if ($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")) {
+                    if ($("#pjtSn").val() != "" && busnClass != "V") {
                         selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
                     } else {
                         selectProject('', '[2024년]법인운영', 'Mm1m124010');
@@ -466,7 +466,7 @@ var regPay = {
                 var busnClass = pjtMap.BUSN_CLASS; console.log(busnClass);
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
-                if ($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")) {
+                if ($("#pjtSn").val() != "" && busnClass != "V") {
 
                     if (corpCar != null) {
                         const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
@@ -744,7 +744,7 @@ var regPay = {
                     var busnClass = pjtMap.BUSN_CLASS; console.log(busnClass);
                     $("#pjtSn").val(pjtMap.PJT_SN);
                     $("#pjtNm").val(pjtMap.PJT_NM);
-                    if($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")){
+                    if($("#pjtSn").val() != "" && busnClass != "V"){
                         selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
                     }else{
                         selectProject('', '[2024년]법인운영', 'Mm1m124010');
@@ -1000,18 +1000,18 @@ var regPay = {
                 regPay.global.fileArray.push(fileInfo2[y]);
             }
 
-            for (let y = 0; y < fileInfo3.length; y++) {
-                if (blist != "") {
-                    blist += ",";
-                }
-                if (fileThumbText != "") {
-                    fileThumbText += " | ";
-                }
-                blist += fileInfo3[y].file_no;
-                fileThumbText += fileInfo3[y].file_org_name;
-                fileThumbText += "." + fileInfo3[y].file_ext;
-                regPay.global.fileArray.push(fileInfo3[y]);
-            }
+            // for (let y = 0; y < fileInfo3.length; y++) {
+            //     if (blist != "") {
+            //         blist += ",";
+            //     }
+            //     if (fileThumbText != "") {
+            //         fileThumbText += " | ";
+            //     }
+            //     blist += fileInfo3[y].file_no;
+            //     fileThumbText += fileInfo3[y].file_org_name;
+            //     fileThumbText += "." + fileInfo3[y].file_ext;
+            //     regPay.global.fileArray.push(fileInfo3[y]);
+            // }
 
             for(let i=0; i<cardList.length; i++){
                 if(cardList[i].FILE_NO != null){

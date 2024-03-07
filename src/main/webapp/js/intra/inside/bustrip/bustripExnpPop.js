@@ -897,6 +897,18 @@ const bustripExnpReq = {
                 $("#corp" + rowExnpType).val(0);
             }
 
+            for(var i = 0; i < bustrip.global.corpCardList.length; i++){
+                if(bustrip.global.corpCardList[i].CARD_NO == $(this).closest("tr").find(".cardNo").val() &&
+                    bustrip.global.corpCardList[i].AUTH_DD == $(this).closest("tr").find(".authDate").val() &&
+                    bustrip.global.corpCardList[i].AUTH_HH == $(this).closest("tr").find(".authTime").val() &&
+                    bustrip.global.corpCardList[i].AUTH_NO == $(this).closest("tr").find(".authNum").val() &&
+                    bustrip.global.corpCardList[i].BUY_STS == $(this).closest("tr").find(".buySts").val() &&
+                    bustrip.global.corpCardList[i].AUTH_AMT == uncomma($(this).closest("tr").find(".amt").text())
+                ){
+                    bustrip.global.corpCardList.splice(i, 1);
+                    break;
+                }
+            }
         });
 
         corpTotalSet();

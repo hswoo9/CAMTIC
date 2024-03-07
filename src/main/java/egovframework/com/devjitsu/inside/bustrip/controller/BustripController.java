@@ -734,9 +734,9 @@ public class BustripController {
 
         List<Map<String, Object>> resultMap = bustripService.getBustripReqFileInfoR(params);
         List<Map<String, Object>> tempMap = bustripService.getAbroadBustripReqFileInfo(params);
-        if(map.get("TRIP_CODE").equals("4") && tempMap != null){
-            resultMap.addAll(tempMap);
-        }
+//        if(map.get("TRIP_CODE").equals("4") && tempMap != null){
+//            resultMap.addAll(tempMap);
+//        }
         model.addAttribute("fileInfo", resultMap);
 
         return "jsonView";

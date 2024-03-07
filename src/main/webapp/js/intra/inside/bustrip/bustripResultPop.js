@@ -164,25 +164,25 @@ var bustripResultPop = {
             count ++;
         }
 
-        for(let i=0; i<bustripList2.length; i++){
-            tempArr[count] = bustripList2[i];
-            count ++;
-        }
+        // for(let i=0; i<bustripList2.length; i++){
+        //     tempArr[count] = bustripList2[i];
+        //     count ++;
+        // }
 
-        for(let i=0; i<bustripList3.length; i++){
-            tempArr[count] = bustripList3[i];
-            count ++;
-        }
+        // for(let i=0; i<bustripList3.length; i++){
+        //     tempArr[count] = bustripList3[i];
+        //     count ++;
+        // }
 
-        for(let i=0; i<cardList.length; i++){
-            if(cardList[i].FILE_NO != null){
-                const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
-                    fileNo: cardList[i].FILE_NO
-                }).data;
-                tempArr[count] = fileData;
-                count ++;
-            }
-        }
+        // for(let i=0; i<cardList.length; i++){
+        //     if(cardList[i].FILE_NO != null){
+        //         const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
+        //             fileNo: cardList[i].FILE_NO
+        //         }).data;
+        //         tempArr[count] = fileData;
+        //         count ++;
+        //     }
+        // }
 
         bustripInit.settingTempFileDataInit(tempArr, 'result');
 
@@ -413,15 +413,15 @@ var bustripResultPop = {
             count ++;
         }
 
-        for(let i=0; i<bustripList3.length; i++){
-            tempArr[count] = bustripList3[i];
-            count ++;
-        }
+        // for(let i=0; i<bustripList3.length; i++){
+        //     tempArr[count] = bustripList3[i];
+        //     count ++;
+        // }
 
-        for(let i=0; i<bustripList4.length; i++){
-            tempArr[count] = bustripList4[i];
-            count ++;
-        }
+        // for(let i=0; i<bustripList4.length; i++){
+        //     tempArr[count] = bustripList4[i];
+        //     count ++;
+        // }
 
         for(let i=0; i<cardList.length; i++){
             if(cardList[i].FILE_NO != null){
