@@ -7,7 +7,8 @@ var bustrip = {
         afMonth: new Date().getMonth()+1,
 
         /** 관련사업 var */
-        waypointArr: []
+        waypointArr: [],
+        corpCardList: [],
     },
 
     fn_setPageName: function(){
