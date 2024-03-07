@@ -1000,18 +1000,18 @@ var regPay = {
                 regPay.global.fileArray.push(fileInfo2[y]);
             }
 
-            for (let y = 0; y < fileInfo3.length; y++) {
-                if (blist != "") {
-                    blist += ",";
-                }
-                if (fileThumbText != "") {
-                    fileThumbText += " | ";
-                }
-                blist += fileInfo3[y].file_no;
-                fileThumbText += fileInfo3[y].file_org_name;
-                fileThumbText += "." + fileInfo3[y].file_ext;
-                regPay.global.fileArray.push(fileInfo3[y]);
-            }
+            // for (let y = 0; y < fileInfo3.length; y++) {
+            //     if (blist != "") {
+            //         blist += ",";
+            //     }
+            //     if (fileThumbText != "") {
+            //         fileThumbText += " | ";
+            //     }
+            //     blist += fileInfo3[y].file_no;
+            //     fileThumbText += fileInfo3[y].file_org_name;
+            //     fileThumbText += "." + fileInfo3[y].file_ext;
+            //     regPay.global.fileArray.push(fileInfo3[y]);
+            // }
 
             for(let i=0; i<cardList.length; i++){
                 if(cardList[i].FILE_NO != null){
