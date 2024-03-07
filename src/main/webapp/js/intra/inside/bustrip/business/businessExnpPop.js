@@ -171,6 +171,8 @@ const busiExnp = {
         $("#grade").text(nationText);
 
         /** 출장기간 */
+        $("#tripDayFr").val(busInfo.TRIP_DAY_FR);
+        $("#tripDayTo").val(busInfo.TRIP_DAY_TO);
         const date1 = new Date(busInfo.TRIP_DAY_FR);
         const date2 = new Date(busInfo.TRIP_DAY_TO);
         let diff = Math.abs(date1.getTime() - date2.getTime());
