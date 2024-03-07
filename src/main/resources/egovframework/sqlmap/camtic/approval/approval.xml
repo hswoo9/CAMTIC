@@ -606,7 +606,7 @@
             OR (FI.DOC_ID  = (SELECT DOC_ID FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = #{purcSn}) AND FI.FILE_CD = 'purc')
         </if>
         <if test='type == "payApp" or "payApp".equals(type)'>
-            OR (CONTENT_ID = #{payAppSn} AND file_cd = #{type})
+            OR (CONTENT_ID = #{payAppSn} AND file_cd = #{type} AND FI.file_org_name NOT LIKE '법인카드 지출증빙%')
             OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}))
             OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
         </if>
