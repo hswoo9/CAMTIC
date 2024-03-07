@@ -130,7 +130,7 @@ var recruitAdminPop = {
                     width : 100,
                     template : function(e){
                         var str = "";
-                        var avg = e.DOC_SCREEN_AVERAGE == null ? 0 : e.DOC_SCREEN_AVERAGE;
+                        var avg = e.DOC_SCREEN_AVERAGE == null ? 0 :  Math.round(e.DOC_SCREEN_AVERAGE * 10) / 10;
 
                         if(e.APPLICATION_STAT == "D" || e.APPLICATION_STAT == "I" || e.APPLICATION_STAT == "IF"){
                             str = '합격 (' + avg + "점)";
@@ -149,7 +149,7 @@ var recruitAdminPop = {
                     template : function(e){
                         console.log(e);
                         if(e.IN_AVOID != "Y"){
-                            var avg = e.IN_SCREEN_AVERAGE == null ? 0 : e.IN_SCREEN_AVERAGE;
+                            var avg = e.IN_SCREEN_AVERAGE == null ? 0 : Math.round(e.IN_SCREEN_AVERAGE * 10) / 10;
                             var str = "";
 
 
