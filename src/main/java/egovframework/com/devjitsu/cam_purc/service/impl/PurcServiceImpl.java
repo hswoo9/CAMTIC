@@ -276,6 +276,17 @@ public class PurcServiceImpl implements PurcService {
                 String fmtNow = now.format(fmt);
                 paramMap.put("inspectDt", fmtNow);
 
+                // 현장(카드) 결재일 경우 청구서 결재완료시 검수처리 후 PURC_TYPE이 R OR S 였을 경우에 구매지급요청에 데이터 INSERT
+                if(claimData.get("PURC_TYPE").equals("R") || claimData.get("PURC_TYPE").equals("S")){
+                    Map<String, Object> purcReqMap = new HashMap<>();
+                    purcReqMap.put("claimSn", claimData.get("CLAIM_SN"));
+                    purcReqMap.put("reqAmt", claimData.get("TOT_AMT"));
+                    purcReqMap.put("ceGwIdx", null);
+                    purcReqMap.put("evidType", null);
+
+                    purcRepository.insPayAppPurcReq(purcReqMap);
+                }
+
                 purcRepository.updPurcInspect(paramMap);
                 purcRepository.updPurcInspectStat(paramMap);
             }

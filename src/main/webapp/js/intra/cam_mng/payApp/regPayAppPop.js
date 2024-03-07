@@ -202,6 +202,7 @@ var regPay = {
             var claimExnpData = customKendo.fn_customAjax("/purc/getClaimExnpData", data);
             var cem = claimExnpData.map;
 
+            console.log(cem, "cem");
             if($("#pjtSn").val != ""){
                 $("#pjtSn").val(rs.PJT_SN);
             }
@@ -234,7 +235,7 @@ var regPay = {
                 $("#budgetSn" + i).val(cem.BUDGET_SN);
                 $("#budgetAmt" + i).val(9999999999);
 
-                var totalAmt = cem.TOT_AMT;
+                var totalAmt = cem.TOT_AMT || cem.REQ_AMT;
                 console.log(rs.VAT)
                 if(rs.VAT == "N"){
                     $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
