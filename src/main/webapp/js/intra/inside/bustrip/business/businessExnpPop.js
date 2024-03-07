@@ -170,6 +170,8 @@ const busiExnp = {
         $("#grade").text(nationText);
 
         /** 출장기간 */
+        $("#tripDayFr").val(busInfo.TRIP_DAY_FR);
+        $("#tripDayTo").val(busInfo.TRIP_DAY_TO);
         const date1 = new Date(busInfo.TRIP_DAY_FR);
         const date2 = new Date(busInfo.TRIP_DAY_TO);
         let diff = Math.abs(date1.getTime() - date2.getTime());
@@ -451,7 +453,7 @@ const busiExnp = {
     },
 
     fn_roomCostCheck: function(){
-        /** 식비(정액) */
+        /** 숙박비 */
         const rate = $("#exchangeRate").val();
         const maxRoomCost = Number(rate) * Number(busiExnp.global.maxRoomCost) * Number($("#nights").val());
         var len = 0;
@@ -471,7 +473,7 @@ const busiExnp = {
 
             sum += Number(uncomma(this.value));
             if(sum > maxRoomCost2){
-                this.value = comma(this.value - (sum - maxRoomCost2));
+                this.value = comma(uncomma(this.value) - (sum - maxRoomCost2));
                 return false;
             }
         })
