@@ -166,7 +166,6 @@ const busiExnp = {
             nationCd: nationCd
         });
         const nationInfo = nationResult.data;
-        console.log(nationInfo);
         let nationText = nationInfo.LG_CD_NM+"등급 "+nationInfo.NATION_CD_NM;
         $("#grade").text(nationText);
 
@@ -455,15 +454,22 @@ const busiExnp = {
         /** 식비(정액) */
         const rate = $("#exchangeRate").val();
         const maxRoomCost = Number(rate) * Number(busiExnp.global.maxRoomCost) * Number($("#nights").val());
-        const maxRoomCost2 = Math.floor(Math.floor(maxRoomCost * Number(busiExnp.global.personnel.length) / 1000) * 1000);  // 최대숙박비 * 인원수
+        var len = 0;
+        var addLen = 0;
+        var extLen = 0;
+        $("#bustExnpTb").each(function(){
+            addLen = $(this).find(".addData").length;
+            extLen = $(this).find(".extData").length;
+        });
+
+        len = addLen + extLen;
+        const maxRoomCost2 = Math.floor(Math.floor(maxRoomCost * Number(len) / 1000) * 1000);  // 최대숙박비 * 인원수
         let sum = 0;
 
         $("span > .trafDayCost").each(function(){
             const roomCost = Number(uncomma(this.value));
-            console.log(roomCost);
-            console.log(maxRoomCost2);
+
             sum += Number(uncomma(this.value));
-            console.log(sum);
             if(sum > maxRoomCost2){
                 this.value = comma(this.value - (sum - maxRoomCost2));
                 return false;
