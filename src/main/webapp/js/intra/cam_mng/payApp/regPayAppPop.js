@@ -301,7 +301,7 @@ var regPay = {
                     var busnClass = pjtMap.BUSN_CLASS;
                     $("#pjtSn").val(pjtMap.PJT_SN);
                     $("#pjtNm").val(pjtMap.PJT_NM);
-                    if ($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")) {
+                    if ($("#pjtSn").val() != "" && busnClass != "V") {
                         selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
                     } else {
                         selectProject('', '[2024년]법인운영', 'Mm1m124010');
@@ -466,7 +466,7 @@ var regPay = {
                 var busnClass = pjtMap.BUSN_CLASS; console.log(busnClass);
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
-                if ($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")) {
+                if ($("#pjtSn").val() != "" && busnClass != "V") {
 
                     if (corpCar != null) {
                         const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
@@ -744,7 +744,7 @@ var regPay = {
                     var busnClass = pjtMap.BUSN_CLASS; console.log(busnClass);
                     $("#pjtSn").val(pjtMap.PJT_SN);
                     $("#pjtNm").val(pjtMap.PJT_NM);
-                    if($("#pjtSn").val() != "" && (busnClass == "D" || busnClass == "V")){
+                    if($("#pjtSn").val() != "" && busnClass != "V"){
                         selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
                     }else{
                         selectProject('', '[2024년]법인운영', 'Mm1m124010');
