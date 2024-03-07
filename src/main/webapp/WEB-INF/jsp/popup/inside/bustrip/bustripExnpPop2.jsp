@@ -20,6 +20,8 @@
 <script type="text/javascript" src ="<c:url value='/js/es6-promise.auto.js' />"></script>
 <script type="text/javascript" src ="<c:url value='/js/jspdf.min.js' />"></script>
 <body class="font-opensans" style="background-color:#fff;">
+<input type="hidden" id="tripDayTo" value="${rs.TRIP_DAY_TO}" />
+<input type="hidden" id="tripDayFr" value="${rs.TRIP_DAY_FR}" />
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>

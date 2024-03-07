@@ -57,7 +57,10 @@ var dutyInfoLeader = {
         $("#team").data("kendoDropDownList").value($("#regTeamSeq").val());
 
         $("#dept").data("kendoDropDownList").enable(false);
-        $("#team").data("kendoDropDownList").enable(false);
+
+        if(!($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7")){
+            $("#team").data("kendoDropDownList").enable(false);
+        }
 
 
         fn_searchBind();

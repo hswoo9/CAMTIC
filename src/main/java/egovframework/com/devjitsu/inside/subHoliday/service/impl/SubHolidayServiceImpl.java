@@ -401,4 +401,15 @@ public class SubHolidayServiceImpl implements SubHolidayService {
 
     }
 
+    @Override
+    public void setDocReaderReset(Map<String, Object> params) {
+
+        Map<String, Object> map = new HashMap<>();
+        map = subHolidayRepository.getDocInfo(params);
+        if(map != null){
+            params.put("docId", map.get("DOC_ID"));
+        }
+
+        subHolidayRepository.setDocReaderReset(params);
+    }
 }

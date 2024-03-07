@@ -113,5 +113,12 @@ public class SubHolidayRepository extends AbstractDAO  {
     }
 
 
+    public void setDocReaderReset(Map<String, Object> params) {
+        delete("subHoliday.setDocReaderReset", params);
+    }
+
+    public Map<String, Object> getDocInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("subHoliday.getDocInfo", params);
+    }
 }
 

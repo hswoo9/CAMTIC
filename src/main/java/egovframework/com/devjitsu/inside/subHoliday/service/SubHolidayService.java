@@ -106,4 +106,5 @@ public interface SubHolidayService {
     void workHolidayReqApp(Map<String, Object> bodyMap) throws Exception;
     void workHolidayReqAdminApp(Map<String, Object> bodyMap) throws Exception;
 
+    void setDocReaderReset(Map<String, Object> params);
 }

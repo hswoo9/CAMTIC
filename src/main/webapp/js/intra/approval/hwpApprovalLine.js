@@ -49,7 +49,7 @@ var hwpApprovalLine = {
                 }else if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장" || empData.approveDutyName == "센터장" || empData.approveDutyName == "실장"){
                     const approveDutyName = draft.global.approversArr[0].approveDutyName;
                     if(approveDutyName == "본부장" || approveDutyName == "사업부장" || approveDutyName == "센터장" || approveDutyName == "실장"){
-                        appArr = ["공란", "공란", ""];
+                        appArr = ["공란", "전결", ""];
                     }else if(approveDutyName == "팀장"){
                         appArr = ["공란", "전결", ""];
                     }else{
