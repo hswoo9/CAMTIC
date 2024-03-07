@@ -1213,7 +1213,7 @@
         AND
             CASE
                 WHEN A.PAYMENT_METHOD = 'A' THEN A.ORDER_DT IS NOT NULL
-                ELSE A.ORDER_DT IS NULL
+                ELSE 1=1
             END
         <choose>
             <when test='busnClass != null and !"".equals(busnClass) and "C".equals(busnClass)'>
@@ -1368,7 +1368,10 @@
         WHERE
             B.STATUS = 100 AND (B.PRI_PAY = 'Y' OR (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) = 100)
         AND
-            B.ORDER_DT IS NOT NULL
+            CASE
+                WHEN B.PAYMENT_METHOD = 'A' THEN B.ORDER_DT IS NOT NULL
+                ELSE 1=1
+            END
         AND
             ((A.EMP_SEQ IS NULL AND B.PURC_EMP_SEQ = #{empSeq}) OR A.EMP_SEQ = #{empSeq})
         <if test='pjtSn != null and !"".equals(pjtSn)'>
