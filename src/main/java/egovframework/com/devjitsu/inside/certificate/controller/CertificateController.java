@@ -230,9 +230,16 @@ public class CertificateController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
+        if(loginVO == null){
+            model.addAttribute("code", "404");
+            return "jsonView";
+        }
+
         try{
             certificateService.setReqCert(params);
             model.addAttribute("rs", "sc");
+            model.addAttribute("code", "200");
+
         } catch (Exception e){
             e.printStackTrace();
         }

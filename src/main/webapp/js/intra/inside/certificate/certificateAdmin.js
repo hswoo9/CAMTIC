@@ -33,9 +33,17 @@ var certificateAdmin = {
 
         var result = customKendo.fn_customAjax("/inside/setReqCert", data);
 
-        if(result.flag){
-            certificateAdmin.gridReload();
+        if(result.code == "404"){
+            alert("세션이 만료되었습니다. 다시 로그인해주세요.");
+            location.href="/logoutAction";
+
+        } else {
+            if(result.flag){
+                certificateAdmin.gridReload();
+            }
         }
+
+
 
     },
 
