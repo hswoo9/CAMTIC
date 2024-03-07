@@ -25,7 +25,7 @@ const personPrintPop = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186/upload/templateForm/personPrintTmp.hwp";
+        let filePath = "http://218.158.231.186/upload/templateForm/personPrintTmp2.hwp";
         personPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             personPrintPop.openCallBack();
             personPrintPop.global.hwpCtrl.EditMode = 0;
@@ -60,7 +60,7 @@ const personPrintPop = {
         personPrintPop.global.hwpCtrl.PutFieldText("BIRTH", personMap.BIRTH);
         personPrintPop.global.hwpCtrl.PutFieldText("LEC_TITLE_BS", lecMap.LEC_TITLE_BS);
         personPrintPop.global.hwpCtrl.PutFieldText("LEC_DT", lecMap.LEC_STR_DE + " ~ " + lecMap.LEC_END_DE);
-
+        personPrintPop.global.hwpCtrl.PutFieldText("LEC_TIME", lecMap.LEC_TIME + "시간");
 
         personPrintPop.global.hwpCtrl.PutFieldText("PRINT_NO", "제 CAMTIC EDU 23-"+personMap.PERSON_REQ_SN+"호");
         personPrintPop.global.hwpCtrl.PutFieldText("REG_DT", fn_getNowDate(1));
