@@ -426,7 +426,39 @@ var payCardHist = {
             if($("#requestType").val() == 3){
                 opener.parent.fn_setCardInfo(list);
             }else{
-                /** 출장은 유류비~기타 중에 어떤값인지 데이터 가져감 */
+                // 중복 체크 후 함수 실행
+                if (opener.parent.bustrip.global.corpCardList) {
+                    if (opener.parent.bustrip.global.corpCardList.length === 0) {
+                        for (var k = 0; k < list.length; k++) {
+                            opener.parent.bustrip.global.corpCardList.push(list[k]);
+                        }
+                    } else {
+                        var isDuplicate = false;
+                        for (var i = 0; i < opener.parent.bustrip.global.corpCardList.length; i++) {
+                            // 중복 체크
+                            for(var j=0; j < list.length; j++){
+                                if (opener.parent.bustrip.global.corpCardList[i].CARD_NO === list[j].CARD_NO &&
+                                    opener.parent.bustrip.global.corpCardList[i].AUTH_DD === list[j].AUTH_DD &&
+                                    opener.parent.bustrip.global.corpCardList[i].AUTH_HH === list[j].AUTH_HH &&
+                                    opener.parent.bustrip.global.corpCardList[i].AUTH_NO === list[j].AUTH_NO &&
+                                    opener.parent.bustrip.global.corpCardList[i].BUY_STS === list[j].BUY_STS &&
+                                    opener.parent.bustrip.global.corpCardList[i].AUTH_AMT === list[j].AUTH_AMT
+                                ) {
+                                    alert("이미 선택된 내역입니다.");
+                                    isDuplicate = true;
+                                    return;
+                                }
+                            }
+                        }
+
+                        if (!isDuplicate) {
+                            for (var k = 0; k < list.length; k++) {
+                                opener.parent.bustrip.global.corpCardList.push(list[k]);
+                            }
+                        }
+                    }
+                }
+
                 opener.parent.cardHistSet(list, $("#exnpType").val(), $("#corpType").val());
             }
         }
