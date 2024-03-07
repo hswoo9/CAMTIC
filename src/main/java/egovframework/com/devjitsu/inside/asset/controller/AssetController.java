@@ -182,6 +182,7 @@ public class AssetController {
     @RequestMapping("/inside/getAssetInfo.do")
     public String getAssetInfo(@RequestParam Map<String,Object> params, Model model) {
         model.addAttribute("data", assetService.getAssetInfoAll(params));
+        model.addAttribute("data2", assetService.getAssetInfo(params));
         return "jsonView";
     }
 
