@@ -67,6 +67,7 @@
                 <when test='"empName".equals(searchType)'>AND AI.EMP_NAME LIKE CONCAT ('%', #{searchContent},'%')</when>
             </choose>
         </if>
+        ORDER BY PURC_DATE DESC, AST_INFO_SN DESC
     </select>
 
     <select id="getAssetInfo" resultType="map" parameterType="map">
@@ -82,7 +83,7 @@
             AI.MODEL_SIZE,
             AI.MODEL_NAME,
             AI.PURC_COMPANY_ID,
-            '-' AS PURC_COMPANY_NAME,
+            IFNULL((SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE AI.PURC_COMPANY_ID = CRM_SN), '-') AS PURC_COMPANY_NAME,
             AI.MF_COMPANY,
             CONCAT(AI.QTY, ' ', AI.UNIT) AS QTY,
             AI.ORG_COUNTRY,
@@ -2577,7 +2578,7 @@
             AI.MODEL_SIZE,
             AI.MODEL_NAME,
             AI.PURC_COMPANY_ID,
-            '-' AS PURC_COMPANY_NAME,
+            IFNULL((SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE AI.PURC_COMPANY_ID = CRM_SN), '-') AS PURC_COMPANY_NAME,
             AI.MF_COMPANY,
             AI.UNIT,
             AI.QTY,
@@ -2601,25 +2602,25 @@
             AI.RELATED_FILE_NO
         FROM
             CAM_INSIDE.DJ_ASSET_INFO AI
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_CODE_POSITION ACP
             ON AI.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_CODE_CLASS ACC
             ON AI.AST_TYPE_CODE = ACC.AST_TYPE_CODE
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC1
             ON AI.AST_CODE_ID_1 = AC1.AST_CODE
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC2
             ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND AI.AST_CODE_ID_2 = AC2.AST_CODE
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC3
             ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND AI.AST_CODE_ID_3 = AC3.AST_CODE
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_PLACE AP
             ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_INSIDE_CODE IC
             ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
         WHERE
@@ -2638,7 +2639,7 @@
             AI.MODEL_SIZE,
             AI.MODEL_NAME,
             AI.PURC_COMPANY_ID,
-            '-' AS PURC_COMPANY_NAME,
+            IFNULL((SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE AI.PURC_COMPANY_ID = CRM_SN), '-') AS PURC_COMPANY_NAME,
             AI.MF_COMPANY,
             AI.UNIT,
             AI.QTY,
@@ -2662,25 +2663,25 @@
             AI.RELATED_FILE_NO
         FROM
             CAM_INSIDE.DJ_ASSET_INFO AI
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_CODE_POSITION ACP
             ON AI.AST_CODE_COMPANY_ID = ACP.AST_CP_CODE
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_CODE_CLASS ACC
             ON AI.AST_TYPE_CODE = ACC.AST_TYPE_CODE
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC1
             ON AI.AST_CODE_ID_1 = AC1.AST_CODE
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC2
             ON AC2.AST_UPPER_CODE = AC1.AST_CODE_ID AND AI.AST_CODE_ID_2 = AC2.AST_CODE
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_CODE AC3
             ON AC3.AST_UPPER_CODE = AC2.AST_CODE_ID AND AI.AST_CODE_ID_3 = AC3.AST_CODE
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_ASSET_PLACE AP
             ON AI.AST_PLACE_SN = AP.AST_PLACE_SN
-                JOIN
+                LEFT JOIN
             CAM_INSIDE.DJ_INSIDE_CODE IC
             ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
         WHERE
