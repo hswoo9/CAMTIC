@@ -454,7 +454,7 @@ const busiExnp = {
     },
 
     fn_roomCostCheck: function(){
-        /** 식비(정액) */
+        /** 숙박비 */
         const rate = $("#exchangeRate").val();
         const maxRoomCost = Number(rate) * Number(busiExnp.global.maxRoomCost) * Number($("#nights").val());
         const maxRoomCost2 = Math.floor(Math.floor(maxRoomCost * Number(busiExnp.global.personnel.length) / 1000) * 1000);  // 최대숙박비 * 인원수
@@ -467,7 +467,7 @@ const busiExnp = {
             sum += Number(uncomma(this.value));
             console.log(sum);
             if(sum > maxRoomCost2){
-                this.value = comma(this.value - (sum - maxRoomCost2));
+                this.value = comma(uncomma(this.value) - (sum - maxRoomCost2));
                 return false;
             }
         })
