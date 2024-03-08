@@ -412,7 +412,7 @@ var pri = {
             }
             $("#fileGrid").html(html);
         }else{
-            $("#fileGrid").html('<tr>' +
+            $("#fileGrid").html('<tr class="defultTr">' +
                 '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
                 '</tr>');
         }
