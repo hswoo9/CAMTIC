@@ -298,8 +298,16 @@ public class PayAppRepository extends AbstractDAO {
         return (int) selectOne("payApp.getUseCardInfoCheck", payAppInfo);
     }
 
+    public int getUseEtaxInfoCheck(Map<String, Object> payAppInfo) {
+        return (int) selectOne("payApp.getUseEtaxInfoCheck", payAppInfo);
+    }
+
     public List<Map<String, Object>> getUseCardInfoList(Map<String, Object> payAppInfo) {
         return selectList("payApp.getUseCardInfoList", payAppInfo);
+    }
+
+    public List<Map<String, Object>> getUseEtaxInfoList(Map<String, Object> payAppInfo) {
+        return selectList("payApp.getUseEtaxInfoList", payAppInfo);
     }
 
     public void insUseCardInfo(Map<String, Object> payAppInfo) {
@@ -310,8 +318,16 @@ public class PayAppRepository extends AbstractDAO {
         update("payApp.updUseCardPayApp", payAppInfo);
     }
 
+    public void updUseEtaxPayApp(Map<String, Object> payAppInfo) {
+        update("payApp.updUseEtaxPayApp", payAppInfo);
+    }
+
     public void updUseCardPayAppNull(Map<String, Object> payAppInfo) {
         update("payApp.updUseCardPayAppNull", payAppInfo);
+    }
+
+    public void updUseEtaxPayAppNull(Map<String, Object> payAppInfo) {
+        update("payApp.updUseEtaxPayAppNull", payAppInfo);
     }
 
     public void delUseCardInfo(Map<String, Object> payAppInfo) {

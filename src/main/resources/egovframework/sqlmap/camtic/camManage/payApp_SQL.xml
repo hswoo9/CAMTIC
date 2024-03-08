@@ -1858,7 +1858,10 @@
         /*getUseCardInfoList*/
         SELECT
             *,
-            IFNULL(SNACK_INFO_SN, 0) AS SNACK_INFO_CHK
+            IFNULL(SNACK_INFO_SN, 0) AS SNACK_INFO_CHK,
+            IFNULL(HR_BIZ_REQ_ID, 0) AS BIZ_REQ_CHK,
+            IFNULL(HR_BIZ_REQ_RESULT_ID, 0) AS BIZ_REQ_RESULT_CHK,
+            IFNULL(CE_GW_IDX, 0) AS CE_GW_CHK
         FROM
             CAM_MNG.DJ_USE_CARD_INFO
         WHERE
@@ -1952,6 +1955,57 @@
         WHERE
             PAY_APP_SN = #{PAY_APP_SN}
     </delete>
+
+    <select id="getUseEtaxInfoList" parameterType="map" resultType="map">
+        /*getUseEtaxInfoList*/
+        SELECT
+            *,
+            IFNULL(CE_GW_IDX, 0) AS CE_GW_CHK
+        FROM
+            CAM_MNG.DJ_USE_ETAX_INFO
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </select>
+
+    <update id="updUseEtaxPayApp" parameterType="map">
+        /*updUseEtaxPayApp*/
+        UPDATE CAM_MNG.DJ_USE_ETAX_INFO
+        SET
+            PAY_APP_SN = #{PAY_APP_SN}
+        WHERE
+            ISS_NO = #{ISS_NO}
+          AND
+            CO_CD = #{CO_CD}
+          AND
+            TAX_TY = #{TAX_TY}
+          AND
+            PAY_APP_SN IS NULL
+    </update>
+
+    <update id="updUseEtaxPayAppNull" parameterType="map">
+        /*updUseEtaxPayAppNull*/
+        UPDATE CAM_MNG.DJ_USE_ETAX_INFO
+        SET
+            PAY_APP_SN = NULL
+        WHERE
+            PAY_APP_SN = #{PAY_APP_SN}
+    </update>
+
+    <select id="getUseEtaxInfoCheck" parameterType="map" resultType="int">
+        /*getUseEtaxInfoCheck*/
+        SELECT
+            COUNT(*)
+        FROM
+            CAM_MNG.DJ_USE_ETAX_INFO
+        WHERE
+            ISS_NO = #{ISS_NO}
+          AND
+            CO_CD = #{CO_CD}
+          AND
+            TAX_TY = #{TAX_TY}
+          AND
+            PAY_APP_SN IS NULL
+    </select>
 
     <select id="getApprovalExnpCommonFileData" parameterType="map" resultType="map">
         /*getApprovalExnpCommonFileData*/
