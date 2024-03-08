@@ -358,13 +358,15 @@ var busnPartRate = {
             return;
         }
 
-        var url = "/payApp/pop/regPayAppPop.do";
+        var url = "/mng/pop/accountList.do";
         if(key != null && key != ""){
-            url = "/payApp/pop/regPayAppPop.do?pjtSn=" + key + "&bsYm=" + $("input[name='ymRadio']:checked").attr("id").replace("ym", "") + "&reqType=partRate";
+            url = url + "?pjtSn=" + key + "&bsYm=" + $("input[name='ymRadio']:checked").attr("id").replace("ym", "") + "&reqType=partRate";
         }
         var name = "blank";
-        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 580, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+
+
     },
 
     fn_save : function (){

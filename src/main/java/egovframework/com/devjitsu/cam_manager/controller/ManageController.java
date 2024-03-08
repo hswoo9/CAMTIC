@@ -436,4 +436,16 @@ public class ManageController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/mng/pop/accountList.do")
+    public String accountList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/accountList";
+    }
 }
