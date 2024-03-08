@@ -138,7 +138,7 @@
             (Select Count(SeqNo) From PRJDB.dbo.JRequestItem where RequestNo = A.SeqNo AND IsState >= '1' AND IsType = '2') AS COUNT3,
             (Select Count(SeqNo) From PRJDB.dbo.JRequestItem where RequestNo = A.SeqNo AND IsState = '-1' AND IsType = '2') AS COUNT4
         FROM PRJDB.dbo.JRequestInfo A
-        WHERE YEAR(RequestDate) <= 2023
+        WHERE YEAR(RequestDate) <= 2023 AND A.UUID = #{empSeq}
         ]]>
         ORDER BY SeqNo DESC
     </select>

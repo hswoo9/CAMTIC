@@ -246,6 +246,8 @@ var bustripResultPop = {
             hrBizReqResultId: hrBizReqResultId
         });
 
+        console.log(result)
+
         const map = result.rs.map;
         const resInfo = result.rs.rsRes;
         const resList = result.rs.resList;
@@ -253,11 +255,11 @@ var bustripResultPop = {
         const fileInfo2 = result.rs.fileInfo2;
         const fileInfo3 = result.rs.fileInfo3;
         const fileInfo4 = result.rs.fileInfo4;
+        const extData = result.rs.extData;
 
         bustripResultPop.global.data = resInfo;
         bustripResultPop.global.busResData = resInfo;
 
-        console.log(resInfo);
         $("#apprBtnBox").html("");
         var apprBtnBoxHtml = "";
         if($("#mod").val() == "mng"){
@@ -460,7 +462,9 @@ var bustripResultPop = {
             $("#time2").data("kendoTimePicker").enable(false);
 
             $("#carList").data("kendoDropDownList").enable(false);
-            $("#carRmk").data("kendoDropDownList").enable(false);
+            if(resInfo.TRIP_CODE != "4"){
+                $("#carRmk").data("kendoDropDownList").enable(false);
+            }
             $("#carBtn").css("display", "none");
 
             $("#bustObj").data("kendoTextArea").enable(false);
@@ -481,6 +485,28 @@ var bustripResultPop = {
                 $("#saveBtn").css("display", "none");
             }
         }
+
+        if(resInfo.TRIP_CODE == "4") {
+            $("#exAddBtn").attr("disabled", "disabled");
+        }
+        if(extData.length != 0){
+            var extName = "";
+            var extBelong = "";
+            var extSpot = "";
+            var extEtc = "";
+
+            for(var i = 0 ; i < extData.length ; i++){
+                extName += extData[i].EXT_NM + ",";
+                extBelong += extData[i].EXT_BELONG + ",";
+                extSpot += extData[i].EXT_SPOT + ",";
+                extEtc += extData[i].EXT_ETC + ",";
+            }
+            $("#externalName").val(extName.substring(0,extName.length-1));
+            $("#externalBelong").val(extBelong.substring(0,extBelong.length-1));
+            $("#externalSpot").val(extSpot.substring(0,extSpot.length-1));
+            $("#externalEtc").val(extEtc.substring(0,extEtc.length-1));
+        }
+
     },
 
     fn_saveBtn: function(){
@@ -550,6 +576,24 @@ var bustripResultPop = {
         formData.append("useTrsptRmk", $("#carRmk").val());
 
         formData.append("companionChangeCheck", $("#companionChangeCheck").val());
+
+        var extArr = [];
+
+        if($("#externalName").val() != ""){
+            for(let i=0; i<$("#externalName").val().toString().split(",").length; i++){
+
+                if($("#externalName").val().split(",")[i] != ""){
+                    extArr.push({
+                        belong : $("#externalBelong").val().split(",")[i] || "",
+                        spot : $("#externalSpot").val().split(",")[i] || "",
+                        name : $("#externalName").val().split(",")[i] || "",
+                        etc : $("#externalEtc").val().split(",")[i] || ""
+                    });
+                }
+            }
+        }
+
+        formData.append("externalArr", JSON.stringify(extArr));
 
         /** 증빙파일 첨부파일 */
         if(bustripResultPop.global.attFiles != null){

@@ -840,6 +840,7 @@ var regPay = {
             }
 
             let totalList = (exnpList.length + exnpList2.length) - 1;
+            console.log(exnpList)
             for(let i=0; i < totalList - 1; i++) {
                 regPayDet.addRow();
             }
@@ -913,6 +914,10 @@ var regPay = {
                         }
                         $("#totCost"+index).val(regPay.comma(exnpMap.PERSON_SUM));
                         $("#supCost"+index).val(regPay.comma(exnpMap.PERSON_SUM));
+                    }
+
+                    if(exnpMap.DIVISION == "4" && exnpMap.PERSON_SUM == 0){
+                        regPayDet.delRow(count);
                     }
 
                     count++;

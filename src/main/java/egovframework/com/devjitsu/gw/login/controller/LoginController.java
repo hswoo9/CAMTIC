@@ -99,6 +99,12 @@ public class LoginController {
 
             Map<String, Object> userData = userService.getUserInfoToId(params);
             if(userData != null){
+
+                if(userData.get("DIVISION").equals("9999")){
+                    model.addAttribute("message", "퇴사한 계정입니다.");
+                    return "forward:login.do";
+                }
+
                 if(userData.get("TEMP_DIVISION").toString().equals("E") || passwordTmp.equals("camtic2021") || passwordTmp.equals("Camtic2021") || passwordTmp.equals("Camtic2021*^^*V")){
                     login = loginService.actionLogin(loginVO);
                 }else{

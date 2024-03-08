@@ -22,6 +22,8 @@
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustripPopup.js?v=${today}"></script>
+
 
 <script type="text/javascript" src="/js/intra/inside/recruit/fontJs.js?v=${today}"></script>
 <script type="text/javascript" src="/js/jspdf.min.js"></script>
@@ -130,17 +132,25 @@
             </tr>
             <tr>
                 <th>출장자</th>
-                <td colspan="3">
-                    <input id="popEmpName" name="bustripAdd" readonly style="width: 80%;">
-                    <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
-                    <button type="button" class="k-button k-button-solid-base" id="test" disabled>외부인력 추가</button>
+                <td>
+                    <input id="popEmpName" name="bustripAdd" readonly style="width: 70%;">
+                    <button type="button" class="k-button k-button-solid-info" id="addMemberBtn" disabled onclick="fn_userMultiSelectPop('bustrip');">출장자 추가</button>
                     <div id="companionList">
                         <input type="hidden" id="popEmpSeq" name="companionEmpSeq" value="">
                         <input type="hidden" id="popDeptSeq" name="companionDeptSeq" value="">
                         <input type="hidden" id="popDeptName" name="companionDeptSeq" value="">
                     </div>
                 </td>
-
+                <th>외부인력</th>
+                <td>
+                    <input id="externalName" name="bustripAdd" readonly style="width: 290px;">
+                    <button type="button" id="exAddBtn" class="k-button k-button-solid-info" onclick="bustripPop.addExternalWorkforcePop();">외부인력 추가</button>
+                    <div id="externalList">
+                        <input type="hidden" id="externalBelong" name="externalEmpSeq" value="">
+                        <input type="hidden" id="externalSpot" name="companionDeptSeq" value="">
+                        <input type="hidden" id="externalEtc" name="companionDeptSeq" value="">
+                    </div>
+                </td>
             </tr>
             <tr>
                 <th><span class="red-star">*</span>방문지</th>
@@ -236,7 +246,7 @@
                 <div class="card-options">
                     <%--<button type="button" class="k-button k-button-solid-base" id="fileViewer" style="display: none;" onclick="bustripPdfMake()">뷰어</button>--%>
                     <div class="filebox">
-<%--                        <button type="button" class="k-button k-button-solid-info" id="testBtn" onclick="bustripResultPop.makeHtmlToPdf()">테스트</button>--%>
+                        <%--                        <button type="button" class="k-button k-button-solid-info" id="testBtn" onclick="bustripResultPop.makeHtmlToPdf()">테스트</button>--%>
                         <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
                             <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
                             <span class="k-button-text">파일첨부</span>
@@ -1220,5 +1230,29 @@
             }
         }
     });
+
+    function externalDataSet(externalArr){
+        let belongText = "";
+        let spotText = "";
+        let nameText = "";
+        let userDeptSn = "";
+        for(let i=0; i<externalArr.length; i++) {
+            if(nameText != "") {
+                belongText += ",";
+                spotText += ",";
+                nameText += ",";
+                userDeptSn += ",";
+            }
+            belongText += externalArr[i].belong;
+            spotText += externalArr[i].spot;
+            nameText += externalArr[i].name;
+            userDeptSn += externalArr[i].etc;
+        }
+
+        $("#externalBelong").val(belongText);
+        $("#externalSpot").val(spotText);
+        $("#externalName").val(nameText);
+        $("#externalEtc").val(userDeptSn);
+    }
 </script>
 </body>

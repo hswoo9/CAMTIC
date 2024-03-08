@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/hist/purcHist.js?v=${today}'/>"></script>
 
+<input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}"/>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">

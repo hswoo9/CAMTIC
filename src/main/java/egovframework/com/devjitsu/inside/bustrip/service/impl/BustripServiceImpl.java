@@ -140,6 +140,7 @@ public class BustripServiceImpl implements BustripService {
         result.put("resList", bustripRepository.getBustripResCompanionInfo(params));
         result.put("map", bustripRepository.getBustripExnpInfo(params));
         result.put("rsRes", bustripRepository.getBustripResultInfo(params));
+        result.put("extData", bustripRepository.getExtData(params));
 
         if(infoMap != null && infoMap.get("DOC_ID") != null){
             params.put("docId", infoMap.get("DOC_ID"));
@@ -349,8 +350,13 @@ public class BustripServiceImpl implements BustripService {
     @Override
     public void saveBustripResult(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
 
+        Gson gson = new Gson();
+        List<Map<String, Object>> externalArr = gson.fromJson((String) params.get("externalArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
         String compEmpSeq = "";
         String[] compEmpSeqArr;
+
+        bustripRepository.delBustripExternal(params);
 
         if(params.containsKey("hrBizReqResultId")){
             bustripRepository.updBustripResult(params);
@@ -415,6 +421,11 @@ public class BustripServiceImpl implements BustripService {
                 list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
             }
             commonRepository.insFileInfo(list);
+        }
+
+        for(Map<String, Object> extMap : externalArr){
+            extMap.put("hrBizReqId", params.get("hrBizReqId"));
+            bustripRepository.insBustripExternal(extMap);
         }
 
     }
