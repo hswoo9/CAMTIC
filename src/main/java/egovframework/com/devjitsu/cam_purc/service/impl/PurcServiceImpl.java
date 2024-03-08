@@ -1042,4 +1042,48 @@ public class PurcServiceImpl implements PurcService {
     public List<Map<String, Object>> getOrderSendFileList (Map<String, Object> params){
         return purcRepository.getOrderSendFileList(params);
     }
+
+    @Override
+    public Map<String, Object> getClaimExnpGwCardList(Map<String, Object> params) {
+
+        Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> list = purcRepository.getClaimExnpGwCardList(params);
+
+        List<Map<String, Object>> rsList = new ArrayList<>();
+        for(Map<String, Object> map : list){
+            map.put("authNo", map.get("AUTH_NO"));
+            map.put("authHh", map.get("AUTH_HH"));
+            map.put("authDd", map.get("AUTH_DD"));
+            map.put("cardNo", map.get("CARD_NO"));
+            map.put("buySts", map.get("BUY_STS"));
+
+            Map<String, Object> cardMap = purcRepository.getDetailCardInfo(map);
+
+            rsList.add(cardMap);
+        }
+
+        result.put("list", rsList);
+        return result;
+    }
+
+    @Override
+    public Map<String, Object> getClaimExnpGwEtaxList(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        List<Map<String, Object>> list = purcRepository.getClaimExnpGwEtaxList(params);
+
+        List<Map<String, Object>> rsList = new ArrayList<>();
+
+        for(Map<String, Object> map : list){
+            map.put("issNo", map.get("ISS_NO"));
+            map.put("coCd", map.get("CO_CD"));
+            map.put("taxTy", map.get("TAX_TY"));
+
+            Map<String, Object> etaxMap = purcRepository.getDetailEtaxInfo(map);
+
+            rsList.add(etaxMap);
+        }
+
+        result.put("rsList", rsList);
+        return result;
+    }
 }

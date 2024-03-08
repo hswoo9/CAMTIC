@@ -823,8 +823,17 @@ public class PurcController {
 
         Map<String, Object> map = purcService.getClaimExnpData(params);
 
-        model.addAttribute("map", map);
+        Map<String, Object> result = new HashMap<>();
+        if(map != null){
+            if(map.get("EVID_TYPE").equals("3")){
+                result = purcService.getClaimExnpGwCardList(map);
+            } else if(map.get("EVID_TYPE").equals("1")){
+                result = purcService.getClaimExnpGwEtaxList(map);
+            }
+        }
 
+        model.addAttribute("map", map);
+        model.addAttribute("result", result);
         return "jsonView";
     }
 

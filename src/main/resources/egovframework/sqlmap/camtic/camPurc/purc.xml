@@ -1592,4 +1592,92 @@
         WHERE
             FILE_CD = 'orderMail' AND CONTENT_ID = #{mailSn}
     </select>
+
+    <select id="getClaimExnpGwCardList" parameterType="map" resultType="map">
+        /*getClaimExnpGwCardList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_USE_CARD_INFO
+        WHERE
+            CE_GW_IDX = #{CE_GW_IDX}
+    </select>
+
+    <select id="getClaimExnpGwEtaxList" parameterType="map" resultType="map">
+        /*getClaimExnpGwEtaxList*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_USE_ETAX_INFO
+        WHERE
+            CE_GW_IDX = #{CE_GW_IDX}
+    </select>
+
+    <select id="getDetailCardInfo" parameterType="map" resultType="map">
+        /*getDetailCardInfo*/
+        SELECT
+            (SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE REPLACE(CRM_NO, '-', '') = A.MER_BIZNO) AS CRM_NM,
+            (SELECT CRM_SN FROM CAM_CRM.DJ_CRM_INFO WHERE REPLACE(CRM_NO, '-', '') = A.MER_BIZNO) AS CRM_SN,
+            A.*,
+            B.*,
+            C.*,
+            REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), '|', ' ') AS USE_DEPT_NAME,
+            CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = F.DEPT_SEQ), " ", E.USE_EMP_NAME) AS USE_MEM,
+            E.USE_EMP_NAME
+        FROM
+            CAM_HR.ERP_HIST_CORPCD_USE A
+                LEFT JOIN
+            CAM_MNG.DJ_CARD_INFO B
+            ON
+                A.CARD_NO = REPLACE(B.CARD_BA_NB, '-', '')
+                LEFT JOIN
+            CAM_MNG.DJ_CARD_PRIV BB
+            ON
+                B.TR_CD = BB.TR_CD AND B.CARD_BA_NB = BB.CARD_BA_NB
+                LEFT JOIN
+            CAM_MNG.DJ_CARD_AUTH_MNG BC
+            ON
+                BB.CARD_BA_NB = BC.CARD_NO AND BB.TR_CD = BC.TR_CD
+                LEFT JOIN
+            CAM_MNG.DJ_USE_CARD_INFO C
+            ON
+                A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.BUY_STS = C.BUY_STS AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
+                LEFT JOIN
+            CAM_MNG.DJ_CARD_TO_HIST D
+            ON
+                A.AUTH_NO = D.AUTH_NO AND A.AUTH_DD = D.AUTH_DD AND A.AUTH_HH = D.AUTH_HH AND A.BUY_STS = D.BUY_STS AND A.CARD_NO = REPLACE(D.CARD_NO, "-", "")
+                LEFT JOIN
+            CAM_MNG.DJ_CARD_TO E
+            ON
+                D.CARD_TO_SN = E.CARD_TO_SN
+                LEFT JOIN
+            CAM_HR.DJ_EMP_INFO F
+            ON
+                E.USE_EMP_SEQ = F.EMP_SEQ
+        WHERE 1=1
+        AND
+            CASE
+                WHEN '1' IN (SELECT EMP_SEQ FROM CAM_MNG.DJ_CARD_AUTH_USER_MNG) THEN (BB.TR_CD IS NULL OR BC.TR_CD IS NOT NULL)
+                ELSE BB.TR_CD IS NULL
+            END
+        AND A.AUTH_NO = #{authNo} AND A.AUTH_HH = #{authHh} AND A.AUTH_DD = #{authDd} AND A.CARD_NO = REPLACE(#{cardNo}, "-", "") AND A.BUY_STS = #{buySts}
+        LIMIT 1
+    </select>
+
+    <select id="getDetailEtaxInfo" parameterType="map" resultType="map">
+        /*getDetailEtaxInfo*/
+        SELECT
+            A.*
+        FROM
+            CAM_MNG.DJ_ETAX_INFO A
+        WHERE
+            1 = 1
+        AND
+            ISS_NO = #{issNo}
+        AND
+            CO_CD = #{coCd}
+        AND
+            TAX_TY = #{taxTy}
+        LIMIT 1
+    </select>
 </mapper>

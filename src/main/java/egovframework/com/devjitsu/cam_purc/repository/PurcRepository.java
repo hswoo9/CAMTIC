@@ -246,4 +246,19 @@ public class PurcRepository extends AbstractDAO {
         return selectList("purc.getOrderSendFileList", params);
     }
 
+    public List<Map<String, Object>> getClaimExnpGwCardList(Map<String, Object> map) {
+        return selectList("purc.getClaimExnpGwCardList", map);
+    }
+
+    public List<Map<String, Object>> getClaimExnpGwEtaxList(Map<String, Object> map) {
+        return selectList("purc.getClaimExnpGwEtaxList", map);
+    }
+
+    public Map<String, Object> getDetailCardInfo(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("purc.getDetailCardInfo", map);
+    }
+
+    public Map<String, Object> getDetailEtaxInfo(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("purc.getDetailEtaxInfo", map);
+    }
 }

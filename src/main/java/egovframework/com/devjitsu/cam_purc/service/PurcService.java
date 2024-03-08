@@ -93,4 +93,8 @@ public interface PurcService {
     void setOrderSendMailInfo(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
 
     List<Map<String, Object>> getOrderSendFileList (Map<String, Object> params);
+
+    Map<String, Object> getClaimExnpGwCardList(Map<String, Object> map);
+
+    Map<String, Object> getClaimExnpGwEtaxList(Map<String, Object> map);
 }

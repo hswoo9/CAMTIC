@@ -203,7 +203,7 @@ var regPay = {
             var claimExnpData = customKendo.fn_customAjax("/purc/getClaimExnpData", data);
             var cem = claimExnpData.map;
 
-            console.log(cem, "cem");
+            console.log(claimExnpData)
             if($("#pjtSn").val != ""){
                 $("#pjtSn").val(rs.PJT_SN);
             }
@@ -220,38 +220,119 @@ var regPay = {
                 $("#appTitle").val(rs.PURC_REQ_PURPOSE);
             }
 
-            var ls = rs.itemList;
+            if(cem.EVID_TYPE == 3){
+                var ls = claimExnpData.result.list;
 
-            for(let i = 0; i < 1; i++) {
-                $("#eviType" + i).data("kendoDropDownList").value(cem.EVID_TYPE);
-                $("#crmNm" + i).val(ls[i].CRM_NM);
-                $("#crmSn" + i).val(ls[i].CRM_SN);
-                $("#regNo" + i).val(ls[i].CRM_NO_TMP);
-                $("#crmBnkNm" + i).val(ls[i].CRM_BN);
-                $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM);
-                $("#crmAccHolder" + i).val(ls[i].BN_DEPO);
-                // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
-                // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
-                $("#budgetNm" + i).val(cem.BUDGET_NM);
-                $("#budgetSn" + i).val(cem.BUDGET_SN);
-                $("#budgetAmt" + i).val(9999999999);
+                for(let i = 0; i < 1; i++) {
+                    $("#eviType" + i).data("kendoDropDownList").value(cem.EVID_TYPE);
+                    $("#crmNm" + i).val(ls[i].CRM_NM || ls[i].MER_NM);
+                    $("#crmSn" + i).val(ls[i].CRM_SN || "");
+                    $("#regNo" + i).val(ls[i].MER_BIZNO || "");
+                    $("#crmBnkNm" + i).val(ls[i].JIRO_NM || "");
+                    $("#crmAccNo" + i).val(ls[i].BA_NB || "");
+                    $("#crmAccHolder" + i).val(ls[i].DEPOSITOR || "");
+                    $("#trDe" + i).val(ls[i].AUTH_DD.toString().substring(0, 4) + "-" + ls[i].AUTH_DD.toString().substring(4, 6) + "-" + ls[i].AUTH_DD.toString().substring(6, 8));
+                    // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
+                    // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
+                    $("#budgetNm" + i).val(cem.BUDGET_NM);
+                    $("#budgetSn" + i).val(cem.BUDGET_SN);
+                    $("#budgetAmt" + i).val(9999999999);
 
-                var totalAmt = cem.TOT_AMT || cem.REQ_AMT;
-                console.log(rs.VAT)
-                if(rs.VAT == "N"){
-                    $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
-                    $("#supCost" + i).val(regPay.comma(totalAmt));
-                    $("#vatCost" + i).val(regPay.comma(Math.floor(Number(totalAmt / 10))));
-                } else if(rs.VAT == "Y"){
-                    $("#totCost" + i).val(regPay.comma(totalAmt));
-                    $("#supCost" + i).val(regPay.comma(Math.ceil(Number(totalAmt / 1.1))));
-                    $("#vatCost" + i).val(regPay.comma(Number(totalAmt - Math.ceil(Number(totalAmt / 1.1)))));
-                } else if(rs.VAT == "D") {
-                    $("#totCost" + i).val(regPay.comma(totalAmt));
-                    $("#supCost" + i).val(regPay.comma(totalAmt));
-                    $("#vatCost" + i).val(0);
+                    $("#authDd" + i).val(ls[i].AUTH_DD || "");
+                    $("#authHh" + i).val(ls[i].AUTH_HH || "");
+                    $("#authNo" + i).val(ls[i].AUTH_NO || "");
+                    $("#buySts" + i).val(ls[i].BUY_STS || "");
+
+                    $("#card" + i).val(ls[i].TR_NM);
+                    $("#cardNo" + i).val(ls[i].CARD_BA_NB);
+
+                    var totalAmt = ls[i].AUTH_AMT;
+                    if(rs.VAT == "N"){
+                        $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
+                        $("#supCost" + i).val(regPay.comma(totalAmt));
+                        $("#vatCost" + i).val(regPay.comma(Math.floor(Number(totalAmt / 10))));
+                    } else if(rs.VAT == "Y"){
+                        $("#totCost" + i).val(regPay.comma(totalAmt));
+                        $("#supCost" + i).val(regPay.comma(Math.ceil(Number(totalAmt / 1.1))));
+                        $("#vatCost" + i).val(regPay.comma(Number(totalAmt - Math.ceil(Number(totalAmt / 1.1)))));
+                    } else if(rs.VAT == "D") {
+                        $("#totCost" + i).val(regPay.comma(totalAmt));
+                        $("#supCost" + i).val(regPay.comma(totalAmt));
+                        $("#vatCost" + i).val(0);
+                    }
+                }
+            } else if (cem.EVID_TYPE == 1){
+                var ls = claimExnpData.result.rsList;
+
+                for(let i = 0; i < 1; i++) {
+                    $("#eviType" + i).data("kendoDropDownList").value(cem.EVID_TYPE);
+                    $("#crmNm" + i).val(ls[i].TR_NM || ls[i].TR_NMK);
+                    $("#crmSn" + i).val(ls[i].CRM_SN || "");
+                    $("#regNo" + i).val(ls[i].REG_NB || "");
+                    $("#crmBnkNm" + i).val(ls[i].BANK_NM || "");
+                    $("#crmAccNo" + i).val(ls[i].BA_NB || "");
+                    $("#crmAccHolder" + i).val(ls[i].DEPOSITOR || "");
+                    $("#trDe" + i).val(ls[i].ISS_DT.toString().substring(0, 4) + "-" + ls[i].ISS_DT.toString().substring(4, 6) + "-" + ls[i].ISS_DT.toString().substring(6, 8));
+                    // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
+                    // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
+                    $("#budgetNm" + i).val(cem.BUDGET_NM);
+                    $("#budgetSn" + i).val(cem.BUDGET_SN);
+                    $("#budgetAmt" + i).val(9999999999);
+
+                    $("#issNo" + i).val(ls[i].ISS_NO || "");
+                    $("#coCd" + i).val(ls[i].CO_CD || "");
+                    $("#taxTy" + i).val(ls[i].TAX_TY || "");
+
+                    var totalAmt = ls[i].SUM_AM.toString().split(".")[0];
+                    if(rs.VAT == "N"){
+                        $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
+                        $("#supCost" + i).val(regPay.comma(totalAmt));
+                        $("#vatCost" + i).val(regPay.comma(Math.floor(Number(totalAmt / 10))));
+                    } else if(rs.VAT == "Y"){
+                        $("#totCost" + i).val(regPay.comma(totalAmt));
+                        $("#supCost" + i).val(regPay.comma(Math.ceil(Number(totalAmt / 1.1))));
+                        $("#vatCost" + i).val(regPay.comma(Number(totalAmt - Math.ceil(Number(totalAmt / 1.1)))));
+                    } else if(rs.VAT == "D") {
+                        $("#totCost" + i).val(regPay.comma(totalAmt));
+                        $("#supCost" + i).val(regPay.comma(totalAmt));
+                        $("#vatCost" + i).val(0);
+                    }
+                }
+            } else {
+                var ls = rs.itemList;
+
+                for(let i = 0; i < 1; i++) {
+                    $("#eviType" + i).data("kendoDropDownList").value(cem.EVID_TYPE);
+                    $("#crmNm" + i).val(ls[i].CRM_NM);
+                    $("#crmSn" + i).val(ls[i].CRM_SN);
+                    $("#regNo" + i).val(ls[i].CRM_NO_TMP);
+                    $("#crmBnkNm" + i).val(ls[i].CRM_BN);
+                    $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM);
+                    $("#crmAccHolder" + i).val(ls[i].BN_DEPO);
+                    // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
+                    // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
+                    $("#budgetNm" + i).val(cem.BUDGET_NM);
+                    $("#budgetSn" + i).val(cem.BUDGET_SN);
+                    $("#budgetAmt" + i).val(9999999999);
+
+                    var totalAmt = cem.TOT_AMT || cem.REQ_AMT;
+                    console.log(rs.VAT)
+                    if(rs.VAT == "N"){
+                        $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
+                        $("#supCost" + i).val(regPay.comma(totalAmt));
+                        $("#vatCost" + i).val(regPay.comma(Math.floor(Number(totalAmt / 10))));
+                    } else if(rs.VAT == "Y"){
+                        $("#totCost" + i).val(regPay.comma(totalAmt));
+                        $("#supCost" + i).val(regPay.comma(Math.ceil(Number(totalAmt / 1.1))));
+                        $("#vatCost" + i).val(regPay.comma(Number(totalAmt - Math.ceil(Number(totalAmt / 1.1)))));
+                    } else if(rs.VAT == "D") {
+                        $("#totCost" + i).val(regPay.comma(totalAmt));
+                        $("#supCost" + i).val(regPay.comma(totalAmt));
+                        $("#vatCost" + i).val(0);
+                    }
                 }
             }
+
 
             var fileResult = customKendo.fn_customAjax("/purc/purcFileList", data);
             var fileList = fileResult.listMap;
