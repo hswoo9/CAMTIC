@@ -24,6 +24,11 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     }
 
     @Override
+    public List<Map<String, Object>> cardAllList(Map<String, Object> params) {
+        return companyCardRepository.cardAllList(params);
+    }
+
+    @Override
     public Map<String, Object> useCardDetailInfo(Map<String, Object> params) {
         return companyCardRepository.useCardDetailInfo(params);
     }

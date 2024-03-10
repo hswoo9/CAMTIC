@@ -58,4 +58,6 @@ public interface CompanyCardService {
     void setCardAuthUserData(Map<String, Object> params);
 
     void delCardAuthUserData(Map<String, Object> params);
+
+    List<Map<String, Object>> cardAllList(Map<String, Object> params);
 }

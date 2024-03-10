@@ -30,7 +30,7 @@ var outUseList = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : '/card/cardUseList',
+                    url : '/card/cardAllList',
                     dataType : "json",
                     type : "post"
                 },
@@ -128,70 +128,110 @@ var outUseList = {
                             ]
                         }
                     ]
+                }, {
+                    title: "전표처리현황",
+                    columns: [
+                        {
+                            title: "전표처리",
+                            template: function(e){
+                                if(e.PAY_APP_SN != null){
+                                    return '지급신청';
+                                } else if(e.SNACK_INFO_SN != null){
+                                    return '식대';
+                                } else if(e.HR_BIZ_REQ_ID != null || e.HR_BIZ_REQ_RESULT_ID != null){
+                                    return '출장';
+                                } else {
+                                    return '';
+                                }
+                            },
+                            width: 80
+                        }, {
+                            title: "처리자",
+                            template: function(e){
+                                if(e.PAY_EMP_SEQ != null){
+                                    return e.PAY_EMP_SEQ;
+                                } else if(e.SNACK_EMP_SEQ != null){
+                                    return e.SNACK_EMP_SEQ;
+                                } else if(e.HR_BIZ_EMP_SEQ != null || e.HR_BIZ_RES_EMP_SEQ != null){
+                                    return e.HR_BIZ_EMP_SEQ || e.HR_BIZ_RES_EMP_SEQ;
+                                } else {
+                                    return '';
+                                }
+                            },
+                            width: 80
+                        }, {
+                            title: "처리일자",
+                            width: 80,
+                            template: function(e){
+                                if(e.PAY_REG_DT != null){
+                                    return e.PAY_REG_DT;
+                                } else if(e.SNACK_REG_DT != null){
+                                    return e.SNACK_REG_DT;
+                                } else if(e.HR_BIZ_REG_DT != null || e.HR_BIZ_RES_REG_DT != null){
+                                    return e.HR_BIZ_REG_DT || e.HR_BIZ_RES_REG_DT;
+                                } else {
+                                    return '';
+                                }
+                            },
+                        }, {
+                            title: "지출결의서",
+                            width: 80,
+                            template: function(e){
+                                var status = "";
+                                if(e.PAY_EXNP_STAT != null){
+                                    if(e.PAY_EXNP_STAT == "100"){
+                                        status = "결재완료";
+                                        if(e.PAY_REQ_END_DE != null && e.PAY_REQ_END_DE != "" && e.PAY_REQ_END_DE != undefined){
+                                            status = "승인";
+                                        } else {
+                                            if(e.PAY_APP_TYPE == 1 || e.PAY_APP_TYPE == 2 || e.PAY_APP_TYPE == 3){
+                                                status = "승인";
+                                            } else {
+                                                status = "미결";
+                                            }
+                                        }
+                                    } else {
+                                        status = "미결";
+                                    }
+                                } else if(e.SNACK_EXNP_STAT != null){
+                                    if(e.SNACK_EXNP_STAT == "100"){
+                                        status = "결재완료";
+                                        if(e.SNACK_REQ_END_DE != null && e.SNACK_REQ_END_DE != "" && e.SNACK_REQ_END_DE != undefined){
+                                            status = "승인";
+                                        } else {
+                                            if(e.SNACK_PAY_APP_TYPE == 1 || e.SNACK_PAY_APP_TYPE == 2 || e.SNACK_PAY_APP_TYPE == 3){
+                                                status = "승인";
+                                            } else {
+                                                status = "미결";
+                                            }
+                                        }
+                                    } else {
+                                        status = "미결";
+                                    }
+                                } else if(e.HR_EXNP_STAT != null){
+                                    if(e.HR_EXNP_STAT == "100"){
+                                        status = "결재완료";
+                                        if(e.HR_REQ_END_DE != null && e.HR_REQ_END_DE != "" && e.HR_REQ_END_DE != undefined){
+                                            status = "승인";
+                                        } else {
+                                            if(e.HR_PAY_APP_TYPE == 1 || e.HR_PAY_APP_TYPE == 2 || e.HR_PAY_APP_TYPE == 3){
+                                                status = "승인";
+                                            } else {
+                                                status = "미결";
+                                            }
+                                        }
+                                    } else {
+                                        status = "미결";
+                                    }
+                                } else {
+                                    return '미작성';
+                                }
+
+                                return '<div style="font-weight: bold;">'+status+'</div>';
+                            },
+                        }
+                    ]
                 }
-                /*{
-                    title: "구분",
-                    width: 50,
-                    template: function (){
-                        return "승인"
-                    }
-                }, {
-                    title: "승인일시",
-                    width: 200,
-                    template : function (e){
-                        return e.AUTH_DD.substring(0, 4) + "-" + e.AUTH_DD.substring(4, 6) + "-" + e.AUTH_DD.substring(6, 8) + " " + e.AUTH_HH.substring(0, 2) + ":" + e.AUTH_HH.substring(2, 4) + ":" + e.AUTH_HH.substring(4, 6);
-                    }
-                }, {
-                    title: "승인번호",
-                    width: 100,
-                    template : function (e){
-                        return e.AUTH_NO;
-                    }
-                }, {
-                    title: "사용처",
-                    width: 200,
-                    template: function(e){
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="outUseList.fn_useCardDetailPop(\''+e.AUTH_NO+'\', \''+e.AUTH_DD+'\', \''+e.AUTH_HH+'\', \''+e.CARD_NO+'\', \''+e.BUY_STS+'\')">'+e.MER_NM+'</div>'
-                    }
-                }, {
-                    title: "사업자번호",
-                    field : "MER_BIZNO",
-                    width: 100,
-                    template : function(e){
-                        return e.MER_BIZNO.substring(0, 3) + "-" + e.MER_BIZNO.substring(3, 5) + "-" + e.MER_BIZNO.substring(5, 11);
-                    }
-                }, {
-                    title: "카드명",
-                    field: "TR_NM",
-                }, {
-                    title: "카드번호",
-                    field: "CARD_NO",
-                    width: 180,
-                    template : function (e){
-                        return e.CARD_NO.substring(0,4) + "-" + e.CARD_NO.substring(4,8) + "-" + e.CARD_NO.substring(8,12) + "-" + e.CARD_NO.substring(12,16);
-                    }
-                }, {
-                    title: "금액",
-                    width: 120,
-                    template : function(e){
-                        return '<div style="text-align: right;">' + comma(e.AUTH_AMT) + '</div>';
-                    }
-                }, {
-                    title: "공급가액",
-                    width: 100,
-                    template : function(e){
-                        return '<div style="text-align: right;">' + comma(e.SUPP_PRICE) + '</div>';
-                    }
-                }, {
-                    title: "부가세",
-                    width: 80,
-                    template : function(e){
-                        return '<div style="text-align: right;">' + comma(e.SURTAX) + '</div>';
-                    }
-                }, {
-                    title : "사용자",
-                    field: "USE_MEM",
-                }*/
             ]
         }).data("kendoGrid");
     },
