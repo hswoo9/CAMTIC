@@ -126,11 +126,11 @@ var statementList = {
                 }, {
                     field: "USE_EMP_NAME",
                     title: "반출자",
-                    width: 100
+                    width: 80
                 }, {
                     field: "CARD_TO_PURPOSE",
                     title: "반출목적",
-                    width: 80
+                    width: 100
                 }, {
                     field: "",
                     title: "사용내역등록",
@@ -234,15 +234,19 @@ var statementList = {
                                     }
                                 } else if (e.CARD_TO_PURPOSE == "영업"){
                                     if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
-                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_reqRegPopup('+e.FR_KEY+')">지급신청서 작성</button>'
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_reqRegPopup('+e.FR_KEY+')">지급신청서</button>'
                                     } else {
                                         return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_reqRegPopup(\'\', \'\', \'\', '+ e.CARD_TO_SN + ')">지급신청서 작성</button>'
                                     }
                                 } else if (e.CARD_TO_PURPOSE == "식대"){
-                                    return '';
+                                    if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.snackPopup('+e.FR_KEY+')">식대</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.snackPopup(\'\', \'\', '+e.CARD_TO_SN+')">식대 등록</button>'
+                                    }
                                 } else {
                                     if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
-                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_reqRegPopup('+e.FR_KEY+')">지급신청서 작성</button>'
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_reqRegPopup('+e.FR_KEY+')">지급신청서</button>'
                                     } else {
                                         return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_reqRegPopup(\'\', \'\', \'\', '+ e.CARD_TO_SN + ', \''+e.PJT_CD+'\', \''+e.PJT_NM+'\')">지급신청서 작성</button>'
                                     }
@@ -612,5 +616,38 @@ var statementList = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    snackPopup: function(snackInfoSn, mode, cardToSn){
+        let urlParams = "";
+        if(!isNaN(snackInfoSn) && snackInfoSn != null && snackInfoSn != ""){
+            if(urlParams == "") {
+                urlParams += "?";
+            }else {
+                urlParams += "&";
+            }
+            urlParams += "snackInfoSn=" + snackInfoSn;
+        }
+        if(mode != null && mode != "") {
+            if(urlParams == "") {
+                urlParams += "?";
+            }else {
+                urlParams += "&";
+            }
+            urlParams += "mode=" + mode;
+        }
+
+        if(cardToSn != null && cardToSn != "") {
+            if(urlParams == "") {
+                urlParams += "?";
+            }else {
+                urlParams += "&";
+            }
+            urlParams += "cardToSn=" + cardToSn;
+        }
+        const url = "/Inside/pop/snackPop.do"+urlParams;
+        const name = "popup test";
+        const option = "width = 1100, height = 700, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     },
 }

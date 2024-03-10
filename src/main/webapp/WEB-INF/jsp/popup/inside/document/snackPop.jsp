@@ -110,6 +110,10 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="snackInfoSn" value="${snackInfoSn}"/>
 <input type="hidden" id="mode" value="${params.mode}"/>
+
+<input type="hidden" id="cardToSn" value="${params.cardToSn}" />
+
+
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">

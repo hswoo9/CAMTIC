@@ -201,6 +201,8 @@ public class DocumentController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("flag", "false");
+        model.addAttribute("params", params);
+
         if(params.containsKey("snackInfoSn")){
             Map<String, Object> data = documentService.getSnackOne(params);
             model.addAttribute("snackInfoSn", data.get("SNACK_INFO_SN"));

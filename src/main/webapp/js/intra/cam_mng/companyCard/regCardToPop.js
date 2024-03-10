@@ -23,7 +23,7 @@ var regCardToPop = {
                 {text : "구매", value : "구매"},
                 {text : "회의", value : "회의"},
                 {text : "영업", value : "영업"},
-                {text : "식대(야간/휴일)", value : "식대(야간/휴일)"},
+                {text : "식대", value : "식대"},
                 {text : "기타", value : "기타"},
             ],
             dataTextField : "text",
