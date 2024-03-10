@@ -150,7 +150,7 @@
             CAM_HR.DJ_APNT_INFO A
         WHERE
             A.EMP_SEQ = #{empSeq}
-        ORDER BY A.APNT_SN DESC;
+        ORDER BY A.HISTORY_DT DESC;
     </select>
 
     <select id="getRewardInfoList" parameterType="map" resultType="map">

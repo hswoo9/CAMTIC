@@ -22,6 +22,7 @@ var engnInit = {
         console.log(map);
 
         /** 1. 사업정보 */
+        hwpDocCtrl.putFieldText('BUSN_NAME', map.BUSN_NM);
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
         hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);
@@ -68,6 +69,7 @@ var engnInit = {
         const map = result.map;
 
         /** 1. 사업정보 */
+        hwpDocCtrl.putFieldText('BUSN_NAME', map.BUSN_NM);
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
         hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);
@@ -196,6 +198,7 @@ var engnInit = {
         const devMap = resultD.rs;
 
         /** 1. 사업정보 */
+        hwpDocCtrl.putFieldText('BUSN_NAME', map.BUSN_NM);
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
         hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);

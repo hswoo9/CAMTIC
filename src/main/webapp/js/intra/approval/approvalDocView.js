@@ -1118,6 +1118,7 @@ var docView = {
         formData.append("approKey", docView.global.params.approKey);
 
         /** 한글 기안기 html 데이터 */
+        docView.global.hwpFileTextData = docView.global.hwpFileTextData.replace(/UTF-16/g, "UTF-8");
         formData.append("docContent", docView.global.htmlFileTextData);
 
         if(type == "cancel"){
