@@ -157,8 +157,11 @@ var regCardToPop = {
             pjtNm : $("#pjtNm").val(),
             regEmpSeq : $("#regEmpSeq").val(),
 
-            hrBizReqId : $("#hrBizReqId").val(),
             visitCrm : $("#hrBizVisitCrm").val(),
+        }
+
+        if($("#cardToPurpose").val() == "출장"){
+            parameters.frKey = $("#hrBizReqId").val();
         }
 
         if(parameters.trNm == ""){

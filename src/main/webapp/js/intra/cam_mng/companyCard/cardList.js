@@ -16,6 +16,8 @@ var cardList = {
             dataTextField : "text",
             dataValueField : "value"
         });
+
+        $("#rtYn").data("kendoDropDownList").select(2)
         customKendo.fn_textBox(["searchValue"])
         cardList.mainGrid();
     },
@@ -114,6 +116,31 @@ var cardList = {
                                     useEmpName = e.USE_EMP_NAME;
                                 }
                                 return useEmpName;
+                            }
+                        }, {
+                            title : "반출일시",
+                            field : "CARD_TO_DE",
+                            template : function (e){
+                                var cardToDe = "";
+                                cardToDe = e.CARD_TO_DE || "";
+                                if(e.RT_YN == "N"){
+                                    return '<div style="font-weight: bold;">' + cardToDe + '</div">';
+                                } else {
+                                    return '';
+                                }
+                            }
+                        }, {
+                            title : "반납예정일시",
+                            field : "CARD_FROM_DE",
+                            template : function (e){
+                                var cardFromDe = "";
+                                cardFromDe = e.CARD_FROM_DE || "";
+
+                                if(e.RT_YN == "N"){
+                                    return '<div style="font-weight: bold;">' + cardFromDe + '</div">';
+                                } else {
+                                    return '';
+                                }
                             }
                         }
                     ]
