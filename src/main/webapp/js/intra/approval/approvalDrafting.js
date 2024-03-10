@@ -880,6 +880,7 @@ var draft = {
                     await sleep(i); // 2초대기
 
                     if(draft.global.hwpFileTextData == '' || draft.global.hwpFileTextData == null || draft.global.hwpFileTextData == undefined){
+                        draft.global.hwpFileTextData = draft.global.hwpFileTextData.replace(/UTF-16/g, "UTF-8");
                         getDocDrawCall();
                     }
 
@@ -1251,7 +1252,7 @@ var draft = {
             draft.global.htmlFileTextData = data;
         })
 
-        setTimeout(() => draft.docApproveAjax(), 3000);
+        setTimeout(() => draft.docApproveAjax(), 5000);
     },
 
     loading : function(){
@@ -1265,6 +1266,8 @@ var draft = {
     },
 
     docApproveAjax : function(){
+        draft.global.hwpFileTextData = draft.global.hwpFileTextData.replace(/UTF-16/g, "UTF-8");
+
         $.ajax({
             url : "/approval/setDocApproveNReturn",
             type : "POST",

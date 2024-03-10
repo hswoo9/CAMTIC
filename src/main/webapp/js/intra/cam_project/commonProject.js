@@ -247,7 +247,7 @@ var commonProject = {
 
         /** 협업일때 */
         if(commonProject.global.teamStat == "Y"){
-            if(busnClass == "D"){
+            if(busnClass == "D" || busnClass == "V"){
                 window.location.href="/project/pop/viewRegProject.do?pjtSn=" + pjtSn + "&tab="+teamA;
             }else if(busnClass == "R"){
                 window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + pjtSn + "&tab="+teamB;
@@ -258,7 +258,7 @@ var commonProject = {
             }
         /** 협업이 아닐때 */
         }else{
-            if(busnClass == "D"){
+            if(busnClass == "D" || busnClass == "V"){
                 window.location.href="/project/pop/viewRegProject.do?pjtSn=" + pjtSn + "&tab="+mainA;
             }else if(busnClass == "R"){
                 window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + pjtSn + "&tab="+mainB;

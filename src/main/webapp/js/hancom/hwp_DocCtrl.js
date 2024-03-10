@@ -672,7 +672,7 @@ var hwpDocCtrl = {
     },
 
     open : function(url, format, type, name) {
-            return hwpDocCtrl.global.HwpCtrl.Open(url, format, type,
+            return hwpDocCtrl.global.HwpCtrl.Open(url, "", type,
                 function (res) {
                     console.log(res);
                     async function asyncCall() {

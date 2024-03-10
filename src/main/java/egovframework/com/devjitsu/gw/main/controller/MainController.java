@@ -89,6 +89,11 @@ public class MainController {
         }
     }
 
+    @RequestMapping("/mobileMain.do")
+    public String mobileMain(){
+        return "/camspot_m/main";
+    }
+
     @RequestMapping("/indexBMain.do")
     public String indexBMain(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params){
         HttpSession session = request.getSession();
