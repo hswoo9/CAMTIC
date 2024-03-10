@@ -876,4 +876,14 @@ public class PurcController {
         model.addAttribute("list", purcService.getHistPurcList(params));
         return "jsonView";
     }
+
+    @RequestMapping("/purc/pop/purcListView.do")
+    public String purcListView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/cam_purc/mng/purcListView";
+    }
+
 }

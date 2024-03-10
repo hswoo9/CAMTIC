@@ -6,7 +6,7 @@ var regCardToPop = {
 
     fn_defaultScript : function (){
 
-        customKendo.fn_textBox(["trNm", "pjtNm", "empName", "cardToPurpose2", "hrBizVisitCrm"]);
+        customKendo.fn_textBox(["trNm", "pjtNm", "empName", "cardToPurpose2", "hrBizVisitCrm", "purcReqPurpose"]);
         customKendo.fn_datePicker("cardToDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());
 
@@ -23,7 +23,7 @@ var regCardToPop = {
                 {text : "구매", value : "구매"},
                 {text : "회의", value : "회의"},
                 {text : "영업", value : "영업"},
-                {text : "식대(야간/휴일)", value : "식대(야간/휴일)"},
+                {text : "식대", value : "식대"},
                 {text : "기타", value : "기타"},
             ],
             dataTextField : "text",
@@ -33,14 +33,21 @@ var regCardToPop = {
                 if(this.value() == "기타"){
                     $("#cardToPurpose2Div").css("display", "");
                     $("#cardToBustripDiv").css("display", "none");
+                    $("#cardToPurcDiv").css("display", "none");
                     $("#hrBizReqId").val("");
                     $("#hrBizVisitCrm").val("");
                 } else if(this.value() == "출장"){
                     $("#cardToBustripDiv").css("display", "");
+                    $("#cardToPurcDiv").css("display", "none");
                     $("#cardToPurpose2Div").css("display", "none");
-                } else {
+                } else if(this.value() == "구매"){
+                    $("#cardToPurcDiv").css("display", "");
                     $("#cardToPurpose2Div").css("display", "none");
                     $("#cardToBustripDiv").css("display", "none");
+                }else {
+                    $("#cardToPurpose2Div").css("display", "none");
+                    $("#cardToBustripDiv").css("display", "none");
+                    $("#cardToPurcDiv").css("display", "none");
                     $("#hrBizReqId").val("");
                     $("#hrBizVisitCrm").val("");
                 }
@@ -156,9 +163,23 @@ var regCardToPop = {
             pjtCd : $("#pjtCd").val(),
             pjtNm : $("#pjtNm").val(),
             regEmpSeq : $("#regEmpSeq").val(),
-
-            hrBizReqId : $("#hrBizReqId").val(),
+            frKey : null,
             visitCrm : $("#hrBizVisitCrm").val(),
+        }
+
+        if($("#cardToPurpose").val() == "출장"){
+            parameters.frKey = $("#hrBizReqId").val();
+
+            if(parameters.frKey == ""){
+                alert("출장신청서를 선택해주세요.");
+                return;
+            }
+        } else if($("#cardToPurpose").val() == "구매"){
+            if($("#purcSn").val() != ""){
+                parameters.frKey = $("#purcSn").val();
+            } else {
+                parameters.frKey = null;
+            }
         }
 
         if(parameters.trNm == ""){
@@ -198,6 +219,8 @@ var regCardToPop = {
             }
             parameters.cardToPurpose = $("#cardToPurpose2").val()
         }
+
+        console.log(parameters.frKey);
 
 
         $.ajax({
@@ -277,8 +300,21 @@ var regCardToPop = {
         var popup = window.open(url, name, option);
     },
 
+    fn_purcPop : function (){
+        var url = "/purc/pop/purcListView.do";
+
+        var name = "_blank";
+        var option = "width = 1100, height = 450, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
     fn_selBustrip : function (key, visitCrm){
         $("#hrBizReqId").val(key);
         $("#hrBizVisitCrm").val(visitCrm);
+    },
+
+    fn_selPurc: function (key, purcReqPurpose){
+        $("#purcSn").val(key);
+        $("#purcReqPurpose").val(purcReqPurpose);
     }
 }

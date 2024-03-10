@@ -207,7 +207,7 @@ var userMultiSel = {
                 return;
             }
         }
-        if($("#type").val() == "dev"){
+        if($("#type").val() == "dev2"){
             if($("#approvalLineDataDiv").find("tr").length > 0){
                 alert("담당자는 1명만 선택가능합니다.");
                 return;

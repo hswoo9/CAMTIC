@@ -2345,4 +2345,13 @@
         WHERE
             CE_GW_IDX = (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn})
     </select>
+
+    <update id="updCardToPayApp" parameterType="map">
+        /*updCardToPayApp*/
+        UPDATE CAM_MNG.DJ_CARD_TO
+        SET
+            FR_KEY = #{payAppSn}
+        WHERE
+            CARD_TO_SN = #{cardToSn}
+    </update>
 </mapper>

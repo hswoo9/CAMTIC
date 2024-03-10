@@ -663,11 +663,14 @@ var devInfo = {
 
     },
 
-    fn_addProcess: function (){
+    fn_addProcess: function (t){
 
-        if(!confirm("공정을 추가하시겠습니까?")){
-            return ;
+        if(t != "d"){
+            if(!confirm("공정을 추가하시겠습니까?")){
+                return ;
+            }
         }
+        
 
         if($("#psEmpSeq").val() == ""){
             alert("담당자를 지정해주세요.");

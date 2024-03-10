@@ -308,6 +308,11 @@ public class DocumentServiceImpl implements DocumentService {
                 documentRepository.insCardHist(data);
             }
         }
+
+        if(params.containsKey("cardToSn")){
+            params.put("payAppSn", params.get("snackInfoSn"));
+            payAppRepository.updCardToPayApp(params);
+        }
     }
 
     @Override

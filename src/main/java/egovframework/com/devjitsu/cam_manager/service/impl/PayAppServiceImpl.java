@@ -250,6 +250,10 @@ public class PayAppServiceImpl implements PayAppService {
             }
 //            commonRepository.insFileInfo(list);
         }
+
+        if(params.containsKey("cardToSn")){
+            payAppRepository.updCardToPayApp(params);
+        }
     }
 
     @Override

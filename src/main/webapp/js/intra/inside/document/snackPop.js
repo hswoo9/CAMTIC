@@ -175,6 +175,33 @@ var snackReq = {
 
         }
 
+        if($("#cardToSn").val() != ""){
+            var cardParams = {
+                cardToSn : $("#cardToSn").val()
+            }
+
+            var result = customKendo.fn_customAjax("/card/getCardToInfo", cardParams);
+
+            var rs = result.cardInfo;
+
+            $("#useDt").val(rs.CARD_TO_DE);
+            $("#userSn").val(rs.USE_EMP_SEQ);
+            $("#userText").val(rs.USE_EMP_NAME);
+            let chargeUserDataSource = []
+            chargeUserDataSource.push({text: rs.USE_EMP_NAME, value: rs.USE_EMP_SEQ});
+            customKendo.fn_dropDownList("chargeUser", chargeUserDataSource, "text", "value", 2);
+            $("#chargeUser").data("kendoDropDownList").enable(true);
+
+            $("#payType").data("kendoDropDownList").select(2);
+            $("#cardHistoryDisplay").css("display", "");
+            $("#corporCard").prop("disabled", true);
+            $("#usAmount").prop("disabled", true);
+
+            $("#cardBaNb").val(rs.CARD_BA_NB);
+            $("#corporCard").val(rs.TR_NM);
+            console.log(result);
+        }
+
     },
 
     settingTempFileDataInit : function(e, p){
@@ -339,6 +366,10 @@ var snackReq = {
 
         formData.append("cardText", cardText);
         formData.append("cardSn", cardSn);
+
+        if($("#cardToSn").val() != ""){
+            formData.append("cardToSn", $("#cardToSn").val());
+        }
 
         //증빙파일 첨부파일
         if(snackReq.global.addAttFiles != null){

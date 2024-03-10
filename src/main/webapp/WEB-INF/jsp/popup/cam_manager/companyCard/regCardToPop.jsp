@@ -101,6 +101,11 @@
                         <input type="text" id="hrBizVisitCrm" style="width: 40%;" disabled />
                         <button type="button" class="k-button k-button-solid-base" onclick="regCardToPop.fn_bustripPop();">검색</button>
                     </span>
+                    <span id="cardToPurcDiv" style="display: none;">
+                        <input type="hidden" id="purcSn" style="width: 30%;" />
+                        <input type="text" id="purcReqPurpose" style="width: 40%;" disabled />
+                        <button type="button" class="k-button k-button-solid-base" onclick="regCardToPop.fn_purcPop();">검색</button>
+                    </span>
                 </td>
             </tr>
             <tr>

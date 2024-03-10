@@ -126,6 +126,10 @@ var statementList = {
                 }, {
                     field: "USE_EMP_NAME",
                     title: "반출자",
+                    width: 80
+                }, {
+                    field: "CARD_TO_PURPOSE",
+                    title: "반출목적",
                     width: 100
                 }, {
                     field: "",
@@ -177,7 +181,7 @@ var statementList = {
                     }
                 }, {
                     title: "사용이력등록",
-                    width: 120,
+                    width: 80,
                     template: function(e){
                         if(e.RT_YN == 'N'){
                             return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_addCardHist('+e.CARD_TO_SN+')">추가</button>'
@@ -187,7 +191,7 @@ var statementList = {
                     }
                 }, {
                     title: "반납",
-                    width: 120,
+                    width: 80,
                     template: function(e){
                         console.log(e);
                         if(e.RT_YN == 'N'){
@@ -198,13 +202,57 @@ var statementList = {
                     }
                 }, {
                     title: "기타",
-                    width: 100,
+                    width: 80,
                     template: function(e){
                         if(e.USE_EMP_SEQ == $("#myEmpSeq").val()){
                             if(e.RT_YN == 'N'){
                                 return '<button type="button" class="k-button k-button-solid k-button-solid-error" onclick="statementList.fn_del('+e.CARD_TO_SN+')">삭제</button>'
                             } else {
                                 return '<button type="button" class="k-button k-button-solid k-button-solid-error" disabled>삭제</button>'
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "",
+                    width: 120,
+                    template: function(e){
+                        if(e.USE_EMP_SEQ == $("#myEmpSeq").val()){
+                            if(e.RT_YN == 'Y'){
+                                if(e.CARD_TO_PURPOSE == "출장"){
+                                    if(e.HR_BIZ_REQ_RESULT_ID != null && e.HR_BIZ_REQ_RESULT_ID != "" && e.HR_BIZ_REQ_RESULT_ID != undefined){
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.FR_KEY+', '+e.TRIP_CODE+')">출장결과보고</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.popBustripRes(\'N\', '+e.FR_KEY+', '+e.TRIP_CODE+')">출장결과보고</button>'
+                                    }
+                                } else if (e.CARD_TO_PURPOSE == "구매"){
+                                    if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_purcPopup('+e.FR_KEY+')">구매요청서</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_purcPopup()">구매요청서 작성</button>'
+                                    }
+                                } else if (e.CARD_TO_PURPOSE == "영업"){
+                                    if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_reqRegPopup('+e.FR_KEY+')">지급신청서</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_reqRegPopup(\'\', \'\', \'\', '+ e.CARD_TO_SN + ')">지급신청서 작성</button>'
+                                    }
+                                } else if (e.CARD_TO_PURPOSE == "식대"){
+                                    if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.snackPopup('+e.FR_KEY+')">식대</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.snackPopup(\'\', \'\', '+e.CARD_TO_SN+')">식대 등록</button>'
+                                    }
+                                } else {
+                                    if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_reqRegPopup('+e.FR_KEY+')">지급신청서</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_reqRegPopup(\'\', \'\', \'\', '+ e.CARD_TO_SN + ', \''+e.PJT_CD+'\', \''+e.PJT_NM+'\')">지급신청서 작성</button>'
+                                    }
+                                }
+                            } else {
+                                return '';
                             }
                         } else {
                             return "";
@@ -513,5 +561,93 @@ var statementList = {
                 }
             });
         // }
-    }
+    },
+
+    popBustripRes: function(e, d, t) {
+        if(e == "N"){
+            var url = "/bustrip/pop/bustripResultPop.do?hrBizReqId="+d+"&tripType="+t;
+        }else{
+            var url = "/bustrip/pop/bustripResultPop.do?hrBizReqResultId="+e+"&hrBizReqId="+d+"&tripType="+t;;
+        }
+        var name = "bustripResListPop";
+        var option = "width=1200, height=795, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_purcPopup : function(key){
+        var url = "/purc/pop/regPurcReqPop.do";
+        if(key != null && key != ""){
+            url = "/purc/pop/regPurcReqPop.do?purcSn=" + key;
+        }
+        var name = "blank";
+        var option = "width = 1690, height = 820, top = 100, left = 400, location = no";;
+        var popup = window.open(url, name, option);
+    },
+
+    fn_reqRegPopup : function(key, status, auth, cardToSn, pjtCd, pjtNm){
+        var url = "/payApp/pop/regPayAppPop.do";
+        if(key != null && key != ""){
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+
+            if(cardToSn != null && cardToSn != ""){
+                url += "&cardToSn=" + cardToSn;
+            }
+        } else {
+            if(cardToSn != null && cardToSn != ""){
+                url += "?cardToSn=" + cardToSn;
+
+                if(pjtCd != null && pjtCd != ""){
+                    url += "&cardPjtCd=" + pjtCd;
+                }
+
+                if(pjtNm != null && pjtNm != ""){
+                    url += "&cardPjtNm=" + pjtNm;
+                }
+            }
+        }
+        if(status != null && status != ""){
+            url += "&status=" + status;
+        }
+        if(auth != null && auth != ""){
+            url += "&auth=" + auth;
+        }
+
+
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    snackPopup: function(snackInfoSn, mode, cardToSn){
+        let urlParams = "";
+        if(!isNaN(snackInfoSn) && snackInfoSn != null && snackInfoSn != ""){
+            if(urlParams == "") {
+                urlParams += "?";
+            }else {
+                urlParams += "&";
+            }
+            urlParams += "snackInfoSn=" + snackInfoSn;
+        }
+        if(mode != null && mode != "") {
+            if(urlParams == "") {
+                urlParams += "?";
+            }else {
+                urlParams += "&";
+            }
+            urlParams += "mode=" + mode;
+        }
+
+        if(cardToSn != null && cardToSn != "") {
+            if(urlParams == "") {
+                urlParams += "?";
+            }else {
+                urlParams += "&";
+            }
+            urlParams += "cardToSn=" + cardToSn;
+        }
+        const url = "/Inside/pop/snackPop.do"+urlParams;
+        const name = "popup test";
+        const option = "width = 1100, height = 700, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
 }

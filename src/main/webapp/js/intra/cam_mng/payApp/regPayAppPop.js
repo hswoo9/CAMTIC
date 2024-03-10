@@ -1326,6 +1326,14 @@ var regPay = {
                 $("#exnpAddBtn").text("대체신청서 작성");
             }
         }
+
+        if($("#cardToSn").val() != ""){
+            if($("#cardPjtCd").val() != ""){
+                selectProject('', $("#cardPjtNm").val(), $("#cardPjtCd").val());
+            } else {
+                selectProject('', '[2024년]법인운영', 'Mm1m124010');
+            }
+        }
     },
 
     fn_reasonClickModal : function(e){
@@ -1865,6 +1873,10 @@ var regPay = {
             regEmpSeq : $("#regEmpSeq").val(),
             empSeq : $("#regEmpSeq").val(),
             type : type
+        }
+
+        if($("#cardToSn").val() != ""){
+            parameters.cardToSn = $("#cardToSn").val()
         }
 
         // if($("#advances").is(":checked")){
