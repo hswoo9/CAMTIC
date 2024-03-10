@@ -162,6 +162,11 @@ var regCardToPop = {
 
         if($("#cardToPurpose").val() == "출장"){
             parameters.frKey = $("#hrBizReqId").val();
+
+            if(parameters.frKey == ""){
+                alert("출장신청서를 선택해주세요.");
+                return;
+            }
         }
 
         if(parameters.trNm == ""){
