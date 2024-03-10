@@ -47,6 +47,11 @@
 <input type="hidden" id="snackInfoSn" value="${params.snackInfoSn}" />
 <input type="hidden" id="sList" value="" />
 
+<input type="hidden" id="cardToSn" value="${params.cardToSn}" />
+
+<input type="hidden" id="cardPjtSn" value="${params.cardPjtSn}" />
+<input type="hidden" id="cardPjtCd" value="${params.cardPjtCd}" />
+<input type="hidden" id="cardPjtNm" value="${params.cardPjtNm}" />
 
 <input type="hidden" id="apprMngStat" value="${params.vType}">
 

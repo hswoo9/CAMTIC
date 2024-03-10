@@ -228,12 +228,24 @@ var statementList = {
                                     }
                                 } else if (e.CARD_TO_PURPOSE == "구매"){
                                     if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
-                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_reqRegPopup('+e.FR_KEY+')">구매요청서</button>'
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_purcPopup('+e.FR_KEY+')">구매요청서</button>'
                                     } else {
-                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_reqRegPopup()">구매요청서 작성</button>'
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_purcPopup()">구매요청서 작성</button>'
                                     }
-                                } else{
+                                } else if (e.CARD_TO_PURPOSE == "영업"){
+                                    if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_reqRegPopup('+e.FR_KEY+')">지급신청서 작성</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_reqRegPopup(\'\', \'\', \'\', '+ e.CARD_TO_SN + ')">지급신청서 작성</button>'
+                                    }
+                                } else if (e.CARD_TO_PURPOSE == "식대"){
                                     return '';
+                                } else {
+                                    if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-info" onclick="statementList.fn_reqRegPopup('+e.FR_KEY+')">지급신청서 작성</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_reqRegPopup(\'\', \'\', \'\', '+ e.CARD_TO_SN + ', \''+e.PJT_CD+'\', \''+e.PJT_NM+'\')">지급신청서 작성</button>'
+                                    }
                                 }
                             } else {
                                 return '';
@@ -558,13 +570,47 @@ var statementList = {
         var popup = window.open(url, name, option);
     },
 
-    fn_reqRegPopup : function(key){
+    fn_purcPopup : function(key){
         var url = "/purc/pop/regPurcReqPop.do";
         if(key != null && key != ""){
             url = "/purc/pop/regPurcReqPop.do?purcSn=" + key;
         }
         var name = "blank";
         var option = "width = 1690, height = 820, top = 100, left = 400, location = no";;
+        var popup = window.open(url, name, option);
+    },
+
+    fn_reqRegPopup : function(key, status, auth, cardToSn, pjtCd, pjtNm){
+        var url = "/payApp/pop/regPayAppPop.do";
+        if(key != null && key != ""){
+            url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+
+            if(cardToSn != null && cardToSn != ""){
+                url += "&cardToSn=" + cardToSn;
+            }
+        } else {
+            if(cardToSn != null && cardToSn != ""){
+                url += "?cardToSn=" + cardToSn;
+
+                if(pjtCd != null && pjtCd != ""){
+                    url += "&cardPjtCd=" + pjtCd;
+                }
+
+                if(pjtNm != null && pjtNm != ""){
+                    url += "&cardPjtNm=" + pjtNm;
+                }
+            }
+        }
+        if(status != null && status != ""){
+            url += "&status=" + status;
+        }
+        if(auth != null && auth != ""){
+            url += "&auth=" + auth;
+        }
+
+
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 }

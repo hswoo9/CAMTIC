@@ -163,7 +163,7 @@ var regCardToPop = {
             pjtCd : $("#pjtCd").val(),
             pjtNm : $("#pjtNm").val(),
             regEmpSeq : $("#regEmpSeq").val(),
-
+            frKey : null,
             visitCrm : $("#hrBizVisitCrm").val(),
         }
 
