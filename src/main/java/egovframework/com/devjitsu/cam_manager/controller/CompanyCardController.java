@@ -145,6 +145,9 @@ public class CompanyCardController {
     @RequestMapping("/card/saveRegCardTo")
     public String saveRegCardTo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         try{
+            if(params.get("frKey").equals("")){
+                params.put("frKey", null);
+            }
             companyCardService.saveRegCardTo(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
