@@ -865,7 +865,7 @@ public class PurcController {
     @RequestMapping("/purcHist/purcHist.do")
     private String projectHistEdu(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("loginVO", loginVO);
         return "cam_purc/hist/purcHist";

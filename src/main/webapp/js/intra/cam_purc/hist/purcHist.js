@@ -8,7 +8,9 @@ var histPurc = {
     },
 
     gridReload: function(){
-        histPurc.global.searchAjaxData = {}
+        histPurc.global.searchAjaxData = {
+            empSeq : $("#empSeq").val()
+        }
         histPurc.mainGrid("/purcHist/getHistPurcList", histPurc.global.searchAjaxData);
     },
 
