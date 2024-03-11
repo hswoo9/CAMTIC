@@ -84,12 +84,18 @@ var popUserPay = {
                 extraPay = 0;
             }
 
+            var foodPay = list[count].FOOD_PAY;
+
+            if(foodPay == null || foodPay == ""){
+                foodPay = 0;
+            }
+
             html += '' +
                 '<tr id="tr'+count+'">' +
                 '   <td><input type="text" style="font-size: 11px" id="startDt'+count+'" /></td>' +
                 '   <td><input type="text" style="font-size: 11px" id="endDt'+count+'" /></td>' +
                 '   <td><input type="text" style="text-align: right;font-size: 11px" id="basicSalary'+count+'" value="'+ popUserPay.comma(list[count].BASIC_SALARY) +'" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
-                '   <td><input type="text" style="text-align: right;font-size: 11px" id="foodPay'+count+'" value="0" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                '   <td><input type="text" style="text-align: right;font-size: 11px" id="foodPay'+count+'" value="'+ popUserPay.comma(foodPay) +'" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                 '   <td><input type="text" style="text-align: right;font-size: 11px" id="extraPay'+count+'" value="'+popUserPay.comma(extraPay)+'" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                 '   <td><input type="text" style="text-align: right;font-size: 11px" id="bonus'+count+'" value="'+popUserPay.comma(bonus)+'" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                 '   <td><input type="text" style="font-size: 11px" id="socialRateSn'+count+'" /></td>' +
@@ -101,7 +107,7 @@ var popUserPay = {
                 '   <td><input type="text" disabled style="text-align: right;font-size: 11px" id="busnPay'+count+'" /></td>' +
                 '   <td><input type="text" disabled style="text-align: right;font-size: 11px" id="retirePay'+count+'" /></td>' +
                 '   <td><input type="text" disabled style="text-align: right;font-size: 11px" id="bsPay'+count+'" /></td>' +
-                '   <td>' +
+                '   <td style="text-align: center;">' +
                 '       <button type="button" class="k-button k-button-solid-info" onclick="popUserPay.fn_save('+list[count].SALARY_SN+')">저장</button>' +
                 '       <button type="button" class="k-button k-button-solid-error" onclick="popUserPay.fn_del('+list[count].SALARY_SN+')">삭제</button>' +
                 '   </td>' +
