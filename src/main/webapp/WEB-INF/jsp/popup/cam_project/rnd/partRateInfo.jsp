@@ -271,8 +271,8 @@
 
             for (var i = 0; i < fCommon.global.attFiles.length; i++) {
                 html += '<tr style="text-align: center" class="addFile">';
-                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[0] + '</td>';
-                html += '   <td>' + fCommon.global.attFiles[i].name.split(".")[1] + '</td>';
+                html += '   <td>' + fCommon.global.attFiles[i].name.substring(0, fCommon.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
+                html += '   <td>' + fCommon.global.attFiles[i].name.substring(fCommon.global.attFiles[i].name.lastIndexOf(".")+1) + '</td>';
                 html += '   <td>' + fCommon.global.attFiles[i].size + '</td>';
                 html += '   <td>';
                 html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
