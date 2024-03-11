@@ -124,7 +124,7 @@
     </select>
 
     <select id="getHistPurcList" resultType="java.util.Map" parameterType="java.util.Map">
-        /** getHistPurcList */
+        /* getHistPurcList */
         <![CDATA[
         SELECT
             SeqNo,

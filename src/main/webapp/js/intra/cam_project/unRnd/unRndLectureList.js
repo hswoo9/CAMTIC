@@ -119,11 +119,11 @@ var unRndLectList = {
                     width: "3%"
                 }, {
                     field: "LEC_FIELD_NAME",
-                    title: "분야",
+                    title: "분야1",
                     width: "10%"
                 }, {
-                    field: "LEC_SBJ_CD_NAME",
-                    title: "과목",
+                    field: "LEC_FIELD_NAME1",
+                    title: "분야2",
                     width: "10%"
                 }, {
                     field: "LEC_TITLE_BS",
