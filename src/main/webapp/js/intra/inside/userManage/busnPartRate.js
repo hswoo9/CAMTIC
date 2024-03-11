@@ -50,10 +50,11 @@ var busnPartRate = {
                     dataType : "json",
                     success : function(rs){
 
+                        console.log(rs)
                         var resultData = {
 
                         }
-                        var strDe = $("#strDt").val().split("-");
+                        var strDe = rs.list[0].MIN_DT.split("-");
                         var endDe = $("#endDt").val().split("-");
                         var diffMonth = (endDe[0] - strDe[0]) * 12 + (endDe[1] - strDe[1]) + 1;
                         const projectStartMonth = strDe[0] + "-" + strDe[1];
