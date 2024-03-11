@@ -563,6 +563,7 @@
             cam_inside.dj_application_main A
         where
             RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        AND RECRUIT_INFO_SN = #{recruitInfoSn}
         AND
             SAVE_TYPE = 'S'
         ORDER BY A.USER_NAME
