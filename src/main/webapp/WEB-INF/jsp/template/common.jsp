@@ -31,6 +31,7 @@
 
     <link rel="stylesheet" href="/css/quirk.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/media.css">
 
     <script src="/lib/modernizr/modernizr.js"></script>
 

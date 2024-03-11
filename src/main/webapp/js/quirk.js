@@ -48,6 +48,10 @@ $(document).ready(function() {
 
     }
 
+    if($(window).width() < 1200){
+        $('#tilesBody').animate({left: marginMain}, 'fast');
+    }
+
   }
 
 

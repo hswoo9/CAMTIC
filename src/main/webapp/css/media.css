@@ -1,0 +1,18 @@
+@media all and (max-width:1200px){
+    .mainpanel {
+        /*overflow-x: scroll;
+        overflow-y: scroll;*/
+    }
+    .contentpanel {
+        width: 1660px !important;
+    }
+    .headerpanel {
+    }
+
+    #tilesBody {
+        position: sticky;
+        left: 0px;
+        top: 75px;
+        overflow-x: scroll;
+    }
+}
