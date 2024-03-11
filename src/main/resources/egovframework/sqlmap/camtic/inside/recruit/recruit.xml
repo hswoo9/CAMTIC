@@ -544,7 +544,14 @@
             CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI
         ON AM.RECRUIT_AREA_INFO_SN = AI.RECRUIT_AREA_INFO_SN
         WHERE
-            AM.RECRUIT_INFO_SN = #{recruitInfoSn}
+            <choose>
+                <when test='type != null and !"".equals(type) and "recruitDrafting".equals(type)'>
+                    AM.RECRUIT_INFO_SN IN (${recruitInfoSn})
+                </when>
+                <otherwise>
+                    AM.RECRUIT_INFO_SN = #{recruitInfoSn}
+                </otherwise>
+            </choose>
         AND
             AM.SAVE_TYPE = 'S'
         <if test='searchType != null and !"".equals(searchType)'>
@@ -589,6 +596,7 @@
             </choose>
         </if>
         GROUP BY AM.SAVE_DATE DESC
+        ORDER BY AM.RECRUIT_INFO_SN DESC, AM.APPLICATION_ID DESC
     </select>
 
     <select id="getUserDuplicationList" parameterType="map" resultType="map">

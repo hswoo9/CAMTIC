@@ -58,6 +58,11 @@ var recruitList = {
                 }, {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" id="delvAppBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="recruitList.recruitDraftingPop();">결재</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="recruitList.setRecruitDel()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
@@ -172,13 +177,13 @@ var recruitList = {
                             }
                         }
                     }
-                }, {
+                }, /*{
                     title: "결재",
                     width : 90,
                     template : function(e){
                         return "<button type=\"button\" id=\"delvAppBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"recruitList.recruitDraftingPop('"+e.RECRUIT_INFO_SN+"')\">결재</button>";
                     }
-                }
+                }*/
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
@@ -335,10 +340,21 @@ var recruitList = {
         }
     },
 
-    recruitDraftingPop : function(pk){
-        var url = "/inside/pop/recruitDraftingPop.do?recruitInfoSn=" + pk;
+    recruitDraftingPop : function(){
+
+        if($("input[name='recChk']:checked").length == 0){
+            alert("채용공고를 선택해주세요.");
+            return
+        }
+
+        var pk = "";
+        $.each($("input[name='recChk']:checked"), function(){
+            pk += "," + $(this).val()
+        })
+
+        var url = "/inside/pop/recruitDraftingPop.do?recruitInfoSn=" + pk.substring(1);
         var name = "recruitDraftingPop";
-        var option = "width=1000, height=598, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var option = "width=1208, height=598, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
 }
