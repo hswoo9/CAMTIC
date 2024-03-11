@@ -11,7 +11,7 @@ var appView = {
 
         $.ajax({
             url : "/application/getApplicationByRecruitArea.do",
-            data : { recruitAreaInfoSn: recruitAreaInfoSn },
+            data : { recruitAreaInfoSn: recruitAreaInfoSn, recruitInfoSn: $("#recruitInfoSn").val() },
             method : "POST",
             dataType : "json",
             success: function (data){

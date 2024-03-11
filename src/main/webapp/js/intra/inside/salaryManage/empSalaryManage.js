@@ -129,22 +129,22 @@ var esm = {
                 template: "데이터가 존재하지 않습니다."
             },
             columns: [
-                /*{
+                {
                     title: "순번",
-                    width: 50,
+                    width: 30,
                     template: "#= --record #",
-                }, */{
+                }, {
                     field : "EMP_NAME_KR",
                     title : "이름",
                     width: 50,
                 }, {
                     field : "RES_REGIS_NUM",
                     title : "주민등록번호",
-                    width: 70,
+                    width: 65,
                 }, {
                     field : "JOIN_DAY",
                     title : "입사일",
-                    width: 70,
+                    width: 60,
                 }, {
                     field : "DIVISION",
                     title : "직원유형",
@@ -152,18 +152,18 @@ var esm = {
                 }, {
                     field : "DEPT_NAME",
                     title : "부서/팀",
-                    width: 200,
+                    width: 100,
                 }, {
                     title : "기본급여 적용기간",
                     columns : [
                         {
                             field: "START_DT",
                             title: "시작일",
-                            width: 70,
+                            width: 60,
                         }, {
                             field: "END_DT",
                             title: "종료일",
-                            width: 70,
+                            width: 60,
                         }
                     ]
                 }, {
@@ -172,9 +172,16 @@ var esm = {
                         {
                             field: "BASIC_SALARY",
                             title: "기본급",
-                            width: 50,
+                            width: 60,
                             template : function(e){
                                 return e.BASIC_SALARY.toString().toMoney();
+                            }
+                        }, {
+                            field: "FOOD_PAY",
+                            title: "식대",
+                            width: 50,
+                            template : function(e){
+                                return e.FOOD_PAY.toString().toMoney();
                             }
                         }, {
                             field: "EXTRA_PAY",
@@ -186,7 +193,7 @@ var esm = {
                         }, {
                             field: "BONUS",
                             title: "상여",
-                            width: 50,
+                            width: 60,
                             template : function(e){
                                 return e.BONUS.toString().toMoney();
                             }
@@ -276,7 +283,7 @@ var esm = {
                     }
                 }, {
                     title : "기준급여",
-                    width: 50,
+                    width: 60,
                     template : function(e){
                         /** 기준급여 = (기본급 + 수당 + 상여 + 사업자부담분 + 퇴직금추계액) */
                         /** 기본급 */
