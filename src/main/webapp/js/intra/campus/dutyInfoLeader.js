@@ -198,9 +198,9 @@ var dutyInfoLeader = {
                                 /** 승인 요청자가 부서장급 */
                                 }else if(e.DUTY_CODE == "2" || e.DUTY_CODE == "3" || e.DUTY_CODE == "7"){
                                     /** 부서장 단계 */
-                                    if(e.LD_STATUS == 'N' && e.TARGET_STATUS == 10 &&
+                                    if(e.TARGET_STATUS == 10 &&
                                         (($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7") ||
-                                            (dutyInfoLeader.global.subTeamYn == "Y") && dutyInfoLeader.global.allDutyList.findIndex((item) => item.DEPT_SEQ == e.DEPT_SEQ) != -1)){
+                                            (dutyInfoLeader.global.subTeamYn == "Y"))){
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeLeader('+e.TARGET_CHECK+', \'mng\', '+e.EMP_SEQ+')">부서장 승인</button>' +
                                             '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_targetCertReq(30, '+e.EMP_SEQ+', \'mng\');">반려</button>';
 
@@ -270,9 +270,9 @@ var dutyInfoLeader = {
                                 /** 승인 요청자가 팀장급 */
                                 }else if(e.DUTY_CODE == "4" || e.DUTY_CODE == "5"){
                                     /** 부서장 단계 */
-                                    if(e.DUTY_LD_STATUS == 'N' && e.DUTY_STATUS == 10 &&
+                                    if(e.DUTY_STATUS == 10 &&
                                         (($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7") ||
-                                        (dutyInfoLeader.global.subTeamYn == "Y") && dutyInfoLeader.global.allDutyList.findIndex((item) => item.DEPT_SEQ == e.DEPT_SEQ) != -1)){
+                                        (dutyInfoLeader.global.subTeamYn == "Y"))){
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="dutyInfoLeader.fn_agreeDutyLeader('+e.DUTY_CHECK+', \'mng\')">부서장 승인</button>' +
                                             '<button type="button" id="comBtn" class="k-button k-button-solid-error" style="margin-left: 5px;" onclick="dutyInfoLeader.fn_dutyCertReq(30, '+e.DUTY_CHECK+', \'mng\');">반려</button>';
 
