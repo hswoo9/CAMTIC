@@ -238,7 +238,10 @@ var hwpInit = {
         const mem = result.result.projectMemberInfo;
         const befMem = result.result2.projectMemberInfo;
 
-        var fieldsToCheck = ['PJT_STR_DT', 'PJT_END_DT', 'MON_DIFF', 'TOT_RATE', 'TOT_PAY_BUDG', 'CHNG_SAL'];
+        console.log(mem);
+        console.log(befMem);
+
+        var fieldsToCheck = ['EMP_NAME','PJT_STR_DT', 'PJT_END_DT', 'MON_DIFF', 'TOT_RATE', 'TOT_PAY_BUDG', 'CHNG_SAL'];
 
         if (mem.length !== befMem.length) {
             console.log("두 리스트의 길이가 다릅니다.");
