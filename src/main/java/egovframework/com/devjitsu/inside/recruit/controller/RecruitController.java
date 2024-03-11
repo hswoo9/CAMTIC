@@ -269,13 +269,13 @@ public class RecruitController {
             }
 
             if (comparatorMatches(commissionerDeptSeq, newMap.get("deptSeq"))) {
-                if ("본부장".equals(commissionerDutyName) || "센터장".equals(commissionerDutyName)) {
+                if ("본부장".equals(commissionerDutyName)) {
                     allMatchingDeptMaps.add(commissionerMap);
                     System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
                 }
             } else if (comparatorMatches(commissionerDeptSeq, newMap.get("teamSeq"))) {
                 // TEAM_SEQ와 비교
-                if ("팀장".equals(commissionerDutyName)) {
+                if ("팀장".equals(commissionerDutyName) || "센터장".equals(commissionerDutyName)) {
                     allMatchingDeptMaps.add(commissionerMap);
                     System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
                 }
