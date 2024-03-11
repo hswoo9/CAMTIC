@@ -275,6 +275,16 @@
             FILE_NO = #{fileNo}
     </select>
 
+    <select id="getContentFileList" parameterType="map" resultType="map">
+        /* getContentFileList */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_NO in(${fileNo})
+    </select>
+
     <delete id="getContentFileDelOne" parameterType="map">
         /* getContentFileDelOne */
         DELETE FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_NO = #{fileNo}

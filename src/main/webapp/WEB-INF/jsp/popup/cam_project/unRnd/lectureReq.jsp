@@ -82,12 +82,6 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업명</th>
-                    <td colspan="3">
-                        <input id="projectName" style="width: 800px;">
-                    </td>
-                </tr>
-                <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업구분</th>
                     <td>
                         <input id="projectType" style="width: 370px;">
@@ -159,7 +153,7 @@
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>총 교육시간</th> <%--컨설팅 시간--%>
                     <td>
-                        총 <input id="eduTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;" disabled> 시간<%--/
+                        총 <input id="eduTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;" > 시간<%--/
                         <input id="eduTimeEx" style="width: 140px;"> 예) 18:30~22:00--%>
                     </td>
                 </tr>
@@ -230,7 +224,7 @@
                     </td>
                 </tr>--%>
                 <tr>
-                    <th scope="row" class="text-center th-color">교재 이미지</th>
+                    <th scope="row" class="text-center th-color">실적 이미지</th>
                     <td>
                         <input type="hidden" id="file1Sn" name="file1Sn">
                         <label for="file1" id="file1Label" class="k-button k-button-solid-base">파일첨부</label>
@@ -243,12 +237,14 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">수강신청서</th>
+                    <th scope="row" class="text-center th-color">첨부파일 양식</th>
                     <td>
                         <input type="hidden" id="file2Sn" name="file2Sn">
                         <label for="file2" id="file2Label" class="k-button k-button-solid-base">파일첨부</label>
-                        <input type="file" id="file2" name="file2" onchange="fileChange(this)" style="display: none">
-                        <span id="file2Name"></span>
+                        <input type="file" id="file2" name="file2" onchange="fileChange2(this)" style="display: none" aria-label="files" multiple>
+                        <div style="width:50%; display: inline-flex;">
+                            <span id="file2Name"></span>
+                        </div>
                     </td>
                     <th scope="row" class="text-center th-color">포스터</th>
                     <td>
@@ -419,6 +415,17 @@
 
     function fileChange(e){
         $(e).next().text($(e)[0].files[0].name);
+    }
+
+    function fileChange2(e) {
+        const files = $(e)[0].files;
+        const fileNames = [];
+
+        for (const file of files) {
+            fileNames.push(file.name);
+        }
+
+        $("#file2Name").text(fileNames.join(", "));
     }
     
     lectureReq.fn_defaultScript();

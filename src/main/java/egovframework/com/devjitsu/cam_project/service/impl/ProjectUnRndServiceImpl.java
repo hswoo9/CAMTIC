@@ -239,13 +239,16 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     @Override
     public Map<String, Object> getLectureInfo(Map<String, Object> params) {
         Map<String, Object> lecInfo = projectUnRndRepository.getLectureInfo(params);
-
         Map<String, Object> searchMap = new HashMap<>();
         searchMap.put("fileNo", lecInfo.get("LEC_BOOK_IMG_SN"));
         lecInfo.put("file1", commonRepository.getContentFileOne(searchMap));
 
         searchMap.put("fileNo", lecInfo.get("LEC_APPL_SN"));
-        lecInfo.put("file2", commonRepository.getContentFileOne(searchMap));
+        if (lecInfo.get("LEC_APPL_SN") == null || lecInfo.get("LEC_APPL_SN").toString().isEmpty()) {
+            lecInfo.put("file2", commonRepository.getContentFileOne(searchMap));
+        } else {
+            lecInfo.put("file2", commonRepository.getContentFileList(searchMap));
+        }
 
         searchMap.put("fileNo", lecInfo.get("LEC_MAIN_IMG_SN"));
         lecInfo.put("file3", commonRepository.getContentFileOne(searchMap));
@@ -321,8 +324,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         Map<String, Object> fileInsMap = new HashMap<>();
 
         MultipartFile file1 = request.getFile("file1");
-        MultipartFile file2 = request.getFile("file2");
+        MultipartFile[] file2 = request.getFiles("file2").toArray(new MultipartFile[0]);
         MultipartFile file3 = request.getFile("file3");
+
+        List<Map<String, Object>> fileList = mainLib.multiFileUpload(file2, filePath(params, SERVER_DIR));
 
         if(file1 != null) {
             if (!file1.isEmpty()) {
@@ -339,17 +344,24 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         }
 
         if(file2 != null) {
-            if (!file2.isEmpty()) {
-                fileInsMap  = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
+            StringBuilder lecApplSnBuilder = new StringBuilder();
+            for (int i = 0; i<fileList.size(); i++) {
+
+                //fileInsMap  = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 fileInsMap.put("fileCd", "lecApplSn");
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                //fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                //fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileList.get(i).get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("fileExt", fileList.get(i).get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileUUID", fileList.get(i).get("fileUUID"));
+                fileInsMap.put("fileSize", fileList.get(i).get("fileSize"));
                 commonRepository.insOneFileInfo(fileInsMap);
-
-                params.put("lecApplSn", fileInsMap.get("file_no"));
+                lecApplSnBuilder.append(',').append(fileInsMap.get("file_no"));  // file_no 추가
             }
+            String lecApplSn = lecApplSnBuilder.length() > 0 ? lecApplSnBuilder.substring(1) : "";
+            params.put("lecApplSn", lecApplSn);
         }
 
         if(file3 != null) {
@@ -379,8 +391,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         Map<String, Object> fileInsMap = new HashMap<>();
 
         MultipartFile file1 = request.getFile("file1");
-        MultipartFile file2 = request.getFile("file2");
+        MultipartFile[] file2 = request.getFiles("file2").toArray(new MultipartFile[0]);
         MultipartFile file3 = request.getFile("file3");
+
+        List<Map<String, Object>> fileList = mainLib.multiFileUpload(file2, filePath(params, SERVER_DIR));
 
         String file1sn = (String) params.get("file1sn");
         String file2sn = (String) params.get("file2sn");
@@ -404,23 +418,25 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         }else{
             params.put("lecBookImgSn", file1sn);
         }
-
-        if(file2 != null) {
-            if (!file2.isEmpty()) {
-                if(file2sn != null || file2sn != "") {
-                    commonRepository.getContentFileDelOne(params);
-                }
-
-                    fileInsMap = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
-                    fileInsMap.put("empSeq", params.get("regEmpSeq"));
-                    fileInsMap.put("fileCd", "lecApplSn");
-                    fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                    fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                    fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                    commonRepository.insOneFileInfo(fileInsMap);
-
-                    params.put("lecApplSn", fileInsMap.get("file_no"));
+        if (!fileList.isEmpty()) {
+            if(file2sn != null || file2sn != "") {
+                commonRepository.getContentFileDelOne(params);
             }
+            StringBuilder lecApplSnBuilder = new StringBuilder();
+            for(int i = 0 ; i < fileList.size() ; i++){
+                //fileInsMap = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
+                fileInsMap.put("empSeq", params.get("regEmpSeq"));
+                fileInsMap.put("fileCd", "lecApplSn");
+                fileInsMap.put("filePath", filePath(params, BASE_DIR));
+                fileInsMap.put("fileOrgName", fileList.get(i).get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("fileExt", fileList.get(i).get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileUUID", fileList.get(i).get("fileUUID"));
+                fileInsMap.put("fileSize", fileList.get(i).get("fileSize"));
+                commonRepository.insOneFileInfo(fileInsMap);
+                lecApplSnBuilder.append(',').append(fileInsMap.get("file_no"));  // file_no 추가
+            }
+            String lecApplSn = lecApplSnBuilder.length() > 0 ? lecApplSnBuilder.substring(1) : "";
+            params.put("lecApplSn", lecApplSn);
         }else{
             params.put("lecApplSn", file2sn);
         }

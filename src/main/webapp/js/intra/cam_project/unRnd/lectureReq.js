@@ -114,9 +114,17 @@ const lectureReq = {
                 $("#file1Name").attr("onclick", "fileDown('" + lecMap.file1.file_path + lecMap.file1.file_uuid +"', '" + lecMap.file1.file_org_name + "." + lecMap.file1.file_ext + "')");
                 $("#file1Name").css("cursor", "pointer");
             }
-            if(lecMap.file2 != null){
+            if (lecMap.file2 != null) {
+                var html = "";
+                for (let i = 0; i < lecMap.file2.length; i++) {
+                    const file = lecMap.file2[i];
+                    const filePath = file.file_path;
+                    const fileName = file.file_org_name + '.' + file.file_ext;
+
+                    html += `<a href="javascript:" style="color:#343a40;" onclick="fileDown('${filePath}', '${encodeURIComponent(fileName)}')">${fileName}</a><br/>`;
+                }
                 $("#file2Name").text(lecMap.file2.file_org_name + '.' +lecMap.file2.file_ext);
-                $("#file2Name").attr("onclick", "fileDown('" + lecMap.file2.file_path + lecMap.file2.file_uuid +"', '" + lecMap.file2.file_org_name + "." + lecMap.file2.file_ext + "')");
+                $("#file2Name").html(html);
                 $("#file2Name").css("cursor", "pointer");
             }
             if(lecMap.file3 != null){
@@ -205,7 +213,6 @@ const lectureReq = {
         if(typeValue == "lec") {
             const data = {
                 pjtSn: $("#pjtSn").val(),
-
                 projectType: $("#projectType").data("kendoDropDownList").value(),
                 projectTypeName: $("#projectType").data("kendoDropDownList").text(),
                 fieldType: $("#fieldType").data("kendoDropDownList").value(),
@@ -254,7 +261,8 @@ const lectureReq = {
                 regEmpSeq: $("#regEmpSeq").val(),
 
                 file1 : $("#file1")[0].files[0],
-                file2 : $("#file2")[0].files[0],
+                //file1 : file1,
+                file2 : file2,
                 file3 : $("#file3")[0].files[0],
                 file1sn : $("#file1Sn").val(),
                 file2sn : $("#file2Sn").val(),
@@ -318,6 +326,13 @@ const lectureReq = {
             for (let key in data) {
                 formData.append(key, data[key]);
             }
+
+            if($("#file2")[0].files.length > 0){
+                for(var i = 0; i < $("#file2")[0].files.length; i++){
+                    formData.append("file2", $("#file2")[0].files[i]);
+                }
+            }
+
 
             const result = customKendo.fn_customFormDataAjax(url, formData);
 
