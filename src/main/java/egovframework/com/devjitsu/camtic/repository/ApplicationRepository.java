@@ -16,6 +16,7 @@ public class ApplicationRepository extends AbstractDAO {
     public String getUserApplicationId(Map<String, Object> params) { return (String) selectOne("application.getUserApplicationId", params);}
     public boolean getApplicationChk(Map<String, Object> params) { return (boolean) selectOne("application.getApplicationChk", params);}
     public Map<String, Object> getApplicationForm1(Map<String, Object> params){ return (Map<String, Object>) selectOne("application.getApplicationForm1", params);}
+    public List<Map<String, Object>> getApplicationForm1List(Map<String, Object> params){ return selectList("application.getApplicationForm1List", params);}
     public Map<String, Object> getApplicationFileInfo(Map<String, Object> params){ return (Map<String, Object>) selectOne("application.getApplicationFileInfo", params);}
     public void setApplicationForm1(Map<String, Object> params) { insert("application.setApplicationForm1", params);}
     public void setApplicationForm1Upd(Map<String, Object> params) { update("application.setApplicationForm1Upd", params);}
