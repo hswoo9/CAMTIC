@@ -230,7 +230,7 @@ var hwpInit = {
         hwpDocCtrl.putFieldText('CRM_NM', " "+map.CRM_NM);
         hwpDocCtrl.putFieldText('PJT_NM_TEXT', " "+map.PJT_NM+" 참여인력 변경의 건");
 
-        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
+        hwpDocCtrl.putFieldText('PJT_NM', map.BS_TITLE);
         hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
         hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
@@ -238,7 +238,10 @@ var hwpInit = {
         const mem = result.result.projectMemberInfo;
         const befMem = result.result2.projectMemberInfo;
 
-        var fieldsToCheck = ['PJT_STR_DT', 'PJT_END_DT', 'MON_DIFF', 'TOT_RATE', 'TOT_PAY_BUDG', 'CHNG_SAL'];
+        console.log(mem);
+        console.log(befMem);
+
+        var fieldsToCheck = ['EMP_NAME','PJT_STR_DT', 'PJT_END_DT', 'MON_DIFF', 'TOT_RATE', 'TOT_PAY_BUDG', 'CHNG_SAL'];
 
         if (mem.length !== befMem.length) {
             console.log("두 리스트의 길이가 다릅니다.");

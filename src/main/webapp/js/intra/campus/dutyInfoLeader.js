@@ -309,6 +309,7 @@ var dutyInfoLeader = {
     },
 
     fn_agreeLeader : function(id, type, empSeq, dutyCnt){
+        debugger
         if(dutyCnt == undefined || dutyCnt == null){
             if(!confirm("승인하시겠습니까?")){
                 return;
@@ -322,7 +323,7 @@ var dutyInfoLeader = {
         var rs = customKendo.fn_customAjax("/campus/agreeSubject", data)
 
         if(rs.code == 200){
-            if(dutyCnt != undefined && dutyCnt != null){
+            if(dutyCnt != undefined && dutyCnt != null && dutyCnt == 0){
                 dutyInfoLeader.fn_agreeLeader(id, 'mng', empSeq)
             } else if(type == "mng"){
                 dutyInfoLeader.fn_targetCertReq(100, empSeq)

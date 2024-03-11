@@ -29,6 +29,14 @@ const applicationPrintPop = {
         const html3 = this.makeTable3(data.cert);
         /** 외국어 */
         const html4 = this.makeTable4(data.lang);
+        /** 기타 외국어 능력 */
+        const html5 = data.OTHER_YN == 'Y' ? this.makeTable5(data.OTHER_LANG) : this.makeTable5("N");
+        /** 성장과정 및 장단점 능력 */
+        const html6 = this.makeTable6(data.introduce.INTRODUCE1);
+        /** 입사 후 포부 및 업무추진계획 */
+        const html7 = this.makeTable7(data.introduce.INTRODUCE2);
+        /** 기타사항 */
+        const html8 = this.makeTable8(data.introduce.INTRODUCE3);
 
 
         /** 인적사항 한글기안기에 입력 */
@@ -100,53 +108,59 @@ const applicationPrintPop = {
         /** 기타외국어능력 한글기안기에 입력 */
         setTimeout(function() {
             applicationPrintPop.global.hwpCtrl.MoveToField("html5", true, true, false);
-            applicationPrintPop.global.hwpCtrl.SetTextFile(data.OTHER_YN == 'Y' ? data.OTHER_LANG.replaceAll("\n", "<br>") : "", "html","insertfile");
+            applicationPrintPop.global.hwpCtrl.SetTextFile(html5, "html","insertfile");
+            // applicationPrintPop.global.hwpCtrl.SetTextFile(data.OTHER_YN == 'Y' ? data.OTHER_LANG.replaceAll("\n", "<br>") : "", "html","insertfile");
         }, 1000);
 
         /** 성장과정및장단점 한글기안기에 입력 */
         setTimeout(function() {
             applicationPrintPop.global.hwpCtrl.MoveToField("html6", true, true, false);
-            applicationPrintPop.global.hwpCtrl.SetTextFile(data.introduce.INTRODUCE1.replaceAll("\n", "<br>"), "html","insertfile");
+            applicationPrintPop.global.hwpCtrl.SetTextFile(html6, "html","insertfile");
+            // applicationPrintPop.global.hwpCtrl.SetTextFile(data.introduce.INTRODUCE1.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1200);
 
         /** 입사후포부및업무추진계획 한글기안기에 입력 */
         setTimeout(function() {
             applicationPrintPop.global.hwpCtrl.MoveToField("html7", true, true, false);
-            applicationPrintPop.global.hwpCtrl.SetTextFile(data.introduce.INTRODUCE2.replaceAll("\n", "<br>"), "html","insertfile");
+            applicationPrintPop.global.hwpCtrl.SetTextFile(html7, "html","insertfile");
+            // applicationPrintPop.global.hwpCtrl.SetTextFile(data.introduce.INTRODUCE2.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1400);
 
         /** 기타사항 한글기안기에 입력 */
         setTimeout(function() {
             applicationPrintPop.global.hwpCtrl.MoveToField("html8", true, true, false);
-            applicationPrintPop.global.hwpCtrl.SetTextFile(data.introduce.INTRODUCE3.replaceAll("\n", "<br>"), "html","insertfile");
+            applicationPrintPop.global.hwpCtrl.SetTextFile(html8, "html","insertfile");
+            // applicationPrintPop.global.hwpCtrl.SetTextFile(data.introduce.INTRODUCE3.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1600);
     },
 
     makeTable1 : function(list){
+        console.log("schoolList");
+        console.log(list);
         let html = "";
-        html += '<table style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '<table style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:13px; line-height: 120%; width: 100%; ">';
         html += '   <tr>';
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="5.5" style="border-collapse: collapse; margin: 0px;">';
         html += '               <tr>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:12px;font-family:굴림체;"><b>구 분</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 82px;"><p style="font-size:12px;font-family:굴림체;"><b>기 간</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 142px;"><p style="font-size:12px;font-family:굴림체;"><b>학교명</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 142px;"><p style="font-size:12px;font-family:굴림체;"><b>학 과</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 104px;"><p style="font-size:12px;font-family:굴림체;"><b>전 공</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;font-family:굴림체;"><b>졸 업</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;font-family:굴림체;"><b>평 점</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>구 분</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 82px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>기 간</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 142px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>학교명</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 142px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>학 과</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 104px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>전 공</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>졸 업</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>평 점</b></p></td>';
         html += '               </tr>';
         for(let i=0;  i < list.length; i++){
             const item = list[i];
             html += '               <tr>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.SCHOOL_TYPE_TXT +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.ADMISSION_DT + '\n ~ ' + item.GRADUATION_DT +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.SCHOOL_NAME +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.DEPT +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.MAJOR +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.GRADUATE_TYPE_TXT +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.GRADE +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.SCHOOL_TYPE_TXT +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.ADMISSION_DT + '\n ~ ' + item.GRADUATION_DT +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.SCHOOL_NAME +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.DEPT +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.MAJOR +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.GRADUATE_TYPE_TXT +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.GRADE +'</p></td>';
             html += '               </tr>';
         }
         html += '           </table>';
@@ -158,36 +172,57 @@ const applicationPrintPop = {
     },
 
     makeTable2 : function(list){
+        console.log("careerList");
+        console.log(list);
         let html = "";
-        html += '<table style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '<table style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:13px; line-height: 120%; width: 100%; ">';
         html += '   <tr>';
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="5.5" style="border-collapse: collapse; margin: 0px;">';
         html += '               <tr>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 156px;"><p style="font-size:12px;font-family:굴림체;"><b>근무처</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 108px;"><p style="font-size:12px;font-family:굴림체;"><b>근무기간</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 110px;"><p style="font-size:12px;font-family:굴림체;"><b>직 위</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 110px;"><p style="font-size:12px;font-family:굴림체;"><b>담당업무</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 108px;"><p style="font-size:12px;font-family:굴림체;"><b>퇴직시연봉</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 108px;"><p style="font-size:12px;font-family:굴림체;"><b>퇴직사유</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 156px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>근무처</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 108px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>근무기간</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 110px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>직 위</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 110px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>담당업무</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 108px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>퇴직시연봉</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 108px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>퇴직사유</b></p></td>';
         html += '               </tr>';
-        for(let i=0;  i < list.length; i++){
-            const item = list[i];
+
+        if(list.length > 0){
+            for(let i=0;  i < list.length; i++){
+                const item = list[i];
+                html += '               <tr>';
+                html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.CAREER_ORG_NAME +'</p></td>';
+                html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.WORK_ST_DT + '\n ~ ' + item.WORK_EN_DT + '\n('+item.DIFF_YEAR+'년 '+item.DIFF_MONTH+'개월)' +'</p></td>';
+                html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.POSITION +'</p></td>';
+                html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.CHARGE_WORK +'</p></td>';
+                html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.RETIRE_SALARY +'</p></td>';
+                html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.RETIRE_REASON +'</p></td>';
+                html += '               </tr>';
+                html += '               <tr>';
+                html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>담당업무 세부사항</b></p></td>';
+                html += '                   <td colspan="5" style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;text-align: justify;">'+ item.CAREER_CONTENT +'</p></td>';
+                html += '               </tr>';
+
+                /** 총 경력 */
+                applicationPrintPop.global.diffSum += Number(item.DIFF);
+            }
+        } else {
             html += '               <tr>';
-            html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.CAREER_ORG_NAME +'</p></td>';
-            html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.WORK_ST_DT + '\n ~ ' + item.WORK_EN_DT + '\n('+item.DIFF_YEAR+'년 '+item.DIFF_MONTH+'개월)' +'</p></td>';
-            html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.POSITION +'</p></td>';
-            html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.CHARGE_WORK +'</p></td>';
-            html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.RETIRE_SALARY +'</p></td>';
-            html += '                   <td style="height:60px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.RETIRE_REASON +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
             html += '               </tr>';
             html += '               <tr>';
-            html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;"><b>담당업무 세부사항</b></p></td>';
-            html += '                   <td colspan="5" style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.CAREER_CONTENT +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>담당업무 세부사항</b></p></td>';
+            html += '                   <td colspan="5" style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
             html += '               </tr>';
 
             /** 총 경력 */
-            applicationPrintPop.global.diffSum += Number(item.DIFF);
+            applicationPrintPop.global.diffSum += Number(0);
         }
         html += '           </table>';
         html += '       </td>';
@@ -198,24 +233,35 @@ const applicationPrintPop = {
     },
 
     makeTable3 : function(list){
+        console.log("certList");
+        console.log(list);
         let html = "";
-        html += '<table style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '<table style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:13px; line-height: 120%; width: 100%; ">';
         html += '   <tr>';
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="5.5" style="border-collapse: collapse; margin: 0px;">';
         html += '               <tr>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 154px;"><p style="font-size:12px;font-family:굴림체;"><b>명 칭</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 62px;"><p style="font-size:12px;font-family:굴림체;"><b>등 급</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 172px;"><p style="font-size:12px;font-family:굴림체;"><b>검정기관</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 312px;"><p style="font-size:12px;font-family:굴림체;"><b>활용능력</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 154px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>명 칭</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 62px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>등 급</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 172px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>검정기관</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 312px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>활용능력</b></p></td>';
         html += '               </tr>';
-        for(let i=0;  i < list.length; i++){
-            const item = list[i];
+        if(list.length > 0){
+            for(let i=0;  i < list.length; i++){
+                const item = list[i];
+                html += '               <tr>';
+                html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.CERT_NAME +'</p></td>';
+                html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.CERT_CLASS +'</p></td>';
+                html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.CERT_ISSUER +'</p></td>';
+                html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.CERT_CONTENT +'</p></td>';
+                html += '               </tr>';
+            }
+        } else {
             html += '               <tr>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.CERT_NAME +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.CERT_CLASS +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.CERT_ISSUER +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.CERT_CONTENT +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
             html += '               </tr>';
         }
         html += '           </table>';
@@ -227,30 +273,73 @@ const applicationPrintPop = {
     },
 
     makeTable4 : function(list){
+        console.log("langList");
+        console.log(list);
         let html = "";
-        html += '<table style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '<table style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:13px; line-height: 120%; width: 100%; ">';
         html += '   <tr>';
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="5.5" style="border-collapse: collapse; margin: 0px;">';
         html += '               <tr>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 154px;"><p style="font-size:12px;font-family:굴림체;"><b>명 칭</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 62px;"><p style="font-size:12px;font-family:굴림체;"><b>등 급</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 172px;"><p style="font-size:12px;font-family:굴림체;"><b>검정기관</b></p></td>';
-        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 312px;"><p style="font-size:12px;font-family:굴림체;"><b>활용능력</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 154px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>명 칭</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 62px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>등 급</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 172px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>검정기관</b></p></td>';
+        html += '                   <td style="height:40px;background-color:#BFBFFF; text-align:center; width: 312px;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"><b>활용능력</b></p></td>';
         html += '               </tr>';
-        for(let i=0;  i < list.length; i++){
-            const item = list[i];
+        if(list.length > 0){
+            for(let i=0;  i < list.length; i++){
+                const item = list[i];
+                html += '               <tr>';
+                html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.LANG_NAME +'</p></td>';
+                html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.ACQUISITION_DATE +'</p></td>';
+                html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.ACQUISITION_SCORE +'</p></td>';
+                html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;">'+ item.LANG_CONTENT +'</p></td>';
+                html += '               </tr>';
+            }
+        } else {
             html += '               <tr>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.LANG_NAME +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.ACQUISITION_DATE +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.ACQUISITION_SCORE +'</p></td>';
-            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;font-family:굴림체;">'+ item.LANG_CONTENT +'</p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
+            html += '                   <td style="height:40px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p></td>';
             html += '               </tr>';
         }
         html += '           </table>';
         html += '       </td>';
         html += '   </tr>';
         html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
+    },
+
+    makeTable5 : function(data){
+        let html = "";
+        if(data == "N"){
+            html += '<p style="font-size:13px;font-family:굴림체;line-height: 120%;"></p>';
+        } else {
+            html += '<p style="font-size:13px;font-family:굴림체;line-height: 120%;">' + data + '</p>'
+        }
+
+        return html.replaceAll("\n", "<br>");
+    },
+
+    makeTable6 : function(data){
+        let html = "";
+        html += '<p style="font-size:13px;font-family:굴림체;line-height: 120%;">' + data + '</p>';
+
+        return html.replaceAll("\n", "<br>");
+    },
+
+    makeTable7 : function(data){
+        let html = "";
+        html += '<p style="font-size:13px;font-family:굴림체;line-height: 120%;">' + data + '</p>';
+
+        return html.replaceAll("\n", "<br>");
+    },
+
+    makeTable8 : function(data){
+        let html = "";
+        html += '<p style="font-size:13px;font-family:굴림체;line-height: 120%;">' + data + '</p>';
 
         return html.replaceAll("\n", "<br>");
     },

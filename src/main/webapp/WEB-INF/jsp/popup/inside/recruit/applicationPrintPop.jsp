@@ -12,7 +12,7 @@
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/inside/recruit/applicationPrintPop.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/inside/recruit/applicationPrintPop.js?v=2'/>"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <input type="hidden" id="recruitAreaInfoSn" value="${data.recruitAreaInfoSn}"/>

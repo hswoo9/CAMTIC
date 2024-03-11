@@ -145,7 +145,7 @@ const recruitPrintPop = {
             }
 
             let certHtml = '';
-            const certArr = map.CERT_AREA.split(", ");
+            const certArr = map.CERT_AREA ? map.CERT_AREA.split(", ") : [];
             for(let j=0; j<certArr.length; j++){
                 if(j!=0){
                     certHtml += '<br>';

@@ -10,6 +10,21 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/recruit/recruitDraftingPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/recruit/fontJs.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/recruit/recruitAdminPop.js?v=${today}"></script>
+<style>
+  .k-grid-toolbar{
+    justify-content: flex-end !important;
+  }
+
+  .k-grid-norecords{
+    justify-content: space-around;
+  }
+
+  a:hover {
+    text-decoration: underline !important;
+    color: blue !important;
+  }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}">
@@ -19,7 +34,7 @@
   <input type="hidden" id="type" name="type" value="drafting">
   <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
-<div class="col-lg-12 pop_sign_wrap" style="width:1000px;padding:0;">
+<div class="col-lg-12 pop_sign_wrap" style="padding:0;">
   <div class="table-responsive">
     <div class="card-header pop-header">
       <h3 class="card-title title_NM">
