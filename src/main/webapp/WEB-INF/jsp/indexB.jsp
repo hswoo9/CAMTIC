@@ -45,9 +45,9 @@
     }
 </style>
 
-<div id="mainContent">
-    <div class="col-md-2 col-lg-2" style="margin-top:-10px;">
-        <div class="media leftpanel-profile" style="text-align:center; background-color:#fff;">
+<div class="col-md-2 col-lg-2" id="mainContent" style="float: left">
+    <div style="margin-top:-10px;">
+        <div class="media leftpanel-profile" style="text-align:center; background-color:#fff; margin-bottom: 10px">
             <div id="idPhotoDiv">
                 <a href="#">
                     <c:choose>
@@ -82,14 +82,17 @@
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus} 건</span></div>
             </div>
         </div>
-        <div class="panel" style="margin-top:10px;margin-bottom:10px; height:171px;">
-            <div style="padding: 17px 0 0 25px; display: flex; align-items: center;">
-                <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">임직원 생일</h4>
-                <%--<span id="currentYearMonth" style="font-weight:600; font-size:15px; margin-left: 120px;"></span>--%>
-            </div>
-            <div class="panel-body" id="empBirthDayList" style="padding:0; width:285px; height:120px; margin-left:10px; margin-top:4px;">
+
+        <div class="panel" style="margin-bottom: 10px">
+            <div style="background-color: #fff;">
+                <div style="padding: 21px 0 0 25px; display: flex; align-items: center;">
+                    <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">임직원 생일</h4>
+                </div>
+                <div class="panel-body" id="empBirthDayList" style="padding:0; width:285px; height:120px; margin-left:10px; margin-top:4px;">
+                </div>
             </div>
         </div>
+
         <div class="panel" style="margin-bottom:10px;">
             <div style="padding: 25px 0 0 25px; height: 53px;">
                 <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">일정</h4>
@@ -116,7 +119,7 @@
         </div>
     </div>
 </div>
-<div class="col-md-7 col-lg-7" style="margin-top:-10px;">
+<div class="col-md-7 col-lg-7" style="margin-top:-10px; float:left;">
     <div class="panel" style="margin-bottom:10px; height: 465px;">
         <div style="padding: 25px 0 0 25px;">
             <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">게시판 최근글</h4>
@@ -220,7 +223,8 @@
         </div>
     </div>
 </div>
-<div class="col-md-3 col-sm-3" style="margin-top:-10px; padding-left:0;">
+
+<div class="col-md-3 col-sm-3" style="margin-top:-10px; padding-left:0; float: left">
     <div class="col-md-6 col-sm-6" style="padding-right:0;">
         <div class="panel" style="margin-bottom:10px;">
             <div class="panel-heading" style="background-color: #fff; padding:5px;">
