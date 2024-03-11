@@ -302,7 +302,8 @@
             C.PM_EMP_SEQ,
             A.PART_EMP_SEQ,
             C.SBJ_STAT_YN,
-            A.TOT_RATE
+            A.TOT_RATE,
+            (SELECT MIN(PART_DET_STR_DT) FROM CAM_PJT_MNG.DJ_PART_RATE_DET WHERE PART_RATE_VER_SN = B.PART_RATE_VER_SN) AS MIN_DT
         FROM
             CAM_PJT_MNG.DJ_PART_RATE_DET A
         LEFT JOIN
@@ -403,6 +404,8 @@
         </if>
         ORDER BY AA.EMP_NAME_KR
     </select>
+
+
 
 </mapper>
 

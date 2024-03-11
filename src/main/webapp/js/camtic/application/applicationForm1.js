@@ -421,7 +421,7 @@ var applicationForm = {
     },
 
     fileSave : function(){
-        if($("#fileChange").val() != "Y" && $("#fileName").text() == ""){
+        if($("#fileChange").val() != "Y" && $("#fileName").html() == ""){
             alert("파일 첨부 후 저장 가능합니다."); return;
         }
 

@@ -2948,6 +2948,8 @@
                  open="(" separator="," close=")">
             #{item}
         </foreach>
+        GROUP BY B.EMP_SEQ
+        ORDER BY B.REG_DATE DESC
     </select>
 
     <update id="confirmPartRate" parameterType="map">
