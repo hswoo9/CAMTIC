@@ -4,17 +4,16 @@ var recruitDrafting = {
     },
 
     fn_defaultScript : function(){
-        this.gridReload();
+        recruitDrafting.gridReload();
     },
 
     gridReload : function() {
-        this.global.searchAjaxData = {
-            recruitInfoSn: $("recruitInfoSn").val()
+        recruitDrafting.global.searchAjaxData = {
+            recruitInfoSn: $("#recruitInfoSn").val(),
+            type: "recruitDrafting"
         }
 
-        this.mainGrid("/inside/getDraftingList", {
-            recruitInfoSn: $("#recruitInfoSn").val()
-        });
+        recruitDrafting.mainGrid("/inside/getApplicationList", recruitDrafting.global.searchAjaxData);
     },
 
     mainGrid: function(url, params){
@@ -49,42 +48,117 @@ var recruitDrafting = {
                 }],
             columns: [
                 {
-                    title: "번호",
+                    title: "순번",
                     width: 50,
-                    template: "#= --record #"
+                    template: "#= ++record #"
                 }, {
-                    title: "문서번호",
-                    field: "DOC_NO",
-                    width: 180,
-                }, {
-                    field: "DOC_TITLE",
-                    title: "문서제목",
+                    field: "USER_NAME",
+                    title: "성명",
+                    width : 80,
                     template : function(e){
-                        return '<a onclick="approveDocView(\''+e.DOC_ID+'\', \''+e.APPRO_KEY+'\', \''+e.DOC_MENU_CD+'\')" style="font-weight: bold ">' + e.DOC_TITLE + '</a>';
+                        return '<a style="cursor: pointer;" onclick="recruitDrafting.applicationInfo(' + e.APPLICATION_ID + ')">' + e.USER_NAME + '</a>'
                     }
                 }, {
-                    field: "DRAFT_DATE",
-                    title: "요청일",
-                    width: 120,
+                    field: "AGE",
+                    title: "연령",
+                    template : function(e){
+                        return e.AGE + "세"
+                    },
+                    width : 50
                 }, {
-                    title: "요청자",
-                    field: "DRAFT_EMP_NAME",
-                    width: 100
+                    field: "GENDER",
+                    title: "성별",
+                    width : 50
                 }, {
-                    title: "상태",
-                    field: "STATUS",
-                    width: 100,
-                    template: function(e){
-                        if(e.STATUS != "100"){
-                            return "요청중";
+                    field: "SCHOOL_NAME",
+                    title: "최종학력",
+                    width : 120
+                }, {
+                    field: "WORK_DATE",
+                    title: "경력",
+                    width : 80,
+                    template : function(e){
+                        if(e.WORK_DATE != null){
+                            return recruitAdminPop.fn_calculate(e.WORK_DATE);
                         }else{
-                            return "결재완료";
+                            return "";
+                        }
+                    }
+                }, {
+                    field: "ADDR",
+                    title: "지역",
+                    width : 120
+                }, {
+                    field: "LANG_NAME",
+                    title: "외국어",
+                    width : 120
+                }, {
+                    field: "JOB",
+                    title: "채용분야",
+                    width : 120
+                }, {
+                    field: "SAVE_DATE",
+                    title: "지원일시",
+                    width : 150
+                }, {
+                    field: "DUPLICATION_CNT",
+                    title: "중복지원",
+                    template : function(e){
+                        if(e.DUPLICATION_CNT == "0"){
+                            return e.DUPLICATION_CNT + "건"
+                        }else{
+                            return '<a onclick="recruitAdminPop.duplicationCntPop(this)" style="cursor: pointer;">' + e.DUPLICATION_CNT + "건</a>"
                         }
                     },
-                }
+                    width : 80
+                }, {
+                    field: "DOC_SCREEN_AVERAGE",
+                    title: "서류심사",
+                    width : 100,
+                    template : function(e){
+                        var str = "";
+                        var avg = e.DOC_SCREEN_AVERAGE == null ? 0 :  Math.round(e.DOC_SCREEN_AVERAGE * 10) / 10;
+
+                        if(e.APPLICATION_STAT == "D" || e.APPLICATION_STAT == "I" || e.APPLICATION_STAT == "IF"){
+                            str = '합격 (' + avg + "점)";
+                        }else if(e.APPLICATION_STAT == "DF"){
+                            str = '불합격 (' + avg + "점)";
+                        }else{
+                            str = avg + '점';
+                        }
+
+                        return str;
+                    },
+                }, {
+                    field: "IN_SCREEN_AVERAGE",
+                    title: "면접심사",
+                    width : 100,
+                    template : function(e){
+                        console.log(e);
+                        if(e.IN_AVOID != "Y"){
+                            var avg = e.IN_SCREEN_AVERAGE == null ? 0 : Math.round(e.IN_SCREEN_AVERAGE * 10) / 10;
+                            var str = "";
+
+
+                            if(e.APPLICATION_STAT == "I"){
+                                str = '합격 (' + avg + "점)";
+                            }else if(e.APPLICATION_STAT == "IF"){
+                                str = '불합격 (' + avg + "점)";
+                            }else if(e.APPLICATION_STAT == "D"){
+                                str = avg + '점';
+                            }else{
+                                str = "";
+                            }
+
+                            return str;
+                        }else{
+                            return e.IN_AVOID_TXT
+                        }
+                    }
+                },
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+                record = fn_getRowNum(this, 1);
             }
         }).data("kendoGrid");
     },
@@ -111,5 +185,13 @@ var recruitDrafting = {
             this.method = 'POST';
             this.target = 'recruitOfficialApprovalPop';
         }).trigger("submit");
-    }
+    },
+
+    applicationInfo : function(e){
+        var url = "/inside/pop/applicationView.do?applicationId=" + e + "&recruitInfoSn=" + $("#recruitInfoSn").val() + "&stat=view";
+
+        var name = "recruitReqPop";
+        var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
 }
