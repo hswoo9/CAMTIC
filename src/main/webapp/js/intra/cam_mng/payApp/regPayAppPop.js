@@ -132,7 +132,7 @@ var regPay = {
                     }
 
                     for(let i = 0; i < rs.length; i++) {
-                        $("#eviType" + i).data("kendoDropDownList").select(7)
+                        $("#eviType" + i).data("kendoDropDownList").select(4)
                         $("#crmNm" + i).val(rs[i].EMP_NAME_KR);
                         $("#regNo" + i).val(rs[i].REG_NO);
                         $("#trCd" + i).val(rs[i].ERP_ERP_CD);

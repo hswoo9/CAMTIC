@@ -86,7 +86,7 @@ var targetAddYearPop = {
                 }
             });
         }else {
-            alert("해당 년도는 이미 등록되어 있습니다.");
+            // alert("해당 년도는 이미 등록되어 있습니다.");
             window.location.href = "targetInfoPop.do?targetYear="+ $("#targetYear").val();
         }
     }

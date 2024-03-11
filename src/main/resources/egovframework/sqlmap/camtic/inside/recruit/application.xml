@@ -555,18 +555,33 @@
     </update>
 
     <select id="getApplicationByRecruitArea" parameterType="map" resultType="map">
-        select
+        /*getApplicationByRecruitArea*/
+        SELECT
             APPLICATION_ID,
             USER_NAME,
             LEFT(BDAY, 4) AS BYEAR
-        from
-            cam_inside.dj_application_main A
-        where
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_MAIN A
+        WHERE
             RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
-        AND RECRUIT_INFO_SN = #{recruitInfoSn}
+        <choose>
+            <when test='type != null and !"".equals(type) and "recruitDrafting".equals(type)'>
+                OR RECRUIT_INFO_SN IN (${recruitInfoSn})
+            </when>
+            <otherwise>
+                AND RECRUIT_INFO_SN = #{recruitInfoSn}
+            </otherwise>
+        </choose>
         AND
             SAVE_TYPE = 'S'
-        ORDER BY A.USER_NAME
+        <choose>
+            <when test='type != null and !"".equals(type) and "recruitDrafting".equals(type)'>
+                ORDER BY A.RECRUIT_INFO_SN DESC, A.USER_NAME
+            </when>
+            <otherwise>
+                ORDER BY A.USER_NAME
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getChkEmail" parameterType="map" resultType="boolean">
