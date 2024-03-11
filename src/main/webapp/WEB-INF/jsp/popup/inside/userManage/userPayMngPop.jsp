@@ -7,7 +7,9 @@
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/userManage/userPayMngPop.js?v=${today}"></script>
-
+<style>
+    #userPayMngBody > tr > td { padding: 5px; }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
@@ -88,8 +90,6 @@
     <div class="table-responsive">
         <table class="popTable table table-bordered mb-0">
             <colgroup>
-                <col width="8%">
-                <col width="8%">
                 <col width="6%">
                 <col width="6%">
                 <col width="6%">
@@ -103,7 +103,9 @@
                 <col width="6%">
                 <col width="6%">
                 <col width="6%">
-                <col width="4%">
+                <col width="6%">
+                <col width="6%">
+                <col width="3%">
             </colgroup>
             <thead>
             <tr>
@@ -131,7 +133,7 @@
             </thead>
             <tbody id="userPayMngBody">
                 <tr id="tr">
-                    <td><input type="text" style="font-size: 11px" id="startDt" /></td>
+                    <td><input type="text" style="font-size: 11px;" id="startDt" /></td>
                     <td><input type="text" style="font-size: 11px" id="endDt" /></td>
                     <td><input type="text" style="text-align: right;font-size: 11px" id="basicSalary" value="0" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
                     <td><input type="text" style="text-align: right;font-size: 11px" id="foodPay" value="0" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /></td>
@@ -146,7 +148,7 @@
                     <td><input type="text" disabled style="text-align: right;font-size: 11px" id="busnPay" /></td>
                     <td><input type="text" disabled style="text-align: right;font-size: 11px" id="retirePay" /></td>
                     <td><input type="text" disabled style="text-align: right;font-size: 11px" id="bsPay" /></td>
-                    <td>
+                    <td style="text-align: center;">
                         <button type="button" class="k-button k-button-solid-info" onclick="popUserPay.fn_save()">저장</button>
                     </td>
                 </tr>
