@@ -188,7 +188,7 @@ var recruitDrafting = {
     },
 
     applicationInfo : function(e){
-        var url = "/inside/pop/applicationView.do?applicationId=" + e + "&recruitInfoSn=" + $("#recruitInfoSn").val() + "&stat=view";
+        var url = "/inside/pop/applicationView.do?applicationId=" + e + "&recruitInfoSn=" + $("#recruitInfoSn").val() + "&type=recruitDrafting" + "&stat=view";
 
         var name = "recruitReqPop";
         var option = "width=1000, height=1200, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"

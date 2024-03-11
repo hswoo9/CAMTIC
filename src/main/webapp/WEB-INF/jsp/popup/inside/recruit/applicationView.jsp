@@ -24,6 +24,7 @@
 <input type="hidden" id="applicationId" value="${data.APPLICATION_ID}"/>
 <input type="hidden" id="stat" value="${params.stat}">
 <input type="hidden" id="recruitInfoSn" value="${params.recruitInfoSn}">
+<input type="hidden" id="type" value="${params.type}">
 
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">

@@ -311,7 +311,19 @@ public class RecruitServiceImpl implements RecruitService {
         /**
          * 기본정보
          */
-        Map<String, Object> returnMap = applicationRepository.getApplicationForm1(params);
+        Map<String, Object> returnMap = new HashMap<>();
+        if(params.containsKey("type")){
+            String recruitAreaInfoSn = "";
+            for(Map<String, Object> map :  applicationRepository.getApplicationForm1List(params)){
+                recruitAreaInfoSn += "," + map.get("RECRUIT_AREA_INFO_SN");
+                if(map.get("APPLICATION_ID").toString().equals(params.get("applicationId").toString())){
+                    returnMap = map;
+                }
+            }
+            returnMap.put("RECRUIT_AREA_INFO_SN", recruitAreaInfoSn.substring(1));
+        } else {
+            returnMap = applicationRepository.getApplicationForm1(params);
+        }
         searchMap.put("fileNo", returnMap.get("PHOTO_FILE"));
         returnMap.put("photoFile", applicationRepository.getApplicationFileInfo(searchMap));
         searchMap.put("fileNo", returnMap.get("ARMI_FILE"));
