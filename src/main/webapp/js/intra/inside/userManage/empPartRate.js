@@ -280,8 +280,8 @@ var empPartRate = {
         }
 
         setRowSpanForColumn(1, '#e3e4e6', 'black', 'transparent');
-        setRowSpanForColumn(2, '#e3e4e6', 'black', 'transparent');
-        setRowSpanForColumn(3, '#e3e4e6', 'black', 'transparent');
+        /*setRowSpanForColumn(2, '#e3e4e6', 'black', 'transparent');
+        setRowSpanForColumn(3, '#e3e4e6', 'black', 'transparent');*/
 
         grid.tbody.find("tr").each(function () {
             var dataItem = grid.dataItem($(this));

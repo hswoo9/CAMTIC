@@ -56,6 +56,7 @@ var orgChart = {
                         data.sEmpName = $("#sEmpName").val();
                     }
                     data.fullTime2 = "1";
+                    data.tempType = 'N';
                     return data;
                 }
             },

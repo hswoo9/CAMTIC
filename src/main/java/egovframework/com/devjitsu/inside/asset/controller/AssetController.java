@@ -183,6 +183,8 @@ public class AssetController {
     public String getAssetInfo(@RequestParam Map<String,Object> params, Model model) {
         model.addAttribute("data", assetService.getAssetInfoAll(params));
         model.addAttribute("data2", assetService.getAssetInfo(params));
+        model.addAttribute("manage", assetService.getAstManage());
+
         return "jsonView";
     }
 

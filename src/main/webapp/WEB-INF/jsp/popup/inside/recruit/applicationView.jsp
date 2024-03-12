@@ -32,7 +32,7 @@
       <h3 class="card-title title_NM">캠틱 온라인 입사지원</h3>
       <div class="btn-st popButton">
         <button type="button" class="k-button k-button-solid-base mngBtn" style="margin-right:5px;" onclick="appView.applicationPrintPop()">인쇄</button>
-        <button type="button" class="k-button k-button-solid-primary mngBtn" style="margin-right:5px;" onclick="appView.applicationMod()">지원정보 수정</button>
+        <button type="button" class="k-button k-button-solid-primary mngBtn" id="modBtn" style="margin-right:5px;" onclick="appView.applicationMod()">지원정보 수정</button>
         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
       </div>
     </div>

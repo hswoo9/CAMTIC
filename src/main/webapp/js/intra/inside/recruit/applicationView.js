@@ -495,6 +495,8 @@ var appView = {
         /** view 모드일때 조회 이외에 버튼 전부 사라짐 */
         if($("#stat").val() == "view"){
             $(".mngBtn").hide();
+        } else if($("#stat").val() == "docView"){
+            $("#modBtn").hide();
         }
     },
 
