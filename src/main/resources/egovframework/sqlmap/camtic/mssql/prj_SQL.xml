@@ -202,4 +202,28 @@
         AND SDate <= #{endDt}
         ]]>
     </select>
+
+    <select id="getEduInfoHistList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getEduInfoHistList */
+        <![CDATA[
+        SELECT
+            SeqNo
+            , Method
+            , EduName
+            , SDate
+            , EDate
+            , CareLocation
+            , (SELECT Level FROM PRJDB.dbo.EduMenualField WHERE SeqNo = (SELECT MenuSeqNo FROM PRJDB.dbo.EduTarget Where SeqNo = A.SeqNo)) AS LEVEL
+            , State
+        FROM
+            PRJDB.dbo.EduInfo A
+        WHERE
+            YEAR(Indate) <= 2023
+        ]]>
+        AND YEAR(SDate) = #{eduYear}
+        <if test='empSeq != null and !"".equals(empSeq)'>
+            AND UUID = #{empSeq}
+        </if>
+        ORDER BY SDate DESC
+    </select>
 </mapper>

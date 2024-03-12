@@ -1,0 +1,298 @@
+@charset "utf-8";
+
+/************************************************************************
+* FONT *
+************************************************************************/
+@font-face {
+  font-family:'Nanum Gothic';
+  font-style:normal;
+  font-weight:400;
+  src:local('NanumGothic'), url(http://fonts.gstatic.com/s/nanumgothic/v8/PN_3Rfi-oW3hYwmKDpxS7F_D-djY.woff) format('woff');
+}
+@font-face {
+  font-family:'Nanum Gothic';
+  font-style:normal;
+  font-weight:700;
+  src:local('NanumGothic Bold'), local('NanumGothic-Bold'), url(http://fonts.gstatic.com/s/nanumgothic/v8/PN_oRfi-oW3hYwmKDpxS7F_LQv3LyVsg.woff) format('woff');
+}
+@font-face {
+  font-family:'Nanum Gothic';
+  font-style:normal;
+  font-weight:800;
+  src:local('NanumGothic ExtraBold'), local('NanumGothic-ExtraBold'), url(http://fonts.gstatic.com/s/nanumgothic/v8/PN_oRfi-oW3hYwmKDpxS7F_LXv7LyVsg.woff) format('woff');
+}
+
+
+
+
+
+@font-face {
+    font-family: 'Pretendard-Thin';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-ExtraLight';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraLight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-SemiBold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+
+
+
+.fP100,.fP100 *{font-family:'Pretendard-Thin';}
+.fP200,.fP200 *{font-family:'Pretendard-ExtraLight';}
+.fP300,.fP300 *{font-family:'Pretendard-Light';}
+.fP400,.fP400 *{font-family:'Pretendard-Regular';}
+.fP500,.fP500 *{font-family:'Pretendard-Medium';}
+.fP600,.fP600 *{font-family:'Pretendard-SemiBold';}
+.fP700,.fP700 *{font-family:'Pretendard-Bold';}
+.fP800,.fP800 *{font-family:'Pretendard-ExtraBold';}
+.fP900,.fP900 *{font-family:'Pretendard-Black';}
+
+
+
+
+*{font-family:'Pretendard-Medium',Nanum Gothic,나눔고딕,sans-serif;-webkit-box-sizing:border-box;box-sizing:border-box;-moz-box-sizing:border-box;-o-box-sizing:border-box;}
+
+
+
+
+
+/************************************************************************
+* HTML_RESET *
+************************************************************************/
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,a,button,address,em,img,small,strong,sub,sup,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,hr{margin:0;padding:0;}
+body{width:100%;max-width:640px;margin:0 auto;font-size:15px;font-weight:300;color:#000000;position:relative;background-color:#edeff3;}
+h1,h2,h3,h4,h5,h6{font-weight:normal;}
+ol,ul,li{list-style:none;}
+table{max-width:100%;border-collapse:collapse;border-spacing:0;}
+form,fieldset,iframe{display:block;border:0;}
+img,button{border:0 none;vertical-align:middle;}
+i,em,address{font-style:normal;}
+label,button{cursor:pointer;}
+caption,legend{display:none;} 
+input,textarea,select{margin:0;padding:0;vertical-align:middle;outline:none;}
+textarea{border:1px solid #666;resize:none;}
+button{overflow:visible;margin:0;padding:0;border:0 none;background:none;font-size:0;vertical-align:top;cursor:pointer;}
+button::-moz-focus-inner{border:0;padding:0;}
+a,img{outline:none;}
+hr{height:1px;margin:60px 0;border:none;color:#e6e6e6;background:#e6e6e6;}
+
+a{color:#000;text-decoration:none;word-break:break-all;}
+a:link,a:visited,a:hover,a:active,a:focus{text-decoration:none;}
+
+
+
+
+
+
+/************************************************************************
+* COMMON *
+************************************************************************/
+#wrap{width:100%;max-width:640px;height:100vh;padding:0 20px;overflow-x:hidden;background:#fff;position:relative;}
+#content{width:100%;}
+
+
+.disF{display:flex;justify-content:space-between;flex-wrap:wrap;}
+.disF.jc{justify-content:center;}
+.disF.ac{align-items:center;}
+.disF.jfs{justify-content:flex-start;}
+
+.LEFT{clear:both;}
+.LEFT>li{float:left;}
+
+.TC{text-align:center !important;}
+.TR{text-align:right !important;}
+.TsI{font-style:italic !important;}
+.TtU{text-transform:uppercase !important;}
+
+.FBD{font-weight:bold;}
+
+.mAuto{margin-left:auto;margin-right:auto;display:block;}
+
+.pl10{padding-left:10px;}
+
+.w5{width:5% !important;}
+.w10{width:10% !important;}
+.w15{width:15% !important;}
+.w20{width:20% !important;}
+.w25{width:25% !important;}
+.w30{width:30% !important;}
+.w35{width:35% !important;}
+.w40{width:40% !important;}
+.w45{width:45% !important;}
+.w50{width:50% !important;}
+.w55{width:55% !important;}
+.w57{width:57% !important;}
+.w60{width:60% !important;}
+.w65{width:65% !important;}
+.w70{width:70% !important;}
+.w75{width:75% !important;}
+.w80{width:80% !important;}
+.w85{width:85% !important;}
+.w90{width:90% !important;}
+.w95{width:95% !important;}
+.w100{width:100% !important;}
+
+.uli1 li{width:100%;}
+.uli2 li{width:50%;}
+.uli3 li{width:33.33%;}
+.uli4 li{width:25%;}
+.uli5 li{width:20%;}
+.uli6 li{width:16.6666%;}
+.uli7 li{width:14.2857%;}
+.uli8 li{width:12.5%;}
+
+.mt10{margin-top:10px !important;}
+.mt20{margin-top:20px !important;}
+.mt30{margin-top:30px !important;}
+.mt40{margin-top:40px !important;}
+.mt50{margin-top:50px !important;}
+.mt60{margin-top:60px !important;}
+.mt70{margin-top:70px !important;}
+.mt80{margin-top:80px !important;}
+.mt90{margin-top:90px !important;}
+.mt100{margin-top:100px !important;}
+.mt110{margin-top:110px !important;}
+.mt120{margin-top:120px !important;}
+.mt140{margin-top:140px !important;}
+.mt160{margin-top:160px !important;}
+
+
+
+h2{font-size:60px;line-height:120%;font-weight:900;letter-spacing:-0.02em;word-wrap:break-word;display:block;word-break:keep-all;}
+h3{font-size:55px;line-height:120%;font-weight:900;word-wrap:break-word;display:block;word-break:keep-all;}
+h4{font-size:40px;line-height:120%;font-weight:700;word-wrap:break-word;display:block;word-break:keep-all;}
+h5,h5>*{font-size:34px;line-height:120%;font-weight:900;word-wrap:break-word;display:block;word-break:keep-all;}
+
+
+
+.txt{font-weight:400;line-height:110%;word-wrap:break-word;display:block;word-break:keep-all;}
+.txt.type35{font-size:35px;}
+.txt.type34{font-size:34px;}
+.txt.type33{font-size:33px;}
+.txt.type32{font-size:32px;}
+.txt.type31{font-size:31px;}
+.txt.type30{font-size:30px;}
+.txt.type29{font-size:29px;}
+.txt.type28{font-size:28px;}
+.txt.type27{font-size:27px;}
+.txt.type26{font-size:26px;}
+.txt.type25{font-size:25px;}
+.txt.type24{font-size:24px;}
+.txt.type23{font-size:23px;}
+.txt.type22{font-size:22px;}
+.txt.type21{font-size:21px;}
+.txt.type20{font-size:20px;}
+.txt.type19{font-size:19px;}
+.txt.type18{font-size:18px;}
+.txt.type17{font-size:17px;}
+.txt.type16{font-size:16px;}
+.txt.type15{font-size:15px;}
+.txt.type14{font-size:14px;}
+.txt.type13{font-size:13px;}
+.txt.type12{font-size:12px;}
+.txt.type11{font-size:11px;}
+.txt.type10{font-size:10px;}
+
+
+
+
+
+
+/************************************************************************
+* HEADER *
+************************************************************************/
+#header{width:100%;height:60px;margin:30px 0 40px 0;position:relative;background:#fff;}
+#header .logo{width:35%;max-width:300px;position:absolute;top:0;left:0;display:block;}
+#header .logo img{width:100%;display:block;}
+
+
+
+
+
+
+/************************************************************************
+* TOP *
+************************************************************************/
+#notBar{height:60px;margin:30px 0 40px 0;position:absolute;top:0;right:20px;display:flex;justify-content:flex-end;align-items:center;}
+#notBar .bell{width:41px;height:63px;position:relative;display:flex;align-items:center;justify-content:center;}
+#notBar .bell img{width:100%;max-width:41px;}
+#notBar .bell i.on{width:10px;height:10px;border-radius:50%;background:#fb2502;position:absolute;top:14px;right:4px;}
+#notBar .lo-admin{margin-left:20px;display:flex;justify-content:flex-end;align-items:center;}
+#notBar .lo-admin font{text-align:right;}
+#notBar .lo-admin figure{width:63px;height:63px;margin:0;margin-left:15px;padding:0;border-radius:50%;background:#00529c;display:flex;align-items:center;justify-content:center;}
+#notBar .lo-admin figure img{width:50%;max-width:31px;display:block;}
+
+
+
+
+
+
+/************************************************************************
+* FOTTER *
+************************************************************************/
+#footer{padding-bottom:154px;}
+
+
+
+
+
+
+
+/************************************************************************
+* MENU *
+************************************************************************/
+#manu{width:100%;max-width:640px;padding:0 20px;background:#00529c;border-top-left-radius:50px;border-top-right-radius:50px;position:fixed;bottom:0;left:50%;transform:translateX(-50%);display:flex;}
+#manu a{width:calc(100%/5.005);padding:24px 0;display:block;}
+#manu a img{width:60%;max-width:73px;margin:0 auto;display:block;}
+#manu a font{display:block;color:#fff;text-align:center;padding-top:5px;font-family:'Pretendard-Bold';}
+
+
+
+

@@ -220,4 +220,6 @@ public interface CampusService {
 
 
     /** 전자결재 끝 */
+
+    List<Map<String, Object>> getEduInfoHistList(Map<String, Object> params);
 }
