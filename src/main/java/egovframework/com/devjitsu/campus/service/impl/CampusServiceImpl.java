@@ -6,6 +6,7 @@ import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.campus.service.CampusService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.g20.repository.PRJRepository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,15 @@ public class CampusServiceImpl implements CampusService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private CampusRepository campusRepository;
 
     @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private PRJRepository prjRepository;
 
     @Override
     public List<Map<String, Object>> getCodeList(Map<String, Object> params){
@@ -1814,5 +1819,10 @@ public class CampusServiceImpl implements CampusService {
         } else {
             campusRepository.agreeDutyMng(params);
         }
+    }
+
+    @Override
+    public List<Map<String, Object>> getEduInfoHistList(Map<String, Object> params){
+        return prjRepository.getEduInfoHistList(params);
     }
 }

@@ -2430,4 +2430,22 @@ public class CampusController {
 
         return "jsonView";
     }
+
+    /**
+     * 캠퍼스 개인학습현황 리스트 페이지
+     */
+    @RequestMapping("/cmapus/eduInfoHist.do")
+    public String eduInfoHist(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/hist/eduInfoHist";
+    }
+    @RequestMapping("/campus/getEduInfoHistList")
+    public String getEduInfoHistList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", campusService.getEduInfoHistList(params));
+        return "jsonView";
+    }
 }
