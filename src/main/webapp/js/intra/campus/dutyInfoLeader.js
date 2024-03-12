@@ -309,7 +309,6 @@ var dutyInfoLeader = {
     },
 
     fn_agreeLeader : function(id, type, empSeq, dutyCnt){
-        debugger
         if(dutyCnt == undefined || dutyCnt == null){
             if(!confirm("승인하시겠습니까?")){
                 return;
