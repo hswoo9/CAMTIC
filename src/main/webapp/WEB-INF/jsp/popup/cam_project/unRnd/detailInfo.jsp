@@ -59,6 +59,9 @@
     <input type="hidden" id="nowUrl" name="nowUrl" />
 </form>
 
+<input type="hidden" id="unRndStep1TmpCd" value="${data.PJT_TMP_CD}" />
+
+
 <div style="padding: 10px">
     <div id="detailBtnDiv">
         <button type="button" id="approveBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="openModal()">결재</button>
@@ -234,6 +237,12 @@
 
             // modalKendoSetCmCodeCM();
             modalSetData()
+
+            if($("#unRndStep1TmpCd").val() != "" && $("#unRndStep1TmpCd").val().toString().substring(0, 1) == 'S'){
+                $("#pjtStat").data("kendoDropDownList").value($("#unRndStep1TmpCd").val().toString().substring(3,4));
+                $("#pjtStat").data("kendoDropDownList").trigger("change");
+                $("#pjtStatSub").data("kendoDropDownList").value($("#unRndStep1TmpCd").val().toString().substring(4,5));
+            }
         },
         close: function () {
             $("#dialog").empty();

@@ -332,6 +332,24 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/payApp/payAppMngFileSet")
+    public String payAppMngFileSet(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+
+        try{
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+
+            payAppService.payAppMngFileSet(params, fileList, SERVER_DIR, BASE_DIR);
+
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return "jsonView";
+    }
+
     @RequestMapping("/popup/payApp/approvalFormPopup/payAppApprovalPop.do")
     public String approvalFormPopup(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();

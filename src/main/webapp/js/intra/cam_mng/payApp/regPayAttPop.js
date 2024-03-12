@@ -549,7 +549,40 @@ const regPayAtt = {
     },
 
     fn_regist: function(){
-        window.close();
+        if(opener.parent.$("#payAppSn").val() != "" && opener.parent.$("#auth").val() == "mng"){
+            var parameters = {
+                payAppSn : opener.parent.$("#payAppSn").val(),
+                empSeq : opener.parent.$("#empSeq").val()
+            }
+            var fd = new FormData();
+
+            for(var key in parameters){
+                fd.append(key, parameters[key]);
+            }
+
+            if(opener.parent.regPay.global.attFiles != null){
+                for(var i = 0; i < opener.parent.regPay.global.attFiles.length; i++){
+                    fd.append("fileList", opener.parent.regPay.global.attFiles[i]);
+                }
+            }
+
+            $.ajax({
+                url : "/payApp/payAppMngFileSet",
+                data : fd,
+                type : "post",
+                dataType : "json",
+                contentType: false,
+                processData: false,
+                enctype : 'multipart/form-data',
+                async: false,
+                success : function(rs){
+                    if(rs.code == 200){
+                        window.close();
+                        opener.window.location.reload();
+                    }
+                }
+            });
+        }
     },
 
     fn_delFile: function (key){

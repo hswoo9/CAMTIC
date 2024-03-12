@@ -261,7 +261,7 @@ var payCardHist = {
                     width: 80,
                     template: function(e){
                         return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payCardHist.fn_customSelectCard(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
+                            'onclick="payCardHist.fn_selCardInfo(\'' + e.TR_CD + '\', \'' + e.TR_NM + '\', \'' + e.CARD_BA_NB + '\', \'' + e.JIRO_NM + '\', \'' + e.CLTTR_CD + '\', \'' + e.BA_NB + '\', \'' + e.DEPOSITOR + '\')" style="font-size: 12px);">' +
                             '   선택' +
                             '</button>';
                     }
@@ -477,5 +477,32 @@ var payCardHist = {
         /*payCardHist.gridReload("search");
         payCardHist.cardMainGrid("search");
         payCardHist.cardMainGrid2("search");*/
+    },
+
+    fn_selCardInfo: function(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor){
+        var idx = $("#index").val();
+
+        if(idx == "9999"){
+            $.ajax({
+                url: "/card/getCardAuthList",
+                data: {
+                    cardNo: cardBaNb
+                },
+                dataType: "json",
+                type: "POST",
+                success: function(rs){
+                    if(rs.list.length > 0){
+                        alert("이미 등록된 카드입니다.");
+                        return;
+                    } else {
+                        opener.parent.cardAuthMng.fn_selCardInfo(trCd, trNm, cardBaNb);
+                        window.close();
+                    }
+                }
+            });
+        } else {
+            opener.parent.fn_selCardInfo(trCd, trNm, cardBaNb, jiro, clttrCd, baNb, depositor, idx);
+            window.close();
+        }
     }
 }

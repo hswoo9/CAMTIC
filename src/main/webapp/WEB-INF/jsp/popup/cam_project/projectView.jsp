@@ -15,6 +15,7 @@
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
 <input type="hidden" id="busnClass" value="${params.busnClass}"/>
 <input type="hidden" id="type" value="${params.type}" />
+<input type="hidden" id="openType" value="${params.openType}" />
 
 <div style="padding:0;">
     <div class="table-responsive">

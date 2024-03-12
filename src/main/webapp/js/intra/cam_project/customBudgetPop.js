@@ -280,15 +280,10 @@ var customBudgetPop = {
     tempBudgetGrid : function(url, params){
         params.account = String($("#ac").val())
         $("#tempBudgetGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSource2(url, params, 200),
             sortable: true,
             scrollable: true,
             selectable: "row",
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
-            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -394,6 +389,12 @@ var customBudgetPop = {
             opener.parent.rndDetail.cbGridAddRow(arr, $("#ac").val());
         }else{
             opener.parent.unRndDetail.cbGridAddRow(arr, $("#ac").val());
+        }
+
+        if($("#path").val() == "rndDetail"){
+            opener.parent.rndDetail.fn_save();
+        }else{
+            opener.parent.unRndDetail.fn_save();
         }
 
         window.close();

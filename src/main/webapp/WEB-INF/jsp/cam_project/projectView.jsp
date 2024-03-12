@@ -97,6 +97,9 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="documentSn" value="${data.documentContractSn}"/>
+
+
+
 <div>
     <div style="padding:0;background-color: white; position: relative; width: 14%; float: left; height: 800px">
         <div class="container">

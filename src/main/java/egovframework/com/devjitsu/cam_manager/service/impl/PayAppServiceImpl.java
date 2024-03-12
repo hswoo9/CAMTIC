@@ -251,6 +251,63 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public void payAppMngFileSet(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        /** 지급신청서 관련 파일 정보 dj_pay_app_file에 저장  */
+        if(params.containsKey("payAppSn")){
+            List<Map<String, Object>> list = payAppRepository.getPayAppDetailData(params);
+
+            String[] fileNoAr = new String[list.size()];
+            for(int i = 0; i < list.size(); i++){
+                if("".equals(list.get(i).get("FILE_NO")) || list.get(i).get("FILE_NO") == null){
+                    fileNoAr[i] = "";
+                } else {
+                    fileNoAr[i] = list.get(i).get("FILE_NO").toString();
+                }
+            }
+            params.put("fileNoAr", fileNoAr);
+
+            List<Map<String, Object>> storedFileArr = new ArrayList<>();
+            storedFileArr = payAppRepository.getPayAppFileList(params);
+
+            payAppRepository.delPayAppFileList(params);
+
+            for(Map<String, Object> map : storedFileArr){
+                map.put("contentId", params.get("payAppSn"));
+                map.put("fileNo", map.get("file_no"));
+
+                commonRepository.insPayAppFileList(map);
+            }
+        }
+
+        if(fileList.length > 0){
+            params.put("menuCd", "payApp");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("payAppSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                String[] fileName = list.get(i).get("orgFilename").toString().split("[.]");
+                String fileOrgName = "";
+                for(int j = 0 ; j < fileName.length - 1 ; j++){
+                    fileOrgName += fileName[j] + ".";
+                }
+                fileOrgName = fileOrgName.substring(0, fileOrgName.length() - 1);
+                list.get(i).put("fileExt", fileName[fileName.length - 1]);
+                list.get(i).put("fileOrgName", fileOrgName);
+
+                commonRepository.insFileInfoOne(list.get(i));
+                commonRepository.insPayAppFileList(list.get(i));
+            }
+        }
+    }
+
+    @Override
     public Map<String, Object> getPayAppReqData(Map<String, Object> params) {
         return payAppRepository.getPayAppReqData(params);
     }

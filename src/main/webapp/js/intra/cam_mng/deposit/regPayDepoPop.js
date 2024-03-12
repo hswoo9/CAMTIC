@@ -204,7 +204,6 @@ var regPayDepo = {
 
                 if(rs != null && rs != '' && rs.file_org_name != null && rs.file_org_name != '' && rs.file_org_name != undefined){
                     $("#fileName").text(rs.file_org_name + "." +rs.file_ext);
-
                     if(rs.file_ext == "pdf" || rs.file_ext == "PDF" || rs.file_ext == "jpg" || rs.file_ext == "JPG" || rs.file_ext == "png" || rs.file_ext == "PNG"){
                         $("#viewerBtn").css("display", "");
 
@@ -264,10 +263,17 @@ var regPayDepo = {
                     var rsFile = result.rsFile;
                     var result = result.rs;
 
-                    console.log(result);
                     if(rsFile != null && rsFile != "" && rsFile != "undefined" && rsFile != undefined) {
                         $("#fileSn").val(rsFile.FILE1_NO);
                         $("#fileName").text(rsFile.FILE1_NAME);
+
+                        var fileExt = rsFile.FILE1_NAME.toString().split(".")[rsFile.FILE1_NAME.toString().split(".").length - 1];
+                        console.log(rsFile)
+                        if(fileExt == "pdf" || fileExt == "PDF" || fileExt == "jpg" || fileExt == "JPG" || fileExt == "png" || fileExt == "PNG"){
+                            $("#viewerBtn").css("display", "");
+
+                            $("#viewerBtn").attr("onclick", "regPayDepo.fileViewer(\""+ rsFile.FILE1_PATH + "\");")
+                        }
                     }
                     $("#crmSn").val(result.CRM_SN);
                     $("#crmNm").val(result.CRM_NM);

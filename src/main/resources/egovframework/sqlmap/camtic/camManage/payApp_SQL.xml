@@ -1808,6 +1808,7 @@
             OR FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn})
         ) SUB
         WHERE SUB.row_num = 1
+        GROUP BY FILE_UUID, FILE_PATH
     </select>
 
     <select id="getPayAppDocFileList" parameterType="map" resultType="map">

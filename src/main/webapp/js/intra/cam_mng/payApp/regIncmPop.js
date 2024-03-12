@@ -617,9 +617,9 @@ var regIncm = {
         return str.replace(/[^\d]+/g, '');
     },
 
-    fn_projectPop : function (){
+    fn_projectPop : function (type){
 
-        var url = "/project/pop/projectView.do";
+        var url = "/project/pop/projectView.do?openType=" + type;
 
         var name = "_blank";
         var option = "width = 1100, height = 700, top = 100, left = 400, location = no"

@@ -56,7 +56,7 @@
                             <input type="text" id="pjtNm" disabled value="${pjtData.AFT_PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.AFT_PJT_SN}" />
                             <input type="hidden" id="pjtCd" name="pjtCd" value="${pjtData.AFT_PJT_CD}">
-                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regIncm.fn_projectPop()">검색</button>
+                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regIncm.fn_projectPop('incm')">검색</button>
                         </span>
                     </td>
                 </tr>
@@ -316,6 +316,11 @@
             $("#bnkSn").val(rs.TR_CD);
             $("#accNo").val(rs.BA_NB);
             $("#bnkNm").val(rs.JIRO_NM);
+        }
+
+        if(cd.substring(0, 1) == "M"){
+            $("#busnCd").data("kendoDropDownList").select(1)
+            $("#busnExCd").data("kendoDropDownList").select(1)
         }
     }
 </script>
