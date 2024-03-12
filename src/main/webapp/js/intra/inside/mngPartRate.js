@@ -24,6 +24,9 @@ var mngPartRate = {
         mngPartRate.mainGrid("/project/getProjectList", parameters);
     },
 
+    gridReload2 : function (){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
 
     mainGrid : function (url, parameters){
         $("#mainGrid").kendoGrid({
