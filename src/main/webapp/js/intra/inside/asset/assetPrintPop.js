@@ -48,6 +48,15 @@ const assetPrint = {
         const data = {astInfoSn: astInfoSn};
         const astMap = customKendo.fn_customAjax("/inside/getastprint", data).map;
         console.log(astMap);
+
+        var result = customKendo.fn_customAjax("/inside/getAssetInfo.do", {astInfoSn : astInfoSn});
+        var assetMap = result.data;
+        var histList = result.data2.history;
+        var histItemList = result.data2.historyItem;
+        console.log("assetMap", assetMap);
+        console.log("histList", histList);
+        console.log("histItemList", histItemList);
+
         assetPrint.global.hwpCtrl.PutFieldText("AST_NAME", astMap.map.AST_NAME);
         assetPrint.global.hwpCtrl.PutFieldText("AST_NO", astMap.map.AST_NO);
         assetPrint.global.hwpCtrl.PutFieldText("AST_GUBUN", astMap.map.AST_GUBUN);
@@ -61,8 +70,29 @@ const assetPrint = {
         assetPrint.global.hwpCtrl.PutFieldText("UNIT", astMap.map.UNIT);
         assetPrint.global.hwpCtrl.PutFieldText("ORG_COUNTRY", astMap.map.ORG_COUNTRY);
         assetPrint.global.hwpCtrl.PutFieldText("QTY", astMap.map.QTY);
-        assetPrint.global.hwpCtrl.PutFieldText("PURC_COMPANY_ID", astMap.map.PURC_COMPANY_ID);
+        assetPrint.global.hwpCtrl.PutFieldText("PURC_COMPANY_ID", astMap.map.PURC_COMPANY_NAME);
         assetPrint.global.hwpCtrl.PutFieldText("EXP_ACCOUNT", astMap.map.FUNDING_SOURCE_TXT);
+
+        assetPrint.global.hwpCtrl.PutFieldText("MANAGE_MAIN_EMP_NAME", result.manage.MANAGE_MAIN_EMP_NAME);
+        assetPrint.global.hwpCtrl.PutFieldText("MANAGE_SUB_EMP_NAME", result.manage.MANAGE_SUB_EMP_NAME);
+
+        const astFile = assetMap.astFile;
+        if(astFile != null){
+            if(assetPrint.global.hwpCtrl.FieldExist('AST_FILE_NO')){
+                assetPrint.global.hwpCtrl.PutFieldText('AST_FILE_NO', " ");
+                assetPrint.global.hwpCtrl.MoveToField('AST_FILE_NO', true, true, false);
+                assetPrint.global.hwpCtrl.InsertBackgroundPicture(
+                    "SelectedCell",
+                    "http://218.158.231.184/" + astFile.file_path+astFile.file_uuid,
+                    1,
+                    5,
+                    0,
+                    0,
+                    0,
+                    0
+                );
+            }
+        }
     },
 
     resize: function() {
