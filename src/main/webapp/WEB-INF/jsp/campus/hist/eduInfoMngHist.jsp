@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/campus/hist/eduInfoHist.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/campus/hist/eduInfoMngHist.js?v=${today}"/></script>
 
 <style>
     a:hover{
@@ -16,8 +16,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">개인학습현황이력(~2023년)</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 채용관리 &gt; 개인학습현황이력(~2023년)</div>
+            <h4 class="panel-title">직원학습관리이력(~2023년)</h4>
+            <div class="title-road">캠인사이드 > 인사관리 > 채용관리 &gt; 직원학습관리이력(~2023년)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

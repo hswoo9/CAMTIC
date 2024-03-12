@@ -2443,6 +2443,18 @@ public class CampusController {
         model.addAttribute("loginVO", login);
         return "campus/hist/eduInfoHist";
     }
+    /**
+     * 캠퍼스 직원학습관리이력 리스트 페이지
+     */
+    @RequestMapping("/cmapus/eduInfoMngHist.do")
+    public String eduInfoMngHist(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/hist/eduInfoMngHist";
+    }
     @RequestMapping("/campus/getEduInfoHistList")
     public String getEduInfoHistList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", campusService.getEduInfoHistList(params));
