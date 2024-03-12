@@ -555,8 +555,9 @@ var partRate = {
 
         if(rs.code == 200){
             alert("설정이 완료되었습니다.");
-            location.reload();
+            // location.reload();
             opener.parent.mngPartRate.gridReload();
+            window.close();
         }
 
     },
