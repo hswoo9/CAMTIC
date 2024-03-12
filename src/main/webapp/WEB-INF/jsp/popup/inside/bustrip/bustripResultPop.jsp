@@ -1073,9 +1073,8 @@
     var totTot = 0;
 
     $(function () {
-
         // 사전정산
-        if(modelData != null || modelData != ""){
+        if(modelData != null && modelData != ""){
             var dataList = JSON.parse(modelData);
             if($("#tripType").val() != '4'){
 
@@ -1168,7 +1167,7 @@
         }
 
         // 사후정산
-        if(modelData2 != null || modelData2 != ""){
+        if(modelData2 != null && modelData2 != ""){
             var dataList = JSON.parse(modelData2);
             console.log(dataList);
 

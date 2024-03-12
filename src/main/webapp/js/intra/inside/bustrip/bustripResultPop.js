@@ -72,6 +72,8 @@ var bustripResultPop = {
         const fileInfo2 = result.rs.fileInfo2;
         const fileInfo3 = result.rs.fileInfo3;
 
+        const extData = result.rs.extData;
+
         bustripResultPop.global.data = busInfo;
 
         /** 사번, 성명, 부서명, 신청일 */
@@ -236,6 +238,24 @@ var bustripResultPop = {
             if($("#mod").val() == "mng"){
                 $("#saveBtn").css("display", "none");
             }
+        }
+
+        if(extData.length != 0){
+            var extName = "";
+            var extBelong = "";
+            var extSpot = "";
+            var extEtc = "";
+
+            for(var i = 0 ; i < extData.length ; i++){
+                extName += extData[i].EXT_NM + ",";
+                extBelong += extData[i].EXT_BELONG + ",";
+                extSpot += extData[i].EXT_SPOT + ",";
+                extEtc += extData[i].EXT_ETC + ",";
+            }
+            $("#externalName").val(extName.substring(0,extName.length-1));
+            $("#externalBelong").val(extBelong.substring(0,extBelong.length-1));
+            $("#externalSpot").val(extSpot.substring(0,extSpot.length-1));
+            $("#externalEtc").val(extEtc.substring(0,extEtc.length-1));
         }
     },
 
@@ -489,6 +509,7 @@ var bustripResultPop = {
         if(resInfo.TRIP_CODE == "4") {
             $("#exAddBtn").attr("disabled", "disabled");
         }
+
         if(extData.length != 0){
             var extName = "";
             var extBelong = "";

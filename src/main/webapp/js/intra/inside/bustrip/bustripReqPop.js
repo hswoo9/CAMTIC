@@ -267,6 +267,7 @@ const bustripReq = {
             }
         }
 
+        console.log(extData)
         if(extData.length != 0){
             var extName = "";
             var extBelong = "";
