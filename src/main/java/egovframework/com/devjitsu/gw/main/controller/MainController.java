@@ -301,7 +301,7 @@ public class MainController {
 
 
     /** 디자인봄 작업경로 임시 생성 */
-    @RequestMapping("/m/main.do")
+    @RequestMapping("/mobileMain.do")
     public String main(){
         return "/camspot_m/main";
     }
