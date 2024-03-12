@@ -347,7 +347,7 @@ var dutyInfoLeader = {
         var rs = customKendo.fn_customAjax("/campus/agreeDutySubject", data)
 
         if(rs.code == 200){
-            if(dutyCnt != undefined && dutyCnt != null){
+            if(dutyCnt != undefined && dutyCnt != null && dutyCnt == 0){
                 dutyInfoLeader.fn_agreeDutyLeader(id, 'mng', empSeq)
             } else if(type == "mng"){
                 dutyInfoLeader.fn_dutyCertReq(100, id)
