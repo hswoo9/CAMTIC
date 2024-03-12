@@ -89,11 +89,6 @@ public class MainController {
         }
     }
 
-    @RequestMapping("/mobileMain.do")
-    public String mobileMain(){
-        return "/camspot_m/main";
-    }
-
     @RequestMapping("/indexBMain.do")
     public String indexBMain(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params){
         HttpSession session = request.getSession();
@@ -303,4 +298,63 @@ public class MainController {
 
 
 
+
+
+    /** 디자인봄 작업경로 임시 생성 */
+    @RequestMapping("/m/main.do")
+    public String main(){
+        return "/camspot_m/main";
+    }
+    @RequestMapping("/m/login.do")
+    public String login(){
+        return "/camspot_m/login";
+    }
+    @RequestMapping("/m/payment.do")
+    public String payment(){
+        return "/camspot_m/payment";
+    }
+    @RequestMapping("/m/payment_view.do")
+    public String payment_view(){
+        return "/camspot_m/payment_view";
+    }
+    @RequestMapping("/m/payment_write.do")
+    public String payment_write(){
+        return "/camspot_m/payment_write";
+    }
+    @RequestMapping("/m/organization.do")
+    public String organization(){
+        return "/camspot_m/organization";
+    }
+    @RequestMapping("/m/organization_view.do")
+    public String organization_view(){
+        return "/camspot_m/organization_view";
+    }
+    @RequestMapping("/m/organization_write.do")
+    public String organization_write(){
+        return "/camspot_m/organization_write";
+    }
+    @RequestMapping("/m/schedule.do")
+    public String schedule(){
+        return "/camspot_m/schedule";
+    }
+    @RequestMapping("/m/schedule_staff.do")
+    public String schedule_staff(){
+        return "/camspot_m/schedule_staff";
+    }
+    @RequestMapping("/m/board.do")
+    public String board(){
+        return "/camspot_m/board";
+    }
+    @RequestMapping("/m/board_view.do")
+    public String board_view(){
+        return "/camspot_m/board_view";
+    }
+    @RequestMapping("/m/board_write.do")
+    public String board_write(){
+        return "/camspot_m/board_write";
+    }
+    @RequestMapping("/m/admin.do")
+    public String admin(){
+        return "/camspot_m/admin";
+    }
 }
