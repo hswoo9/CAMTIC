@@ -82,7 +82,7 @@ var regRnd = {
                 {name: "공정", url: tab17Url},
                 {name: "개발관리", url: tab5Url},
                 {name: "협업", url: tab6Url},
-                {name: "사업비관리(예산/지급)", url: tab7Url},        // 연구비 입금처리와 같이 사용
+                {name: "사업비관리", url: tab7Url},        // 연구비 입금처리와 같이 사용
                 {name: "결과보고", url: tab8Url, imageUrl: "/images/ico/etc_01_1.png"},        // 연구비 입금처리와 같이 사용
                 {name: "실적관리", url: tab15Url},        // 연구비 입금처리와 같이 사용,
 
