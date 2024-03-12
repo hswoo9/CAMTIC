@@ -335,9 +335,9 @@
 
   function pastPage(){
       const id = "${loginVO.id}";
-      let url = "www.camtic.or.kr/camspot";
+      let url = "/camspot";
       if(id != ""){
-        url = "www.camtic.or.kr/camspot/Login.aspx?NEWCAMTICS="+id;
+        url = "/camspot/Login.aspx?NEWCAMTICS="+id;
       }
       var name = "_blank";
       var option = "";
