@@ -49,6 +49,7 @@
 
 <input type="hidden" id="cardToSn" value="${params.cardToSn}" />
 
+<input type="hidden" id="accountToSn" value="${params.accountToSn}" />
 <input type="hidden" id="cardPjtSn" value="${params.cardPjtSn}" />
 <input type="hidden" id="cardPjtCd" value="${params.cardPjtCd}" />
 <input type="hidden" id="cardPjtNm" value="${params.cardPjtNm}" />

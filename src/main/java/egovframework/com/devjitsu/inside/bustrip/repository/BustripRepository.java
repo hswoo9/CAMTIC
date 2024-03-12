@@ -385,4 +385,8 @@ public class BustripRepository extends AbstractDAO {
     public void delBustripExternal(Map<String, Object> params) {
         delete("bustrip.delBustripExternal", params);
     }
+
+    public List<Map<String, Object>> getBustripPopList(Map<String, Object> params) {
+        return selectList("bustrip.getBustripPopList", params);
+    }
 }

@@ -144,7 +144,7 @@
         var key = $("#pjtSn").val();
         var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){
-            url = "/payApp/pop/regPayAppPop.do?pjtSn=" + key + "&bsYm=" + $("#bsYm").val() + "&reqType=partRate";
+            url = "/payApp/pop/regPayAppPop.do?pjtSn=" + key + "&bsYm=" + $("#bsYm").val() + "&reqType=partRate&accountToSn=" + acKey;
         }
         var name = "_blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"

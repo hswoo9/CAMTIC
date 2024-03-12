@@ -35,6 +35,10 @@ var statementList = {
         statementList.mainGrid();
     },
 
+    gridReload: function (){
+        statementList.mainGrid();
+    },
+
     mainGrid: function(){
 
         var mainGrid = $("#mainGrid").data("kendoGrid");

@@ -128,4 +128,9 @@ public class ManageServiceImpl implements ManageService {
     public List<Map<String, Object>> getUserAccountManagementList(Map<String, Object> map) {
         return manageRepository.getUserAccountManagementList(map);
     }
+
+    @Override
+    public Map<String, Object> getAccountInfoOne(Map<String, Object> params) {
+        return manageRepository.getAccountInfoOne(params);
+    }
 }

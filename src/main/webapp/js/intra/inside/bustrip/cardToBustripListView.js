@@ -20,7 +20,7 @@ var cardToBus = {
             empSeq : $("#empSeq").val(),
             cardToBustrip : "Y",
         }
-        cardToBus.mainGrid("/bustrip/getBustripList", data);
+        cardToBus.mainGrid("/bustrip/getBustripPopList", data);
     },
 
     mainGrid : function(url, params){
