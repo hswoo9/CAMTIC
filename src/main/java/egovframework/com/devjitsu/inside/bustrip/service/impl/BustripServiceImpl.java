@@ -758,4 +758,9 @@ public class BustripServiceImpl implements BustripService {
             commonRepository.insFileInfo(list);
         }
     }
+
+    @Override
+    public List<Map<String, Object>> getBustripPopList(Map<String, Object> params) {
+        return bustripRepository.getBustripPopList(params);
+    }
 }

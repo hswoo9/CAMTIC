@@ -371,9 +371,11 @@ public class DocumentController {
 
     //식대대장 신청
     @RequestMapping("/inside/setSnackInsert")
-    public String setSnackInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
+    public String setSnackInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
         MultipartFile[] file = request.getFiles("snackFile").toArray(new MultipartFile[0]);
         documentService.setSnackInsert(params, file, SERVER_DIR, BASE_DIR);
+
+        model.addAttribute("params", params);
         return "jsonView";
     }
 

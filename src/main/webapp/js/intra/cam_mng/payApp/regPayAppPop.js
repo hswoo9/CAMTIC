@@ -112,8 +112,12 @@ var regPay = {
         if($("#reqType").val() == "partRate"){
             const data = {
                 pjtSn : $("#partRatePjtSn").val(),
-                bsYm : $("#bsYm").val()
+                bsYm : $("#bsYm").val(),
+                accountToSn : $("#accountToSn").val()
             }
+
+            var accountInfo = customKendo.fn_customAjax("/mng/getAccountInfoOne", data);
+            var aiRs = accountInfo.rs;
 
             $.ajax({
                 url : "/payApp/getPartRatePay",
@@ -136,9 +140,9 @@ var regPay = {
                         $("#crmNm" + i).val(rs[i].EMP_NAME_KR);
                         $("#regNo" + i).val(rs[i].REG_NO);
                         $("#trCd" + i).val(rs[i].ERP_ERP_CD);
-                        $("#crmBnkNm" + i).val(rs[i].BANK_NAME);
-                        $("#crmAccNo" + i).val(rs[i].ACCOUNT_NUM);
-                        $("#crmAccHolder" + i).val(rs[i].ACCOUNT_HOLDER);
+                        $("#crmBnkNm" + i).val(aiRs.BANK_NAME);
+                        $("#crmAccNo" + i).val(aiRs.PAY_ACCOUNT);
+                        $("#crmAccHolder" + i).val(aiRs.DEPOSITOR);
                         $("#totCost" + i).val(regPay.comma(rs[i].MON_SAL));
                         $("#supCost" + i).val(regPay.comma(rs[i].MON_SAL));
                     }

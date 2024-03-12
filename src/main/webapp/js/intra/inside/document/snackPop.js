@@ -442,6 +442,9 @@ var snackReq = {
             async : false,
             success : function(result){
                 alert("식대 사용 등록 저장이 완료되었습니다.");
+                if(result.params.snackInfoSn != null){
+                    location.href="/Inside/pop/snackPop?snackInfoSn=" + result.params.snackInfoSn;
+                }
                 opener.gridReload();
                 window.close();
 

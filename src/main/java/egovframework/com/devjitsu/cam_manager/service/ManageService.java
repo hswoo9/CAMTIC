@@ -28,4 +28,6 @@ public interface ManageService {
 
 
     List<Map<String, Object>> getUserAccountManagementList(Map<String, Object> map);
+
+    Map<String, Object> getAccountInfoOne(Map<String, Object> params);
 }

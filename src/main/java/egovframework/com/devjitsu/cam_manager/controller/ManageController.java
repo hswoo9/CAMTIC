@@ -448,4 +448,10 @@ public class ManageController {
 
         return "popup/cam_manager/accountList";
     }
+
+    @RequestMapping("/mng/getAccountInfoOne")
+    public String getAccountInfoOne(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", manageService.getAccountInfoOne(params));
+        return "jsonView";
+    }
 }

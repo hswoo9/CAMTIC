@@ -88,4 +88,9 @@ public class ManageRepository extends AbstractDAO {
 
         return selectList("manage.getApproveExnpList", null);
     }
+
+    public Map<String, Object> getAccountInfoOne(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("manage.getAccountInfoOne", params);
+    }
 }

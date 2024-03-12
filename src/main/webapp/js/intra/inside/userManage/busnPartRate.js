@@ -354,6 +354,11 @@ var busnPartRate = {
 
     fn_reqRegPopup : function (key){
 
+        if($("#pjtCd").val() == ""){
+            alert("프로젝트 코드가 생성되지 않았습니다.");
+            return;
+        }
+
         if($("input[name='ymRadio']:checked").attr("id") == undefined){
             alert("지급신청할 날짜를 선택해주세요.");
             return;

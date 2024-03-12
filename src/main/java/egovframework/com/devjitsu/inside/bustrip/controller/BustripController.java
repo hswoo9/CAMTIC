@@ -1271,4 +1271,13 @@ public class BustripController {
         model.addAttribute("loginVO", login);
         return "popup/inside/bustrip/cardToBustripListView";
     }
+
+    @RequestMapping("/bustrip/getBustripPopList")
+    public String getBustripPopList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = bustripService.getBustripPopList(params);
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

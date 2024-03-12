@@ -612,4 +612,14 @@
         AND PAY_APP_TYPE = 1
         ]]>
     </select>
+
+    <select id="getAccountInfoOne" parameterType="map" resultType="map">
+        /*getAccountInfoOne*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_ACCOUNT_INFO
+        WHERE
+            ACCOUNT_TO_SN = #{accountToSn}
+    </select>
 </mapper>
