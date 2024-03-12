@@ -5,8 +5,7 @@
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/rndBudget.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
-
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
 <style>
     .k-footer-template td:nth-child(4) {
         overflow: visible;
@@ -20,51 +19,32 @@
     .k-footer-template td:nth-child(4) {
         border-width: 0;
     }
+
+    .k-master-row {
+        white-space: nowrap !important;
+    }
 </style>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="mgtCd" value="${data.PJT_CD}" />
 <div style="padding: 10px">
-    <div class="table-responsive">
-        <%--<button type="button" id="budgetAddBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-base" onclick="rndBg.fn_popBudgetAdd()">등록</button>--%>
-        </br>
-        <span id="budgetType"></span>
-            <input type="text" id="baseYear" style="width: 7%" />
-            <button type="button" class="k-button k-button-solid-base" style="float: right" onclick="fn_searchBudget()">조회</button>
-        </br>
-        <span style=""> ※ 수입 예산</span>
+    <div id="btnDiv" style="background-color: #eef6ff; padding: 10px; font-size: 13px;">
+        <span id="selectType"></span>
+    </div>
+
+    <br>
+    <span style="font-size: 12px;" id="titleWrap">◎ 지급 신청 리스트</span>
+    <div class="table-responsive" style="margin-top: 5px;">
         <div id="budgetMainGrid"></div>
-            <div style="margin-top: 20px;"></div>
-        <span style=""> ※ 지출 예산</span>
-        <div id="budgetMainGrid2"></div>
+        <div id="budgetMainGrid2" style="display: none;"></div>
     </div>
 </div>
 
 <script>
-    var inParameters = JSON.parse('${map}');
-    customKendo.fn_datePicker("baseYear", 'decade', "yyyy", new Date());
+    <%--var inParameters = JSON.parse('${map}');--%>
+    // customKendo.fn_datePicker("baseYear", 'decade', "yyyy", new Date());
 
-    rndBg.fn_defaultScript(inParameters);
-
-
-
-    function fn_searchBudget(){
-        var date = new Date();
-        var year = $("#baseYear").val().toString().substring(2,4);
-
-        var data = {
-            gisu : year,
-            fromDate : $("#baseYear").val() + "0101",
-            toDate : $("#baseYear").val() +  "1231",
-            mgtSeq : $("#pjtCd").val(),
-            opt01 : '3',
-            opt02 : '1',
-            opt03 : '2',
-            baseDate : $("#baseYear").val() + '0101'
-        }
-
-        rndBg.budgetMainGrid(data);
-    }
+    rndBg.fn_defaultScript();
 
 </script>

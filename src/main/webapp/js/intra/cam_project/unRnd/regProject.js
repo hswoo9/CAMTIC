@@ -75,7 +75,7 @@ var regUnRnd = {
                 {name: "공정", url: tab17Url},
                 {name: "단위사업", url: tab5Url},
                 {name: "협업", url: tab6Url},
-                {name: "사업비관리(예산/지급)", url: tab7Url},
+                {name: "사업비관리", url: tab7Url},
                 {name: "결과보고", url: tab8Url, imageUrl: "/images/ico/etc_01_1.png"},
                 {name: "실적관리", url: tab15Url},
 

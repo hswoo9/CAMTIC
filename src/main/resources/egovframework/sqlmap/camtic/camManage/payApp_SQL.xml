@@ -432,6 +432,9 @@
         AND
             A.DOC_STATUS = #{docStatus}
         </if>
+        <if test='pjtCd != null and !"".equals(pjtCd)'>
+            AND A.PJT_CD = #{pjtCd}
+        </if>
         ) AA
         WHERE
             1=1
@@ -789,6 +792,10 @@
         <if test='!"".equals(payAppType) and payAppType != null'>
             AND
                 A.PAY_APP_TYPE = #{payAppType}
+        </if>
+        <if test='!"".equals(pjtCd) and pjtCd != null'>
+            AND
+                A.PJT_CD = #{pjtCd}
         </if>
         ORDER BY EXNP_SN DESC
     </select>
