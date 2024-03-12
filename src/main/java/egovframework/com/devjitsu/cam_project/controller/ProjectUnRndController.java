@@ -838,4 +838,15 @@ public class ProjectUnRndController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/unrnd/pop/unrndFilePop.do")
+    public String unrndfilePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("params", params)
+             .addAttribute("loginVO", loginVO);
+
+        return "popup/cam_project/unRnd/unrndFilePop";
+    }
 }

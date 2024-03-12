@@ -218,7 +218,29 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
 
     @Override
     public List<Map<String, Object>> getLecturePersonReqList(Map<String, Object> params) {
-        return projectUnRndRepository.getLecturePersonReqList(params);
+        List<Map<String, Object>> list = projectUnRndRepository.getLecturePersonReqList(params);
+
+        if(list != null){
+            for (int i = 0 ; i < list.size() ; i++) {
+                if(list.get(i).containsKey("FORM_FILE")){
+                    List<Map<String, Object>> fileList = new ArrayList<>();
+
+                    String formFile = (String) list.get(i).get("FORM_FILE");
+                    String[] fileNos = formFile.split(",");
+                    for (String fileNo : fileNos) {
+                        list.get(i).put("fileNo", fileNo);
+                        Map<String, Object> fileInfo = commonRepository.getContentFileOne(list.get(i));
+                        if(fileInfo != null){
+                            fileList.add(fileInfo);
+                        }
+                    }
+
+                    list.get(i).put("fileList", fileList);
+                }
+            }
+        }
+
+        return list;
     }
 
     @Override

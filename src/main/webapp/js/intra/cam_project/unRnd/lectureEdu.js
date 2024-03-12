@@ -1,4 +1,10 @@
-let lectureEdu = {
+var lectureEdu = {
+
+    global : {
+        attFiles : [],
+        list : [],
+    },
+
     fn_defaultScript: function(){
         /*this.fn_pageSet();*/
         this.fn_mainGrid();
@@ -101,7 +107,7 @@ let lectureEdu = {
                 }, {
                     field: "HP_NUM",
                     title: "휴대폰",
-                    width: "5%"
+                    width: "8%"
                 }, {
                     title: "수료(인증)",
                     width: "5%",
@@ -116,7 +122,25 @@ let lectureEdu = {
                         }
                         return row.REQ_STATUS_NAME+"("+ox+")"+auditText;
                     }
-                }, {
+                },{
+                    title: "첨부파일",
+                    width: "6%",
+                    template: function(e){
+                        lectureEdu.global.list.push(e);
+                        var fileList = [];
+                        var fileListStr = "";
+                        if(e.FORM_FILE != "" && e.FORM_FILE != null && e.FORM_FILE != undefined){
+
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="lectureEdu.fn_filePopView('+e.PERSON_REQ_SN+')">첨부</button>';
+                        } else {
+                            return '';
+                        }
+
+
+                    }
+                }
+
+                /* {
                     field: "NAME",
                     title: "수강료<br>(계산서)",
                     width: "5%",
@@ -133,7 +157,7 @@ let lectureEdu = {
                     template: function(row){
                         return row.PARTIC_YN == 'N' ? "접수" : "미접수";
                     }
-                }
+                }*/
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
@@ -163,5 +187,23 @@ let lectureEdu = {
         }else{
             gridReload();
         }
+    },
+
+    fn_filePopView: function (key){
+
+        var ls = lectureEdu.global.list;
+
+        for(var i = 0 ; i < ls.length ; i++){
+            if(ls[i].PERSON_REQ_SN == key){
+                lectureEdu.global.attFiles = ls[i].fileList;
+            }
+        }
+
+        var url = "/unrnd/pop/unrndFilePop.do";
+
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
     }
+
 }
