@@ -140,28 +140,32 @@ public class PayAppServiceImpl implements PayAppService {
             map.put("filePath", filePath);
 
             commonRepository.updFileOwner(map);
+        }
 
-            // 세금계산서, 법인카드 사용내역 저장
-            map.put("AUTH_NO", map.get("authNo"));
-            map.put("AUTH_HH", map.get("authHh"));
-            map.put("AUTH_DD", map.get("authDd"));
-            map.put("CARD_NO", map.get("cardNo"));
-            map.put("BUY_STS", map.get("buySts"));
-            map.put("PAY_APP_SN", params.get("payAppSn"));
-            map.put("ISS_NO", map.get("issNo"));
-            map.put("CO_CD", map.get("coCd"));
-            map.put("TAX_TY", map.get("taxTy"));
-            if(map.get("evidType").toString().equals("1") || map.get("evidType").toString().equals("2")){
-                List<Map<String, Object>> useEtaxList = payAppRepository.getUseEtaxInfoList(params);
-                // dj_use_etax_info 테이블의 CE_GW_IDX값이 있으면 update, 없으면 delete
-                for(Map<String, Object> subMap : useEtaxList){
-                    if(Integer.parseInt(subMap.get("CE_GW_CHK").toString()) > 0){
-                        payAppRepository.updUseEtaxPayAppNull(map);
-                    } else {
-                        payAppRepository.delUseEtaxInfo(map);
-                    }
-                }
+        // 세금계산서, 법인카드 사용내역 저장
+        List<Map<String, Object>> payAppItemList = payAppRepository.getPayAppItemList(params);
+        List<Map<String, Object>> useEtaxList = payAppRepository.getUseEtaxInfoList(params);
+        params.put("PAY_APP_SN", params.get("payAppSn"));
+        // dj_use_etax_info 테이블의 CE_GW_IDX값이 있으면 update, 없으면 delete
+        for(Map<String, Object> subMap : useEtaxList){
+            if(Integer.parseInt(subMap.get("CE_GW_CHK").toString()) > 0){
+                payAppRepository.updUseEtaxPayAppNull(params);
+            } else {
+                payAppRepository.delUseEtaxInfo(params);
+            }
+        }
+        List<Map<String, Object>> useCardList = payAppRepository.getUseCardInfoList(params);
+        for(Map<String, Object> subMap : useCardList){
+            if(Integer.parseInt(subMap.get("SNACK_INFO_CHK").toString()) > 0 || Integer.parseInt(subMap.get("BIZ_REQ_CHK").toString()) > 0 ||
+                    Integer.parseInt(subMap.get("BIZ_REQ_RESULT_CHK").toString()) > 0 || Integer.parseInt(subMap.get("CE_GW_CHK").toString()) > 0){
+                payAppRepository.updUseCardPayAppNull(params);
+            } else {
+                payAppRepository.delUseCardInfo(params);
+            }
+        }
 
+        for(Map<String, Object> map : payAppItemList){
+            if(map.get("EVID_TYPE").toString().equals("1") || map.get("EVID_TYPE").toString().equals("2")){
                 int useCardChk = payAppRepository.getUseEtaxInfoCheck(map);
                 // dj_use_etax_info 테이블에 저장된 내역이면 payAppSn PK update, 없으면 insert
                 if (useCardChk > 0) {
@@ -169,17 +173,7 @@ public class PayAppServiceImpl implements PayAppService {
                 } else {
                     payAppRepository.insUseEtaxInfo(map);
                 }
-            } else if(map.get("evidType").toString().equals("3")){
-                List<Map<String, Object>> useCardList = payAppRepository.getUseCardInfoList(params);
-                for(Map<String, Object> subMap : useCardList){
-                    if(Integer.parseInt(subMap.get("SNACK_INFO_CHK").toString()) > 0 || Integer.parseInt(subMap.get("BIZ_REQ_CHK").toString()) > 0 ||
-                            Integer.parseInt(subMap.get("BIZ_REQ_RESULT_CHK").toString()) > 0 || Integer.parseInt(subMap.get("CE_GW_CHK").toString()) > 0){
-                        payAppRepository.updUseCardPayAppNull(map);
-                    } else {
-                        payAppRepository.delUseCardInfo(map);
-                    }
-                }
-
+            } else if(map.get("EVID_TYPE").toString().equals("3")){
                 int useCardChk = payAppRepository.getUseCardInfoCheck(map);
                 // dj_use_card_info 테이블에 저장된 내역이면 payAppSn PK update, 없으면 insert
                 if (useCardChk > 0) {
@@ -1463,6 +1457,28 @@ public class PayAppServiceImpl implements PayAppService {
     public void delPayApp(int[] params) {
         for(int i = 0 ; i < params.length ; i++){
             payAppRepository.delPayApp(params[i]);
+
+            Map<String, Object> paraMap = new HashMap<>();
+            paraMap.put("payAppSn", params[i]);
+            paraMap.put("PAY_APP_SN", params[i]);
+            List<Map<String, Object>> useEtaxList = payAppRepository.getUseEtaxInfoList(paraMap);
+            // dj_use_etax_info 테이블의 CE_GW_IDX값이 있으면 update, 없으면 delete
+            for(Map<String, Object> subMap : useEtaxList){
+                if(Integer.parseInt(subMap.get("CE_GW_CHK").toString()) > 0){
+                    payAppRepository.updUseEtaxPayAppNull(paraMap);
+                } else {
+                    payAppRepository.delUseEtaxInfo(paraMap);
+                }
+            }
+            List<Map<String, Object>> useCardList = payAppRepository.getUseCardInfoList(paraMap);
+            for(Map<String, Object> subMap : useCardList){
+                if(Integer.parseInt(subMap.get("SNACK_INFO_CHK").toString()) > 0 || Integer.parseInt(subMap.get("BIZ_REQ_CHK").toString()) > 0 ||
+                        Integer.parseInt(subMap.get("BIZ_REQ_RESULT_CHK").toString()) > 0 || Integer.parseInt(subMap.get("CE_GW_CHK").toString()) > 0){
+                    payAppRepository.updUseCardPayAppNull(paraMap);
+                } else {
+                    payAppRepository.delUseCardInfo(paraMap);
+                }
+            }
         }
     }
 

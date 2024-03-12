@@ -2506,6 +2506,11 @@ var regPayDet = {
         if($(".payDestInfo").length > 1){
             $("#pay" + row).remove();
             /*regPayDet.global.itemIndex--;*/
+        } else if($(".payDestInfo").length == 1){
+            $("#pay" + row).remove();
+            regPayDet.global.itemIndex = 0;
+            regPayDet.addRow();
+            $("#totalAllCost").text(0);
         }
     },
 
