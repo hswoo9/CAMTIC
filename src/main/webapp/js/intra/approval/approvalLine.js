@@ -152,9 +152,9 @@ var approvalLine = {
         let level = 0;
         if(userInfo.DUTY_CODE == "1"){
 
-        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "7"){
+        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "7"){
             level = approvalLine.global.headLevel;
-        }else if(userInfo.DUTY_CODE == "5" || userInfo.DUTY_CODE == "6"){
+        }else if(userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "5" || userInfo.DUTY_CODE == "6"){
             level = approvalLine.global.leaderLevel;
         }else{
             level = approvalLine.global.memberLevel;
@@ -410,7 +410,7 @@ var approvalLine = {
             userArr.push(userInfo);
 
         /** 기안자가 부서장급 일때 */
-        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "7"){
+        }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "7"){
             
             /** 부서장급 - 원장전결 */
             if(level == "1"){
@@ -423,7 +423,7 @@ var approvalLine = {
             }
 
         /** 기안자가 팀장급 일때 */
-        }else if(userInfo.DUTY_CODE == "5" || userInfo.DUTY_CODE == "6"){
+        }else if(userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "5" || userInfo.DUTY_CODE == "6"){
             
             /** 팀장급 - 원장전결 */
             if(level == "1"){

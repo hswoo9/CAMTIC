@@ -41,23 +41,23 @@ var hwpApprovalLine = {
                 /**원장 전결*/
                 if(empData.approveDutyName == "원장") {
                     const approveDutyName = draft.global.approversArr[0].approveDutyName;
-                    if (approveDutyName == "본부장" || approveDutyName == "사업부장" || approveDutyName == "센터장" || approveDutyName == "실장") {
+                    if (approveDutyName == "본부장" || approveDutyName == "사업부장" || approveDutyName == "실장") {
                         appArr = ["공란", "공란", ""];
                     }
 
                 /**부서장 전결*/
-                }else if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장" || empData.approveDutyName == "센터장" || empData.approveDutyName == "실장"){
+                }else if(empData.approveDutyName == "본부장" || empData.approveDutyName == "사업부장" || empData.approveDutyName == "실장"){
                     const approveDutyName = draft.global.approversArr[0].approveDutyName;
-                    if(approveDutyName == "본부장" || approveDutyName == "사업부장" || approveDutyName == "센터장" || approveDutyName == "실장"){
+                    if(approveDutyName == "본부장" || approveDutyName == "사업부장" || approveDutyName == "실장"){
                         appArr = ["공란", "전결", ""];
-                    }else if(approveDutyName == "팀장"){
+                    }else if(approveDutyName == "센터장" || approveDutyName == "팀장"){
                         appArr = ["공란", "전결", ""];
                     }else{
                         appArr = ["", "전결", ""];
                     }
 
                 /**팀장 전결*/
-                }else if(empData.approveDutyName == "팀장" || empData.approveDutyName == "팀장 직무대리"){
+                }else if(empData.approveDutyName == "센터장" || empData.approveDutyName == "팀장" || empData.approveDutyName == "팀장 직무대리"){
                     appArr = ["전결", "공란", ""];
                 }
             }
@@ -209,12 +209,12 @@ var hwpApprovalLine = {
 
             let appArr = [];
             /** 부서장 전결 */
-            if(empData.APPROVE_DUTY_NAME == "본부장" || empData.APPROVE_DUTY_NAME == "사업부장" || empData.APPROVE_DUTY_NAME == "센터장" || empData.APPROVE_DUTY_NAME == "실장"){
+            if(empData.APPROVE_DUTY_NAME == "본부장" || empData.APPROVE_DUTY_NAME == "사업부장" || empData.APPROVE_DUTY_NAME == "실장"){
                 /** appArr = ["sigh1", "전결", "sigh2"] */
                 let teamCk = "N";
 
                 for (let i = 0; i < list.length; i++) {
-                    if ((list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리")
+                    if ((list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리")
                         && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
 
                         teamCk = "Y";
@@ -228,7 +228,7 @@ var hwpApprovalLine = {
 
                     /** 팀장 공석 체크해서 없으면 공란 처리 */
                     for (let i = 0; i < list.length; i++) {
-                        if ((list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1") {
+                        if ((list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1") {
                             teamCk = "Y";
                         }
                     }
@@ -241,7 +241,7 @@ var hwpApprovalLine = {
                 }
 
             /** 팀장 전결 */
-            }else if(empData.APPROVE_DUTY_NAME == "팀장" || empData.APPROVE_DUTY_NAME == "팀장 직무대리"){
+            }else if(list[i].APPROVE_DUTY_NAME == "센터장" || empData.APPROVE_DUTY_NAME == "팀장" || empData.APPROVE_DUTY_NAME == "팀장 직무대리"){
                 /** appArr = ["전결", "공란", "sigh1"] */
                 if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
                     const signField = "appr2";
@@ -253,7 +253,7 @@ var hwpApprovalLine = {
                 let teamCk = "N";
                 let deptCk = "N";
                 for (let i = 0; i < list.length; i++) {
-                    if ((list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리")
+                    if ((list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리")
                         && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
 
                         const signField = "appr0";
@@ -262,12 +262,12 @@ var hwpApprovalLine = {
                 }
 
                 for(let i=0; i<list.length; i++){
-                    if ((list[i].APPROVE_DUTY_NAME == "본부장" || list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "사업부장" || list[i].APPROVE_DUTY_NAME == "실장")
+                    if ((list[i].APPROVE_DUTY_NAME == "본부장" || list[i].APPROVE_DUTY_NAME == "사업부장" || list[i].APPROVE_DUTY_NAME == "실장")
                         && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
 
                         /** 팀장 공석 체크해서 없으면 공란 처리 */
                         for (let i = 0; i < list.length; i++) {
-                            if ((list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1") {
+                            if ((list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1") {
                                 teamCk = "Y";
                             }
                         }
@@ -284,7 +284,7 @@ var hwpApprovalLine = {
 
                     /** 부서장 공석 체크해서 없으면 공란 처리 */
                     for (let i = 0; i < list.length; i++) {
-                        if ((list[i].APPROVE_DUTY_NAME == "본부장" || list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "사업부장" || list[i].APPROVE_DUTY_NAME == "실장")
+                        if ((list[i].APPROVE_DUTY_NAME == "본부장" || list[i].APPROVE_DUTY_NAME == "사업부장" || list[i].APPROVE_DUTY_NAME == "실장")
                             && list[i].APPROVE_TYPE != "1") {
                             deptCk = "Y";
                         }
@@ -316,14 +316,14 @@ var hwpApprovalLine = {
 
                 if(map.APPROVE_TYPE == "0" || map.APPROVE_TYPE == "2"){
 
-                    if(map.APPROVE_DUTY_NAME == "팀장" || map.APPROVE_DUTY_NAME == "팀장 직무대리"){
+                    if(map.APPROVE_DUTY_NAME == "센터장" || map.APPROVE_DUTY_NAME == "팀장" || map.APPROVE_DUTY_NAME == "팀장 직무대리"){
                         let field = "docAppr1";
                         let field2 = "docAppr1011";
                         if(map.APPROVE_STAT_CODE == 101){
                             hwpDocCtrl.putFieldText(field2, "전결");
                         }
                         hwpApprovalLine.setName(field, map.APPROVE_EMP_NAME, map.PROXY_APPROVE_EMP_SEQ, field2);
-                    }else if(map.APPROVE_DUTY_NAME == "본부장" || map.APPROVE_DUTY_NAME == "사업부장" || map.APPROVE_DUTY_NAME == "센터장" || map.APPROVE_DUTY_NAME == "실장"){
+                    }else if(map.APPROVE_DUTY_NAME == "본부장" || map.APPROVE_DUTY_NAME == "사업부장" || map.APPROVE_DUTY_NAME == "실장"){
                         let field = "docAppr2";
                         let field2 = "docAppr1012";
                         if(map.APPROVE_STAT_CODE == 101){
@@ -479,10 +479,10 @@ var hwpApprovalLine = {
             if(map.approveType == "0" || map.approveType == "2"){
                 count += 1;
 
-                if(map.approveDutyName == "팀장"){
+                if(map.approveDutyName == "센터장" || map.approveDutyName == "팀장"){
                     hwpDocCtrl.putFieldText('docApprNm1', "팀 장");
                 }
-                if((map.approveDutyName == "본부장") || map.approveDutyName == "사업부장" || map.approveDutyName == "센터장" || map.approveDutyName == "실장"){
+                if((map.approveDutyName == "본부장") || map.approveDutyName == "사업부장" || map.approveDutyName == "실장"){
                     hwpDocCtrl.putFieldText('docApprNm2', "부서장");
                 }
                 if(map.approveDutyName == "원장"){
