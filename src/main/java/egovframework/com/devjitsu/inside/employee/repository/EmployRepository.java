@@ -22,7 +22,13 @@ public class EmployRepository extends AbstractDAO {
         return selectList("employM.getUserPartRateList", params);
     }
 
+    public List<Map<String, Object>> getBusnPartRatePay(Map<String, Object> params) {
+        return selectList("employM.getBusnPartRatePay", params);
+    }
     public void setBusnPartRatePay(Map<String, Object> params) {
         insert("employM.setBusnPartRatePay", params);
+    }
+    public void delBusnPartRatePay(Map<String, Object> params) {
+        delete("employM.delBusnPartRatePay", params);
     }
 }

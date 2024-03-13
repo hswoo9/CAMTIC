@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.employee.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.inside.employee.repository.EmployRepository;
 import egovframework.com.devjitsu.inside.employee.service.EmployService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,20 @@ public class EmployeServiceImpl implements EmployService {
 
     @Override
     public void setBusnPartRatePay(Map<String, Object> params) {
-        employRepository.setBusnPartRatePay(params);
+
+        List<Map<String, Object>> checkList = employRepository.getBusnPartRatePay(params);
+
+        if(!checkList.isEmpty()){
+            employRepository.delBusnPartRatePay(params);
+        }
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> paramArr = gson.fromJson((String) params.get("paramArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> param : paramArr) {
+            param.put("pjtSn", params.get("pjtSn"));
+            employRepository.setBusnPartRatePay(param);
+        }
+
     }
 }
