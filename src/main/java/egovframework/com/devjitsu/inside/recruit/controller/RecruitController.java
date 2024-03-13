@@ -9,6 +9,7 @@ import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.recruit.service.EvalManageService;
 import egovframework.com.devjitsu.inside.recruit.service.RecruitService;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
+import egovframework.com.devjitsu.system.repository.MenuManagementRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class RecruitController {
 
     @Autowired
     private CommonCodeService commonCodeService;
+
+    @Autowired
+    private MenuManagementRepository menuManagementRepository;
 
     /**
      * 채용관리 리스트 페이지(관리자)
@@ -250,6 +254,8 @@ public class RecruitController {
 
     private List<Map<String, Object>> getMatchingDeptMaps(Map<String, Object> newMap) {
         List<Map<String, Object>> newListMap = recruitService.getCommissionerList(newMap);
+        newMap.put("authorityGroupId", "18");
+        List<Map<String, Object>> recruitMngList = menuManagementRepository.getAuthorityGroupUserList(newMap);  // 메뉴권한 - 채용관리자
         List<Map<String, Object>> allMatchingDeptMaps = new ArrayList<>();
 
         for (Map<String, Object> commissionerMap : newListMap) {
@@ -262,10 +268,12 @@ public class RecruitController {
                 System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
             }
 
-            // 인사총무팀장, 경영지원실장
-            if(("1227".equals(commissionerDeptSeq) && "팀장".equals(commissionerDutyName)) || "1219".equals(commissionerDeptSeq) && "실장".equals(commissionerDutyName)) {
-                allMatchingDeptMaps.add(commissionerMap);
-                System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
+            // 메뉴권한 - 채용관리자
+            for(Map<String, Object> mngMap : recruitMngList) {
+                if(commissionerMap.get("EMP_SEQ").toString().equals(mngMap.get("EMP_SEQ"))) {
+                    allMatchingDeptMaps.add(commissionerMap);
+                    System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
+                }
             }
 
             if (comparatorMatches(commissionerDeptSeq, newMap.get("deptSeq"))) {
