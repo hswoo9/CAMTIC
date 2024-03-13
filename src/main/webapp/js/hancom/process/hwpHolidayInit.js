@@ -92,48 +92,50 @@ var holidayInit = {
             hwpDocCtrl.putFieldText("subHolidayAlternativeDay", subHolidayAlternativeDayText);
         }
 
-        /** 2. 업무인수자 열람자 세팅 */
-        draft.global.readersArr = [];
-        $("#readerName").val();
+        if(ResultData.SUBHOLIDAY_CODE_ID != "11") {
+            /** 2. 업무인수자 열람자 세팅 */
+            draft.global.readersArr = [];
+            $("#readerName").val();
 
-        var readerEmpNameStr = "";
+            var readerEmpNameStr = "";
 
-        const otherMap = ResultData;
-        console.log("otherMap", otherMap);
+            const otherMap = ResultData;
+            console.log("otherMap", otherMap);
 
-        var len = otherMap.OTHER_EMP_SEQ.toString().split(",").length;
+            var len = otherMap.OTHER_EMP_SEQ.toString().split(",").length;
 
-        if(otherMap.OTHER_EMP_SEQ == "" || otherMap.OTHER_EMP_SEQ == null){
-            return;
-        }
-
-        for(var i = 0 ; i < len ; i++){
-            var empSeq = otherMap.OTHER_EMP_SEQ.toString().split(",")[i];
-
-            if(empSeq == $("#empSeq").val()){
-                continue;
+            if(otherMap.OTHER_EMP_SEQ == "" || otherMap.OTHER_EMP_SEQ == null){
+                return;
             }
 
-            const userResult = getUser(empSeq);
-            if(userResult != null){
-                var tmpData = {
-                    empSeq : $("#empSeq").val(),
-                    seqType: "u",
-                    readerEmpSeq: userResult.EMP_SEQ.toString(),
-                    readerEmpName: userResult.EMP_NAME_KR,
-                    readerDeptSeq: userResult.DEPT_SEQ,
-                    readerDeptName: userResult.DEPT_NAME,
-                    readerDutyCode: userResult.DUTY_CODE,
-                    readerDutyName: userResult.DUTY_NAME,
-                    readerPositionCode: userResult.POSITION_CODE,
-                    readerPositionName: userResult.POSITION_NAME,
-                    docId : ""
-                };
-                readerEmpNameStr += "," + tmpData.readerEmpName + "(" + fn_getSpot(tmpData.readerDutyName, tmpData.readerPositionName) + ")";
-                draft.global.readersArr.push(tmpData);
-            }
-        }
+            for(var i = 0 ; i < len ; i++){
+                var empSeq = otherMap.OTHER_EMP_SEQ.toString().split(",")[i];
 
-        $("#readerName").val(readerEmpNameStr.substring(1));
+                if(empSeq == $("#empSeq").val()){
+                    continue;
+                }
+
+                const userResult = getUser(empSeq);
+                if(userResult != null){
+                    var tmpData = {
+                        empSeq : $("#empSeq").val(),
+                        seqType: "u",
+                        readerEmpSeq: userResult.EMP_SEQ.toString(),
+                        readerEmpName: userResult.EMP_NAME_KR,
+                        readerDeptSeq: userResult.DEPT_SEQ,
+                        readerDeptName: userResult.DEPT_NAME,
+                        readerDutyCode: userResult.DUTY_CODE,
+                        readerDutyName: userResult.DUTY_NAME,
+                        readerPositionCode: userResult.POSITION_CODE,
+                        readerPositionName: userResult.POSITION_NAME,
+                        docId : ""
+                    };
+                    readerEmpNameStr += "," + tmpData.readerEmpName + "(" + fn_getSpot(tmpData.readerDutyName, tmpData.readerPositionName) + ")";
+                    draft.global.readersArr.push(tmpData);
+                }
+            }
+
+            $("#readerName").val(readerEmpNameStr.substring(1));
+        }
     }
 }

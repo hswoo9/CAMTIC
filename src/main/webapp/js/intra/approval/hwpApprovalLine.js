@@ -241,7 +241,7 @@ var hwpApprovalLine = {
                 }
 
             /** 팀장 전결 */
-            }else if(list[i].APPROVE_DUTY_NAME == "센터장" || empData.APPROVE_DUTY_NAME == "팀장" || empData.APPROVE_DUTY_NAME == "팀장 직무대리"){
+            }else if(empData.APPROVE_DUTY_NAME == "센터장" || empData.APPROVE_DUTY_NAME == "팀장" || empData.APPROVE_DUTY_NAME == "팀장 직무대리"){
                 /** appArr = ["전결", "공란", "sigh1"] */
                 if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
                     const signField = "appr2";
