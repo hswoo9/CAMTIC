@@ -34,10 +34,57 @@
     </div>
 
     <br>
-    <span style="font-size: 12px;" id="titleWrap">◎ 지급 신청 리스트</span>
+    <span style="font-size: 12px;" id="titleWrap">◎ 예산현황</span>
     <div class="table-responsive" style="margin-top: 5px;">
-        <div id="budgetMainGrid"></div>
-        <div id="budgetMainGrid2" style="display: none;"></div>
+        <div id="budgetGrid1Wrap">
+            <div>
+                <table class="popTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th colspan="8" style="font-weight: bold">수입예산</th>
+                    </tr>
+                    <tr id="A">
+
+                    </tr>
+                    </thead>
+                    </tbody>
+                </table>
+                <div id="budgetMainGrid"></div>
+            </div>
+
+            <div>
+                <table class="popTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                        <col width="15%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th colspan="8" style="font-weight: bold">지출예산</th>
+                    </tr>
+                    </thead>
+                </table>
+                <div id="budgetMainGrid2"></div>
+            </div>
+        </div>
+        <div id="budgetMainGrid3" style="display: none;"></div>
+        <div id="budgetMainGrid4" style="display: none;"></div>
     </div>
 </div>
 
