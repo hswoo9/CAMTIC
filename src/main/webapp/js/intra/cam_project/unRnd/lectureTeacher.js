@@ -188,6 +188,11 @@ const lectureTeacher = {
                 }, {
                     field: "NAME",
                     title: "이름"
+                }, {
+                    field: "TEACH_TIME",
+                    title: "시간",
+                    template : "<input type='text' id='teachTime#=TEACHER_REQ_SN#' name='teachTime' class='k-input' value='#=teachTime#' onblur='lectureTeacher.fn_timeInsert(#=TEACHER_REQ_SN#)' onkeypress='if(window.event.keyCode==13){lectureTeacher.fn_timeInsert(#=TEACHER_REQ_SN#);}' style='width: 60%'/>",
+                    width: 100
                 }
             ],
             dataBinding: function(){
@@ -212,6 +217,61 @@ const lectureTeacher = {
             arr.push(row);
         });
 
+
+        var tcCount = $("#teacherGridS table tbody tr").length;
+        console.log(tcCount)
+        if (tcCount > 6) {
+            alert("강사는 최대 6명까지 선택 가능합니다.");
+            return;
+        }
+
+        if (tcCount == 0) {
+            if(arr.length > 6){
+                alert("강사는 최대 6명까지 선택 가능합니다.");
+                return;
+            }
+        }
+
+        if (tcCount == 1) {
+            if(arr.length > 5){
+                alert("강사는 최대 6명까지 선택 가능합니다.");
+                return;
+            }
+        }
+
+        if (tcCount == 2) {
+            if(arr.length > 4){
+                alert("강사는 최대 6명까지 선택 가능합니다.");
+                return;
+            }
+        }
+
+        if (tcCount == 3) {
+            if(arr.length > 3){
+                alert("강사는 최대 6명까지 선택 가능합니다.");
+                return;
+            }
+        }
+
+        if (tcCount == 4) {
+            if(arr.length > 2){
+                alert("강사는 최대 6명까지 선택 가능합니다.");
+                return;
+            }
+        }
+
+        if (tcCount == 5) {
+            if(arr.length > 1){
+                alert("강사는 최대 6명까지 선택 가능합니다.");
+                return;
+            }
+        }
+
+        if (tcCount == 6) {
+            alert("강사는 최대 6명까지 선택 가능합니다.");
+            return;
+        }
+
         if(arr.length == 0) {
             alert("강사가 선택되지 않았습니다.");
             return;
@@ -222,6 +282,20 @@ const lectureTeacher = {
 
         if(result.code != 200){
             alert("저장 중 오류가 발생하였습니다.");
+        }else{
+            this.fn_mainGrid();
+        }
+    },
+
+    fn_timeInsert: function(key){
+        let data = {
+            teachTime: $("#teachTime"+key).val(),
+            teacherReqSn: key
+        }
+        const result = customKendo.fn_customAjax("/projectUnRnd/insConTeacherTimeInfo", data);
+
+        if(result.code != 200){
+            alert("삭제 중 오류가 발생하였습니다.");
         }else{
             this.fn_mainGrid();
         }

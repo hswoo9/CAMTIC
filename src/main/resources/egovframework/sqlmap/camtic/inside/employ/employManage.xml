@@ -303,7 +303,9 @@
             A.PART_EMP_SEQ,
             C.SBJ_STAT_YN,
             A.TOT_RATE,
-            (SELECT MIN(PART_DET_STR_DT) FROM CAM_PJT_MNG.DJ_PART_RATE_DET WHERE PART_RATE_VER_SN = B.PART_RATE_VER_SN) AS MIN_DT
+            (SELECT MIN(PART_DET_STR_DT) FROM CAM_PJT_MNG.DJ_PART_RATE_DET WHERE PART_RATE_VER_SN = B.PART_RATE_VER_SN) AS MIN_DT,
+            (select if(count(*) > 0, 'Y', 'N') from cam_pjt_mng.dj_part_pay_mon where pjt_sn = C.PJT_SN) AS MON_YN,
+            D.*
         FROM
             CAM_PJT_MNG.DJ_PART_RATE_DET A
         LEFT JOIN
@@ -314,6 +316,10 @@
             CAM_PJT_MNG.DJ_PROJECT C
         ON
             B.PJT_SN = C.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PART_PAY_MON D
+        ON
+            D.PJT_SN = C.PJT_SN
         WHERE
             B.MNG_STAT = 'C'
         AND
@@ -405,7 +411,83 @@
         ORDER BY AA.EMP_NAME_KR
     </select>
 
+    <select id="getBusnPartRatePay" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PART_PAY_MON
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
 
+    <insert id="setBusnPartRatePay" parameterType="map">
+        INSERT INTO CAM_PJT_MNG.DJ_PART_PAY_MON
+            (
+                 PJT_SN
+                ,EMP_SEQ
+                ,BS_SAL
+                ,MON_SAL
+                ,MON_PAY_1
+                ,MON_PAY_2
+                ,MON_PAY_3
+                ,MON_PAY_4
+                ,MON_PAY_5
+                ,MON_PAY_6
+                ,MON_PAY_7
+                ,MON_PAY_8
+                ,MON_PAY_9
+                ,MON_PAY_10
+                ,MON_PAY_11
+                ,MON_PAY_12
+                ,MON_ITEM_1
+                ,MON_ITEM_2
+                ,MON_ITEM_3
+                ,MON_ITEM_4
+                ,MON_ITEM_5
+                ,MON_ITEM_6
+                ,MON_ITEM_7
+                ,MON_ITEM_8
+                ,MON_ITEM_9
+                ,MON_ITEM_10
+                ,MON_ITEM_11
+                ,MON_ITEM_12
+            )
+        VALUES
+            (
+                #{pjtSn}
+                ,#{empSeq}
+                ,#{empSal}
+                ,#{monSal}
+                ,#{monPay1}
+                ,#{monPay2}
+                ,#{monPay3}
+                ,#{monPay4}
+                ,#{monPay5}
+                ,#{monPay6}
+                ,#{monPay7}
+                ,#{monPay8}
+                ,#{monPay9}
+                ,#{monPay10}
+                ,#{monPay11}
+                ,#{monPay12}
+                ,#{monItem1}
+                ,#{monItem2}
+                ,#{monItem3}
+                ,#{monItem4}
+                ,#{monItem5}
+                ,#{monItem6}
+                ,#{monItem7}
+                ,#{monItem8}
+                ,#{monItem9}
+                ,#{monItem10}
+                ,#{monItem11}
+                ,#{monItem12}
+            )
+    </insert>
+
+    <delete id="delBusnPartRatePay" parameterType="map">
+        DELETE FROM CAM_PJT_MNG.DJ_PART_PAY_MON WHERE PJT_SN = #{pjtSn}
+    </delete>
 
 </mapper>
 

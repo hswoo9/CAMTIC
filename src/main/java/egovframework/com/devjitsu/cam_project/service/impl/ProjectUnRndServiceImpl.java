@@ -188,6 +188,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         return projectUnRndRepository.getLectureTeacherList(params);
     }
     @Override
+    public List<Map<String, Object>> getConTeacherList(Map<String, Object> params) {
+        return projectUnRndRepository.getConTeacherList(params);
+    }
+    @Override
     public List<Map<String, Object>> getPersonList(Map<String, Object> params) {
         return projectUnRndRepository.getPersonList(params);
     }
@@ -280,15 +284,24 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public List<Map<String, Object>> getLectureTeacherInfo(Map<String, Object> params) {
+        return projectUnRndRepository.getLectureTeacherInfo(params);
+    }
+
+    @Override
     public Map<String, Object> getConsultingInfo(Map<String, Object> params) {
         Map<String, Object> consultingInfo = projectUnRndRepository.getConsultingInfo(params);
-        Map<String, Object> searchMap = new HashMap<>();
-
-        searchMap.put("TEACHER_SN", consultingInfo.get("CON_TC_SN"));
+       /* Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("CON_SN", consultingInfo.get("CON_SN"));
         consultingInfo.put("teacherInfo", projectUnRndRepository.getConsultingTeacherInfo(searchMap));
 
-        return consultingInfo;
-        /*return projectUnRndRepository.getConsultingInfo(params);*/
+        return consultingInfo;*/
+        return projectUnRndRepository.getConsultingInfo(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getConsultingTeacherInfo(Map<String, Object> params) {
+        return projectUnRndRepository.getConsultingTeacherInfo(params);
     }
 
     @Override
@@ -524,6 +537,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     @Override
     public void delConTeacherInfo(Map<String, Object> params) {
         projectUnRndRepository.delConTeacherInfo(params);
+    }
+    @Override
+    public void insConTeacherTimeInfo(Map<String, Object> params) {
+        projectUnRndRepository.insConTeacherTimeInfo(params);
     }
 
     @Override
