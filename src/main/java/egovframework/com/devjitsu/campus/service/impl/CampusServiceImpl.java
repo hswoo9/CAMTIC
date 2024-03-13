@@ -1825,4 +1825,34 @@ public class CampusServiceImpl implements CampusService {
     public List<Map<String, Object>> getEduInfoHistList(Map<String, Object> params){
         return prjRepository.getEduInfoHistList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getStudyInfoHistList(Map<String, Object> params){
+        return prjRepository.getStudyInfoHistList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPropagInfoHistList(Map<String, Object> params){
+        return prjRepository.getPropagInfoHistList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getOjtInfoHistList(Map<String, Object> params){
+        return prjRepository.getOjtInfoHistList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getOpenstudyInfoHistList(Map<String, Object> params){
+        return prjRepository.getOpenstudyInfoHistList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getCommonEduInfoHistList(Map<String, Object> params){
+        return prjRepository.getCommonEduInfoHistList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getOpenstudyInfoMngHistList(Map<String, Object> params){
+        return prjRepository.getOpenstudyInfoMngHistList(params);
+    }
 }

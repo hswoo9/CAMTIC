@@ -39,4 +39,22 @@ public class PRJRepository extends AbstractDAO {
     public List<Map<String, Object>> getEduInfoHistList(Map<String, Object> params) {
         return selectListMs("prj.getEduInfoHistList", params);
     }
+    public List<Map<String, Object>> getStudyInfoHistList(Map<String, Object> params) {
+        return selectListMs("prj.getStudyInfoHistList", params);
+    }
+    public List<Map<String, Object>> getPropagInfoHistList(Map<String, Object> params) {
+        return selectListMs("prj.getPropagInfoHistList", params);
+    }
+    public List<Map<String, Object>> getOjtInfoHistList(Map<String, Object> params) {
+        return selectListMs("prj.getOjtInfoHistList", params);
+    }
+    public List<Map<String, Object>> getOpenstudyInfoHistList(Map<String, Object> params) {
+        return selectListMs("prj.getOpenstudyInfoHistList", params);
+    }
+    public List<Map<String, Object>> getCommonEduInfoHistList(Map<String, Object> params) {
+        return selectListMs("prj.getCommonEduInfoHistList", params);
+    }
+    public List<Map<String, Object>> getOpenstudyInfoMngHistList(Map<String, Object> params) {
+        return selectListMs("prj.getOpenstudyInfoMngHistList", params);
+    }
 }

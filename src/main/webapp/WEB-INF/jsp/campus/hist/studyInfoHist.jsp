@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script type="text/javascript" src="/js/intra/campus/hist/eduInfoHist.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/campus/hist/studyInfoHist.js?v=${today}"/></script>
 
 <style>
     a:hover{
@@ -16,27 +16,13 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">개인학습현황이력(~2023년)</h4>
-            <div class="title-road">캠퍼스 &gt; 개인학습현황이력(~2023년)</div>
+            <h4 class="panel-title">학습조신청목록이력(~2023년)</h4>
+            <div class="title-road">캠퍼스 &gt; 학습조신청목록이력(~2023년)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
             <div style="margin-bottom:10px;">
                 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <table class="searchTable table table-bordered mb-0">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="40%">
-                        <col width="10%">
-                        <col width="40%">
-                    </colgroup>
-                    <tr>
-                        <th class="text-center th-color">조회 연도</th>
-                        <td>
-                            <input type="text" id="eduYear" style="width: 110px;">
-                        </td>
-                    </tr>
-                </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
         </div>
@@ -44,5 +30,5 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    histEduInfo.fn_defaultScript();
+    studyInfoHist.fn_defaultScript();
 </script>

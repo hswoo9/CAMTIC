@@ -2444,6 +2444,66 @@ public class CampusController {
         return "campus/hist/eduInfoHist";
     }
     /**
+     * 캠퍼스 학습조 리스트 페이지
+     */
+    @RequestMapping("/cmapus/studyInfoHist.do")
+    public String studyInfoHist(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/hist/studyInfoHist";
+    }
+    /**
+     * 캠퍼스 전파학습 리스트 페이지
+     */
+    @RequestMapping("/cmapus/propagInfoHist.do")
+    public String propagInfoHist(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/hist/propagInfoHist";
+    }
+    /**
+     * 캠퍼스 OJT 리스트 페이지
+     */
+    @RequestMapping("/cmapus/ojtInfoHist.do")
+    public String ojtInfoHist(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/hist/ojtInfoHist";
+    }
+    /**
+     * 캠퍼스 오픈스터디 리스트 페이지
+     */
+    @RequestMapping("/cmapus/openstudyInfoHist.do")
+    public String openstudyInfoHist(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/hist/openstudyInfoHist";
+    }
+    /**
+     * 캠퍼스 공통학습 리스트 페이지
+     */
+    @RequestMapping("/cmapus/commonEduInfoHist.do")
+    public String commonEduInfoHist(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/hist/commonEduInfoHist";
+    }
+    /**
      * 캠퍼스 직원학습관리이력 리스트 페이지
      */
     @RequestMapping("/cmapus/eduInfoMngHist.do")
@@ -2455,9 +2515,51 @@ public class CampusController {
         model.addAttribute("loginVO", login);
         return "campus/hist/eduInfoMngHist";
     }
+    /**
+     * 캠퍼스 공통학습관리 리스트 페이지
+     */
+    @RequestMapping("/cmapus/commonEduInfoMngHist.do")
+    public String commonEduInfoMngHist(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/hist/commonEduInfoMngHist";
+    }
     @RequestMapping("/campus/getEduInfoHistList")
     public String getEduInfoHistList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", campusService.getEduInfoHistList(params));
+        return "jsonView";
+    }
+    @RequestMapping("/campus/getStudyInfoHistList")
+    public String getStudyInfoHistList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", campusService.getStudyInfoHistList(params));
+        return "jsonView";
+    }
+    @RequestMapping("/campus/getPropagInfoHistList")
+    public String getPropagInfoHistList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", campusService.getPropagInfoHistList(params));
+        return "jsonView";
+    }
+    @RequestMapping("/campus/getOjtInfoHistList")
+    public String getOjtInfoHistList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", campusService.getOjtInfoHistList(params));
+        return "jsonView";
+    }
+    @RequestMapping("/campus/getOpenstudyInfoHistList")
+    public String getOpenstudyInfoHistList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", campusService.getOpenstudyInfoHistList(params));
+        return "jsonView";
+    }
+    @RequestMapping("/campus/getCommonEduInfoHistList")
+    public String getCommonEduInfoHistList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", campusService.getCommonEduInfoHistList(params));
+        return "jsonView";
+    }
+    @RequestMapping("/campus/getOpenstudyInfoMngHistList")
+    public String getOpenstudyInfoMngHistList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", campusService.getOpenstudyInfoMngHistList(params));
         return "jsonView";
     }
 }

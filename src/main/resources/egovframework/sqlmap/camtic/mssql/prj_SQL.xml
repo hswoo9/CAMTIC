@@ -226,4 +226,100 @@
         </if>
         ORDER BY SDate DESC
     </select>
+
+    <select id="getStudyInfoHistList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getStudyInfoHistList */
+        <![CDATA[
+        SELECT
+            SeqNo, UUID, UserName, StudyName, SDate, EDate, Location, State
+            , (Select Sum(RunTime) AS RTime From PRJDB.dbo.EduStudyReport where StudyNum = A.SeqNo) AS EduTime
+            , (Select Count(SeqNo) AS pCount From PRJDB.dbo.EduStudyReport where StudyNum = A.SeqNo) AS Count
+        FROM
+            PRJDB.dbo.EduStudyInfo A
+        WHERE
+            YEAR(SDate) <= 2023
+          AND (UUID = #{empSeq} Or SeqNo In (Select StudyNum From PRJDB.dbo.EduStudyUser where UUID = #{empSeq}))
+        ]]>
+        ORDER BY SDate DESC
+    </select>
+
+    <select id="getPropagInfoHistList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getPropagInfoHistList */
+        <![CDATA[
+        SELECT
+            SeqNo, UUID, PropagName, SDate, EDate, Location, State, InCount, InTime
+            , (SELECT NAME FROM PRJDB.dbo.userInfo WHERE UUID = A.UUID) AS UserName
+            , (Select TOP 1 UserName From PRJDB.dbo.EduPropagUser where PropagNum = A.SeqNo) AS UserName2
+            , ISNULL((Select Count(UserName) From PRJDB.dbo.EduPropagUser where PropagNum = A.SeqNo), 0) AS UserCount
+        FROM
+            PRJDB.dbo.EduPropagInfo A
+        WHERE
+            YEAR(SDate) <= 2023
+          AND (UUID = #{empSeq} Or SeqNo In (Select PropagNum From PRJDB.dbo.EduPropagUser where UUID IN (#{empSeq})))
+        ]]>
+        ORDER BY SDate DESC
+    </select>
+
+    <select id="getOjtInfoHistList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getOjtInfoHistList */
+        <![CDATA[
+        SELECT
+            OJTNum, UUID, OJTName, SDate, EDate, Location, State
+            , (SELECT NAME FROM PRJDB.dbo.userInfo WHERE UUID = A.UUID) AS UserName
+            , (Select TOP 1 UserName From PRJDB.dbo.EduOjtUser where OJTNum = A.OJTNum) AS UserName2
+            , ISNULL((Select Count(UserName) From PRJDB.dbo.EduOjtUser where OJTNum = A.OJTNum), 0) AS UserCount
+            , (Select Sum(RunTime) AS RTime From PRJDB.dbo.EduOjtReport where OJTNum = A.OJTNum) AS InTime
+        FROM
+            PRJDB.dbo.EduOJTInfo A
+        WHERE
+            SDate != '123' AND YEAR(SDate) <= 2023
+        AND (UUID = #{empSeq} Or OJTNum In (Select OJTNum From PRJDB.dbo.EduOJTUser where UUID IN (#{empSeq})))
+        ]]>
+        ORDER BY SDate DESC
+    </select>
+
+    <select id="getOpenstudyInfoHistList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getOpenstudyInfoHistList */
+        <![CDATA[
+        SELECT
+            SeqNo, UUID, IsName, SDate, EDate, Location, State, InTime, IdentTime
+            , (SELECT NAME FROM PRJDB.dbo.userInfo WHERE UUID = A.UUID) AS UserName
+            , (Select TOP 1 UserName From PRJDB.dbo.EduOpenStudyResultUser where InfoNum = A.SeqNo AND IsType = '2') AS UserName2
+            , ISNULL((Select Count(UserName) From PRJDB.dbo.EduOpenStudyResultUser where InfoNum = A.SeqNo AND IsType = '2'), 0) AS UserCount
+
+        FROM
+            PRJDB.dbo.EduOpenStudyResult A
+        WHERE
+            YEAR(SDate) <= 2023
+          AND (UUID = #{empSeq} Or SeqNo In (Select InfoNum From PRJDB.dbo.EduOpenStudyResultUser where UUID IN (#{empSeq})))
+        ]]>
+        ORDER BY SDate DESC
+    </select>
+
+    <select id="getCommonEduInfoHistList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getCommonEduInfoHistList */
+        <![CDATA[
+        SELECT
+            EI.*, EP.State AS pState
+        FROM
+            PRJDB.dbo.EduInfoPublic EI Inner Join PRJDB.dbo.EduPublicHistory EP On EI.SeqNo = EP.EduNum
+        WHERE
+            YEAR(EI.SDate) <= 2023
+          AND EP.UUID = #{empSeq}
+        ]]>
+        ORDER BY EI.SDate DESC
+    </select>
+
+    <select id="getOpenstudyInfoMngHistList" resultType="java.util.Map" parameterType="java.util.Map">
+        /** getOpenstudyInfoMngHistList */
+        <![CDATA[
+        SELECT
+            EI.*
+        FROM
+            PRJDB.dbo.EduInfoPublic EI
+        WHERE
+            YEAR(EI.SDate) <= 2023
+        ]]>
+        ORDER BY EI.SDate DESC
+    </select>
 </mapper>

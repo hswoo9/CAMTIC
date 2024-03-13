@@ -17,7 +17,7 @@
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
             <h4 class="panel-title">직원학습관리이력(~2023년)</h4>
-            <div class="title-road">캠인사이드 > 인사관리 > 채용관리 &gt; 직원학습관리이력(~2023년)</div>
+            <div class="title-road">캠퍼스 &gt; 직원학습관리이력(~2023년)</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">

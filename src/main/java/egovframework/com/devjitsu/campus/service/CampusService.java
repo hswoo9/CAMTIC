@@ -222,4 +222,16 @@ public interface CampusService {
     /** 전자결재 끝 */
 
     List<Map<String, Object>> getEduInfoHistList(Map<String, Object> params);
+
+    List<Map<String, Object>> getStudyInfoHistList(Map<String, Object> params);
+
+    List<Map<String, Object>> getPropagInfoHistList(Map<String, Object> params);
+
+    List<Map<String, Object>> getOjtInfoHistList(Map<String, Object> params);
+
+    List<Map<String, Object>> getOpenstudyInfoHistList(Map<String, Object> params);
+
+    List<Map<String, Object>> getCommonEduInfoHistList(Map<String, Object> params);
+
+    List<Map<String, Object>> getOpenstudyInfoMngHistList(Map<String, Object> params);
 }
