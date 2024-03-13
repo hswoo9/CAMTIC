@@ -21,7 +21,7 @@ function fn_monBasicSalary(e){
     /** 국민연금 */
     var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
     if(nationalPension > Number(e.LIMIT_AMT)){
-        nationalPension = e.LIMIT_AMT;
+        nationalPension = Number(e.LIMIT_AMT);
     }
     /** 건강보험 */
     var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
