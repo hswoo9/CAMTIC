@@ -21,8 +21,9 @@ var rndBg = {
 
         $("#selectType").kendoRadioGroup({
             items: [
-                { label : "지급 신청 리스트", value : "1" },
-                { label : "지출 신청 리스트", value : "2" },
+                { label : "예산 현황", value : "1" },
+                { label : "지급 신청 리스트", value : "2" },
+                { label : "지출 신청 리스트", value : "3" },
             ],
             layout : "horizontal",
             labelPosition : "after",
@@ -31,23 +32,333 @@ var rndBg = {
                 var idx = this.value();
 
                 if(idx == 1){
-                    $("#budgetMainGrid").css("display", "");
-                    $("#budgetMainGrid2").css("display", "none");
-                    $("#titleWrap").text("◎ 지급 신청 리스트")
-                } else if (idx == 2){
-                    $("#budgetMainGrid").css("display", "none");
-                    $("#budgetMainGrid2").css("display", "");
-                    $("#titleWrap").text("◎ 지출 신청 리스트")
+                    $("#budgetGrid1Wrap").css("display", "");
+                    $("#budgetMainGrid3").css("display", "none");
+                    $("#budgetMainGrid4").css("display", "none");
+                    $("#titleWrap").text("◎ 예산현황");
+                }
+                else if(idx == 2){
+                    $("#budgetGrid1Wrap").css("display", "none");
+                    $("#budgetMainGrid3").css("display", "");
+                    $("#budgetMainGrid4").css("display", "none");
+                    $("#titleWrap").text("◎ 지급 신청 리스트");
+                } else if (idx == 3){
+                    $("#budgetGrid1Wrap").css("display", "none");
+                    $("#budgetMainGrid3").css("display", "none");
+                    $("#budgetMainGrid4").css("display", "");
+                    $("#titleWrap").text("◎ 지출 신청 리스트");
                 }
             }
         });
-
-        rndBg.budgetMainGrid("/pay/getPaymentList", rndBg.global.searchAjaxData);
-        rndBg.budgetMainGrid2("/pay/getExnpList", rndBg.global.searchAjaxData);
+        rndBg.budgetMainGrid();     // 수입예산 리스트
+        rndBg.budgetMainGrid2();    // 지출예산 리스트
+        rndBg.budgetMainGrid3("/pay/getPaymentList", rndBg.global.searchAjaxData);  // 지급신청서 리스트
+        rndBg.budgetMainGrid4("/pay/getExnpList", rndBg.global.searchAjaxData);         // 지출결의서 리스트
     },
 
-    budgetMainGrid : function(url, params){
+    budgetMainGrid : function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/g20/getSubjectList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    var date = new Date();
+                    var year = date.getFullYear().toString().substring(2,4);
+                    data.stat = "project";
+                    data.gisu = year;
+                    data.fromDate = date.getFullYear().toString() + "0101";
+                    data.toDate = date.getFullYear().toString() + "1231";
+                    data.mgtSeq = $("#mgtCd").val()
+                    data.opt01 = '3';
+                    data.opt02 = '1';
+                    data.opt03 = '2';
+                    data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+                    data.pjtSn = $("#pjtSn").val();
+                    data.temp = '1'; /*수입예산 1 , 지출예산 2*/
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            }
+        });
+
         $("#budgetMainGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: rndBg.onDataBound,
+            columns: [
+                {
+                    title: "장",
+                    width: 250,
+                    template: function (e){
+                        if(e.DIV_FG_NM == "장"){
+                            return "<div style='font-weight: bold'>"+e.BGT_NM+"</div>";
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "관",
+                    width: 250,
+                    template: function (e){
+                        if(e.DIV_FG_NM == "관"){
+                            return e.BGT_NM;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "항",
+                    width: 150,
+                    template: function (e){
+                        if(e.DIV_FG_NM == "항"){
+                            return e.BGT_NM;
+                        } else {
+                            return "";
+                        }
+                    },
+                    footerTemplate: "합계"
+                }, {
+                    title: "예산액",
+                    width: 150,
+                    template: function(e){
+                        if(e.DIV_FG_NM == "장"){
+                            calcAmSum  += Number(e.CALC_AM);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";
+                    }
+                }, {
+                    title: "입금완료",
+                    width: 150,
+                    template: function(e){
+                        if(e.DIV_FG_NM == "장"){
+                            acctAm2Sum += Number(e.ACCT_AM_2);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
+                    }
+                }, {
+                    title: "입금대기",
+                    width: 150,
+                    template: function(e){
+                        if(e.FULL_WAIT_CK != null){
+                            if(e.DIV_FG_NM == "장"){
+                                acctAm1Sum += Number(e.FULL_WAIT_CK);
+                            }
+                            return "<div style='text-align: right'>"+comma(e.FULL_WAIT_CK)+"</div>";
+                        } else {
+                            return "<div style='text-align: right'>0</div>";
+                        }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm1Sum)+"</div>";
+                    }
+                }, {
+                    title: "승인",
+                    width: 150,
+                    template: function(e){
+                        if(e.FULL_WAIT_CK != null){
+                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.FULL_WAIT_CK)+"</div>";
+                        } else {
+                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                        }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm2Sum+acctAm1Sum)+"</div>";
+                    }
+                }, {
+                    title: "예산잔액",
+                    width: 150,
+                    template: function(e){
+                        if(e.DIV_FG_NM == "장"){
+                            subAmSum += Number(e.SUB_AM);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
+                    }
+                }
+            ],
+
+            dataBinding: function(){
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            }
+        }).data("kendoGrid");
+    },
+
+    budgetMainGrid2 : function(){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: "/g20/getSubjectList",
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    var date = new Date();
+                    var year = date.getFullYear().toString().substring(2,4);
+                    data.stat = "project";
+                    data.gisu = year;
+                    data.fromDate = date.getFullYear().toString() + "0101";
+                    data.toDate = date.getFullYear().toString() + "1231";
+                    data.mgtSeq = $("#mgtCd").val()
+                    data.opt01 = '3';
+                    data.opt02 = '1';
+                    data.opt03 = '2';
+                    data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
+                    data.pjtSn = $("#pjtSn").val();
+                    data.temp = '2'; /*수입예산 1 , 지출예산 2*/
+                    return data;
+                }
+            },
+            schema: {
+                data: function(data){
+                    return data.list;
+                },
+                total: function(data){
+                    return data.list.length;
+                },
+            }
+        });
+
+        $("#budgetMainGrid2").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            dataBound: rndBg.onDataBound,
+            columns: [
+                {
+                    title: "장",
+                    width: 250,
+                    template: function (e){
+                        if(e.DIV_FG_NM == "장"){
+                            return "<div style='font-weight: bold'>"+e.BGT_NM+"</div>";
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "관",
+                    width: 250,
+                    template: function (e){
+                        if(e.DIV_FG_NM == "관"){
+                            return e.BGT_NM;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "항",
+                    width: 150,
+                    template: function (e){
+                        if(e.DIV_FG_NM == "항"){
+                            return e.BGT_NM;
+                        } else {
+                            return "";
+                        }
+                    },
+                    footerTemplate: "합계"
+                }, {
+                    title: "예산액",
+                    width: 150,
+                    template: function(e){
+                        if(e.DIV_FG_NM == "장"){
+                            calcAmSum  += Number(e.CALC_AM);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.CALC_AM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";
+                    }
+                }, {
+                    title: "지출완료",
+                    width: 150,
+                    template: function(e){
+                        if(e.DIV_FG_NM == "장"){
+                            acctAm3Sum += Number(e.ACCT_AM_3);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";
+                    }
+                }, {
+                    title: "지출대기",
+                    width: 150,
+                    template: function(e){
+                        if(e.WAIT_CK != null){
+                            if(e.DIV_FG_NM == "장"){
+                                acctAm1Sum += Number(e.WAIT_CK);
+                            }
+                            return "<div style='text-align: right'>"+comma(e.WAIT_CK)+"</div>";
+                        } else {
+                            return "<div style='text-align: right'>0</div>";
+                        }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm1Sum)+"</div>";
+                    }
+                }, {
+                    title: "승인",
+                    width: 150,
+                    template: function(e){
+                        if(e.DIV_FG_NM == "장"){
+                            acctAm2Sum  += Number(e.ACCT_AM_2 + e.WAIT_CK);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
+                    }
+                }, {
+                    title: "예산잔액",
+                    width: 150,
+                    template: function(e){
+                        if(e.DIV_FG_NM == "장"){
+                            subAmSum += Number(e.SUB_AM);
+                        }
+                        return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
+                    }
+                }
+            ],
+
+            dataBinding: function(){
+                record = (this.dataSource.page() -1) * this.dataSource.pageSize();
+            }
+        }).data("kendoGrid");
+    },
+
+    budgetMainGrid3 : function(url, params){
+        $("#budgetMainGrid3").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
@@ -238,8 +549,8 @@ var rndBg = {
         }).data("kendoGrid");
     },
 
-    budgetMainGrid2 : function(url, params){
-        $("#budgetMainGrid2").kendoGrid({
+    budgetMainGrid4 : function(url, params){
+        $("#budgetMainGrid4").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",

@@ -196,6 +196,20 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public void setUserReqDetailInsert(Map<String, Object> params) {
+
+        if(params.get("division").equals("0") || (params.get("division").equals("4") && params.get("divisionSub").equals("1")) ||   // 정규직원, 계약직원8
+            (params.get("division").equals("4") && params.get("divisionSub").equals("2")) || (params.get("division").equals("1") && params.get("divisionSub").equals("6")) ||   // 인턴직원, 위촉직원
+            (params.get("division").equals("1") && params.get("divisionSub").equals("4"))   // 위촉연구원
+        ){
+            // 사번 (ERP_EMP_SEQ) 추가
+            String tempNum = "00" + userManageRepository.getMonthJoinNum(params).get("joinNum").toString();
+            String monthJoinNum = tempNum.substring(tempNum.length()-3, tempNum.length());
+            String erpEmpSeq = "C" + params.get("JOIN_DAY").toString().split("-")[0].substring(2) + params.get("JOIN_DAY").toString().split("-")[1] + monthJoinNum;
+            params.put("ERP_EMP_SEQ", erpEmpSeq);
+        } else {
+            params.put("ERP_EMP_SEQ", "");
+        }
+
         userManageRepository.setUserReqDetailInsert(params);
     }
 

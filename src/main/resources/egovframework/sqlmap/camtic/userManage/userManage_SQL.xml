@@ -429,6 +429,7 @@
         /*setUserReqDetailInsert*/
         INSERT INTO CAM_HR.DJ_EMP_INFO(
         EMP_SEQ,
+        ERP_EMP_SEQ,
         EMP_NAME_KR,
         LOGIN_PASSWD,
         LOGIN_ID,
@@ -507,6 +508,7 @@
         MY_COMENT
         )VALUES(
         (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
+        #{ERP_EMP_SEQ},
         #{EMP_NAME_KR},
         #{LOGIN_PASSWD},
         #{LOGIN_ID},
@@ -4264,6 +4266,19 @@
         WHERE
             ACTIVE = 'Y'
         AND EMP_SEQ = #{empSeq}
+    </select>
+
+    <select id="getMonthJoinNum" parameterType="map" resultType="map">
+        /*getMonthJoinNum*/
+        SELECT
+            CASE
+                WHEN ERP_EMP_SEQ = '' OR ERP_EMP_SEQ IS NULL THEN '1'
+                ELSE MAX(SUBSTRING(ERP_EMP_SEQ, -3)) + 1
+            END AS joinNum
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE
+            DATE_FORMAT(JOIN_DAY, '%Y%m') = DATE_FORMAT(#{JOIN_DAY}, '%Y%m') ORDER BY ERP_EMP_SEQ DESC
     </select>
 
 </mapper>

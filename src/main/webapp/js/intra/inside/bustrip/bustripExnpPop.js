@@ -257,6 +257,19 @@ const bustripExnpReq = {
                 dayCostArr[i] = dayCost;
             });
 
+            $.each($(".extData"), function(i, v){
+                let dayCost = {};
+                dayCost.empSeq = $(v).find('.empSeq').val();
+
+                let dayCostResult = customKendo.fn_customAjax("/bustrip/getBustripMaxDayCost", {
+                    empSeq: $(v).find('.empSeq').val(),
+                    hrBizReqResultId: hrBizReqResultId
+                });
+
+                dayCost.dayCost = dayCostResult.data.DAY_COST;
+                dayCostArr.push(dayCost);
+            });
+
             console.log("dayCostArr", dayCostArr);
 
             for(let i=0; i<dayCostArr.length; i++){
