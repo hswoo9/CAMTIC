@@ -40,7 +40,11 @@ var userPartRate = {
         }
 
         //주민번호
-        $("#resRegisNum").text($("#resRegisNum").text() + "******");
+        if($("#resRegisNum").text().length >= 12) {
+            $("#resRegisNum").text($("#resRegisNum").text().replace(/(\d{5}-\d{1})(\d{6})/, "$1******"));
+        }else{
+            $("#resRegisNum").text($("#resRegisNum").text() + "******");
+        }
     },
 
 
