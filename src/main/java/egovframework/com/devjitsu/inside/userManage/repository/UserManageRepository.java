@@ -475,4 +475,7 @@ public class UserManageRepository extends AbstractDAO {
         return selectList("userManage.getAllDutyList", params);
     }
 
+    public Map<String, Object> getMonthJoinNum(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("userManage.getMonthJoinNum", params);
+    }
 }
