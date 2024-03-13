@@ -349,6 +349,12 @@ public class ProjectUnRndController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+    @RequestMapping("/projectUnRnd/getConTeacherList")
+    public String getConTeacherList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectUnRndService.getConTeacherList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
     /** 단위사업(교육) 개인회원 리스트 */
     @RequestMapping("/projectUnRnd/getPersonList")
     public String getPersonList(@RequestParam Map<String, Object> params, Model model){
@@ -425,7 +431,9 @@ public class ProjectUnRndController {
     @RequestMapping("/projectUnRnd/getLectureInfo")
     public String getLectureInfo(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> data = projectUnRndService.getLectureInfo(params);
+        List<Map<String, Object>> list = projectUnRndService.getLectureTeacherInfo(params);
         model.addAttribute("data", data);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 
@@ -433,7 +441,10 @@ public class ProjectUnRndController {
     @RequestMapping("/projectUnRnd/getConsultingInfo")
     public String getConsultingInfo(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> data = projectUnRndService.getConsultingInfo(params);
+        List<Map<String, Object>> list = projectUnRndService.getConsultingTeacherInfo(params);
+
         model.addAttribute("data", data);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 
@@ -657,6 +668,18 @@ public class ProjectUnRndController {
     public String delLectureTeacherInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.delLectureTeacherInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    /** 단위사업(컨설팅) 강의 시간 입력*/
+    @RequestMapping("/projectUnRnd/insConTeacherTimeInfo")
+    public String insConTeacherTimeInfo(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.insConTeacherTimeInfo(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

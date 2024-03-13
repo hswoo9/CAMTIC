@@ -22,7 +22,7 @@ const conTeacher = {
             serverPaging: false,
             transport: {
                 read : {
-                    url : "/projectUnRnd/getLectureTeacherList",
+                    url : "/projectUnRnd/getConTeacherList",
                     dataType : "json",
                     type : "post"
                 },
@@ -42,7 +42,6 @@ const conTeacher = {
                 },
             }
         });
-
         let dataSourceS = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -61,6 +60,7 @@ const conTeacher = {
                     return data.list;
                 },
                 total: function (data) {
+                   /* var reqListLength = data.list.length;*/
                     return data.list.length;
                 },
             }
@@ -187,6 +187,11 @@ const conTeacher = {
                 }, {
                     field: "NAME",
                     title: "이름"
+                }, {
+                    field: "TEACH_TIME",
+                    title: "시간",
+                    template : "<input type='text' id='teachTime#=TEACHER_REQ_SN#' name='teachTime' class='k-input' value='#=teachTime#' onblur='conTeacher.fn_timeInsert(#=TEACHER_REQ_SN#)' onkeypress='if(window.event.keyCode==13){conTeacher.fn_timeInsert(#=TEACHER_REQ_SN#);}' style='width: 60%'/>",
+                    width: 100
                 }
             ],
             dataBinding: function(){
@@ -199,10 +204,8 @@ const conTeacher = {
         const data = {
             pk: $("#pk").val()
         }
-
         const checkBox = 'input[name="teacherA"]:checked';
         const selectedElements = document.querySelectorAll(checkBox);
-
         let arr = new Array();
         selectedElements.forEach((el) => {
             let row = {
@@ -211,16 +214,68 @@ const conTeacher = {
             arr.push(row);
         });
 
+        var tcCount = $("#teacherGridS table tbody tr").length;
+        console.log(tcCount)
+        if (tcCount > 3) {
+            alert("컨설턴트는 최대 3명까지 선택 가능합니다.");
+            return;
+        }
+
+        if (tcCount == 0) {
+            if(arr.length > 3){
+                alert("컨설턴트는 최대 3명까지 선택 가능합니다.");
+                return;
+            }
+        }
+
+        if (tcCount == 1) {
+            if(arr.length > 2){
+                alert("컨설턴트는 최대 3명까지 선택 가능합니다.");
+                return;
+            }
+        }
+
+        if (tcCount == 2) {
+            if(arr.length > 1){
+                alert("컨설턴트는 최대 3명까지 선택 가능합니다.");
+                return;
+            }
+        }
+
+        if (tcCount == 3) {
+            alert("컨설턴트는 최대 3명까지 선택 가능합니다.");
+            return;
+        }
+
+
         if(arr.length == 0) {
             alert("강사가 선택되지 않았습니다.");
             return;
         }
+        /*if(arr.length > 3){
+            alert("컨설턴트는 최대 3명까지 선택 가능합니다.");
+            return;
+        }*/
         data.teacherList = JSON.stringify(arr);
 
         const result = customKendo.fn_customAjax("/projectUnRnd/insConTeacherInfo", data);
 
         if(result.code != 200){
             alert("저장 중 오류가 발생하였습니다.");
+        }else{
+            this.fn_mainGrid();
+        }
+    },
+
+    fn_timeInsert: function(key){
+        let data = {
+            teachTime: $("#teachTime"+key).val(),
+            teacherReqSn: key
+        }
+        const result = customKendo.fn_customAjax("/projectUnRnd/insConTeacherTimeInfo", data);
+
+        if(result.code != 200){
+            alert("삭제 중 오류가 발생하였습니다.");
         }else{
             this.fn_mainGrid();
         }

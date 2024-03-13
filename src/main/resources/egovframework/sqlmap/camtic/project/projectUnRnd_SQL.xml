@@ -310,11 +310,43 @@
         ORDER BY NAME
     </select>
 
+    <select id="getConTeacherList" parameterType="map" resultType="map">
+        /*getConTeacherList*/
+        SELECT
+        *
+        FROM
+        CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER
+        WHERE 1=1
+        <if test='notIn != null and !"".equals(notIn)'>
+            AND TEACHER_SN NOT IN (
+            SELECT
+            TEACHER_SN
+            FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
+            WHERE
+            CON_SN = #{notIn}
+            )
+        </if>
+        <if test="sEmpName != null and sEmpName != ''">
+            AND NAME LIKE CONCAT('%', #{sEmpName}, '%')
+        </if>
+        <if test="teacherType == 'newTeacher' and teacherType != null and teacherType != ''">
+            AND PERSON_SN != '0'
+        </if>
+        <if test="teacherType == 'existingTeacher' and teacherType != null and teacherType != ''">
+            AND PERSON_SN = '0'
+        </if>
+        AND ACTIVE = 'Y'
+        ORDER BY NAME
+    </select>
+
     <select id="getLectureTeacherReqList" parameterType="map" resultType="map">
         /*getLectureTeacherReqList*/
         SELECT
             A.*,
-            B.NAME
+            B.NAME,
+            B.PERSON_SN,
+            IFNULL(A.TEACH_TIME, '') AS teachTime
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ A
         LEFT JOIN
@@ -329,7 +361,8 @@
         SELECT
             A.*,
             B.NAME,
-            B.PERSON_SN
+            B.PERSON_SN,
+            IFNULL(A.TEACH_TIME, '') AS teachTime
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ A
                 LEFT JOIN
@@ -411,6 +444,20 @@
             LEC_SN = #{pk}
     </select>
 
+    <select id="getLectureTeacherInfo" parameterType="map" resultType="map">
+        /*getLectureTeacherInfo*/
+        SELECT
+            A.*,
+            B.*,
+            IFNULL(A.TEACH_TIME, 0) AS teachTime
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ A
+                LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER B ON A.TEACHER_SN = B.TEACHER_SN
+        WHERE
+            LEC_SN = #{pk}
+
+    </select>
 
     <select id="getConsultingInfo" parameterType="map" resultType="map">
         /*getConsultingInfo*/
@@ -425,11 +472,16 @@
     <select id="getConsultingTeacherInfo" parameterType="map" resultType="map">
         /*getConsultingTeacherInfo*/
         SELECT
-            *
+            A.*,
+            B.*,
+            IFNULL(A.TEACH_TIME, 0) AS teachTime
         FROM
-            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER B ON A.TEACHER_SN = B.TEACHER_SN
         WHERE
-            TEACHER_SN = #{TEACHER_SN}
+            CON_SN = #{pk}
+
     </select>
 
     <insert id="insLectureTeacherInfo" parameterType="map">
@@ -979,6 +1031,15 @@
         WHERE
             TEACHER_REQ_SN IN (${teacherList})
     </delete>
+
+    <update id="insConTeacherTimeInfo" parameterType="map">
+        /*updUnRndProjectInfoRes*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
+        SET
+            TEACH_TIME = #{teachTime}
+        WHERE
+            TEACHER_REQ_SN = #{teacherReqSn}
+    </update>
 
     <update id="updUnRndProjectInfoRes" parameterType="map">
         /*updUnRndProjectInfoRes*/

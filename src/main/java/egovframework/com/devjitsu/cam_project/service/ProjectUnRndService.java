@@ -15,6 +15,7 @@ public interface ProjectUnRndService {
     void setDelvApprove(Map<String, Object> params);
 
     List<Map<String, Object>> getLectureTeacherList(Map<String, Object> params);
+    List<Map<String, Object>> getConTeacherList(Map<String, Object> params);
     List<Map<String, Object>> getPersonList(Map<String, Object> params);
     Map<String, Object> getPersonData(Map<String, Object> params);
     Map<String, Object> getPersonReqData(Map<String, Object> params);
@@ -26,7 +27,10 @@ public interface ProjectUnRndService {
     List<Map<String, Object>> getLectureList(Map<String, Object> params);
     List<Map<String, Object>> getConsultingList(Map<String, Object> params);
     Map<String, Object> getLectureInfo(Map<String, Object> params);
+    List<Map<String, Object>> getLectureTeacherInfo(Map<String, Object> params);
     Map<String, Object> getConsultingInfo(Map<String, Object> params);
+    List<Map<String, Object>> getConsultingTeacherInfo(Map<String, Object> params);
+
     void insLectureTeacherInfo(Map<String, Object> params);
     void insConTeacherInfo(Map<String, Object> params);
     void insLecturePersonInfo(Map<String, Object> params);
@@ -46,6 +50,7 @@ public interface ProjectUnRndService {
     void delLecturePersonInfo(Map<String, Object> params);
     void delLectureInfo(Map<String, Object> params);
     void delLectureTeacherInfo(Map<String, Object> params);
+    void insConTeacherTimeInfo(Map<String, Object> params);
     void delConTeacherInfo(Map<String, Object> params);
 
     /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */

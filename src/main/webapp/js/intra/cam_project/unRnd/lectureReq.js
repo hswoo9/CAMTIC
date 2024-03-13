@@ -16,7 +16,7 @@ const lectureReq = {
        /* ub.fn_writeTypeSet();*/
 
         /** 사업구분 drop box */
-        ub.fn_projectTypeSet();
+        /*ub.fn_projectTypeSet();*/
         ub.fn_conProjectTypeSet();
 
         /** 교육분야 drop box */
@@ -68,9 +68,85 @@ const lectureReq = {
         if(typeValue == "lec") {
             const result = customKendo.fn_customAjax("/projectUnRnd/getLectureInfo", data);
             const lecMap = result.data;
+            const lecList = result.list;
 
-            console.log(lecMap)
-            $("#projectType").data("kendoDropDownList").value(lecMap.LEC_BUSN_CLASS);
+            if(lecList != null && lecList != ""){
+                if(result.list.length === 1){
+                    const teachTime = parseInt(lecList[0].teachTime);
+
+                    $("#lecName").text(lecList[0].NAME);
+                    $("#lecNumP").text(lecList[0].HP_NUM);
+
+                    $("#eduTime").val(teachTime);
+                }else if(result.list.length === 2){
+                    const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime);
+
+                    $("#lecName").text(lecList[0].NAME);
+                    $("#lecNumP").text(lecList[0].HP_NUM);
+                    $("#lecName2").text(lecList[1].NAME);
+                    $("#lecNumP2").text(lecList[1].HP_NUM);
+
+                    $("#eduTime").val(teachTime);
+                }else if(result.list.length === 3){
+                    const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime) + parseInt(lecList[2].teachTime);
+
+                    $("#lecName").text(lecList[0].NAME);
+                    $("#lecNumP").text(lecList[0].HP_NUM);
+                    $("#lecName2").text(lecList[1].NAME);
+                    $("#lecNumP2").text(lecList[1].HP_NUM);
+                    $("#lecName3").text(lecList[2].NAME);
+                    $("#lecNumP3").text(lecList[2].HP_NUM);
+
+                    $("#eduTime").val(teachTime);
+                }else if(result.list.length === 4){
+                    const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime) + parseInt(lecList[2].teachTime) + parseInt(lecList[3].teachTime);
+
+                    $("#lecName").text(lecList[0].NAME);
+                    $("#lecNumP").text(lecList[0].HP_NUM);
+                    $("#lecName2").text(lecList[1].NAME);
+                    $("#lecNumP2").text(lecList[1].HP_NUM);
+                    $("#lecName3").text(lecList[2].NAME);
+                    $("#lecNumP3").text(lecList[2].HP_NUM);
+                    $("#lecName4").text(lecList[3].NAME);
+                    $("#lecNumP4").text(lecList[3].HP_NUM);
+
+                    $("#eduTime").val(teachTime);
+                }else if(result.list.length === 5){
+                    const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime) + parseInt(lecList[2].teachTime) + parseInt(lecList[3].teachTime) + parseInt(lecList[4].teachTime);
+
+                    $("#lecName").text(lecList[0].NAME);
+                    $("#lecNumP").text(lecList[0].HP_NUM);
+                    $("#lecName2").text(lecList[1].NAME);
+                    $("#lecNumP2").text(lecList[1].HP_NUM);
+                    $("#lecName3").text(lecList[2].NAME);
+                    $("#lecNumP3").text(lecList[2].HP_NUM);
+                    $("#lecName4").text(lecList[3].NAME);
+                    $("#lecNumP4").text(lecList[3].HP_NUM);
+                    $("#lecName5").text(lecList[4].NAME);
+                    $("#lecNumP5").text(lecList[4].HP_NUM);
+
+                    $("#eduTime").val(teachTime);
+                }else if(result.list.length === 6){
+                    const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime) + parseInt(lecList[2].teachTime) + parseInt(lecList[3].teachTime) + parseInt(lecList[4].teachTime) + parseInt(lecList[5].teachTime);
+
+                    $("#lecName").text(lecList[0].NAME);
+                    $("#lecNumP").text(lecList[0].HP_NUM);
+                    $("#lecName2").text(lecList[1].NAME);
+                    $("#lecNumP2").text(lecList[1].HP_NUM);
+                    $("#lecName3").text(lecList[2].NAME);
+                    $("#lecNumP3").text(lecList[2].HP_NUM);
+                    $("#lecName4").text(lecList[3].NAME);
+                    $("#lecNumP4").text(lecList[3].HP_NUM);
+                    $("#lecName5").text(lecList[4].NAME);
+                    $("#lecNumP5").text(lecList[4].HP_NUM);
+                    $("#lecName6").text(lecList[5].NAME);
+                    $("#lecNumP6").text(lecList[5].HP_NUM);
+
+                    $("#eduTime").val(teachTime);
+                }
+            }
+
+            /*$("#projectType").data("kendoDropDownList").value(lecMap.LEC_BUSN_CLASS);*/
             $("#fieldType").data("kendoDropDownList").value(lecMap.LEC_FIELD);
             $("#fieldType2").data("kendoDropDownList").value(lecMap.LEC_FIELD1);
             /*$("#curriculumType").data("kendoDropDownList").value(lecMap.LEC_SBJ_CD);
@@ -88,7 +164,7 @@ const lectureReq = {
             $("#recruitEndDt").val(lecMap.RECR_END_DE);
 
             $("#recruitNum").val(lecMap.RECR_MEM_CNT);
-            $("#eduTime").val(lecMap.LEC_TIME);
+            /*$("#eduTime").val(lecMap.LEC_TIME);*/
             $("#eduTimeEx").val(lecMap.LEC_TIME_RNG);
 
             $("#area").val(lecMap.LEC_ADDR);
@@ -145,33 +221,108 @@ const lectureReq = {
         }else if(typeValue == "con") {
             const result = customKendo.fn_customAjax("/projectUnRnd/getConsultingInfo", data);
             const conMap = result.data;
+            const conTc = result.list;
 
+            if(conTc != null && conTc != ""){
+                if(result.list.length === 1){
+                    const teachTime = parseInt(conTc[0].teachTime);
+                    $("#tcName").text(conTc[0].NAME);
+                    $("#tcBirth").text(conTc[0].BIRTH);
+                    if (conTc[0].GENDER === 'F') {
+                        $("#tcGender").text("여");
+                    } else if (conTc[0].GENDER === 'M') {
+                        $("#tcGender").text("남");
+                    } else {
+                        $("#tcGender").text(conTc[0].GENDER);
+                    }
+                    $("#tcNum").text(conTc[0].TEL_NUM);
+                    $("#tcNumP").text(conTc[0].HP_NUM);
+                    $("#tcEmail").text(conTc[0].EMAIL);
 
+                    $("#conTime").val(teachTime);
+                }else if(result.list.length === 2){
+                    const teachTime = parseInt(conTc[0].teachTime) + parseInt(conTc[1].teachTime);
+                    $("#tcName").text(conTc[0].NAME);
+                    $("#tcBirth").text(conTc[0].BIRTH);
+                    if (conTc[0].GENDER === 'F') {
+                        $("#tcGender").text("여");
+                    } else if (conTc[0].GENDER === 'M') {
+                        $("#tcGender").text("남");
+                    } else {
+                        $("#tcGender").text(conTc[0].GENDER);
+                    }
+                    $("#tcNum").text(conTc[0].TEL_NUM);
+                    $("#tcNumP").text(conTc[0].HP_NUM);
+                    $("#tcEmail").text(conTc[0].EMAIL);
 
-            if(conMap.teacherInfo != null && conMap.teacherInfo != ""){
-                $("#tcName").text(conMap.teacherInfo.NAME);
-                $("#tcBirth").text(conMap.teacherInfo.BIRTH);
-                if (conMap.teacherInfo.GENDER === 'F') {
-                    $("#tcGender").text("여");
-                } else if (conMap.teacherInfo.GENDER === 'M') {
-                    $("#tcGender").text("남");
-                } else {
-                    $("#tcGender").text(conMap.teacherInfo.GENDER);
+                    $("#tcName2").text(conTc[1].NAME);
+                    $("#tcBirth2").text(conTc[1].BIRTH);
+                    if (conTc[1].GENDER === 'F') {
+                        $("#tcGender2").text("여");
+                    } else if (conTc[1].GENDER === 'M') {
+                        $("#tcGender2").text("남");
+                    } else {
+                        $("#tcGender2").text(conTc[1].GENDER);
+                    }
+                    $("#tcNum2").text(conTc[1].TEL_NUM);
+                    $("#tcNumP2").text(conTc[1].HP_NUM);
+                    $("#tcEmail2").text(conTc[1].EMAIL);
+
+                    $("#conTime").val(teachTime);
+                }else if(result.list.length === 3){
+                    const teachTime = parseInt(conTc[0].teachTime) + parseInt(conTc[1].teachTime) + parseInt(conTc[2].teachTime);
+                    $("#tcName").text(conTc[0].NAME);
+                    $("#tcBirth").text(conTc[0].BIRTH);
+                    if (conTc[0].GENDER === 'F') {
+                        $("#tcGender").text("여");
+                    } else if (conTc[0].GENDER === 'M') {
+                        $("#tcGender").text("남");
+                    } else {
+                        $("#tcGender").text(conTc[0].GENDER);
+                    }
+                    $("#tcNum").text(conTc[0].TEL_NUM);
+                    $("#tcNumP").text(conTc[0].HP_NUM);
+                    $("#tcEmail").text(conTc[0].EMAIL);
+
+                    $("#tcName2").text(conTc[1].NAME);
+                    $("#tcBirth2").text(conTc[1].BIRTH);
+                    if (conTc[1].GENDER === 'F') {
+                        $("#tcGender2").text("여");
+                    } else if (conTc[1].GENDER === 'M') {
+                        $("#tcGender2").text("남");
+                    } else {
+                        $("#tcGender2").text(conTc[1].GENDER);
+                    }
+                    $("#tcNum2").text(conTc[1].TEL_NUM);
+                    $("#tcNumP2").text(conTc[1].HP_NUM);
+                    $("#tcEmail2").text(conTc[1].EMAIL);
+
+                    $("#tcName3").text(conTc[2].NAME);
+                    $("#tcBirth3").text(conTc[2].BIRTH);
+                    if (conTc[2].GENDER === 'F') {
+                        $("#tcGender3").text("여");
+                    } else if (conTc[2].GENDER === 'M') {
+                        $("#tcGender3").text("남");
+                    } else {
+                        $("#tcGender3").text(conTc[2].GENDER);
+                    }
+                    $("#tcNum3").text(conTc[2].TEL_NUM);
+                    $("#tcNumP3").text(conTc[2].HP_NUM);
+                    $("#tcEmail3").text(conTc[2].EMAIL);
+
+                    $("#conTime").val(teachTime);
                 }
-                $("#tcNum").text(conMap.teacherInfo.TEL_NUM);
-                $("#tcNumP").text(conMap.teacherInfo.HP_NUM);
-                $("#tcEmail").text(conMap.teacherInfo.EMAIL);
             }
 
             $("#field").data("kendoDropDownList").value(conMap.CON_FIELD);
             $("#field2").data("kendoDropDownList").value(conMap.CON_FIELD1);
             $("#field3").val(conMap.CON_FIELD_NAME2);
-            $("#projectType").data("kendoDropDownList").value(conMap.CON_BUSN_CLASS);
+           /* $("#projectType").data("kendoDropDownList").value(conMap.CON_BUSN_CLASS);*/
             $("#conTitle").val(conMap.CON_TITLE_PR);
             $("#conDetailTitle").val(conMap.CON_TOPIC);
             $("#agmStartDt").val(conMap.CON_STR_DE);
             $("#agmEndDt").val(conMap.CON_END_DE);
-            $("#conTime").val(conMap.CON_TIME);
+            /*$("#conTime").val(conMap.CON_TIME);*/
             $("#conArea").val(conMap.CON_ADDR);
             $("#conPerson").val(conMap.CON_PER);
             $("#conNum").val(conMap.RECR_MEM_CNT);
@@ -213,8 +364,8 @@ const lectureReq = {
         if(typeValue == "lec") {
             const data = {
                 pjtSn: $("#pjtSn").val(),
-                projectType: $("#projectType").data("kendoDropDownList").value(),
-                projectTypeName: $("#projectType").data("kendoDropDownList").text(),
+                /*projectType: $("#projectType").data("kendoDropDownList").value(),*/
+                /*projectTypeName: $("#projectType").data("kendoDropDownList").text(),*/
                 fieldType: $("#fieldType").data("kendoDropDownList").value(),
                 fieldTypeName: $("#fieldType").data("kendoDropDownList").text(),
                 fieldType1: $("#fieldType2").data("kendoDropDownList").value(),
@@ -270,10 +421,10 @@ const lectureReq = {
             }
 
             /** 유효성 검사 */
-            if (data.projectType == "") {
+            /*if (data.projectType == "") {
                 alert("사업구분이 선택되지 않았습니다.");
                 return;
-            }
+            }*/
             if (data.fieldType == "") {
                 alert("교육분야가 선택되지 않았습니다.");
                 return;
@@ -443,7 +594,7 @@ const lectureReq = {
     },
 
     fn_testData: function(){
-        $("#projectType").data("kendoDropDownList").select(1);
+       /* $("#projectType").data("kendoDropDownList").select(1);*/
         $("#fieldType").data("kendoDropDownList").select(1);
         $("#curriculumType").data("kendoDropDownList").select(1);
         $("#courseType").data("kendoDropDownList").select(1);

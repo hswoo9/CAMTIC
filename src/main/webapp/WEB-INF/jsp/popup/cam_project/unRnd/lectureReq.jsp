@@ -73,6 +73,53 @@
         </div>--%>
 
         <div class="lecture" style="padding: 20px 30px;">
+            <div id="lecTeacherInfo">
+                <table class="popTable table table-bordered mb-20">
+                    <colgroup>
+                        <col width="15%">
+                        <col width="28%">
+                        <col width="28%">
+                        <col width="28%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="row" class="text-center th-color">성명</th>
+                        <td id="lecName"></td>
+                        <td id="lecName2"></td>
+                        <td id="lecName3"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">휴대폰 번호</th>
+                        <td id="lecNumP"></td>
+                        <td id="lecNumP2"></td>
+                        <td id="lecNumP3"></td>
+                    </tr>
+                    </thead>
+                </table>
+
+                <table class="popTable table table-bordered mb-20">
+                    <colgroup>
+                        <col width="15%">
+                        <col width="28%">
+                        <col width="28%">
+                        <col width="28%">
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th scope="row" class="text-center th-color">성명</th>
+                        <td id="lecName4"></td>
+                        <td id="lecName5"></td>
+                        <td id="lecName6"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-center th-color">휴대폰 번호</th>
+                        <td id="lecNumP4"></td>
+                        <td id="lecNumP5"></td>
+                        <td id="lecNumP6"></td>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="15%">
@@ -82,12 +129,12 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>사업구분</th>
+                    <%--<th scope="row" class="text-center th-color"><span class="red-star">*</span>사업구분</th>
                     <td>
                         <input id="projectType" style="width: 370px;">
-                    </td>
+                    </td>--%>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육분야</th><%--컨설팅 컨설팅분야--%>
-                    <td>
+                    <td colspan="3">
                         <input id="fieldType" style="width: 200px;">
                         <input id="fieldType2" style="width: 200px;">
                     </td>
@@ -153,7 +200,7 @@
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>총 교육시간</th> <%--컨설팅 시간--%>
                     <td>
-                        총 <input id="eduTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;" > 시간<%--/
+                        총 <input id="eduTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;" disabled> 시간<%--/
                         <input id="eduTimeEx" style="width: 140px;"> 예) 18:30~22:00--%>
                     </td>
                 </tr>
@@ -282,34 +329,46 @@
                 <table class="popTable table table-bordered mb-20">
                     <colgroup>
                         <col width="15%">
-                        <col width="35%">
-                        <col width="15%">
-                        <col width="35%">
+                        <col width="28%">
+                        <col width="28%">
+                        <col width="28%">
                     </colgroup>
                     <thead>
                     <tr>
                         <th scope="row" class="text-center th-color">성명</th>
-                        <td colspan="3" id="tcName"></td>
+                        <td id="tcName"></td>
+                        <td id="tcName2"></td>
+                        <td id="tcName3"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">생년월일</th>
-                        <td colspan="3" id="tcBirth"></td>
+                        <td id="tcBirth"></td>
+                        <td id="tcBirth2"></td>
+                        <td id="tcBirth3"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">성별</th>
-                        <td colspan="3" id="tcGender"></td>
+                        <td id="tcGender"></td>
+                        <td id="tcGender2"></td>
+                        <td id="tcGender3"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">전화번호</th>
-                        <td colspan="3" id="tcNum"></td>
+                        <td id="tcNum"></td>
+                        <td id="tcNum2"></td>
+                        <td id="tcNum3"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">휴대폰 번호</th>
-                        <td colspan="3" id="tcNumP"></td>
+                        <td id="tcNumP"></td>
+                        <td id="tcNumP2"></td>
+                        <td id="tcNumP3"></td>
                     </tr>
                     <tr>
                         <th scope="row" class="text-center th-color">이메일</th>
-                        <td colspan="3" id="tcEmail"></td>
+                        <td id="tcEmail"></td>
+                        <td id="tcEmail2"></td>
+                        <td id="tcEmail3"></td>
                     </tr>
                     </thead>
                 </table>
@@ -358,7 +417,7 @@
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>컨설팅 시간</th>
                     <td>
-                        <input id="conTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 40px;"> 시간
+                        <input id="conTime" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" value="" style="width: 40px;" disabled> 시간
                     </td>
                 </tr>
                 <tr>
