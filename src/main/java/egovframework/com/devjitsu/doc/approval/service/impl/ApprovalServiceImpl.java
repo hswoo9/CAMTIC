@@ -523,6 +523,13 @@ public class ApprovalServiceImpl implements ApprovalService {
                     returnMap.add(tempMap);
                 }
             }
+        }else if("campus".equals(params.get("type"))) {
+            params.put("contentId", "eduInfo_" + params.get("eduInfoId"));
+            if(approvalRepository.getDocAttachmentList(params) != null){
+                for(Map<String, Object> tempMap : approvalRepository.getDocAttachmentList(params)){
+                    returnMap.add(tempMap);
+                }
+            }
         }else {
             returnMap = approvalRepository.getDocAttachmentList(params);
         }

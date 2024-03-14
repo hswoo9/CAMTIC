@@ -141,6 +141,10 @@ public class CampusRepository extends AbstractDAO  {
         return (Map<String, Object>) selectOne("campus.getEduInfoFile", params);
     }
 
+    public Map<String, Object> getEduResultInfoFile(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("campus.getEduResultInfoFile", params);
+    }
+
 
 
 
@@ -151,6 +155,7 @@ public class CampusRepository extends AbstractDAO  {
     public void setEduResultInsert(Map<String, Object> params) { insert("campus.setEduResultInsert", params); }
     public void setEduResultModify(Map<String, Object> params) { update("campus.setEduResultModify", params); }
     public void setMngCheckUpd(Map<String, Object> params) { update("campus.setMngCheckUpd", params); }
+    public void setEduResultEduTimeUpd(Map<String, Object> params) { update("campus.setEduResultEduTimeUpd", params); }
 
     public void setStudyInfoInsert(Map<String, Object> params) { insert("campus.setStudyInfoInsert", params); }
     public void setStudyInfoModify(Map<String, Object> params) {update("campus.setStudyInfoModify", params); }

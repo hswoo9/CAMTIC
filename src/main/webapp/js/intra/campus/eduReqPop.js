@@ -138,6 +138,7 @@ const eduReq = {
         }
         const rs = customKendo.fn_customAjax("/campus/getEduInfoOne", data);
         const eduInfo = rs.data;
+        const fileInfo = rs.fileInfo;
         eduReq.global.eduInfo = eduInfo;
 
         $("#eduCategoryDetailName").val(eduInfo.EDU_CATEGORY_DETAIL_NAME);
@@ -146,7 +147,11 @@ const eduReq = {
         $("#dutyClass").val(eduInfo.DUTY_CLASS);
         $("#eduName").val(eduInfo.EDU_NAME);
         $("#bookWriter").val(eduInfo.BOOK_WRITER_NAME);
-        $("#objectForumType").val(eduInfo.OBJECT_FORUM_TYPE);
+        if(eduInfo.OBJECT_FORUM_TYPE == "단순참가"){
+            $("#objectForumType").data("kendoRadioGroup").value('0')
+        } else if(eduInfo.OBJECT_FORUM_TYPE == "주제발표"){
+            $("#objectForumType").data("kendoRadioGroup").value('1')
+        }
         $("#objectForumVal").val(eduInfo.OBJECT_FORUM_VAL);
         $("#bookPage").val(eduInfo.BOOK_PAGE_VAL);
         $("#bookPulish").val(eduInfo.BOOK_PULISH_NAME);
@@ -164,18 +169,44 @@ const eduReq = {
         $("#termTime").val(eduInfo.TERM_TIME);
         $("#careName").val(eduInfo.CARE_NAME);
         $("#careLocation").val(eduInfo.CARE_LOCATION);
-        $("#firstCareTelNum").val(eduInfo.CARE_TEL_NUM);
-        $("#eduMoney").val(eduInfo.EDU_MONEY);
+        $("#firstCareTelNum").val(eduInfo.CARE_TEL_NUM.split("-")[0]);
+        $("#secondCareTelNum").val(eduInfo.CARE_TEL_NUM.split("-")[1]);
+        $("#thirdCareTelNum").val(eduInfo.CARE_TEL_NUM.split("-")[2]);
+        $("#eduMoney").val(comma(eduInfo.EDU_MONEY));
         $("#eduMoneyType").val(eduInfo.EDU_MONEY_TYPE);
-        $("#returnMoney").val(eduInfo.RETURN_MONEY);
+        $("#returnMoney").val(comma(eduInfo.RETURN_MONEY));
         $("#returnDoc").val(eduInfo.RETURN_DOC);
         $("#regDate").val(eduInfo.REG_DT);
+
+        if(fileInfo != null){
+            $("#fileText").text(fileInfo.file_org_name + "." + fileInfo.file_ext);
+        }
     },
 
     fn_btnSet: function(){
         console.log("eduInfo", eduReq.global.eduInfo);
         let html = makeApprBtnHtml(eduReq.global.eduInfo, 'eduReq.campusDrafting()');
         $("#campusBtnBox").html(html);
+
+        if((eduReq.global.eduInfo.STATUS == "10" || eduReq.global.eduInfo.STATUS == "20" || eduReq.global.eduInfo.STATUS == "50" || eduReq.global.eduInfo.STATUS == "100") || $("#mode").val() == "mng"){
+            $("#saveBtn").hide();
+            eduReq.fn_kendoUIEnableSet();
+        }
+
+        if($("#mode").val() == "mng" && eduReq.global.eduInfo.STATUS != "100"){
+            $("#campusBtnBox").hide();
+        }
+    },
+
+    fn_kendoUIEnableSet : function(){
+        $(':radio').attr('disabled', true);
+        $('.k-input-inner').attr('disabled', true);
+        $('.k-textarea').attr('disabled', true);
+        $('#targetTechBtn').attr('disabled', true);
+        $("label[for='eduFile']").css("display", "none");
+        $("#startDt").data("kendoDatePicker").enable(false);
+        $("#endDt").data("kendoDatePicker").enable(false);
+        $("#regDate").data("kendoDatePicker").enable(false);
     },
 
     campusDrafting: function() {
@@ -277,7 +308,7 @@ const eduReq = {
             eduMoneyType = $("label[for='"+$("input:radio[name=eduMoneyType]:checked").attr("id")+"']").text();
         }
         if(eduFormType == "3"){
-            objectForumType = $("label[for='"+$("input:radio[name=objectForumType]:checked").attr("id")+"']").text();
+            objectForumType = $("#objectForumType").data("kendoRadioGroup").value();
             objectForumText = $("label[for='"+$("input:radio[name=objectForumType]:checked").attr("id")+"']").text();
             objectForumVal = $("#objectForumVal").val();
             if($("#objectForumType").data("kendoRadioGroup").value() == "1" && objectForumVal == ""){
@@ -338,7 +369,7 @@ const eduReq = {
             termTime: termTime,
             careName: careName,
             careLocation: careLocation,
-            careTelNum: firstCareTelNum + secondCareTelNum + thirdCareTelNum,
+            careTelNum: firstCareTelNum + "-" + secondCareTelNum + "-" + thirdCareTelNum,
             eduMoney: eduMoney,
             eduMoneyType: eduMoneyType,
             objectForumText: objectForumText,
@@ -393,8 +424,8 @@ const eduReq = {
                 var eduInfoId = result.eduInfoId;
                 alert("교육수강 신청서 저장이 완료되었습니다.");
                 opener.parent.open_in_frame("/Campus/eduInfo.do");
-                eduReq.eduInfoViewPop(eduInfoId);
-                window.close();
+                window.location.href = "/Campus/pop/eduReqPop.do?eduInfoId="+eduInfoId+"&eduFormType="+$("#eduFormType").val();
+                // window.close();
 
             },
             error: function(){
@@ -417,7 +448,7 @@ const eduReq = {
             success: function(result){
                 var eduInfoId = result.eduInfoId;
                 alert("교육수강 신청서 수정이 완료되었습니다.");
-                eduReq.eduInfoViewPop(eduInfoId);
+                window.location.href = "/Campus/pop/eduReqPop.do?eduInfoId="+eduInfoId+"&eduFormType="+$("#eduFormType").val();
             },
             error: function(){
                 alert("데이터 수정 중 에러가 발생했습니다.");
@@ -438,8 +469,7 @@ const eduReq = {
             async: false,
             success: function(result){
                 alert("학습계획 저장이 완료되었습니다.");
-                window.close();
-                opener.targetInfo.tableSet();
+                window.location.href = "/Campus/pop/eduReqPop.do?eduInfoId="+eduInfoId+"&eduFormType="+$("#eduFormType").val();
             },
             error: function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");

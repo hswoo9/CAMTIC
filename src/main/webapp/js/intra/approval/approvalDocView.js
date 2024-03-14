@@ -271,6 +271,16 @@ var docView = {
             docView.global.searchAjaxData.type = "exnp";
         }
 
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "campus"){
+            docView.global.searchAjaxData.eduInfoId = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "campus";
+            if(docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 2] == "camticEducation"){
+                docView.global.searchAjaxData.linkType = "camticEducation";
+            }else if(docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 2] == "camticEducationRes"){
+                docView.global.searchAjaxData.linkType = "camticEducationRes";
+            }
+        }
+
         var attachmentGrid = $("#attachmentGrid").kendoGrid({
             dataSource : customKendo.fn_gridDataSource2("/approval/getDocAttachmentList", docView.global.searchAjaxData),
             sortable: true,
@@ -674,6 +684,21 @@ var docView = {
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
+        }else if(menuCd == "campus"){
+            if(approKey.split('_')[0] == "camticEducation") {
+                const result = customKendo.fn_customAjax("/campus/getEduInfoOne", { eduInfoId: pk });
+                const eduInfo = result.data;
+
+                let url = "/Campus/pop/eduReqPop.do?eduInfoId=" + pk + "&eduFormType=" + eduInfo.EDU_FORM_TYPE;
+                let name = "_self";
+                let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+                window.open(url, name, option);
+            } else if(approKey.split('_')[0] == "camticEducationRes") {
+                let url = "/Campus/pop/eduResultReqPop.do?eduInfoId=" + pk + "&mode=upd";
+                let name = "_self";
+                let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+                window.open(url, name, option);
+            }
         }
     },
 

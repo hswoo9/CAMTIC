@@ -632,6 +632,14 @@
         <if test='type == "exnpDetail" or "payApp".equals(exnpDetail)'>
             OR (CONTENT_ID = #{payAppSn} AND FILE_CD = 'useCard' AND FILE_PATH = #{filePath})
         </if>
+        <if test='type == "campus" or "campus".equals(type)'>
+            <if test='linkType == "camticEducation" or "camticEducation".equals(linkType)'>
+                OR (CONTENT_ID = #{contentId} AND FILE_CD = 'eduReq')
+            </if>
+            <if test='linkType == "camticEducationRes" or "camticEducationRes".equals(linkType)'>
+                OR (CONTENT_ID = #{contentId} AND FILE_CD = 'eduRes')
+            </if>
+        </if>
     </select>
 
     <select id="getOnnaraDocAttachmentList" parameterType="map" resultType="map">

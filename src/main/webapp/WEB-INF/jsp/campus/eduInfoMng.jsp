@@ -61,7 +61,19 @@
         </div>
     </div>
 </div><!-- col-md-9 -->
-
+<div id="dialog"></div>
 <script type="text/javascript">
     eduInfoMng.init();
+
+    $("#dialog").kendoWindow({
+        title: "이수완료",
+        visible : false,
+        resizable: false,
+        modal: true,
+        width: 800,
+        actions: ["Close"],
+        open : function () {
+            $('#dialog').html(eduInfoMng.global.htmlStr);
+        },
+    });
 </script>

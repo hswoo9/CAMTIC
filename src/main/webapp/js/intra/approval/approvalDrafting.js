@@ -1834,6 +1834,30 @@ var draft = {
             }
         }
 
+        if(params.menuCd == "campus"){
+            let url = "";
+            let result = "";
+            data.eduInfoId = params.APPRO_KEY.split("_")[1];
+
+            if(params.APPRO_KEY.split("_")[0] == "camticEducation"){
+                result = customKendo.fn_customAjax("/campus/getEduInfoOne", {
+                    eduInfoId: data.eduInfoId
+                });
+            } else if(params.APPRO_KEY.split("_")[0] == "camticEducationRes"){
+                result = customKendo.fn_customAjax("/campus/getEduResultOne", {
+                    eduInfoId: data.eduInfoId
+                });
+            }
+
+            console.log("항목 리스트 조회");
+            console.log(result);
+            let tempArr = [];
+            tempArr[0] = result.fileInfo;
+
+            draft.getDocFileSet(tempArr);
+            draft.setKendoUpload();
+        }
+
         if(params.type == "reDrafting"){
             const fileList = customKendo.fn_customAjax("/approval/getDocAttachmentList", {
                 docId : params.docId
