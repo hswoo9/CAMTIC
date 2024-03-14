@@ -70,6 +70,7 @@
     <script type="text/javascript" src="<c:url value='/js/intra/common/fCommon.js?${today}'/>"></script>
     <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
     <script type="text/javascript" src="<c:url value='/js/intra/common/linkageProcessUtil.js?${today}'/>"></script>
+    <script type="text/javascript" src="<c:url value='/js/kendoui/jszip.min.js'/>"></script>
 
     <style>
         .k-state-active>.k-link {

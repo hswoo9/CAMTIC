@@ -18,4 +18,15 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Map<String, Object>> getRequestEvaluationMemberTot(Map<String, Object> params) {
         return evaluationRepository.getRequestEvaluationMemberTot(params);
     }
+
+    @Override
+    public void setEvaluation(Map<String, Object> params) {
+        evaluationRepository.insEvaluation(params);
+
+        if(params.containsKey("empSeqArr")){
+            params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
+//            evaluationRepository.insEvaluationEmp(params);
+
+        }
+    }
 }

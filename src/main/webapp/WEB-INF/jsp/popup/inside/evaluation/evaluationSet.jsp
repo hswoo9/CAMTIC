@@ -61,6 +61,7 @@
 </div><!-- col-md-9 -->
 
 <script>
+    var empSeqArr = [];
     $(function (){
 
         customKendo.fn_textBox(["bsYear", "evalList"]);
@@ -85,6 +86,7 @@
         var parameters = {
             bsYear : $("#bsYear").val(),
             evalStat : $("#evalStat").data("kendoRadioGroup").value(),
+            empSeqArr : empSeqArr
         }
 
         if(parameters.bsYear == ""){
@@ -95,6 +97,11 @@
         if(isNaN(parameters.bsYear)){
             alert("년도에 숫자를 입력해주세요.");
             $("#bsYear").val("");
+            return;
+        }
+
+        if(parameters.empSeqArr.length == 0){
+            alert("평가대상를 선택해주세요.");
             return;
         }
 
@@ -122,6 +129,20 @@
         }
 
         window.open("/evaluation/pop/requestEvaluationUsers.do?bsYear=" + $("#bsYear").val(),"조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    }
+
+    function fn_userMultiSelectPopCallBack(e){
+        var seqArr = [];
+        empSeqArr = e;
+        e = e.split(",");
+
+        for(var i = 0; i < e.length; i++){
+            seqArr.push(e[i]);
+        }
+
+
+
+        $("#evaluationMemberCnt").text(seqArr.length - 1);
     }
 </script>
 </body>

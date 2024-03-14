@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 
@@ -29,12 +30,6 @@
         <div class="panel-body">
             <input type="text" id="bsYMD" style="width: 10%" value=""/>
             <button type="button" id="searchBtn" class="k-button k-button-solid-base" style="font-size: 11px;">검색</button>
-
-            <div style="float:right; font-weight: bold">
-                평가대상 : <span id="totEvalMem" style="color: red;">0</span> 명
-                <button type="button" class="k-button k-button-solid-base" style="font-size: 11px; font-weight: unset">목록저장</button>
-                <button type="button" class="k-button k-button-solid-info" style="font-size: 11px;">평가대상 설정 완료</button>
-            </div>
         </div>
 
         <div class="panel-body">
@@ -62,7 +57,7 @@
                 },
                 parameterMap: function(data) {
                     data.empSeq = $("#empSeq").val();
-                    data.bsYMD = $("#bsYMD").val() + "-12-31";
+                    data.bsYMD = $("#bsYMD").val();
                     return data;
                 }
             },
@@ -74,22 +69,37 @@
                     return data.list.length;
                 },
             },
-            pageSize: 10,
+            pageSize: 1000,
         });
 
         $("#mainGrid").kendoGrid({
             dataSource: dataSource,
-            sortable: true,
-            scrollable: true,
             selectable: "row",
             height: 508,
-            pageable : {
-                refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
-                buttonCount : 5
-            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
+            },
+            toolbar : [
+                {
+                    name : 'text',
+                    template : function (e){
+                        return '평가대상 : <span id="totEvalMem" style="color: red;">0</span> 명';
+                    }
+                }, {
+                    name : 'excel',
+                    text : '목록저장'
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-button k-button-solid-info" style="font-size: 11px;" onclick="fn_sendReqUsers()">평가대상 설정 완료</button>';
+                    }
+                }
+            ],
+            excel : {
+                fileName : "인사평가 대상 인원.xlsx"
+            },
+            dataBound : function (e){
+                $("#totEvalMem").text(e.sender.dataSource.total());
             },
             columns: [
                 {
@@ -97,33 +107,34 @@
                     template : "<input type='checkbox' id='empPk#=EMP_SEQ#' name='empPk' class='empPk' value='#=EMP_SEQ#'/>",
                     width: 50
                 }, {
-                    field: "",
+                    field: "DEPT_NAME_OD",
                     title: "부서",
                     width: 120
                 }, {
-                    field: "",
+                    field: "TEAM_NAME",
                     title: "팀",
                     width: 120
                 }, {
+                    field : "EMP_NAME_KR",
                     title: "성명",
                     width: 80,
 
                 }, {
                     title: "직위",
                     width: 100,
-                    field: "",
+                    field: "DUTY_POSITION_NAME"
                 }, {
-                    field: "",
-                    title: "학습시간",
-                    width: 120
+                    title: "1차 평가자",
+                    width: 120,
+                    field: "T1"
                 }, {
-                    field: "",
                     title: "2차 평가자",
-                    width: 120
+                    width: 120,
+                    field: "T2"
                 }, {
-                    field: "",
                     title: "직군",
                     width: 120,
+                    field: "OCC_NM"
 
                 }, {
                     field: "",
@@ -133,6 +144,27 @@
                 }
             ]
         }).data("kendoGrid");
+    }
+
+    function fn_sendReqUsers(){
+
+        let grid = $("#mainGrid").data("kendoGrid");
+
+        let checked = grid.tbody.find("input[name=empPk]:checked");
+
+        if(checked.length == 0){
+            alert("평가대상 인원을 선택하세요.");
+            return;
+        }
+
+        let empSeqs = "";
+
+        checked.each(function(){
+            empSeqs += $(this).val() + ",";
+        });
+
+        opener.parent.fn_userMultiSelectPopCallBack(empSeqs);
+        window.close();
     }
 </script>
 </body>

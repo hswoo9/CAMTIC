@@ -12,4 +12,8 @@ public class EvaluationRepository extends AbstractDAO {
     public List<Map<String, Object>> getRequestEvaluationMemberTot(Map<String, Object> params) {
         return selectList("evaluation.requestEvaluationMemberTot", params);
     }
+
+    public void insEvaluation(Map<String, Object> params) {
+        insert("evaluation.insEvaluation", params);
+    }
 }

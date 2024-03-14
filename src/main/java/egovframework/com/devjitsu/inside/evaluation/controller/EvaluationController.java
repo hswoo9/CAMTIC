@@ -126,6 +126,8 @@ public class EvaluationController {
     public String setEvaluation(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
 
         try{
+
+            evaluationService.setEvaluation(params);
             model.addAttribute("params", params);
         } catch(Exception e) {
             e.printStackTrace();
