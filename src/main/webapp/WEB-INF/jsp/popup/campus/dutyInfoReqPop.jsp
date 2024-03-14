@@ -70,21 +70,21 @@
                         <span class="red-star">*</span>직무명
                     </th>
                     <td class="upd-mode"><input type="text" id="dutyName" style="width: 709px;"></td>
-                    <td class="mng-mode" style="display: none;"><pre id="dutyNameMng"></pre></td>
+                    <td class="mng-mode" style="display: none;"><div id="dutyNameMng"></div></td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>직무개요
                     </th>
                     <td class="upd-mode"><textarea id="outlineName" style="width: 709px; height: 50px;"></textarea></td>
-                    <td class="mng-mode" style="display: none;"><pre id="outlineNameMng"></pre></td>
+                    <td class="mng-mode" style="display: none;"><div id="outlineNameMng"></div></td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>직무내용
                     </th>
                     <td class="upd-mode"><textarea id="outlineDetail" style="width: 709px; height: 100px;"></textarea></td>
-                    <td class="mng-mode" style="display: none;"><pre id="outlineDetailMng"></pre></td>
+                    <td class="mng-mode" style="display: none;"><div id="outlineDetailMng"></div></td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
@@ -100,12 +100,12 @@
                                 <tr>
                                     <td style="text-align: center; vertical-align: middle;">내 부 고 객</td>
                                     <td class="upd-mode"><textarea id="internal" style="width: 550px; height: 50px;"></textarea></td>
-                                    <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="internalMng"></pre></td>
+                                    <td class="mng-mode" style="background-color: #fff; display: none;"><div id="internalMng"></div></td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: center; vertical-align: middle;">외 부 고 객</td>
                                     <td span class="upd-mode"><textarea id="external" style="width: 550px; height: 50px;"></textarea>
-                                    <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="externalMng"></pre></td>
+                                    <td class="mng-mode" style="background-color: #fff; display: none;"><div id="externalMng"></div></td>
                                 </tr>
                             </thead>
                         </table>
@@ -116,7 +116,7 @@
                         <span class="red-star">*</span>보고체계
                     </th>
                     <td class="upd-mode"><input type="text" id="appLine" style="width: 709px;"></td>
-                    <td class="mng-mode" style="display: none;"><pre id="appLineMng"></pre></td>
+                    <td class="mng-mode" style="display: none;"><div id="appLineMng"></div></td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
@@ -132,27 +132,27 @@
                             <tr>
                                 <td style="text-align: center; vertical-align: middle;">학력 및 경력</td>
                                 <td class="upd-mode"><textarea id="abilityA" style="width: 550px; height: 50px;"></textarea></td>
-                                <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="abilityAMng"></pre></td>
+                                <td class="mng-mode" style="background-color: #fff; display: none;"><div id="abilityAMng"></div></td>
                             </tr>
                             <tr>
                                 <td style="text-align: center; vertical-align: middle;">전 문 지 식</td>
                                 <td class="upd-mode"><textarea id="abilityB" style="width: 550px; height: 50px;"></textarea></td>
-                                <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="abilityBMng"></pre></td>
+                                <td class="mng-mode" style="background-color: #fff; display: none;"><div id="abilityBMng"></div></td>
                             </tr>
                             <tr>
                                 <td style="text-align: center; vertical-align: middle;">필 수 자 질</td>
                                 <td class="upd-mode"><textarea id="abilityC" style="width: 550px; height: 50px;"></textarea></td>
-                                <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="abilityCMng"></pre></td>
+                                <td class="mng-mode" style="background-color: #fff; display: none;"><div id="abilityCMng"></div></td>
                             </tr>
                             <tr>
                                 <td style="text-align: center; vertical-align: middle;">자격 및 면허</td>
                                 <td class="upd-mode"><textarea id="abilityD" style="width: 550px; height: 50px;"></textarea></td>
-                                <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="abilityDMng"></pre></td>
+                                <td class="mng-mode" style="background-color: #fff; display: none;"><div id="abilityDMng"></div></td>
                             </tr>
                             <tr>
                                 <td style="text-align: center; vertical-align: middle;">기타 참고사항</td>
                                 <td class="upd-mode"><textarea id="abilityE" style="width: 550px; height: 50px;"></textarea></td>
-                                <td class="mng-mode" style="background-color: #fff; display: none;"><pre id="abilityEMng"></pre></td>
+                                <td class="mng-mode" style="background-color: #fff; display: none;"><div id="abilityEMng"></div></td>
                             </tr>
                             </thead>
                         </table>
@@ -163,7 +163,7 @@
                         <span class="red-star">*</span>주요책무
                     </th>
                     <td class="upd-mode"><textarea id="responsibility" style="width: 709px; height: 300px;"></textarea></td>
-                    <td class="mng-mode" style="display: none;"><pre id="responsibilityMng"></pre></td>
+                    <td class="mng-mode" style="display: none;"><div id="responsibilityMng"></div></td>
                 </tr>
                 </thead>
             </table>
