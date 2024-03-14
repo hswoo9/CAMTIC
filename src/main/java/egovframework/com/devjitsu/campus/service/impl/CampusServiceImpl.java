@@ -91,8 +91,18 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public Map<String, Object> getEduInfoFile(Map<String, Object> params){
+        return campusRepository.getEduInfoFile(params);
+    }
+
+    @Override
     public Map<String, Object> getEduResultOne(Map<String, Object> params){
         return campusRepository.getEduResultOne(params);
+    }
+
+    @Override
+    public Map<String, Object> getEduResultInfoFile(Map<String, Object> params){
+        return campusRepository.getEduResultInfoFile(params);
     }
 
     @Override
@@ -350,9 +360,9 @@ public class CampusServiceImpl implements CampusService {
                 fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
                 fileInsMap.put("crmSn", params.get("rsSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf(".")));
                 fileInsMap.put("filePath", filePath(params, baseDir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf(".") + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
             }
@@ -377,9 +387,9 @@ public class CampusServiceImpl implements CampusService {
                 fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
                 fileInsMap.put("crmSn", params.get("rsSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf(".")));
                 fileInsMap.put("filePath", filePath(params, baseDir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf(".") + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
             }
@@ -387,20 +397,65 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public void setEduResultInsert(Map<String, Object> params) {
+    public void setEduResultInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile eduFile = request.getFile("eduFile");
+
         campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultInsert(params);
+
+        params.put("menuCd", "eduRes");
+
+        if(eduFile != null){
+            if(!eduFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(eduFile, filePath(params, serverDir));
+                fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf(".")));
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf(".") + 1));
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+            }
+        }
     }
 
     @Override
-    public void setEduResultModify(Map<String, Object> params) {
+    public void setEduResultModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
         campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultModify(params);
+
+        params.put("menuCd", "eduRes");
+
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
+
+        MultipartFile eduFile = request.getFile("eduFile");
+
+        if(eduFile != null){
+            if(!eduFile.isEmpty()){
+                fileInsMap = mainLib.fileUpload(eduFile, filePath(params, serverDir));
+                fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
+                fileInsMap.put("fileCd", params.get("menuCd"));
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf(".")));
+                fileInsMap.put("filePath", filePath(params, baseDir));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf(".") + 1));
+                fileInsMap.put("empSeq", params.get("empSeq"));
+                commonRepository.insOneFileInfo(fileInsMap);
+            }
+        }
     }
 
     @Override
     public void setMngCheckUpd(Map<String, Object> params) {
         campusRepository.setMngCheckUpd(params);
+    }
+
+    @Override
+    public void setEduResultEduTimeUpd(Map<String, Object> params) {
+        campusRepository.setEduResultEduTimeUpd(params);
     }
 
     @Override
@@ -1494,7 +1549,7 @@ public class CampusServiceImpl implements CampusService {
         }else if("30".equals(docSts)) { // 반려
             params.put("status", "0");
             campusRepository.updateEduResultApprStat(params);
-        }else if("30".equals(docSts)) { // 회수
+        }else if("40".equals(docSts)) { // 회수
             params.put("status", "40");
             campusRepository.updateEduResultApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
@@ -1527,7 +1582,7 @@ public class CampusServiceImpl implements CampusService {
                 case "3":
                     /** 세미나/포럼/학술대회 : 주제발표 100%, 단순참가 50%*/
                     String objectForumType = eduInfo.get("OBJECT_FORUM_TYPE") == null ? "" : eduInfo.get("OBJECT_FORUM_TYPE").toString();
-                    if(objectForumType == "주제발표" || objectForumType == "1"){
+                    if(objectForumType.equals("주제발표") || objectForumType == "1"){
                         if(eduTime > 8){
                             realEduTime = 8;
                         }else {
@@ -1553,8 +1608,8 @@ public class CampusServiceImpl implements CampusService {
                     /** 도서학습 : 50페이지당 1시간, 건당 최대 10시간 */
                     int bookPageVal = eduInfo.get("BOOK_PAGE_VAL") == null ? 0 : Integer.parseInt(eduInfo.get("BOOK_PAGE_VAL").toString());
                     int bookTime = bookPageVal / 50;
-                    if(bookTime > 8){
-                        realEduTime = 8;
+                    if(bookTime > 10){
+                        realEduTime = 10;
                     }else{
                         realEduTime = bookTime;
                     }
@@ -1611,9 +1666,9 @@ public class CampusServiceImpl implements CampusService {
                 case "10":
                     /** 자격증 취득 : 기술사 30시간, 기사 20시간, 나머지 15시간, 연간 최대 30시간 */
                     String compType = eduInfo.get("COMP_TYPE").toString();
-                    if(compType == "기술사"){
+                    if(compType.equals("기술사")){
                         realEduTime = 30;
-                    }else if(compType == "기사"){
+                    }else if(compType.equals("기사")){
                         realEduTime = 20;
                     }else{
                         realEduTime = 15;

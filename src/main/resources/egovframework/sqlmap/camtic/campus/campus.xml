@@ -389,9 +389,12 @@
     <select id="getEduInfoOne" resultType="map" parameterType="map">
         /* getEduInfoOne */
         SELECT
-            *
+            EI.*,
+            DI.DOC_MENU_CD,
+            DI.APPRO_KEY
         FROM
             CAMPUS.DJ_EDU_INFO EI
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = EI.DOC_ID
         WHERE
             EI.EDU_INFO_ID = #{eduInfoId}
     </select>
@@ -1481,6 +1484,17 @@
         AND CONTENT_ID = CONCAT('eduInfo_', #{EDU_INFO_ID})
     </select>
 
+    <select id="getEduResultInfoFile" parameterType="map" resultType="map">
+        /*getEduResultInfoFile*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = 'eduRes'
+          AND CONTENT_ID = CONCAT('eduInfo_', #{EDU_INFO_ID})
+    </select>
+
     <insert id="setEduInfoInsert" parameterType="map">
         /* setEduInfoInsert */
         INSERT INTO CAMPUS.DJ_EDU_INFO
@@ -1619,7 +1633,7 @@
             TERM_TIME=ifnull(#{termTime}, 0),
             CARE_NAME=#{careName},
             CARE_LOCATION=#{careLocation},
-            CARE_TEL_NUM=#{firstCareTelNum},
+            CARE_TEL_NUM=#{careTelNum},
             <if test='eduMoney != null and eduMoney != ""'>
                 EDU_MONEY=#{eduMoney},
             </if>
@@ -1630,7 +1644,7 @@
             RETURN_DOC=#{returnDoc},
             ATTACH_DOC_NAME=#{attachDocName},
             <if test='eduFormType == "3"'>
-                OBJECT_FORUM_TYPE=#{objectForumType},
+                OBJECT_FORUM_TYPE=#{objectForumText},
                 <if test='objectForumType == "1"'>
                     OBJECT_FORUM_VAL=#{objectForumVal},
                 </if>
@@ -1722,6 +1736,17 @@
             REAL_EDU_TIME = #{realEduTime}
         WHERE
             EDU_INFO_ID = (SELECT SER.EDU_INFO_ID FROM CAMPUS.DJ_EDU_INFO SEI LEFT JOIN CAMPUS.DJ_EDU_RESULT SER ON SEI.EDU_INFO_ID = SER.EDU_INFO_ID WHERE SER.STATUS = 100 AND SER.EDU_INFO_ID = #{pk})
+    </update>
+
+    <update id="setEduResultEduTimeUpd" parameterType="map">
+        /* setEduResultEduTimeUpd */
+        UPDATE
+            CAMPUS.DJ_EDU_RESULT
+        SET
+            MNG_CHECK = 'Y',
+            REAL_EDU_TIME = #{realEduTime}
+        WHERE
+            EDU_INFO_ID = #{eduInfoId}
     </update>
 
     <insert id="setStudyInfoInsert" parameterType="map">

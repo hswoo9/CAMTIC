@@ -83,8 +83,16 @@ var campusInit = {
                 hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                 hwpDocCtrl.putFieldText('toDate', toDate);
 
+                let recTime = "";
+                if(ResultData.COMP_TYPE == "기술사") {
+                    recTime = " (30시간)";
+                } else if(ResultData.COMP_TYPE == "기사") {
+                    recTime = " (20시간)";
+                } else {
+                    recTime = " (15시간)";
+                }
                 hwpDocCtrl.global.HwpCtrl.MoveToField('compType', true, true, false);
-                hwpDocCtrl.putFieldText('compType', ResultData.COMP_TYPE);
+                hwpDocCtrl.putFieldText('compType', ResultData.COMP_TYPE + recTime);
                 hwpDocCtrl.global.HwpCtrl.MoveToField('careName', true, true, false);
                 hwpDocCtrl.putFieldText('careName', ResultData.CARE_NAME);
                 hwpDocCtrl.global.HwpCtrl.MoveToField('careLocation', true, true, false);

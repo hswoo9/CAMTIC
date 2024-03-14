@@ -357,10 +357,14 @@ public class CampusController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         Map<String, Object> data = campusService.getEduResultOne(params);
-        model.addAttribute("data", data);
+//        model.addAttribute("data", data);
         String EDU_FORM_TYPE = data.get("EDU_FORM_TYPE").toString();
         model.addAttribute("eduFormType", EDU_FORM_TYPE);
         model.addAttribute("params", params);
+
+        params.put("EDU_INFO_ID", params.get("eduInfoId"));
+        Map<String, Object> fileInfo = campusService.getEduInfoFile(params);
+        model.addAttribute("fileInfo", fileInfo);
 
         String directory = "";
         int eduFormType = Integer.parseInt(EDU_FORM_TYPE);
@@ -1234,16 +1238,20 @@ public class CampusController {
     //개인학습관리 - 개인학습조회팝업 - 단일데이터 조회
     @RequestMapping("/campus/getEduInfoOne")
     public String getEduInfoOne(@RequestParam Map<String, Object> params, Model model) {
+        params.put("EDU_INFO_ID", params.get("eduInfoId"));
         Map<String, Object> data = campusService.getEduInfoOne(params);
         model.addAttribute("data", data);
+        model.addAttribute("fileInfo", campusService.getEduInfoFile(params));
         return "jsonView";
     }
 
     //개인학습관리 - 결과보고서조회팝업 - 단일데이터 조회
     @RequestMapping("/campus/getEduResultOne")
     public String getEduResultOne(@RequestParam Map<String, Object> params, Model model) {
+        params.put("EDU_INFO_ID", params.get("eduInfoId"));
         Map<String, Object> data = campusService.getEduResultOne(params);
         model.addAttribute("data", data);
+        model.addAttribute("fileInfo", campusService.getEduResultInfoFile(params));
         return "jsonView";
     }
 
@@ -1706,15 +1714,15 @@ public class CampusController {
 
     /** 학습결과보고서 저장 */
     @RequestMapping("/campus/setEduResultInsert")
-    public String setEduResultInsert(@RequestParam Map<String, Object> params) {
-        campusService.setEduResultInsert(params);
+    public String setEduResultInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
+        campusService.setEduResultInsert(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
     /** 학습결과보고서 수정 */
     @RequestMapping("/campus/setEduResultModify")
-    public String setEduResultModify(@RequestParam Map<String, Object> params) {
-        campusService.setEduResultModify(params);
+    public String setEduResultModify(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
+        campusService.setEduResultModify(params, request, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
@@ -1722,6 +1730,20 @@ public class CampusController {
     @RequestMapping("/campus/setMngCheckUpd")
     public String setMngCheckUpd(@RequestParam Map<String, Object> params) {
         campusService.setMngCheckUpd(params);
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/setEduResultEduTimeUpd")
+    public String setEduResultEduTimeUpd(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            campusService.setEduResultEduTimeUpd(params);
+
+            model.addAttribute("code", 200);
+            model.addAttribute("params", params);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 

@@ -56,19 +56,30 @@ var eduInfo = {
                 {
                     name : 'button',
                     template : function (e){
-                        return'<button type="button" class="k-button k-button-solid-base" onclick=" eduInfo.setEduInfoDelete();">' +
-                            '	<span class="k-button-text">삭제</span>' +
-                            '</button>'+
-                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick=" eduInfo.goEduInfoReq();">' +
-                            '	<span class="k-button-text">학습신청</span>' +
+                        return'<button type="button" class="k-button k-button-solid-base" onclick=" eduInfo.mainGrid();">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return'<button type="button" class="k-button k-button-solid-error" onclick=" eduInfo.setEduInfoDelete();">' +
+                                '	<span class="k-button-text">삭제</span>' +
+                                '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick=" eduInfo.goEduInfoReq();">' +
+                                '	<span class="k-button-text">학습신청</span>' +
+                                '</button>';
                     }
                 }
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: eduInfo.onDataBound,
+            // dataBound: eduInfo.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'eduPk\');"/>',
@@ -160,6 +171,64 @@ var eduInfo = {
                             return "교육취소";
                         }
                     }
+                }, {
+                    title: "학습신청서",
+                    width: 85,
+                    template: function(row){
+                        let statusText = "";
+                        let btnText = "";
+
+                        if(row.STATUS == "0" || row.STATUS == "40" || row.STATUS == "60"){
+                            statusText = "작성중";
+                            btnText = "k-button-solid-base";
+                        } else if(row.STATUS == "10" || row.STATUS == "20" || row.STATUS == "50"){
+                            statusText = "결재중";
+                            btnText = "k-button-solid-info";
+                        } else if(row.STATUS == "30"){
+                            statusText = "반려";
+                            btnText = "k-button-solid-error";
+                        } else if(row.STATUS == "100" || row.STATUS == "101"){
+                            statusText = "결재완료";
+                            btnText = "k-button-solid-info";
+                        } else {
+                            return "";
+                        }
+
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick=" eduInfo.eduReqPop('+row.EDU_INFO_ID+', '+row.EDU_FORM_TYPE+');">' +
+                            '	<span class="k-button-text">'+statusText+'</span>' +
+                            '</button>';
+                    }
+                }, {
+                    title: "결과보고서",
+                    width: 85,
+                    template: function(row){
+                        if(row.STATUS == "100"){
+                            let statusText = "";
+                            let btnText = "";
+
+                            if(row.RES_STATUS == "0" || row.RES_STATUS == "1" || row.RES_STATUS == "40" || row.RES_STATUS == "60"){
+                                statusText = "작성중";
+                                btnText = "k-button-solid-base";
+                            } else if(row.RES_STATUS == "10" || row.RES_STATUS == "20" || row.RES_STATUS == "50"){
+                                statusText = "결재중";
+                                btnText = "k-button-solid-info";
+                            } else if(row.RES_STATUS == "30"){
+                                statusText = "반려";
+                                btnText = "k-button-solid-error";
+                            } else if(row.RES_STATUS == "100" || row.RES_STATUS == "101"){
+                                statusText = "결재완료";
+                                btnText = "k-button-solid-info";
+                            } else {
+                                return "";
+                            }
+
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="eduInfo.eduResultReqPop('+row.EDU_INFO_ID+', '+row.RES_STATUS+');">' +
+                                '	<span class="k-button-text">'+statusText+'</span>' +
+                                '</button>';
+                        } else {
+                            return "";
+                        }
+                    }
                 }
             ],
             dataBinding: function(){
@@ -198,6 +267,24 @@ var eduInfo = {
         const name = "popup";
         const option = "width = 1000, height = 800, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    eduReqPop : function(eduInfoId, eduFormType){
+        let url = "/Campus/pop/eduReqPop.do?eduInfoId="+eduInfoId+"&eduFormType="+eduFormType;
+        const name = "popup";
+        const option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    eduResultReqPop: function(eduInfoId, resStatus) {
+        var url = "/Campus/pop/eduResultReqPop.do?eduInfoId="+eduInfoId;
+        if(resStatus != '1'){
+            url += "&mode=upd";
+        }
+
+        var name = "_target";
+        var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
+        var popup = window.open(url, name, option);
     },
 
     goEduInfoReq: function(){

@@ -67,7 +67,7 @@ var myEdu = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: myEdu.onDataBound,
+            // dataBound: myEdu.onDataBound,
             columns: [
                 {
                     title: "순번",
@@ -76,7 +76,7 @@ var myEdu = {
                 },  {
                     field: "",
                     title: "학습방법",
-                    width: 200,
+                    width: 180,
                     template: function(row){
                         if(row.EDU_FORM_TYPE == "1") {
                             return "교육기관 참가교육";
@@ -105,7 +105,6 @@ var myEdu = {
                 },{
                     field: "EDU_NAME",
                     title: "학습명",
-                    width: 200
                 }, {
                     title: "학습기간",
                     template: "<span>#=START_DT# ~ #=END_DT#</span>",
@@ -161,6 +160,64 @@ var myEdu = {
                             return "이수완료";
                         }else {
                             return "교육취소";
+                        }
+                    }
+                }, {
+                    title: "학습신청서",
+                    width: 85,
+                    template: function(row){
+                        let statusText = "";
+                        let btnText = "";
+
+                        if(row.STATUS == "0" || row.STATUS == "40" || row.STATUS == "60"){
+                            statusText = "작성중";
+                            btnText = "k-button-solid-base";
+                        } else if(row.STATUS == "10" || row.STATUS == "20" || row.STATUS == "50"){
+                            statusText = "결재중";
+                            btnText = "k-button-solid-info";
+                        } else if(row.STATUS == "30"){
+                            statusText = "반려";
+                            btnText = "k-button-solid-error";
+                        } else if(row.STATUS == "100" || row.STATUS == "101"){
+                            statusText = "결재완료";
+                            btnText = "k-button-solid-info";
+                        } else {
+                            return "";
+                        }
+
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="myEdu.eduReqPop('+row.EDU_INFO_ID+', '+row.EDU_FORM_TYPE+');">' +
+                            '	<span class="k-button-text">'+statusText+'</span>' +
+                            '</button>';
+                    }
+                }, {
+                    title: "결과보고서",
+                    width: 85,
+                    template: function(row){
+                        if(row.STATUS == "100"){
+                            let statusText = "";
+                            let btnText = "";
+
+                            if(row.RES_STATUS == "0" || row.RES_STATUS == "1" || row.RES_STATUS == "40" || row.RES_STATUS == "60"){
+                                statusText = "작성중";
+                                btnText = "k-button-solid-base";
+                            } else if(row.RES_STATUS == "10" || row.RES_STATUS == "20" || row.RES_STATUS == "50"){
+                                statusText = "결재중";
+                                btnText = "k-button-solid-info";
+                            } else if(row.RES_STATUS == "30"){
+                                statusText = "반려";
+                                btnText = "k-button-solid-error";
+                            } else if(row.RES_STATUS == "100" || row.RES_STATUS == "101"){
+                                statusText = "결재완료";
+                                btnText = "k-button-solid-info";
+                            } else {
+                                return "";
+                            }
+
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="myEdu.eduResultReqPop('+row.EDU_INFO_ID+', '+row.RES_STATUS+');">' +
+                                '	<span class="k-button-text">'+statusText+'</span>' +
+                                '</button>';
+                        } else {
+                            return "";
                         }
                     }
                 }
@@ -625,6 +682,20 @@ var myEdu = {
         const name = "popup";
         const option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
         window.open(url, name, option);
+    },
+
+    eduReqPop : function(eduInfoId, eduFormType){
+        let url = "/Campus/pop/eduReqPop.do?eduInfoId="+eduInfoId+"&eduFormType="+eduFormType+"&mode=mng";
+        const name = "popup";
+        const option = "width = 1170, height = 1000, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    eduResultReqPop: function(eduInfoId, resStatus) {
+        var url = "/Campus/pop/eduResultReqPop.do?eduInfoId="+eduInfoId+"&mode=mng";
+        var name = "_target";
+        var option = "width = 1200, height = 800, top = 100, left = 200, location = no";
+        var popup = window.open(url, name, option);
     },
 
     studyViewPop: function(mode, pk){

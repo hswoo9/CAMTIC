@@ -64,7 +64,8 @@ const lectureTeam = {
             '   <td>' +
             '       <input type="text" id="busnAmt'+i+'" style="text-align: right" value="0" onkeyup="lectureTeam.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" />' +
             '   </td>' +
-            '   <td>' +
+            '   <td style="display: flex;">' +
+            '       <button type="button" id="addBtn0" class="k-button k-button-solid-base" onclick="lectureTeam.addBtn()">추가</button>' +
             '       <button type="button" id="addBtn'+i+'" class="k-button k-button-solid-error" onclick="lectureTeam.delBtn(this)">삭제</button>' +
             '   </td>' +
             '</tr>';

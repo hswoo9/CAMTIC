@@ -8,6 +8,10 @@
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/campus/eduReqPop.js?v=${today}"></script>
+<style>
+  table > thead > tr > th { background-color: #8fa1c04a !important; }
+  table > thead > tr > td { background-color: #fff; }
+</style>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="empName" value="${loginVO.name}"/>
@@ -15,6 +19,7 @@
 <input type="hidden" id="deptName" value="${loginVO.deptNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
+<input type="hidden" id="mode" value="${data.mode}"/>
 <%--<input type="hidden" id="eduInfoId" value=""/>--%>
 
 <form id="campusDraftFrm" method="post">
@@ -32,16 +37,16 @@
         <span id="campusBtnBox">
 
         </span>
-        <input type="button" class="k-button k-button-solid-info" value="저장" onclick="eduReq.saveEduInfo();"/>
-        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소" onclick="window.close();"/>
+        <input type="button" class="k-button k-button-solid-info" id="saveBtn" value="저장" onclick="eduReq.saveEduInfo();"/>
+        <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
     </div>
   </div>
   <div class="card-header" style="padding-top:25px;">
-    <div class="col-lg-11" style="margin:0 auto;">
+    <div class="col-lg-12" style="margin:0 auto;">
       <div class="table-responsive">
  <%--       <div class="popupTitleSt">교육수강 신청서 작성</div>--%>
         <form id="eduReqForm">
-          <table class="table table-bordered" id="userInfoTable" style="width: 1000px;">
+          <table class="table table-bordered" id="userInfoTable">
             <colgroup>
               <col width="16%">
               <col width="16%">
@@ -66,7 +71,7 @@
             </tr>
             <%--</c:if>--%>
           </table>
-          <table class="table table-bordered mt20" id="eduReqTable" style="width: 1000px;">
+          <table class="table table-bordered mt20" id="eduReqTable">
             <colgroup>
               <col width="130px">
               <col width="370px">
@@ -79,7 +84,7 @@
               <td>
                 <input type="text" id="eduCategoryDetailName" style="width: 150px">
                 <input type="hidden" id="eduCategoryDetailId">
-                <input type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="목표기술서 선택" onclick="eduReq.targetEduSetPop();"/>
+                <input type="button" id="targetTechBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="목표기술서 선택" onclick="eduReq.targetEduSetPop();"/>
               </td>
               <th>목표레벨</th>
               <td>
