@@ -221,7 +221,7 @@ const busiExnp = {
         /** for문 돌려서 부서장이상일시 해외출장 타입 = 1 : 부서장 이상 */
         for(let i=0; i<companion.length; i++){
             const map = companion[i];
-            if(map.dutyName == "본부장" || map.dutyName == "사업부장" || map.dutyName == "센터장" || map.dutyName == "원장"){
+            if(map.dutyName == "본부장" || map.dutyName == "사업부장" || map.dutyName == "원장"){
                 busyType = 1;
             }
 
