@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="evaluation">
+
+    <select id="requestEvaluationMemberTot" parameterType="map" resultType="map">
+        /*requestEvaluationMemberTot*/
+        SELECT
+            RESIGN_DAY
+             ,A.*
+        FROM
+            CAM_HR.DJ_EMP_INFO A
+        WHERE
+            A.ACTIVE = 'Y'
+        AND
+            A.WORK_STATUS_CODE = 'Y'
+        AND
+            DATE_FORMAT(#{bsYMD}, '%Y%m%d') >= DATE_FORMAT(A.JOIN_DAY, '%Y%m%d')
+
+    </select>
+</mapper>

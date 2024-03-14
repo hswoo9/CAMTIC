@@ -37,7 +37,7 @@ const unrndFilePop = {
                 var fileExt = fileArray[i].file_ext;
 
                 html1 += '<tr style="text-align: center;padding-top: 10px;">';
-                html1 += '   <td>' + fileName + '</td>';
+                html1 += '   <td style="cursor:pointer;" onclick="unrndFilePop.fileDown(\'' + fileArray[i].file_path + fileArray[i].file_uuid+'\', \'' + fileArray[i].file_org_name + '.' + fileArray[i].file_ext + '\')">' + fileName + '</td>';
                 html1 += '   <td>' + fileExt + '</td>';
                 html1 += '   <td>' + size + '</td>';
                 html1 += '   <td>';
@@ -106,8 +106,9 @@ const unrndFilePop = {
 
                 var fileName = fileArray[i].file_org_name;
                 var fileExt = fileArray[i].file_ext;
+
                 html1 += '<tr style="text-align: center;padding-top: 10px;">';
-                html1 += '   <td style="text-align: left">' + fileName + '</td>';
+                html1 += '   <td style="text-align: left; cursor: pointer;">' + fileName + '</td>';
                 html1 += '   <td>' + fileExt + '</td>';
                 html1 += '   <td>' + size + '</td>';
                 html1 += '   <td>';
@@ -216,6 +217,24 @@ const unrndFilePop = {
 
             }
         })
-    }
+    },
+
+    fileViewer : function (path, name){
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var hostUrl = "";
+        if($(location).attr("host").split(":")[0].indexOf("218.158.231.184") > -1 || $(location).attr("host").split(":")[0].indexOf("new.camtic.or.kr") > -1){
+            hostUrl = "http://218.158.231.184";
+        } else {
+            hostUrl = "http://218.158.231.186";
+        }
+        var popup = window.open(hostUrl + path, name, option);
+    },
+
+    fileDown : function(filePath, fileName){
+    kendo.saveAs({
+        dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+    });
+}
 
 }

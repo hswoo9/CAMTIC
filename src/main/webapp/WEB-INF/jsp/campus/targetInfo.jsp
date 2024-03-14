@@ -16,7 +16,9 @@
         </div>
         <div class="panel-body">
             <div>
-                <table class="searchTable table table-bordered" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+                <input type="button" class="stepBtn stepBtn2 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="목표기술서 신규등록" onclick="targetInfo.targetAddYearPop();"/>
+
+                <table class="searchTable table table-bordered" style="border: 0; margin-top : 20px; border: 1px solid #dedfdf;">
                     <colgroup>
                         <col width="10%">
                         <col width="40%">
@@ -42,11 +44,10 @@
                         </tr>
                     </thead>
                 </table>
-                <input type="button" class="stepBtn stepBtn2 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP1 : 목표기술서 등록" onclick="targetInfo.targetAddYearPop();"/>
-                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP2-1 : 주업무 선택" onclick="targetInfo.targetInfoPop();"/>
-                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP2-2 : 주업무 현황 및 목표 설정" onclick="targetInfo.targetMainSetPop();"/>
-                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP3-1 : 연계업무 선택" onclick="targetInfo.targetSubInfoPop();"/>
-                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP3-2 : 연계업무 현황 및 목표 설정" onclick="targetInfo.targetSubSetPop();"/>
+                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP1-1 : 주업무 선택" onclick="targetInfo.targetInfoPop();"/>
+                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP1-2 : 주업무 현황 및 목표 설정" onclick="targetInfo.targetMainSetPop();"/>
+                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP2-1 : 연계업무 선택" onclick="targetInfo.targetSubInfoPop();"/>
+                <input type="button" class="stepBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="STEP2-2 : 연계업무 현황 및 목표 설정" onclick="targetInfo.targetSubSetPop();"/>
 
                 <div class="non" style="text-align: center; margin: auto; margin-top: 10px">등록된 목표기술서가 없습니다<br>목표기술서를 등록해주세요</div>
 

@@ -2,18 +2,22 @@ package egovframework.com.devjitsu.inside.evaluation.controller;
 
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
+import egovframework.com.devjitsu.inside.evaluation.service.EvaluationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class EvaluationController {
@@ -22,6 +26,9 @@ public class EvaluationController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EvaluationService evaluationService;
 
     //평가등록
     @RequestMapping("/Inside/evaluationReq.do")
@@ -38,9 +45,93 @@ public class EvaluationController {
     public String evaluationList(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/userManage/evaluationList";
+    }
+
+    /**
+     * 평가관리 그리드 조회
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/evaluation/getEvaluationList")
+    public String getEvaluationList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+
+        model.addAttribute("list", "");
+
+        return "jsonView";
+    }
+
+    /**
+     * 평가등록 팝업창
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/evaluation/pop/evaluationSet.do")
+    public String evaluationSet(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "popup/inside/evaluation/evaluationSet";
+    }
+
+    /**
+     * 인사평가 대상설정 팝업
+     * @param request
+     * @param model
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/pop/requestEvaluationUsers")
+    public String requestEvaluationUsers(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        model.addAttribute("params", params);
+
+        return "popup/inside/evaluation/requestEvaluationUsers";
+    }
+
+
+    /**
+     * 인사평가 대상 전체 직원 조회
+     * @param request
+     * @param model
+     * @param params
+     * @return
+     */
+    @RequestMapping("/evaluation/getRequestEvaluationMemberTot")
+    public String getRequestEvaluationMemberTot(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        List<Map<String, Object>> list = evaluationService.getRequestEvaluationMemberTot(params);
+    	model.addAttribute("list", list);
+
+    	return "jsonView";
+    }
+
+
+    /**
+     * 평가등록
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/evaluation/setEvaluation")
+    public String setEvaluation(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        try{
+            model.addAttribute("params", params);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return "jsonView";
     }
 
     //평가결과조회

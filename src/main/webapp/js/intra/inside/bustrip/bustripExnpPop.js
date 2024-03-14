@@ -605,12 +605,8 @@ const bustripExnpReq = {
         var rowList = bustExnpTb.rows;
 
         var result = "";
-        for(var i = 1 ; i < rowList.length-1 ; i++){
+        for(var i = 1 ; i < rowList.length-1 ; i++) {
             var row = rowList[i];
-            // if(i == 1) {
-                var hrBizExnpId = $(row.cells[0]).find("input[name='hrBizExnpId']").val();
-            // }
-
             var data = {};
 
             let oilCk = "N";
@@ -645,6 +641,46 @@ const bustripExnpReq = {
                     alert(returnFlag[1]);
                     break;
                 }
+            }
+        }
+        if(!returnFlag[0]){
+            return false;
+        }
+
+        for(var i = 1 ; i < rowList.length-1 ; i++){
+            var row = rowList[i];
+            // if(i == 1) {
+                var hrBizExnpId = $(row.cells[0]).find("input[name='hrBizExnpId']").val();
+            // }
+
+            var data = {};
+
+            let oilCk = "N";
+            if(bustripExnpReq.global.bustripInfo.USE_TRSPT != "0" && bustripExnpReq.global.bustripInfo.USE_TRSPT != "10" ){
+                oilCk = "Y";
+            }
+
+            // 개인
+            if(row.classList.value == 'addData'){
+                data = {
+                    hrBizReqResultId : hrBizReqResultId,
+                    hrBizExnpId : hrBizExnpId,
+                    empName : $(row.cells[0]).find("input[type=text]").val(),
+                    empSeq : $(row.cells[0]).find("input[name='empSeq']").val(),
+                    oilCost : $(row.cells[1]).find("input[type=text]").val(),
+                    trafCost : $(row.cells[2]).find("input[type=text]").val(),
+                    roomCost : $(row.cells[3]).find("input[type=text]").val(),
+                    tollCost : $(row.cells[4]).find("input[type=text]").val(),
+                    dayCost : $(row.cells[5]).find("input[type=text]").val(),
+                    eatCost : $(row.cells[6]).find("input[type=text]").val(),
+                    parkingCost : $(row.cells[7]).find("input[type=text]").val(),
+                    etcCost : $(row.cells[8]).find("input[type=text]").val(),
+                    totCost : $(row.cells[9]).find("input[type=text]").val(),
+
+                    oilCorpYn : oilCk,
+                    type : type,
+                    division : '1'
+                };
             }
 
             // 외부인원
@@ -719,10 +755,6 @@ const bustripExnpReq = {
 
 
             result = customKendo.fn_customAjax("/bustrip/saveBustripExnpPop", data);
-        }
-
-        if(!returnFlag[0]){
-            return false;
         }
 
         /** Ibrench 선택 내역 저장 */

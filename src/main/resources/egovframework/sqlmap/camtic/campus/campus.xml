@@ -491,6 +491,7 @@
             CAMPUS.DJ_EDU_TARGET ET
         WHERE
             ET.REG_EMP_SEQ = #{empSeq}
+        GROUP BY VALUE
         ORDER BY EDU_TARGET_ID DESC
     </select>
 
