@@ -25,27 +25,27 @@ const dutyInfoReq = {
             $("#dutyName").val(dutyInfo.DUTY_NAME);
             $("#dutyNameMng").text(dutyInfo.DUTY_NAME);
             $("#outlineName").val(dutyInfo.OUTLINE_NAME);
-            $("#outlineNameMng").text(dutyInfo.OUTLINE_NAME);
+            $("#outlineNameMng").html(dutyInfo.OUTLINE_NAME.replaceAll("\n", "<br>"));
             $("#outlineDetail").val(dutyInfo.OUTLINE_DETAIL);
-            $("#outlineDetailMng").text(dutyInfo.OUTLINE_DETAIL);
+            $("#outlineDetailMng").html(dutyInfo.OUTLINE_DETAIL.replaceAll("\n", "<br>"));
             $("#internal").val(dutyInfo.INTERNAL);
-            $("#internalMng").text(dutyInfo.INTERNAL);
+            $("#internalMng").html(dutyInfo.INTERNAL.replaceAll("\n", "<br>"));
             $("#external").val(dutyInfo.EXTERNAL);
-            $("#externalMng").text(dutyInfo.EXTERNAL);
+            $("#externalMng").html(dutyInfo.EXTERNAL.replaceAll("\n", "<br>"));
             $("#appLine").val(dutyInfo.APP_LINE);
-            $("#appLineMng").text(dutyInfo.APP_LINE);
+            $("#appLineMng").html(dutyInfo.APP_LINE.replaceAll("\n", "<br>"));
             $("#abilityA").val(dutyInfo.ABILITY_A);
-            $("#abilityAMng").text(dutyInfo.ABILITY_A);
+            $("#abilityAMng").html(dutyInfo.ABILITY_A.replaceAll("\n", "<br>"));
             $("#abilityB").val(dutyInfo.ABILITY_B);
-            $("#abilityBMng").text(dutyInfo.ABILITY_B);
+            $("#abilityBMng").html(dutyInfo.ABILITY_B.replaceAll("\n", "<br>"));
             $("#abilityC").val(dutyInfo.ABILITY_C);
-            $("#abilityCMng").text(dutyInfo.ABILITY_C);
+            $("#abilityCMng").html(dutyInfo.ABILITY_C.replaceAll("\n", "<br>"));
             $("#abilityD").val(dutyInfo.ABILITY_D);
-            $("#abilityDMng").text(dutyInfo.ABILITY_D);
+            $("#abilityDMng").html(dutyInfo.ABILITY_D.replaceAll("\n", "<br>"));
             $("#abilityE").val(dutyInfo.ABILITY_E);
-            $("#abilityEMng").text(dutyInfo.ABILITY_E);
+            $("#abilityEMng").html(dutyInfo.ABILITY_E.replaceAll("\n", "<br>"));
             $("#responsibility").val(dutyInfo.RESPONSIBILITY);
-            $("#responsibilityMng").text(dutyInfo.RESPONSIBILITY);
+            $("#responsibilityMng").html(dutyInfo.RESPONSIBILITY.replaceAll("\n", "<br>"));
 
             if(dutyInfo.STATUS == "100" || mode =="mng"){
                 $(".mng-mode").show();

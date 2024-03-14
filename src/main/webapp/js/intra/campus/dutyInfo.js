@@ -63,7 +63,7 @@ var dutyInfo = {
             columns: [
                 {
                     title: "순번",
-                    template: "#= --record #",
+                    template: "#= ++record #",
                     width: 50
                 }, {
                     field: "DUTY_MONTH",
@@ -96,10 +96,15 @@ var dutyInfo = {
                     title: "",
                     width: 120,
                     template: function(row){
-                        if(row.STATUS == 0){
-                            return '<button type="button" id="appBtn" class="k-button k-button-solid-info" onclick="dutyInfo.fn_dutyCertReq('+row.DUTY_INFO_SN+', 10);">승인요청</button>';
-                        } else if (row.STATUS == 10) {
-                            return '<button type="button" id="canBtn" class="k-button k-button-solid-error" onclick="dutyInfo.fn_dutyCertReq('+row.DUTY_INFO_SN+', 0);">승인요청취소</button>';
+                        const today = new Date();
+                        if(row.DUTY_YEAR == today.getFullYear()){
+                            if(row.STATUS == 0){
+                                return '<button type="button" id="appBtn" class="k-button k-button-solid-info" onclick="dutyInfo.fn_dutyCertReq('+row.DUTY_INFO_SN+', 10);">승인요청</button>';
+                            } else if (row.STATUS == 10) {
+                                return '<button type="button" id="canBtn" class="k-button k-button-solid-error" onclick="dutyInfo.fn_dutyCertReq('+row.DUTY_INFO_SN+', 0);">승인요청취소</button>';
+                            } else {
+                                return "-";
+                            }
                         } else {
                             return "-";
                         }
@@ -107,7 +112,7 @@ var dutyInfo = {
                 }
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+                record = fn_getRowNum(this, 1);
             }
         }).data("kendoGrid");
     },
