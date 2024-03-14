@@ -8,6 +8,9 @@
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 
+<script type="text/javascript" src="/js/intra/inside/evaluation/evaluationList.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/evaluation/fn_evaluation.js?v=${today}"/></script>
+
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -19,11 +22,12 @@
         </div>
 
         <div class="panel-body">
-
+            <div id="mainGrid" />
         </div>
 
     </div>
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
+    evaluationList.fn_defaultScript();
 </script>

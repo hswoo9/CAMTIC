@@ -74,6 +74,9 @@ var targetInfo = {
                 $(".stepBtn").hide();
                 $(".stepBtn2").show();
                 $(".canBtn").hide();
+
+                $(".objectBtn").hide();
+
             }else if(status == 0){
                 $("#stat").text("작성중");
                 $(".appBtn").show();
@@ -218,7 +221,7 @@ var targetInfo = {
 
             for(let j = 3; j >= 0; j--) {
                 html += "<tr>";
-                html += "   <td style='background-color: rgb(255, 239, 221)'>Level "+j+"</td>";
+                html += "   <td style='background-color: rgb(255, 239, 221); text-align: center'>Level "+j+"</td>";
                 if(list.length > 0) {
                     for (let k = 0; k < list.length; k++) {
                         if (detailList.length > 0) {
@@ -270,7 +273,7 @@ var targetInfo = {
 
             if(list.length > 0 || subList.length > 0) {
                 html += "<tr>";
-                html += "   <td style='background-color: rgb(255, 239, 221)'>학습계획</td>";
+                html += "   <td style='background-color: rgb(255, 239, 221); text-align: center'>학습계획</td>";
                 if(list.length > 0) {
                     for(let i = 0; i < list.length; i++) {
                         html += "   <td style='text-align: left'>";
@@ -283,7 +286,9 @@ var targetInfo = {
                             }
                         }
 
-                        html += "       <input type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' value='학습계획' onclick='targetInfo.eduPlanReqPop("+list[i].EDU_CATEGORY_ID+", 1, "+targetInfo.global.targetInfo.STATUS+");'/>";
+                        if(targetInfo.global.targetInfo.STATUS != '100'){
+                            html += "       <input type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base objectBtn' value='학습계획' onclick='targetInfo.eduPlanReqPop("+list[i].EDU_CATEGORY_ID+", 1, "+targetInfo.global.targetInfo.STATUS+");'/>";
+                        }
                         html += "   </td>";
                     }
                 }
@@ -298,8 +303,9 @@ var targetInfo = {
                                 html += brText+"<br><br>";
                             }
                         }
-
-                        html += "       <input type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base' value='학습계획' onclick='targetInfo.eduPlanReqPop("+subList[i].EDU_CATEGORY_ID+", 2, "+targetInfo.global.targetInfo.STATUS+");'/>";
+                        if(targetInfo.global.targetInfo.STATUS != '100') {
+                            html += "       <input type='button' class='k-grid-button k-button k-button-md k-button-solid k-button-solid-base objectBtn' value='학습계획' onclick='targetInfo.eduPlanReqPop(" + subList[i].EDU_CATEGORY_ID + ", 2, " + targetInfo.global.targetInfo.STATUS + ");'/>";
+                        }
                         html += "   </td>";
                     }
                 }
