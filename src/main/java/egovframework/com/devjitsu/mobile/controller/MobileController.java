@@ -1,3 +1,4 @@
+/*
 package egovframework.com.devjitsu.mobile.controller;
 
 
@@ -73,3 +74,4 @@ public class MobileController {
     }
 
 }
+*/
