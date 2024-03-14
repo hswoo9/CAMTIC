@@ -9,7 +9,7 @@ const lectureReq = {
     },
 
     fn_pageSet: function(){
-        customKendo.fn_textBox(["projectName", "lectureName", "lectureNameEx", "methodTypePr", "title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee", "field3", "conName", "conTitle", "conDetailTitle", "conTime", "conNum", "conArea", "conPerson"]);
+        customKendo.fn_textBox(["projectName", "lectureName", "lectureNameEx", "methodTypePr", "title", "recruitNum", "eduTime", "eduTimeEx", "area", "textbookFee", "field3", "conName", "conTitle", "conDetailTitle", "conTime", "conNum", "conArea", "conCost", "conPerson"]);
         customKendo.fn_textArea(["content1", "content2", "goal", "intro", "targetUser", "scheduleHtml", "prospectus", "materials"]);
 
         /** form구분 drop box */
@@ -324,6 +324,7 @@ const lectureReq = {
             $("#agmEndDt").val(conMap.CON_END_DE);
             /*$("#conTime").val(conMap.CON_TIME);*/
             $("#conArea").val(conMap.CON_ADDR);
+            $("#conCost").val(conMap.CON_COST);
             $("#conPerson").val(conMap.CON_PER);
             $("#conNum").val(conMap.RECR_MEM_CNT);
             $("#conMainType").data("kendoDropDownList").value(conMap.CON_OPEN_BD);
@@ -513,6 +514,7 @@ const lectureReq = {
                 agmEndDt: $("#agmEndDt").val(),
                 conTime: $("#conTime").val(),
                 conArea: $("#conArea").val(),
+                conCost: $("#conCost").val(),
                 conPerson: $("#conPerson").val(),
                 conNum: $("#conNum").val(),
                 mainType: $("#conMainType").data("kendoDropDownList").value(),

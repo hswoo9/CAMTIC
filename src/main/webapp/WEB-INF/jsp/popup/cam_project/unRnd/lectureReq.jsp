@@ -422,8 +422,12 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">수혜기업명</th>
-                    <td colspan="3">
+                    <td>
                         <input id="conArea" style="width: 400px;">
+                    </td>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>컨설팅 비용</th>
+                    <td>
+                        <input id="conCost" oninput="onlyNumber(this)" onkeyup="fn_inputNumberFormat(this)" style="width: 130px; text-align: right;"> 원
                     </td>
                 </tr>
                 <tr>

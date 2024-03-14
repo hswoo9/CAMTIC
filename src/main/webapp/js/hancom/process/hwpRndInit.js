@@ -376,7 +376,7 @@ var rndInit = {
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CB_CODE_NAME_1 +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ fn_numberWithCommas(map.CB_BUDGET) +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Math.round(map.CB_BUDGET / amt * 100)+"%" +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Math.round((map.CB_BUDGET / amt * 100)  * 10) / 10 +"%" +'</p></td>';
             html += '               </tr>';
             sum += map.CB_BUDGET;
         }

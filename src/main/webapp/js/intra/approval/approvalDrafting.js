@@ -81,7 +81,7 @@ var draft = {
         $("#processId").val(draft.global.params.processId);
         let docTitle = draft.global.params.docTitle;
         if(docTitle != null){
-            docTitle = draft.global.params.docTitle.replace("%26", "&");
+            docTitle = draft.global.params.docTitle.replaceAll("%26", "&");
         }
         $("#docTitle").val(docTitle);
 

@@ -150,8 +150,9 @@ function makeParams(params, form, url){
 		var docTitle = $('<input type="hidden" name="docTitle"/>');
 		var docTitleText = params.docTitle;
 		docTitle.val(docTitleText);
+        console.log("docTitle", docTitle);
 		form.append(docTitle);
-		url += "&docTitle="+encodeURI(docTitleText.replace(/&/gi, "%26"));
+		url += "&docTitle="+encodeURI(docTitleText.replaceAll(/&/gi, "%26"));
 	}
 	if(params.budgetList){
 		var budgetList = $('<input type="hidden" name="budgetList"/>');

@@ -819,6 +819,7 @@
             CON_TIME,
             RECR_MEM_CNT,
             CON_ADDR,
+            CON_COST,
             CON_PER,
 
             CON_OPEN_BD,
@@ -847,6 +848,7 @@
             #{conTime},
             #{conNum},
             #{conArea},
+            #{conCost},
             #{conPerson},
 
             #{mainType},
@@ -929,6 +931,7 @@
             CON_TIME = #{conTime},
             RECR_MEM_CNT = #{conNum},
             CON_ADDR = #{conArea},
+            CON_COST = #{conCost},
             CON_PER = #{conPerson},
             CON_OPEN_BD = #{mainType},
             CON_OPEN_BD_NAME = #{mainTypeName},
