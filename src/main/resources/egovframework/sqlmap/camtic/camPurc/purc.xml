@@ -239,7 +239,6 @@
             PJT_NM,
             PAYMENT_METHOD,
             PURC_LINK,
-            DISCOUNT_AMT,
             VAT,
             STATUS,
             REG_EMP_SEQ
@@ -255,7 +254,6 @@
             #{pjtNm},
             #{paymentMethod},
             #{purcLink},
-            #{discountAmt},
             #{vat},
             #{status},
             #{empSeq}
@@ -277,7 +275,6 @@
             PURC_TYPE = #{purcType},
             PAYMENT_METHOD = #{paymentMethod},
             PURC_LINK = #{purcLink},
-            DISCOUNT_AMT = #{discountAmt},
             VAT = #{vat},
             MOD_EMP_SEQ = #{empSeq},
             STATUS = #{status},
@@ -302,6 +299,7 @@
                 PURC_ITEM_UNIT,
                 PURC_ITEM_AMT,
                 CRM_SN,
+                DISCOUNT_AMT,
                 RMK,
                 STATUS,
                 REG_EMP_SEQ
@@ -320,6 +318,7 @@
                 #{purcItemUnit},
                 #{purcItemAmt},
                 #{crmSn},
+                #{discountAmt},
                 #{rmk},
                 #{status},
                 #{empSeq}
@@ -397,6 +396,7 @@
             MPI.RMK,
             MPI.STATUS,
             MPI.CLAIM_STAT,
+            MPI.DISCOUNT_AMT,
             CI.CRM_SN,
             CI.CRM_NM,
             CI.CRM_NO_TMP,

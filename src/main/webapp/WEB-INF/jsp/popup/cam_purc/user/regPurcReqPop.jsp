@@ -250,18 +250,19 @@
                     <colgroup>
                         <col style="width: 3%;">
                         <col style="width: 480px;">
-                        <col>
+                        <col style="width: 10%;">
                         <col style="width: 6%;">
                         <col style="width: 8%;">
                         <col style="width: 5%;">
                         <col style="width: 4%;">
-                        <col style="width: 10%;">
+                        <col style="width: 8%;">
                         <c:if test="${params.stat == 'v'}">
                             <col style="width: 10%;">
                         </c:if>
                         <c:if test="${params.stat != 'v'}">
-                            <col style="width: 15%;">
+                            <col style="width: 10%;">
                         </c:if>
+                        <col style="width: 7%;">
                         <col style="width: 5%;">
                         <c:if test="${params.stat == 'v'}">
                             <col style="width: 3%">
@@ -283,6 +284,7 @@
                         <th><span class="red-star">*</span>단위</th>
                         <th>금액</th>
                         <th><span class="red-star">*</span>업체명</th>
+                        <th><span class="red-star">*</span>할인금액</th>
                         <th>비고</th>
                         <c:if test="${params.stat == 'v'}">
                             <th>상태</th>
@@ -325,7 +327,10 @@
                         <td>
                             <input type="hidden" id="crmSn0" class="crmSn">
                             <input type="text" id="crmNm0" disabled class="crmNm" style="width: 60%">
-                            <button type="button" id="crmSelBtn0" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">업체선택</button>
+                            <button type="button" id="crmSelBtn0" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">검색</button>
+                        </td>
+                        <td>
+                            <input type="text" id="discountAmt0" style="text-align: right" class="discountAmt" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0">
                         </td>
                         <td>
                             <input type="text" id="rmk0" class="rmk">
@@ -346,16 +351,19 @@
                         </c:if>
                     </tr>
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        <th colspan="9" style="text-align: right; font-weight: bold">
-                            가격조정
-                        </th>
-                        <td colspan="2" style="text-align: right; font-weight: bold">
-                            <input type="text" id="discountAmt" style="text-align: right;" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />
-                        </td>
-                    </tr>
-                    </tfoot>
+<%--                    <tfoot>--%>
+<%--                    <tr>--%>
+<%--                        <th colspan="9" style="text-align: right; font-weight: bold">--%>
+<%--                            가격조정--%>
+<%--                        </th>--%>
+<%--                        <td style="text-align: right; font-weight: bold">--%>
+<%--                            <input type="text" id="discountAmt" style="text-align: right;" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />--%>
+<%--                        </td>--%>
+<%--                        <th colspan="2" style="text-align: right; font-weight: bold">--%>
+
+<%--                        </th>--%>
+<%--                    </tr>--%>
+<%--                    </tfoot>--%>
                 </table>
 
                 <input type="hidden" id="crmSn" onchange="prp.crmInfoChange()">

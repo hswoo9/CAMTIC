@@ -195,15 +195,67 @@ var hwpDocCtrl = {
                     dataType : "json",
                     async: false,
                     success : function(result){
-                        console.log(result.data);
+                        console.log(result);
                         const ResultData = result.data;
+
+                        var fileNoArr = [];
+                        var result = "";
+
+                        if(ResultData.FR_FILE_NO != '' && ResultData.FR_FILE_NO != null) {
+                            fileNoArr = ResultData.FR_FILE_NO.split(',');
+
+                            for(var i=0; i<fileNoArr.length; i++) {
+                                result += "," + fileNoArr[i];
+                            }
+                        } else {
+                            result += ",0";
+                        }
+
+                        var snackSubmitData = {
+                            snackInfoSn: data.snackInfoSn,
+                            fileNo: result.substring(1)
+                        };
+
+                        var returnData = customKendo.fn_customAjax("/snack/getFileList", snackSubmitData);
+                        var returnFileArr = returnData.fileList;
+
+                        for(var i=0; i < returnFileArr.length; i++){
+                            let ip = "http://218.158.231.184";
+                            if($(location).attr("host").split(":")[0].indexOf("218.158.231.184") > -1 || $(location).attr("host").split(":")[0].indexOf("new.camtic.or.kr") > -1){
+                                ip = "http://218.158.231.184";
+                            } else {
+                                ip = "http://218.158.231.186";
+                            }
+
+                            /** 사인 조회 후 있으면 이미지, 없으면 정자 기입 */
+                            if(returnFileArr != null) {
+                                if (returnFileArr[i].file_ext == "JPG") {
+                                    console.log(returnFileArr[i]);
+                                    hwpDocCtrl.global.HwpCtrl.MoveToField("snackImg", true, true, false);
+
+                                    hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                                        ip + returnFileArr[i].file_path + returnFileArr[i].file_uuid,
+                                        true, 3, false, false, 0, 0, function (ctrl) {
+                                            if (ctrl) {
+                                                console.log('성공');
+                                            } else {
+                                                console.log('실패');
+                                            }
+                                        }
+                                    );
+                                }
+
+
+                            }
+                        }
 
                         let today = new Date();
                         let year = today.getFullYear(); // 년도
                         let month = today.getMonth() + 1;  // 월
                         let date = today.getDate();  // 날짜
 
-                        let useDate = ResultData.USE_DT+" "+ResultData.USE_TIME;
+                        let useDate = ResultData.USE_DT+" "+(ResultData.USE_TIME || "");
+                        console.log(ResultData.USE_DT+" "+(ResultData.USE_TIME || ""));
                         hwpDocCtrl.global.HwpCtrl.MoveToField('useDate', true, true, false);
                         hwpDocCtrl.putFieldText('useDate', useDate);
 
@@ -522,7 +574,7 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText('결재제목', $("#docTitle").val());
         }
 
-        if($("#formId").val() == "1"){
+        if($("#formId").val() == "1" || $("#formId").val() == ""){
             const draftEmpSeq = $("#empSeq").val();
             const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: draftEmpSeq});
             hwpDocCtrl.putFieldText('EMP_EMAIL', empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);

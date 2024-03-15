@@ -2157,13 +2157,62 @@ var regPay = {
 
     fn_calCost: function(obj){
         var index = obj.id.substring(obj.id.length - 1);
-        if(obj.id.match("totCost")){
-            $("#vatCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Math.round(Number(regPay.uncommaN($("#totCost" + index).val())) * 100 / 110)));
-            $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
-        } else if(obj.id.match("supCost")){
-            $("#vatCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#supCost" + index).val()))));
-        } else if (obj.id.match("vatCost")){
-            $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
+
+
+        if($("#eviType" + index).val() == '4'){
+            if(obj.id.match("totCost")){
+                $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val()))));
+                $("#vatCost" + index).val(0);
+            } else if(obj.id.match("supCost")){
+                $("#totCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#supCost" + index).val()))));
+                $("#vatCost" + index).val(0);
+            } else if (obj.id.match("vatCost")){
+                $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
+            }
+        } else if($("#eviType" + index).val() == '3'){
+
+            if($("#pjtCd").val().substring(0,1) == "M"){
+                if($("#card" + index).val().includes("개인카드")){
+                    if(obj.id.match("totCost")){
+                        $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val()))));
+                        $("#vatCost" + index).val(0);
+                    } else if(obj.id.match("supCost")){
+                        $("#totCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#supCost" + index).val()))));
+                        $("#vatCost" + index).val(0);
+                    } else if (obj.id.match("vatCost")){
+                        $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
+                    }
+                } else{
+                    if(obj.id.match("totCost")){
+                        $("#vatCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Math.round(Number(regPay.uncommaN($("#totCost" + index).val())) * 100 / 110)));
+                        $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
+                    } else if(obj.id.match("supCost")){
+                        $("#vatCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#supCost" + index).val()))));
+                    } else if (obj.id.match("vatCost")){
+                        $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
+                    }
+                }
+            } else {
+                if(obj.id.match("totCost")){
+                    $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val()))));
+                    $("#vatCost" + index).val(0);
+                } else if(obj.id.match("supCost")){
+                    $("#totCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#supCost" + index).val()))));
+                    $("#vatCost" + index).val(0);
+                } else if (obj.id.match("vatCost")){
+                    $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
+                }
+            }
+
+        } else {
+            if(obj.id.match("totCost")){
+                $("#vatCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Math.round(Number(regPay.uncommaN($("#totCost" + index).val())) * 100 / 110)));
+                $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
+            } else if(obj.id.match("supCost")){
+                $("#vatCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#supCost" + index).val()))));
+            } else if (obj.id.match("vatCost")){
+                $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
+            }
         }
 
         regPay.inputNumberFormat(obj);

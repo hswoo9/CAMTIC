@@ -1908,6 +1908,7 @@
             MPI.PURC_ITEM_AMT,
             MPI.RMK,
             MPI.STATUS,
+            MPI.DISCOUNT_AMT,
             CI.CRM_SN,
             CI.CRM_NM,
             FORMAT(PURC_ITEM_UNIT_PRICE , 0) AS PURC_ITEM_UNIT_PRICE_COMMA,

@@ -203,7 +203,7 @@ var paymentList = {
                     title : "삭제",
                     template : function(e){
                         if(e.REG_EMP_SEQ == $("#myEmpSeq").val()){
-                            if(e.DOC_STATUS == 0){
+                            if(e.DOC_STATUS == 0 || e.DOC_STATUS == 30 || e.DOC_STATUS == 40){
                                 return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
                                     '	<span class="k-button-text">삭제</span>' +
                                     '</button>';

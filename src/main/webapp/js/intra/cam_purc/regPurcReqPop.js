@@ -16,7 +16,7 @@ var prp = {
         window.resizeTo(1690, 820);
         customKendo.fn_datePicker("purcReqDate", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_textBox(["purcReqPurpose", "purcLink", "purcItemName0", "purcItemStd0", "purcItemUnitPrice0",
-            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm", "estAmt", "vatAmt", "totAmt", "discountAmt", "disRate"]);
+            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm", "estAmt", "vatAmt", "totAmt", "discountAmt0", "disRate"]);
 
         prp.global.radioGroupData = [
             { label: "법인운영", value: "" },
@@ -127,9 +127,13 @@ var prp = {
         });
 
         var sum = 0;
-        var disAmt = uncommaN($("#discountAmt").val());
+        var disAmt = 0;
         $.each($(".purcItemAmt"), function(){
             sum += Number(uncommaN(this.value));
+        });
+
+        $.each($(".discountAmt"), function(){
+            disAmt += Number(uncommaN(this.value));
         })
         sum = Number(sum) - Number(disAmt);
 
@@ -229,7 +233,7 @@ var prp = {
         formData.append("status", e);
         formData.append("empSeq", $("#purcReqEmpSeq").val());
         formData.append("vat", $("#vat").data("kendoRadioGroup").value());
-        formData.append("discountAmt", uncommaN($("#discountAmt").val()) ? uncommaN($("#discountAmt").val()) : 0);
+        // formData.append("discountAmt", uncommaN($("#discountAmt").val()) ? uncommaN($("#discountAmt").val()) : 0);
 
         /** 증빙파일 첨부파일 */
         if(fCommon.global.attFiles != null){
@@ -302,6 +306,7 @@ var prp = {
                 purcItemUnit : $("#purcItemUnit" + index).val(),
                 purcItemAmt : prp.uncommaN($("#purcItemAmt" + index).val()),
                 crmSn : $("#crmSn" + index).val(),
+                discountAmt : uncommaN($("#discountAmt" + index).val()) ? uncommaN($("#discountAmt" + index).val()) : 0,
                 rmk : $("#rmk" + index).val(),
                 status : e,
                 empSeq : $("#purcReqEmpSeq").val(),
@@ -397,8 +402,10 @@ var prp = {
             return ;
         }
         if(!flag8){
-            alert("현장(카드)결제는 같은 업체만 저장 가능합니다.");
-            return ;
+            if($("#paymentMethod").data("kendoRadioGroup").value() == "C"){
+                alert("현장(카드)결제는 같은 업체만 저장 가능합니다.");
+                return ;
+            }
         }
         formData.append("itemArr", JSON.stringify(itemArr))
 
@@ -492,8 +499,11 @@ var prp = {
                 '<td>' +
                     '<input type="hidden" id="crmSn' + prp.global.itemIndex + '" class="crmSn">' +
                     '<input type="text" id="crmNm' + prp.global.itemIndex + '" disabled class="crmNm" style="width: 60%"> ' +
-                    '<button type="button" id="crmSelBtn' + prp.global.itemIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList(\'crmSn' + prp.global.itemIndex + '\',\'crmNm' + prp.global.itemIndex + '\');">업체선택</button>' +
+                    '<button type="button" id="crmSelBtn' + prp.global.itemIndex + '" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList(\'crmSn' + prp.global.itemIndex + '\',\'crmNm' + prp.global.itemIndex + '\');">검색</button>' +
                 '</td>' +
+                '<td>' +
+                '    <input type="text" id="discountAmt' + prp.global.itemIndex + '" class="discountAmt" style="text-align: right" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" value="0">' +
+                '    </td>' +
                 '<td>' +
                     '<input type="text" id="rmk' + prp.global.itemIndex + '" class="rmk">' +
                 '</td>';
@@ -523,7 +533,7 @@ var prp = {
         customKendo.fn_textBox(["purcItemName" + prp.global.itemIndex, "purcItemStd" + prp.global.itemIndex,
                                 "purcItemUnitPrice" + prp.global.itemIndex, "purcItemQty" + prp.global.itemIndex,
                                 "purcItemUnit" + prp.global.itemIndex, "purcItemAmt" + prp.global.itemIndex,
-                                "crmNm" + prp.global.itemIndex, "rmk" + prp.global.itemIndex]);
+                                "crmNm" + prp.global.itemIndex, "rmk" + prp.global.itemIndex, "discountAmt" + prp.global.itemIndex]);
 
         let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
         customKendo.fn_dropDownList("purcItemType" + prp.global.itemIndex, productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
@@ -613,7 +623,11 @@ var prp = {
         var unitPrice = Number(uncommaN($("#purcItemUnitPrice" + idx).val()));
         var qty = Number(uncomma($("#purcItemQty" + idx).val()));
         var amount = unitPrice * qty;
-        var disAmt = uncommaN($("#discountAmt").val()) ? uncommaN($("#discountAmt").val()) : 0;
+        var disAmt = 0;
+
+        for(var i = 0 ; i < $("#purcItemTb").find("tr").length ; i++){
+            disAmt += Number(uncommaN($("#discountAmt" + i).val()) ? uncommaN($("#discountAmt" + i).val()) : 0)
+        }
 
         $("#purcItemAmt" + idx).val(comma(amount));
 
@@ -727,6 +741,7 @@ var prp = {
             $("#vat").data("kendoRadioGroup").trigger("change");
             prp.purcBtnSet(data);
         }
+
     },
 
     purcItemDataSet : function(e){
@@ -735,6 +750,7 @@ var prp = {
         var e = e.itemList;
         console.log(e);
         var totalPay = 0;
+        var dcPay = 0;
         for(var i = 0; i < e.length; i++){
             if(i != 0){
                 prp.addRow();
@@ -766,6 +782,7 @@ var prp = {
             $("#item" + i).find("#purcItemAmt" + i).val(comma(e[i].PURC_ITEM_AMT));
             $("#item" + i).find("#crmSn" + i).val(e[i].CRM_SN);
             $("#item" + i).find("#crmNm" + i).val(e[i].CRM_NM);
+            $("#item" + i).find("#discountAmt" + i).val(comma(e[i].DISCOUNT_AMT));
             $("#item" + i).find("#rmk" + i).val(e[i].CERT_CONTENT);
             if(e[i].STATUS == "R"){
                 $("#item" + i).find("#retBtn" + i).css("display", "none");
@@ -775,14 +792,18 @@ var prp = {
                 totalPay += Number(e[i].PURC_ITEM_AMT);
             }
             $("#item" + i).find("#retBtn" + i).val(e[i].CERT_CONTENT);
+
+            dcPay += Number(e[i].DISCOUNT_AMT);
         }
 
         if(data.DOC_ID != "" && data.DOC_ID != null && !(data.DOC_STATUS == "30" || data.DOC_STATUS == "40")){
             $("#totalPay").css("display", "");
-            $("#totalPay").text("합계 : " + comma(totalPay));
+            $("#totalPay").text("합계 : " + comma(totalPay - dcPay));
             $("#allModViewBtn").css("display", "none");
             $("#addBtn").css("display", "none");
         }
+
+
     },
 
     purcBtnSet : function(purcMap){

@@ -393,10 +393,13 @@ var depoBgtMng = {
     },
 
     fn_selBudgetInfo: function (cd, name, idx, subAm){
-        if(subAm <= 0) {
-            alert("예산잔액이 부족합니다.");
-            return;
+        if(name != "기타 / 기타 / 기타"){
+            if(subAm <= 0) {
+                alert("예산잔액이 부족합니다.");
+                return;
+            }
         }
+
         opener.parent.fn_selBudgetInfo(name, cd, idx, subAm);
 
         window.close();

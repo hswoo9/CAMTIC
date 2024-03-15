@@ -509,6 +509,18 @@ var statementList = {
 
     fn_updCardTi : function (key, toDe, cardBaNb){
 
+        var rs = customKendo.fn_customAjax("/card/getCardTOHistList", {cardToSn: key});
+        console.log(rs.list.length);
+
+        if(rs.list.length == 0){
+            if(!confirm("사용내역이 등록되지 않았습니다.\n반납하시겠습니까?")){
+                return;
+            }
+        }
+        statementList.fn_updCardTi2(key, toDe, cardBaNb);
+    },
+
+    fn_updCardTi2 : function (key, toDe, cardBaNb){
         var dialog = $("#dialog").data("kendoWindow");
 
         dialog.center();
