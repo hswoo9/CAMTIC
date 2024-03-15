@@ -23,7 +23,7 @@ var rndBg = {
             items: [
                 { label : "예산 현황", value : "1" },
                 { label : "지급 신청 리스트", value : "2" },
-                { label : "지출 신청 리스트", value : "3" },
+                { label : "지출 리스트", value : "3" },
             ],
             layout : "horizontal",
             labelPosition : "after",
@@ -46,14 +46,14 @@ var rndBg = {
                     $("#budgetGrid1Wrap").css("display", "none");
                     $("#budgetMainGrid3").css("display", "none");
                     $("#budgetMainGrid4").css("display", "");
-                    $("#titleWrap").text("◎ 지출 신청 리스트");
+                    $("#titleWrap").text("◎ 지출 리스트");
                 }
             }
         });
         rndBg.budgetMainGrid();     // 수입예산 리스트
         rndBg.budgetMainGrid2();    // 지출예산 리스트
         rndBg.budgetMainGrid3("/pay/getPaymentList", rndBg.global.searchAjaxData);  // 지급신청서 리스트
-        rndBg.budgetMainGrid4("/pay/getExnpList", rndBg.global.searchAjaxData);         // 지출결의서 리스트
+        rndBg.budgetMainGrid4("/pay/getExnpReList", rndBg.global.searchAjaxData);         // 지출결의서 리스트
     },
 
     budgetMainGrid : function(){
@@ -372,14 +372,14 @@ var rndBg = {
                 template: "데이터가 존재하지 않습니다."
             },
             toolbar: [
-                /*{
+                {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="paymentList.fn_reqRegPopup()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="rndBg.fn_reqRegPopup()">' +
                             '	<span class="k-button-text">지급신청서 작성</span>' +
                             '</button>';
                     }
-                },*/ {
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="rndBg.gridReload()">' +
@@ -574,37 +574,38 @@ var rndBg = {
                 }],
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    width: 30,
+                    template : function(e){
+                        if(e.TYPE == "반제(지출)"){
+                            if(e.RE_STAT == "N"){
+                                return '<input type="checkbox" name="check" value="'+e.EXNP_SN+'"/>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            return '';
+                        }
+                    }
+                }, {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
                 }, {
-                    title: "문서유형",
-                    width: 70,
-                    template: function(e){
-                        if(e.EVI_TYPE == 1){
-                            return "세금계산서";
-                        } else if (e.EVI_TYPE == 2){
-                            return "계산서";
-                        } else if(e.EVI_TYPE == 3){
-                            return "신용카드";
-                        } else if(e.EVI_TYPE == 4){
-                            return "직원지급";
-                        } else if(e.EVI_TYPE == 5){
-                            return "소득신고자";
-                        } else {
-                            return "기타";
-                        }
-                    }
+                    title: "구분",
+                    width: 80,
+                    field: "TYPE"
                 }, {
-                    field: "DOC_NO",
-                    title: "문서번호",
-                    width: 120,
+                    title: "결의일자",
+                    width: 70,
+                    field: "R_DT",
                 }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",
-                    width: 250,
+                    width: 280,
                     template: function(e){
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="rndBg.fn_reqRegExnpPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'rev\')">'+e.EXNP_BRIEFS+'</div>';
+                        console.log(e);
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="rndBg.fn_reqRegExnpPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
@@ -618,71 +619,41 @@ var rndBg = {
                     field: "BUDGET_NM_EX",
                     width: 210
                 }, {
-                    title: "신청일",
-                    width: 70,
-                    field: "REG_DT",
-                    template: function(e){
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
-                    }
-                }, {
-                    title: "지출요청일",
-                    width: 70,
-                    field: "REQ_DE"
-                }, {
-                    title: "지출예정일",
-                    width: 70,
-                    field: "PAY_EXNP_DE"
-                }, {
-                    title: "지출완료일",
-                    width: 70,
-                    field: "REQ_END_DE"
+                    title: "작성자",
+                    field: "REG_EMP_NAME",
+                    width: 80
                 }, {
                     title: "지출금액",
                     width: 80,
                     template: function(e){
                         var cost = e.TOT_COST;
-                        if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
-                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
+                        return '<div style="text-align: right">'+comma(cost)+'</div>';
+
+                        // if(e.RE_STAT == "Y"){
+                        //     return '<div style="text-align: right">'+comma(cost)+'</div>';
+                        // } else {
+                        //     return '<div style="text-align: right">'+0+'</div>';
+                        // }
+                    }
+                }, {
+                    title: "상태",
+                    width: 60,
+                    template: function(e){
+                        if(e.RE_STAT == "N"){
+                            return "미승인"
                         } else {
-                            return '<div style="text-align: right">'+0+'</div>';
+                            return "승인"
                         }
                     }
                 }, {
-                    title: "결의상태",
+                    title: "첨부",
                     width: 60,
                     template: function(e){
-                        var status = "";
-                        if(e.DOC_STATUS == "100"){
-                            status = "결재완료";
-                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
-                            status = "결재중"
+                        if(e.RE_STAT == "N"){
+                            return ""
                         } else {
-                            status = "작성중"
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="rndBg.fn_regPayAttPop('+e.PAY_APP_SN+', '+e.EXNP_SN+')">첨부</button>';
                         }
-
-                        return status;
-                    }
-                }, {
-                    title: "승인상태",
-                    width: 60,
-                    template: function(e){
-                        var status = "";
-                        if(e.DOC_STATUS == "100"){
-                            status = "결재완료";
-                            if(e.REQ_END_DE != null && e.REQ_END_DE != "" && e.REQ_END_DE != undefined){
-                                status = "승인";
-                            } else {
-                                if(e.EVI_TYPE == 1 || e.EVI_TYPE == 2 || e.EVI_TYPE == 3){
-                                    status = "승인";
-                                } else {
-                                    status = "미결";
-                                }
-                            }
-                        } else {
-                            status = "미결";
-                        }
-
-                        return status;
                     }
                 }
             ],
@@ -693,7 +664,7 @@ var rndBg = {
     },
 
     fn_reqRegPopup : function(key, status, auth){
-        var url = "/payApp/pop/regPayAppPop.do";
+        var url = "/payApp/pop/regPayAppPop.do?reqType=camproject&cardPjtSn=" + $("#pjtSn").val();
         if(key != null && key != ""){
             url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
         }
@@ -709,16 +680,16 @@ var rndBg = {
     },
 
     fn_reqRegExnpPopup : function (key, paySn, status){
-        var url = "/payApp/pop/regExnpPop.do";
-        if(key != null && key != ""){
-            url = "/payApp/pop/regExnpPop.do?payAppSn=" + paySn + "&exnpSn=" + key;
-        }
-
-        if(status != null && status != ""){
-            url = url + "&status=" + status;
-        }
+        var url = "/payApp/pop/regExnpRePop.do?payAppSn=" + paySn + "&exnpSn=" + key;
         var name = "_blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_regPayAttPop : function (key, exnpKey){
+        var url = "/payApp/pop/regReListFilePop.do?payAppSn=" + key + "&exnpSn=" + exnpKey;
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
     },
 

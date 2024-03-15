@@ -106,8 +106,8 @@
         </tr>
         <tr>
             <th>첨부서류</th>
-            <td>
-                ${data.ATTACH}
+            <td id="attachTr">
+
             </td>
         </tr>
         <tr>

@@ -392,6 +392,11 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
+    public List<Map<String, Object>> getFileList(Map<String, Object> params) {
+        return commonRepository.getFileList(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getJangCodeList(Map<String, Object> params) {
         return commonRepository.getJangCodeList(params);
     }

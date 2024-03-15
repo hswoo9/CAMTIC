@@ -340,7 +340,104 @@ var busnPartList = {
         acctAm3Sum = 0;
         subAmSum = 0;
 
-        $('#mainGrid >.k-grid-content>table').each(function (index, item) {
+        var grid = this;
+
+        function setRowSpanForColumn(colIndex, backgroundColor, color, borderRightColor) {
+            var dimension_col = colIndex;
+            var first_instance = null;
+            var cellText = '';
+            var arrCells = [];
+
+            grid.tbody.find("tr").each(function () {
+                var dataItem = grid.dataItem($(this));
+                var dimension_td = $(this).find('td:nth-child(' + dimension_col + ')');
+
+                if (first_instance == null) {
+                    first_instance = dimension_td;
+                    cellText = first_instance.text();
+                } else if (dimension_td.text() == cellText) {
+                    dimension_td.css('border-top', '0px');
+                } else {
+                    arrCells = changeMergedCells(arrCells, cellText, true);
+                    cellText = dimension_td.text();
+                }
+
+                arrCells.push(dimension_td);
+                dimension_td.text("");
+                dimension_td.css('background-color', backgroundColor).css('color', color).css('border-bottom-color', 'transparent');
+            });
+
+            /*grid.tbody.find("tr").each(function () {
+                var dataItem = grid.dataItem($(this));
+                var dimension_td = $(this).find('td:nth-child(' + dimension_col + ')');
+
+                var projectName = dataItem.PJT_NM;
+                var projectNameColumn = $(this).find('td:nth-child(2)');
+                if (dimension_td.text() == cellText && projectNameColumn.text() == projectName) {
+                    dimension_td.css('border-top', '0px');
+                } else {
+                    arrCells = changeMergedCells(arrCells, cellText, true);
+                    cellText = dimension_td.text();
+                }
+
+                arrCells.push(dimension_td);
+                dimension_td.text("");
+                dimension_td.css('background-color', backgroundColor).css('color', color).css('border-bottom-color', 'transparent');
+            });
+
+            changeMergedCells(arrCells, cellText, true, true);*/
+
+        }
+
+        //setRowSpanForColumn(1, '#e3e4e6', 'black', 'transparent');
+        setRowSpanForColumn(2, '#e3e4e6', 'black', 'transparent');
+        /*setRowSpanForColumn(3, '#e3e4e6', 'black', 'transparent');
+        setRowSpanForColumn(4, '#e3e4e6', 'black', 'transparent');
+        setRowSpanForColumn(5, '#e3e4e6', 'black', 'transparent');
+        setRowSpanForColumn(6, '#e3e4e6', 'black', 'transparent');*/
+
+        grid.tbody.find("tr").each(function () {
+            var dataItem = grid.dataItem($(this));
+            var firstColumn = $(this).find('td:nth-child(2)');
+
+            firstColumn.attr("onclick","busnPartList.fn_projectPartRatePop("+dataItem.PJT_SN+")");
+            firstColumn.css("cursor", "pointer");
+            firstColumn.css("font-weight", "bold");
+        });
+
+        function changeMergedCells(arrCells, cellText, addBorderToCell) {
+            var cellsCount = arrCells.length;
+            if (cellsCount > 1) {
+                var index = parseInt(cellsCount / 2);
+                var cell = null;
+                if (cellsCount % 2 == 0) {
+                    cell = arrCells[index - 1];
+                    arrCells[index - 1].css('vertical-align', 'bottom');
+                } else {
+                    cell = arrCells[index];
+                }
+
+                cell.text(cell);
+                cell.text(cellText);
+
+                if (addBorderToCell) {
+                    arrCells[cellsCount - 1].css('border-bottom', 'solid 1px #ddd');
+                }
+
+                arrCells = [];
+            }
+
+            if (cellsCount == 1) {
+                var cell = arrCells[0];
+                cell.text(cellText);
+                arrCells[0].css('border-bottom', 'solid 1px #ddd');
+                arrCells = [];
+            }
+
+            return arrCells;
+        }
+
+        /*$('#mainGrid >.k-grid-content>table').each(function (index, item) {
             var dimension_col = 1;
             // First, scan first row of headers for the "Dimensions" column.
             $('#mainGrid >.k-grid-header>.k-grid-header-wrap>table').find('th').each(function () {
@@ -395,7 +492,7 @@ var busnPartList = {
                     $(this).css("cursor","pointer");
                 }
             });
-        });
+        });*/
 
 
         //지원부처 row 통합 해제 요청으로 주석처리
@@ -441,7 +538,7 @@ var busnPartList = {
             });
         });*/
 
-        function ChangeMergedCells(arrCells, cellText, addBorderToCell, flag) {
+        /*function ChangeMergedCells(arrCells, cellText, addBorderToCell, flag) {
             var cellsCount = arrCells.length;
             if (cellsCount > 1) {
                 var index = parseInt(cellsCount / 2);
@@ -472,7 +569,7 @@ var busnPartList = {
                 arrCells = [];
             }
             return arrCells;
-        }
+        }*/
     },
 
     fn_projectPartRatePop : function (key){

@@ -24,7 +24,7 @@ var historyInfo = {
             var html = '';
             for (var i = 0; i < historyInfo.global.attFiles.length; i++) {
                 html += '<li>'
-                html += historyInfo.global.attFiles[i].name.substring(0, historyInfo.global.attFiles[i].name.lastIndexOf("."));
+                html += historyInfo.global.attFiles[i].name.substring(0, historyInfo.global.attFiles[i].name.lastIndexOf(".")) + '.';
                 html += historyInfo.global.attFiles[i].name.substring(historyInfo.global.attFiles[i].name.lastIndexOf("."));
                 html += '</li>';
             }
@@ -50,7 +50,7 @@ var historyInfo = {
             var html = '';
             for (var i = 0; i < historyInfo.global.attFiles.length; i++) {
                 html += '<li>'
-                html += historyInfo.global.attFiles[i].name.substring(0, historyInfo.global.attFiles[i].name.lastIndexOf("."));
+                html += historyInfo.global.attFiles[i].name.substring(0, historyInfo.global.attFiles[i].name.lastIndexOf(".")) + '.';
                 html += historyInfo.global.attFiles[i].name.substring(historyInfo.global.attFiles[i].name.lastIndexOf("."));
                 html += '</li>';
             }

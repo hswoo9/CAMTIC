@@ -303,9 +303,7 @@
             A.PART_EMP_SEQ,
             C.SBJ_STAT_YN,
             A.TOT_RATE,
-            (SELECT MIN(PART_DET_STR_DT) FROM CAM_PJT_MNG.DJ_PART_RATE_DET WHERE PART_RATE_VER_SN = B.PART_RATE_VER_SN) AS MIN_DT,
-            (select if(count(*) > 0, 'Y', 'N') from cam_pjt_mng.dj_part_pay_mon where pjt_sn = C.PJT_SN) AS MON_YN,
-            D.*
+            (SELECT MIN(PART_DET_STR_DT) FROM CAM_PJT_MNG.DJ_PART_RATE_DET WHERE PART_RATE_VER_SN = B.PART_RATE_VER_SN) AS MIN_DT
         FROM
             CAM_PJT_MNG.DJ_PART_RATE_DET A
         LEFT JOIN
@@ -316,10 +314,6 @@
             CAM_PJT_MNG.DJ_PROJECT C
         ON
             B.PJT_SN = C.PJT_SN
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PART_PAY_MON D
-        ON
-            D.PJT_SN = C.PJT_SN
         WHERE
             B.MNG_STAT = 'C'
         AND
@@ -420,10 +414,23 @@
             PJT_SN = #{pjtSn}
     </select>
 
+    <select id="getBusnPartRatePayData" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PART_PAY_MON
+        WHERE
+            PJT_SN = #{pjtSn}
+        AND
+            EMP_SEQ = #{empSeq}
+        ORDER BY BS_YEAR
+    </select>
+
     <insert id="setBusnPartRatePay" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PART_PAY_MON
             (
                  PJT_SN
+                ,BS_YEAR
                 ,EMP_SEQ
                 ,BS_SAL
                 ,MON_SAL
@@ -455,6 +462,7 @@
         VALUES
             (
                 #{pjtSn}
+                ,#{bsYear}
                 ,#{empSeq}
                 ,#{empSal}
                 ,#{monSal}

@@ -120,8 +120,6 @@ var userPartRate = {
                 $("#userPartRateBody").html("");
                 var bodyHtml = "";
 
-
-
                 var userChangeSalaryArr = fn_create2DArray(rs.length, diffMonth);
                 var userMonthSalaryArr = fn_create2DArray(rs.length, diffMonth);
                 var userTotRateArr = fn_create2DArray(rs.length, diffMonth);
@@ -309,14 +307,34 @@ var userPartRate = {
                 $("#userPartRateBody").html("");
                 var bodyHtml = "";
 
-
-
                 var userChangeSalaryArr = fn_create2DArray(rs.length, diffMonth);
                 var userMonthSalaryArr = fn_create2DArray(rs.length, diffMonth);
                 var userTotRateArr = fn_create2DArray(rs.length, diffMonth);
                 var pmCnt = 0;
                 var sbjStatCnt = 0;
+
+                var monYn = "";
+                var monPayStr = "MON_PAY_";
+                var monItemStr = "MON_ITEM_";
+
                 for (var i = 0; i < rs.length; i++) {
+                    var itemMonMap;
+                    $.ajax({
+                        url : "/inside/getBusnPartRatePayData",
+                        data : {empSeq: $("#userEmpSeq").val(), pjtSn: rs[i].PJT_SN},
+                        type : "post",
+                        dataType : "json",
+                        async : false,
+                        success : function(rs2) {
+                            if(rs2.map !== "" && rs2.map !== null && rs2.map !== undefined){
+                                monYn = 'Y';
+                                itemMonMap = rs2.map;
+                            }else{
+                                monYn = 'N';
+                            }
+                        }
+                    });
+
                     var pjtStatus = "예정";
 
                     var today = new Date();
@@ -374,8 +392,8 @@ var userPartRate = {
 
                     var userDate = new Date(userStartMonth);
 
-
-
+                    var colMonth = date.getMonth() + 1; //월 컬럼 선택
+                    var colYear = date.getFullYear(); //년 컬럼 선택
                     for(var j = 0 ; j < diffMonth ; j++){
                         var dt = date.getFullYear() + "-" + (date.getMonth() + 1);
                         var userDt = userDate.getFullYear() + "-" + (userDate.getMonth() + 1);
@@ -383,9 +401,16 @@ var userPartRate = {
                         userChangeSalaryArr[i][j] = 0;
                         userMonthSalaryArr[i][j] = 0;
                         userTotRateArr[i][j] = 0;
+
                         if(dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])){
                             if($("#rateFlag").val() == "B"){
-                                bodyHtml += '<td style="text-align: right">'+comma(rs[i].MON_SAL)+'</td>';
+                                if(monYn == 'Y'){
+                                    var itemMon = itemMonMap[colYear]; // 년 선택
+                                    bodyHtml += '<td style="text-align: right">' + comma(itemMon[monPayStr + (date.getMonth() + 1)]) + '</td>';
+                                    //bodyHtml += '<td style="text-align: right">' + comma(itemMonMap[monItemStr + (date.getMonth() + 1)]) + '</td>';
+                                }else {
+                                    bodyHtml += '<td style="text-align: right">' + comma(rs[i].MON_SAL) + '</td>';
+                                }
                             } else {
                                 bodyHtml += '<td>'+rs[i].TOT_RATE+'%</td>';
                             }

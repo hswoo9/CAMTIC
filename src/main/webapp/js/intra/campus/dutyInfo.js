@@ -51,7 +51,7 @@ var dutyInfo = {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="dutyInfo.dutyInfoReqPop(\'ins\');">' +
-                            '	<span class="k-button-text">직무기술서 등록</span>' +
+                            '	<span class="k-button-text">직무기술서 신규등록</span>' +
                             '</button>';
                     }
                 }

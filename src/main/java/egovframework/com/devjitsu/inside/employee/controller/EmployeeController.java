@@ -145,6 +145,17 @@ public class EmployeeController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/getBusnPartRatePayData")
+    public String getBusnPartRatePayData(@RequestParam Map<String, Object> params, Model model) {
+
+        Map<String, Object> map = new HashMap<>();
+        map = employService.getBusnPartRatePayData(params);
+        if(map != null && !map.isEmpty()) {
+            model.addAttribute("map", map);
+        }
+
+        return "jsonView";
+    }
     @RequestMapping("/inside/setBusnPartRatePay")
     public String setBusnPartRatePay(@RequestParam Map<String, Object> params, Model model) {
 
@@ -156,5 +167,4 @@ public class EmployeeController {
         }
         return "jsonView";
     }
-
 }

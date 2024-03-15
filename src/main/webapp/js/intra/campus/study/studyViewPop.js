@@ -7,6 +7,7 @@ const studyView = {
     init : function(){
         studyView.mainGrid();
         studyView.dataSet();
+        studyView.settingTempFileDataInit();
     },
 
     dataSet: function(){
@@ -24,6 +25,24 @@ const studyView = {
         }
 
         studyView.studyUserSetting();
+    },
+
+    settingTempFileDataInit: function(){
+        var result = customKendo.fn_customAjax("/common/getFileList", { contentId: "studyInfo_" + $("#pk").val(), fileCd: "studyInfo" });
+        if(result.flag){
+            if(result.list.length > 0){
+                var html = '';
+                for(var i=0; i<result.list.length; i++){
+                    html += '<li>';
+                    html += '   <span style="cursor: pointer" onclick="fileDown(\'' + result.list[i].file_path + result.list[i].file_uuid + '\', \'' + result.list[i].file_org_name + '.' + result.list[i].file_ext + '\')">' + result.list[i].file_org_name + '.' + result.list[i].file_ext + '</span>';
+                    html += '</li>';
+                }
+
+                $("#attachTr").append(html);
+            } else {
+                $("#ulSetFileName").empty();
+            }
+        }
     },
 
     studyUserSetting: function(){

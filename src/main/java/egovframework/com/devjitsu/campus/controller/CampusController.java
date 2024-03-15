@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -1749,16 +1750,18 @@ public class CampusController {
 
     /** 학습조 저장 */
     @RequestMapping("/campus/setStudyInfoInsert")
-    public String setStudyInfoInsert(@RequestParam Map<String, Object> params, Model model) {
-        campusService.setStudyInfoInsert(params);
+    public String setStudyInfoInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+        campusService.setStudyInfoInsert(params, fileList, SERVER_DIR, BASE_DIR);
         model.addAttribute("studyUserSn", params.get("studyUserSn"));
         return "jsonView";
     }
 
     /** 학습조 수정 */
     @RequestMapping("/campus/setStudyInfoModify")
-    public String setStudyInfoModify(@RequestParam Map<String, Object> params, Model model) {
-        campusService.setStudyInfoModify(params);
+    public String setStudyInfoModify(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
+        MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+        campusService.setStudyInfoModify(params, fileList, SERVER_DIR, BASE_DIR);
         model.addAttribute("studyUserSn", params.get("studyUserSn"));
         return "jsonView";
     }
