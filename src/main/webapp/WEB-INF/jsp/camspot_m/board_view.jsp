@@ -25,7 +25,7 @@
             
             	<div class="titBox">
                 	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>작성자 : 관리자</i><i>작성일 : 2023-11-30</i><i>조회수 : 410</i></font>
+                	<font class="txt type18 mt10"><i>작성자 : 관리자</i><i>작성일 : 2023-11-30</i><i>조회수 : 410</i></font>
                 </div>
                     
                     
@@ -35,7 +35,7 @@
                 </div>
                 
                 
-            	<font class="txt type28 mt40"><b>첨부파일</b></font>
+            	<font class="txt type28 mt40 fileBox"><b>첨부파일</b></font>
                 <div class="content_output mt10">
                 	<a href="#" class="file"><img src="/images/camspot_m/ico-file.png" />영수증1.jpg</a>
                 	<a href="#" class="file"><img src="/images/camspot_m/ico-file.png" />영수증2.jpg</a>

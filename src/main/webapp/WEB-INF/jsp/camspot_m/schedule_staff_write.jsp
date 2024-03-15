@@ -12,14 +12,24 @@
     	<!-- content {-->
     	<div id="content">
         
-            
+        
+            <!-- 탭메뉴 {-->
+            <div class="sTabmenu">
+            	<a href="/m/schedule.do" class="t1">법인일정</a>
+            	<a href="/m/schedule_staff.do" class="t2">직원일정</a>
+            </div>
+            <!--} 탭메뉴 -->
             <!-- 글쓰기 {-->
             <form>
-                <div class="bwriteBox">
+                <div class="bwriteBox mt20">
                     <span>
                         <font class="txt type28 fP800">날짜</font>
-                        <input type="text" class="datepicker" id="day"  placeholder="2024년 03월 15일" />
+                        <i><input type="text" class="datepicker" id="day" placeholder="2024년 03월 15일" /></i>
                     </span>
+                    <span>
+                        <font class="txt type28 fP800">성명</font>
+                        <input type="text" />
+                    </span>    
                     <span>
                         <font class="txt type28 fP800">일정</font>
                         <select>
@@ -35,11 +45,7 @@
                             <option>test6</option>
                             <option>test7</option>
                         </select>
-                    </span>
-                    <span>
-                        <font class="txt type28 fP800">성명</font>
-                        <input type="text" />
-                    </span>                    
+                    </span>                
                     <span>
                         <font class="txt type28 fP800">부서</font>
                         <select>
@@ -101,7 +107,7 @@
     
 <script type="text/javascript">
 	$('.m4', $('#menu')).addClass('active');
-	$('.t1', $('.sTabmenu')).addClass('active');
+	$('.t2', $('.sTabmenu')).addClass('active');
 </script>
     
 <jsp:include page="/WEB-INF/jsp/camspot_m/inc/bottom.jsp" flush="false"/>

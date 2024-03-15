@@ -367,4 +367,9 @@ public class MainController {
     public String schedule_staff_write(){
         return "/camspot_m/schedule_staff_write";
     }
+
+    @RequestMapping("/m/alarm.do")
+    public String alarm(){
+        return "/camspot_m/alarm";
+    }
 }

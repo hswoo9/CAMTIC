@@ -12,13 +12,19 @@
     	<!-- content {-->
     	<div id="content">
         
-            
+        
+            <!-- 탭메뉴 {-->
+            <div class="sTabmenu">
+            	<a href="/m/schedule.do" class="t1">법인일정</a>
+            	<a href="/m/schedule_staff.do" class="t2">직원일정</a>
+            </div>
+            <!--} 탭메뉴 -->
             <!-- 글쓰기 {-->
             <form>
-                <div class="bwriteBox">
+                <div class="bwriteBox mt20">
                     <span>
                         <font class="txt type28 fP800">날짜</font>
-                        <input type="text" class="datepicker" id="day"  placeholder="2024년 03월 15일" />
+                        <i><input type="text" class="datepicker" id="day"  placeholder="2024년 03월 15일" /></i>
                     </span>
                     <span>
                         <font class="txt type28 fP800">시간</font>

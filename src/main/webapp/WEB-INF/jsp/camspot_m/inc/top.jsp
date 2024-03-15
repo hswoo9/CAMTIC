@@ -46,7 +46,7 @@
 
     <!-- notBar {-->
     <div id="notBar">
-        <a class="bell" href="#">
+        <a class="bell" href="/m/alarm.do">
             <i class="on"></i>
             <img src="/images/camspot_m/ico-bell.png" />
         </a>

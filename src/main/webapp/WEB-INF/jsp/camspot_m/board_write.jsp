@@ -12,9 +12,17 @@
     	<!-- content {-->
     	<div id="content">
            
+            <!-- 탭메뉴 {-->
+            <div class="sTabmenu">
+            	<a href="/m/board.do" class="t1">공지사항</a>
+            	<a href="#" class="t2">업무보고</a>
+            	<a href="#" class="t3">함께보아요</a>
+            </div>
+            <!--} 탭메뉴 -->
+            
             <!-- 글쓰기 {-->
             <form>
-                <div class="bwriteBox">
+                <div class="bwriteBox mt20">
                     <span>
                         <font class="txt type28 fP800">제목</font>
                         <input type="text" />

@@ -18,6 +18,7 @@
             	<a href="/m/schedule_staff.do" class="t2">직원일정</a>
             </div>
             <!--} 탭메뉴 -->
+            
             <!-- 일정표 {-->
             <div class="calenderBox">
             	<div class="month disF jc ac">
@@ -82,6 +83,7 @@
             	</div>
             </div>
             <!--} 일정표 -->
+            
             <!-- 상세일정 {-->
             <div id="Layer1" class="linkLayer" style="display:none;">
             	<font class="txt type28 tit">2024년 03월 18일</font>

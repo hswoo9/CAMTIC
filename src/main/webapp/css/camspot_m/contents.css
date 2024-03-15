@@ -19,7 +19,8 @@ input[type=password],
 input[type=file],
 textarea,
 select{font-size:28px;border:none;display:block;}
-input[type=checkbox]{width:20px;height:20px;}
+input[type=checkbox],
+input[type=radio]{width:20px;height:20px;}
 
 
 
@@ -125,8 +126,6 @@ div[class*='sec-']{margin:30px 0;}
 
 
 
-
-
 /************************************************************************
 * 전자결재 *
 ************************************************************************/
@@ -204,7 +203,6 @@ div[class*='sec-']{margin:30px 0;}
 /************************************************************************
 * 조직도 *
 ************************************************************************/
-
 /* 리스트 */
 .orgBox span{padding-bottom:20px;display:flex;align-items:center;}
 .orgBox img{width:30px;margin-right:10px;z-index:2;}
@@ -262,12 +260,10 @@ div[class*='sec-']{margin:30px 0;}
 /************************************************************************
 * 일정 *
 ************************************************************************/
-
 /* 탭메뉴 */
 .sTabmenu{width:100%;display:flex;border-bottom:solid 3px #ddd;}
 .sTabmenu a{width:30%;margin-right:2px;font-size:28px;padding:13px 0;border-top-left-radius:10px;border-top-right-radius:10px;border:solid 3px #ddd;font-weight:bold;border-bottom:none;display:block;text-align:center;}
 .sTabmenu a.active{background:#ddd;}
-
 
 
 
@@ -331,6 +327,16 @@ div[class*='sec-']{margin:30px 0;}
 
 
 
+/* 법인일정 > 글쓰기 */
+#schedule_page .bwriteBox i{justify-content:space-between;}
+#schedule_page .bwriteBox i input.datepicker{width:calc(100% - 55px);}
+#schedule_page .bwriteBox i select{width:32%;background-position:right 10px center;font-size:28px;}
+
+
+
+
+
+
 
 /************************************************************************
 * 게시판 *
@@ -343,5 +349,50 @@ div[class*='sec-']{margin:30px 0;}
 
 
 /* 뷰 */
-#baord_page .PviewBox .titBox{}
-#baord_page .PviewBox .content_output{border-top:solid 2px #;border-bottom:solid 2px #;}
+#baord_page .PviewBox .titBox{padding-bottom:14px;border-bottom:solid 2px #ddd;}
+#baord_page .PviewBox .titBox font i{width:100%;text-align:right;color:#666;display:block;padding-bottom:6px;}
+#baord_page .PviewBox .fileBox{padding-top:20px;border-top:solid 2px #ddd;}
+
+
+
+
+
+
+/************************************************************************
+* 관리자로그인정보 *
+************************************************************************/
+#admin_page .nameBox{padding:30px;background:#ebebeb;border-radius:10px;}
+#admin_page .nameBox .nameb{width:calc(100% - 45px);display:flex;align-items:center;}
+#admin_page .nameBox .nameb p{width:60px;height:60px;padding:0;margin-right:20px;background:#1bafdc;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+#admin_page .nameBox .nameb p img{width:50%;display:block;}
+#admin_page .nameBox .nameb span{width:calc(100% - 80px);}
+#admin_page .nameBox a.logout{display:block;width:45px;}
+#admin_page .nameBox a.logout img{width:100%;display:block;}
+
+.notiSet{padding:20px;border:solid 3px #ddd;border-radius:10px;}
+.notiSet div span{margin-bottom:8px;display:flex;align-items:center;}
+.notiSet div span:last-child{margin-bottom:0 !important;}
+.notiSet div span input[type=radio]{margin-right:10px;}
+
+
+.linkfBox{padding:20px;border:solid 3px #ddd;border-radius:10px;}
+.linkfBox div a.link{padding:8px 0;display:flex;align-items:center;font-size:26px;}
+.linkfBox div a.link img{width:28px;margin-right:10px;display:block;}
+
+
+
+
+
+/************************************************************************
+* 알림페이지 *
+************************************************************************/
+#alarm_page .oviewBox a{width:100%;margin-bottom:10px;padding:25px;border-radius:10px;background:#f1f1f1;display:block;}
+#alarm_page .oviewBox a .cate{color:#666;}
+#alarm_page .oviewBox a .tit{}
+#alarm_page .oviewBox a .time{color:#999;}
+
+
+
+
+
+
