@@ -16,4 +16,8 @@ public class EvaluationRepository extends AbstractDAO {
     public void insEvaluation(Map<String, Object> params) {
         insert("evaluation.insEvaluation", params);
     }
+
+    public void insEvaluationEmp(Map<String, Object> params) {
+        insert("evaluation.insEvaluationEmp", params);
+    }
 }

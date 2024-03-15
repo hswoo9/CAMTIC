@@ -21,12 +21,11 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     @Override
     public void setEvaluation(Map<String, Object> params) {
-        evaluationRepository.insEvaluation(params);
+//        evaluationRepository.insEvaluation(params);
 
         if(params.containsKey("empSeqArr")){
             params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
 //            evaluationRepository.insEvaluationEmp(params);
-
         }
     }
 }

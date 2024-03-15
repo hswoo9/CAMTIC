@@ -4,7 +4,8 @@ var pjtMngPop = {
         params : "",
     },
 
-    fn_defaultScript : function (setParameters){
+    fn_defaultScript : function (){
+        var setParameters = customKendo.fn_customAjax("/mng/getG20ProjectData", {pjtCd: $("#mgtCd").val()}).data;
 
         pjtMngPop.global.params = setParameters;
 

@@ -49,9 +49,7 @@ var busnPartRate = {
                     type : "post",
                     dataType : "json",
                     success : function(rs){
-                        console.log(rs);
-
-                        var monYn = rs.list[0].MON_YN;
+                        var monYn = "";
                         var monPayStr = "MON_PAY_";
                         var monItemStr = "MON_ITEM_";
 
@@ -88,6 +86,24 @@ var busnPartRate = {
                         busnPartRate.global.memCnt = rs.list.length;
 
                         for(var i = 0 ; i < rs.list.length ; i++){
+                            var itemMonMap;
+                            data.empSeq = rs.list[i].PART_EMP_SEQ;
+
+                            $.ajax({
+                                url : "/inside/getBusnPartRatePayData",
+                                data : data,
+                                type : "post",
+                                dataType : "json",
+                                async : false,
+                                success : function(rs2) {
+                                    if(rs2.map !== "" && rs2.map !== null && rs2.map !== undefined){
+                                        monYn = 'Y';
+                                        itemMonMap = rs2.map;
+                                    }else{
+                                        monYn = 'N';
+                                    }
+                                }
+                            });
 
                             var item = rs.list[i];
 
@@ -100,7 +116,6 @@ var busnPartRate = {
                             busnPartRate.global.onData.item.type = [];
                             busnPartRate.global.onData.tot = {};
                             busnPartRate.global.onData.tot.type = [];
-                            //busnPartRate.global.onData.bsYear = date.getFullYear();
                             busnPartRate.global.onData.empName = item.PART_EMP_NM;
 
                             tdHtml += '<tr>';
@@ -146,45 +161,48 @@ var busnPartRate = {
                                     var userDt = userDate.getFullYear() + "-" + (userDate.getMonth() + 1);
                                     var rate = Number(item.PAY_RATE) / Number(item.TOT_RATE) * 100;
                                     var tot = Math.round((Number(item.MON_SAL) * Number(rate)) / 100);
+
                                     var colMonth = date.getMonth() + 1; //월 컬럼 선택
+                                    var colYear = date.getFullYear(); //년 컬럼 선택
 
                                     if(monYn == 'Y'){
+                                        var itemMon = itemMonMap[colYear]; // 년 선택
                                         if (j == 0) {
                                             if (dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])) {
                                                 tdHtml += '<td style="text-align: right">'
-                                                tdHtml += '    <input type="text" name="l' + x + j + i + '" class="a' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(item[monPayStr+(colMonth)]) + '"/>';
+                                                tdHtml += '    <input type="text" name="l' + x + j + i + '" class="a' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(itemMon[monPayStr+(colMonth)]) + '"/>';
                                                 tdHtml += '</td>';
                                                 aTot += tot;
-                                                bTot += item[monPayStr+(colMonth)];
+                                                bTot += itemMon[monPayStr+(colMonth)];
                                             } else {
                                                 tdHtml += '<td style="text-align: right">';
                                                 tdHtml += '    <input type="text" name="l' + x + j + i + '" class="a' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="0"/>';
                                                 tdHtml += '</td>';
                                                 tot = 0;
                                             }
-                                            var yearPayData = {[kDt]: tot};
+                                            var yearPayData = {[kDt]: itemMon[monPayStr+(colMonth)]};
                                             busnPartRate.global.onData.pay.type.push(yearPayData);
                                         } else if (j == 1) {
                                             if (dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])) {
                                                 tdHtml += '<td style="text-align: right">'
-                                                tdHtml += '    <input type="text" name="l' + x + j + i + '" class="b' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(item[monItemStr+(colMonth)]) + '"/>';
+                                                tdHtml += '    <input type="text" name="l' + x + j + i + '" class="b' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(itemMon[monItemStr+(colMonth)]) + '"/>';
                                                 tdHtml += '</td>';
                                                 aTot += (Number(item.MON_SAL) - Number(tot));
-                                                bTot += item[monItemStr+(colMonth)];
+                                                bTot += itemMon[monItemStr+(colMonth)];
                                             } else {
                                                 tdHtml += '<td style="text-align: right">'
                                                 tdHtml += '    <input type="text" name="l' + x + j + i + '" class="b' + x + ' form-control" onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="0"/>';
                                                 tdHtml += '</td>';
                                             }
-                                            var yearItemData = {[iDt]: (Number(item.MON_SAL) - Number(tot))};
+                                            var yearItemData = {[iDt]: (Number(itemMon[monItemStr+(colMonth)]))};
                                             busnPartRate.global.onData.item.type.push(yearItemData);
                                         } else {
                                             if (dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])) {
                                                 tdHtml += '<td style="text-align: right">'
-                                                tdHtml += '    <input type="text" name="t' + x + j + i + '" class="c' + x + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(Number(Number(item[monPayStr+(colMonth)])+Number(item[monItemStr+(colMonth)]))) + '"/>';
+                                                tdHtml += '    <input type="text" name="t' + x + j + i + '" class="c' + x + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="' + busnPartRate.comma(Number(Number(itemMon[monPayStr+(colMonth)])+Number(itemMon[monItemStr+(colMonth)]))) + '"/>';
                                                 tdHtml += '</td>';
                                                 aTot += Number(item.MON_SAL);
-                                                bTot += Number(item[monPayStr+(colMonth)]) + Number(item[monItemStr+(colMonth)]);
+                                                bTot += Number(itemMon[monPayStr+(colMonth)]) + Number(itemMon[monItemStr+(colMonth)]);
                                             } else {
                                                 tdHtml += '<td style="text-align: right">'
                                                 tdHtml += '    <input type="text" name="t' + x + j + i + '" class="c' + x + ' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="0"/>';
@@ -194,7 +212,6 @@ var busnPartRate = {
                                             busnPartRate.global.onData.tot.type.push(yearTotData);
                                         }
                                     }else {
-
                                         if (j == 0) {
                                             if (dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])) {
                                                 tdHtml += '<td style="text-align: right">'
@@ -249,7 +266,7 @@ var busnPartRate = {
 
                                 }
                                 tdHtml += '<td style="text-align: right">'
-                                tdHtml += '    <input type="text" class="d'+j+' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="'+busnPartRate.comma(bTot)+'"/>';
+                                tdHtml += '    <input type="text" name="d' + i + j + '" class="d' + i + j +' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="'+busnPartRate.comma(bTot)+'"/>';
                                 tdHtml += '</td>';
                                 tdHtml += '<td style="text-align: right">'
                                 tdHtml += '    <input type="text" class="e'+j+' form-control" readonly onkeyup="busnPartRate.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right; width: 90%" value="'+busnPartRate.comma(aTot)+'"/>';
@@ -372,7 +389,6 @@ var busnPartRate = {
         var nameLoc = name.substring(3, 2); // (현금/현물/계)
         var nameY = name.substring(4, 3);   // 사용자
 
-
         var monA = $("#thHtml th input")[nameX].getAttribute("id").replace("ym", "").split("-")[1];
         if(monA == "11" || monA == "12"){
             monA = monA;
@@ -391,6 +407,7 @@ var busnPartRate = {
         if(nameLoc == 0 || nameLoc == 1){
             unitSum += Number(busnPartRate.uncomma($('input[name="l'+nameX+'0'+nameY+'"]').val())) + Number(busnPartRate.uncomma($('input[name="l'+nameX+'1'+nameY+'"]').val()));
             $('input[name="t'+nameX+'2'+nameY+'"]').val(busnPartRate.comma(unitSum));
+            $('input[name="d'+nameY+'2"]').val(busnPartRate.comma(unitSum));
         }
 
         busnPartRate.fn_footerHtml(busnPartRate.global.diffMonth);
@@ -430,34 +447,99 @@ var busnPartRate = {
     },
 
     fn_save : function (){
-        var diffMonth = busnPartRate.global.diffMonth;
         var payInfo= busnPartRate.global.partRateAr.payInfo;
-        var paramArr = [];
 
-        console.log(payInfo);
-        if(payInfo.length > 0){
-            for(var i=0; i<payInfo.length; i++){
-                var map = {};
+        var groupArr = [];
+        var monSalFlag = true;
 
-                for(var j=0; j<payInfo[i].pay.type.length; j++){
-                    map["monPay" + (j + 1)] = parseInt(Object.values(payInfo[i].pay.type[j])[0]);
-                    map["monItem" + (j + 1)] = parseInt(Object.values(payInfo[i].item.type[j])[0]);
+        // 사용자 분리 --> 년도 분리
+        for (var x = 0; x < payInfo.length; x++) {
+            var itemX = payInfo[x];
+            var salArr = [];
+
+            var preBsYearX = "";
+            var cnt = -1;
+            
+            var monSal = itemX.monSal * itemX.pay.type.length; // 월인건비 * 참여개월
+
+            var tot = 0;
+            for (var y = 0; y < itemX.pay.type.length; y++) {
+                var mapX_pay = {};
+                var mapX_item = {};
+
+                var keyX = Object.keys(itemX.pay.type[y])[0];
+                var bsYearX = keyX.split("pay")[1].split("-")[0];
+                var bsMonX = keyX.split("pay")[1].split("-")[1];
+
+                tot += parseInt(Object.values(itemX.pay.type[y])[0]);
+                tot += parseInt(Object.values(itemX.item.type[y])[0]);
+
+                if (bsYearX !== preBsYearX) {
+                    cnt++;
+                    preBsYearX = bsYearX;
+                    salArr[cnt] = [];
                 }
-                map.empSeq = payInfo[i].partEmpSeq;
-                map.empSal = payInfo[i].empSal;
-                map.monSal = payInfo[i].monSal;
 
-                paramArr.push(map);
+                mapX_pay["monPay" + (bsMonX)] = parseInt(Object.values(itemX.pay.type[y])[0]);
+                mapX_item["monItem" + (bsMonX)] = parseInt(Object.values(itemX.item.type[y])[0]);
+
+                var type = {
+                    "pay" : mapX_pay,
+                    "item" : mapX_item
+                };
+
+                salArr[cnt].push(type);
+
+                salArr[cnt].monYear = bsYearX;
             }
+
+            if(monSal != tot){monSalFlag = false;}
+
+            if(!monSalFlag){alert("[" + itemX.empName + "] 인건비 예산합계와 맞지않습니다."); break;}
+
+            groupArr.push(salArr);
         }
 
+        if(!monSalFlag){return false;}
+
+        var paramArr = [];
+
+        for (var i = 0; i < payInfo.length; i++) { //사용자 분리
+            var itemI = payInfo[i];
+            var groupI = groupArr[i];
+            var map = {};
+            var salArr = [];
+
+            for(var j = 0; j < groupI.length; j++) { //년도 분리
+                var bsYear = "";
+                var mapI = {};
+
+                for(var k = 0; k < groupI[j].length; k++) { //input value 삽입
+                    bsYear = groupI[j].monYear;
+
+                    mapI[Object.keys(groupI[j][k].pay)[0]] = Object.values(Object.values(groupI[j][k])[0])[0];
+                    mapI[Object.keys(groupI[j][k].item)[0]] = Object.values(Object.values(groupI[j][k])[1])[0];
+                }
+
+                mapI.bsYear = bsYear;
+
+                salArr.push(mapI);
+            }
+
+            map.empSeq = itemI.partEmpSeq;
+            map.empSal = itemI.empSal;
+            map.monSal = itemI.monSal;
+            map.salArr = salArr;
+
+            paramArr.push(map);
+        }
         var data = {
             pjtSn : $("#pjtSn").val(),
             busnPartRateAr : JSON.stringify(busnPartRate.global.partRateAr),
             paramArr : JSON.stringify(paramArr)
         };
 
-        /*$.ajax({
+        $.ajax({
             url : "/inside/setBusnPartRatePay",
             data : data,
             type : "post",
@@ -468,7 +550,7 @@ var busnPartRate = {
                     location.reload();
                 }
             }
-        });*/
+        });
     }
 }
 

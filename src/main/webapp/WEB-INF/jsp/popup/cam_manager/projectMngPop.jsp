@@ -118,7 +118,5 @@
 </div>
 
 <script>
-    var inParameters = JSON.parse('${map}');
-
-    pjtMngPop.fn_defaultScript(inParameters);
+    pjtMngPop.fn_defaultScript();
 </script>
