@@ -35,7 +35,7 @@
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM">직무기술서 등록</h3>
+            <h3 class="card-title title_NM">직무기술서 신규등록</h3>
             <div class="btn-st popButton">
                 <%--<button type="button" id="recBtn" style="display: none" class="k-button k-button-solid-info" onclick="dutyInfoReq.fn_dutyCertReq(100);">승인</button>
                 <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="dutyInfoReq.fn_dutyCertReq(30);">반려</button>--%>

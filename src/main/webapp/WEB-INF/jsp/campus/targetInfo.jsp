@@ -16,7 +16,7 @@
         </div>
         <div class="panel-body">
             <div>
-                <input type="button" class="stepBtn stepBtn2 k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="목표기술서 신규등록" onclick="targetInfo.targetAddYearPop();"/>
+                <input type="button" class="stepBtn stepBtn2 k-grid-button k-button k-button-md k-button-solid k-button-solid-info" value="목표기술서 신규등록" onclick="targetInfo.targetAddYearPop();"/>
 
                 <table class="searchTable table table-bordered" style="border: 0; margin-top : 20px; border: 1px solid #dedfdf;">
                     <colgroup>
