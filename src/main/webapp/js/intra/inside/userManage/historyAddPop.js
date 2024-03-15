@@ -66,7 +66,7 @@ var historyAddPop = {
             var html = '';
             for (var i = 0; i < historyAddPop.global.attFiles.length; i++) {
                 html += '<li>'
-                html += historyAddPop.global.attFiles[i].name.substring(0, historyAddPop.global.attFiles[i].name.lastIndexOf("."));
+                html += historyAddPop.global.attFiles[i].name.substring(0, historyAddPop.global.attFiles[i].name.lastIndexOf(".")) + '.';
                 html += historyAddPop.global.attFiles[i].name.substring(historyAddPop.global.attFiles[i].name.lastIndexOf("."));
                 html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="historyAddPop.fnUploadFile(' + i + ')">';
                 html += '</li>';
@@ -92,7 +92,7 @@ var historyAddPop = {
             var html = '';
             for (var i = 0; i < historyAddPop.global.attFiles.length; i++) {
                 html += '<li>'
-                html += historyAddPop.global.attFiles[i].name.substring(0, historyAddPop.global.attFiles[i].name.lastIndexOf("."));
+                html += historyAddPop.global.attFiles[i].name.substring(0, historyAddPop.global.attFiles[i].name.lastIndexOf(".")) + '.';
                 html += historyAddPop.global.attFiles[i].name.substring(historyAddPop.global.attFiles[i].name.lastIndexOf("."));
                 html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="historyAddPop.fnUploadFile(' + i + ')">';
                 html += '</li>';

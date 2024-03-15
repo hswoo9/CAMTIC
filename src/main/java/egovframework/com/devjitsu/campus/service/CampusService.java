@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.campus.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
@@ -108,8 +109,8 @@ public interface CampusService {
     /** 개인학습 끝 */
 
     /** 학습조 시작 */
-    Map<String, Object> setStudyInfoInsert(Map<String, Object> params);
-    void setStudyInfoModify(Map<String, Object> params);
+    Map<String, Object> setStudyInfoInsert(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
+    void setStudyInfoModify(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
     void setStudyUserMngUpdate(Map<String, Object> params);
     void studyReq(Map<String, Object> params);
     void setStudyJournalInsert(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);

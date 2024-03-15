@@ -459,7 +459,9 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public Map<String, Object> setStudyInfoInsert(Map<String, Object> params) {
+    public Map<String, Object> setStudyInfoInsert(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
+        MainLib mainLib = new MainLib();
+
         int studyClass = Integer.parseInt(params.get("studyClassSn").toString());
         campusRepository.setStudyInfoInsert(params);
 
@@ -502,11 +504,29 @@ public class CampusServiceImpl implements CampusService {
                 campusRepository.setStudyUserInsert(params);
             }
         }
+
+        if(fileList.length > 0){
+            params.put("menuCd", "studyInfo");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "studyInfo_" + params.get("studyUserSn"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf('.')));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf('.') + 1));
+
+                commonRepository.insFileInfoOne(list.get(i));
+            }
+        }
         return params;
     }
 
     @Override
-    public void setStudyInfoModify(Map<String, Object> params) {
+    public void setStudyInfoModify(Map<String, Object> params,  MultipartFile[] fileList, String serverDir, String baseDir) {
+        MainLib mainLib = new MainLib();
+
         int studyClass = Integer.parseInt(params.get("studyClassSn").toString());
         campusRepository.setStudyInfoModify(params);
         campusRepository.setStudyUserDelete(params);
@@ -546,6 +566,22 @@ public class CampusServiceImpl implements CampusService {
                 params.put("studyClassSn", 4);
                 params.put("studyClassText", "지도자");
                 campusRepository.setStudyUserInsert(params);
+            }
+        }
+
+        if(fileList.length > 0){
+            params.put("menuCd", "studyInfo");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "studyInfo_" + params.get("pk"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf('.')));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf('.') + 1));
+
+                commonRepository.insFileInfoOne(list.get(i));
             }
         }
     }

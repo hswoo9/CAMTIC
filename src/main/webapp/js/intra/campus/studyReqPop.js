@@ -1,4 +1,9 @@
 const studyReq = {
+
+    global : {
+        attFiles: [],
+    },
+
     init : function(){
         studyReq.pageSet();
         studyReq.dataSet();
@@ -26,7 +31,7 @@ const studyReq = {
     dataSet: function(){
         let studyClass = $("#studyClass").val();
         if(studyClass == 1){
-            $(".study").show();
+            // $(".study").show();
             $(".propag").hide();
             $("#subjectCont").html('<span class="red-star">*</span>학습내용');
             /*$("#titleCol").text("학습조명");*/
@@ -43,7 +48,7 @@ const studyReq = {
             $("#subjectDe").html('<span class="red-star">*</span>학습기간');
             $("#subjectStudyMoney").html('비용내역');
 
-            $(".study").hide();
+            // $(".study").hide();
             $(".propag").show();
             $(".subjectObj").show();
         }else if(studyClass == 3){
@@ -54,11 +59,107 @@ const studyReq = {
             $("#subjectDe").html('<span class="red-star">*</span>지도기간');
             $("#subjectStudyMoney").html('비용내역');
 
-            $(".study").hide();
+            // $(".study").hide();
             $(".propag").hide();
             $(".subjectObj").hide();
             $(".ojt").show();
 
+        }
+    },
+
+    settingTempFileDataInit: function(){
+        $("#setFileName").empty();
+
+        var result = customKendo.fn_customAjax("/common/getFileList", { contentId: "studyInfo_" + $("#pk").val(), fileCd: "studyInfo" });
+        if(result.flag){
+            if(result.list.length > 0){
+                var html = '';
+                for(var i=0; i<result.list.length; i++){
+                    html += '<li>';
+                    html += '   <span style="cursor: pointer" onclick="fileDown(\'' + result.list[i].file_path + result.list[i].file_uuid + '\', \'' + result.list[i].file_org_name + '.' + result.list[i].file_ext + '\')">' + result.list[i].file_org_name + '.' + result.list[i].file_ext + '</span>';
+                    html += '   <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="studyReq.commonFileDel(' + result.list[i].file_no + ', this)">';
+                    html += '</li>';
+                }
+
+                $("#ulSetFileName").append(html);
+            } else {
+                $("#ulSetFileName").empty();
+            }
+        }
+    },
+
+    fileChange : function(){
+        for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
+            studyReq.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+        }
+
+        $("#fileName").empty();
+        if(studyReq.global.attFiles.length > 0){
+            var html = '';
+            for (var i = 0; i < studyReq.global.attFiles.length; i++) {
+                html += '<li>'
+                html += studyReq.global.attFiles[i].name.substring(0, studyReq.global.attFiles[i].name.lastIndexOf(".")) + '.';
+                html += studyReq.global.attFiles[i].name.substring(studyReq.global.attFiles[i].name.lastIndexOf(".")+1);
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="studyReq.fnUploadFile(' + i + ')">';
+                html += '</li>';
+            }
+
+            $("#ulSetFileName").css('margin-bottom', 0);
+            $("#ulFileName").append(html);
+        }
+    },
+
+    fnUploadFile : function(e) {
+        const dataTransfer = new DataTransfer();
+        let fileArray = Array.from(studyReq.global.attFiles);
+        fileArray.splice(e, 1);
+        fileArray.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        studyReq.global.attFiles = dataTransfer.files;
+
+        if(studyReq.global.attFiles.length > 0){
+            $("#ulFileName").empty();
+
+            var html = '';
+            for (var i = 0; i < studyReq.global.attFiles.length; i++) {
+                html += '<li>'
+                html += studyReq.global.attFiles[i].name.substring(0, studyReq.global.attFiles[i].name.lastIndexOf(".")) + '.';
+                html += studyReq.global.attFiles[i].name.substring(studyReq.global.attFiles[i].name.lastIndexOf(".")+1);
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="studyReq.fnUploadFile(' + i + ')">';
+                html += '</li>';
+            }
+
+            $("#ulFileName").append(html);
+        } else {
+            $("#ulFileName").empty();
+        }
+
+        if(studyReq.global.attFiles.length == 0){
+            studyReq.global.attFiles = new Array();
+        }
+
+        studyReq.global.attFiles = Array.from(studyReq.global.attFiles);
+    },
+
+    commonFileDel: function(e, v){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).closest("li").remove();
+                    }
+                }
+            });
         }
     },
 
@@ -166,12 +267,24 @@ const studyReq = {
             data.readerUserSeq = readerUserSeq;
         }
 
+        var formData = new FormData();
+        for (var key in data) {
+            formData.append(key, data[key]);
+        }
+
+        if(studyReq.global.attFiles != null){
+            for(var i = 0; i < studyReq.global.attFiles.length; i++){
+                formData.append("fileList", studyReq.global.attFiles[i]);
+            }
+        }
+
+
         if($("#pk").val() != ""){
             if(!confirm(studyClassText+" 신청서를 수정하시겠습니까?")){
                 return;
             }
             let url = "/campus/setStudyInfoModify";
-            const result = customKendo.fn_customAjax(url, data);
+            const result = customKendo.fn_customFormDataAjax(url, formData);
             if(result.flag){
                 alert(studyClassText+" 신청서 수정이 완료되었습니다.");
                 studyViewPop(studyInfoSn, studyClassSn);
@@ -183,7 +296,7 @@ const studyReq = {
                 return;
             }
             let url = "/campus/setStudyInfoInsert";
-            const result = customKendo.fn_customAjax(url, data);
+            const result = customKendo.fn_customFormDataAjax(url, formData);
             if(result.flag){
                 alert(studyClassText+" 신청서 저장이 완료되었습니다.");
                 opener.gridReload();

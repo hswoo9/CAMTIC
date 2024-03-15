@@ -393,6 +393,12 @@ public class CommonController {
         return "jsonView";
     }
 
+    @RequestMapping ("/common/getFileList")
+    public String getFileList (@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", commonService.getFileList(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/common/sendMail")
     public String sendMail(@RequestParam Map<String, Object> params, Model model) throws MessagingException {
 
