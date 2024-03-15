@@ -1543,7 +1543,7 @@ public class CampusServiceImpl implements CampusService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "10".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             params.put("status", "10");
             campusRepository.updateEduInfoApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { //반려
@@ -1579,7 +1579,7 @@ public class CampusServiceImpl implements CampusService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "10".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             params.put("status", "10");
             campusRepository.updateEduResultApprStat(params);
         }else if("30".equals(docSts)) { // 반려
@@ -1742,7 +1742,7 @@ public class CampusServiceImpl implements CampusService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "10".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             params.put("status", "10");
             campusRepository.updateStudyApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려
@@ -1778,7 +1778,7 @@ public class CampusServiceImpl implements CampusService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "10".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             params.put("status", "10");
             campusRepository.updateStudyResApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려
@@ -1790,8 +1790,8 @@ public class CampusServiceImpl implements CampusService {
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
             params.put("status", "100");
             campusRepository.updateStudyResFinalApprStat(params);
-            params.put("pk", approKey);
-            Map<String, Object> serachMap = campusRepository.getStudyResultOne(params);
+            params.put("studyResultSn", approKey);
+            Map<String, Object> serachMap = campusRepository.getStudyResultData(params);
             params.put("studyInfoSn", serachMap.get("STUDY_INFO_SN"));
             campusRepository.setStudyResultSc(params);
         }

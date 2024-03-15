@@ -387,6 +387,7 @@
                 success: function (rs) {
                     if (rs.code == 200) {
                         alert("수정되었습니다.");
+                        window.location.reload();
                         /*opener.location.reload();
                         location.href = "/campus/pop/resultDocPop.do?pk=" + rs.params.studyInfoSn + "&studyResultSn=" + rs.params.studyResultSn;*/
                     }
@@ -401,8 +402,19 @@
                 success: function (rs) {
                     if (rs.code == 200) {
                         alert("저장되었습니다.");
-                        opener.location.reload();
-                        location.href = "/campus/pop/resultDocPop.do?pk=" + rs.params.studyInfoSn + "&mode=upd&&studyResultSn=" + rs.params.studyResultSn;
+
+                        if(opener.opener != null){
+                            opener.opener.parent.studyInfo.mainGrid();
+                        }
+
+                        if(opener != null){
+                            if(opener.parent.studyInfo != null){
+                                opener.parent.studyInfo.mainGrid();
+                            } else {
+                                opener.location.reload();
+                            }
+                            location.href = "/campus/pop/resultDocPop.do?pk=" + rs.params.studyInfoSn + "&mode=upd&&studyResultSn=" + rs.params.studyResultSn;
+                        }
                     }
                 }
             })

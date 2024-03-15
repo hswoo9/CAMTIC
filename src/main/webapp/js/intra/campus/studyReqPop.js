@@ -239,7 +239,7 @@ const studyReq = {
             studyContent: studyContent,
             studyMoney: studyMoney,
             studyMoneyVal: studyMoneyVal,
-            attach: attach,
+            attach: "",
             empSeq: empSeq,
             empName: empName,
             regDate: regDate
