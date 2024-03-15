@@ -357,4 +357,19 @@ public class MainController {
     public String admin(){
         return "/camspot_m/admin";
     }
+
+    @RequestMapping("/m/schedule_write.do")
+    public String schedule_write(){
+        return "/camspot_m/schedule_write";
+    }
+
+    @RequestMapping("/m/schedule_staff_write.do")
+    public String schedule_staff_write(){
+        return "/camspot_m/schedule_staff_write";
+    }
+
+    @RequestMapping("/m/alarm.do")
+    public String alarm(){
+        return "/camspot_m/alarm";
+    }
 }

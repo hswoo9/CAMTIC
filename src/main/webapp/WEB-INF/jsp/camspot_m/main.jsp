@@ -4,7 +4,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
     
+    
 <jsp:include page="/WEB-INF/jsp/camspot_m/inc/top.jsp" flush="false"/>
+<style>
+#header,
+#notBar{margin-bottom:40px;}
+</style>
+
 
     <!-- main {-->
     <div id="main">
@@ -207,4 +213,10 @@
     <!--} main -->
     
     
+
+<script type="text/javascript">
+	$('.m1', $('#menu')).addClass('active');
+</script>
+
+
 <jsp:include page="/WEB-INF/jsp/camspot_m/inc/bottom.jsp" flush="false"/>

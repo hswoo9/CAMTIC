@@ -6,12 +6,94 @@
     
 <jsp:include page="/WEB-INF/jsp/camspot_m/inc/top.jsp" flush="false"/>
 
-    <!-- login {-->
-    <div id="login">
+    <!-- payment {-->
+    <div id="payment_page" class="sub">
     
-    
-             
+    	<!-- content {-->
+    	<div id="content">
+    		
+            <!-- 검색폼 {-->
+            <div class="searchBox">
+            	<font class="txt type28">전체 <b class="fcol_sky">50</b>건</font>
+                <form>
+                	<input type="text" placeholder="검색어를 입력하세요." />
+                	<input type="submit" />
+                </form>
+            </div>
+            <!--} 검색폼 -->
+    		
+            <!-- 리스트 {-->
+            <div class="blistBox mt40">
+            	<a href="/m/payment_view.do">
+                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자 testtesttesttest</font>
+                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                </a>
+            	<a href="#">
+                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
+                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                </a>
+            	<a href="#">
+                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
+                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                </a>
+            	<a href="#">
+                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
+                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                </a>
+            	<a href="#">
+                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
+                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                </a>
+            	<a href="#">
+                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
+                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                </a>
+            	<a href="#">
+                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
+                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                </a>
+            	<a href="#">
+                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
+                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                </a>
+            	<a href="#">
+                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
+                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                </a>
+            	<a href="#">
+                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
+                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                </a>
+            </div>
+            <!--} 리스트 -->
+    		
+            <!-- 페이징 {-->
+            <div class="pageBox mt40">
+                <a href="#none" class="arr prev">prev</a>
+                <b>1</b>
+                <a href="#none">2</a>
+                <a href="#none">3</a>
+                <a href="#none">4</a>
+                <a href="#none">5</a>
+                <a href="#none" class="arr next">next</a>
+            </div>
+            <!--} 페이징 -->
+            
+        	<div class="btBox mt40"><a href="/m/payment_write.do">글쓰기</a></div>
+            
+    	</div>   
+    	<!--} content -->
+                
     </div>
-    <!--} login -->
+    <!--} payment -->
     
+
+
+
+<script type="text/javascript">
+	$('.m2', $('#menu')).addClass('active');
+</script>
+
+
+
 <jsp:include page="/WEB-INF/jsp/camspot_m/inc/bottom.jsp" flush="false"/>

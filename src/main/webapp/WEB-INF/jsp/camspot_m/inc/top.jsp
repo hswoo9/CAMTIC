@@ -46,13 +46,26 @@
 
     <!-- notBar {-->
     <div id="notBar">
-        <span class="bell">
+        <a class="bell" href="/m/alarm.do">
             <i class="on"></i>
             <img src="/images/camspot_m/ico-bell.png" />
-        </span>
-        <span class="lo-admin">
+        </a>
+        <a class="lo-admin" href="/m/admin.do">
             <font class="txt type22">경영지원팀<br>관리자</font>
             <figure><img src="/images/camspot_m/ico-man.png" /></figure>
-        </span>
+        </a>
     </div>
     <!--} notBar -->
+    
+    
+    
+
+    <!-- manu {-->
+    <div id="menu">
+        <a href="/mobileMain.do" class="m1"><img src="/images/camspot_m/ico-menu1.png" /><font class="txt type24">홈</font></a>
+        <a href="/m/payment.do" class="m2"><img src="/images/camspot_m/ico-menu2.png" /><font class="txt type24">전자결재</font></a>
+        <a href="/m/organization.do" class="m3"><img src="/images/camspot_m/ico-menu3.png" /><font class="txt type24">조직도</font></a>
+        <a href="/m/schedule.do" class="m4"><img src="/images/camspot_m/ico-menu4.png" /><font class="txt type24">일정</font></a>
+        <a href="/m/board.do" class="m5"><img src="/images/camspot_m/ico-menu5.png" /><font class="txt type24">게시판</font></a>
+    </div>
+    <!--} manu -->
