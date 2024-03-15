@@ -349,6 +349,10 @@ const studyView = {
     },
 
     fn_delete : function (key){
+        if(!confirm("운영일지를 삭제하시겠습니까?")){
+            return;
+        }
+
         $.ajax({
             url : "/campus/deleteStudyJournal",
             data : {
@@ -407,6 +411,9 @@ const studyView = {
                 success: function(rs){
                     if(rs.code == 200){
                         alert(rs.msg);
+                        if(opener.parent != undefined){
+                            opener.parent.studyInfo.mainGrid();
+                        }
                         studyView.fn_resultDocPop();
                         location.reload();
                     }

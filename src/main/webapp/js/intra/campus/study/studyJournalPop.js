@@ -62,10 +62,10 @@ const studyJournal = {
         const info = customKendo.fn_customAjax("/campus/getStudyJournalOne", data).data;
         if(info.file_no != undefined && info.file_no != null && info.file_no != ""){
 
-            $("#fileHeader").html("");
+            // $("#fileHeader").html("");
             var html = "";
             html += '   <span style="cursor: pointer" onclick="fileDown(\''+info.file_path + info.file_uuid+'\', \''+info.file_org_name+'.'+info.file_ext+'\')">'+info.file_org_name+'</span>';
-            $("#fileHeader").html(html);
+            $("#fileHeader").append(html);
         }
 
         if($("#regEmpSeq").val() == info.REG_EMP_SEQ && info.CAPTAIN_APPOVAL_YN =='N' && info.ASSISTANT_APPOVAL_YN =='N'){

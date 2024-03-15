@@ -68,10 +68,11 @@ var studyMng = {
                 }, {
                     field: "STUDY_CLASS_TEXT",
                     title: "구분",
-                    width: 250
+                    width: 100
                 }, {
                     field: "STUDY_NAME",
-                    title: "학습명"
+                    title: "학습명",
+                    width: 250
                 }, {
                     field: "STUDY_NAME",
                     title: "지도자(조장)",
@@ -183,6 +184,82 @@ var studyMng = {
                             }
                         }
                     }
+                }, {
+                    title: "학습신청서",
+                    width: 85,
+                    template: function(row){
+                        let studyClass = row.STUDY_CLASS_SN;
+                        let statusText = "";
+                        let btnText = "";
+
+                        if(studyClass == 1){
+                            if(row.STATUS == "0" || row.STATUS == "40" || row.STATUS == "60"){
+                                statusText = "작성중";
+                                btnText = "k-button-solid-base";
+                            }else if(row.STATUS == "10" || row.STATUS == "20" || row.STATUS == "50") {
+                                statusText = "결재중";
+                                btnText = "k-button-solid-info";
+                            }else if(row.STATUS == "30") {
+                                statusText = "반려";
+                                btnText = "k-button-solid-error";
+                            }else if(row.STATUS == "100" || row.STATUS == "101"){
+                                statusText = "결재완료";
+                                btnText = "k-button-solid-info";
+                            } else {
+                                return "";
+                            }
+
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyMng.studyViewPop(\'upd\', '+row.STUDY_INFO_SN+');">' +
+                                '	<span class="k-button-text">'+statusText+'</span>' +
+                                '</button>';
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "결과보고서",
+                    width: 85,
+                    template: function(row){
+                        let studyClass = row.STUDY_CLASS_SN;
+                        let statusText = "";
+                        let btnText = "";
+
+                        if(row.STATUS == 100){
+                            if(studyClass == 1){
+                                if(row.ADD_STATUS == "Y" || row.ADD_STATUS == "C"){
+                                    if(row.STUDY_RES_STATUS == "0" || row.STUDY_RES_STATUS == "40" || row.STUDY_RES_STATUS == "60"){
+                                        statusText = "작성중";
+                                        btnText = "k-button-solid-base";
+                                    }else if(row.STUDY_RES_STATUS == "10" || row.STUDY_RES_STATUS == "20" || row.STUDY_RES_STATUS == "50") {
+                                        statusText = "결재중";
+                                        btnText = "k-button-solid-info";
+                                    }else if(row.STUDY_RES_STATUS == "30") {
+                                        statusText = "반려";
+                                        btnText = "k-button-solid-error";
+                                    }else if(row.STUDY_RES_STATUS == "100" || row.STUDY_RES_STATUS == "101"){
+                                        statusText = "결재완료";
+                                        btnText = "k-button-solid-info";
+                                    } else {
+                                        return "";
+                                    }
+
+                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyMng.fn_resultDocPop('+row.STUDY_INFO_SN+', '+row.STUDY_RESULT_SN+');">' +
+                                        '	<span class="k-button-text">'+statusText+'</span>' +
+                                        '</button>';
+                                } else if(row.ADD_STATUS == "S"){
+                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyMng.fn_resultDocPop('+row.STUDY_INFO_SN+', '+row.STUDY_RESULT_SN+');">' +
+                                        '	<span class="k-button-text">결재완료</span>' +
+                                        '</button>';
+                                } else {
+                                    return "";
+                                }
+                            } else {
+                                return "";
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid");
@@ -208,6 +285,22 @@ var studyMng = {
         let url = "/Campus/pop/studyViewPop.do?mode="+mode+"&pk="+pk;
         const name = "studyReqPop";
         const option = "width = 920, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    fn_resultDocPop : function (key, studyResultSn){
+        let url = "/campus/pop/resultDocPop.do?pk="+key+"&mode=upd";
+
+        let name = "studyJournalPop";
+        let option = "width = 800, height = 700, top = 100, left = 200, location = no";
+
+        if(studyResultSn != "" && studyResultSn != null && studyResultSn != undefined){
+            url += "&studyResultSn="+studyResultSn;
+        } else {
+            name = "studyJournalPop";
+            option = "width = 800, height = 600, top = 100, left = 200, location = no";
+        }
+
         window.open(url, name, option);
     },
 
