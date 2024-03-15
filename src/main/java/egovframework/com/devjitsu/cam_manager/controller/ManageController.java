@@ -261,6 +261,18 @@ public class ManageController {
         return "popup/cam_manager/projectMngPop";
     }
 
+    @RequestMapping("/mng/getG20ProjectData")
+    public String getG20ProjectData(@RequestParam Map<String, Object> params, Model model){
+        try{
+            Map<String, Object> data = projectService.getG20ProjectData(params);
+            model.addAttribute("data", data);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     /** 캠매니저 > 설정관리 > 프로젝트 예산관리 > 프로젝트 팝업창 > 수익/비용 탭 */
     @RequestMapping("/mng/pop/incmExpInfo.do")
     public String incmExpInfo(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){

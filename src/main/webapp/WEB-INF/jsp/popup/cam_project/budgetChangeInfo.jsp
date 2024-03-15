@@ -61,14 +61,14 @@
             const g20 = customKendo.fn_customAjax("/g20/getSubjectList", {
                 stat: "project",
                 gisu: "23",
-                fromDate: "20230101",
-                toDate: "20231231",
+                fromDate: $("#sbjStrDe").val().replace(/-/g, ""),
+                toDate: $("#sbjEndDe").val().replace(/-/g, ""),
                 mgtSeq: map.PJT_CD,
                 opt01: "3",
                 opt02: "1",
                 opt03: "2",
                 temp: "2",
-                baseDate: "2023" + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
+                baseDate: $("#sbjStrDe").val().split("-")[0] + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
                 pjtSn: $("#pjtSn").val()
             });
 
