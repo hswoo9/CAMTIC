@@ -29,7 +29,7 @@
                 , A.DUTY_NAME AS T2_NAME
                 , (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = IF((SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1000, A.DEPT_SEQ, (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ))) AS DEPT_NAME_OD
                 , (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 9 AND CM_CODE = A.OCCUPATION_CODE) AS OCCUPATION_NM
-                ,B.DEPT_NAME AS TEAM_NAME
+                , IF((SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1000, '', B.DEPT_NAME) AS TEAM_NAME
                 ,A.*
             FROM
                 CAM_HR.DJ_EMP_INFO A
@@ -59,12 +59,34 @@
         INSERT INTO CAM_INSIDE.DJ_EVALUATION
             (
                  BS_YEAR,
-                 EVAL_STAT
+                 EVAL_STAT,
+                 REG_EMP_SEQ
             )
         VALUES
             (
                 #{bsYear},
-                #{evalStat}
+                #{evalStat},
+                #{regEmpSeq}
             )
+
+        <selectKey keyProperty="evalSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVALUATION'
+        </selectKey>
+    </insert>
+
+    <insert id="insEvaluationEmp" parameterType="map">
+        /*insEvaluationEmp*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION_MEM
+            (
+                 EVAL_SN,
+                 EVAL_EMP_SEQ
+            )
+        VALUES
+        <foreach collection="empSeqArr" item="item" separator=",">
+            (
+                #{evalSn},
+                #{item}
+            )
+        </foreach>
     </insert>
 </mapper>

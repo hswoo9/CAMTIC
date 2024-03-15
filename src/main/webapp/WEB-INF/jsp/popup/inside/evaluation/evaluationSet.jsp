@@ -15,6 +15,7 @@
     }
 </style>
 
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12 pop_sign_wrap" style="width:1000px;padding: 0px">
     <div class="table-responsive">
@@ -86,7 +87,8 @@
         var parameters = {
             bsYear : $("#bsYear").val(),
             evalStat : $("#evalStat").data("kendoRadioGroup").value(),
-            empSeqArr : empSeqArr
+            empSeqArr : empSeqArr,
+            regEmpSeq : $("#empSeq").val()
         }
 
         if(parameters.bsYear == ""){
