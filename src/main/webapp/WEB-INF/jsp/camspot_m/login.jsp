@@ -8,8 +8,13 @@
 
 <style>
 #manu,
-#notBar{display:none !important;}
+#notBar,
+#footer{display:none !important;}
+#header .logo{left:20px;}
+#wrap{padding:0 !important;}
 </style>
+
+
     <!-- login {-->
     <div id="login">
     
@@ -17,9 +22,9 @@
     	<div id="content">
         
         	<div class="titBox">
-                <font class="txt type32"><b>함</b><b>께</b> 성장하는 <b>행</b><b>복</b>한 일터</font>
+                <font class="txt type32 fcol_sky together"><b>함</b><b>께</b> 성장하는 <b>행</b><b>복</b>한 일터</font>
                 
-                <h3 class="mt30">젊은 캠틱,<br>역동적인 클러스터!</h3>
+                <h2 class="mt30 fP900">젊은 캠틱,<br>역동적인 클러스터!</h2>
                 
                 <ul class="list type1 mt40">
                     <li>제조창업 플랫폼 구축 고도화</li>
@@ -28,14 +33,28 @@
                 </ul>
             </div>
             
-<style>
-.list type1{}
-
-#login .titBox{height:50vh;}
-#login .loginBox{width:100%;height:50vh;padding:40px 20px;background:#00529c;border-top-left-radius:50px;border-top-right-radius:50px;display:flex;flex-direction:column;justify-content:space-between;flex-wrap:wrap;}
-</style>
-            
             <div class="loginBox">
+            
+            	<h3 class="TtU TC fcol_white">LOGIN</h3>
+                <form>
+                    <div class="loginInput mt20">
+                        <span class="idpw id">
+                            <font class="txt type24 fP800">아이디</font>
+                            <input type="text" />
+                        </span>
+                        <span class="idpw pw">
+                            <font class="txt type24 fP800">비밀번호</font>
+                            <input type="password" />
+                        </span>
+                        
+                        <span class="save">
+                            <input type="checkbox" id="idsave" />
+                            <label for="idsave" class="txt type18 fcol_white">아이디저장</label>
+                        </span>
+                    </div>
+                    <input type="submit" value="LOGIN" placeholder="LOGIN" class="bt mt20" />                
+                    <font class="txt type24 fP600 TC mt20 fcol_white"><a href="#">Forgot password?</a></font>
+                </form>
             	
             </div>
             
