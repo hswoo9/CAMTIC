@@ -89,4 +89,49 @@
             )
         </foreach>
     </insert>
+
+    <delete id="delEvaluationCap" parameterType="map">
+        /*delEvaluationCap*/
+        DELETE * FROM CAM_INSIDE.DJ_EVALUATION_CAP WHERE EVAL_SN = #{evalSn}
+    </delete>
+
+    <insert id="insEvaluationCap" parameterType="map">
+        /*insEvaluationCap*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION_CAP
+            (
+                 EVAL_SN,
+                 CAP_IDX,
+                 COND_STR_DT,
+                 COND_END_DT,
+                 EVAL_STR_DT,
+                 EVAL_END_DT,
+                 TEAM_MEMBER_A,
+                 TEAM_MEMBER_B,
+                 TEAM_MEMBER_C,
+                 TEAM_MANAGER_A,
+                 TEAM_MANAGER_B,
+                 TEAM_MANAGER_C,
+                 DEPT_MANAGER_A,
+                 DEPT_MANAGER_B,
+                 DEPT_MANAGER_C
+            )
+        VALUES
+            (
+                #{evalSn},
+                #{idx},
+                #{condStrDt},
+                #{condEndDt},
+                #{evalStrDt},
+                #{evalEndDt},
+                #{teamMemberA},
+                #{teamMemberB},
+                #{teamMemberC},
+                #{teamManagerA},
+                #{teamManagerB},
+                #{teamManagerC},
+                #{deptManagerA},
+                #{deptManagerB},
+                #{deptManagerC}
+            )
+    </insert>
 </mapper>

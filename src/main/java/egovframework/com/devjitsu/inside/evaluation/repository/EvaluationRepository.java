@@ -20,4 +20,12 @@ public class EvaluationRepository extends AbstractDAO {
     public void insEvaluationEmp(Map<String, Object> params) {
         insert("evaluation.insEvaluationEmp", params);
     }
+
+    public void delEvaluationCap(Map<String, Object> params) {
+        delete("evaluation.delEvaluationCap", params);
+    }
+
+    public void insEvaluationCap(Map<String, Object> capBody) {
+        insert("evaluation.insEvaluationCap", capBody);
+    }
 }

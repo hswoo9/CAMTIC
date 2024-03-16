@@ -17,7 +17,7 @@
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <body class="font-opensans" style="background-color:#fff;">
-<div class="col-lg-12 pop_sign_wrap" style="width:1000px;padding: 0px">
+<div class="pop_sign_wrap">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
@@ -56,7 +56,97 @@
                     </td>
                 </tr>
             </table>
+        </div>
 
+        <div class="panel-body" style="padding-top: unset">
+            <div class="card-header">
+                <h4 style="position: relative; top:7px">
+                    역량평가
+                </h4>
+                <div id="btnDiv2" class="btn-st popButton" style="font-size: 12px; float: right">
+                    <button type="button" class="k-button k-button-solid-info" id="capAddBt" onclick="fn_capAddRow()">추가</button>
+                    <button type="button" class="k-button k-button-solid-error" onclick="fn_capDelRow()">삭제</button>
+                </div>
+            </div>
+            <table class="searchTable table table-bordered mb-0">
+                <colgroup>
+                    <col style="width: 5%">
+                    <col style="width: 25%">
+                    <col style="width: 7%">
+                    <col style="width: 7%">
+                    <col style="width: 7%">
+                    <col style="width: 7%">
+                    <col style="width: 7%">
+                    <col style="width: 7%">
+                    <col style="width: 7%">
+                    <col style="width: 7%">
+                    <col style="width: 7%">
+                    <col style="width: 7%">
+                </colgroup>
+                <tr>
+                    <th rowspan="3">회차</th>
+                    <th rowspan="3">평가기간</th>
+                    <th colspan="9">평가 차수별 가중치</th>
+                    <th rowspan="3">설정</th>
+                </tr>
+                <tr>
+                    <th colspan="3">팀원</th>
+                    <th colspan="3">팀장</th>
+                    <th colspan="3">부서장</th>
+                </tr>
+                <tr>
+                    <th>1차</th>
+                    <th>2차</th>
+                    <th>3차</th>
+                    <th>1차</th>
+                    <th>2차</th>
+                    <th>3차</th>
+                    <th>1차</th>
+                    <th>2차</th>
+                    <th>3차</th>
+                </tr>
+                <tbody id="capBody">
+                <tr>
+                    <td>
+                        <input type="text" id="idx0" class="idx" name="idx" value="1" style="width: 60%" disabled /> 차
+                    </td>
+                    <td>
+                        평가 <input type="text" id="evalStrDt0" class="evalStrDt" name="evalStrDt" style="width: 40%" /> ~ <input type="text" id="evalEndDt0" class="evalEndDt" name="evalEndDt" style="width: 40%" /> <br>
+                        실시 <input type="text" id="condStrDt0" class="condStrDt" name="condStrDt" style="width: 40%" /> ~ <input type="text" id="condEndDt0" class="condEndDt" name="condEndDt" style="width: 40%" />
+                    </td>
+                    <td>
+                        <input type="text" id="teamMemberA0" class="teamMemberA" name="teamMemberA" style="width: 100%; text-align: right" />
+                    </td>
+                    <td>
+                        <input type="text" id="teamMemberB0" class="teamMemberB" name="teamMemberB" style="width: 100%; text-align: right" />
+                    </td>
+                    <td>
+                        <input type="text" id="teamMemberC0" class="teamMemberC" name="teamMemberC" style="width: 100%; text-align: right" />
+                    </td>
+                    <td>
+                        <input type="text" id="teamManagerA0" class="teamManagerA" name="teamManagerA" style="width: 100%; text-align: right" />
+                    </td>
+                    <td>
+                        <input type="text" id="teamManagerB0" class="teamManagerB" name="teamManagerB" style="width: 100%; text-align: right" />
+                    </td>
+                    <td>
+                        <input type="text" id="teamManagerC0" class="teamManagerC" name="teamManagerC" style="width: 100%; text-align: right" />
+                    </td>
+                    <td>
+                        <input type="text" id="deptManagerA0" class="deptManagerA" name="deptManagerA" style="width: 100%; text-align: right" />
+                    </td>
+                    <td>
+                        <input type="text" id="deptManagerB0" class="deptManagerB" name="deptManagerB" style="width: 100%; text-align: right" />
+                    </td>
+                    <td>
+                        <input type="text" id="deptManagerC0" class="deptManagerC" name="deptManagerC" style="width: 100%; text-align: right" />
+                    </td>
+                    <td style="text-align: center" >
+                        <button type="button" class="k-button k-button-solid-base" onclick="">설정</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div><!-- col-md-9 -->
@@ -65,7 +155,13 @@
     var empSeqArr = [];
     $(function (){
 
-        customKendo.fn_textBox(["bsYear", "evalList"]);
+        customKendo.fn_textBox(["bsYear", "evalList", "idx0", "teamMemberA0", "teamMemberB0", "teamMemberC0", "teamManagerA0", "teamManagerB0", "teamManagerC0"
+                                , "deptManagerA0", "deptManagerB0", "deptManagerC0"]);
+
+        customKendo.fn_datePicker("condStrDt0", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("condEndDt0", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("evalStrDt0", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("evalEndDt0", '', "yyyy-MM-dd", new Date());
 
         $("#evalStat").kendoRadioGroup({
             items: [
@@ -91,21 +187,53 @@
             regEmpSeq : $("#empSeq").val()
         }
 
-        if(parameters.bsYear == ""){
-            alert("년도를 입력해주세요.");
-            return;
+        // if(parameters.bsYear == ""){
+        //     alert("년도를 입력해주세요.");
+        //     return;
+        // }
+        //
+        // if(isNaN(parameters.bsYear)){
+        //     alert("년도에 숫자를 입력해주세요.");
+        //     $("#bsYear").val("");
+        //     return;
+        // }
+        //
+        // if(parameters.empSeqArr.length == 0){
+        //     alert("평가대상를 선택해주세요.");
+        //     return;
+        // }
+
+        var capBodyArr = [];
+
+        var capLen = $("#capBody").find("tr").length;
+
+        for(var i = 0 ; i < capLen ; i++){
+            if($("#teamMemberA" + i).val() == "" || $("#teamMemberB" + i).val() == "" || $("#teamMemberC" + i).val() == ""
+                || $("#teamManagerA" + i).val() == "" || $("#teamManagerB" + i).val() == "" || $("#teamManagerC" + i).val() == ""
+                || $("#deptManagerA" + i).val() == "" || $("#deptManagerB" + i).val() == "" || $("#deptManagerC" + i).val() == ""){
+                alert("입력되지 않은 항목이 있습니다. 확인해주세요.");
+                return;
+            }
+
+            capBodyArr.push({
+                idx : $("#idx" + i).val(),
+                condStrDt : $("#condStrDt" + i).val(),
+                condEndDt : $("#condEndDt" + i).val(),
+                evalStrDt : $("#evalStrDt" + i).val(),
+                evalEndDt : $("#evalEndDt" + i).val(),
+                teamMemberA : $("#teamMemberA" + i).val(),
+                teamMemberB : $("#teamMemberB" + i).val(),
+                teamMemberC : $("#teamMemberC" + i).val(),
+                teamManagerA : $("#teamManagerA" + i).val(),
+                teamManagerB : $("#teamManagerB" + i).val(),
+                teamManagerC : $("#teamManagerC" + i).val(),
+                deptManagerA : $("#deptManagerA" + i).val(),
+                deptManagerB : $("#deptManagerB" + i).val(),
+                deptManagerC : $("#deptManagerC" + i).val()
+            });
         }
 
-        if(isNaN(parameters.bsYear)){
-            alert("년도에 숫자를 입력해주세요.");
-            $("#bsYear").val("");
-            return;
-        }
-
-        if(parameters.empSeqArr.length == 0){
-            alert("평가대상를 선택해주세요.");
-            return;
-        }
+        parameters.capBodyArr = JSON.stringify(capBodyArr);
 
         $.ajax({
             url : "/evaluation/setEvaluation",
@@ -145,6 +273,48 @@
 
 
         $("#evaluationMemberCnt").text(seqArr.length - 1);
+    }
+
+    function fn_capAddRow() {
+
+        var capLen = $("#capBody").find("tr").length;
+
+        var html = "";
+
+        html += "<tr>";
+        html += "<td><input type='text' id='idx" + capLen + "' class='idx' style='width: 60%' disabled value='" + (capLen + 1) + "'> 차</td>";
+        html += "<td>";
+        html += '평가 <input type="text" id="evalStrDt' + capLen + '" class="evalStrDt" name="evalStrDt" style="width: 40%" /> ~ <input type="text" id="evalEndDt' + capLen + '" class="evalEndDt" name="evalEndDt" style="width: 40%" /> <br>';
+        html += '실시 <input type="text" id="condStrDt' + capLen + '" class="condStrDt" name="condStrDt" style="width: 40%" /> ~ <input type="text" id="condEndDt' + capLen + '" class="condEndDt" name="condEndDt" style="width: 40%" />';
+        html += "</td>";
+        html += "<td><input type='text' style='text-align: right;' id='teamMemberA" + capLen + "' class='teamMemberA'></td>";
+        html += "<td><input type='text' style='text-align: right;' id='teamMemberB" + capLen + "' class='teamMemberB'></td>";
+        html += "<td><input type='text' style='text-align: right;' id='teamMemberC" + capLen + "' class='teamMemberC'></td>";
+        html += "<td><input type='text' style='text-align: right;' id='teamManagerA" + capLen + "' class='teamManagerA'></td>";
+        html += "<td><input type='text' style='text-align: right;' id='teamManagerB" + capLen + "' class='teamManagerB'></td>";
+        html += "<td><input type='text' style='text-align: right;' id='teamManagerC" + capLen + "' class='teamManagerC'></td>";
+        html += "<td><input type='text' style='text-align: right;' id='deptManagerA" + capLen + "' class='deptManagerA'></td>";
+        html += "<td><input type='text' style='text-align: right;' id='deptManagerB" + capLen + "' class='deptManagerB'></td>";
+        html += "<td><input type='text' style='text-align: right;' id='deptManagerC" + capLen + "' class='deptManagerC'></td>";
+        html += '<td style="text-align: center;"><button type="button" class="k-button k-button-solid-base" onClick="">설정</button></td>';
+        html += "</tr>";
+
+        $("#capBody").append(html);
+
+        customKendo.fn_textBox(["idx" + capLen, "teamMemberA" + capLen, "teamMemberB" + capLen, "teamMemberC" + capLen, "teamManagerA" + capLen, "teamManagerB" + capLen,
+            "teamManagerC" + capLen, "deptManagerA" + capLen, "deptManagerB" + capLen, "deptManagerC" + capLen]);
+
+        customKendo.fn_datePicker("condStrDt" + capLen, '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("condEndDt" + capLen, '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("evalStrDt" + capLen, '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("evalEndDt" + capLen, '', "yyyy-MM-dd", new Date());
+    }
+
+    function fn_capDelRow(){
+
+        if($("#capBody").find("tr").length > 1){
+            $("#capBody").find("tr:last").remove();
+        }
     }
 </script>
 </body>
