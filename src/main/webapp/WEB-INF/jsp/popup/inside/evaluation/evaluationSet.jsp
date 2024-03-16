@@ -148,6 +148,60 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="panel-body" style="padding-top: unset">
+            <div class="card-header">
+                <h4 style="position: relative; top:7px">
+                    업적평가
+                </h4>
+            </div>
+            <table class="searchTable table table-bordered mb-0">
+                <colgroup>
+                    <col style="width: 15%">
+                    <col style="width: 35%">
+                    <col style="width: 15%">
+                    <col style="width: 35%">
+                </colgroup>
+                <tr>
+                    <th>평가기간</th>
+                    <td>
+                        <span id="achConf"></span> <br>
+                        <input type="text" id="achStrDt" style="width: 30%" /> ~ <input type="text" id="achEndDt" style="width: 30%" />
+                    </td>
+                    <th>차수별 가중치</th>
+                    <td>
+                        <table class="searchTable table table-bordered mb-0">
+                            <colgroup>
+                                <col style="width: 33%">
+                                <col style="width: 33%">
+                                <col style="width: 34%">
+                            </colgroup>
+                            <tr>
+                                <th>구분</th>
+                                <th>팀(장)</th>
+                                <th>부서장</th>
+                            </tr>
+                            <tr>
+                                <td>1차 평가자</td>
+                                <td><input type="text" id="achTeamMngA" style="text-align: right;" onkeyup="fn_achKeyUp()" /></td>
+                                <td><input type="text" id="achDeptMngA" style="text-align: right;" onkeyup="fn_achKeyUp()" /></td>
+                            </tr>
+                            <tr>
+                                <td>2차 평가자</td>
+                                <td><input type="text" id="achTeamMngB" style="text-align: right;" onkeyup="fn_achKeyUp()" /></td>
+                                <td><input type="text" id="achDeptMngB" style="text-align: right;" onkeyup="fn_achKeyUp()" /></td>
+                            </tr>
+                            <tr>
+                                <th>계</th>
+                                <td><input type="text" id="achTotTeamMng" style="text-align: right;" disabled /></td>
+                                <td><input type="text" id="achTotDeptMng" style="text-align: right;" disabled /></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <h5>※ 자기신고 기간 : 평가시작일 이전 일주일로 자동 설정</h5>
+        </div>
     </div>
 </div><!-- col-md-9 -->
 
@@ -156,12 +210,26 @@
     $(function (){
 
         customKendo.fn_textBox(["bsYear", "evalList", "idx0", "teamMemberA0", "teamMemberB0", "teamMemberC0", "teamManagerA0", "teamManagerB0", "teamManagerC0"
-                                , "deptManagerA0", "deptManagerB0", "deptManagerC0"]);
+                                , "deptManagerA0", "deptManagerB0", "deptManagerC0"
+                                , "achTeamMngA", "achTeamMngB", "achTotTeamMng", "achDeptMngA", "achDeptMngB", "achTotDeptMng"]);
 
         customKendo.fn_datePicker("condStrDt0", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("condEndDt0", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("evalStrDt0", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("evalEndDt0", '', "yyyy-MM-dd", new Date());
+
+        customKendo.fn_datePicker("achStrDt", '', "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("achEndDt", '', "yyyy-MM-dd", new Date());
+
+        $("#achConf").kendoRadioGroup({
+            items: [
+                { label : "전체지정", value : "A" },
+                { label : "차수지정", value : "E" },
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "A"
+        });
 
         $("#evalStat").kendoRadioGroup({
             items: [
