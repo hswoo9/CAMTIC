@@ -880,7 +880,6 @@ var draft = {
                     await sleep(i); // 2초대기
 
                     if(draft.global.hwpFileTextData == '' || draft.global.hwpFileTextData == null || draft.global.hwpFileTextData == undefined){
-                        draft.global.hwpFileTextData = draft.global.hwpFileTextData.replace(/UTF-16/g, "UTF-8");
                         getDocDrawCall();
                     }
 
@@ -1120,7 +1119,10 @@ var draft = {
         formData.append("urgentType", $("#urgentType").getKendoRadioGroup().value());
         formData.append("securityType", $("#securityType").getKendoRadioGroup().value());
         formData.append("docGbn", $("#docGbn").getKendoRadioGroup().value());
+
+        draft.global.hwpFileTextData = draft.global.hwpFileTextData.replace(/UTF-16/g, "UTF-8");
         formData.append("docContent", draft.global.htmlFileTextData);
+
         formData.append("cmCodeNm", $(e).attr("name"));
         formData.append("draftUserApproveType", draft.global.approversArr.filter(element => element.approveOrder === "0")[0].approveType);
         formData.append("aiKeyCode", $("#aiKeyCode").val());
@@ -1266,8 +1268,6 @@ var draft = {
     },
 
     docApproveAjax : function(){
-        draft.global.hwpFileTextData = draft.global.hwpFileTextData.replace(/UTF-16/g, "UTF-8");
-
         $.ajax({
             url : "/approval/setDocApproveNReturn",
             type : "POST",
@@ -1338,6 +1338,7 @@ var draft = {
         draft.global.formData.append("atFileSn", draft.global.draftDocInfo.ATFILE_SN);
 
         /** 한글 기안기 html 데이터 */
+        draft.global.hwpFileTextData = draft.global.hwpFileTextData.replace(/UTF-16/g, "UTF-8");
         draft.global.formData.append("docContent", draft.global.htmlFileTextData);
 
         /** 한글 기안기 HWP 데이터 */
