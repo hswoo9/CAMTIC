@@ -9,7 +9,10 @@
         FROM
             CAMPUS.DJ_CAMPUS_CODE CC
         WHERE
-            ACTIVE = 'Y'
+            1=1
+        <if test='active != null and active != ""'>
+            AND ACTIVE = #{active}
+        </if>
         <if test='campusGroupCodeId != null and campusGroupCodeId != ""'>
             AND CAMPUS_GROUP_CODE_ID = #{campusGroupCodeId}
         </if>
@@ -555,11 +558,12 @@
             EC.EDU_CATEGORY_ID,
             EC.EDU_CATEGORY_NAME,
             EC.LARGE_CATEGORY_ID,
-            EC.LARGE_CATEGORY_NAME
+            EC.LARGE_CATEGORY_NAME,
+            EC.ACTIVE
         FROM
             CAMPUS.DJ_EDU_CATEGORY EC
         WHERE
-            EC.ACTIVE = 'Y'
+            1=1
         <if test='largeCategoryId != null and largeCategoryId != ""'>
             AND EC.LARGE_CATEGORY_ID in (${largeCategoryId})
         </if>
@@ -587,11 +591,12 @@
             ECD.EDU_CATEGORY_ID,
             ECD.EDU_CATEGORY_NAME,
             ECD.LEVEL_ID,
-            ECD.LEVEL_NAME
+            ECD.LEVEL_NAME,
+            ECD.ACTIVE
         FROM
             CAMPUS.DJ_EDU_CATEGORY_DETAIL ECD
         WHERE
-            ECD.ACTIVE = 'Y'
+            1=1
         <if test='levelId != null and levelId != ""'>
             AND ECD.LEVEL_ID = #{levelId}
         </if>
@@ -3025,7 +3030,7 @@
         UPDATE
             CAMPUS.DJ_CAMPUS_CODE
         SET
-            ACTIVE = 'N'
+            ACTIVE = #{active}
         WHERE
             CAMPUS_GROUP_CODE_ID = #{groupCode}
         AND CAMPUS_DT_CODE IN (${pk})
@@ -3036,7 +3041,7 @@
         UPDATE
             CAMPUS.DJ_EDU_CATEGORY
         SET
-            ACTIVE = 'N'
+            ACTIVE = #{active}
         WHERE
             EDU_CATEGORY_ID IN (#{pk})
     </update>
@@ -3046,7 +3051,7 @@
         UPDATE
             CAMPUS.DJ_EDU_CATEGORY_DETAIL
         SET
-            ACTIVE = 'N'
+            ACTIVE = #{active}
         WHERE
             EDU_CATEGORY_DETAIL_ID IN (#{pk})
     </update>

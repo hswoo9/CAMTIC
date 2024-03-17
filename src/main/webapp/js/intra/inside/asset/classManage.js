@@ -727,7 +727,6 @@ var classManage = {
             gridChkboxId = "cPGridChk"
             url = "/asset/setAssetCodePositionDel.do";
         }else if(e == 2){
-
             gridChkboxId = "cDGridChk";
             url = "/asset/setClassDivisionDel.do";
         }else{

@@ -64,14 +64,21 @@ const systemAdmin = {
                             '	<span class="k-button-text">수정</span>' +
                             '</button>';
                     }
-                }/*, {
+                }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="classManage.fn_delBtn(1)">' +
-                            '	<span class="k-button-text">삭제</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.delBtn(\'A\', \'Y\')">' +
+                            '	<span class="k-button-text">사용</span>' +
                             '</button>';
                     }
-                }*/
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.delBtn(\'A\', \'N\')">' +
+                            '	<span class="k-button-text">미사용</span>' +
+                            '</button>';
+                    }
+                }
             ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -99,6 +106,16 @@ const systemAdmin = {
                 }, {
                     field: "CAMPUS_DT_CODE_NM",
                     title: "분류명"
+                }, {
+                    title: "사용",
+                    width: 70,
+                    template: function(row){
+                        if(row.ACTIVE == "Y"){
+                            return "사용";
+                        }else{
+                            return "미사용";
+                        }
+                    }
                 }
             ],
             dataBinding: function() {
@@ -159,8 +176,15 @@ const systemAdmin = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.delBtn(\'B\')">' +
-                            '	<span class="k-button-text">삭제</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.delBtn(\'B\', \'Y\')">' +
+                            '	<span class="k-button-text">사용</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.delBtn(\'B\', \'N\')">' +
+                            '	<span class="k-button-text">미사용</span>' +
                             '</button>';
                     }
                 }
@@ -189,6 +213,16 @@ const systemAdmin = {
                 }, {
                     field: "EDU_CATEGORY_NAME",
                     title: "구분명"
+                }, {
+                    title: "사용",
+                    width: 70,
+                    template: function(row){
+                        if(row.ACTIVE == "Y"){
+                            return "사용";
+                        }else{
+                            return "미사용";
+                        }
+                    }
                 }
             ],
             dataBinding: function() {
@@ -249,8 +283,15 @@ const systemAdmin = {
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.delBtn(\'C\')"">' +
-                            '	<span class="k-button-text">삭제</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.delBtn(\'C\', \'Y\')">' +
+                            '	<span class="k-button-text">사용</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="systemAdmin.delBtn(\'C\', \'N\')"">' +
+                            '	<span class="k-button-text">미사용</span>' +
                             '</button>';
                     }
                 }
@@ -274,6 +315,16 @@ const systemAdmin = {
                 }, {
                     field: "EDU_CATEGORY_DETAIL_NAME",
                     title: "항목명"
+                }, {
+                    title: "사용",
+                    width: 70,
+                    template: function(row){
+                        if(row.ACTIVE == "Y"){
+                            return "사용";
+                        }else{
+                            return "미사용";
+                        }
+                    }
                 }
             ],
             dataBinding: function() {
@@ -299,7 +350,7 @@ const systemAdmin = {
         systemAdmin.systemAdminReqPop("upd", type, checkbox.val())
     },
 
-    delBtn: function(type){
+    delBtn: function(type, active){
         let checkbox;
         let url;
         let gridId;
@@ -320,19 +371,46 @@ const systemAdmin = {
             gridId = "categoryGridC";
         }
 
-        if(checkbox.length == 0){ alert("삭제할 코드를 선택해주세요."); return; }
-        let checked = "";
-        if(confirm("선택한 코드를 삭제하시겠습니까?")) {
-            $.each(checkbox, function(){
-                checked += "," + $(this).val();
-            });
+        let checkText = "미사용할 코드를 선택해주세요.";
+        let confirmText = "선택한 코드를 미사용 하시겠습니까?";
+        let completeText = "미사용 처리가 완료되었습니다.";
+        if(active != "N"){
+            checkText = "사용할 코드를 선택해주세요.";
+            confirmText = "선택한 코드를 사용 하시겠습니까?";
+            completeText = "사용 처리가 완료되었습니다.";
         }
+
+        if(checkbox.length == 0){ alert(checkText); return; }
+        let checked = "";
+
+
+        if(!confirm(confirmText)) {
+            return;
+        }
+
+        $.each(checkbox, function(){
+            checked += "," + $(this).val();
+        });
         data.pk = checked.substring(1);
+        data.active = active;
         const result = customKendo.fn_customAjax(url, data);
         if(result.flag){
-            alert("삭제가 완료되었습니다.");
+            alert(completeText);
             gridReload(gridId);
         }
+    },
+
+    delCanBtn: function(){
+        let checkbox;
+
+        if(type == "A"){
+            checkbox = $("input[name=largeCategoryPk]:checked");
+        }else if(type == "B"){
+            checkbox = $("input[name=categoryPk]:checked");
+        }else if(type == "C"){
+            checkbox = $("input[name=categoryDetailPk]:checked");
+        }
+        if(checkbox.length == 0){ alert("수정할 코드를 선택해주세요"); return; }
     },
 
     systemAdminReqPop: function(mode, type, pk){
