@@ -795,24 +795,22 @@
         /* holidayWorkApplicationList */
         SELECT
             *,
+            M.STATUS AS DOC_STATUS,
             ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM,
             CAM_HR.FN_GetName('DEPT', (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = sm.APPLY_SEQ), 'KR') AS DEPT_NAME2,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = sm.APPLY_SEQ) AS EMP_NAME_KR,
             DI.APPRO_KEY,
-            AD.APPRO_KEY AS ADMIN_APPRO_KEY,
-            AD.DOC_MENU_CD AS ADMIN_DOC_MENU_CD,
             DI.DOC_MENU_CD,
             DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d') as APPLY_DAY
-        FROM cam_inside.dj_subholiday_use_hist sm
-        JOIN cam_inside.dj_subholiday_code sc
+        FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER M
+        left JOIN cam_inside.dj_subholiday_use_hist sm
+        ON sm.HOLIDAY_WORK_MASTER_SN = M.HOLIDAY_WORK_MASTER_SN AND sm.ACTIVE = 'Y'
+        left JOIN cam_inside.dj_subholiday_code sc
         ON sm.SUBHOLIDAY_CODE_ID = sc.SUBHOLIDAY_CODE_ID
         left join DJ_CAMTIC.A_DOC_INFO DI
-        on sm.DOC_ID = DI.DOC_ID
-        left join DJ_CAMTIC.A_DOC_INFO AD
-        on sm.ADMIN_DOC_ID = AD.DOC_ID
+        on M.DOC_ID = DI.DOC_ID
         WHERE 1=1
-        AND
-        sm.ACTIVE = 'Y'
+        AND M.ACTIVE = 'Y'
         AND
         sm.SUBHOLIDAY_CODE_ID = 11
         <if test='status != null and !"".equals(status)'>
@@ -825,27 +823,12 @@
             AND sm.APPLY_SEQ = #{empSeq}
         </if>
         <if test="adminMenu != null and adminMenu != ''">
-            AND sm.APPR_STAT = 'Y'
             <![CDATA[
                 AND
                     DATE_FORMAT(#{strDt}, '%Y-%m-%d') <= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
                 AND
                     DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
             ]]>
-
-            <choose>
-                <when test='docStatus == "A"'>
-                    AND (AD.APPROVE_STAT_CODE IN (0, 30, 40, 60, 111) OR AD.DOC_ID IS NULL)
-                </when>
-                <when test='docStatus == "B"'>
-                    AND AD.APPROVE_STAT_CODE IN (10, 20, 50)
-                </when>
-                <when test='docStatus == "C"'>
-                    AND AD.APPROVE_STAT_CODE IN (100, 101)
-                </when>
-                <otherwise>
-                </otherwise>
-            </choose>
 
             <if test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND sm.APPLY_SEQ IN ((SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ${searchKeyword} LIKE CONCAT('%', #{searchValue} ,'%')))

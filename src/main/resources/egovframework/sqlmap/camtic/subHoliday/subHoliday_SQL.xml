@@ -101,6 +101,9 @@
                 <if test="approvalReason != null and approvalReason != ''">
                     , APPROVAL_REASON
                 </if>
+                <if test="holidayWorkMasterSn != null and holidayWorkMasterSn != ''">
+                    , HOLIDAY_WORK_MASTER_SN
+                </if>
             )
         VALUES
             (
@@ -123,6 +126,9 @@
                 #{useDay}
                 <if test="approvalReason != null and approvalReason != ''">
                     , #{approvalReason}
+                </if>
+                <if test="holidayWorkMasterSn != null and holidayWorkMasterSn != ''">
+                    , #{holidayWorkMasterSn}
                 </if>
             )
         <selectKey keyProperty="vacUseHistId" resultType="Integer" order="BEFORE">
@@ -174,6 +180,31 @@
             SUBHOLIDAY_CODE_ID = '11'
     </update>
 
+    <insert id="setHolidayWorkMasterIns" parameterType="map">
+        /* setHolidayWorkMasterIns */
+        INSERT INTO CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER
+            (
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="holidayWorkMasterSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HOLIDAY_WORK_MASTER'
+        </selectKey>
+    </insert>
+
+    <update id="setVacUseHistDel2" parameterType="map">
+        /* setVacUseHistDel */
+        UPDATE
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        SET
+            ACTIVE = 'N'
+        WHERE
+            HOLIDAY_WORK_MASTER_SN = #{holidayWorkMasterSn} AND HOLIDAY_WORK_MASTER_SN IS NOT NULL
+    </update>
+
     <update id="setOverWorkVacUse" parameterType="map">
         UPDATE COM_INSIDE.DJ_OVER_WORK_PLAN
         SET
@@ -192,16 +223,19 @@
     <select id="getVacUseHistoryWorkList" parameterType="map" resultType="map">
         SELECT
             VUH.*,
-            VCD.SUBHOLIDAY_DT_CODE_NM
+            VCD.SUBHOLIDAY_DT_CODE_NM,
+            M.STATUS AS DOC_STATUS
         FROM
-            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
-        JOIN
+            CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER M
+        LEFT JOIN
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH ON M.HOLIDAY_WORK_MASTER_SN = VUH.HOLIDAY_WORK_MASTER_SN AND VUH.ACTIVE = 'Y'
+        LEFT JOIN
             CAM_INSIDE.DJ_SUBHOLIDAY_CODE VCD
         ON VUH.SUBHOLIDAY_CODE_ID = VCD.SUBHOLIDAY_CODE_ID
         WHERE
             VUH.SUBHOLIDAY_CODE_ID = '11'
         AND
-            VUH.ACTIVE = 'Y'
+            M.ACTIVE = 'Y'
         AND
             VUH.SUBHOLIDAY_WORK_DAY_YN = 'N'
         <if test='baseYear != null and !"".equals(baseYear)'>
@@ -366,6 +400,87 @@
             DJ_CAMTIC.A_DOC_INFO DI ON SUH.DOC_ID = DI.DOC_ID
         WHERE
             SUH.SUBHOLIDAY_USE_ID = #{subholidayUseId}
+    </select>
+
+    <select id="getHolidayWorkMasterOne" resultType="map" parameterType="map">
+        /* getHolidayWorkMasterOne */
+        SELECT
+            M.*,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER M
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON M.DOC_ID = DI.DOC_ID
+        WHERE
+            M.HOLIDAY_WORK_MASTER_SN = #{holidayWorkMasterSn}
+    </select>
+
+    <select id="getHolidayWorkHistOne" resultType="map" parameterType="map">
+        /* getHolidayWorkHistOne */
+        SELECT
+            SUH.SUBHOLIDAY_USE_ID,
+            SUH.SUBHOLIDAY_CODE_ID,
+            SUH.APPLY_SEQ,
+            SUH.APPLY_DATE,
+            SUH.SAVE_SEQ,
+            SUH.SAVE_DATE,
+            SUH.SUBHOLIDAY_ST_DT,
+            SUH.SUBHOLIDAY_ST_TIME,
+            SUH.SUBHOLIDAY_EN_DT,
+            SUH.SUBHOLIDAY_EN_TIME,
+            SUH.SUBHOLIDAY_USE_DAY,
+            SUH.SUBHOLIDAY_USE_HOUR,
+            SUH.SUBHOLIDAY_USE_TIME,
+            SUH.RMK,
+            SUH.SUBHOLIDAY_WORK_DAY,
+            SUH.SUBHOLIDAY_WORK_DAY_YN,
+            SUH.SUBHOLIDAY_ALTERNATIVE_DAY,
+            SUH.SH_WORK_STAT,
+            SUH.RMK_OTHER,
+            SUH.APPR_STAT,
+            SUH.ADMIN_APPR_STAT,
+            SUH.DOC_ID,
+            SUH.ADMIN_DOC_ID,
+            SUH.DOC_STS,
+            SUH.APPROVAL_REASON,
+            SUH.APPROVAL_EMP_SEQ,
+            SUH.APPROVAL_DATE,
+            SUH.APPROVAL_SEND_DATE,
+            SUH.SUBHOLIDAY_TARGET_SEQ,
+            SUH.OHTER_EMP,
+            SUH.OTHER_EMP_SEQ,
+            SUH.ACTIVE,
+            SUH.REG_EMP_SEQ,
+            SUH.REG_DATE,
+            SUH.MOD_EMP_SEQ,
+            SUH.MOD_DATE,
+            CAM_HR.FN_GetName('DEPT', EI.DEPT_SEQ, 'KR') AS DEPT_NAME2,
+            DATE_FORMAT(SUH.SAVE_DATE, '%Y-%m-%d') AS SAVE_DT,
+            SCD.SUBHOLIDAY_DT_CODE_NM,
+            EI.EMP_NAME_KR,
+            EI.DEPT_SEQ,
+            EI.DEPT_NAME,
+            EI.DEPT_TEAM_NAME,
+            EI.POSITION_CODE,
+            IFNULL(EI.POSITION_NAME, '') AS POSITION_NAME,
+            IFNULL(EI.DUTY_NAME, '') AS DUTY_NAME,
+            EI.DUTY_CODE,
+            IFNULL(DI.APPROVE_STAT_CODE, '0') AS STATUS,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
+        FROM
+            CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER M
+        LEFT JOIN
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SUH ON SUH.HOLIDAY_WORK_MASTER_SN = M.HOLIDAY_WORK_MASTER_SN AND SUH.ACTIVE = 'Y'
+        LEFT JOIN
+            CAM_INSIDE.DJ_SUBHOLIDAY_CODE SCD ON SUH.SUBHOLIDAY_CODE_ID = SCD.SUBHOLIDAY_CODE_ID
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI ON EI.EMP_SEQ = SUH.REG_EMP_SEQ
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON SUH.DOC_ID = DI.DOC_ID
+        WHERE
+            M.HOLIDAY_WORK_MASTER_SN = #{holidayWorkMasterSn}
     </select>
 
     <select id="getUserVacList" resultType="map" parameterType="map">
@@ -546,10 +661,7 @@
                 WHEN VUH.subholiday_code_id = 10 AND VUH.APPR_STAT = 'Y' THEN 1
                 ELSE 0
             END) AS LONGAWARD,
-            Sum(CASE
-                WHEN VUH2.subholiday_code_id = 11 AND VUH2.ADMIN_APPR_STAT = 'Y' THEN 1
-                ELSE 0
-            END) AS HOLIDAYWORK
+            (SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER A LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST B ON A.HOLIDAY_WORK_MASTER_SN = B.HOLIDAY_WORK_MASTER_SN AND B.ACTIVE = 'Y' WHERE A.REG_EMP_SEQ = VUI.EMP_SEQ AND (A.STATUS = '100' OR A.STATUS = '101') AND B.SUBHOLIDAY_CODE_ID in (11) AND A.ACTIVE = 'Y' AND LEFT(B.APPLY_DATE, 4) = #{holidayYear}) AS HOLIDAYWORK
         FROM cam_hr.dj_emp_info VUI
 
         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON VUI.DEPT_SEQ = HDI.DEPT_SEQ
@@ -709,8 +821,8 @@
             IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (8) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS matHoly,
             IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (9) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS altHoly,
             IFNULL((SELECT IFNULL(SUM(SUBHOLIDAY_USE_DAY), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (10) AND ACTIVE = 'Y' AND APPR_STAT = 'Y' AND LEFT(SUBHOLIDAY_ST_DT, 4) = #{year}), 0) AS compHoly,
-            IFNULL((SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (11) AND ACTIVE = 'Y' AND ADMIN_APPR_STAT = 'Y' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS workHoly,
-            IFNULL((SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE APPLY_SEQ = #{loginEmpSeq} AND SUBHOLIDAY_CODE_ID in (11) AND ACTIVE = 'Y' AND ADMIN_APPR_STAT = 'Y' AND SUBHOLIDAY_WORK_DAY_YN = 'N' AND LEFT(APPLY_DATE, 4) = #{year}), 0) AS remainWorkHoly
+            IFNULL((SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER A LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST B ON A.HOLIDAY_WORK_MASTER_SN = B.HOLIDAY_WORK_MASTER_SN AND B.ACTIVE = 'Y' WHERE B.APPLY_SEQ = #{loginEmpSeq} AND B.SUBHOLIDAY_CODE_ID in (11) AND A.ACTIVE = 'Y' AND (A.STATUS = '100' OR A.STATUS = '101') AND LEFT(B.APPLY_DATE, 4) = #{year}), 0) AS workHoly,
+            IFNULL((SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER A LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST B ON A.HOLIDAY_WORK_MASTER_SN = B.HOLIDAY_WORK_MASTER_SN AND B.ACTIVE = 'Y' WHERE B.APPLY_SEQ = #{loginEmpSeq} AND B.SUBHOLIDAY_CODE_ID in (11) AND A.ACTIVE = 'Y' AND (A.STATUS = '100' OR A.STATUS = '101') AND B.SUBHOLIDAY_WORK_DAY_YN = 'N' AND LEFT(B.APPLY_DATE, 4) = #{year}), 0) AS remainWorkHoly
         FROM
             CAM_INSIDE.DJ_HOLIDAY DH
         WHERE
@@ -1057,14 +1169,14 @@
     <update id="workHolidayReqApp" parameterType="map">
         /* updateApprStat */
         UPDATE
-            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+            CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER
         SET
-            APPR_STAT = #{status},
-            APPROVAL_SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
             APPROVAL_EMP_SEQ = #{empSeq},
             DOC_ID = #{docId}
         WHERE
-            SUBHOLIDAY_USE_ID = #{subholidayUseId}
+            HOLIDAY_WORK_MASTER_SN = #{holidayWorkMasterSn}
     </update>
 
     <update id="workHolidayReqAdminApp" parameterType="map">

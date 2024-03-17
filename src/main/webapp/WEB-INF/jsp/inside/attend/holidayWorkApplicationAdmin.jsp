@@ -14,6 +14,7 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="apprMngStat" value="M">
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">

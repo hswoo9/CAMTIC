@@ -421,7 +421,7 @@ function makeApprBtnHtml(dataInfo, onClick, type){
             "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
             "   <span class='k-button-text'>재상신</span>" +
             "</button>";
-    }else if(status == "100"){
+    }else if(status == "100" || status == "101"){
         html =
             "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+docId+"\", \""+approKey+"\", \""+menuCd+"\");'>" +
             "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +

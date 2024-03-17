@@ -29,6 +29,12 @@ var hwpDocCtrl = {
             if(subHolidayId == null || subHolidayId == undefined || subHolidayId == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             holidayInit.subHolidayInit(subHolidayId);
 
+        }else if(data.menuCd == "holidayWork") {
+
+            const subHolidayId = data.approKey.split("_")[1];
+            if(subHolidayId == null || subHolidayId == undefined || subHolidayId == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            holidayInit.holidayWorkInit(subHolidayId);
+
         }else if(data.menuCd == "campus") {
 
             const eduInfoId = data.approKey.split("_")[1];
@@ -615,6 +621,12 @@ var hwpDocCtrl = {
             const subHolidayId = pk;
             if (subHolidayId == null || subHolidayId == undefined || subHolidayId == "") { alert(errorText); return; }
             holidayInit.subHolidayInit(subHolidayId, "reDraft");
+
+        }else if(menuCd == "holidayWork"){
+
+            const subHolidayId = pk;
+            if (subHolidayId == null || subHolidayId == undefined || subHolidayId == "") { alert(errorText); return; }
+            holidayInit.holidayWorkInit(subHolidayId, "reDraft");
 
         }else if(menuCd == "purc") {
 

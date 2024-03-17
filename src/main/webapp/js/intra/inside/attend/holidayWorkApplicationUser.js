@@ -136,109 +136,22 @@ var holidayWorkApplicationUser ={
                     title: "승인상태",
                     width: "20%",
                     template : function(e){
-                        if(e.ADMIN_APPR_STAT != null){
-                            if(e.APPR_STAT == "N"){
-                                return "작성 중";
-                            } else if(e.APPR_STAT == "Y"){
-                                if(e.ADMIN_APPR_STAT == "N"){
-                                    return "관리자 대기중";
-                                } else if(e.ADMIN_APPR_STAT == "Y"){
-                                    return "최종승인";
-                                } else if(e.ADMIN_APPR_STAT =="C"){
-                                    return "관리자 제출";
-                                } else if(e.ADMIN_APPR_STAT =="E"){
-                                    return "관리자 반려";
-                                }else if(e.ADMIN_APPR_STAT =="D"){
-                                    return "관리자 회수";
-                                }
-                            } else if(e.APPR_STAT =="C"){
-                                return "제출";
-                            } else if(e.APPR_STAT =="E"){
-                                return "반려";
-                            }else if(e.APPR_STAT =="D"){
-                                return "회수";
-                            }
-                        }else{
-                            if(e.APPR_STAT == "N"){
-                                return "작성 중";
-                            } else if(e.APPR_STAT == "Y"){
-                                return "승인";
-                            } else if(e.APPR_STAT =="C"){
-                                return "제출";
-                            } else if(e.APPR_STAT =="E"){
-                                return "반려";
-                            }else if(e.APPR_STAT =="D"){
-                                return "회수";
-                            }
+                        if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
+                            return '결재완료';
+                        }else if(e.DOC_STATUS == 10 || e.DOC_STATUS == 20 || e.DOC_STATUS == 50){
+                            return '결재중';
+                        }else if(e.DOC_STATUS == 30){
+                            return '반려';
+                        }else {
+                            return '작성중';
                         }
                     },
                     width: 200,
                 }, {
                     title: "승인요청",
                     template : function(e){
-                        if(e.APPR_STAT == "N"){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='holidayWorkApplicationUser.workHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>상신</span>" +
-                                "</button>";
-                        } else if(e.APPR_STAT == "E"){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.DOC_ID+"\", \""+e.DOC_MENU_CD+"\", \""+e.APPRO_KEY+"\", 2, \"reDrafting\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>재상신</span>" +
-                                "</button>";
-                        } else if(e.APPR_STAT == "Y"){
-                            if(e.ADMIN_APPR_STAT != null){
-                                if(e.ADMIN_APPR_STAT == "Y"){
-                                    var html = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
-                                        "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                        "<span class='k-button-text'>신청자 문서 열람</span>" +
-                                        "</button>";
-                                    html += "<button type='button' style='margin-left: 10px;' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.ADMIN_DOC_ID+"\", \""+e.ADMIN_APPRO_KEY+"\", \""+e.ADMIN_DOC_MENU_CD+"\");'>" +
-                                        "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                        "<span class='k-button-text'>담당자 문서 열람</span>" +
-                                        "</button>";
-                                    return html;
-                                }else{
-                                    var html = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
-                                        "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                        "<span class='k-button-text'>신청자 문서 열람</span>" +
-                                        "</button>";
-                                    if(e.ADMIN_DOC_ID != null){
-                                        html += "<button type='button' style='margin-left: 10px;' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.ADMIN_DOC_ID+"\", \""+e.ADMIN_APPRO_KEY+"\", \""+e.ADMIN_DOC_MENU_CD+"\");'>" +
-                                            "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                            "<span class='k-button-text'>담당자 문서 열람</span>" +
-                                            "</button>";
-                                    }
-                                    return html;
-                                }
-                            }else{
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
-                                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                    "<span class='k-button-text'>열람</span>" +
-                                    "</button>";
-                            }
-                        } else if(e.APPR_STAT =="C"){
-                            if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
-                                if(e.AB_APPR_STAT == "I"){
-                                    return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>회수</span>" +
-                                        "</button>";
-                                }else{
-                                    return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>회수</span>" +
-                                        "</button>";
-                                }
-                            }else{
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                    "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                    "<span class='k-button-text'>회수</span>" +
-                                    "</button>";
-                            }
-                        } else {
-                            return "-";
-                        }
+                        let html = makeApprBtnHtml(e, "holidayWorkApplicationUser.workHolidayDrafting("+e.HOLIDAY_WORK_MASTER_SN+");");
+                        return html;
                     }
                 }]
         }).data("kendoGrid");
@@ -250,7 +163,7 @@ var holidayWorkApplicationUser ={
         grid.tbody.find("tr").dblclick(function (e) {
             var dataItem = grid.dataItem($(this));
 
-            var url = "/subHoliday/pop/subHolidayReqPop2.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;
+            var url = "/subHoliday/pop/subHolidayReqPop2.do?holidayWorkMasterSn=" + dataItem.HOLIDAY_WORK_MASTER_SN;
             var name = "subHolidayReqPop2";
             var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
@@ -265,7 +178,7 @@ var holidayWorkApplicationUser ={
     },
 
     workHolidayDrafting : function(subHolidayId) {
-        $("#subHolidayId").val(subHolidayId);
+        $("#holidayWorkMasterSn").val(subHolidayId);
         $("#subHolidayDraftFrm").one("submit", function() {
             var url = "/popup/subHoliday/approvalFormPopup/workHolidayUserApprovalPop.do";
             var name = "workHolidayApprovalPop";

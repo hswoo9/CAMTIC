@@ -20,13 +20,11 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">휴일근로신청</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info request" onclick="subHolidayReqPop2.fn_vacEdtHolidaySaveModal()" id="saveBtn">저장</button>
-                <%--<input type="button" class="k-button k-button-solid-info" value="결재" onclick=""/>--%>
-                <button type='button' class='k-button k-button-md k-button-solid k-button-solid-info drafting' onclick='subHolidayReqPop2.fn_vacEdtHolidaySaveModal()' style="display: none">
-                    <span class='k-icon k-i-track-changes-accept k-button-icon'></span>
-                    <span class='k-button-text'>상신</span>
-                </button>
-                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="subHolidayReqPop2.fn_topTableClose()">닫기</button>
+                <span id="holidayWorkBtnBox">
+
+                </span>
+                <button type="button" class="k-button k-button-solid-info request" onclick="subHolidayReqPop2.fn_save()" id="saveBtn">저장</button>
+                <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
         <form id="subHolidayReqPop" style="padding: 20px 30px;">
@@ -34,7 +32,6 @@
             <input type="hidden" id="deptSeq" name="deptSeq" value="${loginVO.orgnztId}">
             <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
             <input type="hidden" id="apprStat" value="N">
-            <input type="hidden" id="vacUseHistId" value="${params.subholidayUseId}">
             <input type="hidden" id="code" value="${code}">
             <table class="popTable table table-bordered mb-0" id="holidayPlanReqPopTb" style="margin-top: 10px;">
                 <colgroup>
@@ -48,107 +45,149 @@
                     <th>사번</th>
                     <td>
                         <input type="hidden" id="empSeq" value="${loginVO.uniqId}">
-                        <input type="text" id="erpEmpCd" name="erpEmpCd" class="defaultVal" value="${loginVO.erpEmpCd}" style="width: 80%;">
+                        <input type="text" id="erpEmpCd" name="erpEmpCd" class="defaultVal" value="${loginVO.erpEmpCd}" style="width: 200px;">
                     </td>
                     <th>성명</th>
                     <td>
-                        <input type="text" id="empName" name="empName" class="defaultVal" value="${loginVO.name}" style="width: 80%;">
+                        <input type="text" id="empName" name="empName" class="defaultVal" value="${loginVO.name}" style="width: 200px;">
                     </td>
                 </tr>
                 <tr>
                     <th>부서명</th>
                     <td>
-                        <input type="text" id="deptName" name="deptName" class="defaultVal" value="${loginVO.orgnztNm}" style="width: 80%;">
+                        <input type="text" id="deptName" name="deptName" class="defaultVal" value="${loginVO.orgnztNm}" style="width: 200px;">
                     </td>
                     <th>직급</th>
                     <td>
                         <c:if test="${loginVO.dutyNm != null && loginVO.dutyNm != ''}">
-                            <input type="text" id="dutyName" name="dutyName" class="defaultVal" value="${loginVO.dutyNm}" style="width: 80%;">
+                            <input type="text" id="dutyName" name="dutyName" class="defaultVal" value="${loginVO.dutyNm}" style="width: 200px;">
                         </c:if>
                         <c:if test="${loginVO.dutyNm == null || loginVO.dutyNm == ''}">
-                            <input type="text" id="dutyName" name="dutyName" class="defaultVal" value="${loginVO.positionNm}" style="width: 80%;">
+                            <input type="text" id="dutyName" name="dutyName" class="defaultVal" value="${loginVO.positionNm}" style="width: 200px;">
                         </c:if>
                     </td>
                 </tr>
                 <tr>
                     <th>신청구분</th>
                     <td colspan="3">
-                        <input type="text" id="edtHolidayKindTop" name="edtHolidayKindTop" required="required" value="휴일근로" style="width:20%;">
+                        <input type="text" id="edtHolidayKindText" value="휴일근로" style="width: 200px;">
+                        <input type="hidden" id="edtHolidayKindTop" value="11">
                     </td>
                 </tr>
-                </thead>
-            </table>
-            <table class="popTable table table-bordered mb-0" id="holidayPlanReqPopTbVal" style="margin-top: 0px;">
-                <colgroup>
-                    <col width="15%">
-                    <col width="35%">
-                    <col width="15%">
-                    <col width="35%">
-                </colgroup>
-                <thead>
                 <tr>
-                    <th id="varianceTH">기간</th>
-                    <td id="varianceTD" colspan="3">
-                        <input type="text" id="edtHolidayStartDateTop" name="edtHolidayStartDateTop" data-bind="value:start" style="width: 20%;">
-                        <input type="text" id="edtHolidayStartHourTop" name="edtHolidayStartHourTop" class="timeInput" data-bind="value:start" style="width: 10%;">
-                        <span style="width: 9%;"> ~ </span>
-                        <input type="text" id="edtHolidayEndDateTop" name="edtHolidayEndDateTop" data-bind="value:end" style="width: 20%;">
-                        <input type="text" id="edtHolidayEndHourTop" name="edtHolidayEndHourTop" class="timeInput" data-bind="value:end" style="width: 10%;">
-                        <table style="width:100%; margin-top:5px; text-align:center;">
+                    <th scope="row" class="text-center th-color">안내사항</th>
+                    <td colspan="3">
+                        * 휴일근로는 공휴일, 토요일, 일요일 등 휴무일에 근로가 필요한 경우 신청합니다.
+                        <br>
+                        * 휴일근로는 대체휴가(1:1)로 처리하오니 대체휴가일을 선택해서 신청합니다.(필수)
+                        <br>
+                        * 근로일자가 지정된 신청내용만 저장됩니다.
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">근로일자</th>
+                    <td colspan="3">
+                        <table style="width:100%; margin-top:5px;">
+                            <colgroup>
+                                <col width="25%">
+                                <col width="30%">
+                                <col width="25%">
+                                <col width="15%">
+                            </colgroup>
                             <tr style="background-color:#d8dce36b;">
-                                <th rowspan="2">근무시간유형</th>
-                                <th>시차출근A</th>
-                                <th>기본</th>
-                                <th>시차출근B</th>
-                                <th>시차출근C</th>
+                                <th>근로일자</th>
+                                <th>근로시간</th>
+                                <th>대채휴가일자</th>
+                                <th>비고</th>
                             </tr>
-                            <tr style="background-color:#d8dce36b;">
-                                <th>08:00 ~ 17:00</th>
-                                <th>09:00 ~ 18:00</th>
-                                <th>10:00 ~ 19:00</th>
-                                <th>14:00 ~ 22:30</th>
+                            <tr class="addData" style="background-color:#fff; text-align:center;">
+                                <td>
+                                    <input type="hidden" id="vacUseHistId_0" class="vacUseHistId" style="width:80%;">
+                                    <input id="edtHolidayWorkDay_0" class="edtHolidayWorkDay" data-bind="value:start" style="width: 80%;">
+                                </td>
+                                <td>
+                                    <input id="edtHolidayStartHourTop_0" class="edtHolidayStartHourTop" style="width: 40%;">
+                                    <span style="width: 9%;"> ~ </span>
+                                    <input id="edtHolidayEndHourTop_0" class="edtHolidayEndHourTop" style="width: 40%;">
+                                </td>
+                                <td>
+                                    <input id="edtHolidayAlternativeDate_0" class="edtHolidayAlternativeDate" style="width:80%;">
+                                </td>
+                                <td style="text-align: center"><input type="button" id="resetBtn_0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick="subHolidayReqPop2.dataClear(0)"/></td>
                             </tr>
-                            <tr style="background-color:#fff;">
-                                <td>오전반차</td>
-                                <td>08:00 ~ 13:00</td>
-                                <td>09:00 ~ 14:00</td>
-                                <td>10:00 ~ 15:00</td>
-                                <td>-</td>
+                            <tr class="addData" style="background-color:#fff; text-align:center;">
+                                <td>
+                                    <input type="hidden" id="vacUseHistId_1" class="vacUseHistId" style="width:80%;">
+                                    <input id="edtHolidayWorkDay_1" class="edtHolidayWorkDay" data-bind="value:start" style="width: 80%;">
+                                </td>
+                                <td>
+                                    <input id="edtHolidayStartHourTop_1" class="edtHolidayStartHourTop" style="width: 40%;">
+                                    <span style="width: 9%;"> ~ </span>
+                                    <input id="edtHolidayEndHourTop_1" class="edtHolidayEndHourTop" style="width: 40%;">
+                                </td>
+                                <td>
+                                    <input id="edtHolidayAlternativeDate_1" class="edtHolidayAlternativeDate" style="width:80%;">
+                                </td>
+                                <td style="text-align: center"><input type="button" id="resetBtn_1" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick="subHolidayReqPop2.dataClear(1)"/></td>
                             </tr>
-                            <tr style="background-color:#fff;">
-                                <td>오후반차</td>
-                                <td>13:00 ~ 17:00</td>
-                                <td>14:00 ~ 18:00</td>
-                                <td>15:00 ~ 19:00</td>
-                                <td>14:00 ~ 18:00</td>
+                            <tr class="addData" style="background-color:#fff; text-align:center;">
+                                <td>
+                                    <input type="hidden" id="vacUseHistId_2" class="vacUseHistId" style="width:80%;">
+                                    <input id="edtHolidayWorkDay_2" class="edtHolidayWorkDay" data-bind="value:start" style="width: 80%;">
+                                </td>
+                                <td>
+                                    <input id="edtHolidayStartHourTop_2" class="edtHolidayStartHourTop" style="width: 40%;">
+                                    <span style="width: 9%;"> ~ </span>
+                                    <input id="edtHolidayEndHourTop_2" class="edtHolidayEndHourTop" style="width: 40%;">
+                                </td>
+                                <td>
+                                    <input id="edtHolidayAlternativeDate_2" class="edtHolidayAlternativeDate" style="width:80%;">
+                                </td>
+                                <td style="text-align: center"><input type="button" id="resetBtn_2" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick="subHolidayReqPop2.dataClear(2)"/></td>
+                            </tr>
+                            <tr class="addData" style="background-color:#fff; text-align:center;">
+                                <td>
+                                    <input type="hidden" id="vacUseHistId_3" class="vacUseHistId" style="width:80%;">
+                                    <input id="edtHolidayWorkDay_3" class="edtHolidayWorkDay" data-bind="value:start" style="width: 80%;">
+                                </td>
+                                <td>
+                                    <input id="edtHolidayStartHourTop_3" class="edtHolidayStartHourTop" style="width: 40%;">
+                                    <span style="width: 9%;"> ~ </span>
+                                    <input id="edtHolidayEndHourTop_3" class="edtHolidayEndHourTop" style="width: 40%;">
+                                </td>
+                                <td>
+                                    <input id="edtHolidayAlternativeDate_3" class="edtHolidayAlternativeDate" style="width:80%;">
+                                </td>
+                                <td style="text-align: center"><input type="button" id="resetBtn_3" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick="subHolidayReqPop2.dataClear(3)"/></td>
+                            </tr>
+                            <tr class="addData" style="background-color:#fff; text-align:center;">
+                                <td>
+                                    <input type="hidden" id="vacUseHistId_4" class="vacUseHistId" style="width:80%;">
+                                    <input id="edtHolidayWorkDay_4" class="edtHolidayWorkDay" data-bind="value:start" style="width: 80%;">
+                                </td>
+                                <td>
+                                    <input id="edtHolidayStartHourTop_4" class="edtHolidayStartHourTop" style="width: 40%;">
+                                    <span style="width: 9%;"> ~ </span>
+                                    <input id="edtHolidayEndHourTop_4" class="edtHolidayEndHourTop" style="width: 40%;">
+                                </td>
+                                <td>
+                                    <input id="edtHolidayAlternativeDate_4" class="edtHolidayAlternativeDate" style="width:80%;">
+                                </td>
+                                <td style="text-align: center"><input type="button" id="resetBtn_4" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" value="초기화" onclick="subHolidayReqPop2.dataClear(4)"/></td>
                             </tr>
                         </table>
                     </td>
                 </tr>
                 <tr>
-                    <th id="varianceTH2" scope="row" class="text-center th-color">사유</th>
-                    <td id="varianceTD2" colspan="3">
+                    <th scope="row" class="text-center th-color">사유</th>
+                    <td colspan="3">
                         <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">기타사항<br>(인수인계 등)</th>
-                    <td colspan="3">
-                        <textarea name="other_reason" id="other_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="text-center th-color">업무인수자</th>
-                    <td colspan="3">
-                        <input type="text" id="other_emp" name="other_emp" class="defaultVal" style="width: 30%;">
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_userMultiSelectPop()">검색</button>
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayReqPop.dataClear();">선택 초기화</button>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">신청일</th>
                     <td colspan="3">
-                        <input type="date" id="now_date" style="width: 20%;">
+                        <input id="now_date" style="width: 20%;">
                     </td>
                 </tr>
                 </thead>
@@ -158,15 +197,14 @@
 </div>
 
 <form id="subHolidayDraftFrm" method="post">
-    <input type="hidden" id="menuCd" name="menuCd" value="subHoliday">
+    <input type="hidden" id="menuCd" name="menuCd" value="holidayWork">
     <input type="hidden" id="type" name="type" value="${type}">
     <input type="hidden" id="nowUrl" name="nowUrl" />
-    <input type="hidden" id="subHolidayId" name="subHolidayId" value=""/>
+    <input type="hidden" id="holidayWorkMasterSn" name="holidayWorkMasterSn" value="${params.holidayWorkMasterSn}">
 </form>
 
 <script>
     subHolidayReqPop2.fn_defaultScript();
-
 
     // URL에서 승인 상태 값을 가져오기
     var urlParams = new URLSearchParams(window.location.search);

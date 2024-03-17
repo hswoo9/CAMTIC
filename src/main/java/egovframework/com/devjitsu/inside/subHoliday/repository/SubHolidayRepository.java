@@ -19,12 +19,16 @@ public class SubHolidayRepository extends AbstractDAO  {
         update("subHoliday.updateVacUseHistWork", params);
     }
     public void setVacUseHistDel(Map<String, Object> params){update("subHoliday.setVacUseHistDel", params);}
+    public void setVacUseHistDel2(Map<String, Object> params){update("subHoliday.setVacUseHistDel2", params);}
+    public void setHolidayWorkMasterIns(Map<String, Object> params){ insert("subHoliday.setHolidayWorkMasterIns", params);}
     public void setOverWorkVacUse(Map<String, Object> params){
         update("subHoliday.setOverWorkVacUse", params);
     }
     public List<Map<String, Object>> getVacUseHistoryList(Map<String, Object> params){ return selectList("subHoliday.getVacUseHistoryList", params);}
     public List<Map<String, Object>> getVacUseHistoryListAdmin(Map<String, Object> params){ return selectList("subHoliday.getVacUseHistoryListAdmin", params);}
     public Map<String, Object> getVacUseHistoryOne(Map<String, Object> params){ return (Map<String, Object>)selectOne("subHoliday.getVacUseHistoryOne", params);}
+    public Map<String, Object> getHolidayWorkMasterOne(Map<String, Object> params){ return (Map<String, Object>)selectOne("subHoliday.getHolidayWorkMasterOne", params);}
+    public List<Map<String, Object>> getHolidayWorkHistOne(Map<String, Object> params){ return selectList("subHoliday.getHolidayWorkHistOne", params);}
     public List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params){ return selectList("subHoliday.getVacUseHistoryWorkList", params);}
     public int getVacUseHistoryListTotal(Map<String, Object> params) {return (int) selectOne("subHoliday.getVacUseHistoryListTotal", params);}
     public List<Map<String, Object>> getUserVacList(Map<String, Object> params) { return selectList("subHoliday.getUserVacList", params);}

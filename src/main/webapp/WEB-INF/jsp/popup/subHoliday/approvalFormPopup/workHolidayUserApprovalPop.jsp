@@ -5,7 +5,6 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <body>
 <div id="approveDataPop">
-    ...
 </div>
 <script>
     approvalDataInit();
@@ -19,13 +18,13 @@
         approvalParams.docTitle = "[휴일근로신청서]${loginVO.orgnztNm}-${loginVO.name}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
-        approvalParams.menuCd = "subHoliday";
+        approvalParams.menuCd = "holidayWork";
         approvalParams.docType = "A";
 
         approvalParams.linkageProcessId = "2";
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticUserWorkHoliday";
-        approvalParams.approKey = "camticUserWorkHoliday_${data.subHolidayId}";
+        approvalParams.approKey = "camticUserWorkHoliday_${data.holidayWorkMasterSn}";
 
         linkageProcessOn(approvalParams);
     }

@@ -24,6 +24,12 @@ public interface SubHolidayService {
     int setVacUseHist(Map<String, Object> params);
 
     /**
+     * 사용자 휴일근로이력 저장
+     * @param params
+     */
+    int setVacUseHist2(Map<String, Object> params);
+
+    /**
      * 사용자 휴가사용이력 삭제
      * @param params
      */
@@ -42,6 +48,8 @@ public interface SubHolidayService {
      * @return
      */
     Map<String, Object> getVacUseHistoryOne(Map<String, Object> params);
+    Map<String, Object> getHolidayWorkMasterOne(Map<String, Object> params);
+    List<Map<String, Object>> getHolidayWorkHistOne(Map<String, Object> params);
 
     List<Map<String, Object>> getVacUseHistoryWorkList(Map<String, Object> params);
 

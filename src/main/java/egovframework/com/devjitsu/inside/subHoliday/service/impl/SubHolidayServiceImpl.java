@@ -52,6 +52,39 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     }
 
     @Override
+    @Transactional
+    public int setVacUseHist2(Map<String, Object> params) {
+        int result = 0;
+
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> workDateArr = gson.fromJson((String) params.get("workDateArr"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+        if(!params.containsKey("holidayWorkMasterSn")){
+            subHolidayRepository.setHolidayWorkMasterIns(params);
+            result = Integer.parseInt(params.get("holidayWorkMasterSn").toString());
+        }else{
+            subHolidayRepository.setVacUseHistDel2(params);
+        }
+
+        for(Map<String, Object> map : workDateArr){
+            map.put("holidayWorkMasterSn", params.get("holidayWorkMasterSn"));
+
+            map.put("vacCodeId", params.get("vacCodeId"));
+            map.put("applySeq", params.get("applySeq"));
+            map.put("applyDate", params.get("applyDate"));
+            map.put("saveSeq", params.get("saveSeq"));
+            map.put("saveDate", params.get("saveDate"));
+            map.put("rmk", params.get("rmk"));
+            map.put("rmkOther", params.get("rmkOther"));
+            map.put("vacTargetSeq", params.get("vacTargetSeq"));
+            subHolidayRepository.setVacUseHist(map);
+        }
+
+        return result;
+    }
+
+    @Override
     public void setVacUseHistDel(Map<String, Object> params) {
         subHolidayRepository.setVacUseHistDel(params);
     }
@@ -69,6 +102,16 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     @Override
     public Map<String, Object> getVacUseHistoryOne(Map<String, Object> params) {
         return subHolidayRepository.getVacUseHistoryOne(params);
+    }
+
+    @Override
+    public Map<String, Object> getHolidayWorkMasterOne(Map<String, Object> params) {
+        return subHolidayRepository.getHolidayWorkMasterOne(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getHolidayWorkHistOne(Map<String, Object> params) {
+        return subHolidayRepository.getHolidayWorkHistOne(params);
     }
 
     @Override
@@ -346,7 +389,7 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         bodyMap.put("approKey", approKey);
 
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("subholidayUseId", approKey);
+        params.put("holidayWorkMasterSn", approKey);
         params.put("docName", bodyMap.get("formName"));
         params.put("docId", docId);
         params.put("docTitle", bodyMap.get("docTitle"));

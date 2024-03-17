@@ -8,8 +8,6 @@ var holidayInit = {
         });
         const ResultData = result.data;
 
-        
-
         hwpDocCtrl.putFieldText("deptName", ResultData.DEPT_NAME2);
 
         hwpDocCtrl.putFieldText("empName", ResultData.EMP_NAME_KR);
@@ -76,20 +74,6 @@ var holidayInit = {
             }
             hwpDocCtrl.putFieldText("HOLI_TEXT_BOX", holiTextBox);
             hwpDocCtrl.putFieldText("HOLI_TEXT_BOX2", holiTextBox2);
-        }else {
-            hwpDocCtrl.putFieldText("rmk", ResultData.RMK);
-
-            const subHolidayWorkDay = ResultData.SUBHOLIDAY_WORK_DAY.split("-");
-            const subHolidayWorkDayText = subHolidayWorkDay[0]+"년"+subHolidayWorkDay[1]+"월"+subHolidayWorkDay[2]+"일";
-            hwpDocCtrl.putFieldText("subHolidayWorkDay", subHolidayWorkDayText);
-
-            const startTime = ResultData.SUBHOLIDAY_ST_TIME;
-            const endTime = ResultData.SUBHOLIDAY_EN_TIME;
-            hwpDocCtrl.putFieldText("subHolidayTime", startTime+" ~ "+endTime);
-
-            const subHolidayAlternativeDay = ResultData.SUBHOLIDAY_ALTERNATIVE_DAY.split("-");
-            const subHolidayAlternativeDayText = subHolidayAlternativeDay[0]+"년"+subHolidayAlternativeDay[1]+"월"+subHolidayAlternativeDay[2]+"일";
-            hwpDocCtrl.putFieldText("subHolidayAlternativeDay", subHolidayAlternativeDayText);
         }
 
         if(ResultData.SUBHOLIDAY_CODE_ID != "11") {
@@ -136,6 +120,43 @@ var holidayInit = {
             }
 
             $("#readerName").val(readerEmpNameStr.substring(1));
+        }
+    },
+
+    holidayWorkInit : function(subHolidayId){
+        var result = customKendo.fn_customAjax("/subHoliday/getHolidayWorkHistOne", {holidayWorkMasterSn : subHolidayId});
+        const ResultData = result.list[0];
+        const list = result.list;
+
+        hwpDocCtrl.putFieldText("deptName", ResultData.DEPT_NAME2);
+
+        hwpDocCtrl.putFieldText("empName", ResultData.EMP_NAME_KR);
+
+        hwpDocCtrl.putFieldText("toDate", fn_getNowDate(1));
+
+        hwpDocCtrl.putFieldText("rmk", ResultData.RMK);
+
+        /** 초기화 */
+        for(let i=0; i<list.length; i++){
+            hwpDocCtrl.putFieldText("subHolidayWorkDay"+i, " ");
+            hwpDocCtrl.putFieldText("subHolidayTime"+i, " ");
+            hwpDocCtrl.putFieldText("subHolidayAlternativeDay"+i, " ");
+        }
+
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+
+            const subHolidayWorkDay = map.SUBHOLIDAY_WORK_DAY.split("-");
+            const subHolidayWorkDayText = subHolidayWorkDay[0]+"년"+subHolidayWorkDay[1]+"월"+subHolidayWorkDay[2]+"일";
+            hwpDocCtrl.putFieldText("subHolidayWorkDay"+i, subHolidayWorkDayText);
+
+            const startTime = map.SUBHOLIDAY_ST_TIME;
+            const endTime = map.SUBHOLIDAY_EN_TIME;
+            hwpDocCtrl.putFieldText("subHolidayTime"+i, startTime+" ~ "+endTime);
+
+            const subHolidayAlternativeDay = map.SUBHOLIDAY_ALTERNATIVE_DAY.split("-");
+            const subHolidayAlternativeDayText = subHolidayAlternativeDay[0]+"년"+subHolidayAlternativeDay[1]+"월"+subHolidayAlternativeDay[2]+"일";
+            hwpDocCtrl.putFieldText("subHolidayAlternativeDay"+i, subHolidayAlternativeDayText);
         }
     }
 }

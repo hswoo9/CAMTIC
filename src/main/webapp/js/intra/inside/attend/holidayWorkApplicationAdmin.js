@@ -157,96 +157,34 @@ var holidayWorkApplicationAdmin ={
                     title: "승인상태",
                     width: 100,
                     template : function(e){
-                        if(e.ADMIN_APPR_STAT == "N"){
-                            return "관리자 대기중";
-                        } else if(e.ADMIN_APPR_STAT == "Y"){
-                            return "최종승인";
-                        } else if(e.ADMIN_APPR_STAT =="C"){
-                            return "관리자 제출";
-                        } else if(e.ADMIN_APPR_STAT =="E"){
-                            return "관리자 반려";
-                        }else if(e.ADMIN_APPR_STAT =="D"){
-                            return "관리자 회수";
+                        if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
+                            return '결재완료';
+                        }else if(e.DOC_STATUS == 10 || e.DOC_STATUS == 20 || e.DOC_STATUS == 50){
+                            return '결재중';
+                        }else if(e.DOC_STATUS == 30){
+                            return '반려';
+                        }else {
+                            return '작성중';
                         }
-
                     },
                     width: 100,
                 }, {
-                    title: "신청자문서",
+                    title: "결재",
                     template : function(e){
-                        if(e.APPR_STAT == "E"){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.DOC_ID+"\", \""+e.DOC_MENU_CD+"\", \""+e.APPRO_KEY+"\", 2, \"reDrafting\", \"target\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>재상신</span>" +
-                                "</button>";
-                        } else if(e.APPR_STAT == "Y"){
+                        if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
                             return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>열람</span>" +
                                 "</button>";
-                        } else if(e.APPR_STAT =="C"){
-                            if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
-                                if(e.AB_APPR_STAT == "I"){
-                                    return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>회수</span>" +
-                                        "</button>";
-                                }else{
-                                    return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>회수</span>" +
-                                        "</button>";
-                                }
-                            }else{
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                    "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                    "<span class='k-button-text'>회수</span>" +
-                                    "</button>";
-                            }
-                        } else {
-                            return "-";
-                        }
-                    },
-                    width: 100,
-                }, {
-                    title: "담당자문서",
-                    template : function(e){
-                        if(e.ADMIN_APPR_STAT == "N"){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='holidayWorkApplicationAdmin.workHolidayDrafting(\""+e.SUBHOLIDAY_USE_ID+"\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>상신</span>" +
-                                "</button>";
-                        } else if(e.ADMIN_APPR_STAT == "E"){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+e.ADMIN_DOC_ID+"\", \""+e.ADMIN_DOC_MENU_CD+"\", \""+e.ADMIN_APPRO_KEY+"\", 2, \"reDrafting\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>재상신</span>" +
-                                "</button>";
-                        } else if(e.ADMIN_APPR_STAT == "Y"){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.ADMIN_DOC_ID+"\", \""+e.ADMIN_APPRO_KEY+"\", \""+e.ADMIN_DOC_MENU_CD+"\");'>" +
+                        }else if(e.DOC_STATUS == 10 || e.DOC_STATUS == 20 || e.DOC_STATUS == 50){
+                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                 "<span class='k-button-text'>열람</span>" +
                                 "</button>";
-                        } else if(e.ADMIN_APPR_STAT =="C"){
-                            if(e.AB_APPR_STAT != null && e.AB_APPR_STAT != ""){
-                                if(e.AB_APPR_STAT == "I"){
-                                    return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.ADMIN_DOC_ID+"\", \""+e.ADMIN_APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>회수</span>" +
-                                        "</button>";
-                                }else{
-                                    return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.ADMIN_DOC_ID+"\", \""+e.ADMIN_APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                        "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                        "<span class='k-button-text'>회수</span>" +
-                                        "</button>";
-                                }
-                            }else{
-                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+e.ADMIN_DOC_ID+"\", \""+e.ADMIN_APPRO_KEY+"\", 1, \"retrieve\");'>" +
-                                    "<span class='k-icon k-i-x-circle k-button-icon'></span>" +
-                                    "<span class='k-button-text'>회수</span>" +
-                                    "</button>";
-                            }
-                        } else {
-                            return "-";
+                        }else if(e.DOC_STATUS == 30){
+                            return '-';
+                        }else {
+                            return '-';
                         }
                     },
                     width: 100,

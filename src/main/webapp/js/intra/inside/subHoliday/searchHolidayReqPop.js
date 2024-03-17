@@ -109,7 +109,7 @@ var searchHolidayReqPop = {
                 {
                     headerTemplate: '',
                     template : function(e){
-                        if(e.ADMIN_APPR_STAT == "Y"){
+                        if((e.DOC_STATUS == 100 || e.DOC_STATUS == 101) && e.SUBHOLIDAY_WORK_DAY_YN == "N"){
                             return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class='checkbox checkSingle'/>";
                         } else {
                             return "";
@@ -126,42 +126,15 @@ var searchHolidayReqPop = {
                     field: "APPR_STAT",
                     title: "승인상태",
                     template : function(e){
-                        if(e.ADMIN_APPR_STAT != null){
-                            if(e.APPR_STAT == "N"){
-                                return "작성 중";
-                            } else if(e.APPR_STAT == "Y"){
-                                if(e.ADMIN_APPR_STAT == "N"){
-                                    return "담당자 요청진행전";
-                                } else if(e.ADMIN_APPR_STAT == "Y"){
-                                    return "최종승인";
-                                } else if(e.ADMIN_APPR_STAT =="C"){
-                                    return "관리자 제출";
-                                } else if(e.ADMIN_APPR_STAT =="E"){
-                                    return "관리자 반려";
-                                }else if(e.ADMIN_APPR_STAT =="D"){
-                                    return "관리자 회수";
-                                }
-                            } else if(e.APPR_STAT =="C"){
-                                return "제출";
-                            } else if(e.APPR_STAT =="E"){
-                                return "반려";
-                            }else if(e.APPR_STAT =="D"){
-                                return "회수";
-                            }
-                        }else{
-                            if(e.APPR_STAT == "N"){
-                                return "요청진행전";
-                            } else if(e.APPR_STAT == "Y"){
-                                return "승인";
-                            } else if(e.APPR_STAT =="C"){
-                                return "제출";
-                            } else if(e.APPR_STAT =="E"){
-                                return "반려";
-                            }else if(e.APPR_STAT =="D"){
-                                return "회수";
-                            }
+                        if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
+                            return '결재완료';
+                        }else if(e.DOC_STATUS == 10 || e.DOC_STATUS == 20 || e.DOC_STATUS == 50){
+                            return '결재중';
+                        }else if(e.DOC_STATUS == 30){
+                            return '반려';
+                        }else {
+                            return '작성중';
                         }
-
                     },
                 }
             ]

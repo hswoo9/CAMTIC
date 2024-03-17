@@ -199,6 +199,15 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    //휴일근로 기안전 신청내역 저장
+    @RequestMapping("/subHoliday/setVacUseHist2.do")
+    public String setVacUseHist2(@RequestParam Map<String, Object> params, Model model) {
+        subHolidayService.setVacUseHist2(params);
+        model.addAttribute("holidayWorkMasterSn", params.get("holidayWorkMasterSn"));
+
+        return "jsonView";
+    }
+
     /**
      * 인사관리 > 휴가관리 - 휴가 신청내역 삭제
      *
@@ -237,6 +246,13 @@ public class SubHolidayController {
     @RequestMapping("/subHoliday/getVacUseHistoryOne")
     public String getVacUseHistoryOne(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("data", subHolidayService.getVacUseHistoryOne(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/subHoliday/getHolidayWorkHistOne")
+    public String getHolidayWorkHistOne(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("data", subHolidayService.getHolidayWorkMasterOne(params));
+        model.addAttribute("list", subHolidayService.getHolidayWorkHistOne(params));
         return "jsonView";
     }
 
