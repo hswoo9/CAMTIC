@@ -18,6 +18,8 @@ var histEduInfo = {
             max : new Date("2023-12-31")
         });
         $('#eduYear').val("2023");
+
+        $("#eduYear").data("kendoDatePicker").bind("change", histEduInfo.gridReload);
     },
 
     gridReload: function(){
@@ -200,17 +202,17 @@ var histEduInfo = {
                     width: 120,
                     template: function(e){
                         let RequestType = "알수없음";
-                        if(e.Method == "-1"){
+                        if(e.State == "-1"){
                             RequestType = "계획";
-                        }else if(e.Method == "0"){
+                        }else if(e.State == "0"){
                             RequestType = "온라인 학습";
-                        }else if(e.Method == "1"){
+                        }else if(e.State == "1"){
                             RequestType = "신청완료";
-                        }else if(e.Method == "2"){
+                        }else if(e.State == "2"){
                             RequestType = "수료";
-                        }else if(e.Method == "3"){
+                        }else if(e.State == "3"){
                             RequestType = "미수료";
-                        }else if(e.Method == "4"){
+                        }else if(e.State == "4"){
                             RequestType = "이수완료";
                         }
                         return RequestType;
