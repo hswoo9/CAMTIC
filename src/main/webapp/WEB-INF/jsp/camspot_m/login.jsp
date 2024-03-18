@@ -53,7 +53,7 @@
                             <label for="idsave" class="txt type18 fcol_white">아이디저장</label>
                         </span>
                     </div>
-                    <input type="submit" value="LOGIN" placeholder="LOGIN" onclick="actionLogin();" class="bt mt20" />
+                    <input type="submit" value="LOGIN" placeholder="LOGIN" onclick="actionLogin();" class="bt mt20" style="width: 100%" />
                     <font class="txt type24 fP600 TC mt20 fcol_white"><a href="#">Forgot password?</a></font>
                 </form>
             	
@@ -66,7 +66,6 @@
     </div>
     <!--} login -->
     
-<jsp:include page="/WEB-INF/jsp/camspot_m/inc/bottom.jsp" flush="false"/>
 
 
 <script>
