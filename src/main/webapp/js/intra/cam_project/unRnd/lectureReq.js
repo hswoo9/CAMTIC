@@ -69,81 +69,35 @@ const lectureReq = {
             const result = customKendo.fn_customAjax("/projectUnRnd/getLectureInfo", data);
             const lecMap = result.data;
             const lecList = result.list;
+            var html = "";
+            var teachTime = 0;
 
             if(lecList != null && lecList != ""){
-                if(result.list.length === 1){
+                $("#tList").html("");
+
+                for(var i = 0 ; i < lecList.length ; i++) {
+                    html +='<tr>';
+                    html +='<td style="text-align: center;">'+lecList[i].NAME+'</td>';
+                    html +='<td>'+lecList[i].HP_NUM+'</td>';
+                    html +='</tr>';
+
+                    teachTime += parseInt(lecList[i].teachTime);
+                }
+
+                $("#tList").html(html);
+                $("#eduTime").val(teachTime);
+                /*const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime) + parseInt(lecList[2].teachTime);*/
+
+             /*   */
+
+               /* if(result.list.length === 1){
                     const teachTime = parseInt(lecList[0].teachTime);
 
                     $("#lecName").text(lecList[0].NAME);
                     $("#lecNumP").text(lecList[0].HP_NUM);
 
-                    $("#eduTime").val(teachTime);
-                }else if(result.list.length === 2){
-                    const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime);
 
-                    $("#lecName").text(lecList[0].NAME);
-                    $("#lecNumP").text(lecList[0].HP_NUM);
-                    $("#lecName2").text(lecList[1].NAME);
-                    $("#lecNumP2").text(lecList[1].HP_NUM);
-
-                    $("#eduTime").val(teachTime);
-                }else if(result.list.length === 3){
-                    const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime) + parseInt(lecList[2].teachTime);
-
-                    $("#lecName").text(lecList[0].NAME);
-                    $("#lecNumP").text(lecList[0].HP_NUM);
-                    $("#lecName2").text(lecList[1].NAME);
-                    $("#lecNumP2").text(lecList[1].HP_NUM);
-                    $("#lecName3").text(lecList[2].NAME);
-                    $("#lecNumP3").text(lecList[2].HP_NUM);
-
-                    $("#eduTime").val(teachTime);
-                }else if(result.list.length === 4){
-                    const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime) + parseInt(lecList[2].teachTime) + parseInt(lecList[3].teachTime);
-
-                    $("#lecName").text(lecList[0].NAME);
-                    $("#lecNumP").text(lecList[0].HP_NUM);
-                    $("#lecName2").text(lecList[1].NAME);
-                    $("#lecNumP2").text(lecList[1].HP_NUM);
-                    $("#lecName3").text(lecList[2].NAME);
-                    $("#lecNumP3").text(lecList[2].HP_NUM);
-                    $("#lecName4").text(lecList[3].NAME);
-                    $("#lecNumP4").text(lecList[3].HP_NUM);
-
-                    $("#eduTime").val(teachTime);
-                }else if(result.list.length === 5){
-                    const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime) + parseInt(lecList[2].teachTime) + parseInt(lecList[3].teachTime) + parseInt(lecList[4].teachTime);
-
-                    $("#lecName").text(lecList[0].NAME);
-                    $("#lecNumP").text(lecList[0].HP_NUM);
-                    $("#lecName2").text(lecList[1].NAME);
-                    $("#lecNumP2").text(lecList[1].HP_NUM);
-                    $("#lecName3").text(lecList[2].NAME);
-                    $("#lecNumP3").text(lecList[2].HP_NUM);
-                    $("#lecName4").text(lecList[3].NAME);
-                    $("#lecNumP4").text(lecList[3].HP_NUM);
-                    $("#lecName5").text(lecList[4].NAME);
-                    $("#lecNumP5").text(lecList[4].HP_NUM);
-
-                    $("#eduTime").val(teachTime);
-                }else if(result.list.length === 6){
-                    const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime) + parseInt(lecList[2].teachTime) + parseInt(lecList[3].teachTime) + parseInt(lecList[4].teachTime) + parseInt(lecList[5].teachTime);
-
-                    $("#lecName").text(lecList[0].NAME);
-                    $("#lecNumP").text(lecList[0].HP_NUM);
-                    $("#lecName2").text(lecList[1].NAME);
-                    $("#lecNumP2").text(lecList[1].HP_NUM);
-                    $("#lecName3").text(lecList[2].NAME);
-                    $("#lecNumP3").text(lecList[2].HP_NUM);
-                    $("#lecName4").text(lecList[3].NAME);
-                    $("#lecNumP4").text(lecList[3].HP_NUM);
-                    $("#lecName5").text(lecList[4].NAME);
-                    $("#lecNumP5").text(lecList[4].HP_NUM);
-                    $("#lecName6").text(lecList[5].NAME);
-                    $("#lecNumP6").text(lecList[5].HP_NUM);
-
-                    $("#eduTime").val(teachTime);
-                }
+                }*/
             }
 
             /*$("#projectType").data("kendoDropDownList").value(lecMap.LEC_BUSN_CLASS);*/
