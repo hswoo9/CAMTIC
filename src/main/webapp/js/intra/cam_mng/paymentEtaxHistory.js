@@ -671,6 +671,6 @@ var payEtaxHist = {
 
     fn_search : function (){
         payEtaxHist.gridReload("search");
-        payEtaxHist.cardMainGrid("search");
+        payEtaxHist.etaxMainGrid("search");
     }
 }
