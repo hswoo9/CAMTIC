@@ -44,8 +44,8 @@ var targetInfo = {
             dataSource: targetInfo.global.yearDropDown,
             index: index,
             change: function(e) {
-                targetInfo.dataSet();
                 targetInfo.tableSet();
+                targetInfo.dataSet();
             }
         });
     },
@@ -68,7 +68,7 @@ var targetInfo = {
                 $(".appBtn").show();
                 $(".stepBtn").show();
                 $(".canBtn").hide();
-            }else if(status == 100){
+            }else if(status == 100 || $("#targetYear").val() <= 2023){
                 $("#stat").text("승인완료");
                 $(".appBtn").hide();
                 $(".stepBtn").hide();
@@ -195,7 +195,7 @@ var targetInfo = {
         var html = "";
         if(list.length > 0 || subList.length > 0) {
             html += "<tr>";
-            html += "   <td rowspan='2' style='background-color: rgb(255, 239, 221); text-align: center'>구분</td>";
+            html += "   <td rowspan='2' style='width: 120px; background-color: rgb(255, 239, 221); text-align: center'>구분</td>";
             if(list.length > 0) {
                 html += "   <td colspan='" + list.length + "' style='background-color: rgb(210, 116, 156); text-align: center'><b style='color: white'>주업무</b></td>";
             }
