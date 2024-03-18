@@ -102,7 +102,11 @@ public class LoginController {
 
                 if(userData.get("DIVISION").equals("9999")){
                     model.addAttribute("message", "퇴사한 계정입니다.");
-                    return "forward:login.do";
+                    if(params.containsKey("deviceType")){
+                        return "forward:m/login.do";
+                    } else {
+                        return "forward:login.do";
+                    }
                 }
 
                 if(userData.get("TEMP_DIVISION").toString().equals("E") || passwordTmp.equals("camtic2021") || passwordTmp.equals("Camtic2021") || passwordTmp.equals("Camtic2021*^^*V")){
@@ -138,15 +142,27 @@ public class LoginController {
 
                 logger.info("이름은 : "+login.getName());
                 //Map<String, Object> loginMsMap = loginService.actionLoginMs(params);
+                if(params.containsKey("deviceType")){
+                    return "forward:mobileMain.do";
+                } else {
+                    return "redirect:indexB.do";
+                }
 
-                return "redirect:indexB.do";
             }else {
                 model.addAttribute("message", "Login failed.");
-                return "forward:login.do";
+                if(params.containsKey("deviceType")){
+                    return "forward:m/login.do";
+                } else {
+                    return "forward:login.do";
+                }
             }
         }else {
             model.addAttribute("message", "Login failed.");
-            return "forward:login.do";
+            if(params.containsKey("deviceType")){
+                return "forward:m/login.do";
+            } else {
+                return "forward:login.do";
+            }
         }
 
     }

@@ -245,7 +245,6 @@
             DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
             C.SBJ_STAT_YN,
             C.PJT_STEP,
-            D.*,
             A.TOT_RATE,
             B.MNG_STAT
         FROM
@@ -258,14 +257,12 @@
             CAM_PJT_MNG.DJ_PROJECT C
         ON
             B.PJT_SN = C.PJT_SN
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PART_RATE_MON D
-        ON
-            A.PJT_SN = D.PJT_SN AND D.BS_YEAR = #{pjtYear} AND A.PART_EMP_SEQ = D.EMP_SEQ
         WHERE
-            B.MNG_STAT = 'C'
-        AND
-            B.BEF_VER_CHECK = 'Y'
+            (C.PJT_SN, B.PART_RATE_VER) IN
+            (SELECT PJT_SN, MAX(PART_RATE_VER) AS PART_RATE_VER
+            FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+            WHERE MNG_STAT != 'R'
+            GROUP BY PJT_SN)
         <if test='busnClass != null and !"".equals(busnClass)'>
             AND
                 C.BUSN_CLASS = #{busnClass}

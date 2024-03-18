@@ -58,4 +58,8 @@
 
 <script type="text/javascript">
     holidayWorkApplicationUser.init();
+
+    function gridReload(){
+        holidayWorkApplicationUser.gridReload();
+    }
 </script>

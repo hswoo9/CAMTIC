@@ -267,7 +267,9 @@ var ub = {
         let methodTypeDataSource = [
             { label: "일반", value: "N" },
             { label: "재직자", value: "C" },
-            { label: "학생", value: "S" }
+            { label: "학생", value: "S" },
+            { label: "구직자", value: "H" }
+
         ];
         customKendo.fn_radioGroup("methodType", methodTypeDataSource, "horizontal");
         $("#methodType").data("kendoRadioGroup").value(1);

@@ -50,7 +50,7 @@ var docView = {
             const menuCd = docView.global.params.menuCd;
             /** 기안자 일 시 수정 버튼 생성 (외부시스템) */
             if(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId
-                && (menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus")) {
+                && (menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "holidayWork" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus")) {
                 
                 $("#modBtn").show();
             }else{
@@ -669,6 +669,11 @@ var docView = {
             window.open(url, name, option);
         }else if(menuCd == "subHoliday"){
             let url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "holidayWork"){
+            let url = "/subHoliday/pop/subHolidayReqPop2.do?holidayWorkMasterSn=" + pk;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);

@@ -123,8 +123,9 @@ var cardList = {
                             template : function (e){
                                 var cardToDe = "";
                                 cardToDe = e.CARD_TO_DE || "";
+                                var cardToTime = e.CARD_TO_TIME || "";
                                 if(e.RT_YN == "N"){
-                                    return '<div style="font-weight: bold;">' + cardToDe + '</div">';
+                                    return '<div style="font-weight: bold;">' + cardToDe + ' ' + cardToTime + '</div">';
                                 } else {
                                     return '';
                                 }
@@ -135,9 +136,9 @@ var cardList = {
                             template : function (e){
                                 var cardFromDe = "";
                                 cardFromDe = e.CARD_FROM_DE || "";
-
+                                var cardFromTime = e.CARD_FROM_TIME || "";
                                 if(e.RT_YN == "N"){
-                                    return '<div style="font-weight: bold;">' + cardFromDe + '</div">';
+                                    return '<div style="font-weight: bold;">' + cardFromDe + ' ' + cardFromTime + '</div">';
                                 } else {
                                     return '';
                                 }

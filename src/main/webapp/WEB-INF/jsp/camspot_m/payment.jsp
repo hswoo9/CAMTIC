@@ -24,46 +24,48 @@
     		
             <!-- 리스트 {-->
             <div class="blistBox mt40">
-            	<a href="/m/payment_view.do">
-                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자 testtesttesttest</font>
-                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
+                <c:forEach var="item" items="${waitList}" varStatus="status">
+            	<a href="/m/payment_view.do?docId=${item.DOC_ID}&mod=V&approKey=${item.APPRO_KEY}">
+                	<font class="txt type28 tit">${item.DOC_TITLE}</font>
+                	<font class="txt type24"><i>${item.DOC_NO == null ? "" : item.DOC_NO}</i><i>${item.DRAFT_DT}</i><i>${item.DRAFT_EMP_NAME}</i></font>
                 </a>
-            	<a href="#">
-                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
-                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
-                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
-                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
-                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
-                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
-                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
-                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
-                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>
-                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>
-                </a>
+                </c:forEach>
+<%--            	<a href="#">--%>
+<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
+<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
+<%--                </a>--%>
+<%--            	<a href="#">--%>
+<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
+<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
+<%--                </a>--%>
+<%--            	<a href="#">--%>
+<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
+<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
+<%--                </a>--%>
+<%--            	<a href="#">--%>
+<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
+<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
+<%--                </a>--%>
+<%--            	<a href="#">--%>
+<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
+<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
+<%--                </a>--%>
+<%--            	<a href="#">--%>
+<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
+<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
+<%--                </a>--%>
+<%--            	<a href="#">--%>
+<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
+<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
+<%--                </a>--%>
+<%--            	<a href="#">--%>
+<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
+<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
+<%--                </a>--%>
+<%--            	<a href="#">--%>
+<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
+<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
+<%--                </a>--%>
             </div>
             <!--} 리스트 -->
     		
@@ -79,7 +81,7 @@
             </div>
             <!--} 페이징 -->
             
-        	<div class="btBox mt40"><a href="/m/payment_write.do">글쓰기</a></div>
+<%--        	<div class="btBox mt40"><a href="/m/payment_write.do">글쓰기</a></div>--%>
             
     	</div>   
     	<!--} content -->

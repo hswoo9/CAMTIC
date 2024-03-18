@@ -36,15 +36,16 @@
             <div class="loginBox">
             
             	<h3 class="TtU TC fcol_white">LOGIN</h3>
-                <form>
+                <form name="loginForm" id="loginForm" method="post" action="">
+                    <input type="hidden" id="deviceType" name="deviceType" value="m" />
                     <div class="loginInput mt20">
                         <span class="idpw id">
                             <font class="txt type24 fP800">아이디</font>
-                            <input type="text" />
+                            <input type="text" id="id" name="id" />
                         </span>
                         <span class="idpw pw">
                             <font class="txt type24 fP800">비밀번호</font>
-                            <input type="password" />
+                            <input type="password" id="password" name="password" />
                         </span>
                         
                         <span class="save">
@@ -52,7 +53,7 @@
                             <label for="idsave" class="txt type18 fcol_white">아이디저장</label>
                         </span>
                     </div>
-                    <input type="submit" value="LOGIN" placeholder="LOGIN" class="bt mt20" />                
+                    <input type="submit" value="LOGIN" placeholder="LOGIN" onclick="actionLogin();" class="bt mt20" style="width: 100%" />
                     <font class="txt type24 fP600 TC mt20 fcol_white"><a href="#">Forgot password?</a></font>
                 </form>
             	
@@ -65,4 +66,20 @@
     </div>
     <!--} login -->
     
-<jsp:include page="/WEB-INF/jsp/camspot_m/inc/bottom.jsp" flush="false"/>
+
+
+<script>
+    function actionLogin() {
+        if ($("#id").val() == "") {
+            alert("아이디를 입력하세요");
+            return;
+        }else if ($("#password").val() ==""){
+            alert("비밀번호를 입력하세요.");
+            return;
+        }else{
+            var loginUrl = "/loginAccess";
+            document.loginForm.action= loginUrl;
+            document.loginForm.submit();
+        }
+    }
+</script>
