@@ -52,6 +52,10 @@ var payInit = {
             const pjtMap = pjtResult.map;
             console.log(pjtMap);
 
+            if(pjtMap == null){
+                alert("캠스팟 2.0에 등록되지 않은 사업정보입니다."); return;
+            }
+
             /** 사업명 */
             hwpDocCtrl.putFieldText("BS_TITLE", (pjtMap.BS_TITLE || ""));
             /** 과제명 */
