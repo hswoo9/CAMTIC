@@ -47,7 +47,7 @@ const dutyInfoReq = {
             $("#responsibility").val(dutyInfo.RESPONSIBILITY);
             $("#responsibilityMng").html(dutyInfo.RESPONSIBILITY.replaceAll("\n", "<br>"));
 
-            if(dutyInfo.STATUS == "100" || mode =="mng"){
+            if(dutyInfo.STATUS == "100" || mode =="mng" || ($("#dutyMonth").val() != "" && $("#dutyMonth").val().split("-")[0] <= 2023)){
                 $(".mng-mode").show();
                 $(".upd-mode").hide();
             } else {
@@ -111,7 +111,7 @@ const dutyInfoReq = {
         if(mode == "mng"){
             $("#userInfo").text(dutyInfo.REG_EMP_NAME+" "+dutyInfo.SPOT);
         }
-        if((mode == "upd" && status == 10) || (mode == "upd" && status == 100) || mode == "mng"){
+        if((mode == "upd" && status == 10) || (mode == "upd" && status == 100) || mode == "mng" || ($("#dutyMonth").val() != "" && $("#dutyMonth").val().split("-")[0] <= 2023)){
             if(mode != "mng"){
                 $("#dutyMonth").data("kendoDatePicker").enable(false);
             }
@@ -144,6 +144,12 @@ const dutyInfoReq = {
                 $("#recBtn").show();
                 $("#comBtn").show();
             }
+        }
+
+        if($("#dutyMonth").val() != "" && $("#dutyMonth").val().split("-")[0] <= 2023){
+            $("#saveBtn").hide();
+            $("#appBtn").hide();
+            $("#canBtn").hide();
         }
     },
 
