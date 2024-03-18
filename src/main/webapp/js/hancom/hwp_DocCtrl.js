@@ -572,7 +572,11 @@ var hwpDocCtrl = {
         }else if(data.menuCd == "propagRes") {
             const studyResultSn = data.approKey.split("_")[1];
             if (studyResultSn == null || studyResultSn == undefined || studyResultSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
-            campusInit.studyResInit(studyResultSn);
+            campusInit.propagResInit(studyResultSn);
+        }else if(data.menuCd == "ojtRes") {
+            const studyResultSn = data.approKey.split("_")[1];
+            if (studyResultSn == null || studyResultSn == undefined || studyResultSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            campusInit.studyInit(studyResultSn, "ojtRes");
         }
 
         /** 문서제목 양식 최초 입력 */

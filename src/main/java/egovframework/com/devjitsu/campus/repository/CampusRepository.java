@@ -92,6 +92,7 @@ public class CampusRepository extends AbstractDAO  {
     public List<Map<String, Object>> getStudyPropagList(Map<String, Object> params) { return selectList("campus.getStudyPropagList", params); }
     public List<Map<String, Object>> getStudyPropagUserList(Map<String, Object> params) { return selectList("campus.getStudyPropagUserList", params); }
     public List<Map<String, Object>> getStudyPropagUserInfo(Map<String, Object> params) { return selectList("campus.getStudyPropagUserInfo", params); }
+    public List<Map<String, Object>> getStudyPropagUserInfo2(Map<String, Object> params) { return selectList("campus.getStudyPropagUserInfo2", params); }
     public List<Map<String, Object>> getStudyOjtUserInfo(Map<String, Object> params) { return selectList("campus.getStudyOjtUserInfo", params); }
     public List<Map<String, Object>> getOjtPlanList(Map<String, Object> params) { return selectList("campus.getOjtPlanList", params); }
     public Map<String, Object> getOjtPlanOne(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getOjtPlanOne", params); }
@@ -257,6 +258,15 @@ public class CampusRepository extends AbstractDAO  {
     public void updateStudyResFinalApprStat(Map<String, Object> params) {
         update("campus.updateStudyResFinalApprStat", params);
     }
+
+    public void updatePropagResApprStat(Map<String, Object> params) {
+        update("campus.updatePropagResApprStat", params);
+    }
+
+    public void updatePropagResFinalApprStat(Map<String, Object> params) {
+        update("campus.updatePropagResFinalApprStat", params);
+    }
+
 
     public void updateApprStat(Map<String, Object> params) {
         update("campus.updateApprStat", params);

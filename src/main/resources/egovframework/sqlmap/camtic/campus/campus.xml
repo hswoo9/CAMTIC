@@ -782,7 +782,9 @@
             HEI.JOB_DETAIL AS jobDetailNm,
             DATE_FORMAT(CSI.REG_DATE,'%Y-%m-%d') AS regDate,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            RDI.APPRO_KEY AS RES_APPRO_KEY,
+            RDI.DOC_MENU_CD AS RES_DOC_MENU_CD
         FROM
             CAMPUS.DJ_STUDY_INFO CSI
         LEFT JOIN
@@ -791,6 +793,8 @@
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON CSI.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO RDI ON CSI.RES_DOC_ID = RDI.DOC_ID
         WHERE STUDY_INFO_SN = #{pk}
     </select>
 
@@ -870,6 +874,24 @@
         WHERE STUDY_PROPAG_SN = #{studyPropagSn}
           AND PROPAG_CLASS_SN = #{propagClassSn}
         ORDER BY  PROPAG_USER_SN
+    </select>
+
+    <select id="getStudyPropagUserInfo2" resultType="map" parameterType="map">
+        /* getStudyPropagUserInfo2 */
+        SELECT
+            MAX(PROPAG_CLASS_TEXT) AS PROPAG_CLASS_TEXT,
+            MAX(PROPAG_EMP_NAME) AS PROPAG_EMP_NAME,
+            MAX(PROPAG_DEPT_NAME) AS PROPAG_DEPT_NAME,
+            MAX(PROPAG_TEAM_NAME) AS PROPAG_TEAM_NAME,
+            MAX(PROPAG_POSITION_NAME) AS PROPAG_POSITION_NAME,
+            MAX(PROPAG_DUTY_NAME) AS PROPAG_DUTY_NAME,
+            IFNULL(SUM(REAL_EDU_TIME), 0) AS REAL_EDU_TIME,
+            IFNULL(COUNT(-1), 0) AS EDU_COUNT
+        FROM
+            CAMPUS.DJ_PROPAG_USER CPU
+        WHERE STUDY_INFO_SN = #{studyInfoSn}
+        GROUP BY STUDY_INFO_SN, PROPAG_CLASS_SN, PROPAG_EMP_SEQ
+        ORDER BY PROPAG_CLASS_SN
     </select>
 
     <select id="getStudyOjtUserInfo" resultType="map" parameterType="map">
@@ -2916,6 +2938,32 @@
         STATUS = #{status}
         WHERE
         STUDY_RESULT_SN = #{studyResultSn}
+    </update>
+
+    <update id="updatePropagResApprStat" parameterType="map">
+        /* updatePropagResApprStat */
+        UPDATE
+            CAMPUS.DJ_STUDY_INFO
+        SET
+        <if test='docId != null and !"".equals(docId)'>
+            RES_DOC_ID = #{docId},
+        </if>
+            RES_STATUS = #{status}
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
+    </update>
+
+
+    <update id="updatePropagResFinalApprStat" parameterType="map">
+        /* updatePropagResFinalApprStat */
+        UPDATE
+            CAMPUS.DJ_STUDY_INFO
+        SET
+            RES_STATUS = #{status},
+            RES_APPROVAL_EMP_SEQ = #{empSeq},
+            RES_APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d')
+        WHERE
+            STUDY_INFO_SN = #{studyInfoSn}
     </update>
 
     <update id="updateStudyResFinalApprStat" parameterType="map">
