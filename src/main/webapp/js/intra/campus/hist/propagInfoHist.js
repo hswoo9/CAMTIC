@@ -112,9 +112,9 @@ var propagInfoHist = {
                         }else if(e.State == "0"){
                             RequestType = "신청서 작성/검토";
                         }else if(e.State == "1"){
-                            RequestType = "제출완료(학습중)";
+                            RequestType = "제출완료<br>(학습중)";
                         }else if(e.State == "2"){
-                            RequestType = "학습완료(결과보고서 작성/검토)\"";
+                            RequestType = "학습완료<br>(결과보고서 작성/검토)\"";
                         }else if(e.State == "3"){
                             RequestType = "학습종료";
                         }else if(e.State == "4"){

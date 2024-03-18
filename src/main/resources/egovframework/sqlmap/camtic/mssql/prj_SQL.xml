@@ -238,6 +238,7 @@
             PRJDB.dbo.EduStudyInfo A
         WHERE
             YEAR(SDate) <= 2023
+          AND YEAR(SDate) = #{eduYear}
           AND (UUID = #{empSeq} Or SeqNo In (Select StudyNum From PRJDB.dbo.EduStudyUser where UUID = #{empSeq}))
         ]]>
         ORDER BY SDate DESC
@@ -255,6 +256,7 @@
             PRJDB.dbo.EduPropagInfo A
         WHERE
             YEAR(SDate) <= 2023
+          AND YEAR(SDate) = #{eduYear}
           AND (UUID = #{empSeq} Or SeqNo In (Select PropagNum From PRJDB.dbo.EduPropagUser where UUID IN (#{empSeq})))
         ]]>
         ORDER BY SDate DESC
@@ -273,6 +275,7 @@
             PRJDB.dbo.EduOJTInfo A
         WHERE
             SDate != '123' AND YEAR(SDate) <= 2023
+        AND YEAR(SDate) = #{eduYear}
         AND (UUID = #{empSeq} Or OJTNum In (Select OJTNum From PRJDB.dbo.EduOJTUser where UUID IN (#{empSeq})))
         ]]>
         ORDER BY SDate DESC
@@ -291,6 +294,7 @@
             PRJDB.dbo.EduOpenStudyResult A
         WHERE
             YEAR(SDate) <= 2023
+          AND YEAR(SDate) = #{eduYear}
           AND (UUID = #{empSeq} Or SeqNo In (Select InfoNum From PRJDB.dbo.EduOpenStudyResultUser where UUID IN (#{empSeq})))
         ]]>
         ORDER BY SDate DESC
@@ -306,6 +310,7 @@
         WHERE
             YEAR(EI.SDate) <= 2023
           AND EP.UUID = #{empSeq}
+          AND YEAR(EI.SDate) = #{eduYear}
         ]]>
         ORDER BY EI.SDate DESC
     </select>
@@ -319,6 +324,7 @@
             PRJDB.dbo.EduInfoPublic EI
         WHERE
             YEAR(EI.SDate) <= 2023
+          AND YEAR(EI.SDate) = #{eduYear}
         ]]>
         ORDER BY EI.SDate DESC
     </select>

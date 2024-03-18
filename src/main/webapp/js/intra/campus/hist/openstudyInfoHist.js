@@ -111,10 +111,6 @@ var openstudyInfoHist = {
                             RequestType = "결과보고서 검토중";
                         }else if(e.State == "2"){
                             RequestType = "학습종료";
-                        }else if(e.State == "3"){
-                            RequestType = "미수료";
-                        }else if(e.State == "4"){
-                            RequestType = "이수완료";
                         }
                         return RequestType;
                     }
