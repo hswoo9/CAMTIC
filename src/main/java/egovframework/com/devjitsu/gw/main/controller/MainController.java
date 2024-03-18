@@ -392,6 +392,7 @@ public class MainController {
         model.addAttribute("hwpUrl", hwpUrl);
         model.addAttribute("params", new Gson().toJson(params));
         model.addAttribute("rs", new Gson().toJson(rs));
+        model.addAttribute("mLoginVO", new Gson().toJson(loginVO));
         model.addAttribute("toDate", getCurrentDateTime());
 
         return "/camspot_m/payment_view";
