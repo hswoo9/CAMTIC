@@ -49,35 +49,14 @@ var openstudyInfoHist = {
             schema: {
                 data: function (data){
                     return data.list;
-                },
-                total: function (data){
-                    return data.list.length;
-                },
-            },
-            pageSize: 10
+                }
+            }
         });
 
-        $("#mainGrid").kendoGrid({
+        $("#mainGrid5").kendoGrid({
             dataSource: dataSource,
             sortable: true,
-            scrollable: true,
             selectable: "row",
-            height: 508,
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
-            },
-            toolbar: [
-                {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="openstudyInfoHist.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }
-            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -132,17 +111,13 @@ var openstudyInfoHist = {
                             RequestType = "결과보고서 검토중";
                         }else if(e.State == "2"){
                             RequestType = "학습종료";
-                        }else if(e.State == "3"){
-                            RequestType = "미수료";
-                        }else if(e.State == "4"){
-                            RequestType = "이수완료";
                         }
                         return RequestType;
                     }
                 }
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+                record = fn_getRowNum(this, 3);
             }
         }).data("kendoGrid");
     },

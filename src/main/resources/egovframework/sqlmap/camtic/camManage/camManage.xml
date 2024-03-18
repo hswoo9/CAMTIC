@@ -544,7 +544,7 @@
                     A.TR_NM LIKE CONCAT('%', #{searchValue} , '%')
             </if>
             AND B.USE_ETAX_SN IS NULL
-        ORDER BY A.ISU_DT DESC
+        ORDER BY A.ISS_DT DESC
     </select>
 
     <select id="getUserAccountManagementList" parameterType="map" resultType="map">

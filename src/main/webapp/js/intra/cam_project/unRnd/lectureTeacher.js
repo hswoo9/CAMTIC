@@ -218,59 +218,12 @@ const lectureTeacher = {
         });
 
 
-        var tcCount = $("#teacherGridS table tbody tr").length;
+        /*var tcCount = $("#teacherGridS table tbody tr").length;
         console.log(tcCount)
         if (tcCount > 6) {
             alert("강사는 최대 6명까지 선택 가능합니다.");
             return;
-        }
-
-        if (tcCount == 0) {
-            if(arr.length > 6){
-                alert("강사는 최대 6명까지 선택 가능합니다.");
-                return;
-            }
-        }
-
-        if (tcCount == 1) {
-            if(arr.length > 5){
-                alert("강사는 최대 6명까지 선택 가능합니다.");
-                return;
-            }
-        }
-
-        if (tcCount == 2) {
-            if(arr.length > 4){
-                alert("강사는 최대 6명까지 선택 가능합니다.");
-                return;
-            }
-        }
-
-        if (tcCount == 3) {
-            if(arr.length > 3){
-                alert("강사는 최대 6명까지 선택 가능합니다.");
-                return;
-            }
-        }
-
-        if (tcCount == 4) {
-            if(arr.length > 2){
-                alert("강사는 최대 6명까지 선택 가능합니다.");
-                return;
-            }
-        }
-
-        if (tcCount == 5) {
-            if(arr.length > 1){
-                alert("강사는 최대 6명까지 선택 가능합니다.");
-                return;
-            }
-        }
-
-        if (tcCount == 6) {
-            alert("강사는 최대 6명까지 선택 가능합니다.");
-            return;
-        }
+        }*/
 
         if(arr.length == 0) {
             alert("강사가 선택되지 않았습니다.");

@@ -76,28 +76,29 @@
             <div id="lecTeacherInfo">
                 <table class="popTable table table-bordered mb-20">
                     <colgroup>
-                        <col width="15%">
-                        <col width="28%">
-                        <col width="28%">
-                        <col width="28%">
+                        <col width="50%">
+                        <col width="50%">
                     </colgroup>
                     <thead>
                     <tr>
                         <th scope="row" class="text-center th-color">성명</th>
-                        <td id="lecName"></td>
-                        <td id="lecName2"></td>
-                        <td id="lecName3"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">휴대폰 번호</th>
-                        <td id="lecNumP"></td>
-                        <td id="lecNumP2"></td>
-                        <td id="lecNumP3"></td>
+                        <th scope="row" class="text-center th-color">휴대폰번호</th>
+                        <%--<td id="lecName"></td>--%>
+                        <%--<td id="lecName2"></td>
+                        <td id="lecName3"></td>--%>
                     </tr>
                     </thead>
+                    <tbody id="tList">
+                    <%--<tr>
+                        <td id="lecNumP"></td>
+                        <td id="lecNumP"></td>
+                    </tr>--%>
+                    </tbody>
+
+
                 </table>
 
-                <table class="popTable table table-bordered mb-20">
+                <%--<table class="popTable table table-bordered mb-20">
                     <colgroup>
                         <col width="15%">
                         <col width="28%">
@@ -118,7 +119,7 @@
                         <td id="lecNumP6"></td>
                     </tr>
                     </thead>
-                </table>
+                </table>--%>
             </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
@@ -257,7 +258,7 @@
                     </td>--%>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>운영방법(대상자)</th>
                     <td>
-                        <span id="methodType" style="width: 300px;"></span>
+                        <span id="methodType" <%--style="width: 300px;"--%>></span>
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>대상자(홍보용)</th>
                     <td colspan="2">

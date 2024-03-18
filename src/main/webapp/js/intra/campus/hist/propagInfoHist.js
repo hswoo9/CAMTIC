@@ -57,27 +57,10 @@ var propagInfoHist = {
             pageSize: 10
         });
 
-        $("#mainGrid").kendoGrid({
+        $("#mainGrid3").kendoGrid({
             dataSource: dataSource,
             sortable: true,
-            scrollable: true,
             selectable: "row",
-            height: 508,
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
-            },
-            toolbar: [
-                {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="propagInfoHist.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }
-            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -129,9 +112,9 @@ var propagInfoHist = {
                         }else if(e.State == "0"){
                             RequestType = "신청서 작성/검토";
                         }else if(e.State == "1"){
-                            RequestType = "제출완료(학습중)";
+                            RequestType = "제출완료<br>(학습중)";
                         }else if(e.State == "2"){
-                            RequestType = "학습완료(결과보고서 작성/검토)\"";
+                            RequestType = "학습완료<br>(결과보고서 작성/검토)\"";
                         }else if(e.State == "3"){
                             RequestType = "학습종료";
                         }else if(e.State == "4"){
