@@ -23,15 +23,15 @@
             	<font class="txt type30 fP700">결재현황</font>
                 <div class="disF">
                 	<span>
-                    	<font class="txt type35 num fP800">3</font>
+                    	<font class="txt type35 num fP800">${strStatus}</font>
                     	<font class="txt type24 con mt10 fP600">상신문서</font>
                     </span>
                 	<span>
-                    	<font class="txt type35 num fP800">2</font>
+                    	<font class="txt type35 num fP800">${waitStatus}</font>
                     	<font class="txt type24 con mt10 fP600">결재대기</font>
                     </span>
                 	<span>
-                    	<font class="txt type35 num fP800">53</font>
+                    	<font class="txt type35 num fP800">${compStatus}</font>
                     	<font class="txt type24 con mt10 fP600">결재완료</font>
                     </span>
                 </div>

@@ -1,7 +1,10 @@
 package egovframework.com.devjitsu.gw.main.controller;
 
+import com.google.gson.Gson;
 import egovframework.com.devjitsu.cams_pot.service.CustomBoardService;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.doc.approval.service.ApprovalService;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalUserService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
@@ -16,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Controller
@@ -35,6 +41,12 @@ public class MainController {
 
     @Autowired
     private CustomBoardService customBoardService;
+
+    @Autowired
+    private ApprovalService approvalService;
+
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     @RequestMapping("/")
     public String index(){
@@ -295,14 +307,35 @@ public class MainController {
         return "jsonView";
     }
 
-
-
-
-
-
     /** 디자인봄 작업경로 임시 생성 */
     @RequestMapping("/mobileMain.do")
-    public String main(){
+    public String main(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+
+        params.put("empSeq", loginVO.getUniqId());
+        params.put("deptSeq",loginVO.getOrgnztId());
+
+        // 나머지 검색 조건
+        params.put("approveStat", "draft");
+        params.put("approveType", "wait");
+        params.put("pageType", "mobile");
+        params.put("resType", "Y");
+        params.put("startDay", "");
+        params.put("endDay", "");
+
+        int strStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
+        int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
+
+        params.put("approveType", "reference");
+        int compStatus = approvalUserService.getApproveDocBoxList(params).size();
+
+        model.addAttribute("strStatus", strStatus);
+        model.addAttribute("waitStatus", waitStatus);
+        model.addAttribute("compStatus", compStatus);
+
         return "/camspot_m/main";
     }
     @RequestMapping("/m/login.do")
@@ -310,11 +343,57 @@ public class MainController {
         return "/camspot_m/login";
     }
     @RequestMapping("/m/payment.do")
-    public String payment(){
+    public String payment(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        params.put("deptSeq", loginVO.getOrgnztId());
+
+        // 나머지 검색 조건
+        params.put("approveStat", "draft");
+        params.put("approveType", "wait");
+        params.put("pageType", "mobile");
+        params.put("resType", "Y");
+        params.put("startDay", "");
+        params.put("endDay", "");
+
+        List<Map<String, Object>> waitList = approvalUserService.getApproveDocBoxList(params);
+
+        model.addAttribute("waitList", waitList);
+
         return "/camspot_m/payment";
     }
     @RequestMapping("/m/payment_view.do")
-    public String payment_view(){
+    public String payment_view(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        String hwpUrl = "";
+
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        params.put("deptSeq", loginVO.getOrgnztId());
+
+        Map<String, Object> rs = approvalService.getDocInfoApproveRoute(params);
+        rs.put("approveNowRoute", approvalService.getDocApproveNowRoute(params));
+        rs.put("approvePrevRoute", approvalService.getDocApprovePrevRoute(params));
+
+        model.addAttribute("docContent", rs.get("docContent"));
+        rs.remove("docContent");
+        params.remove("absentUserQuery");
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        params.put("hwpUrl", hwpUrl);
+
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("rs", new Gson().toJson(rs));
+        model.addAttribute("toDate", getCurrentDateTime());
+
         return "/camspot_m/payment_view";
     }
     @RequestMapping("/m/payment_write.do")
@@ -371,5 +450,15 @@ public class MainController {
     @RequestMapping("/m/alarm.do")
     public String alarm(){
         return "/camspot_m/alarm";
+    }
+
+
+    //오늘날짜 구하기 yyyyMMddhhmmss
+    public static String getCurrentDateTime() {
+        Date today = new Date();
+        Locale currentLocale = new Locale("KOREAN", "KOREA");
+        String pattern = "yyyyMMddHHmmss";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
+        return formatter.format(today);
     }
 }

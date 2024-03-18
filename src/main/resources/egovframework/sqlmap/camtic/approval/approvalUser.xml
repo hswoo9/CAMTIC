@@ -407,6 +407,12 @@
             </when>
             <when test='approveType != null and "reference".equals(approveType)'>
                 AND DI.APPROVE_STAT_CODE IN (100, 101)
+                <if test='pageType != null and !"".equals(pageType)'>
+                    AND (
+                        (DAR.APPROVE_EMP_SEQ = #{empSeq} AND DAR.APPROVE_DEPT_SEQ = #{deptSeq}) OR
+                        (DAR.PROXY_APPROVE_EMP_SEQ = #{empSeq} AND DAR.PROXY_APPROVE_DEPT_SEQ = #{deptSeq})
+                    )
+                </if>
             </when>
             <otherwise>
                 AND DAR.APPROVE_STAT_CODE IS NULL

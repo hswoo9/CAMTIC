@@ -37,10 +37,22 @@
                 	
                 </div>
                 
-            	<font class="txt type28 mt40"><b>본문</b></font>
-                <div class="content_output mt10">
-                	내용 출력
+                <div class="pop_sign_wrap">
+                    <div id="approvalDocView" class="pop_wrap_dir" style="padding:0 20px">
+                        <input type="hidden" id="docId" name="docId" value="">
+                        <input type="hidden" id="menuCd" name="menuCd" value="">
+                        <input type="hidden" id="approveRouteId" name="approveRouteId" value="">
+                        <input type="hidden" id="subApproval" name="subApproval" value="">
+
+                        <div style="display:flex; justify-content: space-between; margin:10px 10px 10px;">
+                            <font class="txt type28 mt40"><b>본문</b></font>
+                        </div>
+
+                        <div id="hwpApproveContent" style="height: 100%;border: 1px solid lightgray;"></div>
+
+                    </div>
                 </div>
+
             </div>
             <!--} 뷰 -->
     		
