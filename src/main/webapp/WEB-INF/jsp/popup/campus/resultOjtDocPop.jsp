@@ -18,7 +18,13 @@
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 
-<input type="hidden" id="pk" value="${params.pk}"/>
+<form id="studyDraftFrm" method="post">
+    <input type="hidden" id="pk" name="pk" value="${params.pk}"/>
+    <input type="hidden" id="menuCd" name="menuCd" value="ojtRes">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
+
 <input type="hidden" id="ojtOjtResultSn" value="${params.ojtOjtResultSn}" />
 <%--<input type="hidden" id="studyResultSn" value="${params.studyResultSn}" />--%>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -29,24 +35,17 @@
 <div class="table-responsive">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
-                <span style="">
-                    OJT 결과보고서
-                </span>
+            <span style="">
+                OJT 결과보고서
+            </span>
         </h3>
         <div class="btn-st popButton">
-            <input type="button" id="modifyBtn" style=" margin-right:5px;" class="k-button k-button-solid-primary" value="수정" onclick="saveBtn();"/>
-            <input type="button" id="savesBtn" style=" margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="saveBtn();"/>
-            <input type="button" id="apprBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인" onclick="fn_approval();"/>
-            <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="승인요청" onclick="fn_save();"/>
+            <span id="ojtResBtnBox">
+
+            </span>
+            <input type="button" id="savesBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="saveBtn();"/>
             <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
         </div>
-        <%--<div class="btn-st popButton">
-            <input type="button" id="apprBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인" onclick="fn_approval();"/>
-            <input type="button" id="saveBtn" style="margin-right:5px;" class="k-button k-button-solid-info" value="저장" onclick="fn_saveing();"/>
-            <input type="button" id="modBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-primary" value="수정" onclick="fn_saveing();"/>
-            <input type="button" id="approvalBtn" style="margin-right:5px; display:none;" class="k-button k-button-solid-info" value="승인요청" onclick="fn_save();"/>
-            <input type="button" id="cancelBtn" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close();"/>
-        </div>--%>
     </div>
     <form id="ojtResultForm">
         <table class="table table-bordered mt20">
@@ -99,7 +98,6 @@
                     <input type="text" id="regDateTd" style="width: 150px">
                 </td>
             </tr>
-
             </thead>
         </table>
     </form>
@@ -139,16 +137,19 @@
         }).data;
 
         if($("#resultMode").val() == "modify" || $("#resultMode").val() == "mng"){
-                $("#START_DT").val(ojtResultInfo.START_DT);
-                $("#END_DT").val(ojtResultInfo.END_DT);
-                $("#ojtLocationTd").val(ojtResultInfo.STUDY_LOCATION);
-                $("#ojtObjectTd").val(ojtResultInfo.STUDY_OBJECT);
-                $("#ojtContentTd").val(ojtResultInfo.STUDY_CONTENT);
-                $("#ojtAmtTd").val(fn_numberWithCommas(ojtResultInfo.STUDY_MONEY));
-                $("#ojtAmtTextTd").val(ojtResultInfo.STUDY_MONEY_VAL);
-                $("#regDateTd").val(ojtResultInfo.REG_DT);
-                $("#savesBtn").hide();
+
+            $("#START_DT").val(ojtResultInfo.START_DT);
+            $("#END_DT").val(ojtResultInfo.END_DT);
+            $("#ojtLocationTd").val(ojtResultInfo.STUDY_LOCATION);
+            $("#ojtObjectTd").val(ojtResultInfo.STUDY_OBJECT);
+            $("#ojtContentTd").val(ojtResultInfo.STUDY_CONTENT);
+            $("#ojtAmtTd").val(fn_numberWithCommas(ojtResultInfo.STUDY_MONEY));
+            $("#ojtAmtTextTd").val(ojtResultInfo.STUDY_MONEY_VAL);
+            $("#regDateTd").val(ojtResultInfo.REG_DT);
+            $("#savesBtn").hide();
+
         }else if($("#resultMode").val() == "upd"){
+
             $("#START_DT").val(ojtInfo.START_DT);
             $("#END_DT").val(ojtInfo.END_DT);
             $("#ojtLocationTd").val(ojtInfo.STUDY_LOCATION);
@@ -158,12 +159,26 @@
             $("#ojtAmtTextTd").val(ojtInfo.STUDY_MONEY_VAL);
             $("#regDateTd").val(ojtInfo.REG_DT);
             $("#modifyBtn").hide();
+
+        }
+
+        if(ojtResultInfo != null){
+            let html = makeApprBtnHtml(ojtInfo, 'fn_save()', '3-2');
+            $("#ojtResBtnBox").html(html);
+
+            const status = ojtInfo.STATUS;
+            if((status == "10" || status == "20" || status == "50" || status == "100") || $("#mode").val() == "mng"){
+                //propagView.fn_kendoUIEnableSet();
+            }
+
+            if($("#mode").val() == "mng" && status != "100"){
+                $("#ojtResBtnBox").hide();
+            }
         }
 
         if($("#resultMode").val() == "mng"){
             $("#savesBtn").hide();
             $("#modifyBtn").hide();
-            $("#START_DT, #END_DT, #END_DT, #ojtLocationTd, #ojtContentTd, #ojtAmtTd, #ojtAmtTextTd, #regDateTd").attr("readonly", true);
         }
 
         if(ojtInfo.ADD_STATUS == "C" || ojtInfo.ADD_STATUS == "S"){
@@ -196,41 +211,21 @@
             dataType :"json",
             success : function (result){
                 if(result.data.ojtResultCount == 1){
-                    $.ajax({
-                        url : "/campus/setStudyResultComplete",
-                        data: data,
-                        type :"post",
-                        dataType :"json",
-                        success : function (rs){
-                            if(rs.code == 200){
-                                alert("승인 요청되었습니다.");
-                                window.close();
-                            }
-                        }
-                    })
-                 }else{
+                    $("#studyDraftFrm").one("submit", function() {
+                        var url = "/Campus/pop/ojtResApprovalPop.do";
+                        var name = "_self";
+                        var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50";
+                        var popup = window.open(url, name, option);
+                        this.action = "/Campus/pop/ojtResApprovalPop.do";
+                        this.method = 'POST';
+                        this.target = '_self';
+                    }).trigger("submit");
+                }else{
                     alert('결과보고서를 저장해주세요.');
                     return;
                 }
             }
         })
-
-
-
-
-
-       /* $.ajax({
-            url : "/campus/setStudyResultComplete",
-            data: data,
-            type :"post",
-            dataType :"json",
-            success : function (rs){
-                if(rs.code == 200){
-                    alert("승인 요청되었습니다.");
-                    window.close();
-                }
-            }
-        })*/
     }
 
     function fn_approval(){
@@ -296,12 +291,12 @@
                 type: "post",
                 dataType: "json",
                 success: function (result) {
-                        alert("저장되었습니다.");
-                        opener.location.reload();
-                    }
+                    alert("저장되었습니다.");
+                    opener.location.reload();
+                    location.href = "/campus/pop/resultOjtDocPop.do?pk=" + result.params.studyInfoSn + "&mode=modify&&ojtOjtResultSn=" + result.params.ojtOjtResultSn;
+                }
             })
         }
-
     }
 </script>
 </body>

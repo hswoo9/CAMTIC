@@ -42,6 +42,7 @@ public interface CampusService {
     List<Map<String, Object>> getStudyPropagList(Map<String, Object> params);
     List<Map<String, Object>> getStudyPropagUserList(Map<String, Object> params);
     List<Map<String, Object>> getStudyPropagUserInfo(Map<String, Object> params);
+    List<Map<String, Object>> getStudyPropagUserInfo2(Map<String, Object> params);
     List<Map<String, Object>> getStudyOjtUserInfo(Map<String, Object> params);
     List<Map<String, Object>> getOjtPlanList(Map<String, Object> params);
     Map<String, Object> getOjtPlanOne(Map<String, Object> params);
@@ -184,6 +185,8 @@ public interface CampusService {
     void updateResDocState(Map<String, Object> bodyMap) throws Exception;
     void updateStudyDocState(Map<String, Object> bodyMap) throws Exception;
     void updateStudyResDocState(Map<String, Object> bodyMap) throws Exception;
+    void updatePropagResDocState(Map<String, Object> bodyMap) throws Exception;
+    void updateOjtResDocState(Map<String, Object> bodyMap) throws Exception;
 
     void deleteStudyJournal(Map<String, Object> params);
 

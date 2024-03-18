@@ -6,7 +6,7 @@ const propagView = {
 
     init: function(){
         propagView.dataSet();
-        propagView.buttonSet();
+        propagView.fn_btnSet();
         propagView.mainGrid();
         propagView.mainGrid3();
         propagView.makeTable();
@@ -72,23 +72,18 @@ const propagView = {
         }
     },
 
-    buttonSet: function(){
-        let mode = $("#mode").val();
-        let status = propagView.global.propagInfo.STATUS;
-        console.log(propagView.global.propagInfo)
-        if(mode == "upd"){
-            if(status == "0" || status == "30"){
-                $("#appBtn").show();
-            }else if(status == "10"){
-                $("#canBtn").show();
-            }
+    fn_btnSet: function(){
+        console.log("eduInfo", propagView.global.propagInfo);
+        let html = makeApprBtnHtml(propagView.global.propagInfo, 'fn_save()', '3-2');
+        $("#propagResBtnBox").html(html);
+
+        const status = propagView.global.propagInfo.STATUS;
+        if((status == "10" || status == "20" || status == "50" || status == "100") || $("#mode").val() == "mng"){
+            //propagView.fn_kendoUIEnableSet();
         }
-        if(mode == "mng"){
-            $("#saveBtn").hide();
-            if(status == "10"){
-                $("#recBtn").show();
-                $("#comBtn").show();
-            }
+
+        if($("#mode").val() == "mng" && status != "100"){
+            $("#propagResBtnBox").hide();
         }
     },
 

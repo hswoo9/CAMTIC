@@ -179,7 +179,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">사유</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>사유</th>
                     <td colspan="3">
                         <textarea name="holiday_reason" id="holiday_reason" rows="5" style="width:100%; /*border: 1px solid #eee;padding-left: 10px;*/"></textarea>
                     </td>

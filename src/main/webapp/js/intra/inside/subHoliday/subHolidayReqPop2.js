@@ -159,6 +159,12 @@ const subHolidayReqPop2 = {
     fn_save : function(){
         let flag = subHolidayReqPop2.fn_getApplyDateCheck();
 
+        if(!$("#holiday_reason").val()){
+            alert("사유를 입력해주세요.");
+            $("#holiday_reason").focus();
+            return;
+        }
+
         if (flag) {
             if (confirm("저장하시겠습니까?")) {
                 var monthStr = "00" + (subHolidayReqPop2.global.now.getMonth()+1);

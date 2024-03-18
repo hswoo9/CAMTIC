@@ -4,6 +4,7 @@ var campusInit = {
         userInfo: null,
 
         studyInfo: null,
+        propagInfo: null,
 
         userList: [],
         userList2: [],
@@ -159,7 +160,7 @@ var campusInit = {
             const userResult3 = customKendo.fn_customAjax("/campus/getStudyUserList", {pk: studyInfoSn, studyClassSn: 5});
             const userList3 = userResult3.list;
             campusInit.global.userList3 = userList3;
-        }else if(studyType == "ojt"){
+        }else if(studyType == "ojt" || studyType == "ojtRes"){
             const userResult2 = customKendo.fn_customAjax("/campus/getStudyUserList", {pk: studyInfoSn, studyClassSn: 4});
             const userList2 = userResult2.list;
             campusInit.global.userList2 = userList2;
@@ -181,6 +182,8 @@ var campusInit = {
             hwpDocCtrl.putFieldText("STUDY_TITLE", "전파학습 신청서");
         }else if(studyType == "ojt"){
             hwpDocCtrl.putFieldText("STUDY_TITLE", "OJT 계획서");
+        }else if(studyType == "ojtRes"){
+            hwpDocCtrl.putFieldText("STUDY_TITLE", "OJT 결과보고서");
         }else{
             hwpDocCtrl.putFieldText("STUDY_TITLE", "학습조 신청서");
         }
@@ -189,8 +192,8 @@ var campusInit = {
         let htmlStudy = "";
         if(studyType == "propag"){
             htmlStudy = campusInit.htmlCustomPropag();
-        }else if(studyType == "ojt"){
-            htmlStudy = campusInit.htmlCustomOjt();
+        }else if(studyType == "ojt" || studyType == "ojtRes"){
+            htmlStudy = campusInit.htmlCustomOjt(studyType);
         }else{
             htmlStudy = campusInit.htmlCustomStudy();
         }
@@ -379,7 +382,7 @@ var campusInit = {
         return html.replaceAll("\n", "<br>");
     },
 
-    htmlCustomOjt: function(){
+    htmlCustomOjt: function(studyType){
         const userInfo = campusInit.global.userInfo;
 
         const studyInfo = campusInit.global.studyInfo;
@@ -486,8 +489,12 @@ var campusInit = {
         }
 
         html += '               <tr>';
+        let text = "OJT계획서 신청서";
+        if(studyType == "ojtRes"){
+            text = "OJT결과보고서";
+        }
         html += '                   <td colspan="5" style="height:150px;background-color:#FFFFFF; text-align:center;">' +
-            '<p style="font-family:굴림;font-size:14px;margin-bottom: 3px">위와 같이 OJT계획서 신청서를 제출하오니 승인하여 주시기 바랍니다.<br><br>' +
+            '<p style="font-family:굴림;font-size:14px;margin-bottom: 3px">위와 같이 '+text+'를 제출하오니 승인하여 주시기 바랍니다.<br><br>' +
             '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p><br><br>' +
             '<p style="font-family:굴림;font-size:14px;text-align: right; margin-right: 10px">신 청 자 : '+$("#empName").val()+'</p>' +
             '</td>';
@@ -618,11 +625,11 @@ var campusInit = {
     propagResInit: function(studyResultSn){
         campusInit.global.userInfo = getUser($("#empSeq").val());
 
-        const studyResult = customKendo.fn_customAjax("/campus/getStudyResultData", {studyResultSn: studyResultSn});
+        const studyResult = customKendo.fn_customAjax("/campus/getStudyInfoOne", {pk: studyResultSn});
         const studyInfo = studyResult.data;
-        campusInit.global.studyInfo = studyInfo;
+        campusInit.global.propagInfo = studyInfo;
 
-        const userResult = customKendo.fn_customAjax("/campus/getStudyResultList", {pk: studyInfo.STUDY_INFO_SN});
+        const userResult = customKendo.fn_customAjax("/campus/getStudyPropagUserInfo2", {studyInfoSn: studyResultSn});
         const userList = userResult.list;
         campusInit.global.userList = userList;
 
@@ -631,9 +638,100 @@ var campusInit = {
         hwpDocCtrl.putFieldText('STUDY_SUBJECT', studyInfo.STUDY_NAME);
 
         let htmlStudy = "";
-        htmlStudy = campusInit.htmlCustomStudyRes();
+        htmlStudy = campusInit.htmlCustomPropagRes();
 
         hwpDocCtrl.moveToField('USER_TABLE', true, true, false);
         hwpDocCtrl.setTextFile(htmlStudy, "HTML", "insertfile", {});
     },
+
+    htmlCustomPropagRes: function(){
+        const studyInfo = campusInit.global.propagInfo;
+        const userList = campusInit.global.userList;
+        console.log("userList", userList);
+
+        let rowspan = 10;
+        if(userList.length > 8){
+            rowspan = userList.length+2;
+        }
+
+        let html = '';
+        html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="3" style="border-collapse: collapse; margin: 0px;">';
+
+        html += '               <tr>';
+        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습자</b></p></td>';
+        html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>구분</b></p></td>';
+        html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 170px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
+        html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 93px;"><p style="font-family:굴림;font-size:14px;"><b>직위</b></p></td>';
+        html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 93px;"><p style="font-family:굴림;font-size:14px;"><b>성명</b></p></td>';
+        html += '                   <td colspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 140px;"><p style="font-family:굴림;font-size:14px;"><b>이수시간</b></p></td>';
+        html += '               </tr>';
+        html += '               <tr>'
+        html += '                   <td style="height:23px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>회</b></p></td>';
+        html += '                   <td style="height:23px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>시간</b></p></td>';
+        html += '               </tr>';
+        for(let i=0; i<userList.length; i++){
+            const map = userList[i];
+
+            html += '               <tr>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.PROPAG_CLASS_TEXT +'</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.PROPAG_DEPT_NAME+ ' '+map.PROPAG_TEAM_NAME +'</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (map.PROPAG_DUTY_NAME == "" ? map.STUDY_POSITION_NAME : map.PROPAG_DUTY_NAME) + '</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.PROPAG_EMP_NAME +'</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.EDU_COUNT +'</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.REAL_EDU_TIME +'</p></td>';
+            html += '               </tr>';
+        }
+        if(userList.length < 8){
+            for(let i=0; i<8-userList.length; i++){
+                html += '               <tr>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+                html += '               </tr>';
+            }
+        }
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습기간</b></p></td>';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.START_DT+" ~ "+studyInfo.END_DT+" / 매회"+studyInfo.START_TIME+" ~ "+studyInfo.END_TIME+" (총 "+studyInfo.EDU_TERM+"회 "+studyInfo.EDU_TIME+"시간)" +'</p></td>';
+        html += '               </tr>';
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습장소</b></p></td>';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.STUDY_LOCATION+'</p></td>';
+        html += '               </tr>';
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습내용</b></p></td>';
+        html += '                   <td colspan="6" style="height:110px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.STUDY_CONTENT+'</p></td>';
+        html += '               </tr>';
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>소요비용</b></p></td>';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ comma(studyInfo.STUDY_MONEY)+'</p></td>';
+        html += '               </tr>';
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>산출내역</b></p></td>';
+        html += '                   <td colspan="6" style="height:60px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.STUDY_MONEY_VAL+'</p></td>';
+        html += '               </tr>';
+
+        html += '               <tr>';
+        html += '                   <td colspan="7" style="height:150px;background-color:#FFFFFF; text-align:center;">' +
+            '<p style="font-family:굴림;font-size:14px;margin-bottom: 3px">위와 같이 전파학습 결과보고서를 제출하오니 승인하여 주시기 바랍니다.<br><br>' +
+            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p><br><br>' +
+            '<p style="font-family:굴림;font-size:14px;text-align: right; margin-right: 10px">신 청 자 : '+$("#empName").val()+'</p>' +
+            '</td>';
+        html += '               <tr>';
+        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>첨부서류</b></p></td>';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;"></p></td>';
+        html += '               </tr>';
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
+    }
 }

@@ -390,18 +390,26 @@ function getManager(empSeq, deptLevel){
 function makeApprBtnHtml(dataInfo, onClick, type){
 
     let status = "";
-    if(type != "2"){
-        status = dataInfo.STATUS;
-    }else{
+    let docId = dataInfo.DOC_ID;
+    let approKey = dataInfo.APPRO_KEY;
+    let menuCd = dataInfo.DOC_MENU_CD;
+
+    if(type == "2"){
         status = dataInfo.DOC_STATUS;
+    }else if(type == "3"){
+        status = dataInfo.RES_STATUS;
+    }else if(type == "3-2"){
+        status = dataInfo.RES_STATUS;
+        docId = dataInfo.RES_DOC_ID;
+        approKey = dataInfo.RES_APPRO_KEY;
+        menuCd = dataInfo.RES_DOC_MENU_CD;
+    }else{
+        status = dataInfo.STATUS;
     }
     let html = "";
 
     if(dataInfo == null || dataInfo == "undefined" || dataInfo == ""){ return html; }
 
-    const docId = dataInfo.DOC_ID;
-    const approKey = dataInfo.APPRO_KEY;
-    const menuCd = dataInfo.DOC_MENU_CD;
 
     if(status == "0"){
         html =
