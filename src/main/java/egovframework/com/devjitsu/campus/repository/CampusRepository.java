@@ -141,8 +141,12 @@ public class CampusRepository extends AbstractDAO  {
         return (Map<String, Object>) selectOne("campus.getEduInfoFile", params);
     }
 
-    public Map<String, Object> getEduResultInfoFile(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("campus.getEduResultInfoFile", params);
+    public List<Map<String, Object>> getEduInfoFileList(Map<String, Object> params) {
+        return selectList("campus.getEduInfoFile", params);
+    }
+
+    public List<Map<String, Object>> getEduResultInfoFileList(Map<String, Object> params) {
+        return selectList("campus.getEduResultInfoFile", params);
     }
 
 

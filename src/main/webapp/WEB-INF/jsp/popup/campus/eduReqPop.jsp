@@ -288,9 +288,10 @@
             <tr>
               <th>첨부파일</th>
               <td colspan="3">
-                <label for="eduFile" class="k-button k-button-solid-base">파일첨부</label>
-                <input type="file" id="eduFile" name="eduFile" onchange="eduReq.fileChange(this)" style="display: none">
-                <span id="fileText"></span>
+                <label for="fileList" class="k-button k-button-solid-base">파일첨부</label>
+                <input type="file" id="fileList" name="fileList" onchange="eduReq.fileChange()" style="display: none" multiple>
+                <ul id="ulSetFileName" style="padding-left: 20px;"></ul>
+                <ul id="ulFileName" style="padding-left: 20px;"></ul>
               </td>
             </tr>
             <tr>

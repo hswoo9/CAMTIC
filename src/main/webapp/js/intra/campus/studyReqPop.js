@@ -68,7 +68,7 @@ const studyReq = {
     },
 
     settingTempFileDataInit: function(){
-        $("#setFileName").empty();
+        $("#ulSetFileName").empty();
 
         var result = customKendo.fn_customAjax("/common/getFileList", { contentId: "studyInfo_" + $("#pk").val(), fileCd: "studyInfo" });
         if(result.flag){
@@ -93,7 +93,7 @@ const studyReq = {
             studyReq.global.attFiles.push($("input[name='fileList']")[0].files[i]);
         }
 
-        $("#fileName").empty();
+        $("#ulFileName").empty();
         if(studyReq.global.attFiles.length > 0){
             var html = '';
             for (var i = 0; i < studyReq.global.attFiles.length; i++) {
