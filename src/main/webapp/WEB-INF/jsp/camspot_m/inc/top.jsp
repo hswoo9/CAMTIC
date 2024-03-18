@@ -36,6 +36,13 @@
 
 <body>
 
+<input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="loginEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="loginDeptSeq" value="${loginVO.orgnztId}"/>
+<input type="hidden" id="loginDeptName" value="${loginVO.deptNm}"/>
+<input type="hidden" id="loginTeamSeq" value="${loginVO.teamId}"/>
+<input type="hidden" id="loginTeamName" value="${loginVO.teamNm}"/>
+
 <div id="wrap">
     
     <!-- header {-->
@@ -51,7 +58,7 @@
             <img src="/images/camspot_m/ico-bell.png" />
         </a>
         <a class="lo-admin" href="/m/admin.do">
-            <font class="txt type22">경영지원팀<br>관리자</font>
+            <font class="txt type22">${loginVO.teamNm != '' ? loginVO.teamNm : loginVO.deptNm}<br>${loginVO.name}</font>
             <figure><img src="/images/camspot_m/ico-man.png" /></figure>
         </a>
     </div>

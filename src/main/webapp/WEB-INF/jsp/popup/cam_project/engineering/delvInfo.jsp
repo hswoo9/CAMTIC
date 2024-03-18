@@ -182,6 +182,12 @@
         </table>
     </div>
 </div>
+<input type="hidden" id="reDocId" value="" />
+<input type="hidden" id="reDocMenuCd" value="" />
+<input type="hidden" id="reApproKey" value="" />
+<input type="hidden" id="reIdx" value="" />
+<input type="hidden" id="reType" value="" />
+
 <div id="dialog"></div>
 
 <script>
@@ -253,7 +259,15 @@
         }
     });
 
-    function openModal(){
+    function openModal(docId, docMenuCd, approKey, idx, type){
+        if(docId != undefined && docId != "" && docId != null){
+            $("#reDocId").val(docId);
+            $("#reDocMenuCd").val(docMenuCd);
+            $("#reApproKey").val(approKey);
+            $("#reIdx").val(idx);
+            $("#reType").val(type);
+        }
+
         $("#dialog").data("kendoWindow").open();
     }
 
