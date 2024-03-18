@@ -36,7 +36,7 @@ var esm = {
             }
         });
 
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(esm.global.now.setFullYear(esm.global.now.getFullYear() - 20)));
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date('1999-01-01'));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         customKendo.fn_datePicker("year", 'decade', "yyyy", new Date());

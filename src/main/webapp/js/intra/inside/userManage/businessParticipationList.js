@@ -340,7 +340,7 @@ var busnPartList = {
         acctAm3Sum = 0;
         subAmSum = 0;
 
-        var grid = this;
+        /*var grid = this;
 
         function setRowSpanForColumn(colIndex, backgroundColor, color, borderRightColor) {
             var dimension_col = colIndex;
@@ -367,7 +367,7 @@ var busnPartList = {
                 dimension_td.css('background-color', backgroundColor).css('color', color).css('border-bottom-color', 'transparent');
             });
 
-            /*grid.tbody.find("tr").each(function () {
+            /!*grid.tbody.find("tr").each(function () {
                 var dataItem = grid.dataItem($(this));
                 var dimension_td = $(this).find('td:nth-child(' + dimension_col + ')');
 
@@ -385,16 +385,16 @@ var busnPartList = {
                 dimension_td.css('background-color', backgroundColor).css('color', color).css('border-bottom-color', 'transparent');
             });
 
-            changeMergedCells(arrCells, cellText, true, true);*/
+            changeMergedCells(arrCells, cellText, true, true);*!/
 
         }
 
         //setRowSpanForColumn(1, '#e3e4e6', 'black', 'transparent');
         setRowSpanForColumn(2, '#e3e4e6', 'black', 'transparent');
-        /*setRowSpanForColumn(3, '#e3e4e6', 'black', 'transparent');
+        /!*setRowSpanForColumn(3, '#e3e4e6', 'black', 'transparent');
         setRowSpanForColumn(4, '#e3e4e6', 'black', 'transparent');
         setRowSpanForColumn(5, '#e3e4e6', 'black', 'transparent');
-        setRowSpanForColumn(6, '#e3e4e6', 'black', 'transparent');*/
+        setRowSpanForColumn(6, '#e3e4e6', 'black', 'transparent');*!/
 
         grid.tbody.find("tr").each(function () {
             var dataItem = grid.dataItem($(this));
@@ -435,9 +435,9 @@ var busnPartList = {
             }
 
             return arrCells;
-        }
+        }*/
 
-        /*$('#mainGrid >.k-grid-content>table').each(function (index, item) {
+        $('#mainGrid >.k-grid-content>table').each(function (index, item) {
             var dimension_col = 1;
             // First, scan first row of headers for the "Dimensions" column.
             $('#mainGrid >.k-grid-header>.k-grid-header-wrap>table').find('th').each(function () {
@@ -492,7 +492,7 @@ var busnPartList = {
                     $(this).css("cursor","pointer");
                 }
             });
-        });*/
+        });
 
 
         //지원부처 row 통합 해제 요청으로 주석처리
@@ -538,7 +538,7 @@ var busnPartList = {
             });
         });*/
 
-        /*function ChangeMergedCells(arrCells, cellText, addBorderToCell, flag) {
+        function ChangeMergedCells(arrCells, cellText, addBorderToCell, flag) {
             var cellsCount = arrCells.length;
             if (cellsCount > 1) {
                 var index = parseInt(cellsCount / 2);
@@ -569,7 +569,7 @@ var busnPartList = {
                 arrCells = [];
             }
             return arrCells;
-        }*/
+        }
     },
 
     fn_projectPartRatePop : function (key){
