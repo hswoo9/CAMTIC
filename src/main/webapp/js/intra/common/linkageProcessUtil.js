@@ -258,7 +258,8 @@ function getDocInfo(docId){
 		dataType : "json",
 		async : false,
 		success : function (rs) {
-			result = rs.rs;
+			result           = rs.rs;
+
 		}
 	})
 
