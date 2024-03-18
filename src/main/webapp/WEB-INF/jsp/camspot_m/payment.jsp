@@ -25,7 +25,7 @@
             <!-- 리스트 {-->
             <div class="blistBox mt40">
                 <c:forEach var="item" items="${waitList}" varStatus="status">
-            	<a href="/m/payment_view.do?docId=${item.DOC_ID}">
+            	<a href="/m/payment_view.do?docId=${item.DOC_ID}&mod=V&approKey=${item.APPRO_KEY}">
                 	<font class="txt type28 tit">${item.DOC_TITLE}</font>
                 	<font class="txt type24"><i>${item.DOC_NO == null ? "" : item.DOC_NO}</i><i>${item.DRAFT_DT}</i><i>${item.DRAFT_EMP_NAME}</i></font>
                 </a>
