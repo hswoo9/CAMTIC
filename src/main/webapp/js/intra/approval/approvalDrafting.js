@@ -1852,11 +1852,18 @@ var draft = {
 
             console.log("항목 리스트 조회");
             console.log(result);
-            let tempArr = [];
-            tempArr[0] = result.fileInfo;
+            const fileList = result.fileInfo;
 
-            draft.getDocFileSet(tempArr);
-            draft.setKendoUpload();
+            if(fileList != null){
+                let attCount = 0;
+                let tempArr = [];
+                for(let j=0; j< fileList.length; j++){
+                    tempArr[attCount] = fileList[j];
+                    attCount++;
+                }
+                draft.getDocFileSet(tempArr);
+                draft.setKendoUpload();
+            }
         }
 
         if(params.menuCd == "study"){

@@ -2,7 +2,8 @@ const eduReq = {
 
     global: {
         radioGroupData : "",
-        eduInfo : new Object()
+        eduInfo : new Object(),
+        attFiles : new Array(),
     },
 
     fn_defaultScript: function(){
@@ -138,7 +139,7 @@ const eduReq = {
         }
         const rs = customKendo.fn_customAjax("/campus/getEduInfoOne", data);
         const eduInfo = rs.data;
-        const fileInfo = rs.fileInfo;
+        const fileInfo = rs.fileInfo; console.log(fileInfo);
         eduReq.global.eduInfo = eduInfo;
 
         $("#eduCategoryDetailName").val(eduInfo.EDU_CATEGORY_DETAIL_NAME);
@@ -179,7 +180,17 @@ const eduReq = {
         $("#regDate").val(eduInfo.REG_DT);
 
         if(fileInfo != null){
-            $("#fileText").text(fileInfo.file_org_name + "." + fileInfo.file_ext);
+            $("#ulSetFileName").empty();
+
+            var html = '';
+            for(var i=0; i<fileInfo.length; i++){
+                html += '<li>';
+                html += '   <span style="cursor: pointer" onclick="fileDown(\'' + fileInfo[i].file_path + fileInfo[i].file_uuid + '\', \'' + fileInfo[i].file_org_name + '.' + fileInfo[i].file_ext + '\')">' + fileInfo[i].file_org_name + '.' + fileInfo[i].file_ext + '</span>';
+                html += '   <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduReq.commonFileDel(' + fileInfo[i].file_no + ', this)">';
+                html += '</li>';
+            }
+
+            $("#ulSetFileName").append(html);
         }
     },
 
@@ -397,8 +408,10 @@ const eduReq = {
             fd.append(key, data[key]);
         }
 
-        if($("#eduFile")[0].files.length == 1){
-            fd.append("eduFile", $("#eduFile")[0].files[0]);
+        if(eduReq.global.attFiles != null){
+            for(var i = 0; i < eduReq.global.attFiles.length; i++){
+                fd.append("fileList", eduReq.global.attFiles[i]);
+            }
         }
 
         if($("#eduInfoId").val() == ""){
@@ -493,7 +506,78 @@ const eduReq = {
     },
 
     fileChange: function(e){
-        $(e).next().text($(e)[0].files[0].name);
+        for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
+            eduReq.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+        }
+
+        $("#ulFileName").empty();
+        if(eduReq.global.attFiles.length > 0){
+            var html = '';
+            for (var i = 0; i < eduReq.global.attFiles.length; i++) {
+                html += '<li>'
+                html += eduReq.global.attFiles[i].name.substring(0, eduReq.global.attFiles[i].name.lastIndexOf(".")) + '.';
+                html += eduReq.global.attFiles[i].name.substring(eduReq.global.attFiles[i].name.lastIndexOf(".")+1);
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduReq.fnUploadFile(' + i + ')">';
+                html += '</li>';
+            }
+
+            $("#ulSetFileName").css('margin-bottom', 0);
+            $("#ulFileName").append(html);
+        }
+    },
+
+    fnUploadFile : function(e) {
+        const dataTransfer = new DataTransfer();
+        let fileArray = Array.from(eduReq.global.attFiles);
+        fileArray.splice(e, 1);
+        fileArray.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        eduReq.global.attFiles = dataTransfer.files;
+
+        if(eduReq.global.attFiles.length > 0){
+            $("#ulFileName").empty();
+
+            var html = '';
+            for (var i = 0; i < eduReq.global.attFiles.length; i++) {
+                html += '<li>'
+                html += eduReq.global.attFiles[i].name.substring(0, eduReq.global.attFiles[i].name.lastIndexOf(".")) + '.';
+                html += eduReq.global.attFiles[i].name.substring(eduReq.global.attFiles[i].name.lastIndexOf(".")+1);
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduReq.fnUploadFile(' + i + ')">';
+                html += '</li>';
+            }
+
+            $("#ulFileName").append(html);
+        } else {
+            $("#ulFileName").empty();
+        }
+
+        if(eduReq.global.attFiles.length == 0){
+            eduReq.global.attFiles = new Array();
+        }
+
+        eduReq.global.attFiles = Array.from(eduReq.global.attFiles);
+    },
+
+    commonFileDel: function(e, v){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).closest("li").remove();
+                    }
+                }
+            });
+        }
     },
 
     eduInfoViewPop: function(eduInfoId){

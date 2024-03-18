@@ -364,7 +364,7 @@ public class CampusController {
         model.addAttribute("params", params);
 
         params.put("EDU_INFO_ID", params.get("eduInfoId"));
-        Map<String, Object> fileInfo = campusService.getEduInfoFile(params);
+        List<Map<String, Object>> fileInfo = campusService.getEduInfoFileList(params);
         model.addAttribute("fileInfo", fileInfo);
 
         String directory = "";
@@ -1242,7 +1242,7 @@ public class CampusController {
         params.put("EDU_INFO_ID", params.get("eduInfoId"));
         Map<String, Object> data = campusService.getEduInfoOne(params);
         model.addAttribute("data", data);
-        model.addAttribute("fileInfo", campusService.getEduInfoFile(params));
+        model.addAttribute("fileInfo", campusService.getEduInfoFileList(params));
         return "jsonView";
     }
 
@@ -1252,7 +1252,7 @@ public class CampusController {
         params.put("EDU_INFO_ID", params.get("eduInfoId"));
         Map<String, Object> data = campusService.getEduResultOne(params);
         model.addAttribute("data", data);
-        model.addAttribute("fileInfo", campusService.getEduResultInfoFile(params));
+        model.addAttribute("fileInfo", campusService.getEduResultInfoFileList(params));
         return "jsonView";
     }
 
@@ -1689,7 +1689,8 @@ public class CampusController {
     @RequestMapping("/campus/setEduInfoInsert")
     public String setEduInfoInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
         try{
-            campusService.setEduInfoInsert(params, request, SERVER_DIR, BASE_DIR);
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+            campusService.setEduInfoInsert(params, fileList, SERVER_DIR, BASE_DIR);
             /*Integer eduInfoId = campusService.setEduInfoInsert(params, request, SERVER_DIR, BASE_DIR);*/
             /*model.addAttribute("eduInfoId", eduInfoId);*/
             model.addAttribute("eduInfoId", params.get("eduInfoId"));
@@ -1704,7 +1705,8 @@ public class CampusController {
     @RequestMapping("/campus/setEduInfoModify")
     public String setEduInfoModify(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) {
         try{
-            campusService.setEduInfoModify(params, request, SERVER_DIR, BASE_DIR);
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+            campusService.setEduInfoModify(params, fileList, SERVER_DIR, BASE_DIR);
             model.addAttribute("eduInfoId", params.get("eduInfoId"));
             model.addAttribute("code", 200);
         } catch(Exception e){
@@ -1716,14 +1718,16 @@ public class CampusController {
     /** 학습결과보고서 저장 */
     @RequestMapping("/campus/setEduResultInsert")
     public String setEduResultInsert(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
-        campusService.setEduResultInsert(params, request, SERVER_DIR, BASE_DIR);
+        MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+        campusService.setEduResultInsert(params, fileList, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 
     /** 학습결과보고서 수정 */
     @RequestMapping("/campus/setEduResultModify")
     public String setEduResultModify(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request) {
-        campusService.setEduResultModify(params, request, SERVER_DIR, BASE_DIR);
+        MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+        campusService.setEduResultModify(params, fileList, SERVER_DIR, BASE_DIR);
         return "jsonView";
     }
 

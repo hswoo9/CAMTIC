@@ -86,7 +86,7 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public Map<String, Object> getEduInfoOne(Map<String, Object> params){
         Map<String, Object> result = campusRepository.getEduInfoOne(params);
-        result.put("eduFileList", campusRepository.getEduInfoFile(result));
+//        result.put("eduFileList", campusRepository.getEduInfoFile(result));
         return result;
     }
 
@@ -96,13 +96,18 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public List<Map<String, Object>> getEduInfoFileList(Map<String, Object> params){
+        return campusRepository.getEduInfoFileList(params);
+    }
+
+    @Override
     public Map<String, Object> getEduResultOne(Map<String, Object> params){
         return campusRepository.getEduResultOne(params);
     }
 
     @Override
-    public Map<String, Object> getEduResultInfoFile(Map<String, Object> params){
-        return campusRepository.getEduResultInfoFile(params);
+    public List<Map<String, Object>> getEduResultInfoFileList(Map<String, Object> params){
+        return campusRepository.getEduResultInfoFileList(params);
     }
 
     @Override
@@ -345,26 +350,25 @@ public class CampusServiceImpl implements CampusService {
 
 
     @Override
-    public Map<String, Object> setEduInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
+    public Map<String, Object> setEduInfoInsert(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
         campusRepository.setEduInfoInsert(params);
-        params.put("menuCd", "eduReq");
 
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile eduFile = request.getFile("eduFile");
+        if(fileList.length > 0){
+            params.put("menuCd", "eduReq");
 
-        if(eduFile != null){
-            if(!eduFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(eduFile, filePath(params, serverDir));
-                fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
-                fileInsMap.put("crmSn", params.get("rsSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf(".")));
-                fileInsMap.put("filePath", filePath(params, baseDir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf(".") + 1));
-                fileInsMap.put("empSeq", params.get("empSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "eduInfo_" + params.get("eduInfoId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf('.')));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf('.') + 1));
+
+                commonRepository.insFileInfoOne(list.get(i));
             }
         }
 
@@ -372,78 +376,75 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
-    public void setEduInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
+    public void setEduInfoModify(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
         campusRepository.setEduInfoModify(params);
-        params.put("menuCd", "eduReq");
 
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile eduFile = request.getFile("eduFile");
+        if(fileList.length > 0){
+            params.put("menuCd", "eduReq");
 
-        if(eduFile != null){
-            if(!eduFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(eduFile, filePath(params, serverDir));
-                fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
-                fileInsMap.put("crmSn", params.get("rsSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf(".")));
-                fileInsMap.put("filePath", filePath(params, baseDir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf(".") + 1));
-                fileInsMap.put("empSeq", params.get("empSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "eduInfo_" + params.get("eduInfoId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf('.')));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf('.') + 1));
+
+                commonRepository.insFileInfoOne(list.get(i));
             }
         }
     }
 
     @Override
-    public void setEduResultInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
-        MainLib mainLib = new MainLib();
-        Map<String, Object> fileInsMap = new HashMap<>();
-
-        MultipartFile eduFile = request.getFile("eduFile");
-
+    public void setEduResultInsert(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
         campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultInsert(params);
 
-        params.put("menuCd", "eduRes");
+        MainLib mainLib = new MainLib();
+        Map<String, Object> fileInsMap = new HashMap<>();
 
-        if(eduFile != null){
-            if(!eduFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(eduFile, filePath(params, serverDir));
-                fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf(".")));
-                fileInsMap.put("filePath", filePath(params, baseDir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf(".") + 1));
-                fileInsMap.put("empSeq", params.get("empSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
+        if(fileList.length > 0){
+            params.put("menuCd", "eduRes");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "eduInfo_" + params.get("eduInfoId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf('.')));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf('.') + 1));
+
+                commonRepository.insFileInfoOne(list.get(i));
             }
         }
     }
 
     @Override
-    public void setEduResultModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir) {
+    public void setEduResultModify(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
         campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultModify(params);
-
-        params.put("menuCd", "eduRes");
 
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile eduFile = request.getFile("eduFile");
+        if(fileList.length > 0){
+            params.put("menuCd", "eduRes");
 
-        if(eduFile != null){
-            if(!eduFile.isEmpty()){
-                fileInsMap = mainLib.fileUpload(eduFile, filePath(params, serverDir));
-                fileInsMap.put("contentId", "eduInfo_" + params.get("eduInfoId"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf(".")));
-                fileInsMap.put("filePath", filePath(params, baseDir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf(".") + 1));
-                fileInsMap.put("empSeq", params.get("empSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "eduInfo_" + params.get("eduInfoId"));
+                list.get(i).put("empSeq", params.get("empSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf('.')));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf('.') + 1));
+
+                commonRepository.insFileInfoOne(list.get(i));
             }
         }
     }

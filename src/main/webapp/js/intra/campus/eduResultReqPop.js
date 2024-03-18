@@ -5,6 +5,7 @@ var eduResultReqPop = {
         eduInfoId : "",
         eduFormType : "",
         eduResInfo: [],
+        attFiles: []
     },
 
     init : function(){
@@ -76,11 +77,17 @@ var eduResultReqPop = {
         $("#FBList").val(eduResInfo.FBLIST);
 
         if(resFileInfo) {
-            if($("#reqFileText").text() == ""){
-                $("#resFileText").text(resFileInfo.file_org_name + "." + resFileInfo.file_ext);
-            } else {
-                $("#resFileText").text(", " + resFileInfo.file_org_name + "." + resFileInfo.file_ext);
+            $("#ulSetFileName").empty();
+
+            var html = '';
+            for(var i=0; i<resFileInfo.length; i++){
+                html += '<li>';
+                html += '   <span style="cursor: pointer" onclick="fileDown(\'' + resFileInfo[i].file_path + resFileInfo[i].file_uuid + '\', \'' + resFileInfo[i].file_org_name + '.' + resFileInfo[i].file_ext + '\')">' + resFileInfo[i].file_org_name + '.' + resFileInfo[i].file_ext + '</span>';
+                html += '   <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.commonFileDel(' + resFileInfo[i].file_no + ', this)">';
+                html += '</li>';
             }
+
+            $("#ulSetFileName").append(html);
         }
     },
 
@@ -149,10 +156,11 @@ var eduResultReqPop = {
             fd.append(key, data[key]);
         }
 
-        if($("#eduFile")[0].files.length == 1){
-            fd.append("eduFile", $("#eduFile")[0].files[0]);
+        if(eduResultReqPop.global.attFiles != null){
+            for(var i = 0; i < eduResultReqPop.global.attFiles.length; i++){
+                fd.append("fileList", eduResultReqPop.global.attFiles[i]);
+            }
         }
-
 
         if(mode == "upd"){
             eduResultReqPop.setEduResultModify(fd);
@@ -205,10 +213,77 @@ var eduResultReqPop = {
     },
 
     fileChange: function(e){
-        if($("#reqFileText").text() == ""){
-            $("#resFileText").text($(e)[0].files[0].name);
+        for(var i = 0; i < $("input[name='fileList']")[0].files.length; i++){
+            eduResultReqPop.global.attFiles.push($("input[name='fileList']")[0].files[i]);
+        }
+
+        $("#ulFileName").empty();
+        if(eduResultReqPop.global.attFiles.length > 0){
+            var html = '';
+            for (var i = 0; i < eduResultReqPop.global.attFiles.length; i++) {
+                html += '<li>'
+                html += eduResultReqPop.global.attFiles[i].name.substring(0, eduResultReqPop.global.attFiles[i].name.lastIndexOf(".")) + '.';
+                html += eduResultReqPop.global.attFiles[i].name.substring(eduResultReqPop.global.attFiles[i].name.lastIndexOf(".")+1);
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.fnUploadFile(' + i + ')">';
+                html += '</li>';
+            }
+
+            $("#ulSetFileName").css('margin-bottom', 0);
+            $("#ulFileName").append(html);
+        }
+    },
+
+    fnUploadFile : function(e) {
+        const dataTransfer = new DataTransfer();
+        let fileArray = Array.from(eduResultReqPop.global.attFiles);
+        fileArray.splice(e, 1);
+        fileArray.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        eduResultReqPop.global.attFiles = dataTransfer.files;
+
+        if(eduResultReqPop.global.attFiles.length > 0){
+            $("#ulFileName").empty();
+
+            var html = '';
+            for (var i = 0; i < eduResultReqPop.global.attFiles.length; i++) {
+                html += '<li>'
+                html += eduResultReqPop.global.attFiles[i].name.substring(0, eduResultReqPop.global.attFiles[i].name.lastIndexOf(".")) + '.';
+                html += eduResultReqPop.global.attFiles[i].name.substring(eduResultReqPop.global.attFiles[i].name.lastIndexOf(".")+1);
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.fnUploadFile(' + i + ')">';
+                html += '</li>';
+            }
+
+            $("#ulFileName").append(html);
         } else {
-            $("#resFileText").text(", " + $(e)[0].files[0].name);
+            $("#ulFileName").empty();
+        }
+
+        if(eduResultReqPop.global.attFiles.length == 0){
+            eduResultReqPop.global.attFiles = new Array();
+        }
+
+        eduResultReqPop.global.attFiles = Array.from(eduResultReqPop.global.attFiles);
+    },
+
+    commonFileDel: function(e, v){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).closest("li").remove();
+                    }
+                }
+            });
         }
     },
 

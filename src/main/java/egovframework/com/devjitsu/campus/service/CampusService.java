@@ -24,8 +24,9 @@ public interface CampusService {
     void setStudyInfoDelete(Map<String, Object> params);
     Map<String, Object> getEduInfoOne(Map<String, Object> params);
     Map<String, Object> getEduInfoFile(Map<String, Object> params);
+    List<Map<String, Object>> getEduInfoFileList(Map<String, Object> params);
     Map<String, Object> getEduResultOne(Map<String, Object> params);
-    Map<String, Object> getEduResultInfoFile(Map<String, Object> params);
+    List<Map<String, Object>> getEduResultInfoFileList(Map<String, Object> params);
     /** 개인학습관리 끝 */
 
     /** 학습조 시작 */
@@ -99,11 +100,11 @@ public interface CampusService {
 
 
     /** 개인학습 시작 */
-    Map<String, Object> setEduInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
-    void setEduInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
-    void setEduResultInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    Map<String, Object> setEduInfoInsert(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
+    void setEduInfoModify(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
+    void setEduResultInsert(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
 
-    void setEduResultModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    void setEduResultModify(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
     void setMngCheckUpd(Map<String, Object> params);
     void setEduResultEduTimeUpd(Map<String, Object> params);
     /** 개인학습 끝 */
