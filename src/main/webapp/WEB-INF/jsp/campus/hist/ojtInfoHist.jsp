@@ -23,7 +23,7 @@
         <div class="panel-body">
             <div style="margin-bottom:10px;">
                 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
-                <div id="mainGrid" style="margin:20px 0;"></div>
+                <div id="mainGrid4" style="margin:20px 0;"></div>
             </div>
         </div>
     </div>

@@ -28,6 +28,46 @@ var histEduInfo = {
             empSeq: $("#empSeq").val()
         }
         histEduInfo.mainGrid("/campus/getEduInfoHistList", histEduInfo.global.searchAjaxData);
+
+        studyInfoHist.global.searchAjaxData = {
+            eduYear: $('#eduYear').val(),
+            searchType: $("#searchType").val(),
+            searchVal: $("#searchVal").val(),
+            empSeq: $("#empSeq").val()
+        }
+        studyInfoHist.mainGrid("/campus/getStudyInfoHistList", studyInfoHist.global.searchAjaxData);
+
+        propagInfoHist.global.searchAjaxData = {
+            eduYear: $('#eduYear').val(),
+            searchType: $("#searchType").val(),
+            searchVal: $("#searchVal").val(),
+            empSeq: $("#empSeq").val()
+        }
+        propagInfoHist.mainGrid("/campus/getPropagInfoHistList", propagInfoHist.global.searchAjaxData);
+
+        ojtInfoHist.global.searchAjaxData = {
+            eduYear: $('#eduYear').val(),
+            searchType: $("#searchType").val(),
+            searchVal: $("#searchVal").val(),
+            empSeq: $("#empSeq").val()
+        }
+        ojtInfoHist.mainGrid("/campus/getOjtInfoHistList", ojtInfoHist.global.searchAjaxData);
+
+        openstudyInfoHist.global.searchAjaxData = {
+            eduYear: $('#eduYear').val(),
+            searchType: $("#searchType").val(),
+            searchVal: $("#searchVal").val(),
+            empSeq: $("#empSeq").val()
+        }
+        openstudyInfoHist.mainGrid("/campus/getOpenstudyInfoHistList", openstudyInfoHist.global.searchAjaxData);
+
+        commonEduInfoHist.global.searchAjaxData = {
+            eduYear: $('#eduYear').val(),
+            searchType: $("#searchType").val(),
+            searchVal: $("#searchVal").val(),
+            empSeq: $("#empSeq").val()
+        }
+        commonEduInfoHist.mainGrid("/campus/getCommonEduInfoHistList", commonEduInfoHist.global.searchAjaxData);
     },
 
     mainGrid: function(url, params){
@@ -49,12 +89,8 @@ var histEduInfo = {
             schema: {
                 data: function (data){
                     return data.list;
-                },
-                total: function (data){
-                    return data.list.length;
-                },
-            },
-            pageSize: 10
+                }
+            }
         });
 
         $("#mainGrid").kendoGrid({
@@ -62,22 +98,6 @@ var histEduInfo = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 508,
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
-                buttonCount: 5
-            },
-            toolbar: [
-                {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="histEduInfo.gridReload()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }
-            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -198,8 +218,8 @@ var histEduInfo = {
                 }
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+                record = fn_getRowNum(this, 3);
             }
         }).data("kendoGrid");
-    },
+    }
 }
