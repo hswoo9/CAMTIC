@@ -17,6 +17,7 @@ var rndBg = {
     gridReload : function (){
         rndBg.global.searchAjaxData = {
             pjtCd : $("#mgtCd").val(),
+            pageType : "USER",
         }
 
         $("#selectType").kendoRadioGroup({
@@ -53,7 +54,7 @@ var rndBg = {
         rndBg.budgetMainGrid();     // 수입예산 리스트
         rndBg.budgetMainGrid2();    // 지출예산 리스트
         rndBg.budgetMainGrid3("/pay/getPaymentList", rndBg.global.searchAjaxData);  // 지급신청서 리스트
-        rndBg.budgetMainGrid4("/pay/getExnpReList", rndBg.global.searchAjaxData);         // 지출결의서 리스트
+        rndBg.budgetMainGrid4("/pay/getExnpReList", rndBg.global.searchAjaxData);   // 지출결의서 리스트
     },
 
     budgetMainGrid : function(){
