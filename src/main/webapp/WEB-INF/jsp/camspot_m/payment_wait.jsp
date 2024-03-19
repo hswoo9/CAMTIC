@@ -20,7 +20,7 @@
     		
             <!-- 검색폼 {-->
             <div class="searchBox">
-            	<font class="txt type28">전체 <b class="fcol_sky">${strLen}</b>건</font>
+            	<font class="txt type28">전체 <b class="fcol_sky">${waitLen}</b>건</font>
                 <form>
                 	<input type="text" placeholder="검색어를 입력하세요." />
                 	<input type="submit" />
@@ -30,7 +30,7 @@
     		
             <!-- 리스트 {-->
             <div class="blistBox mt40">
-                <c:forEach var="item" items="${strList}" varStatus="status">
+                <c:forEach var="item" items="${waitList}" varStatus="status">
             	<a href="/m/payment_view.do?docId=${item.DOC_ID}&mod=V&approKey=${item.APPRO_KEY}&menuCd=${item.DOC_MENU_CD}">
                 	<font class="txt type28 tit">${item.DOC_TITLE}</font>
                 	<font class="txt type24"><i>${item.DOC_NO == null ? "" : item.DOC_NO}</i><i>${item.DRAFT_DT}</i><i>${item.DRAFT_EMP_NAME}</i></font>
@@ -100,7 +100,7 @@
 
 <script type="text/javascript">
 	$('.m2', $('#menu')).addClass('active');
-    $('.t1', $('.sTabmenu')).addClass('active');
+    $('.t2', $('.sTabmenu')).addClass('active');
 </script>
 
 
