@@ -794,9 +794,10 @@
     <select id="holidayWorkApplicationList" parameterType="map" resultType="map">
         /* holidayWorkApplicationList */
         SELECT
-            *,
+            (SELECT MAX(SUBHOLIDAY_WORK_DAY) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE HOLIDAY_WORK_MASTER_SN = M.HOLIDAY_WORK_MASTER_SN) AS STR_DT,
+            (SELECT MIN(SUBHOLIDAY_WORK_DAY) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST WHERE HOLIDAY_WORK_MASTER_SN = M.HOLIDAY_WORK_MASTER_SN) AS END_DT,
+            M.*, sm.*, sc.*, DI.*,
             M.STATUS AS DOC_STATUS,
-            ROW_NUMBER() OVER (ORDER BY sm.SUBHOLIDAY_CODE_ID) AS ROW_NUM,
             CAM_HR.FN_GetName('DEPT', (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = sm.APPLY_SEQ), 'KR') AS DEPT_NAME2,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = sm.APPLY_SEQ) AS EMP_NAME_KR,
             DI.APPRO_KEY,
@@ -834,6 +835,7 @@
                 AND sm.APPLY_SEQ IN ((SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ${searchKeyword} LIKE CONCAT('%', #{searchValue} ,'%')))
             </if>
         </if>
+        GROUP BY M.HOLIDAY_WORK_MASTER_SN
         ORDER BY sm.APPLY_DATE DESC
     </select>
 </mapper>

@@ -63,7 +63,7 @@ var dutyInfo = {
             columns: [
                 {
                     title: "순번",
-                    template: "#= ++record #",
+                    template: "#= --record #",
                     width: 50
                 }, {
                     field: "DUTY_MONTH",
@@ -112,7 +112,7 @@ var dutyInfo = {
                 }
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 1);
+                record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
     },
