@@ -38,7 +38,7 @@
             <div class="btWrap disF">
             	<a href="javascript:history.back()" class="back"><img src="/images/camspot_m/ico-back.png" /></a>
                 <span class="pbtBox disF">
-                	<a href="#" class="txt type26">결재</a>
+                	<a href="#" class="txt type26" onclick="approvalKendoSetting()">결재</a>
                 	<a href="#" class="txt type26" onclick="returnKendoSetting()">반려</a>
                 	<a href="#" class="txt type26">의견보기</a>
                 </span>
@@ -71,6 +71,45 @@
                         </div>
 
                         <div id="hwpApproveContent" style="height: 100%;border: 1px solid lightgray;"></div>
+
+                        <%--결재 모달 --%>
+                        <div id="approveModal" class="pop_wrap_dir">
+                            <input type="hidden" id="approveCode" name="approveCode">
+                            <input type="hidden" id="approveCodeNm" name="approveCodeNm">
+                            <table class="table table-bordered mb-0">
+                                <colgroup>
+                                    <col width="15%">
+                                    <col width="35%">
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th class="text-center th-color"><span class="red-star">*</span>결재자</th>
+                                    <td>
+                                        <input type="hidden" id="approveOrder" name="approveOrder" value="">
+                                        <input type="hidden" id="approveEmpSeq" name="approveEmpSeq" value=""/>
+                                        <input type="text" id="approveEmpName" name="approveEmpName" value=""/>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th class="text-center th-color">결재의견</th>
+                                    <td>
+                                        <textarea type="text" id="approveOpin" name="approveOpin"></textarea>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="mt-15" style="text-align: right">
+                                <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick="docApprove()">
+                                    <span class='k-icon k-i-check k-button-icon'></span>
+                                    <span class='k-button-text'>확인</span>
+                                </button>
+                                <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick="$('#approveModal').data('kendoWindow').close();">
+                                    <span class='k-icon k-i-cancel k-button-icon'></span>
+                                    <span class='k-button-text'>취소</span>
+                                </button>
+                            </div>
+                        </div>
 
                         <%--반려 모달 --%>
                         <div id="returnModal" class="pop_wrap_dir">
@@ -128,6 +167,21 @@
 
     var approveFlag = true
     $(document).ready(function() {
+
+        $("#approveModal").kendoWindow({
+            title: "결재의견",
+            visible: false,
+            modal: true,
+            width : 500,
+            position : {
+                top : 50,
+                left : 50
+            },
+            close: function () {
+                $("#approveModal").load(location.href + ' #approveModal');
+            }
+        });
+
         $("#returnModal").kendoWindow({
             title: "반려의견",
             visible: false,
@@ -145,6 +199,7 @@
         var parameters = JSON.parse('${params}');
         docView.global.params = parameters;
 
+        $("#menuCd").val(parameters.menuCd);
         var hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", parameters.hwpUrl, function () {editorComplete();});
 
         var rs = customKendo.fn_customAjax("/approval/getDocViewRs", parameters).data;
@@ -428,6 +483,143 @@
         }
 
         return result;
+    }
+
+    function approvalKendoSetting(){
+        docView.global.approveFlag = true;
+
+        $("#approveEmpName").kendoTextBox({
+            readonly : true
+        });
+        $("#approveOpin").kendoTextArea({
+            rows:5,
+            cols:10,
+            resizable: "vertical"
+        });
+
+        docView.global.searchAjaxData = {
+            lastApproveEmpSeq : docView.global.rs.docInfo.LAST_APPROVE_EMP_SEQ,
+            nowApproveEmpSeq : docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ,
+            nowApproveType : docView.global.rs.approveNowRoute.APPROVE_TYPE,
+            absentEmpSeq : docView.global.rs.approveNowRoute.ABSENT_EMP_SEQ,
+            subApproval : docView.global.rs.approveNowRoute.SUB_APPROVAL,
+            loginEmpSeq : docView.global.loginVO.uniqId,
+        }
+
+        var result = customKendo.fn_customAjax("/approval/getCmCodeInfo", docView.global.searchAjaxData);
+
+        if(result.flag) {
+            $("#approveOrder").val(docView.global.rs.approveNowRoute.APPROVE_ORDER);
+            $("#approveEmpSeq").val(docView.global.loginVO.uniqId);
+            $("#approveEmpName").val(docView.global.loginVO.name);
+            $("#approveCode").val(result.rs.CM_CODE);
+            $("#approveCodeNm").val(result.rs.CM_CODE_NM);
+        }else{
+            alert("결재자 정보 조회 중 에러가 발생했습니다.");
+        }
+
+        if(!docView.global.approveFlag){
+            return false;
+        }else{
+            $('#approveModal').data('kendoWindow').open();
+
+            $("#approveEmpName").css("font-size", "12px");
+        }
+    }
+
+    function docApprove(){
+        if(docView.global.loginVO == null){
+            alert("장시간 미사용으로 로그인 세션이 만료되었습니다. 로그인 후 재시도 바랍니다."); return;
+        }
+
+        // loading();
+
+
+        /** 문서번호
+         *  최종결재 할때 추가
+         * */
+        let list = docView.global.rs.approveRoute;
+        if(list[list.length - 1].APPROVE_EMP_SEQ == docView.global.loginVO.uniqId){
+            const draftDeptSeq = docView.global.rs.approveRoute[0].APPROVE_DEPT_SEQ;
+            const searchAjaxData = {
+                type : "approve",
+                docId : $("#docId").val(),
+                deptSeq : draftDeptSeq,
+                docType : "A"
+            }
+
+            var result = customKendo.fn_customAjax("/approval/getDeptDocNum", searchAjaxData);
+            if(result.flag){
+                $("#docNo").val(result.rs.docNo);
+
+                hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
+            }
+
+            if(!result.flag || result.rs.docNo == null){
+                alert("문서번호 생성 중 오류가 발생하였습니다. 새로고침 후 재시도 바랍니다."); return;
+            }
+        }
+
+        documentHwpDataCtrl();
+
+        setTimeout(() => documentHwpSave(), 1000);
+
+        setTimeout(() => docApproveAjax(), 1500);
+    }
+
+    function documentHwpDataCtrl(){
+        if(docView.global.rs.docInfo.FORM_ID != "1"){
+            /** 결재 사인 */
+            if(docView.global.rs.approveNowRoute.APPROVE_TYPE != 1){
+                hwpApprovalLine.setHwpApprovalSignPut();
+
+                /** 협조 사인 */
+            }else{
+                const approveRoute = docView.global.rs.approveRoute;
+                const cRoute = approveRoute.filter(tempArr => tempArr.APPROVE_TYPE == 1);
+
+                if(cRoute.length == 1){
+                    for(var i = 0; i < 2; i ++){
+                        const signField = "cAppr" + i;
+                        if(hwpDocCtrl.fieldExist(signField)){
+                            if(hwpDocCtrl.getFieldText(signField) == "" || hwpDocCtrl.getFieldText(signField) == " "){
+                                hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                                break;
+                            }
+                        }
+                    }
+                }else if(cRoute.length == 2){
+                    for(var i = 0; i < cRoute.length; i ++){
+                        const cRouteMap = cRoute[i];
+                        if(cRouteMap.APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+                            const signField = "cAppr" + i;
+                            hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function docApproveAjax(){
+        docView.global.searchAjaxData = makeApprovalFormData("approve");
+        var result = customKendo.fn_customFormDataAjax("/approval/setDocApproveNReturn", docView.global.searchAjaxData);
+
+        if(result.flag) {
+            alert("결재되었습니다.");
+
+            var result = setAlarmEvent("approve")
+            if(result.flag){
+                if(result.rs!= "SUCCESS") {
+                    alert(result.message);
+                }
+            }
+
+            location.href='/m/payment.do';
+        }else{
+            alert("결재 중 에러가 발생했습니다.");
+        }
     }
 </script>
 

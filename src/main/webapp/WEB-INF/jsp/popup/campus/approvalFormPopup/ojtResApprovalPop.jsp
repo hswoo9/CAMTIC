@@ -28,7 +28,7 @@
         approvalParams.linkageProcessId = "48";
         approvalParams.linkageType = "2";
         approvalParams.linkageProcessCode = "camticOjtRes";
-        approvalParams.approKey = "camticOjtRes_${data.studyInfoSn}";
+        approvalParams.approKey = "camticOjtRes_${data.pk}";
 
         linkageProcessOn(approvalParams);
     }

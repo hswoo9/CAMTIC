@@ -1143,7 +1143,7 @@ public class CampusController {
         return "/popup/campus/approvalFormPopup/studyResApprovalPop";
     }
 
-    //캠퍼스 - 단체학습 전파학습 결과보고서 전자결재
+    //캠퍼스 - 단체학습 전파학습 학습신청서 전자결재
     @RequestMapping("/Campus/pop/studyPropagApprovalPop.do")
     public String studyPropagApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -1153,7 +1153,17 @@ public class CampusController {
         return "/popup/campus/approvalFormPopup/studyPropagApprovalPop";
     }
 
-    //캠퍼스 - 단체학습 OJT 결과보고서 전자결재
+    //캠퍼스 - 단체학습 전파학습 결과보고서 전자결재
+    @RequestMapping("/Campus/pop/propagResApprovalPop.do")
+    public String propagResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/campus/approvalFormPopup/propagResApprovalPop";
+    }
+
+    //캠퍼스 - 단체학습 OJT 학습신청서 전자결재
     @RequestMapping("/Campus/pop/studyOjtApprovalPop.do")
     public String studyOjtApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
@@ -1161,6 +1171,16 @@ public class CampusController {
         model.addAttribute("data", params);
         model.addAttribute("loginVO", login);
         return "/popup/campus/approvalFormPopup/studyOjtApprovalPop";
+    }
+
+    //캠퍼스 - 단체학습 OJT 결과보고서 전자결재
+    @RequestMapping("/Campus/pop/ojtResApprovalPop.do")
+    public String ojtResApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", params);
+        model.addAttribute("loginVO", login);
+        return "/popup/campus/approvalFormPopup/ojtResApprovalPop";
     }
 
 
@@ -1458,6 +1478,13 @@ public class CampusController {
     @RequestMapping("/campus/getStudyPropagUserInfo")
     public String getStudyPropagUserInfo(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = campusService.getStudyPropagUserInfo(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/campus/getStudyPropagUserInfo2")
+    public String getStudyPropagUserInfo2(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = campusService.getStudyPropagUserInfo2(params);
         model.addAttribute("list", list);
         return "jsonView";
     }
@@ -2211,6 +2238,52 @@ public class CampusController {
         String resultMessage = "성공하였습니다.";
         try{
             campusService.updateStudyResDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /**
+     * 전파학습 결과보고서  결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/campus/propagResReqApp")
+    public String propagResReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            campusService.updatePropagResDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /**
+     * OJT 결과보고서  결재 상태값에 따른 UPDATE 메서드
+     * @param bodyMap
+     * @return
+     */
+    @RequestMapping(value = "/campus/ojtResReqApp")
+    public String ojtResReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            campusService.updateOjtResDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";
