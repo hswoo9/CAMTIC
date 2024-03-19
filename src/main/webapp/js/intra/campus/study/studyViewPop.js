@@ -97,7 +97,9 @@ const studyView = {
 
         let buttonHtml = "";
         buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"결과보고서\" id=\"resultBtn\" onclick=\"studyView.fn_resultDocPop();\"/>";
-        buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"학습완료\" id=\"compBtn\" onclick=\"studyView.fn_studyComplete();\"/>";
+        if($("#typeView").val() != "A"){
+            buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"학습완료\" id=\"compBtn\" onclick=\"studyView.fn_studyComplete();\"/>";
+        }
         if(studyInfo != null){
             let status = studyInfo.STATUS;
             if(status == "0"){
@@ -192,7 +194,6 @@ const studyView = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: studyView.onDataBound,
             columns: [
                 {
                     field: "ROW_NUM",
@@ -206,27 +207,15 @@ const studyView = {
                     }
                 }, {
                     field: "JOURNAL_LOCATE",
-                    title: "장소"
+                    title: "장소",
+                    template : function (e) {
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="studyView.studyJournalPop(2, '+e.STUDY_INFO_SN+', '+e.STUDY_JOURNAL_SN+')">'+e.JOURNAL_LOCATE+'</div>';
+                    }
                 }, {
                     title: "조장검토",
                     width: 100,
                     template: function(row){
                         if(row.CAPTAIN_APPOVAL_YN == 'Y'){
-                            return "검토완료";
-                        }else{
-                            return "검토미완료";
-                        }
-                    }
-                }, {
-                    title: "간사검토",
-                    width: 100,
-                    template: function(row){
-                        /*if(row.CAPTAIN_APPOVAL_YN == 'Y' && row.ASSISTANT_APPOVAL_YN == 'Y' && $("#addStatus").val() == "N"){
-                            $("#compBtn").css("display", "");
-                        } else {
-                            $("#compBtn").css("display", "none");
-                        }*/
-                        if(row.ASSISTANT_APPOVAL_YN == 'Y'){
                             return "검토완료";
                         }else{
                             return "검토미완료";
@@ -243,14 +232,6 @@ const studyView = {
         }).data("kendoGrid");
     },
 
-    onDataBound: function(){
-        let grid = this;
-        grid.element.off('dblclick');
-        grid.tbody.find("tr").dblclick(function(){
-            const dataItem = grid.dataItem($(this).closest("tr"));
-            studyView.studyJournalPop(2, dataItem.STUDY_INFO_SN, dataItem.STUDY_JOURNAL_SN);
-        });
-    },
 
     studyReq: function(status){
         var data = {
@@ -392,11 +373,6 @@ const studyView = {
                     var row = journalList[i];
 
                     if (row.CAPTAIN_APPOVAL_YN == 'N') {
-                        alert("학습일지를 검토해주세요.");
-                        return;
-                    }
-
-                    if (row.ASSISTANT_APPOVAL_YN == 'N') {
                         alert("학습일지를 검토해주세요.");
                         return;
                     }

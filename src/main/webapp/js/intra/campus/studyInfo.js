@@ -283,7 +283,7 @@ var studyInfo = {
 
                         if(studyClass == 1){
 
-                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyInfo.studyViewPop(\'upd\', '+row.STUDY_INFO_SN+');">' +
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyInfo.studyViewPop(\'upd\', '+row.STUDY_INFO_SN+', \'A\');">' +
                                 '	<span class="k-button-text">'+statusText+'</span>' +
                                 '</button>';
 
@@ -313,7 +313,11 @@ var studyInfo = {
 
                         if(row.STATUS == 100){
                             if(studyClass == 1){
-                                if(row.ADD_STATUS == "Y" || row.ADD_STATUS == "C"){
+                                if(row.ADD_STATUS == "S"){
+                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyInfo.fn_resultDocPop('+row.STUDY_INFO_SN+', '+row.STUDY_RESULT_SN+');">' +
+                                        '	<span class="k-button-text">결재완료</span>' +
+                                        '</button>';
+                                } else {
                                     if(row.STUDY_RES_STATUS == "0" || row.STUDY_RES_STATUS == "40" || row.STUDY_RES_STATUS == "60"){
                                         statusText = "작성중";
                                         btnText = "k-button-solid-base";
@@ -330,15 +334,9 @@ var studyInfo = {
                                         return "";
                                     }
 
-                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyInfo.fn_resultDocPop('+row.STUDY_INFO_SN+', '+row.STUDY_RESULT_SN+');">' +
+                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyInfo.studyViewPop(\'upd\', '+row.STUDY_INFO_SN+');">' +
                                         '	<span class="k-button-text">'+statusText+'</span>' +
                                         '</button>';
-                                } else if(row.ADD_STATUS == "S"){
-                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyInfo.fn_resultDocPop('+row.STUDY_INFO_SN+', '+row.STUDY_RESULT_SN+');">' +
-                                        '	<span class="k-button-text">결재완료</span>' +
-                                        '</button>';
-                                } else {
-                                    return "";
                                 }
                             } else if(studyClass == 2){
                                 if(row.ADD_STATUS == "Y" || row.ADD_STATUS == "C"){
@@ -474,8 +472,8 @@ var studyInfo = {
         window.open(url, name, option);
     },
 
-    studyViewPop: function(mode, pk){
-        let url = "/Campus/pop/studyViewPop.do?mode="+mode+"&pk="+pk;
+    studyViewPop: function(mode, pk, type){
+        let url = "/Campus/pop/studyViewPop.do?mode="+mode+"&pk="+pk+"&typeView=" + type;
         const name = "studyReqPop";
         const option = "width = 920, height = 900, top = 100, left = 200, location = no";
         window.open(url, name, option);

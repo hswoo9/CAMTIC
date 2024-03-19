@@ -35,6 +35,7 @@
 <input type="hidden" id="status" value="${data.STATUS}"/>
 <input type="hidden" id="studyResultSn" value="${resultData.STUDY_RESULT_SN}" />
 <input type="hidden" id="addStatus" value="${data.ADD_STATUS}"/>
+<input type="hidden" id="typeView" value="${params.typeView}" />
 
 <form id="studyDraftFrm" method="post">
     <input type="hidden" id="studyInfoSn" name="studyInfoSn" value="${params.pk}" />
@@ -186,19 +187,21 @@
 </div>
 
 <c:if test="${data.STATUS eq '100' || data.STATUS eq '101'}">
-<div class="table-responsive" style="margin-top: 15px;">
-    <div class="card-header pop-header" style="margin-bottom: 15px;">
-        <h3 class="card-title title_NM">
-                <span style="">
-                    학습일지
-                </span>
-        </h3>
-        <div class="btn-st popButton">
+    <c:if test="${params.typeView ne 'A'}">
+        <div class="table-responsive" style="margin-top: 15px;">
+            <div class="card-header pop-header" style="margin-bottom: 15px;">
+                <h3 class="card-title title_NM">
+                        <span style="">
+                            학습일지
+                        </span>
+                </h3>
+                <div class="btn-st popButton">
 
+                </div>
+            </div>
+            <div id="mainGrid" style=""></div>
         </div>
-    </div>
-    <div id="mainGrid" style=""></div>
-</div>
+    </c:if>
 </c:if>
 </div>
 <script>
