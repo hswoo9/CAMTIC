@@ -83,7 +83,7 @@ var eduResultReqPop = {
             for(var i=0; i<resFileInfo.length; i++){
                 html += '<li>';
                 html += '   <span style="cursor: pointer" onclick="fileDown(\'' + resFileInfo[i].file_path + resFileInfo[i].file_uuid + '\', \'' + resFileInfo[i].file_org_name + '.' + resFileInfo[i].file_ext + '\')">' + resFileInfo[i].file_org_name + '.' + resFileInfo[i].file_ext + '</span>';
-                html += '   <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.commonFileDel(' + resFileInfo[i].file_no + ', this)">';
+                html += '   <input type="button" value="X" class="delBtn" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.commonFileDel(' + resFileInfo[i].file_no + ', this)">';
                 html += '</li>';
             }
 
@@ -92,7 +92,7 @@ var eduResultReqPop = {
     },
 
     saveEduResult : function() {
-        if(!confirm("교육수강 신청서를 저장하시겠습니까?")){
+        if(!confirm("교육 결과보고서를 저장하시겠습니까?")){
             return;
         }
         let mode = $("#mode").val();
@@ -224,7 +224,7 @@ var eduResultReqPop = {
                 html += '<li>'
                 html += eduResultReqPop.global.attFiles[i].name.substring(0, eduResultReqPop.global.attFiles[i].name.lastIndexOf(".")) + '.';
                 html += eduResultReqPop.global.attFiles[i].name.substring(eduResultReqPop.global.attFiles[i].name.lastIndexOf(".")+1);
-                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.fnUploadFile(' + i + ')">';
+                html += '<input type="button" value="X" class="delBtn" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.fnUploadFile(' + i + ')">';
                 html += '</li>';
             }
 
@@ -251,7 +251,7 @@ var eduResultReqPop = {
                 html += '<li>'
                 html += eduResultReqPop.global.attFiles[i].name.substring(0, eduResultReqPop.global.attFiles[i].name.lastIndexOf(".")) + '.';
                 html += eduResultReqPop.global.attFiles[i].name.substring(eduResultReqPop.global.attFiles[i].name.lastIndexOf(".")+1);
-                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.fnUploadFile(' + i + ')">';
+                html += '<input type="button" value="X" class="delBtn" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.fnUploadFile(' + i + ')">';
                 html += '</li>';
             }
 
@@ -309,12 +309,12 @@ var eduResultReqPop = {
     },
 
     fn_kendoUIEnableSet : function(){
-        $(':radio').attr('disabled', true);
-        $('.k-input-inner').data("kendoTextArea").enable(false);
-        $("#eduContent").data("kendoTextArea").enable(false);
-        $("#eduPoint").data("kendoTextArea").enable(false);
+        $(":radio").attr("disabled", true);
+        $(".k-textbox").addClass("k-disabled");
+        $(".k-textarea").addClass("k-disabled");
         $("#FBList").data("kendoTextArea").enable(false);
-        $("label[for='eduFile']").css("display", "none");
+        $("label[for='fileList']").css("display", "none");
+        $(".delBtn").css("display", "none");
     },
 
     campusResDrafting: function() {

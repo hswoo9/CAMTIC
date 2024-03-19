@@ -1423,7 +1423,7 @@
         <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
             AND CDI.REG_EMP_SEQ = #{regEmpSeq}
         </if>
-        ORDER BY CDI.DUTY_MONTH ASC, CDI.DUTY_INFO_SN DESC
+        ORDER BY CDI.DUTY_MONTH DESC, CDI.DUTY_INFO_SN DESC
     </select>
 
     <select id="getDutyInfoOne" resultType="map" parameterType="map">
