@@ -61,12 +61,14 @@ var applicationForm2 = {
                 '</td>' +
                 '<td class="tac" style="line-height: 0.1;">' +
                     '<input type="hidden" id="degreeFileNo' + applicationForm2.global.schoolIndex + '" class="degreeFileNo" name="degreeFileNo' + applicationForm2.global.schoolIndex + '">' +
+                    '<input type="hidden" id="degreeFileUpdCk' + applicationForm2.global.schoolIndex + '" name="degreeFileUpdCk' + applicationForm2.global.schoolIndex + '" class="degreeFileUpdCk">' +
                     '<input type="text" id="degreeFileName' + applicationForm2.global.schoolIndex + '" class="degreeFileName" style="width: 100px; color:#337ab7;" disabled>' +
                     '<label for="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
                     '<input type="file" id="degreeFile' + applicationForm2.global.schoolIndex + '" class="degreeFile" name="degreeFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
                 '<td class="tac" style="line-height: 0.1;">' +
                     '<input type="hidden" id="sexualFileNo' + applicationForm2.global.schoolIndex + '" class="sexualFileNo" name="sexualFileNo' + applicationForm2.global.schoolIndex + '">' +
+                    '<input type="hidden" id="sexualFileUpdCk' + applicationForm2.global.schoolIndex + '" name="sexualFileUpdCk' + applicationForm2.global.schoolIndex + '" class="sexualFileUpdCk">' +
                     '<input type="text" id="sexualFileName' + applicationForm2.global.schoolIndex + '" class="sexualFileName" style="width: 100px; color:#337ab7;" disabled>' +
                     '<label for="sexualFile' + applicationForm2.global.schoolIndex + '" class="sexualFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
                     '<input type="file" id="sexualFile' + applicationForm2.global.schoolIndex + '" class="sexualFile" name="sexualFile' + applicationForm2.global.schoolIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
@@ -140,7 +142,8 @@ var applicationForm2 = {
                 '</td>' +
                 '<td class="tac" style="line-height: 0.1;">' +
                     '<input type="hidden" id="careerFileNo' + applicationForm2.global.careerIndex + '" name="careerFileNo' + applicationForm2.global.careerIndex + '" class="careerFileNo">' +
-            '<input type="text" id="careerFileName' + applicationForm2.global.careerIndex + '" class="careerFileName" style="width: 100px; color:#337ab7;">' +
+                    '<input type="hidden" id="careerFileUpdCk' + applicationForm2.global.careerIndex + '" name="careerFileUpdCk' + applicationForm2.global.careerIndex + '" class="careerFileUpdCk">' +
+                    '<input type="text" id="careerFileName' + applicationForm2.global.careerIndex + '" class="careerFileName" style="width: 100px; color:#337ab7;">' +
                     '<label for="careerFile' + applicationForm2.global.careerIndex + '" class="careerFileLabel k-button k-button-clear-info k-rounded" style="vertical-align: bottom;margin:0;">파일첨부</label>' +
                     '<input type="file" id="careerFile' + applicationForm2.global.careerIndex + '" class="careerFile" name="careerFile' + applicationForm2.global.careerIndex + '" style="display: none" onChange="applicationForm2.getFileName(this)">' +
                 '</td>' +
@@ -297,6 +300,9 @@ var applicationForm2 = {
                         userEmail : $("#userEmail").val(),
                         degreeFileNo : $(this).find("#degreeFileNo" + i).val(),
                         sexualFileNo : $(this).find("#sexualFileNo" + i).val(),
+                        degreeFileUpdCk : $(this).find("#degreeFileUpdCk" + i).val(),
+                        sexualFileUpdCk : $(this).find("#sexualFileUpdCk" + i).val(),
+
                     }
 
                     if($(this).find("#degreeFile" + i)[0].files.length != 0){
@@ -327,6 +333,7 @@ var applicationForm2 = {
                         careerContent : $("#careerContent" + i).val(),
                         userEmail : $("#userEmail").val(),
                         careerFileNo : $(this).find("#careerFileNo" + i).val(),
+                        careerFileUpdCk : $(this).find("#careerFileUpdCk" + i).val(),
                     }
 
                     if($(this).find("#careerFile" + i)[0].files.length != 0){
@@ -388,6 +395,9 @@ var applicationForm2 = {
             $("#school" + i).find("#graduateType" + i).val(e[i].GRADUATE_TYPE).prop("selected", true);
             $("#school" + i).find("#grade" + i).val(e[i].GRADE)
 
+            $("#school" + i).find("#degreeFileUpdCk" + i).val(e[i].DEGREE_FILE_UPD_CK)
+            $("#school" + i).find("#sexualFileUpdCk" + i).val(e[i].SEXUAL_FILE_UPD_CK)
+
             if(e[i].degreeFile != null){
                 $("#school" + i).find("#degreeFileNo" + i).val(e[i].degreeFile.file_no)
                 $("#school" + i).find("#degreeFileName" + i).val(e[i].degreeFile.file_org_name + "." + e[i].degreeFile.file_ext);
@@ -415,6 +425,7 @@ var applicationForm2 = {
             $("#career" + i).find("#retireSalary" + i).val(e[i].RETIRE_SALARY)
             $("#career" + i).find("#retireReason" + i).val(e[i].RETIRE_REASON)
             $("#career" + i + "_1").find("#careerContent" + i).val(e[i].CAREER_CONTENT)
+            $("#career" + i).find("#careerFileUpdCk" + i).val(e[i].CAREER_FILE_UPD_CK)
 
             if(e[i].careerFile != null){
                 $("#career" + i).find("#careerFileNo" + i).val(e[i].careerFile.file_no)

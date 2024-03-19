@@ -301,6 +301,8 @@
                 MAJOR,
                 GRADUATE_TYPE,
                 GRADE,
+                DEGREE_FILE_UPD_CK,
+                SEXUAL_FILE_UPD_CK,
                 REG_ID
             )
         VALUES
@@ -314,6 +316,8 @@
                 #{major},
                 #{graduateType},
                 #{grade},
+                #{degreeFileUpdCk},
+                #{sexualFileUpdCk},
                 #{userEmail}
             )
 
@@ -354,6 +358,7 @@
                 RETIRE_SALARY,
                 RETIRE_REASON,
                 CAREER_CONTENT,
+                CAREER_FILE_UPD_CK,
                 REG_ID
             )
         VALUES
@@ -367,6 +372,7 @@
                 #{retireSalary},
                 #{retireReason},
                 #{careerContent},
+                #{careerFileUpdCk},
                 #{userEmail}
             )
 
