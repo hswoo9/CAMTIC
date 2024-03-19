@@ -912,6 +912,16 @@
             LEC_SN = #{pk}
     </update>
 
+    <update id="updLectureTime" parameterType="map">
+        /*updLectureInfo*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE
+        SET
+            LEC_TIME = #{eduTime}
+        WHERE
+            LEC_SN = #{pk}
+    </update>
+
     <update id="updConsultingInfo" parameterType="map">
         /*updConsultingInfo*/
         UPDATE

@@ -499,6 +499,10 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         projectUnRndRepository.updLectureInfo(params);
     }
     @Override
+    public void updLectureTime(Map<String, Object> params) {
+        projectUnRndRepository.updLectureTime(params);
+    }
+    @Override
     public void updConsultingInfo(Map<String, Object> params) {
         projectUnRndRepository.updConsultingInfo(params);
     }
