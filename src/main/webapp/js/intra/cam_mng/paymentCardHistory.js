@@ -47,6 +47,10 @@ var payCardHist = {
                 $("#startDt").val(opener.parent.$("#tripDayFr").val());
                 $("#endDt").val(opener.parent.$("#tripDayTo").val());
             }
+        } else if(reqType == "snack"){
+            if(opener.parent.$("#useDt").val() != "" && opener.parent.$("#useDt").val() != null){
+                $("#startDt").val(opener.parent.$("#useDt").val());
+            }
         }
 
         if(requestType != "" && requestType != null && requestType != undefined){
