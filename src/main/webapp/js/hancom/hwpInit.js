@@ -134,7 +134,7 @@ var hwpInit = {
 
     exnpInit: function(exnpSn){
         let data = {
-            exnpSn: exnpSn
+            exnpSn : exnpSn
         }
 
         const result = customKendo.fn_customAjax("/payApp/pop/getExnpData", data);

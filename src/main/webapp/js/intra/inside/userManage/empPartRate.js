@@ -153,7 +153,7 @@ var empPartRate = {
                     title: "직위"
                 }, {
                     title: "상태",
-                    width: 50,
+                    width: 70,
                     template: function (e) {
                         var pjtStatus = "예정";
 

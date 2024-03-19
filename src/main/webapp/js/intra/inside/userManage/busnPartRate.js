@@ -372,6 +372,8 @@ var busnPartRate = {
         obj.value = busnPartRate.comma(busnPartRate.uncomma(obj.value));
 
         var item = $(obj).parents("tr").find("input");
+        var item3 = $(obj).parents("tr").next().next().find("input");
+
 
         var sum = 0;
         var len = 0;
@@ -383,6 +385,7 @@ var busnPartRate = {
             len++;
         });
         $(item).eq(item.length-2).val(busnPartRate.comma(sum));
+        $(item3).eq(item3.length-2).val(busnPartRate.comma(sum));
 
         var name = $(obj).attr("name");
         var nameX = name.substring(2, 1);   // (1월 ~ 12월)
@@ -407,7 +410,7 @@ var busnPartRate = {
         if(nameLoc == 0 || nameLoc == 1){
             unitSum += Number(busnPartRate.uncomma($('input[name="l'+nameX+'0'+nameY+'"]').val())) + Number(busnPartRate.uncomma($('input[name="l'+nameX+'1'+nameY+'"]').val()));
             $('input[name="t'+nameX+'2'+nameY+'"]').val(busnPartRate.comma(unitSum));
-            $('input[name="d'+nameY+'2"]').val(busnPartRate.comma(unitSum));
+            //$('input[name="d'+nameY+'2"]').val(busnPartRate.comma(unitSum));
         }
 
         busnPartRate.fn_footerHtml(busnPartRate.global.diffMonth);

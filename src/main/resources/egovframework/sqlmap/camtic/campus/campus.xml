@@ -1330,6 +1330,12 @@
             AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
             AND WORK_STATUS_CODE = 'Y'
         </if>
+        <if test='dept != null and !"".equals(dept)'>
+            AND (HEI.DEPT_SEQ = #{dept} OR HDI.PARENT_DEPT_SEQ = #{dept})
+        </if>
+        <if test='team != null and !"".equals(team)'>
+            AND HEI.DEPT_SEQ = #{team}
+        </if>
         <if test='empSeq != null and !"".equals(empSeq)'>
             AND HEI.EMP_SEQ = #{empSeq}
         </if>

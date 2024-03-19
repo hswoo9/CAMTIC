@@ -1,19 +1,19 @@
 let sum=0;
-var eduAllStat = {
+var eduAllStatAdmin = {
 
     global : {
         now : new Date()
     },
 
     init: function() {
-        eduAllStat.dataSet();
-        eduAllStat.mainGrid();
+        eduAllStatAdmin.dataSet();
+        eduAllStatAdmin.mainGrid();
     },
 
     dataSet: function(){
         fn_deptSetting();
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(eduAllStat.global.now.getFullYear() + '-01-01'));
-        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date(eduAllStat.global.now.getFullYear() + '-12-31'));
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(eduAllStatAdmin.global.now.getFullYear() + '-01-01'));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date(eduAllStatAdmin.global.now.getFullYear() + '-12-31'));
         $("#startDay, #endDay").attr("readonly", true);
         let activeDataSource = [
             { text: "미포함", value: "Y" },
@@ -21,17 +21,6 @@ var eduAllStat = {
         ]
         customKendo.fn_dropDownList("active", activeDataSource, "text", "value", 3);
         customKendo.fn_textBox(["sEmpName"]);
-
-        $("#dept").data("kendoDropDownList").value($("#regDeptSeq").val());
-        $("#dept").data("kendoDropDownList").trigger("change");
-        $("#team").data("kendoDropDownList").value($("#regTeamSeq").val());
-
-        $("#dept").data("kendoDropDownList").enable(false);
-
-        if(!($("#regDutyCode").val() == "2" || $("#regDutyCode").val() == "3" || $("#regDutyCode").val() == "7")){
-            $("#team").data("kendoDropDownList").enable(false);
-        }
-
         fn_searchBind();
     },
 
@@ -61,7 +50,6 @@ var eduAllStat = {
                     data.sEmpName = $("#sEmpName").val();
                     data.dept = $("#dept").data("kendoDropDownList").value();
                     data.team = $("#team").data("kendoDropDownList").value();
-
                     return data;
                 }
             },
@@ -76,7 +64,7 @@ var eduAllStat = {
             pageSize: 10,
             sort: [
                 { field: "DEPT", dir: "asc" },
-                { field: "DUTY_NAME", dir: "desc", compare: eduAllStat.dutyNameCompare() },
+                { field: "DUTY_NAME", dir: "desc", compare: eduAllStatAdmin.dutyNameCompare() },
                 { field: "EMP_NAME", dir: "asc" }
             ]
         });

@@ -877,6 +877,17 @@ public class CampusController {
         return "campus/eduAllStat";
     }
 
+    /** 전체 학습통계(관리자) */
+    @RequestMapping("/Campus/eduAllStatAdmin.do")
+    public String eduAllStatAdmin(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        return "campus/eduAllStatAdmin";
+    }
+
     //목표기술서 작성페이지
     @RequestMapping("/Campus/targetInfo.do")
     public String targetInfo(HttpServletRequest request, Model model) {
