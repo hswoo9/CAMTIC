@@ -263,6 +263,8 @@
             FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
             WHERE MNG_STAT != 'R'
             GROUP BY PJT_SN)
+        AND
+            C.PJT_STOP != 'Y'
         <if test='busnClass != null and !"".equals(busnClass)'>
             AND
                 C.BUSN_CLASS = #{busnClass}
@@ -344,6 +346,7 @@
                 C.PM_EMP_SEQ,
                 C.SBJ_STAT_YN,
                 C.PJT_STEP,
+                C.PJT_STOP,
                 A.TOT_RATE,
                 A.PAY_TOTAL,
                 REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PART_EMP_SEQ)), '|', ' ') AS DEPT_NAME
@@ -379,6 +382,8 @@
             AA.EMP_SEQ = BB.PART_EMP_SEQ
         WHERE
             BB.PJT_SN IS NOT NULL
+        AND
+            BB.PJT_STOP != 'Y'
         <if test='status != null and !"".equals(status)'>
             AND AA.WORK_STATUS_CODE = #{status}
         </if>
