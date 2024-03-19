@@ -97,7 +97,7 @@ var campusInit = {
                 hwpDocCtrl.global.HwpCtrl.MoveToField('careName', true, true, false);
                 hwpDocCtrl.putFieldText('careName', ResultData.CARE_NAME);
                 hwpDocCtrl.global.HwpCtrl.MoveToField('careLocation', true, true, false);
-                hwpDocCtrl.putFieldText('careLocation', ResultData.CARE_LOCATION);
+                hwpDocCtrl.putFieldText('careLocation', "(" + ResultData.CARE_LOCATION + ")");
 
                 let objectForum = ResultData.OBJECT_FORUM_TYPE == "주제발표" ? ResultData.OBJECT_FORUM_TYPE+" (발표주제 : "+ResultData.OBJECT_FORUM_VAL+")" : ResultData.OBJECT_FORUM_TYPE;
                 hwpDocCtrl.global.HwpCtrl.MoveToField('objectForum', true, true, false);
