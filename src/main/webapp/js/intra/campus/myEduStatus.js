@@ -162,7 +162,7 @@ var myEdu = {
                             return "교육취소";
                         }
                     }
-                }, {
+                }, /*{
                     title: "학습신청서",
                     width: 85,
                     template: function(row){
@@ -220,7 +220,7 @@ var myEdu = {
                             return "";
                         }
                     }
-                }
+                }*/
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 3);
@@ -256,7 +256,7 @@ var myEdu = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: myEdu.onDataBound2,
+            // dataBound: myEdu.onDataBound2,
             columns: [
                 {
                     title: "순번",
@@ -329,7 +329,7 @@ var myEdu = {
                             }
                         }
                     }
-                }, {
+                }, /*{
                     title: "학습신청서",
                     width: 85,
                     template: function(row){
@@ -405,7 +405,7 @@ var myEdu = {
                             return "";
                         }
                     }
-                }
+                }*/
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 3);
@@ -441,7 +441,7 @@ var myEdu = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: myEdu.onDataBound2,
+            // dataBound: myEdu.onDataBound2,
             columns: [
                 {
                     title: "순번",
@@ -550,7 +550,7 @@ var myEdu = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: myEdu.onDataBound2,
+            // dataBound: myEdu.onDataBound2,
             columns: [
                 {
                     title: "순번",
@@ -603,7 +603,7 @@ var myEdu = {
             dataSource: dataSource5,
             sortable: true,
             selectable: "row",
-            dataBound : myEdu.onDataBound3,
+            // dataBound : myEdu.onDataBound3,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -659,7 +659,7 @@ var myEdu = {
             dataSource: dataSource6,
             sortable: true,
             selectable: "row",
-            dataBound : myEdu.onDataBound4,
+            // dataBound : myEdu.onDataBound4,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
