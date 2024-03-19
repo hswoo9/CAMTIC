@@ -423,6 +423,130 @@
         ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
     </select>
 
+    <select id="getApproveDocBoxListMobile" parameterType="map" resultType="map">
+        /* getApproveDocBoxListMobile */
+        SELECT
+        DAR.APPROVE_EMP_SEQ,
+        DI.DOC_ID,
+        DI.DOC_MENU_CD,
+        DI.APPRO_KEY,
+        DO.SECURITY_TYPE,
+        FORM.FORM_NAME,
+        DI.DOC_NO,
+        DI.DOC_TITLE,
+        DI.REPTIT_DRFT_YN,
+        DATE_FORMAT(DI.DRAFT_DT, '%Y-%m-%d') AS DRAFT_DT,
+        DATE_FORMAT(DI.REPTIT_DRFT_DT, '%Y-%m-%d') AS REPTIT_DRFT_DT,
+        DATE_FORMAT(DI.LAST_APPROVE_DT, '%Y-%m-%d') AS LAST_APPROVE_DT,
+        DI.DRAFT_DEPT_NAME,
+        DI.DRAFT_EMP_NAME,
+        CASE WHEN DI.LAST_APPROVE_EMP_SEQ = '32' and DI.APPROVE_STAT_CODE_DESC = '전결' THEN '최종결재' ELSE DI.APPROVE_STAT_CODE_DESC END AS APPROVE_STAT_CODE_DESC
+        <choose>
+            <when test='approveType != null and ("wait".equals(approveType) or "tobe".equals(approveType))'>
+                , CASE WHEN AF.C_UIUSERKEY = #{empSeq} THEN 'N' ELSE 'Y' END AS SUB_APPROVAL
+            </when>
+            <when test='approveType != null and ("completion".equals(approveType) or "return".equals(approveType))'>
+                , CASE WHEN DAR.PROXY_APPROVE_DEPT_SEQ IS NOT NULL THEN 'Y' ELSE 'N' END AS SUB_APPROVAL
+            </when>
+        </choose>
+        FROM
+        DJ_CAMTIC.A_DOC_APPROVE_ROUTE DAR
+        JOIN
+        DJ_CAMTIC.A_DOC_INFO DI
+        ON DAR.DOC_ID = DI.DOC_ID
+        JOIN
+        DJ_CAMTIC.A_DOC_OPT DO
+        ON DI.DOC_ID = DO.DOC_ID
+        <choose>
+            <when test='approveType != null and "wait".equals(approveType)'>
+                AND DI.APPROVE_ORDER = DAR.APPROVE_ORDER AND (DI.APPROVE_STAT_CODE = 10 OR DI.APPROVE_STAT_CODE = 20 OR DI.APPROVE_STAT_CODE = 50)
+
+                STRAIGHT_JOIN
+                (${absentUserQuery})AF
+                ON DAR.APPROVE_DEPT_SEQ = AF.C_OIORGCODE AND DAR.APPROVE_EMP_SEQ = AF.C_UIUSERKEY
+            </when>
+            <when test='approveType != null and "tobe".equals(approveType)'>
+                AND DI.APPROVE_ORDER != DAR.APPROVE_ORDER AND (DI.APPROVE_STAT_CODE = 10 OR DI.APPROVE_STAT_CODE = 20 OR DI.APPROVE_STAT_CODE = 50)
+
+                STRAIGHT_JOIN
+                (${absentUserQuery})AF
+                ON DAR.APPROVE_DEPT_SEQ = AF.C_OIORGCODE AND DAR.APPROVE_EMP_SEQ = AF.C_UIUSERKEY
+            </when>
+        </choose>
+        JOIN
+        DJ_CAMTIC.A_FORM FORM
+        ON DI.FORM_ID = FORM.FORM_ID
+        WHERE 1=1
+        AND
+        DI.ACTIVE = 'Y'
+        AND
+        DI.DEL_FLAG = 'N'
+
+        <if test='startDay != null and !"".equals(startDay)'>
+            <![CDATA[
+             AND
+                 DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+             AND
+                 DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+             ]]>
+        </if>
+
+        <if test='docTitle != null and !"".equals(docTitle)'>
+            AND
+            DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+        </if>
+
+        <choose>
+            <when test='approveType != null and "completion".equals(approveType)'>
+                AND (
+                DAR.APPROVE_STAT_CODE = 20 OR
+                DAR.APPROVE_STAT_CODE = 30 OR
+                DAR.APPROVE_STAT_CODE = 100 OR
+                DAR.APPROVE_STAT_CODE = 101 OR
+                DAR.APPROVE_STAT_CODE = 102
+                )
+                AND (
+                DI.APPROVE_STAT_CODE = 20 OR
+                DI.APPROVE_STAT_CODE = 30 OR
+                DI.APPROVE_STAT_CODE = 100 OR
+                DI.APPROVE_STAT_CODE = 101 OR
+                DI.APPROVE_STAT_CODE = 102
+                )
+                AND (
+                (DAR.APPROVE_EMP_SEQ = #{empSeq} AND DAR.APPROVE_DEPT_SEQ = #{deptSeq}) OR
+                (DAR.PROXY_APPROVE_EMP_SEQ = #{empSeq} AND DAR.PROXY_APPROVE_DEPT_SEQ = #{deptSeq})
+                )
+            </when>
+            <when test='approveType != null and "return".equals(approveType)'>
+                AND
+                DAR.APPROVE_STAT_CODE = 30
+                AND
+                DI.APPROVE_STAT_CODE = 30
+                AND (
+                (DAR.APPROVE_EMP_SEQ = #{empSeq} AND DAR.APPROVE_DEPT_SEQ = #{deptSeq}) OR
+                (DAR.PROXY_APPROVE_EMP_SEQ = #{empSeq} AND DAR.PROXY_APPROVE_DEPT_SEQ = #{deptSeq})
+                )
+            </when>
+            <when test='approveType != null and "reference".equals(approveType)'>
+                AND DI.APPROVE_STAT_CODE IN (100, 101)
+                <if test='pageType != null and !"".equals(pageType)'>
+                    AND (
+                    (DAR.APPROVE_EMP_SEQ = #{empSeq} AND DAR.APPROVE_DEPT_SEQ = #{deptSeq}) OR
+                    (DAR.PROXY_APPROVE_EMP_SEQ = #{empSeq} AND DAR.PROXY_APPROVE_DEPT_SEQ = #{deptSeq})
+                    )
+                </if>
+            </when>
+            <otherwise>
+                AND DAR.APPROVE_STAT_CODE IS NULL
+            </otherwise>
+        </choose>
+        GROUP BY DI.DOC_ID
+        ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
+        <if test='startPage != null and !"".equals(startPage)'>
+            LIMIT #{startPage}, 5
+        </if>
+    </select>
+
     <!-- 결재함 -->
     <select id="getEmpDeptList" parameterType="map" resultType="map">
         /* getEmpDeptList */
@@ -878,6 +1002,82 @@
                 ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
             </otherwise>
         </choose>
+    </select>
+
+    <select id="getMainUserDocStorageBoxListMobile" parameterType="map" resultType="map">
+        /* getMainUserDocStorageBoxListMobile */
+        SELECT
+        DI.DOC_ID,
+        DO.SECURITY_TYPE,
+        FORM.FORM_NAME,
+        FORM.LINKAGE_TYPE,
+        FORM.LINKAGE_PROCESS_ID,
+        DI.DOC_MENU_CD,
+        DI.APPRO_KEY,
+        DI.DOC_NO,
+        DI.DOC_TITLE,
+        DI.APPROVE_STAT_CODE_DESC,
+        DI.APPROVE_STAT_CODE,
+        DI.REPTIT_DRFT_YN,
+        DATE_FORMAT(DI.DRAFT_DT,'%Y-%m-%d') AS DRAFT_DT,
+        DATE_FORMAT(DI.REPTIT_DRFT_DT,'%Y-%m-%d') AS REPTIT_DRFT_DT,
+        DATE_FORMAT(DI.LAST_APPROVE_DT,'%Y-%m-%d') AS LAST_APPROVE_DT,
+        DATE_FORMAT(DI.REG_DATE, '%Y-%m-%d') AS REG_DATE
+        FROM
+        DJ_CAMTIC.A_DOC_INFO DI
+        JOIN
+        DJ_CAMTIC.A_DOC_OPT DO
+        ON DI.DOC_ID = DO.DOC_ID
+        JOIN
+        DJ_CAMTIC.A_FORM FORM
+        ON DI.FORM_ID = FORM.FORM_ID
+        WHERE 1=1
+        <choose>
+            <when test='approveStat != null and "temp".equals(approveStat)'>
+                AND
+                DI.DRAFT_EMP_SEQ = #{empSeq}
+                AND
+                DI.APPROVE_STAT_CODE = 111
+            </when>
+            <when test='approveStat != null and "draft".equals(approveStat)'>
+                AND
+                DI.DRAFT_EMP_SEQ = #{empSeq}
+                AND (
+                DI.APPROVE_STAT_CODE = 10 OR
+                DI.APPROVE_STAT_CODE = 50
+                )
+            </when>
+            <when test='approveStat != null and "returnRetrieve".equals(approveStat)'>
+                AND
+                DI.DRAFT_EMP_SEQ = #{empSeq}
+                AND (
+                DI.APPROVE_STAT_CODE = 30 OR
+                DI.APPROVE_STAT_CODE = 40
+                )
+            </when>
+        </choose>
+        AND
+        DI.ACTIVE = 'Y'
+        AND
+        DI.DEL_FLAG = 'N'
+        <if test='startDay != null and !"".equals(startDay)'>
+            <![CDATA[
+        AND
+            DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='approveStat != null and "temp".equals(approveStat)'>
+                ORDER BY DI.REG_DATE DESC
+            </when>
+            <otherwise>
+                ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
+            </otherwise>
+        </choose>
+        LIMIT #{startPage}, 5
     </select>
 
     <!-- 부재설정 -->

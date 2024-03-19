@@ -296,4 +296,17 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
         return approvalUserRepository.getMainUserDocStorageBoxList(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getApproveDocBoxListMobile(Map<String, Object> params) {
+        StringBuilder absentUserQuery = new StringBuilder();
+        absentUserQuery = getAbsentUserQuery(params);
+        params.put("absentUserQuery", absentUserQuery.toString());
+
+        return approvalUserRepository.getApproveDocBoxListMobile(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMainUserDocStorageBoxListMobile(Map<String, Object> params) {
+        return approvalUserRepository.getMainUserDocStorageBoxListMobile(params);
+    }
 }
