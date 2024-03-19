@@ -1070,6 +1070,7 @@ var reqCl = {
                 $("#crmSelBtn").css("display", "none");
                 $(".listDelBtn").text("-");
                 $("#addBtn").css("display", "none");
+                $("#saveBtn").css("display", "none");
             }
         }
     },

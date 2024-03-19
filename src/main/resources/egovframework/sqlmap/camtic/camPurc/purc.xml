@@ -1354,6 +1354,8 @@
         SELECT
             B.*,
             A.CLAIM_EXNP_SN,
+            A.EMP_SEQ AS F_EMP_SEQ,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.EMP_SEQ = EMP_SEQ) AS F_EMP_NAME,
             A.PAY_APP_SN AS F_PAY_APP_SN,
             IFNULL((SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS REQ_AMT,
             IFNULL((SELECT COUNT(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS EXNP_CNT,
@@ -1372,8 +1374,10 @@
                 WHEN B.PAYMENT_METHOD = 'A' THEN B.ORDER_DT IS NOT NULL
                 ELSE 1=1
             END
-        AND
-            ((A.EMP_SEQ IS NULL AND B.PURC_EMP_SEQ = #{empSeq}) OR A.EMP_SEQ = #{empSeq})
+        <if test='camProject == null or "".equals(camProject)'>
+            AND
+                ((A.EMP_SEQ IS NULL AND B.PURC_EMP_SEQ = #{empSeq}) OR A.EMP_SEQ = #{empSeq})
+        </if>
         <if test='pjtSn != null and !"".equals(pjtSn)'>
             AND
                 B.PJT_SN = #{pjtSn}

@@ -567,11 +567,33 @@ public class ProjectUnRndController {
         return "jsonView";
     }
 
+    @RequestMapping("/projectUnRnd/updLectureTime")
+    public String updLectureTime(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.updLectureTime(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     /** 단위사업(컨설팅) 수정 */
     @RequestMapping("/projectUnRnd/updConsultingInfo")
     public String updConsultingInfo(@RequestParam Map<String, Object> params, Model model){
         try{
             projectUnRndService.updConsultingInfo(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/updConsultingTime")
+    public String updConsultingTime(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.updConsultingTime(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

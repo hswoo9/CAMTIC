@@ -912,6 +912,16 @@
             LEC_SN = #{pk}
     </update>
 
+    <update id="updLectureTime" parameterType="map">
+        /*updLectureInfo*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE
+        SET
+            LEC_TIME = #{eduTime}
+        WHERE
+            LEC_SN = #{pk}
+    </update>
+
     <update id="updConsultingInfo" parameterType="map">
         /*updConsultingInfo*/
         UPDATE
@@ -937,6 +947,16 @@
             CON_OPEN_BD_NAME = #{mainTypeName},
             MOD_EMP_SEQ = #{regEmpSeq},
             MOD_DT = NOW()
+        WHERE
+            CON_SN = #{pk}
+    </update>
+
+    <update id="updConsultingTime" parameterType="map">
+        /*updConsultingTime*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_CONSULTING
+        SET
+            CON_TIME = #{conTime}
         WHERE
             CON_SN = #{pk}
     </update>

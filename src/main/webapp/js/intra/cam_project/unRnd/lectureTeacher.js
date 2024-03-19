@@ -39,7 +39,7 @@ const lectureTeacher = {
                     return data.list;
                 },
                 total: function (data) {
-                    return data.list.length;
+                    return data.list.length;z
                 },
             }
         });

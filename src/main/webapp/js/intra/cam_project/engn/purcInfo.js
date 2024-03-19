@@ -16,7 +16,8 @@ var purcInfo = {
             empSeq : $("#loginEmpSeq").val(),
             pjtSn : $("#pjtSn").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            camProject: "Y",
         }
 
         $("#radioSelectPurcType").kendoRadioGroup({
@@ -271,7 +272,7 @@ var purcInfo = {
                     width: 120,
                 }, {
                     title: "구매구분",
-                    width: 80,
+                    width: 50,
                     template: function(e){
                         var result = "";
 
@@ -289,6 +290,10 @@ var purcInfo = {
 
                         return result
                     }
+                }, {
+                    title: "담당자",
+                    field: "F_EMP_NAME",
+                    width: 60
                 }, {
                     title: "제목",
                     field: "CLAIM_TITLE",
@@ -362,10 +367,14 @@ var purcInfo = {
                     }
                 }, {
                     title : "지급신청",
-                    width : 80,
+                    width : 70,
                     template: function(e){
-                        console.log(e)
-                        return '<button type="button" class="k-button k-button-solid-base" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
+                        console.log(e);
+                        if($("#loginEmpSeq").val() == e.F_EMP_SEQ){
+                            return '<button type="button" class="k-button k-button-solid-base" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
+                        } else {
+                            return '';
+                        }
                     }
                 }
             ],

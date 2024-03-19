@@ -144,7 +144,12 @@ var hwpInit = {
         console.log(result);
 
         /** 1. 지출결의서 데이터 */
-        hwpDocCtrl.putFieldText('PJT_NM', rs.PJT_NM);
+        const pjtNm = rs.PJT_NM;
+        let pjtEx = rs.PJT_NM;
+        if(pjtNm.toString().length > 11){
+            pjtEx = pjtNm.toString().substring(0, 11);
+        }
+        hwpDocCtrl.putFieldText('PJT_NM', pjtEx);
         hwpDocCtrl.putFieldText('EMP_NAME', rs.REG_EMP_NAME);
         hwpDocCtrl.putFieldText('DEPT_NAME', "경영지원실");
         hwpDocCtrl.putFieldText('REG_ACC_NO', "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);
