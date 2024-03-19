@@ -90,8 +90,8 @@
         </choose>
         AND
             A.EVAL_SCREEN_TYPE = #{evalScreenType}
-        <if test='applicationId != null and !"".equals(applicationId)'>
-            AND A.APPLICATION_ID = #{applicationId}
+        <if test='"doc".equals(applicationId)'>
+            AND B.EVAL_STATUS = "E"
         </if>
         GROUP BY A.EVAL_LOGIN_ID
     </select>

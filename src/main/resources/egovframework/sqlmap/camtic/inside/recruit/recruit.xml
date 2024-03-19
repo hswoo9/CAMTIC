@@ -834,6 +834,7 @@
             AND
                 AM.IN_AVOID = 'N'
         </if>
+            AND AM.IN_AVOID != 'Y'
         GROUP BY AM.APPLICATION_ID
         ORDER BY AM.USER_NAME
     </select>

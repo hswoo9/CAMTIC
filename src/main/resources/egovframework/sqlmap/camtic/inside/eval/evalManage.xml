@@ -461,7 +461,7 @@
                 CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
             LEFT JOIN
                 CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN B
-            ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID AND B.EVAL_STATUS = 'E'
+            ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID/* AND B.EVAL_STATUS = 'E'*/
             WHERE
                 EVAL_ITEM_ID != 'opinion'
             AND
