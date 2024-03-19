@@ -1186,7 +1186,6 @@ var regPay = {
 
                 /** 개인여비 */
                 if(snackData.PAY_TYPE != null){
-                    debugger
                     if(count != 0){
                         regPayDet.addRow();
                     }
@@ -1251,7 +1250,7 @@ var regPay = {
                             $("#authHh" + index).val(data.AUTH_HH);
 
                             const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
-                                searchValue: data.CARD_NO
+                                searchValue: data.CARD_NO.slice(-4)
                             }).list
 
                             if(g20CardList.length > 0){
