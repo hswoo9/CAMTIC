@@ -104,20 +104,19 @@ var holidayWorkApplicationUser ={
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="holidayWorkApplicationUser.fn_checkAll();" class=""/>',
                     template : function(e){
-                        if(e.APPR_STAT == "N"){
+                        console.log(e)
+                        if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
                             return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class=''/>";
                         } else {
                             return "";
                         }
                     },
                     width: 80
-                },
-                {
-                    field: "ROW_NUM",
+                }, {
+                    template: "#= --record #",
                     title: "순번",
-                    width: 80
-                },
-                {
+                    width : 50
+                }, {
                     field:"SUBHOLIDAY_DT_CODE_NM",
                     title:"구분",
                     width:250
@@ -129,8 +128,11 @@ var holidayWorkApplicationUser ={
                 },
                 {
                     field: "SUBHOLIDAY_WORK_DAY",
-                    title: "근로일자",
-                    width: 200
+                    title: "신청기간",
+                    width: 200,
+                    template: function (e){
+                        return e.END_DT + " ~ " + e.STR_DT
+                    }
                 }, {
                     field: "APPR_STAT",
                     title: "승인상태",
@@ -153,7 +155,10 @@ var holidayWorkApplicationUser ={
                         let html = makeApprBtnHtml(e, "holidayWorkApplicationUser.workHolidayDrafting("+e.HOLIDAY_WORK_MASTER_SN+");");
                         return html;
                     }
-                }]
+                }],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
         }).data("kendoGrid");
     },
 
