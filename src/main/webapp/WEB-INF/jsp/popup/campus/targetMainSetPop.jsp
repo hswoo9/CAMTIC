@@ -36,7 +36,7 @@
         <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
           <tr>
             <td>
-              STEP2-2 : 주업무 현황 및 목표 설정
+              STEP1-2 : 주업무 현황 및 목표 설정
               <br> 1. 앞서 STEP 2-1에서 설정한 주업무의 직무는 모두 현황으로 저장되어 있습니다. 목표를 구분하시기 바랍니다.
               <br> 2. 저장 후 다음단계인 "STEP 2-2 : 주업무의 현황 및 레벨설정" 으로 이동합니다.
               <br> 3. 이 단계까지 완성하시면 주업무의 학습현황 및 목표설정은 완료되며,

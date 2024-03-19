@@ -35,7 +35,7 @@
         <table class="table table-bordered mb-0" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
           <tr>
             <td>
-              STEP3-2 : 연계업무 현황 및 목표 설정
+              STEP2-2 : 연계업무 현황 및 목표 설정
               <br> 1. 앞서 STEP 3-1에서 설정한 연계업무의 직무는 모두 현황으로 저장되어 있습니다. 목표를 구분하시기 바랍니다.
               <br> 2. 각 직무의 체크박스에 체크선택 하여 하단의 "현황저장"과 "목표저장" 버튼을 이용하여 각각 설정합니다.
               <br> 3. 이 단계까지 완성하시면 연계업무의 학습현황 및 목표설정은 완료되며,
