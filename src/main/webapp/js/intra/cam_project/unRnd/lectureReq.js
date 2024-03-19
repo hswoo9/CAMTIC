@@ -85,19 +85,6 @@ const lectureReq = {
                 }
 
                 $("#tList").html(html);
-                $("#eduTime").val(teachTime);
-                /*const teachTime = parseInt(lecList[0].teachTime) + parseInt(lecList[1].teachTime) + parseInt(lecList[2].teachTime);*/
-
-             /*   */
-
-               /* if(result.list.length === 1){
-                    const teachTime = parseInt(lecList[0].teachTime);
-
-                    $("#lecName").text(lecList[0].NAME);
-                    $("#lecNumP").text(lecList[0].HP_NUM);
-
-
-                }*/
             }
 
             /*$("#projectType").data("kendoDropDownList").value(lecMap.LEC_BUSN_CLASS);*/
@@ -118,7 +105,7 @@ const lectureReq = {
             $("#recruitEndDt").val(lecMap.RECR_END_DE);
 
             $("#recruitNum").val(lecMap.RECR_MEM_CNT);
-            /*$("#eduTime").val(lecMap.LEC_TIME);*/
+            $("#eduTime").val(lecMap.LEC_TIME);
             $("#eduTimeEx").val(lecMap.LEC_TIME_RNG);
 
             $("#area").val(lecMap.LEC_ADDR);
@@ -177,7 +164,7 @@ const lectureReq = {
             const conMap = result.data;
             const conTc = result.list;
 
-            if(conTc != null && conTc != ""){
+            /*if(conTc != null && conTc != ""){
                 if(result.list.length === 1){
                     const teachTime = parseInt(conTc[0].teachTime);
                     $("#tcName").text(conTc[0].NAME);
@@ -193,7 +180,7 @@ const lectureReq = {
                     $("#tcNumP").text(conTc[0].HP_NUM);
                     $("#tcEmail").text(conTc[0].EMAIL);
 
-                    $("#conTime").val(teachTime);
+                    /!*$("#conTime").val(teachTime);*!/
                 }else if(result.list.length === 2){
                     const teachTime = parseInt(conTc[0].teachTime) + parseInt(conTc[1].teachTime);
                     $("#tcName").text(conTc[0].NAME);
@@ -222,7 +209,7 @@ const lectureReq = {
                     $("#tcNumP2").text(conTc[1].HP_NUM);
                     $("#tcEmail2").text(conTc[1].EMAIL);
 
-                    $("#conTime").val(teachTime);
+                    /!*$("#conTime").val(teachTime);*!/
                 }else if(result.list.length === 3){
                     const teachTime = parseInt(conTc[0].teachTime) + parseInt(conTc[1].teachTime) + parseInt(conTc[2].teachTime);
                     $("#tcName").text(conTc[0].NAME);
@@ -264,9 +251,59 @@ const lectureReq = {
                     $("#tcNumP3").text(conTc[2].HP_NUM);
                     $("#tcEmail3").text(conTc[2].EMAIL);
 
-                    $("#conTime").val(teachTime);
+                    /!*$("#conTime").val(teachTime);*!/
                 }
+            }*/
+            if(conTc != null && conTc != ""){
+                $("#conTeacherInfo").html("");
+
+                for(var i = 0 ; i < conTc.length ; i++) {
+                    html +='<table class="popTable table table-bordered mb-10 mt--5">';
+                    html +='<tbody class="ctList">';
+                    html +='<tr>';
+                    html +='<th scope="row" class="text-center th-color">성명</th>';
+                    html +='<td>'+conTc[i].NAME+'</td>';
+                    html +='</tr>';
+
+                    html +='<tr>';
+                    html +='<th scope="row" class="text-center th-color">생년월일</th>';
+                    html +='<td>'+conTc[i].BIRTH+'</td>';
+                    html +='</tr>';
+
+                    html +='<tr>';
+                    html +='<th scope="row" class="text-center th-color">성별</th>';
+                    if (conTc[i].GENDER === 'F') {
+                        html += '<td>여</td>';
+                    }else if(conTc[i].GENDER === 'M') {
+                        html += '<td>남</td>';
+                    }else if(conTc[i].GENDER == null){
+                        html += '<td></td>';
+                    }else{
+                        html += '<td>'+conTc[i].GENDER+'</td>';
+                    }
+                    html +='</tr>';
+
+                    html +='<tr>';
+                    html +='<th scope="row" class="text-center th-color">전화번호</th>';
+                    html +='<td>'+conTc[i].TEL_NUM+'</td>';
+                    html +='</tr>';
+
+                    html +='<tr>';
+                    html +='<th scope="row" class="text-center th-color">휴대폰 번호</th>';
+                    html +='<td>'+conTc[i].HP_NUM+'</td>';
+                    html +='</tr>';
+
+                    html +='<tr>';
+                    html +='<th scope="row" class="text-center th-color">이메일</th>';
+                    html +='<td>'+conTc[i].EMAIL+'</td>';
+                    html +='</tr>';
+                    html +='</tbody>';
+                    html +='</table>';
+                }
+
+                $("#conTeacherInfo").html(html);
             }
+
 
             $("#field").data("kendoDropDownList").value(conMap.CON_FIELD);
             $("#field2").data("kendoDropDownList").value(conMap.CON_FIELD1);
@@ -276,7 +313,7 @@ const lectureReq = {
             $("#conDetailTitle").val(conMap.CON_TOPIC);
             $("#agmStartDt").val(conMap.CON_STR_DE);
             $("#agmEndDt").val(conMap.CON_END_DE);
-            /*$("#conTime").val(conMap.CON_TIME);*/
+            $("#conTime").val(conMap.CON_TIME);
             $("#conArea").val(conMap.CON_ADDR);
             $("#conCost").val(conMap.CON_COST);
             $("#conPerson").val(conMap.CON_PER);

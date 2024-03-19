@@ -590,6 +590,17 @@ public class ProjectUnRndController {
         return "jsonView";
     }
 
+    @RequestMapping("/projectUnRnd/updConsultingTime")
+    public String updConsultingTime(@RequestParam Map<String, Object> params, Model model){
+        try{
+            projectUnRndService.updConsultingTime(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     /** 단위사업(교육) 수강자 수강신청 접수/취소 처리 */
     @RequestMapping("/projectUnRnd/updPersonApp")
     public String updPersonApp(@RequestParam Map<String, Object> params, Model model){

@@ -951,6 +951,16 @@
             CON_SN = #{pk}
     </update>
 
+    <update id="updConsultingTime" parameterType="map">
+        /*updConsultingTime*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_CONSULTING
+        SET
+            CON_TIME = #{conTime}
+        WHERE
+            CON_SN = #{pk}
+    </update>
+
     <update id="updPersonApp" parameterType="map">
         /*updPersonApp*/
         UPDATE

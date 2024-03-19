@@ -77,7 +77,6 @@
         window.close();
     }
     function save(){
-            /*url = "/projectUnRnd/updLectureInfo";*/
         var teachTimeInput = document.querySelectorAll('[id^="teachTime"]');
         var eduTime = 0;
 
@@ -87,8 +86,6 @@
                 eduTime += value;
             }
         });
-
-        console.log("Total teach time:", eduTime);
 
         if(!confirm("저장하시겠습니까?")){
             return;

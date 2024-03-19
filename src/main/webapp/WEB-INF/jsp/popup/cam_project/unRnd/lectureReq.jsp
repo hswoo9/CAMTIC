@@ -7,6 +7,8 @@
 
 <style>
     .k-window  div.k-window-content {overflow: hidden;}
+    .ctList tr th{background-color: #8fa1c04a; padding: 5px; width: 30%;}
+    .ctList tr td{padding: 5px; width: 70%;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
@@ -57,7 +59,7 @@
 
         <%--<div style="padding: 0 30px;">
             <table class="popTable table table-bordered mb-0">
-                <colgroup>
+                <colgroup>S
                     <col width="15%">
                     <col width="35%">
                     <col width="15%">
@@ -83,43 +85,11 @@
                     <tr>
                         <th scope="row" class="text-center th-color">성명</th>
                         <th scope="row" class="text-center th-color">휴대폰번호</th>
-                        <%--<td id="lecName"></td>--%>
-                        <%--<td id="lecName2"></td>
-                        <td id="lecName3"></td>--%>
                     </tr>
                     </thead>
                     <tbody id="tList">
-                    <%--<tr>
-                        <td id="lecNumP"></td>
-                        <td id="lecNumP"></td>
-                    </tr>--%>
                     </tbody>
-
-
                 </table>
-
-                <%--<table class="popTable table table-bordered mb-20">
-                    <colgroup>
-                        <col width="15%">
-                        <col width="28%">
-                        <col width="28%">
-                        <col width="28%">
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th scope="row" class="text-center th-color">성명</th>
-                        <td id="lecName4"></td>
-                        <td id="lecName5"></td>
-                        <td id="lecName6"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">휴대폰 번호</th>
-                        <td id="lecNumP4"></td>
-                        <td id="lecNumP5"></td>
-                        <td id="lecNumP6"></td>
-                    </tr>
-                    </thead>
-                </table>--%>
             </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
@@ -327,52 +297,14 @@
 
         <div class="consulting" style="padding: 20px 30px; display: none;">
             <div id="conTeacherInfo" style="display: none;">
-                <table class="popTable table table-bordered mb-20">
+               <%-- <table class="popTable table table-bordered mb-20">
                     <colgroup>
-                        <col width="15%">
-                        <col width="28%">
-                        <col width="28%">
-                        <col width="28%">
+                        <col width="30%">
+                        <col width="270%">
                     </colgroup>
-                    <thead>
-                    <tr>
-                        <th scope="row" class="text-center th-color">성명</th>
-                        <td id="tcName"></td>
-                        <td id="tcName2"></td>
-                        <td id="tcName3"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">생년월일</th>
-                        <td id="tcBirth"></td>
-                        <td id="tcBirth2"></td>
-                        <td id="tcBirth3"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">성별</th>
-                        <td id="tcGender"></td>
-                        <td id="tcGender2"></td>
-                        <td id="tcGender3"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">전화번호</th>
-                        <td id="tcNum"></td>
-                        <td id="tcNum2"></td>
-                        <td id="tcNum3"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">휴대폰 번호</th>
-                        <td id="tcNumP"></td>
-                        <td id="tcNumP2"></td>
-                        <td id="tcNumP3"></td>
-                    </tr>
-                    <tr>
-                        <th scope="row" class="text-center th-color">이메일</th>
-                        <td id="tcEmail"></td>
-                        <td id="tcEmail2"></td>
-                        <td id="tcEmail3"></td>
-                    </tr>
-                    </thead>
-                </table>
+                    <tbody id="ctList">
+                    </tbody>
+                </table>--%>
             </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
