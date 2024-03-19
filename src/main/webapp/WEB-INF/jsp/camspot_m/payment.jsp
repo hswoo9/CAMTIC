@@ -76,14 +76,13 @@
             <!--} 리스트 -->
     		
             <!-- 페이징 {-->
+            <!-- 페이징 {-->
             <div class="pageBox mt40">
-                <a href="#none" class="arr prev">prev</a>
-                <b>1</b>
-                <a href="#none">2</a>
-                <a href="#none">3</a>
-                <a href="#none">4</a>
-                <a href="#none">5</a>
-                <a href="#none" class="arr next">next</a>
+                <a href="${pageContext.request.contextPath}/m/payment.do?pageNum=${(currentPage-1)}" class="arr prev">prev</a>
+                <c:forEach var="i" begin="${startPage }" end="${endPage }">
+                    <a href="${pageContext.request.contextPath}/m/payment.do?pageNum=${i}" id="page${i}">${i}</a>
+                </c:forEach>
+                <a href="${pageContext.request.contextPath}/m/payment.do?pageNum=${(currentPage+1)}" class="arr next">next</a>
             </div>
             <!--} 페이징 -->
             
@@ -101,6 +100,14 @@
 <script type="text/javascript">
 	$('.m2', $('#menu')).addClass('active');
     $('.t1', $('.sTabmenu')).addClass('active');
+
+    var idx = '${currentPage}';
+
+    if(idx != undefined && idx != null && idx != '') {
+        $("#page"+idx).html("<b>"+idx+"</b>");
+    } else {
+        $("#page1").html("<b>1</b>");
+    }
 </script>
 
 

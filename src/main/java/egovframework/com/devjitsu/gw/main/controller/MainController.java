@@ -22,10 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -360,8 +357,64 @@ public class MainController {
 
         List<Map<String, Object>> strList = approvalUserService.getMainUserDocStorageBoxList(params);
 
-        model.addAttribute("strList", strList);
+        int totCnt = strList.size();
+
+        int pageN;
+        int countList = 5;
+        int countPage = 5;
+
+        int block = totCnt / countList;
+        if(totCnt % countList != 0){
+            block++;
+        }
+
+        String pageNum = "0";
+        if(params.containsKey("pageNum")){
+            pageNum = params.get("pageNum").toString();
+        } else {
+            pageNum = "0";
+        }
+        if(pageNum == null){
+            pageN = 1;
+        }else{
+            if(Integer.parseInt(pageNum) > block){
+                pageN = block;
+            } else {
+                pageN = Integer.parseInt(pageNum);
+            }
+
+            if(pageN <= 0 ) {
+                pageN = 1;
+            } else if(pageN > block) {
+                pageN -= 5;
+            }
+
+        }
+
+        int startPage = (pageN-1) / countPage * countPage + 1; // 시작 페이지
+        int endPage = startPage + countPage - 1; // 끝 페이지
+
+        if (endPage > block) {
+            endPage = block;
+        }
+        int start = pageN*5-4;
+        int end = pageN*5;
+
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        params.put("startPage", (start - 1) > 0 ? (start - 1) : 0);
+        params.put("endPage", end);
+
+        list = approvalUserService.getMainUserDocStorageBoxListMobile(params); // 해당 페이지에 맞는 게시물 불러오는 메서드
+
+
         model.addAttribute("strLen", strList.size());
+        model.addAttribute("strList", list);
+        model.addAttribute("strLen", strList.size());
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        model.addAttribute("currentPage", pageN);
+        model.addAttribute("countPage", countPage);
 
         return "/camspot_m/payment";
     }
@@ -384,8 +437,61 @@ public class MainController {
 
         List<Map<String, Object>> waitList = approvalUserService.getApproveDocBoxList(params);
 
-        model.addAttribute("waitList", waitList);
+        int totCnt = waitList.size();
+
+        int pageN;
+        int countList = 5;
+        int countPage = 5;
+
+        int block = totCnt / countList;
+        if(totCnt % countList != 0){
+            block++;
+        }
+
+        String pageNum = "0";
+        if(params.containsKey("pageNum")){
+            pageNum = params.get("pageNum").toString();
+        } else {
+            pageNum = "0";
+        }
+        if(pageNum == null){
+            pageN = 1;
+        }else{
+            if(Integer.parseInt(pageNum) > block){
+                pageN = block;
+            } else {
+                pageN = Integer.parseInt(pageNum);
+            }
+
+            if(pageN <= 0 ) {
+                pageN = 1;
+            } else if(pageN > block) {
+                pageN -= 5;
+            }
+        }
+
+        int startPage = (pageN-1) / countPage * countPage + 1; // 시작 페이지
+        int endPage = startPage + countPage - 1; // 끝 페이지
+
+        if (endPage > block) {
+            endPage = block;
+        }
+        int start = pageN*5-4;
+        int end = pageN*5;
+
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        params.put("startPage", (start - 1) > 0 ? (start - 1) : 0);
+        params.put("endPage", end);
+
+        list = approvalUserService.getApproveDocBoxListMobile(params); // 해당 페이지에 맞는 게시물 불러오는 메서드
+
+        model.addAttribute("waitList", list);
         model.addAttribute("waitLen", waitList.size());
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        model.addAttribute("currentPage", pageN);
+        model.addAttribute("countPage", countPage);
 
         return "/camspot_m/payment_wait";
     }

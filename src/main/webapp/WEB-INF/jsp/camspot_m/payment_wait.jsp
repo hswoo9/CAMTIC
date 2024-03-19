@@ -36,60 +36,18 @@
                 	<font class="txt type24"><i>${item.DOC_NO == null ? "" : item.DOC_NO}</i><i>${item.DRAFT_DT}</i><i>${item.DRAFT_EMP_NAME}</i></font>
                 </a>
                 </c:forEach>
-<%--            	<a href="#">--%>
-<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
-<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
-<%--                </a>--%>
-<%--            	<a href="#">--%>
-<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
-<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
-<%--                </a>--%>
-<%--            	<a href="#">--%>
-<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
-<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
-<%--                </a>--%>
-<%--            	<a href="#">--%>
-<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
-<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
-<%--                </a>--%>
-<%--            	<a href="#">--%>
-<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
-<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
-<%--                </a>--%>
-<%--            	<a href="#">--%>
-<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
-<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
-<%--                </a>--%>
-<%--            	<a href="#">--%>
-<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
-<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
-<%--                </a>--%>
-<%--            	<a href="#">--%>
-<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
-<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
-<%--                </a>--%>
-<%--            	<a href="#">--%>
-<%--                	<font class="txt type28 tit">[수입결의서] 테스트팀-관리자</font>--%>
-<%--                	<font class="txt type24"><i>경영지원팀 24-5486</i><i>2023-11-30</i><i>기안자</i></font>--%>
-<%--                </a>--%>
             </div>
             <!--} 리스트 -->
     		
             <!-- 페이징 {-->
             <div class="pageBox mt40">
-                <a href="#none" class="arr prev">prev</a>
-                <b>1</b>
-                <a href="#none">2</a>
-                <a href="#none">3</a>
-                <a href="#none">4</a>
-                <a href="#none">5</a>
-                <a href="#none" class="arr next">next</a>
+                <a href="${pageContext.request.contextPath}/m/payment_wait.do?pageNum=${(currentPage-1)}" class="arr prev">prev</a>
+                <c:forEach var="i" begin="${startPage }" end="${endPage }">
+                    <a href="${pageContext.request.contextPath}/m/payment_wait.do?pageNum=${i}" id="page${i}">${i}</a>
+                </c:forEach>
+                <a href="${pageContext.request.contextPath}/m/payment_wait.do?pageNum=${(currentPage+1)}" class="arr next">next</a>
             </div>
-            <!--} 페이징 -->
-            
-<%--        	<div class="btBox mt40"><a href="/m/payment_write.do">글쓰기</a></div>--%>
-            
-    	</div>   
+    	</div>
     	<!--} content -->
                 
     </div>
@@ -101,6 +59,14 @@
 <script type="text/javascript">
 	$('.m2', $('#menu')).addClass('active');
     $('.t2', $('.sTabmenu')).addClass('active');
+
+    var idx = '${currentPage}';
+
+    if(idx != undefined && idx != null && idx != '') {
+        $("#page"+idx).html("<b>"+idx+"</b>");
+    } else {
+        $("#page1").html("<b>1</b>");
+    }
 </script>
 
 

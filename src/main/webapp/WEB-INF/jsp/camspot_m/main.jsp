@@ -22,11 +22,11 @@
             <div id="payment" class="sec-1">
             	<font class="txt type30 fP700">결재현황</font>
                 <div class="disF">
-                	<span>
+                	<span onclick="location.href='/m/payment.do'">
                     	<font class="txt type35 num fP800">${strStatus}</font>
                     	<font class="txt type24 con mt10 fP600">상신문서</font>
                     </span>
-                	<span>
+                	<span onclick="location.href='/m/payment_wait.do'">
                     	<font class="txt type35 num fP800">${waitStatus}</font>
                     	<font class="txt type24 con mt10 fP600">결재대기</font>
                     </span>
