@@ -264,14 +264,6 @@
                 <td colspan="3">
                   <label for="fileList" class="k-button k-button-solid-base">파일첨부</label>
                   <input type="file" id="fileList" name="fileList" onchange="eduResultReqPop.fileChange()" style="display: none" multiple>
-                  <ul id="reqFileName" style="padding-left: 20px; margin-bottom: 0;">
-                    <c:forEach var="list" items="${fileInfo}" varStatus="status">
-                      <li>
-                        <span style="cursor: pointer" onclick="fileDown('${list.file_path}${list.file_uuid}', '${list.file_org_name}.${list.file_ext}')">${list.file_org_name}.${list.file_ext}</span>
-                        <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.commonFileDel(${list.file_no}, this)">
-                      </li>
-                    </c:forEach>
-                  </ul>
                   <ul id="ulSetFileName" style="padding-left: 20px;"></ul>
                   <ul id="ulFileName" style="padding-left: 20px;"></ul>
                 </td>

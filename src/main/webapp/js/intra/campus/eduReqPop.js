@@ -170,9 +170,11 @@ const eduReq = {
         $("#termTime").val(eduInfo.TERM_TIME);
         $("#careName").val(eduInfo.CARE_NAME);
         $("#careLocation").val(eduInfo.CARE_LOCATION);
-        $("#firstCareTelNum").val(eduInfo.CARE_TEL_NUM.split("-")[0]);
-        $("#secondCareTelNum").val(eduInfo.CARE_TEL_NUM.split("-")[1]);
-        $("#thirdCareTelNum").val(eduInfo.CARE_TEL_NUM.split("-")[2]);
+        if(eduInfo.CARE_TEL_NUM != null){
+            $("#firstCareTelNum").val(eduInfo.CARE_TEL_NUM.split("-")[0]);
+            $("#secondCareTelNum").val(eduInfo.CARE_TEL_NUM.split("-")[1]);
+            $("#thirdCareTelNum").val(eduInfo.CARE_TEL_NUM.split("-")[2]);
+        }
         $("#eduMoney").val(comma(eduInfo.EDU_MONEY));
         $("#eduMoneyType").val(eduInfo.EDU_MONEY_TYPE);
         $("#returnMoney").val(comma(eduInfo.RETURN_MONEY));
@@ -186,7 +188,7 @@ const eduReq = {
             for(var i=0; i<fileInfo.length; i++){
                 html += '<li>';
                 html += '   <span style="cursor: pointer" onclick="fileDown(\'' + fileInfo[i].file_path + fileInfo[i].file_uuid + '\', \'' + fileInfo[i].file_org_name + '.' + fileInfo[i].file_ext + '\')">' + fileInfo[i].file_org_name + '.' + fileInfo[i].file_ext + '</span>';
-                html += '   <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduReq.commonFileDel(' + fileInfo[i].file_no + ', this)">';
+                html += '   <input type="button" value="X" class="delBtn" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduReq.commonFileDel(' + fileInfo[i].file_no + ', this)">';
                 html += '</li>';
             }
 
@@ -210,11 +212,12 @@ const eduReq = {
     },
 
     fn_kendoUIEnableSet : function(){
-        $(':radio').attr('disabled', true);
-        $('.k-input-inner').attr('disabled', true);
-        $('.k-textarea').attr('disabled', true);
-        $('#targetTechBtn').attr('disabled', true);
-        $("label[for='eduFile']").css("display", "none");
+        $(":radio").attr("disabled", true);
+        $(".k-textbox").addClass("k-disabled");
+        $(".k-textarea").addClass("k-disabled");
+        $("#targetTechBtn").attr("disabled", true);
+        $("label[for='fileList']").css("display", "none");
+        $(".delBtn").css("display", "none");
         $("#startDt").data("kendoDatePicker").enable(false);
         $("#endDt").data("kendoDatePicker").enable(false);
         $("#regDate").data("kendoDatePicker").enable(false);
@@ -517,7 +520,7 @@ const eduReq = {
                 html += '<li>'
                 html += eduReq.global.attFiles[i].name.substring(0, eduReq.global.attFiles[i].name.lastIndexOf(".")) + '.';
                 html += eduReq.global.attFiles[i].name.substring(eduReq.global.attFiles[i].name.lastIndexOf(".")+1);
-                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduReq.fnUploadFile(' + i + ')">';
+                html += '<input type="button" value="X" class="delBtn" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduReq.fnUploadFile(' + i + ')">';
                 html += '</li>';
             }
 
@@ -544,7 +547,7 @@ const eduReq = {
                 html += '<li>'
                 html += eduReq.global.attFiles[i].name.substring(0, eduReq.global.attFiles[i].name.lastIndexOf(".")) + '.';
                 html += eduReq.global.attFiles[i].name.substring(eduReq.global.attFiles[i].name.lastIndexOf(".")+1);
-                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduReq.fnUploadFile(' + i + ')">';
+                html += '<input type="button" value="X" class="delBtn" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduReq.fnUploadFile(' + i + ')">';
                 html += '</li>';
             }
 

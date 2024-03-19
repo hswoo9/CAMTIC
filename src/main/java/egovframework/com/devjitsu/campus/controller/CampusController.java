@@ -363,9 +363,9 @@ public class CampusController {
         model.addAttribute("eduFormType", EDU_FORM_TYPE);
         model.addAttribute("params", params);
 
-        params.put("EDU_INFO_ID", params.get("eduInfoId"));
-        List<Map<String, Object>> fileInfo = campusService.getEduInfoFileList(params);
-        model.addAttribute("fileInfo", fileInfo);
+//        params.put("EDU_INFO_ID", params.get("eduInfoId"));
+//        List<Map<String, Object>> fileInfo = campusService.getEduInfoFileList(params);
+//        model.addAttribute("fileInfo", fileInfo);
 
         String directory = "";
         int eduFormType = Integer.parseInt(EDU_FORM_TYPE);
