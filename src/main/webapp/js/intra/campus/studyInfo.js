@@ -265,26 +265,40 @@ var studyInfo = {
                         let statusText = "";
                         let btnText = "";
 
+                        if(row.STATUS == "0" || row.STATUS == "40" || row.STATUS == "60"){
+                            statusText = "작성중";
+                            btnText = "k-button-solid-base";
+                        }else if(row.STATUS == "10" || row.STATUS == "20" || row.STATUS == "50") {
+                            statusText = "결재중";
+                            btnText = "k-button-solid-info";
+                        }else if(row.STATUS == "30") {
+                            statusText = "반려";
+                            btnText = "k-button-solid-error";
+                        }else if(row.STATUS == "100" || row.STATUS == "101"){
+                            statusText = "결재완료";
+                            btnText = "k-button-solid-info";
+                        } else {
+                            return "";
+                        }
+
                         if(studyClass == 1){
-                            if(row.STATUS == "0" || row.STATUS == "40" || row.STATUS == "60"){
-                                statusText = "작성중";
-                                btnText = "k-button-solid-base";
-                            }else if(row.STATUS == "10" || row.STATUS == "20" || row.STATUS == "50") {
-                                statusText = "결재중";
-                                btnText = "k-button-solid-info";
-                            }else if(row.STATUS == "30") {
-                                statusText = "반려";
-                                btnText = "k-button-solid-error";
-                            }else if(row.STATUS == "100" || row.STATUS == "101"){
-                                statusText = "결재완료";
-                                btnText = "k-button-solid-info";
-                            } else {
-                                return "";
-                            }
 
                             return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyInfo.studyViewPop(\'upd\', '+row.STUDY_INFO_SN+');">' +
                                 '	<span class="k-button-text">'+statusText+'</span>' +
                                 '</button>';
+
+                        }else if(studyClass == 2){
+
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyInfo.propagViewPop(\'upd\', '+row.STUDY_INFO_SN+');">' +
+                                '	<span class="k-button-text">'+statusText+'</span>' +
+                                '</button>';
+
+                        }else if(studyClass == 3){
+
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyInfo.ojtViewPop(\'upd\', '+row.STUDY_INFO_SN+');">' +
+                                '	<span class="k-button-text">'+statusText+'</span>' +
+                                '</button>';
+
                         } else {
                             return "";
                         }
@@ -326,6 +340,62 @@ var studyInfo = {
                                 } else {
                                     return "";
                                 }
+                            } else if(studyClass == 2){
+                                if(row.ADD_STATUS == "Y" || row.ADD_STATUS == "C"){
+                                    if(row.RES_STATUS == "0" || row.RES_STATUS == "40" || row.RES_STATUS == "60"){
+                                        statusText = "작성중";
+                                        btnText = "k-button-solid-base";
+                                    }else if(row.RES_STATUS == "10" || row.RES_STATUS == "20" || row.RES_STATUS == "50") {
+                                        statusText = "결재중";
+                                        btnText = "k-button-solid-info";
+                                    }else if(row.RES_STATUS == "30") {
+                                        statusText = "반려";
+                                        btnText = "k-button-solid-error";
+                                    }else if(row.RES_STATUS == "100" || row.RES_STATUS == "101"){
+                                        statusText = "결재완료";
+                                        btnText = "k-button-solid-info";
+                                    } else {
+                                        return "";
+                                    }
+
+                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyInfo.fn_resultDocPop2('+row.STUDY_INFO_SN+', '+row.STUDY_RESULT_SN+');">' +
+                                        '	<span class="k-button-text">'+statusText+'</span>' +
+                                        '</button>';
+                                } else if(row.ADD_STATUS == "S"){
+                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyInfo.fn_resultDocPop2('+row.STUDY_INFO_SN+', '+row.STUDY_RESULT_SN+');">' +
+                                        '	<span class="k-button-text">결재완료</span>' +
+                                        '</button>';
+                                } else {
+                                    return "";
+                                }
+                            } else {
+                                return "";
+                            }
+                        } else if(studyClass == 3){
+                            if(row.ADD_STATUS == "Y" || row.ADD_STATUS == "C"){
+                                if(row.RES_STATUS == "0" || row.RES_STATUS == "40" || row.RES_STATUS == "60"){
+                                    statusText = "작성중";
+                                    btnText = "k-button-solid-base";
+                                }else if(row.RES_STATUS == "10" || row.RES_STATUS == "20" || row.RES_STATUS == "50") {
+                                    statusText = "결재중";
+                                    btnText = "k-button-solid-info";
+                                }else if(row.RES_STATUS == "30") {
+                                    statusText = "반려";
+                                    btnText = "k-button-solid-error";
+                                }else if(row.RES_STATUS == "100" || row.RES_STATUS == "101"){
+                                    statusText = "결재완료";
+                                    btnText = "k-button-solid-info";
+                                } else {
+                                    return "";
+                                }
+
+                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid '+btnText+'" onclick="studyInfo.fn_studyComplete('+row.STUDY_INFO_SN+', '+row.STUDY_RESULT_SN+');">' +
+                                    '	<span class="k-button-text">'+statusText+'</span>' +
+                                    '</button>';
+                            } else if(row.ADD_STATUS == "S"){
+                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyInfo.fn_resultDocPop2('+row.STUDY_INFO_SN+', '+row.STUDY_RESULT_SN+');">' +
+                                    '	<span class="k-button-text">결재완료</span>' +
+                                    '</button>';
                             } else {
                                 return "";
                             }
@@ -377,6 +447,35 @@ var studyInfo = {
         window.open(url, name, option);
     },
 
+    fn_resultDocPop2 : function (key, studyResultSn){
+        return;
+
+        let url = "/campus/pop/resultOjtDocPop.do?pk="+key;
+
+        let name = "studyOjtPop";
+        let option = "width = 800, height = 700, top = 100, left = 200, location = no";
+
+        if($("#ojtOjtResultSn").val() != "" && $("#ojtOjtResultSn").val() != "undefined" && $("#ojtOjtResultSn").val() != null){
+            if($("#mode").val() == "mng"){
+                url += "&mode="+$("#mode").val();
+            }else{
+                url += "&mode=modify";
+            }
+            /*url += "&mode=modify";*/
+
+            url += "&ojtOjtResultSn="+$("#ojtOjtResultSn").val();
+
+        } else {
+            if($("#mode").val() != ""){
+                url += "&mode="+$("#mode").val();
+            }
+            name = "studyOjtPop";
+            option = "width = 800, height = 600, top = 100, left = 200, location = no";
+        }
+
+        window.open(url, name, option);
+    },
+
     studyViewPop: function(mode, pk){
         let url = "/Campus/pop/studyViewPop.do?mode="+mode+"&pk="+pk;
         const name = "studyReqPop";
@@ -395,6 +494,17 @@ var studyInfo = {
         let url = "/Campus/pop/ojtViewPop.do?mode="+mode+"&pk="+pk;
         const name = "ojtViewPop";
         const option = "width = 1200, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    fn_studyComplete: function(pk){
+        let url = "/campus/pop/resultPropagDocPop.do?pk="+pk;
+
+        let name = "resultPropagDocPop";
+        let option = "width = 1200, height = 900, top = 100, left = 200, location = no";
+        name = "resultPropagDocPop";
+        option = "width = 1200, height = 900, top = 100, left = 200, location = no";
+
         window.open(url, name, option);
     },
 
