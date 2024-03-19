@@ -448,27 +448,25 @@ var studyInfo = {
     },
 
     fn_resultDocPop2 : function (key, studyResultSn){
-        return;
+        let ojtOjtResultSn = customKendo.fn_customAjax("/campus/getOjtOjtResultSnOne", {
+            pk: key
+        }).data;
+
+        let resKey = "";
+        if(ojtOjtResultSn != null){
+            resKey = ojtOjtResultSn.OJT_OJT_RESULT_SN;
+        }
 
         let url = "/campus/pop/resultOjtDocPop.do?pk="+key;
 
         let name = "studyOjtPop";
         let option = "width = 800, height = 700, top = 100, left = 200, location = no";
 
-        if($("#ojtOjtResultSn").val() != "" && $("#ojtOjtResultSn").val() != "undefined" && $("#ojtOjtResultSn").val() != null){
-            if($("#mode").val() == "mng"){
-                url += "&mode="+$("#mode").val();
-            }else{
-                url += "&mode=modify";
-            }
-            /*url += "&mode=modify";*/
-
-            url += "&ojtOjtResultSn="+$("#ojtOjtResultSn").val();
+        if(resKey != "" && resKey != "undefined" && resKey != null){
+            url += "&mode=modify";
+            url += "&ojtOjtResultSn="+resKey;
 
         } else {
-            if($("#mode").val() != ""){
-                url += "&mode="+$("#mode").val();
-            }
             name = "studyOjtPop";
             option = "width = 800, height = 600, top = 100, left = 200, location = no";
         }
