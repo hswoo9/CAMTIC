@@ -92,7 +92,7 @@ var eduResultReqPop = {
     },
 
     saveEduResult : function() {
-        if(!confirm("교육수강 신청서를 저장하시겠습니까?")){
+        if(!confirm("교육 결과보고서를 저장하시겠습니까?")){
             return;
         }
         let mode = $("#mode").val();
