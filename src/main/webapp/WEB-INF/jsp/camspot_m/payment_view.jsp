@@ -7,6 +7,7 @@
     
 <jsp:include page="/WEB-INF/jsp/camspot_m/inc/top.jsp" flush="false"/>
 
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
@@ -17,10 +18,9 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDocView.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/hwpApprovalLine.js?v=${today}'/>"></script>
-<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <!--Kendo ui js-->
-<script type="text/javascript" src="<c:url value='/js/kendoui/jquery.min.js'/>"></script>
+<%--<script type="text/javascript" src="<c:url value='/js/kendoui/jquery.min.js'/>"></script>--%>
 <script type="text/javascript" src="<c:url value='/js/kendoui/kendo.all.min.js'/>"></script>
 <link rel="stylesheet" href="/css/kendoui/kendo.default-main.min.css"/>
 <link rel="stylesheet" href="/css/kendoui/kendo.common.min.css"/>
@@ -40,7 +40,7 @@
                 <span class="pbtBox disF">
                 	<a href="#" class="txt type26" onclick="approvalKendoSetting()">결재</a>
                 	<a href="#" class="txt type26" onclick="returnKendoSetting()">반려</a>
-                	<a href="#" class="txt type26">의견보기</a>
+                	<a href="#" class="txt type26" onclick="docApprovalOpinView()">의견보기</a>
                 </span>
             </div>
             <!--} 버튼모음 -->
@@ -76,6 +76,7 @@
                         <div id="approveModal" class="pop_wrap_dir">
                             <input type="hidden" id="approveCode" name="approveCode">
                             <input type="hidden" id="approveCodeNm" name="approveCodeNm">
+                            <input type="hidden" id="docNo" name="docNo" />
                             <table class="table table-bordered mb-0">
                                 <colgroup>
                                     <col width="15%">
@@ -147,6 +148,19 @@
                                 </button>
                             </div>
                         </div>
+
+                        <%--의견보기 모달 --%>
+                        <div id="opinViewModal" class="pop_wrap_dir">
+                            <div id="opinViewModalGrid">
+
+                            </div>
+                            <div class="mt-15" style="text-align: right">
+                                <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick="$('#opinViewModal').data('kendoWindow').close();">
+                                    <span class='k-icon k-i-check k-button-icon'></span>
+                                    <span class='k-button-text'>확인</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -196,10 +210,24 @@
             }
         });
 
+        $("#opinViewModal").kendoWindow({
+            title: "의견보기",
+            visible: false,
+            modal: true,
+            width : 500,
+            position : {
+                top : 50,
+            },
+            close: function () {
+                $("#opinViewModal").load(location.href + ' #opinViewModal');
+            }
+        });
+
         var parameters = JSON.parse('${params}');
         docView.global.params = parameters;
 
         $("#menuCd").val(parameters.menuCd);
+        $("#docId").val(parameters.docId);
         var hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", parameters.hwpUrl, function () {editorComplete();});
 
         var rs = customKendo.fn_customAjax("/approval/getDocViewRs", parameters).data;
@@ -377,17 +405,17 @@
 
         if(type == "approve"){
             /** 최종결재자가 보안여부 설정시 */
-            if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
-                && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"){
-                formData.append("securityTypeUpd", $("#securityType").getKendoRadioGroup().value());
-            }
+            // if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+            //     && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"){
+            //     formData.append("securityTypeUpd", $("#securityType").getKendoRadioGroup().value());
+            // }
 
-            /** 최종결재자가 열람자 설정시 */
-            if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
-                && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"
-                && docView.global.readersArr != null && docView.global.readersArr.length > 0) {
-                formData.append("readersArrUpd", JSON.stringify(docView.global.readersArr));
-            }
+            // /** 최종결재자가 열람자 설정시 */
+            // if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+            //     && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"
+            //     && docView.global.readersArr != null && docView.global.readersArr.length > 0) {
+            //     formData.append("readersArrUpd", JSON.stringify(docView.global.readersArr));
+            // }
         }
 
         return formData;
@@ -532,7 +560,7 @@
             alert("장시간 미사용으로 로그인 세션이 만료되었습니다. 로그인 후 재시도 바랍니다."); return;
         }
 
-        // loading();
+        loading();
 
 
         /** 문서번호
@@ -550,10 +578,13 @@
 
             var result = customKendo.fn_customAjax("/approval/getDeptDocNum", searchAjaxData);
             if(result.flag){
+                debugger
                 $("#docNo").val(result.rs.docNo);
 
                 hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
             }
+
+
 
             if(!result.flag || result.rs.docNo == null){
                 alert("문서번호 생성 중 오류가 발생하였습니다. 새로고침 후 재시도 바랍니다."); return;
@@ -620,6 +651,89 @@
         }else{
             alert("결재 중 에러가 발생했습니다.");
         }
+    }
+
+    function docApprovalOpinView(){
+        docView.global.searchAjaxData = {
+            docId : docView.global.rs.docInfo.DOC_ID
+        }
+
+        $("#opinViewModalGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2("/approval/getDocApproveHistOpinList", docView.global.searchAjaxData, 100),
+            height: 315,
+            toolbar : [
+                {
+                    name : 'excel',
+                    text: '엑셀다운로드'
+                }
+            ],
+            excel : {
+                fileName : "결재의견 목록.xlsx",
+                filterable : true
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    field : "APPROVE_STAT_CODE",
+                    title: "구분",
+                    template : function (e){
+                        if(e.APPROVE_TYPE == "1"){
+                            return "협조의견";
+                        }else if(e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "30"){
+                            return "결재의견";
+                        }else if(e.APPROVE_STAT_CODE == "100"){
+                            return "최종결재의견";
+                        }else if(e.APPROVE_STAT_CODE == "101"){
+                            if(e.APPROVE_EMP_SEQ == "32"){
+                                return "최종결재의견";
+                            }else{
+                                return "최종결재(전결)의견";
+                            }
+                        }
+                    },
+                    width: "17%"
+                }, {
+                    field : "APPROVE_EMP_NAME",
+                    title: "작성자",
+                    template : function(e){
+                        if(e.PROXY_TYPE == "Y"){
+                            return "[대결] " + e.PROXY_APPROVE_EMP_NAME;
+                        }else{
+                            return e.APPROVE_EMP_NAME
+                        }
+                    },
+                    width: "10%"
+                },{
+                    field : "APPROVE_OPIN",
+                    title: "의견",
+                    template : function(e){
+                        if(e.APPROVE_STAT_CODE == 10){
+                            return "-";
+                        }else{
+                            return "<div style='text-align: left'>"+e.APPROVE_OPIN.replaceAll("\n", "<br/>")+"</div>";
+                        }
+                    }
+                },{
+                    field : "APPROVE_DT",
+                    title: "작성일",
+                    width: "15%"
+                },{
+                    field : "PROXY_TYPE",
+                    title: "비고",
+                    template : function(e){
+                        if(e.PROXY_TYPE == "Y"){
+                            return "원결재 : [" + e.APPROVE_DUTY_NAME+ "] " + e.APPROVE_EMP_NAME;
+                        }else{
+                            return "";
+                        }
+                    },
+                    width: "15%"
+                }]
+        }).data("kendoGrid");
+
+        $("#opinViewModal").data("kendoWindow").open();
     }
 </script>
 
