@@ -31,8 +31,8 @@
                     	<font class="txt type24 con mt10 fP600">결재대기</font>
                     </span>
                 	<span>
-                    	<font class="txt type35 num fP800">${compStatus}</font>
-                    	<font class="txt type24 con mt10 fP600">결재완료</font>
+                    	<font class="txt type35 num fP800">0</font>
+                    	<font class="txt type24 con mt10 fP600">승인함</font>
                     </span>
                 </div>
             </div>

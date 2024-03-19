@@ -495,6 +495,10 @@
             AND
             DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
         </if>
+        <if test='mTitle != null and !"".equals(mTitle)'>
+            AND
+            DI.DOC_TITLE LIKE CONCAT('%', #{mTitle}, '%')
+        </if>
 
         <choose>
             <when test='approveType != null and "completion".equals(approveType)'>
@@ -1060,13 +1064,17 @@
         DI.ACTIVE = 'Y'
         AND
         DI.DEL_FLAG = 'N'
+        <if test='mTitle != null and !"".equals(mTitle)'>
+            AND
+                DI.DOC_TITLE LIKE CONCAT('%', #{mTitle}, '%')
+        </if>
         <if test='startDay != null and !"".equals(startDay)'>
             <![CDATA[
-        AND
-            DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
-        AND
-            DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
-        ]]>
+                AND
+                    DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+                AND
+                    DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+            ]]>
         </if>
 
         <choose>

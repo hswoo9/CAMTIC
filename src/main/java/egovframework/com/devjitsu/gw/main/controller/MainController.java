@@ -14,8 +14,11 @@ import egovframework.com.devjitsu.hp.board.util.PostResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -312,38 +315,52 @@ public class MainController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", loginVO);
 
-        params.put("empSeq", loginVO.getUniqId());
-        params.put("deptSeq",loginVO.getOrgnztId());
 
-        // 나머지 검색 조건
-        params.put("approveStat", "draft");
-        params.put("approveType", "wait");
-        params.put("pageType", "mobile");
-        params.put("resType", "Y");
-        params.put("startDay", "");
-        params.put("endDay", "");
+        if(session.getAttribute("LoginVO") != null){
+            params.put("empSeq", loginVO.getUniqId());
+            params.put("deptSeq",loginVO.getOrgnztId());
 
-        int strStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
-        int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
+            // 나머지 검색 조건
+            params.put("approveStat", "draft");
+            params.put("approveType", "wait");
+            params.put("pageType", "mobile");
+            params.put("resType", "Y");
+            params.put("startDay", "");
+            params.put("endDay", "");
 
-        params.put("approveType", "reference");
-        int compStatus = approvalUserService.getApproveDocBoxList(params).size();
+            int strStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
+            int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
 
-        model.addAttribute("strStatus", strStatus);
-        model.addAttribute("waitStatus", waitStatus);
-        model.addAttribute("compStatus", compStatus);
+            params.put("approveType", "reference");
+            int compStatus = approvalUserService.getApproveDocBoxList(params).size();
 
-        return "/camspot_m/main";
+            model.addAttribute("strStatus", strStatus);
+            model.addAttribute("waitStatus", waitStatus);
+            model.addAttribute("compStatus", compStatus);
+
+            return "/camspot_m/main";
+        } else {
+            return "/camspot_m/login";
+        }
     }
     @RequestMapping("/m/login.do")
-    public String login(){
-        return "/camspot_m/login";
+    public String login(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params){
+        HttpSession session = request.getSession();
+        session.removeAttribute("menuNm");
+        model.addAttribute("params", params);
+
+        if(session.getAttribute("LoginVO") != null){
+            return "redirect:/mobileMain.do";
+        } else {
+            return "/camspot_m/login";
+        }
     }
     @RequestMapping("/m/payment.do")
     public String payment(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
-        HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        LoginVO loginVO = getLoginVO(request);
+        if (loginVO == null) return "/camspot_m/login";
+
         params.put("empSeq", loginVO.getUniqId());
         params.put("deptSeq", loginVO.getOrgnztId());
 
@@ -422,8 +439,9 @@ public class MainController {
     @RequestMapping("/m/payment_wait.do")
     public String payment_wait(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
-        HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        LoginVO loginVO = getLoginVO(request);
+        if (loginVO == null) return "/camspot_m/login";
+
         params.put("empSeq", loginVO.getUniqId());
         params.put("deptSeq", loginVO.getOrgnztId());
 
@@ -495,13 +513,105 @@ public class MainController {
 
         return "/camspot_m/payment_wait";
     }
+
+    private static LoginVO getLoginVO(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = session.getAttribute("LoginVO") == null ? null : (LoginVO) session.getAttribute("LoginVO");
+
+
+        if(session.getAttribute("LoginVO") == null){
+            return null;
+        }
+        return loginVO;
+    }
+
+    @RequestMapping("/m/payment_comp.do")
+    public String payment_comp(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        LoginVO loginVO = getLoginVO(request);
+        if (loginVO == null) return "/camspot_m/login";
+
+        params.put("empSeq", loginVO.getUniqId());
+        params.put("deptSeq", loginVO.getOrgnztId());
+
+        // 나머지 검색 조건
+        params.put("approveStat", "draft");
+        params.put("approveType", "wait");
+        params.put("pageType", "mobile");
+        params.put("resType", "Y");
+        params.put("startDay", "");
+        params.put("endDay", "");
+
+        params.put("approveType", "reference");
+        List<Map<String, Object>> compList = approvalUserService.getApproveDocBoxList(params);
+
+        int totCnt = compList.size();
+
+        int pageN;
+        int countList = 5;
+        int countPage = 5;
+
+        int block = totCnt / countList;
+        if(totCnt % countList != 0){
+            block++;
+        }
+
+        String pageNum = "0";
+        if(params.containsKey("pageNum")){
+            pageNum = params.get("pageNum").toString();
+        } else {
+            pageNum = "0";
+        }
+        if(pageNum == null){
+            pageN = 1;
+        }else{
+            if(Integer.parseInt(pageNum) > block){
+                pageN = block;
+            } else {
+                pageN = Integer.parseInt(pageNum);
+            }
+
+            if(pageN <= 0 ) {
+                pageN = 1;
+            } else if(pageN > block) {
+                pageN -= 5;
+            }
+        }
+
+        int startPage = (pageN-1) / countPage * countPage + 1; // 시작 페이지
+        int endPage = startPage + countPage - 1; // 끝 페이지
+
+        if (endPage > block) {
+            endPage = block;
+        }
+        int start = pageN*5-4;
+        int end = pageN*5;
+
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        params.put("startPage", (start - 1) > 0 ? (start - 1) : 0);
+        params.put("endPage", end);
+
+        list = approvalUserService.getApproveDocBoxListMobile(params); // 해당 페이지에 맞는 게시물 불러오는 메서드
+
+        model.addAttribute("compList", list);
+        model.addAttribute("compLen", compList.size());
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        model.addAttribute("currentPage", pageN);
+        model.addAttribute("countPage", countPage);
+
+        return "/camspot_m/payment_comp";
+    }
+
     @RequestMapping("/m/payment_view.do")
     public String payment_view(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
-        HttpSession session = request.getSession();
+        LoginVO loginVO = getLoginVO(request);
+        if (loginVO == null) return "/camspot_m/login";
+
         String hwpUrl = "";
 
-        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         params.put("empSeq", loginVO.getUniqId());
         params.put("deptSeq", loginVO.getOrgnztId());
 
@@ -519,6 +629,10 @@ public class MainController {
             hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
         }
         params.put("hwpUrl", hwpUrl);
+
+        if(params.containsKey("mDocType")){
+            params.put("mDocType", params.get("mDocType"));
+        }
 
         model.addAttribute("hwpUrl", hwpUrl);
         model.addAttribute("params", new Gson().toJson(params));
@@ -582,6 +696,17 @@ public class MainController {
     @RequestMapping("/m/alarm.do")
     public String alarm(){
         return "/camspot_m/alarm";
+    }
+
+    @RequestMapping("/m/logoutAction")
+    public String logout(HttpServletRequest request, ModelMap model){
+        HttpSession session = request.getSession();
+
+
+        RequestContextHolder.getRequestAttributes().removeAttribute("loginVO", RequestAttributes.SCOPE_SESSION);
+        session.invalidate();
+
+        return "redirect:/m/login.do";
     }
 
 

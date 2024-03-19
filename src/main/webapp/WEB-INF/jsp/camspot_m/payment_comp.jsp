@@ -21,8 +21,8 @@
     		
             <!-- 검색폼 {-->
             <div class="searchBox">
-            	<font class="txt type28">전체 <b class="fcol_sky">${waitLen}</b>건</font>
-                <form action="${pageContext.request.contextPath}/m/payment_wait.do">
+            	<font class="txt type28">전체 <b class="fcol_sky">${compLen}</b>건</font>
+                <form action="${pageContext.request.contextPath}/m/payment_comp.do">
                 	<input type="text" name="mTitle" id="mTitle"  placeholder="검색어를 입력하세요." />
                 	<input type="submit" />
                 </form>
@@ -31,8 +31,8 @@
     		
             <!-- 리스트 {-->
             <div class="blistBox mt40">
-                <c:forEach var="item" items="${waitList}" varStatus="status">
-            	<a href="/m/payment_view.do?docId=${item.DOC_ID}&mod=V&approKey=${item.APPRO_KEY}&menuCd=${item.DOC_MENU_CD}&mDocType=WAIT">
+                <c:forEach var="item" items="${compList}" varStatus="status">
+            	<a href="/m/payment_view.do?docId=${item.DOC_ID}&mod=V&approKey=${item.APPRO_KEY}&menuCd=${item.DOC_MENU_CD}&mDocType=COMP">
                 	<font class="txt type28 tit">${item.DOC_TITLE}</font>
                 	<font class="txt type24"><i>${item.DOC_NO == null ? "" : item.DOC_NO}</i><i>${item.DRAFT_DT}</i><i>${item.DRAFT_EMP_NAME}</i></font>
                 </a>
@@ -42,11 +42,11 @@
     		
             <!-- 페이징 {-->
             <div class="pageBox mt40">
-                <a href="${pageContext.request.contextPath}/m/payment_wait.do?pageNum=${(currentPage-1)}" class="arr prev">prev</a>
+                <a href="${pageContext.request.contextPath}/m/payment_comp.do?pageNum=${(currentPage-1)}" class="arr prev">prev</a>
                 <c:forEach var="i" begin="${startPage }" end="${endPage }">
-                    <a href="${pageContext.request.contextPath}/m/payment_wait.do?pageNum=${i}" id="page${i}">${i}</a>
+                    <a href="${pageContext.request.contextPath}/m/payment_comp.do?pageNum=${i}" id="page${i}">${i}</a>
                 </c:forEach>
-                <a href="${pageContext.request.contextPath}/m/payment_wait.do?pageNum=${(currentPage+1)}" class="arr next">next</a>
+                <a href="${pageContext.request.contextPath}/m/payment_comp.do?pageNum=${(currentPage+1)}" class="arr next">next</a>
             </div>
     	</div>
     	<!--} content -->
@@ -59,7 +59,7 @@
 
 <script type="text/javascript">
 	$('.m2', $('#menu')).addClass('active');
-    $('.t2', $('.sTabmenu')).addClass('active');
+    $('.t3', $('.sTabmenu')).addClass('active');
 
     var idx = '${currentPage}';
 

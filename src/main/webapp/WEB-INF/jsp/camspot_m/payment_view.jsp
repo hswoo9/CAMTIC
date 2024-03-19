@@ -38,8 +38,10 @@
             <div class="btWrap disF">
             	<a href="javascript:history.back()" class="back"><img src="/images/camspot_m/ico-back.png" /></a>
                 <span class="pbtBox disF">
-                	<a href="#" class="txt type26" onclick="approvalKendoSetting()">결재</a>
-                	<a href="#" class="txt type26" onclick="returnKendoSetting()">반려</a>
+                    <c:if test="${mDocType == 'WAIT'}">
+                        <a href="#" class="txt type26" onclick="approvalKendoSetting()">결재</a>
+                        <a href="#" class="txt type26" onclick="returnKendoSetting()">반려</a>
+                    </c:if>
                 	<a href="#" class="txt type26" onclick="docApprovalOpinView()">의견보기</a>
                 </span>
             </div>

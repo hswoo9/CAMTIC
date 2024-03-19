@@ -16,13 +16,14 @@
             <div class="sTabmenu">
                 <a href="/m/payment.do" class="t1">상신문서</a>
                 <a href="/m/payment_wait.do" class="t2">대기문서</a>
+                <a href="/m/payment_comp.do" class="t3">완료문서</a>
             </div>
     		
             <!-- 검색폼 {-->
             <div class="searchBox">
             	<font class="txt type28">전체 <b class="fcol_sky">${strLen}</b>건</font>
-                <form>
-                	<input type="text" placeholder="검색어를 입력하세요." />
+                <form action="/m/payment.do">
+                	<input type="text" name="mTitle" id="mTitle" placeholder="검색어를 입력하세요." />
                 	<input type="submit" />
                 </form>
             </div>
@@ -31,7 +32,7 @@
             <!-- 리스트 {-->
             <div class="blistBox mt40">
                 <c:forEach var="item" items="${strList}" varStatus="status">
-            	<a href="/m/payment_view.do?docId=${item.DOC_ID}&mod=V&approKey=${item.APPRO_KEY}&menuCd=${item.DOC_MENU_CD}">
+            	<a href="/m/payment_view.do?docId=${item.DOC_ID}&mod=V&approKey=${item.APPRO_KEY}&menuCd=${item.DOC_MENU_CD}&mDocType=STR">
                 	<font class="txt type28 tit">${item.DOC_TITLE}</font>
                 	<font class="txt type24"><i>${item.DOC_NO == null ? "" : item.DOC_NO}</i><i>${item.DRAFT_DT}</i><i>${item.DRAFT_EMP_NAME}</i></font>
                 </a>
@@ -108,6 +109,7 @@
     } else {
         $("#page1").html("<b>1</b>");
     }
+
 </script>
 
 

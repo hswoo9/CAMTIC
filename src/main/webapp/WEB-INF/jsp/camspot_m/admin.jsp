@@ -21,7 +21,7 @@
                     	<font class="txt type30 fP800 mt10">관리자</font>
                     </span>
                 </div>
-                <a href="#" class="logout"><img src="/images/camspot_m/ico-logout.png" alt="로그아웃" /></a>
+                <a href="/m/logoutAction" class="logout"><img src="/images/camspot_m/ico-logout.png" alt="로그아웃" /></a>
             </div>   
             <!--} 로그인정보 -->
         	    
