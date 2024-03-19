@@ -358,11 +358,36 @@ public class MainController {
         params.put("startDay", "");
         params.put("endDay", "");
 
+        List<Map<String, Object>> strList = approvalUserService.getMainUserDocStorageBoxList(params);
+
+        model.addAttribute("strList", strList);
+        model.addAttribute("strLen", strList.size());
+
+        return "/camspot_m/payment";
+    }
+
+    @RequestMapping("/m/payment_wait.do")
+    public String payment_wait(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        params.put("deptSeq", loginVO.getOrgnztId());
+
+        // 나머지 검색 조건
+        params.put("approveStat", "draft");
+        params.put("approveType", "wait");
+        params.put("pageType", "mobile");
+        params.put("resType", "Y");
+        params.put("startDay", "");
+        params.put("endDay", "");
+
         List<Map<String, Object>> waitList = approvalUserService.getApproveDocBoxList(params);
 
         model.addAttribute("waitList", waitList);
+        model.addAttribute("waitLen", waitList.size());
 
-        return "/camspot_m/payment";
+        return "/camspot_m/payment_wait";
     }
     @RequestMapping("/m/payment_view.do")
     public String payment_view(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
