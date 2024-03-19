@@ -328,6 +328,10 @@
             CAM_INSIDE.DJ_APPLICATION_SCHOOL
         SET
             ${column} = #{fileNo}
+            <if test="column2 != null and column2 != ''">
+                , ${column2} = #{checked}
+            </if>
+
         WHERE
             APPLICATION_SCHOOL_ID = #{applicationSchoolId}
     </update>
@@ -377,6 +381,9 @@
             CAM_INSIDE.DJ_APPLICATION_CAREER
         SET
             ${column} = #{fileNo}
+            <if test="column2 != null and column2 != ''">
+                , ${column2} = #{checked}
+            </if>
         WHERE
             APPLICATION_CAREER_ID = #{applicationCareerId}
     </update>

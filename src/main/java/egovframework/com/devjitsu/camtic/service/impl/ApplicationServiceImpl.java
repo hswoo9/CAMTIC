@@ -153,40 +153,6 @@ public class ApplicationServiceImpl implements ApplicationService {
                 Map<String, Object> fileMap = new HashMap<>();
 
                 MultipartFile degreeFile = request.getFile("degreeFile" + i);
-                if(degreeFile != null){
-                    fileMap = mainLib.fileUpload(degreeFile, filePath(params, serverDir));
-                    fileMap.put("applicationId", params.get("applicationId"));
-                    fileMap.put("contentId", "degreeFile_" + schoolArr.get(i).get("applicationSchoolId"));
-                    fileMap.put("fileCd", "application");
-                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
-                    fileMap.put("filePath", filePath(params, baseDir));
-                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
-                    fileMap.put("empSeq", params.get("userEmail"));
-                    commonRepository.insOneFileInfo(fileMap);
-
-                    fileMap.put("fileNo", fileMap.get("file_no"));
-                    fileMap.put("column", "DEGREE_FILE");
-                    fileMap.put("applicationSchoolId", schoolArr.get(i).get("applicationSchoolId"));
-                    applicationRepository.setApplicationSchoolFileUpd(fileMap);
-                }
-
-                MultipartFile sexualFile = request.getFile("sexualFile" + i);
-                if(sexualFile != null){
-                    fileMap = mainLib.fileUpload(sexualFile, filePath(params, serverDir));
-                    fileMap.put("applicationId", params.get("applicationId"));
-                    fileMap.put("contentId", "sexualFile_" + schoolArr.get(i).get("applicationSchoolId"));
-                    fileMap.put("fileCd", "application");
-                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
-                    fileMap.put("filePath", filePath(params, baseDir));
-                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
-                    fileMap.put("empSeq", params.get("userEmail"));
-                    commonRepository.insOneFileInfo(fileMap);
-
-                    fileMap.put("fileNo", fileMap.get("file_no"));
-                    fileMap.put("column", "SEXUAL_FILE");
-                    fileMap.put("applicationSchoolId", schoolArr.get(i).get("applicationSchoolId"));
-                    applicationRepository.setApplicationSchoolFileUpd(fileMap);
-                }
 
                 if(!StringUtils.isEmpty(schoolArr.get(i).get("schoolBaseId"))){
                     /** 학위증빙 파일 업데이트 */
@@ -210,6 +176,45 @@ public class ApplicationServiceImpl implements ApplicationService {
                     fileMap.put("applicationSchoolId", schoolArr.get(i).get("applicationSchoolId"));
                     applicationRepository.setApplicationSchoolFileUpd(fileMap);
                 }
+
+                if(degreeFile != null){
+                    fileMap = mainLib.fileUpload(degreeFile, filePath(params, serverDir));
+                    fileMap.put("applicationId", params.get("applicationId"));
+                    fileMap.put("contentId", "degreeFile_" + schoolArr.get(i).get("applicationSchoolId"));
+                    fileMap.put("fileCd", "application");
+                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
+                    fileMap.put("filePath", filePath(params, baseDir));
+                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
+                    fileMap.put("empSeq", params.get("userEmail"));
+                    commonRepository.insOneFileInfo(fileMap);
+
+                    fileMap.put("fileNo", fileMap.get("file_no"));
+                    fileMap.put("column", "DEGREE_FILE");
+                    fileMap.put("column2", "DEGREE_FILE_UPD_CK");
+                    fileMap.put("checked", "Y");
+                    fileMap.put("applicationSchoolId", schoolArr.get(i).get("applicationSchoolId"));
+                    applicationRepository.setApplicationSchoolFileUpd(fileMap);
+                }
+
+                MultipartFile sexualFile = request.getFile("sexualFile" + i);
+                if(sexualFile != null){
+                    fileMap = mainLib.fileUpload(sexualFile, filePath(params, serverDir));
+                    fileMap.put("applicationId", params.get("applicationId"));
+                    fileMap.put("contentId", "sexualFile_" + schoolArr.get(i).get("applicationSchoolId"));
+                    fileMap.put("fileCd", "application");
+                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
+                    fileMap.put("filePath", filePath(params, baseDir));
+                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
+                    fileMap.put("empSeq", params.get("userEmail"));
+                    commonRepository.insOneFileInfo(fileMap);
+
+                    fileMap.put("fileNo", fileMap.get("file_no"));
+                    fileMap.put("column", "SEXUAL_FILE");
+                    fileMap.put("column2", "SEXUAL_FILE_UPD_CK");
+                    fileMap.put("checked", "Y");
+                    fileMap.put("applicationSchoolId", schoolArr.get(i).get("applicationSchoolId"));
+                    applicationRepository.setApplicationSchoolFileUpd(fileMap);
+                }
             }
         }
 
@@ -222,6 +227,19 @@ public class ApplicationServiceImpl implements ApplicationService {
                 Map<String, Object> fileMap = new HashMap<>();
 
                 MultipartFile careerFile = request.getFile("careerFile" + i);
+
+                if(!StringUtils.isEmpty(careerArr.get(i).get("careerBaseId"))){
+                    Map<String, Object> updateMap = new HashMap<>();
+                    updateMap.put("originId", "careerFile_" + careerArr.get(i).get("careerBaseId"));
+                    updateMap.put("newId", "careerFile_" + careerArr.get(i).get("applicationCareerId"));
+                    commonRepository.setContentIdUpd(updateMap);
+
+                    fileMap.put("fileNo", careerArr.get(i).get("careerFileNo"));
+                    fileMap.put("column", "CAREER_FILE");
+                    fileMap.put("applicationCareerId", careerArr.get(i).get("applicationCareerId"));
+                    applicationRepository.setApplicationCareerFileUpd(fileMap);
+                }
+
                 if(careerFile != null){
                     fileMap = mainLib.fileUpload(careerFile, filePath(params, serverDir));
                     fileMap.put("applicationId", params.get("applicationId"));
@@ -235,18 +253,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
                     fileMap.put("fileNo", fileMap.get("file_no"));
                     fileMap.put("column", "CAREER_FILE");
-                    fileMap.put("applicationCareerId", careerArr.get(i).get("applicationCareerId"));
-                    applicationRepository.setApplicationCareerFileUpd(fileMap);
-                }
-
-                if(!StringUtils.isEmpty(careerArr.get(i).get("careerBaseId"))){
-                    Map<String, Object> updateMap = new HashMap<>();
-                    updateMap.put("originId", "careerFile_" + careerArr.get(i).get("careerBaseId"));
-                    updateMap.put("newId", "careerFile_" + careerArr.get(i).get("applicationCareerId"));
-                    commonRepository.setContentIdUpd(updateMap);
-
-                    fileMap.put("fileNo", careerArr.get(i).get("careerFileNo"));
-                    fileMap.put("column", "CAREER_FILE");
+                    fileMap.put("column2", "CAREER_FILE_UPD_CK");
+                    fileMap.put("checked", "Y");
                     fileMap.put("applicationCareerId", careerArr.get(i).get("applicationCareerId"));
                     applicationRepository.setApplicationCareerFileUpd(fileMap);
                 }

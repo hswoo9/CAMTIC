@@ -192,12 +192,26 @@
             <td>${item.GRADE}</td>
             <td>
               <c:if test="${item.degreeFile ne null}">
-                <img src="/images/ico/file.gif" onclick="fileDown('${item.degreeFile.file_path}${item.degreeFile.file_uuid}', '${item.degreeFile.file_org_name}.${item.degreeFile.file_ext}', 'recruit')">
+                <c:choose>
+                  <c:when test="${item.DEGREE_FILE_UPD_CK eq 'N'}">
+                    <img src="/images/ico/file.gif" onclick="fileDown('${item.degreeFile.file_path}${item.degreeFile.file_uuid}', '${item.degreeFile.file_org_name}.${item.degreeFile.file_ext}', 'recruit')">
+                  </c:when>
+                  <c:otherwise>
+                    <img src="/images/ico/file.gif" onclick="fileDown('${item.degreeFile.file_path}${item.degreeFile.file_uuid}', '${item.degreeFile.file_org_name}.${item.degreeFile.file_ext}')">
+                  </c:otherwise>
+                </c:choose>
               </c:if>
             </td>
             <td>
               <c:if test="${item.sexualFile ne null}">
-                <img src="/images/ico/file.gif" onclick="fileDown('${item.sexualFile.file_path}${item.sexualFile.file_uuid}', '${item.sexualFile.file_org_name}.${item.sexualFile.file_ext}', 'recruit')">
+                <c:choose>
+                  <c:when test="${item.SEXUAL_FILE_UPD_CK eq 'N'}">
+                    <img src="/images/ico/file.gif" onclick="fileDown('${item.sexualFile.file_path}${item.sexualFile.file_uuid}', '${item.sexualFile.file_org_name}.${item.sexualFile.file_ext}', 'recruit')">
+                  </c:when>
+                  <c:otherwise>
+                    <img src="/images/ico/file.gif" onclick="fileDown('${item.sexualFile.file_path}${item.sexualFile.file_uuid}', '${item.sexualFile.file_org_name}.${item.sexualFile.file_ext}')">
+                  </c:otherwise>
+                </c:choose>
               </c:if>
             </td>
           </tr>
@@ -237,7 +251,14 @@
             <td>${item.RETIRE_REASON}</td>
             <td>
               <c:if test="${item.careerFile ne null}">
-                <img src="/images/ico/file.gif" onclick="fileDown('${item.careerFile.file_path}${item.careerFile.file_uuid}', '${item.careerFile.file_org_name}.${item.careerFile.file_ext}', 'recruit')">
+                <c:choose>
+                  <c:when test="${item.CAREER_FILE_UPD_CK eq 'N'}">
+                    <img src="/images/ico/file.gif" onclick="fileDown('${item.careerFile.file_path}${item.careerFile.file_uuid}', '${item.careerFile.file_org_name}.${item.careerFile.file_ext}', 'recruit')">
+                  </c:when>
+                  <c:otherwise>
+                    <img src="/images/ico/file.gif" onclick="fileDown('${item.careerFile.file_path}${item.careerFile.file_uuid}', '${item.careerFile.file_org_name}.${item.careerFile.file_ext}')">
+                  </c:otherwise>
+                </c:choose>
               </c:if>
             </td>
           </tr>
