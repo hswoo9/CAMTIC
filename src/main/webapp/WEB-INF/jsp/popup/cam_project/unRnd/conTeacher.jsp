@@ -35,6 +35,7 @@
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="save()">저장</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="wClose()">닫기</button>
             </div>
         </div>
@@ -74,6 +75,41 @@
     function wClose(){
         opener.location.reload();
         window.close();
+    }
+    function save(){
+        /*url = "/projectUnRnd/updLectureInfo";*/
+        var teachTimeInput = document.querySelectorAll('[id^="teachTime"]');
+        var eduTime = 0;
+
+        teachTimeInput.forEach(function(element) {
+            var value = parseInt(element.value);
+            if (!isNaN(value)) {
+                eduTime += value;
+            }
+        });
+
+        console.log("Total teach time:", eduTime);
+
+        if(!confirm("저장하시겠습니까?")){
+            return;
+        }
+        var data = {
+            conTime : eduTime,
+            pk : $("#pk").val()
+        }
+        $.ajax({
+            url : "/projectUnRnd/updConsultingTime",
+            data :data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.")
+                    opener.location.reload();
+                    window.close();
+                }
+            }
+        })
     }
 </script>
 </body>
