@@ -268,7 +268,7 @@
                     <c:forEach var="list" items="${fileInfo}" varStatus="status">
                       <li>
                         <span style="cursor: pointer" onclick="fileDown('${list.file_path}${list.file_uuid}', '${list.file_org_name}.${list.file_ext}')">${list.file_org_name}.${list.file_ext}</span>
-                        <input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.commonFileDel(${list.file_no}, this)">
+                        <input type="button" value="X" class="delBtn" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="eduResultReqPop.commonFileDel(${list.file_no}, this)">
                       </li>
                     </c:forEach>
                   </ul>
