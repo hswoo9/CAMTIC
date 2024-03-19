@@ -413,7 +413,7 @@ var evalDocScreen = {
 
             var result = customKendo.fn_customAjax("/evaluation/setApplicationEvalScreen.do", evalDocScreen.global.saveAjaxData)
             if(result.flag){
-                alert("저장되었습니다.");
+                alert("저장되었습니다. 평가종료를 눌러야 평가가 완료됩니다.");
             }
         }
     },
