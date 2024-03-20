@@ -17,8 +17,8 @@
             	<div class="nameb">
             		<p><img src="/images/camspot_m/ico-man.png" /></p>
                 	<span>
-                    	<font class="txt type22">경영지원실 경영지원팀</font>
-                    	<font class="txt type30 fP800 mt10">관리자</font>
+                    	<font class="txt type22">${loginVO.teamNm != '' ? loginVO.teamNm : loginVO.deptNm}</font>
+                    	<font class="txt type30 fP800 mt10">${loginVO.name}</font>
                     </span>
                 </div>
                 <a href="/m/logoutAction" class="logout"><img src="/images/camspot_m/ico-logout.png" alt="로그아웃" /></a>

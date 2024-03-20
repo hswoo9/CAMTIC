@@ -623,27 +623,27 @@
     <insert id="setAlarm" parameterType="map" >
         /* setAlarm */
         INSERT INTO CAM_COMMON.DJ_ALARM
-        (
-            CONTENT,
-            RCV_EMP_SEQ,
-            SND_EMP_SEQ,
-            TITLE,
-            URL,
-            SND_EMP_NM,
-            SND_DEPT_SEQ,
-            SND_DEPT_NM
-        )
+            (
+                CONTENT,
+                RCV_EMP_SEQ,
+                SND_EMP_SEQ,
+                TITLE,
+                URL,
+                SND_EMP_NM,
+                SND_DEPT_SEQ,
+                SND_DEPT_NM
+            )
         VALUES
-        (
-            #{ntContent},
-            #{recEmpSeq},
-            #{sdEmpSeq},
-            #{ntTitle},
-            #{ntUrl},
-            #{SND_EMP_NM},
-            #{SND_DEPT_SEQ},
-            #{SND_DEPT_NM}
-        )
+            (
+                #{ntContent},
+                #{recEmpSeq},
+                #{sdEmpSeq},
+                #{ntTitle},
+                #{ntUrl},
+                #{SND_EMP_NM},
+                #{SND_DEPT_SEQ},
+                #{SND_DEPT_NM}
+            )
         <selectKey keyProperty="alId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_ALARM'
         </selectKey>

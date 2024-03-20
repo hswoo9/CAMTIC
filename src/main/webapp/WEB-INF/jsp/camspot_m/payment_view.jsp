@@ -779,6 +779,8 @@
                             }else{
                                 return "최종결재(전결)의견";
                             }
+                        } else {
+                            return "상신의견";
                         }
                     },
                     width: "17%"
