@@ -388,4 +388,20 @@ public class CampusRepository extends AbstractDAO  {
     public void agreeDutyMng(Map<String, Object> params) {
         update("campus.agreeDutyMng", params);
     }
+
+    public Map<String, Object> getEduTargetOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("campus.getEduTargetOne", params);
+    }
+
+    public void delPsCheck(Map<String, Object> params) {
+        delete("campus.delPsCheck", params);
+    }
+
+    public void updPsStatus(Map<String, Object> params) {
+        update("campus.updPsStatus", params);
+    }
+
+    public Map<String, Object> getEduTargetPkOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("campus.getEduTargetPkOne", params);
+    }
 }

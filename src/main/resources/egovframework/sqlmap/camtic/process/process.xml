@@ -10,7 +10,7 @@
         FROM
             CAM_COMMON.DJ_PS_CHECK
         WHERE
-            RCV_EMP_SEQ LIKE CONCAT('|', #{empSeq}, '|')
+            RCV_EMP_SEQ LIKE CONCAT('|', #{empSeq}, '|') AND PS_STAT = 'N'
     </select>
 
 </mapper>
