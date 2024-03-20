@@ -222,6 +222,7 @@ var dutyInfoLeader = {
                         {
                             title: "상태",
                             template: function(row){
+                                console.log(row)
                                 if(row.DUTY_STATUS == 0){
                                     return "<span class='hover' onclick='dutyInfo.dutyInfoReqPop(\"mng\", "+row.DUTY_CHECK+");'>작성중</span>";
                                 }else if(row.DUTY_STATUS == 10){
@@ -351,7 +352,8 @@ var dutyInfoLeader = {
             } else if(type == "mng"){
                 dutyInfoLeader.fn_dutyCertReq(100, id)
             } else {
-                gridReload()
+                alert("완료되었습니다.");
+                gridReload();
             }
         }
     },

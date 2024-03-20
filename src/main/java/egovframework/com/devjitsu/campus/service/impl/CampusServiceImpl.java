@@ -1525,6 +1525,37 @@ public class CampusServiceImpl implements CampusService {
             params.put("returnStat", "Y");
         }
         campusRepository.setDutyCertReq(params);
+
+        Map<String, Object> sendEmpMap = new HashMap<>();       // 요청자 정보
+        Map<String, Object> recieveEmpMap = new HashMap<>();    // 승인자 정보
+        Map<String, Object> paramsMap = new HashMap<>();
+
+        if(params.get("status").equals("10")){
+            sendEmpMap = campusRepository.getDutyInfoOne(params);
+            if(sendEmpMap.get("REG_DUTY_CODE").toString().equals("")){  // 승인 요청자가 팀원급일때
+                params.put("dutyCode", "4,5");
+            } else if (sendEmpMap.get("REG_DUTY_CODE").equals("4") || sendEmpMap.get("REG_DUTY_CODE").equals("5")){  // 승인 요청자가 팀장급일때
+                params.put("type", "ld");
+                params.put("dutyCode", "2,3,7");
+            }
+            recieveEmpMap = campusRepository.getApprEmpInfo(params);
+
+            paramsMap.put("sdEmpSeq", sendEmpMap.get("REG_EMP_SEQ"));           // 요청자 사번
+            paramsMap.put("SND_EMP_NM", sendEmpMap.get("REG_EMP_NAME"));        // 요청자 성명
+            paramsMap.put("SND_DEPT_SEQ", sendEmpMap.get("REG_DEPT_SEQ"));      // 요청자 부서
+            paramsMap.put("SND_DEPT_NM", sendEmpMap.get("REG_DEPT_NAME"));      // 요청자 부서
+            paramsMap.put("recEmpSeq", recieveEmpMap.get("EMP_SEQ"));               // 승인자
+            paramsMap.put("ntTitle", "[승인요청] 요청자 : " + sendEmpMap.get("REG_EMP_NAME"));     // 제목
+            paramsMap.put("ntContent", "[직무기술서] " + sendEmpMap.get("REG_DEPT_NAME") + " - " + sendEmpMap.get("REG_EMP_NAME"));  // 내용
+            paramsMap.put("ntUrl", "/process/processCheckList.do?type=process");   // url
+            paramsMap.put("frKey", params.get("pk"));   // url
+            paramsMap.put("psType", "직무기술서");   // url
+            commonRepository.setAlarm(paramsMap);
+
+            paramsMap.put("recEmpSeq", "|" + recieveEmpMap.get("EMP_SEQ") + "|");   // 승인자
+            paramsMap.put("ntUrl", "/campus/dutyInfoLeader.do?type=process");       // url
+            commonRepository.setPsCheck(paramsMap);
+        }
     }
 
     @Override
@@ -1986,6 +2017,35 @@ public class CampusServiceImpl implements CampusService {
     public void agreeDutySubject(Map<String, Object> params) {
         if(params.get("type").equals("ld")){
             campusRepository.agreeDutyLd(params);
+
+            Map<String, Object> sendEmpMap = new HashMap<>();       // 요청자 정보
+            Map<String, Object> recieveEmpMap = new HashMap<>();    // 승인자 정보
+            Map<String, Object> paramsMap = new HashMap<>();
+
+            params.put("pk", params.get("dutyInfoSn"));
+            sendEmpMap = campusRepository.getDutyInfoOne(params);
+            if(sendEmpMap.get("REG_DUTY_CODE").toString().equals("")){  // 승인 요청자가 팀원급일때
+                params.put("dutyCode", "2,3,7");
+            }
+            params.put("regEmpSeq", sendEmpMap.get("REG_EMP_SEQ"));
+            recieveEmpMap = campusRepository.getApprEmpInfo(params);
+
+            paramsMap.put("sdEmpSeq", sendEmpMap.get("REG_EMP_SEQ"));           // 요청자 사번
+            paramsMap.put("SND_EMP_NM", sendEmpMap.get("REG_EMP_NAME"));        // 요청자 성명
+            paramsMap.put("SND_DEPT_SEQ", sendEmpMap.get("REG_DEPT_SEQ"));      // 요청자 부서
+            paramsMap.put("SND_DEPT_NM", sendEmpMap.get("REG_DEPT_NAME"));      // 요청자 부서
+            paramsMap.put("recEmpSeq", recieveEmpMap.get("EMP_SEQ"));           // 승인자
+            paramsMap.put("ntTitle", "[승인요청] 요청자 : " + sendEmpMap.get("REG_EMP_NAME"));     // 제목
+            paramsMap.put("ntContent", "[직무기술서] " + sendEmpMap.get("REG_DEPT_NAME") + " - " + sendEmpMap.get("REG_EMP_NAME"));  // 내용
+            paramsMap.put("ntUrl", "/approval/approvalDocView.do?type=process");   // url
+            paramsMap.put("frKey", params.get("pk"));   // url
+            paramsMap.put("psType", "직무기술서");   // url
+            commonRepository.setAlarm(paramsMap);
+
+            paramsMap.put("recEmpSeq", "|" + recieveEmpMap.get("EMP_SEQ") + "|");   // 승인자
+            paramsMap.put("ntUrl", "/campus/dutyInfoLeader.do?type=process");       // url
+            commonRepository.setPsCheck(paramsMap);
+
         } else {
             campusRepository.agreeDutyMng(params);
         }

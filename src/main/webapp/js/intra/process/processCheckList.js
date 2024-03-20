@@ -67,7 +67,7 @@ var pcList = {
                     title: "승인",
                     width: 100,
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-solid-info">승인</button>';
+                        return '<button type="button" class="k-button k-button-solid-info" onclick="open_in_frame(\'' +e.TYPE_URL+ '\')">승인</button>';
                     }
                 }
             ],

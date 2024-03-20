@@ -133,8 +133,9 @@ var bgView = {
                     title: "항",
                     width: 150,
                     template: function (e){
+                        console.log(e)
+
                         if(e.DIV_FG_NM == "항"){
-                            console.log(e)
                             return e.BGT_NM;
                         } else {
                             return "";
@@ -194,9 +195,9 @@ var bgView = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "항"){
-                            subAmSum += Number(e.SUB_AM);
+                            subAmSum += Number(e.CALC_AM - e.WAIT_CK);
                         }
-                        return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.CALC_AM - e.WAIT_CK)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
@@ -208,7 +209,7 @@ var bgView = {
                         var bgtNm = e.BGT1_NM + " / " + e.BGT2_NM + " / " + e.BGT_NM;
                         var idx = $("#idx").val();
 
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\', \'' + e.SUB_AM + '\')">선택</button>';
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\', \'' + e.SUB_AM + '\', \'' + (e.CALC_AM - e.WAIT_CK) + '\')">선택</button>';
                     }
                 }
             ],
@@ -353,10 +354,10 @@ var bgView = {
 
     },
 
-    fn_selBudgetInfo: function (cd, name, idx, subAm){
+    fn_selBudgetInfo: function (cd, name, idx, subAm, waitCk){
 
         if(name != "기타 / 기타 / 기타"){
-            if(subAm <= 0) {
+            if(waitCk <= 0) {
                 alert("예산잔액이 부족합니다.");
                 return;
             }
