@@ -1898,7 +1898,7 @@ var draft = {
             }
         }
 
-        if(params.menuCd == "study"){
+        if(params.menuCd == "study" || params.menuCd == "propag" || params.menuCd == "ojt"){
             let result = customKendo.fn_customAjax("/common/getFileList", {
                 contentId : "studyInfo_" + params.APPRO_KEY.split("_")[1],
                 fileCd : "studyInfo"

@@ -148,6 +148,12 @@
                 <td id="propagAmtTd"></td>
             </tr>
             <tr>
+                <th>첨부서류</th>
+                <td id="attachTr">
+
+                </td>
+            </tr>
+            <tr>
                 <th>비용내역</th>
                 <td id="propagAmtTextTd"></td>
             </tr>
