@@ -143,8 +143,16 @@ var eduInfo = {
                     width: 100
                 }, {
                     title: "학습시간",
-                    template: "<span>#=TERM_TIME#시간</span>",
-                    width: 100
+                    width: 100,
+                    template: function(row){
+                        const eduTime = row.TERM_TIME;
+                        const eduType = row.EDU_FORM_TYPE;
+                        let returnText = eduTime+"시간";
+                        if(eduType == "7" || eduType == "8"){
+                            returnText = "-";
+                        }
+                        return returnText;
+                    }
                 },  {
                     title: "인정시간",
                     template: "<span>#=REAL_EDU_TIME#시간</span>",

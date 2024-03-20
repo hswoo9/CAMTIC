@@ -373,9 +373,13 @@ const studyView = {
                     var row = journalList[i];
 
                     if (row.CAPTAIN_APPOVAL_YN == 'N') {
-                        alert("학습일지를 검토해주세요.");
+                        alert("학습일지 조장 검토를 완료해주세요.");
                         return;
                     }
+                }
+
+                if(!confirm("학습완료 후에는 학습일지를 추가, 수정, 삭제하실 수 없습니다. 학습완료하시겠습니까?")){
+                    return ;
                 }
 
 

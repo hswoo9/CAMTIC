@@ -99,7 +99,7 @@ const eduReq = {
         $("#eduCategoryDetailName, #levelId, #startDt, #endDt, #regDate").attr("readonly", true);
 
         eduReq.global.radioGroupData = [
-            { label: "법인운영", value: "" },
+            { label: "법인운영", value: "C" },
             { label: "R&D", value: "R" },
             { label: "비R&D", value: "S" },
             { label: "엔지니어링", value: "D" },
@@ -149,17 +149,41 @@ const eduReq = {
         $("#eduName").val(eduInfo.EDU_NAME);
         $("#bookWriter").val(eduInfo.BOOK_WRITER_NAME);
         if(eduInfo.OBJECT_FORUM_TYPE == "단순참가"){
-            $("#objectForumType").data("kendoRadioGroup").value('0')
+            $("#objectForumType").data("kendoRadioGroup").value('0');
         } else if(eduInfo.OBJECT_FORUM_TYPE == "주제발표"){
-            $("#objectForumType").data("kendoRadioGroup").value('1')
+            $("#objectForumType").data("kendoRadioGroup").value('1');
         }
         $("#objectForumVal").val(eduInfo.OBJECT_FORUM_VAL);
         $("#bookPage").val(eduInfo.BOOK_PAGE_VAL);
         $("#bookPulish").val(eduInfo.BOOK_PULISH_NAME);
         $("#treaOrigin").val(eduInfo.TREA_ORIGIN);
         $("#treaUnit").val(eduInfo.TREA_UNIT);
-        $("#treaType").val(eduInfo.TREA_TYPE);
-        $("#treaUser").val(eduInfo.TREA_USER);
+
+        if(eduInfo.EDU_MONEY_TYPE == "법인카드"){
+            $("#eduMoneyType").data("kendoRadioGroup").value('1');
+        }else if(eduInfo.EDU_MONEY_TYPE == "사업비카드"){
+            $("#eduMoneyType").data("kendoRadioGroup").value('2');
+        }else{
+            $("#eduMoneyType").data("kendoRadioGroup").value('3');
+        }
+
+        if(eduInfo.EDU_FORM_TYPE == "7"){
+            $("#treaType").data("kendoRadioGroup").value(eduInfo.TREA_TYPE == "국내" ? "0" : "1");
+            $("#treaUser").data("kendoRadioGroup").value(eduInfo.TREA_USER == "저자" ? "0" : "1");
+        }
+
+        if(eduInfo.EDU_FORM_TYPE == "10"){
+            if(eduInfo.COMP_TYPE == "기술사"){
+                $("#compType").data("kendoRadioGroup").value('1');
+            }else if(eduInfo.COMP_TYPE == "기사"){
+                $("#compType").data("kendoRadioGroup").value('2');
+            }else if(eduInfo.COMP_TYPE == "산업기사"){
+                $("#compType").data("kendoRadioGroup").value('3');
+            }else{
+                $("#compType").data("kendoRadioGroup").value('4');
+            }
+        }
+
         $("#bookUnit").val(eduInfo.BOOK_UNIT);
         $("#compType").val(eduInfo.COMP_TYPE);
         $("#eduObject").val(eduInfo.EDU_OBJECT);
@@ -176,7 +200,6 @@ const eduReq = {
             $("#thirdCareTelNum").val(eduInfo.CARE_TEL_NUM.split("-")[2]);
         }
         $("#eduMoney").val(comma(eduInfo.EDU_MONEY));
-        $("#eduMoneyType").val(eduInfo.EDU_MONEY_TYPE);
         $("#returnMoney").val(comma(eduInfo.RETURN_MONEY));
         $("#returnDoc").val(eduInfo.RETURN_DOC);
         $("#regDate").val(eduInfo.REG_DT);
@@ -300,7 +323,7 @@ const eduReq = {
                 return;
             }
         }
-        if(eduFormType != "7" && eduFormType != "8" && eduFormType != "10"){
+        if(eduFormType != "7" && eduFormType != "8"){
             if(termDay == "" || termTime == ""){
                 alert("학습시간이 작성되지 않았습니다.");
                 return;
