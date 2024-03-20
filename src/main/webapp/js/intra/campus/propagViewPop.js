@@ -7,6 +7,7 @@ const propagView = {
     init: function(){
         propagView.dataSet();
         propagView.mainGrid();
+        propagView.settingTempFileDataInit();
     },
 
     dataSet: function(){
@@ -465,7 +466,25 @@ const propagView = {
         let name = "studyReqPop";
         let option = "width = 1170, height = 900, top = 100, left = 200, location = no";
         window.open(url, name, option);
-    }
+    },
+
+    settingTempFileDataInit: function(){
+        var result = customKendo.fn_customAjax("/common/getFileList", { contentId: "studyInfo_" + $("#pk").val(), fileCd: "studyInfo" });
+        if(result.flag){
+            if(result.list.length > 0){
+                var html = '';
+                for(var i=0; i<result.list.length; i++){
+                    html += '<li>';
+                    html += '   <span style="cursor: pointer" onclick="fileDown(\'' + result.list[i].file_path + result.list[i].file_uuid + '\', \'' + result.list[i].file_org_name + '.' + result.list[i].file_ext + '\')">' + result.list[i].file_org_name + '.' + result.list[i].file_ext + '</span>';
+                    html += '</li>';
+                }
+
+                $("#attachTr").append(html);
+            } else {
+                $("#ulSetFileName").empty();
+            }
+        }
+    },
 }
 
 function gridReload(){

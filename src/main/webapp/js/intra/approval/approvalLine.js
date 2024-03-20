@@ -365,6 +365,24 @@ var approvalLine = {
             if(amt == null){
                 requestAmt = 0;
             }
+        }else if(data.menuCd == "study" || data.menuCd == "propag" || data.menuCd == "ojt"){
+            const pk = data.approKey.split("_")[1];
+
+            if (pk == null || pk == undefined || pk == "") {
+                alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
+            }
+
+            const info = customKendo.fn_customAjax("/campus/getStudyInfoOne", {pk: $("#pk").val()}).data;
+            const data = info.map;
+
+            let amt = 0;
+            if(data.STUDY_MONEY != null || data.STUDY_MONEY != ""){
+                amt = data.STUDY_MONEY;
+            }
+            requestAmt = Number(amt);
+            if(amt == null){
+                requestAmt = 0;
+            }
         }
 
         if(payCkList.length == 0){
