@@ -2137,7 +2137,7 @@ public class CampusServiceImpl implements CampusService {
             paramsMap.put("recEmpSeq", recieveEmpMap.get("EMP_SEQ"));           // 승인자
             paramsMap.put("ntTitle", "[승인요청] 요청자 : " + sendEmpMap.get("REG_EMP_NAME"));     // 제목
             paramsMap.put("ntContent", "[직무기술서] " + sendEmpMap.get("REG_DEPT_NAME") + " - " + sendEmpMap.get("REG_EMP_NAME"));  // 내용
-            paramsMap.put("ntUrl", "/approval/approvalDocView.do?type=process");   // url
+            paramsMap.put("ntUrl", "/process/processCheckList.do?type=process");   // url
             paramsMap.put("frKey", params.get("pk"));
             paramsMap.put("psType", "직무기술서");
             paramsMap.put("type", "직무기술서");
