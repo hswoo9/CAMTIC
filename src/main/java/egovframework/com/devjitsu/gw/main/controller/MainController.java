@@ -631,7 +631,7 @@ public class MainController {
         params.put("hwpUrl", hwpUrl);
 
         if(params.containsKey("mDocType")){
-            params.put("mDocType", params.get("mDocType"));
+            model.addAttribute("mDocType", params.get("mDocType"));
         }
 
         model.addAttribute("hwpUrl", hwpUrl);
@@ -679,7 +679,12 @@ public class MainController {
         return "/camspot_m/board_write";
     }
     @RequestMapping("/m/admin.do")
-    public String admin(){
+    public String admin(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = getLoginVO(request);
+        if (loginVO == null) return "/camspot_m/login";
+
+        model.addAttribute("loginVO", loginVO);
         return "/camspot_m/admin";
     }
 
