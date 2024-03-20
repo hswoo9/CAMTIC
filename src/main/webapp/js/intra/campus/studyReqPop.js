@@ -5,6 +5,7 @@ const studyReq = {
     },
 
     init : function(){
+        window.resizeTo(1170, 900);
         studyReq.pageSet();
         studyReq.dataSet();
     },

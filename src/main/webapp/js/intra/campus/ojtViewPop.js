@@ -7,6 +7,7 @@ const ojtView = {
     },
 
     init: function(){
+        window.resizeTo(1200, 900);
         ojtView.dataSet();
         ojtView.mainGrid();
         ojtView.ojtPlanGrid();

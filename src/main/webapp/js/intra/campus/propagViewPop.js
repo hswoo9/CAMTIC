@@ -5,6 +5,7 @@ const propagView = {
     },
 
     init: function(){
+        window.resizeTo(1200, 700);
         propagView.dataSet();
         propagView.mainGrid();
         propagView.settingTempFileDataInit();

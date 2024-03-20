@@ -278,7 +278,7 @@
             </tr>
             </tbody>
         </table>
-        <div class="mt-15" style="text-align: right">
+        <div id="btnDiv2" class="mt-15" style="text-align: right">
             <button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base draft" onclick="draft.draftInitValidation(this)">
                 <span class='k-icon k-i-check k-button-icon'></span>
                 <span class="k-button-text" style="font-size: 13px">확인<span>

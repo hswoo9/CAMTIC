@@ -45,7 +45,9 @@ var draft = {
         formData : new FormData(),
         searchAjaxData : "",
         saveAjaxData : "",
-        kendoFiles : []
+        kendoFiles : [],
+
+        comCode : new Object()
     },
 
     fnDefaultScript : function (params) {
@@ -667,17 +669,9 @@ var draft = {
 
         if(result.flag){
             var docFile =  result.docFileList;
+            draft.global.comCode = result.comCode;
             var comCode = result.comCode;
             var rs = result.rs;
-
-            if(draft.global.type == "reDrafting"){
-                $("#draftBtn").remove();
-                $("#btnDiv").prepend("<input type='hidden' id='approveStatCode' name='approveStatCode' value='" + comCode.CM_CODE + "'>" +
-                    "<input type='hidden' id='approveStatCodeDesc' name='approveStatCodeDesc' value='" + comCode.CM_CODE_NM + "'>" +
-                    '<button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base reDraft" onclick="draft.draftInitValidation(this)">' +
-                    '	<span class="k-button-text">상신</span>' +
-                    '</button>');
-            }
 
             $("#formId").val(rs.docInfo.FORM_ID);
             $("#formName").val(rs.docInfo.FORM_NAME);
@@ -1256,6 +1250,17 @@ var draft = {
         });
 
         $('#draftModal').data('kendoWindow').open();
+
+        const comCode = draft.global.comCode;
+        if(draft.global.type == "reDrafting"){
+            $("#draftBtn").remove();
+            $("#btnDiv2").prepend("<input type='hidden' id='approveStatCode' name='approveStatCode' value='" + comCode.CM_CODE + "'>" +
+                "<input type='hidden' id='approveStatCodeDesc' name='approveStatCodeDesc' value='" + comCode.CM_CODE_NM + "'>" +
+                '<button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base reDraft" onclick="draft.draftInitValidation(this)">' +
+                '   <span class="k-icon k-i-check k-button-icon"></span>' +
+                '	<span class="k-button-text">확인</span>' +
+                '</button>');
+        }
     },
 
     docApprove : function(){

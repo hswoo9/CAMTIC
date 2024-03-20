@@ -16,7 +16,7 @@
     let formId = "97";
     let docTitle = "";
     if(rs.PAY_APP_TYPE == 1){
-        docTitle = "[지급결의서]${loginVO.orgnztNm}-${loginVO.name}";
+        docTitle = "[지출결의서]${loginVO.orgnztNm}-${loginVO.name}";
     }else if(rs.PAY_APP_TYPE == 2){
         docTitle = "[여입결의서]${loginVO.orgnztNm}-${loginVO.name}";
     }else if(rs.PAY_APP_TYPE == 3){

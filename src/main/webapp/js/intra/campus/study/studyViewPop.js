@@ -5,6 +5,7 @@ const studyView = {
     },
 
     init : function(){
+        window.resizeTo(920, 900);
         studyView.mainGrid();
         studyView.dataSet();
         studyView.settingTempFileDataInit();

@@ -33,19 +33,14 @@ var campusInit = {
                 const eduFormType = Number(ResultData.EDU_FORM_TYPE);
 
 
-                hwpDocCtrl.global.HwpCtrl.MoveToField('deptName', true, true, false);
                 hwpDocCtrl.putFieldText('deptName', ResultData.DEPT_NAME+" "+ResultData.DEPT_TEAM_NAME);
 
-                hwpDocCtrl.global.HwpCtrl.MoveToField('empName', true, true, false);
                 hwpDocCtrl.putFieldText('empName', ResultData.EMP_NAME_KR);
 
-                hwpDocCtrl.global.HwpCtrl.MoveToField('positionName', true, true, false);
                 hwpDocCtrl.putFieldText('positionName', ResultData.POSITION_NAME);
 
-                hwpDocCtrl.global.HwpCtrl.MoveToField('jobDetail', true, true, false);
                 hwpDocCtrl.putFieldText('jobDetail', ResultData.JOB_DETAIL);
 
-                hwpDocCtrl.global.HwpCtrl.MoveToField('eduName', true, true, false);
                 hwpDocCtrl.putFieldText('eduName', ResultData.EDU_NAME);
 
                 let eduDate = ResultData.START_DT.split("-")[0]+"년"+ResultData.START_DT.split("-")[1]+"월"+ResultData.START_DT.split("-")[2]+"일"
@@ -65,23 +60,15 @@ var campusInit = {
                 if(eduFormType == 9) {
                     eduDate += "/1일당최대4시간";
                 }
-                hwpDocCtrl.global.HwpCtrl.MoveToField('eduDate', true, true, false);
                 hwpDocCtrl.putFieldText('eduDate', eduDate);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('eduCategoryDetailName', true, true, false);
                 hwpDocCtrl.putFieldText('eduCategoryDetailName', ResultData.EDU_CATEGORY_DETAIL_NAME);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('levelId', true, true, false);
                 hwpDocCtrl.putFieldText('levelId', ResultData.LEVEL_ID+" 레벨");
-                hwpDocCtrl.global.HwpCtrl.MoveToField('eduObject', true, true, false);
                 hwpDocCtrl.putFieldText('eduObject', ResultData.EDU_OBJECT);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('eduContent', true, true, false);
                 hwpDocCtrl.putFieldText('eduContent', ResultData.EDU_CONTENT);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('eduMoney', true, true, false);
-                hwpDocCtrl.putFieldText('eduMoney', fn_numberWithCommas(ResultData.EDU_MONEY)+" 원");
-                hwpDocCtrl.global.HwpCtrl.MoveToField('attachDocName', true, true, false);
+                hwpDocCtrl.putFieldText('eduMoney', fn_numberWithCommas(ResultData.EDU_MONEY)+" 원")
                 hwpDocCtrl.putFieldText('attachDocName', ResultData.ATTACH_DOC_NAME);
 
                 let toDate = year+"년 "+month+"월 "+date+"일";
-                hwpDocCtrl.global.HwpCtrl.MoveToField('toDate', true, true, false);
                 hwpDocCtrl.putFieldText('toDate', toDate);
 
                 let recTime = "";
@@ -92,48 +79,24 @@ var campusInit = {
                 } else {
                     recTime = " (15시간)";
                 }
-                hwpDocCtrl.global.HwpCtrl.MoveToField('compType', true, true, false);
                 hwpDocCtrl.putFieldText('compType', ResultData.COMP_TYPE + recTime);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('careName', true, true, false);
                 hwpDocCtrl.putFieldText('careName', ResultData.CARE_NAME);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('careLocation', true, true, false);
                 hwpDocCtrl.putFieldText('careLocation', "(" + ResultData.CARE_LOCATION + ")");
 
                 let objectForum = ResultData.OBJECT_FORUM_TYPE == "주제발표" ? ResultData.OBJECT_FORUM_TYPE+" (발표주제 : "+ResultData.OBJECT_FORUM_VAL+")" : ResultData.OBJECT_FORUM_TYPE;
-                hwpDocCtrl.global.HwpCtrl.MoveToField('objectForum', true, true, false);
                 hwpDocCtrl.putFieldText('objectForum', objectForum);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('returnMoney', true, true, false);
                 hwpDocCtrl.putFieldText('returnMoney', fn_numberWithCommas(ResultData.RETURN_MONEY)+" 원");
-                hwpDocCtrl.global.HwpCtrl.MoveToField('returnDoc', true, true, false);
                 hwpDocCtrl.putFieldText('returnDoc', ResultData.RETURN_DOC);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('bookWriterName', true, true, false);
                 hwpDocCtrl.putFieldText('bookWriterName', ResultData.BOOK_WRITER_NAME);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('bookPageVal', true, true, false);
                 hwpDocCtrl.putFieldText('bookPageVal', ResultData.BOOK_PAGE_VAL);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('bookPulishName', true, true, false);
                 hwpDocCtrl.putFieldText('bookPulishName', ResultData.BOOK_PULISH_NAME);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('treaOrigin', true, true, false);
                 hwpDocCtrl.putFieldText('treaOrigin', ResultData.TREA_ORIGIN);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('treaUnit', true, true, false);
                 hwpDocCtrl.putFieldText('treaUnit', ResultData.TREA_UNIT+" 편");
-                hwpDocCtrl.global.HwpCtrl.MoveToField('treaType', true, true, false);
                 hwpDocCtrl.putFieldText('treaType', ResultData.TREA_TYPE+" 학술지");
-                hwpDocCtrl.global.HwpCtrl.MoveToField('treaUser', true, true, false);
                 hwpDocCtrl.putFieldText('treaUser', ResultData.TREA_USER);
-                hwpDocCtrl.global.HwpCtrl.MoveToField('bookUnit', true, true, false);
                 hwpDocCtrl.putFieldText('bookUnit', ResultData.BOOK_UNIT+" 권");
-
-                let regSign = "신 청 자 : "+ResultData.EMP_NAME_KR;
-                hwpDocCtrl.global.HwpCtrl.MoveToField('regSign', true, true, false);
-                hwpDocCtrl.putFieldText('regSign', regSign);
-
-                hwpDocCtrl.global.HwpCtrl.MoveToField('eduTeacherName', true, true, false);
                 hwpDocCtrl.putFieldText('eduTeacherName', ResultData.EDU_TEACHER_NAME);
-
-                hwpDocCtrl.global.HwpCtrl.MoveToField('eduEval'+ResultData.EDU_EVAL, true, true, false);
                 hwpDocCtrl.putFieldText('eduEval'+ResultData.EDU_EVAL, "O");
-
-                hwpDocCtrl.global.HwpCtrl.MoveToField('eduPoint', true, true, false);
                 hwpDocCtrl.putFieldText('eduPoint', ResultData.EDU_POINT);
 
             },
@@ -217,7 +180,7 @@ var campusInit = {
         html += '           <table border="3" style="border-collapse: collapse; margin: 0px;">';
 
         html += '               <tr>';
-        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습자</b></p></td>';
+        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>참석자</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>구분</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 240px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 128px;"><p style="font-family:굴림;font-size:14px;"><b>직위</b></p></td>';
@@ -271,12 +234,8 @@ var campusInit = {
         html += '               <tr>';
         html += '                   <td colspan="5" style="height:150px;background-color:#FFFFFF; text-align:center;">' +
             '<p style="font-family:굴림;font-size:14px;margin-bottom: 3px">위와 같이 학습조 신청서를 제출하오니 승인하여 주시기 바랍니다.<br><br>' +
-            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p><br><br>' +
-            '<p style="font-family:굴림;font-size:14px;text-align: right; margin-right: 10px">신 청 자 : '+$("#empName").val()+'</p>' +
+            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p>' +
             '</td>';
-        html += '               <tr>';
-        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>첨부서류</b></p></td>';
-        html += '                   <td colspan="4" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.ATTACH+'</p></td>';
         html += '               </tr>';
         html += '           </table>';
         html += '       </td>';
@@ -304,7 +263,7 @@ var campusInit = {
         html += '           <table border="3" style="border-collapse: collapse; margin: 0px;">';
 
         html += '               <tr>';
-        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습자</b></p></td>';
+        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>참석자</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>구분</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 240px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 128px;"><p style="font-family:굴림;font-size:14px;"><b>직위</b></p></td>';
@@ -367,12 +326,8 @@ var campusInit = {
         html += '               <tr>';
         html += '                   <td colspan="5" style="height:150px;background-color:#FFFFFF; text-align:center;">' +
             '<p style="font-family:굴림;font-size:14px;margin-bottom: 3px">위와 같이 전파학습 신청서를 제출하오니 승인하여 주시기 바랍니다.<br><br>' +
-            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p><br><br>' +
-            '<p style="font-family:굴림;font-size:14px;text-align: right; margin-right: 10px">신 청 자 : '+$("#empName").val()+'</p>' +
+            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p>' +
             '</td>';
-        html += '               <tr>';
-        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>첨부서류</b></p></td>';
-        html += '                   <td colspan="4" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.ATTACH+'</p></td>';
         html += '               </tr>';
         html += '           </table>';
         html += '       </td>';
@@ -402,7 +357,7 @@ var campusInit = {
 
         /** 신청인 */
         html += '               <tr>';
-        html += '                   <td rowspan="3" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>신청인<br>(지도자)</b></p></td>';
+        html += '                   <td rowspan="3" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>신청인</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>소속</b></p></td>';
         html += '                   <td colspan="3" style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+userInfo.deptNm+' '+userInfo.teamNm+'</p></td>';
         html += '               </tr>';
@@ -418,7 +373,7 @@ var campusInit = {
         html += '               </tr>';
         
         html += '               <tr>';
-        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습자</b></p></td>';
+        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>참석자</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>구분</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 200px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 168px;"><p style="font-family:굴림;font-size:14px;"><b>직위</b></p></td>';
@@ -495,12 +450,8 @@ var campusInit = {
         }
         html += '                   <td colspan="5" style="height:150px;background-color:#FFFFFF; text-align:center;">' +
             '<p style="font-family:굴림;font-size:14px;margin-bottom: 3px">위와 같이 '+text+'를 제출하오니 승인하여 주시기 바랍니다.<br><br>' +
-            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p><br><br>' +
-            '<p style="font-family:굴림;font-size:14px;text-align: right; margin-right: 10px">신 청 자 : '+$("#empName").val()+'</p>' +
+            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p>' +
             '</td>';
-        html += '               <tr>';
-        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>첨부서류</b></p></td>';
-        html += '                   <td colspan="4" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;">'+ studyInfo.ATTACH+'</p></td>';
         html += '               </tr>';
         html += '           </table>';
         html += '       </td>';
@@ -548,7 +499,7 @@ var campusInit = {
         html += '           <table border="3" style="border-collapse: collapse; margin: 0px;">';
 
         html += '               <tr>';
-        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습자</b></p></td>';
+        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>참석자</b></p></td>';
         html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>구분</b></p></td>';
         html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 170px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
         html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 93px;"><p style="font-family:굴림;font-size:14px;"><b>직위</b></p></td>';
@@ -607,12 +558,8 @@ var campusInit = {
         html += '               <tr>';
         html += '                   <td colspan="7" style="height:150px;background-color:#FFFFFF; text-align:center;">' +
             '<p style="font-family:굴림;font-size:14px;margin-bottom: 3px">위와 같이 학습조 결과보고서를 제출하오니 승인하여 주시기 바랍니다.<br><br>' +
-            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p><br><br>' +
-            '<p style="font-family:굴림;font-size:14px;text-align: right; margin-right: 10px">신 청 자 : '+$("#empName").val()+'</p>' +
+            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p>' +
             '</td>';
-        html += '               <tr>';
-        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>첨부서류</b></p></td>';
-        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;"></p></td>';
         html += '               </tr>';
         html += '           </table>';
         html += '       </td>';
@@ -661,7 +608,7 @@ var campusInit = {
         html += '           <table border="3" style="border-collapse: collapse; margin: 0px;">';
 
         html += '               <tr>';
-        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>학습자</b></p></td>';
+        html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>참석자</b></p></td>';
         html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>구분</b></p></td>';
         html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 170px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
         html += '                   <td rowspan="2" style="height:23px;background-color:#FFE0E0; text-align:center; width: 93px;"><p style="font-family:굴림;font-size:14px;"><b>직위</b></p></td>';
@@ -720,12 +667,8 @@ var campusInit = {
         html += '               <tr>';
         html += '                   <td colspan="7" style="height:150px;background-color:#FFFFFF; text-align:center;">' +
             '<p style="font-family:굴림;font-size:14px;margin-bottom: 3px">위와 같이 전파학습 결과보고서를 제출하오니 승인하여 주시기 바랍니다.<br><br>' +
-            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p><br><br>' +
-            '<p style="font-family:굴림;font-size:14px;text-align: right; margin-right: 10px">신 청 자 : '+$("#empName").val()+'</p>' +
+            '<p style="font-family:굴림;font-size:14px;margin-bottom: 5px">'+fn_getNowDate(1)+'</p>' +
             '</td>';
-        html += '               <tr>';
-        html += '                   <td style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>첨부서류</b></p></td>';
-        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-family:굴림;font-size:14px;"></p></td>';
         html += '               </tr>';
         html += '           </table>';
         html += '       </td>';
