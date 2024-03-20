@@ -185,9 +185,15 @@ const studyView = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" id="journalPopBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyView.studyJournalPop(1, '+$("#pk").val()+');">' +
-                            '	<span class="k-button-text">추가</span>' +
-                            '</button>';
+                        if($("#addStatus").val() != 'N'){
+                            return '';
+                        } else {
+                            return '<button type="button" id="journalPopBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="studyView.studyJournalPop(1, '+$("#pk").val()+');">' +
+                                '	<span class="k-button-text">추가</span>' +
+                                '</button>';
+                        }
+
+
                     }
                 }
             ],
@@ -224,8 +230,14 @@ const studyView = {
                 }, {
                     width: 150,
                     template: function(row){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="studyView.studyPrintPop('+row.STUDY_JOURNAL_SN+')">인쇄</button> ' +
-                            '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="studyView.fn_delete('+row.STUDY_JOURNAL_SN+')">삭제</button>';
+
+                        if($("#addStatus").val() != 'N'){
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="studyView.studyPrintPop('+row.STUDY_JOURNAL_SN+')">인쇄</button> ';
+                        } else {
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="studyView.studyPrintPop('+row.STUDY_JOURNAL_SN+')">인쇄</button> ' +
+                                '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" name="kbtn" onclick="studyView.fn_delete('+row.STUDY_JOURNAL_SN+')">삭제</button>';
+                        }
+
                     }
                 }
             ]

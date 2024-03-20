@@ -109,6 +109,22 @@ const studyJournal = {
                 }
             }
         }
+
+
+        if(opener.parent.$("#addStatus").val() != 'N'){
+            $("#studyContent").data("kendoTextArea").enable(false);
+            $("#studyLocation").data("kendoTextBox").enable(false);
+            $("#studyUserName").data("kendoTextBox").enable(false);
+            $("#studyMoney").data("kendoTextBox").enable(false);
+            $("#journalAmtClass").data("kendoDropDownList").enable(false);
+            $("#journalAmtEtc").data("kendoTextBox").enable(false);
+            $("#journalDt").data("kendoDatePicker").enable(false);
+
+            $("#journalStartTime").data("kendoTimePicker").enable(false);
+            $("#journalEndTime").data("kendoTimePicker").enable(false);
+            $("#files").attr("disabled", true);
+            $("#selMemBtn").attr("disabled", true);
+        }
     },
 
     saveBtn: function(){

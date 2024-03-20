@@ -139,7 +139,13 @@ var studyInfo = {
                     title: "학습시간",
                     width: 100,
                     template : function (e){
-                        if(e.STUDY_CLASS_SN == "3"){
+                        if(e.STUDY_CLASS_SN == "1"){
+                            if(e.EDU_TIME_TOTAL == "" || e.EDU_TIME_TOTAL == null) {
+                                return "0시간";
+                            }else{
+                                return e.EDU_TIME_TOTAL+"시간";
+                            }
+                        } else if(e.STUDY_CLASS_SN == "3"){
                             if(e.ST_SUM != "" && e.ST_SUM != null){
                                 return e.ST_SUM+"시간";
                             } else {

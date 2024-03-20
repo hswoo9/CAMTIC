@@ -14,6 +14,14 @@ const studyReq = {
         customKendo.fn_textArea(["studyObject", "studyContent", "studyMoneyVal"]);
         customKendo.fn_datePicker("startDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDt", "month", "yyyy-MM-dd", new Date());
+        var bsDt = $("#endDt").val();
+        $("#endDt").change(function(){
+            if($("#startDt").val() > $("#endDt").val()){
+                alert("학습기간을 확인해주세요." + bsDt);
+
+                $("#endDt").val(bsDt);
+            }
+        });
         customKendo.fn_datePicker("regDate", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_timePicker("startTime", '10', "HH:mm", "09:00");
         customKendo.fn_timePicker("endTime", '10', "HH:mm", "18:00");

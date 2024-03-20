@@ -280,7 +280,10 @@ var myEdu = {
                     width: 250
                 },{
                     title: "학습시간",
-                    template: "<span>#=STUDY_TIME#시간</span>",
+                    template: function(e){
+                        console.log(e)
+                        return e.STUDY_TIME + "시간"
+                    },
                     width: 100
                 },  {
                     title: "인정시간",
