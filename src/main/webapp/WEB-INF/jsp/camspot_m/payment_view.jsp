@@ -51,13 +51,16 @@
             <div class="PviewBox mt20">
             	<font class="txt type28"><b>문서정보</b></font>
                 <div class="content_output mt10">
-                	<a href="#" class="file"><img src="/images/camspot_m/ico-document.png" />[휴일근로신청서] 경영지원팀24-국민</a>
+                	<a href="#" class="file"><img src="/images/camspot_m/ico-document.png" /><span id="viewDocTitle"></span></a>
                 </div>
                 
             	<font class="txt type28 mt40"><b>첨부파일</b></font>
                 <div class="content_output mt10">
-                	<a href="#" class="file"><img src="/images/camspot_m/ico-file.png" />영수증1.jpg</a>
-                	<a href="#" class="file"><img src="/images/camspot_m/ico-file.png" />영수증2.jpg</a>
+                    <div id="attachmentGrid" style="border-bottom: none;">
+
+                    </div>
+<%--                	<a href="#" class="file"><img src="/images/camspot_m/ico-file.png" />영수증1.jpg</a>--%>
+<%--                	<a href="#" class="file"><img src="/images/camspot_m/ico-file.png" />영수증2.jpg</a>--%>
                 	
                 </div>
                 
@@ -218,7 +221,7 @@
             modal: true,
             width : 500,
             position : {
-                top : 50,
+                top : 50
             },
             close: function () {
                 $("#opinViewModal").load(location.href + ' #opinViewModal');
@@ -234,7 +237,90 @@
 
         var rs = customKendo.fn_customAjax("/approval/getDocViewRs", parameters).data;
         docView.global.rs = rs;
+
+        $("#viewDocTitle").text(rs.docInfo.DOC_TITLE);
         docView.global.loginVO = JSON.parse('${mLoginVO}');
+
+
+        docView.global.searchAjaxData = {
+            docId : docView.global.rs.docInfo.DOC_ID,
+            approKey : docView.global.rs.docInfo.APPRO_KEY,
+        }
+
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "bustrip"){
+            docView.global.searchAjaxData.bustripSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "bustrip";
+        }
+
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "bustripRes"){
+            docView.global.searchAjaxData.bustripResSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "bustripRes";
+        }
+
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "claim"){
+            docView.global.searchAjaxData.claimSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "claim";
+        }
+
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "payApp"){
+            docView.global.searchAjaxData.payAppSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "payApp";
+        }
+
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "payIncp"){
+            docView.global.searchAjaxData.payIncpSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "payIncp";
+        }
+
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "exnp"){
+            docView.global.searchAjaxData.exnpSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "exnp";
+        }
+
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "campus"){
+            docView.global.searchAjaxData.eduInfoId = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "campus";
+            if(docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 2] == "camticEducation"){
+                docView.global.searchAjaxData.linkType = "camticEducation";
+            }else if(docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 2] == "camticEducationRes"){
+                docView.global.searchAjaxData.linkType = "camticEducationRes";
+            }
+        }
+
+        var attachmentGrid = $("#attachmentGrid").kendoGrid({
+            dataSource : customKendo.fn_gridDataSource2("/approval/getDocAttachmentList", docView.global.searchAjaxData),
+            sortable: true,
+            scrollable: true,
+            noRecords: {
+                template: "첨부파일이 존재하지 않습니다."
+            },
+            dataBound : docView.onDataBound,
+            columns: [
+                {
+                    field : "filename",
+                    title: "첨부파일명",
+                    attributes: { style: "text-align: left;"},
+                    template : function(e){
+                        return '<span style="cursor: pointer" onClick="docView.docAttachmentDown(\'single\',\'' + e.FILE_DOWN_PATH + e.fileUUID+ '\', \'' + e.filename + '\')">' +
+                            fileImgTag(e.FILE_EXT) +
+                            "<span style='margin-left: 5px;cursor: pointer'>" +
+                            e.filename + "(" + formatBytes(e.FILE_SIZE, 3) + ")" +
+                            "</span>" +
+                            "</span>";;
+                    }
+                }, {
+                    template : function(e){
+                        if(e.FILE_EXT == "pdf" || e.FILE_EXT == "png" || e.FILE_EXT == "PNG" || e.FILE_EXT == "jpg" || e.FILE_EXT == "JPG" || e.FILE_EXT == "JPEG" || e.FILE_EXT == "gif"){
+                            return '<button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onClick="docView.fileViewer(\'' + e.FILE_DOWN_PATH + e.fileUUID + '\', \'' + e.filename + '\')">' +
+                                '<span class="k-button-text">보기</span>' +
+                                '</button>'
+                        }else{
+                            return '';
+                        }
+                    },
+                    width : 60
+                }]
+        }).data("kendoGrid");
 
         function editorComplete() {
             hwpDocCtrl.defaultScript(
