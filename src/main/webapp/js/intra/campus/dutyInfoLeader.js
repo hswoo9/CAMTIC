@@ -352,7 +352,8 @@ var dutyInfoLeader = {
             } else if(type == "mng"){
                 dutyInfoLeader.fn_dutyCertReq(100, id)
             } else {
-                gridReload()
+                alert("완료되었습니다.");
+                gridReload();
             }
         }
     },

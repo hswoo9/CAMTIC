@@ -107,6 +107,7 @@ public class CommonRepository extends AbstractDAO {
     public void setAlarmCheck(Map<String, Object> params) { update("common.setAlarmCheck", params); }
     public void setAlarmTopListDel(Map<String, Object> params) { update("common.setAlarmTopListDel", params); }
     public void setAlarmAllCheck(Map<String, Object> params) { update("common.setAlarmAllCheck", params); }
+    public void setPsCheck(Map<String, Object> params) { insert("common.setPsCheck", params);}
     public void setPasswordEncryption(Map<String, Object> params) { update("common.setPasswordEncryption", params); }
 
     public Map<String, Object> getFileData(Map<String, Object> params) {
