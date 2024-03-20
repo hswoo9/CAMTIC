@@ -87,7 +87,7 @@
             </div>
             <!--} 페이징 -->
             
-        	<div class="btBox mt40"><a href="/m/board_write.do">글쓰기</a></div>
+<%--        	<div class="btBox mt40"><a href="/m/board_write.do">글쓰기</a></div>--%>
             
     	</div>   
     	<!--} content -->

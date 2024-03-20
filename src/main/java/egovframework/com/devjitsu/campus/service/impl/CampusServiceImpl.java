@@ -1574,7 +1574,7 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public void setDutyCertReq(Map<String, Object> params) {
-        if(params.get("status").equals("30") && params.get("type").equals("mng")){
+        if((params.get("status").equals("30") && params.get("type").equals("mng")) || params.get("status").equals("0")){
             params.put("returnStat", "Y");
         }
         campusRepository.setDutyCertReq(params);
@@ -1608,6 +1608,10 @@ public class CampusServiceImpl implements CampusService {
             paramsMap.put("recEmpSeq", "|" + recieveEmpMap.get("EMP_SEQ") + "|");   // 승인자
             paramsMap.put("ntUrl", "/campus/dutyInfoLeader.do?type=process");       // url
             commonRepository.setPsCheck(paramsMap);
+        } else if(params.get("status").equals("0") || params.get("status").equals("30")){
+            paramsMap.put("type", "직무기술서");
+            paramsMap.put("frKey", params.get("pk"));
+            campusRepository.delPsCheck(paramsMap);
         }
     }
 
@@ -2110,12 +2114,13 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public void agreeDutySubject(Map<String, Object> params) {
+        Map<String, Object> paramsMap = new HashMap<>();
+
         if(params.get("type").equals("ld")){
             campusRepository.agreeDutyLd(params);
 
             Map<String, Object> sendEmpMap = new HashMap<>();       // 요청자 정보
             Map<String, Object> recieveEmpMap = new HashMap<>();    // 승인자 정보
-            Map<String, Object> paramsMap = new HashMap<>();
 
             params.put("pk", params.get("dutyInfoSn"));
             sendEmpMap = campusRepository.getDutyInfoOne(params);
@@ -2132,9 +2137,11 @@ public class CampusServiceImpl implements CampusService {
             paramsMap.put("recEmpSeq", recieveEmpMap.get("EMP_SEQ"));           // 승인자
             paramsMap.put("ntTitle", "[승인요청] 요청자 : " + sendEmpMap.get("REG_EMP_NAME"));     // 제목
             paramsMap.put("ntContent", "[직무기술서] " + sendEmpMap.get("REG_DEPT_NAME") + " - " + sendEmpMap.get("REG_EMP_NAME"));  // 내용
-            paramsMap.put("ntUrl", "/approval/approvalDocView.do?type=process");   // url
-            paramsMap.put("frKey", params.get("pk"));   // url
-            paramsMap.put("psType", "직무기술서");   // url
+            paramsMap.put("ntUrl", "/process/processCheckList.do?type=process");   // url
+            paramsMap.put("frKey", params.get("pk"));
+            paramsMap.put("psType", "직무기술서");
+            paramsMap.put("type", "직무기술서");
+            campusRepository.updPsStatus(paramsMap);
             commonRepository.setAlarm(paramsMap);
 
             paramsMap.put("recEmpSeq", "|" + recieveEmpMap.get("EMP_SEQ") + "|");   // 승인자
@@ -2143,6 +2150,10 @@ public class CampusServiceImpl implements CampusService {
 
         } else {
             campusRepository.agreeDutyMng(params);
+
+            paramsMap.put("type", "직무기술서");
+            paramsMap.put("frKey", params.get("dutyInfoSn"));
+            campusRepository.updPsStatus(paramsMap);
         }
     }
 

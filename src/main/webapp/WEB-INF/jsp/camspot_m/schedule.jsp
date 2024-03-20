@@ -123,7 +123,7 @@
             </script>
             <!--} 상세일정 -->
     		
-            <div class="btBox mt40"><a href="/m/schedule_write.do">글쓰기</a></div>
+<%--            <div class="btBox mt40"><a href="/m/schedule_write.do">글쓰기</a></div>--%>
         	
             
     	</div>   

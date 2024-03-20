@@ -72,7 +72,7 @@
             </div>
             <!--} 일정 리스트 -->
     		
-            <div class="btBox mt40"><a href="/m/schedule_staff_write.do">글쓰기</a></div>
+<%--            <div class="btBox mt40"><a href="/m/schedule_staff_write.do">글쓰기</a></div>--%>
         	
             
     	</div>   

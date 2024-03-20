@@ -28,6 +28,7 @@ var openStudyResMng = {
                     return data;
                 }
             },
+
             schema : {
                 data: function (data) {
                     return data.list;
@@ -50,6 +51,16 @@ var openStudyResMng = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
+            toolbar : [
+                {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="openStudyResMng.mainGrid();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             dataBound : openStudyResMng.onDataBound,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."

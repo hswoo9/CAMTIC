@@ -101,81 +101,81 @@
                 <ul class="disF jfs" id="tabMainMenu">
                     <li class="active"><a href="#tabMain-1"><font class="txt type28 fP700">공지사항</font></a></li>
                     <li><a href="#tabMain-2"><font class="txt type28 fP700">업무보고</font></a></li>
-                    <li><a href="#tabMain-3"><font class="txt type28 fP700">함께보아요</font></a></li>
+<%--                    <li><a href="#tabMain-3"><font class="txt type28 fP700">함께보아요</font></a></li>--%>
                 </ul>
                 
                 <div class="tabMain-cont" id="tabMain-1" style="display:none;">            
                     <div class="mBoard">
                     	<a href="#">
-                    		<font class="txt type24 tit">공지사항 1번 글 입니다. 공지사항 1번 글 입니다. 공지사항 1번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
+                    		<font class="txt type24 tit">[43회차] 2024년 3월 캠-퍼스 공통학습(캠.화.지) 일정 안내(3.21) </font>
+                    		<font class="txt type24 date">24.03.05</font>
                     	</a>
                     	<a href="#">
-                    		<font class="txt type24 tit">공지사항 2번 글 입니다. 공지사항 2번 글 입니다. 공지사항 2번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
+                    		<font class="txt type24 tit">법인 직원 현황 업데이트(2024.03.04.)</font>
+                    		<font class="txt type24 date">24.03.04</font>
                     	</a>
                     	<a href="#">
-                    		<font class="txt type24 tit">공지사항 3번 글 입니다. 공지사항 3번 글 입니다. 공지사항 3번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
+                    		<font class="txt type24 tit">인사발령 공고(2024-05호)</font>
+                    		<font class="txt type24 date">24.02.23</font>
                     	</a>
                     	<a href="#">
-                    		<font class="txt type24 tit">공지사항 4번 글 입니다. 공지사항 4번 글 입니다. 공지사항 4번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
+                    		<font class="txt type24 tit">법인 직원 현황 업데이트(2024.02.22.)</font>
+                    		<font class="txt type24 date">24.02.22</font>
                     	</a>
                     	<a href="#">
-                    		<font class="txt type24 tit">공지사항 5번 글 입니다. 공지사항 5번 글 입니다. 공지사항 5번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
+                    		<font class="txt type24 tit">인사발령 공고(2024-04호)</font>
+                    		<font class="txt type24 date">24.02.19</font>
                     	</a>
                     </div>                
                 </div>
                 <div class="tabMain-cont" id="tabMain-2" style="display:none;">            
                     <div class="mBoard">
                     	<a href="#">
-                    		<font class="txt type24 tit">업무보고 1번 글 입니다. 업무보고 1번 글 입니다. 업무보고 1번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
+                    		<font class="txt type24 tit">캠틱 주간업무 보고(24.03.18. ~ 24.03.22.)</font>
+                    		<font class="txt type24 date">24.03.17</font>
                     	</a>
                     	<a href="#">
-                    		<font class="txt type24 tit">업무보고 2번 글 입니다. 업무보고 2번 글 입니다. 업무보고 2번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
+                    		<font class="txt type24 tit">인사발령 공고(2024-07호)</font>
+                    		<font class="txt type24 date">24.03.15</font>
                     	</a>
                     	<a href="#">
-                    		<font class="txt type24 tit">업무보고 3번 글 입니다. 업무보고 3번 글 입니다. 업무보고 3번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
+                    		<font class="txt type24 tit">인사발령 공고(2024-06호)</font>
+                    		<font class="txt type24 date">24.03.12</font>
                     	</a>
                     	<a href="#">
-                    		<font class="txt type24 tit">업무보고 4번 글 입니다. 업무보고 4번 글 입니다. 업무보고 4번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
+                    		<font class="txt type24 tit">캠틱 주간업무 보고(24.03.11. ~ 24.03.15.)</font>
+                    		<font class="txt type24 date">24.03.08</font>
                     	</a>
                     	<a href="#">
-                    		<font class="txt type24 tit">업무보고 5번 글 입니다. 업무보고 5번 글 입니다. 업무보고 5번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
+                    		<font class="txt type24 tit">2024년 2월 LEADERS 소통회의</font>
+                    		<font class="txt type24 date">24.02.24</font>
                     	</a>
                     </div>                
                 </div>
-                <div class="tabMain-cont" id="tabMain-3" style="display:none;">            
-                    <div class="mBoard">
-                    	<a href="#">
-                    		<font class="txt type24 tit">함께보아요 1번 글 입니다. 함께보아요 1번 글 입니다. 함께보아요 1번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
-                    	</a>
-                    	<a href="#">
-                    		<font class="txt type24 tit">함께보아요 2번 글 입니다. 함께보아요 2번 글 입니다. 함께보아요 2번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
-                    	</a>
-                    	<a href="#">
-                    		<font class="txt type24 tit">함께보아요 3번 글 입니다. 함께보아요 3번 글 입니다. 함께보아요 3번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
-                    	</a>
-                    	<a href="#">
-                    		<font class="txt type24 tit">함께보아요 4번 글 입니다. 함께보아요 4번 글 입니다. 함께보아요 4번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
-                    	</a>
-                    	<a href="#">
-                    		<font class="txt type24 tit">함께보아요 5번 글 입니다. 함께보아요 5번 글 입니다. 함께보아요 5번 글 입니다. </font>
-                    		<font class="txt type24 date">24.01.11</font>
-                    	</a>
-                    </div>                
-                </div>              
+<%--                <div class="tabMain-cont" id="tabMain-3" style="display:none;">            --%>
+<%--                    <div class="mBoard">--%>
+<%--                    	<a href="#">--%>
+<%--                    		<font class="txt type24 tit">함께보아요 1번 글 입니다. 함께보아요 1번 글 입니다. 함께보아요 1번 글 입니다. </font>--%>
+<%--                    		<font class="txt type24 date">24.01.11</font>--%>
+<%--                    	</a>--%>
+<%--                    	<a href="#">--%>
+<%--                    		<font class="txt type24 tit">함께보아요 2번 글 입니다. 함께보아요 2번 글 입니다. 함께보아요 2번 글 입니다. </font>--%>
+<%--                    		<font class="txt type24 date">24.01.11</font>--%>
+<%--                    	</a>--%>
+<%--                    	<a href="#">--%>
+<%--                    		<font class="txt type24 tit">함께보아요 3번 글 입니다. 함께보아요 3번 글 입니다. 함께보아요 3번 글 입니다. </font>--%>
+<%--                    		<font class="txt type24 date">24.01.11</font>--%>
+<%--                    	</a>--%>
+<%--                    	<a href="#">--%>
+<%--                    		<font class="txt type24 tit">함께보아요 4번 글 입니다. 함께보아요 4번 글 입니다. 함께보아요 4번 글 입니다. </font>--%>
+<%--                    		<font class="txt type24 date">24.01.11</font>--%>
+<%--                    	</a>--%>
+<%--                    	<a href="#">--%>
+<%--                    		<font class="txt type24 tit">함께보아요 5번 글 입니다. 함께보아요 5번 글 입니다. 함께보아요 5번 글 입니다. </font>--%>
+<%--                    		<font class="txt type24 date">24.01.11</font>--%>
+<%--                    	</a>--%>
+<%--                    </div>                --%>
+<%--                </div>              --%>
                 <script>
                 $(document).ready(function() {
                     // 처음 세팅

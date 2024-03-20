@@ -2,7 +2,20 @@ const bustripExnpReq = {
     global: {
         costData: "",
         bustripInfo: {},
-        flag : false
+        flag : false,
+        exnpTrafFile : [],
+        exnpRoomFile : [],
+        exnpTollFile : [],
+        exnpEatFile : [],
+        exnpParkingFile : [],
+        exnpEtcFile : [],
+
+        exnpTrafBsFile : [],
+        exnpRoomBsFile : [],
+        exnpEatBsFile : [],
+        exnpParkingBsFile : [],
+        exnpEtcBsFile : [],
+        exnpTollBsFile : [],
     },
 
     init: function(type){
@@ -43,102 +56,126 @@ const bustripExnpReq = {
         costData.bind("keyup", bustripExnpReq.fn_setTableSum);
         $(".eatCorpYn").bind("keyup", bustripExnpReq.fn_setTableSum);
 
-        let exnpTraf = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+        bustripExnpReq.global.exnpTrafBsFile = customKendo.fn_customAjax("/bustrip/getExnpFile", {
             fileCd: "exnpTraf",
             hrBizReqResultId: hrBizReqResultId
         }).list;
-        if(exnpTraf.length > 0){
+        if(bustripExnpReq.global.exnpTrafBsFile.length > 0){
             var html = "";
-            for(let i=0; i<exnpTraf.length; i++){
-                let row = exnpTraf[i];
+            for(let i=0; i<bustripExnpReq.global.exnpTrafBsFile.length; i++){
+                let row = bustripExnpReq.global.exnpTrafBsFile[i];
                 html += "<div>";
                 html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
-                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this, \'exnpTraf\')">X</span>'
                 html += "</div>";
             }
             $("#exnpTrafDiv").html(html);
         }
 
-        let exnpRoom = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+        bustripExnpReq.global.exnpRoomBsFile = customKendo.fn_customAjax("/bustrip/getExnpFile", {
             fileCd: "exnpRoom",
             hrBizReqResultId: hrBizReqResultId
         }).list;
-        if(exnpRoom.length > 0){
+        if(bustripExnpReq.global.exnpRoomBsFile.length > 0){
             var html = "";
-            for(let i=0; i<exnpRoom.length; i++){
-                let row = exnpRoom[i];
+            for(let i=0; i<bustripExnpReq.global.exnpRoomBsFile.length; i++){
+                let row = bustripExnpReq.global.exnpRoomBsFile[i];
                 html += "<div>";
                 html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
-                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this, \'exnpRoom\')">X</span>'
                 html += "</div>";
             }
             $("#exnpRoomDiv").html(html);
         }
 
-        let exnpToll = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+        bustripExnpReq.global.exnpTollBsFile = customKendo.fn_customAjax("/bustrip/getExnpFile", {
             fileCd: "exnpToll",
             hrBizReqResultId: hrBizReqResultId
         }).list;
-        if(exnpToll.length > 0){
+        if(bustripExnpReq.global.exnpTollBsFile.length > 0){
             var html = "";
-            for(let i=0; i<exnpToll.length; i++){
-                let row = exnpToll[i];
+            for(let i=0; i<bustripExnpReq.global.exnpTollBsFile.length; i++){
+                let row = bustripExnpReq.global.exnpTollBsFile[i];
                 html += "<div>";
                 html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
-                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this, \'exnpToll\')">X</span>'
                 html += "</div>";
             }
             $("#exnpTollDiv").html(html);
         }
 
-        let exnpEat = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+        bustripExnpReq.global.exnpEatBsFile = customKendo.fn_customAjax("/bustrip/getExnpFile", {
             fileCd: "exnpEat",
             hrBizReqResultId: hrBizReqResultId
         }).list;
-        if(exnpEat.length > 0){
+        if( bustripExnpReq.global.exnpEatBsFile.length > 0){
             var html = "";
-            for(let i=0; i<exnpEat.length; i++){
-                let row = exnpEat[i];
+            for(let i=0; i< bustripExnpReq.global.exnpEatBsFile.length; i++){
+                let row =  bustripExnpReq.global.exnpEatBsFile[i];
                 html += "<div>";
                 html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
-                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this, \'exnpEat\')">X</span>'
                 html += "</div>";
             }
             $("#exnpEatDiv").html(html);
         }
 
-        let exnpParking = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+        bustripExnpReq.global.exnpParkingBsFile = customKendo.fn_customAjax("/bustrip/getExnpFile", {
             fileCd: "exnpParking",
             hrBizReqResultId: hrBizReqResultId
         }).list;
-        if(exnpParking.length > 0){
+        if(bustripExnpReq.global.exnpParkingBsFile.length > 0){
             var html = "";
-            for(let i=0; i<exnpParking.length; i++){
-                let row = exnpParking[i];
+            for(let i=0; i<bustripExnpReq.global.exnpParkingBsFile.length; i++){
+                let row = bustripExnpReq.global.exnpParkingBsFile[i];
                 html += "<div>";
                 html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
-                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this, \'exnpParking\')">X</span>'
                 html += "</div>";
             }
             $("#exnpParkingDiv").html(html);
         }
 
-        let exnpEtc = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+        bustripExnpReq.global.exnpEtcBsFile = customKendo.fn_customAjax("/bustrip/getExnpFile", {
             fileCd: "exnpEtc",
             hrBizReqResultId: hrBizReqResultId
         }).list;
 
-        if(exnpEtc.length > 0){
+        if(bustripExnpReq.global.exnpEtcBsFile.length > 0){
             var html = "";
-            for(let i=0; i<exnpEtc.length; i++){
-                let row = exnpEtc[i];
+            for(let i=0; i<bustripExnpReq.global.exnpEtcBsFile.length; i++){
+                let row = bustripExnpReq.global.exnpEtcBsFile[i];
                 html += "<div>";
                 html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
-                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustrip.fileDel(\''+row.file_no+'\', this)">X</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this, \'exnpEtc\')">X</span>'
                 html += "</div>";
             }
             $("#exnpEtcDiv").html(html);
         }
+
+        $("#exnpTraf").change(function(){
+            bustripExnpReq.fn_fileSet("exnpTrafDiv");
+        });
+
+        $("#exnpRoom").change(function(){
+            bustripExnpReq.fn_fileSet("exnpRoomDiv");
+        });
+
+        $("#exnpToll").change(function(){
+            bustripExnpReq.fn_fileSet("exnpTollDiv");
+        });
+
+        $("#exnpEat").change(function(){
+            bustripExnpReq.fn_fileSet("exnpEatDiv");
+        });
+
+        $("#exnpParking").change(function(){
+            bustripExnpReq.fn_fileSet("exnpParkingDiv");
+        });
+
+        $("#exnpEtc").change(function(){
+            bustripExnpReq.fn_fileSet("exnpEtcDiv");
+        });
     },
 
     dataSet: function(type){
@@ -790,79 +827,79 @@ const bustripExnpReq = {
 
         /** 첨부파일 저장 프로세스 */
         /** 교통비 파일 */
-        if($("#exnpTraf")[0].files.length > 0){
+        if(bustripExnpReq.global.exnpTrafFile.length > 0){
             var formData = new FormData();
             formData.append("menuCd", "exnpTraf");
             formData.append("empSeq", $("#regEmpSeq").val());
             formData.append("hrBizReqResultId", hrBizReqResultId);
 
-            for(let i=0; i<$("#exnpTraf")[0].files.length; i++){
-                formData.append("bustripFile", $("#exnpTraf")[0].files[i]);
+            for(let i=0; i<bustripExnpReq.global.exnpTrafFile.length; i++){
+                formData.append("bustripFile", bustripExnpReq.global.exnpTrafFile[i]);
             }
             customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
         }
 
         /** 숙박비 파일 */
-        if($("#exnpRoom")[0].files.length > 0){
+        if(bustripExnpReq.global.exnpRoomFile.length > 0){
             var formData = new FormData();
             formData.append("menuCd", "exnpRoom");
             formData.append("empSeq", $("#regEmpSeq").val());
             formData.append("hrBizReqResultId", hrBizReqResultId);
 
-            for(let i=0; i<$("#exnpRoom")[0].files.length; i++){
-                formData.append("bustripFile", $("#exnpRoom")[0].files[i]);
+            for(let i=0; i<bustripExnpReq.global.exnpRoomFile.length; i++){
+                formData.append("bustripFile", bustripExnpReq.global.exnpRoomFile[i]);
             }
             customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
         }
 
         /** 통행료 파일 */
-        if($("#exnpToll")[0].files.length > 0){
+        if(bustripExnpReq.global.exnpTollFile.length > 0){
             var formData = new FormData();
             formData.append("menuCd", "exnpToll");
             formData.append("empSeq", $("#regEmpSeq").val());
             formData.append("hrBizReqResultId", hrBizReqResultId);
 
-            for(let i=0; i<$("#exnpToll")[0].files.length; i++){
-                formData.append("bustripFile", $("#exnpToll")[0].files[i]);
+            for(let i=0; i< bustripExnpReq.global.exnpTollFile.length; i++){
+                formData.append("bustripFile", bustripExnpReq.global.exnpTollFile[i]);
             }
             customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
         }
 
         /** 식비 파일 */
-        if($("#exnpEat")[0].files.length > 0){
+        if(bustripExnpReq.global.exnpEatFile.length > 0){
             var formData = new FormData();
             formData.append("menuCd", "exnpEat");
             formData.append("empSeq", $("#regEmpSeq").val());
             formData.append("hrBizReqResultId", hrBizReqResultId);
 
-            for(let i=0; i<$("#exnpEat")[0].files.length; i++){
-                formData.append("bustripFile", $("#exnpEat")[0].files[i]);
+            for(let i=0; i<bustripExnpReq.global.exnpEatFile.length; i++){
+                formData.append("bustripFile", bustripExnpReq.global.exnpEatFile[i]);
             }
             customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
         }
 
         /** 주차비 파일 */
-        if($("#exnpParking")[0].files.length > 0){
+        if(bustripExnpReq.global.exnpParkingFile.length > 0){
             var formData = new FormData();
             formData.append("menuCd", "exnpParking");
             formData.append("empSeq", $("#regEmpSeq").val());
             formData.append("hrBizReqResultId", hrBizReqResultId);
 
-            for(let i=0; i<$("#exnpParking")[0].files.length; i++){
-                formData.append("bustripFile", $("#exnpParking")[0].files[i]);
+            for(let i=0; i<bustripExnpReq.global.exnpParkingFile.length; i++){
+                formData.append("bustripFile", bustripExnpReq.global.exnpParkingFile[i]);
             }
             customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
         }
 
         /** 기타 파일 */
-        if($("#exnpEtc")[0].files.length > 0){
+        if(bustripExnpReq.global.exnpEtcFile.length > 0){
             var formData = new FormData();
             formData.append("menuCd", "exnpEtc");
             formData.append("empSeq", $("#regEmpSeq").val());
             formData.append("hrBizReqResultId", hrBizReqResultId);
 
-            for(let i=0; i<$("#exnpEtc")[0].files.length; i++){
-                formData.append("bustripFile", $("#exnpEtc")[0].files[i]);
+            for(let i=0; i<bustripExnpReq.global.exnpEtcFile.length; i++){
+                formData.append("bustripFile", bustripExnpReq.global.exnpEtcFile[i]);
             }
             customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
         }
@@ -992,21 +1029,81 @@ const bustripExnpReq = {
         }
 
         if(type == 'ins'){ //신규
+            var flag = true;
+
             for(let i=0; i<arr.length; i++){
                 if(data[arr[i]] != '0'){
                     if($("#exnp"+idArr[i])[0].files.length == 0){
-                        return [false, "["+empName+"] "+map[arr[i]]+" 지출증빙 첨부파일을\n확인해주세요."];
+                        if(idArr[i] == "Traf"){
+                            if(bustripExnpReq.global.exnpTrafFile.length == 0){
+                                flag = false;
+                            }
+                        } else if(idArr[i] == "Room"){
+                            if(bustripExnpReq.global.exnpRoomFile.length == 0){
+                                flag = false;
+                            }
+                        } else if(idArr[i] == "Toll"){
+                            if(bustripExnpReq.global.exnpTollFile.length == 0){
+                                flag = false;
+                            }
+                        } else if(idArr[i] == "Eat"){
+                            if(bustripExnpReq.global.exnpEatFile.length == 0){
+                                flag = false;
+                            }
+                        } else if(idArr[i] == "Parking"){
+                            if(bustripExnpReq.global.exnpParkingFile.length == 0){
+                                flag = false;
+                            }
+                        } else if(idArr[i] == "Etc"){
+                            if(bustripExnpReq.global.exnpEtcFile.length == 0){
+                                flag = false;
+                            }
+                        }
+
+                        if(!flag){
+                            return [false, "["+empName+"] "+map[arr[i]]+" 지출증빙 첨부파일을\n확인해주세요."];
+                        }
                     }
                 }
             }
 
             return [true, ""];
         }else if(type == 'upd'){ // 수정
+            var flag = true;
+
             for(let i=0; i<arr.length; i++){
                 if(data[arr[i]] != '0'){
                     if($("#exnp"+idArr[i]+"Div div:visible").length == 0){
                         if($("#exnp"+idArr[i])[0].files.length == 0){
-                            return [false, "["+empName+"] "+map[arr[i]]+" 지출증빙 첨부파일을\n확인해주세요."];
+                            if(idArr[i] == "Traf"){
+                                if(bustripExnpReq.global.exnpTrafFile.length == 0){
+                                    flag = false;
+                                }
+                            } else if(idArr[i] == "Room"){
+                                if(bustripExnpReq.global.exnpRoomFile.length == 0){
+                                    flag = false;
+                                }
+                            } else if(idArr[i] == "Toll"){
+                                if(bustripExnpReq.global.exnpTollFile.length == 0){
+                                    flag = false;
+                                }
+                            } else if(idArr[i] == "Eat"){
+                                if(bustripExnpReq.global.exnpEatFile.length == 0){
+                                    flag = false;
+                                }
+                            } else if(idArr[i] == "Parking"){
+                                if(bustripExnpReq.global.exnpParkingFile.length == 0){
+                                    flag = false;
+                                }
+                            } else if(idArr[i] == "Etc"){
+                                if(bustripExnpReq.global.exnpEtcFile.length == 0){
+                                    flag = false;
+                                }
+                            }
+
+                            if(!flag){
+                                return [false, "["+empName+"] "+map[arr[i]]+" 지출증빙 첨부파일을\n확인해주세요."];
+                            }
                         }
                     }
                 }
@@ -1025,6 +1122,320 @@ const bustripExnpReq = {
         kendo.saveAs({
             dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent('개인여비지출증빙.hwp'),
         });
-    }
+    },
+
+    fn_fileSet: function(e){
+        if(e == "exnpTrafDiv"){
+            for(let i=0; i<$("#exnpTraf")[0].files.length; i++){
+                var fileInfo = {};
+                let file = $("#exnpTraf")[0].files[i];
+                fileInfo.name = file.name;
+                fileInfo.size = file.size;
+
+                bustripExnpReq.global.exnpTrafFile.push($("#exnpTraf")[0].files[i]);
+            }
+
+            if(bustripExnpReq.global.exnpTrafBsFile.length > 0){
+                var html = "";
+                for(let i=0; i<bustripExnpReq.global.exnpTrafBsFile.length; i++){
+                    let row = bustripExnpReq.global.exnpTrafBsFile[i];
+                    html += "<div>";
+                    html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                    html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this)">X</span>'
+                    html += "</div>";
+                }
+                $("#" + e).html(html);
+            } else {
+                $("#" + e).html("");
+            }
+
+            for(let i=0; i < bustripExnpReq.global.exnpTrafFile.length; i++){
+                var file = bustripExnpReq.global.exnpTrafFile[i];
+                var html = "";
+                html += "<div id='exnpTrafDiv"+i+"'>";
+                html += '   <span>'+file.name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fn_fileDel(\''+i+'\', \'exnpTrafDiv\', \''+file.name+'\')">X</span>'
+                html += "</div>";
+                $("#" + e).append(html);
+            }
+
+            $("#exnpTraf").val("");
+
+        } else if(e == "exnpRoomDiv"){
+            for(let i=0; i<$("#exnpRoom")[0].files.length; i++){
+                var fileInfo = {};
+                let file = $("#exnpRoom")[0].files[i];
+                fileInfo.name = file.name;
+                fileInfo.size = file.size;
+
+                bustripExnpReq.global.exnpRoomFile.push($("#exnpRoom")[0].files[i]);
+            }
+
+            if(bustripExnpReq.global.exnpRoomBsFile.length > 0){
+                var html = "";
+                for(let i=0; i<bustripExnpReq.global.exnpRoomBsFile.length; i++){
+                    let row = bustripExnpReq.global.exnpRoomBsFile[i];
+                    html += "<div>";
+                    html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                    html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this)">X</span>'
+                    html += "</div>";
+                }
+                $("#" + e).html(html);
+            } else {
+                $("#" + e).html("");
+            }
+
+            for(let i=0; i < bustripExnpReq.global.exnpRoomFile.length; i++){
+                var file = bustripExnpReq.global.exnpRoomFile[i];
+                var html = "";
+                html += "<div id='exnpRoomDiv"+i+"'>";
+                html += '   <span>'+file.name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fn_fileDel(\''+i+'\', \'exnpRoomDiv\', \''+file.name+'\')">X</span>'
+                html += "</div>";
+                $("#" + e).append(html);
+            }
+
+            $("#exnpRoom").val("");
+        } else if(e == "exnpTollDiv"){
+            for(let i=0; i<$("#exnpToll")[0].files.length; i++){
+                var fileInfo = {};
+                let file = $("#exnpToll")[0].files[i];
+                fileInfo.name = file.name;
+                fileInfo.size = file.size;
+
+                bustripExnpReq.global.exnpTollFile.push($("#exnpToll")[0].files[i]);
+            }
+
+            if(bustripExnpReq.global.exnpTollBsFile.length > 0){
+                var html = "";
+                for(let i=0; i<bustripExnpReq.global.exnpTollBsFile.length; i++){
+                    let row = bustripExnpReq.global.exnpTollBsFile[i];
+                    html += "<div>";
+                    html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                    html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this)">X</span>'
+                    html += "</div>";
+                }
+                $("#" + e).html(html);
+            } else {
+                $("#" + e).html("");
+            }
+
+            for(let i=0; i < bustripExnpReq.global.exnpTollFile.length; i++){
+                var file = bustripExnpReq.global.exnpTollFile[i];
+                var html = "";
+                html += "<div id='exnpTollDiv"+i+"'>";
+                html += '   <span>'+file.name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fn_fileDel(\''+i+'\', \'exnpTollDiv\', \''+file.name+'\')">X</span>'
+                html += "</div>";
+                $("#" + e).append(html);
+            }
+
+            $("#exnpToll").val("");
+        } else if(e == "exnpEatDiv"){
+            for(let i=0; i<$("#exnpEat")[0].files.length; i++){
+                var fileInfo = {};
+                let file = $("#exnpEat")[0].files[i];
+                fileInfo.name = file.name;
+                fileInfo.size = file.size;
+
+                bustripExnpReq.global.exnpEatFile.push($("#exnpEat")[0].files[i]);
+            }
+
+            if(bustripExnpReq.global.exnpEatBsFile.length > 0){
+                var html = "";
+                for(let i=0; i<bustripExnpReq.global.exnpEatBsFile.length; i++){
+                    let row = bustripExnpReq.global.exnpEatBsFile[i];
+                    html += "<div>";
+                    html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                    html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this)">X</span>'
+                    html += "</div>";
+                }
+                $("#" + e).html(html);
+            } else {
+                $("#" + e).html("");
+            }
+
+            for(let i=0; i < bustripExnpReq.global.exnpEatFile.length; i++){
+                var file = bustripExnpReq.global.exnpEatFile[i];
+                var html = "";
+                html += "<div id='exnpEatDiv"+i+"'>";
+                html += '   <span>'+file.name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fn_fileDel(\''+i+'\', \'exnpEatDiv\', \''+file.name+'\')">X</span>'
+                html += "</div>";
+                $("#" + e).append(html);
+            }
+
+            $("#exnpEat").val("");
+        } else if(e == "exnpParkingDiv"){
+            for(let i=0; i<$("#exnpParking")[0].files.length; i++){
+                var fileInfo = {};
+                let file = $("#exnpParking")[0].files[i];
+                fileInfo.name = file.name;
+                fileInfo.size = file.size;
+
+                bustripExnpReq.global.exnpParkingFile.push($("#exnpParking")[0].files[i]);
+            }
+
+            if(bustripExnpReq.global.exnpParkingBsFile.length > 0){
+                var html = "";
+                for(let i=0; i<bustripExnpReq.global.exnpParkingBsFile.length; i++){
+                    let row = bustripExnpReq.global.exnpParkingBsFile[i];
+                    html += "<div>";
+                    html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                    html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this)">X</span>'
+                    html += "</div>";
+                }
+                $("#" + e).html(html);
+            } else {
+                $("#" + e).html("");
+            }
+
+            for(let i=0; i < bustripExnpReq.global.exnpParkingFile.length; i++){
+                var file = bustripExnpReq.global.exnpParkingFile[i];
+                var html = "";
+                html += "<div id='exnpParkingDiv"+i+"'>";
+                html += '   <span>'+file.name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fn_fileDel(\''+i+'\', \'exnpParkingDiv\', \''+file.name+'\')">X</span>'
+                html += "</div>";
+                $("#" + e).append(html);
+            }
+
+            $("#exnpParking").val("");
+        } else if(e == "exnpEtcDiv"){
+            for(let i=0; i<$("#exnpEtc")[0].files.length; i++){
+                var fileInfo = {};
+                let file = $("#exnpEtc")[0].files[i];
+                fileInfo.name = file.name;
+                fileInfo.size = file.size;
+
+                bustripExnpReq.global.exnpEtcFile.push($("#exnpEtc")[0].files[i]);
+            }
+
+            if(bustripExnpReq.global.exnpEtcBsFile.length > 0){
+                var html = "";
+                for(let i=0; i<bustripExnpReq.global.exnpEtcBsFile.length; i++){
+                    let row = bustripExnpReq.global.exnpEtcBsFile[i];
+                    html += "<div>";
+                    html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                    html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this)">X</span>'
+                    html += "</div>";
+                }
+                $("#" + e).html(html);
+            } else {
+                $("#" + e).html("");
+            }
+
+            for(let i=0; i < bustripExnpReq.global.exnpEtcFile.length; i++){
+                var file = bustripExnpReq.global.exnpEtcFile[i];
+                var html = "";
+                html += "<div id='exnpEtcDiv"+i+"'>";
+                html += '   <span>'+file.name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fn_fileDel(\''+i+'\', \'exnpEtcDiv\', \''+file.name+'\')">X</span>'
+                html += "</div>";
+                $("#" + e).append(html);
+            }
+
+            $("#exnpEtc").val("");
+        }
+    },
+
+    fn_fileDel : function (idx, name, fileName){
+        $("#" + name + idx).remove();
+
+        bustripExnpReq.global.exnpTrafFile.forEach((item, index) => {
+            if(item.name == fileName){
+                bustripExnpReq.global.exnpTrafFile.splice(index, 1);
+            }
+        });
+
+        bustripExnpReq.global.exnpRoomFile.forEach((item, index) => {
+            if(item.name == fileName){
+                bustripExnpReq.global.exnpRoomFile.splice(index, 1);
+            }
+        });
+
+        bustripExnpReq.global.exnpTollFile.forEach((item, index) => {
+            if(item.name == fileName){
+                bustripExnpReq.global.exnpTollFile.splice(index, 1);
+            }
+        });
+
+        bustripExnpReq.global.exnpEatFile.forEach((item, index) => {
+            if(item.name == fileName){
+                bustripExnpReq.global.exnpEatFile.splice(index, 1);
+            }
+        });
+
+        bustripExnpReq.global.exnpParkingFile.forEach((item, index) => {
+            if(item.name == fileName){
+                bustripExnpReq.global.exnpParkingFile.splice(index, 1);
+            }
+        });
+
+        bustripExnpReq.global.exnpEtcFile.forEach((item, index) => {
+            if(item.name == fileName){
+                bustripExnpReq.global.exnpEtcFile.splice(index, 1);
+            }
+        });
+    },
+
+    fileDel: function(e, v, type){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).parent().hide();
+
+                        if(type == "exnpTraf"){
+                            bustripExnpReq.global.exnpTrafBsFile.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    bustripExnpReq.global.exnpTrafBsFile.splice(index, 1);
+                                }
+                            });
+                        } else if(type == "exnpRoom"){
+                            bustripExnpReq.global.exnpRoomBsFile.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    bustripExnpReq.global.exnpRoomBsFile.splice(index, 1);
+                                }
+                            });
+                        } else if(type == "exnpTraf"){
+                            bustripExnpReq.global.exnpTrafBsFile.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    bustripExnpReq.global.exnpTrafBsFile.splice(index, 1);
+                                }
+                            });
+                        } else if(type == "exnpEat"){
+                            bustripExnpReq.global.exnpEatBsFile.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    bustripExnpReq.global.exnpEatBsFile.splice(index, 1);
+                                }
+                            });
+                        } else if(type == "exnpParking"){
+                            bustripExnpReq.global.exnpParkingBsFile.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    bustripExnpReq.global.exnpParkingBsFile.splice(index, 1);
+                                }
+                            });
+                        } else if(type == "exnpEtc"){
+                            bustripExnpReq.global.exnpEtcBsFile.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    bustripExnpReq.global.exnpEtcBsFile.splice(index, 1);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    },
+
 
 }

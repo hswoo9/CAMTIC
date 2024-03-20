@@ -825,10 +825,12 @@ public class PurcController {
 
         Map<String, Object> result = new HashMap<>();
         if(map != null){
-            if(map.get("EVID_TYPE").equals("3")){
-                result = purcService.getClaimExnpGwCardList(map);
-            } else if(map.get("EVID_TYPE").equals("1")){
-                result = purcService.getClaimExnpGwEtaxList(map);
+            if(map.containsKey("EVID_TYPE")){
+                if(map.get("EVID_TYPE").equals("3")){
+                    result = purcService.getClaimExnpGwCardList(map);
+                } else if(map.get("EVID_TYPE").equals("1")){
+                    result = purcService.getClaimExnpGwEtaxList(map);
+                }
             }
         }
 
