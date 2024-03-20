@@ -192,60 +192,62 @@
     <insert id="setApproveDocInfo" parameterType="map">
         /* setApproveDocInfo */
         INSERT INTO DJ_CAMTIC.A_DOC_INFO
-        (
-        DOC_MENU_CD,
-        FORM_ID,
-        APPRO_KEY,
-        AIKEYCODE,
-        DOC_NO,
-        DOC_TITLE,
-        DOC_CONTENT,
-        DRAFT_EMP_SEQ,
-        DRAFT_EMP_NAME,
-        DRAFT_DEPT_SEQ,
-        DRAFT_DEPT_NAME,
-        DRAFT_POSITION_NAME,
-        DRAFT_DUTY_NAME,
-        DRAFT_DT,
-        ATFILE_SN,
-        LAST_APPROVE_EMP_SEQ,
-        LAST_APPROVE_EMP_NAME,
-        LAST_APPROVE_POSITION_NAME,
-        LAST_APPROVE_DUTY_NAME,
-        LAST_APPROVE_TYPE,
-        APPROVE_STAT_CODE_DESC,
-        APPROVE_STAT_CODE,
-        REG_EMP_SEQ
-        )
+            (
+                DOC_MENU_CD,
+                FORM_ID,
+                APPRO_KEY,
+                AIKEYCODE,
+                DOC_NO,
+                DOC_TITLE,
+                DOC_CONTENT,
+                DRAFT_EMP_SEQ,
+                DRAFT_EMP_NAME,
+                DRAFT_DEPT_SEQ,
+                DRAFT_DEPT_NAME,
+                DRAFT_POSITION_NAME,
+                DRAFT_DUTY_NAME,
+                DRAFT_DT,
+                ATFILE_SN,
+                LAST_APPROVE_EMP_SEQ,
+                LAST_APPROVE_EMP_NAME,
+                LAST_APPROVE_POSITION_NAME,
+                LAST_APPROVE_DUTY_NAME,
+                LAST_APPROVE_TYPE,
+                APPROVE_STAT_CODE_DESC,
+                APPROVE_STAT_CODE,
+                DRAFT_OPIN,
+                REG_EMP_SEQ
+            )
         VALUES
-        (
-        #{menuCd},
-        #{formId},
-        #{approKey},
-        #{aiKeyCode},
-        #{docNo},
-        #{docTitle},
-        #{docContent},
-        #{draftEmpSeq},
-        #{draftEmpName},
-        #{draftDeptSeq},
-        #{draftDeptName},
-        #{draftPositionName},
-        #{draftDutyName},
-        <choose>
-            <when test='approveStatCode != null and approveStatCode.equals("10")'>NOW(),</when>
-            <when test='approveStatCode == null or approveStatCode.equals("111")'>NULL,</when>
-        </choose>
-        #{atfileSn},
-        #{lastApproveEmpSeq},
-        #{lastApproveEmpName},
-        #{lastApprovePositionName},
-        #{lastApproveDutyName},
-        #{lastApproveType},
-        #{approveStatCodeDesc},
-        #{approveStatCode},
-        #{empSeq}
-        )
+            (
+                #{menuCd},
+                #{formId},
+                #{approKey},
+                #{aiKeyCode},
+                #{docNo},
+                #{docTitle},
+                #{docContent},
+                #{draftEmpSeq},
+                #{draftEmpName},
+                #{draftDeptSeq},
+                #{draftDeptName},
+                #{draftPositionName},
+                #{draftDutyName},
+                <choose>
+                    <when test='approveStatCode != null and approveStatCode.equals("10")'>NOW(),</when>
+                    <when test='approveStatCode == null or approveStatCode.equals("111")'>NULL,</when>
+                </choose>
+                #{atfileSn},
+                #{lastApproveEmpSeq},
+                #{lastApproveEmpName},
+                #{lastApprovePositionName},
+                #{lastApproveDutyName},
+                #{lastApproveType},
+                #{approveStatCodeDesc},
+                #{approveStatCode},
+                #{draftOpin},
+                #{empSeq}
+            )
 
         <selectKey keyProperty="DOC_ID" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'DJ_CAMTIC' AND TABLE_NAME = 'A_DOC_INFO'
@@ -1022,6 +1024,25 @@
     <select id="getDocApproveHistOpinList" resultType="map" parameterType="map">
         /* getDocApproveHistOpinList */
         SELECT
+            DRAFT_EMP_SEQ AS APPROVE_EMP_SEQ,
+            10 AS APPROVE_STAT_CODE,
+            DRAFT_DEPT_NAME AS APPROVE_DEPT_NAME,
+            DRAFT_EMP_NAME AS APPROVE_EMP_NAME,
+            DRAFT_DUTY_NAME AS APPROVE_DUTY_NAME,
+            DATE_FORMAT(DRAFT_DT, '%Y-%m-%d') AS APPROVE_DT,
+            DRAFT_OPIN AS APPROVE_OPIN,
+            null AS PROXY_APPROVE_DEPT_SEQ,
+            null AS PROXY_APPROVE_EMP_SEQ,
+            'N' AS PROXY_TYPE,
+            '0' AS APPROVE_TYPE
+        FROM
+            DJ_CAMTIC.A_DOC_INFO DA
+        WHERE
+            DA.DOC_ID = #{docId}
+
+        UNION ALL
+
+        SELECT
             DAH.APPROVE_EMP_SEQ,
             DAH.APPROVE_STAT_CODE,
             DAH.APPROVE_DEPT_NAME,
@@ -1301,14 +1322,14 @@
     <update id="setReferDocInfoStatUp" parameterType="map">
         /* setReferDocInfoStatUp */
         UPDATE
-        DJ_CAMTIC.A_DOC_INFO
+            DJ_CAMTIC.A_DOC_INFO
         SET
         <if test='docNo != null and !docNo.equals("")'>
             DOC_NO = #{docNo},
         </if>
-        AIKEYCODE = #{aiKeyCode},
-        DOC_TITLE = #{docTitle},
-        DOC_CONTENT = #{docContent},
+            AIKEYCODE = #{aiKeyCode},
+            DOC_TITLE = #{docTitle},
+            DOC_CONTENT = #{docContent},
         <if test='type != null and !type.equals("") and type.equals("draft")'>
             DRAFT_DT = NOW(),
         </if>
@@ -1318,8 +1339,8 @@
         <if test='approveStatCode != null and !approveStatCode.equals("") and approveStatCode.equals("50")'>
             APPROVE_ORDER = '1',
         </if>
-        APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc},
-        APPROVE_STAT_CODE = #{approveStatCode},
+            APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc},
+            APPROVE_STAT_CODE = #{approveStatCode},
         <if test='(approversRouteChange != null and approversRouteChange.equals("Y")) or (lastApproveEmpSeq != null and !lastApproveEmpSeq.equals(""))'>
             LAST_APPROVE_EMP_SEQ = #{lastApproveEmpSeq},
             LAST_APPROVE_EMP_NAME = #{lastApproveEmpName},
@@ -1331,10 +1352,11 @@
             REPTIT_DRFT_YN = 'Y',
             REPTIT_DRFT_DT = NOW(),
         </if>
-        MOD_EMP_SEQ = #{empSeq},
-        MOD_DATE = NOW()
+            DRAFT_OPIN = #{draftOpin},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DATE = NOW()
         WHERE
-        DOC_ID = #{docId}
+            DOC_ID = #{docId}
     </update>
 
     <update id="setReferDocApproveRouteUp" parameterType="map">

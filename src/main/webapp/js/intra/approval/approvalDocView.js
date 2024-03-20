@@ -738,7 +738,9 @@ var docView = {
                     field : "APPROVE_STAT_CODE",
                     title: "구분",
                     template : function (e){
-                        if(e.APPROVE_TYPE == "1"){
+                        if(e.APPROVE_TYPE == "0"){
+                            return "상신의견";
+                        }else if(e.APPROVE_TYPE == "1"){
                             return "협조의견";
                         }else if(e.APPROVE_STAT_CODE == "20" || e.APPROVE_STAT_CODE == "30"){
                             return "결재의견";
@@ -769,7 +771,7 @@ var docView = {
                     title: "의견",
                     template : function(e){
                         if(e.APPROVE_STAT_CODE == 10){
-                            return "-";
+                            return "<div style='text-align: left'>"+e.APPROVE_OPIN.replaceAll("\n", "<br/>")+"</div>";
                         }else{
                             return "<div style='text-align: left'>"+e.APPROVE_OPIN.replaceAll("\n", "<br/>")+"</div>";
                         }

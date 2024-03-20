@@ -165,6 +165,20 @@ var draft = {
             }
         });
 
+        $("#draftModal").kendoWindow({
+            title: "상신의견",
+            visible: false,
+            modal: true,
+            width : 510,
+            position : {
+                top : 50,
+                left : 255
+            },
+            close: function () {
+                $("#draftModal").load(location.href + ' #draftModal');
+            }
+        });
+
         var paramDiv = $('#paramDiv');
 
         if(draft.global.params.linkageType == "2"){
@@ -672,6 +686,7 @@ var draft = {
             $("#docId").val(rs.docInfo.DOC_ID);
             $("#docOpt").val(rs.docInfo.DOC_OPT_ID);
             $("#docTitle").val(rs.docInfo.DOC_TITLE);
+            $("#draftOpin").val(rs.docInfo.DRAFT_OPIN);
 
 
             $("#publicType").data("kendoRadioGroup").value(rs.docInfo.PUBLIC_TYPE);
@@ -796,10 +811,12 @@ var draft = {
         if(draft.global.flag){
             if($(e).hasClass("draft")){
                 if(confirm("상신하시겠습니까?")){
+                    draft.loading();
                     draft.draftHwpDataInit(e);
                 }
             }else{
                 if(confirm("재상신하시겠습니까?")){
+                    draft.loading();
                     draft.draftHwpDataInit(e);
                 }
             }
@@ -899,6 +916,7 @@ var draft = {
     },
 
     draftInit : function(e){
+
         draft.global.formData = new FormData();
 
         draft.draftTypeDataSetting(e, draft.global.type, draft.global.formData);
@@ -1137,6 +1155,8 @@ var draft = {
             formData.append("approveStatCodeDesc", $("#approveStatCodeDesc").val());
         }
 
+        formData.append("draftOpin", $("#draftOpin").val());
+
         return formData;
     },
 
@@ -1208,6 +1228,7 @@ var draft = {
     },
 
     approveKendoSetting : function(){
+        $.LoadingOverlay("hide", {});
 
         const signField = "appr2";
         if(hwpDocCtrl.fieldExist(signField)){
@@ -1224,6 +1245,17 @@ var draft = {
         });
 
         $('#approveModal').data('kendoWindow').open();
+    },
+
+    draftKendoSetting : function(){
+
+        $("#draftOpin").kendoTextArea({
+            rows:5,
+            cols:10,
+            resizable: "vertical"
+        });
+
+        $('#draftModal').data('kendoWindow').open();
     },
 
     docApprove : function(){
