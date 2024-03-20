@@ -686,6 +686,35 @@
             RCV_EMP_SEQ = #{empSeq}
     </update>
 
+    <insert id="setPsCheck" parameterType="map" >
+        /* setPsCheck */
+        INSERT INTO CAM_COMMON.DJ_PS_CHECK
+        (
+            TYPE,
+            SND_DEPT_SEQ,
+            SND_DEPT_NAME,
+            SND_EMP_SEQ,
+            SND_EMP_NAME,
+            RCV_EMP_SEQ,
+            TYPE_URL,
+            FR_KEY
+        )
+        VALUES
+        (
+            #{psType},
+            #{SND_DEPT_SEQ},
+            #{SND_DEPT_NM},
+            #{sdEmpSeq},
+            #{SND_EMP_NM},
+            #{recEmpSeq},
+            #{ntUrl},
+            #{frKey}
+        )
+        <selectKey keyProperty="psCheckSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_PS_CHECK'
+        </selectKey>
+    </insert>
+
     <update id="setPasswordEncryption" parameterType="map">
         /* setPasswordEncryption */
         UPDATE

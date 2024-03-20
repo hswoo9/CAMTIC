@@ -287,6 +287,8 @@ public class CampusRepository extends AbstractDAO  {
     public void setTargetCertReq(Map<String, Object> params) { update("campus.setTargetCertReq", params); }
     public void setDutyCertReq(Map<String, Object> params) { update("campus.setDutyCertReq", params); }
 
+    public Map<String, Object> getApprEmpInfo(Map<String, Object> params) { return (Map<String, Object>) selectOne("campus.getApprEmpInfo", params); }
+
     public void setStudyJournalUpdate(Map<String, Object> fileInsMap) {
         update("campus.setStudyJournalUpdate", fileInsMap);
     }
