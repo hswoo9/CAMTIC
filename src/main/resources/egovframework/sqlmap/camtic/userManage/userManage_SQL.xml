@@ -2881,6 +2881,16 @@
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
             HEI.BDAY != '' AND HEI.BDAY IS NOT NULL
+        AND
+             (
+                (DIVISION IN(0))
+             OR
+                (DIVISION IN(4) AND DIVISION_SUB IN(1))
+             OR
+                (DIVISION IN(4) AND DIVISION_SUB IN(2))
+             OR
+                (DIVISION IN(1) AND DIVISION_SUB IN(6))
+             )
         AND (
             DATE_FORMAT(NOW(), '%m') < DATE_FORMAT(HEI.BDAY, '%m') OR
             (
