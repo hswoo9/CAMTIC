@@ -298,13 +298,13 @@ function docApprovalRetrieve(docId, approKey, linkageType, type, callBack){
 				try {
 					let key = approKey.split("_")[0];
 					if(key == "camticDelv"){
-						window.location.href = "/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=2";
+						location.reload();
 					}else if(key == "camticDev"){
-						window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=3";
+						location.reload();
 					}else if(key == "camticPjtRes"){
-						window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=7";
+						location.reload();
 					}else if(key == "camticPjtCost"){
-						window.location.href="/project/pop/viewRegProject.do?pjtSn=" + $("#pjtSn").val() + "&tab=9";
+						location.reload();
 					}
 
 
