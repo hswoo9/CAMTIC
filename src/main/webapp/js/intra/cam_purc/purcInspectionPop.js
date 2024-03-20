@@ -118,12 +118,24 @@ var pri = {
             }
 
             console.log(data.inspectFile);
-            if(data.inspectFile != null){
-                for(var i = 0; i < data.inspectFile.length; i++){
-                    pri.global.fileArray.push(data.inspectFile[i]);
+            if(data.PAYMENT_METHOD == "C"){
+                if(data.purcFile != null){
+                    console.log(data.purcFile)
+
+                    for(var i = 0; i < data.purcFile.length; i++){
+                        pri.global.fileArray.push(data.purcFile[i]);
+                    }
+                    pri.settingTempFileDataInit(data.purcFile);
                 }
-                pri.settingTempFileDataInit(data.inspectFile);
+            } else {
+                if(data.inspectFile.length != 0){
+                    for(var i = 0; i < data.inspectFile.length; i++){
+                        pri.global.fileArray.push(data.inspectFile[i]);
+                    }
+                    pri.settingTempFileDataInit(data.inspectFile);
+                }
             }
+
 
             if(data.INSPECT_STATUS == "100"){
                 // $("#saveBtn").hide();
