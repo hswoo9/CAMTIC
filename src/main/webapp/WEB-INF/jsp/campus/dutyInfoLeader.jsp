@@ -17,8 +17,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">목표/직무기술서 (팀장)</h4>
-            <div class="title-road">캠퍼스 > 학습관리 > 직무관리 > 목표/직무기술서 (팀장)</div>
+            <h4 class="panel-title">목표/직무기술서 승인</h4>
+            <div class="title-road">캠퍼스 > 학습관리 > 직무관리 > 목표/직무기술서 승인</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
