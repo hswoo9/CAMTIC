@@ -52,6 +52,14 @@ const propagView = {
             $("#regPositionTd").text(propagInfo.dutyNm);
         }
         $("#regEmpNameTd").text(propagInfo.REG_EMP_NAME);
+
+        if($("#addStatus").val() == "Y" /*|| $("#addStatus").val() == "C"*/) {
+            $("#resultBtn").css("display", "");
+        }else if($("#addStatus").val() == "C"){
+            $("#resultBtn").css("display", "");
+        }else if($("#addStatus").val() == "S") {
+            $("#resultBtn").css("display", "");
+        }
     },
 
     buttonSet: function(){
@@ -61,8 +69,10 @@ const propagView = {
         console.log("studyR",studyResult);
 
         let buttonHtml = "";
-        buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"학습완료\" id=\"resultBtn\" onclick=\"propagView.fn_studyComplete();\"/>";
-        buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"결과보고서\" id=\"compBtn\" onclick=\"propagView.fn_resultDocPop();\"/>";
+        buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"결과보고서\" id=\"resultBtn\" onclick=\"propagView.fn_resultDocPop();\"/>";
+        if($("#typeView").val() != "A"){
+            buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"학습완료\" id=\"compBtn\" onclick=\"propagView.fn_studyComplete();\"/>";
+        }
         if(studyInfo != null){
             let status = studyInfo.STATUS;
             if(status == "0"){
@@ -98,6 +108,8 @@ const propagView = {
                 $("#modBtn").show();
             }else if(status == "10"){
                 $("#appBtn").show();
+            }else if($("#status").val() == 100 && $("#addStatus").val() == "N"){
+                $("#compBtn").show();
             }
         }
     },
@@ -393,36 +405,40 @@ const propagView = {
         }
 
         $.ajax({
-                url: "/campus/getStudyPropagList",
-                data: data,
-                type: "post",
-                dataType: "json",
-                success: function (journalResult) {
+            url: "/campus/getStudyPropagList",
+            data: data,
+            type: "post",
+            dataType: "json",
+            success: function (journalResult) {
 
-                    var journalList = journalResult.list;
+                var journalList = journalResult.list;
 
-                    if (journalList.length === 0) {
-                        alert("학습일지를 작성해주세요.");
-                        return;
-                    }
-
-                    $.ajax({
-                        url: "/campus/setStudyInfoComplete",
-                        data: data,
-                        type: "post",
-                        dataType: "json",
-                        success: function (rs) {
-
-                            if (rs.code == 200) {
-                                alert(rs.msg);
-                                propagView.fn_resultDocPop();
-                                location.reload();
-                            }
-                        }
-                    });
+                if (journalList.length === 0) {
+                    alert("학습일지를 작성해주세요.");
+                    return;
                 }
+
+                if(!confirm("학습완료 후에는 학습일지를 추가, 수정, 삭제하실 수 없습니다. 학습완료하시겠습니까?")){
+                    return ;
+                }
+
+                $.ajax({
+                    url: "/campus/setStudyInfoComplete",
+                    data: data,
+                    type: "post",
+                    dataType: "json",
+                    success: function (rs) {
+
+                        if (rs.code == 200) {
+                            alert(rs.msg);
+                            propagView.fn_resultDocPop();
+                            location.reload();
+                        }
+                    }
+                });
+            }
         });
-            },
+    },
 
     fn_resultDocPop : function (){
         let url = "/campus/pop/resultPropagDocPop.do?pk="+$("#pk").val();

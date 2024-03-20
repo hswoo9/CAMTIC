@@ -69,7 +69,13 @@ const ojtView = {
         $("#regEmpNameTd").text(ojtInfo.REG_EMP_NAME);
         $("#jobDetailNmTd").text(ojtInfo.jobDetailNm);
 
-
+        if($("#addStatus").val() == "Y" /*|| $("#addStatus").val() == "C"*/) {
+            $("#resultBtn").css("display", "");
+        }else if($("#addStatus").val() == "C"){
+            $("#resultBtn").css("display", "");
+        }else if($("#addStatus").val() == "S") {
+            $("#resultBtn").css("display", "");
+        }
     },
 
     buttonSet: function(){
@@ -78,7 +84,10 @@ const ojtView = {
         const studyInfo = studyResult.data;
 
         let buttonHtml = "";
-        buttonHtml += "<button type=\"button\" id=\"finBtn\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"ojtView.fn_resultPop()\">결과보고서</button>";
+        buttonHtml += "<button type=\"button\" id=\"resultBtn\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"ojtView.fn_resultPop()\">결과보고서</button>";
+        if($("#typeView").val() != "A"){
+            buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"학습완료\" id=\"compBtn\" onclick=\"ojtView.fn_studyComplete();\"/>";
+        }
         if(studyInfo != null){
             let status = studyInfo.STATUS;
             if(status == "0"){
@@ -115,9 +124,9 @@ const ojtView = {
                 $("#studyModBtn").show();
             }else if(status == 10){
                 $("#appBtn").show();
-            }else if(status == 100){
+            }else if(status == 100 && $("#addStatus").val() == "N"){
                 $("#ojtPlanAddBtn").hide();
-                $("#finBtn").show();
+                $("#compBtn").show();
             }
         }
     },
@@ -635,10 +644,50 @@ const ojtView = {
 
         window.open(url, name, option);
     },
+
+
     fn_ojtUpdatePop: function (){
-            let url = "/Campus/pop/studyReqPop.do?mode=upd&pk="+$("#pk").val();
-            let name = "studyReqPop";
-            let option = "width = 1170, height = 900, top = 100, left = 200, location = no";
-            window.open(url, name, option);
+        let url = "/Campus/pop/studyReqPop.do?mode=upd&pk="+$("#pk").val();
+        let name = "studyReqPop";
+        let option = "width = 1170, height = 900, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    fn_studyComplete : function (){
+        var data = {
+            studyInfoSn : $("#pk").val(),
+            pk : $("#pk").val()
+        }
+
+        const ojtPlanList = customKendo.fn_customAjax("/campus/getOjtPlanList", data).list;
+        const ojtResultList = customKendo.fn_customAjax("/campus/getOjtResultList", data).list;
+
+        if (ojtPlanList.length === 0) {
+            alert("지도내용을 작성해주세요.");
+            return;
+        }
+        if (ojtResultList.length === 0) {
+            alert("학습일지를 작성해주세요.");
+            return;
+        }
+
+        if(!confirm("학습완료 후에는 학습일지를 추가, 수정, 삭제하실 수 없습니다. 학습완료하시겠습니까?")){
+            return ;
+        }
+
+        $.ajax({
+            url: "/campus/setStudyInfoComplete",
+            data: data,
+            type: "post",
+            dataType: "json",
+            success: function (rs) {
+
+                if (rs.code == 200) {
+                    alert(rs.msg);
+                    ojtView.fn_resultPop();
+                    location.reload();
+                }
+            }
+        });
     }
 }

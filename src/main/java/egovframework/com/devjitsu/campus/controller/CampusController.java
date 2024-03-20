@@ -679,6 +679,8 @@ public class CampusController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        Map<String, Object> data = campusService.getStudyInfoOne(params);
+        model.addAttribute("data", data);
         model.addAttribute("params", params);
         return "popup/campus/propagViewPop";
     }
@@ -703,6 +705,8 @@ public class CampusController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        Map<String, Object> data = campusService.getStudyInfoOne(params);
+        model.addAttribute("data", data);
         model.addAttribute("params", params);
         return "popup/campus/ojtViewPop";
     }

@@ -30,6 +30,8 @@
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="pk" value="${params.pk}"/>
 <input type="hidden" id="ojtOjtResultSn" value="${params.ojtOjtResultSn}" />
+<input type="hidden" id="addStatus" value="${data.ADD_STATUS}"/>
+<input type="hidden" id="typeView" value="${params.typeView}" />
 <input type="hidden" id="status"/>
 <body class="font-opensans" style="background-color:#fff;">
 
@@ -169,7 +171,8 @@
                 </form>
             </div>
         </div>
-
+<c:if test="${data.STATUS eq '100' || data.STATUS eq '101'}">
+    <c:if test="${params.typeView ne 'A'}">
         <div class="card-header" style="padding-top:45px;">
             <div class="col-lg-12" style="margin:0 auto;">
                 <div class="table-responsive">
@@ -195,6 +198,8 @@
                 </div>
             </div>
         </div>
+    </c:if>
+</c:if>
     </div>
 </div>
 
