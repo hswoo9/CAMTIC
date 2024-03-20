@@ -204,6 +204,12 @@
                     </button>
                 </td>
             </tr>
+            <tr class="text-right" id="etc">
+                <th class="th-color">상신의견</th>
+                <td style="border-right: none" colspan="2">
+                    <input type="text" id="" name="" class="k-input k-textbox k-input-solid k-input-md">
+                </td>
+            </tr>
         </table>
         <div style="padding:20px 0;">
             <h3 class="card-title">첨부파일</h3>

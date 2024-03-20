@@ -53,7 +53,10 @@ var openStudy = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-button k-button-solid-base" onclick=" openStudy.setOpenStudyInfoDelete();">' +
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="openStudy.mainGrid();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>' +
+                            '<button type="button" class="k-button k-button-solid-base" onclick=" openStudy.setOpenStudyInfoDelete();">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>'+
                         '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="openStudy.openStudyReqPop(\'ins\');">' +

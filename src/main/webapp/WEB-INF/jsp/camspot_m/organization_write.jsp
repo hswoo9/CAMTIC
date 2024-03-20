@@ -51,7 +51,7 @@
                     </span>
                     
                 </div>
-                <div class="btBox mt40"><a href="#">글쓰기</a></div>
+<%--                <div class="btBox mt40"><a href="#">글쓰기</a></div>--%>
             </form>
             <!--} 글쓰기 -->
         

@@ -78,7 +78,7 @@
             <!--} 조직도 -->
     		
             
-        	<div class="btBox mt40"><a href="/m/organization_write.do">글쓰기</a></div>
+<%--        	<div class="btBox mt40"><a href="/m/organization_write.do">글쓰기</a></div>--%>
             
     	</div>   
     	<!--} content -->
