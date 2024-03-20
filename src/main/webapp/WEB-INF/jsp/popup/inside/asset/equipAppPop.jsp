@@ -38,7 +38,7 @@
                         <th scope="row" class="text-center th-color"><span class="red-star"></span>조회년월</th>
                         <td>
                             <form id="equipDraftFrm" method="post">
-                                <input type="hidden" id="eqipnmApprovalSn" name="eqipnmApprovalSn" value="">
+                                <input type="hidden" id="eqipnmApprovalSn" name="eqipnmApprovalSn" value="${params.pk}">
                                 <input type="hidden" id="menuCd" name="menuCd" value="equipment">
                                 <input type="hidden" id="type" name="type" value="drafting">
                                 <input type="hidden" id="nowUrl" name="nowUrl" />

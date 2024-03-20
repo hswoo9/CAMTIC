@@ -100,7 +100,7 @@
     <input type="hidden" id="menuCd" name="menuCd" value="rprRes">
     <input type="hidden" id="type" name="type" value="${type}">
     <input type="hidden" id="nowUrl" name="nowUrl" />
-    <input type="hidden" id="inventionInfoSn" name="inventionInfoSn"/>
+    <input type="hidden" id="inventionInfoSn" name="inventionInfoSn" value="${params.pk}"/>
 </form>
 
 <script>

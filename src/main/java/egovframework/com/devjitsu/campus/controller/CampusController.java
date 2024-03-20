@@ -659,6 +659,13 @@ public class CampusController {
         return "popup/campus/studyViewPop";
     }
 
+    @RequestMapping("/Campus/pop/getStudyResultOne")
+    public String getStudyResultOne(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        Map<String, Object> data = campusService.getStudyResultOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     /** 학습조 학습일지 작성 팝업 */
     @RequestMapping("/Campus/pop/studyJournalPop.do")
     public String studyJournalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {

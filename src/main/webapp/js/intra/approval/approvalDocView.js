@@ -42,23 +42,32 @@ var docView = {
         }
 
         /** 반려시 반려사유 확인 버튼 생성 */
-        if(rs.docInfo.APPROVE_STAT_CODE == "30" || rs.docInfo.APPROVE_STAT_CODE == "40"){
+        if(rs.docInfo.APPROVE_STAT_CODE == "30" || rs.docInfo.APPROVE_STAT_CODE == "40" || rs.docInfo.APPROVE_STAT_CODE == "111"){
             if(rs.docInfo.APPROVE_STAT_CODE == "30"){
                 $("#docApprovalOpinView2Btn").show();
             }
 
             const menuCd = docView.global.params.menuCd;
             /** 기안자 일 시 수정 버튼 생성 (외부시스템) */
-            if(docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId
-                && (menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "holidayWork" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus")) {
-                
+            if((docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId)
+                && (menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "holidayWork" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus" || menuCd == "invenDeadLine" ||
+                    menuCd == "payApp" || menuCd == "payIncp" || menuCd == "exnp" || menuCd == "study" || menuCd == "propag" || menuCd == "ojt" || menuCd == "studyRes" || menuCd == "ojtRes" || menuCd == "propagRes" || menuCd == "workPlan" ||
+                    menuCd == "rndDelv" || menuCd == "rndDev" || menuCd == "rndRes" || menuCd == "unRndDelv" || menuCd == "unRndDev" || menuCd == "unRndRes" || menuCd == "delv" || menuCd == "dev" || menuCd == "pjtRes" ||
+                    menuCd == "pjtCost" || menuCd == "pjtChange" || menuCd == "pjtRe" || menuCd == "pjtRate" || menuCd == "equipment" || menuCd == "invention" || menuCd == "rprRes" || menuCd == "car" || menuCd == "certifi" || menuCd == "recruit"))
+            {
                 $("#modBtn").show();
-            }else{
+            } else {
                 $("#modBtn").hide();
             }
             
             /** 기안자 일 시 수정 버튼 생성 (기안문) */
-            if(docView.global.rs.docInfo.FORM_ID == "1" && docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId){
+            if((docView.global.rs.docInfo.FORM_ID == "1" || docView.global.rs.docInfo.FORM_ID == "86" || docView.global.rs.docInfo.FORM_ID == "89" || docView.global.rs.docInfo.FORM_ID == "90" ||
+                    docView.global.rs.docInfo.FORM_ID == "91" || docView.global.rs.docInfo.FORM_ID == "92" || docView.global.rs.docInfo.FORM_ID == "93" || docView.global.rs.docInfo.FORM_ID == "104" ||
+                    docView.global.rs.docInfo.FORM_ID == "111" || docView.global.rs.docInfo.FORM_ID == "112" || docView.global.rs.docInfo.FORM_ID == "106" || docView.global.rs.docInfo.FORM_ID == "107" ||
+                    docView.global.rs.docInfo.FORM_ID == "108" || docView.global.rs.docInfo.FORM_ID == "95" || docView.global.rs.docInfo.FORM_ID == "99" || docView.global.rs.docInfo.FORM_ID == "100" ||
+                    docView.global.rs.docInfo.FORM_ID == "101" || docView.global.rs.docInfo.FORM_ID == "102"
+                )
+                && docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId){
                 $("#modBtn2").show();
             }
         }
@@ -654,12 +663,12 @@ var docView = {
         const pk = approKey.split('_')[1];
 
         const menuCd = docView.global.params.menuCd;
-        if(menuCd == "bustrip"){
+        if(menuCd == "bustrip"){    // 출장 신청
             let url = "/bustrip/pop/bustripReqPop.do?hrBizReqId="+pk;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
-        }else if(menuCd == "bustripRes"){
+        }else if(menuCd == "bustripRes"){   // 출장 결과보고
             const result = customKendo.fn_customAjax("/bustrip/getBustripOne", { hrBizReqResultId: pk });
             const busInfo = result.map;
 
@@ -667,22 +676,22 @@ var docView = {
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
-        }else if(menuCd == "subHoliday"){
+        }else if(menuCd == "subHoliday"){   // 휴가원
             let url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + pk;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
-        }else if(menuCd == "holidayWork"){
+        }else if(menuCd == "holidayWork"){  // 휴일근로 신청
             let url = "/subHoliday/pop/subHolidayReqPop2.do?holidayWorkMasterSn=" + pk;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
-        }else if(menuCd == "purc") {
+        }else if(menuCd == "purc") {    // 구매 요청
             let url = "/purc/pop/regPurcReqPop.do?purcSn=" + pk;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
-        }else if(menuCd == "claim") {
+        }else if(menuCd == "claim") {   // 구매 청구
             const result = customKendo.fn_customAjax("/purc/getPurcClaimData", {claimSn: pk}).data;
 
             let url = "/purc/pop/reqClaiming.do?claimSn=" + pk + "&purcSn" + result.PURC_SN;
@@ -690,7 +699,7 @@ var docView = {
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
         }else if(menuCd == "campus"){
-            if(approKey.split('_')[0] == "camticEducation") {
+            if(approKey.split('_')[0] == "camticEducation") {       // 개인학습 신청
                 const result = customKendo.fn_customAjax("/campus/getEduInfoOne", { eduInfoId: pk });
                 const eduInfo = result.data;
 
@@ -698,12 +707,180 @@ var docView = {
                 let name = "_self";
                 let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
                 window.open(url, name, option);
-            } else if(approKey.split('_')[0] == "camticEducationRes") {
+            } else if(approKey.split('_')[0] == "camticEducationRes") {     // 개인학습 결과보고
                 let url = "/Campus/pop/eduResultReqPop.do?eduInfoId=" + pk + "&mode=upd";
                 let name = "_self";
                 let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
                 window.open(url, name, option);
             }
+        }else if(menuCd == "payApp") {  // 지급신청서
+            let url = "/payApp/pop/regPayAppPop.do?payAppSn=" + pk + "&status=rev&auth=user";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "payIncp") {     // 수입결의서
+            let url = "/payApp/pop/regIncmPop.do?payIncpSn=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "exnp") {    // 지출결의서
+            const result = customKendo.fn_customAjax("/payApp/pop/getExnpData", {exnpSn: pk}).map;
+
+            let url = "/payApp/pop/regExnpPop.do?payAppSn=" + result.PAY_APP_SN + "&exnpSn=" + pk + "&status=rev";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "study") {   // 학습조 신청
+            let url = "/Campus/pop/studyViewPop.do?mode=upd&pk=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "propag") {  // 전파학습 신청
+            let url = "/Campus/pop/propagViewPop.do?mode=upd&pk=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "ojt") {     // ojt 신청서
+            let url = "/Campus/pop/ojtViewPop.do?mode=upd&pk=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "studyRes") {    // 학습조 결과보고
+            const result = customKendo.fn_customAjax("/Campus/pop/getStudyResultOne", {pk: pk}).data;
+
+            let url = "/campus/pop/resultDocPop.do?mode=upd&pk=" + pk + "&studyResultSn=" + result.STUDY_RESULT_SN;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "propagRes") {   // 전파학습 결과보고
+            let url = "/campus/pop/resultPropagDocPop.do?mode=upd&pk=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "ojtRes") {      // ojt 결과보고
+            const result = customKendo.fn_customAjax("/campus/getOjtResultInfoOne", {pk: pk}).data;
+
+            let url = "/campus/pop/resultOjtDocPop.do?mode=modify&pk=" + pk + "&ojtResultSn=" + result.OJT_RESULT_SN;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "rndDelv") {     // R&D 수주보고
+            let url = "/projectRnd/pop/regProject.do?pjtSn=" + pk + "&tab=0";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "rndDev") {      // R&D 계획
+            const result = customKendo.fn_customAjax("/project/getDevelopPlan", {devSn: pk}).rs;
+
+            let url = "/projectRnd/pop/regProject.do?pjtSn=" + result.PJT_SN + "&tab=2";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "rndRes") {      // R&D 결과보고
+            let url = "/projectRnd/pop/regProject.do?pjtSn=" + pk + "&tab=7";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "unRndDelv") {   // 비R&D 수주보고
+            let url = "/projectUnRnd/pop/regProject.do?pjtSn=" + pk + "&tab=0";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "unRndDev") {    // 비R&D 계획
+            const result = customKendo.fn_customAjax("/project/getDevelopPlan", {devSn: pk}).rs;
+
+            let url = "/projectUnRnd/pop/regProject.do?pjtSn=" + result.PJT_SN + "&tab=2";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "unRndRes") {    // 비R&D 결과보고
+            let url = "/projectUnRnd/pop/regProject.do?pjtSn=" + pk + "&tab=7";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "delv") {    // 엔지니어링 수주보고
+            let url = "/project/pop/viewRegProject.do?pjtSn=" + pk + "&tab=2";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "dev") {    // 엔지니어링 계획
+            const result = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: pk}).rs;
+
+            let url = "/project/pop/viewRegProject.do?pjtSn=" + result.PJT_SN + "&tab=3";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "pjtRes") {    // 엔지니어링 결과보고
+            let url = "/project/pop/viewRegProject.do?pjtSn=" + pk + "&tab=7";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "pjtCost") {    // 엔지니어링 원가보고
+            let url = "/project/pop/viewRegProject.do?pjtSn=" + pk + "&tab=9";
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "pjtChange") {    // 세세목 변경서
+            const result = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: pk}).map;
+
+            let url = '';
+            if(result.BUSN_NM == "R&D"){
+                url = "/projectRnd/pop/regProject.do?pjtSn=" + pk + "&tab=11";
+            } else {
+                url = "/projectUnRnd/pop/regProject.do?pjtSn=" + pk + "&tab=11";
+            }
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "pjtRate") {    // 참여율 변경 공문 신청
+            const result = customKendo.fn_customAjax("/project/getPartRateVerInfo", {partRateVerSn: pk}).map;
+
+            let url = '';
+            if(result.BUSN_NM == "R&D"){
+                url = "/projectRnd/pop/regProject.do?pjtSn=" + result.PJT_SN + "&tab=1";
+            } else {
+                url = "/projectUnRnd/pop/regProject.do?pjtSn=" + result.PJT_SN + "&tab=1";
+            }
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "pjtRe") {    // 반납 신청
+            const result = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: pk}).map;
+
+            let url = '';
+            if(result.BUSN_NM == "R&D"){
+                url = "/projectRnd/pop/regProject.do?pjtSn=" + pk + "&tab=11";
+            } else {
+                url = "/projectUnRnd/pop/regProject.do?pjtSn=" + pk + "&tab=11";
+            }
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "workPlan") {    // 시차출퇴근형
+            let url = "/workPlan/workPlanApprovalModPop.do?workPlanApprovalId=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "car") {    // 차량사용신청서
+            let url = "/Inside/pop/carPop.do?mode=drafting&carReqSn=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "equipment") {    // 장비활용실적 보고
+            let url = "/Inside/pop/equipAppPop.do?type=drafting&pk=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "invention") {    // 직무발명 보고
+            let url = "/Inside/pop/inventionReqPop.do?type=drafting&pk=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
+        }else if(menuCd == "rprRes") {    // 포상금지급 신청
+            let url = "/Inside/pop/rprResultPop.do?type=drafting&pk=" + pk;
+            let name = "_self";
+            let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+            window.open(url, name, option);
         }
     },
 

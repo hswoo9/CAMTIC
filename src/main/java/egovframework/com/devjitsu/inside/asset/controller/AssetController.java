@@ -733,11 +733,12 @@ public class AssetController {
 
     //캠도큐먼트 - 직무발명신고서 전자결재 신청폼 팝업
     @RequestMapping("/Inside/pop/inventionReqPop.do")
-    public String inventionReqPop(HttpServletRequest request, Model model) {
+    public String inventionReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/inside/asset/inventionReqPop";
     }
     //캠도큐먼트 - 직무발명신고서 전자결재 페이지
@@ -751,11 +752,12 @@ public class AssetController {
     }
     //캠도큐먼트 - 포상금지급신청서 전자결재 신청폼 팝업
     @RequestMapping("/Inside/pop/rprResultPop.do")
-    public String rprResultPop(HttpServletRequest request, Model model) {
+    public String rprResultPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/inside/asset/rprResultPop";
     }
     //캠도큐먼트 - 포상금지급신청서 전자결재 페이지
@@ -1051,11 +1053,12 @@ public class AssetController {
 
     //장비관리 (관리자) 결재창
     @RequestMapping("/Inside/pop/equipAppPop.do")
-    public String equipAppPop(HttpServletRequest request, Model model) {
+    public String equipAppPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/inside/asset/equipAppPop";
     }
 
