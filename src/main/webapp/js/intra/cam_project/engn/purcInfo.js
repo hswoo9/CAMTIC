@@ -156,6 +156,12 @@ var purcInfo = {
                                 }else{
                                     status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                 }
+                            } else {
+                                if((e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') && e.PAYMENT_METHOD == "C"){
+                                    if(e.CLAIM_STATUS == "CAYSY"){
+                                        status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                    }
+                                }
                             }
                         }
 
@@ -219,6 +225,22 @@ var purcInfo = {
                             return '반려';
                         } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
                             return '결재완료';
+                        } else {
+                            return '-';
+                        }
+                    }
+                }, {
+                    title: "현장(카드)결제 청구",
+                    width: 130,
+                    template: function(e){
+                        if((e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') && e.PAYMENT_METHOD == "C"){
+                            if(e.CLAIM_STATUS == "CAYSY"){
+                                return '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqCliaming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">결재완료</button>';
+                            } else if(e.CLAIM_STATUS == "CAYSY"){
+                                return '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqCliaming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">결재중</button>';
+                            } else {
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.claimDrafting(' + e.PURC_SN + ')">청구서작성</button>';
+                            }
                         } else {
                             return '-';
                         }
@@ -524,6 +546,41 @@ var purcInfo = {
         var name = "_blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_reqCliaming : function(key, subKey) {
+        var url = _contextPath_ + "/purc/pop/reqClaiming.do";
+
+        if(key != null && key != ""){
+            url = _contextPath_ + "/purc/pop/reqClaiming.do?claimSn=" + key;
+
+            if(subKey != null && subKey != "" && subKey != "undefined"){
+                url += "&purcSn=" + subKey;
+            }
+        }
+
+        var name = "blank";
+        var option = "width = 1500, height = 840, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    claimDrafting : function(key){
+        $.ajax({
+            url : "/purc/setOnSiteCardPurcClaimData",
+            data : { purcSn : key },
+            type : "post",
+            dataType : "json",
+            async: false,
+            success : function(rs){
+                if(rs.code == 200){
+                    var url = "/popup/cam_purc/approvalFormPopup/claimingApprovalPop.do?menuCd=purcClaim" + "&purcSn=" + key + "&claimSn=" + rs.params.claimSn + "&type=drafting";
+                    var name = "_blank";
+                    var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+
+                    pop = window.open(url, name, option);
+                }
+            }
+        });
     }
 }
 

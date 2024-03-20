@@ -119,7 +119,8 @@ var purcUserAppList = {
                     title: "지출금액",
                     width: 80,
                     template: function(e){
-                        return '<div style="text-align: right">'+comma(e.REQ_AMT)+'</div>';
+                        console.log(e)
+                        return '<div style="text-align: right">'+comma(e.REQ_AMT == 0 ? e.TOT_AMT : e.REQ_AMT)+'</div>';
                     }
                 },
                 // , {
@@ -153,6 +154,7 @@ var purcUserAppList = {
                     title : "지급신청",
                     width : 80,
                     template: function(e){
+
                         // approveDocView('3770', 'payApp370', 'payApp');
                         if(e.F_PAY_APP_SN == null){
                             return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';

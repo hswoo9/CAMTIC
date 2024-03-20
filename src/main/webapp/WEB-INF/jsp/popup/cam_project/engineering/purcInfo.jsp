@@ -61,6 +61,8 @@
 </div>
 
 <script>
+    var _contextPath_ = '${pageContext.request.contextPath}'
+
     purcInfo.fn_defaultScript();
 
     function userSearch() {
