@@ -573,7 +573,7 @@ var myEdu = {
                     width: 200
                 }, {
                     title: "인정시간",
-                    template: "<span>#=OJT_TIME#시간</span>",
+                    template: "<span>#=REAL_OJT_TIME#시간</span>",
                     width: 200
                 }
             ],
@@ -630,6 +630,10 @@ var myEdu = {
                 }, {
                     title: "학습시간",
                     template: "<span>#=EDU_TIME#시간</span>",
+                    width: 200
+                }, {
+                    title: "인정시간",
+                    template: "<span>#=REAL_EDU_TIME#시간</span>",
                     width: 200
                 }
             ],

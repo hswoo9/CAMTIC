@@ -372,12 +372,13 @@ var approvalLine = {
                 alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
             }
 
-            const info = customKendo.fn_customAjax("/campus/getStudyInfoOne", {pk: $("#pk").val()}).data;
-            const data = info.map;
+            const info = customKendo.fn_customAjax("/campus/getStudyInfoOne", {pk: pk});
+            const data2 = info.data;
+            console.log("study", data2);
 
             let amt = 0;
-            if(data.STUDY_MONEY != null || data.STUDY_MONEY != ""){
-                amt = data.STUDY_MONEY;
+            if(data2.STUDY_MONEY != null || data2.STUDY_MONEY != ""){
+                amt = data2.STUDY_MONEY;
             }
             requestAmt = Number(amt);
             if(amt == null){
