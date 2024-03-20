@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/process/purcReqList.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/process/processCheckList.js?v=${today}'/>"></script>
 <style>
     .k-grid-content td {
         overflow: hidden;
@@ -48,7 +48,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){prm.gridReload()}"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){pcList.gridReload()}"/>
                         </td>
                     </tr>
                 </table>

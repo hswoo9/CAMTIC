@@ -50,14 +50,30 @@ var pcList = {
             },
             columns: [
                 {
-                    field: "pjtSeq",
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
+                }, {
+                    field: "TYPE",
                     title: "구분",
                     width: 200
                 }, {
-                    title: "프로젝트명",
-                    field: "pjtName"
+                    field: "SND_DEPT_NAME",
+                    title: "요청부서",
+                }, {
+                    field: "SND_EMP_NAME",
+                    title: "요청자",
+                }, {
+                    title: "승인",
+                    width: 100,
+                    template: function(e){
+                        return '<button type="button" class="k-button k-button-solid-info">승인</button>';
+                    }
                 }
             ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            },
         }).data("kendoGrid");
     }
 }
