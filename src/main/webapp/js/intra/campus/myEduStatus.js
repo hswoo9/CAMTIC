@@ -571,6 +571,10 @@ var myEdu = {
                     title: "학습시간",
                     template: "<span>#=OJT_TIME#시간</span>",
                     width: 200
+                }, {
+                    title: "인정시간",
+                    template: "<span>#=OJT_TIME#시간</span>",
+                    width: 200
                 }
             ],
             dataBinding: function(){

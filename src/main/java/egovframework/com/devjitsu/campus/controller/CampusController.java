@@ -459,7 +459,7 @@ public class CampusController {
                 model.addAttribute("eduObjectVar", "취득목적");
                 model.addAttribute("eduContentVar", "자격증내용");
                 model.addAttribute("eduMoneyVar", "응시료");
-                model.addAttribute("eduDateVar", "취득종류(인정시간)");
+                model.addAttribute("eduDateVar", "인정시간");
                 break;
         }
         return "popup/campus/eduResultReqPop";

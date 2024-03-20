@@ -1582,7 +1582,7 @@ public class CampusServiceImpl implements CampusService {
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             params.put("status", "10");
             campusRepository.updateEduInfoApprStat(params);
-        }else if("30".equals(docSts) || "40".equals(docSts)) { //반려
+        }else if("30".equals(docSts)) { //반려
             params.put("status", "30");
             campusRepository.updateEduInfoApprStat(params);
         }else if("40".equals(docSts)) { //회수
@@ -1619,7 +1619,7 @@ public class CampusServiceImpl implements CampusService {
             params.put("status", "10");
             campusRepository.updateEduResultApprStat(params);
         }else if("30".equals(docSts)) { // 반려
-            params.put("status", "0");
+            params.put("status", "30");
             campusRepository.updateEduResultApprStat(params);
         }else if("40".equals(docSts)) { // 회수
             params.put("status", "40");
@@ -1700,14 +1700,14 @@ public class CampusServiceImpl implements CampusService {
                     String treaType = eduInfo.get("TREA_TYPE") == null ? "" : eduInfo.get("TREA_TYPE").toString();
                     String treaUser = eduInfo.get("TREA_USER") == null ? "" : eduInfo.get("TREA_USER").toString();
 
-                    if(treaType == "국외"){
-                        if(treaUser == "저자"){
+                    if("국외".equals(treaType)){
+                        if("저자".equals(treaUser)){
                             realEduTime = 20;
                         }else{
                             realEduTime = 10;
                         }
                     }else{
-                        if(treaUser == "저자"){
+                        if("저자".equals(treaUser)){
                             realEduTime = 10;
                         }else{
                             realEduTime = 5;
@@ -1781,7 +1781,7 @@ public class CampusServiceImpl implements CampusService {
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             params.put("status", "10");
             campusRepository.updateStudyApprStat(params);
-        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려
+        }else if("30".equals(docSts)) { // 반려
             params.put("status", "30");
             campusRepository.updateStudyApprStat(params);
         }else if("40".equals(docSts)) { //회수
@@ -1817,7 +1817,7 @@ public class CampusServiceImpl implements CampusService {
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             params.put("status", "10");
             campusRepository.updateStudyResApprStat(params);
-        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려
+        }else if("30".equals(docSts)) { // 반려
             params.put("status", "30");
             campusRepository.updateStudyResApprStat(params);
         }else if("40".equals(docSts)) { //회수
@@ -1857,7 +1857,7 @@ public class CampusServiceImpl implements CampusService {
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             params.put("status", "10");
             campusRepository.updatePropagResApprStat(params);
-        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려
+        }else if("30".equals(docSts)) { // 반려
             params.put("status", "30");
             campusRepository.updatePropagResApprStat(params);
         }else if("40".equals(docSts)) { //회수
@@ -1894,7 +1894,7 @@ public class CampusServiceImpl implements CampusService {
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             params.put("status", "10");
             campusRepository.updatePropagResApprStat(params);
-        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려
+        }else if("30".equals(docSts)) { // 반려
             params.put("status", "30");
             campusRepository.updatePropagResApprStat(params);
         }else if("40".equals(docSts)) { //회수

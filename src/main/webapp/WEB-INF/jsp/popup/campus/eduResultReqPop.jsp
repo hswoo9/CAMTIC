@@ -146,6 +146,18 @@
                     </td>
                   </tr>
                 </c:when>
+                <c:when test="${eduFormType == 10}">
+                  <tr>
+                    <th>취득종류</th>
+                    <td>
+                      <span id="compType"></span>
+                    </td>
+                    <th>발급기관</th>
+                    <td>
+                      <span class="careName"></span>
+                    </td>
+                  </tr>
+                </c:when>
               </c:choose>
               <tr>
                 <th>${eduDateVar}</th>
@@ -160,14 +172,14 @@
                         <span class="startDt"></span> ~ <span class="endDt"></span> (총 <span class="termDay"></span>일 <span class="termTime"></span>시간)
                       </td>
                     </c:when>
+                    <c:when test="${eduFormType == 10}">
+                      <td colspan="3">
+                        <span class="startDt"></span> ~ <span class="endDt"></span> (총 <span class="termDay"></span>일 <span class="termTime"></span>시간)
+                      </td>
+                    </c:when>
                     <c:when test="${eduFormType == 7 || eduFormType == 8}">
                       <td colspan="3">
                         <span class="startDt"></span> ~ <span class="endDt"></span>
-                      </td>
-                    </c:when>
-                    <c:when test="${eduFormType == 10}">
-                      <td>
-                        <span id="compType"></span>
                       </td>
                     </c:when>
                     <c:otherwise>
@@ -190,12 +202,6 @@
                           <span id="forumValWrap" style="display: none;">
                             (발표제목 : <span id="objectForumVal"></span>)
                           </span>
-                      </td>
-                    </c:when>
-                    <c:when test="${eduFormType == 10}">
-                      <th>발급기관</th>
-                      <td>
-                        <span class="careName"></span>
                       </td>
                     </c:when>
                   </c:choose>

@@ -210,7 +210,7 @@ var studyInfo = {
                     template: function(row){
                         let studyClass = row.STUDY_CLASS_SN;
                         if(studyClass == 1){
-                            if(row.STATUS == 0){
+                            if(row.STATUS == 0 || row.STATUS == 40 || row.STATUS == 60){
                                 return "신청서 작성중";
                             }else if(row.STATUS == 10) {
                                 return "신청서 승인요청중";
@@ -226,7 +226,7 @@ var studyInfo = {
                                 return  "신청서 반려됨";
                             }
                         }else if(studyClass == 2){
-                            if(row.STATUS == 0){
+                            if(row.STATUS == 0 || row.STATUS == 40 || row.STATUS == 60){
                                 return "신청서 작성중";
                             }else if(row.STATUS == 10) {
                                 return "신청서 승인요청중";
@@ -242,7 +242,7 @@ var studyInfo = {
                                 }
                             }
                         }else if(studyClass == 3){
-                            if(row.STATUS == 0){
+                            if(row.STATUS == 0 || row.STATUS == 40 || row.STATUS == 60){
                                 return "신청서 작성중";
                             }else if(row.STATUS == 10) {
                                 return "신청서 승인요청중";
