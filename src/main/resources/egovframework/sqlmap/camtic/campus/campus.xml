@@ -3517,4 +3517,54 @@
             DUTY_INFO_SN = #{dutyInfoSn}
     </update>
 
+    <select id="getEduTargetOne" parameterType="map" resultType="map">
+        /*getEduTargetOne*/
+        SELECT
+            DET.*,
+            HEI.EMP_NAME_KR AS REG_EMP_NAME,
+            CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS SPOT,
+            HEI.DEPT_SEQ AS REG_DEPT_SEQ,
+            IF(HEI.DEPT_NAME = '', HEI.DEPT_TEAM_NAME, HEI.DEPT_NAME) AS REG_DEPT_NAME,
+            HEI.DUTY_CODE AS REG_DUTY_CODE
+        FROM
+            CAMPUS.DJ_EDU_TARGET DET
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON DET.REG_EMP_SEQ = HEI.EMP_SEQ
+        WHERE
+            DET.TARGET_YEAR = #{targetYear} AND DET.REG_EMP_SEQ = #{empSeq}
+    </select>
+
+    <select id="getEduTargetPkOne" parameterType="map" resultType="map">
+        /*getEduTargetPkOne*/
+        SELECT
+            DET.*,
+            HEI.EMP_NAME_KR AS REG_EMP_NAME,
+            CASE WHEN HEI.DUTY_NAME = "" THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS SPOT,
+            HEI.DEPT_SEQ AS REG_DEPT_SEQ,
+            IF(HEI.DEPT_NAME = '', HEI.DEPT_TEAM_NAME, HEI.DEPT_NAME) AS REG_DEPT_NAME,
+            HEI.DUTY_CODE AS REG_DUTY_CODE
+        FROM
+            CAMPUS.DJ_EDU_TARGET DET
+                LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON DET.REG_EMP_SEQ = HEI.EMP_SEQ
+        WHERE
+            DET.EDU_TARGET_ID = #{eduTargetId}
+    </select>
+
+    <delete id="delPsCheck" parameterType="map">
+        /*delPsCheck*/
+        DELETE FROM CAM_COMMON.DJ_PS_CHECK
+        WHERE
+            TYPE = #{type} AND FR_KEY = #{frKey}
+    </delete>
+
+    <update id="updPsStatus" parameterType="map">
+        /*updPsStatus*/
+        UPDATE CAM_COMMON.DJ_PS_CHECK
+        SET
+            PS_STAT = 'Y'
+        WHERE
+            FR_KEY = #{frKey} AND TYPE = #{type}
+    </update>
+
 </mapper>
