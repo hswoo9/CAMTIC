@@ -736,12 +736,12 @@
                     ), 0) AS STUDY_TIME,
                     IFNULL((SELECT SUM(REAL_EDU_TIME) FROM CAMPUS.DJ_PROPAG_USER SP
                         LEFT JOIN CAMPUS.DJ_STUDY_INFO SSI ON SP.STUDY_INFO_SN = SSI.STUDY_INFO_SN
-                        WHERE SP.STUDY_INFO_SN = CSI.STUDY_INFO_SN AND SSI.ADD_STATUS = 'S' AND PROPAG_EMP_SEQ = #{empSeq} GROUP BY PROPAG_EMP_SEQ
+                        WHERE SP.STUDY_INFO_SN = CSI.STUDY_INFO_SN AND SSI.ADD_STATUS = 'C' AND PROPAG_EMP_SEQ = #{empSeq} GROUP BY PROPAG_EMP_SEQ
                     ), 0) AS PROPAG_TIME,
                     IFNULL((SELECT SUM(REAL_OJT_TIME) FROM CAMPUS.DJ_OJT_USER SOU
                         LEFT JOIN CAMPUS.DJ_OJT_RESULT SOR ON SOR.OJT_RESULT_SN = SOU.OJT_RESULT_SN
                         LEFT JOIN CAMPUS.DJ_STUDY_INFO SSI ON SOR.STUDY_INFO_SN = SSI.STUDY_INFO_SN
-                        WHERE SOU.STUDY_INFO_SN = CSI.STUDY_INFO_SN AND SOR.ACTIVE = 'Y' AND SSI.ADD_STATUS = 'S' AND OJT_EMP_SEQ = #{empSeq} GROUP BY OJT_EMP_SEQ
+                        WHERE SOU.STUDY_INFO_SN = CSI.STUDY_INFO_SN AND SOR.ACTIVE = 'Y' AND SSI.ADD_STATUS = 'C' AND OJT_EMP_SEQ = #{empSeq} GROUP BY OJT_EMP_SEQ
                     ), 0) AS OJT_TIME,
                     (SELECT STUDY_RESULT_SN FROM CAMPUS.DJ_STUDY_RESULT WHERE STUDY_INFO_SN = CSI.STUDY_INFO_SN) AS STUDY_RESULT_SN,
                     IFNULL((SELECT DSR.STATUS FROM CAMPUS.DJ_STUDY_RESULT DSR
@@ -2289,9 +2289,9 @@
                 #{studyContB},
                 #{startTime},
                 #{endTime},
-                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
-                IF(CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600) > 2, 2,CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600)),
-                IF((CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600) / 2) > 2, 2, (CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600) / 2)),
+                TRUNCATE(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1),
+                IF(TRUNCATE(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600 , 1) > 2, 2,TRUNCATE(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1)),
+                IF((TRUNCATE(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1) / 2 > 2), 2, (TRUNCATE(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1) / 2)),
                 #{location},
                 #{saveType},
                 #{saveTypeText},

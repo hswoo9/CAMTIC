@@ -826,7 +826,9 @@ public class CampusServiceImpl implements CampusService {
                         }
                     }else{
                         if(realStudyUserTime < 2){
-                            params.put("realEduUserTime", 2-realStudyUserTime);
+                            if(2-realStudyUserTime < realEduUserTime){
+                                params.put("realEduUserTime", 2-realStudyUserTime);
+                            }
                         }else{
                             params.put("realEduUserTime", '0');
                         }
