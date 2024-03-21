@@ -3424,6 +3424,13 @@
             OJT_RESULT_SN = #{ojtResultSn}
     </delete>
 
+    <delete id="deleteOjtUser" parameterType="map">
+        /*deleteOjtUser*/
+        DELETE FROM CAMPUS.DJ_OJT_USER
+        WHERE
+            OJT_RESULT_SN = #{ojtResultSn}
+    </delete>
+
     <select id="getOpenStudyUserDoubleChk" parameterType="map" resultType="boolean">
         /*getOpenStudyUserDoubleChk*/
         SELECT

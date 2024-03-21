@@ -356,6 +356,10 @@ public class CampusRepository extends AbstractDAO  {
         delete("campus.deleteOjtResult", params);
     }
 
+    public void deleteOjtUser(Map<String, Object> params) {
+        delete("campus.deleteOjtUser", params);
+    }
+
     public void setOjtResultUpdate(Map<String, Object> fileInsMap) {
         update("campus.setOjtResultUpdate", fileInsMap);
     }

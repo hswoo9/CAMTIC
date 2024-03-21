@@ -2031,6 +2031,7 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void deleteOjtResult(Map<String, Object> params) {
         campusRepository.deleteOjtResult(params);
+        campusRepository.deleteOjtUser(params);
     }
 
 
