@@ -2406,9 +2406,9 @@
                 #{propagDt},
                 #{startTime},
                 #{endTime},
-                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
-                CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
-                (CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600))*1.5,
+                TRUNCATE(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1),
+                TRUNCATE(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1),
+                TRUNCATE((TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600)*1.5, 1),
                 #{location},
                 #{saveType},
                 #{propagContent},
@@ -2497,15 +2497,18 @@
             STUDY_PROPAG_SN = #{studyPropagSn}
     </delete>
 
-    <update id="setPropagDelete" parameterType="map">
+    <delete id="setPropagDelete" parameterType="map">
         /* setPropagDelete */
-        UPDATE
+        DELETE FROM
             CAMPUS.DJ_STUDY_PROPAG
-        SET
-            ACTIVE = 'N'
         WHERE
             STUDY_PROPAG_SN = #{pk}
-    </update>
+    </delete>
+
+    <delete id="delPropagUserDelete" parameterType="map">
+        /*delPropagUserDelete*/
+        DELETE FROM CAMPUS.DJ_PROPAG_USER WHERE STUDY_PROPAG_SN = #{pk}
+    </delete>
 
     <update id="setResultPropagUpd" parameterType="map">
         /* setResultPropagUpd */

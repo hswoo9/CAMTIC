@@ -180,7 +180,7 @@ public class CampusRepository extends AbstractDAO  {
     public void setOjtUserInsert(Map<String, Object> params) { insert("campus.setOjtUserInsert", params); }
     public void setPropagUserInsert(Map<String, Object> params) { insert("campus.setPropagUserInsert", params); }
     public void setPropagUserDelete(Map<String, Object> params) {delete("campus.setPropagUserDelete", params);}
-    public void setPropagDelete(Map<String, Object> params) { update("campus.setPropagDelete", params); }
+    public void setPropagDelete(Map<String, Object> params) { delete("campus.setPropagDelete", params); }
     public void setResultPropagUpd(Map<String, Object> params) { update("campus.setResultPropagUpd", params); }
     public void setResultPropagUserUpd(Map<String, Object> params) { update("campus.setResultPropagUserUpd", params); }
     public void setStudyPropagInsert(Map<String, Object> params) { insert("campus.setStudyPropagInsert", params); }
@@ -403,5 +403,9 @@ public class CampusRepository extends AbstractDAO  {
 
     public Map<String, Object> getEduTargetPkOne(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("campus.getEduTargetPkOne", params);
+    }
+
+    public void delPropagUserDelete(Map<String, Object> params) {
+        delete("campus.delPropagUserDelete", params);
     }
 }

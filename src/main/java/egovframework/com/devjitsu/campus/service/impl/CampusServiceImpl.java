@@ -1012,6 +1012,7 @@ public class CampusServiceImpl implements CampusService {
                 int infoCount = Integer.valueOf(String.valueOf(weekUserCount.get("studyInfoCount")));
                 double realStudyTime = Double.valueOf(String.valueOf(studyUserTime.get("STUDY_TIME")));
 
+                //
                 if(infoCount == 1){
                     if(realEduTime > 2){
                         params.put("realEduUserTime", '2');
@@ -1229,6 +1230,7 @@ public class CampusServiceImpl implements CampusService {
     @Override
     public void setPropagDelete(Map<String, Object> params) {
         campusRepository.setPropagDelete(params);
+        campusRepository.delPropagUserDelete(params);
     }
 
     @Override
