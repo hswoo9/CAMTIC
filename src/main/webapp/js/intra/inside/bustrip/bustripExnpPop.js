@@ -641,8 +641,12 @@ const bustripExnpReq = {
         });
     },
 
-    fn_saveBtn: function(id, type, mode){
+    fn_save: function(id, type, mode){
         bustripExnpReq.loading();
+        setTimeout(() => bustripExnpReq.fn_saveBtn(id, type, mode), 200);
+    },
+
+    fn_saveBtn: function(id, type, mode){
 
         var returnFlag = true;
         // if(bustripExnpReq.global.flag){

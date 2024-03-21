@@ -106,11 +106,11 @@
         <div class="btn-st popButton">
             <c:choose>
                 <c:when test="${params.mode eq 'mng'}">
-                    <input type="button" class="k-button k-button-solid-primary" value="수정" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqResultId}', '${type}', '${params.mode}')" />
+                    <input type="button" class="k-button k-button-solid-primary" value="수정" onclick="bustripExnpReq.fn_save('${params.hrBizReqResultId}', '${type}', '${params.mode}')" />
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
                 </c:when>
                 <c:when test="${rs.EXP_STAT != 10}">
-                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripExnpReq.fn_saveBtn('${params.hrBizReqResultId}', '${type}')" />
+                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="bustripExnpReq.fn_save('${params.hrBizReqResultId}', '${type}')" />
                     <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="닫기" onclick="window.close()" />
                 </c:when>
                 <c:otherwise>
