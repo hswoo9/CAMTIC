@@ -40,6 +40,7 @@ const studyReq = {
     dataSet: function(){
         let studyClass = $("#studyClass").val();
         if(studyClass == 1){
+            $("#studyReqTitle").text("학습조 신청서 작성");
             // $(".study").show();
             $(".propag").hide();
             $("#subjectCont").html('<span class="red-star">*</span>학습내용');
@@ -51,6 +52,7 @@ const studyReq = {
 
             $(".subjectObj").show();
         }else if(studyClass == 2){
+            $("#studyReqTitle").text("전파학습 신청서 작성");
             $("#titleCol").html('<span class="red-star">*</span>학습주제');
             $("#subjectCont").html('<span class="red-star">*</span>학습내용');
             $("#subjectLoc").html('<span class="red-star">*</span>학습장소');
@@ -61,6 +63,7 @@ const studyReq = {
             $(".propag").show();
             $(".subjectObj").show();
         }else if(studyClass == 3){
+            $("#studyReqTitle").text("OJT 신청서 작성");
             $("#titleCol").html('<span class="red-star">*</span>지도명칭');
             $("#subjectCont").html('<span class="red-star">*</span>지도목적');
 

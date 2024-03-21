@@ -876,4 +876,5 @@
         return returnVal;
     }
 </script>
+<script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 </body>

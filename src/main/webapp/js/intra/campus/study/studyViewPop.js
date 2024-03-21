@@ -27,6 +27,8 @@ const studyView = {
 
         if($("#typeView").val() == "A"){
             $("#resultBtn").css("display", "none");
+        }else if($("#typeView").val() == "B"){
+            $("#studyTitle").text("학습조 결과보고서 조회");
         }
 
         studyView.studyUserSetting();

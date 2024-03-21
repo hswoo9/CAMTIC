@@ -48,8 +48,8 @@
 <div class="col-lg-12" style="padding:0;">
 <div class="card-header pop-header barFixed">
     <h3 class="card-title title_NM">
-                <span style="">
-                    학습조 내용 조회
+                <span id="studyTitle">
+                    학습조 신청서 조회
                 </span>
     </h3>
     <div id="studyBtn" class="btn-st popButton">

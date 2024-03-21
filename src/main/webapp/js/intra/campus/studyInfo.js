@@ -74,7 +74,6 @@ var studyInfo = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: studyInfo.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'studyPk\');"/>',
@@ -334,7 +333,7 @@ var studyInfo = {
                                 } else {
                                     return "";
                                 }
-                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid ' + btnText + '" onclick="studyInfo.studyViewPop(\'upd\', ' + row.STUDY_INFO_SN + ');">' +
+                                return '<button type="button" class="k-grid-button k-button k-button-md kN-button-solid ' + btnText + '" onclick="studyInfo.studyViewPop(\'upd\', ' + row.STUDY_INFO_SN + ', \'B\');">' +
                                     '	<span class="k-button-text">' + statusText + '</span>' +
                                     '</button>';
 
@@ -354,7 +353,7 @@ var studyInfo = {
                                 } else {
                                     return "";
                                 }
-                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid ' + btnText + '" onclick="studyInfo.propagViewPop(\'upd\', ' + row.STUDY_INFO_SN + ');">' +
+                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid ' + btnText + '" onclick="studyInfo.propagViewPop(\'upd\', ' + row.STUDY_INFO_SN + ', \'B\');">' +
                                     '	<span class="k-button-text">' + statusText + '</span>' +
                                     '</button>';
 
@@ -375,7 +374,7 @@ var studyInfo = {
                                     return "";
                                 }
 
-                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid ' + btnText + '" onclick="studyInfo.ojtViewPop(\'upd\', ' + row.STUDY_INFO_SN + ');">' +
+                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid ' + btnText + '" onclick="studyInfo.ojtViewPop(\'upd\', ' + row.STUDY_INFO_SN + ', \'B\');">' +
                                     '	<span class="k-button-text">' + statusText + '</span>' +
                                     '</button>';
                             } else {
@@ -388,22 +387,6 @@ var studyInfo = {
                 }
             ]
         }).data("kendoGrid");
-    },
-
-    onDataBound: function(){
-        let grid = this;
-        grid.element.off('dblclick');
-        grid.tbody.find("tr").dblclick(function(){
-            const dataItem = grid.dataItem($(this).closest("tr"));
-            let studyClass = dataItem.STUDY_CLASS_SN;
-            if(studyClass == 1){
-                studyInfo.studyViewPop("upd", dataItem.STUDY_INFO_SN);
-            }else if(studyClass == 2){
-                studyInfo.propagViewPop("upd", dataItem.STUDY_INFO_SN);
-            }else if(studyClass == 3){
-                studyInfo.ojtViewPop("upd", dataItem.STUDY_INFO_SN);
-            }
-        });
     },
 
     studyReqPop: function(){
@@ -423,33 +406,6 @@ var studyInfo = {
             url += "&studyResultSn="+studyResultSn;
         } else {
             name = "studyJournalPop";
-            option = "width = 800, height = 600, top = 100, left = 200, location = no";
-        }
-
-        window.open(url, name, option);
-    },
-
-    fn_resultDocPop2 : function (key, studyResultSn){
-        let ojtOjtResultSn = customKendo.fn_customAjax("/campus/getOjtOjtResultSnOne", {
-            pk: key
-        }).data;
-
-        let resKey = "";
-        if(ojtOjtResultSn != null){
-            resKey = ojtOjtResultSn.OJT_OJT_RESULT_SN;
-        }
-
-        let url = "/campus/pop/resultOjtDocPop.do?pk="+key;
-
-        let name = "studyOjtPop";
-        let option = "width = 800, height = 700, top = 100, left = 200, location = no";
-
-        if(resKey != "" && resKey != "undefined" && resKey != null){
-            url += "&mode=modify";
-            url += "&ojtOjtResultSn="+resKey;
-
-        } else {
-            name = "studyOjtPop";
             option = "width = 800, height = 600, top = 100, left = 200, location = no";
         }
 

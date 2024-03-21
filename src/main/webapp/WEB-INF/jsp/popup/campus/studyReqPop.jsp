@@ -28,8 +28,8 @@
 <div class="table-responsive">
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
-                <span style="">
-                    내부학습 신청서 작성
+                <span id="studyReqTitle">
+                    학습조 신청서 작성
                 </span>
         </h3>
         <div class="btn-st popButton">

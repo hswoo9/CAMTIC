@@ -81,6 +81,8 @@ const ojtView = {
 
         if($("#typeView").val() == "A"){
             $("#resultBtn").css("display", "none");
+        }else if($("#typeView").val() == "B"){
+            $("#studyTitle").text("OJT 결과보고서 조회");
         }
     },
 

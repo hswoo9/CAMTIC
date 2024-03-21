@@ -46,7 +46,11 @@
 <div class="col-lg-12" style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header barFixed">
-            <h3 class="card-title title_NM">OJT 신청서 조회</h3>
+            <h3 class="card-title title_NM">
+                <span id="studyTitle">
+                    OJT 신청서 조회
+                </span>
+            </h3>
             <div id="studyBtn" class="btn-st popButton"></div>
         </div>
         <div class="card-header" style="padding-top:60px;">

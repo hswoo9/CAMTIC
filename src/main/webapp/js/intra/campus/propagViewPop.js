@@ -65,6 +65,8 @@ const propagView = {
 
         if($("#typeView").val() == "A"){
             $("#resultBtn").css("display", "none");
+        }else if($("#typeView").val() == "B"){
+            $("#studyTitle").text("전파학습 결과보고서 조회");
         }
     },
 

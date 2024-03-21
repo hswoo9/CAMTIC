@@ -631,7 +631,19 @@ const bustripExnpReq = {
 
     },
 
+    loading : function(){
+        $.LoadingOverlay("show", {
+            background: "rgba(0, 0, 0, 0.5)",
+            image: "",
+            maxSize: 60,
+            fontawesome: "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor: "#FFFFFF",
+        });
+    },
+
     fn_saveBtn: function(id, type, mode){
+        bustripExnpReq.loading();
+
         var returnFlag = true;
         // if(bustripExnpReq.global.flag){
         //     alert("사용 가능한 식비를 초과하였습니다.\n(식비 한도: 출장인원수 x 출장일수 x 30,000)");
@@ -681,6 +693,7 @@ const bustripExnpReq = {
             }
         }
         if(!returnFlag[0]){
+            $.LoadingOverlay("hide", {});
             return false;
         }
 
