@@ -192,7 +192,7 @@ var campusInit = {
             html += '               <tr>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_CLASS_TEXT +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_DEPT_NAME+ ' '+map.STUDY_TEAM_NAME +'</p></td>';
-            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_POSITION_NAME +'</p></td>';
+            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (map.STUDY_DUTY_NAME == "" ? map.STUDY_POSITION_NAME : map.STUDY_DUTY_NAME) +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_EMP_NAME +'</p></td>';
             html += '               </tr>';
         }
@@ -275,7 +275,7 @@ var campusInit = {
             html += '               <tr>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_CLASS_TEXT +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_DEPT_NAME+ ' '+map.STUDY_TEAM_NAME +'</p></td>';
-            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_POSITION_NAME +'</p></td>';
+            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (map.STUDY_DUTY_NAME == "" ? map.STUDY_POSITION_NAME : map.STUDY_DUTY_NAME) +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_EMP_NAME +'</p></td>';
             html += '               </tr>';
         }
@@ -285,7 +285,7 @@ var campusInit = {
             html += '               <tr>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_CLASS_TEXT +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_DEPT_NAME+ ' '+map.STUDY_TEAM_NAME +'</p></td>';
-            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_POSITION_NAME +'</p></td>';
+            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (map.STUDY_DUTY_NAME == "" ? map.STUDY_POSITION_NAME : map.STUDY_DUTY_NAME) +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_EMP_NAME +'</p></td>';
             html += '               </tr>';
         }
@@ -385,7 +385,7 @@ var campusInit = {
             html += '               <tr>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_CLASS_TEXT +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_DEPT_NAME+ ' '+map.STUDY_TEAM_NAME +'</p></td>';
-            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_POSITION_NAME +'</p></td>';
+            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (map.STUDY_DUTY_NAME == "" ? map.STUDY_POSITION_NAME : map.STUDY_DUTY_NAME) +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_EMP_NAME +'</p></td>';
             html += '               </tr>';
         }
@@ -395,7 +395,7 @@ var campusInit = {
             html += '               <tr>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_CLASS_TEXT +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_DEPT_NAME+ ' '+map.STUDY_TEAM_NAME +'</p></td>';
-            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_POSITION_NAME +'</p></td>';
+            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (map.STUDY_DUTY_NAME == "" ? map.STUDY_POSITION_NAME : map.STUDY_DUTY_NAME) +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_EMP_NAME +'</p></td>';
             html += '               </tr>';
         }
@@ -516,7 +516,7 @@ var campusInit = {
             html += '               <tr>';
             html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_CLASS_TEXT +'</p></td>';
             html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_DEPT_NAME+ ' '+map.STUDY_TEAM_NAME +'</p></td>';
-            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_POSITION_NAME +'</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (map.STUDY_DUTY_NAME == "" ? map.STUDY_POSITION_NAME : map.STUDY_DUTY_NAME) +'</p></td>';
             html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_EMP_NAME +'</p></td>';
             html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_EMP_CNT +'</p></td>';
             html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.STUDY_TIME +'</p></td>';
@@ -625,7 +625,7 @@ var campusInit = {
             html += '               <tr>';
             html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.PROPAG_CLASS_TEXT +'</p></td>';
             html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.PROPAG_DEPT_NAME+ ' '+map.PROPAG_TEAM_NAME +'</p></td>';
-            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (map.PROPAG_DUTY_NAME == "" ? map.STUDY_POSITION_NAME : map.PROPAG_DUTY_NAME) + '</p></td>';
+            html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (map.PROPAG_DUTY_NAME == "" ? map.PROPAG_POSITION_NAME : map.PROPAG_DUTY_NAME) + '</p></td>';
             html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.PROPAG_EMP_NAME +'</p></td>';
             html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.EDU_COUNT +'</p></td>';
             html += '                   <td style="height:23px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.REAL_EDU_TIME +'</p></td>';

@@ -25,6 +25,10 @@ const studyView = {
             $("#resultBtn").css("display", "");
         }
 
+        if($("#typeView").val() == "A"){
+            $("#resultBtn").css("display", "none");
+        }
+
         studyView.studyUserSetting();
     },
 
@@ -100,22 +104,23 @@ const studyView = {
         buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"결과보고서\" id=\"resultBtn\" onclick=\"studyView.fn_resultDocPop();\"/>";
         if($("#typeView").val() != "A"){
             buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"학습완료\" id=\"compBtn\" onclick=\"studyView.fn_studyComplete();\"/>";
-        }
-        if(studyInfo != null){
-            let status = studyInfo.STATUS;
-            if(status == "0"){
-                buttonHtml += "<input type=\"button\" id=\"studyModBtn\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-primary\" value=\"수정\" onclick=\"studyView.studyUpdatePop();\"/>";
-                buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"studyView.studyReq()\">상신</button>";
-            }else if(status == "10" || status == "20" || status == "50"){
-                buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
-                buttonHtml += "<button type=\"button\" id=\"studyAppBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', '"+studyInfo.DOC_MENU_CD+"');\">결재</button>";
-            }else if(status == "30" || status == "40"){
-                buttonHtml += "<input type=\"button\" id=\"studyModBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-primary\" value=\"수정\" onclick=\"studyView.studyUpdatePop();\"/>";
-                buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+studyInfo.DOC_ID+"', '"+studyInfo.DOC_MENU_CD+"', '"+studyInfo.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
-            }else if(status == "100"){
-                buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', '"+studyInfo.DOC_MENU_CD+"');\">열람</button>";
-            }else if(status == "111"){
-                buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+studyInfo.DOC_ID+"', '"+studyInfo.DOC_MENU_CD+"', '"+studyInfo.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
+        } else{
+            if(studyInfo != null){
+                let status = studyInfo.STATUS;
+                if(status == "0"){
+                    buttonHtml += "<input type=\"button\" id=\"studyModBtn\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-primary\" value=\"수정\" onclick=\"studyView.studyUpdatePop();\"/>";
+                    buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" onclick=\"studyView.studyReq()\">상신</button>";
+                }else if(status == "10" || status == "20" || status == "50"){
+                    buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                    buttonHtml += "<button type=\"button\" id=\"studyAppBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', '"+studyInfo.DOC_MENU_CD+"');\">결재</button>";
+                }else if(status == "30" || status == "40"){
+                    buttonHtml += "<input type=\"button\" id=\"studyModBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-primary\" value=\"수정\" onclick=\"studyView.studyUpdatePop();\"/>";
+                    buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+studyInfo.DOC_ID+"', '"+studyInfo.DOC_MENU_CD+"', '"+studyInfo.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+                }else if(status == "100"){
+                    buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+studyInfo.DOC_ID+"', '"+studyInfo.APPRO_KEY+"', '"+studyInfo.DOC_MENU_CD+"');\">열람</button>";
+                }else if(status == "111"){
+                    buttonHtml += "<button type=\"button\" id=\"studyReqBtn\" style=\"display: none; margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+studyInfo.DOC_ID+"', '"+studyInfo.DOC_MENU_CD+"', '"+studyInfo.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
+                }
             }
         }
         buttonHtml += "<input type=\"button\" id=\"studyCloseBtn\" class=\"k-button k-button-solid-error\" value=\"닫기\" onclick=\"window.close();\"/>";

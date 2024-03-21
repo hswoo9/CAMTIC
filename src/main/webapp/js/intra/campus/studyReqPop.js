@@ -266,9 +266,9 @@ const studyReq = {
             const diffDate = date1.getTime() - date2.getTime();
             const getDateDiff = parseInt(Math.abs(diffDate / (1000 * 60 * 60 * 24))/7)+1;
 
-            if(getDateDiff * 2 < eduTime){
-                eduTime = getDateDiff * 2
-            }
+            // if(getDateDiff * 2 < eduTime){
+            //     eduTime = getDateDiff * 2
+            // }
             data.eduTime = eduTime;
         }
 
@@ -322,11 +322,11 @@ function studyViewPop(pk, studyClassSn){
    /* let url = "/Campus/pop/studyViewPop.do?mode=upd&pk="+pk;*/
     let url;
     if(studyClassSn == 1){
-        url = "/Campus/pop/studyViewPop.do?mode=upd&pk="+pk; //학습조
+        url = "/Campus/pop/studyViewPop.do?mode=upd&pk="+pk+"&typeView=A"; //학습조
     }else if(studyClassSn == 2){
-        url = "/Campus/pop/propagViewPop.do?mode=upd&pk="+pk; //전파학습
+        url = "/Campus/pop/propagViewPop.do?mode=upd&pk="+pk+"&typeView=A"; //전파학습
     }else if(studyClassSn == 3){
-        url = "/Campus/pop/ojtViewPop.do?mode=upd&pk="+pk; // OJT
+        url = "/Campus/pop/ojtViewPop.do?mode=upd&pk="+pk+"&typeView=A"; // OJT
     }else{
         return;
     }
