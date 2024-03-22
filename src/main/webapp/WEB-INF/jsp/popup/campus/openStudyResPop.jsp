@@ -38,6 +38,7 @@
                 <button type="button" id="comBtn" style="display: none" class="k-button k-button-solid-error" onclick="openStudyRes.fn_openStudyCertReq(30);">반려</button>
                 <button type="button" id="modBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyRes.fn_openStudyModify();">수정</button>
                 <button type="button" id="appBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyRes.fn_openStudyCertReq(10);">승인요청</button>
+                <button type="button" id="canBtn" style="display: none" class="k-button k-button-solid-info" onclick="openStudyRes.fn_openStudyCertReq(0);">승인요청취소</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
             </div>
         </div>

@@ -41,13 +41,17 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>모임명
                     </th>
-                    <td id="openStudyNameTd"></td>
+                    <td id="openStudyNameTd">
+                        <input type="text" id="openStudyName" />
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>일시
                     </th>
-                    <td id="openStudyDtTd"></td>
+                    <td id="openStudyDtTd">
+                        <input id="openStudyDt" type="text" style="width: 150px;"> <input type="text" id="startTime" style="width: 100px"> ~ <input type="text" id="endTime" style="width: 100px">
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
