@@ -67,6 +67,8 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.delPayAppDetailData(params);
         }
 
+        payAppRepository.insPayAppBsYm(params);
+
         // 법인카드 증빙서류 생성
         createPdf(params, serverDir, baseDir);
 
@@ -1606,6 +1608,8 @@ public class PayAppServiceImpl implements PayAppService {
 
         payAppRepository.insPayAppRevert(params);
 
+        payAppRepository.delPayAppBsYm(params);
+
         params.put("PAY_APP_SN", params.get("payAppSn"));
         payAppRepository.delUseEtaxInfo(params);
         List<Map<String, Object>> useCardList = payAppRepository.getUseCardInfoList(params);
@@ -1721,7 +1725,6 @@ public class PayAppServiceImpl implements PayAppService {
         return payAppRepository.getPayIncpReData(params);
     }
 
-
     public void createPdf(Map<String, Object> params, String serverDir, String baseDir) {
         Document document = new Document();
 
@@ -1788,5 +1791,10 @@ public class PayAppServiceImpl implements PayAppService {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Map<String, Object> getPartRatePayBsYm(Map<String, Object> params) {
+        return payAppRepository.getPartRatePayBsYm(params);
     }
 }
