@@ -334,8 +334,15 @@ const propagView = {
                 }, {
                     title: "처리명령",
                     template: function(row){
-                        return '<button type="button" style="margin-right:5px;" class="k-button k-button-solid-base" onclick="propagView.propagPrintPop('+row.STUDY_PROPAG_SN+')">인쇄</button>' +
-                            '<button type="button" class="k-button k-button-solid-error" onclick="propagView.fn_delBtn('+row.STUDY_PROPAG_SN+')">삭제</button>';
+                        if($("#addStatus").val() == "Y" || $("#addStatus").val() == "C"){
+                            $("#journalPopBtn").css("display", "none")
+
+                            return '<button type="button" style="margin-right:5px;" class="k-button k-button-solid-base" onclick="propagView.propagPrintPop('+row.STUDY_PROPAG_SN+')">인쇄</button>';
+                        } else {
+                            return '<button type="button" style="margin-right:5px;" class="k-button k-button-solid-base" onclick="propagView.propagPrintPop('+row.STUDY_PROPAG_SN+')">인쇄</button>' +
+                                '<button type="button" class="k-button k-button-solid-error" onclick="propagView.fn_delBtn('+row.STUDY_PROPAG_SN+')">삭제</button>';
+                        }
+
                     }
                 }
             ],
