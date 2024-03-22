@@ -96,7 +96,7 @@ var cardToBus = {
                 }, {
                     width: 80,
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="cardToBus.fn_selBustrip('+e.HR_BIZ_REQ_ID+', \''+e.VISIT_CRM+'\')">' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="cardToBus.fn_selBustrip(this)">' +
                             '	<span class="k-button-text">선택</span>' +
                             '</button>';
                     }
@@ -108,8 +108,9 @@ var cardToBus = {
         }).data("kendoGrid");
     },
 
-    fn_selBustrip : function (key, visitCrm) {
-        opener.parent.regCardToPop.fn_selBustrip(key, visitCrm);
+    fn_selBustrip : function (e) {
+        var dataItem =  $("#mainGrid").data("kendoGrid").dataItem($(e).closest("tr"));
+        opener.parent.regCardToPop.fn_selBustrip(dataItem);
         window.close();
     }
 }

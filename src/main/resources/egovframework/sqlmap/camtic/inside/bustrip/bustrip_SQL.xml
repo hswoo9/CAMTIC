@@ -152,7 +152,8 @@
             A.STATUS,
             A.BF_PAY_APP_SN,
             B.STATUS AS RS_STATUS,
-            A.PJT_SN,
+            IFNULL(B.PJT_SN, A.PJT_SN) AS PJT_SN,
+            IFNULL(PP.PJT_CD, P.PJT_CD) AS PJT_CD,
             A.BF_EXP_STAT,
             B.EXP_STAT,
             B.PAY_APP_SN,
@@ -186,6 +187,14 @@
             CAM_MNG.DJ_PAY_APP D
         ON
             A.BF_PAY_APP_SN = D.PAY_APP_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT P
+        ON
+            P.PJT_SN = A.PJT_SN
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT PP
+        ON
+            PP.PJT_SN = B.PJT_SN
         WHERE
         <![CDATA[
             A.TRIP_DAY_FR >= #{startDate} AND A.TRIP_DAY_TO <= #{endDate}
