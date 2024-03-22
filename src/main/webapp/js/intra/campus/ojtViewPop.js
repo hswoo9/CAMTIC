@@ -463,7 +463,10 @@ const ojtView = {
                     }
                 }, {
                     field: "TITLE",
-                    title: "중점 지도항목"
+                    title: "중점 지도항목",
+                    template : function(e){
+                        return '<div style="cursor : pointer; font-weight:bold" onclick="ojtView.ojtPlanPop(\'ins\', '+e.STUDY_INFO_SN+')">'+e.TITLE+'</div>'
+                    }
                 }, {
                     field: "ETC",
                     title: "비고",
