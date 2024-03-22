@@ -53,7 +53,7 @@
             <tr>
                 <th><span class="red-star">*</span>학습일시</th>
                 <td>
-                    <input type="text" id="journalDt" style="width: 150px"> <input type="text" id="journalStartTime" style="width: 100px"> ~ <input type="text" id="journalEndTime" style="width: 100px">
+                    <input type="text" id="journalDt" style="width: 150px"> <input type="text" id="journalStartTime" maxlength="5" style="width: 100px"> ~ <input type="text" id="journalEndTime" maxlength="5" style="width: 100px">
                 </td>
             </tr>
             <tr>
