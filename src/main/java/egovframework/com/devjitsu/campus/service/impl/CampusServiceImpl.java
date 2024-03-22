@@ -406,7 +406,7 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public void setEduResultInsert(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
-        campusRepository.setEduInfoUpdate(params);
+//        campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultInsert(params);
 
         MainLib mainLib = new MainLib();
@@ -431,7 +431,7 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public void setEduResultModify(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
-        campusRepository.setEduInfoUpdate(params);
+//        campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultModify(params);
 
         MainLib mainLib = new MainLib();

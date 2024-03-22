@@ -106,7 +106,7 @@
               <tr>
                 <th>과정명</th>
                 <td colspan="3">
-                  <span id="eduName"></span>
+                  <input type="text" id="eduName" />
                 </td>
               </tr>
               <c:choose>
@@ -114,11 +114,11 @@
                   <tr>
                     <th>페이지수</th>
                     <td>
-                      <span id="bookPageVal"></span> Page
+                      <input type="text" id="bookPageVal" style="width: 100px;"/> Page
                     </td>
                     <th>출판사</th>
                     <td>
-                      <span id="bookPulishName"></span>
+                      <input type="text" id="bookPulishName" />
                     </td>
                   </tr>
                 </c:when>
@@ -126,11 +126,11 @@
                   <tr>
                     <th>출처</th>
                     <td>
-                      <span id="treaOrigin"></span>
+                      <input type="text" id="treaOrigin" />
                     </td>
                     <th>편수</th>
                     <td>
-                      <span id="treaUnit"></span> 편
+                      <input type="text" id="treaUnit" style="width: 100px;"/> 편
                     </td>
                   </tr>
                 </c:when>
@@ -138,7 +138,7 @@
                   <tr>
                     <th>학술지 유형</th>
                     <td>
-                      <span id="treaType"></span> 학술지
+                      <span id="treaType"></span>
                     </td>
                     <th>저자 유형</th>
                     <td>
@@ -154,7 +154,7 @@
                     </td>
                     <th>발급기관</th>
                     <td>
-                      <span class="careName"></span>
+                      <input type="text" id="careName10" />
                     </td>
                   </tr>
                 </c:when>
@@ -162,46 +162,30 @@
               <tr>
                 <th>${eduDateVar}</th>
                   <c:choose>
-                    <c:when test="${eduFormType == 1}">
+                    <c:when test="${eduFormType == 1 || eduFormType == 2 || eduFormType == 3}">
                       <td>
-                        <span class="startDt"></span> ~ <span class="endDt"></span> (총 <input type="text" id="termDay" style="width: 50px">일 <input type="text" id="termTime" style="width: 50px">시간)
-                      </td>
-                    </c:when>
-                    <c:when test="${eduFormType == 2 || eduFormType == 3}">
-                      <td>
-                        <span class="startDt"></span> ~ <span class="endDt"></span> (총 <span class="termDay"></span>일 <span class="termTime"></span>시간)
-                      </td>
-                    </c:when>
-                    <c:when test="${eduFormType == 10}">
-                      <td colspan="3">
-                        <span class="startDt"></span> ~ <span class="endDt"></span> (총 <span class="termDay"></span>일 <span class="termTime"></span>시간)
-                      </td>
-                    </c:when>
-                    <c:when test="${eduFormType == 7 || eduFormType == 8}">
-                      <td colspan="3">
-                        <span class="startDt"></span> ~ <span class="endDt"></span>
-                      </td>
                     </c:when>
                     <c:otherwise>
                       <td colspan="3">
-                        <span class="startDt"></span> ~ <span class="endDt"></span> (총 <span class="termDay"></span>일 <span class="termTime"></span>시간)
-                      </td>
                     </c:otherwise>
                   </c:choose>
+                        <input type="text" id="startDt" style="width: 130px;" /> ~ <input type="text" id="endDt" style="width: 130px;" />
+                  <c:if test="${eduFormType != 7 && eduFormType != 8}">
+                        <br><div style="margin-top: 5px;">(총 <input type="text" id="termDay" style="width: 40px" />일 <input type="text" id="termTime" style="width: 40px;" />시간)</div>
+                  </c:if>
+                      </td>
                   <c:choose>
                     <c:when test="${eduFormType == 1 || eduFormType == 2}">
                       <th><span class="red-star">*</span>강사</th>
                       <td>
-                        <input type="text" id="eduTeacherName" style="width: 200px">
+                        <input type="text" id="eduTeacherName">
                       </td>
                     </c:when>
                     <c:when test="${eduFormType == 3}">
                       <th>참석형태</th>
                       <td>
                         <span id="objectForumType"></span>
-                          <span id="forumValWrap" style="display: none;">
-                            (발표제목 : <span id="objectForumVal"></span>)
-                          </span>
+                        (발표제목 : <input type="text" id="objectForumVal" style="width: 290px;" />)
                       </td>
                     </c:when>
                   </c:choose>
@@ -212,11 +196,11 @@
                     <th>
                         ${careNameVar}</th>
                     <td>
-                      <span class="careName"></span>
+                      <input type="text" id="careName" />
                     </td>
                     <th>${careLocationVar}</th>
                     <td>
-                      <span id="careLocation"></span>
+                      <input type="text" id="careLocation" />
                     </td>
                   </tr>
                 </c:when>
@@ -226,7 +210,7 @@
                   <tr>
                     <th>권 수</th>
                     <td colspan="3">
-                      <span id="bookUnit"></span>
+                      <input type="text" id="bookUnit" style="width: 100px;" />
                     </td>
                   </tr>
                 </c:when>
@@ -234,7 +218,7 @@
                   <tr>
                     <th>방문지</th>
                     <td colspan="3">
-                      <span class="careName"></span>
+                      <input type="text" id="careName9" />
                     </td>
                   </tr>
                 </c:when>
@@ -244,7 +228,7 @@
                   <tr>
                     <th>${eduObjectVar}</th>
                     <td colspan="3">
-                      <span id="eduObject"></span>
+                      <input type="text" id="eduObject" />
                     </td>
                   </tr>
                 </c:when>

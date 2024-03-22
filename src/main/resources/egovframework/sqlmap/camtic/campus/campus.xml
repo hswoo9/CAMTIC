@@ -240,7 +240,7 @@
                     EI.DUTY_CLASS,
                     CASE
                         WHEN EI.CARE_LOCATION IS NULL
-                        THEN CARE_NAME
+                        THEN EI.CARE_NAME
                         ELSE EI.CARE_LOCATION
                     END AS CARE_LOCATION,
                     CONCAT('Level. ', EI.LEVEL_ID) AS LEVEL_ID,
@@ -316,7 +316,7 @@
                     AND
                         HEI.POSITION_NAME = #{duty}
                 </if>
-                AND (DATE_FORMAT(START_DT, '%Y') = #{eduYear})
+                AND (DATE_FORMAT(EI.START_DT, '%Y') = #{eduYear})
                 ORDER BY EI.EDU_INFO_ID
             ) RE
             <if test='resStatus != null and !"".equals(resStatus)'>
@@ -412,15 +412,15 @@
             EI.EDU_CATEGORY_DETAIL_ID,
             EI.EDU_CATEGORY_DETAIL_NAME,
             EI.LEVEL_ID,
-            EI.EDU_NAME,
-            EI.EDU_OBJECT,
-            EI.EDU_CONTENT,
-            EI.START_DT,
-            EI.END_DT,
-            EI.TERM_DAY,
-            EI.TERM_TIME,
-            EI.CARE_NAME,
-            EI.CARE_LOCATION,
+            IFNULL(ER.EDU_NAME, EI.EDU_NAME) AS EDU_NAME,
+            IFNULL(ER.EDU_OBJECT, EI.EDU_OBJECT) AS EDU_OBJECT,
+            IFNULL(ER.EDU_CONTENT, EI.EDU_CONTENT) AS EDU_CONTENT,
+            IFNULL(ER.START_DT,EI.START_DT) AS START_DT,
+            IFNULL(ER.END_DT, EI.END_DT) AS END_DT,
+            IFNULL(ER.TERM_DAY,EI.TERM_DAY) AS TERM_DAY,
+            IFNULL(ER.TERM_TIME,EI.TERM_TIME) AS TERM_TIME,
+            IFNULL(ER.CARE_NAME, EI.CARE_NAME) AS CARE_NAME,
+            IFNULL(ER.CARE_LOCATION, EI.CARE_LOCATION) AS CARE_LOCATION,
             EI.CARE_TEL_NUM,
             EI.EDU_MONEY,
             EI.EDU_MONEY_TYPE,
@@ -431,17 +431,17 @@
             EI.FILE_SN,
             EI.REG_DT,
             EI.EDU_FORM_TYPE,
-            EI.OBJECT_FORUM_TYPE,
-            EI.OBJECT_FORUM_VAL,
+            IFNULL(ER.OBJECT_FORUM_TYPE,EI.OBJECT_FORUM_TYPE) AS OBJECT_FORUM_TYPE,
+            IFNULL(ER.OBJECT_FORUM_VAL,EI.OBJECT_FORUM_VAL) AS OBJECT_FORUM_VAL,
             EI.BOOK_WRITER_NAME,
-            EI.BOOK_PAGE_VAL,
-            EI.BOOK_PULISH_NAME,
-            EI.TREA_ORIGIN,
-            EI.TREA_UNIT,
-            EI.TREA_TYPE,
-            EI.TREA_USER,
-            EI.BOOK_UNIT,
-            EI.COMP_TYPE,
+            IFNULL(ER.BOOK_PAGE_VAL,EI.BOOK_PAGE_VAL) AS BOOK_PAGE_VAL,
+            IFNULL(ER.BOOK_PULISH_NAME,EI.BOOK_PULISH_NAME) AS BOOK_PULISH_NAME,
+            IFNULL(ER.TREA_ORIGIN,EI.TREA_ORIGIN) AS TREA_ORIGIN,
+            IFNULL(ER.TREA_UNIT,EI.TREA_UNIT) AS TREA_UNIT,
+            IFNULL(ER.TREA_TYPE,EI.TREA_TYPE) AS TREA_TYPE,
+            IFNULL(ER.TREA_USER,EI.TREA_USER) AS TREA_USER,
+            IFNULL(ER.BOOK_UNIT,EI.BOOK_UNIT) AS BOOK_UNIT,
+            IFNULL(ER.COMP_TYPE,EI.COMP_TYPE) AS COMP_TYPE,
             ER.EDU_TEACHER_NAME,
             ER.EDU_EVAL,
             ER.EDU_POINT,
@@ -1748,10 +1748,27 @@
         INSERT INTO CAMPUS.DJ_EDU_RESULT
             (
                 EDU_INFO_ID,
+                EDU_NAME,
+                EDU_OBJECT,
+                EDU_CONTENT,
+                START_DT,
+                END_DT,
+                TERM_DAY,
+                TERM_TIME,
+                CARE_NAME,
+                CARE_LOCATION,
+                OBJECT_FORUM_TYPE,
+                OBJECT_FORUM_VAL,
+                BOOK_PAGE_VAL,
+                BOOK_PULISH_NAME,
+                TREA_ORIGIN,
+                TREA_UNIT,
+                TREA_TYPE,
+                TREA_USER,
+                BOOK_UNIT,
+                COMP_TYPE,
                 EDU_TEACHER_NAME,
-                <if test='eduFormType == "1" || eduFormType == "2"'>
-                    EDU_EVAL,
-                </if>
+                EDU_EVAL,
                 EDU_POINT,
                 FBLIST,
                 ATTACH_DOC_NAME,
@@ -1760,10 +1777,27 @@
         VALUES
             (
                 #{eduInfoId},
+                #{eduName},
+                #{eduObject},
+                #{eduContent},
+                #{startDt},
+                #{endDt},
+                #{termDay},
+                #{termTime},
+                #{careName},
+                #{careLocation},
+                #{objectForumText},
+                #{objectForumVal},
+                #{bookPageVal},
+                #{bookPulishName},
+                #{treaOrigin},
+                #{treaUnit},
+                #{treaType},
+                #{treaUser},
+                #{bookUnit},
+                #{compType},
                 #{eduTeacherName},
-                <if test='eduFormType == "1" || eduFormType == "2"'>
-                    #{eduEval},
-                </if>
+                #{eduEval},
                 #{eduPoint},
                 #{FBList},
                 #{attachDocName},
@@ -1775,7 +1809,26 @@
         UPDATE
             CAMPUS.DJ_EDU_RESULT
         SET
-            EDU_TEACHER_NAME = #{eduTeacherName},
+            EDU_NAME = #{eduName},
+            EDU_OBJECT = #{eduObject},
+            EDU_CONTENT = #{eduContent},
+            START_DT = #{startDt},
+            END_DT = #{endDt},
+            TERM_DAY = #{termDay},
+            TERM_TIME = #{termTime},
+            CARE_NAME = #{careName},
+            CARE_LOCATION = #{careLocation},
+            OBJECT_FORUM_TYPE = #{objectForumText},
+            OBJECT_FORUM_VAL = #{objectForumVal},
+            BOOK_PAGE_VAL = #{bookPageVal},
+            BOOK_PULISH_NAME = #{bookPulishName},
+            TREA_ORIGIN = #{treaOrigin},
+            TREA_UNIT = #{treaUnit},
+            TREA_TYPE = #{treaType},
+            TREA_USER = #{treaUser},
+            BOOK_UNIT = #{bookUnit},
+            COMP_TYPE = #{compType},
+            EDU_EVAL = #{eduEval},
             EDU_POINT = #{eduPoint},
             FBLIST = #{FBList}
         WHERE
