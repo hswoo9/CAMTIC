@@ -73,22 +73,6 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>반출일시
-                </th>
-                <td>
-                    <input type="text" id="cardToDe" value="" style="width: 48%;">
-                    <input type="text" name="cardToTime" id="cardToTime" style="width: 48%">
-                </td>
-                <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>반납예정일시
-                </th>
-                <td>
-                    <input type="text" id="cardFromDe" value="" style="width: 48%;">
-                    <input type="text" name="cardFromTime" id="cardFromTime" style="width: 48%;">
-                </td>
-            </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>반출목적
                 </th>
                 <td colspan="3">
@@ -106,6 +90,22 @@
                         <input type="text" id="purcReqPurpose" style="width: 40%;" disabled />
                         <button type="button" class="k-button k-button-solid-base" onclick="regCardToPop.fn_purcPop();">검색</button>
                     </span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>반출일시
+                </th>
+                <td>
+                    <input type="text" id="cardToDe" value="" style="width: 48%;">
+                    <input type="text" name="cardToTime" id="cardToTime" style="width: 48%">
+                </td>
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>반납예정일시
+                </th>
+                <td>
+                    <input type="text" id="cardFromDe" value="" style="width: 48%;">
+                    <input type="text" name="cardFromTime" id="cardFromTime" style="width: 48%;">
                 </td>
             </tr>
             <tr>

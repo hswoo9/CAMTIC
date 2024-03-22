@@ -731,17 +731,17 @@ var docView = {
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
         }else if(menuCd == "study") {   // 학습조 신청
-            let url = "/Campus/pop/studyViewPop.do?mode=upd&pk=" + pk;
+            let url = "/Campus/pop/studyViewPop.do?mode=upd&pk=" + pk + "&typeView=A";
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
         }else if(menuCd == "propag") {  // 전파학습 신청
-            let url = "/Campus/pop/propagViewPop.do?mode=upd&pk=" + pk;
+            let url = "/Campus/pop/propagViewPop.do?mode=upd&pk=" + pk + "&typeView=A";
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
         }else if(menuCd == "ojt") {     // ojt 신청서
-            let url = "/Campus/pop/ojtViewPop.do?mode=upd&pk=" + pk;
+            let url = "/Campus/pop/ojtViewPop.do?mode=upd&pk=" + pk + "&typeView=A";
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);

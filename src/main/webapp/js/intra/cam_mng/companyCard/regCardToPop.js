@@ -308,9 +308,25 @@ var regCardToPop = {
         var popup = window.open(url, name, option);
     },
 
-    fn_selBustrip : function (key, visitCrm){
-        $("#hrBizReqId").val(key);
-        $("#hrBizVisitCrm").val(visitCrm);
+    fn_selBustrip : function (dataItem){
+        $("#hrBizReqId").val(dataItem.HR_BIZ_REQ_ID);
+        $("#hrBizVisitCrm").val(dataItem.VISIT_CRM);
+        $("#cardToDe").val(dataItem.TRIP_DAY_FR);
+        $("#cardToTime").val(dataItem.TRIP_TIME_FR);
+        $("#cardFromDe").val(dataItem.TRIP_DAY_TO);
+        $("#cardFromTime").val(dataItem.TRIP_TIME_TO);
+
+        if(dataItem.PJT_SN){
+            $("#pjtSn").val(dataItem.PJT_SN);
+            $("#pjtNm").val(dataItem.BUSN_NAME);
+            $("#pjtCd").val(dataItem.PJT_CD);
+
+            $("#businessYn").data("kendoDropDownList").value('Y');
+        } else {
+            $("#businessYn").data("kendoDropDownList").value('N');
+        }
+
+        regCardToPop.fn_businessChk();
     },
 
     fn_selPurc: function (key, purcReqPurpose){
