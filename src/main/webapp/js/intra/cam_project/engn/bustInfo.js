@@ -303,6 +303,10 @@ var bustInfo = {
     },
 
     fn_delPjtBustrip : function (key, reqKey){
+        if(!confirm("해당 출장내역을 제외하시겠습니까?")){
+            return ;
+        }
+
         var data= {
             hrBizReqResultId : key,
             hrBizReqId : reqKey,
@@ -315,6 +319,7 @@ var bustInfo = {
             dataType : "json",
             success : function(rs){
                if(rs.code == 200){
+                   alert("처리되었습니다.");
                    $("#bustripMainGrid").data("kendoGrid").dataSource.read();
                }
             }
@@ -332,6 +337,10 @@ var bustInfo = {
 
         if($("#hrBizReqResultId").val() == ""){
             alert("출장 내역을 선택해주세요.");
+            return ;
+        }
+
+        if(!confirm("저장하시겠습니까?")){
             return ;
         }
 

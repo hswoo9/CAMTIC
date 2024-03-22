@@ -1538,37 +1538,41 @@
         SELECT
             A.HR_BIZ_REQ_ID,
             B.HR_BIZ_REQ_RESULT_ID,
-            A.TRIP_CODE,
-            A.BUSN_NAME,
+            IFNULL(B.TRIP_CODE, A.TRIP_CODE) AS TRIP_CODE,
+            IFNULL(B.BUSN_NAME, A.BUSN_NAME) AS BUSN_NAME,
             A.EMP_NAME,
-            A.VISIT_CRM,
-            A.VISIT_LOC,
-            A.VISIT_LOC_SUB,
-            A.TRIP_DAY_FR,
-            A.TRIP_TIME_FR,
-            A.TRIP_DAY_TO,
-            A.TRIP_TIME_TO,
-            A.USE_TRSPT,
+            IFNULL(B.VISIT_CRM, A.VISIT_CRM) AS VISIT_CRM,
+            IFNULL(B.VISIT_LOC, A.VISIT_LOC) AS VISIT_LOC,
+            IFNULL(B.VISIT_LOC_SUB, A.VISIT_LOC_SUB) AS VISIT_LOC_SUB,
+            IFNULL(B.TRIP_DAY_FR, A.TRIP_DAY_FR) AS TRIP_DAY_FR,
+            IFNULL(B.TRIP_TIME_FR, A.TRIP_TIME_FR) AS TRIP_TIME_FR,
+            IFNULL(B.TRIP_DAY_TO, A.TRIP_DAY_TO) AS TRIP_DAY_TO,
+            IFNULL(B.TRIP_TIME_TO, A.TRIP_TIME_TO) AS TRIP_TIME_TO,
+            IFNULL(B.USE_TRSPT, A.USE_TRSPT) AS USE_TRSPT,
+            IFNULL(B.USE_TRSPT_RMK, A.USE_TRSPT_RMK) AS USE_TRSPT_RMK,
+            IFNULL((SELECT SUM(REPLACE(TOT_COST, ',', '')) FROM CAM_INSIDE.DJ_HR_BIZ_OVER_EXNP WHERE HR_BIZ_REQ_ID = A.HR_BIZ_REQ_ID), 0 ) AS OVER_TOT_COST,
             A.STATUS,
+            A.BF_PAY_APP_SN,
             B.STATUS AS RS_STATUS,
             A.PJT_SN,
             A.BF_EXP_STAT,
             B.EXP_STAT,
             B.PAY_APP_SN,
             IFNULL((
-                SELECT
-                    SUM(REPLACE(TOT_COST, ',', '')) AS BUSTRIP_EXNP_SUM
-                FROM
-                    CAM_INSIDE.DJ_HR_BIZ_EXNP BE
-                WHERE
-                    BE.HR_BIZ_REQ_RESULT_ID = B.HR_BIZ_REQ_RESULT_ID
-            ), 0) AS RES_EXNP_SUM,
+                       SELECT
+                           SUM(REPLACE(TOT_COST, ',', '')) AS BUSTRIP_EXNP_SUM
+                       FROM
+                           CAM_INSIDE.DJ_HR_BIZ_EXNP BE
+                       WHERE
+                           BE.HR_BIZ_REQ_RESULT_ID = B.HR_BIZ_REQ_RESULT_ID
+                   ), 0) AS RES_EXNP_SUM,
             IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE A.HR_BIZ_REQ_ID = SHBC.HR_BIZ_REQ_ID AND SHBC.HR_BIZ_REQ_RESULT_ID IS NULL), 0) AS COMPANION,
             IFNULL((SELECT COUNT(EMP_NAME) FROM CAM_INSIDE.DJ_HR_BIZ_COMPANION SHBC WHERE B.HR_BIZ_REQ_RESULT_ID = SHBC.HR_BIZ_REQ_RESULT_ID), 0) AS COMPANION2,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = B.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = B.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS,
+            (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = B.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS,
             C.PAY_EXNP_DE,
             C.DOC_STATUS,
+            IFNULL(D.DOC_STATUS, 0) AS BF_DOC_STATUS,
             DATE_FORMAT(C.APPROVAL_DATE, '%Y-%m-%d') AS APPROVAL_DATE
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
@@ -1580,6 +1584,10 @@
             CAM_MNG.DJ_PAY_APP C
         ON
             B.PAY_APP_SN = C.PAY_APP_SN
+        LEFT JOIN
+            CAM_MNG.DJ_PAY_APP D
+        ON
+            A.BF_PAY_APP_SN = D.PAY_APP_SN
         WHERE A.PJT_SN = #{pjtSn}
     </select>
 
