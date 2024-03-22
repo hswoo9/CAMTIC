@@ -19,6 +19,23 @@ const studyJournal = {
         customKendo.fn_datePicker("journalDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_timePicker("journalStartTime", '10', "HH:mm", "09:00");
         customKendo.fn_timePicker("journalEndTime", '10', "HH:mm", "18:00");
+
+        $("#journalStartTime").focusout(function (){
+            var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
+
+            if(!this.value.includes(":")){
+                $("#journalStartTime").val(time)
+            }
+        });
+
+        $("#journalEndTime").change(function (){
+            var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
+
+            if(!this.value.includes(":")){
+                $("#journalEndTime").val(time)
+            }
+        });
+
         let journalAmtDataSource = [
             { text: "교재비", value: "1" },
             { text: "기타", value: "2" }
@@ -36,7 +53,7 @@ const studyJournal = {
         }else{
             $("#journalAmtEtc").parent().hide();
         }
-        $("#studyUserName, #journalDt, #journalStartTime, #journalEndTime").attr("readonly", true);
+        $("#studyUserName, #journalDt").attr("readonly", true);
 
         let data = {
             pk: $("#pk").val()
@@ -131,8 +148,8 @@ const studyJournal = {
         let studyInfoSn = $("#pk").val();
         let studyNameTd = $("#studyNameTd").text();
         let journalDt = $("#journalDt").val();
-        let journalStartTime = $("#journalStartTime").val();
-        let journalEndTime = $("#journalEndTime").val();
+        let journalStartTime = $("#journalStartTime").val().slice(0, -1) + "0";
+        let journalEndTime = $("#journalEndTime").val().slice(0, -1) + "0";
         let studyLocation = $("#studyLocation").val();
         let studyUserSeq = $("#studyUserSeq").val();
         let studyUserName = $("#studyUserName").val();
