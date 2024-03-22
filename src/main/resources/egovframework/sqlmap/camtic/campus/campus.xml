@@ -59,8 +59,8 @@
         LEFT JOIN
             CAMPUS.DJ_STUDY_USER CSU ON CSJ.STUDY_INFO_SN = CSU.STUDY_INFO_SN
         WHERE
-             CSU.STUDY_EMP_SEQ = #{empSeq}
-        AND CSJ.ACTIVE = 'Y'
+             CSU.STUDY_EMP_SEQ = #{empSeq} AND CSJ.STUDY_EMP_SEQ = #{empSeq}
+          AND CSJ.ACTIVE = 'Y'
         AND JOURNAL_DT BETWEEN (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE( #{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
     </select>
 
