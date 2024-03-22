@@ -1308,6 +1308,19 @@ public class CampusServiceImpl implements CampusService {
     }
 
     @Override
+    public void delOpenStudyUser(Map<String, Object> params) {
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> userList = gson.fromJson((String) params.get("userData"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(int i = 0 ; i < userList.size() ; i++){
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("openStudyUserSn", userList.get(i).get("openStudyUserSn"));
+            campusRepository.delOpenStudyUser(userData);
+        }
+    }
+
+    @Override
     public void setOpenStudyCertReq(Map<String, Object> params) {
         campusRepository.setOpenStudyCertReq(params);
     }
