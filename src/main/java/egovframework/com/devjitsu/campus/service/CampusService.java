@@ -143,6 +143,7 @@ public interface CampusService {
     boolean getOpenStudyUserDoubleChk(Map<String, Object> params);
     void setOpenStudyUser(Map<String, Object> params);
     void setOpenStudyResultUpd(Map<String, Object> params);
+    void delOpenStudyUser(Map<String, Object> params);
     void setOpenStudyCertReq(Map<String, Object> params);
     /** 오픈스터디 끝 */
 

@@ -175,4 +175,45 @@ const openStudyRes = {
             location.href = "/Campus/pop/openStudyResPop.do?mode=upd&pk=" + data.pk;
         }
     },
+
+    delOpenStudyUser : function(){
+        if($("input[name='userPk']:checked").length == 0){
+            alert("삭제할 직원을 선택해주세요.");
+            return;
+        }
+
+        if(!confirm("해당 직원을 삭제하시겠습니까?")){
+            return;
+        }
+
+        let userArr = [];
+        let data = {
+            pk: $("#pk").val(),
+        };
+
+        $.each($("input[name='userPk']:checked"), function(i, v){
+            let subData = {
+                openStudyUserSn: $(this).closest(".addData").find(".pk").val(),
+            }
+            userArr.push(subData);
+        })
+        data.userData = JSON.stringify(userArr);
+
+        let url = "/campus/delOpenStudyUser";
+        const result = customKendo.fn_customAjax(url, data);
+        if(result.flag){
+            alert("삭제되었습니다.");
+            try {
+                opener.gridReload();
+            }catch{
+
+            }
+            try {
+                location.reload();
+            }catch{
+
+            }
+            location.href = "/Campus/pop/openStudyResultPop.do?pk=" + data.pk;
+        }
+    }
 }

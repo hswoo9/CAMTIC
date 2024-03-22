@@ -2722,6 +2722,14 @@
             OPEN_STUDY_USER_SN = #{pk}
     </update>
 
+    <delete id="delOpenStudyUser" parameterType="map">
+        /* delOpenStudyUser */
+        DELETE FROM
+            CAMPUS.DJ_OPENSTUDY_USER
+        WHERE
+            OPEN_STUDY_USER_SN = #{openStudyUserSn}
+    </delete>
+
     <update id="setOpenStudyCertReq" parameterType="map">
         /* setOpenStudyCertReq */
         UPDATE
