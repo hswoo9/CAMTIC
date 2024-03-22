@@ -12,6 +12,22 @@ const ojtResult = {
         customKendo.fn_timePicker("startTime", '10', "HH:mm", "09:00");
         customKendo.fn_timePicker("endTime", '10', "HH:mm", "18:00");
 
+        $("#startTime").focusout(function (){
+            var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
+
+            if(!this.value.includes(":")){
+                $("#startTime").val(time)
+            }
+        });
+
+        $("#endTime").change(function (){
+            var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
+
+            if(!this.value.includes(":")){
+                $("#endTime").val(time)
+            }
+        });
+
         let codeDataSource = [
             { label: "전산등록", value: "0" },
             { label: "스캔파일 저장", value: "1" }
@@ -30,7 +46,7 @@ const ojtResult = {
 
         customKendo.fn_textArea(["studyContent", "studyContent2"]);
 
-        $("#ojtDt, #startTime, #endTime, #readerUserName, #studyUserName").attr("readonly", true);
+        $("#ojtDt, #readerUserName, #studyUserName").attr("readonly", true);
     },
 
     saveBtn: function(){
