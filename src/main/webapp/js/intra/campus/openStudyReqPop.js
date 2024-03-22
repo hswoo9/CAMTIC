@@ -63,7 +63,9 @@ const openStudyReq = {
             $("#openStudyDt").data("kendoDatePicker").enable(false);
             $("#startTime").data("kendoTimePicker").enable(false);
             $("#endTime").data("kendoTimePicker").enable(false);
-            $("#openStudyName, #openStudyDetail, #openStudyLocation").attr("readonly", true);
+            $("#openStudyName").data("kendoTextBox").enable(false);
+            $("#openStudyDetail").data("kendoTextArea").enable(false);
+            $("#openStudyLocation").data("kendoTextBox").enable(false);
         }
     },
 
@@ -133,7 +135,7 @@ const openStudyReq = {
             html += '<td style="text-align: center">'+list[i].REG_EMP_NAME+'</td>';
             let position = list[i].REG_DUTY_NAME == "" ? list[i].REG_POSITION_NAME : list[i].REG_DUTY_NAME;
             html += '<td style="text-align: center">'+position+'</td>';
-            html += '<td style="text-align: center">'+list[i].DEPT_FULL_NAME+'</td>';
+            html += '<td style="text-align: center">'+list[i].DEPT_NAME + ' ' + list[i].TEAM_NAME+'</td>';
             html += '<td style="text-align: center">'+list[i].REG_DATE+'</td>';
             html += '<td style="text-align: center">신청완료</td>';
             html += '</tr>';

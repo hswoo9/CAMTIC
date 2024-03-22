@@ -1062,7 +1062,26 @@
     <select id="getOpenStudyInfoOne" resultType="map" parameterType="map">
         /* getOpenStudyInfoOne */
         SELECT
-            COSI.*,
+            COSI.OPEN_STUDY_INFO_SN,
+            IFNULL(COSI.OPEN_STUDY_NAME_RES, COSI.OPEN_STUDY_NAME) AS OPEN_STUDY_NAME,
+            IFNULL(COSI.OPEN_STUDY_DT_RES, COSI.OPEN_STUDY_DT) AS OPEN_STUDY_DT,
+            IFNULL(COSI.START_TIME_RES, COSI.START_TIME) AS START_TIME,
+            IFNULL(COSI.END_TIME_RES, COSI.END_TIME) AS END_TIME,
+            IFNULL(COSI.EDU_TIME_RES, COSI.EDU_TIME) AS EDU_TIME,
+            COSI.OPEN_STUDY_DETAIL,
+            COSI.OPEN_STUDY_LOCATION,
+            COSI.REG_EMP_SEQ,
+            COSI.REG_EMP_NAME,
+            COSI.REG_DT,
+            COSI.STEP,
+            COSI.OPEN_STUDY_AMT,
+            COSI.OPEN_STUDY_AMT_TEXT,
+            COSI.STATUS,
+            COSI.APPROVAL_EMP_SEQ,
+            COSI.APPROVAL_EMP_NAME,
+            COSI.APPROVAL_RESULT_DATE,
+            COSI.OPEN_STUDY_RESULT,
+            COSI.ACTIVE,
             DATE_FORMAT(COSI.REG_DT, '%Y-%m-%d') AS REG_DATE,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
@@ -1100,6 +1119,8 @@
         SELECT
         COSU.*,
         DATE_FORMAT(COSU.REG_DT, '%Y-%m-%d %H:%i:%s') AS REG_DATE,
+        (SELECT IF(DEPT_SEQ = 1000, '', DEPT_NAME) FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ)) as DEPT_NAME,
+        (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ) as TEAM_NAME,
         CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = B.DEPT_SEQ)) AS DEPT_FULL_NAME
         FROM
         CAMPUS.DJ_OPENSTUDY_USER COSU
@@ -2676,6 +2697,11 @@
         UPDATE
             CAMPUS.DJ_OPENSTUDY_INFO
         SET
+            OPEN_STUDY_NAME_RES = #{resOpenStudyName},
+            OPEN_STUDY_DT_RES = #{resOpenStudyDt},
+            START_TIME_RES = #{resStartTime},
+            END_TIME_RES = #{resEndTime},
+            EDU_TIME_RES = #{resEduTime},
             OPEN_STUDY_AMT = #{openStudyAmt},
             OPEN_STUDY_AMT_TEXT = #{openStudyAmtText},
             OPEN_STUDY_RESULT = #{openStudyResult},
@@ -3503,7 +3529,7 @@
         WHERE
             OPEN_STUDY_INFO_SN = #{pk}
           AND
-            COSU.REG_EMP_SEQ = #{regEmpSeq};
+            COSU.REG_EMP_SEQ = #{regEmpSeq}
     </select>
 
     <update id="setOpenStudyRealEduTimeUpd" parameterType="map">
