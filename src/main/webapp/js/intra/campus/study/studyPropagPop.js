@@ -23,7 +23,25 @@ const studyPropag = {
             { text: "교재비", value: "1" },
             { text: "기타", value: "2" }
         ]
-        $("#studyUserName, #journalDt, #journalStartTime, #journalEndTime").attr("readonly", true);
+
+
+        $("#journalStartTime").focusout(function (){
+            var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
+
+            if(!this.value.includes(":")){
+                $("#journalStartTime").val(time)
+            }
+        });
+
+        $("#journalEndTime").change(function (){
+            var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
+
+            if(!this.value.includes(":")){
+                $("#journalEndTime").val(time)
+            }
+        });
+
+        $("#studyUserName, #journalDt").attr("readonly", true);
 
         let codeDataSource = [
             { label: "전산등록", value: "1" },

@@ -123,6 +123,8 @@ const ojtView = {
         if(mode == "mng"){
             $("#studyModBtn").hide();
             $("#ojtPlanAddBtn").hide();
+            $("#ojtPlanAddBtn2").hide();
+
             if(status == 10){
                 $("#recBtn").show();
                 $("#comBtn").show();
@@ -135,6 +137,8 @@ const ojtView = {
                 $("#appBtn").show();
             }else if(status == 100 && $("#addStatus").val() == "N"){
                 $("#ojtPlanAddBtn").hide();
+                $("#ojtPlanAddBtn2").hide();
+
                 $("#compBtn").show();
             }
         }
@@ -441,7 +445,7 @@ const ojtView = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" id="ojtPlanAddBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="ojtView.ojtPlanPop(\'ins\', '+$("#pk").val()+');">' +
+                        return '<button type="button" id="ojtPlanAddBtn2" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="ojtView.ojtPlanPop(\'ins\', '+$("#pk").val()+');">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
                     }
@@ -463,7 +467,10 @@ const ojtView = {
                     }
                 }, {
                     field: "TITLE",
-                    title: "중점 지도항목"
+                    title: "중점 지도항목",
+                    template : function(e){
+                        return '<div style="cursor : pointer; font-weight:bold" onclick="ojtView.ojtPlanPop(\'ins\', '+e.STUDY_INFO_SN+')">'+e.TITLE+'</div>'
+                    }
                 }, {
                     field: "ETC",
                     title: "비고",
@@ -517,6 +524,7 @@ const ojtView = {
                 {
                     name : 'button',
                     template : function (e){
+
                         return '<button type="button" id="ojtPlanAddBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="ojtView.ojtResultPop(\'ins\', '+$("#pk").val()+');">' +
                             '	<span class="k-button-text">추가</span>' +
                             '</button>';
@@ -567,8 +575,15 @@ const ojtView = {
                     title: "처리명령",
                     width: 200,
                     template: function(row){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="ojtView.ojtPrintPop('+row.OJT_RESULT_SN+')">인쇄</button> ' +
-                            '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="ojtView.fn_delete('+row.OJT_RESULT_SN+')">삭제</button>';
+                        if($("#addStatus").val() == "Y" || $("#addStatus").val() == "C"){
+                            $("#ojtPlanAddBtn").css("display", "none");
+                            $("#ojtPlanAddBtn2").css("display", "none");
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="ojtView.ojtPrintPop('+row.OJT_RESULT_SN+')">인쇄</button> ';
+                        } else {
+                            return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="ojtView.ojtPrintPop('+row.OJT_RESULT_SN+')">인쇄</button> ' +
+                                '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-error" onclick="ojtView.fn_delete('+row.OJT_RESULT_SN+')">삭제</button>';
+                        }
+
                     }
                 }
             ],

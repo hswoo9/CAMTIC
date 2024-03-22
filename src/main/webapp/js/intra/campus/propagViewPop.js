@@ -74,7 +74,6 @@ const propagView = {
 
         const studyResult = customKendo.fn_customAjax("/campus/getStudyInfoOne", {pk: $("#pk").val()});
         const studyInfo = studyResult.data;
-        console.log("studyR",studyResult);
 
         let buttonHtml = "";
         buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"결과보고서\" id=\"resultBtn\" onclick=\"propagView.fn_resultDocPop();\"/>";
@@ -101,7 +100,6 @@ const propagView = {
         }
         buttonHtml += "<input type=\"button\" id=\"studyCloseBtn\" class=\"k-button k-button-solid-error\" value=\"닫기\" onclick=\"window.close();\"/>";
         $("#studyBtn").html(buttonHtml);
-        console.log("buttonHtml", buttonHtml)
 
         let mode = $("#mode").val();
         let status = studyInfo.STATUS;
@@ -336,8 +334,15 @@ const propagView = {
                 }, {
                     title: "처리명령",
                     template: function(row){
-                        return '<button type="button" style="margin-right:5px;" class="k-button k-button-solid-base" onclick="propagView.propagPrintPop('+row.STUDY_PROPAG_SN+')">인쇄</button>' +
-                            '<button type="button" class="k-button k-button-solid-error" onclick="propagView.fn_delBtn('+row.STUDY_PROPAG_SN+')">삭제</button>';
+                        if($("#addStatus").val() == "Y" || $("#addStatus").val() == "C"){
+                            $("#journalPopBtn").css("display", "none")
+
+                            return '<button type="button" style="margin-right:5px;" class="k-button k-button-solid-base" onclick="propagView.propagPrintPop('+row.STUDY_PROPAG_SN+')">인쇄</button>';
+                        } else {
+                            return '<button type="button" style="margin-right:5px;" class="k-button k-button-solid-base" onclick="propagView.propagPrintPop('+row.STUDY_PROPAG_SN+')">인쇄</button>' +
+                                '<button type="button" class="k-button k-button-solid-error" onclick="propagView.fn_delBtn('+row.STUDY_PROPAG_SN+')">삭제</button>';
+                        }
+
                     }
                 }
             ],

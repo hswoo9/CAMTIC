@@ -10,7 +10,10 @@ const openStudyRes = {
     },
 
     pageSet: function(){
-        customKendo.fn_textBox(["openStudyAmt", "openStudyAmtText", "openStudyResult"]);
+        customKendo.fn_textBox(["openStudyName", "openStudyAmt", "openStudyAmtText", "openStudyResult"]);
+        customKendo.fn_datePicker("openStudyDt", 'month', "yyyy-MM-dd", new Date());
+        customKendo.fn_timePicker("startTime", '10', "HH:mm", "09:00");
+        customKendo.fn_timePicker("endTime", '10', "HH:mm", "18:00");
     },
 
     dataSet: function(){
@@ -19,10 +22,12 @@ const openStudyRes = {
         }).data;
         openStudyRes.global.openStudyInfo = openStudyInfo;
 
-            $("#openStudyNameTd").text(openStudyInfo.OPEN_STUDY_NAME);
-            $("#openStudyDtTd").text(openStudyInfo.OPEN_STUDY_DT+" / "+openStudyInfo.START_TIME+" ~ "+openStudyInfo.END_TIME);
+        $("#openStudyName").val(openStudyInfo.OPEN_STUDY_NAME);
+        $("#openStudyDt").val(openStudyInfo.OPEN_STUDY_DT);
+        $("#startTime").val(openStudyInfo.START_TIME);
+        $("#endTime").val(openStudyInfo.END_TIME);
 
-            openStudyRes.openStudyUserSetting();
+        openStudyRes.openStudyUserSetting();
     },
 
     openStudyUserSetting: function(){
@@ -56,7 +61,7 @@ const openStudyRes = {
             html += '<td style="text-align: center">'+list[i].REG_EMP_NAME+'</td>';
             let position = list[i].REG_DUTY_NAME == "" ? list[i].REG_POSITION_NAME : list[i].REG_DUTY_NAME;
             html += '<td style="text-align: center">'+position+'</td>';
-            html += '<td style="text-align: center">'+list[i].REG_DEPT_NAME+" "+list[i].REG_TEAM_NAME+'</td>';
+            html += '<td style="text-align: center">'+list[i].DEPT_NAME + ' ' + list[i].TEAM_NAME+'</td>';
             html += '</tr>';
         }
         $("#openStudyUserTable").html(html);
@@ -78,6 +83,10 @@ const openStudyRes = {
             return;
         }
 
+        let openStudyName = $("#openStudyName").val();
+        let openStudyDt = $("#openStudyDt").val();
+        let startTime = $("#startTime").val();
+        let endTime = $("#endTime").val();
         let openStudyAmt = $("#openStudyAmt").val().replace(/,/g, "");
         let openStudyAmtText = $("#openStudyAmtText").val();
         let openStudyResult = $("#openStudyResult").val();
@@ -95,9 +104,34 @@ const openStudyRes = {
             openStudyAmt = '0';
         }*/
 
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth()+1;
+        var day = now.getDate();
+        var hour1 = startTime.split(":")[0];
+        var hour2 = endTime.split(":")[0];
+        var min1 = startTime.split(":")[1];
+        var min2 = endTime.split(":")[1];
+        var bfDate = new Date(year, month, day, hour1, min1);
+        var afDate = new Date(year, month, day, hour2, min2);
+        var diffSec = afDate.getTime() - bfDate.getTime();
+        var diffMin = diffSec / 1000 / 60 / 60;
+        //var eduTime = diffMin.toFixed(1);
+
+        var eduTime = diffMin;
+        if (eduTime % 1 !== 0) {
+            eduTime = eduTime.toFixed(1);
+        }
+
+        if(openStudyName == ""){ alert("모임명이 작성되지 않았습니다."); return;}
         if(openStudyResult == ""){ alert("학습결과가 작성되지 않았습니다."); return;}
 
         let data = {
+            resOpenStudyName: openStudyName,
+            resOpenStudyDt: openStudyDt,
+            resStartTime: startTime,
+            resEndTime: endTime,
+            resEduTime: eduTime,
             openStudyAmt: openStudyAmt,
             openStudyAmtText: openStudyAmtText,
             openStudyResult: openStudyResult,
@@ -141,4 +175,45 @@ const openStudyRes = {
             location.href = "/Campus/pop/openStudyResPop.do?mode=upd&pk=" + data.pk;
         }
     },
+
+    delOpenStudyUser : function(){
+        if($("input[name='userPk']:checked").length == 0){
+            alert("삭제할 직원을 선택해주세요.");
+            return;
+        }
+
+        if(!confirm("해당 직원을 삭제하시겠습니까?")){
+            return;
+        }
+
+        let userArr = [];
+        let data = {
+            pk: $("#pk").val(),
+        };
+
+        $.each($("input[name='userPk']:checked"), function(i, v){
+            let subData = {
+                openStudyUserSn: $(this).closest(".addData").find(".pk").val(),
+            }
+            userArr.push(subData);
+        })
+        data.userData = JSON.stringify(userArr);
+
+        let url = "/campus/delOpenStudyUser";
+        const result = customKendo.fn_customAjax(url, data);
+        if(result.flag){
+            alert("삭제되었습니다.");
+            try {
+                opener.gridReload();
+            }catch{
+
+            }
+            try {
+                location.reload();
+            }catch{
+
+            }
+            location.href = "/Campus/pop/openStudyResultPop.do?pk=" + data.pk;
+        }
+    }
 }

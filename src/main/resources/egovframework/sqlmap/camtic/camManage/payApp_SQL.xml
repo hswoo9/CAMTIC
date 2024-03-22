@@ -2365,4 +2365,27 @@
         WHERE
             CARD_TO_SN = #{cardToSn}
     </update>
+
+    <insert id="insPayAppBsYm" parameterType="map">
+        /*insPayAppBsYm*/
+        INSERT INTO CAM_MNG.DJ_PAY_APP_BS_YM
+            (PAY_APP_SN ,PJT_SN ,BS_YM)
+        VALUE
+            (#{payAppSn}, #{pjtSn}, #{bsYm})
+    </insert>
+
+    <delete id="delPayAppBsYm" parameterType="map">
+        /*delPayAppBsYm*/
+        DELETE FROM CAM_MNG.DJ_PAY_APP_BS_YM WHERE PAY_APP_SN = #{payAppSn}
+    </delete>
+
+    <select id="getPartRatePayBsYm" parameterType="map" resultType="map">
+        /*getPartRatePayBsYm*/
+        SELECT
+            GROUP_CONCAT(BS_YM) AS bsYm
+        from
+            CAM_MNG.DJ_PAY_APP_BS_YM
+        WHERE
+            PJT_SN = #{pjtSn}
+    </select>
 </mapper>

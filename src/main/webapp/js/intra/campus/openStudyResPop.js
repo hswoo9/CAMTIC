@@ -51,6 +51,8 @@ const openStudyRes = {
                 if(status == 0 || status == 30){
                     $("#appBtn").show();
                     $("#modBtn").show();
+                } else if(status == 10){
+                    $("#canBtn").show();
                 }
             }
         }
@@ -192,6 +194,24 @@ const openStudyRes = {
             status : status
         }
 
+        if(status == 10){
+            if(!confirm("요청하시겠습니까?")){
+                return;
+            }
+        } else if(status == 0){
+            if(!confirm("요청을 취소하시겠습니까?")){
+                return;
+            }
+        } else if(status == 100){
+            if(!confirm("승인하시겠습니까?")){
+                return;
+            }
+        } else if(status == 30){
+            if(!confirm("반려하시겠습니까?")){
+                return;
+            }
+        }
+
         if (status == 100) {
             const resultCheck = customKendo.fn_customAjax("/campus/getRealEduTimeCheck?pk=" + data.pk);
             console.log("resultCheck : " + resultCheck.list);
@@ -261,6 +281,8 @@ const openStudyRes = {
                 alert("승인되었습니다.");
             }else if(status == 30){
                 alert("반려되었습니다.");
+            }else if(status == 0){
+                alert("취소되었습니다.");
             }
             try {
                 opener.gridReload();

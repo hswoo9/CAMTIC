@@ -309,4 +309,9 @@ public class ApprovalUserServiceImpl implements ApprovalUserService {
     public List<Map<String, Object>> getMainUserDocStorageBoxListMobile(Map<String, Object> params) {
         return approvalUserRepository.getMainUserDocStorageBoxListMobile(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getUserDocStorageBoxListMobile(Map<String, Object> params) {
+        return approvalUserRepository.getUserDocStorageBoxListMobile(params);
+    }
 }

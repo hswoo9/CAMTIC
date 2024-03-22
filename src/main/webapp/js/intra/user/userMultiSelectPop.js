@@ -305,6 +305,8 @@ var userMultiSel = {
         let empNameArr = "";
         let empSeqArr = "";
 
+        let flag = true;
+
         /** 결재선 */
         $.each($("#approvalLineDataTb tbody tr"), function(){
             let data = {
@@ -318,11 +320,37 @@ var userMultiSel = {
                 loginId : $(this).find("#loginId").val()
             }
 
+            if($("#type").val() == "openStudy"){
+                data.regEmpSeq = $(this).find("#approveEmpSeq").val();
+                data.pk = opener.parent.$("#pk").val();
+
+                $.ajax({
+                    url: "/campus/getOpenStudyUserDoubleChk",
+                    data: data,
+                    type: "post",
+                    dataType: "json",
+                    async: false,
+                    success: function(rs) {
+                        if(rs.rs == "1"){
+                            flag = false;
+                        }
+                    },
+                    error: function (e) {
+                        console.log('error : ', e);
+                    }
+                });
+            }
+
             empNameArr += data.empName + ",";
             empSeqArr += data.empSeq + ",";
 
             userArr.push(data);
         });
+
+        if($("#type").val() == "openStudy" && !flag){
+            alert("중복된 참여는 불가능합니다.");
+            return false;
+        }
 
         opener.parent.userDataSet(userArr, empNameArr, empSeqArr);
 

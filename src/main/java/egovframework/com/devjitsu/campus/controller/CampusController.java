@@ -1995,6 +1995,12 @@ public class CampusController {
         return "jsonView";
     }
 
+    @RequestMapping("/campus/delOpenStudyUser")
+    public String delOpenStudyUser(@RequestParam Map<String, Object> params) {
+        campusService.delOpenStudyUser(params);
+        return "jsonView";
+    }
+
     /** 오픈스터디 결과보고서 승인프로세스 */
     @RequestMapping("/campus/setOpenStudyCertReq")
     public String setOpenStudyCertReq(@RequestParam Map<String, Object> params, Model model) {

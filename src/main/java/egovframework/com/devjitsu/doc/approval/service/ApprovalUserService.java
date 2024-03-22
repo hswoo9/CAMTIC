@@ -107,4 +107,6 @@ public interface ApprovalUserService {
     List<Map<String, Object>> getApproveDocBoxListMobile(Map<String, Object> params);
 
     List<Map<String, Object>> getMainUserDocStorageBoxListMobile(Map<String, Object> params);
+
+    List<Map<String, Object>> getUserDocStorageBoxListMobile(Map<String, Object> params);
 }

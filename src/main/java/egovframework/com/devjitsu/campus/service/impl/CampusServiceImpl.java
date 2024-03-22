@@ -406,7 +406,7 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public void setEduResultInsert(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
-        campusRepository.setEduInfoUpdate(params);
+//        campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultInsert(params);
 
         MainLib mainLib = new MainLib();
@@ -431,7 +431,7 @@ public class CampusServiceImpl implements CampusService {
 
     @Override
     public void setEduResultModify(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
-        campusRepository.setEduInfoUpdate(params);
+//        campusRepository.setEduInfoUpdate(params);
         campusRepository.setEduResultModify(params);
 
         MainLib mainLib = new MainLib();
@@ -1304,6 +1304,19 @@ public class CampusServiceImpl implements CampusService {
             userData.put("pk", userList.get(i).get("pk"));
             userData.put("partYN", userList.get(i).get("partYN"));
             campusRepository.setOpenStudyUserResultUpd(userData);
+        }
+    }
+
+    @Override
+    public void delOpenStudyUser(Map<String, Object> params) {
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> userList = gson.fromJson((String) params.get("userData"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(int i = 0 ; i < userList.size() ; i++){
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("openStudyUserSn", userList.get(i).get("openStudyUserSn"));
+            campusRepository.delOpenStudyUser(userData);
         }
     }
 

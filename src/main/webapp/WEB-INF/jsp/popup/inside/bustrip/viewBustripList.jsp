@@ -159,7 +159,10 @@
                         if(row.PROJECT_CD != "" && row.PROJECT_CD != null){
                             project = "(" + row.PROJECT + ") ";
                         }
-                        var title =  project + busnName + " 출장지 : " + row.VISIT_LOC_SUB;
+                        var title =  project + busnName + " 출장지 : " +  row.VISIT_CRM;
+                        if(row.VISIT_LOC_SUB != ""){
+                            title += " (" + row.VISIT_LOC_SUB+")";
+                        }
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="fn_selBustripInfo(\''+row.HR_BIZ_REQ_RESULT_ID+'\', \''+title+'\', \''+row.RESULT+'\', \''+ row.HR_BIZ_REQ_ID +'\');">선택</button>';
                     },
                     width: 60

@@ -465,4 +465,12 @@ public class PayAppRepository extends AbstractDAO {
     public void updCardToPayApp(Map<String, Object> params) {
         update("payApp.updCardToPayApp", params);
     }
+
+    public Map<String, Object> getPartRatePayBsYm(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getPartRatePayBsYm", params);
+    }
+
+    public void insPayAppBsYm(Map<String, Object> params) { insert("payApp.insPayAppBsYm", params); }
+
+    public void delPayAppBsYm(Map<String, Object> params) { delete("payApp.delPayAppBsYm", params); }
 }

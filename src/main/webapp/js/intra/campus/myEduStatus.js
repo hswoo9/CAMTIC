@@ -17,6 +17,7 @@ var myEdu = {
             eduYear: $("#applyYear").val().replace("년", "")
         }).list[0];
 
+
         $("#personalTime").text(data.PERSONAL_TIME+"시간");
         $("#studyTime").text(data.STUDY_TIME+"시간");
         $("#propagTime").text(data.PROPAG_TIME+"시간");
@@ -267,7 +268,7 @@ var myEdu = {
                     title: "학습조명",
                     width: 350
                 }, {
-                    field: "REG_EMP_NAME",
+                    field: "LEADER_NAME",
                     title: "조장",
                     width: 100
                 }, {
@@ -455,7 +456,7 @@ var myEdu = {
                     title: "학습주제",
                     width: 350
                 }, {
-                    field: "REG_EMP_NAME",
+                    field: "PROPAG_LEADER_NAME",
                     title: "지도자",
                     width: 150
                 }, {
@@ -563,7 +564,7 @@ var myEdu = {
                     field: "STUDY_NAME",
                     title: "지도명칭"
                 }, {
-                    field: "REG_EMP_NAME",
+                    field: "OJT_LEADER_NAME",
                     title: "지도자",
                     width: 100
                 }, {

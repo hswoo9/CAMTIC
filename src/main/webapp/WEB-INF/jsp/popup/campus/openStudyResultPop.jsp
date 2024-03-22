@@ -25,6 +25,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">오픈스터디 결과보고</h3>
             <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-error" onclick="openStudyRes.delOpenStudyUser()">직원삭제</button>
                 <button type="button" class="k-button k-button-solid-info" onclick="openUserMultiSelectPop()">직원추가</button>
                 <button type="button" class="k-button k-button-solid-info" onclick="openStudyRes.saveBtn();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
@@ -41,13 +42,17 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>모임명
                     </th>
-                    <td id="openStudyNameTd"></td>
+                    <td id="openStudyNameTd">
+                        <input type="text" id="openStudyName" />
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>일시
                     </th>
-                    <td id="openStudyDtTd"></td>
+                    <td id="openStudyDtTd">
+                        <input id="openStudyDt" type="text" style="width: 150px;"> <input type="text" id="startTime" style="width: 100px"> ~ <input type="text" id="endTime" style="width: 100px">
+                    </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
@@ -101,19 +106,30 @@
                 pk: $("#pk").val()
             };
 
-            const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
 
-            if (i == arrLength - 1) {
-                alert("참여신청이 완료되었습니다.");
+            $.ajax({
+                url: "/campus/setOpenStudyUser",
+                data: data,
+                type: "post",
+                dataType: "json",
+                async: false,
+                success: function(rs) {
+                    if (i == arrLength - 1) {
+                        alert("참여신청이 완료되었습니다.");
 
-                openStudyRes.openStudyUserSetting();
-                // location.reload();
-            }
+                        openStudyRes.openStudyUserSetting();
+                        // location.reload();
+                    }
+                },
+                error: function (e) {
+                    console.log('error : ', e);
+                }
+            });
         }
     }
 
     function openUserMultiSelectPop() {
-        childWindow =  window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        childWindow =  window.open("/user/pop/userMultiSelectPop.do?type=openStudy","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
 
     function closeUserMultiSelectPop() {

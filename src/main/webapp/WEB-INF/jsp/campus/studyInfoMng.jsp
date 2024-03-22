@@ -4,7 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <script type="text/javascript" src="/js/intra/campus/campus.js?v=${toDate}"/></script>
 <script type="text/javascript" src="/js/intra/campus/study/studyInfoMng.js?v=${toDate}"/></script>
-<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -19,9 +18,11 @@
                 <table class="searchTable table table-bordered" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
                     <colgroup>
                         <col width="10%">
-                        <col width="40%">
+                        <col width="20%">
                         <col width="10%">
-                        <col width="40%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="30%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회년도</th>
@@ -31,6 +32,16 @@
                         <th class="text-center th-color">학습구분</th>
                         <td>
                             <input type="text" id="studyClass" style="width: 140px;">
+                        </td>
+                        <th class="text-center th-color">사용자</th>
+                        <td>
+                            <input type="hidden" id="empSeq" value="${loginVO.uniqId}" style="width: 140px;">
+                            <input type="text" id="empName" value="${loginVO.name}"  style="width: 140px;">
+                            <button type="button" id="za" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch()">
+                                검색
+                            </button>
+
+                            <button type="button" class="k-button k-button-solid-base" onclick="studyMng.fn_reset()" >전직원 조회</button>
                         </td>
                     </tr>
                 </table>

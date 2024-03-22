@@ -1,7 +1,6 @@
 package egovframework.com.devjitsu.cam_manager.controller;
 
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
-import egovframework.com.devjitsu.cam_manager.service.ResDocService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -16,7 +15,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -1054,6 +1052,12 @@ public class PayAppController {
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/getPartRatePayBsYm")
+    public String getPartRatePayBsYm(@RequestParam Map<String, Object> params, Model model) {
+        payAppService.getPartRatePayBsYm(params);
         return "jsonView";
     }
 }
