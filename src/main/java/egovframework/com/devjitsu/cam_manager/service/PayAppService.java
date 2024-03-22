@@ -106,4 +106,7 @@ public interface PayAppService {
     Map<String, Object> getPayIncpReData(Map<String, Object> params);
 
     void payAppMngFileSet(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
+
+    Map<String, Object> getPartRatePayBsYm(Map<String, Object> params);
+
 }

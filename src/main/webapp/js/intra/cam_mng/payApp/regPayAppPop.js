@@ -127,12 +127,20 @@ var regPay = {
                 success : function (rs){
                     var rs = rs.data;
                     console.log(rs);
+
+                    var bsYmText = "";
+
+                    if($("#bsYm").val() != "" && $("#bsYm").val() != null){
+                        bsYmText = $("#bsYm").val().replace(".","-");
+                    }
+
                     $("#pjtSn").val(rs[0].PJT_SN);
                     $("#pjtNm").val(rs[0].PJT_NM);
-                    $("#appTitle").val(rs[0].PJT_NM + " 참여인력 인건비")
+                    $("#appTitle").val(bsYmText + "월 인건비 지급 건");
 
                     for(let i = 1; i < rs.length; i++) {
-                        regPayDet.addRow()
+                        regPayDet.addRow();
+                        regPay.fn_updReason(i);
                     }
 
                     for(let i = 0; i < rs.length; i++) {
@@ -1363,10 +1371,14 @@ var regPay = {
         dialog.open();
     },
 
-    fn_updReason : function(){
-        var dialog = $("#dialog").data("kendoWindow");
-        $("#reason" + $("#reasonIdx").val()).val($("#reasonPopText").val());
-        dialog.close();
+    fn_updReason : function(index){
+        if(index >= 0){
+            $("#reason" + index).val($("#appTitle").val());
+        }else{
+            var dialog = $("#dialog").data("kendoWindow");
+            $("#reason" + $("#reasonIdx").val()).val($("#reasonPopText").val());
+            dialog.close();
+        }
     },
 
     payAppBtnSet: function (data){
@@ -1711,6 +1723,7 @@ var regPay = {
             $("#appTeam" + itemIndex).data("kendoDropDownList").value(item.TEAM_SEQ);
             $("#eviType" + itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
+            regPay.fn_updReason(regPayDet.global.itemIndex); //페이지 로드 시 모든 내용 hidden값 부여
 
             regPayDet.global.itemIndex++;
         }
@@ -1886,7 +1899,9 @@ var regPay = {
 
             regEmpSeq : $("#regEmpSeq").val(),
             empSeq : $("#regEmpSeq").val(),
-            type : type
+            type : type,
+
+            bsYm : $("#bsYm").val()
         }
 
         if($("#cardToSn").val() != ""){

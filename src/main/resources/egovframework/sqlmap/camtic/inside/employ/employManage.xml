@@ -314,9 +314,11 @@
         ON
             B.PJT_SN = C.PJT_SN
         WHERE
-            B.MNG_STAT = 'C'
-        AND
-            B.BEF_VER_CHECK = 'Y'
+            (C.PJT_SN, B.PART_RATE_VER) IN
+            (SELECT PJT_SN, MAX(PART_RATE_VER) AS PART_RATE_VER
+            FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER
+            WHERE MNG_STAT != 'R'
+            GROUP BY PJT_SN)
         AND C.PJT_SN = #{pjtSn}
     </select>
 
