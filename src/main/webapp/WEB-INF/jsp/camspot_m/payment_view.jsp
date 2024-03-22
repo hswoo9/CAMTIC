@@ -306,7 +306,7 @@
                             "<span style='margin-left: 5px;cursor: pointer'>" +
                             e.filename + "(" + formatBytes(e.FILE_SIZE, 3) + ")" +
                             "</span>" +
-                            "</span>";;
+                            "</span>";
                     }
                 }, {
                     template : function(e){
@@ -338,7 +338,27 @@
 
         $("#hwpApproveContent").find("iframe").css("height", "1000px");
 
+        /** 열람 시간 업데이트 (결재자) */
+        if(docView.global.rs.approveRoute.filter(element => element.APPROVE_EMP_SEQ == docView.global.loginVO.uniqId && element.APPROVE_ORDER != 0).length > 0){
+            docView.setDocApproveRouteReadDt()
+        }
 
+        /** 열람 시간 업데이트 (열람자 체크 후 열람 시간 저장) */
+        docView.setDocReaderReadUser()
+
+        if(docView.global.rs.approveNowRoute != null){
+            $("#approveRouteId").val(docView.global.rs.approveNowRoute.APPROVE_ROUTE_ID);
+            $("#subApproval").val(docView.global.rs.approveNowRoute.SUB_APPROVAL);
+
+            /** 결재모달 hidden 값 */
+            $("#approveOrder").val(docView.global.rs.approveNowRoute.APPROVE_ORDER);
+            $("#approveEmpSeq").val(docView.global.loginVO.uniqId);
+            $("#approveEmpName").val(docView.global.loginVO.name);
+
+            /** 반려모달 hidden 값 */
+            $("#returnEmpSeq").val(docView.global.loginVO.uniqId);
+            $("#returnEmpName").val(docView.global.loginVO.name);
+        }
     });
 
     function returnKendoSetting(){
@@ -666,7 +686,6 @@
 
             var result = customKendo.fn_customAjax("/approval/getDeptDocNum", searchAjaxData);
             if(result.flag){
-                debugger
                 $("#docNo").val(result.rs.docNo);
 
                 hwpDocCtrl.putFieldText("DOC_NUM", result.rs.docNo);
@@ -723,6 +742,7 @@
 
     function docApproveAjax(){
         docView.global.searchAjaxData = makeApprovalFormData("approve");
+
         var result = customKendo.fn_customFormDataAjax("/approval/setDocApproveNReturn", docView.global.searchAjaxData);
 
         if(result.flag) {
@@ -732,10 +752,11 @@
             if(result.flag){
                 if(result.rs!= "SUCCESS") {
                     alert(result.message);
+
                 }
             }
-
             location.href='/m/payment.do';
+
         }else{
             alert("결재 중 에러가 발생했습니다.");
         }

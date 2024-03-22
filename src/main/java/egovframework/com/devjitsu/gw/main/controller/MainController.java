@@ -535,7 +535,7 @@ public class MainController {
         params.put("deptSeq", loginVO.getOrgnztId());
 
         // 나머지 검색 조건
-        params.put("approveStat", "draft");
+        params.put("approveStat", "result");
         params.put("approveType", "wait");
         params.put("pageType", "mobile");
         params.put("resType", "Y");
@@ -543,7 +543,7 @@ public class MainController {
         params.put("endDay", "");
 
         params.put("approveType", "reference");
-        List<Map<String, Object>> compList = approvalUserService.getApproveDocBoxList(params);
+        List<Map<String, Object>> compList = approvalUserService.getUserDocStorageBoxList(params);
 
         int totCnt = compList.size();
 
@@ -591,7 +591,7 @@ public class MainController {
         params.put("startPage", (start - 1) > 0 ? (start - 1) : 0);
         params.put("endPage", end);
 
-        list = approvalUserService.getApproveDocBoxListMobile(params); // 해당 페이지에 맞는 게시물 불러오는 메서드
+        list = approvalUserService.getUserDocStorageBoxListMobile(params); // 해당 페이지에 맞는 게시물 불러오는 메서드
 
         model.addAttribute("compList", list);
         model.addAttribute("compLen", compList.size());

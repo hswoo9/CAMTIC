@@ -88,4 +88,8 @@ public class ApprovalUserRepository extends AbstractDAO {
     public List<Map<String, Object>> getMainUserDocStorageBoxListMobile(Map<String, Object> params) {
         return selectList("approvalUser.getMainUserDocStorageBoxListMobile", params);
     }
+
+    public List<Map<String, Object>> getUserDocStorageBoxListMobile(Map<String, Object> params) {
+        return selectList("approvalUser.getUserDocStorageBoxListMobile", params);
+    }
 }

@@ -147,6 +147,101 @@
         </choose>
     </select>
 
+    <select id="getUserDocStorageBoxListMobile" parameterType="map" resultType="map">
+        /* getUserDocStorageBoxListMobile */
+
+        SELECT
+        DI.DOC_ID,
+        DO.SECURITY_TYPE,
+        FORM.FORM_NAME,
+        FORM.LINKAGE_TYPE,
+        FORM.LINKAGE_PROCESS_ID,
+        DI.DOC_MENU_CD,
+        DI.APPRO_KEY,
+        DI.DOC_NO,
+        DI.DOC_TITLE,
+        CASE WHEN DI.LAST_APPROVE_EMP_SEQ = '32' and DI.APPROVE_STAT_CODE_DESC = '전결' THEN '최종결재' ELSE DI.APPROVE_STAT_CODE_DESC END AS APPROVE_STAT_CODE_DESC,
+        DI.APPROVE_STAT_CODE,
+        DI.REPTIT_DRFT_YN,
+        IFNULL(DI.LAST_APPROVE_EMP_SEQ, '') AS LAST_APPROVE_EMP_SEQ,
+        DATE_FORMAT(DI.DRAFT_DT,'%Y-%m-%d') AS DRAFT_DT,
+        DATE_FORMAT(DI.REPTIT_DRFT_DT,'%Y-%m-%d') AS REPTIT_DRFT_DT,
+        DATE_FORMAT(DI.LAST_APPROVE_DT,'%Y-%m-%d') AS LAST_APPROVE_DT,
+        DATE_FORMAT(DI.REG_DATE, '%Y-%m-%d') AS REG_DATE
+        FROM
+        DJ_CAMTIC.A_DOC_INFO DI
+        JOIN
+        DJ_CAMTIC.A_DOC_OPT DO
+        ON DI.DOC_ID = DO.DOC_ID
+        JOIN
+        DJ_CAMTIC.A_FORM FORM
+        ON DI.FORM_ID = FORM.FORM_ID
+        WHERE 1=1
+        <choose>
+            <when test='approveStat != null and "temp".equals(approveStat)'>
+                AND
+                DI.DRAFT_EMP_SEQ = #{empSeq}
+                AND
+                DI.APPROVE_STAT_CODE = 111
+            </when>
+            <when test='approveStat != null and "draft".equals(approveStat)'>
+                AND
+                DI.DRAFT_EMP_SEQ = #{empSeq}
+                AND (
+                DI.APPROVE_STAT_CODE = 10 OR
+                DI.APPROVE_STAT_CODE = 20 OR
+                DI.APPROVE_STAT_CODE = 50
+                )
+            </when>
+            <when test='approveStat != null and "returnRetrieve".equals(approveStat)'>
+                AND
+                DI.DRAFT_EMP_SEQ = #{empSeq}
+                AND (
+                DI.APPROVE_STAT_CODE = 30 OR
+                DI.APPROVE_STAT_CODE = 40
+                )
+            </when>
+            <when test='approveStat != null and "result".equals(approveStat)'>
+                AND
+                DI.DRAFT_EMP_SEQ = #{empSeq}
+                AND (
+                DI.APPROVE_STAT_CODE = 100 OR
+                DI.APPROVE_STAT_CODE = 101
+                )
+            </when>
+        </choose>
+        <if test='docStatus != null and !"".equals(docStatus) and !"100".equals(docStatus)'>
+            AND
+            DI.APPROVE_STAT_CODE = #{docStatus}
+        </if>
+        <if test='"100".equals(docStatus)'>
+            AND (
+            (DI.APPROVE_STAT_CODE = '100' OR DI.APPROVE_STAT_CODE = '101') AND DI.LAST_APPROVE_EMP_SEQ = '32'
+            )
+        </if>
+        AND
+        DI.ACTIVE = 'Y'
+        AND
+        DI.DEL_FLAG = 'N'
+        <if test='startDay != null and !"".equals(startDay)'>
+            <![CDATA[
+        AND
+            DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+        AND
+            DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+        ]]>
+        </if>
+
+        <choose>
+            <when test='approveStat != null and "temp".equals(approveStat)'>
+                ORDER BY DI.REG_DATE DESC
+            </when>
+            <otherwise>
+                ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
+            </otherwise>
+        </choose>
+    </select>
+
     <select id="getUserReadDocStorageBoxList" parameterType="map" resultType="map">
         /* getUserReadDocStorageBoxList */
         SELECT
