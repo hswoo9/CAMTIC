@@ -206,6 +206,7 @@ var purcInit = {
         const list = purcInit.global.claimItemList;
         const totMap = purcInit.global.claimAmtTotal;
 
+        var dcPay = 0;
         var html = '';
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
@@ -232,6 +233,8 @@ var purcInit = {
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+map.ITEM_AMT_COMMA+'</b></p></td>';
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+map.ITEM_ETC+'</b></p></td>';
             html += '   </tr>';
+
+            dcPay += Number(map.DIF_AMT);
         }
         if(list.length < 8){
             for(let i=0; i<8-list.length; i++){
@@ -246,9 +249,11 @@ var purcInit = {
                 html += '   </tr>';
             }
         }
+
+        dcPay = dcPay * -1;
         html += '   <tr>';
         html += '       <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>가 격 조 정</b></p></td>';
-        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(totMap.DISCOUNT_AMT)+'</b></p></td>';
+        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(dcPay)+'</b></p></td>';
         html += '   </tr>';
 
         html += '   <tr>';

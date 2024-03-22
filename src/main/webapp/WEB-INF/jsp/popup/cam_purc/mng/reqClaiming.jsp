@@ -304,7 +304,7 @@
                             <th>단위</th>
                             <th>금액</th>
                             <th>요청금액</th>
-<%--                            <th>할인금액</th>--%>
+                            <th>할인금액</th>
                             <th>비고</th>
 <%--                            <th>자산</th>--%>
                             <th>명령</th>
@@ -344,9 +344,9 @@
                             <td>
                                 <input type="text" id="purcItemAmt0" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
-<%--                            <td>--%>
-<%--                                <input id="difAmt0" class="difAmt" disabled value="0" style="text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">--%>
-<%--                            </td>--%>
+                            <td>
+                                <input type="text" id="difAmt0" class="difAmt" value="0" style="text-align: right" onkeyup="reqCl.fn_calcN('0', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                            </td>
                             <td>
                                 <label for="itemEtc0"></label><input type="text" id="itemEtc0" class="itemEtc">
                             </td>
@@ -360,16 +360,16 @@
                             </td>
                         </tr>
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        <th colspan="8" style="text-align: right; font-weight: bold">
-                            가격조정
-                        </th>
-                        <td colspan="2" style="text-align: right; font-weight: bold">
-                            <input type="text" id="discountAmt" style="text-align: right;" onkeyup="reqCl.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />
-                        </td>
-                    </tr>
-                    </tfoot>
+<%--                    <tfoot>--%>
+<%--                    <tr>--%>
+<%--                        <th colspan="8" style="text-align: right; font-weight: bold">--%>
+<%--                            가격조정--%>
+<%--                        </th>--%>
+<%--                        <td colspan="2" style="text-align: right; font-weight: bold">--%>
+<%--                            <input type="text" id="discountAmt" style="text-align: right;" onkeyup="reqCl.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0" />--%>
+<%--                        </td>--%>
+<%--                    </tr>--%>
+<%--                    </tfoot>--%>
                 </table>
             </div>
         </div>
