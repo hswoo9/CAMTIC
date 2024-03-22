@@ -955,7 +955,8 @@
     <select id="getOjtResultList" resultType="map" parameterType="map">
         /* getOjtResultList */
         SELECT
-            *
+            COR.*,
+            (SELECT RES_STATUS FROM CAMPUS.DJ_STUDY_INFO WHERE STUDY_INFO_SN = COR.STUDY_INFO_SN) AS STAT
         FROM
             CAMPUS.DJ_OJT_RESULT COR
         WHERE

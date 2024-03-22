@@ -146,7 +146,7 @@
             $("#ojtAmtTd").val(fn_numberWithCommas(ojtResultInfo.STUDY_MONEY));
             $("#ojtAmtTextTd").val(ojtResultInfo.STUDY_MONEY_VAL);
             $("#regDateTd").val(ojtResultInfo.REG_DT);
-            $("#savesBtn").hide();
+            // $("#savesBtn").hide();
 
         }else if($("#resultMode").val() == "upd"){
 
@@ -266,7 +266,7 @@
             ojtLocationTd : ojtLocationTd,
             ojtObjectTd: ojtObjectTd,
             ojtContentTd: ojtContentTd,
-            ojtAmtTd: ojtAmtTd,
+            ojtAmtTd: uncomma(ojtAmtTd),
             ojtAmtTextTd: ojtAmtTextTd,
             regDateTd: regDateTd
         }
