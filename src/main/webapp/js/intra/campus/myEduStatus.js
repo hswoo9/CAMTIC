@@ -17,6 +17,7 @@ var myEdu = {
             eduYear: $("#applyYear").val().replace("년", "")
         }).list[0];
 
+
         $("#personalTime").text(data.PERSONAL_TIME+"시간");
         $("#studyTime").text(data.STUDY_TIME+"시간");
         $("#propagTime").text(data.PROPAG_TIME+"시간");
