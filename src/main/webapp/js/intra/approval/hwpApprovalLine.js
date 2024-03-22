@@ -163,7 +163,11 @@ var hwpApprovalLine = {
                     const empSeq = $("#empSeq").val();
                     const empName = $("#empName").val();
                     if(draft.global.params.formId != "1" && $("#mySignCk").val() == "N"){
-                        hwpApprovalLine.setSign(field, empSeq, empName);
+                        if(draft.global.params.formId != "96"){
+                            hwpApprovalLine.setSign(field, empSeq, empName);
+                        }else{
+                            hwpApprovalLine.setTranscript(field, $("#approveEmpSeq").val(), $("#approveEmpName").val());
+                        }
                         $("#mySignCk").val("Y");
                     }
                 }, 2500);
@@ -215,20 +219,26 @@ var hwpApprovalLine = {
 
                 for (let i = 0; i < list.length; i++) {
                     if ((list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리")
-                        && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
+                        && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ && docView.global.rs.approveNowRoute.APPROVE_TYPE != "147") {
 
                         teamCk = "Y";
 
                         const signField = "appr0";
-                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                        if(docView.global.rs.docInfo.FORM_ID != "96"){
+                            hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                        }else{
+                            hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                        }
                     }
                 }
 
-                if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+                if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+                    && docView.global.rs.approveNowRoute.APPROVE_TYPE != "147"){
 
                     /** 팀장 공석 체크해서 없으면 공란 처리 */
                     for (let i = 0; i < list.length; i++) {
-                        if ((list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1") {
+                        if ((list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1"
+                            && list[i].APPROVE_TYPE != "147") {
                             teamCk = "Y";
                         }
                     }
@@ -237,15 +247,27 @@ var hwpApprovalLine = {
                     }
 
                     const signField = "appr2";
-                    hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+
+                    if(docView.global.rs.docInfo.FORM_ID != "96"){
+                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                    }else{
+                        hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                    }
                 }
 
             /** 팀장 전결 */
             }else if(empData.APPROVE_DUTY_NAME == "센터장" || empData.APPROVE_DUTY_NAME == "팀장" || empData.APPROVE_DUTY_NAME == "팀장 직무대리"){
                 /** appArr = ["전결", "공란", "sigh1"] */
-                if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+                if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+                    && docView.global.rs.approveNowRoute.APPROVE_TYPE != "147"){
                     const signField = "appr2";
-                    hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+
+
+                    if(docView.global.rs.docInfo.FORM_ID != "96"){
+                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                    }else{
+                        hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                    }
                 }
 
             }else{
@@ -254,20 +276,27 @@ var hwpApprovalLine = {
                 let deptCk = "N";
                 for (let i = 0; i < list.length; i++) {
                     if ((list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리")
-                        && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
+                        && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ
+                        && docView.global.rs.approveNowRoute.APPROVE_TYPE != "147") {
 
                         const signField = "appr0";
-                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+
+                        if(docView.global.rs.docInfo.FORM_ID != "96"){
+                            hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                        }else{
+                            hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                        }
                     }
                 }
 
                 for(let i=0; i<list.length; i++){
                     if ((list[i].APPROVE_DUTY_NAME == "본부장" || list[i].APPROVE_DUTY_NAME == "사업부장" || list[i].APPROVE_DUTY_NAME == "실장")
-                        && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ) {
+                        && docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == list[i].APPROVE_EMP_SEQ
+                        && docView.global.rs.approveNowRoute.APPROVE_TYPE != "147") {
 
                         /** 팀장 공석 체크해서 없으면 공란 처리 */
                         for (let i = 0; i < list.length; i++) {
-                            if ((list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1") {
+                            if ((list[i].APPROVE_DUTY_NAME == "센터장" || list[i].APPROVE_DUTY_NAME == "팀장" || list[i].APPROVE_DUTY_NAME == "팀장 직무대리") && list[i].APPROVE_TYPE != "1" && list[i].APPROVE_TYPE != "147") {
                                 teamCk = "Y";
                             }
                         }
@@ -276,16 +305,21 @@ var hwpApprovalLine = {
                         }
 
                         const signField = "appr1";
-                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                        if(docView.global.rs.docInfo.FORM_ID != "96"){
+                            hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                        }else{
+                            hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                        }
                     }
                 }
 
-                if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+                if(list[0].LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
+                    && docView.global.rs.approveNowRoute.APPROVE_TYPE != "147"){
 
                     /** 부서장 공석 체크해서 없으면 공란 처리 */
                     for (let i = 0; i < list.length; i++) {
                         if ((list[i].APPROVE_DUTY_NAME == "본부장" || list[i].APPROVE_DUTY_NAME == "사업부장" || list[i].APPROVE_DUTY_NAME == "실장")
-                            && list[i].APPROVE_TYPE != "1") {
+                            && list[i].APPROVE_TYPE != "1" && list[i].APPROVE_TYPE != "147") {
                             deptCk = "Y";
                         }
                     }
@@ -294,7 +328,11 @@ var hwpApprovalLine = {
                     }
 
                     const signField = "appr2";
-                    hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                    if(docView.global.rs.docInfo.FORM_ID != "96"){
+                        hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                    }else{
+                        hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
+                    }
                 }
             }
         }
@@ -406,10 +444,6 @@ var hwpApprovalLine = {
         hwpDocCtrl.putFieldText(fieldName, empName);
     },
 
-    /** 협조용 */
-    setNameD : function(fieldName, APPROVE_EMP_NAME, PROXY_APPROVE_EMP_SEQ, APPROVE_DEPT_NAME){
-    },
-
     setSign : function(fieldName, empSeq, empName, type){
         /** 부재설정이 되어있으면 대결자의 정보가 들어감 */
         if(type == "view"){
@@ -435,6 +469,41 @@ var hwpApprovalLine = {
                 if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
                     hwpDocCtrl.putFieldText(fieldName, "대결");
                 }
+            }
+            hwpDocCtrl.moveToField(fieldName, true, true, false);
+
+            hwpDocCtrl.global.HwpCtrl.InsertPicture(
+                ip + imgMap.file_path + imgMap.file_uuid,
+                true, 3, false, false, 0, 0, 0, function(ctrl){
+                    if(ctrl){
+                        console.log('성공');
+                        hwpApprovalLine.global.checkSign = "Y";
+                    }else{
+                        console.log('실패');
+                    }
+                }
+            );
+        }else{
+            hwpDocCtrl.putFieldText(fieldName, empName);
+        }
+    },
+
+    setTranscript : function(fieldName, empSeq, empName, type){
+        let ip = "";
+        if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
+            ip = "http://218.158.231.184";
+        }else{
+            ip = "http://218.158.231.186";
+        }
+
+        const result = customKendo.fn_customAjax("/user/getSign", {empSeq: empSeq});
+        if(result.data.sign2Img != null){
+            const imgMap = result.data.sign2Img;
+
+            if(type == "view"){
+                /*if(docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y'){
+                    hwpDocCtrl.putFieldText(fieldName, "대결");
+                }*/
             }
             hwpDocCtrl.moveToField(fieldName, true, true, false);
 

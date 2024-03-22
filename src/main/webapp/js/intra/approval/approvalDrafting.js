@@ -146,6 +146,12 @@ var draft = {
             template: kendo.template($("#template").html())
         });
 
+        $("#draftOpin").kendoTextArea({
+            rows:5,
+            cols:10,
+            resizable: "vertical"
+        });
+
         $(document).ready(function() {
             draft.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", draft.global.params.hwpUrl, function () {draft.editorComplete();});
             window.onresize();
@@ -164,20 +170,6 @@ var draft = {
             },
             close: function () {
                 $("#approveModal").load(location.href + ' #approveModal');
-            }
-        });
-
-        $("#draftModal").kendoWindow({
-            title: "상신의견",
-            visible: false,
-            modal: true,
-            width : 510,
-            position : {
-                top : 50,
-                left : 255
-            },
-            close: function () {
-                $("#draftModal").load(location.href + ' #draftModal');
             }
         });
 
@@ -672,6 +664,15 @@ var draft = {
             draft.global.comCode = result.comCode;
             var comCode = result.comCode;
             var rs = result.rs;
+
+            if(draft.global.type == "reDrafting"){
+                $("#draftBtn").remove();
+                $("#btnDiv").prepend("<input type='hidden' id='approveStatCode' name='approveStatCode' value='" + comCode.CM_CODE + "'>" +
+                    "<input type='hidden' id='approveStatCodeDesc' name='approveStatCodeDesc' value='" + comCode.CM_CODE_NM + "'>" +
+                    '<button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base reDraft" onclick="draft.draftInitValidation(this)">' +
+                    '	<span class="k-button-text">상신</span>' +
+                    '</button>');
+            }
 
             $("#formId").val(rs.docInfo.FORM_ID);
             $("#formName").val(rs.docInfo.FORM_NAME);
@@ -1226,7 +1227,11 @@ var draft = {
 
         const signField = "appr2";
         if(hwpDocCtrl.fieldExist(signField)){
-            hwpApprovalLine.setSign(signField, $("#approveEmpSeq").val(), $("#approveEmpName").val());
+            if(draft.global.params.formId != "96"){
+                hwpApprovalLine.setSign(signField, $("#approveEmpSeq").val(), $("#approveEmpName").val());
+            }else{
+                hwpApprovalLine.setTranscript(signField, $("#approveEmpSeq").val(), $("#approveEmpName").val());
+            }
         }
 
         $("#approveEmpName").kendoTextBox({
@@ -1239,28 +1244,6 @@ var draft = {
         });
 
         $('#approveModal').data('kendoWindow').open();
-    },
-
-    draftKendoSetting : function(){
-
-        $("#draftOpin").kendoTextArea({
-            rows:5,
-            cols:10,
-            resizable: "vertical"
-        });
-
-        $('#draftModal').data('kendoWindow').open();
-
-        const comCode = draft.global.comCode;
-        if(draft.global.type == "reDrafting"){
-            $("#draftBtn").remove();
-            $("#btnDiv2").prepend("<input type='hidden' id='approveStatCode' name='approveStatCode' value='" + comCode.CM_CODE + "'>" +
-                "<input type='hidden' id='approveStatCodeDesc' name='approveStatCodeDesc' value='" + comCode.CM_CODE_NM + "'>" +
-                '<button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base reDraft" onclick="draft.draftInitValidation(this)">' +
-                '   <span class="k-icon k-i-check k-button-icon"></span>' +
-                '	<span class="k-button-text">확인</span>' +
-                '</button>');
-        }
     },
 
     docApprove : function(){

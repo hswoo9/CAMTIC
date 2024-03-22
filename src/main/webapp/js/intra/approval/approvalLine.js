@@ -49,7 +49,11 @@ var approvalLine = {
         approverArr: [],
 
         /** 일반 결재선(협조 x) 배열 */
-        normalArr: []
+        normalArr: [],
+
+        /** 지급신청서 PM 정보 formId = 147일때 생김 */
+        pmUserInfo: null,
+        pmUserCk: "N"
     },
 
     linkStart : function(){
@@ -525,17 +529,23 @@ var approvalLine = {
 
     /** 직급별 결재선 입력 */
     setLineData: function(userArr){
+        const params = draft.global.params;
         
         /** 결재자 */
         for(let i=0; i<userArr.length; i++){
             let approveType = "0";
+
+            /** 지급신청서일때 사업담당자 추가 */
+            if(i == 1 && params.formId == "147" && userArr.length != 1){
+                approvalLine.setPayLineData();
+            }
 
             /** 
              * 1. 본인 전결이 아니고
              * 2. 협조자가 있고
              * 3. 같은부서가 아니면
              * 
-             * return 마지막 결재자 직전에 협조자 결재선 추가 */
+             * return 상신자 직후에 협조자 결재선 추가 */
             if(i == 1 && userArr.length != 1){
                 approvalLine.setCopperLineData();
             }
@@ -545,6 +555,7 @@ var approvalLine = {
             }
             approvalLine.rowApprovalSet(userArr[i], approveType);
             approvalLine.global.userArr = userArr;
+
             console.log("userArr", userArr);
             console.log("userArr[i]", userArr[i]);
         }
@@ -582,6 +593,37 @@ var approvalLine = {
         }
         console.log("협조 타입 :", copperType);
         approvalLine.global.copperType = copperType;
+    },
+
+    setPayLineData: function(){
+        const payAppSn = draft.global.params.approKey.split("_")[1];
+        const result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", { payAppSn: payAppSn });
+        const rs = result.map;
+        const pjtResult = customKendo.fn_customAjax("/project/getProjectByPjtCd", { pjtCd: rs.PJT_CD });
+        const pjtMap = pjtResult.map;
+        console.log("payApp Map", pjtMap);
+        if(pjtMap == null){ return; }
+
+        /**PM 데이터 */
+        const userInfo = getUser(pjtMap.PM_EMP_SEQ);
+        if(userInfo == null){ return; }
+
+        approvalLine.global.pmUserInfo = userInfo;
+        approvalLine.global.pmUserCk = "Y";
+
+        const userArr = approvalLine.global.userArr;
+
+        let ck = true;
+        for(let i=0; i<userArr.length; i++){
+            const map = userArr[i];
+            /** PM 결재선에 포함되있으면 추가 X */
+            if(map.EMP_SEQ == userInfo.EMP_SEQ){
+                ck = false;
+            }
+        }
+        if(ck){
+            approvalLine.rowApprovalSet(userInfo, "147");
+        }
     },
 
     setCopperLineData: function(){

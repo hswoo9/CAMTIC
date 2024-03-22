@@ -544,6 +544,7 @@ var docView = {
                 const approveRoute = docView.global.rs.approveRoute;
                 const cRoute = approveRoute.filter(tempArr => tempArr.APPROVE_TYPE == 1);
 
+
                 if(cRoute.length == 1){
                     for(var i = 0; i < 2; i ++){
                         const signField = "cAppr" + i;
@@ -563,6 +564,23 @@ var docView = {
                             break;
                         }
                     }
+                }
+            }
+
+            if(docView.global.rs.docInfo.FORM_ID == "147"){
+                const payAppSn = docView.global.params.approKey.split("_")[1];
+                const result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", { payAppSn: payAppSn });
+                const rs = result.map;
+                const pjtResult = customKendo.fn_customAjax("/project/getProjectByPjtCd", { pjtCd: rs.PJT_CD });
+                const pjtMap = pjtResult.map;
+                if(pjtMap == null){ return; }
+
+                /**PM 데이터 */
+                const userInfo = getUser(pjtMap.PM_EMP_SEQ);
+
+                if(docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == pjtMap.PM_EMP_SEQ){
+                    const signField = "paySign";
+                    hwpApprovalLine.setTranscript(signField, pjtMap.PM_EMP_SEQ, userInfo.EMP_NAME_KR);
                 }
             }
         }
@@ -1495,6 +1513,7 @@ var docView = {
         }
 
         $("#readerNameTd").text(docView.global.rs.displayReaderName);
+        $("#draftOpinTd").html(docView.global.rs.docInfo.DRAFT_OPIN.replace(/\n+/g, "<br>"));
 
         if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
             && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"){

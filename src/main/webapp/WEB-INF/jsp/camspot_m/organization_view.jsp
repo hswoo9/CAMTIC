@@ -95,7 +95,7 @@
                 	<div>
                     	<span>
                             <font class="name fP800 txt type30">송은화</font>
-                            <font class="position txt type22">책임행정원</font>
+                            <font class="position txt type22">팀장</font>
                         </span>
                         <span class="mt10">
                             <font class="tel txt type22">063-219-0335</font>
@@ -113,19 +113,6 @@
                         <span class="mt10">
                             <font class="tel txt type22">063-219-0309</font>
                             <font class="phone txt type22">010-6385-0886</font>
-                        </span>
-                    </div>
-                </div>
-            	<div class="disF">
-                	<font class="num txt type26">2</font>
-                	<div>
-                    	<span>
-                            <font class="name fP800 txt type30">유지연</font>
-                            <font class="position txt type22">팀장</font>
-                        </span>
-                        <span class="mt10">
-                            <font class="tel txt type22">063-219-0331</font>
-                            <font class="phone txt type22">010-4617-0353</font>
                         </span>
                     </div>
                 </div>

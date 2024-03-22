@@ -235,6 +235,12 @@
 
                         </td>
                     </tr>
+                    <tr>
+                        <th class="th-color text-right">상신의견</th>
+                        <td id="draftOpinTd">
+
+                        </td>
+                    </tr>
                 </table>
                 <div style="display:flex; justify-content: space-between; margin:0 10px 10px;">
                     <div class="spanft" style="font-weight: bold;">· 첨부파일</div>

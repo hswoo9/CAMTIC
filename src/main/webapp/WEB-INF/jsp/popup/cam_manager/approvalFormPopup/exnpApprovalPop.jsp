@@ -13,7 +13,6 @@
         exnpSn: ${params.exnpSn}
     });
     const rs = result.map;
-    let formId = "97";
     let docTitle = "";
     if(rs.PAY_APP_TYPE == 1){
         docTitle = "[지출결의서]${loginVO.orgnztNm}-${loginVO.name}";

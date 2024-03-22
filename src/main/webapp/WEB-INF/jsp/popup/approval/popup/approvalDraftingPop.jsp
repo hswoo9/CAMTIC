@@ -109,7 +109,7 @@
                 <span class="k-button-text" style="font-size: 13px">결재선 지정</span>
             </button>
 
-            <button type="button" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base draft" onclick="draft.draftKendoSetting()">
+            <button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base draft" onclick="draft.draftInitValidation(this)">
                 <span class="k-button-text" style="font-size: 13px">상신</span>
             </button>
 
@@ -204,10 +204,10 @@
                     </button>
                 </td>
             </tr>
-            <tr class="text-right" id="etc">
-                <th class="th-color">상신의견</th>
-                <td style="border-right: none" colspan="2">
-                    <input type="text" id="" name="" class="k-input k-textbox k-input-solid k-input-md">
+            <tr>
+                <th class="text-center th-color">상신의견</th>
+                <td colspan="2">
+                    <textarea type="text" id="draftOpin" name="draftOpin"></textarea>
                 </td>
             </tr>
         </table>
@@ -262,33 +262,6 @@
         </div>
     </div>
 
-    <%--결재 모달 (상신의견)--%>
-    <div id="draftModal" class="pop_wrap_dir">
-        <table class="table table-bordered mb-0" style="width: 99%">
-            <colgroup>
-                <col width="15%">
-                <col width="35%">
-            </colgroup>
-            <tbody>
-            <tr>
-                <th class="text-center th-color">상신의견</th>
-                <td>
-                    <textarea type="text" id="draftOpin" name="draftOpin"></textarea>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div id="btnDiv2" class="mt-15" style="text-align: right">
-            <button type="button" id="draftBtn" name="draft" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base draft" onclick="draft.draftInitValidation(this)">
-                <span class='k-icon k-i-check k-button-icon'></span>
-                <span class="k-button-text" style="font-size: 13px">확인<span>
-            </button>
-            <button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick="$('#draftModal').data('kendoWindow').close();">
-                <span class='k-icon k-i-cancel k-button-icon'></span>
-                <span class='k-button-text'>취소</span>
-            </button>
-        </div>
-    </div>
 
 <script type="text/x-kendo-template" id="template">
     <span class="k-button-text">#:REFERENCES_DOC_TITLE#</span>

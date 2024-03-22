@@ -523,6 +523,7 @@
             DI.LAST_APPROVE_EMP_SEQ,
             DI.LAST_APPROVE_TYPE,
             DI.DRAFT_DT,
+            IFNULL(DI.DRAFT_OPIN, '') AS DRAFT_OPIN,
             DATE_FORMAT(DI.DRAFT_DT, '%Y-%m-%d') AS DRAFT_DATE,
             DI.APPROVE_STAT_CODE,
             DO.DOC_OPT_ID,
