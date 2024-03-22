@@ -280,7 +280,7 @@ const propagView = {
                             width: 150,
                             template: function(row){
                                 console.log(row);
-                                return Number(row.EDU_TIME * 1.5) + "시간";
+                                return (Number(row.EDU_TIME * 1.5)).toFixed(1) + "시간";
                             }
                         }, {
                             title: "학습자",

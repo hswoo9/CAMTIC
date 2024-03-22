@@ -76,6 +76,8 @@
             CPU.PROPAG_EMP_SEQ = #{empSeq}
           AND CSP.ACTIVE = 'Y'
           AND PROPAG_DT BETWEEN (SELECT ADDDATE(#{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE(#{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
+          AND CPU.PROPAG_RESULT_DT BETWEEN (SELECT ADDDATE(#{applyDt}, - WEEKDAY(#{applyDt}) + 0 ) AS MONDAY) AND (SELECT ADDDATE(#{applyDt}, - WEEKDAY(#{applyDt}) + 6 ) AS MONDAY)
+
     </select>
 
     <select id="getRealEduTimeOjtUserToday" resultType="map" parameterType="map">
@@ -1380,7 +1382,7 @@
             SELECT SUM(REAL_EDU_TIME) FROM CAMPUS.DJ_STUDY_PROPAG SP
             LEFT JOIN CAMPUS.DJ_PROPAG_USER SPU ON SP.STUDY_PROPAG_SN = SPU.STUDY_PROPAG_SN
             LEFT JOIN CAMPUS.DJ_STUDY_INFO SSI ON SP.STUDY_INFO_SN = SSI.STUDY_INFO_SN
-            WHERE SPU.PROPAG_EMP_SEQ = HEI.EMP_SEQ AND SP.ACTIVE = 'Y' AND DATE_FORMAT(SP.PROPAG_DT, '%Y') = #{eduYear} AND SSI.ADD_STATUS = 'S'
+            WHERE SPU.PROPAG_EMP_SEQ = HEI.EMP_SEQ AND SP.ACTIVE = 'Y' AND DATE_FORMAT(SP.PROPAG_DT, '%Y') = #{eduYear} AND SSI.ADD_STATUS != 'N'
         ), 0) AS PROPAG_TIME,
         (
             SELECT COUNT(-1) FROM CAMPUS.DJ_STUDY_PROPAG SP
@@ -2406,9 +2408,9 @@
                 #{propagDt},
                 #{startTime},
                 #{endTime},
-                TRUNCATE(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1),
-                TRUNCATE(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1),
-                TRUNCATE((TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600)*1.5, 1),
+                ROUND(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1),
+                ROUND(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1),
+                ROUND((TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600)*1.5, 1),
                 #{location},
                 #{saveType},
                 #{propagContent},
@@ -2428,9 +2430,9 @@
             PROPAG_DT = #{propagDt},
             START_TIME = #{startTime},
             END_TIME = #{endTime},
-            EDU_TIME = CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
-            EDU_USER_TIME = CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600),
-            EDU_MNG_TIME = (CEILING(TIME_TO_SEC((SELECT DATE_FORMAT(TIMEDIFF(#{endTime}, #{startTime}), '%H:%m'))) / 3600))*1.5,
+            EDU_TIME = ROUND(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600,1),
+            EDU_USER_TIME = ROUND(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600, 1),
+            EDU_MNG_TIME = ROUND(TIME_TO_SEC((SELECT TIMEDIFF(#{endTime}, #{startTime}))) / 3600 * 1.5, 1),
             LOCATION = #{location},
             SAVE_TYPE = #{saveType},
             PROPAG_CONTENT = #{propagContent},

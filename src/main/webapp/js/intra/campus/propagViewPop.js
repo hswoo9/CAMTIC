@@ -74,7 +74,6 @@ const propagView = {
 
         const studyResult = customKendo.fn_customAjax("/campus/getStudyInfoOne", {pk: $("#pk").val()});
         const studyInfo = studyResult.data;
-        console.log("studyR",studyResult);
 
         let buttonHtml = "";
         buttonHtml += "<input type=\"button\" style=\"display: none; margin-right: 5px\" class=\"k-button k-button-solid-info\" value=\"결과보고서\" id=\"resultBtn\" onclick=\"propagView.fn_resultDocPop();\"/>";
@@ -101,7 +100,6 @@ const propagView = {
         }
         buttonHtml += "<input type=\"button\" id=\"studyCloseBtn\" class=\"k-button k-button-solid-error\" value=\"닫기\" onclick=\"window.close();\"/>";
         $("#studyBtn").html(buttonHtml);
-        console.log("buttonHtml", buttonHtml)
 
         let mode = $("#mode").val();
         let status = studyInfo.STATUS;
