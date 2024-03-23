@@ -1106,6 +1106,11 @@ var prp = {
                 html += '   <td>';
                 html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.fnUploadFile(' + i + ')">'
                 html += '   </td>';
+                html += '   <td>';
+                if(fileExt.toLowerCase() == "pdf" || fileExt.toLowerCase() == "jpg" || fileExt.toLowerCase() == "png" || fileExt.toLowerCase() == "jpeg"){
+                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="prp.fileViewer(\'' + fCommon.global.attFiles[i].file_path + fCommon.global.attFiles[i].file_uuid +'\')">'
+                }
+                html += '   </td>';
                 html += '</tr>';
             }
 
@@ -1128,6 +1133,11 @@ var prp = {
                     '			    <span class="k-button-text">삭제</span>' +
                     '		    </button>';
                 html += '   </td>';
+                html += '   <td>';
+                if(e[i].file_ext.toLowerCase() == "pdf" || e[i].file_ext.toLowerCase() == "jpg" || e[i].file_ext.toLowerCase() == "png" || e[i].file_ext.toLowerCase() == "jpeg"){
+                    html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="prp.fileViewer(\'' + e[i].file_path + e[i].file_uuid +'\')">'
+                }
+                html += '   </td>';
                 html += '</tr>';
             }
             $("#fileGrid").html(html);
@@ -1136,5 +1146,17 @@ var prp = {
                 '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
                 '</tr>');
         }
-    }
+    },
+
+    fileViewer : function (path, name){
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var hostUrl = "";
+        if($(location).attr("host").split(":")[0].indexOf("218.158.231.184") > -1 || $(location).attr("host").split(":")[0].indexOf("new.camtic.or.kr") > -1){
+            hostUrl = "http://218.158.231.184";
+        } else {
+            hostUrl = "http://218.158.231.186";
+        }
+        var popup = window.open(hostUrl + path, name, option);
+    },
 }

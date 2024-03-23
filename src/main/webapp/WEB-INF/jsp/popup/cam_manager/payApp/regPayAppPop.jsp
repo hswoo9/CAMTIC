@@ -108,6 +108,7 @@
                         <span>
                             <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 40%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
+                            <input type="hidden" id="firstPjtSn" value="" />
                             <input type="hidden" id="pjtCd" value="${pjtData.PJT_CD}" />
                             <input type="hidden" id="baseYear" value="" />
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPay.fn_projectPop('regPay')">검색</button>

@@ -26,20 +26,20 @@
             <!--} 로그인정보 -->
         	    
             <!-- 알림설정 {-->
-            <div class="notiSet mt20">
-                
-            	<font class="txt type28 fileBox"><b>알림설정</b></font>
-                <div class="mt10">
-                	<span>
-                    	<input type="radio" id="check1" />
-                        <label for="check1" class="txt type28">1</label>
-                    </span>  
-                	<span>
-                    	<input type="radio" id="check2" />
-                        <label for="check2" class="txt type28">2</label>
-                    </span>
-                </div>
-            </div>
+<%--            <div class="notiSet mt20">--%>
+<%--                --%>
+<%--            	<font class="txt type28 fileBox"><b>알림설정</b></font>--%>
+<%--                <div class="mt10">--%>
+<%--                	<span>--%>
+<%--                    	<input type="radio" id="check1" />--%>
+<%--                        <label for="check1" class="txt type28">1</label>--%>
+<%--                    </span>  --%>
+<%--                	<span>--%>
+<%--                    	<input type="radio" id="check2" />--%>
+<%--                        <label for="check2" class="txt type28">2</label>--%>
+<%--                    </span>--%>
+<%--                </div>--%>
+<%--            </div>--%>
             <!--} 알림설정 -->
             
             <!-- 바로가기 {-->
@@ -47,9 +47,9 @@
                 
             	<font class="txt type28 fileBox"><b>바로가기</b></font>
                 <div class="mt10">
-                	<a href="#" target="_blank" class="link"><img src="/images/camspot_m/ico-link.png" />기업성장지원센터</a>
-                	<a href="#" target="_blank" class="link"><img src="/images/camspot_m/ico-link.png" />법인 파일서버</a>
-                	<a href="#" target="_blank" class="link"><img src="/images/camspot_m/ico-link.png" />데스크탑 페이지 이동</a>                	
+                	<a href="http://camtic.or.kr/camtic" target="_blank" class="link"><img src="/images/camspot_m/ico-link.png" />통합홈페이지</a>
+<%--                	<a href="#" target="_blank" class="link"><img src="/images/camspot_m/ico-link.png" />법인 파일서버</a>--%>
+                	<a href="/indexB.do" target="_blank" class="link"><img src="/images/camspot_m/ico-link.png" />데스크탑 페이지 이동</a>
                 </div>
             </div>
             <!--} 바로가기 -->

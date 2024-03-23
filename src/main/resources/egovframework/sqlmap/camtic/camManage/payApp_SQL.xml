@@ -2369,9 +2369,9 @@
     <insert id="insPayAppBsYm" parameterType="map">
         /*insPayAppBsYm*/
         INSERT INTO CAM_MNG.DJ_PAY_APP_BS_YM
-            (PAY_APP_SN ,PJT_CD ,BS_YM)
+            (PAY_APP_SN ,PJT_SN ,PJT_CD ,BS_YM)
         VALUE
-            (#{payAppSn}, #{pjtCd}, #{bsYm})
+            (#{payAppSn}, #{pjtSn}, #{pjtCd}, #{bsYm})
     </insert>
 
     <update id="updPayAppBsYm" parameterType="map">
@@ -2392,9 +2392,9 @@
         /*getPartRatePayBsYm*/
         SELECT
             GROUP_CONCAT(BS_YM) AS bsYm
-        from
+        FROM
             CAM_MNG.DJ_PAY_APP_BS_YM
         WHERE
-            PJT_CD = #{pjtCd}
+            PJT_SN = #{pjtSn}
     </select>
 </mapper>
