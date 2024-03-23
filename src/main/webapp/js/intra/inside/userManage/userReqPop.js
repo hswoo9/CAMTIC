@@ -9,7 +9,7 @@ var userReqPop = {
     },
 
     dataSet : function(){
-        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #jobDetailCaseB, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
+        $("#empNameKr, #loginPasswd, #loginId, #resRegisNum1, #resRegisNum2, #checkPasswd, #capsNum, #capsNumCaseA, #capsNumCaseB, #capsNumCaseC, #jobDetail, #jobDetailCaseA, #jobDetailCaseB, #beforCareer, #elapsedYear1, #elapsedYear2, #accountHolder, #bankName, #accountNum, #zipCode, #addr, #officeTelNum, #mobileTelNum, #emailAddr, #scienceNo, #carNum, #empNameCn, #empNameEn, #emgTelNum, #legalDomicile, #hobby, #religion, #specialty, #weight, #height, #vision1, #vision2, #carNum1, #carNum2, #carNum3, #workTime, #school, #department, #grade, #studentId").kendoTextBox();
         $("#contract, #qualification, #degreeT, #career, #military, #significant").kendoTextArea({
             rows : 5
         });
@@ -867,6 +867,7 @@ var userReqPop = {
             OFFICE_TEL_NUM : $("#officeTelNum").val(), //전화번호
             MOBILE_TEL_NUM : $("#mobileTelNum").val(), //전화번호
             EMAIL_ADDR : $("#emailAddr").val(), //이메일
+            SCIENCE_NO : $("#scienceNo").val(), //과학기술인 번호
             JOIN_DAY : $("#regDate").val(), // 입사일자
             POSITION_CODE : $("#position").val(), // 직급 / 등급
             DUTY_CODE : $("#duty").val(), // 직책

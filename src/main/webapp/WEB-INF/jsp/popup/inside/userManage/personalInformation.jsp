@@ -206,6 +206,12 @@
                             <input type="text" id="myComent" style="width: 95%;" value="${uprinfList.MY_COMENT}">
                     </td>
                 </tr>
+                <tr>
+                    <th>과학기술인<br>번호</th>
+                    <td>
+                        <input type="text" id="scienceNo" style="width: 95%;" value="${uprinfList.SCIENCE_NO}">
+                    </td>
+                </tr>
                 </thead>
             </table>
             <table class="defaultCase defaultCaseA defaultCaseB defaultCaseC defaultCaseD popTable table table-bordered mb-0" id="personalInformationDetail" style="border-left:none;">
