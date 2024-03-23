@@ -13,7 +13,10 @@
 <input type="hidden" id="tempEmpName" value=""/>
 <input type="hidden" id="tempJoinDay" value=""/>
 <input type="hidden" id="tempEmpSal" value=""/>
+<input type="hidden" id="tempChngSal" value=""/>
 <input type="hidden" id="rateFlag" value=""/>
+
+
 
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
@@ -67,6 +70,12 @@
                         <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin: 0 5px 5px 0;" onclick="empPartRate.fn_setData('A')">참여율</button>
                         <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin:0 5px 5px 0;" onclick="empPartRate.fn_setData('B')">월지급액</button>
                         <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin:0 5px 5px 0;" onclick="empPartRate.closeDiv()">접기</button>
+                        <div style="float: right; margin: 3px 5px 0 0;">
+                            <input type="checkbox" id="payCheck" class="k-checkbox" name="gubun" value="pay" onchange="empPartRate.fn_changeCheck('C')" checked="checked"/>
+                            <label for="payCheck">현금</label>
+                            <input type="checkbox" id="itemCheck" class="k-checkbox" name="gubun" value="item" onchange="empPartRate.fn_changeCheck('C')"/>
+                            <label for="itemCheck">현물</label>
+                        </div>
                     </div>
                     <table class="popTable table table-bordered mb-0" style="padding: 0;font-size: 9px;>
                         <colgroup>

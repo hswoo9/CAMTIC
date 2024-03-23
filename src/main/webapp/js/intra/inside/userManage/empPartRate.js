@@ -69,6 +69,10 @@ var empPartRate = {
         empPartRate.mainGrid();
     },
 
+    fn_changeCheck : function (type){
+        empPartRate.fn_setData(type);
+    },
+
     fn_gridReload: function () {
         $("#clickTable").css("display", "none");
         $("#mainGrid").data("kendoGrid").dataSource.read();
@@ -328,8 +332,28 @@ var empPartRate = {
 
     fn_setData : function (type, empSeq, empName ,joinDay, empSal, chngSal) {
 
-        if (chngSal == "" || chngSal == undefined || chngSal == null) {
+        if (chngSal != "" && chngSal != undefined && chngSal != null) {
             empSal = chngSal;
+
+            $("#tempChngSal").val(chngSal);
+        }
+
+        //현금,현물 구분체크를 위한 임시데이터 저장
+        if(type == 'C'){
+            empSeq = $("#tempEmpSeq").val();
+            empName = $("#tempEmpName").val();
+            joinDay = $("#tempJoinDay").val();
+
+            if($("#tempChngSal").val() != "") {
+                empSal = $("#tempChngSal").val();
+            }else{
+                empSal = $("#tempEmpSal").val();
+            }
+        }else{
+            $("#tempEmpSeq").val(empSeq);
+            $("#tempEmpName").val(empName);
+            $("#tempJoinDay").val(joinDay);
+            $("#tempEmpSal").val(empSal);
         }
 
         $("#clickTable").css("display", "");
@@ -337,7 +361,9 @@ var empPartRate = {
         var selStartDate = $("#bsYear").val() + "-01-01";
         var selEndDate = $("#bsYear").val() + "-12-31";
 
+        if(type != "C"){
         $("#rateFlag").val(type);
+        }
 
         var strDe = selStartDate.split("-");
         var endDe = selEndDate.split("-");
@@ -346,12 +372,21 @@ var empPartRate = {
         const projectStartMonth = strDe[0] + "-01";
         var date = new Date(projectStartMonth);
 
-        $("#divBtn").html("");
-        var btnHtml = "";
-        btnHtml += '<button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin: 0 5px 5px 0;" onClick="empPartRate.fn_setData(\'A\', '+empSeq+', \''+empName+'\', \''+joinDay+'\', '+empSal+', '+chngSal+')">참여율</button>';
-        btnHtml += '<button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin:0 5px 5px 0;" onClick="empPartRate.fn_setData(\'B\', '+empSeq+', \''+empName+'\', \''+joinDay+'\', '+empSal+', '+chngSal+')">월지급액</button>';
-        btnHtml += '<button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin:0 5px 5px 0;" onClick="empPartRate.closeDiv()">접기</button>';
-        $("#divBtn").html(btnHtml);
+        if(type != "C") {
+            $("#divBtn").html("");
+            var btnHtml = "";
+            btnHtml += '<button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin: 0 5px 5px 0;" onClick="empPartRate.fn_setData(\'A\', ' + empSeq + ', \'' + empName + '\', \'' + joinDay + '\', ' + empSal + ', ' + chngSal + ')">참여율</button>';
+            btnHtml += '<button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin:0 5px 5px 0;" onClick="empPartRate.fn_setData(\'B\', ' + empSeq + ', \'' + empName + '\', \'' + joinDay + '\', ' + empSal + ', ' + chngSal + ')">월지급액</button>';
+            btnHtml += '<button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin:0 5px 5px 0;" onClick="empPartRate.closeDiv()">접기</button>';
+            btnHtml += '<div style="float: right; margin: 3px 5px 0 0;">';
+            btnHtml += '<input type="checkbox" id="payCheck" class="k-checkbox" name="gubun" value="pay" onChange="empPartRate.fn_changeCheck(\'C\')" checked="checked"/> ';
+            btnHtml += '<label for="payCheck">현금</label> ';
+            btnHtml += '<input type="checkbox" id="itemCheck" class="k-checkbox" name="gubun" value="item" onChange="empPartRate.fn_changeCheck(\'C\')"/> ';
+            btnHtml += '<label for="itemCheck">현물</label>';
+            btnHtml += '</div>';
+
+            $("#divBtn").html(btnHtml);
+        }
 
         $("#userPartRateHeader").html("");
         var hdHtml = "";
@@ -412,11 +447,21 @@ var empPartRate = {
                 var monPayStr = "MON_PAY_";
                 var monItemStr = "MON_ITEM_";
 
+                var monFinalStr = "";
+
+                if($("#payCheck").is(":checked") && $("#itemCheck").is(":checked")){
+                    monFinalStr = "ALL";
+                }else if($("#payCheck").is(":checked")){
+                    monFinalStr = monPayStr;
+                }else if($("#itemCheck").is(":checked")){
+                    monFinalStr = monItemStr;
+                }
+
                 for (var i = 0; i < rs.length; i++) {
                     var itemMonMap;
                     $.ajax({
                         url : "/inside/getBusnPartRatePayData",
-                        data : {empSeq: empSeq, pjtSn: rs[i].PJT_SN},
+                        data : {empSeq: empSeq, pjtSn: rs[i].PJT_SN, year: $("#bsYear").val()},
                         type : "post",
                         dataType : "json",
                         async : false,
@@ -430,6 +475,8 @@ var empPartRate = {
                         }
                     });
 
+                    var item = rs[i];
+
                     var pjtStatus = "예정";
 
                     var today = new Date();
@@ -442,15 +489,6 @@ var empPartRate = {
                             pjtStatus = "기간종료";
                         }
                     }
-
-                    /*var checkIngArr = ['Y', 'E', 'E1', 'E2', 'R', 'S'];
-                    if (checkIngArr.indexOf(rs[i].PJT_STEP) > -1) {
-                        pjtStatus = "예정";
-                    }
-                    var checkEndArr = ['E6', 'E7', 'R3', 'S3'];
-                    if (checkEndArr.indexOf(rs[i].PJT_STEP) > -1) {
-                        pjtStatus = "종료";
-                    }*/
 
                     var pm = "";
                     if (parameters.empSeq == rs[i].PM_EMP_SEQ) {
@@ -492,36 +530,89 @@ var empPartRate = {
 
                     var userStrDeArr = rs[i].PART_DET_STR_DT.split("-");
                     var userEndDeArr = rs[i].PART_DET_END_DT.split("-");
-                    var userStartMonth = userStrDeArr[0] + "-" + userStrDeArr[1];
+
+                    var userStrYear = "";
+                    var userStrMonth = "";
+
+                    if(userStrDeArr[0] == $("#bsYear").val()){
+                        userStrYear = userStrDeArr[0];
+                        userStrMonth = userStrDeArr[1];
+                    }else{
+                        userStrYear = $("#bsYear").val();
+                        userStrMonth = "01";
+                    }
+
+                    var userStartMonth = userStrYear + "-" + userStrMonth;
 
                     var userDate = new Date(userStartMonth);
 
+                    var totalRate = item.TOT_RATE;
+                    var payRate = item.PAY_RATE;
+                    var itemRate = item.ITEM_RATE;
+
                     var colMonth = date.getMonth() + 1; //월 컬럼 선택
-                    var colYear = date.getFullYear(); //년 컬럼 선택
+                    var colYear = $("#bsYear").val(); //년 컬럼 선택
                     for (var j = 0; j < diffMonth; j++) {
                         var dt = date.getFullYear() + "-" + (date.getMonth() + 1);
                         var userDt = userDate.getFullYear() + "-" + (userDate.getMonth() + 1);
 
+                        var rate = 0;
+                        if(monFinalStr == "ALL"){
+                            rate = Number(totalRate);
+                        }else if(monFinalStr == monPayStr){
+                            rate =  Number(payRate) / Number(totalRate) * 100;
+                        }else if(monFinalStr == monItemStr){
+                            rate = Number(itemRate) / Number(totalRate) * 100;
+                        }
+
+                        var tot = Math.round((Number(item.MON_SAL) * Number(rate)) / 100);
+
                         userChangeSalaryArr[i][j] = 0;
                         userMonthSalaryArr[i][j] = 0;
                         userTotRateArr[i][j] = 0;
+
                         if (dt == userDt && new Date(dt) <= new Date(userEndDeArr[0] + "-" + userEndDeArr[1])) {
                             if ($("#rateFlag").val() == "B") {
                                 if(monYn == 'Y'){
                                     var itemMon = itemMonMap[colYear]; // 년 선택
-                                    bodyHtml += '<td style="text-align: right">' + comma(itemMon[monPayStr + (date.getMonth() + 1)]) + '</td>';
+                                    if(monFinalStr == "ALL"){
+                                        var finalStr = Number(itemMon[monPayStr + (colMonth)]) + Number(itemMon[monItemStr + (colMonth)]);
+
+                                        bodyHtml += '<td style="text-align: right">' + comma(finalStr) + '</td>';
+                                    }else {
+                                        bodyHtml += '<td style="text-align: right">' + comma(itemMon[monFinalStr + (colMonth)]) + '</td>';
+                                    }
                                 }else {
-                                    bodyHtml += '<td style="text-align: right;font-size: 10px;padding: 5px;">' + comma(rs[i].MON_SAL) + '</td>';
+                                    if(monFinalStr == "ALL"){
+                                        bodyHtml += '<td style="text-align: right">' + comma(Number(item.MON_SAL)) + '</td>';
+                                    }else {
+                                        bodyHtml += '<td style="text-align: right">' + comma(tot) + '</td>';
+                                    }
                                 }
                             } else {
-                                bodyHtml += '<td style="text-align: right;font-size: 10px;padding: 5px;">' + rs[i].TOT_RATE + '%</td>';
+                                if(monFinalStr == "ALL") {
+                                    bodyHtml += '<td>' + totalRate + '%</td>';
+                                }else if (monFinalStr == monPayStr) {
+                                    bodyHtml += '<td>' + payRate + '%</td>';
+                                }else{
+                                    bodyHtml += '<td>' + itemRate + '%</td>';
+                                }
                             }
 
                             userDate.setMonth(userDate.getMonth() + 1);
 
                             userChangeSalaryArr[i][j] = rs[i].CHNG_SAL;
-                            userMonthSalaryArr[i][j] = rs[i].MON_SAL;
-                            userTotRateArr[i][j] = rs[i].TOT_RATE;
+                            if(monFinalStr == "ALL"){
+                                userMonthSalaryArr[i][j] = rs[i].MON_SAL;
+                                userTotRateArr[i][j] = totalRate;
+                            }else if (monFinalStr == monPayStr) {
+                                userMonthSalaryArr[i][j] = tot;
+                                userTotRateArr[i][j] = payRate;
+                            }else{
+                                userMonthSalaryArr[i][j] = tot;
+                                userTotRateArr[i][j] = itemRate;
+                            }
+
                         } else {
                             bodyHtml += '<td></td>';
                         }
@@ -539,11 +630,13 @@ var empPartRate = {
                     bodyHtml += "   <td colspan='11' class='text-center' style='background-color: #8fa1c04a;'>사업 참여율 계</td>";
                     for (var j = 0; j < diffMonth; j++) {
                         var userMonthSalary = 0;
+                        var result = 0;
                         for (var i = 0; i < rs.length; i++) {
                             userMonthSalary += parseFloat(userTotRateArr[i][j]);
+                            result = Math.floor(userMonthSalary * 10) / 10;
                         }
 
-                        bodyHtml += '<td style="text-align: right;font-weight: bold;font-size: 10px;padding: 5px;">' + userMonthSalary.toFixed(1) + '%</td>';
+                        bodyHtml += '<td style="text-align: right;font-weight: bold;font-size: 10px;padding: 5px;">' + result + '%</td>';
                     }
                 }else {
                     bodyHtml += "   <td colspan='11' class='text-center' style='background-color: #8fa1c04a;'>사업비지급액 계</td>";
@@ -571,10 +664,12 @@ var empPartRate = {
                 bodyHtml += '   <td colspan="11" class="text-center" style="background-color: #8fa1c04a;">기준급여대비 사업비 지급액 비율</td>';
                 for (var j = 0; j < diffMonth; j++) {
                     var userTotRate = 0;
+                    var result = 0;
                     for (var i = 0; i < rs.length; i++) {
                         userTotRate += Number(userTotRateArr[i][j]);
+                        result = Math.floor(userTotRate * 10) / 10;
                     }
-                    bodyHtml += '<td style="text-align: center;font-weight: bold;font-size: 10px;padding: 0;">' + userTotRate.toFixed(1) + '%</td>';
+                    bodyHtml += '<td style="text-align: center;font-weight: bold;font-size: 10px;padding: 0;">' + result + '%</td>';
                 }
                 bodyHtml += '</tr>';
 

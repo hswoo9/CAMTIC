@@ -427,6 +427,10 @@
             PJT_SN = #{pjtSn}
         AND
             EMP_SEQ = #{empSeq}
+        <if test='year != null and !"".equals(year)'>
+        AND
+            BS_YEAR = #{year}
+        </if>
         ORDER BY BS_YEAR
     </select>
 

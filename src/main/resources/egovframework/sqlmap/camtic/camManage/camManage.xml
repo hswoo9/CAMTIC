@@ -40,6 +40,9 @@
             C.PJT_SN,
             A.CHNG_SAL,
             A.MON_SAL,
+            A.TOT_RATE,
+            A.PAY_RATE,
+            A.ITEM_RATE,
             A.PART_DET_STR_DT,
             A.PART_DET_END_DT,
             (SELECT LG_CD_NM FROM CAM_PJT_MNG.DJ_PJT_CD WHERE LG_CD = C.SBJ_DEP AND GRP_SN = 'SUP_DEP' LIMIT 1) AS SBJ_DEP_NM,
@@ -50,8 +53,7 @@
             C.SBJ_STAT_YN,
             C.PJT_STEP,
             C.PJT_STEP_NM,
-            (select cm_code_nm from cam_common.dj_com_code a left join cam_common.dj_com_group_code b on a.cm_group_code_id = b.cm_group_code_id where b.cm_group_code_id = 36 and cm_code = C.SBJ_CLASS) AS subClassText,
-            A.TOT_RATE
+            (select cm_code_nm from cam_common.dj_com_code a left join cam_common.dj_com_group_code b on a.cm_group_code_id = b.cm_group_code_id where b.cm_group_code_id = 36 and cm_code = C.SBJ_CLASS) AS subClassText
         FROM
             CAM_PJT_MNG.DJ_PART_RATE_DET A
         LEFT JOIN

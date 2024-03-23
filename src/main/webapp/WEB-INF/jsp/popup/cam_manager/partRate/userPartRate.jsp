@@ -132,9 +132,21 @@
                 <c:when test="${params.adminYn == 'Y'}">
                     <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin: 0 5px 5px 0;" onclick="userPartRate.fn_setDataAdmin('A')">참여율</button>
                     <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin:0 5px 5px 0;" onclick="userPartRate.fn_setDataAdmin('B')">월지급액</button>
+                    <div style="float: right; margin: 3px 5px 0 0;">
+                        <input type="checkbox" id="payCheck" class="k-checkbox" name="gubun" value="pay" onchange="userPartRate.fn_changeCheck()" checked="checked"/>
+                        <label for="payCheck">현금</label>
+                        <input type="checkbox" id="itemCheck" class="k-checkbox" name="gubun" value="item" onchange="userPartRate.fn_changeCheck()"/>
+                        <label for="itemCheck">현물</label>
+                    </div>
                 </c:when>
                 <c:otherwise>
                     <button type="button" class="k-button k-button-solid-base k-button-sm" style="float: right; margin: 0 5px 5px 0;" onclick="userPartRate.fn_setData('A')">참여율</button>
+                    <div style="float: right; margin: 3px 5px 0 0;">
+                        <input type="checkbox" id="payCheck" class="k-checkbox" name="gubun" value="pay" onchange="userPartRate.fn_changeCheck()" checked="checked"/>
+                        <label for="payCheck">현금</label>
+                        <input type="checkbox" id="itemCheck" class="k-checkbox" name="gubun" value="item" onchange="userPartRate.fn_changeCheck()"/>
+                        <label for="itemCheck">현물</label>
+                    </div>
                 </c:otherwise>
                 </c:choose>
             </div>
