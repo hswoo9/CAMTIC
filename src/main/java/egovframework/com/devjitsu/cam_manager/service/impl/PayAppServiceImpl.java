@@ -70,6 +70,7 @@ public class PayAppServiceImpl implements PayAppService {
         } else {
             payAppRepository.updPayAppData(params);
             payAppRepository.delPayAppDetailData(params);
+            payAppRepository.updPayAppBsYm(params);
         }
 
         // 법인카드 증빙서류 생성
