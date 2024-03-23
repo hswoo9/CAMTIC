@@ -503,6 +503,19 @@ public class UserManageController {
         return "jsonView";
     }
 
+    /*비고 수정*/
+    @RequestMapping("/userManage/setCardEtc")
+    public String setCardEtc(@RequestParam Map<String,Object> params, Model model) {
+        try {
+            userManageService.setCardEtc(params);
+            model.addAttribute("rs", "SUCCESS");
+        }catch (Exception e) {
+            model.addAttribute("rs", "FAILED");
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
 
     @RequestMapping("/Inside/userPersonnelRecordOne.do")
     public String userPersonnelRecordOne(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){

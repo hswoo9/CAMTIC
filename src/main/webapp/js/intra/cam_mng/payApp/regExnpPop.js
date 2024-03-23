@@ -10,6 +10,7 @@ var regExnp = {
         crmNmId : "",
         saveAjaxData : "",
         fileArray : [],
+        attFiles : [],
     },
 
     fn_defaultScript : function(){

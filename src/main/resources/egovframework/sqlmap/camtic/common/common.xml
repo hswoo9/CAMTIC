@@ -290,6 +290,11 @@
         DELETE FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_NO = #{fileNo}
     </delete>
 
+    <delete id="delContentFileOne" parameterType="map">
+        /* delContentFileOne */
+        DELETE FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = #{fileCd} AND CONTENT_ID = #{contentId} AND FILE_ORG_NAME = #{fileOrgName}
+    </delete>
+
     <select id="commonCodeList" parameterType="map" resultType="map">
         /* commonCodeList */
         SELECT

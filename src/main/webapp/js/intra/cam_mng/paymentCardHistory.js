@@ -405,6 +405,12 @@ var payCardHist = {
 
         if(opener.parent.regPay){
             opener.parent.regPay.fn_changeAllCost();
+
+            if(opener.parent.$("#busnNm").val().indexOf("R&D") > -1){
+                opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));
+                opener.parent.$("#supCost" + index).val(comma(data.AUTH_AMT));
+                opener.parent.$("#vatCost" + index).val(comma(0));
+            }
         }
         fn_setCardInfo(data.AUTH_NO, data.AUTH_DD, data.AUTH_HH, data.CARD_NO, data.BUY_STS, index);
 

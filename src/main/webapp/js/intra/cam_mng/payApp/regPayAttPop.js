@@ -14,6 +14,7 @@ const regPayAtt = {
             parameterArray = opener.parent.regPay.global.fileArray;
             regPayAtt.global.fileArray = parameterArray;
         } else {
+            regPayAtt.global.attFiles = opener.parent.regExnp.global.attFiles;
             parameterArray = opener.parent.regExnp.global.fileArray;
             regPayAtt.global.fileArray = parameterArray;
         }
@@ -163,11 +164,11 @@ const regPayAtt = {
                 //     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(' +  + ')">'
                 // }
                 html += '   </td>';
-                if($("#type").val() != "exnp"){
+                // if($("#type").val() != "exnp"){
                     html += '   <td>';
                     html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fnUploadFile(' + i + ')">'
                     html += '   </td>';
-                }
+                // }
                 html += '</tr>';
             }
             $("#fileGrid").append(html);
@@ -377,11 +378,11 @@ const regPayAtt = {
                 }
 
                 html1 += '   </td>';
-                if($("#type").val() != "exnp"){
+                // if($("#type").val() != "exnp"){
                     html1 += '   <td>';
                     html1 += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">'
                     html1 += '   </td>';
-                }
+                // }
 
                 html1 += '</tr>';
             }
@@ -407,11 +408,11 @@ const regPayAtt = {
                 // }
 
                 html2 += '   </td>';
-                if($("#type").val() != "exnp"){
+                // if($("#type").val() != "exnp"){
                     html2 += '   <td>';
                     html2 += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fnUploadFile(' + i + ')">'
                     html2 += '   </td>';
-                }
+                // }
 
                 html2 += '</tr>';
             }
@@ -505,11 +506,11 @@ const regPayAtt = {
                 //     html += '       <input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="regPayAtt.fileViewer(' +  + ')">'
                 // }
                 html += '   </td>';
-                if($("#type").val() != "exnp"){
+                // if($("#type").val() != "exnp"){
                     html += '   <td>';
                     html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fnUploadFile(' + i + ')">';
                     html += '   </td>';
-                }
+                // }
                 html += '</tr>';
             }
 
@@ -528,7 +529,11 @@ const regPayAtt = {
             regPayAtt.global.attFiles = new Array();
         }
 
-        opener.parent.regPay.global.attFiles = regPayAtt.global.attFiles;
+        if($("#type").val() != "exnp"){
+            opener.parent.regPay.global.attFiles = regPayAtt.global.attFiles;
+        } else {
+            opener.parent.regExnp.global.attFiles = regPayAtt.global.attFiles;
+        }
     },
 
 
@@ -549,7 +554,44 @@ const regPayAtt = {
     },
 
     fn_regist: function(){
-        if(opener.parent.$("#payAppSn").val() != "" && opener.parent.$("#auth").val() == "mng"){
+        if($("#type").val() != "exnp"){
+
+            if(opener.parent.$("#payAppSn").val() != "" && opener.parent.$("#auth").val() == "mng"){
+                var parameters = {
+                    payAppSn : opener.parent.$("#payAppSn").val(),
+                    empSeq : opener.parent.$("#empSeq").val()
+                }
+                var fd = new FormData();
+
+                for(var key in parameters){
+                    fd.append(key, parameters[key]);
+                }
+
+                if(opener.parent.regPay.global.attFiles != null){
+                    for(var i = 0; i < opener.parent.regPay.global.attFiles.length; i++){
+                        fd.append("fileList", opener.parent.regPay.global.attFiles[i]);
+                    }
+                }
+
+                $.ajax({
+                    url : "/payApp/payAppMngFileSet",
+                    data : fd,
+                    type : "post",
+                    dataType : "json",
+                    contentType: false,
+                    processData: false,
+                    enctype : 'multipart/form-data',
+                    async: false,
+                    success : function(rs){
+                        if(rs.code == 200){
+                            window.close();
+                            opener.window.location.reload();
+                        }
+                    }
+                });
+            }
+        } else {
+
             var parameters = {
                 payAppSn : opener.parent.$("#payAppSn").val(),
                 empSeq : opener.parent.$("#empSeq").val()
@@ -560,9 +602,9 @@ const regPayAtt = {
                 fd.append(key, parameters[key]);
             }
 
-            if(opener.parent.regPay.global.attFiles != null){
-                for(var i = 0; i < opener.parent.regPay.global.attFiles.length; i++){
-                    fd.append("fileList", opener.parent.regPay.global.attFiles[i]);
+            if(opener.parent.regExnp.global.attFiles != null){
+                for(var i = 0; i < opener.parent.regExnp.global.attFiles.length; i++){
+                    fd.append("fileList", opener.parent.regExnp.global.attFiles[i]);
                 }
             }
 
@@ -605,7 +647,7 @@ const regPayAtt = {
                     if($("#type").val() != "exnp"){
                         var fileArr = opener.parent.regPay.global.fileArray;
                     } else {
-                        var fileArr = opener.parent.regPay.global.fileArray;
+                        var fileArr = opener.parent.regExnp.global.fileArray;
                     }
                     for(var i = 0 ; i < fileArr.length ; i++){
                         if(fileArr[i].file_no == key){

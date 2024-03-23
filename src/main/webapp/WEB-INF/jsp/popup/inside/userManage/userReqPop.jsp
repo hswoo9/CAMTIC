@@ -308,12 +308,21 @@
                 </tr>
                 <tr>
                     <th>이메일</th>
-                    <td colspan="3">
+                    <td>
                         <c:if test="${params.empSeq == null || params.empSeq == ''}">
                             <input type="text" id="emailAddr" style="width: 30%;">
                         </c:if>
                         <c:if test="${params.empSeq != null && params.empSeq != ''}">
                             <input type="text" id="emailAddr" style="width: 30%;" value="${uprinfList.EMAIL_ADDR}">
+                        </c:if>
+                    </td>
+                    <th>과학기술인 번호</th>
+                    <td>
+                        <c:if test="${params.empSeq == null || params.empSeq == ''}">
+                            <input type="text" id="scienceNo" style="width: 30%;">
+                        </c:if>
+                        <c:if test="${params.empSeq != null && params.empSeq != ''}">
+                            <input type="text" id="scienceNo" style="width: 30%;" value="${uprinfList.SCIENCE_NO}">
                         </c:if>
                     </td>
                 </tr>

@@ -210,7 +210,7 @@ public class PayAppServiceImpl implements PayAppService {
             List<Map<String, Object>> storedFileArr = new ArrayList<>();
             if(params.containsKey("snackInfoSn")){
                 params.put("snackInfoSnArr", params.get("snackInfoSn").toString().split(","));
-                storedFileArr = documentRepository.getFileList(params);
+//                storedFileArr = documentRepository.getFileList(params);
             } else if(params.containsKey("claimExnpSn")){
                 storedFileArr = purcService.purcFileList(params);
             } else {
@@ -1780,7 +1780,6 @@ public class PayAppServiceImpl implements PayAppService {
             document.close();
             pdfWriter.close();
 
-            // DB에 데이터 저장
             Map<String, Object> fileParameters = new HashMap<>();
             fileParameters.put("fileCd", fileCd);
             fileParameters.put("fileUUID", fileUUID+"."+fileExt);
@@ -1790,6 +1789,10 @@ public class PayAppServiceImpl implements PayAppService {
             fileParameters.put("fileSize", 99);
             fileParameters.put("contentId", params.get("payAppSn"));
             fileParameters.put("empSeq", "1");
+
+            // 이전에 저장한 파일 삭제
+            commonRepository.delContentFileOne(fileParameters);
+            // DB에 데이터 저장
             commonRepository.insFileInfoOne(fileParameters);
 
         } catch (Exception e){

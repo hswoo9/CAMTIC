@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="/css/kendoui/kendo.default-ocean-blue.min.css" />
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
+<% pageContext.setAttribute("CRLF", "\r\n"); %>
+<% pageContext.setAttribute("LF", "\n"); %>
 
 <style>
     .likeTab{display: flex; list-style: none; margin-top:30px; padding-left: 0;}
@@ -888,6 +890,30 @@
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cardEtcInfo">
+                        <div style="display:flex;justify-content: space-between;">
+                            <div class="subTitSt">· 비고</div>
+                        </div>
+                        <div class="table-responsive">
+                            <div>
+                                <table class="searchTable table" style="text-align:center;">
+                                    <colgroup>
+                                        <col width="100%">
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>내용</th>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left">
+                                            ${fn:replace(fn:replace(fn:escapeXml(uprList.cardEtc), CRLF, '<br/>'), LF, '<br/>')}
+                                        </td>
+                                    </tr>
                                     </thead>
                                 </table>
                             </div>

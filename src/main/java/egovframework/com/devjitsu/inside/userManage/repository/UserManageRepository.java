@@ -359,6 +359,7 @@ public class UserManageRepository extends AbstractDAO {
     public void userRewInfoInsert(Map<String, Object> map) {insert("userManage.userRewInfoInsert", map);}
     public void userRewInfoModify (Map<String,Object> map) {update("userManage.userRewInfoModify", map);}
     public void userRewInfoDelete(Map<String, Object> params) { update("userManage.userRewInfoDelete", params);}
+    public void setCardEtc(Map<String, Object> params) { update("userManage.setCardEtc", params);}
 
 
 

@@ -39,7 +39,8 @@
             a.ACCOUNT_NUM AS 'ACCOUNT_NUM',
             a.DEPT_SEQ AS 'deptSeq',
             a.DEPT_NAME AS 'deptName',
-            a.DEPT_TEAM_NAME AS 'teamName'
+            a.DEPT_TEAM_NAME AS 'teamName',
+            a.CARD_ETC AS 'cardEtc'
         FROM
             cam_hr.dj_emp_info AS a
         WHERE
@@ -505,7 +506,8 @@
         SIGNIFICANT,
         BDAY,
         TEMP_DIVISION,
-        MY_COMENT
+        MY_COMENT,
+        SCIENCE_NO
         )VALUES(
         (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
         #{ERP_EMP_SEQ},
@@ -584,7 +586,8 @@
         #{SIGNIFICANT},
         #{BDAY},
         #{TEMP_DIVISION},
-        #{MY_COMENT}
+        #{MY_COMENT},
+        #{SCIENCE_NO}
         )
 
         <selectKey keyProperty="empSeq" resultType="Integer" order="BEFORE">
@@ -1791,6 +1794,7 @@
             a.SPECIALITY,
             a.RELIGION,
             a.HEIGHT,
+            a.SCIENCE_NO,
             a.WEIGHT,
             a.VISIONL,
             a.VISIONR,
@@ -2042,7 +2046,8 @@
         SIGNIFICANT = #{SIGNIFICANT},
         BDAY = #{BDAY},
         TEMP_DIVISION = #{TEMP_DIVISION},
-        MY_COMENT = #{MY_COMENT}
+        MY_COMENT = #{MY_COMENT},
+        SCIENCE_NO = #{SCIENCE_NO}
         WHERE EMP_SEQ = #{TARGET_EMP_SEQ}
     </update>
 
@@ -3494,6 +3499,16 @@
             ACTIVE = 'N'
         WHERE
             REWORD_ID = #{key}
+    </update>
+
+    <update id="setCardEtc" parameterType="map">
+        /* setCardEtc */
+        UPDATE
+            CAM_HR.DJ_EMP_INFO
+        SET
+            CARD_ETC = #{cardEtc}
+        WHERE
+            EMP_SEQ = #{empSeq}
     </update>
 
     <!-- 인사통계 - 소속현황 : 부서 정보 조회 (부서 레벨 1) -->
