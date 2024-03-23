@@ -88,7 +88,16 @@ public class SubHolidayServiceImpl implements SubHolidayService {
 
     @Override
     public void setVacUseHistDel(Map<String, Object> params) {
-        subHolidayRepository.setVacUseHistDel(params);
+        params.put("subholidayUseId", params.get("subHolidayUseId"));
+        Map<String, Object> map = subHolidayRepository.getVacUseHistoryOne(params);
+
+        if(map.get("SUBHOLIDAY_CODE_ID").toString().equals("9")){
+            if(map.get("HOLIDAY_WORK_MASTER_SN") == null){
+                subHolidayRepository.deleteSubHoliDay(params);
+            }
+        } else {
+            subHolidayRepository.setVacUseHistDel(params);
+        }
     }
 
     @Override

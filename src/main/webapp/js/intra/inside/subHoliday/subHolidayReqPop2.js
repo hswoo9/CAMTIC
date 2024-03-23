@@ -127,7 +127,7 @@ const subHolidayReqPop2 = {
 
     btnSet : function(){
         console.log("holidayWorkData", subHolidayReqPop2.global.holidayWorkData);
-        let html = makeApprBtnHtml(subHolidayReqPop2.global.holidayWorkData, "subHolidayReqPop2.holidayWorkDrafting()");
+        let html = makeApprBtnHtml(subHolidayReqPop2.global.holidayWorkData, "subHolidayReqPop2.holidayWorkDrafting()", "", "self");
         $("#holidayWorkBtnBox").html(html);
 
         const status = subHolidayReqPop2.global.holidayWorkData.STATUS;

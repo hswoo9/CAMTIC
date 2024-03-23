@@ -68,7 +68,7 @@ var subHolidayReqPop = {
     },
 
     fn_btnSet: function(){
-        let html = makeApprBtnHtml(subHolidayReqPop.global.holidayData, 'subHolidayReqPop.subHolidayDrafting("drafting")');
+        let html = makeApprBtnHtml(subHolidayReqPop.global.holidayData, 'subHolidayReqPop.subHolidayDrafting("drafting")', "", "self");
         $("#holiApprBtnBox").html(html);
     },
 

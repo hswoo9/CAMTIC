@@ -176,6 +176,8 @@ var subHolidayList = {
     },
 
     gridReload: function (){
+        subHolidayList.fn_makeContent();
+
         subHolidayList.global.searchAjaxData = {
             mcCode : subHolidayList.global.mcCode,
             mdCode : subHolidayList.global.mdCode,

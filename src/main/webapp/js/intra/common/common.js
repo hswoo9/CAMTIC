@@ -387,13 +387,14 @@ function getManager(empSeq, deptLevel){
 }
 
 /** 전자결재 버튼 공용 */
-function makeApprBtnHtml(dataInfo, onClick, type){
+function makeApprBtnHtml(dataInfo, onClick, type, target){
 
     let status = "";
     let docId = dataInfo.DOC_ID;
     let approKey = dataInfo.APPRO_KEY;
     let menuCd = dataInfo.DOC_MENU_CD;
 
+    var target = target;
     if(type == "2"){
         status = dataInfo.DOC_STATUS;
     }else if(type == "3"){
@@ -425,7 +426,7 @@ function makeApprBtnHtml(dataInfo, onClick, type){
             "</button>";
     }else if(status == "30" || status == "40"){
         html =
-            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+docId+"\", \""+menuCd+"\", \""+approKey+"\", 2, \"reDrafting\", \"target\");'>" +
+            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+docId+"\", \""+menuCd+"\", \""+approKey+"\", 2, \"reDrafting\", \""+target+"\");'>" +
             "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
             "   <span class='k-button-text'>재상신</span>" +
             "</button>";

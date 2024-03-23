@@ -20,7 +20,7 @@ function linkageProcessOn(params, target){
 	url = makeParams(params, form, url);
 	url = url.replace("&", "?");
 
-	if(params.linkageProcessCode == "camticDelv"){
+if(params.linkageProcessCode == "camticDelv"){
 		window.open(url, "_self", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
 	}else if(target == "target") {
         window.open(url, "_target", "width=965, height=900, resizable=yes, scrollbars = yes, status=no, top=50, left=50");
@@ -291,7 +291,7 @@ function docApprovalRetrieve(docId, approKey, linkageType, type, callBack){
 			success : function (){
 				alert("문서가 회수되었습니다.");
 				try {
-					gridReload();
+					// gridReload();
 				}catch(e) {
 
 				}

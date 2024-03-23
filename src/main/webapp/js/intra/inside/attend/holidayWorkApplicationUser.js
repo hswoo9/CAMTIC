@@ -150,6 +150,12 @@ var holidayWorkApplicationUser ={
                     },
                     width: 200,
                 }, {
+                    title: "사유",
+                    template : function(e){
+                        console.log(e.RMK)
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="holidayWorkApplicationUser.subHolidayReqPop('+e.HOLIDAY_WORK_MASTER_SN+');">'+e.RMK+'</div>';
+                    }
+                }, {
                     title: "승인요청",
                     template : function(e){
                         let html = makeApprBtnHtml(e, "holidayWorkApplicationUser.workHolidayDrafting("+e.HOLIDAY_WORK_MASTER_SN+");");
@@ -162,17 +168,24 @@ var holidayWorkApplicationUser ={
         }).data("kendoGrid");
     },
 
-    onDataBound : function(){
-        var grid = this;
+    // onDataBound : function(){
+    //     var grid = this;
+    //
+    //     grid.tbody.find("tr").dblclick(function (e) {
+    //         var dataItem = grid.dataItem($(this));
+    //
+    //         var url = "/subHoliday/pop/subHolidayReqPop2.do?holidayWorkMasterSn=" + dataItem.HOLIDAY_WORK_MASTER_SN;
+    //         var name = "subHolidayReqPop2";
+    //         var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+    //         var popup = window.open(url, name, option);
+    //     });
+    // },
 
-        grid.tbody.find("tr").dblclick(function (e) {
-            var dataItem = grid.dataItem($(this));
-
-            var url = "/subHoliday/pop/subHolidayReqPop2.do?holidayWorkMasterSn=" + dataItem.HOLIDAY_WORK_MASTER_SN;
-            var name = "subHolidayReqPop2";
-            var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-        });
+    subHolidayReqPop : function(e) {
+        var url = "/subHoliday/pop/subHolidayReqPop2.do?holidayWorkMasterSn=" + e;
+        var name = "subHolidayReqPop2";
+        var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     },
 
     subHolidayReqPop2 : function() {

@@ -3,6 +3,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
+
+
+<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT" />
+<!-- 캐시를 바로 만료시킴. -->
+<meta http-equiv="Expires" content="-1" />
+<!-- 페이지 로드시마다 페이지를 캐싱하지 않음. (HTTP 1.0) -->
+<meta http-equiv="Pragma" content="no-cache" />
+<!-- 페이지 로드시마다 페이지를 캐싱하지 않음. (HTTP 1.1) -->
+<meta http-equiv="Cache-Control" content="no-cache" />
+
 <script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayList.js?v=${toDate}"/></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
