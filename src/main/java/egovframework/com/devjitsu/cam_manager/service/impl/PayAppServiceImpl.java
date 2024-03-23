@@ -62,14 +62,14 @@ public class PayAppServiceImpl implements PayAppService {
 
         if(!params.containsKey("payAppSn")){
             payAppRepository.insPayAppData(params);
+
+            //지급신청서 최초 저장 시 INSERT
+            if(params.containsKey("bsYm")) {
+                payAppRepository.insPayAppBsYm(params);
+            }
         } else {
             payAppRepository.updPayAppData(params);
             payAppRepository.delPayAppDetailData(params);
-        }
-
-
-        if(params.containsKey("bsYm")) {
-            payAppRepository.insPayAppBsYm(params);
         }
 
         // 법인카드 증빙서류 생성
