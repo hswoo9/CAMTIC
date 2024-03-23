@@ -2374,6 +2374,15 @@
             (#{payAppSn}, #{pjtCd}, #{bsYm})
     </insert>
 
+    <update id="updPayAppBsYm" parameterType="map">
+        /*updPayAppBsYm*/
+        UPDATE CAM_MNG.DJ_PAY_APP_BS_YM
+        SET
+            BS_YM = #{bsYm}
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
+
     <delete id="delPayAppBsYm" parameterType="map">
         /*delPayAppBsYm*/
         DELETE FROM CAM_MNG.DJ_PAY_APP_BS_YM WHERE PAY_APP_SN = #{payAppSn}
