@@ -197,7 +197,7 @@ var g20ProjectView = {
                     width: "5%",
                     template: function(e){
 
-                        return '<button type="button" class="k-button k-button-solid-base" onclick="g20ProjectView.fn_selectProject('+e.PJT_SN+', \''+e.PJT_NM+'\', \''+e.PJT_CD+'\');">선택</button>';
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="g20ProjectView.fn_selectProject('+e.PJT_SN+', \''+e.PJT_NM+'\', \''+e.PJT_CD+'\', \''+e.BUSN_NM+'\');">선택</button>';
                     }
                 }
             ],
@@ -213,9 +213,9 @@ var g20ProjectView = {
         });
     },
 
-    fn_selectProject: function(key, name, cd){
+    fn_selectProject: function(key, name, cd, busnNm){
         var baseYear = $("#baseYear").val();
-        opener.parent.selectProject(key, name, cd, baseYear);
+        opener.parent.selectProject(key, name, cd, baseYear, busnNm);
 
         window.close();
     }

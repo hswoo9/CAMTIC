@@ -2194,7 +2194,7 @@ var regPay = {
         var index = obj.id.substring(obj.id.length - 1);
 
 
-        if($("#eviType" + index).val() == '4'){
+        if($("#eviType" + index).val() == '4' || $("#eviType" + index).val() == '6'){
             if(obj.id.match("totCost")){
                 $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val()))));
                 $("#vatCost" + index).val(0);
