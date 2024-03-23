@@ -48,6 +48,18 @@ var subHolidayList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            dataBound: function(e){
+                var grid = this;
+                grid.tbody.find("tr").each(function(){
+                    var delYn = $(this).find("input[name='delYn']").val();
+
+                    if(delYn == "Y"){
+                        $(this).css('text-decoration', 'line-through');
+                        $(this).css('color', 'red');
+                    }
+                });
+
+            },
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="subHolidayList.fn_checkAll();" class=""/>',
@@ -82,7 +94,11 @@ var subHolidayList = {
                     field: "RMK",
                     title: "내용",
                     template : function(e){
-                        return '<div style="text-align: center"><a style="cursor: pointer;" onclick="subHolidayList.fn_regPop(' + e.SUBHOLIDAY_USE_ID + ');"><b>' + e.RMK + '</b></a></div>'
+
+                        return '<div style="text-align: center">' +
+                            '<input type="hidden" name="delYn" value="'+e.DEL_YN+'">' +
+                            '<a style="cursor: pointer;" onclick="subHolidayList.fn_regPop(' + e.SUBHOLIDAY_USE_ID + ');"><b>' + e.RMK + '</b></a>' +
+                            '</div>'
                     }
                 }, {
                     field: "SUBHOLIDAY_USE_DAY",

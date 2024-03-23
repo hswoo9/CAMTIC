@@ -115,4 +115,6 @@ public interface SubHolidayService {
     void workHolidayReqAdminApp(Map<String, Object> bodyMap) throws Exception;
 
     void setDocReaderReset(Map<String, Object> params);
+
+    void delYn(Map<String, Object> params);
 }

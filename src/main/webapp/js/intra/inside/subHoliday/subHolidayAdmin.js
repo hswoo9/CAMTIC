@@ -27,7 +27,6 @@ var subHolidayAdmin = {
 
         subHolidayAdmin.global.vacGubun = customKendo.fn_customAjax("/subHoliday/getVacCodeList", data);
         var ds = subHolidayAdmin.global.vacGubun;
-        console.log(ds);
         ds.list.unshift({"SUBHOLIDAY_DT_CODE_NM" : "선택", "SUBHOLIDAY_CODE_ID" : ""});
         $("#edtHolidayKindTop").kendoDropDownList({
             dataSource : ds.list,
@@ -92,6 +91,13 @@ var subHolidayAdmin = {
                 {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="subHolidayAdmin.fn_delYn();">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -101,6 +107,20 @@ var subHolidayAdmin = {
             dataBound : subHolidayAdmin.onDataBound,
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : function(e){
+                        if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
+                            if(e.DEL_YN == 'N'){
+                                return '<input type="checkbox" id="check" name="check" value="' + e.SUBHOLIDAY_USE_ID + '"/>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            return '';
+                        }
+                    },
+                    width: 50
+                }, {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
@@ -181,6 +201,14 @@ var subHolidayAdmin = {
             },
         }).data("kendoGrid");
 
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")){
+                $("input[name='check']").prop("checked", true);
+            }else{
+                $("input[name='check']").prop("checked", false);
+            }
+        });
     },
 
     fn_regPop: function(APPROVE_STAT_CODE, SUBHOLIDAY_USE_ID, APPR_STAT, DOC_ID, APPRO_KEY, DOC_MENU_CD){
@@ -210,4 +238,30 @@ var subHolidayAdmin = {
 
         subHolidayAdmin.mainGrid("/subHoliday/getVacUseHistoryListAdmin", params);
     },
+
+    fn_delYn : function (){
+        var keyArr = [];
+        $("input[name='check']").each(function(){
+            if($(this).is(":checked")){
+                keyArr.push($(this).val());
+            }
+        });
+
+
+        if(keyArr.length == 0){
+            alert("선택해주세요.");
+            return;
+        }
+
+        $.ajax({
+            url : "/subHoliday/delYn",
+            type : "POST",
+            data : {
+                keyArr : JSON.stringify(keyArr)
+            },
+            success : function(data){
+                subHolidayAdmin.gridReload();
+            }
+        })
+    }
 }

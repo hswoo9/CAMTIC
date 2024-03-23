@@ -516,4 +516,10 @@ public class SubHolidayController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/subHoliday/delYn")
+    public String delYn(@RequestParam Map<String, Object> params) {
+        subHolidayService.delYn(params);
+        return "jsonView";
+    }
 }

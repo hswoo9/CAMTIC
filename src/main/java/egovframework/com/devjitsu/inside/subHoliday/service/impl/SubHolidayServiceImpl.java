@@ -457,4 +457,16 @@ public class SubHolidayServiceImpl implements SubHolidayService {
 
         subHolidayRepository.setDocReaderReset(params);
     }
+
+    @Override
+    public void delYn(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<String> subHolidayUseIdArr = gson.fromJson((String) params.get("keyArr"), new TypeToken<List<String>>() {}.getType());
+
+        if(subHolidayUseIdArr.size() > 0){
+            for(String subHolidayUseId : subHolidayUseIdArr){
+                subHolidayRepository.delYn(subHolidayUseId);
+            }
+        }
+    }
 }

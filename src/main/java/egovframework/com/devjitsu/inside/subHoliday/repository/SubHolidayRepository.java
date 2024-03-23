@@ -124,5 +124,9 @@ public class SubHolidayRepository extends AbstractDAO  {
     public Map<String, Object> getDocInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("subHoliday.getDocInfo", params);
     }
+
+    public void delYn(String subHolidayUseId) {
+        update("subHoliday.delYn", subHolidayUseId);
+    }
 }
 
