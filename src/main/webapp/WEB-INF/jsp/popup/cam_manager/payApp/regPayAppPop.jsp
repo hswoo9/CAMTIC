@@ -111,6 +111,7 @@
                             <input type="hidden" id="firstPjtSn" value="" />
                             <input type="hidden" id="pjtCd" value="${pjtData.PJT_CD}" />
                             <input type="hidden" id="baseYear" value="" />
+                            <input type="hidden" id="busnNm" value="" />
                             <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regPay.fn_projectPop('regPay')">검색</button>
                         </span>
                     </td>
@@ -458,11 +459,12 @@
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }
 
-    function selectProject(sn, nm, cd, baseYear){
+    function selectProject(sn, nm, cd, baseYear, busnNm){
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);
         $("#baseYear").val(baseYear);
+        $("#busnNm").val(busnNm);
 
         var data = {
             pjtCd : cd
