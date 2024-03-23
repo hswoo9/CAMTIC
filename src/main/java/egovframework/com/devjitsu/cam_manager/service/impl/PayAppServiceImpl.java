@@ -210,7 +210,7 @@ public class PayAppServiceImpl implements PayAppService {
             List<Map<String, Object>> storedFileArr = new ArrayList<>();
             if(params.containsKey("snackInfoSn")){
                 params.put("snackInfoSnArr", params.get("snackInfoSn").toString().split(","));
-                storedFileArr = documentRepository.getFileList(params);
+//                storedFileArr = documentRepository.getFileList(params);
             } else if(params.containsKey("claimExnpSn")){
                 storedFileArr = purcService.purcFileList(params);
             } else {
