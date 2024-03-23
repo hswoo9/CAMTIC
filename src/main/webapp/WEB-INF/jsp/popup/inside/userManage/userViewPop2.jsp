@@ -182,14 +182,9 @@
                     <td>
                         ${uprinfList.JOB_DETAIL}
                     </td>
-                    <th><%--홈페이지 게시--%></th>
+                    <th>과학기술인 번호</th>
                     <td>
-                      <%--  <c:if test="${uprinfList.HOME_PAGE_ACTIVE == 'Y'}">
-                            게시
-                        </c:if>
-                        <c:if test="${uprinfList.HOME_PAGE_ACTIVE == 'N'}">
-                            미게시
-                        </c:if>--%>
+                        ${uprinfList.SCIENCE_NO}
                     </td>
                 </tr>
                 </thead>

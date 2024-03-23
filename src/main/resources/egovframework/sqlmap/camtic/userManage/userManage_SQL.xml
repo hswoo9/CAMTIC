@@ -505,7 +505,8 @@
         SIGNIFICANT,
         BDAY,
         TEMP_DIVISION,
-        MY_COMENT
+        MY_COMENT,
+        SCIENCE_NO
         )VALUES(
         (SELECT MAX(CAST(A.EMP_SEQ AS UNSIGNED))+1 FROM CAM_HR.DJ_EMP_INFO A),
         #{ERP_EMP_SEQ},
@@ -584,7 +585,8 @@
         #{SIGNIFICANT},
         #{BDAY},
         #{TEMP_DIVISION},
-        #{MY_COMENT}
+        #{MY_COMENT},
+        #{SCIENCE_NO}
         )
 
         <selectKey keyProperty="empSeq" resultType="Integer" order="BEFORE">
@@ -1791,6 +1793,7 @@
             a.SPECIALITY,
             a.RELIGION,
             a.HEIGHT,
+            a.SCIENCE_NO,
             a.WEIGHT,
             a.VISIONL,
             a.VISIONR,
@@ -2042,7 +2045,8 @@
         SIGNIFICANT = #{SIGNIFICANT},
         BDAY = #{BDAY},
         TEMP_DIVISION = #{TEMP_DIVISION},
-        MY_COMENT = #{MY_COMENT}
+        MY_COMENT = #{MY_COMENT},
+        SCIENCE_NO = #{SCIENCE_NO}
         WHERE EMP_SEQ = #{TARGET_EMP_SEQ}
     </update>
 
