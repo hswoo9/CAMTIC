@@ -335,7 +335,8 @@
             DATE_FORMAT(STR_DT, '%Y%m%d') AS G20_STR_DT,
             DATE_FORMAT(END_DT, '%Y%m%d') AS G20_END_DT,
             CASE WHEN A.TM_SN IS NULL THEN 'N' ELSE 'Y' END AS TM_YN,
-            DS.BUDGET_SN
+            DS.BUDGET_SN,
+            (SELECT IFNULL(SUM(DEPO_AMT),0) FROM CAM_MNG.DJ_PAY_DEPO WHERE A.PJT_SN = PJT_SN ) AS TOT_DEPO_AMT
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         /*LEFT JOIN

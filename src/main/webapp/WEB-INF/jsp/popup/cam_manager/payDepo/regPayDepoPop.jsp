@@ -25,6 +25,8 @@
 <input type="hidden" id="paramPmSeq" value="${hashMap.PM_EMP_SEQ}" />
 
 <input type="hidden" id="getDelvDe" value="${hashMap.DELV_DE}" />
+<input type="hidden" id="getPjtAmt" value="${hashMap.PJT_AMT}" />
+<input type="hidden" id="totDepoAmt" value="${hashMap.TOT_DEPO_AMT}" />
 
 <div style="padding:0;">
     <div class="table-responsive">
