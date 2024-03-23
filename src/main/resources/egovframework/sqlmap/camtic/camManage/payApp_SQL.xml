@@ -2386,6 +2386,6 @@
         from
             CAM_MNG.DJ_PAY_APP_BS_YM
         WHERE
-            PJT_SN = #{pjtSn}
+            PJT_CD = #{pjtCd}
     </select>
 </mapper>
