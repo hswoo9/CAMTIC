@@ -195,6 +195,7 @@ public interface UserManageService{
     void userRewInfoInsert(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
     void userRewInfoModify(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
     void userRewInfoDelete(Map<String, Object> params);
+    void setCardEtc(Map<String, Object> params);
 
 
     /** 입/퇴사 현황 **/
