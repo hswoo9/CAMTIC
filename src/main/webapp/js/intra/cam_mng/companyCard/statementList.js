@@ -119,11 +119,11 @@ var statementList = {
                 },*/ {
                     field: "LAST_CARD_NUM",
                     title: "카드번호",
-                    width: 100
+                    width: 80
                 }, {
                     field: "CARD_TO_DE",
                     title: "반출일자",
-                    width: 100,
+                    width: 80,
                     template: function(e){
                         return e.CARD_TO_DE;
                     }
@@ -637,12 +637,15 @@ var statementList = {
     snackPopup: function(snackInfoSn, mode, cardToSn){
         let urlParams = "";
         if(!isNaN(snackInfoSn) && snackInfoSn != null && snackInfoSn != ""){
-            if(urlParams == "") {
-                urlParams += "?";
-            }else {
-                urlParams += "&";
-            }
-            urlParams += "snackInfoSn=" + snackInfoSn;
+            // if(urlParams == "") {
+            //     urlParams += "?";
+            // }else {
+            //     urlParams += "&";
+            // }
+            // urlParams += "snackInfoSn=" + snackInfoSn;
+
+            open_in_frame('/Inside/snackList.do');
+            return;
         }
         if(mode != null && mode != "") {
             if(urlParams == "") {
