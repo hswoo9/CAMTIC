@@ -1899,9 +1899,11 @@ var regPay = {
 
             regEmpSeq : $("#regEmpSeq").val(),
             empSeq : $("#regEmpSeq").val(),
-            type : type,
+            type : type
+        }
 
-            bsYm : $("#bsYm").val()
+        if($("#bsYm").val() == ""){
+            parameters.bsYm = $("#bsYm").val();
         }
 
         if($("#cardToSn").val() != ""){

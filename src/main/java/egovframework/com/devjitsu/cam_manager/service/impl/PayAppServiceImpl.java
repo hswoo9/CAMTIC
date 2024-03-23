@@ -67,7 +67,10 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.delPayAppDetailData(params);
         }
 
-        payAppRepository.insPayAppBsYm(params);
+
+        if(params.containsKey("bsYm")) {
+            payAppRepository.insPayAppBsYm(params);
+        }
 
         // 법인카드 증빙서류 생성
         createPdf(params, serverDir, baseDir);
