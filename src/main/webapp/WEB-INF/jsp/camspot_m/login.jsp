@@ -69,6 +69,16 @@
 
 
 <script>
+    var userDevice = "";
+    var device = "win16|win32|win64|mac|macintel";
+
+    if ( navigator.platform ) {
+        if ( device.indexOf(navigator.platform.toLowerCase()) < 0 ) {
+        } else {
+            location.href = "/login.do";
+        }
+    }
+
     function actionLogin() {
         if ($("#id").val() == "") {
             alert("아이디를 입력하세요");

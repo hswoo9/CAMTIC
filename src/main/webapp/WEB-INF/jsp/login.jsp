@@ -79,6 +79,16 @@
     </div>
 </div><!-- panel -->
 <script>
+
+    var userDevice = "";
+    var device = "win16|win32|win64|mac|macintel";
+
+    if ( navigator.platform ) {
+        if ( device.indexOf(navigator.platform.toLowerCase()) < 0 ) {
+            location.href = "/m/login.do";
+        }
+    }
+
     login.init();
 </script>
 </body>
