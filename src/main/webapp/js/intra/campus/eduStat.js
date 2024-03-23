@@ -13,15 +13,24 @@ var eduStat = {
             value : new Date()
         });
 
-        $("#largeCategory, #eduCategory, #level, #eduCategoryDetail").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "선택하세요", value: ""}
-            ],
-            index : 0,
-            enable : true
-        });
+        $("#empName").kendoTextBox();
+
+        $("#empName").keyup(function(){
+            if(event.keyCode == 13){
+                eduStat.mainGrid();
+            }
+        })
+
+
+        // $("#largeCategory, #eduCategory, #level, #eduCategoryDetail").kendoDropDownList({
+        //     dataTextField: "text",
+        //     dataValueField: "value",
+        //     dataSource: [
+        //         {text: "선택하세요", value: ""}
+        //     ],
+        //     index : 0,
+        //     enable : true
+        // });
     },
 
     mainGrid: function(){
@@ -35,6 +44,7 @@ var eduStat = {
                 },
                 parameterMap: function(data) {
                     data.empSeq = $("#regEmpSeq").val();
+                    data.empName = $("#empName").val();
                     data.eduYear = $("#eduYear").val();
                     return data;
                 }

@@ -337,7 +337,7 @@ var reqCl = {
         });
 
 
-        sum = Number(sum) - Number(disAmt);
+        sum = Number(sum);
 
         /** 견적가 500*/
         /** 미포함 500 50 550*/

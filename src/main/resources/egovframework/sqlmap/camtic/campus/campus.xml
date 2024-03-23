@@ -1268,6 +1268,9 @@
             CAMPUS.DJ_EDU_RESULT CER ON CEI.EDU_INFO_ID = CER.EDU_INFO_ID
         WHERE
             1=1
+        <if test='empName != null and !"".equals(empName)'>
+            AND HEI.EMP_NAME_KR LIKE CONCAT('%', #{empName}, '%')
+        </if>
         AND CER.STATUS = 100
         AND CER.MNG_CHECK = 'Y'
         AND CEI.ACTIVE = 'Y' AND CER.STATUS = 100 AND CER.MNG_CHECK = 'Y' AND DATE_FORMAT(CER.APPROVAL_SEND_DATE, '%Y') = #{eduYear}

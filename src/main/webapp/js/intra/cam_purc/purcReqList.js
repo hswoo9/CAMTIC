@@ -121,13 +121,28 @@ var prm = {
                                 status = "구매청구완료";
                             }
 
-                            if(e.INSPECT_YN == "Y"){
-                                if(e.INSPECT_STATUS != "100"){
-                                    status = "검수요청중";
-                                }else{
-                                    status = "<div style='font-weight: bold'>검수승인완료</div>";
+                            if(e.PAYMENT_METHOD == "A"){
+                                if(e.ORDER_DT != null && e.ORDER_DT != ""){
+                                    if(e.INSPECT_YN == "Y"){
+                                        if(e.INSPECT_STATUS != "100"){
+                                            status = "검수요청중";
+                                        }else{
+                                            status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                        }
+                                    }
+                                } else {
+                                    status = "발주대기중";
+                                }
+                            } else {
+                                if(e.INSPECT_YN == "Y"){
+                                    if(e.INSPECT_STATUS != "100"){
+                                        status = "검수요청중";
+                                    }else{
+                                        status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                    }
                                 }
                             }
+
                         }
                         return status
                     }
@@ -167,17 +182,36 @@ var prm = {
                     template : function(e){
                         /** 구매청구서 작성시 검수 버튼 생성*/
                         let html = "";
-                        if(e.CLAIM_STATUS == "CAYSY"){
-                            if(e.INSPECT_STATUS != "100"){
-                                html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                            }else{
-                                html += '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                        if(e.PAYMENT_METHOD == "A"){
+                            if(e.ORDER_DT != null && e.ORDER_DT != ""){
+                                if(e.CLAIM_STATUS == "CAYSY"){
+                                    if(e.INSPECT_STATUS != "100"){
+                                        html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                    }else{
+                                        html += '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
 
-                                status = "-";
+                                        status = "-";
+                                    }
+                                }else{
+                                    html += "-"
+                                }
+                            } else {
+                                html += "-"
                             }
-                        }else{
-                            html += "-"
+                        } else {
+                            if(e.CLAIM_STATUS == "CAYSY"){
+                                if(e.INSPECT_STATUS != "100"){
+                                    html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                }else{
+                                    html += '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+
+                                    status = "-";
+                                }
+                            }else{
+                                html += "-"
+                            }
                         }
+
                         return html;
                     }
                 }, {

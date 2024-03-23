@@ -5,11 +5,17 @@ var approveCompletion = {
     },
 
     init : function(params){
-        customKendo.fn_textBox(["docTitle"]);
+        customKendo.fn_textBox(["docTitle", "empName"]);
 
         customKendo.fn_datePicker("startDay", '', "yyyy-MM-dd", new Date(approveCompletion.global.now.setMonth(approveCompletion.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
+
+        $("#empName").keyup(function(){
+            if(event.keyCode == 13){
+                approveCompletion.gridReload();
+            }
+        });
 
         approveCompletion.gridReload();
     },
@@ -155,6 +161,7 @@ var approveCompletion = {
             docTitle : $("#docTitle").val(),
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
+            empName : $("#empName").val(),
             approveType : "completion",
             resType : "Y",
         }
