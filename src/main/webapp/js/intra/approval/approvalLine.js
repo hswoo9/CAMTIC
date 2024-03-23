@@ -621,7 +621,7 @@ var approvalLine = {
                 ck = false;
             }
         }
-        if(ck){
+        if(ck && $("#empSeq").val() != pjtMap.PM_EMP_SEQ){
             approvalLine.rowApprovalSet(userInfo, "147");
         }
     },

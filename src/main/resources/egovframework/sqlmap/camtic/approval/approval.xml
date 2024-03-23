@@ -141,10 +141,11 @@
     <select id="getDeptDocNum" parameterType="map" resultType="map">
         /* getDeptDocNum */
         SELECT
+            DOC_NUM_ID AS docNumId,
             DEPT_SEQ AS deptSeq,
             DOC_TYPE AS docType,
-            CASE WHEN DEPT_NICK_NAME_USE = 'Y' THEN CONCAT(DEPT_NICK_NAME, RIGHT(APPLY_YEAR, 2), '-', RIGHT(CONCAT('000', DOC_NUM), 4))
-                 ELSE CONCAT(DEPT_NAME, RIGHT(APPLY_YEAR, 2), '-', RIGHT(CONCAT('000', DOC_NUM), 4))
+            CASE WHEN DEPT_NICK_NAME_USE = 'Y' THEN CONCAT(DEPT_NICK_NAME, RIGHT(APPLY_YEAR, 2), '-', RIGHT(CONCAT('000', DOC_NUM), 4), NUM_TYPE)
+                 ELSE CONCAT(DEPT_NAME, RIGHT(APPLY_YEAR, 2), '-', RIGHT(CONCAT('000', DOC_NUM), 4), NUM_TYPE)
                 END docNo,
             CAST((DOC_NUM + 1) AS CHAR) AS nextDocNo
         FROM
@@ -155,19 +156,18 @@
             DEPT_SEQ = (SELECT CASE SA.DEPT_LEVEL WHEN 2 THEN SA.PARENT_DEPT_SEQ ELSE SA.DEPT_SEQ END FROM CAM_HR.DJ_DEPT_INFO SA WHERE DEPT_SEQ = #{deptSeq})
           AND
             APPLY_YEAR = DATE_FORMAT(NOW(), '%Y')
+          AND
+            NUM_TYPE = (CASE WHEN IFNULL((SELECT OPEN_YN FROM DJ_CAMTIC.A_FORM WHERE FORM_ID = (SELECT FORM_ID FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = #{docId})), 'N') = 'Y' THEN 'N' ELSE 'T'  END)
     </select>
 
     <update id="setDeptDocNumUpd" parameterType="map">
+        /* setDeptDocNumUpd */
         UPDATE
             DJ_CAMTIC.A_DOC_NUM
         SET
             DOC_NUM = #{nextDocNo}
         WHERE
-            DOC_TYPE = #{docType}
-          AND
-            DEPT_SEQ = #{deptSeq}
-          AND
-            APPLY_YEAR = DATE_FORMAT(NOW(), '%Y')
+            DOC_NUM_ID = #{docNumId}
     </update>
 
     <update id="setDocNumUpd" parameterType="map">
