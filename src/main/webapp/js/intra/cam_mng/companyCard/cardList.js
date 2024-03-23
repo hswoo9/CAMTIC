@@ -171,7 +171,7 @@ var cardList = {
         var url = "/card/regCardToPop.do?trCd=" + trCd + "&baNb=" + baNb + "&trNm=" + cardNm;
 
         var name = "_blank";
-        var option = "width = 900, height = 400, top = 200, left = 400, location = no"
+        var option = "width = 900, height = 560, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     }
 }
