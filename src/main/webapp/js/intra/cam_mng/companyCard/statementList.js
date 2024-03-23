@@ -108,11 +108,11 @@ var statementList = {
                 }
             ],
             columns: [
-                /*{
+                {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
-                },*/ /*{
+                }, /*{
                     field: "",
                     title: "카드구분",
                     width: 100
@@ -446,7 +446,7 @@ var statementList = {
             url += "?cardToSn=" + key;
         }
         var name = "_blank";
-        var option = "width = 900, height = 400, top = 200, left = 400, location = no"
+        var option = "width = 900, height = 560, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
