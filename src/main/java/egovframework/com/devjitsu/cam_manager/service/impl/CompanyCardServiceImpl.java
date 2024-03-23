@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.cam_manager.repository.CompanyCardRepository;
 import egovframework.com.devjitsu.cam_manager.service.CompanyCardService;
+import egovframework.com.devjitsu.inside.document.repository.DocumentRepository;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     @Autowired
     private CompanyCardRepository companyCardRepository;
 
+    @Autowired
+    private DocumentRepository documentRepository;
+
     @Override
     public List<Map<String, Object>> cardUseList(Map<String, Object> params) {
         return companyCardRepository.cardUseList(params);
@@ -30,7 +34,25 @@ public class CompanyCardServiceImpl implements CompanyCardService {
 
     @Override
     public Map<String, Object> useCardDetailInfo(Map<String, Object> params) {
-        return companyCardRepository.useCardDetailInfo(params);
+
+        Map<String, Object> resultMap = companyCardRepository.useCardDetailInfo(params);
+
+        if(params.containsKey("reqTypeZ")){
+            List<Map<String, Object>> snackInfo =  documentRepository.getFileList(params);
+
+            for(Map<String, Object> map : snackInfo) {
+                String[] filePathArr = map.get("file_path").toString().split("/");
+
+                if(filePathArr[3].equals(resultMap.get("AUTH_NO").toString()) && filePathArr[4].equals(resultMap.get("AUTH_DD").toString()) &&
+                        filePathArr[5].equals(resultMap.get("AUTH_HH").toString()) && filePathArr[6].equals(resultMap.get("CARD_NO").toString()) &&
+                        filePathArr[7].equals(resultMap.get("BUY_STS").toString()))
+                {
+                    resultMap.put("FILE_NO", map.get("file_no"));
+                }
+            }
+        }
+
+        return resultMap;
     }
 
     @Override

@@ -1751,14 +1751,14 @@ public class PayAppServiceImpl implements PayAppService {
             // PDF 파일 열기
             document.open();
 
-            String htmlStr = "<html><body style='font-family: gulim;'>"+ params.get("htmlContents") +"</body></html>";
+            String htmlStr = "<html><body style='font-family: batang;'>"+ params.get("htmlContents") +"</body></html>";
 
             XMLWorkerHelper helper = XMLWorkerHelper.getInstance();
 
             CSSResolver cssResolver = new StyleAttrCSSResolver();
 
             XMLWorkerFontProvider fontProvider = new XMLWorkerFontProvider(XMLWorkerFontProvider.DONTLOOKFORFONTS);
-            fontProvider.register("/egovframework/fonts/gulim.ttf", "gulim"); //MalgunGothic은 font-family용 alias
+            fontProvider.register("/egovframework/fonts/batang.ttc", "batang"); //MalgunGothic은 font-family용 alias
 
             CssAppliers cssAppliers = new CssAppliersImpl(fontProvider);
             HtmlPipelineContext htmlContext = new HtmlPipelineContext(cssAppliers);

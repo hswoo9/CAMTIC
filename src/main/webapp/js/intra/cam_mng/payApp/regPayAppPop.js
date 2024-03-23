@@ -1154,6 +1154,7 @@ var regPay = {
             var slist = "";
 
             for(let i = 0 ; i < snackInfoSn.toString().split(",").length ; i++){
+                let temp = snackInfoSn.toString().split(",")[i];
                 const data = {
                     snackInfoSn : snackInfoSn.toString().split(",")[i],
                     fileNo : 0
@@ -1176,15 +1177,17 @@ var regPay = {
                 var fileList = fileResult.fileList;
 
                 for(let i=0; i<fileList.length; i++){
-                    if(slist != ""){
-                        slist += ",";
+                    if(fileList[i].file_cd != 'useCard'){
+                        if(slist != ""){
+                            slist += ",";
+                        }
+                        if(fileThumbText != ""){
+                            fileThumbText += " | ";
+                        }
+                        slist += fileList[i].file_no;
+                        fileThumbText += fileList[i].file_org_name;
+                        fileThumbText += "." + fileList[i].file_ext;
                     }
-                    if(fileThumbText != ""){
-                        fileThumbText += " | ";
-                    }
-                    slist += fileList[i].file_no;
-                    fileThumbText += fileList[i].file_org_name;
-                    fileThumbText += "." + fileList[i].file_ext;
                 }
 
                 $("#fileText").text(fileThumbText);
@@ -1233,7 +1236,11 @@ var regPay = {
                                 authDate : cardMap.AUTH_DD,
                                 authNo : cardMap.AUTH_NO,
                                 authTime : cardMap.AUTH_HH,
-                                buySts : cardMap.BUY_STS
+                                buySts : cardMap.BUY_STS,
+
+                                reqTypeZ : "snack",
+                                snackInfoSn : temp,
+                                fileNo : 0
                             }
 
                             const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", parameters);
@@ -1256,6 +1263,7 @@ var regPay = {
                             $("#authNo" + index).val(data.AUTH_NO);
                             $("#authDd" + index).val(data.AUTH_DD);
                             $("#authHh" + index).val(data.AUTH_HH);
+                            $("#fileNo" + index).val(data.FILE_NO);
 
                             const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
                                 searchValue: data.CARD_NO.slice(-4)

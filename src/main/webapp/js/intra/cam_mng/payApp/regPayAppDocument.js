@@ -61,7 +61,12 @@ var payAppDoc = {
                         flag = false;
                     }
 
-                    payAppDoc.global.document1.push(data);
+                    /** 2023.03.23
+                     * 사용자가 직접 입력한 데이터가 양식에 들어가야 하는데 추후에 작업하기로 하고
+                     * 당분간은 일반 지출증빙자료로 통일
+                     * */
+                    // payAppDoc.global.document1.push(data);
+                    payAppDoc.global.document3.push(data);
 
                 } else if($("#pjtNm").val().indexOf("법인운영") > -1 && $("#budgetNm" + index).val().indexOf("영업활동비") > -1){
                     var data = {
@@ -106,7 +111,12 @@ var payAppDoc = {
                         flag = false;
                     }
 
-                    payAppDoc.global.document2.push(data);
+                    /** 2023.03.23
+                     * 사용자가 직접 입력한 데이터가 양식에 들어가야 하는데 추후에 작업하기로 하고
+                     * 당분간은 일반 지출증빙자료로 통일
+                     * */
+                    // payAppDoc.global.document2.push(data);
+                    payAppDoc.global.document3.push(data);
                 } else {
                     var data = {
                         budgetNm : $("#budgetNm" + index).val(),
@@ -399,7 +409,7 @@ var payAppDoc = {
                     '            </tr>' +
                     '            <tr>' +
                     '                <th style="border: 1px solid black; padding: 10px 0;">사용내역</th>' +
-                    '                <td colspan="3" style="border: 1px solid black; padding: 10px 0;">'+ $("#appCont").val() +'</td>' +
+                    '                <td colspan="3" style="border: 1px solid black; padding: 10px 0;">'+ $("#appTitle").val() +'</td>' +
                     '            </tr>' +
                     '            <tr>' +
                     '                <th style="border: 1px solid black; padding: 10px 0;">입금계좌</th>' +
