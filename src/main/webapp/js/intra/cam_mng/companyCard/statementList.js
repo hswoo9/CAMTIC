@@ -108,11 +108,11 @@ var statementList = {
                 }
             ],
             columns: [
-                /*{
+                {
                     title: "순번",
                     template: "#= --record #",
                     width: 50
-                },*/ /*{
+                }, /*{
                     field: "",
                     title: "카드구분",
                     width: 100

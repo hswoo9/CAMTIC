@@ -179,6 +179,7 @@ var cardToHist = {
             success : function(rs){
                 alert("사용이력이 추가되었습니다.");
                 opener.statementList.onDataBoundSelect($("#cardToSn").val());
+                opener.$("#mainGrid").data("kendoGrid").dataSource.read();
                 window.close();
             }
         });
