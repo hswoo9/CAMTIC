@@ -216,11 +216,16 @@ var snackReq = {
                 html += '   <td><span style="cursor: pointer" onclick="fileDown(\''+e.file_path+e.file_uuid+'\', \''+e.file_org_name+'.'+e.file_ext+'\')">'+ e.file_org_name +'</span></td>';
                 html += '   <td>'+ e.file_ext +'</td>';
                 html += '   <td>'+ e.file_size +'</td>';
+                html += '   <td>';
+                if(e.file_ext.toLowerCase() == "pdf" || e.file_ext.toLowerCase() == "jpg" || e.file_ext.toLowerCase() == "png" || e.file_ext.toLowerCase() == "jpeg"){
+                    html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="snackReq.fileViewer(\'' + e.file_path + e.file_uuid +'\')">'
+                }
+                html += '   </td>';
                 html += '</tr>';
                 $("#fileGrid").append(html);
             }else{
                 $("#fileGrid").html('<tr>' +
-                    '	<td colspan="3" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
                     '</tr>');
             }
         } else {
@@ -231,6 +236,10 @@ var snackReq = {
                 html += '   <td>'+ e.file_ext +'</td>';
                 html += '   <td>'+ e.file_size +'</td>';
                 html += '   <td>';
+                if(e.file_ext.toLowerCase() == "pdf" || e.file_ext.toLowerCase() == "jpg" || e.file_ext.toLowerCase() == "png" || e.file_ext.toLowerCase() == "jpeg"){
+                    html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="snackReq.fileViewer(\'' + e.file_path + e.file_uuid +'\')">'
+                }
+                html += '   <td>';
                 html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e.file_no +', this)">' +
                     '			<span class="k-button-text">삭제</span>' +
                     '		</button>';
@@ -239,7 +248,7 @@ var snackReq = {
                 $("#fileGrid").append(html);
             }else{
                 $("#fileGrid").html('<tr>' +
-                    '	<td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>' +
+                    '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
                     '</tr>');
             }
         }
@@ -663,6 +672,10 @@ var snackReq = {
                     html += '   <td>' + snackReq.global.attFiles[i].fileExt + '</td>';
                     html += '   <td>' + size + '</td>';
                     html += '   <td>';
+                    if(snackReq.global.attFiles[i].fileExt.toLowerCase() == "pdf" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "jpg" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "png" || snackReq.global.attFiles[i].fileExt.toLowerCase() == "jpeg"){
+                        html += '<input type="button" value="뷰어" class="k-button k-rounded k-button-solid k-button-solid-base" onclick="snackReq.fileViewer(\'' + snackReq.global.attFiles[i].filePath + snackReq.global.attFiles[i].fileUuid +'\')">'
+                    }
+                    html += '   <td>';
                     html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="snackReq.commonFileDel(' + snackReq.global.attFiles[i].fileNo + ', this, '+ i +')">';
                     html += '   </td>';
                     html += '</tr>';
@@ -682,6 +695,7 @@ var snackReq = {
                 html += '   <td>' + snackReq.global.addAttFiles[j].name.split(".")[0] + '</td>';
                 html += '   <td>' + snackReq.global.addAttFiles[j].name.split(".")[1] + '</td>';
                 html += '   <td>' + size + '</td>';
+                html += '   <td></td>';
                 html += '   <td>';
                 html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="snackReq.fnUploadFile(' + (diffSize + j) + ', this, '+ j +')">';
                 html += '   </td>';
@@ -698,7 +712,7 @@ var snackReq = {
 
         if($("#fileGrid").find("tr").length == 0){
             $("#fileGrid").html('<tr class="defultTr">' +
-                '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
+                '	<td colspan="5" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
                 '</tr>');
         }
         console.log(snackReq.global.attFiles);
@@ -722,7 +736,7 @@ var snackReq = {
                         snackReq.global.attFiles.splice(inx, 1);
                         if($("#fileGrid").find("tr").length == 0){
                             $("#fileGrid").html('<tr class="defultTr">' +
-                                '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
+                                '	<td colspan="5" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
                                 '</tr>');
                         }
                     }
@@ -740,7 +754,19 @@ var snackReq = {
 
         const kilobytes = bytes / 1024;
         return `${kilobytes.toFixed(2)} KB`;
-    }
+    },
+
+    fileViewer : function (path, name){
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var hostUrl = "";
+        if($(location).attr("host").split(":")[0].indexOf("218.158.231.184") > -1 || $(location).attr("host").split(":")[0].indexOf("new.camtic.or.kr") > -1){
+            hostUrl = "http://218.158.231.184";
+        } else {
+            hostUrl = "http://218.158.231.186";
+        }
+        var popup = window.open(hostUrl + path, name, option);
+    },
 }
 
 function userDataSet(userArr) {

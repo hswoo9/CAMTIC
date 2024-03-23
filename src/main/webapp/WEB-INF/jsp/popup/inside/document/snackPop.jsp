@@ -262,12 +262,13 @@
                             <th>파일명</th>
                             <th>확장자</th>
                             <th>용량</th>
+                            <th>뷰어</th>
                             <th class="resultTh">기타</th>
                         </tr>
                         </thead>
                         <tbody id="fileGrid">
                         <tr class="defultTr">
-                            <td colspan="4" style="text-align: center">선택된 파일이 없습니다.</td>
+                            <td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>
                         </tr>
                         </tbody>
                     </table>
