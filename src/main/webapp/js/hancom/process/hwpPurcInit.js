@@ -46,7 +46,7 @@ var purcInit = {
         /** 2. 구매요청서 아이템 리스트*/
         hwpDocCtrl.putFieldText("PURC_ITEM_HTML", " ");
         let htmlData = '';
-        htmlData = purcInit.htmlPurcItem();
+        htmlData = purcInit.htmlPurcItem(result.VAT);
         hwpDocCtrl.moveToField("PURC_ITEM_HTML", true, true, false);
         hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
     },
@@ -78,7 +78,7 @@ var purcInit = {
         hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
     },
 
-    htmlPurcItem: function(){
+    htmlPurcItem: function(vatFlag){
         const list = purcInit.global.purcItemList;
         const totMap = purcInit.global.amtTotal;
 
@@ -182,10 +182,18 @@ var purcInit = {
             dcPay += Number(map.DISCOUNT_AMT);
         }
 
+        var sum = 0;
+        if(vatFlag == "N"){
+            sum = (Number(totMap.TOTAL_SUM_UNCOMMA) + Number(totMap.TOTAL_SUM_UNCOMMA / 10)) - Number(dcPay);
+
+        } else {
+            sum = Number(totMap.TOTAL_SUM_UNCOMMA) - Number(dcPay);
+        }
+
 
         html += '   <tr>';
-        html += '       <td colspan="7" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>합계</b></p></td>';
-        const sum = Number(totMap.TOTAL_SUM_UNCOMMA) - Number(dcPay);
+        html += '       <td colspan="7" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>합계 (VAT포함)</b></p></td>';
+
         html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>&#8361; '+comma(sum)+'</b></p></td>';
         html += '   </tr>';
 

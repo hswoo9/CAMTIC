@@ -135,6 +135,7 @@ var regPay = {
                     }
 
                     $("#pjtSn").val(rs[0].PJT_SN);
+                    $("#firstPjtSn").val(rs[0].PJT_SN);
                     $("#pjtNm").val(rs[0].PJT_NM);
                     $("#appTitle").val(bsYmText + "월 인건비 지급 건");
 
@@ -1516,6 +1517,8 @@ var regPay = {
         regPay.global.fileArray = fileList;
         regPay.payAppBtnSet(rs);
 
+        console.log(rs);
+
         // if(rs.ADVANCES != 'Y'){
         //     $("#advances").prop("checked", false);
         // } else {
@@ -1539,6 +1542,7 @@ var regPay = {
         $("#pjtNm").val(rs.PJT_NM)
         $("#pjtSn").val(rs.PJT_SN)
         $("#pjtCd").val(rs.PJT_CD)
+        $("#firstPjtCd").val(rs.PJT_CD)
         // $("#budgetNm").val(rs.BUDGET_NM)
         // $("#budgetSn").val(rs.BUDGET_SN)
         $("#appTitle").val(rs.APP_TITLE)
@@ -1910,7 +1914,14 @@ var regPay = {
             type : type
         }
 
-        if($("#bsYm").val() == ""){
+        if($("#bsYm").val() != ""){
+            if(parameters.pjtSn != $("#firstPjtSn").val()){
+                parameters.pjtSn = $("#firstPjtSn").val();
+            }
+            if(parameters.pjtSn == ""){
+                parameters.pjtSn = 0;
+            }
+
             parameters.bsYm = $("#bsYm").val();
         }
 

@@ -47,6 +47,10 @@ var regPayDepo = {
             $("#depoManager").val($("#paramPm").val());
         }
 
+        if($("#getPjtAmt").val() != null && $("#getPjtAmt").val() != ""){
+            $("#depoAmt").val(comma(Number($("#getPjtAmt").val()) - Number($("#totDepoAmt").val())));
+        }
+
         $("#depoCont").kendoTextArea({
             rows: 5,
         });
