@@ -985,6 +985,33 @@
                             </div>
                         </div>
                     </div>
+                    <div class="cardEtcInfo">
+                        <div style="display:flex;justify-content: space-between;">
+                            <div class="subTitSt">· 비고</div>
+                            <div id="cardEtcInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
+                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_etcModInfo()"/>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <div>
+                                <table class="searchTable table" style="text-align:center;">
+                                    <colgroup>
+                                        <col width="100%">
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>내용</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <textarea type="text" id="cardEtc" name="cardEtc">${uprList.cardEtc}</textarea>
+                                        </td>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1161,6 +1188,12 @@
     })
 
     $(".textBox").kendoTextBox();
+
+    $("#cardEtc").kendoTextArea({
+        rows:5,
+        cols:10,
+        resizable: "vertical"
+    });
 
 
     $(function(){
@@ -2171,6 +2204,29 @@
             } else {
                 alert("오류가 발생하였습니다.");
             }
+        }
+    }
+
+    // 비고 수정
+    function fu_etcModInfo(){
+        var data = {
+            empSeq : $("#empSeq").val(),
+            cardEtc : $("#cardEtc").val()
+        }
+
+        if($("#cardEtc").val() == ""){ alert("내용을 입력해주세요."); return; }
+
+        var result = customKendo.fn_customAjax("/userManage/setCardEtc", data);
+
+        if(result.flag){
+            if(result.rs == "SUCCESS") {
+                alert("수정을 성공하였습니다.");
+                location.reload();
+            }else{
+                alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
+            }
+        }else{
+            alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
         }
     }
 
