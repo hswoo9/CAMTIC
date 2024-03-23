@@ -1,4 +1,7 @@
 var rndPR = {
+    global : {
+        tempArr : ""
+    },
 
     fn_defaultScript : function (){
         $("#mngComment").kendoTextArea({
@@ -153,6 +156,8 @@ var rndPR = {
         // rndPR.fn_buttonSet(rs);
         var mng = result.result.projectManagerInfo;
         var mem = result.result.projectMemberInfo;
+
+        rndPR.global.tempArr = result.result.projectMemberInfo;
 
         var empList = "";
         // if(mng != null){
@@ -466,5 +471,97 @@ var rndPR = {
         var name = "_blank";
         var option = "width = 1800, height = 750, top = 100, left = 200, location = no";
         var popup = window.open(url, name, option);
-    }
+    },
+
+    fn_getPartRateDetailPdf : function (){
+        var mem = rndPR.global.tempArr;
+
+        var empList = "";
+
+        if(mem != null){
+            var memHtml = '';
+
+            for(var i = 0 ; i < mem.length ; i++){
+                var e = mem[i];
+                var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+
+
+                /** 국민연금 */
+                var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
+                if(nationalPension > Number(e.LIMIT_AMT)){
+                    nationalPension = Number(e.LIMIT_AMT);
+                }
+                /** 건강보험 */
+                var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
+                /** 장기요양보험 */
+                var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10
+                /** 고용보험 */
+                var employInsurance = Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10;
+                /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
+                var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
+
+                var sum = cnt + nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance + (Math.floor((cnt/12)/10) * 10);
+
+                var totAmt = (Math.floor(sum/10) * 10).toString().toMoney();
+                var bsSal = totAmt;
+                if(mem[i].CHNG_SAL != undefined && mem[i].CHNG_SAL != null){
+                    bsSal = mem[i].CHNG_SAL;
+                    totAmt = mem[i].CHNG_SAL;
+                }
+                var gubun = "";
+                if(mem[i].GUBUN == undefined || mem[i].GUBUN == null || mem[i].GUBUN == ""){
+                    gubun = "";
+                } else {
+                    gubun = mem[i].GUBUN;
+                }
+
+                empList += mem[i].EMP_SEQ + ",";
+                memHtml += '<tr style="text-align: center" class="bodyTr">';
+                memHtml += '   <td>'+ gubun +'</td>';
+                memHtml += '   <td>'+ mem[i].EMP_NAME +'</td>';
+                memHtml += '   <td style="text-align: right">' + comma(bsSal) + '</td>';
+                memHtml += '   <td>'+ comma(totAmt) +'</td>';
+                memHtml += '   <td>'+ mem[i].PJT_STR_DT +'</td>';
+                memHtml += '   <td>'+ mem[i].PJT_END_DT +'</td>';
+                memHtml += '   <td>'+rndPR.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'</td>';
+                memHtml += '   <td>'+ mem[i].PAY_RATE +'</td>';      // 참여율 현금(%)
+                memHtml += '   <td>'+ comma(mem[i].TOT_PAY_BUDG) +'</td>';      // 인건비 현금 총액
+                memHtml += '   <td>'+ mem[i].ITEM_RATE +'</td>';
+                memHtml += '   <td>'+ comma(mem[i].TOT_ITEM_BUDG) +'</td>';      // 인건비 현물 총액
+                memHtml += '   <td>'+ mem[i].TOT_RATE +'</td>';      // 총 참여율(%)
+                memHtml += '   <td>'+ comma(mem[i].PAY_TOTAL) +'</td>';
+                memHtml += '   <td>'+ comma(mem[i].MON_SAL) +'</td>';      // 월 인건비
+                memHtml += '</tr>';
+            }
+
+            $("#partRateMemberPdf").html(memHtml);
+
+        }
+
+        var allPayTotal = $("input[name='payTotal']").get().reduce(function (acc, element) {
+            return acc + Number(uncomma(element.value));
+        }, 0);
+        var total = $("input[name='totPayBudget']").get().reduce(function (acc, element) {
+            return acc + Number(uncomma(element.value)); // 현금-인건비(원)
+        }, 0);
+        var itemTotPay = $("input[name='totItemBudget']").get().reduce(function (acc, element) {
+            return acc + Number(uncomma(element.value)); // 현물-인건비(원)
+        }, 0);
+        var monthTotPay = $("input[name='monSal']").get().reduce(function (acc, element) {
+            return acc + Number(uncomma(element.value)); // 월인건비(원)
+        }, 0);
+
+        var lastHtml = '';
+        lastHtml += '<tr style="text-align: center">';
+        lastHtml += '    <td colspan="8" style="background-color: #8fa1c04a;">합계</td>';
+        lastHtml += '    <td>'+ comma(total) +'</td>';
+        lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
+        lastHtml += '    <td>'+ comma(itemTotPay) +'</td>';
+        lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
+        lastHtml += '    <td>'+ comma(allPayTotal) +'</td>';
+        lastHtml += '    <td>'+ comma(monthTotPay) +'</td>';
+        lastHtml += '</tr>';
+
+        $("#partRateMemberPdf").append(lastHtml);
+    },
 }

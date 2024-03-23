@@ -8,6 +8,9 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/rnd/rndReqPartRate.js?v=${today}'/>"></script>
 
+<script type="text/javascript" src="/js/intra/inside/recruit/fontJs.js?v=${today}"></script>
+<script type="text/javascript" src="/js/jspdf.min.js"></script>
+<script type="text/javascript" src="/js/html2canvas.min.js"></script>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -25,7 +28,7 @@
 <div style="padding: 10px">
 
     <span id="titleVersionName"></span>
-    <button type="button" id="excelDown" style="float:right; font-size: 12px;" class="k-button k-button-solid-base" onclick="" disabled>참여율현황표 다운로드</button>
+    <button type="button" id="excelDown" style="float:right; font-size: 12px;" class="k-button k-button-solid-base" onclick="fn_pdfDown()" disabled>참여율현황표 다운로드</button>
     <button type="button" id="confBtn" style="float:right; margin-right: 5px;  font-size: 12px;" class="k-button k-button-solid-base" onclick="fn_confirm()" disabled>참여율확정</button>
     <%--    <button type="button" disabled id="regBtn" style="float:right; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_reqRegPopup()">지급신청</button>--%>
 
@@ -64,6 +67,37 @@
             </tbody>
         </table>
     </div>
+    <%--PDF DIV START--%>
+    <div class="table-responsive" style="display: none;">
+        <table class="popTable table table-bordered mb-0 pdf_page">
+            <thead>
+            <tr>
+                <th rowspan="2" style="width: 5%">구분</th>
+                <th rowspan="2" style="width: 5%">참여인력</th>
+                <th rowspan="2" style="width: 7%">기준급여</th>
+                <th rowspan="2" style="width: 7%">인건비총액<br>(연간급여)</th>
+                <th rowspan="2" style="width: 9%">참여시작</th>
+                <th rowspan="2" style="width: 9%">참여종료</th>
+                <th rowspan="2" style="width: 4%">참여<br>개월</th>
+                <th colspan="2" style="width: 11%">현금</th>
+                <th colspan="2" style="width: 11%">현물</th>
+                <th rowspan="2" style="width: 5%">총참여율<br>(%)</th>
+                <th rowspan="2" style="width: 7%">인건비총액<br>(원)</th>
+                <th rowspan="2" style="width: 7%">월인건비<br>(원)</th>
+            </tr>
+            <tr>
+                <th style="width: 5%">참여율(%)</th>
+                <th style="width: 6%">인건비(원)</th>
+                <th style="width: 5%">참여율(%)</th>
+                <th style="width: 6%">인건비(원)</th>
+            </tr>
+            </thead>
+            <tbody id="partRateMemberPdf">
+
+            </tbody>
+        </table>
+    </div>
+    <%--PDF DIV END--%>
     <input type="hidden" id="viewSubStat" value="N" />
     <input type="hidden" id="empList" value="" />
     <div style="text-align: center; cursor: pointer; margin-top: 15px; margin-bottom: 15px; background-color: #f1f7ff;display: none; border: 1px solid #c5c5c5" id="viewSubBtn"><span id="viewSubText">참여인력 정보▼</span></div>
@@ -235,7 +269,6 @@
     </div>
     <br><br>
 </div>
-
 <script>
     rndPR.fn_defaultScript();
     rndRPR.fn_defaultScript();
@@ -326,5 +359,81 @@
         });
     }
 
+    var renderedImg = new Array;
+    var contWidth = 240, // 너비(mm) (a4에 맞춤)
+        padding = 10; //상하좌우 여백(mm)
 
+    function fn_pdfDown() {
+
+        rndPR.fn_getPartRateDetailPdf();
+        return;
+
+        pdfMake();
+    }
+
+    const pdfMake = () => {
+
+        var lists = document.querySelectorAll(".pdf_page"),
+            deferreds = [],
+            doc = new jsPDF("l", "mm", [518, 734]),
+            listsLeng = lists.length;
+        for (var i = 0; i < listsLeng; i++) { // pdf_page 적용된 태그 개수만큼 이미지 생성
+            var deferred = $.Deferred();
+            deferreds.push(deferred.promise());
+            generateCanvas(i, doc, deferred, lists[i], contWidth);
+        }
+
+        $.when.apply($, deferreds).then(function () { // 이미지 렌더링이 끝난 후
+            var sorted = renderedImg.sort(function (a, b) {
+                    return a.num < b.num ? -1 : 1;
+                }), // 순서대로 정렬
+                curHeight = 10, //위 여백 (이미지가 들어가기 시작할 y축)
+                sortedLeng = sorted.length;
+
+            for (var i = 0; i < sortedLeng; i++) {
+                var sortedHeight = sorted[i].height, //이미지 높이
+                    sortedImage = sorted[i].image; //이미지w
+
+                if (i != 0) {
+                    curHeight += 20;
+                }
+
+                if (i != 0 && curHeight + sortedHeight - 20 > 100 - padding * 2) { // a4 높이에 맞게 남은 공간이 이미지높이보다 작을 경우 페이지 추가
+                    doc.addPage(734, 518); // 페이지를 추가함
+                    curHeight = 10; // 이미지가 들어갈 y축을 초기 여백값으로 초기화
+                    doc.addImage(sortedImage, padding, curHeight, contWidth, sortedHeight); //이미지 넣기
+                    curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
+                } else { // 페이지에 남은 공간보다 이미지가 작으면 페이지 추가하지 않음
+                    doc.addImage(sortedImage, padding, curHeight, contWidth, sortedHeight); //이미지 넣기
+                    curHeight += sortedHeight; // y축 = 기존y축 + 새로들어간 이미지 높이
+                }
+
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+
+                doc.addFileToVFS('myFont.ttf', fontJs);
+                doc.addFont('myFont.ttf', 'myFont', 'normal');
+                doc.setFont('myFont');
+                doc.text("(사)캠틱종합기술원", 10, pageHeight - 10, {align: 'left'});
+
+                curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
+            }
+            doc.save(' 참여율 현황표.pdf'); //pdf 저장
+            curHeight = padding; //y축 초기화
+            renderedImg = new Array; //이미지 배열 초기화
+        });
+    }
+
+    function generateCanvas(i, doc, deferred, curList, contW){ //페이지를 이미지로 만들기
+        var pdfWidth = $(curList).outerWidth() * 0.2645, //px -> mm로 변환
+            pdfHeight = $(curList).outerHeight() * 0.2645,
+            heightCalc = contW * pdfHeight / pdfWidth; //비율에 맞게 높이 조절
+
+        html2canvas( curList,  { logging: true, letterRendering: 1, useCORS: true } ).then(
+            function (canvas) {
+                var img = canvas.toDataURL('image/jpeg', 1.0); //이미지 형식 지정
+                renderedImg.push({num:i, image:img, height:heightCalc}); //renderedImg 배열에 이미지 데이터 저장(뒤죽박죽 방지)
+                deferred.resolve(); //결과 보내기
+            }
+        );
+    }
 </script>
