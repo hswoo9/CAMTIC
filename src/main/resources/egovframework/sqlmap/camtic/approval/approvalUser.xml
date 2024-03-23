@@ -450,6 +450,11 @@
             DJ_CAMTIC.A_FORM FORM
         ON DI.FORM_ID = FORM.FORM_ID
         WHERE 1=1
+        <if test='empName != null and !"".equals(empName)'>
+            AND
+                DI.DRAFT_EMP_NAME LIKE CONCAT('%', #{empName}, '%')
+        </if>
+
         AND
             DI.ACTIVE = 'Y'
         AND

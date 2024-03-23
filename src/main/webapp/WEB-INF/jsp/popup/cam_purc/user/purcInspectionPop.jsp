@@ -102,10 +102,10 @@
                                 <h3 class="card-title">첨부파일</h3>
                                 <div class="card-options">
                                     <div class="filebox">
-                                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="fileDownload" onclick="docDown();">
-                                            <span class="k-icon k-i-track-changes-accept k-button-icon"></span>
-                                            <span class="k-button-text">양식다운로드</span>
-                                        </button>
+<%--                                        <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-info" id="fileDownload" onclick="docDown();">--%>
+<%--                                            <span class="k-icon k-i-track-changes-accept k-button-icon"></span>--%>
+<%--                                            <span class="k-button-text">양식다운로드</span>--%>
+<%--                                        </button>--%>
                                         <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
                                             <span class="k-icon k-i-track-changes-enable k-button-icon"></span>
                                             <span class="k-button-text">파일첨부</span>

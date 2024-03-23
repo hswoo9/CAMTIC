@@ -190,16 +190,28 @@ var purcClaim = {
                     title: "검수여부",
                     width: 95,
                     template: function (e){
-                        if(e.INSPECT_YN == "Y"){
-                            let html = "";
-                            if(e.INSPECT_STATUS != "100"){
-                                html += '<button type="button" class="k-button k-button-solid-base" onclick="purcClaim.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')">검수</button>';
-                            }else{
-                                return '<a onclick="purcClaim.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')" style="font-weight: bold ">검수처리완료</a>'
+                        if((e.PAYMENT_METHOD == "I" || e.PAYMENT_METHOD == "C")){
+                            if(e.INSPECT_YN == "Y"){
+                                let html = "";
+                                if(e.INSPECT_STATUS != "100"){
+                                    html += '<button type="button" class="k-button k-button-solid-base" onclick="purcClaim.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')">검수</button>';
+                                }else{
+                                    return '<a onclick="purcClaim.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')" style="font-weight: bold ">검수처리완료</a>'
+                                }
+                                return html;
+                            } else {
+                                return "검수미작성";
                             }
-                            return html;
                         }else{
-                            return "검수미작성";
+                            if(e.GOODS_DT == null){
+                                return "발주대기";
+                            } else {
+                                if(e.INSPECT_STATUS != "100"){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="purcClaim.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')">검수</button>';
+                                }else{
+                                    return '<a onclick="purcClaim.fn_inspectionPopup(' + e.PURC_SN + ', \'mng\')" style="font-weight: bold ">검수처리완료</a>'
+                                }
+                            }
                         }
                     }
                 }, {

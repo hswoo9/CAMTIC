@@ -132,48 +132,33 @@ var purcInit = {
         // html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>&#8361; '+comma(totMap.DISCOUNT_AMT)+'</b></p></td>';
         html += '   </tr>';
 
-        var discountList = [];
         var popIndex = [];
+
+        var listArr = [];
         for(let i=0; i<list.length; i++){
-            var dcFlag = false;
-            
-            const map = list[i];
-            if(!popIndex.includes(i)){
-                for(let j = 0 ; j < list.length ; j++){
-                    var data = {
-                        CRM_SN : map.CRM_SN,
-                        CRM_NM : map.CRM_NM,
-                        DISCOUNT_AMT : map.DISCOUNT_AMT
-                    }
-                    if(i != j){
-                        if(map.CRM_SN == list[j].CRM_SN){
-                            data.DISCOUNT_AMT = Number(data.DISCOUNT_AMT) + Number(list[j].DISCOUNT_AMT);
-                            popIndex.push(j);
+            var listItem = {
+                CRM_SN : list[i].CRM_SN,
+                CRM_NM : list[i].CRM_NM,
+                DISCOUNT_AMT : 0
+            }
 
-                            discountList.push(data);
+            if(!popIndex.includes(list[i].CRM_SN)){
+                listArr.push(listItem);
+                popIndex.push(list[i].CRM_SN);
+            }
+        }
 
-                            //
-                        } else {
-                            dcFlag = true;
-                        }
-
-                    }
-                }
-                if(dcFlag){
-
-                    var data = {
-                        CRM_SN : map.CRM_SN,
-                        CRM_NM : map.CRM_NM,
-                        DISCOUNT_AMT : map.DISCOUNT_AMT
-                    }
-
-                    discountList.push(data);
+        for(let i=0; i<listArr.length; i++){
+            for( let j=0; j < list.length; j++){
+                console.log(listArr)
+                if(listArr[i].CRM_SN == list[j].CRM_SN){
+                    listArr[i].DISCOUNT_AMT += Number(list[j].DISCOUNT_AMT);
                 }
             }
         }
 
-        for(let i=0; i<discountList.length; i++){
-            const map = discountList[i];
+        for(let i=0; i<listArr.length; i++){
+            const map = listArr[i];
             html += '   <tr>';
             html += '       <td colspan="7" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>'+map.CRM_NM+'</b></p></td>';
             html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>&#8361; -'+comma(map.DISCOUNT_AMT)+'</b></p></td>';
@@ -266,17 +251,17 @@ var purcInit = {
 
         html += '   <tr>';
         html += '       <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>소       계</b></p></td>';
-        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(totMap.TOTAL_SUM_COMMA_C)+'</b></p></td>';
+        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(uncomma(totMap.TOTAL_SUM_COMMA_C) - Math.abs(Number(dcPay)))+'</b></p></td>';
         html += '   </tr>';
 
         html += '   <tr>';
         html += '       <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>세       액</b></p></td>';
-        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(totMap.TOTAL_SUM_COMMA_B)+'</b></p></td>';
+        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma((uncomma(totMap.TOTAL_SUM_COMMA_C) - Math.abs(Number(dcPay))) / 10)+'</b></p></td>';
         html += '   </tr>';
 
         html += '   <tr>';
-        html += '       <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>합       계</b></p></td>';
-        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(totMap.TOTAL_SUM_COMMA_A)+'</b></p></td>';
+        html += '       <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>합       계 (VAT 포함)</b></p></td>';
+        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma((uncomma(totMap.TOTAL_SUM_COMMA_C) - Math.abs(Number(dcPay))) + ((uncomma(totMap.TOTAL_SUM_COMMA_C) - Math.abs(Number(dcPay))) / 10))+'</b></p></td>';
         html += '   </tr>';
 
         html += '   <tr>';

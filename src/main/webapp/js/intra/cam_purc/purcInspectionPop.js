@@ -393,7 +393,7 @@ var pri = {
 
         var result = customKendo.fn_customFormDataAjax("/purc/updPurcInspectStat.do", formData);
         if(result.flag){
-            alert("검수 승인이 완료되었습니다.");
+            alert("검수처리가 완료되었습니다.");
             opener.parent.purcClaim.gridReload();
             window.close();
         }

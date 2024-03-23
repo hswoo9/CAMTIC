@@ -200,17 +200,19 @@ const reqOr = {
             }
         }
 
-        totAmt = Number(totAmt) - Number(disAmt);
+        totAmt = Number(totAmt);
 
         if($("#vat").data("kendoRadioGroup").value() == "N"){
             vatAmt = (totAmt / 10);
-            $("#estAmt").val(comma(totAmt - vatAmt));
+            $("#estAmt").val(comma(totAmt));
             $("#vatAmt").val(comma(vatAmt));
+            totAmt = totAmt + vatAmt;
         } else {
             $("#estAmt").val(comma(totAmt));
             $("#vatAmt").val(0);
         }
         $("#totAmt").val(comma(totAmt));
+        $("#discountAmt").val()
     },
 
     fn_popCamCrmList : function(){
@@ -344,6 +346,7 @@ const reqOr = {
         var index = 0;
         var html = '';
         $("#claimTbody").html("");
+        console.log("eeeeeeeeeeeeeeeee", e.itemList);
         for(var i = 0 ; i < len ; i++){
             if(index == 0){
                 html += '<tr class="claimItem newArray" id="item">';
@@ -372,9 +375,9 @@ const reqOr = {
                     '       <td>' +
                     '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
                     '       </td>' +
-                    // '       <td>' +
-                    // '           <span id="prodCd"></span>' +
-                    // '       </td>' +
+                    '       <td>' +
+                    '           <input type="text" id="discountAmt" class="discountAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
                     '       <td style="text-align: center" class="listDelBtn">' +
                     '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
                     '               <span class="k-button-text">삭제</span>' +
@@ -408,9 +411,9 @@ const reqOr = {
                     '       <td>' +
                     '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
                     '       </td>' +
-                    // '       <td>' +
-                    // '           <span id="prodCd'+index+'"></span>' +
-                    // '       </td>' +
+                    '       <td>' +
+                    '           <input type="text" id="discountAmt'+index+'" class="discountAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    '       </td>' +
                     '       <td style="text-align: center" class="listDelBtn">' +
                     '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
                     '               <span class="k-button-text">삭제</span>' +
@@ -434,13 +437,13 @@ const reqOr = {
         ]
         for(var i = 0 ; i < tLen ; i++){
             if(i == 0){
-                customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc"]);
+                customKendo.fn_textBox(["itemNm", "itemStd", "itemEa", "itemUnitAmt", "itemUnit", "itemAmt", "itemEtc", "discountAmt"]);
                 // customKendo.fn_radioGroup("prodCd", radioProdDataSource, "horizontal");
 
                 // $("#prodCd").data("kendoRadioGroup").value(e.itemList[i].PROD_CD);
             } else {
                 customKendo.fn_textBox(["itemNm" + i, "itemStd" + i
-                    ,"itemEa" + i, "itemUnitAmt" + i, "itemUnit" + i, "itemAmt" + i, "itemEtc" + i])
+                    ,"itemEa" + i, "itemUnitAmt" + i, "itemUnit" + i, "itemAmt" + i, "itemEtc" + i, "discountAmt" + i])
 
                 // customKendo.fn_radioGroup("prodCd" + i, radioProdDataSource, "horizontal");
                 // $("#prodCd" + i).data("kendoRadioGroup").value(e.itemList[i].PROD_CD);

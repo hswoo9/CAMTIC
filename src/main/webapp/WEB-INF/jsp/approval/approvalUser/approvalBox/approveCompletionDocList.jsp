@@ -31,7 +31,9 @@
                         <col width="10%">
                         <col width="25%">
                         <col width="10%">
-                        <col width="auto">
+                        <col width="25%">
+                        <col width="10%">
+                        <col width="15%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회기간</th>
@@ -43,6 +45,12 @@
                         </th>
                         <td>
                             <input type="text" id="docTitle" name="docTitle" style="width: 90%">
+                        </td>
+                        <th class="text-center th-color">
+                            <span class="pdr5 pdl3per">기안자</span>
+                        </th>
+                        <td>
+                            <input type="text" id="empName" name="empName" style="width: 70%">
                         </td>
                     </tr>
                 </table>

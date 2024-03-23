@@ -700,6 +700,9 @@ var prp = {
             $("#purcType").data("kendoRadioGroup").value(data.PURC_TYPE);
             $("#paymentMethod").data("kendoRadioGroup").value(data.PAYMENT_METHOD);
 
+            if(result.data.DOC_STATUS == "100" || result.data.DOC_STATUS == "101"){
+                $("#saveBtn").css("display", "none");
+            }
             if($("input[name='purcType']:checked").val() != ""){
                 $("#project").css("display", "");
                 $("#pjtSn").val(data.PJT_SN);
