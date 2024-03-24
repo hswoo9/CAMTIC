@@ -48,7 +48,7 @@
                             <span class="pdr5 pdl3per">문서명</span>
                         </th>
                         <td>
-                            <input type="text" id="docTitle" name="docTitle" style="width: 90%">
+                            <input type="text" id="docTitle" onkeypress="if(window.event.keyCode==13){approveWaitDocList.gridReload();}" name="docTitle" style="width: 90%">
                         </td>
                     </tr>
                 </table>
