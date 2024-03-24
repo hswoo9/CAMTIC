@@ -28,7 +28,7 @@
 <div style="padding: 10px">
 
     <span id="titleVersionName"></span>
-    <button type="button" id="excelDown" style="float:right; font-size: 12px;" class="k-button k-button-solid-base" onclick="fn_pdfDown()" disabled>참여율현황표 다운로드</button>
+    <button type="button" id="excelDown" style="float:right; font-size: 12px;" class="k-button k-button-solid-base" onclick="fn_pdfDown()">참여율현황표 다운로드</button>
     <button type="button" id="confBtn" style="float:right; margin-right: 5px;  font-size: 12px;" class="k-button k-button-solid-base" onclick="fn_confirm()" disabled>참여율확정</button>
     <%--    <button type="button" disabled id="regBtn" style="float:right; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_reqRegPopup()">지급신청</button>--%>
 
@@ -67,37 +67,7 @@
             </tbody>
         </table>
     </div>
-    <%--PDF DIV START--%>
-    <div class="table-responsive" style="display: none;">
-        <table class="popTable table table-bordered mb-0 pdf_page">
-            <thead>
-            <tr>
-                <th rowspan="2" style="width: 5%">구분</th>
-                <th rowspan="2" style="width: 5%">참여인력</th>
-                <th rowspan="2" style="width: 7%">기준급여</th>
-                <th rowspan="2" style="width: 7%">인건비총액<br>(연간급여)</th>
-                <th rowspan="2" style="width: 9%">참여시작</th>
-                <th rowspan="2" style="width: 9%">참여종료</th>
-                <th rowspan="2" style="width: 4%">참여<br>개월</th>
-                <th colspan="2" style="width: 11%">현금</th>
-                <th colspan="2" style="width: 11%">현물</th>
-                <th rowspan="2" style="width: 5%">총참여율<br>(%)</th>
-                <th rowspan="2" style="width: 7%">인건비총액<br>(원)</th>
-                <th rowspan="2" style="width: 7%">월인건비<br>(원)</th>
-            </tr>
-            <tr>
-                <th style="width: 5%">참여율(%)</th>
-                <th style="width: 6%">인건비(원)</th>
-                <th style="width: 5%">참여율(%)</th>
-                <th style="width: 6%">인건비(원)</th>
-            </tr>
-            </thead>
-            <tbody id="partRateMemberPdf">
 
-            </tbody>
-        </table>
-    </div>
-    <%--PDF DIV END--%>
     <input type="hidden" id="viewSubStat" value="N" />
     <input type="hidden" id="empList" value="" />
     <div style="text-align: center; cursor: pointer; margin-top: 15px; margin-bottom: 15px; background-color: #f1f7ff;display: none; border: 1px solid #c5c5c5" id="viewSubBtn"><span id="viewSubText">참여인력 정보▼</span></div>
@@ -269,6 +239,60 @@
     </div>
     <br><br>
 </div>
+
+<%--PDF DIV START--%>
+<div id="pdf" class="table-responsive pdf_page" style="display: none;">
+    <div style="text-align: center;font-weight: bold;font-size: 40px;">
+        <span>참여율 현황표</span>
+    </div>
+    <br>
+
+    <table style="margin: 20px 0 20px 0;font-size: 25px;line-height: 35px;">
+        <tr>
+            <th>□ 사 업 명 : </th>
+            <td id="bsTitlePdf"></td>
+        </tr>
+        <tr>
+            <th>□ 과 제 명 : </th>
+            <td id="pjtNmPdf"></td>
+        </tr>
+        <tr>
+            <th>□ 사업기간 : </th>
+            <td id="sbjDatePdf"></td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <table class="popTable table table-bordered mb-0" style="font-size: 20px;">
+        <thead>
+        <tr>
+            <th rowspan="2" style="width: 5%;font-size: 18px;">구분</th>
+            <th rowspan="2" style="width: 5%;font-size: 18px;">참여<br>인력</th>
+            <th rowspan="2" style="width: 7%;font-size: 18px;">기준급여</th>
+            <th rowspan="2" style="width: 7%;font-size: 18px;">인건비총액<br>(연간급여)</th>
+            <th rowspan="2" style="width: 8%;font-size: 18px;">참여시작</th>
+            <th rowspan="2" style="width: 8%;font-size: 18px;">참여종료</th>
+            <th rowspan="2" style="width: 4%;font-size: 18px;">참여<br>개월</th>
+            <th colspan="2" style="width: 12%;font-size: 18px;">현금</th>
+            <th colspan="2" style="width: 12%;font-size: 18px;">현물</th>
+            <th rowspan="2" style="width: 5%;font-size: 18px;">총<br>참여율<br>(%)</th>
+            <th rowspan="2" style="width: 7%;font-size: 18px;">인건비총액<br>(원)</th>
+            <th rowspan="2" style="width: 7%;font-size: 18px;">월인건비<br>(원)</th>
+        </tr>
+        <tr>
+            <th style="width: 5%;font-size: 18px;">참여율(%)</th>
+            <th style="width: 6%;font-size: 18px;">인건비(원)</th>
+            <th style="width: 5%;font-size: 18px;">참여율(%)</th>
+            <th style="width: 6%;font-size: 18px;">인건비(원)</th>
+        </tr>
+        </thead>
+        <tbody id="partRateMemberPdf">
+
+        </tbody>
+    </table>
+</div>
+<%--PDF DIV END--%>
 <script>
     rndPR.fn_defaultScript();
     rndRPR.fn_defaultScript();
@@ -366,9 +390,10 @@
     function fn_pdfDown() {
 
         rndPR.fn_getPartRateDetailPdf();
-        return;
 
+        $("#pdf").css("display", "");
         pdfMake();
+        $("#pdf").css("display", "none");
     }
 
     const pdfMake = () => {
@@ -413,11 +438,11 @@
                 doc.addFileToVFS('myFont.ttf', fontJs);
                 doc.addFont('myFont.ttf', 'myFont', 'normal');
                 doc.setFont('myFont');
-                doc.text("(사)캠틱종합기술원", 10, pageHeight - 10, {align: 'left'});
+                doc.text("사단법인 캠틱종합기술원", padding + contWidth / 2, pageHeight - 10, {align: 'center'});
 
                 curHeight += sortedHeight; // y축 = 여백 + 새로 들어간 이미지 높이
             }
-            doc.save(' 참여율 현황표.pdf'); //pdf 저장
+            doc.save($("#pjtNm").val() + '_참여율 현황표.pdf'); //pdf 저장
             curHeight = padding; //y축 초기화
             renderedImg = new Array; //이미지 배열 초기화
         });

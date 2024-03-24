@@ -517,25 +517,29 @@ var rndPR = {
 
                 empList += mem[i].EMP_SEQ + ",";
                 memHtml += '<tr style="text-align: center" class="bodyTr">';
-                memHtml += '   <td>'+ gubun +'</td>';
-                memHtml += '   <td>'+ mem[i].EMP_NAME +'</td>';
-                memHtml += '   <td style="text-align: right">' + comma(bsSal) + '</td>';
-                memHtml += '   <td>'+ comma(totAmt) +'</td>';
-                memHtml += '   <td>'+ mem[i].PJT_STR_DT +'</td>';
-                memHtml += '   <td>'+ mem[i].PJT_END_DT +'</td>';
-                memHtml += '   <td>'+rndPR.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'</td>';
-                memHtml += '   <td>'+ mem[i].PAY_RATE +'</td>';      // 참여율 현금(%)
-                memHtml += '   <td>'+ comma(mem[i].TOT_PAY_BUDG) +'</td>';      // 인건비 현금 총액
-                memHtml += '   <td>'+ mem[i].ITEM_RATE +'</td>';
-                memHtml += '   <td>'+ comma(mem[i].TOT_ITEM_BUDG) +'</td>';      // 인건비 현물 총액
-                memHtml += '   <td>'+ mem[i].TOT_RATE +'</td>';      // 총 참여율(%)
-                memHtml += '   <td>'+ comma(mem[i].PAY_TOTAL) +'</td>';
-                memHtml += '   <td>'+ comma(mem[i].MON_SAL) +'</td>';      // 월 인건비
+                memHtml += '   <td style="font-size: 18px;">'+ gubun +'</td>';
+                memHtml += '   <td style="font-size: 18px;">'+ mem[i].EMP_NAME +'</td>';
+                memHtml += '   <td style="text-align: right;font-size: 18px;">' + comma(bsSal) + '</td>';
+                memHtml += '   <td style="text-align: right;font-size: 18px;">'+ comma(totAmt) +'</td>';
+                memHtml += '   <td style="font-size: 18px;">'+ mem[i].PJT_STR_DT +'</td>';
+                memHtml += '   <td style="font-size: 18px;">'+ mem[i].PJT_END_DT +'</td>';
+                memHtml += '   <td style="font-size: 18px;">'+rndPR.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'</td>';
+                memHtml += '   <td style="text-align: right;font-size: 18px;">'+ mem[i].PAY_RATE +'</td>';      // 참여율 현금(%)
+                memHtml += '   <td style="text-align: right;font-size: 18px;">'+ comma(mem[i].TOT_PAY_BUDG) +'</td>';      // 인건비 현금 총액
+                memHtml += '   <td style="text-align: right;font-size: 18px;">'+ mem[i].ITEM_RATE +'</td>';
+                memHtml += '   <td style="text-align: right;font-size: 18px;">'+ comma(mem[i].TOT_ITEM_BUDG) +'</td>';      // 인건비 현물 총액
+                memHtml += '   <td style="text-align: right;font-size: 18px;">'+ mem[i].TOT_RATE +'</td>';      // 총 참여율(%)
+                memHtml += '   <td style="text-align: right;font-size: 18px;">'+ comma(mem[i].PAY_TOTAL) +'</td>';
+                memHtml += '   <td style="text-align: right;font-size: 18px;">'+ comma(mem[i].MON_SAL) +'</td>';      // 월 인건비
                 memHtml += '</tr>';
             }
 
             $("#partRateMemberPdf").html(memHtml);
 
+            $("#bsTitlePdf").text($("#bsTitle").val());
+            $("#pjtNmPdf").text($("#pjtNm").val());
+
+            $("#sbjDatePdf").text($("#sbjStrDe").val() + " ~ " + $("#sbjEndDe").val());
         }
 
         var allPayTotal = $("input[name='payTotal']").get().reduce(function (acc, element) {
@@ -553,13 +557,13 @@ var rndPR = {
 
         var lastHtml = '';
         lastHtml += '<tr style="text-align: center">';
-        lastHtml += '    <td colspan="8" style="background-color: #8fa1c04a;">합계</td>';
-        lastHtml += '    <td>'+ comma(total) +'</td>';
-        lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
-        lastHtml += '    <td>'+ comma(itemTotPay) +'</td>';
-        lastHtml += '    <td style="background-color: #8fa1c04a;"></td>';
-        lastHtml += '    <td>'+ comma(allPayTotal) +'</td>';
-        lastHtml += '    <td>'+ comma(monthTotPay) +'</td>';
+        lastHtml += '    <td colspan="8" style="background-color: #8fa1c04a;font-size: 18px;">합계</td>';
+        lastHtml += '    <td style="font-size: 18px;">'+ comma(total) +'</td>';
+        lastHtml += '    <td style="background-color: #8fa1c04a;font-size: 18px;"></td>';
+        lastHtml += '    <td style="font-size: 18px;">'+ comma(itemTotPay) +'</td>';
+        lastHtml += '    <td style="background-color: #8fa1c04a;font-size: 18px;"></td>';
+        lastHtml += '    <td style="font-size: 18px;">'+ comma(allPayTotal) +'</td>';
+        lastHtml += '    <td style="font-size: 18px;">'+ comma(monthTotPay) +'</td>';
         lastHtml += '</tr>';
 
         $("#partRateMemberPdf").append(lastHtml);
