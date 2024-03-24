@@ -79,7 +79,7 @@ var studyInfo = {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'studyPk\');"/>',
                     /* template : "<input type='checkbox' id='eduPk#=EDU_INFO_ID#' name='eduPk' class='eduPk' value='#=EDU_INFO_ID#'/>",*/
                     template : function(row){
-                        if(row.STATUS == "0"){
+                        if(row.STATUS == "0" || row.STATUS == "40"){
                             return "<input type='checkbox' id='studyPk="+row.STUDY_INFO_SN+"' name='studyPk' class='studyPk'  value='"+row.STUDY_INFO_SN+"'>";
                         }
                         return "";

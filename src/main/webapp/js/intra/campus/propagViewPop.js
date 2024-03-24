@@ -115,8 +115,11 @@ const propagView = {
                 $("#modBtn").show();
             }else if(status == "10"){
                 $("#appBtn").show();
-            }else if($("#status").val() == 100 && $("#addStatus").val() == "N"){
+            }else if(status == 100 && status == "N"){
                 $("#compBtn").show();
+            } else if(status == 40){
+                $("#modBtn").show()
+                $("#appBtn").show()
             }
         }
     },

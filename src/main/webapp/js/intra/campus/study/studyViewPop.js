@@ -149,6 +149,8 @@ const studyView = {
                 $("#studyCancelBtn").show();
             }else if($("#status").val() == 100 && $("#addStatus").val() == "N"){
                 $("#compBtn").show();
+            } else if($("#status").val() == 40){
+                $("#studyModBtn").show();
             }
         }
     },
