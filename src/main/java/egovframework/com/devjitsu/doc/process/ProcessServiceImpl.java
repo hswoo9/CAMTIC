@@ -16,4 +16,9 @@ public class ProcessServiceImpl implements ProcessService {
     public List<Map<String, Object>> getPsCheckList(Map<String, Object> params) {
         return processRepository.getPsCheckList(params);
     }
+
+    @Override
+    public Map<String, Object> getAuthorityPsCheck(Map<String, Object> params) {
+        return processRepository.getAuthorityPsCheck(params);
+    }
 }

@@ -39,4 +39,13 @@ public class ProcessController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/process/getAuthorityPsCheck")
+    public String getAuthorityPsCheck(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+
+        Map<String, Object> data = processService.getAuthorityPsCheck(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
 }

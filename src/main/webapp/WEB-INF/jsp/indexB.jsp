@@ -52,7 +52,7 @@
                 <a href="#">
                     <c:choose>
                         <c:when test="${loginVO.picFilePath ne '' and loginVO.picFilePath ne null}">
-                            <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="height: 110px;text-align: center; margin: 0 20px;">
+                            <img src="${loginVO.picFilePath}" alt="" class="media-object img-circle" style="height: 100px;text-align: center; margin: 0 20px;">
                         </c:when>
                         <c:otherwise>
                             등록된 증명사진이 없습니다.
@@ -79,7 +79,8 @@
             <div style="margin-top:10px;">
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">상신중 문서</span><span style="color:#1286ff;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxDraftDocList.do')">${strStatus} 건</span></div>
                 <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">결재할 문서</span><span style="color:#c93434;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/approveWaitDocList.do')">${waitStatus} 건</span></div>
-                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">오늘의 일정</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/spot/empScheduleList.do')">${scheduleStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">승인 대기</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="<c:if test="${ckCheck.CK_COUNT eq 'Y'}">open_in_frame('/process/processCheckList.do')</c:if>">${ckStatus} 건</span></div>
+                <div style="display:flex; justify-content: space-between; margin: 0px 10px;height:25px;"><span style="color:#333;font-weight:600;">반려 문서</span><span style="color:#919191;font-weight:600; cursor:pointer;" onclick="open_in_frame('/approvalUser/storageBoxReturnDocList.do')">${retStatus} 건</span></div>
             </div>
         </div>
 
