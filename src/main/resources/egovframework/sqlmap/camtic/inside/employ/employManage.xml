@@ -295,6 +295,8 @@
             A.PART_EMP_NM,
             A.PART_DET_STR_DT,
             A.PART_DET_END_DT,
+            A.TOT_PAY_BUDG,
+            A.TOT_ITEM_BUDG,
             (SELECT LG_CD_NM FROM CAM_PJT_MNG.DJ_PJT_CD WHERE LG_CD = C.SBJ_DEP AND GRP_SN = 'SUP_DEP' LIMIT 1) AS SBJ_DEP_NM,
             C.PJT_NM,
             DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,

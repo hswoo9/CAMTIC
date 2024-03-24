@@ -1057,7 +1057,7 @@ public class PayAppController {
 
     @RequestMapping("/payApp/getPartRatePayBsYm")
     public String getPartRatePayBsYm(@RequestParam Map<String, Object> params, Model model) {
-        payAppService.getPartRatePayBsYm(params);
+        model.addAttribute("map", payAppService.getPartRatePayBsYm(params)) ;
         return "jsonView";
     }
 }
