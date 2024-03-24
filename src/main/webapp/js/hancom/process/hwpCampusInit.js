@@ -204,9 +204,9 @@ var campusInit = {
         html += '               <tr>';
         html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>참석자</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>구분</b></p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 240px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 128px;"><p style="font-family:굴림;font-size:14px;"><b>직위</b></p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 128px;"><p style="font-family:굴림;font-size:14px;"><b>성명</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 295px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 103px;"><p style="font-family:굴림;font-size:14px;"><b>직위</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 98px;"><p style="font-family:굴림;font-size:14px;"><b>성명</b></p></td>';
         html += '               </tr>';
         for(let i=0; i<userList.length; i++){
             const map = userList[i];
@@ -287,9 +287,9 @@ var campusInit = {
         html += '               <tr>';
         html += '                   <td rowspan="'+rowspan+'" style="background-color:#FFE0E0; text-align:center; width: 90px;"><p style="font-family:굴림;font-size:14px;"><b>참석자</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 70px;"><p style="font-family:굴림;font-size:14px;"><b>구분</b></p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 240px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 128px;"><p style="font-family:굴림;font-size:14px;"><b>직위</b></p></td>';
-        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 128px;"><p style="font-family:굴림;font-size:14px;"><b>성명</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 295px;"><p style="font-family:굴림;font-size:14px;"><b>부서명</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 103px;"><p style="font-family:굴림;fonst-size:14px;"><b>직위</b></p></td>';
+        html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 98px;"><p style="font-family:굴림;font-size:14px;"><b>성명</b></p></td>';
         html += '               </tr>';
         for(let i=0; i<userList2.length; i++){
             const map = userList2[i];
