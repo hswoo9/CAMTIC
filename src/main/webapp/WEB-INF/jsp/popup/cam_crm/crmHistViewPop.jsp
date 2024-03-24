@@ -136,7 +136,7 @@
                             <th scope="row" class="text-center th-color">팀명</th>
                             <th scope="row" class="text-center th-color">등록자</th>
                             <th scope="row" class="text-center th-color">컨텍포인트</th>
-                            <th scope="row" class="text-center th-color">상담일시</th>
+                            <th scope="row" class="text-center th-color">상담일시</th>c
                             <th scope="row" class="text-center th-color">입력구분</th>
                         </tr>
                         </thead>

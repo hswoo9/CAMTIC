@@ -45,6 +45,7 @@ public class CrmRepository extends AbstractDAO {
     public void setCrmInterests(Map<String, Object> params) {insert("crm.setCrmInterests", params);}
     public void setCrmInterestsUpd(Map<String, Object> params) {insert("crm.setCrmInterestsUpd", params);}
     public List<Map<String, Object>> getCrmHistList(Map<String, Object> params) {return selectList("crm.getCrmHistList", params);}
+    public List<Map<String, Object>> getCrmHistDetailList(Map<String, Object> params) {return selectList("crm.getCrmHistDetailList", params);}
     public List<Map<String, Object>> getCrmOldHistList(Map<String, Object> params) {return selectList("crm.getCrmOldHistList", params);}
     public List<Map<String, Object>> getCrmHistEngnList(Map<String, Object> params) {return selectList("crm.getCrmHistEngnList", params);}
     public List<Map<String, Object>> getCrmOldHistEngnList(Map<String, Object> params) {return selectList("crm.getCrmOldHistEngnList", params);}
