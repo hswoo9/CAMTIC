@@ -348,12 +348,14 @@ public class MainController {
 
             int strStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
             int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
+            int ckStatus = processService.getPsCheckList(params).size();
 
             params.put("approveType", "reference");
             int compStatus = approvalUserService.getApproveDocBoxList(params).size();
 
             model.addAttribute("strStatus", strStatus);
             model.addAttribute("waitStatus", waitStatus);
+            model.addAttribute("ckStatus", ckStatus);
             model.addAttribute("compStatus", compStatus);
 
             return "/camspot_m/main";
