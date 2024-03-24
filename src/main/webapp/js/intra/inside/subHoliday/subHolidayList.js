@@ -17,7 +17,7 @@ var subHolidayList = {
     },
 
     mainGrid: function(url, params){
-        $("#mainGrid").kendoGrid({
+        $("#vacUseHistMainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             scrollable: true,
