@@ -410,6 +410,59 @@
         ORDER BY A.REG_DT DESC
     </select>
 
+    <select id="getCrmHistDetailList" parameterType="map" resultType="map">
+        /*getCrmHistDetailList ==> CRM 관리 > 고객 이력관리 데이터 조회 */
+        SELECT * FROM (
+        SELECT
+            C.DEPT_NAME,
+            EMP_NAME_KR,
+            CRM_MEM_NM,
+            DATE_FORMAT(A.CRM_REL_STR_DT, '%Y-%m-%d %H:%i') AS START_DATETIME,
+            CRM_HIST_OBJ,
+            CRM_REL_CONT
+        FROM
+            CAM_CRM.DJ_CRM_HIST A
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO CI
+            ON A.CRM_SN = CI.CRM_SN
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_MEM CM
+            ON A.CRM_MEM_SN = CM.CRM_MEM_SN
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B
+            ON A.REG_EMP_SEQ = B.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO C
+            ON B.DEPT_SEQ = C.DEPT_SEQ
+        WHERE
+            1 = 1
+          AND
+            A.CRM_HIST_TYPE = '1'
+          AND
+            CI.CRM_SN = #{crmSn}
+        <if test='cuid != null and !"".equals(cuid)'>
+        UNION ALL
+
+        select
+            DeptTeam AS DEPT_NAME
+            ,(select EMP_NAME_KR from cam_hr.dj_emp_info where EMP_SEQ = RegID) AS EMP_NAME_KR
+            ,IsCharge AS CRM_MEM_NM
+            ,(case when STimeH = '' then InDate
+            when STimeM = '' then concat(InDate,' ',STimeH,':00',' ~ ',ETimeH,':00')
+            else concat(InDate,' ',STimeH,':',STimeM,' ~ ',ETimeH,':',ETimeM)
+            end) AS START_DATETIME
+            ,(case when InterProjectType1 is null then '출장'
+            else 'CRM' end) AS CRM_HIST_OBJ
+            ,Contents AS CRM_REL_CONT
+        from
+            cam_crm.crm_hist
+        where
+            CUID = #{cuid}
+        </if>
+        ) R
+        ORDER BY START_DATETIME DESC
+    </select>
+
     <select id="getCrmOldHistList" parameterType="map" resultType="map">
         /*getCrmOldHistList*/
         select

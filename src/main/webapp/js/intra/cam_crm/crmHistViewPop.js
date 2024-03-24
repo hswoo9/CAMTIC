@@ -31,8 +31,37 @@ var chv = {
             crmSn : $("#crmSn").val(),
             crmHistType: 2
         }
+        var dataSource1 = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/crm/getCrmHistEngnList",
+                    async : false,
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.crmSn = $("#crmSn").val();
+                    data.crmHistType = 2;
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+            sort: [
+                { field: "CRM_DATE", dir: "desc" }
+            ]
+        });
+
         $("#mainGrid1").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/crm/getCrmHistEngnList", data),
+            dataSource: dataSource1,
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -83,11 +112,36 @@ var chv = {
     },
 
     mainGrid2 : function(){
-        const data = {
-            crmSn : $("#crmSn").val()
-        }
+        var dataSource2 = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/crm/getCrmHistRndList",
+                    async : false,
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.crmSn = $("#crmSn").val();
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+            sort: [
+                { field: "START_DATE", dir: "desc" }
+            ]
+        });
+
         $("#mainGrid2").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/crm/getCrmHistRndList", data),
+            dataSource: dataSource2,
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -142,12 +196,37 @@ var chv = {
     },
 
     mainGrid3 : function(){
-        const data = {
-            crmSn : $("#crmSn").val(),
-            crmHistType: 2
-        }
+        var dataSource3 = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : "/crm/getCrmHistNonRndList",
+                    async : false,
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.crmSn = $("#crmSn").val();
+                    data.crmHistType = 2;
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+            sort: [
+                { field: "START_DATE", dir: "desc" }
+            ]
+        });
+
         $("#mainGrid3").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/crm/getCrmHistNonRndList", data),
+            dataSource: dataSource3,
             sortable: true,
             scrollable: true,
             selectable: "row",
@@ -286,7 +365,7 @@ var chv = {
 
             chv.global.htmlStr += '' +
                 '<tr>' +
-                    '<td colSpan="6">' + e[i].CRM_REL_CONT + '</td>' +
+                    '<td colSpan="6" style="text-align: left">' + e[i].CRM_REL_CONT + '</td>' +
                 '</tr>';
 
             $("#histTb").append(chv.global.htmlStr);
