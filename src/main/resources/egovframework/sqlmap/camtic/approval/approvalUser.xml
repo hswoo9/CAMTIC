@@ -124,6 +124,10 @@
                 (DI.APPROVE_STAT_CODE = '100' OR DI.APPROVE_STAT_CODE = '101') AND DI.LAST_APPROVE_EMP_SEQ = '32'
             )
         </if>
+        <if test='docTitle != null and !"".equals(docTitle)'>
+            AND
+                DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+        </if>
         AND
             DI.ACTIVE = 'Y'
         AND
