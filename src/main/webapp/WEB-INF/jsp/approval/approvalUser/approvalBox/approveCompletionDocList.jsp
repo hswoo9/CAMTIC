@@ -44,13 +44,13 @@
                             <span class="pdr5 pdl3per">문서명</span>
                         </th>
                         <td>
-                            <input type="text" id="docTitle" name="docTitle" style="width: 90%">
+                            <input type="text" id="docTitle" onkeypress="if(window.event.keyCode==13){approveCompletion.gridReload();}" name="docTitle" style="width: 90%">
                         </td>
                         <th class="text-center th-color">
                             <span class="pdr5 pdl3per">기안자</span>
                         </th>
                         <td>
-                            <input type="text" id="empName" name="empName" style="width: 70%">
+                            <input type="text" id="empName" onkeypress="if(window.event.keyCode==13){approveCompletion.gridReload();}" name="empName" style="width: 70%">
                         </td>
                     </tr>
                 </table>

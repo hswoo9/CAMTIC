@@ -218,7 +218,7 @@ var rewardReq = {
                 }
             ],
             dataBinding: function() {
-                record = this.dataSource._data.length+1 - ((this.dataSource.page() -1) * this.dataSource.pageSize());
+                record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
     },

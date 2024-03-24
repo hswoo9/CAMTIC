@@ -93,41 +93,40 @@ var roomReq = {
 
     saveBtn: function(){
 
+        let roomReqSn = $("#roomReqSn").val();
+        let startDt = $("#startDt").val();
+        let endDt = $("#endDt").val();
+        let startTime = $("#startTime").val();
+        let endTime = $("#endTime").val();
+        let usePurposeSn = $("#usePurpose").val();
+        let usePurposeText = $("#usePurpose").data("kendoDropDownList").text();
+        let etc = "";
+        let rentalFeeSn = $("#rentalFee").val();
+        let rentalFeeText = $("#rentalFee").data("kendoDropDownList").text();
+        let pay = $("#pay").val();
+        let empSeq = $("#empSeq").val();
+        let empName = $("#empName").val();
+        let remarkCn = $("#remarkCn").val();
+        let regEmpSeq = $("#regEmpSeq").val();
+        let regEmpName = $("#regEmpName").val();
+        let roomIdxArr = [];
+
+        roomIdxArr = $("#roomClass").data("kendoMultiSelect").value();
+
+        if(startDt == "" || endDt == ""){ alert("운행일시가 작성되지 않았습니다."); return;}
+        if(roomIdxArr.length == "0"){ alert("사용회의실이 선택되지 않았습니다."); return;}
+        if(usePurposeSn == ""){ alert("사용목적이 선택되지 않았습니다."); return;}
+        if(rentalFeeSn == ""){ alert("대관료가 선택되지 않았습니다."); return;}
+        if(empSeq == ""){ alert("사용 담당자가 선택되지 않았습니다."); return;}
+        if(rentalFeeSn == "0" && pay == ""){ alert("대관료가 작성되지 않았습니다."); return;}
+
         if(!confirm("회의실사용신청을 저장하시겠습니까?")){
             return;
         }
 
-        var roomIdxArr = [];
-
-        roomIdxArr = $("#roomClass").data("kendoMultiSelect").value();
-
         for(var i = 0; i < roomIdxArr.length; i++){
-            /*let saveRoute = $("#saveRoute").val();*/
-            let roomReqSn = $("#roomReqSn").val();
-            let startDt = $("#startDt").val();
-            let endDt = $("#endDt").val();
-            let startTime = $("#startTime").val();
-            let endTime = $("#endTime").val();
             let roomClassSn = roomIdxArr[i];
             let roomClassText = "";
-            let usePurposeSn = $("#usePurpose").val();
-            let usePurposeText = $("#usePurpose").data("kendoDropDownList").text();
-            let etc = "";
-            let rentalFeeSn = $("#rentalFee").val();
-            let rentalFeeText = $("#rentalFee").data("kendoDropDownList").text();
-            let pay = $("#pay").val();
-            let empSeq = $("#empSeq").val();
-            let empName = $("#empName").val();
-            let remarkCn = $("#remarkCn").val();
-            let regEmpSeq = $("#regEmpSeq").val();
-            let regEmpName = $("#regEmpName").val();
-
-            if(startDt == ""||endDt == ""){ alert("운행일시가 작성되지 않았습니다."); return;}
-            if(roomClassSn == ""){ alert("사용회의실이 선택되지 않았습니다."); return;}
-            if(usePurposeSn == ""){ alert("사용목적이 선택되지 않았습니다."); return;}
-            if(rentalFeeSn == ""){ alert("대관료가 선택되지 않았습니다."); return;}
-            if(empSeq == ""){ alert("사용 담당자가 선택되지 않았습니다."); return;}
-            if(rentalFeeSn == "0" && pay == ""){ alert("대관료가 작성되지 않았습니다."); return;}
 
             let data = {
                 roomReqSn : roomReqSn,
@@ -153,71 +152,17 @@ var roomReq = {
 
             if(!flag){
                 break;
-            }
-        }
+            } else {
 
-        for(var i = 0; i < roomIdxArr.length; i++){
-            /*let saveRoute = $("#saveRoute").val();*/
-            let roomReqSn = $("#roomReqSn").val();
-            let startDt = $("#startDt").val();
-            let endDt = $("#endDt").val();
-            let startTime = $("#startTime").val();
-            let endTime = $("#endTime").val();
-            let roomClassSn = roomIdxArr[i];
-            let roomClassText = "";
-            let usePurposeSn = $("#usePurpose").val();
-            let usePurposeText = $("#usePurpose").data("kendoDropDownList").text();
-            let etc = "";
-            let rentalFeeSn = $("#rentalFee").val();
-            let rentalFeeText = $("#rentalFee").data("kendoDropDownList").text();
-            let pay = $("#pay").val();
-            let empSeq = $("#empSeq").val();
-            let empName = $("#empName").val();
-            let remarkCn = $("#remarkCn").val();
-            let regEmpSeq = $("#regEmpSeq").val();
-            let regEmpName = $("#regEmpName").val();
-
-            if(startDt == ""||endDt == ""){ alert("운행일시가 작성되지 않았습니다."); return;}
-            if(roomClassSn == ""){ alert("사용회의실이 선택되지 않았습니다."); return;}
-            if(usePurposeSn == ""){ alert("사용목적이 선택되지 않았습니다."); return;}
-            if(rentalFeeSn == ""){ alert("대관료가 선택되지 않았습니다."); return;}
-            if(empSeq == ""){ alert("사용 담당자가 선택되지 않았습니다."); return;}
-            if(rentalFeeSn == "0" && pay == ""){ alert("대관료가 작성되지 않았습니다."); return;}
-
-            let data = {
-                roomReqSn : roomReqSn,
-                startDt : startDt,
-                endDt : endDt,
-                startTime : startTime,
-                endTime : endTime,
-                roomClassSn : roomClassSn,
-                roomClassText : roomClassText,
-                usePurposeSn : usePurposeSn,
-                usePurposeText : usePurposeText,
-                etc : etc,
-                rentalFeeSn : rentalFeeSn,
-                rentalFeeText : rentalFeeText,
-                pay : pay,
-                empSeq : empSeq,
-                empName : empName,
-                remarkCn : remarkCn,
-                regEmpSeq : regEmpSeq,
-                regEmpName : regEmpName
-            }
-
-            if(flag) {
                 var result = customKendo.fn_customAjax("/inside/setRoomRequestInsert", data);
                 if(result.flag){
+                    alert("저장이 완료되었습니다.");
                     opener.gridReload();
                     window.close();
                 }else{
                     alert("데이터 저장 중 에러가 발생했습니다.");
                 }
             }
-        }
-
-        if(flag){
-            alert("저장이 완료되었습니다.");
         }
     },
 
@@ -270,13 +215,24 @@ var roomReq = {
     fn_buttonSet : function(data){
         var buttonHtml = "";
         if(data != null){
-            buttonHtml += "<button type=\"button\" id=\"roomSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"roomReq.saveBtn();\">저장</button>";
-            buttonHtml += "<button type=\"button\" id=\"roomDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"roomReq.delBtn();\">삭제</button>";
+            if(data.REG_EMP_SEQ == $("#regEmpSeq").val()){
+                buttonHtml += "<button type=\"button\" id=\"roomDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"roomReq.delBtn();\">삭제</button>";
+                buttonHtml += "<button type=\"button\" id=\"roomSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"roomReq.saveBtn();\">저장</button>";
+            } else {
+                roomReq.fn_kendoUIEnableSet();
+            }
         }else{
             buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"roomReq.saveBtn()\">저장</button>";
         }
         buttonHtml += "<button type=\"button\" class=\"k-button k-button-solid-error\" style=\"margin-right:5px;\" onclick=\"window.close();\">닫기</button>";
         $("#roomBtn").html(buttonHtml);
+    },
+
+    fn_kendoUIEnableSet : function(){
+        $(".k-multiselect").addClass("k-disabled");
+        $(".k-dropdownlist").addClass("k-disabled");
+        $(".k-input").addClass("k-disabled");
+        $(".k-grid-button").addClass("k-disabled");
     },
 
     fn_toggleUsePurpose: function(){

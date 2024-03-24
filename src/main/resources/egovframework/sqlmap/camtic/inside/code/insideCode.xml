@@ -491,10 +491,7 @@
                 #{startTime},
                 #{endTime},
                 #{roomClassSn},
-                CONCAT((SELECT ROOM_NAME FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn})
-                        ,' ('
-                        ,(SELECT VISIT FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}), ', '
-                        ,(SELECT MANY_PEOPLE FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}), '명)'),
+                CONCAT((SELECT ROOM_NAME FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn})),
                 #{usePurposeSn},
                 #{usePurposeText},
                 <if test='"4".equals(usePurposeSn)'>
@@ -524,14 +521,7 @@
             START_TIME = #{startTime},
             END_TIME = #{endTime},
             ROOM_CLASS_SN = #{roomClassSn},
-            ROOM_CLASS_TEXT = CONCAT(
-                (SELECT ROOM_NAME FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}),
-                ' (',
-                (SELECT VISIT FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}),
-                ', ',
-                (SELECT MANY_PEOPLE FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}),
-                '명)'
-            ),
+            ROOM_CLASS_TEXT = (SELECT ROOM_NAME FROM CAM_INSIDE.DJ_ROOM_CODE WHERE ROOM_SN = #{roomClassSn}),
             USE_PURPOSE_SN = #{usePurposeSn},
             USE_PURPOSE_TEXT = #{usePurposeText},
             <if test='"4".equals(usePurposeSn)'>
