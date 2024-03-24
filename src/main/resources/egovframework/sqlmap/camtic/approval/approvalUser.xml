@@ -737,6 +737,7 @@
                 APPROVE_DEPT_NAME,
                 APPROVE_DEPT_SEQ,
                 APPROVE_ORDER,
+                APPROVE_TYPE,
                 REG_EMP_SEQ
             )
         VALUES
@@ -749,6 +750,7 @@
                 #{approveDeptName},
                 #{approveDeptSeq},
                 #{approveOrder},
+                #{approveType},
                 #{empSeq}
             )
     </insert>
