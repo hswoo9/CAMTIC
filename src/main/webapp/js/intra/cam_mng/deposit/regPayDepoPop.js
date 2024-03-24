@@ -48,7 +48,7 @@ var regPayDepo = {
         }
 
         if($("#getPjtAmt").val() != null && $("#getPjtAmt").val() != ""){
-            $("#depoAmt").val(comma(Number($("#getPjtAmt").val()) - Number($("#totDepoAmt").val())));
+            $("#depoAmt").val(comma(Number($("#getPjtAmt").val() * 1.1) - Number($("#totDepoAmt").val())));
         }
 
         $("#depoCont").kendoTextArea({
