@@ -290,6 +290,11 @@ public class CrmServiceImpl implements CrmService {
         }
     }
 
+    @Override
+    public int crmReqCheck(Map<String, Object> params){
+        return crmRepository.crmReqCheck(params);
+    }
+
     private String filePath (Map<String, Object> params, String base_dir){
         LocalDate now = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");

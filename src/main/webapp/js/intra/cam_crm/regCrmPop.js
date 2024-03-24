@@ -184,7 +184,7 @@ var crmReg = {
         formData.append("data", "main");
 
         $.ajax({
-            url : "/crm/setCrmInfo",
+            url : "/crm/crmReqCheck",
             data : formData,
             type : "post",
             dataType : "json",
@@ -192,10 +192,27 @@ var crmReg = {
             processData: false,
             enctype : 'multipart/form-data',
             async : false,
-            success : function(rs){
-                var rs = rs.params;
-                alert("저장되었습니다.");
-                window.location.href="/crm/pop/regCrmPop.do?crmSn=" + rs.crmSn;
+            success : function(result){
+                if(result.chk > 0){
+                    alert("이미 등록된 업체입니다.");
+                    return;
+                } else {
+                    $.ajax({
+                        url : "/crm/setCrmInfo",
+                        data : formData,
+                        type : "post",
+                        dataType : "json",
+                        contentType: false,
+                        processData: false,
+                        enctype : 'multipart/form-data',
+                        async : false,
+                        success : function(rs){
+                            var rs = rs.params;
+                            alert("저장되었습니다.");
+                            window.location.href="/crm/pop/regCrmPop.do?crmSn=" + rs.crmSn;
+                        }
+                    });
+                }
             }
         });
     }

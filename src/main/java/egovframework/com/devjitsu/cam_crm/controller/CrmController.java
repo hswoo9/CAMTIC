@@ -174,6 +174,12 @@ public class CrmController {
         return "jsonView";
     }
 
+    @RequestMapping("/crm/crmReqCheck")
+    public String crmReqCheck(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("chk", crmService.crmReqCheck(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/crm/setCrmMemInfo")
     public String setCrmMemInfo(@RequestParam Map<String, Object> params, Model model) {
         try{
