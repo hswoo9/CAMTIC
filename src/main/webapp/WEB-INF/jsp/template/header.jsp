@@ -8,6 +8,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<input type="hidden" id="loginVOEmpSeq" value="${loginVO.uniqId}"/>
 <header>
     <div class="headerpanel">
         <a href="#" onclick="fn_mvMainPage();"><div class="logopanel"></div></a>
@@ -64,6 +65,7 @@
                                             </ul>
                                             <%--                      <a class="btn-more" href="">더보기 <i class="fa fa-long-arrow-right"></i></a>--%>
                                         </div><!-- tab-pane -->
+                                        <div style="text-align: center; background-color: #abdbdb; cursor:pointer" onclick="fn_xAll('${loginVO.uniqId}')" id="xAll">X</div>
                                     </div>
                                 </div>
                             </div>
@@ -250,6 +252,14 @@
 
     function alarmListDel(alId){
         var result = customKendo.fn_customAjax("/common/setAlarmTopListDel.do", {alId : alId});
+        if(result.flag){
+            alarmList();
+        }
+    }
+
+    function fn_xAll(empSeq){
+        var result = customKendo.fn_customAjax("/common/setAlarmTopListDel.do", {rcvEmpSeq : empSeq});
+
         if(result.flag){
             alarmList();
         }
