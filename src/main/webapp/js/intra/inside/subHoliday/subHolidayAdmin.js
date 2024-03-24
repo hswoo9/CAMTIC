@@ -91,18 +91,18 @@ var subHolidayAdmin = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="subHolidayAdmin.fn_delYn();">' +
-                            '	<span class="k-button-text">삭제</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">' +
+                            '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.gridReload();">' +
-                            '	<span class="k-button-text">조회</span>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="subHolidayAdmin.fn_delYn();">' +
+                            '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
-                }
+                },
             ],
             dataBound: function(e){
                 var grid = this;
@@ -268,6 +268,10 @@ var subHolidayAdmin = {
             return;
         }
 
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
         $.ajax({
             url : "/subHoliday/delYn",
             type : "POST",
@@ -275,6 +279,7 @@ var subHolidayAdmin = {
                 keyArr : JSON.stringify(keyArr)
             },
             success : function(data){
+                alert("삭제되었습니다.");
                 subHolidayAdmin.gridReload();
             }
         })
