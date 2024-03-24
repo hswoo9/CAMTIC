@@ -630,9 +630,20 @@ var lineSettingPop = {
                         alert("협조자는 상신자 다음으로만 설정이 가능합니다.");
                         return;
                     }
-
                 }
             }
+        }
+
+        var type2Cnt = 0;
+        for(var i = 0 ; i < lineSettingPop.global.approversArr.length ; i++){
+            if(lineSettingPop.global.approversArr[i].approveType == "2"){
+                type2Cnt++;
+            }
+        }
+
+        if(type2Cnt > 1){
+            alert("전결자가 1명 이상입니다. 확인해주세요.");
+            return;
         }
 
         if(opener.draft.global.lastApprover.approveEmpSeq == null){
