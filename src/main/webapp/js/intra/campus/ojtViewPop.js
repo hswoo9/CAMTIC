@@ -140,6 +140,9 @@ const ojtView = {
                 $("#ojtPlanAddBtn2").hide();
 
                 $("#compBtn").show();
+            } else if(status == 40){
+                $("#studyModBtn").show();
+                $("#appBtn").show();
             }
         }
     },

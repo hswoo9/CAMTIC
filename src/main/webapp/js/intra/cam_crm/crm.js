@@ -36,6 +36,18 @@ var crm = {
         customKendo.fn_textBox(["searchValue"]);
 
         crm.gridReload();
+
+        regEmpSeq
+        var rs = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId: 1});
+
+        for(var i = 0 ; i < rs.rs.length ; i++){
+            if(rs.rs[i].EMP_SEQ == $("#regEmpSeq").val()){
+                $("#crmDelBtn").css("display", "");
+                break;
+            }
+        }
+
+        console.log(rs);
     },
 
     mainGrid: function(url, params){
@@ -62,7 +74,8 @@ var crm = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="crm.setCrmDel()">' +
+
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" style="display:none;" id="crmDelBtn" onclick="crm.setCrmDel()">' +
                             '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
