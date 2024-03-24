@@ -635,7 +635,11 @@ public class CampusServiceImpl implements CampusService {
                 if(realEduTime > 2){
                     params.put("realEduTime", '2');
                 }else{
-                    params.put("realEduTime", params.get("realEduTime"));
+                    if(Double.parseDouble(params.get("realEduTime").toString()) > 2){
+                        params.put("realEduTime", '2');
+                    }else{
+                        params.put("realEduTime", params.get("realEduTime"));
+                    }
                 }
             }else{
                 if(realEduTime > 2){
@@ -646,7 +650,11 @@ public class CampusServiceImpl implements CampusService {
                         params.put("realEduTime", '0');
                     }
                 }else{
-                    params.put("realEduTime", params.get("realEduTime"));
+                    if(Double.parseDouble(params.get("realEduTime").toString()) > 2){
+                        params.put("realEduTime", '2');
+                    }else{
+                        params.put("realEduTime", params.get("realEduTime"));
+                    }
                 }
             }
             campusRepository.setStudyResultUserInsert(params);
@@ -709,7 +717,11 @@ public class CampusServiceImpl implements CampusService {
                 if(realEduTime > 2){
                     params.put("realEduTime", '2');
                 }else{
-                    params.put("realEduTime", params.get("realEduTime"));
+                    if(Double.parseDouble(params.get("realEduTime").toString()) > 2){
+                        params.put("realEduTime", '2');
+                    }else{
+                        params.put("realEduTime", params.get("realEduTime"));
+                    }
                 }
             }else{
                 if(realEduTime > 2){
@@ -720,7 +732,11 @@ public class CampusServiceImpl implements CampusService {
                             params.put("realEduTime", '0');
                         }
                 }else{
-                    params.put("realEduTime", params.get("realEduTime"));
+                    if(Double.parseDouble(params.get("realEduTime").toString()) > 2){
+                        params.put("realEduTime", '2');
+                    }else{
+                        params.put("realEduTime", params.get("realEduTime"));
+                    }
                 }
             }
             campusRepository.setStudyResultUserInsert(params);
@@ -1019,7 +1035,11 @@ public class CampusServiceImpl implements CampusService {
                     if(realEduTime > 2){
                         params.put("realEduUserTime", '2');
                     }else{
-                        params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+                        if(Double.parseDouble(eduTime.get("EDU_USER_TIME").toString()) > 2){
+                            params.put("realEduUserTime", '2');
+                        }else{
+                            params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+                        }
                     }
                 }else{
                     if(realEduTime > 2){
@@ -1029,7 +1049,11 @@ public class CampusServiceImpl implements CampusService {
                             params.put("realEduUserTime", '0');
                         }
                     }else{
-                        params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+                        if(Double.parseDouble(eduTime.get("EDU_USER_TIME").toString()) > 2){
+                            params.put("realEduUserTime", '2');
+                        }else{
+                            params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+                        }
                     }
                 }
                 campusRepository.setPropagUserInsert(params);
@@ -1067,7 +1091,11 @@ public class CampusServiceImpl implements CampusService {
                     if(realEduTime > 2){
                         params.put("realEduMngTime", '2');
                     }else{
-                        params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+                        if(Double.parseDouble(eduTime.get("EDU_MNG_TIME").toString()) > 2){
+                            params.put("realEduMngTime", '2');
+                        } else {
+                            params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+                        }
                     }
                 }else{
                     if(realEduTime > 2){
@@ -1077,7 +1105,11 @@ public class CampusServiceImpl implements CampusService {
                             params.put("realEduMngTime", '0');
                         }
                     }else{
-                        params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+                        if(Double.parseDouble(eduTime.get("EDU_MNG_TIME").toString()) > 2){
+                            params.put("realEduMngTime", '2');
+                        } else {
+                            params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+                        }
                     }
                 }
                 campusRepository.setPropagUserInsert(params);
@@ -1142,7 +1174,11 @@ public class CampusServiceImpl implements CampusService {
                     if(realEduTime > 2){
                         params.put("realEduUserTime", '2');
                     }else{
-                        params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+                        if(Double.parseDouble(eduTime.get("EDU_USER_TIME").toString()) > 2){
+                            params.put("realEduUserTime", '2');
+                        }else{
+                            params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+                        }
                     }
                 }else{
                     if(realEduTime > 2){
@@ -1152,7 +1188,11 @@ public class CampusServiceImpl implements CampusService {
                             params.put("realEduUserTime", '0');
                         }
                     }else{
-                        params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+                        if(Double.parseDouble(eduTime.get("EDU_USER_TIME").toString()) > 2){
+                            params.put("realEduUserTime", '2');
+                        }else{
+                            params.put("realEduUserTime", eduTime.get("EDU_USER_TIME"));
+                        }
                     }
                 }
                 campusRepository.setPropagUserInsert(params);
@@ -1190,7 +1230,11 @@ public class CampusServiceImpl implements CampusService {
                     if(realEduTime > 2){
                         params.put("realEduMngTime", '2');
                     }else{
-                        params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+                        if(Double.parseDouble(eduTime.get("EDU_MNG_TIME").toString()) > 2){
+                            params.put("realEduMngTime", '2');
+                        }else{
+                            params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+                        }
                     }
                 }else{
                     if(realEduTime > 2){
@@ -1200,7 +1244,11 @@ public class CampusServiceImpl implements CampusService {
                             params.put("realEduMngTime", '0');
                         }
                     }else{
-                        params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+                        if(Double.parseDouble(eduTime.get("EDU_MNG_TIME").toString()) > 2){
+                            params.put("realEduMngTime", '2');
+                        }else{
+                            params.put("realEduMngTime", eduTime.get("EDU_MNG_TIME"));
+                        }
                     }
                 }
                 campusRepository.setPropagUserInsert(params);
