@@ -18,6 +18,7 @@ public interface CrmService {
     void crmExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
     Map<String, Object> getCrmInfo(Map<String, Object> params);
     void setCrmInfo(Map<String, Object> params, MultipartHttpServletRequest request, String serverDir, String baseDir);
+    int crmReqCheck(Map<String, Object> params);
     Map<String, Object> getCrmFileInfo(Map<String, Object> params);
     void setCrmMemInfo(Map<String, Object> params);
     List<Map<String, Object>> getCrmMemList(Map<String, Object> params);
