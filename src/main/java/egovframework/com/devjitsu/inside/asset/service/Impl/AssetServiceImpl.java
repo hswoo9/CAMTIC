@@ -448,7 +448,14 @@ public class AssetServiceImpl implements AssetService {
 
         // 1. 직무발명신고서 등록 2. 발명자+지분 등록
         try {
-            assetRepository.setInventionInsert(params);
+
+            if(params.containsKey("inventionInfoSn")){
+                assetRepository.setInventionUpdate(params);
+                assetRepository.setInventionShareDelete(params);
+            } else {
+                assetRepository.setInventionInsert(params);
+            }
+
             if(!share.isEmpty()) {
                 params.put("share", share);
                 assetRepository.setInventionShareInsert(params);

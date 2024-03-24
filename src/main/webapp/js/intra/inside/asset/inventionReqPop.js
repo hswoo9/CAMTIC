@@ -1,6 +1,10 @@
 const inventionReq = {
     init: function(){
         inventionReq.dataSet();
+
+        if($("#inventionInfoSn").val()){
+            inventionReq.setData();
+        }
     },
 
     dataSet: function(){
@@ -18,6 +22,81 @@ const inventionReq = {
         customKendo.fn_dropDownList("iprClass", typeDataSource, "text", "value", 2);
         customKendo.fn_datePicker("regDate", "month", "yyyy-MM-dd", new Date());
         $("#userText, #regDate").attr("readonly", true);
+    },
+
+    setData : function(){
+        var result = customKendo.fn_customAjax("/inside/getInventionInfo", { inventionInfoSn : $("#inventionInfoSn").val() });
+        if(result.flag){
+            let rsInfo = result.rs.info;
+            let shareList = result.rs.shareList;
+            let shareSnArr = rsInfo.SHARE_SN.split(",");
+            let shareNameArr = rsInfo.SHARE_NAME.split(",");
+            let userArr = [];
+
+            for(let i=0; i<shareSnArr.length; i++){
+                userArr.push({ empSeq : shareSnArr[i], empName : shareNameArr[i] });
+            }
+
+            userDataSet(userArr);
+
+            $("#iprClass").data("kendoDropDownList").value(rsInfo.IPR_CLASS);
+            $("#title").val(rsInfo.TITLE);
+            $("#detailCn").val(rsInfo.DETAIL_CN);
+            $("#regDate").val(rsInfo.REG_DATE);
+
+            for(let i=0; i<userArr.length; i++){
+                for(let j=0; j<shareList.length; j++){
+                    if(userArr[i].empSeq == shareList[j].EMP_SEQ){
+                        $("#share" + shareList[j].EMP_SEQ).val(shareList[j].SHARE);
+                    }
+                }
+            }
+
+            if(result.rs.relatedFile){
+                $("#relatedFileTr").empty();
+                let fileInfo = result.rs.relatedFile;
+                let html = '';
+
+                html += '' +
+                    '<label for="relatedFile" class="k-button k-button-solid-base">파일첨부</label>' +
+                    '<input type="file" id="relatedFile" name="relatedFile" onchange="inventionReq.fileChange(this)" style="display: none">' +
+                    '<span id="relatedFileName" style="cursor:pointer;" onclick="fileDown(\'' +fileInfo.file_path + fileInfo.file_uuid + '\', \''+ fileInfo.file_org_name + '.' + fileInfo.file_ext + '\');">' +
+                        fileInfo.file_org_name + '.' + fileInfo.file_ext +
+                    '</span>';
+
+                $("#relatedFileTr").append(html);
+            }
+
+            if(result.rs.relatedFile1){
+                $("#relatedFile1Tr").empty();
+                let fileInfo = result.rs.relatedFile1;
+                let html = '';
+
+                html += '' +
+                    '<label for="relatedFile1" class="k-button k-button-solid-base">파일첨부</label>' +
+                    '<input type="file" id="relatedFile1" name="relatedFile1" onchange="inventionReq.fileChange(this)" style="display: none">' +
+                    '<span id="relatedFileName1" style="cursor:pointer;" onclick="fileDown(\'' +fileInfo.file_path + fileInfo.file_uuid + '\', \''+ fileInfo.file_org_name + '.' + fileInfo.file_ext + '\');">' +
+                        fileInfo.file_org_name + '.' + fileInfo.file_ext +
+                    '</span>';
+
+                $("#relatedFile1Tr").append(html);
+            }
+
+            if(result.rs.relatedFile1){
+                $("#quoFileTr").empty();
+                let fileInfo = result.rs.quoFile;
+                let html = '';
+
+                html += '' +
+                    '<label for="quoFile" class="k-button k-button-solid-base">파일첨부</label>' +
+                    '<input type="file" id="quoFile" name="quoFile" onchange="inventionReq.fileChange(this)" style="display: none">' +
+                    '<span id="quoFile" style="cursor:pointer;" onclick="fileDown(\'' +fileInfo.file_path + fileInfo.file_uuid + '\', \''+ fileInfo.file_org_name + '.' + fileInfo.file_ext + '\');">' +
+                        fileInfo.file_org_name + '.' + fileInfo.file_ext +
+                    '</span>';
+
+                $("#quoFileTr").append(html);
+            }
+        }
     },
 
     fileChange : function(e){
@@ -107,7 +186,8 @@ const inventionReq = {
                 if(!confirm("문서를 수정하시겠습니까?")){
                     return;
                 }
-                inventionReq.setInventionUpdate(formData);
+                formData.append("inventionInfoSn", $("#inventionInfoSn").val());
+                inventionReq.setInventionInsert(formData);
             }
         }
 
@@ -153,7 +233,7 @@ function userDataSet(userArr) {
     let userSn = "";
     for(let i=0; i<userArr.length; i++) {
         if(userText != "") {
-            userText += ", ";
+            userText += ",";
             userSn += ",";
         }
         userText += userArr[i].empName;
