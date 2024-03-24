@@ -396,10 +396,12 @@
         SELECT
             EI.*,
             DI.DOC_MENU_CD,
-            DI.APPRO_KEY
+            DI.APPRO_KEY,
+            p.PJT_NM
         FROM
             CAMPUS.DJ_EDU_INFO EI
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI ON DI.DOC_ID = EI.DOC_ID
+        LEFT JOIN CAM_PJT_MNG.DJ_PROJECT P ON EI.PJT_SN = P.PJT_SN
         WHERE
             EI.EDU_INFO_ID = #{eduInfoId}
     </select>
@@ -464,7 +466,9 @@
             EP.EDU_PLAN,
             ER.MNG_CHECK,
             IFNULL(ER.REAL_EDU_TIME, 0) AS REAL_EDU_TIME,
-            ECD.EDU_CATEGORY_NAME
+            ECD.EDU_CATEGORY_NAME,
+            EI.PURC_TYPE,
+            p.PJT_NM
         FROM
             CAMPUS.DJ_EDU_INFO EI
         LEFT JOIN
@@ -483,6 +487,8 @@
             DJ_CAMTIC.A_DOC_INFO RDI ON RDI.DOC_ID = ER.DOC_ID
         LEFT JOIN
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT P ON EI.PJT_SN = P.PJT_SN
         WHERE
             EI.EDU_INFO_ID = #{eduInfoId}
     </select>
@@ -1636,6 +1642,10 @@
                 <if test='eduFormType == "10"'>
                     COMP_TYPE,
                 </if>
+                PURC_TYPE,
+                <if test="pjtSn != null and !''.equals(pjtSn)">
+                    PJT_SN,
+                </if>
                 EDU_FORM_TYPE
             )
         VALUES
@@ -1692,6 +1702,10 @@
                 </if>
                 <if test='eduFormType == "10"'>
                     #{compType},
+                </if>
+                #{purcType},
+                <if test="pjtSn != null and !''.equals(pjtSn)">
+                    #{pjtSn},
                 </if>
                 #{eduFormType}
             )
@@ -1751,6 +1765,10 @@
             </if>
             <if test='eduFormType == "10"'>
                 COMP_TYPE=#{compType},
+            </if>
+            PURC_TYPE = #{purcType},
+            <if test="pjtSn != null and !''.equals(pjtSn)">
+                PJT_SN = #{pjtSn},
             </if>
             REG_DT=#{regDate}
         WHERE
