@@ -158,8 +158,12 @@ var holidayWorkApplicationUser ={
                 }, {
                     title: "승인요청",
                     template : function(e){
-                        let html = makeApprBtnHtml(e, "holidayWorkApplicationUser.workHolidayDrafting("+e.HOLIDAY_WORK_MASTER_SN+");");
-                        return html;
+                        if(e.MBF_YN != "Y"){
+                            let html = makeApprBtnHtml(e, "holidayWorkApplicationUser.workHolidayDrafting("+e.HOLIDAY_WORK_MASTER_SN+");");
+                            return html;
+                        }else{
+                            return "-";
+                        }
                     }
                 }],
             dataBinding: function(){

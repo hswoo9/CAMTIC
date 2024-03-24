@@ -171,19 +171,23 @@ var holidayWorkApplicationAdmin ={
                 }, {
                     title: "결재",
                     template : function(e){
-                        if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>열람</span>" +
-                                "</button>";
-                        }else if(e.DOC_STATUS == 10 || e.DOC_STATUS == 20 || e.DOC_STATUS == 50){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
-                                "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>결재중</span>" +
-                                "</button>";
-                        }else if(e.DOC_STATUS == 30){
-                            return '-';
-                        }else {
+                        if(e.MBF_YN != "Y"){
+                            if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
+                                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                    "<span class='k-button-text'>열람</span>" +
+                                    "</button>";
+                            }else if(e.DOC_STATUS == 10 || e.DOC_STATUS == 20 || e.DOC_STATUS == 50){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
+                                    "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+                                    "<span class='k-button-text'>결재중</span>" +
+                                    "</button>";
+                            }else if(e.DOC_STATUS == 30){
+                                return '-';
+                            }else {
+                                return '-';
+                            }
+                        }else{
                             return '-';
                         }
                     },
