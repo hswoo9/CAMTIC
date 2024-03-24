@@ -687,9 +687,9 @@
             CASE WHEN DAR.PROXY_APPROVE_EMP_SEQ IS NOT NULL THEN CONCAT('원결재 : [', DAR.APPROVE_POSITION_NAME, '] ', DAR.APPROVE_EMP_NAME)
             ELSE ''
             END ORIGIN_APPROVE_EMP_NAME,
-            DATE_FORMAT(DAR.DOC_READ_DT, '%Y-%m-%d %H:%m') AS DOC_READ_DT,
+            DATE_FORMAT(DAR.DOC_READ_DT, '%Y-%m-%d %H:%i') AS DOC_READ_DT,
             DATE_FORMAT(DAR.APPROVE_DT, '%Y. %m. %d') AS APPROVE_DT,
-            DATE_FORMAT(DAR.APPROVE_DT, '%Y-%m-%d %H:%m') AS APPROVE_DT2,
+            DATE_FORMAT(DAR.APPROVE_DT, '%Y-%m-%d %H:%i') AS APPROVE_DT2,
             DAR.APPROVE_ORDER
         FROM
             DJ_CAMTIC.A_DOC_INFO DI
