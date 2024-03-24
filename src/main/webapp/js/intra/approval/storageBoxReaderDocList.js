@@ -18,6 +18,19 @@ var storageBoxReader = {
         customKendo.fn_datePicker("endDay", '', "yyyy-MM-dd", new Date());
         $("#startDay, #endDay").attr("readonly", true);
 
+        $("#readStatus").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "전체", value: ""},
+                {text: "열람", value: "Y"},
+                {text: "미열람", value: "N"}
+            ]
+        })
+        $("#readStatus").change(function(){
+            storageBoxReader.gridReload();
+        });
+
         storageBoxReader.gridReload();
     },
 
@@ -166,6 +179,7 @@ var storageBoxReader = {
             startDay : $("#startDay").val(),
             endDay : $("#endDay").val(),
             approveStat : "reader",
+            readStatus : $("#readStatus").data("kendoDropDownList").value()
         }
 
         storageBoxReader.mainGrid("/approvalUser/getUserReadDocStorageBoxList", storageBoxReader.global.searchAjaxData);

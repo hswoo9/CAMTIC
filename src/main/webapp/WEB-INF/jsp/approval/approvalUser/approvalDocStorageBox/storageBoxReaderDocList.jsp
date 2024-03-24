@@ -29,15 +29,21 @@
             <div class="table-responsive" style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered" style="width: 100%">
                     <colgroup>
+                        <col width="8%">
+                        <col width="20%">
+                        <col width="8%">
                         <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
+                        <col width="8%">
                         <col width="auto">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">조회기간</th>
                         <td>
                             <input type="text" id="startDay" style="width: 45%;"> ~ <input type="text" id="endDay" style="width: 45%">
+                        </td>
+                        <th class="text-center th-color">열람상태</th>
+                        <td>
+                            <input type="text" id="readStatus" style="width: 100%;">
                         </td>
                         <th class="text-center th-color">
                             <span class="pdr5 pdl3per">문서명</span>
