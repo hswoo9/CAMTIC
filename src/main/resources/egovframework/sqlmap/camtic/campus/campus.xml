@@ -1017,9 +1017,7 @@
                 <if test='eduYear!= null and !"".equals(eduYear)'>
                     AND DATE_FORMAT(COSI.open_study_dt, '%Y') = #{eduYear}
                 </if>
-                AND (
-                    COSI.REG_EMP_SEQ = #{empSeq} or COSI.OPEN_STUDY_INFO_SN IN (SELECT OPEN_STUDY_INFO_SN FROM CAMPUS.DJ_OPENSTUDY_USER WHERE REG_EMP_SEQ = #{empSeq} AND PART_YN = 'Y')
-                        )
+
                 ORDER BY
                     COSI.REG_DT
             ) RE
@@ -1049,7 +1047,7 @@
                 AND DATE_FORMAT(NOW(), '%Y%m') <= DATE_FORMAT(COSI.OPEN_STUDY_DT, '%Y%m')
                 ]]>
                 <if test='step != null and !"".equals(step)'>
-                    AND STEP = #{step}
+                    -- AND STEP = #{step}
                 </if>
                 <if test='eduYear!= null and !"".equals(eduYear)'>
                     AND DATE_FORMAT(COSI.open_study_dt, '%Y') = #{eduYear}
@@ -3017,6 +3015,19 @@
         WHERE
             TARGET_YEAR = #{targetYear}
         AND REG_EMP_SEQ = #{empSeq}
+    </update>
+
+    <update id="updateApprStatMaster" parameterType="map">
+        /*updateApprStatMaster*/
+        UPDATE
+            CAMPUS.DJ_EDU_TARGET
+        SET
+            STATUS = 100,
+            MNG_STAT = 'Y',
+            APPROVAL_RESULT_DATE = now()
+        WHERE
+            TARGET_YEAR = #{targetYear}
+          AND REG_EMP_SEQ = #{empSeq}
     </update>
 
     <update id="updateStudyApprStat" parameterType="map">
