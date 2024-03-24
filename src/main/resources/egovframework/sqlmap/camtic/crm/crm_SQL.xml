@@ -182,6 +182,11 @@
             FILE_NO = (SELECT BN_CP FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = #{crmSn})
     </select>
 
+    <select id="crmReqCheck" parameterType="map" resultType="int">
+        /*crmReqCheck*/
+        SELECT COUNT(*) FROM CAM_CRM.DJ_CRM_INFO WHERE REPLACE(CRM_NO,'-','') = REPLACE(#{crmNo},'-','')
+    </select>
+
     <update id="updCrmInfo" parameterType="map">
         /* updCrmInfo -- 부가정보 업데이트 */
         UPDATE
