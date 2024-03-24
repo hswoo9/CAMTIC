@@ -1295,6 +1295,27 @@
         </selectKey>
     </insert>
 
+    <update id="setInventionUpdate" parameterType="map">
+        /*setInventionUpdate*/
+        UPDATE
+            CAM_INSIDE.DJ_INVENTION_INFO
+        SET
+            SHARE_SN = #{shareSn},
+            SHARE_NAME = #{shareName},
+            IPR_CLASS = #{iprClass},
+            IPR_NAME = #{iprName},
+            TITLE = #{title},
+            DETAIL_CN = #{detailCn},
+            REG_DATE = #{regDate}
+        WHERE
+            INVENTION_INFO_SN = #{inventionInfoSn}
+    </update>
+
+    <delete id="setInventionShareDelete" parameterType="map">
+        /*setInventionShareDelete*/
+        DELETE FROM CAM_INSIDE.DJ_INVENTION_SHARE_INFO WHERE INVENTION_INFO_SN = #{inventionInfoSn}
+    </delete>
+
     <insert id="setRprResultInsert" parameterType="map">
         /* setRprResultInsert */
         INSERT INTO CAM_INSIDE.DJ_INVENTION_INFO

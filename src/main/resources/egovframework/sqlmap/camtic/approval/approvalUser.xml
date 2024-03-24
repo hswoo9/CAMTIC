@@ -320,6 +320,15 @@
             DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
         </if>
 
+        <if test='readStatus != null and !"".equals(readStatus)'>
+            <if test='"N".equals(readStatus)'>
+                AND (SELECT READER_USER_ID FROM DJ_CAMTIC.A_DOC_READER_USER A WHERE A.DOC_ID = DRD.DOC_ID AND READER_EMP_SEQ = #{empSeq}) IS NULL
+            </if>
+            <if test='"Y".equals(readStatus)'>
+                AND (SELECT READER_USER_ID FROM DJ_CAMTIC.A_DOC_READER_USER A WHERE A.DOC_ID = DRD.DOC_ID AND READER_EMP_SEQ = #{empSeq}) IS NOT NULL
+            </if>
+        </if>
+
         GROUP BY DI.DOC_ID
         ORDER BY DI.DRAFT_DT DESC
     </select>
