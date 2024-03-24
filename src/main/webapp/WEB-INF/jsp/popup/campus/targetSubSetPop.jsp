@@ -18,7 +18,7 @@
       <input type="button" class="k-button k-button-solid-error" value="이전단계" onclick="targetSubSetPop.prevStep()"/>
       <input type="button" class="k-button k-button-solid k-button-solid-info" value="현황저장" onclick="targetSubSetPop.setEduTargetDetailUpdate('target', 1)"/>
       <input type="button" class="k-button k-button-solid k-button-solid-info" value="목표저장" onclick="targetSubSetPop.setEduTargetDetailUpdate('target', 2)"/>
-      <input type="button" class="k-button k-button-solid k-button-solid-info" value="완료" onclick="window.close()"/>
+      <input type="button" class="k-button k-button-solid k-button-solid-info" value="완료" onclick="targetSubSetPop.nextStep()"/>
   </div>
 </div>
 <div class="col-md-12 col-lg-12 dash-left">

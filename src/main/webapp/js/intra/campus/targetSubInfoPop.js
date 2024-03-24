@@ -255,4 +255,12 @@ var targetSubInfoPop = {
     prevStep: function(){
         window.location.href = "targetMainSetPop.do?targetYear="+ $("#targetYear").val();
     },
+
+    nextStep : function() {
+        if(!confirm("연계업무가 설정되지 않았습니다.\n목표기술서 설정을 완료하시겠습니까?")){
+            return;
+        }
+
+        window.close();
+    }
 }

@@ -66,9 +66,9 @@
                                         <col width="auto">
                                         <col width="18%">
                                         <col width="18%">
+                                        <col width="9%">
                                     </colgroup>
                                     <tbody>
-
                                     </tbody>
                                 </table>
                             </div>
