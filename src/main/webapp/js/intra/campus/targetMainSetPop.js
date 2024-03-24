@@ -110,7 +110,7 @@ var targetMainSetPop = {
         });
 
         if(eduTargetDetailIdArr.length == 0) {
-            alert("직무분야가 선택되지 않았습니다.");
+            alert("업무 구분이 선택되지 않았습니다.");
             return;
         }
 
@@ -137,6 +137,18 @@ var targetMainSetPop = {
     },
 
     nextStep: function(){
-        window.location.href = "targetSubInfoPop.do?targetYear="+ $("#targetYear").val();
+
+        var flag = false;
+        for(var i = 0 ; i < targetMainSetPop.global.targetCategoryDetailList.length ; i++){
+            if(targetMainSetPop.global.targetCategoryDetailList[i].TARGET_CLASS == "2"){
+                flag = true;
+            }
+        }
+        if(flag){
+            window.location.href = "targetSubInfoPop.do?targetYear="+ $("#targetYear").val();
+        } else {
+            alert("목표가 설정되지 않았습니다.");
+            return;
+        }
     }
 }

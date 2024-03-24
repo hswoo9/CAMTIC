@@ -134,5 +134,20 @@ var targetSubSetPop = {
 
     prevStep: function(){
         window.location.href = "targetSubInfoPop.do?targetYear="+ $("#targetYear").val();
+    },
+
+    nextStep : function() {
+        var flag = false;
+        for(var i = 0 ; i < targetSubSetPop.global.targetCategoryDetailList.length ; i++){
+            if(targetSubSetPop.global.targetCategoryDetailList[i].TARGET_CLASS == "2"){
+                flag = true;
+            }
+        }
+        if(flag){
+            window.close();
+        } else {
+            alert("목표가 설정되지 않았습니다.");
+            return;
+        }
     }
 }
