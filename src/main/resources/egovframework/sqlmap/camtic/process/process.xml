@@ -13,4 +13,18 @@
             RCV_EMP_SEQ LIKE CONCAT('|', #{empSeq}, '|') AND PS_STAT = 'N'
     </select>
 
+    <select id="getAuthorityPsCheck" parameterType="map" resultType="map">
+        /*getAuthorityPsCheck*/
+        SELECT
+            CASE WHEN COUNT(-1) = 0 THEN 'N' ELSE 'Y' END AS CK_COUNT
+        FROM
+            cam_common.dj_menu_allow_access MAA
+                LEFT JOIN
+            cam_common.dj_menu_authority_group MAGO ON MAA.AUTHORITY_GROUP_ID = MAGO.AUTHORITY_GROUP_ID
+                LEFT JOIN
+            cam_common.dj_menu_authority_grant MAGA ON MAGO.AUTHORITY_GROUP_ID = MAGA.AUTHORITY_GROUP_ID
+        WHERE MENU_ID = 788
+          AND EMP_SEQ = #{empSeq}
+    </select>
+
 </mapper>

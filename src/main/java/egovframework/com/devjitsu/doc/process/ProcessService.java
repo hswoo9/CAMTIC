@@ -5,4 +5,6 @@ import java.util.Map;
 
 public interface ProcessService {
     List<Map<String, Object>> getPsCheckList(Map<String, Object> params);
+
+    Map<String, Object> getAuthorityPsCheck(Map<String, Object> params);
 }
