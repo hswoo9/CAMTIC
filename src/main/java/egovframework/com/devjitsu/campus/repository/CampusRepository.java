@@ -417,4 +417,8 @@ public class CampusRepository extends AbstractDAO  {
     public void updateApprStatMaster(Map<String, Object> params) {
         update("campus.updateApprStatMaster", params);
     }
+
+    public void setDutyCertReqMaster(Map<String, Object> params) {
+        update("campus.setDutyCertReqMaster", params);
+    }
 }

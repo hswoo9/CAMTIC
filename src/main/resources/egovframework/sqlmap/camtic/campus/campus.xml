@@ -3337,6 +3337,20 @@
             DUTY_INFO_SN = #{pk}
     </update>
 
+    <update id="setDutyCertReqMaster" parameterType="map">
+        /*setDutyCertReqMaster*/
+        UPDATE
+            CAMPUS.DJ_DUTY_INFO
+        SET
+            STATUS = 100
+            , APPROVAL_EMP_SEQ = #{regEmpSeq}
+            , APPROVAL_EMP_NAME = #{regEmpName}
+            , APPROVAL_RESULT_DATE = NOW()
+            , MNG_STAT = 'Y'
+        WHERE
+            DUTY_INFO_SN = #{pk}
+    </update>
+
     <select id="getApprEmpInfo" parameterType="map" resultType="map">
         /*getApprEmpInfo*/
         SELECT
