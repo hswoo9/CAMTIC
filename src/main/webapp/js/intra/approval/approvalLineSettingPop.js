@@ -258,6 +258,8 @@ var lineSettingPop = {
                         $(approveTypeTd).attr("approveType", "0").text("결재");
                     }else if($(approveTypeTd).attr("approveType") == "1"){
                         $(approveTypeTd).attr("approveType", "1").text("협조");
+                    }else if($(approveTypeTd).attr("approveType") == "2"){
+                        $(approveTypeTd).attr("approveType", "2").text("전결");
                     }else{
                         $(approveTypeTd).attr("approveType", "0").text("검토");
                     }
@@ -565,8 +567,10 @@ var lineSettingPop = {
                         "		<td>"+result[i].APPROVE_DEPT_NAME+"</td>" +
                         "		<td>"+result[i].APPROVE_POSITION_NAME+"</td>" +
                         "		<td>"+result[i].APPROVE_DUTY_NAME+"</td>" +
-                        "       <td style='border-top: none;'>" +
-                        "           <span id='approveType' approveType='0'>결재</span>" +
+                        "	    <td style='border-top: none;'>" +
+                        "           <span id='approveType' approveType='"+ result[i].APPROVE_TYPE +"'>" +
+                                    (result[i].APPROVE_TYPE == 3 ? "결재안함" : result[i].APPROVE_TYPE == 2 ? "전결" : result[i].APPROVE_TYPE == 1 ? "협조" : result[i].APPROVE_TYPE == 0 && result[i].APPROVE_ORDER == 0 ? "상신" : "결재") +
+                        "           </span>" +
                         "       </td>" +
                         "	</tr>";
 

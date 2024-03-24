@@ -1,8 +1,12 @@
 var appUser = {
     global : {
+        flag : true,
         deptSeq : $("#deptSeq").val(),
         deptName : $("#deptName").val(),
-        approvalsArr : new Array()
+        approvalsArr : new Array(),
+        approve : "",
+        approve101 : "<span class='k-icon k-i-check-circle k-button-icon approve101'></span>",
+        approveNo : "<span class='k-icon k-i-x-circle k-button-icon approveNo'></span>",
     },
 
     treeClick : function(e) {
@@ -178,6 +182,35 @@ var appUser = {
                 {
                     name : 'button',
                     template : function (e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" id="approve" onclick="appUser.approveTypeChange(\'approve\')">' +
+                                    '<span class="k-button-text">검토</span>' +
+                                '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" id="cooperation" onclick="appUser.approveTypeChange(\'cooperation\')">' +
+                                    '<span class="k-button-text">협조</span>' +
+                                '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" id="approve101Btn" onclick="appUser.approveTypeChange(\'finalType1Approve\')">' +
+                            '<span class="k-button-text">전결</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="appUser.newFavApprove()">' +
+                            '<span class="k-icon k-i-plus k-button-icon"></span>' +
+                            '<span class="k-button-text">초기화</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name : 'button',
+                    template : function (e){
                         return "<button type=\"button\" class=\"k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"appUser.apprLineUpdate('up')\">" +
                             '	<span class="k-icon k-i-caret-double-alt-up k-button-icon"></span>' +
                             '	<span class="k-button-text">위로</span>' +
@@ -224,6 +257,9 @@ var appUser = {
                 }, {
                     title : "직책",
                     width : 94
+                }, {
+                    title : "결재유형",
+                    width : 47
                 }
             ]
         });
@@ -289,11 +325,15 @@ var appUser = {
                     var flag = true;
                     var htmlStr = "";
 
-                    $.each($("input[name='approveEmpSeq']"), function(i, e){
-                        if($(this).val() == result.EMP_SEQ){
+                    if($("#regEmpSeq").val() == result.EMP_SEQ){
+                        flag = false;
+                    }
+
+                    $.each($("#approvalLineDataTb tbody tr"), function(){
+                        if($(this).find("#approveEmpSeq").val() == result.EMP_SEQ){
                             flag = false;
                         }
-                    })
+                    });
 
                     if(flag){
                         if(result != null){
@@ -311,6 +351,9 @@ var appUser = {
                                 "		<td>"+result.DEPT_NAME+"</td>" +
                                 "		<td>"+result.POSITION_NAME+"</td>" +
                                 "		<td>"+result.DUTY_NAME+"</td>" +
+                                "       <td style='border-top: none;'>" +
+                                "           <span id='approveType' approveType='0'>결재</span>" +
+                                "       </td>" +
                                 "	</tr>";
                         }
                         $("#approvalLineDataTb tbody").append(htmlStr);
@@ -349,6 +392,11 @@ var appUser = {
                             "		<td>"+result[i].APPROVE_DEPT_NAME+"</td>" +
                             "		<td>"+result[i].APPROVE_POSITION_NAME+"</td>" +
                             "		<td>"+result[i].APPROVE_DUTY_NAME+"</td>" +
+                            "	    <td style='border-top: none;'>" +
+                            "           <span id='approveType' approvetype='"+ result[i].APPROVE_TYPE +"'>" +
+                                        (result[i].APPROVE_TYPE == 3 ? "결재안함" : result[i].APPROVE_TYPE == 2 ? "전결" : result[i].APPROVE_TYPE == 1 ? "협조" : result[i].APPROVE_TYPE == 0 && result[i].APPROVE_ORDER == 0 ? "상신" : "결재") +
+                            "           </span>" +
+                            "       </td>" +
                             "	</tr>";
 
                         $("#approvalLineDataTb tbody").append(htmlStr);
@@ -417,6 +465,7 @@ var appUser = {
                 approveEmpName : $(this).find("#approveEmpName").val(),
                 approveStatCodeDesc : "",
                 approveStatCode : "",
+                approveType : $(this).find("#approveType").attr("approvetype"),
                 approvePositionName : $(this).find("#approvePositionName").val(),
                 approveDutyName : $(this).find("#approveDutyName").val(),
                 approveDeptName : $(this).find("#approveDeptName").val(),
@@ -425,6 +474,20 @@ var appUser = {
             }
             approversArr.push(data);
         });
+
+        var lineFlag = true;
+        for(var i = 0 ; i < approversArr.length ; i++){
+            if(approversArr[i].approveType == "0"){
+                lineFlag = false;
+            }
+
+            if(approversArr[i].approveType == "1"){
+                if(!lineFlag){
+                    alert("협조자는 상신자 다음으로만 설정이 가능합니다.");
+                    return;
+                }
+            }
+        }
 
         if(confirm("결재선을 저장하시겠습니까?")){
             if(flag){
@@ -454,5 +517,81 @@ var appUser = {
             $("#favApproveRouteName").val("");
             $("#approvalLineDataTb tbody").empty();
         }
-    }
+    },
+
+    approveTypeChange : function(type){
+        var approve101Index;
+        var approveType = type == "approve" ? "0" : "1";
+        var approveTypeText = type == "approve" ? "결재" : "협조";
+
+        if(type == "approve" || type == "cooperation") {
+            $.each($("#approvalLineDataTb tbody tr"), function(i, e){
+                if($(e).hasClass("active")){
+                    var thisApproveT = $(this).closest("tr").find("td:last span");
+
+                    if(thisApproveT.attr("approveType") == "2"){
+                        $(".approve101, .approveNo").remove();
+                        approve101Index = i;
+                    }
+
+                    if(type == "approve"){
+                        if(thisApproveT.attr("approveType") == "3"){
+
+                        }else if($(".apprLineTr").length == ($(e).closest("tr").index() + 1)){
+                            thisApproveT.attr("approveType", approveType).text(approveTypeText);
+                        }else{
+                            thisApproveT.attr("approveType", approveType).text("검토");
+                        }
+                    }else{
+                        thisApproveT.attr("approveType", approveType).text(approveTypeText);
+                    }
+                }
+            });
+        } else {
+            var approve101EmpSeq = $("span.approve101").closest("tr").find("#approveEmpSeq").val();
+            approve101Index = $("span.approve101").closest("tr").index() == -1 ? 0 : $("span.approve101").closest("tr").index();
+            appUser.global.flag = false;
+
+            $(".approve101, .approveNo").remove();
+
+            $.each($("#approvalLineDataTb tbody tr"), function(i, e){
+                var empNameTd = $(e).closest("tr").find("td:eq(1)");
+                var approveTypeTd = $(e).closest("tr").find("td:eq(5) span");
+
+                $("span.approve101").closest("tr").index()
+                if(type == "finalType1Approve"){
+                    if($(e).hasClass("active")){
+                        // empNameTd.append(appUser.global.approve101);
+                        $(approveTypeTd).attr("approveType", "2").text("전결");
+                        approve101Index = i;
+                        appUser.global.flag = true;
+                    }
+                }else{
+                    if($(e).closest("tr").find("#approveEmpSeq").val() == approve101EmpSeq){
+                        // empNameTd.append(appUser.global.approve101);
+                        $(approveTypeTd).attr("approveType", "2").text("전결");
+                        appUser.global.flag = true;
+                    }
+                }
+
+                if(approve101Index < i && appUser.global.flag){
+                    empNameTd.append(appUser.global.approveNo);
+                    $(approveTypeTd).attr("approveType", "3").text("결재안함");
+                }else if(!appUser.global.flag){
+                    empNameTd.find("span").remove();
+                    if($(approveTypeTd).attr("approveType") == "3"){
+                        $(approveTypeTd).attr("approveType", "0").text("검토");
+                    }else if($(approveTypeTd).attr("approveType") == "0" && $(e).closest("tr").find("#approveOrder").text() == "0"){
+                        $(approveTypeTd).attr("approveType", "0").text("상신");
+                    }else if($(approveTypeTd).attr("approveType") == "0" && $(".apprLineTr").length == ($(e).closest("tr").index() + 1)){
+                        $(approveTypeTd).attr("approveType", "0").text("결재");
+                    }else if($(approveTypeTd).attr("approveType") == "1"){
+                        $(approveTypeTd).attr("approveType", "1").text("협조");
+                    }else{
+                        $(approveTypeTd).attr("approveType", "0").text("검토");
+                    }
+                }
+            })
+        }
+    },
 }
