@@ -104,6 +104,9 @@
                 <if test="holidayWorkMasterSn != null and holidayWorkMasterSn != ''">
                     , HOLIDAY_WORK_MASTER_SN
                 </if>
+                <if test='targetId != null and !"".equals(targetId)'>
+                    , TARGET_ID
+                </if>
             )
         VALUES
             (
@@ -130,6 +133,9 @@
                 <if test="holidayWorkMasterSn != null and holidayWorkMasterSn != ''">
                     , #{holidayWorkMasterSn}
                 </if>
+                <if test='targetId != null and !"".equals(targetId)'>
+                    , #{targetId}
+                </if>
             )
         <selectKey keyProperty="vacUseHistId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_SUBHOLIDAY_USE_HIST'
@@ -155,6 +161,9 @@
         MOD_EMP_SEQ = #{saveSeq}
         <if test="approvalReason != null and approvalReason != ''">
             , APPROVAL_REASON = #{approvalReason}
+        </if>
+        <if test='targetId != null and !"".equals(targetId)'>
+            , TARGET_ID = #{targetId}
         </if>
         WHERE
         SUBHOLIDAY_USE_ID = #{vacUseHistId}
@@ -204,6 +213,16 @@
             SUBHOLIDAY_WORK_DAY_YN = 'N'
         WHERE
             SUBHOLIDAY_USE_ID = #{subHolidayUseId}
+    </update>
+
+    <update id="setVacUseHistSubDel" parameterType="map">
+        /* setVacUseHistSubDel */
+        UPDATE
+            CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST
+        SET
+            SUBHOLIDAY_WORK_DAY_YN = 'N'
+        WHERE
+            SUBHOLIDAY_USE_ID = #{TARGET_ID}
     </update>
 
     <delete id="deleteSubHoliDay" parameterType="map">
@@ -397,7 +416,8 @@
             EI.DUTY_CODE,
             IFNULL(DI.APPROVE_STAT_CODE, '0') AS STATUS,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            SUH.TARGET_ID
         FROM
             CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SUH
         LEFT JOIN

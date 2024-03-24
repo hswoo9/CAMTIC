@@ -104,7 +104,18 @@ var subHolidayAdmin = {
                     }
                 }
             ],
-            dataBound : subHolidayAdmin.onDataBound,
+            dataBound: function(e){
+                var grid = this;
+                grid.tbody.find("tr").each(function(){
+                    var delYn = $(this).find("input[name='delYn']").val();
+
+                    if(delYn == "Y"){
+                        $(this).css('text-decoration', 'line-through');
+                        $(this).css('color', 'red');
+                    }
+                });
+
+            },
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
@@ -170,7 +181,11 @@ var subHolidayAdmin = {
                     title: "내용",
                     align:"center",
                     template : function(e){
-                        return '<div style="text-align: center"><a style="cursor: pointer;" onclick="subHolidayAdmin.fn_regPop(\'' + e.APPROVE_STAT_CODE + '\', \'' + e.SUBHOLIDAY_USE_ID + '\', \'' + e.APPR_STAT + '\', \'' + e.DOC_ID + '\', \'' + e.APPRO_KEY + '\', \'' + e.DOC_MENU_CD + '\');"><b>' + e.RMK + '</b></a></div>'
+                        return '' +
+                            '<div style="text-align: center">' +
+                            '   <a style="cursor: pointer;" onclick="subHolidayAdmin.fn_regPop(\'' + e.APPROVE_STAT_CODE + '\', \'' + e.SUBHOLIDAY_USE_ID + '\', \'' + e.APPR_STAT + '\', \'' + e.DOC_ID + '\', \'' + e.APPRO_KEY + '\', \'' + e.DOC_MENU_CD + '\');"><b>' + e.RMK + '</b></a>' +
+                            '   <input type="hidden" name="delYn" value="' + e.DEL_YN + '">' +
+                            '</div>';
                     }
                 }, {
                     field: "REG_DT",

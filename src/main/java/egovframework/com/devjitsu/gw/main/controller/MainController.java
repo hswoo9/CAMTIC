@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalService;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalUserService;
+import egovframework.com.devjitsu.doc.process.ProcessService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.hp.board.service.BoardService;
 import egovframework.com.devjitsu.hp.board.util.ArticlePage;
@@ -44,6 +45,9 @@ public class MainController {
 
     @Autowired
     private ApprovalService approvalService;
+
+    @Autowired
+    private ProcessService processService;
 
     @Autowired
     private CommonCodeService commonCodeService;
@@ -86,11 +90,18 @@ public class MainController {
 
             int strStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
             int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
-            int scheduleStatus = customBoardService.getTodayScheduleList(params).size();
+            /*int scheduleStatus = customBoardService.getTodayScheduleList(params).size();*/
+            Map<String, Object> ckCheck = processService.getAuthorityPsCheck(params);
+            int ckStatus = processService.getPsCheckList(params).size();
+            params.put("approveStat", "returnRetrieve");
+            int retStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
 
             model.addAttribute("strStatus", strStatus);
             model.addAttribute("waitStatus", waitStatus);
-            model.addAttribute("scheduleStatus", scheduleStatus);
+            /*model.addAttribute("scheduleStatus", scheduleStatus);*/
+            model.addAttribute("ckCheck", ckCheck);
+            model.addAttribute("ckStatus", ckStatus);
+            model.addAttribute("retStatus", retStatus);
             model.addAttribute("menuList", commonService.getMenuFullJsonString(loginVO));
             model.addAttribute("loginVO", loginVO);
 
@@ -128,11 +139,18 @@ public class MainController {
 
         int strStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
         int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
-        int scheduleStatus = customBoardService.getTodayScheduleList(params).size();
+        /*int scheduleStatus = customBoardService.getTodayScheduleList(params).size();*/
+        Map<String, Object> ckCheck = processService.getAuthorityPsCheck(params);
+        int ckStatus = processService.getPsCheckList(params).size();
+        params.put("approveStat", "returnRetrieve");
+        int retStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
 
         model.addAttribute("strStatus", strStatus);
         model.addAttribute("waitStatus", waitStatus);
-        model.addAttribute("scheduleStatus", scheduleStatus);
+        /*model.addAttribute("scheduleStatus", scheduleStatus);*/
+        model.addAttribute("ckCheck", ckCheck);
+        model.addAttribute("ckStatus", ckStatus);
+        model.addAttribute("retStatus", retStatus);
         model.addAttribute("loginVO", loginVO);
         return "indexB_cp";
     }

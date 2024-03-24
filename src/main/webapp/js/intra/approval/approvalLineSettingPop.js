@@ -613,6 +613,24 @@ var lineSettingPop = {
             }
         });
 
+        var appFlag = true;
+        for(var i = 0 ; i < lineSettingPop.global.approversArr.length ; i++){
+
+            if(lineSettingPop.global.approversArr[i].approveOrder != "0"){
+                if(lineSettingPop.global.approversArr[i].approveType == "0"){
+                    appFlag = false;
+                }
+
+                if(lineSettingPop.global.approversArr[i].approveType == "1"){
+                    if(!appFlag){
+                        alert("협조자는 상신자 다음으로만 설정이 가능합니다.");
+                        return;
+                    }
+
+                }
+            }
+        }
+
         if(opener.draft.global.lastApprover.approveEmpSeq == null){
             var lastTdSpan = $("#approvalLineDataTb tr:last").find("td:last span").attr("approveType");
             opener.draft.global.lastApprover = {

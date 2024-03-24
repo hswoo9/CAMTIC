@@ -135,9 +135,14 @@ var subHolidayReqPop = {
                     otherEmpSeq : $("#other_emp_seq").val()
                 }
 
+                if(data.targetId == null || data.targetId == ""){
+                    data.targetId = $("#targetId").val();
+                }
+
                 if($("#vacUseHistId").val() != null && $("#vacUseHistId").val() != ""){
                     data.vacUseHistId = $("#vacUseHistId").val();
                 }
+
                 if($("#edtHolidayKindTop").val() == 11){
                     data.vacUseStDt = $("#edtHolidayStartDateTop_3").val();
                     data.vacUseStTime = $("#edtHolidayStartHourTop_3").val();
@@ -902,6 +907,7 @@ var subHolidayReqPop = {
 
     sendMeData : function(request) {
         console.log(request);
+        $("#targetId").val(request.SUBHOLIDAY_USE_ID);
         $("#edtHolidayWorkDay_3").val(request.SUBHOLIDAY_WORK_DAY);
         $("#holiday_reason").val("휴일 근로 일자 [" + request.SUBHOLIDAY_WORK_DAY + "]\n")
     },
@@ -944,6 +950,7 @@ var subHolidayReqPop = {
                 $("#other_reason").val(result.data.RMK_OTHER);
                 $("#other_emp").val(result.data.OHTER_EMP);
                 $("#other_emp_seq").val(result.data.OTHER_EMP_SEQ);
+                $("#targetId").val(result.data.TARGET_ID);
             }else{
                 $("#edtHolidayStartDateTop_1").val(result.data.SUBHOLIDAY_ST_DT);
                 $("#edtHolidayStartHourTop_1").val(result.data.SUBHOLIDAY_ST_TIME);

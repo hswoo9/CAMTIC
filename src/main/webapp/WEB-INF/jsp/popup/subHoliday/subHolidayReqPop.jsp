@@ -29,6 +29,8 @@
             <input type="hidden" id="vacUseHistId" value="${params.subholidayUseId}">
             <input type="hidden" id="code" value="${code}">
             <input type="hidden" id="mode" value="${params.mode}">
+
+            <input type="hidden" id="targetId" value="" />
             <table class="popTable table table-bordered mb-0" id="holidayPlanReqPopTb" style="margin-top: 10px;">
                 <colgroup>
                     <col width="15%">

@@ -92,9 +92,12 @@ public class SubHolidayServiceImpl implements SubHolidayService {
         Map<String, Object> map = subHolidayRepository.getVacUseHistoryOne(params);
 
         if(map.get("SUBHOLIDAY_CODE_ID").toString().equals("9")){
-            if(map.get("HOLIDAY_WORK_MASTER_SN") == null){
-                subHolidayRepository.deleteSubHoliDay(params);
+
+            if(!map.get("TARGET_ID").toString().equals("") && map.get("TARGET_ID") != null){
+                subHolidayRepository.setVacUseHistSubDel(map);
             }
+            subHolidayRepository.deleteSubHoliDay(params);
+
         } else {
             subHolidayRepository.setVacUseHistDel(params);
         }

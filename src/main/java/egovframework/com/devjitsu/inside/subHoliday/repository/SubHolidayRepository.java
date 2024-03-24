@@ -132,5 +132,9 @@ public class SubHolidayRepository extends AbstractDAO  {
     public void deleteSubHoliDay(Map<String, Object> params) {
         delete("subHoliday.deleteSubHoliDay", params);
     }
+
+    public void setVacUseHistSubDel(Map<String, Object> map) {
+        update("subHoliday.setVacUseHistSubDel", map);
+    }
 }
 

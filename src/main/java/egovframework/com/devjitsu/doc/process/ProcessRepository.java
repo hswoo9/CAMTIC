@@ -12,4 +12,7 @@ public class ProcessRepository extends AbstractDAO {
     public List<Map<String, Object>> getPsCheckList(Map<String, Object> params) {
         return (List<Map<String, Object>>) selectList("process.getPsCheckList", params);
     }
+    public Map<String, Object> getAuthorityPsCheck(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("process.getAuthorityPsCheck", params);
+    }
 }
