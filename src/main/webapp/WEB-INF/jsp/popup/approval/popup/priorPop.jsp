@@ -3,7 +3,7 @@
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <jsp:useBean id="today" class="java.util.Date" />
 <body style="margin: 0; padding: 0">
-<img src="/images/description/prior2.png">
+<img src="/images/description/prior3.png">
 <script>
 </script>
 </body>

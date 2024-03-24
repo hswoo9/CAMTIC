@@ -156,7 +156,7 @@
                     </tr>
                 </table>
             </div>
-            <div id="mainGrid" style="margin:20px 0;"></div>
+            <div id="vacUseHistMainGrid" style="margin:20px 0;"></div>
         </div>
     </div>
 </div><!-- col-md-9 -->
