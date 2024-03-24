@@ -59,7 +59,7 @@ public class TaxController {
     public String syncEtaxG20Data(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
 
         try{
-            taxService.syncEtaxG20Data();
+            taxService.syncEtaxG20Data(params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();

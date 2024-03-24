@@ -209,8 +209,8 @@ var etaxList = {
 
     syncEtaxG20Data : function (){
         var data = {
-            strDt : $("#strDt").val(),
-            endDt : $("#endDt").val(),
+            strDt : $("#strDt").val().replaceAll("-", ""),
+            endDt : $("#endDt").val().replaceAll("-", ""),
         }
 
         $.ajax({

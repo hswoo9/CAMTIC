@@ -29,7 +29,7 @@ public class TaxServiceImpl implements TaxService {
     }
 
     @Override
-    public void syncEtaxG20Data() {
+    public void syncEtaxG20Data(Map<String, Object> params) {
         Date date = new Date();
         String strDate = "";
         String endDate = "";
@@ -44,10 +44,9 @@ public class TaxServiceImpl implements TaxService {
         strDate = firstDate.toString().replaceAll("-", "");
         endDate = lastDate.toString().replaceAll("-", "");
 
-        Map<String, Object> params = new HashMap<>();
 
-        params.put("strDate", strDate);
-        params.put("endDate", endDate);
+        params.put("strDate", params.get("strDt"));
+        params.put("endDate", params.get("endDt"));
 
         List<Map<String, Object>> list = new ArrayList<>();
         list = g20Repository.getEtaxDb(params);

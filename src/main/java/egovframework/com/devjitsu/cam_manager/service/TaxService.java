@@ -6,5 +6,5 @@ import java.util.Map;
 public interface TaxService {
     List<Map<String, Object>> getTaxList(Map<String, Object> params);
 
-    void syncEtaxG20Data();
+    void syncEtaxG20Data(Map<String, Object> params);
 }
