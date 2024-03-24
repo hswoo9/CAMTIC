@@ -43,8 +43,8 @@ var holidayWorkApplicationAdmin ={
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "상신전", value: "A" },
-                { text: "결재진행중", value: "B" },
+                // { text: "상신전", value: "A" },
+                { text: "결재중", value: "B" },
                 { text: "결재완료", value: "C" },
             ],
             index: 0
@@ -179,7 +179,7 @@ var holidayWorkApplicationAdmin ={
                         }else if(e.DOC_STATUS == 10 || e.DOC_STATUS == 20 || e.DOC_STATUS == 50){
                             return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
                                 "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
-                                "<span class='k-button-text'>열람</span>" +
+                                "<span class='k-button-text'>결재중</span>" +
                                 "</button>";
                         }else if(e.DOC_STATUS == 30){
                             return '-';
@@ -199,14 +199,14 @@ var holidayWorkApplicationAdmin ={
     onDataBound : function(){
         var grid = this;
 
-        grid.tbody.find("tr").dblclick(function (e) {
-            var dataItem = grid.dataItem($(this));
-
-            var url = "/subHoliday/pop/subHolidayReqPop2.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;
-            var name = "subHolidayReqPop2";
-            var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
-            var popup = window.open(url, name, option);
-        });
+        // grid.tbody.find("tr").dblclick(function (e) {
+        //     var dataItem = grid.dataItem($(this));
+        //
+        //     var url = "/subHoliday/pop/subHolidayReqPop2.do?subholidayUseId=" + dataItem.SUBHOLIDAY_USE_ID + "&apprStat=" + dataItem.APPR_STAT;
+        //     var name = "subHolidayReqPop2";
+        //     var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        //     var popup = window.open(url, name, option);
+        // });
     },
 
     subHolidayReqPop2 : function() {

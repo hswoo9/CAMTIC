@@ -784,10 +784,15 @@ var draft = {
 
     draftInitValidation : function(e) {
         draft.global.flag = true;
+
         if (draft.global.approversArr.length < 2 && draft.global.approversArr[0].approveType != "2") {
-            alert("결재선을 지정해주세요.");
-            draft.global.flag = false;
-            return;
+            if(draft.global.approversArr[0].approveEmpSeq == "32"){
+                draft.global.approversArr[0].approveType = 2;
+            } else {
+                alert("결재선을 지정해주세요.");
+                draft.global.flag = false;
+                return;
+            }
         } else if (!$("#docTitle").val()) {
             alert("문서제목을 입력해주세요.");
             draft.global.flag = false;
