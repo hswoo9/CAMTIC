@@ -1019,6 +1019,10 @@ var subHolidayReqPop = {
                 $("#other_emp").attr("disabled", "disabled");
                 $("#holiday_reason").attr("disabled", "disabled");
             }
+
+            if(result.data.BF_YN == "Y"){
+                $("#holiApprBtnBox").hide();
+            }
         }
     }
 }
