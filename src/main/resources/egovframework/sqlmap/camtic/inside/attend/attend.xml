@@ -830,7 +830,7 @@
                 AND
                     DATE_FORMAT(#{endDt}, '%Y-%m-%d') >= DATE_FORMAT(sm.APPLY_DATE, '%Y-%m-%d')
             ]]>
-
+            AND M.STATUS NOT IN (0, 30, 40)
             <if test='searchKeyword != null and !"".equals(searchKeyword)'>
                 AND sm.APPLY_SEQ IN ((SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE ${searchKeyword} LIKE CONCAT('%', #{searchValue} ,'%')))
             </if>

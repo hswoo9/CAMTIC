@@ -1960,6 +1960,8 @@ public class CampusController {
     @RequestMapping("/campus/setOpenStudyInfoUpd")
     public String setOpenStudyInfoUpd(@RequestParam Map<String, Object> params,Model model) {
         campusService.setOpenStudyInfoUpd(params);
+
+        model.addAttribute("params", params);
         return "jsonView";
     }
 

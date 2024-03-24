@@ -267,6 +267,29 @@ const openStudyReq = {
         if(result.flag){
             if(step == "B"){
                 alert("모집을 진행합니다.");
+
+                let regEmpSeq = $("#regEmpSeq").val();
+                let regEmpName = $("#regEmpName").val();
+                let regDeptName = $("#regDeptName").val();
+                let regTeamSeq = $("#regTeamSeq").val();
+                let regPositionName = $("#regPositionName").val();
+                let regDutyName = $("#regDutyName").val();
+
+                let data = {
+                    regEmpSeq: regEmpSeq,
+                    regEmpName: regEmpName,
+                    regDeptName: regDeptName,
+                    regTeamSeq: regTeamSeq,
+                    regPositionName: regPositionName,
+                    regDutyName: regDutyName,
+                    pk: $("#pk").val()
+                }
+                if(openStudyReq.doubleChk()){
+                    alert("중복된 참여는 불가능합니다.")
+                    return;
+                }
+
+                const result = customKendo.fn_customAjax("/campus/setOpenStudyUser", data);
             }
             if(step == "C"){
                 alert("모임이 확정되었습니다.");

@@ -44,8 +44,8 @@ var targetInfo = {
             dataSource: targetInfo.global.yearDropDown,
             index: index,
             change: function(e) {
-                targetInfo.tableSet();
                 targetInfo.dataSet();
+                targetInfo.tableSet();
             }
         });
     },

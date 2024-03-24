@@ -25,7 +25,7 @@
   <div class="btn-st popButton">
     <input type="button" class="k-button k-button-solid k-button-solid-error" value="이전단계" onclick="targetSubInfoPop.prevStep();"/>
       <input type="button" class="k-button k-button-solid k-button-solid-info" value="저장" onclick="targetSubInfoPop.saveTarget();"/>
-      <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="취소"  onclick="window.close();"/>
+      <input type="reset" style="margin-right:5px;" class="k-button k-button-solid-error" value="완료"  onclick="targetSubInfoPop.nextStep()"/>
   </div>
 </div>
 <div class="col-md-12 col-lg-12 dash-left">

@@ -99,6 +99,28 @@ var campusInit = {
                 hwpDocCtrl.putFieldText('eduEval'+ResultData.EDU_EVAL, "O");
                 hwpDocCtrl.putFieldText('eduPoint', ResultData.EDU_POINT);
 
+                let purcText = "";
+
+                if(ResultData.PURC_TYPE == null || ResultData.PURC_TYPE == "N" || ResultData.PURC_TYPE == ""){
+                    purcText = "해당없음";
+                }else if(ResultData.PURC_TYPE == "R"){
+                    purcText = "R&D";
+                }else if(ResultData.PURC_TYPE == "S"){
+                    purcText = "비R&D";
+                }else if(ResultData.PURC_TYPE == "D"){
+                    purcText = "엔지니어링";
+                }else if(ResultData.PURC_TYPE == "V"){
+                    purcText = "용역/기타";
+                }else if(ResultData.PURC_TYPE == "ETC"){
+                    purcText = "캠아이템";
+                }
+                hwpDocCtrl.putFieldText("PURC_TYPE", purcText);
+
+                if(ResultData.PURC_TYPE == null || ResultData.PURC_TYPE == "N" || ResultData.PURC_TYPE == ""){
+                }else if(ResultData.PJT_NM != null){
+                    hwpDocCtrl.putFieldText("PJT_NM", ResultData.PJT_NM);
+                }
+
             },
             error: function(e) {
                 console.log(e);

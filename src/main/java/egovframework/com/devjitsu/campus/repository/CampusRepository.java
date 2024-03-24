@@ -413,4 +413,12 @@ public class CampusRepository extends AbstractDAO  {
     public void delPropagUserDelete(Map<String, Object> params) {
         delete("campus.delPropagUserDelete", params);
     }
+
+    public void updateApprStatMaster(Map<String, Object> params) {
+        update("campus.updateApprStatMaster", params);
+    }
+
+    public void setDutyCertReqMaster(Map<String, Object> params) {
+        update("campus.setDutyCertReqMaster", params);
+    }
 }

@@ -99,17 +99,17 @@ const eduReq = {
         $("#eduCategoryDetailName, #levelId, #startDt, #endDt, #regDate").attr("readonly", true);
 
         eduReq.global.radioGroupData = [
-            { label: "법인운영", value: "C" },
+            { label: "해당없음", value: "N" },
             { label: "R&D", value: "R" },
             { label: "비R&D", value: "S" },
             { label: "엔지니어링", value: "D" },
             { label: "용역/기타", value: "V" },
-            { label: "캠아이템", value: "" }
+            { label: "캠아이템", value: "ETC" }
         ]
         customKendo.fn_radioGroup("purcType", eduReq.global.radioGroupData, "horizontal");
 
         $("input[name='purcType']").click(function(){
-            if($("input[name='purcType']:checked").val() != ""){
+            if($("input[name='purcType']:checked").val() != "" && $("input[name='purcType']:checked").val() != "N" && $("input[name='purcType']:checked").val() != "ETC"){
                 $("#project").css("display", "");
             } else {
                 $("#project").css("display", "none");
@@ -203,6 +203,12 @@ const eduReq = {
         $("#returnMoney").val(comma(eduInfo.RETURN_MONEY));
         $("#returnDoc").val(eduInfo.RETURN_DOC);
         $("#regDate").val(eduInfo.REG_DT);
+        $("#purcType").data("kendoRadioGroup").value(eduInfo.PURC_TYPE);
+        if(eduInfo.PURC_TYPE != null && eduInfo.PURC_TYPE != ""){
+            $("#project").css("display", "");
+            $("#PJT_SN").val(eduInfo.pjtSn);
+            $("#pjtNm").val(eduInfo.PJT_NM);
+        }
 
         if(fileInfo != null){
             $("#ulSetFileName").empty();
@@ -428,6 +434,14 @@ const eduReq = {
             compType: compType,
             eduInfoId: eduInfoId
         }
+
+        if($("input[name='purcType']:checked").val() == null || $("input[name='purcType']:checked").val() == ""){
+            alert("관련사업이 선택되지 않았습니다.");
+            return;
+        }else{
+            data.pjtSn = $("#pjtSn").val();
+        }
+        data.purcType = $("input[name='purcType']:checked").val();
 
         var fd = new FormData();
         for (var key in data) {
