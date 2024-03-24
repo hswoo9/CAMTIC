@@ -1017,6 +1017,9 @@
                 <if test='eduYear!= null and !"".equals(eduYear)'>
                     AND DATE_FORMAT(COSI.open_study_dt, '%Y') = #{eduYear}
                 </if>
+                <if test='empSeq != null and !"".equals(empSeq)'>
+                    AND (COSI.STEP != 'A' OR COSI.REG_EMP_SEQ = #{empSeq})
+                </if>
 
                 ORDER BY
                     COSI.REG_DT
@@ -1046,8 +1049,8 @@
                 AND DATE_FORMAT(COSI.OPEN_STUDY_DT, '%Y%m') <= DATE_FORMAT(NOW(), '%Y%m')
                 AND DATE_FORMAT(NOW(), '%Y%m') <= DATE_FORMAT(COSI.OPEN_STUDY_DT, '%Y%m')
                 ]]>
-                <if test='step != null and !"".equals(step)'>
-                    -- AND STEP = #{step}
+                <if test='empSeq != null and !"".equals(empSeq)'>
+                    AND (COSI.STEP != 'A')
                 </if>
                 <if test='eduYear!= null and !"".equals(eduYear)'>
                     AND DATE_FORMAT(COSI.open_study_dt, '%Y') = #{eduYear}

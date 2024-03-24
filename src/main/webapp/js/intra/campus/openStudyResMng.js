@@ -100,16 +100,22 @@ var openStudyResMng = {
                 }, {
                     field: "",
                     title: "진행현황",
-                    width: 100,
+                    width: 150,
                     template: function(row){
-                        if(row.STATUS == 0){
+                        if(row.STEP == "B"){
+                            return "참여자 모집";
+                        }else if(row.STEP == "C"){
+                            return "모임확정";
+                        }else if(row.STEP == "D" && row.STATUS == 0){
                             return "결과보고서 작성중";
-                        }else if(row.STATUS == 10){
+                        }else if(row.STEP == "D" && row.STATUS == 10){
                             return "승인요청중";
-                        }else if(row.STATUS == 30){
+                        }else if(row.STEP == "D" && row.STATUS == 30){
                             return "반려";
-                        }else if(row.STATUS == 100){
+                        }else if(row.STEP == "D" && row.STATUS == 100){
                             return "학습종료";
+                        }else if(row.STEP == "N"){
+                            return "모임취소";
                         }else{
                             return "-";
                         }
