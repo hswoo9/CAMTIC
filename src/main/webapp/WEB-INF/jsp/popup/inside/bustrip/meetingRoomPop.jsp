@@ -50,7 +50,7 @@
             </tr>--%>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>사용 일시
+                    <span class="red-star">*</span>사용 일시
                 </th>
                 <td>
                     <input type="text" id="saveType" style="width: 20%; margin-right:10px;">
@@ -64,7 +64,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>사용 회의실
+                    <span class="red-star">*</span>사용 회의실
                 </th>
                 <td>
                     <input type="text" id="roomClass" style="width: 40%; margin-right:10px;">
@@ -72,7 +72,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>사용 목적
+                    <span class="red-star">*</span>사용 목적
                 </th>
                 <td>
                     <input type="text" id="usePurpose" style="width: 40%; margin-right:10px;">
@@ -81,7 +81,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>대관료
+                    <span class="red-star">*</span>대관료
                 </th>
                 <td>
                     <input type="text" id="rentalFee" style="width: 20%; margin-right:10px; float: left;">
@@ -91,7 +91,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>등록자
+                    <span class="red-star">*</span>등록자
                 </th>
                 <td>
                     <input type="text" id="name" style="width: 65%;" value="${LoginVO.name}">
@@ -99,7 +99,7 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star"></span>사용 담당자
+                    <span class="red-star">*</span>사용 담당자
                 </th>
                 <td>
                     <input type="text" id="empName" style="width: 65%;">
