@@ -95,7 +95,7 @@
                     </th>
                     <td>
                         <input type="text" id="crmNo" style="width: 50%;">
-                        <span style="color: red">ex) 402-92-13594</span>
+                        <span style="color: red">ex) 111-11-11111</span>
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>대표자 이메일
