@@ -439,6 +439,10 @@ const eduReq = {
             alert("관련사업이 선택되지 않았습니다.");
             return;
         }else{
+            if($("input[name='purcType']:checked").val() != "N" && $("input[name='purcType']:checked").val() != "ETC" && $("#pjtSn").val() == ""){
+                alert("프로젝트가 선택되지 않았습니다.");
+                return;
+            }
             data.pjtSn = $("#pjtSn").val();
         }
         data.purcType = $("input[name='purcType']:checked").val();

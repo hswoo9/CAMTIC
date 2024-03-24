@@ -1239,6 +1239,23 @@ var draft = {
             }
         }
 
+        if($("#formId").val() == "1" && $("#docGbn").data("kendoRadioGroup").value() == "001" && hwpDocCtrl.fieldExist("인")){
+            /** 외부시행문서 일경우 직인 */
+            if(hwpDocCtrl.global.HwpCtrl.FieldExist("인")){
+                hwpDocCtrl.global.HwpCtrl.MoveToField('인', true, true, false);
+                hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
+                    "SelectedCell",
+                    "http://218.158.231.184/upload/journeyman/companySignature.png",
+                    1,
+                    6,
+                    0,
+                    0,
+                    0,
+                    0
+                );
+            }
+        }
+
         $("#approveEmpName").kendoTextBox({
             readonly : true
         });
