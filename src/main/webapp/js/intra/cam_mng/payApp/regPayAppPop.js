@@ -296,7 +296,11 @@ var regPay = {
                     $("#coCd" + i).val(ls[i].CO_CD || "");
                     $("#taxTy" + i).val(ls[i].TAX_TY || "");
 
-                    var totalAmt = ls[i].SUM_AM.toString().split(".")[0];
+                    $("#totCost" + i).val(regPay.comma(ls[i].SUM_AM.toString().split(".")[0]));
+                    $("#supCost" + i).val(regPay.comma(ls[i].SUP_AM.toString().split(".")[0]));
+                    $("#vatCost" + i).val(regPay.comma(ls[i].VAT_AM.toString().split(".")[0]));
+
+                    /*var totalAmt = ls[i].SUM_AM.toString().split(".")[0];
                     if(rs.VAT == "N"){
                         $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
                         $("#supCost" + i).val(regPay.comma(totalAmt));
@@ -309,7 +313,7 @@ var regPay = {
                         $("#totCost" + i).val(regPay.comma(totalAmt));
                         $("#supCost" + i).val(regPay.comma(totalAmt));
                         $("#vatCost" + i).val(0);
-                    }
+                    }*/
                 }
             } else {
                 var ls = rs.itemList;
