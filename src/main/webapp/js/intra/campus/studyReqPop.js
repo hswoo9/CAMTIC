@@ -23,9 +23,28 @@ const studyReq = {
                 $("#endDt").val(bsDt);
             }
         });
+
+
         customKendo.fn_datePicker("regDate", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_timePicker("startTime", '10', "HH:mm", "09:00");
         customKendo.fn_timePicker("endTime", '10', "HH:mm", "18:00");
+
+        $("#startTime").focusout(function (){
+            var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
+
+            if(!this.value.includes(":")){
+                $("#startTime").val(time)
+            }
+        });
+
+        $("#endTime").change(function (){
+            var time = this.value.substring(0, 2) + ":" + this.value.substring(2, 4);
+
+            if(!this.value.includes(":")){
+                $("#endTime").val(time)
+            }
+        });
+
         let studyDataSource = [
             { text: "학습조", value: "1" },
             { text: "전파학습", value: "2" },
@@ -34,7 +53,7 @@ const studyReq = {
         customKendo.fn_dropDownList("studyClass", studyDataSource, "text", "value", 3);
 
         $("#studyClass").data("kendoDropDownList").bind("change", studyReq.dataSet);
-        $("#studyUserName, #startDt, #endDt, #regDate, #startTime, #endTime").attr("readonly", true);
+        $("#studyUserName, #regDate,#startDt, #endDt").attr("readonly", true);
     },
 
     dataSet: function(){

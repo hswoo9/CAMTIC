@@ -117,7 +117,7 @@
                 ${data.REG_DT}
             </td>
         </tr>
-        <tr>
+        <tr style="display:none;">
             <th>결과보고서</th>
             <td id="resultDoc">
 

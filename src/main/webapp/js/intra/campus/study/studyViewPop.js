@@ -223,18 +223,15 @@ const studyView = {
                     }
                 }, {
                     field: "JOURNAL_LOCATE",
-                    title: "장소",
-                    template : function (e) {
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="studyView.studyJournalPop(2, '+e.STUDY_INFO_SN+', '+e.STUDY_JOURNAL_SN+')">'+e.JOURNAL_LOCATE+'</div>';
-                    }
+                    title: "장소"
                 }, {
                     title: "조장검토",
                     width: 100,
-                    template: function(row){
-                        if(row.CAPTAIN_APPOVAL_YN == 'Y'){
-                            return "검토완료";
+                    template: function(e){
+                        if(e.CAPTAIN_APPOVAL_YN == 'Y'){
+                            return '<div style="cursor: pointer; font-weight: bold" onclick="studyView.studyJournalPop(2, '+e.STUDY_INFO_SN+', '+e.STUDY_JOURNAL_SN+')">검토완료</div>';
                         }else{
-                            return "검토미완료";
+                            return '<div style="cursor: pointer; font-weight: bold" onclick="studyView.studyJournalPop(2, '+e.STUDY_INFO_SN+', '+e.STUDY_JOURNAL_SN+')">검토미완료</div>';
                         }
                     }
                 }, {
