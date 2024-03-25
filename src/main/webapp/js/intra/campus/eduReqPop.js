@@ -204,7 +204,7 @@ const eduReq = {
         $("#returnDoc").val(eduInfo.RETURN_DOC);
         $("#regDate").val(eduInfo.REG_DT);
         $("#purcType").data("kendoRadioGroup").value(eduInfo.PURC_TYPE);
-        if(eduInfo.PURC_TYPE != null && eduInfo.PURC_TYPE != ""){
+        if(eduInfo.PURC_TYPE != null && eduInfo.PURC_TYPE != "" && eduInfo.PURC_TYPE != "N" && eduInfo.PURC_TYPE != "ETC"){
             $("#project").css("display", "");
             $("#PJT_SN").val(eduInfo.pjtSn);
             $("#pjtNm").val(eduInfo.PJT_NM);
