@@ -66,6 +66,13 @@ var bustInfo = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bustInfo.fn_checkedReqRegPopup();">' +
+                            '	<span class="k-button-text">지급신청</span>' +
+                            '</button>';
+                    }
                 }
             ],
             dataBound : function(e){
@@ -90,6 +97,22 @@ var bustInfo = {
             },
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'bstCheck\');" class=""/>',
+                    template: function(row){
+                        if(row.RS_STATUS == 100 && row.EXP_STAT == 100 && row.PAY_APP_SN == null){
+                            return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_RESULT_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_RESULT_ID+"' trip-code='"+row.TRIP_CODE+"' style='position: relative; top:3px' class='bstCheck'/>"
+                        }else{
+                            return "";
+                        }
+                    },
+                    width: 30
+                }, {
+                    title: "출장구분",
+                    width: 50,
+                    template: function(row){
+                        return bustInfo.fn_getTripCodeText(row);
+                    }
+                }, {
                     title: "사업명",
                     width: 150,
                     template: function(row){
@@ -413,6 +436,67 @@ var bustInfo = {
         const name = "_blank";
         const option = "width = 450, height = 200, top = 200, left = 300, location = no";
         window.open(url, name, option);
+    },
+
+    fn_checkedReqRegPopup : function (){
+        var hrBizReqResultId = "";
+        var flag = true;
+        var flag2 = true;
+        var tripCode = null;
+
+        $('input[name="bstCheck"]:checked').each(function(){
+            hrBizReqResultId += $(this).val() + ",";
+
+            if($(this).attr("trip-code") == null || $(this).attr("trip-code") == "" || $(this).attr("trip-code") == undefined){
+                flag2 = false;
+                return false;
+            }
+
+            if (tripCode === null) {
+                tripCode = $(this).attr("trip-code");
+            } else {
+                if (tripCode !== $(this).attr("trip-code")) {
+                    flag = false;
+                }
+            }
+        });
+
+        if(hrBizReqResultId == ""){
+            alert("선택된 출장이 없습니다.");
+            return false;
+        }
+        if(!flag){
+            alert("서로 다른 사업은 일괄 지급신청이 불가합니다.");
+            return false;
+        }
+        if(!flag2){
+            alert("지급신청 불가한 신청건이 존재합니다.");
+            return false;
+        }
+
+        hrBizReqResultId = hrBizReqResultId.substring(0, hrBizReqResultId.length - 1);
+
+        var url = "/payApp/pop/regPayAppPop.do?hrBizReqResultId="+hrBizReqResultId+"&reqType=bustrip";
+
+        var name = "regPayAppPop";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    /** 그리드 컬럼 - 출장구분 */
+    fn_getTripCodeText: function(row){
+        const tripCode = row.TRIP_CODE;
+        let tripCodeText = "";
+        if(tripCode == 1){
+            tripCodeText = "도내(시내)";
+        }else if(tripCode == 2){
+            tripCodeText = "도내(시외)";
+        }else if(tripCode == 3){
+            tripCodeText = "도외";
+        }else if(tripCode == 4){
+            tripCodeText = "해외";
+        }
+        return tripCodeText;
     },
 }
 

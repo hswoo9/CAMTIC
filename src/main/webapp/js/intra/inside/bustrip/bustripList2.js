@@ -449,7 +449,7 @@ var bustList = {
             return false;
         }
         if(!flag){
-            alert("서로 다른 사업은 일괄 지급신청이 불가합니다.");
+            alert("서로 다른 출장구분은 일괄 지급신청이 불가합니다.");
             return false;
         }
         if(!flag2){
