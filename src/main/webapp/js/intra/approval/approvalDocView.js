@@ -53,7 +53,7 @@ var docView = {
                 && (menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "holidayWork" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus" || menuCd == "invenDeadLine" ||
                     menuCd == "payApp" || menuCd == "payIncp" || menuCd == "exnp" || menuCd == "study" || menuCd == "propag" || menuCd == "ojt" || menuCd == "studyRes" || menuCd == "ojtRes" || menuCd == "propagRes" || menuCd == "workPlan" ||
                     menuCd == "rndDelv" || menuCd == "rndDev" || menuCd == "rndRes" || menuCd == "unRndDelv" || menuCd == "unRndDev" || menuCd == "unRndRes" || menuCd == "delv" || menuCd == "dev" || menuCd == "pjtRes" ||
-                    menuCd == "pjtCost" || menuCd == "pjtChange" || menuCd == "pjtRe" || menuCd == "pjtRate" || menuCd == "equipment" || menuCd == "invention" || menuCd == "rprRes" || menuCd == "car" || menuCd == "certifi" || menuCd == "recruit"))
+                    menuCd == "pjtCost" || menuCd == "pjtChange" || menuCd == "pjtRe" || menuCd == "pjtRate" || menuCd == "equipment" || menuCd == "invention" || menuCd == "rprRes" || menuCd == "car" || menuCd == "certifi"))
             {
                 $("#modBtn").show();
             } else {
