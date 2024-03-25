@@ -7,17 +7,13 @@ var docuReq = {
         customKendo.fn_textBox(["receiveName", "empName", "documentTitleName", "remarkCn"]);
         customKendo.fn_datePicker("effectiveDt", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("shipmentDt", 'month', "yyyy-MM-dd", new Date());
-        let partArr = [
-            { text: "미래전략기획본부", value: "56" },
-            { text: "R&BD사업본부", value: "51" },
-            { text: "기업성장지원본부", value: "52" },
-            { text: "일자리혁신지원센터", value: "58" },
-            { text: "우주항공사업부", value: "54" },
-            { text: "드론사업부", value: "55" },
-            { text: "스마트제조사업부", value: "53" },
-            { text: "경영지원실", value: "57" }
-        ]
-        customKendo.fn_dropDownList("documentPart", partArr, "text", "value", 2);
+
+        var data = {};
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+        customKendo.fn_dropDownList("documentPart", deptDsA.rs, "dept_name", "dept_seq", 2);
+
         $("#empName, #effectiveDt, #shipmentDt").attr("readonly", true);
     },
 

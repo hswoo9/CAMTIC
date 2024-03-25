@@ -34,14 +34,13 @@ var regisList = {
             // {text: "발전협의회", value: "2"}
         ]
         customKendo.fn_dropDownList("documentPart", partArr, "text", "value", 1);;
-        let deptPartArr = [
-            {text: "전직원", value: "1"},
-            {text: "경영지원실", value: "2"},
-            {text: "R&BD사업본부", value: "3"},
-            {text: "기업성장지원본부", value: "4"},
-            {text: "사업부", value: "5"}
-        ]
-        customKendo.fn_dropDownList("deptPart", deptPartArr, "text", "value", 1);
+
+        var data = {};
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+        customKendo.fn_dropDownList("deptPart", deptDsA.rs, "dept_name", "dept_seq");
+
         let searchTypeArr = [
             {text: "제목", value: "1"},
             {text: "접수번호", value: "2"},
