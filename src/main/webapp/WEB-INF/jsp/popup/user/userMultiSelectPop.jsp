@@ -60,9 +60,8 @@
 					<div>
 						<div style="margin-top: 10px;margin-bottom: 48px;">
 							<div style="float:right;">
-								<button type="button" class="k-grid-add k-button k-button-md k-button-solid k-button-solid-base" onclick="userMultiSel.newFavApprove()">
-									<span class="k-icon k-i-plus k-button-icon"></span>
-									<span class="k-button-text">초기화</span>
+								<button type="button" class="k-grid-add k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="userMultiSel.rowDblClick()" style="margin-bottom: 5px;">
+									<span class="k-button-text">삭제</span>
 								</button>
 							</div>
 						</div>
@@ -72,11 +71,11 @@
 						<div id="approvalLineDataDiv" style="max-height: 306px; width: 100%; height: 306px; overflow-y: scroll; border: 1px solid #dedfdf" >
 							<table class="table table-bordered mb-0" id="approvalLineDataTb" style="border:none;text-align: center;">
 								<colgroup>
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
-									<col width="20%">
+									<col width="41px">
+									<col width="106px">
+									<col width="190px">
+									<col width="106px">
+									<col width="106px">
 								</colgroup>
 								<tbody>
 
