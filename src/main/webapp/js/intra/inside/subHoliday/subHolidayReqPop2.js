@@ -122,6 +122,11 @@ const subHolidayReqPop2 = {
 
             $("#holiday_reason").val(data.RMK);
             $("#now_date").val(data.SAVE_DT);
+
+            if(result.data.MBF_YN == "Y"){
+                $("#holidayWorkBtnBox").hide();
+            }
+
         }
     },
 

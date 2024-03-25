@@ -44,15 +44,20 @@ var userMultiSel = {
             resizable: true,
             columns: [
                 {
-                    title : "순번"
+                    title : "순번",
+                    width : "41px"
                 }, {
-                    title : "이름"
+                    title : "이름",
+                    width : "106px"
                 }, {
-                    title : "부서"
+                    title : "부서",
+                    width : "190px"
                 }, {
-                    title : "직급"
+                    title : "직급",
+                    width : "106px"
                 }, {
-                    title : "직책"
+                    title : "직책",
+                    width : "106px"
                 }
             ]
         });
@@ -182,10 +187,8 @@ var userMultiSel = {
     },
 
     rowDblClick : function(e){
-        $(e).remove();
-
-        $.each($("#approvalLineDataTb tbody tr"), function(i, e){
-            $(e).find("#approveOrder").text(i+1);
+        $.each($("input[name='readerPk']:checked"), function(i, e){
+            $(this).closest("tr").remove();
         })
     },
 
@@ -235,7 +238,7 @@ var userMultiSel = {
 
                     if(flag){
                         if(result != null){
-                            htmlStr += "<tr ondblclick='userMultiSel.rowDblClick(this)' onclick='userMultiSel.rowsel(this)' style='cursor:pointer' class='apprLineTr newApprLine'>" +
+                            htmlStr += "<tr ondblclick='userMultiSel.rowDblClick(this)' style='cursor:pointer' class='apprLineTr newApprLine'>" +
                                 "		<td>" +
                                 "			<input type='hidden' id='approveEmpSeq' name='approveEmpSeq' value='"+result.EMP_SEQ+"'>" +
                                 "			<input type='hidden' id='approveEmpName' name='approveEmpName' value='"+result.EMP_NAME_KR+"'>" +
@@ -246,7 +249,7 @@ var userMultiSel = {
                                 "			<input type='hidden' id='approveDutyCode' name='approveDutyCode' value='"+result.DUTY_CODE+"'>" +
                                 "			<input type='hidden' id='approveDutyName' name='approveDutyName' value='"+result.DUTY_NAME+"'>" +
                                 "			<input type='hidden' id='loginId' name='loginId' value='"+result.LOGIN_ID+"'>" +
-                                "			<span id='approveOrder'>"+($("#approvalLineDataTb tbody tr").length+1)+"</span>"+
+                                "<input type='checkbox' id='approveOrder"+$("#approvalLineDataTb tbody tr").length+1+"' name='readerPk' value='"+$("#approvalLineDataTb tbody tr").length+1+"' class='k-checkbox checkbox'/" +
                                 "		</td>" +
                                 "		<td>"+result.EMP_NAME_KR+"</td>" +
                                 "		<td>"+result.DEPT_NAME+"</td>" +

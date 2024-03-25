@@ -181,11 +181,15 @@ var subHolidayAdmin = {
                     title: "내용",
                     align:"center",
                     template : function(e){
-                        return '' +
-                            '<div style="text-align: center">' +
-                            '   <a style="cursor: pointer;" onclick="subHolidayAdmin.fn_regPop(\'' + e.APPROVE_STAT_CODE + '\', \'' + e.SUBHOLIDAY_USE_ID + '\', \'' + e.APPR_STAT + '\', \'' + e.DOC_ID + '\', \'' + e.APPRO_KEY + '\', \'' + e.DOC_MENU_CD + '\');"><b>' + e.RMK + '</b></a>' +
-                            '   <input type="hidden" name="delYn" value="' + e.DEL_YN + '">' +
-                            '</div>';
+                        if(e.BF_YN != "Y"){
+                            return '' +
+                                '<div style="text-align: center">' +
+                                '   <a style="cursor: pointer;" onclick="subHolidayAdmin.fn_regPop(\'' + e.APPROVE_STAT_CODE + '\', \'' + e.SUBHOLIDAY_USE_ID + '\', \'' + e.APPR_STAT + '\', \'' + e.DOC_ID + '\', \'' + e.APPRO_KEY + '\', \'' + e.DOC_MENU_CD + '\');"><b>' + e.RMK + '</b></a>' +
+                                '   <input type="hidden" name="delYn" value="' + e.DEL_YN + '">' +
+                                '</div>';
+                        }else{
+                            return e.RMK;
+                        }
                     }
                 }, {
                     field: "REG_DT",
@@ -196,16 +200,20 @@ var subHolidayAdmin = {
                     field : "APPROVE_STAT_CODE",
                     title : "결재상태",
                     template : function(e){
-                        if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
-                            return '작성중';
-                        } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
-                            return '결재중';
-                        } else if(e.APPROVE_STAT_CODE == '30') {
-                            return '반려';
-                        } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
-                            return '결재완료';
-                        } else {
-                            return '-';
+                        if(e.BF_YN != "Y"){
+                            if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
+                                return '작성중';
+                            } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
+                                return '결재중';
+                            } else if(e.APPROVE_STAT_CODE == '30') {
+                                return '반려';
+                            } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
+                                return '결재완료';
+                            } else {
+                                return '-';
+                            }
+                        }else{
+                            return '결재완료(이관)';
                         }
                     },
                     width: 100,

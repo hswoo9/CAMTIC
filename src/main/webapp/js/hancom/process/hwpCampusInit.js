@@ -165,14 +165,17 @@ var campusInit = {
 
         if(studyType == "propag"){
             hwpDocCtrl.putFieldText("STUDY_TITLE", "전파학습 신청서");
+            hwpDocCtrl.putFieldText('STUDY_SUBJECT', "학습주제 : "+studyInfo.STUDY_NAME);
         }else if(studyType == "ojt"){
             hwpDocCtrl.putFieldText("STUDY_TITLE", "OJT 계획서");
+            hwpDocCtrl.putFieldText('STUDY_SUBJECT', "지도명칭 : "+studyInfo.STUDY_NAME);
         }else if(studyType == "ojtRes"){
             hwpDocCtrl.putFieldText("STUDY_TITLE", "OJT 결과보고서");
+            hwpDocCtrl.putFieldText('STUDY_SUBJECT', "지도명칭 : "+studyInfo.STUDY_NAME);
         }else{
             hwpDocCtrl.putFieldText("STUDY_TITLE", "학습조 신청서");
+            hwpDocCtrl.putFieldText('STUDY_SUBJECT', "학습조명 : "+studyInfo.STUDY_NAME);
         }
-        hwpDocCtrl.putFieldText('STUDY_SUBJECT', studyInfo.STUDY_NAME);
 
         let htmlStudy = "";
         if(studyType == "propag"){
@@ -496,7 +499,7 @@ var campusInit = {
 
         hwpDocCtrl.putFieldText("STUDY_TITLE", "학습조 결과보고서");
         
-        hwpDocCtrl.putFieldText('STUDY_SUBJECT', studyInfo.STUDY_NAME);
+        hwpDocCtrl.putFieldText('STUDY_SUBJECT', "학습조명 : "+studyInfo.STUDY_NAME);
 
         let htmlStudy = "";
         htmlStudy = campusInit.htmlCustomStudyRes();
@@ -604,7 +607,7 @@ var campusInit = {
 
         hwpDocCtrl.putFieldText("STUDY_TITLE", "전파학습 결과보고서");
 
-        hwpDocCtrl.putFieldText('STUDY_SUBJECT', studyInfo.STUDY_NAME);
+        hwpDocCtrl.putFieldText('STUDY_SUBJECT', "학습주제 : "+studyInfo.STUDY_NAME);
 
         let htmlStudy = "";
         htmlStudy = campusInit.htmlCustomPropagRes();
