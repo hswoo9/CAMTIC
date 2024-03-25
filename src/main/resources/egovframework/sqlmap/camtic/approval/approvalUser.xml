@@ -533,7 +533,8 @@
         </choose>
 
         GROUP BY DI.DOC_ID
-        ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
+        ORDER BY DI.DOC_NO DESC
+        /*ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC*/
     </select>
 
     <select id="getApproveDocBoxListMobile" parameterType="map" resultType="map">
