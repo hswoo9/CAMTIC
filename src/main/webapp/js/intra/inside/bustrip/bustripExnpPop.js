@@ -16,6 +16,9 @@ const bustripExnpReq = {
         exnpParkingBsFile : [],
         exnpEtcBsFile : [],
         exnpTollBsFile : [],
+
+        corpCarTollFile : [],
+        corpCarTollBsFile : [],
     },
 
     init: function(type){
@@ -153,6 +156,23 @@ const bustripExnpReq = {
             $("#exnpEtcDiv").html(html);
         }
 
+        bustripExnpReq.global.corpCarTollBsFile = customKendo.fn_customAjax("/bustrip/getExnpFile", {
+            fileCd: "corpCarToll",
+            hrBizReqResultId: hrBizReqResultId
+        }).list;
+
+        if(bustripExnpReq.global.corpCarTollBsFile.length > 0){
+            var html = "";
+            for(let i=0; i<bustripExnpReq.global.corpCarTollBsFile.length; i++){
+                let row = bustripExnpReq.global.corpCarTollBsFile[i];
+                html += "<div>";
+                html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this, \'corpCarToll\')">X</span>'
+                html += "</div>";
+            }
+            $("#corpCarTollDiv").html(html);
+        }
+
         $("#exnpTraf").change(function(){
             bustripExnpReq.fn_fileSet("exnpTrafDiv");
         });
@@ -175,6 +195,10 @@ const bustripExnpReq = {
 
         $("#exnpEtc").change(function(){
             bustripExnpReq.fn_fileSet("exnpEtcDiv");
+        });
+
+        $("#corpCarToll").change(function(){
+            bustripExnpReq.fn_fileSet("corpCarTollDiv");
         });
     },
 
@@ -921,6 +945,19 @@ const bustripExnpReq = {
             customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
         }
 
+        /** 법인카드 통행료 파일 */
+        if(bustripExnpReq.global.corpCarTollFile.length > 0){
+            var formData = new FormData();
+            formData.append("menuCd", "corpCarToll");
+            formData.append("empSeq", $("#regEmpSeq").val());
+            formData.append("hrBizReqResultId", hrBizReqResultId);
+
+            for(let i=0; i<bustripExnpReq.global.corpCarTollFile.length; i++){
+                formData.append("bustripFile", bustripExnpReq.global.corpCarTollFile[i]);
+            }
+            customKendo.fn_customFormDataAjax("/bustrip/setExnpFile", formData);
+        }
+
         var data = {
             hrBizReqResultId : hrBizReqResultId,
             empSeq : $("#regEmpSeq").val(),
@@ -1084,6 +1121,19 @@ const bustripExnpReq = {
                 }
             }
 
+            if($("#corpCarTollCost").val() != 0){
+                if($("#corpCarToll")[0].files.length == 0){
+                    if(bustripExnpReq.global.corpCarTollFile.length == 0){
+                        flag = false;
+                    }
+
+                    if(!flag){
+                        return [false, "법인차량 지출증빙 첨부파일을\n확인해주세요."];
+                    }
+                }
+
+            }
+
             return [true, ""];
         }else if(type == 'upd'){ // 수정
             var flag = true;
@@ -1121,6 +1171,20 @@ const bustripExnpReq = {
                             if(!flag){
                                 return [false, "["+empName+"] "+map[arr[i]]+" 지출증빙 첨부파일을\n확인해주세요."];
                             }
+                        }
+                    }
+                }
+            }
+
+            if($("#corpCarTollCost").val() != 0){
+                if($("#corpCarTollDiv div:visible").length == 0){
+                    if($("#corpCarToll")[0].files.length == 0){
+                        if(bustripExnpReq.global.corpCarTollFile.length == 0){
+                            flag = false;
+                        }
+
+                        if(!flag){
+                            return [false, "법인차량 지출증빙 첨부파일을\n확인해주세요."];
                         }
                     }
                 }
@@ -1353,6 +1417,41 @@ const bustripExnpReq = {
             }
 
             $("#exnpEtc").val("");
+        } else if(e == "corpCarTollDiv"){
+            for(let i=0; i<$("#corpCarToll")[0].files.length; i++){
+                var fileInfo = {};
+                let file = $("#corpCarToll")[0].files[i];
+                fileInfo.name = file.name;
+                fileInfo.size = file.size;
+
+                bustripExnpReq.global.corpCarTollFile.push($("#corpCarToll")[0].files[i]);
+            }
+
+            if(bustripExnpReq.global.corpCarTollBsFile.length > 0){
+                var html = "";
+                for(let i=0; i<bustripExnpReq.global.corpCarTollBsFile.length; i++){
+                    let row = bustripExnpReq.global.corpCarTollBsFile[i];
+                    html += "<div>";
+                    html += '   <span style="cursor: pointer" onclick="fileDown(\''+row.file_path+row.file_uuid+'\', \''+row.file_org_name+'.'+row.file_ext+'\')">'+row.file_org_name+'</span>'
+                    html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fileDel(\''+row.file_no+'\', this)">X</span>'
+                    html += "</div>";
+                }
+                $("#" + e).html(html);
+            } else {
+                $("#" + e).html("");
+            }
+
+            for(let i=0; i < bustripExnpReq.global.corpCarTollFile.length; i++){
+                var file = bustripExnpReq.global.corpCarTollFile[i];
+                var html = "";
+                html += "<div id='corpCarTollDiv"+i+"'>";
+                html += '   <span>'+file.name+'</span>'
+                html += '   <span style="color: red; cursor: pointer; margin-left: 5px" onclick="bustripExnpReq.fn_fileDel(\''+i+'\', \'corpCarTollDiv\', \''+file.name+'\')">X</span>'
+                html += "</div>";
+                $("#" + e).append(html);
+            }
+
+            $("#corpCarToll").val("");
         }
     },
 
@@ -1392,6 +1491,12 @@ const bustripExnpReq = {
         bustripExnpReq.global.exnpEtcFile.forEach((item, index) => {
             if(item.name == fileName){
                 bustripExnpReq.global.exnpEtcFile.splice(index, 1);
+            }
+        });
+
+        bustripExnpReq.global.corpCarTollFile.forEach((item, index) => {
+            if(item.name == fileName){
+                bustripExnpReq.global.corpCarTollFile.splice(index, 1);
             }
         });
     },
@@ -1445,6 +1550,12 @@ const bustripExnpReq = {
                             bustripExnpReq.global.exnpEtcBsFile.forEach((item, index) => {
                                 if(item.file_no == e){
                                     bustripExnpReq.global.exnpEtcBsFile.splice(index, 1);
+                                }
+                            });
+                        } else if(type == "corpCarToll"){
+                            bustripExnpReq.global.corpCarTollBsFile.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    bustripExnpReq.global.corpCarTollBsFile.splice(index, 1);
                                 }
                             });
                         }

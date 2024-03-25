@@ -536,6 +536,44 @@
     </form>
 
     <div class="card-header pop-header">
+        <h3 class="card-title title_NM">법인차량 지출증빙 첨부</h3>
+        <div class="btn-st popButton">
+            <input type="button" class="k-button k-button-solid-info" style="margin-right: 5px" value="증빙양식 다운로드" onclick="bustripExnpReq.personalExnpFormDown()" />
+        </div>
+    </div>
+
+    <form id="fileForm2" style="padding: 20px 30px;">
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+
+            </colgroup>
+            <thead>
+            <tr>
+                <th style="width: 270px;">법인차량 통행료</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="file" id="corpCarToll" multiple style="width: 98%;" />
+                    <div id="corpCarTollDiv">
+
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </thead>
+        </table>
+    </form>
+
+    <div class="card-header pop-header">
         <h3 class="card-title title_NM">법인카드 사용내역</h3>
         <div class="btn-st popButton">
             <%--<input type="button" class="k-button k-button-solid-info" value="추가" onclick="bustripExnpReq.fn_paymentCardHistory()" />--%>
