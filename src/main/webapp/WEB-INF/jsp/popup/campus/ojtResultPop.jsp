@@ -79,6 +79,18 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th><span class="red-star">*</span>중점지도항목</th>
+                                <td>
+                                    <input type="text" id="content" style="width: 800px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>비고</th>
+                                <td>
+                                    <input type="text" id="etc" style="width: 800px">
+                                </td>
+                            </tr>
+                            <tr>
                                 <th><span class="red-star">*</span>내용저장 방법</th>
                                 <td>
                                     <span type="text" id="studySaveType" style="width: 400px;"></span>
@@ -141,6 +153,8 @@
                     $("#startTime").val(result.data.START_TIME);
                     $("#endTime").val(result.data.END_TIME);
                     $("#location").val(result.data.LOCATION);
+                    $("#content").val(result.data.CONTENT);
+                    $("#etc").val(result.data.ETC);
                     $("input[name='studySaveType'][value='" + result.data.SAVE_TYPE + "']").prop("checked", true);
                     $("#studySaveType").data("kendoRadioGroup").value(result.data.SAVE_TYPE);
                     $("#studyContent").val(result.data.STUDY_CONT_A);

@@ -7,7 +7,7 @@ const ojtResult = {
     },
 
     pageSet: function(){
-        customKendo.fn_textBox(["readerUserName", "studyUserName", "location"]);
+        customKendo.fn_textBox(["readerUserName", "studyUserName", "location", "content", "etc"]);
         customKendo.fn_datePicker("ojtDt", "month", "yyyy-MM-dd", new Date());
         customKendo.fn_timePicker("startTime", '10', "HH:mm", "09:00");
         customKendo.fn_timePicker("endTime", '10', "HH:mm", "18:00");
@@ -56,7 +56,9 @@ const ojtResult = {
         let ojtDt = $("#ojtDt").val();
         let startTime = $("#startTime").val();
         let endTime = $("#endTime").val();
+        let content = $("#content").val();
         let location = $("#location").val();
+        let etc = $("#etc").val();
         let saveType = $("#studySaveType").data("kendoRadioGroup").value();
         let saveTypeText = "";
 
@@ -77,6 +79,7 @@ const ojtResult = {
         if(readerUserSeq == ""){ alert("지도자가 선택되지 않았습니다."); return; }
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(location == ""){ alert("지도장소가 작성되지 않았습니다."); return; }
+        if(content == ""){ alert("중점지도항목이 작성되지 않았습니다."); return; }
         if(saveType == ""){ alert("내용저장 방법이 선택되지 않았습니다."); return; }
 
         let data = {
@@ -90,6 +93,8 @@ const ojtResult = {
             startTime: startTime,
             endTime: endTime,
             location: location,
+            content: content,
+            etc: etc,
             saveType: saveType,
             saveTypeText: saveTypeText,
             regEmpSeq: regEmpSeq,
