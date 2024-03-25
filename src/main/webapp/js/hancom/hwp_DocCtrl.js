@@ -576,7 +576,7 @@ var hwpDocCtrl = {
         }else if(data.menuCd == "ojtRes") {
             const studyResultSn = data.approKey.split("_")[1];
             if (studyResultSn == null || studyResultSn == undefined || studyResultSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
-            campusInit.studyInit(studyResultSn, "ojtRes");
+            campusInit.ojtResInit(studyResultSn, "ojtRes");
         }
 
         /** 문서제목 양식 최초 입력 */
@@ -649,6 +649,42 @@ var hwpDocCtrl = {
             const eduInfoId = pk;
             if(eduInfoId == null || eduInfoId == undefined || eduInfoId == "") { alert(errorText); return; }
             campusInit.campusInit(eduInfoId, "reDraft");
+
+        }else if(data.menuCd == "study") {
+
+            const studyInfoSn = pk;
+            if (studyInfoSn == null || studyInfoSn == undefined || studyInfoSn == "") { alert(errorText); return; }
+            campusInit.studyInit(studyInfoSn);
+
+        }else if(data.menuCd == "propag") {
+
+            const studyInfoSn = pk;
+            if (studyInfoSn == null || studyInfoSn == undefined || studyInfoSn == "") { alert(errorText); return; }
+            campusInit.studyInit(studyInfoSn);
+
+        }else if(data.menuCd == "ojt") {
+
+            const studyInfoSn = pk;
+            if (studyInfoSn == null || studyInfoSn == undefined || studyInfoSn == "") { alert(errorText); return; }
+            campusInit.studyInit(studyInfoSn);
+
+        }else if(data.menuCd == "studyRes") {
+
+            const studyResultSn = pk;
+            if (studyResultSn == null || studyResultSn == undefined || studyResultSn == "") { alert(errorText); return; }
+            campusInit.studyResInit(studyResultSn);
+
+        }else if(data.menuCd == "propagRes") {
+
+            const studyResultSn = pk;
+            if (studyResultSn == null || studyResultSn == undefined || studyResultSn == "") { alert(errorText); return; }
+            campusInit.propagResInit(studyResultSn);
+
+        }else if(data.menuCd == "ojtRes") {
+
+            const studyResultSn = pk;
+            if (studyResultSn == null || studyResultSn == undefined || studyResultSn == "") { alert(errorText); return; }
+            campusInit.ojtResInit(studyResultSn);
 
         }
 
