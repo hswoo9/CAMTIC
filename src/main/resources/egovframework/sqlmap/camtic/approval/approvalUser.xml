@@ -932,7 +932,8 @@
                 )
             </otherwise>
         </choose>
-        ORDER BY IF(DI.DRAFT_DT IS NULL, DI.REG_DATE, IF(DI.REPTIT_DRFT_DT IS NULL, DI.DRAFT_DT, DI.REPTIT_DRFT_DT)) DESC
+        ORDER BY DI.DOC_NO DESC
+        /*ORDER BY IF(DI.DRAFT_DT IS NULL, DI.REG_DATE, IF(DI.REPTIT_DRFT_DT IS NULL, DI.DRAFT_DT, DI.REPTIT_DRFT_DT)) DESC*/
     </select>
 
     <select id="getApprovalDocSearchListLimitDept" resultType="map" parameterType="map">
