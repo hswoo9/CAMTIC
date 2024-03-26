@@ -533,7 +533,7 @@
         </choose>
 
         GROUP BY DI.DOC_ID
-        ORDER BY DI.DOC_NO DESC
+        ORDER BY DI.LAST_APPROVE_DT DESC, DI.DOC_NO DESC
         /*ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC*/
     </select>
 

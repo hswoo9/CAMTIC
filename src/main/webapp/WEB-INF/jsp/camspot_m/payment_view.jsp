@@ -182,7 +182,9 @@
     
 <script type="text/javascript">
 	$('.m2', $('#menu')).addClass('active');
-    var socket =  new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");;
+    var socket =  new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");
+
+    const serverName = '${pageContext.request.serverName}';
 
     var approveFlag = true
     $(document).ready(function() {
