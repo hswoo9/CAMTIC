@@ -270,7 +270,7 @@
                         <input type="hidden" id="file2Sn" name="file2Sn">
                         <label for="file2" id="file2Label" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file2" name="file2" onchange="fileChange2(this)" style="display: none" aria-label="files" multiple>
-                        <div style="width:50%; display: inline-flex;">
+                        <div style="width:100px; display:inline-flex;">
                             <span id="file2Name"></span>
                         </div>
                     </td>
@@ -425,15 +425,15 @@
 
     function fileChange2(e) {
         const files = $(e)[0].files;
-        const fileNames = [];
+        var fileNames = "";
 
         for (const file of files) {
-            fileNames.push(file.name);
+            fileNames += "," + file.name;
         }
 
-        $("#file2Name").text(fileNames.join(", "));
+        $("#file2Name").html(fileNames.substr(1).replaceAll(",", "<br>"));
     }
-    
+
     lectureReq.fn_defaultScript();
 </script>
 </body>

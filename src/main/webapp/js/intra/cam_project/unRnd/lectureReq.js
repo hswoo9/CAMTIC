@@ -158,9 +158,11 @@ const lectureReq = {
                     const filePath = file.file_path;
                     const fileName = file.file_org_name + '.' + file.file_ext;
 
-                    html += `<a href="javascript:" style="color:#343a40;" onclick="fileDown('${filePath}', '${encodeURIComponent(fileName)}')">${fileName}</a><br/>`;
+                    html += `<div style="margin-top:5px;">
+                                <a href="javascript:" style="color:#343a40;" onclick="fileDown('${filePath}', '${encodeURIComponent(fileName)}')">${fileName}</a>
+                                <span onclick="lectureReq.deleteFile('${file.file_no}', this)" style="color:red;cursor:pointer; font-weight: bold;">&nbsp;X</span>
+                            </div>`;
                 }
-                $("#file2Name").text(lecMap.file2.file_org_name + '.' +lecMap.file2.file_ext);
                 $("#file2Name").html(html);
                 $("#file2Name").css("cursor", "pointer");
             }
@@ -381,8 +383,8 @@ const lectureReq = {
 
             const data = {
                 pjtSn: $("#pjtSn").val(),
-                /*projectType: $("#projectType").data("kendoDropDownList").value(),*/
-                /*projectTypeName: $("#projectType").data("kendoDropDownList").text(),*/
+                // projectType: $("#projectType").data("kendoDropDownList").value(),
+                // projectTypeName: $("#projectType").data("kendoDropDownList").text(),
                 fieldType: $("#fieldType").data("kendoDropDownList").value(),
                 fieldTypeName: $("#fieldType").data("kendoDropDownList").text(),
                 fieldType1: $("#fieldType2").data("kendoDropDownList").value(),
@@ -652,7 +654,47 @@ const lectureReq = {
         $("#methodType").data("kendoRadioGroup").value(1);
 
         $("#mainType").data("kendoDropDownList").select(1);
+    },
+
+    fn_regProjectUnRnd : function (){
+        var url = "/unrnd/pop/unrndAttachmentPop.do";
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    deleteFile : function(key, e) {
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")) {
+            const fileSn = $("#file2Sn").val();
+            var fileSnList = fileSn.split(',');
+
+            fileSnList = fileSnList.filter(sn => sn.trim() !== key);
+
+            const data = {
+                regEmpSeq: $("#regEmpSeq").val(),
+                pk: $("#pk").val()
+            };
+
+            const formData = new FormData();
+            for (let key in data) {
+                formData.append(key, data[key]);
+            }
+            formData.append('fileNo', key);
+            formData.append('lecApplSn', fileSnList.join(','));
+
+            const url = "/projectUnRnd/deleteFile";
+            const result = customKendo.fn_customFormDataAjax(url, formData);
+            if (result.flag) {
+                alert("파일이 삭제되었습니다.");
+                $(e).closest('div').remove();
+            }
+        }
     }
+
+
+
+
+
 }
 
 function fileDown(filePath, fileName){
