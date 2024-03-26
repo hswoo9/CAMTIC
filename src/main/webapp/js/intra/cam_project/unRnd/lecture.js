@@ -263,7 +263,7 @@ var ub = {
         $("#methodType").data("kendoRadioGroup").value(1);
     },*/
 
-    fn_methodTypeSet: function(){
+    /*fn_methodTypeSet: function(){
         let methodTypeDataSource = [
             { label: "일반", value: "N" },
             { label: "재직자", value: "C" },
@@ -273,7 +273,7 @@ var ub = {
         ];
         customKendo.fn_radioGroup("methodType", methodTypeDataSource, "horizontal");
         $("#methodType").data("kendoRadioGroup").value(1);
-    },
+    },*/
 
     /*fn_certTypeSet: function(){
         let certTypeDataSource = [

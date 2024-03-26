@@ -50,7 +50,7 @@ const lectureReq = {
         ub.fn_agmDtSet();
 
         /** 운영방법 radio button */
-        ub.fn_methodTypeSet();
+        /*ub.fn_methodTypeSet();*/
 
         /** 인증서 radio button */
         /*ub.fn_certTypeSet();*/
@@ -117,9 +117,29 @@ const lectureReq = {
             $("#scheduleHtml").val(lecMap.LEC_SCH);
             $("#prospectus").val(lecMap.LEC_INQ);
             $("#materials").val(lecMap.LEC_MAT);
-
             /*$("#textbookFee").val(lecMap.LEC_COST);*/
-            $("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);
+            /*$("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);*/
+
+            if (lecMap.LEC_OPER_TYPE_N === "Y") {
+                $("#typeN").prop("checked", true);
+            } else {
+                $("#typeN").prop("checked", false);
+            }
+            if (lecMap.LEC_OPER_TYPE_C === "Y") {
+                $("#typeC").prop("checked", true);
+            } else {
+                $("#typeC").prop("checked", false);
+            }
+            if (lecMap.LEC_OPER_TYPE_S === "Y") {
+                $("#typeS").prop("checked", true);
+            } else {
+                $("#typeS").prop("checked", false);
+            }
+            if (lecMap.LEC_OPER_TYPE_H === "Y") {
+                $("#typeH").prop("checked", true);
+            } else {
+                $("#typeH").prop("checked", false);
+            }
             $("#methodTypePr").val(lecMap.LEC_OPER_PR);
 
             /*$("#certType").data("kendoRadioGroup").value(lecMap.LEC_CERT);*/
@@ -354,6 +374,11 @@ const lectureReq = {
         const typeValue = urlParams.get('type');
 
         if(typeValue == "lec") {
+            var typeN = $("#typeN").is(":checked") ? "Y" : "N";
+            var typeC = $("#typeC").is(":checked") ? "Y" : "N";
+            var typeS = $("#typeS").is(":checked") ? "Y" : "N";
+            var typeH = $("#typeH").is(":checked") ? "Y" : "N";
+
             const data = {
                 pjtSn: $("#pjtSn").val(),
                 /*projectType: $("#projectType").data("kendoDropDownList").value(),*/
@@ -393,7 +418,12 @@ const lectureReq = {
 
                 /*textbookFee: $("#textbookFee").val().replace(/,/g, ''),*/
                 textbookFeeEx: "",
-                methodType: $("#methodType").data("kendoRadioGroup").value(),
+                /*methodType: $("#methodType").data("kendoRadioGroup").value(),*/
+                typeN : typeN,// methodType 일반
+                typeC : typeC,// methodType 재직자
+                typeS : typeS,// methodType 학생
+                typeH : typeH,// methodType 구직자
+
                 methodTypePr: $("#methodTypePr").val(),
 
                 /*certType: $("#certType").data("kendoRadioGroup").value(),*/

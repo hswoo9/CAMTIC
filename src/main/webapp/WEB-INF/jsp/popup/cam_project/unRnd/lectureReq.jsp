@@ -9,6 +9,7 @@
     .k-window  div.k-window-content {overflow: hidden;}
     .ctList tr th{background-color: #8fa1c04a; padding: 5px; width: 30%;}
     .ctList tr td{padding: 5px; width: 70%;}
+    #methodType label{display: inline-block;margin-bottom: 0.0rem;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
@@ -228,7 +229,16 @@
                     </td>--%>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>운영방법(대상자)</th>
                     <td>
-                        <span id="methodType" <%--style="width: 300px;"--%>></span>
+                        <span id="methodType" style="display: flex; flex-flow: row wrap; gap: 16px; font-size: 12px; vertical-align: middle;">
+                            <input type="checkbox" id="typeN">
+                            <label for="typeN">일반</label>
+                            <input type="checkbox" id="typeC">
+                            <label for="typeC">재직자</label>
+                            <input type="checkbox" id="typeS">
+                            <label for="typeS">학생</label>
+                            <input type="checkbox" id="typeH">
+                            <label for="typeH">구직자</label>
+                        </span>
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>대상자(홍보용)</th>
                     <td colspan="2">
