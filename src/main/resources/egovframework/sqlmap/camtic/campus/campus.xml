@@ -3403,7 +3403,7 @@
                   </otherwise>
               </choose>
           AND DUTY_CODE IN (${dutyCode})
-          OR EMP_SEQ = (SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_TMP_DUTY WHERE TMP_DEPT_SEQ = ( SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq}) AND TMP_DUTY_SN IN (${dutyCode}))
+          OR EMP_SEQ = (SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_TMP_DUTY WHERE TMP_DEPT_SEQ = ( SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq}) AND TMP_DUTY_SN IN (${dutyCode}) AND ACTIVE = 'Y')
     </select>
 
     <update id="setStudyInfoComplete" parameterType="map">
