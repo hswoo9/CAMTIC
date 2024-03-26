@@ -187,10 +187,24 @@ var busnPartList = {
                     field: "PART_DET_END_DT",
                     width: 80,
                 }, {
-                    title: "기준급여",
+                    title: "인건비총액",
                     width: 80,
                     template : function (e){
-                        return '<div style="text-align: right;">'+comma(e.EMP_SAL)+'</div>';
+                        var totPayBudg = 0;
+                        var totItemBudg = 0;
+                        var total = 0;
+
+                        if(e.TOT_PAY_BUDG != undefined && e.TOT_PAY_BUDG > 0){
+                            totPayBudg = Number(e.TOT_PAY_BUDG);
+                        }
+                        if(e.TOT_ITEM_BUDG != undefined && e.TOT_ITEM_BUDG > 0){
+                            totItemBudg = Number(e.TOT_ITEM_BUDG);
+                        }
+
+                        total = totPayBudg + totItemBudg;
+
+                        return '<div style="text-align: right;">'+comma(total)+'</div>';
+                        //return '<div style="text-align: right;">'+comma(e.EMP_SAL)+'</div>';
                     }
                 }, {
                     title: "총참여율",

@@ -246,7 +246,9 @@
             C.SBJ_STAT_YN,
             C.PJT_STEP,
             A.TOT_RATE,
-            B.MNG_STAT
+            B.MNG_STAT,
+            A.TOT_PAY_BUDG,
+            A.TOT_ITEM_BUDG
         FROM
             CAM_PJT_MNG.DJ_PART_RATE_DET A
         LEFT JOIN
