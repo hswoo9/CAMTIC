@@ -54,6 +54,13 @@ var dutyInfo = {
                             '	<span class="k-button-text">직무기술서 신규등록</span>' +
                             '</button>';
                     }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="dutyInfo.dutyInfoImagePop();">' +
+                            '	<span class="k-button-text">직무기술서 개요</span>' +
+                            '</button>';
+                    }
                 }
             ],
             noRecords: {
@@ -133,6 +140,13 @@ var dutyInfo = {
         }
         const name = "dutyInfoReqPop";
         const option = "width = 1000, height = 800, top = 100, left = 200, location = no";
+        window.open(url, name, option);
+    },
+
+    dutyInfoImagePop: function(){
+        const url = "/Campus/pop/dutyInfoImagePop.do";
+        const name = "dutyInfoPopImagePop";
+        const option = "width = 960, height = 530, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
 

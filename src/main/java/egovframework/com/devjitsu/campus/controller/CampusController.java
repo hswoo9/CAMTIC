@@ -1050,6 +1050,17 @@ public class CampusController {
         return "campus/dutyInfoMng";
     }
 
+    /** 직무기술서 개요 팝업 */
+    @RequestMapping("/Campus/pop/dutyInfoImagePop.do")
+    public String dutyInfoImagePop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/campus/dutyInfoImagePop";
+    }
+
     /** 목표기술서 관리자 팝업 */
     @RequestMapping("/Campus/pop/targetEduMngPop.do")
     public String targetEduMngPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
