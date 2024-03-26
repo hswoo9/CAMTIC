@@ -50,7 +50,7 @@ const lectureReq = {
         ub.fn_agmDtSet();
 
         /** 운영방법 radio button */
-        ub.fn_methodTypeSet();
+        /*ub.fn_methodTypeSet();*/
 
         /** 인증서 radio button */
         /*ub.fn_certTypeSet();*/
@@ -117,9 +117,29 @@ const lectureReq = {
             $("#scheduleHtml").val(lecMap.LEC_SCH);
             $("#prospectus").val(lecMap.LEC_INQ);
             $("#materials").val(lecMap.LEC_MAT);
-
             /*$("#textbookFee").val(lecMap.LEC_COST);*/
-            $("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);
+            /*$("#methodType").data("kendoRadioGroup").value(lecMap.LEC_OPER);*/
+
+            if (lecMap.LEC_OPER_TYPE_N === "Y") {
+                $("#typeN").prop("checked", true);
+            } else {
+                $("#typeN").prop("checked", false);
+            }
+            if (lecMap.LEC_OPER_TYPE_C === "Y") {
+                $("#typeC").prop("checked", true);
+            } else {
+                $("#typeC").prop("checked", false);
+            }
+            if (lecMap.LEC_OPER_TYPE_S === "Y") {
+                $("#typeS").prop("checked", true);
+            } else {
+                $("#typeS").prop("checked", false);
+            }
+            if (lecMap.LEC_OPER_TYPE_H === "Y") {
+                $("#typeH").prop("checked", true);
+            } else {
+                $("#typeH").prop("checked", false);
+            }
             $("#methodTypePr").val(lecMap.LEC_OPER_PR);
 
             /*$("#certType").data("kendoRadioGroup").value(lecMap.LEC_CERT);*/
@@ -138,9 +158,11 @@ const lectureReq = {
                     const filePath = file.file_path;
                     const fileName = file.file_org_name + '.' + file.file_ext;
 
-                    html += `<a href="javascript:" style="color:#343a40;" onclick="fileDown('${filePath}', '${encodeURIComponent(fileName)}')">${fileName}</a><br/>`;
+                    html += `<div style="margin-top:5px;">
+                                <a href="javascript:" style="color:#343a40;" onclick="fileDown('${filePath}', '${encodeURIComponent(fileName)}')">${fileName}</a>
+                                <span onclick="lectureReq.deleteFile('${file.file_no}', this)" style="color:red;cursor:pointer; font-weight: bold;">&nbsp;X</span>
+                            </div>`;
                 }
-                $("#file2Name").text(lecMap.file2.file_org_name + '.' +lecMap.file2.file_ext);
                 $("#file2Name").html(html);
                 $("#file2Name").css("cursor", "pointer");
             }
@@ -354,10 +376,15 @@ const lectureReq = {
         const typeValue = urlParams.get('type');
 
         if(typeValue == "lec") {
+            var typeN = $("#typeN").is(":checked") ? "Y" : "N";
+            var typeC = $("#typeC").is(":checked") ? "Y" : "N";
+            var typeS = $("#typeS").is(":checked") ? "Y" : "N";
+            var typeH = $("#typeH").is(":checked") ? "Y" : "N";
+
             const data = {
                 pjtSn: $("#pjtSn").val(),
-                /*projectType: $("#projectType").data("kendoDropDownList").value(),*/
-                /*projectTypeName: $("#projectType").data("kendoDropDownList").text(),*/
+                // projectType: $("#projectType").data("kendoDropDownList").value(),
+                // projectTypeName: $("#projectType").data("kendoDropDownList").text(),
                 fieldType: $("#fieldType").data("kendoDropDownList").value(),
                 fieldTypeName: $("#fieldType").data("kendoDropDownList").text(),
                 fieldType1: $("#fieldType2").data("kendoDropDownList").value(),
@@ -393,7 +420,12 @@ const lectureReq = {
 
                 /*textbookFee: $("#textbookFee").val().replace(/,/g, ''),*/
                 textbookFeeEx: "",
-                methodType: $("#methodType").data("kendoRadioGroup").value(),
+                /*methodType: $("#methodType").data("kendoRadioGroup").value(),*/
+                typeN : typeN,// methodType 일반
+                typeC : typeC,// methodType 재직자
+                typeS : typeS,// methodType 학생
+                typeH : typeH,// methodType 구직자
+
                 methodTypePr: $("#methodTypePr").val(),
 
                 /*certType: $("#certType").data("kendoRadioGroup").value(),*/
@@ -622,7 +654,47 @@ const lectureReq = {
         $("#methodType").data("kendoRadioGroup").value(1);
 
         $("#mainType").data("kendoDropDownList").select(1);
+    },
+
+    fn_regProjectUnRnd : function (){
+        var url = "/unrnd/pop/unrndAttachmentPop.do";
+        var name = "_blank";
+        var option = "width = 850, height = 400, top = 200, left = 350, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    deleteFile : function(key, e) {
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")) {
+            const fileSn = $("#file2Sn").val();
+            var fileSnList = fileSn.split(',');
+
+            fileSnList = fileSnList.filter(sn => sn.trim() !== key);
+
+            const data = {
+                regEmpSeq: $("#regEmpSeq").val(),
+                pk: $("#pk").val()
+            };
+
+            const formData = new FormData();
+            for (let key in data) {
+                formData.append(key, data[key]);
+            }
+            formData.append('fileNo', key);
+            formData.append('lecApplSn', fileSnList.join(','));
+
+            const url = "/projectUnRnd/deleteFile";
+            const result = customKendo.fn_customFormDataAjax(url, formData);
+            if (result.flag) {
+                alert("파일이 삭제되었습니다.");
+                $(e).closest('div').remove();
+            }
+        }
     }
+
+
+
+
+
 }
 
 function fileDown(filePath, fileName){

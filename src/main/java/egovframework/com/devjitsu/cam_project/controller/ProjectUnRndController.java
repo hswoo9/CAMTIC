@@ -894,4 +894,18 @@ public class ProjectUnRndController {
 
         return "popup/cam_project/unRnd/unrndFilePop";
     }
+
+    /** 첨부파일 양식 삭제(수정) */
+    @RequestMapping("/projectUnRnd/deleteFile")
+    public String deleteFile(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request){
+        try{
+            projectUnRndService.updLectureInfo2(params, request, SERVER_DIR, BASE_DIR);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
+
 }

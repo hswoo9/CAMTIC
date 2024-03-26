@@ -725,7 +725,10 @@
                 LEC_INQ,
                 LEC_MAT,
                 LEC_COST_EX,
-                LEC_OPER,
+                LEC_OPER_TYPE_N,
+                LEC_OPER_TYPE_C,
+                LEC_OPER_TYPE_S,
+                LEC_OPER_TYPE_H,
                 LEC_OPER_PR,
                 LEC_CERT,
                 LEC_OPEN_BD,
@@ -778,7 +781,10 @@
                 #{materials},
 
                 #{textbookFeeEx},
-                #{methodType},
+                #{typeN},
+                #{typeC},
+                #{typeS},
+                #{typeH},
                 #{methodTypePr},
 
                 #{certType},
@@ -898,7 +904,10 @@
             LEC_INQ = #{prospectus},
             LEC_MAT = #{materials},
             LEC_COST_EX = #{textbookFeeEx},
-            LEC_OPER = #{methodType},
+            LEC_OPER_TYPE_N = #{typeN},
+            LEC_OPER_TYPE_C = #{typeC},
+            LEC_OPER_TYPE_S = #{typeS},
+            LEC_OPER_TYPE_H = #{typeH},
             LEC_OPER_PR = #{methodTypePr},
             LEC_CERT = #{certType},
             LEC_OPEN_BD = #{mainType},
@@ -908,6 +917,18 @@
             LEC_BOOK_IMG_SN = #{lecBookImgSn},
             LEC_APPL_SN = #{lecApplSn},
             LEC_MAIN_IMG_SN = #{lecMainImgSn}
+        WHERE
+            LEC_SN = #{pk}
+    </update>
+
+    <update id="updLectureInfo2" parameterType="map">
+        /*updLectureInfo2*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE
+        SET
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DT = NOW(),
+            LEC_APPL_SN = #{lecApplSn}
         WHERE
             LEC_SN = #{pk}
     </update>

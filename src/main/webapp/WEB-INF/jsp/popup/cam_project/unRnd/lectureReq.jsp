@@ -9,6 +9,7 @@
     .k-window  div.k-window-content {overflow: hidden;}
     .ctList tr th{background-color: #8fa1c04a; padding: 5px; width: 30%;}
     .ctList tr td{padding: 5px; width: 70%;}
+    #methodType label{display: inline-block;margin-bottom: 0.0rem;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
@@ -228,7 +229,16 @@
                     </td>--%>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>운영방법(대상자)</th>
                     <td>
-                        <span id="methodType" <%--style="width: 300px;"--%>></span>
+                        <span id="methodType" style="display: flex; flex-flow: row wrap; gap: 16px; font-size: 12px; vertical-align: middle;">
+                            <input type="checkbox" id="typeN">
+                            <label for="typeN">일반</label>
+                            <input type="checkbox" id="typeC">
+                            <label for="typeC">재직자</label>
+                            <input type="checkbox" id="typeS">
+                            <label for="typeS">학생</label>
+                            <input type="checkbox" id="typeH">
+                            <label for="typeH">구직자</label>
+                        </span>
                     </td>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>대상자(홍보용)</th>
                     <td colspan="2">
@@ -260,7 +270,7 @@
                         <input type="hidden" id="file2Sn" name="file2Sn">
                         <label for="file2" id="file2Label" class="k-button k-button-solid-base">파일첨부</label>
                         <input type="file" id="file2" name="file2" onchange="fileChange2(this)" style="display: none" aria-label="files" multiple>
-                        <div style="width:50%; display: inline-flex;">
+                        <div style="width:100px; display:inline-flex;">
                             <span id="file2Name"></span>
                         </div>
                     </td>
@@ -415,15 +425,15 @@
 
     function fileChange2(e) {
         const files = $(e)[0].files;
-        const fileNames = [];
+        var fileNames = "";
 
         for (const file of files) {
-            fileNames.push(file.name);
+            fileNames += "," + file.name;
         }
 
-        $("#file2Name").text(fileNames.join(", "));
+        $("#file2Name").html(fileNames.substr(1).replaceAll(",", "<br>"));
     }
-    
+
     lectureReq.fn_defaultScript();
 </script>
 </body>

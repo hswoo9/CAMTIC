@@ -499,6 +499,12 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         projectUnRndRepository.updLectureInfo(params);
     }
     @Override
+    public void updLectureInfo2(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
+        params.put("menuCd", "lecReq");
+        commonRepository.getContentFileDelOne(params);
+        projectUnRndRepository.updLectureInfo2(params);
+    }
+    @Override
     public void updLectureTime(Map<String, Object> params) {
         projectUnRndRepository.updLectureTime(params);
     }
