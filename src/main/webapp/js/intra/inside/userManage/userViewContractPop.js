@@ -112,29 +112,29 @@ var userViewContractPop = {
             // 문법상 Month(월)은 0부터 시작하기 때문에 -1 처리해야 됨.
             birthDate = new Date(juminYear*1, juminMonth-1, juminDate*1);
 
-            // 현재 연도에서 - 태어난 연도
-            age = today.getFullYear() - birthDate.getFullYear();
+            // 현재 연도에서 - 태어난 연도 -> 만나이 계산에서 현재 나이로 변경
+            age = today.getFullYear() - birthDate.getFullYear() + 1;
 
             // 현재 월에서 - 태어난 월
-            monthCheck = today.getMonth() - birthDate.getMonth();
+            //monthCheck = today.getMonth() - birthDate.getMonth();
 
             // 생일 월이 현재 월을 지나지 않았을 경우 만 나이기 때문에 -1
-            if(monthCheck < 0 || (monthCheck === 0 && today.getDate() < birthDate.getDate())){
-                age--;
-            }
+            //if(monthCheck < 0 || (monthCheck === 0 && today.getDate() < birthDate.getDate())){
+            //    age--;
+            //}
         }else{
             // 2000년생 이후
             juminYear = "20" + jumin.substr(0,2);//01~~
 
             birthDate = new Date(juminYear*1, juminMonth-1, juminDate*1);
 
-            age = today.getFullYear() - birthDate.getFullYear();
+            age = today.getFullYear() - birthDate.getFullYear() + 1;
 
-            monthCheck = today.getMonth() - birthDate.getMonth();
+            //monthCheck = today.getMonth() - birthDate.getMonth();
 
-            if(monthCheck < 0 || (monthCheck === 0 && today.getDate() < birthDate.getDate())){
-                age--;
-            }
+            //if(monthCheck < 0 || (monthCheck === 0 && today.getDate() < birthDate.getDate())){
+            //    age--;
+            //}
         }
 
         return age;
