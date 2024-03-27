@@ -290,7 +290,9 @@ var camPrj = {
                                 pjtStepNm = "원가보고";
                             }
                         } else if (e.BUSN_CLASS == "R") {
-                            if(e.PJT_STEP == "R"){
+                            if(e.PJT_STOP == "Y"){
+                                pjtStepNm = "미수주";
+                            } else if(e.PJT_STEP == "R"){
                                 pjtStepNm = "예상수주";
                             } else if(e.PJT_STEP == "R2"){
                                 pjtStepNm = "수주보고";
@@ -298,7 +300,9 @@ var camPrj = {
                                 pjtStepNm = "결과보고";
                             }
                         } else if(e.BUSN_CLASS == "S"){
-                            if(e.PJT_STEP == "S"){
+                            if(e.PJT_STOP == "Y"){
+                                pjtStepNm = "미수주";
+                            } else if(e.PJT_STEP == "S"){
                                 pjtStepNm = "예상수주";
                             } else if(e.PJT_STEP == "S2"){
                                 pjtStepNm = "수주보고";
