@@ -267,7 +267,6 @@ var regPrj = {
                     }
                 }
             } else {
-                $("#modBtn").css("display", "none");
                 $("#stopBtn").css("display", "none");
                 alert("중단사유 : " + setParameters.PJT_STOP_RS);
             }

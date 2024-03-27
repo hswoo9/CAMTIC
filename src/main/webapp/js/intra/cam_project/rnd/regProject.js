@@ -168,28 +168,32 @@ var regRnd = {
             tabStrip.enable(tabStrip.tabGroup.children().eq(0));
             tabStrip.enable(tabStrip.tabGroup.children().eq(1));
 
-            
-            var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
+            if(setParameters.PJT_STOP != "Y"){
+                var rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", setParameters);
 
-            if(rndInfo.map != null){
-                /** 수주보고가 완료 되었을때 전부 활성화 */
-                if(rndInfo.map.STATUS == "100"){
-                    tabStrip.enable(tabStrip.tabGroup.children());
+                if(rndInfo.map != null){
+                    /** 수주보고가 완료 되었을때 전부 활성화 */
+                    if(rndInfo.map.STATUS == "100"){
+                        tabStrip.enable(tabStrip.tabGroup.children());
 
-                    /** 실적관리 비활성화 및 PM만 활성화 */
-                    tabStrip.disable(tabStrip.tabGroup.children().eq(8));
-                    var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", {
-                        pjtSn: setParameters.PJT_SN,
-                    }).result.map;
+                        /** 실적관리 비활성화 및 PM만 활성화 */
+                        tabStrip.disable(tabStrip.tabGroup.children().eq(8));
+                        var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", {
+                            pjtSn: setParameters.PJT_SN,
+                        }).result.map;
 
-                    if(resultMap != null){
-                        console.log("resultMap")
-                        console.log(resultMap)
-                        if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && resultMap.STATUS == "100"){
-                            tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                        if(resultMap != null){
+                            console.log("resultMap")
+                            console.log(resultMap)
+                            if(setParameters.PM_EMP_SEQ == $("#regEmpSeq").val() && resultMap.STATUS == "100"){
+                                tabStrip.enable(tabStrip.tabGroup.children().eq(8));
+                            }
                         }
                     }
                 }
+            } else {
+                $("#stopBtn").css("display", "none");
+                alert("중단사유 : " + setParameters.PJT_STOP_RS);
             }
 
             /** 탭 두줄 */
@@ -489,6 +493,32 @@ var regRnd = {
                 }
             }
         });
+    },
+
+    fn_stopModal : function (){
+        if(!confirm("진행중인 프로젝트를 중단하시겠습니까?")){
+            return false;
+        }
+
+        $("#pjtStopModal").data("kendoWindow").open();
+
+    },
+
+    fn_stop : function(){
+        var data = {
+            pjtSn : $("#pjtSn").val(),
+            pjtStopRs : $("#pjtStopRs").val()
+        }
+
+        $.ajax({
+            url : "/project/stopProject",
+            type : 'POST',
+            data : data,
+            dataType : "json",
+            success : function (rs){
+                window.location.reload();
+            }
+        })
     },
 
     fn_checkPass: function(){
