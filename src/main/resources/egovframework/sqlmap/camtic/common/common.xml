@@ -80,6 +80,18 @@
         </if>
     </select>
 
+    <select id="getDeptList" parameterType="map" resultType="map">
+        /* getDeptList */
+        SELECT
+            DEPT_SEQ,
+            replace(PATH_NAME, '|', ' > ') AS DEPT_NAME
+        FROM
+            CAM_HR.DJ_DEPT_INFO DI
+        WHERE
+            DI.USE_YN = 'Y'
+        ORDER BY FIELD(DEPT_SEQ, #{deptSeq}) DESC,DI.DEPT_LEVEL, DI.ORDER_SN
+    </select>
+
     <insert id="insOneFileInfo" parameterType="map" >
         /* insOneFileInfo */
         INSERT INTO CAM_COMMON.DJ_FILE_INFO

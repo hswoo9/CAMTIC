@@ -152,6 +152,11 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
+    public List<Map<String, Object>> getDeptList(Map<String, Object> params) {
+        return commonRepository.getDeptList(params);
+    }
+
+    @Override
     public int getUserListTotal(Map<String, Object> map) {
         return commonRepository.getUserListTotal(map);
     }

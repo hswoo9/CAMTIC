@@ -15,6 +15,9 @@ public class CommonRepository extends AbstractDAO {
     public List<Map<String, Object>> getUserList(Map<String, Object> params) {
         return selectList("common.getUserList", params);
     }
+    public List<Map<String, Object>> getDeptList(Map<String, Object> params) {
+        return selectList("common.getDeptList", params);
+    }
 
     public int getUserListTotal(Map<String, Object> map) {
         return (int) selectOne("common.getUserListTotal", map);

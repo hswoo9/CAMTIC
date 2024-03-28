@@ -5,8 +5,15 @@ var mBv = {
     },
 
     fn_defaultScript : function() {
-        $(".boardTab[boardId='" + $("#boardId").val() + "']").addClass('active');
-        mBv.getBoardArticle();
+        if($("#boardType").val() == "watch"){
+            $(".boardTab.t3").addClass('active');
+
+            mBv.getWatchBoardArticle();
+        }else{
+            $(".boardTab[boardId='" + $("#boardId").val() + "']").addClass('active');
+
+            mBv.getBoardArticle();
+        }
     },
 
     getBoardArticle : function(){
@@ -61,6 +68,31 @@ var mBv = {
         }
     },
 
+    getWatchBoardArticle : function(){
+        mBv.global.searchAjaxData = {
+            watchBoardId : $("#watchBoardId").val()
+        }
+
+        var result = customKendo.fn_customAjax("/spot/getWatchBoard.do", mBv.global.searchAjaxData);
+        if(result.flag){
+            mBv.global.articleDetailInfo = result.rs;
+            var boardArticleTitle = "";
+            if(mBv.global.articleDetailInfo.BOARD_ARTICLE_TITLE != null && mBv.global.articleDetailInfo.BOARD_ARTICLE_TITLE != ""){
+                boardArticleTitle = mBv.global.articleDetailInfo.BOARD_ARTICLE_TITLE;
+            }else{
+                boardArticleTitle = "제목없음";
+            }
+
+            $("#articleTitle").html(boardArticleTitle);
+            $("#articleRegEmpName").html(mBv.global.articleDetailInfo.REG_EMP_NAME);
+            $("#articleRegDate").html(mBv.global.articleDetailInfo.REG_DATE);
+            $("#articleViewCount").html(mBv.global.articleDetailInfo.BOARD_ARTICLE_VIEW_COUNT);
+            $("#articleContentDiv").html(mBv.global.articleDetailInfo.BOARD_ARTICLE_CONTENT);
+        }
+
+        $(".fileGrid").hide();
+    },
+    
     formatBytes : function(bytes, decimals = 2) {
         if (bytes === 0) return '0 Bytes';
 

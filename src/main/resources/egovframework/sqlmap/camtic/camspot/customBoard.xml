@@ -649,12 +649,17 @@
             resultType="egovframework.com.devjitsu.hp.board.util.PostResponse">
         /* getWatchBoardList */
         SELECT
-            *
+            WB.*,
+            FI.*,
+            EI.EMP_NAME_KR AS REG_EMP_NAME
         FROM
             CAM_BOARD.DJ_WATCH_BOARD WB
         LEFT JOIN
             CAM_COMMON.DJ_FILE_INFO FI
         ON FI.FILE_CD = 'watchBoard' AND CONTENT_ID = CONCAT('wb_', WB.WATCH_BOARD_ID)
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON WB.REG_EMP_SEQ = EI.EMP_SEQ
         WHERE
             WB.ACTIVE = 'Y'
         ORDER BY WB.REG_DATE DESC

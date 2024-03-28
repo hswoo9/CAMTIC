@@ -670,11 +670,22 @@ public class MainController {
         return "/camspot_m/payment_write";
     }
     @RequestMapping("/m/organization.do")
-    public String organization(){
+    public String organization(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("data", commonService.ctDept((String) loginVO.getOrgnztId()));
+
         return "/camspot_m/organization";
     }
     @RequestMapping("/m/organization_view.do")
-    public String organization_view(){
+    public String organization_view(@RequestParam Map<String, Object> params, Model model){
+        params.put("DEPT_SEQ", params.get("deptSeq"));
+        params.put("fullTime2", "1");
+        params.put("tempType", "N");
+        model.addAttribute("rs", commonService.getUserList(params));
+        model.addAttribute("dept", commonService.getDeptList(params));
+        model.addAttribute("params", params);
+
         return "/camspot_m/organization_view";
     }
     @RequestMapping("/m/organization_write.do")
@@ -689,17 +700,49 @@ public class MainController {
     public String schedule_staff(){
         return "/camspot_m/schedule_staff";
     }
+
+    /**
+     * 일반 게시판
+     * @param articlePage
+     * @param model
+     * @return
+     */
     @RequestMapping("/m/board.do")
     public String board(ArticlePage articlePage, Model model){
         model.addAttribute("params", new Gson().toJson(articlePage));
         return "/camspot_m/board";
     }
+
+    /**
+     * 일반, 함께보아요 상세보기
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/m/board_view.do")
     public String board_view(@RequestParam Map<String, Object> params, Model model){
-        camsBoardService.setBoardArticleViewCount(params);
+        if(!params.get("boardType").equals("watch")){
+            camsBoardService.setBoardArticleViewCount(params);
+        }else{
+            customBoardService.setWatchBoardViewCount(params);
+        }
+
         model.addAttribute("params", params);
         return "/camspot_m/board_view";
     }
+
+    /**
+     * 함께보아요 게시판
+     * @param articlePage
+     * @param model
+     * @return
+     */
+    @RequestMapping("/m/watchBoard.do")
+    public String watchBoard(ArticlePage articlePage, Model model){
+        model.addAttribute("params", new Gson().toJson(articlePage));
+        return "/camspot_m/watchBoard";
+    }
+
     @RequestMapping("/m/board_write.do")
     public String board_write(){
         return "/camspot_m/board_write";

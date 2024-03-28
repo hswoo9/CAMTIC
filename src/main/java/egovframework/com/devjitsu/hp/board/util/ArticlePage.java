@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.hp.board.util;
 public class ArticlePage {
 
     private String boardId;
+    private String boardType;
     private String searchCategory;
     private String searchInput;
     private String searchColumn;
@@ -29,6 +30,14 @@ public class ArticlePage {
         this.page = 1;
         this.recordSize = 10;
         this.pageSize = 10;
+    }
+
+    public String getBoardType() {
+        return boardType;
+    }
+
+    public void setBoardType(String boardType) {
+        this.boardType = boardType;
     }
 
     public String getPublicClass() {return publicClass;}

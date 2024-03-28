@@ -9,7 +9,17 @@
     <!-- baord {-->
     <div id="baord_page" class="sub">
         <input type="hidden" id="boardId" value="${params.boardId}">
-        <input type="hidden" id="boardArticleId" value="${params.boardArticleId}">
+
+        <input type="hidden" id="boardType" value="${params.boardType}">
+        <c:choose>
+            <c:when test="${params.boardType eq 'watch'}">
+                <input type="hidden" id="watchBoardId" value="${params.watchBoardId}">
+            </c:when>
+            <c:otherwise>
+                <input type="hidden" id="boardArticleId" value="${params.boardArticleId}">
+            </c:otherwise>
+        </c:choose>
+
     	<!-- content {-->
     	<div id="content">
         
@@ -17,7 +27,7 @@
             <div class="sTabmenu">
             	<a href="/m/board.do?boardId=40" class="boardTab t1" boardId="40">공지사항</a>
             	<a href="/m/board.do?boardId=41" class="boardTab t2" boardId="41">업무보고</a>
-            	<a href="#" class="boardTab t3">함께보아요</a>
+                <a href="/m/board.do?boardType=watch" class="boardTab t3" boardType="watch">함께보아요</a>
             </div>
             <!--} 탭메뉴 -->
                         
@@ -39,12 +49,10 @@
 
                 </div>
                 
-                
-            	<font class="txt type28 mt40 fileBox"><b>첨부파일</b></font>
-                <div class="content_output mt10" id="fileDiv">
 
+            	<font class="txt type28 mt40 fileBox fileGrid"><b>첨부파일</b></font>
+                <div class="content_output mt10 fileGrid" id="fileDiv">
                 	<a href="#" class="file"><img src="/images/camspot_m/ico-file.png" />영수증2.jpg</a>
-                	
                 </div>
             </div>
             <!--} 뷰 -->
@@ -58,8 +66,6 @@
     <!--} baord -->
     
 <script type="text/javascript">
-    // $('.m5', $('#menu')).addClass('active');
-    // $('.t1', $('.sTabmenu')).addClass('active');
     mBv.fn_defaultScript();
 </script>
 

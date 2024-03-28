@@ -4,6 +4,12 @@ var mBl = {
     },
 
     fn_defaultScript : function(queryParams) {
+        console.log(queryParams);
+        if(queryParams.boardType != null){
+            $("#boardType").val(queryParams.boardType);
+            delete queryParams.boardType;
+        }
+
         if(queryParams.boardId != null){
             $("#boardId").val(queryParams.boardId);
             delete queryParams.boardId;
@@ -14,21 +20,36 @@ var mBl = {
             delete queryParams.SearchContent;
         }
 
-        $(".boardTab[boardId='" + $("#boardId").val() + "']").addClass('active');
+        if($("#boardType").val() == "watch"){
+            $(".boardTab.t3").addClass('active');
+        }else{
+            $(".boardTab[boardId='" + $("#boardId").val() + "']").addClass('active');
+        }
 
-        mBl.mainGrid(new URLSearchParams(queryParams).toString());
+        mBl.gridReload(new URLSearchParams(queryParams).toString());
     },
 
-    mainGrid : function(queryParams) {
-        var result = customKendo.fn_customAjax("/board/getCamsBoardArticleList.do?" + queryParams, {
-            searchContent : $("#searchContent").val(),
-            boardId : $("#boardId").val()
-        });
+    gridReload : function(queryParams) {
+        var url = "";
+        if($("#boardType").val() == "watch"){
+            url = "/spot/getWatchBoardList.do?" + queryParams;
+            mBl.global.searchAjaxData = {};
+        }else{
+            url = "/board/getCamsBoardArticleList.do?" + queryParams;
+            mBl.global.searchAjaxData = {
+                searchContent : $("#searchContent").val(),
+                boardId : $("#boardId").val()
+            }
+        }
+
+        mBl.mainGrid(url, mBl.global.searchAjaxData);
+    },
+
+    mainGrid : function(url, params) {
+        var result = customKendo.fn_customAjax(url, params);
 
         if(result.flag){
             mBl.global.articleList = result.boardArticleList;
-            mBl.global.boardInfo = result.boardInfo.boardInfo;
-            mBl.global.boardCategoryList = result.boardInfo.boardCategoryList;
             mBl.global.params = result.params;
 
             var articleListStr = "";
@@ -61,7 +82,6 @@ var mBl = {
 
         list.forEach(row => {
             var replyCnt = "";
-
             if(row.reply_CNT != 0){
                 replyCnt = ' <span style="font-weight: bold;">'+ '[' + row.reply_CNT + ']'+'</span>';
             }else {
@@ -76,21 +96,40 @@ var mBl = {
 
             var dt = (row.reg_DATE.year + "-" + ('00' + row.reg_DATE.monthValue).slice(-2) + "-" + ('00' + row.reg_DATE.dayOfMonth).slice(-2));
 
-            if(row.public_YN != "N"){
-                html += '<a href="#" onclick="mBl.moveToboardArticleView(' + row.board_ARTICLE_ID + ',' + row.board_ID + ')">' +
+            if($("#boardType").val() == "watch"){
+
+                if(row.public_YN != "N"){
+                    html += '' +
+                        '<a href="#" onclick="mBl.moveToboardArticleView(' + row.watch_BOARD_ID + ')">' +
+                            '<font class="txt type28 tit">' + row.board_ARTICLE_TITLE + '</font>' +
+                            '<font class="txt type24">' +
+                                '<i>' + row.reg_EMP_NAME + '</i>' +
+                                '<i>' + dt + '</i>' +
+                                '<i>' + row.board_ARTICLE_VIEW_COUNT + '</i>' +
+                                '<i>' +
+                                    '<img src="/images/camspot_m/ico-lfile.png" />' +
+                                '</i>' +
+                            '</font>' +
+                        '</a>';
+                }
+            }else{
+                if(row.public_YN != "N"){
+                    html += '' +
+                        '<a href="#" onclick="mBl.moveToboardArticleView(' + row.board_ARTICLE_ID + ',' + row.board_ID + ')">' +
                             '<font class="txt type28 tit">' + articleTitle + '</font>' +
                             '<font class="txt type24">' +
                                 '<i>' + row.reg_EMP_NAME + '</i>' +
                                 '<i>' + dt + '</i>' +
                                 '<i>' + row.board_ARTICLE_VIEW_COUNT + '</i>' +
                                 '<i>';
-                if(row.file_YN == "Y"){
-                    html += '<img src="/images/camspot_m/ico-lfile.png" />';
-                }
-                html += '' +
+                    if(row.file_YN == "Y"){
+                        html += '<img src="/images/camspot_m/ico-lfile.png" />';
+                    }
+                    html += '' +
                                 '</i>' +
                             '</font>' +
                         '</a>';
+                }
             }
         });
 
@@ -108,7 +147,7 @@ var mBl = {
 
         for (let i = pagination.startPage; i <= pagination.endPage; i++) {
             html += (i !== params.page)
-                ? ' <a href="javascript:void(0);" onclick="mBl.movePage('+i+');">' + i + '</a>'
+                ? '<a href="javascript:void(0);" onclick="mBl.movePage('+i+');">' + i + '</a>'
                 : '<b>' + i + '</b>'
         }
 
@@ -121,13 +160,26 @@ var mBl = {
             page: (page) ? page : 1,
             pageSize: 10,
             searchContent : $("#searchContent").val(),
+            boardType : $("#boardType").val(),
             boardId : $("#boardId").val()
+        }
+
+        if($("#boardType").val() == "watch"){
+            queryParams.recordSize = 8;
+        }else{
+            queryParams.recordSize = 10;
         }
 
         location.href = "/m/board.do?" + new URLSearchParams(queryParams).toString();
     },
 
     moveToboardArticleView : function(e, b){
-        location.href = '/m/board_view.do?boardArticleId=' + e + "&boardId=" + b;
+        var url = '/m/board_view.do?boardType=' + $("#boardType").val();
+        if($("#boardType").val() == "watch"){
+            url += "&watchBoardId=" + e;
+        }else{
+            url += "&boardArticleId=" + e + "&boardId=" + b;
+        }
+        location.href = url
     }
 }

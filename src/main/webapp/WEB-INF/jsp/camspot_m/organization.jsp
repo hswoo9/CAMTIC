@@ -5,7 +5,12 @@
 
     
 <jsp:include page="/WEB-INF/jsp/camspot_m/inc/top.jsp" flush="false"/>
-
+<script type="text/javascript" src="/js/intra/mobile/m_organization.js?v=${today}"/></script>
+<style>
+    .moveDept{
+        cursor: pointer;
+    }
+</style>
     <!-- organization {-->
     <div id="organization_page" class="sub">
     
@@ -22,58 +27,8 @@
             <!--} 검색폼 -->
             
             <!-- 조직도 {-->
-            <div class="orgBox mt40">
-                <div class="org-1">
-                	<span><img src="/images/camspot_m/ico-org1.png" /><font class="txt type28 fP800">캠틱종합기술원</font></span>
-                
-                    <div class="org-2">
-                        <span><img src="/images/camspot_m/ico-org2.png" /><font class="txt type28 fP600">테스트부서</font></span>
-                        
-                        <div class="org-3">
-                        	<a href="/m/organization_view.do"><font class="txt type26">경영지원팀</font></a>
-                        </div>
-                    </div>
-                    
-                    <div class="org-2">
-                        <span><img src="/images/camspot_m/ico-org2.png" /><font class="txt type28 fP600">미래전략기획본부</font></span>
-                        
-                        <div class="org-3">
-                        	<a href="#"><font class="txt type26">미래전략기획팀</font></a>
-                        	<a href="#"><font class="txt type26">J-밸리혁신팀</font></a>
-                        </div>
-                    </div>
-                    
-                    <div class="org-2">
-                        <span><img src="/images/camspot_m/ico-org2.png" /><font class="txt type28 fP600">R&amp;BD사업본부</font></span>
-                        
-                        <div class="org-3">
-                        	<a href="#"><font class="txt type26">신기술융합팀</font></a>
-                        	<a href="#"><font class="txt type26">제조혁신팀</font></a>
-                        	<a href="#"><font class="txt type26">복합소재뿌리기술센터</font></a>
-                        </div>
-                    </div>
-                    
-                    <div class="org-2">
-                        <span><img src="/images/camspot_m/ico-org2.png" /><font class="txt type28 fP600">기업성장지원본부</font></span>
-                        
-                        <div class="org-3">
-                        	<a href="#"><font class="txt type26">창업/기업성장지원팀</font></a>
-                        	<a href="#"><font class="txt type26">인재개발팀</font></a>
-                        </div>
-                    </div>
-                    
-                    <div class="org-2">
-                        <span><img src="/images/camspot_m/ico-org2.png" /><font class="txt type28 fP600">일자리혁신지원센터</font></span>
-                        
-                        <div class="org-3">
-                        	<a href="#"><font class="txt type26">일자리사업팀</font></a>
-                        	<a href="#"><font class="txt type26">전북조선업도약팀</font></a>
-                        	<a href="#"><font class="txt type26">익산고용안정팀</font></a>
-                        </div>
-                    </div>
-                    
-                </div>
-                
+            <div class="orgBox mt40" id="chartsDiv">
+
             </div>
             <!--} 조직도 -->
     		
@@ -88,7 +43,7 @@
         
 
 <script type="text/javascript">
-	$('.m3', $('#menu')).addClass('active');
+    mOrg.fn_defaultScript(JSON.parse('${data}'));
 </script>
 
 <jsp:include page="/WEB-INF/jsp/camspot_m/inc/bottom.jsp" flush="false"/>
