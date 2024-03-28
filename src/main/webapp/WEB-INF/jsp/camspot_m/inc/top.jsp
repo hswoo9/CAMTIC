@@ -33,6 +33,7 @@
 <link rel="stylesheet" type="text/css" href="/css/camspot_m/contents.css" />
 
 <script src="/js/camspot_m/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=4'/>"></script>
 
 <body>
 

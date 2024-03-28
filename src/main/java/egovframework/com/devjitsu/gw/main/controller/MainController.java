@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.gw.main.controller;
 
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.cams_pot.service.CustomBoardService;
+import egovframework.com.devjitsu.cams_pot.service.camsBoardService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.doc.approval.service.ApprovalService;
@@ -52,6 +53,8 @@ public class MainController {
     @Autowired
     private CommonCodeService commonCodeService;
 
+    @Autowired
+    private camsBoardService camsBoardService;
     @RequestMapping("/")
     public String index(){
         return "indexA";
@@ -691,7 +694,9 @@ public class MainController {
         return "/camspot_m/board";
     }
     @RequestMapping("/m/board_view.do")
-    public String board_view(){
+    public String board_view(@RequestParam Map<String, Object> params, Model model){
+        camsBoardService.setBoardArticleViewCount(params);
+        model.addAttribute("params", params);
         return "/camspot_m/board_view";
     }
     @RequestMapping("/m/board_write.do")
