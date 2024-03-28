@@ -187,11 +187,13 @@ var hwpInit = {
             hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 반납처리 하고자 합니다.");
             hwpDocCtrl.putFieldText('ACC_TYPE_TXT', "출금계좌");
             hwpDocCtrl.putFieldText('PAY_DEST_TXT', "지급처");
+            hwpDocCtrl.putFieldText("budgetTitle", "세 입 과 목");
         }else if(rs.PAY_APP_TYPE == 4){
             hwpDocCtrl.putFieldText('DOC_TITLE', "대 체 결 의 서");
             hwpDocCtrl.putFieldText('DOC_DETAIL', "아래와 같이 지출하고자 합니다.");
             hwpDocCtrl.putFieldText('ACC_TYPE_TXT', "출금계좌");
             hwpDocCtrl.putFieldText('PAY_DEST_TXT', "지급처");
+            hwpDocCtrl.putFieldText("budgetTitle", "세 입 과 목");
         }
     },
 
