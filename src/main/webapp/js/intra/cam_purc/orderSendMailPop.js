@@ -25,7 +25,7 @@ const orderSendMail = {
 
         $("#crmSn").val(rs.CRM_SN);
         $("#crmNm").text(rs.CRM_NM);
-        // $("#receiveEml").val(rs.CRM_EMAIL);
+        $("#receiveEml").val(rs.CRM_EMAIL);
 
         $("#subject").val("CAMTIC 발주서 - " + rs.CRM_NM);
         $("#sendEml").val(rs.EMAIL_ADDR);
