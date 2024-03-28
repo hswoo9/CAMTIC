@@ -390,6 +390,17 @@ var targetInfo = {
                 return;
             }
 
+            var flag = false;
+            for(var i = 0 ; i < targetInfo.global.targetCategoryMainDetailList.length ; i++){
+                if(targetInfo.global.targetCategoryMainDetailList[i].TARGET_CLASS == "2"){
+                    flag = true;
+                }
+            }
+            if(!flag){
+                alert("목표가 설정되지 않았습니다.");
+                return;
+            }
+
             if(!confirm("요청하시겠습니까?")){
                 return;
             }
