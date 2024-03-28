@@ -3,7 +3,7 @@ var evaluationList = {
 
     fn_defaultScript : function (){
 
-        evaluationList.mainGrid()
+        evaluationList.mainGrid();
     },
 
     mainGrid: function(){
