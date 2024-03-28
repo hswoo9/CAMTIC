@@ -4,7 +4,6 @@ var mBl = {
     },
 
     fn_defaultScript : function(queryParams) {
-        console.log(queryParams);
         if(queryParams.boardType != null){
             $("#boardType").val(queryParams.boardType);
             delete queryParams.boardType;
