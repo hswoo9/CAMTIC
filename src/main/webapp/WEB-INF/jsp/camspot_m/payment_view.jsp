@@ -667,44 +667,6 @@
         }
     }
 
-    function docApprove2(){
-        loading();
-
-        docView.global.approveFlag = true;
-
-        $("#approveEmpName").kendoTextBox({
-            readonly : true
-        });
-        $("#approveOpin").kendoTextArea({
-            rows:5,
-            cols:10,
-            resizable: "vertical"
-        });
-
-        docView.global.searchAjaxData = {
-            lastApproveEmpSeq : docView.global.rs.docInfo.LAST_APPROVE_EMP_SEQ,
-            nowApproveEmpSeq : docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ,
-            nowApproveType : docView.global.rs.approveNowRoute.APPROVE_TYPE,
-            absentEmpSeq : docView.global.rs.approveNowRoute.ABSENT_EMP_SEQ,
-            subApproval : docView.global.rs.approveNowRoute.SUB_APPROVAL,
-            loginEmpSeq : docView.global.loginVO.uniqId,
-        }
-
-        var result = customKendo.fn_customAjax("/approval/getCmCodeInfo", docView.global.searchAjaxData);
-
-        if(result.flag) {
-            $("#approveOrder").val(docView.global.rs.approveNowRoute.APPROVE_ORDER);
-            $("#approveEmpSeq").val(docView.global.loginVO.uniqId);
-            $("#approveEmpName").val(docView.global.loginVO.name);
-            $("#approveCode").val(result.rs.CM_CODE);
-            $("#approveCodeNm").val(result.rs.CM_CODE_NM);
-        }else{
-            alert("결재자 정보 조회 중 에러가 발생했습니다.");
-        }
-
-        documentHwpSave()
-    }
-
     function docApprove(){
         if(docView.global.loginVO == null){
             alert("장시간 미사용으로 로그인 세션이 만료되었습니다. 로그인 후 재시도 바랍니다."); return;
