@@ -105,7 +105,9 @@ public class CustomBoardServiceImpl implements CustomBoardService {
             result.addAll(customBoardRepository.getHoliDayScheduleList(params));
             result.addAll(customBoardRepository.getEmpNowYearBdayList(params));
             for (Map<String, Object> map : addBustripList) {
-                List<Map<String, Object>> tempList = customBoardRepository.getCompanionScheduleList(map.get("hrBizReqId").toString());
+                map.put("page", params.get("page"));
+                map.put("date", params.get("date"));
+                List<Map<String, Object>> tempList = customBoardRepository.getCompanionScheduleList(map);
                 if (tempList != null) {
                     result.addAll(tempList);
                 }
