@@ -390,6 +390,27 @@ var targetInfo = {
                 return;
             }
 
+            var flag = false;
+            var flag2 = false;
+            for(var i = 0 ; i < targetInfo.global.targetCategoryMainDetailList.length ; i++){
+                if(targetInfo.global.targetCategoryMainDetailList[i].TARGET_CLASS == "2"){
+                    flag = true;
+                }
+            }
+            for(var i = 0 ; i < targetInfo.global.targetCategorySubDetailList.length ; i++){
+                if(targetInfo.global.targetCategorySubDetailList[i].TARGET_CLASS == "2"){
+                    flag2 = true;
+                }
+            }
+            if(!flag){
+                alert("주업무 목표가 설정되지 않았습니다.");
+                return;
+            }
+            if(!flag2){
+                alert("연계업무 목표가 설정되지 않았습니다.");
+                return;
+            }
+
             if(!confirm("요청하시겠습니까?")){
                 return;
             }

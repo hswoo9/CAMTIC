@@ -255,9 +255,14 @@
         WHERE 1=1
         <if test='startDt != null and !"".equals(startDt)'>
             <![CDATA[
-                SC.START_DT >= #{startDt} AND SC.END_DT <= #{endDt}
+                AND SC.START_DT >= #{startDt} AND SC.END_DT <= #{endDt}
             ]]>
         </if>
+
+        <if test='page != null and !"".equals(page)'>
+            AND #{date} between SC.START_DT AND SC.END_DT
+        </if>
+
         <if test='publicClass != null and !"".equals(publicClass)'>
         AND
             PUBLIC_CLASS = #{publicClass}
@@ -271,14 +276,21 @@
     <select id="getBustripScheduleList" parameterType="map" resultType="map">
         /*getBustripScheduleList*/
         SELECT
-            HR_BIZ_REQ_ID as hrBizReqId,
-            concat('[출장]', EMP_NAME) as title,
-            CONCAT(DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d'), ' ', TRIP_TIME_FR) as start,
-            CONCAT(DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d'), ' ', TRIP_TIME_TO) as end
+            A.HR_BIZ_REQ_ID as hrBizReqId,
+            concat('[출장]', A.EMP_NAME) as title,
+            concat('출장|', A.EMP_NAME) as title2,
+            CONCAT(DATE_FORMAT(A.TRIP_DAY_FR, '%Y-%m-%d'), ' ', A.TRIP_TIME_FR) as start,
+            CONCAT(DATE_FORMAT(A.TRIP_DAY_TO, '%Y-%m-%d'), ' ', A.TRIP_TIME_TO) as end,
+            CONCAT(REPLACE(CAM_HR.FN_GetName('DEPT', HEI.DEPT_SEQ, 'KR'), ' ', ' > '), ' > ', HEI.POSITION_NAME) AS DEPT_POSITION
         FROM
-            CAM_INSIDE.DJ_HR_BIZ_REQ
+            CAM_INSIDE.DJ_HR_BIZ_REQ A
+        JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = A.EMP_SEQ
         WHERE
-            STATUS = 100
+            A.STATUS = 100
+        <if test='"mobile".equals(page)'>
+            AND #{date} between A.TRIP_DAY_FR AND A.TRIP_DAY_TO
+        </if>
     </select>
 
     <select id="getCompanionScheduleList" parameterType="map" resultType="map">
@@ -286,25 +298,35 @@
         SELECT
             a.HR_BIZ_REQ_ID as hrBizReqId,
             concat('[출장]',b.EMP_NAME) as title,
+            concat('출장|',b.EMP_NAME) as title2,
             CONCAT(DATE_FORMAT(a.TRIP_DAY_FR, '%Y-%m-%d'), ' ', a.TRIP_TIME_FR) as start,
-            CONCAT(DATE_FORMAT(a.TRIP_DAY_TO, '%Y-%m-%d'), ' ', a.TRIP_TIME_TO) as end
+            CONCAT(DATE_FORMAT(a.TRIP_DAY_TO, '%Y-%m-%d'), ' ', a.TRIP_TIME_TO) as end,
+            CONCAT(REPLACE(CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR'), ' ', ' > '), ' > ', DEI.POSITION_NAME) AS DEPT_POSITION
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ a
         LEFT JOIN
             CAM_INSIDE.DJ_HR_BIZ_COMPANION b
         ON a.HR_BIZ_REQ_ID = b.HR_BIZ_REQ_ID
+        JOIN
+            CAM_HR.DJ_EMP_INFO DEI
+        ON a.EMP_SEQ = DEI.EMP_SEQ
         WHERE
             a.STATUS = 100
         AND
             b.HR_BIZ_REQ_ID = #{hrBizReqId}
+        <if test='"mobile".equals(page)'>
+            AND #{date} between a.TRIP_DAY_FR AND a.TRIP_DAY_TO
+        </if>
     </select>
 
     <select id="getHoliDayScheduleList" parameterType="map" resultType="map">
         /* getHoliDayScheduleList */
         SELECT
             CONCAT('[', VCD.SUBHOLIDAY_DT_CODE_NM, ']', DEI.EMP_NAME_KR) as title,
+            CONCAT(VCD.SUBHOLIDAY_DT_CODE_NM, '|', DEI.EMP_NAME_KR) as title2,
             CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_ST_TIME, '')) as start,
-            CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_EN_TIME, '')) as end
+            CONCAT(DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d'), ' ', IFNULL(VUH.SUBHOLIDAY_EN_TIME, '')) as end,
+            CONCAT(REPLACE(CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR'), ' ', ' > '), ' > ', DEI.POSITION_NAME) AS DEPT_POSITION
         FROM
             CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
         JOIN
@@ -316,14 +338,19 @@
             VUH.APPR_STAT = 'Y'
         AND
             VUH.SUBHOLIDAY_CODE_ID != '11'
+        <if test='"mobile".equals(page)'>
+            AND #{date} between VUH.SUBHOLIDAY_ST_DT AND VUH.SUBHOLIDAY_EN_DT
+        </if>
     </select>
 
     <select id="getEmpNowYearBdayList" parameterType="map" resultType="map">
         /* getEmpNowYearBirthdayList */
         SELECT
             CONCAT('[생일]', DEI.EMP_NAME_KR) as title,
+            CONCAT('생일|', DEI.EMP_NAME_KR) as title2,
             CONCAT(DATE_FORMAT(NOW(), '%Y-'), DATE_FORMAT(DEI.BDAY, '%m-%d')) as start,
-            CONCAT(DATE_FORMAT(NOW(), '%Y-'), DATE_FORMAT(DEI.BDAY, '%m-%d')) as end
+            CONCAT(DATE_FORMAT(NOW(), '%Y-'), DATE_FORMAT(DEI.BDAY, '%m-%d')) as end,
+            CONCAT(REPLACE(CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR'), ' ', ' > '), ' > ', DEI.POSITION_NAME) AS DEPT_POSITION
         FROM
             CAM_HR.DJ_EMP_INFO DEI
         WHERE
@@ -334,6 +361,9 @@
             DEI.BDAY IS NOT NULL
         AND
             DEI.BDAY != ''
+        <if test='"mobile".equals(page)'>
+            AND DEI.BDAY LIKE CONCAT('%', DATE_FORMAT(#{date}, '%m-%d'))
+        </if>
         ORDER BY DEI.BDAY DESC
     </select>
 
