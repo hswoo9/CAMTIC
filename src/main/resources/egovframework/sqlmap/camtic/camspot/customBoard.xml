@@ -255,9 +255,15 @@
         WHERE 1=1
         <if test='startDt != null and !"".equals(startDt)'>
             <![CDATA[
-                SC.START_DT >= #{startDt} AND SC.END_DT <= #{endDt}
+                AND SC.START_DT >= #{startDt} AND SC.END_DT <= #{endDt}
             ]]>
         </if>
+
+        <if test='page != null and !"".equals(page)'>
+            AND #{date} between SC.START_DT AND SC.END_DT
+        </if>
+
+
         <if test='publicClass != null and !"".equals(publicClass)'>
         AND
             PUBLIC_CLASS = #{publicClass}
