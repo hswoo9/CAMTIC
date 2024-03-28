@@ -77,7 +77,11 @@ const commonEduUser = {
                     title: "이수시간",
                     width: 100,
                     template: function(row){
-                        return "<input type='text' style='text-align: right; width: 50px' class='eduTime' oninput='onlyNumber(this)' onkeyup='fn_inputNumberFormat(this)' id='eduTime"+row.COMMON_EDU_USER_SN+"' value='"+row.REAR_EDU_TIME+"'>시간"
+                        if(row.PART_YN == "Y"){
+                            return "<input type='text' style='text-align: right; width: 50px' class='eduTime' oninput='onlyNumber(this)' onkeyup='fn_inputNumberFormat(this)' id='eduTime"+row.COMMON_EDU_USER_SN+"' value='"+row.REAR_EDU_TIME+"'>시간"
+                        } else {
+                            return "<input type='text' style='text-align: right; width: 50px' class='eduTime' oninput='onlyNumber(this)' onkeyup='fn_inputNumberFormat(this)' id='eduTime"+row.COMMON_EDU_USER_SN+"' value='0'>시간"
+                        }
                     }
                 }
             ]

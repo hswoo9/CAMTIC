@@ -100,6 +100,12 @@ var rndDS = {
                             return "<div style='color: red'>예정</div>";
                         }
                     }
+                }, {
+                    title: '삭제',
+                    width: 100,
+                    template: function(e){
+                        return '<button id="btnDel" class="k-button k-button-solid-error" onclick="rndDS.fn_delDevSch('+e.DEV_SCH_SN+')">삭제</button>'
+                    }
                 }
             ],
 
@@ -142,5 +148,16 @@ var rndDS = {
         var name = "_blank";
         var option = "width = 900, height = 800, top = 200, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+
+    fn_delDevSch: function (key) {
+        var data = {
+            devSchSn: key
+        }
+        var rs = customKendo.fn_customAjax("/projectRnd/delDevSch", data);
+
+
+        rndDS.rndDSMainGrid();
     }
 }

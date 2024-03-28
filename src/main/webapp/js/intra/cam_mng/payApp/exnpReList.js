@@ -7,17 +7,34 @@ var exnpReList = {
     },
 
     fn_defaultScript: function (){
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+
+        $("#startDt").change(function (){
+            if($("#startDt").val() > $("#endDt").val()){
+                $("#endDt").val($("#startDt").val());
+            }
+        });
+        $("#endDt").change(function (){
+            if($("#startDt").val() > $("#endDt").val()){
+                $("#startDt").val($("#endDt").val());
+            }
+        });
+
         exnpReList.global.dropDownDataSource = [
-            { text: "작성중", value: "1" },
-            { text: "결재대기", value: "2" },
-            { text: "결재완료", value: "3" },
+            { text: "승인", value: "Y" },
+            { text: "미결", value: "N" },
         ]
-        customKendo.fn_dropDownList("searchDept", exnpReList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", exnpReList.gridReload);
+        customKendo.fn_dropDownList("searchStatus", exnpReList.global.dropDownDataSource, "text", "value");
+        $("#searchStatus").data("kendoDropDownList").bind("change", exnpReList.gridReload);
         exnpReList.global.dropDownDataSource = [
-            { text: "문서번호", value: "DOC_NO" },
+            { text: "프로젝트", value: "PJT_NM" },
+            { text: "예산비목", value: "BUDGET_NM" },
+            { text: "거래처", value: "CRM_NM" },
+            { text: "제목", value: "EXNP_BRIEFS" },
         ]
         customKendo.fn_dropDownList("searchKeyword", exnpReList.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", exnpReList.gridReload);
         customKendo.fn_textBox(["searchValue"]);
 
         exnpReList.gridReload();
@@ -34,6 +51,10 @@ var exnpReList = {
                 pageSizes: [ 10, 20, 30, 50, 100 ],
                 buttonCount: 5
             },
+            excel : {
+                fileName : "지출 반제결의 목록.xlsx",
+                filterable : true
+            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -45,6 +66,9 @@ var exnpReList = {
                             '	<span class="k-button-text">반제결의서 승인</span>' +
                             '</button>';
                     }
+                }, {
+                    name: 'excel',
+                    text: '엑셀다운로드'
                 }, {
                     name: 'button',
                     template: function(){
@@ -71,39 +95,49 @@ var exnpReList = {
                     }
                 }, {
                     title: "번호",
-                    width: 40,
+                    width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "구분",
+                    title: "문서번호",
+                    width: 120,
+                    field: "DOC_NO"
+                }, {
+                    title: "지출유형",
                     width: 80,
                     field: "TYPE"
                 }, {
-                    title: "결의일자",
-                    width: 70,
-                    field: "R_DT",
+                    title: "증빙유형",
+                    width: 80,
+                    field: "EVID_TYPE_TEXT",
                 }, {
-                    title: "적요",
+                    title: "프로젝트 명",
+                    field: "PJT_NM",
+                    width: 200,
+                }, {
+                    title: "예산비목",
+                    field: "BUDGET_NM_EX",
+                    width: 200,
+                    template: function(e){
+                        return e.BUDGET_NM_EX.replaceAll("/", "-");
+                    }
+                }, {
+                    title: "거래처",
+                    width: 200,
+                    template: function(e){
+                        if(e.CRM_CNT > 1){
+                            return e.CRM_NM + " 외 " + Number(e.CRM_CNT-1);
+                        } else {
+                            return e.CRM_NM
+                        }
+                    }
+                }, {
+                    title: "적요(제목)",
                     field: "EXNP_BRIEFS",
-                    width: 280,
+                    width: 250,
                     template: function(e){
                         console.log(e);
                         return '<div style="cursor: pointer; font-weight: bold" onclick="exnpReList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\')">'+e.EXNP_BRIEFS+'</div>';
                     }
-                }, {
-                    title: "프로젝트 명",
-                    field: "PJT_NM",
-                    width: 210,
-                    template: function (e){
-                        return e.PJT_NM;
-                    }
-                }, {
-                    title: "세출과목",
-                    field: "BUDGET_NM_EX",
-                    width: 210
-                }, {
-                    title: "작성자",
-                    field: "REG_EMP_NAME",
-                    width: 80
                 }, {
                     title: "지출금액",
                     width: 80,
@@ -117,6 +151,14 @@ var exnpReList = {
                         //     return '<div style="text-align: right">'+0+'</div>';
                         // }
                     }
+                }, {
+                    title: "결의일자",
+                    width: 80,
+                    field: "R_DT",
+                }, {
+                    title: "작성자",
+                    field: "REG_EMP_NAME",
+                    width: 80
                 }, {
                     title: "상태",
                     width: 60,
@@ -153,7 +195,9 @@ var exnpReList = {
     gridReload: function(){
         exnpReList.global.searchAjaxData = {
             empSeq: $("#myEmpSeq").val(),
-            searchDept: $("#searchDept").val(),
+            startDt: $("#startDt").val(),
+            endDt: $("#endDt").val(),
+            searchStatus: $("#searchStatus").val(),
             searchKeyword: $("#searchKeyword").val(),
             searchValue: $("#searchValue").val()
         }

@@ -34,11 +34,11 @@
 			<tr>
 				<th scope="row" class="text-center th-color">기안부서/기안자</th>
 				<td>
-					<input type="hidden" name="empSeq" id="empSeq" value="">
+					<input type="hidden" name="empSeq" id="empSeq" value="${loginVO.uniqId}">
 					<input type="hidden" name="loginEmpSeq" id="loginEmpSeq" value="${loginVO.uniqId}">
 					<input type="hidden" name="deptSeq" id="deptSeq" value="${loginVO.orgnztId}">
 					<input type="text" name="deptName" id="deptName" style="width: 120px;" disabled="disabled" value="${loginVO.orgnztNm}">
-					<input type="text" name="empName" id="empName" style="width: 60px;" disabled="disabled" value="">
+					<input type="text" name="empName" id="empName" style="width: 60px;" disabled="disabled" value="${loginVO.name}">
 					<button type="button" class=" k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearchPopup();">
 						<span class="k-icon k-i-search k-button-icon"></span>
 					</button>
@@ -104,7 +104,7 @@
 
 	function mainGrid(url, params){
 		var mainGrid = $("#mainGrid").kendoGrid({
-			dataSource : customKendo.fn_gridDataSource3(url, params),
+			dataSource : customKendo.fn_gridDataSource2(url, params),
 			height : 359,
 			sortable: true,
 			scrollable: true,
@@ -169,9 +169,14 @@
 			startDay : $("#startDay").val(),
 			endDay : $("#endDay").val(),
 			docTitle : $("#docTitle").val(),
+            approveStat : "result",
+            docStatus : 100
 		}
 
-		mainGrid('/approval/getFinalApprovalDocList.do', searchAjaxData);
+		// mainGrid('/approval/getFinalApprovalDocList.do', searchAjaxData);
+        mainGrid('/approvalUser/getUserDocStorageBoxList', searchAjaxData);
+
+
 	}
 
 	function userSearchPopup(){

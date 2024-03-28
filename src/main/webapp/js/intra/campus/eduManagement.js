@@ -80,7 +80,10 @@ var eduManagement = {
                 }, {
                     field: "EDU_NAME",
                     title: "학습명",
-                    width: 200
+                    width: 200,
+                    template: function(e){
+                        return '<div style="font-weight: bold; cursor: pointer" onclick="eduManagement.commonEduReqPop(\'upd\', '+e.COMMON_EDU_SN+');">'+e.EDU_NAME+'</div>';
+                    }
                 }, {
                     title: "학습기간",
                     width: 150,

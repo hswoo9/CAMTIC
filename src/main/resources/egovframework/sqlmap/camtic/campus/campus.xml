@@ -2846,6 +2846,7 @@
         WHERE
             (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
         AND WORK_STATUS_CODE = 'Y'
+        AND TEMP_DIVISION = 'N'
         AND EMP_SEQ NOT IN (SELECT REG_EMP_SEQ AS EMP_SEQ FROM CAMPUS.DJ_COMMON_EDU_USER SCCEU WHERE COMMON_EDU_SN = #{pk} AND ACTIVE = 'Y')
         <if test='userList != null and !"".equals(userList)'>
             AND EMP_SEQ IN (${userList})

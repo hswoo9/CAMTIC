@@ -183,7 +183,7 @@
                         <input type="text" id="sbjEndDe" style="width: 40%;">
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>과제담당자
+                        <span class="red-star">*</span>과제담당자(PM)
                     </th>
                     <td>
                         <input type="text" id="deptName" style="width: 40%" disabled>

@@ -975,4 +975,12 @@ public class ProjectRndController {
         model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
+
+    @RequestMapping("/projectRnd/delDevSch")
+    public String delDevSch(@RequestParam Map<String, Object> params, Model model) {
+
+        projectRndService.delDevSch(params);
+
+        return "jsonView";
+    }
 }
