@@ -111,7 +111,14 @@ var exnpList = {
                 }, {
                     title: "지출완료일",
                     width: 70,
-                    field: "REQ_END_DE"
+                    field: "REQ_END_DE",
+                    template: function(e){
+                        if(e.RE_STAT == "Y"){
+                            return e.REQ_END_DE;
+                        } else {
+                            return "";
+                        }
+                    }
                 }, {
                     title: "지출금액",
                     width: 80,
