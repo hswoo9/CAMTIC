@@ -70,49 +70,12 @@ var evaluationList = {
                     title: "순번",
                     width: 50
                 }, {
-                    field: "OPEN_STUDY_NAME",
+                    field: "",
                     title: "학습주제"
                 }, {
-                    field: "REG_EMP_NAME",
+                    field: "",
                     title: "지도자",
                     width: 80
-                }, {
-                    title: "구성원",
-                    width: 150,
-                    template: function(row){
-                        let text = row.MEMBER;
-                        if(row.MEMBER_COUNT != 0){
-                            text += " 외 "+row.MEMBER_COUNT+"명";
-                        }
-                        return text;
-                    }
-                }, {
-                    title: "학습기간",
-                    width: 300,
-                    template: function(row){
-                        return row.OPEN_STUDY_DT + " / " + row.START_TIME + " ~ " + row.END_TIME
-                    }
-                }, {
-                    field: "EDU_TIME",
-                    title: "학습시간",
-                    width: 80
-                }, {
-                    field: "",
-                    title: "진행현황",
-                    width: 100,
-                    template: function(row){
-                        if(row.STATUS == 0){
-                            return "결과보고서 작성중";
-                        }else if(row.STATUS == 10){
-                            return "승인요청중";
-                        }else if(row.STATUS == 30){
-                            return "반려";
-                        }else if(row.STATUS == 100){
-                            return "학습종료";
-                        }else{
-                            return "-";
-                        }
-                    }
                 }
             ]
         }).data("kendoGrid");
