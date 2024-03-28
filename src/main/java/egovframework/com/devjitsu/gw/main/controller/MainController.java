@@ -690,7 +690,8 @@ public class MainController {
         return "/camspot_m/schedule_staff";
     }
     @RequestMapping("/m/board.do")
-    public String board(){
+    public String board(ArticlePage articlePage, Model model){
+        model.addAttribute("params", new Gson().toJson(articlePage));
         return "/camspot_m/board";
     }
     @RequestMapping("/m/board_view.do")

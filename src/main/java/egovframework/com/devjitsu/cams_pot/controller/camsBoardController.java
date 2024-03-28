@@ -82,7 +82,6 @@ public class camsBoardController {
 
         PagingResponse<PostResponse> response = camsBoardService.getBoardArticleList(articlePage);
 
-
         model.addAttribute("params", articlePage);
         model.addAttribute("boardInfo", boardInfo);
         model.addAttribute("boardArticleList", response);

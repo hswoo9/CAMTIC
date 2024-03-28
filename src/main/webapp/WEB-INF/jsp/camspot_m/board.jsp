@@ -5,85 +5,57 @@
 
     
 <jsp:include page="/WEB-INF/jsp/camspot_m/inc/top.jsp" flush="false"/>
-
+<script type="text/javascript" src="/js/intra/mobile/m_board.js?v=${today}"/></script>
+<style>
+	#searchBtn {
+		width: 40px;
+		font-size: 0;
+		background: url(/images/camspot_m/ico-search.png) no-repeat center center;
+		background-size: contain;
+		border : none
+	}
+	#searchDiv {
+		width: 100%;
+		padding: 20px;
+		background: #fff;
+		display: flex;
+		border-radius: 10px;
+	}
+</style>
     <!-- baord {-->
     <div id="baord_page" class="sub">
+		<input type="hidden" id="boardId" value="">
     
     	<!-- content {-->
     	<div id="content">
     		
             <!-- 탭메뉴 {-->
             <div class="sTabmenu">
-            	<a href="/m/board.do" class="t1">공지사항</a>
-            	<a href="#" class="t2">업무보고</a>
-            	<a href="#" class="t3">함께보아요</a>
+				<a href="/m/board.do?boardId=40" class="boardTab t1" boardId="40">공지사항</a>
+				<a href="/m/board.do?boardId=41" class="boardTab t2" boardId="41">업무보고</a>
+				<a href="#" class="boardTab t3">함께보아요</a>
             </div>
             <!--} 탭메뉴 -->
             
             <!-- 검색폼 {-->
             <div class="searchBox mt20">
-            	<font class="txt type28">전체 <b class="fcol_sky">50</b>건</font>
-                <form>
-                	<input type="text" placeholder="검색어를 입력하세요." />
-                	<input type="submit" />
-                </form>
+            	<font class="txt type28">전체 <b class="fcol_sky" id="totalCnt">50</b>건</font>
+                <div id="searchDiv">
+                	<input type="text" placeholder="검색어를 입력하세요." id="searchContent" onkeypress="if(window.event.keyCode==13){mBl.movePage()}"/>
+                	<input type="button" id="searchBtn" onclick="mBl.movePage()"/>
+                </div>
             </div>
             <!--} 검색폼 --> 
                		
             <!-- 리스트 {-->
-            <div class="blistBox mt20">
-            	<a href="/m/board_view.do">
-                	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>관리자</i><i>2023-11-30</i><i>410</i><i><img src="/images/camspot_m/ico-lfile.png" /></i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>관리자</i><i>2023-11-30</i><i>410</i><i><img src="/images/camspot_m/ico-lfile.png" /></i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>관리자</i><i>2023-11-30</i><i>410</i><i><img src="/images/camspot_m/ico-lfile.png" /></i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>관리자</i><i>2023-11-30</i><i>410</i><i><img src="/images/camspot_m/ico-lfile.png" /></i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>관리자</i><i>2023-11-30</i><i>410</i><i><img src="/images/camspot_m/ico-lfile.png" /></i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>관리자</i><i>2023-11-30</i><i>410</i><i><img src="/images/camspot_m/ico-lfile.png" /></i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>관리자</i><i>2023-11-30</i><i>410</i><i><img src="/images/camspot_m/ico-lfile.png" /></i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>관리자</i><i>2023-11-30</i><i>410</i><i><img src="/images/camspot_m/ico-lfile.png" /></i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>관리자</i><i>2023-11-30</i><i>410</i><i><img src="/images/camspot_m/ico-lfile.png" /></i></font>
-                </a>
-            	<a href="#">
-                	<font class="txt type28 tit">2024년 캠틱종합기술원 재직자 교육훈련일정 안내 _ 2023.11.14</font>
-                	<font class="txt type24"><i>관리자</i><i>2023-11-30</i><i>410</i><i><img src="/images/camspot_m/ico-lfile.png" /></i></font>
-                </a>
+            <div class="blistBox mt20" id="articleList">
+
             </div>
             <!--} 리스트 -->
     		
             <!-- 페이징 {-->
-            <div class="pageBox mt40">
-                <a href="#none" class="arr prev">prev</a>
-                <b>1</b>
-                <a href="#none">2</a>
-                <a href="#none">3</a>
-                <a href="#none">4</a>
-                <a href="#none">5</a>
-                <a href="#none" class="arr next">next</a>
+            <div class="pageBox pagination mt40">
+
             </div>
             <!--} 페이징 -->
             
@@ -99,8 +71,7 @@
 
 
 <script type="text/javascript">
-	$('.m5', $('#menu')).addClass('active');
-	$('.t1', $('.sTabmenu')).addClass('active');
+	mBl.fn_defaultScript(JSON.parse('${params}'));
 </script>
 
     
