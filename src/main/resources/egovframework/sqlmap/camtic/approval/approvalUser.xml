@@ -142,8 +142,8 @@
         </if>
 
         <choose>
-            <when test='approveStat != null and "temp".equals(approveStat)'>
-                ORDER BY DI.REG_DATE DESC
+            <when test='approveStat != null and "result".equals(approveStat)'>
+                ORDER BY IFNULL(DI.LAST_APPROVE_DT, DI.DRAFT_DT) DESC
             </when>
             <otherwise>
                 ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
@@ -330,7 +330,7 @@
         </if>
 
         GROUP BY DI.DOC_ID
-        ORDER BY DI.DRAFT_DT DESC
+        ORDER BY IFNULL(DI.LAST_APPROVE_DT, DI.DRAFT_DT) DESC
     </select>
 
     <update id="setCheckedDocDel" parameterType="list">
@@ -411,6 +411,7 @@
 
     <select id="getApproveDocBoxList" parameterType="map" resultType="map">
         /* getApproveDocBoxList */
+        SELECT RE.* FROM (
         SELECT
             DAR.APPROVE_EMP_SEQ,
             DI.DOC_ID,
@@ -424,6 +425,7 @@
             DATE_FORMAT(DI.DRAFT_DT, '%Y-%m-%d') AS DRAFT_DT,
             DATE_FORMAT(DI.REPTIT_DRFT_DT, '%Y-%m-%d') AS REPTIT_DRFT_DT,
             DATE_FORMAT(DI.LAST_APPROVE_DT, '%Y-%m-%d') AS LAST_APPROVE_DT,
+            DI.LAST_APPROVE_DT AS LAST_APPROVE_DT2,
             DI.DRAFT_DEPT_NAME,
             DI.DRAFT_EMP_NAME,
             CASE WHEN DI.LAST_APPROVE_EMP_SEQ = '32' and DI.APPROVE_STAT_CODE_DESC = '전결' THEN '최종결재' ELSE DI.APPROVE_STAT_CODE_DESC END AS APPROVE_STAT_CODE_DESC
@@ -533,7 +535,10 @@
         </choose>
 
         GROUP BY DI.DOC_ID
-        ORDER BY DI.LAST_APPROVE_DT DESC, DI.DOC_NO DESC
+        ) RE
+        ORDER BY (
+        CASE WHEN RE.APPROVE_STAT_CODE_DESC in ('결재') THEN 1 WHEN RE.APPROVE_STAT_CODE_DESC in ('반려') THEN 3 ELSE 2 END
+        ),  IFNULL(RE.LAST_APPROVE_DT2, RE.DRAFT_DT) DESC
         /*ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC*/
     </select>
 
@@ -933,7 +938,7 @@
                 )
             </otherwise>
         </choose>
-        ORDER BY DI.DOC_NO DESC
+        ORDER BY IFNULL(DI.LAST_APPROVE_DT, DI.DRAFT_DT) DESC
         /*ORDER BY IF(DI.DRAFT_DT IS NULL, DI.REG_DATE, IF(DI.REPTIT_DRFT_DT IS NULL, DI.DRAFT_DT, DI.REPTIT_DRFT_DT)) DESC*/
     </select>
 

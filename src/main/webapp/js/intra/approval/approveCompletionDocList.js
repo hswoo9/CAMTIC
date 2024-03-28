@@ -64,14 +64,14 @@ var approveCompletion = {
                 }, {
                     field : "DOC_NO",
                     title : "문서번호",
-                    width : "160px",
                     template : function(e){
                         if(e.DOC_NO == null || e.DOC_NO == ""){
                             return "-"
                         }else{
                             return e.DOC_NO
                         }
-                    }
+                    },
+                    width : 200
                 }, {
                     title : "문서제목",
                     template : function (e){
@@ -101,11 +101,11 @@ var approveCompletion = {
                 }, {
                     field : "DRAFT_EMP_NAME",
                     title : "기안자",
-                    width : "120px"
+                    width : "80px"
                 }, {
                     field : "DRAFT_DT",
                     title : "기안일",
-                    width : "120px",
+                    width : "100px",
                     template : function(e){
                         if(e.REPTIT_DRFT_YN == "N"){
                             if(e.DRAFT_DT != null){
@@ -120,7 +120,7 @@ var approveCompletion = {
                 }, {
                     field : "LAST_APPROVE_DT",
                     title : "완료일",
-                    width : "120px",
+                    width : "100px",
                     template : function(e){
                         if(e.LAST_APPROVE_DT == null || e.LAST_APPROVE_DT == ""){
                             return "-"
@@ -131,7 +131,7 @@ var approveCompletion = {
                 }, {
                     field : "APPROVE_STAT_CODE_DESC",
                     title : "결재상태",
-                    width : "120px",
+                    width : "100px",
                     template : function(e){
                         if(e.APPROVE_STAT_CODE_DESC == "결재"){
                             return "결재중";
