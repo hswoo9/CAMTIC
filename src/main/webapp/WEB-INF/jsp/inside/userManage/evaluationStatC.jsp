@@ -7,6 +7,8 @@
 
 <style>
     .subTitSt{font-weight: 600; text-align: left; font-size: 13px; padding: 10px;}
+    .pink{background-color: #eee0d9;font-weight: bold;text-align: center;border-bottom: 1px solid rgba(0, 0, 0, .08)}
+    .borderBt td{border-bottom: 1px solid #d8dce3;}
 </style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -59,6 +61,9 @@
                     </tr>
                 </table>
             </div>
+            <div style="float: right; margin-bottom: 10px;">
+                ※ <span style="color: blue;"> 파랑 : 평균보다 높음</span>,<span style="color: red;"> 빨강 : 평균보다 낮음</span>
+            </div>
 
             <div>
                 <div class="capabilityTb">
@@ -110,7 +115,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr class="pink">
                                     <td>기준점수</td>
                                     <td>5.0</td>
                                     <td>10.0</td>
@@ -123,7 +128,7 @@
                                     <td>10.0</td>
                                     <td>100.0</td>
                                 </tr>
-                                <tr>
+                                <tr class="pink">
                                     <td>평균점수</td>
                                     <td>5.0</td>
                                     <td>10.0</td>
@@ -136,7 +141,7 @@
                                     <td>10.0</td>
                                     <td>100.0</td>
                                 </tr>
-                                <tr>
+                                <tr class="borderBt">
                                     <td>직원1</td>
                                     <td>4.5</td>
                                     <td>9.0</td>
@@ -206,7 +211,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr class="pink">
                                     <td>기준점수</td>
                                     <td>5.0</td>
                                     <td>10.0</td>
@@ -219,7 +224,7 @@
                                     <td>10.0</td>
                                     <td>100.0</td>
                                 </tr>
-                                <tr>
+                                <tr class="pink">
                                     <td>평균점수</td>
                                     <td>5.0</td>
                                     <td>10.0</td>
@@ -232,7 +237,7 @@
                                     <td>10.0</td>
                                     <td>100.0</td>
                                 </tr>
-                                <tr>
+                                <tr class="borderBt">
                                     <td>직원1</td>
                                     <td>4.5</td>
                                     <td>9.0</td>
@@ -302,7 +307,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
+                                <tr class="pink">
                                     <td>기준점수</td>
                                     <td>5.0</td>
                                     <td>10.0</td>
@@ -315,7 +320,7 @@
                                     <td>10.0</td>
                                     <td>100.0</td>
                                 </tr>
-                                <tr>
+                                <tr class="pink">
                                     <td>평균점수</td>
                                     <td>5.0</td>
                                     <td>10.0</td>
@@ -328,7 +333,7 @@
                                     <td>10.0</td>
                                     <td>100.0</td>
                                 </tr>
-                                <tr>
+                                <tr class="borderBt">
                                     <td>직원1</td>
                                     <td>4.5</td>
                                     <td>9.0</td>

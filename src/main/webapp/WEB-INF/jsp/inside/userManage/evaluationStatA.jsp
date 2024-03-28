@@ -9,8 +9,9 @@
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 
 <style>
-    .yellow{background-color: #ffffdd;font-weight: bold;text-align: center;border-bottom: 1px solid rgba(0, 0, 0, .08)}
+    .pink{background-color: #eee0d9;font-weight: bold;text-align: center;border-bottom: 1px solid rgba(0, 0, 0, .08)}
 </style>
+
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
         <div class="panel-heading">
@@ -40,7 +41,7 @@
                         </td>
                     </tr>
                 </table>
-                <div style="float: right;">
+                <div style="float: right; margin-bottom: 10px;">
                     ※ <span style="color: blue;"> 파랑 : 평균보다 높음</span>,<span style="color: red;"> 빨강 : 평균보다 낮음</span>
                 </div>
 
@@ -65,9 +66,9 @@
                             <th colspan="3" class="text-center th-color">해당점수</th>
                         </tr>
                         <tr>
-                            <td class="yellow">단장1</td>
-                            <td class="yellow">단장2</td>
-                            <td class="yellow">단장3</td>
+                            <td class="pink">단장1</td>
+                            <td class="pink">단장2</td>
+                            <td class="pink">단장3</td>
                         </tr>
                         <tbody>
                             <tr style="text-align: center;">
