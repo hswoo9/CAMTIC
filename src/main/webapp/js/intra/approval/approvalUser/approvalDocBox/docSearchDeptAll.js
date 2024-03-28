@@ -113,7 +113,7 @@ var docSearchDeptAll = {
                 {
                     field : "DOC_NO",
                     title : "문서번호",
-                    width : 150,
+                    width : 200,
                     template : function(e){
                         if(e.DOC_NO == null || e.DOC_NO == ""){
                             return "-"
