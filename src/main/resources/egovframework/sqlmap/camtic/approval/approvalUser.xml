@@ -63,6 +63,8 @@
             FORM.LINKAGE_PROCESS_ID,
             DI.DOC_MENU_CD,
             DI.APPRO_KEY,
+            DI.DRAFT_EMP_NAME,
+            DI.DRAFT_DEPT_NAME,
             DI.DOC_NO,
             DI.DOC_TITLE,
             CASE WHEN DI.LAST_APPROVE_EMP_SEQ = '32' and DI.APPROVE_STAT_CODE_DESC = '전결' THEN '최종결재' ELSE DI.APPROVE_STAT_CODE_DESC END AS APPROVE_STAT_CODE_DESC,
@@ -121,7 +123,7 @@
         </if>
         <if test='"100".equals(docStatus)'>
             AND (
-                (DI.APPROVE_STAT_CODE = '100' OR DI.APPROVE_STAT_CODE = '101') AND DI.LAST_APPROVE_EMP_SEQ = '32'
+                (DI.APPROVE_STAT_CODE = '100' OR DI.APPROVE_STAT_CODE = '101') -- AND DI.LAST_APPROVE_EMP_SEQ = '32'
             )
         </if>
         <if test='docTitle != null and !"".equals(docTitle)'>

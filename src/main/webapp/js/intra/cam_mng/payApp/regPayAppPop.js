@@ -490,13 +490,9 @@ var regPay = {
                     authTime: cardMap.AUTH_HH,
                     buySts: cardMap.BUY_STS
                 }
-                console.log("parameters");
-                console.log(parameters);
-
 
                 const iBrenchResult = customKendo.fn_customAjax("/cam_mng/companyCard/useCardDetail", parameters);
                 const data = iBrenchResult.cardInfo;
-                console.log(data);
 
                 $("#eviType" + index).data("kendoDropDownList").value(3);
                 $("#crmNm" + index).val(data.MER_NM);
