@@ -159,10 +159,13 @@ var incomeList = {
         var popup = window.open(url, name, option);
     },
 
-    fn_incomePopup : function (payDepoSn){
+    fn_incomePopup : function (payDepoSn, payIncpSn){
         var url = "/payApp/pop/regIncmPop.do";
         if(payDepoSn != null && payDepoSn != ""){
             url = "/payApp/pop/regIncmPop.do?payDepoSn=" + payDepoSn;
+        }
+        if(payIncpSn != null && payIncpSn != ""){
+            url = "/payApp/pop/regIncmPop.do?payIncpSn=" + payIncpSn;
         }
 
         // if(status != null && status != ""){

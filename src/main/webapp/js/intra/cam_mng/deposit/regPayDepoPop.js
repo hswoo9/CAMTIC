@@ -225,6 +225,11 @@ var regPayDepo = {
                 if($("#auth").val() == "user"){
                     $("#incpBtn").css("display", "");
                 }
+
+                if(rs.PAY_INCP_SN != null){
+                    $("#incpBtn").removeAttr();
+                    $("#incpBtn").attr("onclick", "incomeList.fn_incomePopup(\'\', \'" + rs.PAY_INCP_SN + "\')");
+                }
             }
         })
     },
