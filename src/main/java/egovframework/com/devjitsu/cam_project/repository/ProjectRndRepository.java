@@ -256,4 +256,8 @@ public class ProjectRndRepository extends AbstractDAO {
     public void updReqPartRateVerToReqPartRate(Map<String, Object> params) {
         update("projectRnd.updReqPartRateVerToReqPartRate", params);
     }
+
+    public void delDevSch(Map<String, Object> params) {
+        delete("projectRnd.delDevSch", params);
+    }
 }

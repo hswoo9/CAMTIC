@@ -27,7 +27,12 @@ const commonEduReq = {
             { text: "종료", value: "100" }
         ]
         customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 3);
-        $("#startDt, #endDt").attr("readonly", true);
+
+        $("#startDt, #endDt").focusout(function(){
+            var de = $(this).val().replace(/-/gi, "");
+            $(this).val(de.substring(0, 4) + "-" + de.substring(4, 6) + "-" + de.substring(6, 8));
+        })
+        // $("#startDt, #endDt").attr("readonly", true);
     },
 
     dataSet: function(){

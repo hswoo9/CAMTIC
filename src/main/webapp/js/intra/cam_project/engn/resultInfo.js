@@ -19,7 +19,7 @@ var resultInfo = {
         $("#rsSupCont, #rsIss, #rsEtc").kendoTextArea({ rows: 5 });
 
         if(commonProject.global.busnClass == "R" || commonProject.global.busnClass == "S"){
-            $("#resName").text("제출문서");
+            $("#resName").text("결과보고서/납품서");
         }
 
         resultInfo.fn_setData();

@@ -745,4 +745,8 @@ public class ProjectRepository extends AbstractDAO {
     public void updPurcPjtUnitDetSn(Map<String, Object> data) {
         update("unRnd.updPurcPjtUnitDetSn", data);
     }
+
+    public List<Map<String, Object>> getPsListByDevSn(Map<String, Object> params) {
+        return selectList("project.getPsListByDevSn", params);
+    }
 }

@@ -1013,4 +1013,9 @@
             PART_RATE_VER_SN = #{partRateVerSn}
     </update>
 
+    <delete id="delDevSch" parameterType="map">
+        /*delDevSch*/
+        DELETE FROM CAM_PJT_MNG.DJ_PJT_DEV_SCH WHERE DEV_SCH_SN = #{devSchSn}
+    </delete>
+
 </mapper>

@@ -86,4 +86,6 @@ public interface ProjectRndService {
 
     /** 참여연구원변경공문 결재 상태값에 따른 UPDATE 메서드 */
     void updateRateDocState(Map<String, Object> bodyMap) throws Exception;
+
+    void delDevSch(Map<String, Object> params);
 }

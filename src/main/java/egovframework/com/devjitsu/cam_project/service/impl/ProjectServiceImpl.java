@@ -1249,7 +1249,27 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void addDevVersion(Map<String, Object> params) {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        list = projectRepository.getPsList(params);
+
         projectRepository.addDevVersion(params);
+
+//        list = projectRepository.getPsListByDevSn(params);
+
+        for(Map<String, Object> map : list){
+            params.put("psRow", map.get("PS_ROW"));
+            params.put("psPrep", map.get("PS_PREP"));
+            params.put("psPrepNm", map.get("PS_PREP_NM"));
+            params.put("psNm", map.get("PS_NM"));
+            params.put("psStrDe", map.get("PS_STR_DE"));
+            params.put("psEndDe", map.get("PS_END_DE"));
+            params.put("psEmpSeq", map.get("PS_EMP_SEQ"));
+            params.put("psEmpNm", map.get("PS_EMP_NM"));
+            params.put("regEmpSeq", map.get("REG_EMP_SEQ"));
+
+            projectRepository.insPjtPs(params);
+        }
     }
 
     @Override

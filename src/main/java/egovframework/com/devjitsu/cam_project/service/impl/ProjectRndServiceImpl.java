@@ -684,5 +684,10 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.updateRateApprStat(params);
         }
     }
+
+    @Override
+    public void delDevSch(Map<String, Object> params) {
+        projectRndRepository.delDevSch(params);
+    }
 }
 

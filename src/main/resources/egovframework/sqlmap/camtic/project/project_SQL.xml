@@ -3263,4 +3263,10 @@
         WHERE
             PART_RATE_VER_SN = #{partRateVerSn}
     </update>
+
+    <select id="getPsListByDevSn" parameterType="map" resultType="map">
+        /*getPsListByDevSn*/
+        SELECT * FROM CAM_PJT_MNG.DJ_PJT_PS
+        WHERE DEV_SN = #{devSn}
+    </select>
 </mapper>
