@@ -21,8 +21,10 @@ var mBl = {
 
         if($("#boardType").val() == "watch"){
             $(".boardTab.t3").addClass('active');
+            $(".searchBox").hide();
         }else{
             $(".boardTab[boardId='" + $("#boardId").val() + "']").addClass('active');
+            $(".searchBox").show();
         }
 
         mBl.gridReload(new URLSearchParams(queryParams).toString());

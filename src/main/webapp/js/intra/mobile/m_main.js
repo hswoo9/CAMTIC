@@ -106,6 +106,6 @@ var mMain = {
     },
 
     moveToboardArticleView : function(e, b){
-        location.href = '/m/board_view.do?boardArticleId=' + e + "&boardId=" + b;
+        location.href = '/m/board_view.do?boardType=normal&boardArticleId=' + e + "&boardId=" + b;
     }
 }
