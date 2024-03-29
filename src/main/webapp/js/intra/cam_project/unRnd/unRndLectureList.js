@@ -127,7 +127,7 @@ var unRndLectList = {
                     width: "10%"
                 }, {
                     field: "LEC_TITLE_BS",
-                    title: "단위사업명"
+                    title: "강좌명(사업명)"
                 }, {
                     title: "교육기간",
                     width: "15%",
@@ -350,9 +350,13 @@ var unRndLectList = {
                     field: "CON_FIELD_NAME",
                     title: "분야",
                     width: "10%"
-                },  {
+                },  /*{
                     field: "CON_BUSN_CLASS_NAME",
                     title: "단위사업명"
+                },*/
+                {
+                    field: "CON_TITLE_PR",
+                    title: "과제명"
                 }, {
                     title: "협약기간",
                     width: "15%",
