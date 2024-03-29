@@ -185,99 +185,10 @@ const lectureReq = {
             const result = customKendo.fn_customAjax("/projectUnRnd/getConsultingInfo", data);
             const conMap = result.data;
             const conTc = result.list;
+            var html = "";
 
-            /*if(conTc != null && conTc != ""){
-                if(result.list.length === 1){
-                    const teachTime = parseInt(conTc[0].teachTime);
-                    $("#tcName").text(conTc[0].NAME);
-                    $("#tcBirth").text(conTc[0].BIRTH);
-                    if (conTc[0].GENDER === 'F') {
-                        $("#tcGender").text("여");
-                    } else if (conTc[0].GENDER === 'M') {
-                        $("#tcGender").text("남");
-                    } else {
-                        $("#tcGender").text(conTc[0].GENDER);
-                    }
-                    $("#tcNum").text(conTc[0].TEL_NUM);
-                    $("#tcNumP").text(conTc[0].HP_NUM);
-                    $("#tcEmail").text(conTc[0].EMAIL);
-
-                    /!*$("#conTime").val(teachTime);*!/
-                }else if(result.list.length === 2){
-                    const teachTime = parseInt(conTc[0].teachTime) + parseInt(conTc[1].teachTime);
-                    $("#tcName").text(conTc[0].NAME);
-                    $("#tcBirth").text(conTc[0].BIRTH);
-                    if (conTc[0].GENDER === 'F') {
-                        $("#tcGender").text("여");
-                    } else if (conTc[0].GENDER === 'M') {
-                        $("#tcGender").text("남");
-                    } else {
-                        $("#tcGender").text(conTc[0].GENDER);
-                    }
-                    $("#tcNum").text(conTc[0].TEL_NUM);
-                    $("#tcNumP").text(conTc[0].HP_NUM);
-                    $("#tcEmail").text(conTc[0].EMAIL);
-
-                    $("#tcName2").text(conTc[1].NAME);
-                    $("#tcBirth2").text(conTc[1].BIRTH);
-                    if (conTc[1].GENDER === 'F') {
-                        $("#tcGender2").text("여");
-                    } else if (conTc[1].GENDER === 'M') {
-                        $("#tcGender2").text("남");
-                    } else {
-                        $("#tcGender2").text(conTc[1].GENDER);
-                    }
-                    $("#tcNum2").text(conTc[1].TEL_NUM);
-                    $("#tcNumP2").text(conTc[1].HP_NUM);
-                    $("#tcEmail2").text(conTc[1].EMAIL);
-
-                    /!*$("#conTime").val(teachTime);*!/
-                }else if(result.list.length === 3){
-                    const teachTime = parseInt(conTc[0].teachTime) + parseInt(conTc[1].teachTime) + parseInt(conTc[2].teachTime);
-                    $("#tcName").text(conTc[0].NAME);
-                    $("#tcBirth").text(conTc[0].BIRTH);
-                    if (conTc[0].GENDER === 'F') {
-                        $("#tcGender").text("여");
-                    } else if (conTc[0].GENDER === 'M') {
-                        $("#tcGender").text("남");
-                    } else {
-                        $("#tcGender").text(conTc[0].GENDER);
-                    }
-                    $("#tcNum").text(conTc[0].TEL_NUM);
-                    $("#tcNumP").text(conTc[0].HP_NUM);
-                    $("#tcEmail").text(conTc[0].EMAIL);
-
-                    $("#tcName2").text(conTc[1].NAME);
-                    $("#tcBirth2").text(conTc[1].BIRTH);
-                    if (conTc[1].GENDER === 'F') {
-                        $("#tcGender2").text("여");
-                    } else if (conTc[1].GENDER === 'M') {
-                        $("#tcGender2").text("남");
-                    } else {
-                        $("#tcGender2").text(conTc[1].GENDER);
-                    }
-                    $("#tcNum2").text(conTc[1].TEL_NUM);
-                    $("#tcNumP2").text(conTc[1].HP_NUM);
-                    $("#tcEmail2").text(conTc[1].EMAIL);
-
-                    $("#tcName3").text(conTc[2].NAME);
-                    $("#tcBirth3").text(conTc[2].BIRTH);
-                    if (conTc[2].GENDER === 'F') {
-                        $("#tcGender3").text("여");
-                    } else if (conTc[2].GENDER === 'M') {
-                        $("#tcGender3").text("남");
-                    } else {
-                        $("#tcGender3").text(conTc[2].GENDER);
-                    }
-                    $("#tcNum3").text(conTc[2].TEL_NUM);
-                    $("#tcNumP3").text(conTc[2].HP_NUM);
-                    $("#tcEmail3").text(conTc[2].EMAIL);
-
-                    /!*$("#conTime").val(teachTime);*!/
-                }
-            }*/
             if(conTc != null && conTc != ""){
-                $("#conTeacherInfo").html("");
+                $("#conTeacherInfo").html('');
 
                 for(var i = 0 ; i < conTc.length ; i++) {
                     html +='<table class="popTable table table-bordered mb-10 mt--5">';

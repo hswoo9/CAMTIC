@@ -10,6 +10,7 @@
     .ctList tr th{background-color: #8fa1c04a; padding: 5px; width: 30%;}
     .ctList tr td{padding: 5px; width: 70%;}
     #methodType label{display: inline-block;margin-bottom: 0.0rem;}
+    input[disabled] {background-color: #eee;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
@@ -306,15 +307,8 @@
 
 
         <div class="consulting" style="padding: 20px 30px; display: none;">
-            <div id="conTeacherInfo" style="display: none;">
-               <%-- <table class="popTable table table-bordered mb-20">
-                    <colgroup>
-                        <col width="30%">
-                        <col width="270%">
-                    </colgroup>
-                    <tbody id="ctList">
-                    </tbody>
-                </table>--%>
+            <div id="conTeacherInfo">
+
             </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
