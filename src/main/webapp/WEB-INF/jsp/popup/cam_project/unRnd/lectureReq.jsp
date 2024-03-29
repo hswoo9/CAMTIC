@@ -78,7 +78,8 @@
         </div>--%>
 
         <div class="lecture" style="padding: 20px 30px;">
-            <div id="lecTeacherInfo">
+            <input type="checkbox" id="etView" style="margin-left: 5px;">강사목록 보기
+            <div id="lecTeacherInfo" style="display: none;">
                 <table class="popTable table table-bordered mb-20">
                     <colgroup>
                         <col width="50%">
@@ -308,6 +309,8 @@
 
 
         <div class="consulting" style="padding: 20px 30px; display: none;">
+            <input type="checkbox" id="ctView" style="margin-left: 5px;">강사목록 보기
+            <div id="conTeacher" style="display: none;">
             <div style="display: flex;">
                 <table class="popTable table table-bordered mb-10 mt--5" style="width: 16%;">
                     <tbody class="ctList">
@@ -322,6 +325,7 @@
                 <div id="conTeacherInfo" style="display: flex; width: 100%;">
 
                 </div>
+            </div>
             </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
@@ -420,6 +424,27 @@
             $(".lecture").css("display", "none");
             $("#topTitle").text("컨설팅 단위사업");
         }
+
+        var ctCheck = document.getElementById('ctView');
+
+        ctCheck.onclick = function() {
+            if (ctCheck.checked) {
+                $("#conTeacher").css("display", "");
+            } else {
+                $("#conTeacher").css("display", "none");
+            }
+        };
+
+        var etCheck = document.getElementById('etView');
+
+        etCheck.onclick = function() {
+            if (etCheck.checked) {
+                $("#lecTeacherInfo").css("display", "");
+            } else {
+                $("#lecTeacherInfo").css("display", "none");
+            }
+        };
+
     });
 
     function openModalSelect(){
