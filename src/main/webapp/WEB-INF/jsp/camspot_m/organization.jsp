@@ -18,12 +18,12 @@
     	<div id="content">
     		
             <!-- 검색폼 {-->
-            <div class="searchBox">
-                <form>
-                	<input type="text" placeholder="" />
-                	<input type="submit" />
-                </form>
-            </div>
+<%--            <div class="searchBox">--%>
+<%--                <form>--%>
+<%--                	<input type="text" placeholder="" />--%>
+<%--                	<input type="submit" />--%>
+<%--                </form>--%>
+<%--            </div>--%>
             <!--} 검색폼 -->
             
             <!-- 조직도 {-->
