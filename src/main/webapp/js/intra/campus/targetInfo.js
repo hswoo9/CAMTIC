@@ -378,20 +378,17 @@ var targetInfo = {
     },
 
     updateApprStat: function(status) {
+
         if($("#targetYear").val() == "") {
             alert("목표기술서를 등록해주세요.");
             return;
         }
 
         if(status == "10") {
-            if((targetInfo.global.eduPlanList.length != targetInfo.global.targetCategoryMainList.length) ||
-                (targetInfo.global.subEduPlanList.length != targetInfo.global.targetCategorySubList.length)) {
-                alert("학습계획을 작성해주세요.");
-                return;
-            }
-
             var flag = false;
             var flag2 = false;
+
+
             for(var i = 0 ; i < targetInfo.global.targetCategoryMainDetailList.length ; i++){
                 if(targetInfo.global.targetCategoryMainDetailList[i].TARGET_CLASS == "2"){
                     flag = true;
@@ -402,12 +399,48 @@ var targetInfo = {
                     flag2 = true;
                 }
             }
+
+            /** flag3 학습계획 체크 */
+            var flag3 = false;
+            for(var i=0; i<targetInfo.global.targetCategoryMainList.length; i++){
+                var categoryMap = targetInfo.global.targetCategoryMainList[i];
+                var ck = 0;
+                for(var j=0; j<targetInfo.global.eduPlanList.length; j++){
+                    var eduPlanMap = targetInfo.global.eduPlanList[j];
+                    if(categoryMap.EDU_CATEGORY_ID == eduPlanMap.EDU_CATEGORY_ID){
+                        ck = 1;
+                    }
+                }
+                if(ck == 0){
+                    flag3 = true;
+                }
+            }
+            for(var i=0; i<targetInfo.global.targetCategorySubList.length; i++){
+                var categoryMap = targetInfo.global.targetCategorySubList[i];
+                var ck = 0;
+                for(var j=0; j<targetInfo.global.subEduPlanList.length; j++){
+                    var eduPlanMap = targetInfo.global.subEduPlanList[j];
+                    console.log("categoryMap.EDU_CATEGORY_ID", categoryMap.EDU_CATEGORY_ID)
+                    console.log("eduPlanMap.EDU_CATEGORY_ID", eduPlanMap.EDU_CATEGORY_ID)
+                    if(categoryMap.EDU_CATEGORY_ID == eduPlanMap.EDU_CATEGORY_ID){
+                        ck = 1;
+                    }
+                }
+                if(ck == 0){
+                    flag3 = true;
+                }
+            }
+
             if(!flag){
                 alert("주업무 목표가 설정되지 않았습니다.");
                 return;
             }
             if(!flag2){
                 alert("연계업무 목표가 설정되지 않았습니다.");
+                return;
+            }
+            if(flag3){
+                alert("학습계획을 작성해주세요.");
                 return;
             }
 
