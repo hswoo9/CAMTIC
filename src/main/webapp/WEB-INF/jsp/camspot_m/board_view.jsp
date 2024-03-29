@@ -25,8 +25,8 @@
         
             <!-- 탭메뉴 {-->
             <div class="sTabmenu">
-            	<a href="/m/board.do?boardId=40" class="boardTab t1" boardId="40">공지사항</a>
-            	<a href="/m/board.do?boardId=41" class="boardTab t2" boardId="41">업무보고</a>
+                <a href="/m/board.do?boardId=40&boardType=normal" class="boardTab t1" boardType="normal" boardId="40">공지사항</a>
+                <a href="/m/board.do?boardId=41&boardType=normal" class="boardTab t2" boardType="normal" boardId="41">업무보고</a>
                 <a href="/m/board.do?boardType=watch" class="boardTab t3" boardType="watch">함께보아요</a>
             </div>
             <!--} 탭메뉴 -->
