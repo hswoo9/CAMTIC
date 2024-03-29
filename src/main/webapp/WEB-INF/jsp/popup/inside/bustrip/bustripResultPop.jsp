@@ -218,9 +218,9 @@
                     <button type="button" class="k-button k-button-solid-base" id="moveBtn" onclick="bustripResultPop.fn_moveCheck()">거리계산</button>
                     <button type="button" class="k-button k-button-solid-base" id="formDown" onclick="bustripResultPop.mapFormDown()">양식다운로드</button>
                     <button type="button" class="k-button k-button-solid-base" id="mapBtn" onclick="bustripResultPop.fn_mapOpen()">지도보기</button>
-                    <button type="button" class="k-button k-button-solid-base" id="highpassBtn" disabled>하이패스</button>
+                    <button type="button" class="k-button k-button-solid-base" id="highpassBtn" onclick="window.open('https://www.hipass.co.kr/')">하이패스</button>
                     ID : camtic0, PW : camtic43   하이패스 번호 : 4617-7550-0003-9145
-                    [<a href="#" onclick="bustripResultPop.boardViewPop()" target="_blank">이용방법 보기</a>]
+                    [<a href="#" onclick="bustripResultPop.boardViewPop()">이용방법 보기</a>]
                 </td>
             </tr>
             <tr class="bustripTr">
