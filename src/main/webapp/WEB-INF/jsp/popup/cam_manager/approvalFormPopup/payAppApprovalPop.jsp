@@ -17,6 +17,9 @@
                         <col width="10%">
                         <col width="10%">
                     </colgroup>
+                    <tr id="rowType" style="display: none">
+                        <td colspan="6" style="height:30px;background-color:#FFFFDD; text-align:center;"><p style="font-size:14px; font-weight: 500"><b>지&nbsp;&nbsp;&nbsp;급&nbsp;&nbsp;&nbsp;처</b></p></td>
+                    </tr>
                     <tr>
                         <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 118px;"><p style="font-size:12px;"><b>상호</b></p></td>
                         <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 82px;"><p style="font-size:12px;"><b>요청액</b></p></td>
@@ -62,7 +65,7 @@
                         <col width="10%">
                     </colgroup>
                     <tr>
-                        <td colspan="6" style="height:30px;background-color:#FFFFDD; text-align:center;"><p style="font-size:12px;"><b>여입처</b></p></td>
+                        <td colspan="6" style="height:30px;background-color:#FFFFDD; text-align:center;"><p style="font-size:14px; font-weight: 500"><b>여&nbsp;&nbsp;&nbsp;입&nbsp;&nbsp;&nbsp;처</b></p></td>
                     </tr>
                     <tr>
                         <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 118px;"><p style="font-size:12px;"><b>상호</b></p></td>
@@ -117,9 +120,11 @@
     }else if(rs.PAY_APP_TYPE == 3){
         docTitle = "[반납신청서]${loginVO.orgnztNm}-${loginVO.name}";
         html = $("#approveDataPop1")[0].innerHTML;
+        $("#rowType").show();
     }else if(rs.PAY_APP_TYPE == 4){
         docTitle = "[대체신청서]${loginVO.orgnztNm}-${loginVO.name}";
         html = $("#approveDataPop1")[0].innerHTML;
+        $("#rowType").show();
     }
 
     approvalDataInit();

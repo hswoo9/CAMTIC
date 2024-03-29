@@ -34,11 +34,13 @@ var payInit = {
         }else if(rs.PAY_APP_TYPE == 3){
             hwpDocCtrl.putFieldText("DOC_TITLE", "반 납 신 청 서");
             hwpDocCtrl.putFieldText("DOC_DETAIL", "아래와 같이 반납신청 합니다.");
-            hwpDocCtrl.putFieldText("ACCOUNT_TYPE_TEXT", "입금계좌");
+            hwpDocCtrl.putFieldText("ACCOUNT_TYPE_TEXT", "출금계좌");
+            hwpDocCtrl.putFieldText("budgetTitle", "세 입 과 목");
         }else if(rs.PAY_APP_TYPE == 4){
             hwpDocCtrl.putFieldText("DOC_TITLE", "대 체 신 청 서");
             hwpDocCtrl.putFieldText("DOC_DETAIL", "아래와 같이 대체신청 합니다.");
-            hwpDocCtrl.putFieldText("ACCOUNT_TYPE_TEXT", "입금계좌");
+            hwpDocCtrl.putFieldText("ACCOUNT_TYPE_TEXT", "출금계좌");
+            hwpDocCtrl.putFieldText("budgetTitle", "세 입 과 목");
         }
 
         console.log("pjtCd" , rs);

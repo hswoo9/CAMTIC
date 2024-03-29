@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 
-    
+
 <jsp:include page="/WEB-INF/jsp/camspot_m/inc/top.jsp" flush="false"/>
 
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
@@ -30,10 +30,10 @@
 
     <!-- payment {-->
     <div id="payment_page" class="sub">
-    
+
     	<!-- content {-->
     	<div id="content">
-        
+
             <!-- 버튼모음 {-->
             <div class="btWrap disF">
             	<a href="javascript:history.back()" class="back"><img src="/images/camspot_m/ico-back.png" /></a>
@@ -46,14 +46,14 @@
                 </span>
             </div>
             <!--} 버튼모음 -->
-            
+
             <!-- 뷰 {-->
             <div class="PviewBox mt20">
             	<font class="txt type28"><b>문서정보</b></font>
                 <div class="content_output mt10">
                 	<a href="#" class="file"><img src="/images/camspot_m/ico-document.png" /><span id="viewDocTitle"></span></a>
                 </div>
-                
+
             	<font class="txt type28 mt40"><b>첨부파일</b></font>
                 <div class="content_output mt10">
                     <div id="attachmentGrid" style="border-bottom: none;">
@@ -61,9 +61,9 @@
                     </div>
 <%--                	<a href="#" class="file"><img src="/images/camspot_m/ico-file.png" />영수증1.jpg</a>--%>
 <%--                	<a href="#" class="file"><img src="/images/camspot_m/ico-file.png" />영수증2.jpg</a>--%>
-                	
+
                 </div>
-                
+
                 <div class="pop_sign_wrap">
                     <div id="approvalDocView" class="pop_wrap_dir" style="padding:0 20px">
                         <input type="hidden" id="docId" name="docId" value="">
@@ -171,15 +171,15 @@
 
             </div>
             <!--} 뷰 -->
-    		
-        	
-            
-    	</div>   
+
+
+
+    	</div>
     	<!--} content -->
-                
+
     </div>
     <!--} payment -->
-    
+
 <script type="text/javascript">
 	$('.m2', $('#menu')).addClass('active');
     var socket =  new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");
@@ -429,12 +429,14 @@
     }
 
     function documentHwpSave(){
-        hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
-            docView.global.hwpFileTextData = data;
-        })
 
         hwpDocCtrl.global.HwpCtrl.GetTextFile("HTML", "", function(data) {
             docView.global.htmlFileTextData = data;
+        })
+
+        hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
+            docView.global.hwpFileTextData = data;
+            docApproveAjax();
         })
     }
 
@@ -700,20 +702,18 @@
             }
         }
 
-        documentHwpDataCtrl();
-
-        setTimeout(() => documentHwpSave(), 1000);
-
-        setTimeout(() => docApproveAjax(), 1500);
+        documentHwpDataCtrl()
     }
 
     function documentHwpDataCtrl(){
         if(docView.global.rs.docInfo.FORM_ID != "1"){
+            hwpApprovalLine.global.connectType = "mobile";
+
             /** 결재 사인 */
             if(docView.global.rs.approveNowRoute.APPROVE_TYPE != 1){
                 hwpApprovalLine.setHwpApprovalSignPut();
 
-                /** 협조 사인 */
+            /** 협조 사인 */
             }else{
                 const approveRoute = docView.global.rs.approveRoute;
                 const cRoute = approveRoute.filter(tempArr => tempArr.APPROVE_TYPE == 1);
@@ -739,6 +739,8 @@
                     }
                 }
             }
+        }else{
+            documentHwpSave()
         }
     }
 
@@ -757,7 +759,14 @@
 
                 }
             }
-            location.href='/m/payment.do';
+
+            let ip = "http://new.camtic.or.kr";
+            if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
+                ip = "http://new.camtic.or.kr";
+            }else{
+                ip = "http://218.158.231.186";
+            }
+            location.href=ip+'/m/payment.do';
 
         }else{
             alert("결재 중 에러가 발생했습니다.");
