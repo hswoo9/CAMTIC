@@ -27,6 +27,7 @@
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="myEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="mgtCd" value="${data.PJT_CD}" />
 <div style="padding: 10px">
     <div id="btnDiv" style="background-color: #eef6ff; padding: 10px; font-size: 13px;">
