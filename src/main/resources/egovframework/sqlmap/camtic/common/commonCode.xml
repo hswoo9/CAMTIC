@@ -114,6 +114,9 @@
         <if test='searchValue != null and !"".equals(searchValue)'>
             AND CB_CODE_NM like CONCAT('%', #{searchValue}, '%')
         </if>
+        <if test='!"0".equals(cbUpperCode)'>
+            ORDER BY CB_CODE_NM ASC
+        </if>
     </select>
 
     <select id="getCustomBudget" parameterType="map" resultType="map">

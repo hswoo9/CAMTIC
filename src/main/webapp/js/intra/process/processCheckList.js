@@ -64,6 +64,9 @@ var pcList = {
                     field: "SND_EMP_NAME",
                     title: "요청자",
                 }, {
+                    title: "요청일시",
+                    field: "REG_DT_F"
+                }, {
                     title: "승인",
                     width: 100,
                     template: function(e){

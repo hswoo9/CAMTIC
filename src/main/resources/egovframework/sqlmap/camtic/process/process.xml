@@ -6,11 +6,13 @@
     <select id="getPsCheckList" parameterType="map" resultType="map">
         /*getPsCheckList*/
         SELECT
-            *
+            A.*,
+            DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DT_F
         FROM
-            CAM_COMMON.DJ_PS_CHECK
+            CAM_COMMON.DJ_PS_CHECK A
         WHERE
             RCV_EMP_SEQ LIKE CONCAT('|', #{empSeq}, '|') AND PS_STAT = 'N'
+        ORDER BY REG_DT DESC
     </select>
 
     <select id="getAuthorityPsCheck" parameterType="map" resultType="map">

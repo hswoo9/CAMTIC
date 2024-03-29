@@ -26,7 +26,7 @@
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
-                <span style="position: relative; top: 3px;" id="pjtTitle">예산 등록</span>
+                <span style="position: relative; top: 3px;" id="pjtTitle">사업비 등록</span>
             </h3>
         </div>
         <div class="panel-body" style="padding-bottom: 0;">
