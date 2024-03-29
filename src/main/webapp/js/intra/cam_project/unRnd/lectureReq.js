@@ -474,10 +474,10 @@ const lectureReq = {
                 alert("모집인원이 작성되지 않았습니다.");
                 return;
             }
-            if (data.eduTime == "" || data.eduTimeEx == "") {
+            /*if (data.eduTime == "" || data.eduTimeEx == "") {
                 alert("교육시간이 작성되지 않았습니다.");
                 return;
-            }
+            }*/
             if (data.area == "") {
                 alert("교육장소가 작성되지 않았습니다.");
                 return;
