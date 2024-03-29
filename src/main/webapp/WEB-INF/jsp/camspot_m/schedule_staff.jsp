@@ -93,7 +93,6 @@
         showOn: "both",
         buttonImage: "/images/camspot_m/ico-calendar.png",
         buttonImageOnly: true,
-        minDate: 0,
 		dateFormat : "yy년 mm월 dd일",
         prevText: '이전 달',
         nextText: '다음 달',
