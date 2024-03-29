@@ -85,7 +85,7 @@ var evaluationList = {
         var url = "/evaluation/pop/evaluationSet.do";
 
         var name = "_blank";
-        var option = "width = 1000, height = 820, top = 100, left = 400, location = no";;
+        var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 }
