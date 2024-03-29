@@ -185,56 +185,50 @@ const lectureReq = {
             const result = customKendo.fn_customAjax("/projectUnRnd/getConsultingInfo", data);
             const conMap = result.data;
             const conTc = result.list;
-            var html = "";
+            var html1 = "";
 
             if(conTc != null && conTc != ""){
                 $("#conTeacherInfo").html('');
 
                 for(var i = 0 ; i < conTc.length ; i++) {
-                    html +='<table class="popTable table table-bordered mb-10 mt--5">';
-                    html +='<tbody class="ctList">';
-                    html +='<tr>';
-                    html +='<th scope="row" class="text-center th-color">성명</th>';
-                    html +='<td>'+conTc[i].NAME+'</td>';
-                    html +='</tr>';
+                    html1 +='<table class="popTable table table-bordered mb-10 mt--5" style="width: 33.3%">';
+                    html1 +='<tbody class="ctList">';
+                    html1 +='<tr>';
+                    html1 +='<td class="tcTb">'+conTc[i].NAME+'</td>';
+                    html1 +='</tr>';
 
-                    html +='<tr>';
-                    html +='<th scope="row" class="text-center th-color">생년월일</th>';
-                    html +='<td>'+conTc[i].BIRTH+'</td>';
-                    html +='</tr>';
+                    html1 +='<tr>';
+                    html1 +='<td class="tcTb">'+conTc[i].BIRTH+'</td>';
+                    html1 +='</tr>';
 
-                    html +='<tr>';
-                    html +='<th scope="row" class="text-center th-color">성별</th>';
+                    html1 +='<tr>';
                     if (conTc[i].GENDER === 'F') {
-                        html += '<td>여</td>';
+                        html1 += '<td class="tcTb">여</td>';
                     }else if(conTc[i].GENDER === 'M') {
-                        html += '<td>남</td>';
+                        html1 += '<td class="tcTb">남</td>';
                     }else if(conTc[i].GENDER == null){
-                        html += '<td></td>';
+                        html1 += '<td class="tcTb"></td>';
                     }else{
-                        html += '<td>'+conTc[i].GENDER+'</td>';
+                        html1 += '<td class="tcTb">'+conTc[i].GENDER+'</td>';
                     }
-                    html +='</tr>';
+                    html1 +='</tr>';
 
-                    html +='<tr>';
-                    html +='<th scope="row" class="text-center th-color">전화번호</th>';
-                    html +='<td>'+conTc[i].TEL_NUM+'</td>';
-                    html +='</tr>';
+                    html1 +='<tr>';
+                    html1 +='<td class="tcTb">'+conTc[i].TEL_NUM+'</td>';
+                    html1 +='</tr>';
 
-                    html +='<tr>';
-                    html +='<th scope="row" class="text-center th-color">휴대폰 번호</th>';
-                    html +='<td>'+conTc[i].HP_NUM+'</td>';
-                    html +='</tr>';
+                    html1 +='<tr>';
+                    html1 +='<td class="tcTb">'+conTc[i].HP_NUM+'</td>';
+                    html1 +='</tr>';
 
-                    html +='<tr>';
-                    html +='<th scope="row" class="text-center th-color">이메일</th>';
-                    html +='<td>'+conTc[i].EMAIL+'</td>';
-                    html +='</tr>';
-                    html +='</tbody>';
-                    html +='</table>';
+                    html1 +='<tr>';
+                    html1 +='<td class="tcTb">'+conTc[i].EMAIL+'</td>';
+                    html1 +='</tr>';
+                    html1 +='</tbody>';
+                    html1 +='</table>';
                 }
 
-                $("#conTeacherInfo").html(html);
+                $("#conTeacherInfo").html(html1);
             }
 
 

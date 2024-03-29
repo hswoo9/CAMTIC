@@ -11,6 +11,7 @@
     .ctList tr td{padding: 5px; width: 70%;}
     #methodType label{display: inline-block;margin-bottom: 0.0rem;}
     input[disabled] {background-color: #eee;}
+    .tcTb{height: 28px;}
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/unRnd/lecture.js?v=${today}'/>"></script>
@@ -307,8 +308,20 @@
 
 
         <div class="consulting" style="padding: 20px 30px; display: none;">
-            <div id="conTeacherInfo">
+            <div style="display: flex;">
+                <table class="popTable table table-bordered mb-10 mt--5" style="width: 16%;">
+                    <tbody class="ctList">
+                    <tr><th scope="row" class="text-center th-color tcTb">성명</th></tr>
+                    <tr><th scope="row" class="text-center th-color tcTb">생년월일</th></tr>
+                    <tr><th scope="row" class="text-center th-color tcTb">성별</th></tr>
+                    <tr><th scope="row" class="text-center th-color tcTb">전화번호</th></tr>
+                    <tr><th scope="row" class="text-center th-color tcTb">휴대폰 번호</th></tr>
+                    <tr><th scope="row" class="text-center th-color tcTb">이메일</th></tr>
+                    </tbody>
+                </table>
+                <div id="conTeacherInfo" style="display: flex; width: 100%;">
 
+                </div>
             </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
