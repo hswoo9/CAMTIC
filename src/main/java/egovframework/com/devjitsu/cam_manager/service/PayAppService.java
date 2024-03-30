@@ -109,4 +109,6 @@ public interface PayAppService {
 
     Map<String, Object> getPartRatePayBsYm(Map<String, Object> params);
 
+    void delExnpData(Map<String, Object> params);
+
 }

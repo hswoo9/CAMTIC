@@ -504,6 +504,9 @@ public class PayAppServiceImpl implements PayAppService {
             params.remove("payAppSn");
         }
         if(!params.containsKey("exnpSn")){
+            if(!params.containsKey("payAppDetSn")){
+                params.put("payAppDetSn", null);
+            }
             payAppRepository.insExnpData(params);
         } else {
             payAppRepository.updExnpData(params);
@@ -1804,4 +1807,22 @@ public class PayAppServiceImpl implements PayAppService {
     public Map<String, Object> getPartRatePayBsYm(Map<String, Object> params) {
         return payAppRepository.getPartRatePayBsYm(params);
     }
+
+    @Override
+    public void delExnpData(Map<String, Object> params) {
+        Map<String, Object> map = new HashMap<>();
+
+        map = payAppRepository.getExnpData(params);
+
+        if(map.get("PAY_APP_DET_SN") != null){
+            for(String c : map.get("PAY_APP_DET_SN").toString().split(",")){
+                map.put("payAppDetSn", c);
+                payAppRepository.updPayAppExnpStatus(map);
+            }
+        }
+
+        payAppRepository.delExnpData(params);
+        payAppRepository.delExnpDetData(params);
+    }
+
 }

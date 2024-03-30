@@ -69,6 +69,7 @@
         INSERT CAM_MNG.DJ_EXNP
             (
                 PAY_APP_SN,
+                PAY_APP_DET_SN,
                 PAY_APP_TYPE,
                 PJT_NM,
                 PJT_SN,
@@ -99,6 +100,7 @@
         VALUES
             (
                 #{payAppSn},
+                #{payAppDetSn},
                 #{payAppType},
                 #{pjtNm},
                 #{pjtSn},
@@ -2442,4 +2444,24 @@
         WHERE
             PJT_SN = #{pjtSn}
     </select>
+
+    <delete id="delExnpData" parameterType="map">
+        /*delExnpData*/
+        DELETE FROM CAM_MNG.DJ_EXNP WHERE EXNP_SN = #{exnpSn}
+    </delete>
+
+    <delete id="delExnpDetData" parameterType="map">
+        /*delExnpDetData*/
+        DELETE FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = #{exnpSn}
+    </delete>
+
+    <update id="updPayAppExnpStatus" parameterType="map">
+        /*updPayAppExnpStatus*/
+        UPDATE CAM_MNG.DJ_PAY_APP_DET
+        SET
+            EXNP_STAT = 'N',
+            EXNP_SAVE = 'N'
+        WHERE
+            PAY_APP_DET_SN = #{payAppDetSn}
+    </update>
 </mapper>
