@@ -472,6 +472,7 @@ var draft = {
 
     referencesCancel : function(e){
         var listBox = $("#referencesListView").data("kendoListBox");
+        draft.global.referencesArr.splice($(e).closest("li").index(), 1);
         listBox.remove(listBox.items().get($(e).closest("li").index()));
         draft.global.referencesDataSource.remove($(e).closest("li"));
     },

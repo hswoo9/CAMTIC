@@ -203,7 +203,7 @@ var bustList = {
                         if(e.TRIP_CODE != "4"){
                             if(e.STATUS == 100){
                                 return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재완료</button>';
-                            }else if(e.STATUS == 10){
+                            }else if(e.STATUS == 10 || e.STATUS == 20 || e.STATUS == 50){
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재중</button>';
                             }else if(e.STATUS == 30){
                                 return '<button type="button" class="k-button k-button-solid-error" onclick="bustList.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">반려</button>';
