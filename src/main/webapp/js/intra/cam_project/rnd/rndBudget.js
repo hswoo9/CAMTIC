@@ -18,6 +18,7 @@ var rndBg = {
         rndBg.global.searchAjaxData = {
             pjtCd : $("#mgtCd").val(),
             pageType : "USER",
+            searchValue : '',
         }
 
         $("#selectType").kendoRadioGroup({
