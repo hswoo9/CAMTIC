@@ -1217,7 +1217,7 @@ var regPay = {
                         var cr = cResult.list[0];
                         fn_selCardInfo(cr.TR_CD, cr.TR_NM, cr.CARD_BA_NB, cr.JIRO_NM, cr.CLTTR_CD, cr.BA_NB, cr.DEPOSITOR, 0);
                         $("#eviType" + count).data("kendoDropDownList").value(3);
-                        $("#etc" + count).val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
+                        // $("#etc" + count).val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
                         $("#totCost" + count).val(regPay.comma(snackData.AMOUNT_SN));
                         $("#supCost" + count).val(regPay.comma(snackData.AMOUNT_SN));
                         $("#crmNm" + count).val(snackData.AREA_NAME);
