@@ -1024,7 +1024,7 @@ var regExnp = {
                 try {
                     opener.regExnp.gridReload();
                 }catch{
-                    alert("새로 고침중 오류가 발생하였습니다.");
+                    // alert("새로 고침중 오류가 발생하였습니다.");
                 }
                 window.close();
             }else{
