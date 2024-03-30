@@ -67,10 +67,16 @@ var regPay = {
                     $("#exnpAddBtn").text("여입결의서 작성");
                 } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
                     $("#cardTitle").text("반납신청서");
-                    $("#exnpAddBtn").text("반납신청서 작성");
+                    $("#exnpAddBtn").text("반납결의서 작성");
                 } else if($("#payAppType").data("kendoRadioGroup").value() == "4"){
                     $("#cardTitle").text("대체신청서");
-                    $("#exnpAddBtn").text("대체신청서 작성");
+                    $("#exnpAddBtn").text("대체결의서 작성");
+                }
+            }
+
+            if($("#payAppType").data("kendoRadioGroup").value() != "1"){
+                for(var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
+                    $("#eviType" + i).data("kendoDropDownList").select(7);
                 }
             }
         })
@@ -1351,10 +1357,10 @@ var regPay = {
                 $("#exnpAddBtn").text("여입결의서 작성");
             } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
                 $("#cardTitle").text("반납신청서");
-                $("#exnpAddBtn").text("반납신청서 작성");
+                $("#exnpAddBtn").text("반납결의서 작성");
             } else if($("#payAppType").data("kendoRadioGroup").value() == "4"){
                 $("#cardTitle").text("대체신청서");
-                $("#exnpAddBtn").text("대체신청서 작성");
+                $("#exnpAddBtn").text("대체결의서 작성");
             }
         }
 
