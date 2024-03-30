@@ -53,11 +53,30 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("empSeq", params.get("mngEmpSeq"));
+
+        Map<String, Object> map = userRepository.getUserInfo(params);
+        map.put("regEmpSeq", params.get("regEmpSeq"));
+        map.put("mngCheck", "Y");
+        map.put("psPrepNm", "연구책임자");
+
         if(!params.containsKey("pjtSn")){
             projectUnRndRepository.insSubjectInfo(params);
+            projectUnRndRepository.insUnRndDetail2(params);
+            map.put("pjtSn", params.get("pjtSn"));
+            projectRndRepository.insRschData(map);
+            projectRndRepository.insPjtPsRnd(map);
         } else {
             projectUnRndRepository.updSubjectInfo(params);
+            projectUnRndRepository.updUnRndDetail2(params);
+            map.put("pjtSn", params.get("pjtSn"));
+            projectRndRepository.updRschData(map);
+            projectRndRepository.updPjtPsRnd(map);
         }
+
+        // 프로젝트 총괄 책임자 변경
+        projectRepository.updPMInfo(params);
     }
 
     @Override
@@ -67,20 +86,11 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
 
     @Override
     public void setUnRndDetail(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
-        Map<String, Object> map = userRepository.getUserInfo(params);
-        map.put("pjtSn", params.get("pjtSn"));
-        map.put("regEmpSeq", params.get("regEmpSeq"));
-        map.put("mngCheck", "Y");
-        map.put("psPrepNm", "연구책임자");
 
         if(params.get("stat") == "ins" || "ins".equals(params.get("stat"))){
             projectUnRndRepository.insUnRndDetail(params);
-            projectRndRepository.insRschData(map);
-            projectRndRepository.insPjtPsRnd(map);
         } else {
             projectUnRndRepository.updUnRndDetail(params);
-            projectRndRepository.updRschData(map);
-            projectRndRepository.updPjtPsRnd(map);
         }
         projectRndRepository.delAccountInfo(params);
         projectRndRepository.updPjtSepRnd(params);
@@ -92,9 +102,6 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             params.put("accountList", ACCOUNT_LIST);
             projectRndRepository.insAccountInfo(params);
         }
-
-        // 프로젝트 총괄 책임자 변경
-        projectRepository.updPMInfo(params);
 
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
@@ -117,7 +124,7 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
             }
         }
 
-        projectRepository.delCustomBudget(map);
+        projectRepository.delCustomBudget(params);
         Gson gson = new Gson();
         List<Map<String, Object>> list = gson.fromJson((String) params.get("customBudget"), new TypeToken<List<Map<String, Object>>>(){}.getType());
         if(list.size() > 0){
