@@ -18,6 +18,7 @@ var rndBg = {
         rndBg.global.searchAjaxData = {
             pjtCd : $("#mgtCd").val(),
             pageType : "USER",
+            searchValue : ""
         }
 
         $("#selectType").kendoRadioGroup({
@@ -466,7 +467,18 @@ var rndBg = {
                 }, {
                     title: "지출완료일",
                     width: 80,
-                    field: "REQ_END_DE"
+                    field: "REQ_END_DE",
+                    template : function(e){
+                        if(e.DOC_STATUS == "100"){
+                            if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.EXNP_DOC_STATUS2 == 100){
+                                return e.REQ_END_DE;
+                            } else {
+                                return "";
+                            }
+                        } else {
+                            return "";
+                        }
+                    }
                 },{
                     title: "지출금액",
                     width: 110,
@@ -493,9 +505,9 @@ var rndBg = {
 
                         if(e.DOC_STATUS == "100"){
                             stat = "결재완료"
-                            if(e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.EXNP_DOC_STATUS2 == 100){
+                            if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.EXNP_DOC_STATUS2 == 100){
                                 stat = "지출완료";
-                            } else if(e.EXNP_DOC_STATUS != e.EXNP_STATUS && e.EXNP_DOC_STATUS != 0){
+                            } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
                                 stat = "부분지출";
                             } else if (e.EXNP_STATUS != 0){
                                 stat = "지출대기";
