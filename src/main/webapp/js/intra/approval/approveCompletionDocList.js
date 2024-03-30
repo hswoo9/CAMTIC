@@ -17,6 +17,15 @@ var approveCompletion = {
             }
         });
 
+        $("#approveStatCodeDesc").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "전결", value: "전결" },
+                { text: "최종결재", value: "최종결재" }
+            ]
+        })
+
         approveCompletion.gridReload();
     },
 
@@ -164,6 +173,7 @@ var approveCompletion = {
             empName : $("#empName").val(),
             approveType : "completion",
             resType : "Y",
+            approveStatCodeDesc : $("#approveStatCodeDesc").data("kendoDropDownList").value()
         }
 
         approveCompletion.mainGrid("/approvalUser/getApproveDocBoxList", approveCompletion.global.searchAjaxData);

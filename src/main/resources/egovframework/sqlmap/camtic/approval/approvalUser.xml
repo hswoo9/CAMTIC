@@ -541,6 +541,7 @@
 
         GROUP BY DI.DOC_ID
         ) RE
+        WHERE RE.APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc}
         ORDER BY IFNULL(RE.LAST_APPROVE_DT2, RE.DRAFT_DT) DESC
         /*ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC*/
     </select>
@@ -667,7 +668,7 @@
             </otherwise>
         </choose>
         GROUP BY DI.DOC_ID
-        ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
+        ORDER BY IFNULL(RE.LAST_APPROVE_DT2, RE.DRAFT_DT) DESC
         <if test='startPage != null and !"".equals(startPage)'>
             LIMIT #{startPage}, 5
         </if>
