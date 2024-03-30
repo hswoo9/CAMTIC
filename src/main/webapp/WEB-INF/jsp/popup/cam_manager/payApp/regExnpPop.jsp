@@ -25,6 +25,7 @@
 <input type="hidden" id="payIncpSn" name="payIncpSn" value="${params.payIncpSn}">
 <input type="hidden" id="status" name="status" value="${params.status}" />
 <input type="hidden" id="mode" name="mode" value="" />
+<input type="hidden" id="docMode" value="${params.docMode}" />
 
 <input type="hidden" id="detArr" value="${params.detArr}" />
 <input type="hidden" id="regFlag" value="${params.regFlag}" />
