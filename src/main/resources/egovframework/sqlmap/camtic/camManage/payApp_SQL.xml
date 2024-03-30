@@ -453,7 +453,11 @@
 
     <select id="getWaitPaymentList" parameterType="map" resultType="map">
         /*getWaitPaymentList*/
-        SELECT A.PJT_CD, A.PAY_APP_TYPE, A.REVERT_YN, B.* FROM
+        SELECT A.PJT_CD, A.PAY_APP_TYPE, A.REVERT_YN,
+               SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+               SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+               B.*
+        FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
         LEFT JOIN CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN
@@ -2464,4 +2468,52 @@
         WHERE
             PAY_APP_DET_SN = #{payAppDetSn}
     </update>
+
+    <select id="getCompletePaymentList" parameterType="map" resultType="map">
+        /*getCompletePaymentList*/
+        SELECT
+            A.PAY_APP_TYPE,
+            A.EXNP_SN,
+            A.RE_STAT,
+            A.DOC_STATUS,
+            B.BUDGET_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+            B.TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B
+        ON
+            A.EXNP_SN = B.EXNP_SN
+        WHERE
+            PJT_CD = #{mgtSeq}
+        AND
+            DOC_STATUS IN (100, 101)
+    </select>
+
+    <select id="getApprovePaymentList" parameterType="map" resultType="map">
+        /*getApprovePaymentList*/
+        SELECT
+            A.PAY_APP_TYPE,
+            A.EXNP_SN,
+            A.RE_STAT,
+            A.DOC_STATUS,
+            B.BUDGET_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+            B.TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B
+        ON
+            A.EXNP_SN = B.EXNP_SN
+        WHERE
+            PJT_CD = #{mgtSeq}
+        AND
+            DOC_STATUS IN (100, 101)
+        AND
+            RE_STAT = 'Y'
+    </select>
 </mapper>
