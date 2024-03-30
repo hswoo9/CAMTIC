@@ -107,10 +107,16 @@
                 <thead>
                 <tr>
                     <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>사업구분
+                    </th>
+                    <td>
+                        <input type="text" id="yearClass" style="width: 20%;" value="">
+                    </td>
+                    <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>과제구분
                     </th>
-                    <td colspan="3">
-                        <input type="text" id="sbjClass" style="width: 10%;" value="">
+                    <td>
+                        <input type="text" id="sbjClass" style="width: 20%;" value="">
                     </td>
                 </tr>
                 <tr>
@@ -171,9 +177,23 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>연구 시작/종료일
                     </th>
-                    <td>
+                    <td colspan="3">
                         <input type="text" id="sbjStrDe" style="width: 40%;"> ~
                         <input type="text" id="sbjEndDe" style="width: 40%;">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>사업책임자
+                    </th>
+                    <td>
+                        <input type="text" id="mngDeptName" style="width: 40%" disabled>
+                        <input type="hidden" id="mngDeptSeq" disabled>
+                        <input type="text" id="mngEmpName" style="width: 30%" disabled>
+                        <input type="hidden" id="mngEmpSeq">
+                        <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch('mng');">
+                            검색
+                        </button>
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>과제담당자(PM)
@@ -374,8 +394,8 @@
         $("#pjtSecurityModal").data("kendoWindow").open();
     }
 
-    function userSearch() {
-        window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
+    function userSearch(p) {
+        window.open("/common/deptListPop.do?params=" + p , "조직도", "width=750, height=650");
     }
 
     regUnRnd.fn_defaultScript();
