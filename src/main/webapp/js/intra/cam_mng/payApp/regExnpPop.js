@@ -134,12 +134,14 @@ var regExnp = {
             if(data != null){
                 if(data.DOC_STATUS == "0"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
+                    buttonHtml += '<button type="button" id="delBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regExnp.fn_delete()">삭제</button>';
                     buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.payAppDrafting()">상신</button>';
                 }else if(data.DOC_STATUS == "10" || data.DOC_STATUS == "50"){
                     $("#mode").val("view");
                     buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', 1, \'retrieve\');">회수</button>';
                 }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
+                    buttonHtml += '<button type="button" id="delBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regExnp.fn_delete()">삭제</button>';
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \'exnp\', \'camticExnp_'+data.EXNP_SN+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
                     $("#mode").val("view");
@@ -910,6 +912,10 @@ var regExnp = {
             regEmpSeq : $("#regEmpSeq").val(),
         }
 
+        if($("#item").val() != "" && $("#item").val() != null){
+            parameters.payAppDetSn = $("#item").val();
+        }
+
         if($("#exnpSn").val() != ""){
             parameters.exnpSn = $("#exnpSn").val();
         }
@@ -1018,7 +1024,7 @@ var regExnp = {
                 try {
                     opener.regExnp.gridReload();
                 }catch{
-                    alert("새로 고침중 오류가 발생하였습니다.");
+                    // alert("새로 고침중 오류가 발생하였습니다.");
                 }
                 window.close();
             }else{
@@ -1127,6 +1133,33 @@ var regExnp = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_delete : function(){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        var params = {
+            exnpSn : $("#exnpSn").val(),
+            payAppSn : $("#payAppSn").val(),
+            status : $("#status").val()
+        }
+
+        $.ajax({
+            url : "/payApp/delExnpData",
+            data : params,
+            type : "post",
+            dataType : "json",
+            success: function(rs){
+                if(rs.code == 200){
+                    alert("삭제되었습니다.");
+                    window.close();
+                } else {
+                    alert("오류가 발생하였습니다.\n담당자에게 문의하세요.")
+                }
+            }
+        });
     }
 }
 
@@ -1416,6 +1449,6 @@ var regExnpDet = {
         var name = "_blank";
         var option = "width = 850, height = 400, top = 200, left = 350, location = no";
         var popup = window.open(url, name, option);
-    }
+    },
 }
 
