@@ -132,16 +132,20 @@ var regExnp = {
         let buttonHtml = "";
         if($("#status").val() == "rev" || $("#status").val() == "in" || $("#status").val() == "re" || $("#status").val() == "alt"){
             if(data != null){
-                if(data.DOC_STATUS == "0"){
+                if(data.DOC_STATUS == "0" || $("#docMode").val() == "new"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
-                    buttonHtml += '<button type="button" id="delBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regExnp.fn_delete()">삭제</button>';
+                    if($("#docMode").val() != "new"){
+                        buttonHtml += '<button type="button" id="delBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regExnp.fn_delete()">삭제</button>';
+                    }
                     buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.payAppDrafting()">상신</button>';
                 }else if(data.DOC_STATUS == "10" || data.DOC_STATUS == "50"){
                     $("#mode").val("view");
                     buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', 1, \'retrieve\');">회수</button>';
                 }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_save()">저장</button>';
-                    buttonHtml += '<button type="button" id="delBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regExnp.fn_delete()">삭제</button>';
+                    if($("#docMode").val() != "new"){
+                        buttonHtml += '<button type="button" id="delBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regExnp.fn_delete()">삭제</button>';
+                    }
                     buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \'exnp\', \'camticExnp_'+data.EXNP_SN+'\', 2, \'reDrafting\');">재상신</button>';
                 }else if(data.DOC_STATUS == "100"){
                     $("#mode").val("view");
@@ -403,6 +407,18 @@ var regExnp = {
         }
 
         $("#apprBtn").css("display", "");
+
+        if($("#docMode").val() == "new"){
+            $("#DT1").data("kendoDatePicker").value(new Date());
+            $("#DT2").data("kendoDatePicker").value(new Date());
+            $("#DT3").data("kendoDatePicker").value(new Date());
+
+            $("#reqDe").data("kendoDatePicker").value(new Date());
+            $("#reqExDe").data("kendoDatePicker").value(new Date());
+            $("#reqEndDe").data("kendoDatePicker").value(new Date());
+
+            $("#exnpDe").val($("#DT3").val())
+        }
     },
 
     payAppDrafting: function() {
@@ -916,8 +932,10 @@ var regExnp = {
             parameters.payAppDetSn = $("#item").val();
         }
 
-        if($("#exnpSn").val() != ""){
-            parameters.exnpSn = $("#exnpSn").val();
+        if($("#docMode").val() != "new"){
+            if($("#exnpSn").val() != ""){
+                parameters.exnpSn = $("#exnpSn").val();
+            }
         }
 
         if($("#busnCd").val() == ""){
