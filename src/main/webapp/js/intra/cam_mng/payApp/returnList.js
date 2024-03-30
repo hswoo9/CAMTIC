@@ -90,7 +90,7 @@ var returnList = {
                 }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",
-                    width: 280,
+                    width: 250,
                     template: function(e){
                         console.log(e);
                         return '<div style="cursor: pointer; font-weight: bold" onclick="returnList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'re\')">'+e.EXNP_BRIEFS+'</div>';
@@ -123,9 +123,27 @@ var returnList = {
                     width: 70,
                     field: "DT3"
                 }, {
+                    title: "결의일자",
+                    width: 70,
+                    field: "EXNP_DE",
+                    template : function(e){
+                        if(e.DOC_STATUS == "100"){
+                            return e.EXNP_DE;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
                     title: "지출완료일",
                     width: 70,
-                    field: "REQ_END_DE"
+                    field: "REQ_END_DE",
+                    template : function(e){
+                        if(e.DOC_STATUS == "100"){
+                            return e.REQ_END_DE;
+                        } else {
+                            return "";
+                        }
+                    }
                 }, {
                     title: "지출금액",
                     width: 80,
