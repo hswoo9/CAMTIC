@@ -12,6 +12,7 @@
             PJT_STEP,
             PJT_STEP_NM,
             BS_TITLE,
+            YEAR_CLASS,
             SBJ_CLASS,
             SBJ_CHAR,
             SBJ_DEP,
@@ -39,6 +40,7 @@
             #{pjtStep},
             #{pjtStepNm},
             #{bsTitle},
+            #{yearClass},
             #{sbjClass},
             #{sbjChar},
             #{sbjDep},
@@ -70,6 +72,7 @@
         UPDATE CAM_PJT_MNG.DJ_PROJECT
         SET
             BS_TITLE = #{bsTitle},
+            YEAR_CLASS = #{yearClass},
             SBJ_CLASS = #{sbjClass},
             SBJ_CHAR = #{sbjChar},
             SBJ_DEP = #{sbjDep},
@@ -145,6 +148,29 @@
         </selectKey>
     </insert>
 
+    <insert id="insUnRndDetail2" parameterType="map">
+        /*insUnRndDetail2*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_UNRND
+            (
+                PJT_SN,
+                MNG_DEPT_SEQ,
+                MNG_DEPT_NAME,
+                MNG_EMP_SEQ,
+                MNG_EMP_NAME
+            )
+        VALUE
+            (
+                #{pjtSn},
+                #{mngDeptSeq},
+                #{mngDeptName},
+                #{mngEmpSeq},
+                #{mngEmpName}
+            )
+        <selectKey keyProperty="unRndSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_UNRND'
+        </selectKey>
+    </insert>
+
     <update id="updUnRndDetail" parameterType="map">
         /*updUnRndDetail*/
         UPDATE CAM_PJT_MNG.DJ_PJT_UNRND
@@ -160,6 +186,18 @@
             TOT_RES_COST = #{totResCost},
             UN_RND_OBJ = #{unRndObj},
             UN_RND_CONT = #{unRndCont}
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updUnRndDetail2" parameterType="map">
+        /*updUnRndDetail2*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_UNRND
+        SET
+            MNG_DEPT_SEQ = #{mngDeptSeq},
+            MNG_DEPT_NAME = #{mngDeptName},
+            MNG_EMP_SEQ = #{mngEmpSeq},
+            MNG_EMP_NAME = #{mngEmpName}
         WHERE
             PJT_SN = #{pjtSn}
     </update>
