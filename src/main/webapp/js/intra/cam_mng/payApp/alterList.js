@@ -65,16 +65,18 @@ var alterList = {
                     title: "문서유형",
                     width: 70,
                     template: function(e){
-                        if(e.PAY_APP_TYPE == 1){
+                        if(e.EVI_TYPE == 1){
                             return "세금계산서";
-                        } else if (e.PAY_APP_TYPE == 2){
+                        } else if (e.EVI_TYPE == 2){
                             return "계산서";
-                        } else if(e.PAY_APP_TYPE == 3){
+                        } else if(e.EVI_TYPE == 3){
                             return "신용카드";
-                        } else if(e.PAY_APP_TYPE == 4){
+                        } else if(e.EVI_TYPE == 4){
                             return "직원지급";
-                        } else if(e.PAY_APP_TYPE == 5){
-                            return "소득신고자";
+                        } else if(e.EVI_TYPE == 5){
+                            return "사업소득자";
+                        } else if(e.EVI_TYPE == 9){
+                            return "기타소득자";
                         } else {
                             return "기타";
                         }
