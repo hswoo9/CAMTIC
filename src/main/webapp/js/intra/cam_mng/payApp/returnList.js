@@ -65,16 +65,20 @@ var returnList = {
                     title: "문서유형",
                     width: 70,
                     template: function(e){
-                        if(e.PAY_APP_TYPE == 1){
+                        if(e.EVI_TYPE == 1){
                             return "세금계산서";
-                        } else if (e.PAY_APP_TYPE == 2){
+                        } else if (e.EVI_TYPE == 2){
                             return "계산서";
-                        } else if(e.PAY_APP_TYPE == 3){
+                        } else if(e.EVI_TYPE == 3){
                             return "신용카드";
-                        } else if(e.PAY_APP_TYPE == 4){
+                        } else if(e.EVI_TYPE == 4){
                             return "직원지급";
-                        } else if(e.PAY_APP_TYPE == 5){
-                            return "소득신고자";
+                        } else if(e.EVI_TYPE == 5){
+                            return "사업소득자";
+                        } else if(e.EVI_TYPE == 6){
+                            return "기타";
+                        }else if(e.EVI_TYPE == 9){
+                            return "기타소득자";
                         } else {
                             return "기타";
                         }
@@ -86,7 +90,7 @@ var returnList = {
                 }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",
-                    width: 280,
+                    width: 250,
                     template: function(e){
                         console.log(e);
                         return '<div style="cursor: pointer; font-weight: bold" onclick="returnList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'re\')">'+e.EXNP_BRIEFS+'</div>';
@@ -119,9 +123,27 @@ var returnList = {
                     width: 70,
                     field: "DT3"
                 }, {
+                    title: "결의일자",
+                    width: 70,
+                    field: "EXNP_DE",
+                    template : function(e){
+                        if(e.DOC_STATUS == "100"){
+                            return e.EXNP_DE;
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
                     title: "지출완료일",
                     width: 70,
-                    field: "REQ_END_DE"
+                    field: "REQ_END_DE",
+                    template : function(e){
+                        if(e.DOC_STATUS == "100"){
+                            return e.REQ_END_DE;
+                        } else {
+                            return "";
+                        }
+                    }
                 }, {
                     title: "지출금액",
                     width: 80,

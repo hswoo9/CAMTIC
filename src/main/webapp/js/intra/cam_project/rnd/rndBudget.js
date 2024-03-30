@@ -331,9 +331,9 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm2Sum  += Number(e.ACCT_AM_2);
+                            acctAm2Sum  += Number(e.ACCT_AM_2 + e.WAIT_CK);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
@@ -343,9 +343,9 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            subAmSum += Number(e.CALC_AM - e.ACCT_AM_3);
+                            subAmSum += Number(e.SUB_AM);
                         }
-                        return "<div style='text-align: right'>"+comma(e.CALC_AM - e.ACCT_AM_3)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
@@ -494,9 +494,9 @@ var rndBg = {
 
                         if(e.DOC_STATUS == "100"){
                             stat = "결재완료"
-                            if(e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.EXNP_DOC_STATUS2 == 100){
+                            if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.EXNP_DOC_STATUS2 == 100){
                                 stat = "지출완료";
-                            } else if(e.EXNP_DOC_STATUS != e.EXNP_STATUS && e.EXNP_DOC_STATUS != 0){
+                            } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
                                 stat = "부분지출";
                             } else if (e.EXNP_STATUS != 0){
                                 stat = "지출대기";
