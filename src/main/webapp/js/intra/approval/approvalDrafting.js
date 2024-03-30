@@ -1821,12 +1821,22 @@ var draft = {
             const ls = result.list;
             const fileList = result.fileList;
 
+            var result2 = customKendo.fn_customAjax("/payApp/pop/getExnpDocData", rs);
+
+            const fileList2 = result2.fileList;
+
             let attCount = 0;
             let tempArr = [];
             for(let j=0; j< fileList.length; j++){
                 tempArr[attCount] = fileList[j];
                 attCount++;
             }
+
+            for(let j=0; j< fileList2.length; j++){
+                tempArr[attCount] = fileList2[j];
+                attCount++;
+            }
+
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
