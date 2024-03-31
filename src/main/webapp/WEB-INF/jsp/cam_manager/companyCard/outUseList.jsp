@@ -27,11 +27,18 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="10%">
-                        <col width="20%">
+                        <col width="15%">
                         <col width="10%">
-                        <col width="20%">
+                        <col width="15%">
+                        <col width="10%">
+                        <col width="15%">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">결제일자</th>
+                        <td>
+                            <input type="text" id="aStrDe" style="width: 40%;"/> ~
+                            <input type="text" id="aEndDe" style="width: 40%;"/>
+                        </td>
                         <th class="text-center th-color">사용내역등록여부</th>
                         <td>
                             <input type="text" id="regHistYn" style="width: 160px;" onchange="outUseList.mainGrid();"/>
@@ -39,7 +46,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchValue" style="width: 240px;" onkeypress="if(window.event.keyCode==13){outUseList.mainGrid();}"/>
-                            <br>* 명칭, 카드번호(ex. 끝4자리) 검색가능
+                            <br>* 명칭, 카드번호(ex. 끝4자리), 거래처 검색가능
                         </td>
                     </tr>
                 </table>

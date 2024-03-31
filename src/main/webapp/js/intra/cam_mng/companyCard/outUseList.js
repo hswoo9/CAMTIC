@@ -18,6 +18,12 @@ var outUseList = {
             dataValueField : "value"
         });
 
+        var d = new Date();
+        var bd = new Date(d.setMonth(d.getMonth() - 1));
+        console.log(bd.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2));
+        customKendo.fn_datePicker("aStrDe", 'month', "yyyy-MM-dd", bd.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2));
+        customKendo.fn_datePicker("aEndDe", 'month', "yyyy-MM-dd", new Date());
+
         outUseList.mainGrid();
     },
 
@@ -37,6 +43,8 @@ var outUseList = {
                 parameterMap: function(data) {
                     data.regHistYn = $("#regHistYn").val();
                     data.searchValue = $("#searchValue").val();
+                    data.startDt = $("#aStrDe").val();
+                    data.endDt = $("#aEndDe").val();
                     return data;
                 }
             },
