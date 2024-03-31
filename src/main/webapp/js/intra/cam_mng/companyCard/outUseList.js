@@ -1,3 +1,4 @@
+var calcAmSum = 0;
 var outUseList = {
 
     global : {
@@ -64,7 +65,7 @@ var outUseList = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 508,
+            height: 600,
             pageable: {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -108,13 +109,19 @@ var outUseList = {
                             width: 150,
                             template : function (e){
                                 return '<div style="cursor: pointer; font-weight: bold" onclick="outUseList.fn_useCardDetailPop(\''+e.AUTH_NO+'\', \''+e.AUTH_DD+'\', \''+e.AUTH_HH+'\', \''+e.CARD_NO+'\', \''+e.BUY_STS+'\')">'+e.MER_NM+'</div>'
-                            }
+                            },
+                            footerTemplate: "합계"
                         }, {
                             field: "AUTH_AMT",
                             title: "금액",
                             width: 100,
                             template : function (e){
+                                calcAmSum  += Number(e.AUTH_AMT);
+
                                 return '<div style="text-align: right;">' + comma(e.AUTH_AMT) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";
                             }
                         }
                     ]

@@ -222,6 +222,10 @@ var statementList = {
                     title: "",
                     width: 120,
                     template: function(e){
+                        if(e.REG_HISTORY == 0){
+                            return "";
+                        }
+
                         if(e.USE_EMP_SEQ == $("#myEmpSeq").val()){
                             if(e.RT_YN == 'Y'){
                                 if(e.CARD_TO_PURPOSE == "출장"){

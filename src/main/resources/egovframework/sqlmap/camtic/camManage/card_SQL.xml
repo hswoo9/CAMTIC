@@ -71,7 +71,7 @@
         <if test='searchValue != null and !"".equals(searchValue)'>
             AND (B.TR_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
             OR A.CARD_NO LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
-            OR A.MER_NM LIKE CONCAT('%', REPLACE('고마담', '-', ''), '%'))
+            OR A.MER_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%'))
         </if>
         <if test='regHistYn != null and !"".equals(regHistYn)'>
             <choose>
