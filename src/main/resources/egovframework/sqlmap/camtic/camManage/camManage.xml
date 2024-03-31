@@ -84,7 +84,8 @@
                     MNG_STAT != 'R'
                 GROUP BY PJT_SN
             )
-
+        AND
+            C.PJT_STOP != 'Y'
     </select>
 
     <select id="getUserSalList" parameterType="map" resultType="map">

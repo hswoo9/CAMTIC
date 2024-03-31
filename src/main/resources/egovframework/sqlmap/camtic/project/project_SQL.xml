@@ -2506,6 +2506,10 @@
             AND
                 B.BUSN_CLASS = #{busnClass}
         </if>
+        <if test='status != null and !"".equals(status)'>
+            AND
+                A.MNG_STAT = #{status}
+        </if>
         <if test='pjtNm != null and !"".equals(pjtNm)'>
             AND
                 PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
@@ -2928,7 +2932,8 @@
             YEAR(B.GRADUATION_DAY) AS GRADE,
             C.HR_DT_CODE_NM AS GUBUN_CODE_NM,
             C2.HR_DT_CODE_NM AS DEGREE_CODE_NM,
-            C3.HR_DT_CODE_NM AS GRADUATION_CODE_NM
+            C3.HR_DT_CODE_NM AS GRADUATION_CODE_NM,
+            A.SCIENCE_NO
         FROM
             CAM_HR.DJ_EMP_INFO A
         JOIN

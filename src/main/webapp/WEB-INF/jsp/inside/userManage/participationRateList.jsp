@@ -27,12 +27,17 @@
                         <col width="10%">
                         <col width="10%">
                         <col width="10%">
+                        <col width="10%">
                         <col width="60%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">구분</th>
                         <td>
                             <input type="text" id="busnClass" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">상태</th>
+                        <td>
+                            <input type="text" id="status" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">프로젝트명</th>
                         <td colspan="2">
