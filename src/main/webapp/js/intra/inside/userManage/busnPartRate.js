@@ -549,6 +549,8 @@ var busnPartRate = {
         var groupArr = [];
         var monSalFlag = true;
 
+        console.log("payInfo :: " + payInfo);
+
         // 사용자 분리 --> 년도 분리
         for (var x = 0; x < payInfo.length; x++) {
             var itemX = payInfo[x];
@@ -556,7 +558,7 @@ var busnPartRate = {
 
             var preBsYearX = "";
             var cnt = -1;
-            
+
             var monSal = itemX.monSal * itemX.pay.type.length; // 월인건비 * 참여개월
 
             var tot = 0;
@@ -589,6 +591,9 @@ var busnPartRate = {
 
                 salArr[cnt].monYear = bsYearX;
             }
+
+            console.log("monSal :: " + monSal);
+            console.log("tot :: " + tot);
 
             if(monSal != tot){monSalFlag = false;}
 
