@@ -76,7 +76,7 @@
           </th>
           <td>
             <img id="imgName_ko" src="/images/ico/imgName_ko.gif" align="absmiddle" border="0">
-            ${data.USER_NAME}
+            <span id="kName">${data.USER_NAME}</span>
             <img id="imgName_ko" src="/images/ico/imgName_En.gif" align="absmiddle" border="0">
             ${data.USER_NAME_EN}
             <img id="imgName_ko" src="/images/ico/imgName_Ch.gif" align="absmiddle" border="0">
@@ -92,6 +92,7 @@
           </th>
           <td>
             ${data.BDAY}(<fmt:formatNumber type="number" maxFractionDigits="0" value="${data.AGE}" />세)(${data.GENDER_TXT})
+            <input type="hidden" id="bDayText" value="${data.BDAY}">
           </td>
         </tr>
         <tr>

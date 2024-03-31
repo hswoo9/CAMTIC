@@ -143,9 +143,9 @@ var appView = {
             '            이름' +
             '          </th>' +
             '          <td>' +
-            '            <img id="imgName_ko" src="/images/ico/imgName_ko.gif" align="absmiddle" border="0">'+
+            '            <img id="imgName_ko" src="/images/ico/imgName_ko.gif" align="absmiddle" border="0"><span id="kName">'+
             data.USER_NAME+
-            ' <img id="imgName_ko" src="/images/ico/imgName_En.gif" align="absmiddle" border="0">'+
+            ' </span><img id="imgName_ko" src="/images/ico/imgName_En.gif" align="absmiddle" border="0">'+
             data.USER_NAME_EN+
             '<img id="imgName_ko" src="/images/ico/imgName_Ch.gif" align="absmiddle" border="0">'+
             data.USER_NAME_CN+
@@ -161,6 +161,7 @@ var appView = {
             '          </th>' +
             '          <td>'+
             data.BDAY+'('+data.AGE+'세)('+data.GENDER_TXT+')'+
+            '<input type="hidden" id="bDayText" value="'+data.BDAY+'">' +
             '</td>' +
             '        </tr>' +
             '        <tr>' +
@@ -476,6 +477,15 @@ var appView = {
     },
 
     applicationReg : function (e){
+        let data = {
+            bDay : $("#bDayText").val(),
+            kName : $("#kName").text()
+        }
+        var ck = customKendo.fn_customAjax("/inside/getUserInfoByApplication", data);
+        if(ck.data != null){
+            alert("이미 등록된 사용자 입니다."); return;
+        }
+
         var applicationId = e;
         console.log("applicationId : ",applicationId);
         var url = "/inside/pop/applicationReg.do?recruitAreaInfoSn="+$("#recruitAreaInfoSn").val()+"&applicationId="+applicationId;

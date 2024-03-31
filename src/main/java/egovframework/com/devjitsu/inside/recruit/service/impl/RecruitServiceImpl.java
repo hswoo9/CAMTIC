@@ -112,6 +112,11 @@ public class RecruitServiceImpl implements RecruitService {
     }
 
     @Override
+    public Map<String, Object> getUserInfoByApplication(Map<String, Object> params) {
+        return recruitRepository.getUserInfoByApplication(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getCommissionerList(Map<String, Object> params) {
         return recruitRepository.getCommissionerList(params);
     }

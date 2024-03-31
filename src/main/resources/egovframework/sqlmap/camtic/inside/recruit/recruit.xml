@@ -448,6 +448,17 @@
             AND RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
     </select>
 
+    <select id="getUserInfoByApplication" parameterType="map" resultType="map">
+        /* getUserInfoByApplication */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE EMP_NAME_KR = #{kName}
+          AND BDAY = #{bDay}
+        limit 1
+    </select>
+
     <select id="getApplicationList" parameterType="map" resultType="map">
         /* getApplicationList */
         SELECT
