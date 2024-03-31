@@ -18,6 +18,7 @@ var rndBg = {
         rndBg.global.searchAjaxData = {
             pjtCd : $("#mgtCd").val(),
             pageType : "USER",
+            searchValue : '',
         }
 
         $("#selectType").kendoRadioGroup({
@@ -493,9 +494,9 @@ var rndBg = {
 
                         if(e.DOC_STATUS == "100"){
                             stat = "결재완료"
-                            if(e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.EXNP_DOC_STATUS2 == 100){
+                            if(e.ITEM_COUNT == e.EXNP_DOC_STATUS && e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0 && e.EXNP_DOC_STATUS2 == 100){
                                 stat = "지출완료";
-                            } else if(e.EXNP_DOC_STATUS != e.EXNP_STATUS && e.EXNP_DOC_STATUS != 0){
+                            } else if(e.ITEM_COUNT != e.EXNP_DOC_STATUS && e.EXNP_DOC_STATUS != 0){
                                 stat = "부분지출";
                             } else if (e.EXNP_STATUS != 0){
                                 stat = "지출대기";
@@ -514,7 +515,7 @@ var rndBg = {
                     title : "삭제",
                     template : function(e){
                         if(e.REG_EMP_SEQ == $("#myEmpSeq").val()){
-                            if(e.DOC_STATUS == 0){
+                            if(e.DOC_STATUS == 0 || e.DOC_STATUS == 30 || e.DOC_STATUS == 40){
                                 return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentList.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
                                     '	<span class="k-button-text">삭제</span>' +
                                     '</button>';

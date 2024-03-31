@@ -89,17 +89,19 @@
                 <input type="text" id="crmProd" style="width: 90%;">
             </td>
         </tr>
-        <tr>
+        <tr style="display:none;">
             <th scope="row" class="text-center th-color">
                 영업상태
             </th>
             <td>
                 <input type="text" id="crmStat" style="width: 90%;">
             </td>
+        </tr>
+        <tr>
             <th scope="row" class="text-center th-color">
                 고객정보파일
             </th>
-            <td>
+            <td colspan="3">
                 <label for="crmFile" class="k-button k-button-clear-info">파일 선택</label>
                 <span id="crmFileText">선택된 파일 없음</span>
                 <input type="file" id="crmFile" style="display: none" onchange="crmSi.fn_fileChange(this)">

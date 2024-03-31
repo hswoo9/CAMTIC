@@ -758,6 +758,7 @@ var bustripResultPop = {
         const name = "boardViewPop";
         const option = "width = 1420, height = 730, top = 100, left = 200, location = no";
         window.open(url, name, option);
+
     },
 
     addrSearch : function(){

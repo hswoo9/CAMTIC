@@ -161,7 +161,7 @@ var crm = {
                 }
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 3);
+                record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
 

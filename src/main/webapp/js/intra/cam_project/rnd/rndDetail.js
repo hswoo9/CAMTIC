@@ -9,8 +9,7 @@ var rndDetail = {
     },
 
     fn_setPage : function (){
-        customKendo.fn_textBox(["mngDeptName", "mngEmpName"
-            , "peoResCost", "peoResItem", "totResCost"]);
+        customKendo.fn_textBox(["peoResCost", "peoResItem", "totResCost"]);
 
         $("#rndObj").kendoTextArea({
             rows : 7
@@ -82,116 +81,98 @@ var rndDetail = {
         /** 최초 저장 이후 데이터 세팅 */
         if(rs != null){
             $("#rndSn").val(rs.RND_SN);
-            /*$("#allBusnCost").val(comma(rs.ALL_BUSN_COST));*/
-            $("#mngDeptName").val(rs.MNG_DEPT_NAME);
-            $("#mngEmpName").val(rs.MNG_EMP_NAME);
-            $("#mngDeptSeq").val(rs.MNG_DEPT_SEQ);
-            $("#mngEmpSeq").val(rs.MNG_EMP_SEQ);
 
-            //$("#bank").data("kendoDropDownList").value(rs.BANK_SN);
-            //$("#bankNo").val(rs.BANK_NO);
-            //$("#accHold").val(rs.ACC_HOLD);
+            if(rs.RND_OBJ != null){
+                $("#peoResCost").val(comma(rs.PEO_RES_COST));
+                $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
+                $("#totResCost").val(comma(rs.TOT_RES_COST));
 
-            /*$("#allResCost").val(comma(rs.ALL_RES_COST));*/
-            $("#peoResCost").val(comma(rs.PEO_RES_COST));
-            $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
-            $("#totResCost").val(comma(rs.TOT_RES_COST));
+                $("#rndObj").val(rs.RND_OBJ);
 
-            /*if(rs.RES_CARD_CHECK == "Y"){
-                $("input[name='resCardCheck'][value='Y']").prop("checked", true);
-                $("#rccYRes").css("display", "");
-            }else{
-                $("input[name='resCardCheck'][value='N']").prop("checked", true);
-                $("#rccYRes").css("display", "none");
-            }*/
-            //$("#resCardNo").val(rs.RES_CARD_NO);
+                if(rs.file_org_name != null){
+                    $("#bsPlanFileName").text(rs.file_org_name + "." + rs.file_ext);
+                }
 
-            /*$("#delvDay").val(rs.DELV_DAY);
-            $("#resDay").val(rs.RES_DAY);*/
-
-            $("#rndObj").val(rs.RND_OBJ);
-
-            $("#rndSn").val(rs.RND_SN);
-            $("#bsPlanFileName").text(rs.file_org_name + "." + rs.file_ext);
-
-            let AcResult = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {
-                pjtSn: pjtMap.PJT_SN
-            });
-            if(pjtMap.SBJ_SEP != undefined){
-                if(pjtMap.SBJ_SEP == "Y"){
-                    $("#sbjSepY").prop("checked", true);
-                    $("#checkboxDiv").show();
-                    for(let i=0; i<AcResult.list.length; i++){
-                        $("#at" + AcResult.list[i].IS_TYPE).prop('checked',true);
+                let AcResult = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {
+                    pjtSn: pjtMap.PJT_SN
+                });
+                if(pjtMap.SBJ_SEP != undefined){
+                    if(pjtMap.SBJ_SEP == "Y"){
+                        $("#sbjSepY").prop("checked", true);
+                        $("#checkboxDiv").show();
+                        for(let i=0; i<AcResult.list.length; i++){
+                            $("#at" + AcResult.list[i].IS_TYPE).prop('checked',true);
+                        }
+                    } else {
+                        $("#sbjSepN").prop("checked", true);
                     }
-                } else {
-                    $("#sbjSepN").prop("checked", true);
                 }
-            }
 
-            const list = AcResult.list;
-            let arr = [];
-            let firstValue = "";
+                const list = AcResult.list;
+                let arr = [];
+                let firstValue = "";
 
-            let sum = {
-                label: "총괄",
-                value: "-1"
-            };
-            arr.push(sum);
-
-            for(let i=0; i<list.length; i++){
-                let label = "";
-                if(list[i].IS_TYPE == "1"){
-                    label = "국비";
-                }else if(list[i].IS_TYPE == "2"){
-                    label = "도비";
-                }else if(list[i].IS_TYPE == "3"){
-                    label = "시비";
-                }else if(list[i].IS_TYPE == "4"){
-                    label = "자부담";
-                }else if(list[i].IS_TYPE == "5"){
-                    label = "업체부담";
-                }else if(list[i].IS_TYPE == "9"){
-                    label = "기타";
-                }
-                let data = {
-                    label: label,
-                    value: list[i].IS_TYPE == "9" ? "6" : list[i].IS_TYPE
+                let sum = {
+                    label: "총괄",
+                    value: "-1"
                 };
-                arr.push(data);
-                if(i == 0){
-                    firstValue = -1;
-                }
-            }
+                arr.push(sum);
 
-            if(list.length == 0){
-                arr = [
-                    {
-                        label: "사업비",
-                        value: 0
+                for(let i=0; i<list.length; i++){
+                    let label = "";
+                    if(list[i].IS_TYPE == "1"){
+                        label = "국비";
+                    }else if(list[i].IS_TYPE == "2"){
+                        label = "도비";
+                    }else if(list[i].IS_TYPE == "3"){
+                        label = "시비";
+                    }else if(list[i].IS_TYPE == "4"){
+                        label = "자부담";
+                    }else if(list[i].IS_TYPE == "5"){
+                        label = "업체부담";
+                    }else if(list[i].IS_TYPE == "9"){
+                        label = "기타";
                     }
-                ];
-                firstValue = 0;
-            }
-            customKendo.fn_radioGroup("budgetType", arr, "horizontal");
-            $("#budgetType").data("kendoRadioGroup").value(firstValue);
+                    let data = {
+                        label: label,
+                        value: list[i].IS_TYPE == "9" ? "6" : list[i].IS_TYPE
+                    };
+                    arr.push(data);
+                    if(i == 0){
+                        firstValue = -1;
+                    }
+                }
 
-            for(let i=-1; i<=6; i++){
-                $("#customBudgetGrid"+i).hide();
-            }
+                if(list.length == 0){
+                    arr = [
+                        {
+                            label: "사업비",
+                            value: 0
+                        }
+                    ];
+                    firstValue = 0;
+                }
+                customKendo.fn_radioGroup("budgetType", arr, "horizontal");
+                $("#budgetType").data("kendoRadioGroup").value(firstValue);
 
-            $("#customBudgetGrid" + firstValue).show();
-
-            $("#budgetType").data("kendoRadioGroup").bind("change", function(){
                 for(let i=-1; i<=6; i++){
                     $("#customBudgetGrid"+i).hide();
                 }
-                $("#customBudgetGrid" + $("#budgetType").data("kendoRadioGroup").value()).show();
-            })
 
-            $("#budgetExDiv").show();
+                $("#customBudgetGrid" + firstValue).show();
 
-            $("#peoResCost").val($("#totResCost").val());
+                $("#budgetType").data("kendoRadioGroup").bind("change", function(){
+                    for(let i=-1; i<=6; i++){
+                        $("#customBudgetGrid"+i).hide();
+                    }
+                    $("#customBudgetGrid" + $("#budgetType").data("kendoRadioGroup").value()).show();
+                })
+
+                $(".budgetExDiv").show();
+
+                $("#peoResCost").val($("#totResCost").val());
+            }
+
         }
 
         /** 버튼 세팅 */
@@ -203,10 +184,6 @@ var rndDetail = {
             pjtSn : $("#pjtSn").val(),
 
             allBusnCost : 0,
-            mngDeptName : $("#mngDeptName").val(),
-            mngEmpName : $("#mngEmpName").val(),
-            mngDeptSeq : $("#mngDeptSeq").val(),
-            mngEmpSeq : $("#mngEmpSeq").val(),
 
             //bankSn : $("#bank").val(),
             //bankNm : $("#bank").data("kendoDropDownList").text(),
@@ -270,11 +247,6 @@ var rndDetail = {
 
         if($("#bsPlanFile")[0].files.length == 1){
             fd.append("bsPlanFile", $("#bsPlanFile")[0].files[0]);
-        }
-
-        if(parameters.mngEmpSeq == ""){
-            alert("과제책임자를 선택해주세요.");
-            return;
         }
 
         if(parameters.peoResItem == ""){
@@ -406,7 +378,7 @@ var rndDetail = {
         let buttonHtml = "";
         if(rndMap != null){
             let status = rndMap.STATUS
-            if(status == "0"){
+            if(status == "0" && rndMap.PEO_RES_COST != null){
                 buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">상신</button>";
                 buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
             }else if(status == "10" || status == "20" || status == "50"){
@@ -421,7 +393,7 @@ var rndDetail = {
                 const pjtResult = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn : $("#pjtSn").val()});
                 const pjtMap = pjtResult.map;
                 if(pjtMap.DELV_APPROVE_STAT != 100){
-                    buttonHtml += "<span style=\"float: right; position: relative; top: 5px; right: 5px;\"><b style='color: red'>수주승인 요청 중...</b></span>";
+                    buttonHtml += "<span style=\"float: right; position: relative; top: 5px; right: 5px;\"><b style='color: blue'>프로젝트 코드 승인 중...</b></span>";
                 }else{
                     buttonHtml += "<span style=\"float: right; position: relative; top: 5px; right: 5px;\"><b style='color: red'>수주승인 완료</b></span>";
                 }
@@ -430,10 +402,10 @@ var rndDetail = {
             }else if(status == "111"){
                 buttonHtml += "<button type=\"button\" id=\"delvTempBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"tempOrReDraftingPop('"+rndMap.DOC_ID+"', 'delv', '"+rndMap.APPRO_KEY+"', 2, 'tempDrafting');\">전자결재 임시저장 중</button>";
             }else{
-                buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" disabled onclick=\"rndDetail.fn_save()\">저장</button>";
+                buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
             }
         }else{
-            buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
+            buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
         }
         $("#detailBtnDiv").html(buttonHtml);
     },

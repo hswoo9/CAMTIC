@@ -74,7 +74,7 @@ var regExnpRe = {
         $("#payAppType").data("kendoRadioGroup").enable(false);
 
         if($("#payAppType").data("kendoRadioGroup").value() == "1"){
-            $("#cardTitle").text("지급");
+            $("#cardTitle").text("지출");
         } else if($("#payAppType").data("kendoRadioGroup").value() == "2"){
             $("#cardTitle").text("여입");
         } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
@@ -100,7 +100,7 @@ var regExnpRe = {
     },
 
     fn_regExnpInPop : function(payAppSn, exnpSn){
-        var url = "/payApp/pop/regExnpPop.do?payAppSn=" + payAppSn + "&exnpSn=" + exnpSn + "&status=in";
+        var url = "/payApp/pop/regExnpPop.do?payAppSn=" + payAppSn + "&exnpSn=" + exnpSn + "&status=in&docMode=new";
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
@@ -460,7 +460,7 @@ var regExnpRe = {
                 try {
                     opener.exnpReList.gridReload();
                 }catch{
-                    alert("새로 고침중 오류가 발생하였습니다.");
+                    // alert("새로 고침중 오류가 발생하였습니다.");
                 }
                 window.close();
             }else{

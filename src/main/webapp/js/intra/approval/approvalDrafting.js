@@ -472,6 +472,7 @@ var draft = {
 
     referencesCancel : function(e){
         var listBox = $("#referencesListView").data("kendoListBox");
+        draft.global.referencesArr.splice($(e).closest("li").index(), 1);
         listBox.remove(listBox.items().get($(e).closest("li").index()));
         draft.global.referencesDataSource.remove($(e).closest("li"));
     },
@@ -1821,12 +1822,22 @@ var draft = {
             const ls = result.list;
             const fileList = result.fileList;
 
+            var result2 = customKendo.fn_customAjax("/payApp/pop/getExnpDocData", rs);
+
+            const fileList2 = result2.fileList;
+
             let attCount = 0;
             let tempArr = [];
             for(let j=0; j< fileList.length; j++){
                 tempArr[attCount] = fileList[j];
                 attCount++;
             }
+
+            for(let j=0; j< fileList2.length; j++){
+                tempArr[attCount] = fileList2[j];
+                attCount++;
+            }
+
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }

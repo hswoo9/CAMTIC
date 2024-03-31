@@ -28,10 +28,12 @@
             <div class="table-responsive" style="margin-bottom:10px;">
                 <table class="searchTable table table-bordered" style="width: 100%">
                     <colgroup>
+                        <col width="8%">
+                        <col width="19%">
+                        <col width="8%">
+                        <col width="15%">
                         <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
-                        <col width="25%">
+                        <col width="15%">
                         <col width="10%">
                         <col width="15%">
                     </colgroup>
@@ -45,6 +47,12 @@
                         </th>
                         <td>
                             <input type="text" id="docTitle" onkeypress="if(window.event.keyCode==13){approveCompletion.gridReload();}" name="docTitle" style="width: 90%">
+                        </td>
+                        <th class="text-center th-color">
+                            <span class="pdr5 pdl3per">결재상태</span>
+                        </th>
+                        <td>
+                            <input type="text" id="approveStatCodeDesc" name="approveStatCodeDesc" style="width: 70%">
                         </td>
                         <th class="text-center th-color">
                             <span class="pdr5 pdl3per">기안자</span>

@@ -69,6 +69,7 @@
         INSERT CAM_MNG.DJ_EXNP
             (
                 PAY_APP_SN,
+                PAY_APP_DET_SN,
                 PAY_APP_TYPE,
                 PJT_NM,
                 PJT_SN,
@@ -99,6 +100,7 @@
         VALUES
             (
                 #{payAppSn},
+                #{payAppDetSn},
                 #{payAppType},
                 #{pjtNm},
                 #{pjtSn},
@@ -405,7 +407,7 @@
             (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN) AS ITEM_COUNT,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN WHERE Y.PAY_APP_SN = A.PAY_APP_SN AND Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != "") AS EXNP_DOC_STATUS,
             (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS EXNP_DOC_STATUS2,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME
         FROM
@@ -451,7 +453,11 @@
 
     <select id="getWaitPaymentList" parameterType="map" resultType="map">
         /*getWaitPaymentList*/
-        SELECT A.PJT_CD, A.PAY_APP_TYPE, A.REVERT_YN, B.* FROM
+        SELECT A.PJT_CD, A.PAY_APP_TYPE, A.REVERT_YN,
+               SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+               SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+               B.*
+        FROM
             CAM_MNG.DJ_PAY_APP A
         LEFT JOIN CAM_MNG.DJ_PAY_APP_DET B ON A.PAY_APP_SN = B.PAY_APP_SN
         LEFT JOIN CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN
@@ -2441,5 +2447,73 @@
             CAM_MNG.DJ_PAY_APP_BS_YM
         WHERE
             PJT_SN = #{pjtSn}
+    </select>
+
+    <delete id="delExnpData" parameterType="map">
+        /*delExnpData*/
+        DELETE FROM CAM_MNG.DJ_EXNP WHERE EXNP_SN = #{exnpSn}
+    </delete>
+
+    <delete id="delExnpDetData" parameterType="map">
+        /*delExnpDetData*/
+        DELETE FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = #{exnpSn}
+    </delete>
+
+    <update id="updPayAppExnpStatus" parameterType="map">
+        /*updPayAppExnpStatus*/
+        UPDATE CAM_MNG.DJ_PAY_APP_DET
+        SET
+            EXNP_STAT = 'N',
+            EXNP_SAVE = 'N'
+        WHERE
+            PAY_APP_DET_SN = #{payAppDetSn}
+    </update>
+
+    <select id="getCompletePaymentList" parameterType="map" resultType="map">
+        /*getCompletePaymentList*/
+        SELECT
+            A.PAY_APP_TYPE,
+            A.EXNP_SN,
+            A.RE_STAT,
+            A.DOC_STATUS,
+            B.BUDGET_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+            B.TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B
+        ON
+            A.EXNP_SN = B.EXNP_SN
+        WHERE
+            PJT_CD = #{mgtSeq}
+        AND
+            DOC_STATUS IN (100, 101)
+    </select>
+
+    <select id="getApprovePaymentList" parameterType="map" resultType="map">
+        /*getApprovePaymentList*/
+        SELECT
+            A.PAY_APP_TYPE,
+            A.EXNP_SN,
+            A.RE_STAT,
+            A.DOC_STATUS,
+            B.BUDGET_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+            B.TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B
+        ON
+            A.EXNP_SN = B.EXNP_SN
+        WHERE
+            PJT_CD = #{mgtSeq}
+        AND
+            DOC_STATUS IN (100, 101)
+        AND
+            RE_STAT = 'Y'
     </select>
 </mapper>

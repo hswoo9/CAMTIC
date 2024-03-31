@@ -144,6 +144,11 @@ var crmReg = {
             return false;
         }
 
+        if($("#crmNo").val().replace(/-/g, "").length != 10){
+            alert("사업자 번호 길이가 맞지 않습니다.\n확인해주세요.");
+            return;
+        }
+
         if($("email").val() == ""){
             alert("이메일을 입력해주세요.");
             return false;
@@ -193,7 +198,7 @@ var crmReg = {
             enctype : 'multipart/form-data',
             async : false,
             success : function(result){
-                if(result.chk > 0){
+                if(result.chk > 0 && ($("#crmSn").val() == null || $("#crmSn").val() == "")){
                     alert("이미 등록된 업체입니다.");
                     return;
                 } else {

@@ -63,7 +63,7 @@ var exnpReList = {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="exnpReList.fn_exnpApprove()">' +
-                            '	<span class="k-button-text">반제결의서 승인</span>' +
+                            '	<span class="k-button-text">결의서 승인</span>' +
                             '</button>';
                     }
                 }, {
@@ -83,15 +83,15 @@ var exnpReList = {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
                     width: 30,
                     template : function(e){
-                        if(e.TYPE == "반제(지출)"){
+                        // if(e.TYPE == "반제(지출)"){
                             if(e.RE_STAT == "N"){
                                 return '<input type="checkbox" name="check" value="'+e.EXNP_SN+'"/>';
                             } else {
                                 return '';
                             }
-                        } else {
-                            return '';
-                        }
+                        // } else {
+                        //     return '';
+                        // }
                     }
                 }, {
                     title: "번호",
@@ -214,10 +214,16 @@ var exnpReList = {
 
     fn_exnpApprove : function (){
 
+        if($("input[name='check']:checked").length == 0){
+            alert("선택된 결의서가 없습니다.");
+            return;
+        }
+
         if(!confirm("승인하시겠습니까?")){
             return ;
         }
 
+        $("#div_ajax_load_image").show();
         $("input[name=check]:checked").each(function(){
             var parameters = {
                 exnpSn : this.value,
@@ -228,6 +234,8 @@ var exnpReList = {
 
             const result = customKendo.fn_customAjax("/pay/resolutionExnpAppr", parameters);
         });
+
+        alert("승인되었습니다.");
 
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },

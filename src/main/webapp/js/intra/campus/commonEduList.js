@@ -71,7 +71,7 @@ var commonEdu = {
                         return row.START_DT+" ~ "+row.END_DT;
                     }
                 }, {
-                    field: "EDU_TIME",
+                    field: "EDU_TIME_A",
                     title: "교육시간",
                     width: 50
                 }, {

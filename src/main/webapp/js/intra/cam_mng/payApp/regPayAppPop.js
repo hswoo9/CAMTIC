@@ -67,10 +67,16 @@ var regPay = {
                     $("#exnpAddBtn").text("여입결의서 작성");
                 } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
                     $("#cardTitle").text("반납신청서");
-                    $("#exnpAddBtn").text("반납신청서 작성");
+                    $("#exnpAddBtn").text("반납결의서 작성");
                 } else if($("#payAppType").data("kendoRadioGroup").value() == "4"){
                     $("#cardTitle").text("대체신청서");
-                    $("#exnpAddBtn").text("대체신청서 작성");
+                    $("#exnpAddBtn").text("대체결의서 작성");
+                }
+            }
+
+            if($("#payAppType").data("kendoRadioGroup").value() != "1"){
+                for(var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
+                    $("#eviType" + i).data("kendoDropDownList").select(7);
                 }
             }
         })
@@ -1209,9 +1215,9 @@ var regPay = {
 
                         var cResult = customKendo.fn_customAjax("/g20/getCardList", cData);
                         var cr = cResult.list[0];
-                        fn_selCardInfo(cr.TR_CD, cr.TR_NM, cr.CARD_BA_NB, cr.JIRO_NM, cr.CLTTR_CD, cr.BA_NB, cr.DEPOSITOR, 0);
+                        fn_selCardInfo(cr.TR_CD, cr.TR_NM, cr.CARD_BA_NB, cr.JIRO_NM, cr.CLTTR_CD, cr.BA_NB, cr.DEPOSITOR, count);
                         $("#eviType" + count).data("kendoDropDownList").value(3);
-                        $("#etc" + count).val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
+                        // $("#etc" + count).val(snackData.RECIPIENT_EMP_NAME + "의 개인카드 식대사용");
                         $("#totCost" + count).val(regPay.comma(snackData.AMOUNT_SN));
                         $("#supCost" + count).val(regPay.comma(snackData.AMOUNT_SN));
                         $("#crmNm" + count).val(snackData.AREA_NAME);
@@ -1351,10 +1357,10 @@ var regPay = {
                 $("#exnpAddBtn").text("여입결의서 작성");
             } else if($("#payAppType").data("kendoRadioGroup").value() == "3"){
                 $("#cardTitle").text("반납신청서");
-                $("#exnpAddBtn").text("반납신청서 작성");
+                $("#exnpAddBtn").text("반납결의서 작성");
             } else if($("#payAppType").data("kendoRadioGroup").value() == "4"){
                 $("#cardTitle").text("대체신청서");
-                $("#exnpAddBtn").text("대체신청서 작성");
+                $("#exnpAddBtn").text("대체결의서 작성");
             }
         }
 

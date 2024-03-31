@@ -137,7 +137,7 @@
                         <c:if test="${data.PAY_APP_SN eq null}">
                             <button type="button" class="k-button k-button-solid-info" onclick="snackReq.fn_contentMod();">수정</button>
                         </c:if>
-                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="snackReq.snackPrintPop();">증빙양식 출력</button>
+<%--                        <button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="snackReq.snackPrintPop();">증빙양식 출력</button>--%>
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                     </c:when>
                     <c:otherwise>
@@ -243,6 +243,7 @@
                 <div class="card-header" style="padding: 5px;">
                     <h3 class="card-title"><span class="red-star">*</span>영수증</h3>
                     <div class="card-options">
+                        <input type="button" class="k-button k-button-solid-info" style="margin-right: 5px" value="증빙양식 다운로드" onclick="snackReq.snackExnpFormDown()" />
                         <div class="filebox">
                             <button type="button" class="fileUpload k-grid-button k-button k-button-md k-button-solid k-button-solid-base" id="fileUpload" onclick="$('#fileList').click()">
                                 <span class="k-icon k-i-track-changes-enable k-button-icon"></span>

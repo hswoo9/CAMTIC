@@ -142,6 +142,11 @@ const commonEduUser = {
             userArr.push(userData);
         })
 
+        if(userArr.length == 0){
+            alert("직원을 선택해주세요.");
+            return;
+        }
+
         let data = {
             userData: JSON.stringify(userArr)
         }

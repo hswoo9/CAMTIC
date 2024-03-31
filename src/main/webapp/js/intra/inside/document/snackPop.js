@@ -767,6 +767,17 @@ var snackReq = {
         }
         var popup = window.open(hostUrl + path, name, option);
     },
+
+    snackExnpFormDown : function (){
+        var protocol = window.location.protocol + "//";
+        var locationHost = protocol + window.location.host;
+
+        var filePath = "/upload/templateForm/snackExnpForm.hwp";
+
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent('식대지출증빙양식.hwp'),
+        });
+    },
 }
 
 function userDataSet(userArr) {

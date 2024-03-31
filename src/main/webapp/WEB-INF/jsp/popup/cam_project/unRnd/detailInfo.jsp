@@ -123,25 +123,32 @@
                     </span>
                 </td>
             </tr>
-            <tr>
+            <tr class="budgetExDiv" style="display: none">
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>법인사업비
+                    <span class="red-star"></span>법인사업비(현금)<br><span style="color: blue">(하단 사업비 입력 시 자동반영)</span>
                 </th>
                 <td colspan="3">
-                    현금 : <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 15%;text-align: right" disabled/>
-                    현물 : <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 15%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    <input type="text" id="peoResCost" value="0" name="peoResCost" style="width: 15%;text-align: right" disabled/>
                 </td>
             </tr>
-            <tr>
+            <tr class="budgetExDiv" style="display: none">
                 <th scope="row" class="text-center th-color">
-                    <span class="red-star">*</span>수주금액
+                    <span class="red-star"></span>법인사업비(현물)
+                </th>
+                <td colspan="3">
+                    <input type="text" id="peoResItem" value="0" name="peoResItem" style="width: 15%;text-align: right" onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                </td>
+            </tr>
+            <tr class="budgetExDiv" style="display: none">
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>수주금액<br><span style="color: blue">(하단 사업비 입력 시 자동반영)</span>
                 </th>
                 <td colspan="3">
                     <input type="text" id="totResCost" name="totResCost" style="width: 32%;text-align: right" value="0" disabled/>
                 </td>
             </tr>
-            <tr>
-                <th scope="row" class="text-center th-color">
+            <tr style="display: none">
+                <%--<th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>과제책임자
                 </th>
                 <td colspan="3">
@@ -152,9 +159,9 @@
                     <button type="button" id="stfs" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="userSearch('mng');">
                         검색
                     </button>
-                </td>
+                </td>--%>
             </tr>
-            <tr id="budgetExDiv" style="display: none">
+            <tr id="budgetExDiv" class="budgetExDiv" style="display: none">
                 <td colspan="4">
                     <br>
                     <div style="display: flex; justify-content: space-between;">

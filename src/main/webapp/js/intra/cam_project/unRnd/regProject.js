@@ -208,11 +208,16 @@ var regUnRnd = {
         }
 
         customKendo.fn_textBox(["empName", "deptName", "pjtNm", "rndCrmNm", "rndConCrmNm"
-            ,"crmPartNm", "pjtExpAmt", "bsTitle", "pjtConYear", "allBusnCost", "pjtAmt2"]);
+            ,"crmPartNm", "pjtExpAmt", "bsTitle", "pjtConYear", "allBusnCost", "pjtAmt2", "mngDeptName", "mngEmpName"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
 
+        let yearDataSource = [
+            { text: "단년", value: "S" }, //single
+            { text: "다년", value: "M" }  //multi
+        ]
+        customKendo.fn_dropDownList("yearClass", yearDataSource, "text", "value", 2);
         var data = {}
         data.cmGroupCode = "RND_SUBJECT";
         var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", data);
@@ -306,6 +311,7 @@ var regUnRnd = {
         var parameters = {
             busnClass : "S",
             busnNm : "비R&D",
+            yearClass : $("#yearClass").val(),
             sbjClass : $("#sbjClass").val(),
             bsTitle : $("#bsTitle").val(),
             sbjChar : $("#sbjChar").val(),
@@ -324,6 +330,11 @@ var regUnRnd = {
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
             allBusnCost : uncomma($("#allBusnCost").val()),
 
+            mngDeptName : $("#mngDeptName").val(),
+            mngEmpName : $("#mngEmpName").val(),
+            mngDeptSeq : $("#mngDeptSeq").val(),
+            mngEmpSeq : $("#mngEmpSeq").val(),
+
             pjtStep : $("#pjtStep").val(),
             pjtStepNm : $("#pjtStepNm").val(),
             pjtConYear : $("#pjtConYear").val()
@@ -336,6 +347,14 @@ var regUnRnd = {
             }
         });
 
+        if(parameters.yearClass == ""){
+            alert("사업구분을 선택해주세요.");
+            return;
+        }
+        if(parameters.mngEmpSeq == ""){
+            alert("사업책임자를 선택해주세요.");
+            return;
+        }
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
@@ -389,6 +408,7 @@ var regUnRnd = {
     fn_mod : function (){
         var parameters = {
             pjtSn : $("#pjtSn").val(),
+            yearClass : $("#yearClass").val(),
             sbjClass : $("#sbjClass").val(),
             bsTitle : $("#bsTitle").val(),
             sbjChar : $("#sbjChar").val(),
@@ -406,6 +426,12 @@ var regUnRnd = {
             crmSn : $("#rndCrmSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
             allBusnCost : uncomma($("#allBusnCost").val()),
+
+            mngDeptName : $("#mngDeptName").val(),
+            mngEmpName : $("#mngEmpName").val(),
+            mngDeptSeq : $("#mngDeptSeq").val(),
+            mngEmpSeq : $("#mngEmpSeq").val(),
+
             pjtConYear : $("#pjtConYear").val()
         }
 
@@ -415,6 +441,14 @@ var regUnRnd = {
             }
         });
 
+        if(parameters.yearClass == ""){
+            alert("사업구분을 선택해주세요.");
+            return;
+        }
+        if(parameters.mngEmpSeq == ""){
+            alert("사업책임자를 선택해주세요.");
+            return;
+        }
         if(parameters.sbjClass == ""){
             alert("과제구분을 선택해주세요.");
             return;
