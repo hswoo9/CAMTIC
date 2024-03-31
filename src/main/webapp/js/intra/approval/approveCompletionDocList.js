@@ -21,6 +21,8 @@ var approveCompletion = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
+                { text: "전체", value: "" },
+                { text: "결재중", value: "결재" },
                 { text: "전결", value: "전결" },
                 { text: "최종결재", value: "최종결재" }
             ]
