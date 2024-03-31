@@ -6,30 +6,99 @@ var unRndInit = {
         const map = pjtInfo.rs;
         const delvMap = unRndInfo.map;
         const customG20 = customKendo.fn_customAjax("/project/getProjectBudgetListSum.do", {pjtSn: pjtSn});
+        /** 연구비지원기관 */
+        var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", {
+            grpSn: "SUP_DEP"
+        }).list;
+        let supDepTxt = "";
+        for(let i=0; i<lgCodeDs.length; i++){
+            if(lgCodeDs[i].LG_CD == map.SBJ_DEP){
+                supDepTxt = lgCodeDs[i].LG_CD_NM;
+            }
+        }
+
+        /** 전담기관*/
+        var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", {
+            lgCd: map.SBJ_DEP,
+            grpSn: "SUP_DEP"
+        }).rs;
+        let supDepSubTxt = "";
+        for(let i=0; i<smCodeDs.length; i++){
+            if(smCodeDs[i].PJT_CD == map.SBJ_DEP_SUB){
+                supDepSubTxt = smCodeDs[i].PJT_CD_NM;
+            }
+        }
 
         /** 1. 사업정보 */
-        hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
-        hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
-        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-        hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.MNG_DEPT_NAME);
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
-        hwpDocCtrl.putFieldText('PM_EMP_NM', map.PM);
-        hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
+        let yearText = " ";
+        if(map.YEAR_CLASS != null){
+            if(map.YEAR_CLASS == "M"){
+                yearText = "다년";
+            }else{
+                yearText = "단년";
+            }
+        }
+        /** 사업구분 */
+        hwpDocCtrl.putFieldText('YEAR_CLASS', yearText);
+        /** 지원부처 */
+        hwpDocCtrl.putFieldText("SUP_DEP", supDepTxt);
+        /** 전담기관 */
+        hwpDocCtrl.putFieldText("SUP_DEP_SUB", supDepSubTxt);
+        /** 주관기관 */
         hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
-        hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
-        hwpDocCtrl.putFieldText('ADDR', map.ADDR);
-        hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
-        hwpDocCtrl.putFieldText('CRM_MEM_NM', map.TEL_NUM == "" ? map.CRM_CEO : map.TEL_NUM);
-        hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
+        /** 참여기관 */
+        if(map.CRM_PART_NM != null){
+            hwpDocCtrl.putFieldText('CRM_PART_NM', map.CRM_PART_NM);
+        }
+        /** 위탁기관 */
+        if(map.CRM_CON_NM != null){
+            hwpDocCtrl.putFieldText('CRM_CON_NM', map.CRM_CON_NM);
+        }
+        /** 사업명 */
+        hwpDocCtrl.putFieldText('BS_TITLE', map.BS_TITLE);
+        /** 과제명 */
+        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
+        /** 사업기간 */
+        hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
 
-        /** 2. 과제정보 */
-        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
+        /** 총사업비 */
+        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.ALL_BUSN_COST));
+        /** 법인사업비(수주금액) */ /** 법인사업비 정의 4번째 바뀜 */
+        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
+
+        /** 사업책임자 */
+        hwpDocCtrl.putFieldText('MANAGE_NM', map.PM);
+        /** 사업담당자 */
+        hwpDocCtrl.putFieldText('PM_EMP_NM', map.EMP_NAME);
+
+        /** 2. 사업 목적 및 내용 */
+        hwpDocCtrl.putFieldText('OBJ', delvMap.UN_RND_OBJ);
         hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
         hwpDocCtrl.putFieldText('PEO_RES_ITEM', delvMap.PEO_RES_ITEM == 0 ? "0" : fn_numberWithCommas(delvMap.PEO_RES_ITEM));
-        const htmlG20 = rndInit.htmlCustomG20(customG20, delvMap.TOT_RES_COST);
-        hwpDocCtrl.moveToField('content', true, true, false);
-        hwpDocCtrl.setTextFile(htmlG20, "HTML", "insertfile", {});
+
+        let g20Sum = 0;
+        console.log("customG20", customG20);
+        for(let i=0; i<customG20.list.length; i++){
+            const g20Map = customG20.list[i];
+            if(g20Map.CB_CODE_NAME_1 == "인건비" && g20Map.CB_BUDGET != null){
+                hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', fn_numberWithCommas(g20Map.CB_BUDGET));
+                hwpDocCtrl.putFieldText('CB_BUDGET_PER0', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
+                g20Sum += map.CB_BUDGET;
+            }else if(g20Map.CB_CODE_NAME_1 == "직접비" && g20Map.CB_BUDGET != null){
+                hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', fn_numberWithCommas(g20Map.CB_BUDGET));
+                hwpDocCtrl.putFieldText('CB_BUDGET_PER0', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
+                g20Sum += map.CB_BUDGET;
+            }else if(g20Map.CB_CODE_NAME_1 == "간접비" && g20Map.CB_BUDGET != null){
+                hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', fn_numberWithCommas(g20Map.CB_BUDGET));
+                hwpDocCtrl.putFieldText('CB_BUDGET_PER0', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
+                g20Sum += map.CB_BUDGET;
+            }
+        }
+        hwpDocCtrl.putFieldText('G20_TOT', fn_numberWithCommas(g20Sum));
+
+        //const htmlG20 = rndInit.htmlCustomG20(customG20, delvMap.TOT_RES_COST);
+        //hwpDocCtrl.moveToField('content', true, true, false);
+        //hwpDocCtrl.setTextFile(htmlG20, "HTML", "insertfile", {});
     },
 
     devInit: function(devSn){

@@ -268,6 +268,7 @@ var regUnRnd = {
         $("#modBtn").css("display", "");
 
         $("#bsTitle").val(e.BS_TITLE);
+        $("#yearClass").data("kendoDropDownList").value(e.YEAR_CLASS);
         $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
         $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
         $("#supDep").data("kendoDropDownList").trigger("change");

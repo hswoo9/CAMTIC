@@ -280,6 +280,7 @@ var regRnd = {
             $("#modBtn").css("display", "");
 
             $("#bsTitle").val(e.BS_TITLE);
+            $("#yearClass").data("kendoDropDownList").value(e.YEAR_CLASS);
             $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
             //$("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
             $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
