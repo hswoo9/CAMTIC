@@ -99,7 +99,7 @@ var rndPR = {
                     width: 100
                 }, {
                     title: "과학기술인번호",
-                    field: "",
+                    field: "SCIENCE_NO",
                     width: 100
                 }, {
                     title: "최종학력",

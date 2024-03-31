@@ -12,6 +12,15 @@ var mngPartRate = {
         var bcDs = customKendo.fn_customAjax("/common/commonCodeList", bcDsData);
         customKendo.fn_dropDownList("busnClass", bcDs.rs, "CM_CODE_NM", "CM_CODE");
 
+
+        let statusDataSource = [
+            { text: "전체", value: "" },
+            { text: "검토중", value: "R" },
+            { text: "설정완료", value: "S" },
+            { text: "참여율 확정", value: "C" }
+        ]
+        customKendo.fn_dropDownList("status", statusDataSource, "text", "value", 2);
+
         mngPartRate.mainGrid()
     },
 
@@ -19,6 +28,7 @@ var mngPartRate = {
         $(".container").css("display", "none");
         var parameters = {
             busnClass : $("#busnClass").val(),
+            status : $("#status").val(),
             pjtNm : $("#pjtNm").val()
         }
         mngPartRate.mainGrid("/project/getProjectList", parameters);
