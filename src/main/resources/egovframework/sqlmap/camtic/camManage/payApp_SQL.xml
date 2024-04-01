@@ -843,8 +843,6 @@
             CAM_MNG.DJ_EXNP E ON ED.EXNP_SN = E.EXNP_SN
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
-        LEFT JOIN
-            CAM_MNG.DJ_EXNP_DET ED2 ON ED2.EXNP_SN = E.EXNP_SN
         WHERE (ED.EVID_TYPE IN (1, 2, 3) or ED.EVID_TYPE NOT IN (1, 2, 3))
         AND E.DOC_STATUS = '100'
         AND E.PAY_APP_TYPE = 1
@@ -866,7 +864,7 @@
                 AND ED.BUDGET_NM LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "CRM_NM".equals(searchKeyword)'>
-                AND ED2.CRM_NM LIKE CONCAT('%', #{searchValue} ,'%')
+                AND ED.CRM_NM LIKE CONCAT('%', #{searchValue} ,'%')
             </when>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "EXNP_BRIEFS".equals(searchKeyword)'>
                 AND E.EXNP_BRIEFS LIKE CONCAT('%',#{searchValue},'%')
@@ -875,7 +873,7 @@
                 AND
                 (
                     E.PJT_NM LIKE CONCAT('%',#{searchValue},'%') OR
-                    ED2.CRM_NM LIKE CONCAT('%', #{searchValue} ,'%') OR
+                    ED.CRM_NM LIKE CONCAT('%', #{searchValue} ,'%') OR
                     ED.BUDGET_NM LIKE CONCAT('%',#{searchValue},'%') OR
                     E.EXNP_BRIEFS LIKE CONCAT('%',#{searchValue},'%')
                 )
