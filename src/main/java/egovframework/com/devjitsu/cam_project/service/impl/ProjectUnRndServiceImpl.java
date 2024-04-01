@@ -585,7 +585,9 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
+            projectUnRndRepository.updateUnRndDelvApprStat(params);
+        }else if("20".equals(docSts)) { // 중간 결재
             projectUnRndRepository.updateUnRndDelvApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             projectUnRndRepository.updateUnRndDelvApprStat(params);
@@ -632,8 +634,6 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
         params.put("empSeq", empSeq);
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
-            projectRndRepository.updateRndDevApprStat(params);
-        }else if("20".equals(docSts)) { // 중간 결재
             projectRndRepository.updateRndDevApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             projectRndRepository.updateRndDevApprStat(params);
