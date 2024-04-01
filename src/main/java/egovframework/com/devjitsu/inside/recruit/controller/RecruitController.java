@@ -1072,6 +1072,7 @@ public class RecruitController {
         applicationId.put("applicationId",appId);
 
         Map <String,Object> applicationInfo = recruitService.getApplication(applicationId);
+        applicationInfo.put("applicationId", applicationInfo.get("applicationId"));
         params.remove("applicationId");
 
 

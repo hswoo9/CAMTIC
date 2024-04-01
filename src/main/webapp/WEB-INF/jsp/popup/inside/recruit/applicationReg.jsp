@@ -133,6 +133,22 @@
                 </c:choose>
                 </td>
             </tr>
+
+            <tr>
+                <th>
+                    증명사진 이미지 다운로드
+                </th>
+                <td>
+                    <c:choose>
+                        <c:when test="${not empty applicationInfo.photoFile}">
+                            <img src="/images/ico/file.gif" onclick="fileDown('${applicationInfo.photoFile.file_path}${applicationInfo.photoFile.file_uuid}', '${applicationInfo.photoFile.file_org_name}.${applicationInfo.photoFile.file_ext}', 'recruit')">
+                        </c:when>
+                        <c:otherwise>
+                            이미지 파일 없음
+                        </c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
             </thead>
         </table>
     </div><!--mainGrid end-->
