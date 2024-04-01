@@ -575,6 +575,9 @@
         <if test='largeCategoryId != null and largeCategoryId != ""'>
             AND EC.LARGE_CATEGORY_ID in (${largeCategoryId})
         </if>
+        <if test='manageYn != null and manageYn != "" and "N".equals(manageYn)'>
+            AND EC.ACTIVE = 'Y'
+        </if>
         ORDER BY EC.LARGE_CATEGORY_ID, EC.ORDER
     </select>
 
