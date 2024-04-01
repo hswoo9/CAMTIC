@@ -331,7 +331,7 @@ var unRndDetail = {
         let buttonHtml = "";
         if(unRndMap != null){
             let status = unRndMap.STATUS
-            if(status == "0" && rndMap.PEO_RES_COST != null){
+            if(status == "0" && unRndMap.PEO_RES_COST != null){
                 buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">상신</button>";
                 buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDetail.fn_save()\">저장</button>";
             }else if(status == "10" || status == "50"){
