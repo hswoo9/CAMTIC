@@ -683,11 +683,15 @@ public class PayAppServiceImpl implements PayAppService {
             Map<String, Object> execMap = new HashMap<>();
             int i = 0;
 
+            int docNumber = 0;          // 전체 지출결의서 CNT
+            docNumber = payAppRepository.getCountDoc(list.get(i));
+            int userSq = docNumber + 1;
+
             for(Map<String, Object> data : list) {
 
-                int docNumber = 0;          // 전체 지출결의서 CNT
-                docNumber = payAppRepository.getCountDoc(list.get(i));
-                int userSq = docNumber + 1;
+//                int docNumber = 0;          // 전체 지출결의서 CNT
+//                docNumber = payAppRepository.getCountDoc(list.get(i));
+//                int userSq = docNumber + 1;
 
                 int exnpDocNumber = 0;      // 같은 지출결의서 CNT
                 exnpDocNumber = payAppRepository.getExnpCountDoc(data);
@@ -701,7 +705,7 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
                 }
 
-                userSq++;
+//                userSq++;
 
                 data.put("USER_SQ", userSq);
 
