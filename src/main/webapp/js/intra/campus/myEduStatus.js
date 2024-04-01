@@ -702,16 +702,26 @@ var myEdu = {
                     width: 100
                 },  {
                     title: "인정시간",
-                    template: "<span>#=EDU_TIME#시간</span>",
+                    template: "<span>#=REAR_EDU_TIME#시간</span>",
                     width: 100
                 }, {
-                    title: "진행현황",
-                    width: 180,
+                    title: "진행상태",
+                    width: 100,
                     template: function(row){
                         if(row.STATUS == 0){
                             return "계획";
                         }else{
+                            return "종료";
+                        }
+                    }
+                }, {
+                    title: "이수상태",
+                    width: 100,
+                    template: function(row){
+                        if(row.PART_YN == "Y"){
                             return "수료";
+                        }else{
+                            return "미수료";
                         }
                     }
                 }
