@@ -1656,6 +1656,11 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Map<String, Object>> getHistEduList(Map<String, Object> params) {
         return prjRepository.getHistEduList(params);
     }
+
+    @Override
+    public Map<String, Object> getProjectCodeData(Map<String, Object> params) {
+        return projectRepository.getProjectCodeData(params);
+    }
 }
 
 
