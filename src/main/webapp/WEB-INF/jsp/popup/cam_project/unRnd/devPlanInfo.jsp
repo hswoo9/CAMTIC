@@ -21,7 +21,7 @@
 
 <div class="devInfo" style="padding: 10px">
     <div class="table-responsive">
-        <div id="devBtnDiv">
+        <div id="devBtnDiv" style="display: none">
             <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="unRndDP.fn_addVersion()">수행계획서 추가</button>
         </div>
 

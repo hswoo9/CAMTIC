@@ -75,6 +75,10 @@ var commonEdu = {
                     title: "교육시간",
                     width: 50
                 }, {
+                    field: "REAR_EDU_TIME",
+                    title: "인정시간",
+                    width: 50
+                }, {
                     field: "EDU_LOCATION",
                     title: "장소",
                     width: 100
@@ -85,13 +89,23 @@ var commonEdu = {
                         return row.PART_COUNT+"/"+row.NO_PART_COUNT;
                     }
                 }, {
-                    title: "진행현황",
+                    title: "진행상태",
                     width: 50,
                     template: function(row){
                         if(row.STATUS == 0){
                             return "계획";
                         }else{
+                            return "종료";
+                        }
+                    }
+                }, {
+                    title: "이수상태",
+                    width: 50,
+                    template: function(row){
+                        if(row.PART_YN == "Y"){
                             return "수료";
+                        }else{
+                            return "미수료";
                         }
                     }
                 }

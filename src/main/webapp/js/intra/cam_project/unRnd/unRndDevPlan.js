@@ -9,6 +9,54 @@ var unRndDP = {
     fn_defaultScript: function(){
         commonProject.setPjtStat();
         unRndDP.fn_setPage();
+        unRndDP.fn_ckAdmin();
+    },
+
+    fn_ckAdmin : function(){
+        const pjtSn = $("#pjtSn").val();
+
+        const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        const map = pjtInfo.rs;
+
+        const empSeq = $("#regEmpSeq").val();
+        console.log("login Emp Seq", empSeq);
+        if(map.PM_EMP_SEQ != null && empSeq == map.PM_EMP_SEQ){
+            console.log("map.PM_EMP_SEQ", map.PM_EMP_SEQ);
+            $("#devBtnDiv").show();
+        }
+
+        if(map.REG_EMP_SEQ != null && empSeq == map.REG_EMP_SEQ){
+            console.log("map.REG_EMP_SEQ", map.REG_EMP_SEQ);
+            $("#devBtnDiv").show();
+        }
+
+        if(map.EMP_SEQ != null && empSeq == map.EMP_SEQ){
+            console.log("map.EMP_SEQ", map.EMP_SEQ);
+            $("#devBtnDiv").show();
+        }
+
+        const partVerResult = customKendo.fn_customAjax("/projectRnd/getReqPartRateVerList", {pjtSn : pjtSn});
+        const partVerList = partVerResult.list;
+        console.log("partVerList", partVerList);
+
+        if(partVerList.length != 0){
+            const partDetailResult = customKendo.fn_customAjax("/project/getPartRateVerData", {
+                pjtSn : pjtSn,
+                partRateVerSn : partVerList[partVerList.length - 1].PART_RATE_VER_SN
+            });
+            const partDetailMap = partDetailResult.result;
+            const partMem = partDetailMap.projectMemberInfo;
+
+            for(let i = 0 ; i < partMem.length; i++){
+                var partMemMap = partMem[i];
+
+                if(partMemMap.EMP_SEQ != null && empSeq == partMemMap.EMP_SEQ){
+                    console.log("partMemMap.EMP_SEQ", partMemMap.EMP_SEQ);
+                    $("#devBtnDiv").show();
+                    break;
+                }
+            }
+        }
     },
 
     fn_setPage : function(){
@@ -87,6 +135,10 @@ var unRndDP = {
 
     fn_setVersion : function (key){
         unRndDP.fn_setData(key);
+
+        if(unRndDP.global.appCk == "Y"){
+            $("#devAppBtn").show();
+        }
     },
 
     fn_setData: function (key){
@@ -185,6 +237,8 @@ var unRndDP = {
                         $("#psEndDe" + idx).val(list[i].PS_END_DE);
 
                         $("#psNm" + idx).val(list[i].PS_NM);
+
+                        unRndDP.global.appCk = "Y";
                     }
                 } else {
                     html += '<tr>' +
@@ -221,6 +275,8 @@ var unRndDP = {
                     customKendo.fn_datePicker("psStrDe", "depth", "yyyy-MM-dd", new Date());
                     customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
                     $("#psEmpNm").kendoTextBox();
+
+                    unRndDP.global.appCk = "N";
                 }
 
             }
@@ -565,7 +621,7 @@ var unRndDP = {
                 buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.fn_save()\">저장</button>";
                 if(unRndDP.global.invCk == "Y") {
-                    buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.devDrafting()\">상신</button>";
+                    buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"display: none; float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.devDrafting()\">상신</button>";
                 }
             }else if(status == "10" || status == "20" || status == "30"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
