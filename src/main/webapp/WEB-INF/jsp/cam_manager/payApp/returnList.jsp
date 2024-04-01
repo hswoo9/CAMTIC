@@ -13,6 +13,14 @@
         text-decoration: underline !important;
         cursor: pointer;
     }
+    #div_ajax_load_image{
+        z-index:9999;
+        margin:auto;
+        padding:0;
+        position:absolute;
+        top: 50%; left: 50%;
+        display:none;
+    }
 </style>
 
 <div class="mainCard">
@@ -53,7 +61,9 @@
         </div>
     </div>
 </div><!-- col-md-9 -->
-
+<div id="div_ajax_load_image">
+    <img src="/images/ico/loading.gif" alt="">
+</div>
 <script>
 
     returnList.fn_defaultScript();

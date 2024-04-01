@@ -43,6 +43,13 @@ var entryList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="entryList.fn_exnpApprove()">' +
+                            '	<span class="k-button-text">결의서 승인</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="entryList.fn_regExnpInPop()">' +
                             '	<span class="k-button-text">여입결의서 작성</span>' +
                             '</button>';
@@ -57,6 +64,20 @@ var entryList = {
                 }],
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    width: 30,
+                    template : function(e){
+                        if(e.DOC_STATUS == "100"){
+                            if(e.RE_STAT == "N"){
+                                return '<input type="checkbox" name="check" value="'+e.EXNP_SN+'"/>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            return '';
+                        }
+                    }
+                }, {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
@@ -96,10 +117,6 @@ var entryList = {
                     title: "프로젝트 명",
                     field: "PJT_NM",
                     width: 210,
-                    template: function (e){
-                        var pjtNm = e.PJT_NM.toString().substring(0, 25);
-                        return pjtNm + "...";
-                    }
                 }, {
                     title: "세출과목",
                     field: "BUDGET_NM_EX",
@@ -138,20 +155,11 @@ var entryList = {
                     title: "상태",
                     width: 60,
                     template: function(e){
-                        var status = "";
-                        if(e.DOC_STATUS == "100"){
-                            status = "승인";
-                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
-                            status = "결재중";
-                        } else if(e.DOC_STATUS == "30"){
-                            status = "반려";
-                        } else if(e.DOC_STATUS == "40"){
-                            status = "회수";
-                        } else if(e.DOC_STATUS == "0"){
-                            status = "작성중";
+                        if(e.RE_STAT == "N"){
+                            return "미승인"
+                        } else {
+                            return "승인"
                         }
-
-                        return status;
                     }
                 }
             ],
@@ -159,6 +167,11 @@ var entryList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=check]").prop("checked", true);
+            else $("input[name=check]").prop("checked", false);
+        });
     },
 
     gridReload : function(){
@@ -192,5 +205,34 @@ var entryList = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
-    }
+    },
+
+    fn_exnpApprove : function (){
+
+        if($("input[name='check']:checked").length == 0){
+            alert("선택된 결의서가 없습니다.");
+            return;
+        }
+
+        if(!confirm("승인하시겠습니까?")){
+            return ;
+        }
+
+        $("#div_ajax_load_image").show();
+        $("input[name=check]:checked").each(function(){
+            var parameters = {
+                exnpSn : this.value,
+                regEmpSeq : $("#myEmpSeq").val(),
+                empSeq : $("#myEmpSeq").val(),
+                exnpG20Stat : 'Y',
+            }
+
+            const result = customKendo.fn_customAjax("/pay/resolutionExnpAppr", parameters);
+        });
+
+        alert("승인되었습니다.");
+        $("#div_ajax_load_image").hide();
+
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
 }

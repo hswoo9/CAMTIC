@@ -442,7 +442,7 @@ public class PayAppServiceImpl implements PayAppService {
             params.put("approveStatCode", 100);
             payAppRepository.updateExnpFinalApprStat(params);
             Map<String, Object> pkMap = payAppRepository.getExnpData(params);
-            if(!"4".equals(pkMap.get("PAY_APP_TYPE"))){
+            if("1".equals(pkMap.get("PAY_APP_TYPE"))){
                 params.put("payAppType", pkMap.get("PAY_APP_TYPE"));
                 updateG20ExnpFinalAppr(params, "app");
             }
