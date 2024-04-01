@@ -236,6 +236,7 @@ var exnpReList = {
         });
 
         alert("승인되었습니다.");
+        $("#div_ajax_load_image").hide();
 
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
