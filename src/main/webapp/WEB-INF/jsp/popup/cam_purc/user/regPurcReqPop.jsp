@@ -179,7 +179,7 @@
                 </thead>
             </table>
 
-            <table class="popTable table table-bordered mb-0">
+            <%--<table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="30%">
                     <col width="30%">
@@ -205,7 +205,7 @@
                     </td>
                 </tr>
                 </tbody>
-            </table>
+            </table>--%>
 
             <c:if test="${params.stat == 'v'}">
                 <span id="claimGroup" style="font-size:12px;">
@@ -249,21 +249,23 @@
 
                 <table class="popTable table table-bordered mb-0 mt-20">
                     <colgroup>
-                        <col style="width: 3%;">
+                        <col style="width: 2%;">
                         <col style="width: 480px;">
-                        <col style="width: 10%;">
-                        <col style="width: 6%;">
+                        <col style="width: 8%;">
+                        <col style="width: 5%;">
                         <col style="width: 8%;">
                         <col style="width: 5%;">
                         <col style="width: 4%;">
-                        <col style="width: 8%;">
+                        <col style="width: 7%;">
+                        <col style="width: 7%;">
+                        <col style="width: 7%;">
                         <c:if test="${params.stat == 'v'}">
                             <col style="width: 10%;">
                         </c:if>
                         <c:if test="${params.stat != 'v'}">
                             <col style="width: 10%;">
                         </c:if>
-                        <col style="width: 7%;">
+<%--                        <col style="width: 7%;">--%>
                         <col style="width: 5%;">
                         <c:if test="${params.stat == 'v'}">
                             <col style="width: 3%">
@@ -283,9 +285,11 @@
                         <th><span class="red-star">*</span>단가</th>
                         <th><span class="red-star">*</span>수량</th>
                         <th><span class="red-star">*</span>단위</th>
+                        <th>공급가액</th>
+                        <th>세액</th>
                         <th>금액</th>
                         <th><span class="red-star">*</span>업체명</th>
-                        <th><span class="red-star">*</span>할인금액</th>
+<%--                        <th><span class="red-star">*</span>할인금액</th>--%>
                         <th>비고</th>
                         <c:if test="${params.stat == 'v'}">
                             <th>상태</th>
@@ -323,6 +327,12 @@
                             <input type="text" id="purcItemUnit0" class="purcItemUnit">
                         </td>
                         <td>
+                            <input type="text" id="purcSupAmt0" class="purcSupAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                        </td>
+                        <td>
+                            <input type="text" id="purcVatAmt0" class="purcVatAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                        </td>
+                        <td>
                             <input type="text" id="purcItemAmt0" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                         </td>
                         <td>
@@ -330,9 +340,9 @@
                             <input type="text" id="crmNm0" disabled class="crmNm" style="width: 60%">
                             <button type="button" id="crmSelBtn0" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="prp.fn_popCamCrmList('crmSn0', 'crmNm0');">검색</button>
                         </td>
-                        <td>
-                            <input type="text" id="discountAmt0" style="text-align: right" class="discountAmt" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0">
-                        </td>
+<%--                        <td>--%>
+<%--                            <input type="text" id="discountAmt0" style="text-align: right" class="discountAmt" onkeyup="prp.fn_calcN(0, this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="0">--%>
+<%--                        </td>--%>
                         <td>
                             <input type="text" id="rmk0" class="rmk">
                         </td>
