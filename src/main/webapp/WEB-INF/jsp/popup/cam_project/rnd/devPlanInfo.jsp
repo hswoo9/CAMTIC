@@ -11,6 +11,7 @@
 
 <input type="hidden" id="step" value="R1" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 
 <form id="rndDevDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />
@@ -21,7 +22,7 @@
 </form>
 <div class="devInfo" style="padding: 10px">
     <div class="table-responsive">
-        <div id="devBtnDiv">
+        <div id="devBtnDiv" style="display: none">
             <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="rndDP.fn_addVersion()">수행계획서 추가</button>
         </div>
 
