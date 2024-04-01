@@ -90,6 +90,10 @@
                         <input type="text" id="purcReqPurpose" style="width: 40%;" disabled />
                         <button type="button" class="k-button k-button-solid-base" onclick="regCardToPop.fn_purcPop();">검색</button>
                     </span>
+                    <span id="cardToMeeting" style="margin-left: 5px; display:none">
+                        <input type="checkbox" class="k-checkbox k-checkbox-md" id="chkMeeting"/>
+                        <label for="chkMeeting" class="k-checkbox-label">사전승인</label>
+                    </span>
                 </td>
             </tr>
             <tr>

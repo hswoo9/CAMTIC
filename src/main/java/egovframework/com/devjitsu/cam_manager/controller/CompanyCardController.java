@@ -1,6 +1,8 @@
 package egovframework.com.devjitsu.cam_manager.controller;
 
 import egovframework.com.devjitsu.cam_manager.service.CompanyCardService;
+import egovframework.com.devjitsu.cam_project.controller.ProjectController;
+import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class CompanyCardController {
 
     @Autowired
     private CompanyCardService companyCardService;
+
+    @Autowired
+    private ProjectService projectService;
 
     @RequestMapping("/card/cardList.do")
     public String paymentList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -165,12 +170,31 @@ public class CompanyCardController {
                 params.put("frKey", null);
             }
             companyCardService.saveRegCardTo(params);
+            model.addAttribute("params", params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
         }
 
         return "jsonView";
+    }
+
+    @RequestMapping("/card/pop/regMeeting.do")
+    public String regMeeting(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        Map<String, Object> cardMap = companyCardService.getCardToInfo(params);
+        Map<String, Object> pjtInfo = projectService.getProjectCodeData(params);
+
+        model.addAttribute("cardMap", cardMap);
+        model.addAttribute("pjtInfo", pjtInfo);
+
+        return "popup/cam_manager/companyCard/regMeeting";
     }
 
     @RequestMapping("/card/updRegCardTo")
