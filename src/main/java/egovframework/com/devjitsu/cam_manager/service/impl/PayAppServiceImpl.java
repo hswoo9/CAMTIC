@@ -698,9 +698,10 @@ public class PayAppServiceImpl implements PayAppService {
                     if (duplCheck == 0) {
                         break;
                     }
-                    userSq++;
                     data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
                 }
+
+                userSq++;
 
                 data.put("USER_SQ", userSq);
 
