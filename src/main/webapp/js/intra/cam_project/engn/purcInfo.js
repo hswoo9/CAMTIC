@@ -511,7 +511,7 @@ var purcInfo = {
 
 
         var name = "_blank";
-        var option = "width = 1690, height = 820, top = 100, left = 600, location = no"
+        var option = "width = 1820, height = 820, top = 100, left = 600, location = no"
         var popup = window.open(url, name, option);
     },
 

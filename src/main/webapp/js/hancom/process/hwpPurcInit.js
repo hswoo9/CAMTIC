@@ -1,6 +1,7 @@
 var purcInit = {
 
     global: {
+        result : new Array(),
         purcItemList : new Array(),
         amtTotal : new Object(),
 
@@ -15,6 +16,7 @@ var purcInit = {
         }
 
         const result = customKendo.fn_customAjax("/purc/getPurcReq.do", data).data;
+        purcInit.global.result = result;
 
         const purcItemResult = customKendo.fn_customAjax("/purc/getPurcItemList", data);
         purcInit.global.purcItemList = purcItemResult.list;
@@ -89,48 +91,81 @@ var purcInit = {
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="1" style="border-collapse: collapse; margin-top: 0px;">';
         html += '               <tr>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 50px;"><p style="font-size:12px;"><b>구분</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 120px;"><p style="font-size:12px;"><b>품 명</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 120px;"><p style="font-size:12px;"><b>규격</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;"><b>단 가</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 45px;"><p style="font-size:12px;"><b>수량</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 45px;"><p style="font-size:12px;"><b>단위</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;"><b>금 액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 40px;"><p style="font-size:12px;"><b>구분</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 100px;"><p style="font-size:12px;"><b>품 명</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 40px;"><p style="font-size:12px;"><b>규 격</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:12px;"><b>단 가</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 40px;"><p style="font-size:12px;"><b>수량</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 40px;"><p style="font-size:12px;"><b>단위</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:12px;"><b>공급가액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:12px;"><b>세액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:12px;"><b>금액</b></p></td>';
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;"><b>업체명</b></p></td>';
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 58px;"><p style="font-size:12px;"><b>비고</b></p></td>';
         html += '               </tr>';
 
         for(let i=0; i<list.length; i++){
             const map = list[i];
+
+            let amt = uncomma(map.PURC_ITEM_AMT_COMMA); console.log(amt)
+            let sum2 = Math.floor(amt/10);
+            let sum3 = Math.ceil(amt / 1.1);
+            let sum4 = amt - sum3;
+
+            let supAmt = 0;
+            let vatAmt = 0;
+            let itemAmt = 0;
+
+
+            if(purcInit.global.result.VAT == "N"){
+                supAmt = comma(amt);
+                vatAmt = comma(sum2);
+                itemAmt = comma(amt+sum2);
+            }else if(purcInit.global.result.VAT == "Y"){
+                supAmt = comma(sum3);
+                vatAmt = comma(sum4);
+                itemAmt = comma(amt);
+            }else if(purcInit.global.result.VAT == "D"){
+                supAmt = comma(amt);
+                vatAmt = "0";
+                itemAmt = comma(amt);
+            }
+
             html += '   <tr>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>구매</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"><b>'+map.PURC_ITEM_NAME+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+map.PURC_ITEM_STD+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+map.PURC_ITEM_UNIT_PRICE_COMMA+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+map.PURC_ITEM_QTY+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+map.PURC_ITEM_UNIT+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+map.PURC_ITEM_AMT_COMMA+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"><b>'+map.CRM_NM+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"><b>'+map.RMK+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>구매</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_NAME+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_STD+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_UNIT_PRICE_COMMA+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_QTY+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_UNIT+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+supAmt+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+vatAmt+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+itemAmt+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.CRM_NM+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.RMK+'</b></p></td>';
             html += '   </tr>';
         }
         if(list.length < 8){
             for(let i=0; i<8-list.length; i++){
                 html += '   <tr>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
                 html += '   </tr>';
             }
         }
-        html += '   <tr>';
-        html += '       <td colspan="9" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>가격조정</b></p></td>';
-        // html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>&#8361; '+comma(totMap.DISCOUNT_AMT)+'</b></p></td>';
-        html += '   </tr>';
+        // html += '   <tr>';
+        // html += '       <td colspan="9" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>가격조정</b></p></td>';
+        // // html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>&#8361; '+comma(totMap.DISCOUNT_AMT)+'</b></p></td>';
+        // html += '   </tr>';
 
         var popIndex = [];
 
@@ -139,7 +174,8 @@ var purcInit = {
             var listItem = {
                 CRM_SN : list[i].CRM_SN,
                 CRM_NM : list[i].CRM_NM,
-                DISCOUNT_AMT : 0
+                DISCOUNT_AMT : 0,
+                TOT_AMT : 0
             }
 
             if(!popIndex.includes(list[i].CRM_SN)){
@@ -153,6 +189,7 @@ var purcInit = {
                 console.log(listArr)
                 if(listArr[i].CRM_SN == list[j].CRM_SN){
                     listArr[i].DISCOUNT_AMT += Number(list[j].DISCOUNT_AMT);
+                    listArr[i].TOT_AMT += Number(list[j].PURC_ITEM_AMT);
                 }
             }
         }
@@ -160,8 +197,8 @@ var purcInit = {
         for(let i=0; i<listArr.length; i++){
             const map = listArr[i];
             html += '   <tr>';
-            html += '       <td colspan="7" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>'+map.CRM_NM+'</b></p></td>';
-            html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>&#8361; -'+comma(map.DISCOUNT_AMT)+'</b></p></td>';
+            html += '       <td colspan="8" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>'+map.CRM_NM+'</b></p></td>';
+            html += '       <td colspan="3" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>&#8361; '+comma(map.TOT_AMT)+'</b></p></td>';
             html += '   </tr>';
 
             dcPay += Number(map.DISCOUNT_AMT);
@@ -177,13 +214,13 @@ var purcInit = {
 
 
         html += '   <tr>';
-        html += '       <td colspan="7" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>합계 (VAT포함)</b></p></td>';
+        html += '       <td colspan="8" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>합계</b></p></td>';
 
-        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>&#8361; '+comma(sum)+'</b></p></td>';
+        html += '       <td colspan="3" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>&#8361; '+comma(totMap.TOTAL_SUM_UNCOMMA)+'</b></p></td>';
         html += '   </tr>';
 
         html += '   <tr>';
-        html += '       <td colSpan="9" style="height:50px;background-color:#FFFFFF; text-align:center;"></td>';
+        html += '       <td colSpan="11" style="height:50px;background-color:#FFFFFF; text-align:center;"></td>';
         html += '   </tr>';
 
         html += '           </table>';

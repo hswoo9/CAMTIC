@@ -143,6 +143,10 @@ var devInfo = {
 
     fn_setVersion : function (key){
         devInfo.fn_setData(key);
+
+        if(devInfo.global.appCk == "Y"){
+            $("#devAppBtn").show();
+        }
     },
 
     fn_teamApp : function (stat){
@@ -276,6 +280,8 @@ var devInfo = {
                         $("#psEndDe" + idx).val(list[i].PS_END_DE);
 
                         $("#psNm" + idx).val(list[i].PS_NM);
+
+                        devInfo.global.appCk = "Y";
                     }
                 } else {
                     html += '<tr>' +
@@ -312,6 +318,8 @@ var devInfo = {
                     customKendo.fn_datePicker("psStrDe", "depth", "yyyy-MM-dd", new Date());
                     customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
                     $("#psEmpNm").kendoTextBox();
+
+                    devInfo.global.appCk = "N";
                 }
 
             }
@@ -519,7 +527,7 @@ var devInfo = {
             if (status == "0") {
                 buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
-                buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.devDrafting()\">상신</button>";
+                buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"display: none; float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.devDrafting()\">상신</button>";
             } else if (status == "10" || status == "20" || status == "50") {
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('" + devMap.DOC_ID + "', '" + devMap.APPRO_KEY + "', 1, 'retrieve');\">회수</button>";
             } else if (status == "30" || status == "40") {
