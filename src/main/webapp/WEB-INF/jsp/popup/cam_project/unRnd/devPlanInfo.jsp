@@ -182,12 +182,29 @@
         console.log(arr);
         var psEmpSeq = "";
         var psEmpNm = "";
+
+        var prepList = $("#prepList").val();
+        var psNm = $("#psNm").val();
+        var psStrDe = $("#psStrDe").val();
+        var psEndDe = $("#psEndDe").val();
+
         for(var i = 0 ; i < arr.length ; i++){
-            psEmpSeq += arr[i].empSeq + ",";
-            psEmpNm += arr[i].empName + ",";
+            psEmpSeq = arr[i].empSeq;
+            psEmpNm  = arr[i].empName;
+
+            $("#psEmpNm").val(psEmpNm);
+            $("#psEmpSeq").val(psEmpSeq);
+
+            if(arr.length > 1){
+                devInfo.fn_addProcess('d')
+
+                $("#prepList").data("kendoDropDownList").value(prepList);
+                $("#psNm").val(psNm);
+                $("#psStrDe").val(psStrDe);
+                $("#psEndDe").val(psEndDe);
+            }
         }
-        $("#psEmpNm").val(psEmpNm.slice(0, -1));
-        $("#psEmpSeq").val(psEmpSeq.slice(0, -1));
+
     }
 
     function fn_selCrmInfo(e){
