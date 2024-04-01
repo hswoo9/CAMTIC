@@ -560,7 +560,7 @@ var purcInfo = {
         }
 
         var name = "blank";
-        var option = "width = 1500, height = 840, top = 100, left = 400, location = no";
+        var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 
