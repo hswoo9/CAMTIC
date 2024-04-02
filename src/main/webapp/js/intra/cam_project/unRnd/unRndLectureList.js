@@ -174,12 +174,46 @@ var unRndLectList = {
                     field: "LEC_STATUS_NAME",
                     title: "현재상태",
                     width: "10%"
+                }, {
+                    title: "복사",
+                    width: "5%",
+                    template : function (e){
+                        return  '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="unRndLectList.fn_copy('+ e.LEC_SN +')">' +
+                            '	<span class="k-button-text">복사</span>' +
+                            '</button>';
+                    }
                 }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+    },
+
+    fn_copy: function(pk){
+        if(!confirm("해당 교육단위사업을 복사하시겠습니까?")) {
+            return;
+        }
+
+        $.ajax({
+            url : "/projectUnRnd/setLecCopyInsert",
+            data : {
+                pk : pk
+            },
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(){
+                unRndLectList.gridReload();
+            },
+            error : function() {
+                alert("데이터 저장 중 에러가 발생했습니다.");
+
+            }
+        });
+
+
+
     },
 
     onDataBound: function(){

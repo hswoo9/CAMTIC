@@ -565,6 +565,14 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public void setLecCopyInsert(Map<String, Object> params) {
+        projectUnRndRepository.setLecCopyInsert(params);
+
+        params.put("LEC_SN", params.get("lecSn"));
+        projectUnRndRepository.setLecTeacherCopyInsert(params);
+    }
+
+    @Override
     public void updateUnRndDelvDocState(Map<String, Object> bodyMap) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));

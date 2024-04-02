@@ -180,6 +180,12 @@ public class ProjectUnRndRepository extends AbstractDAO {
     public void insConTeacherTimeInfo(Map<String, Object> params) {
         update("unRnd.insConTeacherTimeInfo", params);
     }
+    public void setLecCopyInsert(Map<String, Object> params) {
+        insert("unRnd.setLecCopyInsert", params);
+    }
+    public void setLecTeacherCopyInsert(Map<String, Object> params) {
+        insert("unRnd.setLecTeacherCopyInsert", params);
+    }
 
     public void updUnRndProjectInfoRes(Map<String, Object> params) {
         update("unRnd.updUnRndProjectInfoRes", params);
