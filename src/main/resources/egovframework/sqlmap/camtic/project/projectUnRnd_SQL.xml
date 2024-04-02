@@ -1294,4 +1294,138 @@
             PJT_UNIT_SN = #{pjtUnitSn} AND
             UNIT_CRM_SN = #{unitCrmSn}
     </update>
+
+    <insert id="setLecCopyInsert" parameterType="map">
+        /*setLecCopyInsert*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE (
+            PJT_SN,
+            LEC_BUSN_CLASS,
+            LEC_BUSN_CLASS_NAME,
+            LEC_FIELD,
+            LEC_FIELD1,
+            LEC_FIELD_NAME,
+            LEC_FIELD_NAME1,
+            LEC_SBJ_CD,
+            LEC_SBJ_CD_NAME,
+            LEC_PS_CD,
+            LEC_PS_CD_NAME,
+            LEC_TITLE_BS,
+            LEC_TITLE_PR,
+            LEC_TOPIC,
+            LEC_PS_GUIDE_A,
+            LEC_PS_GUIDE_B,
+            LEC_STR_DE,
+            LEC_END_DE,
+            LEC_TIME,
+            LEC_TIME_RNG,
+            RECR_STR_DE,
+            RECR_END_DE,
+            RECR_MEM_CNT,
+            LEC_ADDR,
+            LEC_STATUS,
+            LEC_STATUS_NAME,
+            LEC_OBJ,
+            LEC_SUMR,
+            LEC_TARG,
+            LEC_SCH,
+            LEC_INQ,
+            LEC_MAT,
+            LEC_COST,
+            LEC_COST_EX,
+            LEC_OPER,
+            LEC_OPER_TYPE_N,
+            LEC_OPER_TYPE_C,
+            LEC_OPER_TYPE_S,
+            LEC_OPER_TYPE_H,
+            LEC_OPER_PR,
+            LEC_CERT,
+            LEC_OPEN_BD,
+            LEC_OPEN_BD_NAME,
+            LEC_BOOK_IMG_SN,
+            LEC_APPL_SN,
+            LEC_MAIN_IMG_SN,
+            MAIL_FILE_SN_A,
+            MAIL_FILE_SN_B,
+            REG_DT,
+            REG_EMP_SEQ
+        )
+        SELECT
+            PJT_SN,
+            LEC_BUSN_CLASS,
+            LEC_BUSN_CLASS_NAME,
+            LEC_FIELD,
+            LEC_FIELD1,
+            LEC_FIELD_NAME,
+            LEC_FIELD_NAME1,
+            LEC_SBJ_CD,
+            LEC_SBJ_CD_NAME,
+            LEC_PS_CD,
+            LEC_PS_CD_NAME,
+            LEC_TITLE_BS,
+            LEC_TITLE_PR,
+            LEC_TOPIC,
+            LEC_PS_GUIDE_A,
+            LEC_PS_GUIDE_B,
+            LEC_STR_DE,
+            LEC_END_DE,
+            LEC_TIME,
+            LEC_TIME_RNG,
+            RECR_STR_DE,
+            RECR_END_DE,
+            RECR_MEM_CNT,
+            LEC_ADDR,
+            LEC_STATUS,
+            LEC_STATUS_NAME,
+            LEC_OBJ,
+            LEC_SUMR,
+            LEC_TARG,
+            LEC_SCH,
+            LEC_INQ,
+            LEC_MAT,
+            LEC_COST,
+            LEC_COST_EX,
+            LEC_OPER,
+            LEC_OPER_TYPE_N,
+            LEC_OPER_TYPE_C,
+            LEC_OPER_TYPE_S,
+            LEC_OPER_TYPE_H,
+            LEC_OPER_PR,
+            LEC_CERT,
+            LEC_OPEN_BD,
+            LEC_OPEN_BD_NAME,
+            LEC_BOOK_IMG_SN,
+            LEC_APPL_SN,
+            LEC_MAIN_IMG_SN,
+            MAIL_FILE_SN_A,
+            MAIL_FILE_SN_B,
+            REG_DT,
+            REG_EMP_SEQ
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE
+        WHERE
+        LEC_SN = #{pk}
+        <selectKey keyProperty="lecSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_LECTURE'
+        </selectKey>
+    </insert>
+
+    <insert id="setLecTeacherCopyInsert" parameterType="map">
+        /*setLecTeacherCopyInsert*/
+        INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ (
+            LEC_SN,
+            CON_SN,
+            TEACHER_SN,
+            TEACH_TIME
+        )
+        SELECT
+            #{lecSn} AS LEC_SN,
+            CON_SN,
+            TEACHER_SN,
+            TEACH_TIME
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_TEACHER_REQ
+        WHERE
+            LEC_SN = #{pk}
+    </insert>
+
 </mapper>
