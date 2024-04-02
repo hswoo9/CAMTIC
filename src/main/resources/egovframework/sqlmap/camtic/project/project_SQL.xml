@@ -18,6 +18,7 @@
     </select>
 
     <select id="getProjectList" parameterType="map" resultType="map">
+        /* getProjectList */
         SELECT
             A.*,
             (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK
@@ -50,7 +51,9 @@
         </if>
         <if test= '"1".equals(searchValue)'>
             AND
-                A.REG_EMP_SEQ = #{regEmpSeq} AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
+                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq})
+
+            AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
         </if>
         <if test= '"2".equals(searchValue)'>
             AND
@@ -58,11 +61,13 @@
         </if>
         <if test= '"3".equals(searchValue)'>
             AND
-                A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
+                A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
         </if>
         <if test='"".equals(searchValue) and "".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-                (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.BS_TITLE LIKE CONCAT('%', #{searchText}, '%'))
+                (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.BS_TITLE LIKE CONCAT('%', #{searchText}, '%')
+                OR (SELECT )
+                )
         </if>
         <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND

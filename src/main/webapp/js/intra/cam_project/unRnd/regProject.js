@@ -299,6 +299,12 @@ var regUnRnd = {
         $("#empSeq").val(e.EMP_SEQ);
         $("#deptSeq").val(e.DEPT_SEQ);
 
+        const pmUserInfo = getUser(e.PM_EMP_SEQ);
+        $("#mngDeptName").val(pmUserInfo.DEPT_NAME);
+        $("#mngDeptSeq").val(pmUserInfo.DEPT_SEQ);
+        $("#mngEmpName").val(e.PM);
+        $("#mngEmpSeq").val(e.PM_EMP_SEQ);
+
         $("#pjtNm").val(e.PJT_NM);
 
         $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));

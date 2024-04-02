@@ -265,4 +265,16 @@ public class PurcRepository extends AbstractDAO {
     public Map<String, Object> getDetailEtaxInfo(Map<String, Object> map) {
         return (Map<String, Object>) selectOne("purc.getDetailEtaxInfo", map);
     }
+
+    public int getMaxCeGwIdx(Map<String, Object> claimData) {
+        return (int) selectOne("purc.getMaxCeGwIdx", claimData);
+    }
+
+    public List<Map<String, Object>> getClaimListByPurcSn(Map<String, Object> params) {
+        return selectList("purc.getClaimListByPurcSn", params);
+    }
+
+    public void updClaimPurcOrder(Map<String, Object> purcReqMap) {
+        update("purc.updClaimPurcOrder", purcReqMap);
+    }
 }

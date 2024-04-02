@@ -266,6 +266,24 @@ public class PurcServiceImpl implements PurcService {
             // 현장(카드)결제일때 청구서 결재완료시 검수처리
             Map<String, Object> claimData = purcRepository.getClaimData(params);
             Map<String, Object> paramMap = new HashMap<>();
+
+            params.put("purcSn", claimData.get("PURC_SN"));
+            List<Map<String, Object>> claimList = purcRepository.getClaimListByPurcSn(params);
+            int ceGwIdx = 0;
+
+            boolean orderFlag = false;
+            String orderDt = "";
+            String goodsDt = "";
+
+            for(Map<String, Object> data : claimList){
+                if(data.get("ORDER_YN").equals("Y")){
+                    orderFlag = true;
+                    orderDt = String.valueOf(data.get("ORDER_DT"));
+                    goodsDt = String.valueOf(data.get("GOODS_DT"));
+                    break;
+                }
+            }
+            ceGwIdx = purcRepository.getMaxCeGwIdx(claimData);
             if(claimData.get("PAYMENT_METHOD").equals("C")){
                 paramMap.put("purcSn", claimData.get("PURC_SN"));
                 paramMap.put("inspectEmpName", claimData.get("EMP_NAME_KR"));
@@ -277,15 +295,47 @@ public class PurcServiceImpl implements PurcService {
                 paramMap.put("inspectDt", fmtNow);
 
                 // 현장(카드) 결재일 경우 청구서 결재완료시 검수처리 후 PURC_TYPE이 R OR S 였을 경우에 구매지급요청에 데이터 INSERT
-                if(claimData.get("PURC_TYPE").equals("R") || claimData.get("PURC_TYPE").equals("S")){
-                    Map<String, Object> purcReqMap = new HashMap<>();
-                    purcReqMap.put("claimSn", claimData.get("CLAIM_SN"));
-                    purcReqMap.put("reqAmt", claimData.get("TOT_AMT"));
-                    purcReqMap.put("ceGwIdx", null);
-                    purcReqMap.put("evidType", null);
+                Map<String, Object> purcReqMap = new HashMap<>();
+                purcReqMap.put("claimSn", claimData.get("CLAIM_SN"));
+                purcReqMap.put("reqAmt", claimData.get("TOT_AMT"));
+                purcReqMap.put("ceGwIdx", ceGwIdx + 1);
+                purcReqMap.put("evidType", null);
 
-                    purcRepository.insPayAppPurcReq(purcReqMap);
+                if(orderFlag){
+                    purcReqMap.put("orderDt", orderDt);
+                    purcReqMap.put("goodsDt", goodsDt);
+                    purcReqMap.put("orderYn", 'Y');
                 }
+
+                purcRepository.insPayAppPurcReq(purcReqMap);
+                purcRepository.updClaimPurcOrder(purcReqMap);
+                purcRepository.updPurcInspect(paramMap);
+                purcRepository.updPurcInspectStat(paramMap);
+            } else if(claimData.get("PURC_TYPE").equals("R") || claimData.get("PURC_TYPE").equals("S")){
+                paramMap.put("purcSn", claimData.get("PURC_SN"));
+                paramMap.put("inspectEmpName", claimData.get("EMP_NAME_KR"));
+                paramMap.put("status", "100");
+
+                LocalDate now = LocalDate.now();
+                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String fmtNow = now.format(fmt);
+                paramMap.put("inspectDt", fmtNow);
+
+                // 현장(카드) 결재일 경우 청구서 결재완료시 검수처리 후 PURC_TYPE이 R OR S 였을 경우에 구매지급요청에 데이터 INSERT
+                Map<String, Object> purcReqMap = new HashMap<>();
+                purcReqMap.put("claimSn", claimData.get("CLAIM_SN"));
+                purcReqMap.put("reqAmt", claimData.get("TOT_AMT"));
+                purcReqMap.put("ceGwIdx", ceGwIdx + 1);
+                purcReqMap.put("evidType", null);
+
+                if(orderFlag){
+                    purcReqMap.put("orderDt", orderDt);
+                    purcReqMap.put("goodsDt", goodsDt);
+                    purcReqMap.put("orderYn", 'Y');
+                }
+
+                purcRepository.insPayAppPurcReq(purcReqMap);
+                purcRepository.updClaimPurcOrder(purcReqMap);
 
                 purcRepository.updPurcInspect(paramMap);
                 purcRepository.updPurcInspectStat(paramMap);

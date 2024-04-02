@@ -277,7 +277,7 @@ var purcInit = {
             if(purcInit.global.claimInfo.VAT == "N"){
                 supAmt = comma(amt);
                 vatAmt = comma(sum2);
-                itemAmt = comma(amt+sum2);
+                itemAmt = comma(Number(amt)+Number(sum2));
             }else if(purcInit.global.claimInfo.VAT == "Y"){
                 supAmt = comma(sum3);
                 vatAmt = comma(sum4);
