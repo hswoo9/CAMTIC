@@ -375,9 +375,7 @@
                 <tr>
                     <th>생년월일</th>
                     <td>
-                    <c:if test="${params.empSeq != null && params.empSeq != ''}">
-                        <input type="text" id="bDay" style="width: 50%;" value="${uprinfList.BDAY}">
-                    </c:if>
+                        <input type="text" id="bDay" style="width: 50%;" value="<c:if test="${params.empSeq != null && params.empSeq != ''}">${uprinfList.BDAY}</c:if>">
                         <input type="checkbox" id="lunarYn" style="position : relative ; top: 3px; margin-left: 5px;"/>
                         <label for="lunarYn" style="position : relative ; top: 1px;">음력</label>
                         <span id="lunarBday"></span>

@@ -2029,8 +2029,8 @@
         OCCUPATION_CODE = #{OCCUPATION_CODE},
         </if>
         LUNAR_CAL = #{LUNAR_CAL},
---         CTR_ST_DAY = NULL,
---         CTR_EN_DAY = NULL,
+        CTR_ST_DAY = #{CTR_ST_DAY},
+        CTR_EN_DAY = #{CTR_EN_DAY},
         WEEK_WORK_TIME = #{WEEK_WORK_TIME},
         NICK_NAME = #{NICK_NAME},
         CONTRACT = #{CONTRACT},
