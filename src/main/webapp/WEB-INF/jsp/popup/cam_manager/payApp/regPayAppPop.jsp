@@ -486,11 +486,35 @@
         var result = customKendo.fn_customAjax("/project/getBankData", data);
         var rs = result.data;
 
-        if(rs != null){
+        if(rs != null && Object.entries(rs).length != 0){
             $("#accNm").val(rs.TR_NM);
             $("#bnkSn").val(rs.TR_CD);
             $("#accNo").val(rs.BA_NB);
             $("#bnkNm").val(rs.JIRO_NM);
+        } else {
+            var data = {
+                frPjtSn : sn
+            }
+
+            $.ajax({
+                url : "/mng/getManageDepo",
+                data : data,
+                type : "post",
+                dataType : "json",
+                success : function(rs){
+                    var rsult = rs.rsult;
+
+                    if(rsult != null) {
+                        var result2 = customKendo.fn_customAjax("/project/getBankData", {pjtCd : rsult.PJT_CD});
+                        var rs2 = result2.data;
+
+                        $("#accNm").val(rs2.TR_NM);
+                        $("#bnkSn").val(rs2.TR_CD);
+                        $("#accNo").val(rs2.BA_NB);
+                        $("#bnkNm").val(rs2.JIRO_NM);
+                    }
+                }
+            });
         }
     }
 </script>
