@@ -1081,6 +1081,8 @@ var prp = {
                     $("#purcItemUnitPrice" + index).val(comma(rowdata[index]['* 단가']));
                     $("#purcItemQty" + index).val(rowdata[index]['* 수량']);
                     $("#purcItemUnit" + index).val(rowdata[index]['* 단위']);
+                    $("#purcSupAmt" + index).val(comma(rowdata[index]['공급가액']));
+                    $("#purcVatAmt" + index).val(comma(rowdata[index]['세액']));
                     $("#purcItemAmt" + index).val(comma(rowdata[index]['금액']));
                     $("#rmk" + index).val(rowdata[index]['비고']);
 
