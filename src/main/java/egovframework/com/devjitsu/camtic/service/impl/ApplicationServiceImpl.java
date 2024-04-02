@@ -80,9 +80,11 @@ public class ApplicationServiceImpl implements ApplicationService {
             fileMap.put("applicationId", params.get("applicationId"));
             fileMap.put("contentId", "file_" + params.get("applicationId"));
             fileMap.put("fileCd", "application");
-            fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
+            /*fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);*/
+            fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().substring(0, fileMap.get("orgFilename").toString().lastIndexOf('.')));
             fileMap.put("filePath", filePath(params, baseDir));
-            fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
+            /*fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);*/
+            fileMap.put("fileExt", fileMap.get("orgFilename").toString().substring(fileMap.get("orgFilename").toString().lastIndexOf('.')+1));
             fileMap.put("empSeq", params.get("empSeq"));
             commonRepository.insOneFileInfo(fileMap);
 
@@ -335,10 +337,10 @@ public class ApplicationServiceImpl implements ApplicationService {
                     updateMap.put("newId", "certFile_" + certArr.get(i).get("applicationCertId"));
                     commonRepository.setContentIdUpd(updateMap);
 
-                    fileMap.put("fileNo", certArr.get(i).get("certFileNo"));
+                    /*fileMap.put("fileNo", certArr.get(i).get("certFileNo"));
                     fileMap.put("column", "CERT_FILE");
                     fileMap.put("applicationCertId", certArr.get(i).get("applicationCertId"));
-                    applicationRepository.setApplicationCertFileUpd(fileMap);
+                    applicationRepository.setApplicationCertFileUpd(fileMap);*/
                 }
             }
         }
@@ -376,10 +378,10 @@ public class ApplicationServiceImpl implements ApplicationService {
                     updateMap.put("newId", "langFile_" + langArr.get(i).get("applicationLangId"));
                     commonRepository.setContentIdUpd(updateMap);
 
-                    fileMap.put("fileNo", langArr.get(i).get("langFileNo"));
+                    /*fileMap.put("fileNo", langArr.get(i).get("langFileNo"));
                     fileMap.put("column", "LANG_FILE");
                     fileMap.put("applicationLangId", langArr.get(i).get("applicationLangId"));
-                    applicationRepository.setApplicationLangFileUpd(fileMap);
+                    applicationRepository.setApplicationLangFileUpd(fileMap);*/
                 }
             }
         }
