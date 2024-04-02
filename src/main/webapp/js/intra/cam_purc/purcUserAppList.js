@@ -175,6 +175,7 @@ var purcUserAppList = {
                     title: "지출상태",
                     width: 60,
                     template: function(e){
+
                         if(e.REQ_AMT == e.EXNP_AMT){
                             return "승인"
                         } else {

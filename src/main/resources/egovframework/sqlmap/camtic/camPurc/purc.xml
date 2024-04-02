@@ -1707,4 +1707,33 @@
             TAX_TY = #{taxTy}
         LIMIT 1
     </select>
+
+    <select id="getMaxCeGwIdx" parameterType="map" resultType="int">
+        /*getMaxCeGwIdx*/
+        SELECT
+            MAX(CE_GW_IDX)
+        FROM
+            CAM_MNG.DJ_CLAIM_EXNP
+    </select>
+
+    <select id="getClaimListByPurcSn" parameterType="map" resultType="map">
+        /*getClaimListByPurcSn*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM
+        WHERE
+            PURC_SN = #{purcSn}
+    </select>
+
+    <update id="updClaimPurcOrder" parameterType="map">
+        /*updClaimPurcOrder*/
+        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        SET
+            ORDER_DT = #{orderDt},
+            GOODS_DT = #{goodsDt},
+            ORDER_YN = #{orderYn}
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </update>
 </mapper>
