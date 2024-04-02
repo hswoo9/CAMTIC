@@ -78,7 +78,7 @@ var purcInit = {
         }
         hwpDocCtrl.putFieldText('DOC_NUM', "");
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
-        hwpDocCtrl.putFieldText('TO_DEPT_NAME', result.DEPT_NAME);
+        hwpDocCtrl.putFieldText('TO_DEPT_NAME', result.CLAIM_DEPT_NAME);
 
         /** 2. 구매청구서 아이템 리스트*/
         hwpDocCtrl.putFieldText("PURC_ITEM_HTML", " ");

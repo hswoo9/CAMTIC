@@ -65,19 +65,19 @@
                 <tr>
                     <th scope="row" class="text-center th-color">청구부서</th>
                     <td>
-                        <c:if test="${map.DEPT_NAME != null}">
-                            <div>${map.DEPT_NAME}</div>
+                        <c:if test="${map.CLAIM_DEPT_NAME != null}">
+                            <div>${map.CLAIM_DEPT_NAME}</div>
                         </c:if>
-                        <c:if test="${map.DEPT_NAME == null}">
+                        <c:if test="${map.CLAIM_DEPT_NAME == null}">
                             <div>${loginVO.orgnztNm}</div>
                         </c:if>
                     </td>
                     <th scope="row" class="text-center th-color">직위</th>
                     <td>
-                        <c:if test="${map.POSITION_NAME != null}">
-                            <div>${map.POSITION_NAME}</div>
+                        <c:if test="${map.CLAIM_POSITION_NAME != null}">
+                            <div>${map.CLAIM_POSITION_NAME}</div>
                         </c:if>
-                        <c:if test="${map.POSITION_NAME == null}">
+                        <c:if test="${map.CLAIM_POSITION_NAME == null}">
                             <div>${loginVO.positionNm}</div>
                         </c:if>
                     </td>
@@ -85,10 +85,10 @@
                 <tr>
                     <th scope="row" class="text-center th-color">성명</th>
                     <td>
-                        <c:if test="${map.EMP_NAME_KR != null}">
-                            <div>${map.EMP_NAME_KR}</div>
+                        <c:if test="${map.CLAIM_EMP_NAME != null}">
+                            <div>${map.CLAIM_EMP_NAME}</div>
                         </c:if>
-                        <c:if test="${map.EMP_NAME_KR == null}">
+                        <c:if test="${map.CLAIM_EMP_NAME == null}">
                             <div>${loginVO.name}</div>
                         </c:if>
                     </td>
