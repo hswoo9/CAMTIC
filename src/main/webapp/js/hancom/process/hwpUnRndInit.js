@@ -42,6 +42,16 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('YEAR_CLASS', yearText);
         /** 지원부처 */
         hwpDocCtrl.putFieldText("SUP_DEP", supDepTxt);
+        /** 세무정보 */
+        let taxText = "";
+        if(map.TAX_GUBUN == "1"){
+            taxText = "과세";
+        }else if(map.TAX_GUBUN == "2"){
+            taxText = "면세";
+        }else if(map.TAX_GUBUN == "3"){
+            taxText = "비과세";
+        }
+        hwpDocCtrl.putFieldText("TAX_GUBUN", taxText);
         /** 전담기관 */
         hwpDocCtrl.putFieldText("SUP_DEP_SUB", supDepSubTxt);
         /** 주관기관 */
