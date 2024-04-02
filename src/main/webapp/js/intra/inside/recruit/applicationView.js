@@ -180,7 +180,7 @@ var appView = {
             '            현주소' +
             '          </th>' +
             '          <td>'+
-            '['+data.ZIP_CODE+']'+data.ADDR+data.ADDR_DETAIL+
+            '['+data.ZIP_CODE+']'+data.ADDR+' '+data.ADDR_DETAIL+
             '</td>' +
             '        </tr>' +
             '        <tr>' +
