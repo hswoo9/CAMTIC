@@ -29,7 +29,7 @@
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="cardToSn" value="${params.cardToSn}"/>
-<input type="hidden" id="metSn" value="${params.MET_SN}"/>
+<input type="hidden" id="metSn" value="${params.metSn}"/>
 
 <input type="hidden" id="pmEmpSeq" value="${pjtInfo.PM_EMP_SEQ}" />
 <input type="hidden" id="pm" value="${pjtInfo.PM}" />
@@ -204,12 +204,13 @@
             type : "post",
             dataType : "json",
             success : function(rs){
+                console.log(rs);
                 $("#pjtNm").val(rs.data.PJT_NM);
                 $("#pjtSn").val(rs.data.PJT_SN);
                 $("#pjtCd").val(rs.data.PJT_CD);
                 $("#pjtSubNm").val(rs.data.PJT_SUB_NM);
-                $("#pjtStrDe").val(rs.data.PJT_STR_DE);
-                $("#pjtEndDe").val(rs.data.PJT_END_DE);
+                $("#pjtStrDe").val(rs.pjtInfo.PJT_START_DT);
+                $("#pjtEndDe").val(rs.pjtInfo.PJT_END_DT);
                 $("#metLoc").val(rs.data.MET_LOC);
                 $("#metDe").val(rs.data.MET_DE);
                 $("#metStrTime").val(rs.data.MET_STR_TIME);
@@ -220,10 +221,23 @@
                 $("#empSeq").val(rs.data.MET_EMP_SEQ);
 
 
-                // $("#externalName").val(rs.data.EXT_NAME);
-                // $("#externalBelong").val(rs.data.EXT_BELONG);
-                // $("#externalSpot").val(rs.data.EXT_SPOT);
-                // $("#externalEtc").val(rs.data.EXT_ETC);
+                if(rs.extData.length != 0){
+                    var extName = "";
+                    var extBelong = "";
+                    var extSpot = "";
+                    var extEtc = "";
+
+                    for(var i = 0 ; i < rs.extData.length ; i++){
+                        extName += rs.extData[i].EXT_NM + ",";
+                        extBelong += rs.extData[i].EXT_BELONG + ",";
+                        extSpot += rs.extData[i].EXT_SPOT + ",";
+                        extEtc += rs.extData[i].EXT_ETC + ",";
+                    }
+                    $("#externalName").val(extName.substring(0,extName.length-1));
+                    $("#externalBelong").val(extBelong.substring(0,extBelong.length-1));
+                    $("#externalSpot").val(extSpot.substring(0,extSpot.length-1));
+                    $("#externalEtc").val(extEtc.substring(0,extEtc.length-1));
+                }
             }
         })
     }

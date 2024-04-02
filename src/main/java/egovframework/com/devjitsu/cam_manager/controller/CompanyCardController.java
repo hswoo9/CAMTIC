@@ -214,7 +214,10 @@ public class CompanyCardController {
 
     @RequestMapping("/card/getMeetingData")
     public String getMeetingData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
-        model.addAttribute("data", companyCardService.getMeetingData(params));
+        Map<String, Object> data = companyCardService.getMeetingData(params);
+        model.addAttribute("data", data);
+        params.put("pjtCd", data.get("PJT_CD"));
+        model.addAttribute("pjtInfo", projectService.getProjectByPjtCd(params));
         model.addAttribute("extData", companyCardService.getExtData(params));
         return "jsonView";
     }
