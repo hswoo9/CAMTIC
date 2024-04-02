@@ -222,7 +222,7 @@ var statementList = {
                     title: "",
                     width: 120,
                     template: function(e){
-                        if(e.REG_HISTORY == 0){
+                        if(e.REG_HISTORY == 0 && e.CARD_TO_PURPOSE != "회의"){
                             return "";
                         }
 
@@ -260,7 +260,15 @@ var statementList = {
                                     }
                                 }
                             } else {
-                                return '';
+                                if(e.CARD_TO_PURPOSE == "회의"){
+                                    if(e.FR_KEY != null && e.FR_KEY != "" && e.FR_KEY != undefined){
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_regMeetingPop('+e.CARD_TO_SN+','+e.FR_KEY+')">사전승인신청서</button>'
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid k-button-solid-base" onclick="statementList.fn_regMeetingPop('+e.CARD_TO_SN+')">사전승인신청서 작성</button>'
+                                    }
+                                } else {
+                                    return "";
+                                }
                             }
                         } else {
                             return "";
@@ -673,4 +681,15 @@ var statementList = {
         const option = "width = 1100, height = 700, top = 100, left = 200, location = no";
         window.open(url, name, option);
     },
+
+    fn_regMeetingPop: function (key, frKey){
+        var url = "/card/pop/regMeeting.do?cardToSn=" + key + "&metSn=" + frKey;
+
+        if(frKey == null || frKey == "" || frKey == undefined){
+            url = "/card/pop/regMeeting.do?cardToSn=" + key;
+        }
+        var name = "_blank";
+        var option = "width = 1000, height = 700, top = 100, left = 300, location = no"
+        var popup = window.open(url, name, option);
+    }
 }

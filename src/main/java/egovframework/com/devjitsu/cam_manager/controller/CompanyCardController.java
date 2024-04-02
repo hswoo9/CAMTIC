@@ -189,12 +189,34 @@ public class CompanyCardController {
         model.addAttribute("params", params);
 
         Map<String, Object> cardMap = companyCardService.getCardToInfo(params);
+        params.put("PJT_CD", cardMap.get("PJT_CD"));
+
         Map<String, Object> pjtInfo = projectService.getProjectCodeData(params);
 
         model.addAttribute("cardMap", cardMap);
         model.addAttribute("pjtInfo", pjtInfo);
 
         return "popup/cam_manager/companyCard/regMeeting";
+    }
+
+    @RequestMapping("/card/setMeetingData")
+    public String setMeetingData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            companyCardService.setMeetingData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/getMeetingData")
+    public String getMeetingData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        model.addAttribute("data", companyCardService.getMeetingData(params));
+        model.addAttribute("extData", companyCardService.getExtData(params));
+        return "jsonView";
     }
 
     @RequestMapping("/card/updRegCardTo")

@@ -286,4 +286,39 @@ public class CompanyCardServiceImpl implements CompanyCardService {
     public void delCardAuthUserData(Map<String, Object> params) {
         companyCardRepository.delCardAuthUserData(params);
     }
+
+
+    @Override
+    public void setMeetingData(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> externalArr = gson.fromJson((String) params.get("externalArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        if(params.containsKey("metSn")){
+            companyCardRepository.updMeetingData(params);
+        } else {
+            companyCardRepository.insMeetingData(params);
+        }
+
+        params.put("frKey", params.get("metSn"));
+
+        companyCardRepository.updCardToByFrKey(params);
+
+
+        for(Map<String, Object> extMap : externalArr){
+            extMap.put("metSn", params.get("metSn"));
+            companyCardRepository.insMeetingExternal(extMap);
+        }
+
+    }
+
+
+    @Override
+    public Map<String, Object> getMeetingData(Map<String, Object> params) {
+        return companyCardRepository.getMeetingData(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getExtData(Map<String, Object> params) {
+        return companyCardRepository.getExtData(params);
+    }
 }
