@@ -68,9 +68,13 @@ var rndInit = {
         hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
 
         /** 사업책임자 */
-        hwpDocCtrl.putFieldText('MANAGE_NM', map.PM);
+        const mngInfo = getUser(map.PM_EMP_SEQ);
+        const mngText = map.PM + " " + fn_getSpot(mngInfo.DUTY_NAME, mngInfo.POSITION_NAME);
+        hwpDocCtrl.putFieldText('MANAGE_NM', mngText);
         /** 사업담당자 */
-        hwpDocCtrl.putFieldText('PM_EMP_NM', map.EMP_NAME);
+        const pmInfo = getUser(map.EMP_SEQ);
+        const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
+        hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
 
         /** 2. 사업 목적 및 내용 */
         hwpDocCtrl.putFieldText('OBJ', delvMap.RND_OBJ);
@@ -86,12 +90,12 @@ var rndInit = {
                 hwpDocCtrl.putFieldText('CB_BUDGET_PER0', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
                 g20Sum += g20Map.CB_BUDGET;
             }else if(g20Map.CB_CODE_NAME_1 == "직접비" && g20Map.CB_BUDGET != null){
-                hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', fn_numberWithCommas(g20Map.CB_BUDGET));
-                hwpDocCtrl.putFieldText('CB_BUDGET_PER0', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
-                g20Sum += map.CB_BUDGET;
+                hwpDocCtrl.putFieldText('CB_BUDGET_AMT1', fn_numberWithCommas(g20Map.CB_BUDGET));
+                hwpDocCtrl.putFieldText('CB_BUDGET_PER1', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
+                g20Sum += g20Map.CB_BUDGET;
             }else if(g20Map.CB_CODE_NAME_1 == "간접비" && g20Map.CB_BUDGET != null){
-                hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', fn_numberWithCommas(g20Map.CB_BUDGET));
-                hwpDocCtrl.putFieldText('CB_BUDGET_PER0', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
+                hwpDocCtrl.putFieldText('CB_BUDGET_AMT2', fn_numberWithCommas(g20Map.CB_BUDGET));
+                hwpDocCtrl.putFieldText('CB_BUDGET_PER2', (Math.round((g20Map.CB_BUDGET / delvMap.TOT_RES_COST * 100)  * 10) / 10 +"%"));
                 g20Sum += g20Map.CB_BUDGET;
             }
         }

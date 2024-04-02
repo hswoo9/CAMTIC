@@ -126,9 +126,11 @@ public class ApplicationServiceImpl implements ApplicationService {
             fileMap.put("applicationId", params.get("applicationId"));
             fileMap.put("contentId", "armi_" + params.get("applicationId"));
             fileMap.put("fileCd", "application");
-            fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
+            /*fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);*/
+            fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().substring(0, fileMap.get("orgFilename").toString().lastIndexOf('.')));
             fileMap.put("filePath", filePath(params, baseDir));
-            fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
+            /*fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);*/
+            fileMap.put("fileExt", fileMap.get("orgFilename").toString().substring(fileMap.get("orgFilename").toString().lastIndexOf('.')+1));
             fileMap.put("empSeq", params.get("userEmail"));
             commonRepository.insOneFileInfo(fileMap);
 
@@ -182,9 +184,11 @@ public class ApplicationServiceImpl implements ApplicationService {
                     fileMap.put("applicationId", params.get("applicationId"));
                     fileMap.put("contentId", "degreeFile_" + schoolArr.get(i).get("applicationSchoolId"));
                     fileMap.put("fileCd", "application");
-                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
+                    /*fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);*/
+                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().substring(0, fileMap.get("orgFilename").toString().lastIndexOf('.')));
                     fileMap.put("filePath", filePath(params, baseDir));
-                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
+                    /*fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);*/
+                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().substring(fileMap.get("orgFilename").toString().lastIndexOf('.')+1));
                     fileMap.put("empSeq", params.get("userEmail"));
                     commonRepository.insOneFileInfo(fileMap);
 
@@ -202,9 +206,11 @@ public class ApplicationServiceImpl implements ApplicationService {
                     fileMap.put("applicationId", params.get("applicationId"));
                     fileMap.put("contentId", "sexualFile_" + schoolArr.get(i).get("applicationSchoolId"));
                     fileMap.put("fileCd", "application");
-                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
+                    /*fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);*/
+                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().substring(0, fileMap.get("orgFilename").toString().lastIndexOf('.')));
                     fileMap.put("filePath", filePath(params, baseDir));
-                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
+                    /*fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);*/
+                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().substring(fileMap.get("orgFilename").toString().lastIndexOf('.')+1));
                     fileMap.put("empSeq", params.get("userEmail"));
                     commonRepository.insOneFileInfo(fileMap);
 
@@ -245,9 +251,11 @@ public class ApplicationServiceImpl implements ApplicationService {
                     fileMap.put("applicationId", params.get("applicationId"));
                     fileMap.put("contentId", "careerFile_" + careerArr.get(i).get("applicationCareerId"));
                     fileMap.put("fileCd", "application");
-                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
+                    /*fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);*/
+                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().substring(0, fileMap.get("orgFilename").toString().lastIndexOf('.')));
                     fileMap.put("filePath", filePath(params, baseDir));
-                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
+                    /*fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);*/
+                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().substring(fileMap.get("orgFilename").toString().lastIndexOf('.')+1));
                     fileMap.put("empSeq", params.get("userEmail"));
                     commonRepository.insOneFileInfo(fileMap);
 
@@ -307,9 +315,11 @@ public class ApplicationServiceImpl implements ApplicationService {
                     fileMap.put("applicationId", params.get("applicationId"));
                     fileMap.put("contentId", "certFile_" + certArr.get(i).get("applicationCertId"));
                     fileMap.put("fileCd", "application");
-                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
+                    /*fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);*/
+                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().substring(0, fileMap.get("orgFilename").toString().lastIndexOf('.')));
                     fileMap.put("filePath", filePath(params, baseDir));
-                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
+                    /*fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);*/
+                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().substring(fileMap.get("orgFilename").toString().lastIndexOf('.')+1));
                     fileMap.put("empSeq", params.get("userEmail"));
                     commonRepository.insOneFileInfo(fileMap);
 
@@ -346,9 +356,11 @@ public class ApplicationServiceImpl implements ApplicationService {
                     fileMap.put("applicationId", params.get("applicationId"));
                     fileMap.put("contentId", "langFile_" + langArr.get(i).get("applicationLangId"));
                     fileMap.put("fileCd", "application");
-                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);
+                    /*fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().split("[.]")[0]);*/
+                    fileMap.put("fileOrgName", fileMap.get("orgFilename").toString().substring(0, fileMap.get("orgFilename").toString().lastIndexOf('.')));
                     fileMap.put("filePath", filePath(params, baseDir));
-                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);
+                    /*fileMap.put("fileExt", fileMap.get("orgFilename").toString().split("[.]")[1]);*/
+                    fileMap.put("fileExt", fileMap.get("orgFilename").toString().substring(fileMap.get("orgFilename").toString().lastIndexOf('.')+1));
                     fileMap.put("empSeq", params.get("userEmail"));
                     commonRepository.insOneFileInfo(fileMap);
 
