@@ -607,7 +607,7 @@
             </choose>
         </if>
         GROUP BY AM.SAVE_DATE DESC
-        ORDER BY AM.RECRUIT_INFO_SN DESC, AM.APPLICATION_ID DESC
+        ORDER BY AM.RECRUIT_INFO_SN DESC, AM.SAVE_DATE DESC
     </select>
 
     <select id="getUserDuplicationList" parameterType="map" resultType="map">

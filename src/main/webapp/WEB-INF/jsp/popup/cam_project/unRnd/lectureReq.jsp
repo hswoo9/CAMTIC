@@ -110,8 +110,8 @@
                     </td>--%>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>교육분야</th><%--컨설팅 컨설팅분야--%>
                     <td colspan="3">
-                        <input id="fieldType" style="width: 200px;">
                         <input id="fieldType2" style="width: 200px;">
+                        <input id="fieldType" style="width: 200px;">
                     </td>
                 </tr>
                 <%--<tr>
@@ -413,6 +413,7 @@
     const currentUrl = window.location.href;
     const urlParams = new URLSearchParams(currentUrl);
     const typeValue = urlParams.get('type');
+    var choiceFile = [];
 
     $(function(){
         if(typeValue == "lec"){
@@ -460,10 +461,25 @@
         var fileNames = "";
 
         for (const file of files) {
-            fileNames += "," + file.name;
+            fileNames += '<div data-file=' + file.name+ '>'+ file.name +'<span style="color:red; cursor:pointer; font-weight: bold;" onclick="removeFile(this)">&nbsp;&nbsp;X</span></div>';
         }
+        $("#file2Name").html(fileNames);
+    }
 
-        $("#file2Name").html(fileNames.substr(1).replaceAll(",", "<br>"));
+    function removeFile(e) {
+        const fileName = $(e).parent().data('file');
+        const fileInput = $('#file2')[0];
+        const dataTransfer = new DataTransfer();
+
+        for (let i = 0; i < fileInput.files.length; i++) {
+            const file = fileInput.files[i];
+            if (file.name !== fileName) {
+                dataTransfer.items.add(file);
+            }
+        }
+        fileInput.files = dataTransfer.files;
+
+        $(e).parent().remove();
     }
 
     lectureReq.fn_defaultScript();
