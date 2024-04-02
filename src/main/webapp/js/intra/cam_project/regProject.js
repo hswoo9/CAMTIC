@@ -463,6 +463,16 @@ var regPrj = {
             dataType : "json",
             async : false,
             success : function(rs){
+                if($("#mainPjtSn").val() == ""){
+                    commonProject.global.pjtSn = rs.params.PJT_SN;
+                    var result = commonProject.setDelvAlarmEvent();
+                    if(result.flag){
+                        if(result.rs != "SUCCESS") {
+                            alert(result.message);
+                        }
+                    }
+                }
+
                 opener.parent.camPrj.gridReload();
                 if($("#mainPjtSn").val() == ""){
                     window.location.href="/project/pop/viewRegProject.do?pjtSn=" + rs.params.PJT_SN;

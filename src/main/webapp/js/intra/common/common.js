@@ -238,11 +238,19 @@ function fn_getNowDate(type){
 
     let toDate = ""
     if(type == 1){
+        /** yyyy년 m월 d일 */
         toDate = year+"년 "+month+"월 "+date+"일";
     }else if(type == 2){
+        /** yyyy-m-d */
         toDate = year+"-"+month+"-"+date;
     }else if(type == 3){
+        /** yyyy.m.d */
         toDate = year+". "+month+". "+date+".";
+    }else if(type == 4){
+        /** yyyy-mm-dd */
+        const month2 = ("0" + (1 + today.getMonth())).slice(-2);
+        const day2 = ("0" + today.getDate()).slice(-2);
+        toDate = year + "-" + month2 + "-" + day2;
     }
     return toDate;
 }
