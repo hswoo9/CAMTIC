@@ -17,6 +17,15 @@ var purcUserAppList = {
 
         $("#searchDept").data("kendoDropDownList").enable(false);
 
+        var rs = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId: 25});
+
+        for(var i = 0 ; i < rs.rs.length ; i++){
+            if(rs.rs[i].EMP_SEQ == $("#regEmpSeq").val()){
+                $("#searchDept").data("kendoDropDownList").enable(true);
+                break;
+            }
+        }
+
         purcUserAppList.gridReload();
     },
 
