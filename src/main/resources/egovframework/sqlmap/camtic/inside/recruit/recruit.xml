@@ -475,7 +475,7 @@
             DAS.SCHOOL_NAME,
             SUM(TIMESTAMPDIFF(MONTH, WORK_ST_DT, DATE_ADD(DATE_FORMAT(WORK_EN_DT, '%Y%m%d'), INTERVAL 1 MONTH))) AS WORK_DATE,
             REPLACE(SUBSTRING_INDEX(REPLACE(AM.ADDR, ' ', '_'), '_', 2), '_', ' ') AS ADDR,
-            GROUP_CONCAT(LA.LANG_NAME SEPARATOR ', ') AS LANG_NAME,
+            GROUP_CONCAT(DISTINCT LA.LANG_NAME) AS LANG_NAME,
             AI.JOB,
             CASE WHEN INSTR(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM') > 0 THEN REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM', '오후')
                  ELSE REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'AM', '오전')
