@@ -1284,6 +1284,7 @@
                 AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
             </when>
         </choose>
+        GROUP BY CLAIM_SN
         ORDER BY CLAIM_SN DESC
     </select>
 
