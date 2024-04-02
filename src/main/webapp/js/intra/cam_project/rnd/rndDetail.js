@@ -1,7 +1,9 @@
 let sum=0;
 var rndDetail = {
 
-
+    global : {
+        taxCk: "N"
+    },
 
     fn_defaultScript : function (){
         rndDetail.fn_setPage();
@@ -177,6 +179,12 @@ var rndDetail = {
 
         /** 버튼 세팅 */
         rndDetail.fn_buttonSet(rs);
+
+        const pjtInfo2 = customKendo.fn_customAjax("/project/getProjectStep", parameters);
+        const map = pjtInfo2.rs;
+        if(map != null && map.TAX_GUBUN != null){
+            rndDetail.global.taxCk = "Y";
+        }
     },
 
     fn_save : function (){
@@ -379,7 +387,7 @@ var rndDetail = {
         if(rndMap != null){
             let status = rndMap.STATUS
             if(status == "0" && rndMap.PEO_RES_COST != null){
-                buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">상신</button>";
+                buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModalRnd()\">상신</button>";
                 buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
             }else if(status == "10" || status == "50"){
                 buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+rndMap.DOC_ID+"', '"+rndMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";

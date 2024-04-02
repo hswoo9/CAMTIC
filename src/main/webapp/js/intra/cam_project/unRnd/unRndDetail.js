@@ -1,7 +1,9 @@
 let sum=0;
 var unRndDetail = {
 
-
+    global : {
+        taxCk: "N"
+    },
 
     fn_defaultScript : function(){
         unRndDetail.fn_setPage();
@@ -148,6 +150,12 @@ var unRndDetail = {
 
         /** 버튼 세팅 */
         unRndDetail.fn_buttonSet(rs);
+
+        const pjtInfo2 = customKendo.fn_customAjax("/project/getProjectStep", parameters);
+        const map = pjtInfo2.rs;
+        if(map != null && map.TAX_GUBUN != null){
+            unRndDetail.global.taxCk = "Y";
+        }
     },
 
     fn_save : function(){
@@ -332,7 +340,7 @@ var unRndDetail = {
         if(unRndMap != null){
             let status = unRndMap.STATUS
             if(status == "0" && unRndMap.PEO_RES_COST != null){
-                buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModal()\">상신</button>";
+                buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModalUnRnd()\">상신</button>";
                 buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDetail.fn_save()\">저장</button>";
             }else if(status == "10" || status == "50"){
                 buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+unRndMap.DOC_ID+"', '"+unRndMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
