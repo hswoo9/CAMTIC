@@ -421,6 +421,14 @@ var regRnd = {
             type: "post",
             dataType: "json",
             success: function(rs){
+                commonProject.global.pjtSn = rs.params.pjtSn;
+                var result = commonProject.setDelvAlarmEvent();
+                if(result.flag){
+                    if(result.rs != "SUCCESS") {
+                        alert(result.message);
+                    }
+                }
+
                 if(rs.code == 200){
                     location.href="/projectRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;
                 }

@@ -312,5 +312,66 @@ var commonProject = {
             name = userInfo.EMP_NAME_KR;
         }
         return name;
+    },
+
+    setDelvAlarmEvent : function (){
+        const userList = customKendo.fn_customAjax('/userManage/getEmpInfoList', {
+            userKind : "EMP_NAME_KR",
+            empNameKr : "",
+            startDate : fn_getNowDate(4),
+            kindContent : "",
+            userGender : "",
+            deptComp : "1219" /** 경영지원실 */,
+            deptTeam : ""
+        }).list;
+
+        var returnVal = "";
+        console.log("userList", userList);
+
+        const pjtStep = $("#pjtStep").val();
+        let ntUrl = "";
+        let pjtNm = "";
+
+        if(pjtStep == "E"){
+            pjtNm = "과제명 : " + $("#pjtNm").val();
+            ntUrl = "/project/pop/viewRegProject.do?pjtSn=" + commonProject.global.pjtSn;
+        }else if(pjtStep == "R"){
+            pjtNm = "사업명 : " + $("#bsTitle").val();
+            ntUrl = "/projectRnd/pop/regProject.do?pjtSn=" + commonProject.global.pjtSn;
+        }else if(pjtStep == "S"){
+            pjtNm = "사업명 : " + $("bsTitle").val();
+            ntUrl = "/projectUnRnd/pop/regProject.do?pjtSn=" + commonProject.global.pjtSn;
+        }
+
+        let pjtEx = pjtNm;
+        if(pjtNm.toString().length > 16){
+            pjtEx = pjtNm.toString().substring(0, 16)+"...";
+        }
+
+        for(var i = 0 ; i < userList.length; i ++){
+            const ajaxData = {
+                ntTitle : "[신규사업등록] 등록자 : " + $("#regEmpName").val(),
+                ntContent : pjtEx,
+                recEmpSeq : userList[i].EMP_SEQ,
+                ntUrl : "project",
+                popSizeYn : "Y",
+                popWidth : "1680",
+                popHeight : "850",
+            }
+            var result = customKendo.fn_customAjax("/common/setAlarm", ajaxData);
+            
+            if(result.flag){
+                socket.send(
+                    ajaxData.ntTitle + "," +
+                    ajaxData.recEmpSeq + "," +
+                    ajaxData.ntContent + "," +
+                    ajaxData.ntUrl + "," +
+                    result.alId
+                )
+            }
+            returnVal = result;
+        }
+
+        return returnVal;
     }
 }

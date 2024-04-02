@@ -57,15 +57,15 @@ const orderPrintPop = {
         }
 
         /** 1. 발주 표 */
-        orderPrintPop.global.hwpCtrl.PutFieldText("PJT_CD", "-");
+        orderPrintPop.global.hwpCtrl.PutFieldText("PJT_CD", "PO" + order.DOC_NO);
         orderPrintPop.global.hwpCtrl.PutFieldText("ORDER_DT", order.ORDER_DT);
         orderPrintPop.global.hwpCtrl.PutFieldText("FAX",
             order.PH_NUM == "" ? order.FAX_NUM : order.PH_NUM+" / "+order.FAX_NUM
         );
         orderPrintPop.global.hwpCtrl.PutFieldText("GOODS_DT", order.GOODS_DT);
-        orderPrintPop.global.hwpCtrl.PutFieldText("PURC_EMP_NAME", order.EMP_NAME_KR);
-        orderPrintPop.global.hwpCtrl.PutFieldText("PURC_TEL", order.OFFICE_TEL_NUM);
-        orderPrintPop.global.hwpCtrl.PutFieldText("PURC_EMAIL", order.EMAIL_ADDR);
+        orderPrintPop.global.hwpCtrl.PutFieldText("PURC_EMP_NAME", order.CLAIM_EMP_NAME);
+        orderPrintPop.global.hwpCtrl.PutFieldText("PURC_TEL", order.CLAIM_OFFICE_TEL_NUM);
+        orderPrintPop.global.hwpCtrl.PutFieldText("PURC_EMAIL", order.CLAIM_EMAIL_ADDR);
 
         /** 2. CRM 정보 */
         orderPrintPop.global.hwpCtrl.PutFieldText("CRM_NM", crmMap.CRM_NM);
