@@ -616,6 +616,11 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
+    public void setOrderYnInfo(Map<String, Object> params) {
+        purcRepository.setOrderYnInfo(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getProjectPurcList(Map<String, Object> params) {
         return purcRepository.getProjectPurcList(params);
     }

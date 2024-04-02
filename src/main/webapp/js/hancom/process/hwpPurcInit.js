@@ -1,7 +1,7 @@
 var purcInit = {
 
     global: {
-        result : new Array(),
+        purcInfo : new Array(),
         purcItemList : new Array(),
         amtTotal : new Object(),
 
@@ -16,7 +16,7 @@ var purcInit = {
         }
 
         const result = customKendo.fn_customAjax("/purc/getPurcReq.do", data).data;
-        purcInit.global.result = result;
+        purcInit.global.purcInfo = result;
 
         const purcItemResult = customKendo.fn_customAjax("/purc/getPurcItemList", data);
         purcInit.global.purcItemList = purcItemResult.list;
@@ -67,7 +67,15 @@ var purcInit = {
         const amtTotalResult = customKendo.fn_customAjax("/purc/getPurcClaimItemAmtTotal", data);
         purcInit.global.claimAmtTotal = amtTotalResult.data;
 
+        if(result.purcSn != null){
+            const purcInfo = customKendo.fn_customAjax("/purc/getPurcReq.do", {purcSn: result.purcSn}).data;
+            purcInit.global.purcInfo = purcInfo;
+        }
+
         /** 1. 구매청구서 데이터 */
+        if(purcInit.global.purcInfo != null){
+            hwpDocCtrl.putFieldText('PURC_DOC_NUM', purcInit.global.purcInfo.DOC_NO);
+        }
         hwpDocCtrl.putFieldText('DOC_NUM', "");
         hwpDocCtrl.putFieldText('TO_DATE', fn_getNowDate(1));
         hwpDocCtrl.putFieldText('TO_DEPT_NAME', result.DEPT_NAME);
@@ -117,15 +125,15 @@ var purcInit = {
             let itemAmt = 0;
 
 
-            if(purcInit.global.result.VAT == "N"){
+            if(purcInit.global.purcInfo.VAT == "N"){
                 supAmt = comma(amt);
                 vatAmt = comma(sum2);
                 itemAmt = comma(amt+sum2);
-            }else if(purcInit.global.result.VAT == "Y"){
+            }else if(purcInit.global.purcInfo.VAT == "Y"){
                 supAmt = comma(sum3);
                 vatAmt = comma(sum4);
                 itemAmt = comma(amt);
-            }else if(purcInit.global.result.VAT == "D"){
+            }else if(purcInit.global.purcInfo.VAT == "D"){
                 supAmt = comma(amt);
                 vatAmt = "0";
                 itemAmt = comma(amt);

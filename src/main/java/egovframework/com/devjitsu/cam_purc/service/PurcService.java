@@ -52,6 +52,8 @@ public interface PurcService {
 
     void setOrderInfo(Map<String, Object> params);
 
+    void setOrderYnInfo(Map<String, Object> params);
+
     List<Map<String, Object>> getProjectPurcList(Map<String, Object> params);
 
     List<Map<String, Object>> getProjectPurcReqList(Map<String, Object> params);
