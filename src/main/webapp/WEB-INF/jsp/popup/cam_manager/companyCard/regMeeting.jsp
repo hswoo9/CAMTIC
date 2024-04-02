@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
@@ -28,7 +29,10 @@
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="cardToSn" value="${params.cardToSn}"/>
+<input type="hidden" id="metSn" value="${params.MET_SN}"/>
 
+<input type="hidden" id="pmEmpSeq" value="${pjtInfo.PM_EMP_SEQ}" />
+<input type="hidden" id="pm" value="${pjtInfo.PM}" />
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
@@ -37,7 +41,7 @@
             </span>
         </h3>
         <div id="purcBtnDiv" class="btn-st popButton" style="font-size: 12px;">
-            <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="">등록</button>
+            <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="fn_save()">등록</button>
 <%--            <button type="button" class="k-button k-button-solid-primary" style="display:none" id="modBtn" onclick="fn_update()">수정</button>--%>
             <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
         </div>
@@ -76,9 +80,13 @@
                     <span class="red-star">*</span>과제기간
                 </th>
                 <td colspan="3">
-                    <input type="text" id="pjtStrDe" name="pjtStrDe" style="width: 20%" disabled/> ~ <input type="text" style="width: 20%" id="pjtEndDe" disabled name="pjtEndDe"/>
-                    <input type="hidden" id="strDt" value="${pjtInfo.STR_DT}" />
-                    <input type="hidden" id="endDt" value="${pjtInfo.END_DT}" />
+                    <fmt:formatDate var="strDt" value="${pjtInfo.STR_DT}" pattern="yyyy-MM-dd"/>
+                    <fmt:formatDate var="endDt" value="${pjtInfo.END_DT}" pattern="yyyy-MM-dd"/>
+
+                    <input type="text" value="${strDt}" id="pjtStrDe" name="pjtStrDe" style="width: 20%" disabled/> ~ <input type="text" value="${endDt}" style="width: 20%" id="pjtEndDe" disabled name="pjtEndDe"/>
+
+                    <input type="hidden" id="strDt" value="${strDt}" />
+                    <input type="hidden" id="endDt" value="${endDt}" />
                 </td>
             </tr>
             <tr>
@@ -180,7 +188,45 @@
                 $("#metEndTime").val(time)
             }
         });
+        if($("#metSn").val() != ""){
+            setData();
+        }
     });
+
+    function setData(){
+        var data = {
+            metSn : $("#metSn").val()
+        }
+
+        $.ajax({
+            url : "/card/getMeetingData",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                $("#pjtNm").val(rs.data.PJT_NM);
+                $("#pjtSn").val(rs.data.PJT_SN);
+                $("#pjtCd").val(rs.data.PJT_CD);
+                $("#pjtSubNm").val(rs.data.PJT_SUB_NM);
+                $("#pjtStrDe").val(rs.data.PJT_STR_DE);
+                $("#pjtEndDe").val(rs.data.PJT_END_DE);
+                $("#metLoc").val(rs.data.MET_LOC);
+                $("#metDe").val(rs.data.MET_DE);
+                $("#metStrTime").val(rs.data.MET_STR_TIME);
+                $("#metEndTime").val(rs.data.MET_END_TIME);
+                $("#metObj").val(rs.data.MET_OBJ);
+                $("#metCont").val(rs.data.MET_CONT);
+                $("#empName").val(rs.data.MET_EMP_NAME);
+                $("#empSeq").val(rs.data.MET_EMP_SEQ);
+
+
+                // $("#externalName").val(rs.data.EXT_NAME);
+                // $("#externalBelong").val(rs.data.EXT_BELONG);
+                // $("#externalSpot").val(rs.data.EXT_SPOT);
+                // $("#externalEtc").val(rs.data.EXT_ETC);
+            }
+        })
+    }
 
     function userSearch() {
         window.open("/user/pop/userMultiSelectPop.do?type=dev","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
@@ -241,6 +287,82 @@
         $("#externalEtc").val(extEtc.substring(0,extEtc.length-1));
         $("#externalSpot").val(extSpot.substring(0,extSpot.length-1));
         $("#externalBelong").val(extBelong.substring(0,extBelong.length-1));
+
+    }
+
+    function fn_save(){
+        // if($("#pjtNm").val() == ""){
+        //     alert("프로젝트를 선택해주세요.");
+        //     return;
+        // }
+        //
+        // if($("#metLoc").val() == ""){
+        //     alert("회의장소를 입력해주세요.");
+        //     return;
+        // }
+        //
+        // if($("#metObj").val() == ""){
+        //     alert("회의목적을 입력해주세요.");
+        //     return;
+        // }
+        //
+        // if($("#metCont").val() == ""){
+        //     alert("회의내용을 입력해주세요.");
+        //     return;
+        // }
+
+        var parameters = {
+            cardToSn : $("#cardToSn").val(),
+            pjtNm : $("#pjtNm").val(),
+            pjtSn : $("#pjtSn").val(),
+            pjtCd : $("#pjtCd").val(),
+            pmEmpSeq : $("#pmEmpSeq").val(),
+            pm : $("#pm").val(),
+            pjtSubNm : $("#pjtSubNm").val(),
+            metDe : $("#metDe").val(),
+            metStrTime : $("#metStrTime").val(),
+            metEndTime : $("#metEndTime").val(),
+            metLoc : $("#metLoc").val(),
+            metObj : $("#metObj").val(),
+            metCont : $("#metCont").val(),
+            metEmpName : $("#empName").val(),
+            metEmpSeq : $("#empSeq").val()
+        }
+
+        if($("#metSn").val() != ""){
+            parameters.metSn = $("#metSn").val();
+        }
+
+        var extArr = [];
+
+        if($("#externalName").val() != ""){
+            for(let i=0; i<$("#externalName").val().toString().split(",").length; i++){
+
+                if($("#externalName").val().split(",")[i] != ""){
+                    extArr.push({
+                        belong : $("#externalBelong").val().split(",")[i] || "",
+                        spot : $("#externalSpot").val().split(",")[i] || "",
+                        name : $("#externalName").val().split(",")[i] || "",
+                        etc : $("#externalEtc").val().split(",")[i] || ""
+                    });
+                }
+            }
+        }
+
+        parameters.externalArr = JSON.stringify(extArr);
+
+        $.ajax({
+            url : "/card/setMeetingData",
+            data : parameters,
+            type : "POST",
+            dataType : "json",
+            success : function (rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.");
+                }
+            }
+        })
+
 
     }
 </script>

@@ -60,4 +60,10 @@ public interface CompanyCardService {
     void delCardAuthUserData(Map<String, Object> params);
 
     List<Map<String, Object>> cardAllList(Map<String, Object> params);
+
+    void setMeetingData(Map<String, Object> params);
+
+    Map<String, Object> getMeetingData(Map<String, Object> params);
+
+    List<Map<String, Object>> getExtData(Map<String, Object> params);
 }
