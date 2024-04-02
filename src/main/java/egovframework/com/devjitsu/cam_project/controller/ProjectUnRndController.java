@@ -462,6 +462,7 @@ public class ProjectUnRndController {
         try{
             projectUnRndService.insLectureInfo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
+            model.addAttribute("lecSn", params.get("lecSn"));
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -474,6 +475,7 @@ public class ProjectUnRndController {
         try{
             projectUnRndService.insConsultingInfo(params);
             model.addAttribute("code", 200);
+            model.addAttribute("conSn", params.get("conSn"));
         } catch(Exception e){
             e.printStackTrace();
         }
