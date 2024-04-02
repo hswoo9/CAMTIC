@@ -641,6 +641,17 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/setOrderYnInfo")
+    public String setOrderYnInfo(@RequestParam Map<String, Object> params, Model model) {
+        try{
+            purcService.setOrderYnInfo(params);
+            model.addAttribute("code", 200);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "jsonView";
+    }
+
     @RequestMapping("/purc/getProjectPurcList")
     public String getProjectPurcList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = purcService.getProjectPurcList(params);
