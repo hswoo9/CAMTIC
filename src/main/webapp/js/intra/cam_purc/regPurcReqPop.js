@@ -369,38 +369,39 @@ var prp = {
             itemArr.push(data);
         })
 
-        if($("#pjtSn").val() != ""){
-            const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
-            const pjtMap = pjtInfo.map;
-
-            const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
-            let invSum = 0;
-            for(let i=0; i<list.length; i++){
-                invSum += Number(list[i].EST_TOT_AMT);
-            }
-
-            const leftList = customKendo.fn_customAjax("/purc/getProjectPurcReqList", {pjtSn: $("#pjtSn").val()}).list;
-            let purcSum = 0;
-            let leftSum = 0;
-            for(let i=0; i<leftList.length; i++){
-                purcSum += Number(leftList[i].PURC_ITEM_AMT);
-            }
-            leftSum = invSum - purcSum;
-            /**
-             * itemSum = 현재 요청 금액
-             * invSum  = 프로젝트 최신버전 계획서 투자금액
-             * purcSum = 프로젝트 전체 요청금액
-             * leftSum = invSum - purcSum
-             */
-
-            console.log("itemSum : "+Number(itemSum));
-            console.log("invSum : "+Number(invSum));
-            console.log("purcSum : "+Number(purcSum));
-            console.log("leftSum : "+Number(leftSum));
-            if(Number(leftSum) < Number(itemSum)){
-                alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다."); return;
-            }
-        }
+        /* 요청서 작성 -> 상신시점으로 변경 */
+        // if($("#pjtSn").val() != ""){
+        //     const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
+        //     const pjtMap = pjtInfo.map;
+        //
+        //     const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
+        //     let invSum = 0;
+        //     for(let i=0; i<list.length; i++){
+        //         invSum += Number(list[i].EST_TOT_AMT);
+        //     }
+        //
+        //     const leftList = customKendo.fn_customAjax("/purc/getProjectPurcReqList", {pjtSn: $("#pjtSn").val()}).list;
+        //     let purcSum = 0;
+        //     let leftSum = 0;
+        //     for(let i=0; i<leftList.length; i++){
+        //         purcSum += Number(leftList[i].PURC_ITEM_AMT);
+        //     }
+        //     leftSum = invSum - purcSum;
+        //     /**
+        //      * itemSum = 현재 요청 금액
+        //      * invSum  = 프로젝트 최신버전 계획서 투자금액
+        //      * purcSum = 프로젝트 전체 요청금액
+        //      * leftSum = invSum - purcSum
+        //      */
+        //
+        //     console.log("itemSum : "+Number(itemSum));
+        //     console.log("invSum : "+Number(invSum));
+        //     console.log("purcSum : "+Number(purcSum));
+        //     console.log("leftSum : "+Number(leftSum));
+        //     if(Number(leftSum) < Number(itemSum)){
+        //         alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다."); return;
+        //     }
+        // }
 
         if(!flag){
             alert("구분값을 선택해주세요.");
@@ -873,6 +874,46 @@ var prp = {
     },
 
     purcDrafting: function(){
+        var itemSum = 0;
+        $.each($(".purcItemInfo"), function(i, v){
+            var index = $(this).attr("id").replace(/[^0-9]/g, '');
+
+            itemSum += Number(prp.uncommaN($("#purcItemAmt" + index).val()));
+        })
+
+        if($("#pjtSn").val() != ""){
+            const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
+            const pjtMap = pjtInfo.map;
+
+            const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
+            let invSum = 0;
+            for(let i=0; i<list.length; i++){
+                invSum += Number(list[i].EST_TOT_AMT);
+            }
+
+            const leftList = customKendo.fn_customAjax("/purc/getProjectPurcReqList", {pjtSn: $("#pjtSn").val()}).list;
+            let purcSum = 0;
+            let leftSum = 0;
+            for(let i=0; i<leftList.length; i++){
+                purcSum += Number(leftList[i].PURC_ITEM_AMT);
+            }
+            leftSum = invSum - purcSum;
+            /**
+             * itemSum = 현재 요청 금액
+             * invSum  = 프로젝트 최신버전 계획서 투자금액
+             * purcSum = 프로젝트 전체 요청금액
+             * leftSum = invSum - purcSum
+             */
+
+            console.log("itemSum : "+Number(itemSum));
+            console.log("invSum : "+Number(invSum));
+            console.log("purcSum : "+Number(purcSum));
+            console.log("leftSum : "+Number(leftSum));
+            if(Number(leftSum) < Number(itemSum)){
+                alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다."); return;
+            }
+        }
+
         $("#purcDraftFrm").one("submit", function() {
             var url = "/popup/cam_purc/approvalFormPopup/purcApprovalPop.do";
             var name = "_self";
