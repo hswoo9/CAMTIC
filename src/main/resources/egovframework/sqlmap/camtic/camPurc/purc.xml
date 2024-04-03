@@ -1736,4 +1736,35 @@
         WHERE
             CLAIM_SN = #{claimSn}
     </update>
+
+    <select id="getPurcReqClaimList" parameterType="map" resultType="map">
+        /*getPurcReqClaimList*/
+        SELECT
+            DI.DOC_NO,
+            B.PURC_REQ_DATE,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_REQ_EMP_SEQ) AS EMP_NAME_KR,
+            B.PURC_REQ_PURPOSE,
+            A.PURC_SN,
+            B.STATUS,
+            B.DOC_STATUS,
+            IFNULL((SELECT SUM(PURC_ITEM_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM WHERE CLAIM_SN = A.CLAIM_SN), 0) AS PURC_ITEM_AMT_SUM,
+            IFNULL(DI.APPROVE_STAT_CODE,0) AS APPROVE_STAT_CODE,
+            'CAYSY' AS CLAIM_STATUS,
+            A.CLAIM_SN,
+            A.STATUS AS CLAIM_DOC_STATUS,
+            A.DOC_ID AS CLAIM_DOC_ID,
+            (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS APPRO_KEY
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM A
+        LEFT JOIN
+            CAM_MNG.DJ_MNG_PURC B
+        ON
+            A.PURC_SN = B.PURC_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            B.DOC_ID = DI.DOC_ID
+        WHERE
+            A.PJT_SN =  #{pjtSn}
+    </select>
 </mapper>
