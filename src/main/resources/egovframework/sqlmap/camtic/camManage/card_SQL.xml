@@ -1136,4 +1136,25 @@
         WHERE
             MET_SN = #{metSn}
     </select>
+
+    <update id="updateMeetingApprStat" parameterType="map">
+        /* updateMeetingApprStat */
+        UPDATE CAM_MNG.DJ_MEETING
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            MET_SN = #{metSn}
+    </update>
+
+    <update id="updateMeetingFinalApprStat" parameterType="map">
+        /* updateMeetingFinalApprStat */
+        UPDATE CAM_MNG.DJ_MEETING
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            MET_SN = #{metSn}
+    </update>
 </mapper>

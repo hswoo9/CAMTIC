@@ -28,11 +28,18 @@
 
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="cardToSn" value="${params.cardToSn}"/>
-<input type="hidden" id="metSn" value="${params.metSn}"/>
+<input type="hidden" id="cardToSn" name="cardToSn" value="${params.cardToSn}"/>
 
 <input type="hidden" id="pmEmpSeq" value="${pjtInfo.PM_EMP_SEQ}" />
 <input type="hidden" id="pm" value="${pjtInfo.PM}" />
+
+<form id="meetingDraftFrm" method="post">
+    <input type="hidden" id="menuCd" name="menuCd" value="meeting">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+    <input type="hidden" id="metSn" name="metSn" value="${params.metSn}"/>
+</form>
+
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
@@ -41,8 +48,10 @@
             </span>
         </h3>
         <div id="purcBtnDiv" class="btn-st popButton" style="font-size: 12px;">
+            <span id="meetingBtnBox">
+
+            </span>
             <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="fn_save()">등록</button>
-<%--            <button type="button" class="k-button k-button-solid-primary" style="display:none" id="modBtn" onclick="fn_update()">수정</button>--%>
             <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
         </div>
     </div>
@@ -154,6 +163,7 @@
 </div>
 
 <script>
+    let meetingInfo = new Object;
     $(function(){
         customKendo.fn_textBox(["pjtNm", "pjtSubNm", "metObj", "metLoc", "empName", "externalName"]);
 
@@ -188,9 +198,12 @@
                 $("#metEndTime").val(time)
             }
         });
+
         if($("#metSn").val() != ""){
             setData();
         }
+
+        setBtn();
     });
 
     function setData(){
@@ -202,9 +215,11 @@
             url : "/card/getMeetingData",
             data : data,
             type : "post",
+            async : false,
             dataType : "json",
             success : function(rs){
                 console.log(rs);
+                meetingInfo = rs.data;
                 $("#pjtNm").val(rs.data.PJT_NM);
                 $("#pjtSn").val(rs.data.PJT_SN);
                 $("#pjtCd").val(rs.data.PJT_CD);
@@ -240,6 +255,46 @@
                 }
             }
         })
+    }
+
+    function setBtn(){
+        console.log("meetingInfo", meetingInfo);
+        let html = makeApprBtnHtml(meetingInfo, 'meetingDrafting()');
+        $("#meetingBtnBox").html(html);
+
+        let status = meetingInfo.STATUS;
+        if((status == "10" || status == "20" || status == "50" || status == "100") || $("#mode").val() == "mng"){
+            $("#saveBtn").hide();
+            fn_kendoUIEnableSet();
+        }
+
+        if($("#mode").val() == "mng" && status != "100"){
+            $("#meetingBtnBox").hide();
+        }
+    }
+
+    function fn_kendoUIEnableSet(){
+        $("#metDe").data("kendoDatePicker").enable(false);
+        $("#metStrTime").data("kendoTimePicker").enable(false);
+        $("#metEndTime").data("kendoTimePicker").enable(false);
+        $("#metLoc").data("kendoTextBox").enable(false);
+        $("#metObj").data("kendoTextBox").enable(false);
+        $("#metCont").data("kendoTextArea").enable(false);
+        $("#pjtBtn").attr("disabled", "disabled");
+        $("#userSearchBtn").attr("disabled", "disabled");
+        $("#exAddBtn").attr("disabled", "disabled");
+    }
+
+    function meetingDrafting(){
+        $("#meetingDraftFrm").one("submit", function() {
+            var url = "/cam_manager/pop/meetingApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            var popup = window.open(url, name, option);
+            this.action = "/cam_manager/pop/meetingApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     }
 
     function userSearch() {

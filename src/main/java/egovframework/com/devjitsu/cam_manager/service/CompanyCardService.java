@@ -66,4 +66,7 @@ public interface CompanyCardService {
     Map<String, Object> getMeetingData(Map<String, Object> params);
 
     List<Map<String, Object>> getExtData(Map<String, Object> params);
+
+    /** 회의실사용사전승인신청서 결재 상태값에 따른 UPDATE 메서드 */
+    void updateMeetingDocState(Map<String, Object> bodyMap) throws Exception;
 }

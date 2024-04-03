@@ -426,11 +426,17 @@ function makeApprBtnHtml(dataInfo, onClick, type, target){
             "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
             "   <span class='k-button-text'>상신</span>" +
             "</button>";
-    }else if(status == "10" || status == "20" || status == "50"){
+    }else if(status == "10" || status == "50"){
         html =
             "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+docId+"\", \""+approKey+"\", 1, \"retrieve\");'>" +
             "   <span class='k-icon k-i-x-circle k-button-icon'></span>" +
             "   <span class='k-button-text'>회수</span>" +
+            "</button>";
+    }else if(status == "20"){
+        html =
+            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+docId+"\", \""+approKey+"\", \""+menuCd+"\");'>" +
+            "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+            "   <span class='k-button-text'>결재중</span>" +
             "</button>";
     }else if(status == "30" || status == "40"){
         html =

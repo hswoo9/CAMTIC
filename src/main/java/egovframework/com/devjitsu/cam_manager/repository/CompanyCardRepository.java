@@ -213,4 +213,11 @@ public class CompanyCardRepository extends AbstractDAO {
     public List<Map<String, Object>> getExtData(Map<String, Object> params) {
         return selectList("card.getExtData", params);
     }
+
+    public void updateMeetingApprStat(Map<String, Object> params) {
+        update("card.updateMeetingApprStat", params);
+    }
+    public void updateMeetingFinalApprStat(Map<String, Object> params) {
+        update("card.updateMeetingFinalApprStat", params);
+    }
 }
