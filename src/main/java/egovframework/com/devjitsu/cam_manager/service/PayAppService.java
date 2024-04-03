@@ -36,6 +36,8 @@ public interface PayAppService {
 
     List<Map<String, Object>> getExnpReList(Map<String, Object> params);
 
+    List<Map<String, Object>> getExnpReListForExcelDown(Map<String, Object> params);
+
     List<Map<String, Object>> getIncpList(Map<String, Object> params);
 
     List<Map<String, Object>> getIncpReList(Map<String, Object> params);
