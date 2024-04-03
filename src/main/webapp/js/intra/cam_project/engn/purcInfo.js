@@ -45,7 +45,7 @@ var purcInfo = {
             }
         });
 
-        purcInfo.mainGrid("/purc/getPurcReqList.do", purcInfo.global.searchAjaxData);
+        purcInfo.mainGrid("/purc/getPurcReqClaimList.do", purcInfo.global.searchAjaxData);
         purcInfo.mainGrid2("/purc/getUserPurcAppList", purcInfo.global.searchAjaxData);
         purcInfo.subGrid("/purc/getPjtPurcItemList", purcInfo.global.searchAjaxData);
     },
@@ -165,10 +165,18 @@ var purcInfo = {
                 //     },
 
                 {
-                    title: "상태",
+                    title: "구매청구서",
                     width: 100,
                     template: function(e){
-                        return "";
+                        var status = "";
+                        /** 구매요청서 */
+                        if(e.CLAIM_DOC_STATUS == "100"){
+                            status = '<button type="button" class="k-button k-button-solid-info" onclick="approveDocView(' + e.CLAIM_DOC_ID + ', \''+e.APPRO_KEY+'\', \'claim\')">구매청구서</button>';
+                        } else {
+                            status = '';
+                        }
+
+                        return status
                     },
                     footerTemplate: function(){
                         const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
@@ -579,7 +587,23 @@ var purcInfo = {
                 }
             }
         });
-    }
+    },
+
+    fn_reqClaiming : function(key, subKey){
+        var url = "/purc/pop/reqClaiming.do";
+
+        if(key != null && key != ""){
+            url = "/purc/pop/reqClaiming.do?claimSn=" + key;
+
+            if(subKey != null && subKey != "" && subKey != "undefined"){
+                url += "&purcSn=" + subKey;
+            }
+        }
+
+        var name = "blank";
+        var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
 }
 
 function gridReload(){

@@ -110,8 +110,11 @@ public class cmasBoardServiceImpl implements camsBoardService {
                 list.get(i).put("boardArticleId", params.get("boardArticleId"));
                 list.get(i).put("fileCd", params.get("boardId"));
                 list.get(i).put("filePath", filePath(params, baseDir));
-                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
-                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                /*list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);*/
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf('.')));
+                /*list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);*/
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf('.')+1));
+
                 list.get(i).put("empSeq", params.get("empSeq"));
             }
             camsBoardRepository.setArticleFileInfo(list);
@@ -177,7 +180,8 @@ public class cmasBoardServiceImpl implements camsBoardService {
             fileMap = camsBoardRepository.getContentBoardFileOne(params);
 
             CommonUtil commonUtil = new CommonUtil();
-            boolean isDelete = commonUtil.deleteFile(new String[]{fileMap.get("file_uuid").toString()}, fileMap.get("file_path").toString());
+
+            boolean isDelete = commonUtil.deleteFile(new String[]{fileMap.get("FILE_UUID").toString()}, fileMap.get("FILE_PATH").toString());
 
             if(isDelete){
                 camsBoardRepository.getContentBoardFileDelOne(params);
