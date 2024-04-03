@@ -71,11 +71,31 @@ var rndPR = {
                 }, {
                     field: "DEPT_NAME",
                     title: "부서",
-                    width: 100
+                    width: 100,
+                    template : function(e){
+                        var status = "";
+                        if(e.DEPT_NAME == "캠틱종합기술원"){
+                            status = e.DEPT_TEAM_NAME;
+                        } else {
+                            status = e.DEPT_NAME;
+                        }
+
+                        return status;
+                    }
                 }, {
                     title: "팀",
                     field: "DEPT_TEAM_NAME",
-                    width: 100
+                    width: 100,
+                    template : function(e){
+                        var status = "";
+                        if(e.DEPT_NAME == "캠틱종합기술원"){
+                            status = "";
+                        } else {
+                            status = e.DEPT_TEAM_NAME;
+                        }
+
+                        return status;
+                    }
                 }, {
                     title: "직위",
                     field: "POSITION_NAME",
