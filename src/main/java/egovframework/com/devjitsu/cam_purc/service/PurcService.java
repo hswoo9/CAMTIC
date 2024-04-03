@@ -99,4 +99,6 @@ public interface PurcService {
     Map<String, Object> getClaimExnpGwCardList(Map<String, Object> map);
 
     Map<String, Object> getClaimExnpGwEtaxList(Map<String, Object> map);
+
+    List<Map<String, Object>> getPurcReqClaimList(Map<String, Object> params);
 }

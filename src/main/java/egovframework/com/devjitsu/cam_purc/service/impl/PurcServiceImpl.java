@@ -305,6 +305,10 @@ public class PurcServiceImpl implements PurcService {
                     purcReqMap.put("orderDt", orderDt);
                     purcReqMap.put("goodsDt", goodsDt);
                     purcReqMap.put("orderYn", 'Y');
+                } else {
+                    purcReqMap.put("orderDt", null);
+                    purcReqMap.put("goodsDt", null);
+                    purcReqMap.put("orderYn", 'N');
                 }
 
                 purcRepository.insPayAppPurcReq(purcReqMap);
@@ -332,6 +336,10 @@ public class PurcServiceImpl implements PurcService {
                     purcReqMap.put("orderDt", orderDt);
                     purcReqMap.put("goodsDt", goodsDt);
                     purcReqMap.put("orderYn", 'Y');
+                } else {
+                    purcReqMap.put("orderDt", null);
+                    purcReqMap.put("goodsDt", null);
+                    purcReqMap.put("orderYn", 'N');
                 }
 
                 purcRepository.insPayAppPurcReq(purcReqMap);
@@ -1140,5 +1148,10 @@ public class PurcServiceImpl implements PurcService {
 
         result.put("rsList", rsList);
         return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getPurcReqClaimList(Map<String, Object> params) {
+        return purcRepository.getPurcReqClaimList(params);
     }
 }
