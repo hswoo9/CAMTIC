@@ -6,6 +6,18 @@ var rndInit = {
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
         const customG20 = customKendo.fn_customAjax("/project/getProjectBudgetListSum.do", {pjtSn: pjtSn});
+
+        /** 과제구분(참여형태) */
+        var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", {
+            cmGroupCode : "RND_SUBJECT",
+        }).rs;
+        let codeTxt = "";
+        for(let i=0; i<sbjDs.length; i++){
+            if(sbjDs[i].CM_CODE == map.SBJ_CLASS){
+                codeTxt = sbjDs[i].CM_CODE_NM;
+            }
+        }
+
         /** 연구비지원기관 */
         var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", {
             grpSn: "SUP_DEP"
@@ -41,6 +53,8 @@ var rndInit = {
         }
         /** 사업구분 */
         hwpDocCtrl.putFieldText('YEAR_CLASS', yearText);
+        /** 과제구분(참여형태) */
+        hwpDocCtrl.putFieldText('SBJ_CLASS', codeTxt);
         /** 지원부처 */
         hwpDocCtrl.putFieldText("SUP_DEP", supDepTxt);
         /** 세무정보 */

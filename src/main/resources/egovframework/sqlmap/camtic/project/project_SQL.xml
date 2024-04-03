@@ -21,9 +21,24 @@
         /* getProjectList */
         SELECT
             A.*,
-            (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK
+            (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
+            R.PART_EMP_SEQ
         FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
+        LEFT JOIN (
+            SELECT
+                PJT_SN, PART_EMP_SEQ
+            FROM
+                CAM_PJT_MNG.DJ_PART_RATE_DET SA
+            WHERE
+                PART_RATE_VER_SN = (SELECT
+                                        SSA.PART_RATE_VER_SN
+                                    FROM
+                                        CAM_PJT_MNG.DJ_PJT_PART_RATE_VER SSA
+                                    WHERE
+                                        SSA.PJT_SN = SA.PJT_SN
+                                    AND SSA.PART_RATE_VER = (SELECT MAX(SSSA.PART_RATE_VER) FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER SSSA WHERE SSSA.PJT_SN = SA.PJT_SN GROUP BY SSSA.PJT_SN ))
+        ) R ON A.PJT_SN = R.PJT_SN
         WHERE
         1=1
         AND A.TEAM_STAT = "N"
@@ -51,7 +66,7 @@
         </if>
         <if test= '"1".equals(searchValue)'>
             AND
-                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq})
+                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq})
 
             AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
         </if>
@@ -66,8 +81,6 @@
         <if test='"".equals(searchValue) and "".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
                 (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.BS_TITLE LIKE CONCAT('%', #{searchText}, '%')
-                OR (SELECT )
-                )
         </if>
         <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
@@ -92,6 +105,7 @@
         <if test='type != null and !"".equals(type)'>
             AND A.BUSN_CLASS IN ('S', 'R') AND A.PJT_CD IS NOT NULL
         </if>
+        GROUP BY A.PJT_SN
         ORDER BY A.REG_DT DESC
     </select>
 
