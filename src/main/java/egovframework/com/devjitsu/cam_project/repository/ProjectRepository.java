@@ -749,4 +749,12 @@ public class ProjectRepository extends AbstractDAO {
     public List<Map<String, Object>> getPsListByDevSn(Map<String, Object> params) {
         return selectList("project.getPsListByDevSn", params);
     }
+
+    public void modProcessData(Map<String, Object> params) {
+        update("project.modProcessData", params);
+    }
+
+    public void updInvestData(Map<String, Object> params) {
+        update("project.updInvestData", params);
+    }
 }

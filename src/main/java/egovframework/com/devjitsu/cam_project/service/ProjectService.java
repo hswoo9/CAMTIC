@@ -216,4 +216,8 @@ public interface ProjectService {
     List<Map<String, Object>> getHistEduList(Map<String, Object> params);
 
     Map<String, Object> getProjectCodeData(Map<String, Object> params);
+
+    void modProcessData(Map<String, Object> params);
+
+    void updInvestData(Map<String, Object> params);
 }

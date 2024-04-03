@@ -3293,4 +3293,36 @@
         SELECT * FROM CAM_PJT_MNG.DJ_PJT_PS
         WHERE DEV_SN = #{devSn}
     </select>
+
+    <update id="modProcessData" parameterType="map">
+        /*modProcessData*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PS
+        SET
+            PS_PREP = #{psPrep},
+            PS_PREP_NM = #{psPrepNm},
+            PS_NM = #{psNm},
+            PS_STR_DE = #{psStrDe},
+            PS_END_DE = #{psEndDe},
+            PS_EMP_SEQ = #{psEmpSeq},
+            PS_EMP_NM = #{psEmpNm}
+        WHERE
+            PS_SN = #{psSn}
+    </update>
+
+    <update id="updInvestData" parameterType="map">
+        /*updInvestData*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_INV
+        SET
+            DIV_CD = #{divCd},
+            DIV_NM = #{divNm},
+            INV_NM = #{invNm},
+            INV_CNT = #{invCnt},
+            INV_UNIT = #{invUnit},
+            INV_UNIT_PRICE = #{invUnitPrice},
+            EST_TOT_AMT = #{estTotAmt},
+            EST_OFC = #{estOfc},
+            INV_ETC = #{invEtc}
+        WHERE
+            INV_SN = #{invSn}
+    </update>
 </mapper>

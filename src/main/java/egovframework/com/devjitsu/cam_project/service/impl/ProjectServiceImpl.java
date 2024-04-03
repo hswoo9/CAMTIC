@@ -1661,6 +1661,16 @@ public class ProjectServiceImpl implements ProjectService {
     public Map<String, Object> getProjectCodeData(Map<String, Object> params) {
         return projectRepository.getProjectCodeData(params);
     }
+
+    @Override
+    public void modProcessData(Map<String, Object> params) {
+        projectRepository.modProcessData(params);
+    }
+
+    @Override
+    public void updInvestData(Map<String, Object> params) {
+        projectRepository.updInvestData(params);
+    }
 }
 
 

@@ -141,8 +141,14 @@ var deptListPop = {
     },
 
     gridChoose : function (e) {
-        if(e != null){
-            if($("#type").val() == "rndResearcher"){
+        if(e != null) {
+            if ($("#type").val() == "dev"){
+                var tr = $(e).closest("tr");
+                var row = $('#userList').data("kendoGrid").dataItem(tr);
+                opener.parent.userPopClose(row.EMP_SEQ, row.EMP_NAME_KR, $("#idx").val());
+
+                window.close();
+            }else if($("#type").val() == "rndResearcher"){
                 deptListPop.fn_selRsch(e);
             }else if($("#type").val() == "testType"){
 
