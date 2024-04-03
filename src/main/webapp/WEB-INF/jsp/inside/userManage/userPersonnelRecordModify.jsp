@@ -295,7 +295,7 @@
                                                     <input type="text" id="bmk${l.EDUCATIONAL_ID}" class ="textBox" value='${l.RMK}' style="width: 100%;">
                                                 </td>
                                                 <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_EduModifyInfo(${l.EDUCATIONAL_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="fu_EduModifyInfo(${l.EDUCATIONAL_ID})"/>
                                                     <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_delInfo(${l.EDUCATIONAL_ID})"/>
                                                 </td>
                                             </tr>
@@ -386,7 +386,7 @@
 
                                                 <td><input type="text" id="bmk2${l.CAREER_ID}" class ="textBox" value='${l.RMK}' style="width: 100%;"></td>
                                                 <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_careerModifyInfo(${l.CAREER_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="fu_careerModifyInfo(${l.CAREER_ID})"/>
                                                     <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_careerDelInfo(${l.CAREER_ID})"/>
                                                 </td>
                                             </tr>
@@ -401,7 +401,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 병역 사항</div>
                             <div id="armyInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_milModifyInfo(${mInfo.MSI_INFO_ID})"/>
+                                <input type="button" class="k-button k-button-solid-info" value="저장" onclick="fu_milModifyInfo(${mInfo.MSI_INFO_ID})"/>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -492,7 +492,7 @@
                                                 <td><input type="text" id="job${l.FAMILY_ID}" class ="textBox" value="${l.FAMILY_JOB}" style="width: 100%;"></td>
                                                 <td><span type="text" id="includeType${l.FAMILY_ID}" class="includeType" name="includeType${l.FAMILY_ID}" inCludeYn="${l.INCLUDE_YN}" style="width: 100%;"></span></td>
                                                 <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_familyModifyInfo(${l.FAMILY_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="fu_familyModifyInfo(${l.FAMILY_ID})"/>
                                                     <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_familyDelInfo(${l.FAMILY_ID})"/>
                                                 </td>
                                             </tr>
@@ -574,7 +574,7 @@
                                                 </c:if>
                                                 <td><input type="text" id="bmk4${l.CERTIFICATE_ID}" class ="textBox" value='${l.RMK}' style="width: 100%;"></td>
                                                 <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_LinModifyInfo(${l.CERTIFICATE_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="fu_LinModifyInfo(${l.CERTIFICATE_ID})"/>
                                                     <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_LinDelInfo(${l.CERTIFICATE_ID})"/>
                                                 </td>
                                             </tr>
@@ -627,7 +627,7 @@
                                                 <td><input type="text" id="work${l.DUTY_ID}" class ="textBox" value="${l.DUTY_DETAIL}" style="width: 100%;"></td>
                                                 <td><input type="text" id="rank1${l.DUTY_ID}" class ="textBox" value="${l.POSITON_NAME}" style="width: 100%;"></td>
                                                 <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_JobModifyInfo(${l.DUTY_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="fu_JobModifyInfo(${l.DUTY_ID})"/>
                                                     <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_JobDelInfo(${l.DUTY_ID})"/>
                                                 </td>
                                             </tr>
@@ -643,7 +643,7 @@
                             <div class="subTitSt">· 발령 사항</div>
                             <div id="orderInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
                                 <%--<input type="button" class="k-button k-button-solid-info" value="추가" onclick="addAppointingBtn(empSeq.value)"/>
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick=""/>
+                                <input type="button" class="k-button k-button-solid-info" value="저장" onclick=""/>
                                 <input type="button" class="k-button k-button-solid-info" value="삭제" onclick=""/>--%>
                             </div>
                         </div>
@@ -754,7 +754,7 @@
                                                     </td>
                                                 </c:if>
                                                 <td>
-                                                    <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_RewModifyInfo(${l.REWORD_ID})"/>
+                                                    <input type="button" class="k-button k-button-solid-info" value="저장" onclick="fu_RewModifyInfo(${l.REWORD_ID})"/>
                                                     <input type="button" class="k-button k-button-solid-error" value="삭제" onclick="fu_RewDelInfo(${l.REWORD_ID})"/>
                                                 </td>
                                             </tr>
@@ -989,7 +989,7 @@
                         <div style="display:flex;justify-content: space-between;">
                             <div class="subTitSt">· 비고</div>
                             <div id="cardEtcInfoBtn" class="btn-st" style="margin-top:5px; /*display:none;*/">
-                                <input type="button" class="k-button k-button-solid-info" value="수정" onclick="fu_etcModInfo()"/>
+                                <input type="button" class="k-button k-button-solid-info" value="저장" onclick="fu_etcModInfo()"/>
                             </div>
                         </div>
                         <div class="table-responsive">
