@@ -552,6 +552,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getExnpReListForExcelDown(Map<String, Object> params) {
+        return payAppRepository.getExnpReListForExcelDown(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getIncpList(Map<String, Object> params) {
         return payAppRepository.getIncpList(params);
     }
