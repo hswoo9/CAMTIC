@@ -204,6 +204,8 @@ var rndDP = {
                         html += '   <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe'+idx+'" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe'+idx+'" /></td>';
                         html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+list[i].PS_EMP_SEQ+'" disabled /><input type="hidden" id="psEmpSeq'+idx+'" value="'+list[i].PS_EMP_SEQ+'" /></td>';
                         html += '   <td style="text-align: center">';
+                        html += '       <button type="button" onclick="userSearch('+idx+')" class="k-button k-button-solid-base btn'+idx+'">추진담당</button>'
+                        html += '       <button type="button" onclick="devInfo.fn_modProcess('+list[i].PS_SN+', '+idx+')" style="margin-left: 5px;" class="k-button k-button-solid-primary btn'+idx+'">수정</button>';
                         html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
                         html += '   </td>';
                         html += '</tr>';
@@ -334,6 +336,7 @@ var rndDP = {
                 '       </td>\n' +
                 '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" /></td>\n' +
                 '       <td style="text-align: center;">' +
+                '           <button type="button" id="modBtn" onclick="rndDP.fn_modInv('+list[i].INV_SN+','+idx+')" class="k-button k-button-solid-primary">수정</button>' +
                 '           <button type="button" id="delBtn" onclick="rndDP.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
                 '       </td>';
             html += '</tr>';
@@ -366,6 +369,35 @@ var rndDP = {
         $("#devPlanIss").val(devMap.ETC);
 
         rndDP.fn_buttonSet(devMap);
+    },
+
+    fn_modInv : function (invSn, row){
+        console.log(invSn, row);
+
+        var data = {
+            invSn : invSn,
+            pjtSn : $("#pjtSn").val(),
+            invRow : row,
+            invNm : $("#invNm"+row).val(),
+            invCnt : uncomma($("#invCnt"+row).val()),
+            invUnit : $("#invUnit"+row).val(),
+            invUnitPrice : uncomma($("#invUnitPrice"+row).val()),
+            estTotAmt : uncomma($("#estTotAmt"+row).val()),
+            estOfc : $("#estOfc"+row).val(),
+            invEtc : $("#invEtc"+row).val()
+        }
+
+        $.ajax({
+            url : "/project/updInvestData",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                if(rs.code == 200){
+                    alert("수정하였습니다.");
+                }
+            }
+        });
     },
 
     fn_addVersion : function (){
@@ -613,6 +645,12 @@ var rndDP = {
         if(devMap != null){
             var status = devMap.STATUS;
 
+            // check
+            if(status != "0" && status != "30" && status != "40"){
+                $("#psTable").find("button").attr("disabled", "disabled");
+                $("#invTable").find("button").attr("disabled", "disabled");
+            }
+
             /** 수주부서 일때 */
             if(status == "0"){
                 buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
@@ -723,5 +761,6 @@ var rndDP = {
     selCrmInfo :  function(e){
         $("#estOfc" + rndDP.global.crmIdx).val(e.CRM_NM);
         rndDP.global.crmIdx = "";
-    }
+    },
+
 }

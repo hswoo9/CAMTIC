@@ -525,7 +525,12 @@ var devInfo = {
         var buttonHtml = "";
         if(devMap != null) {
             var status = devMap.STATUS;
-            
+
+            if(status != "0" && status != "30" && status != "40"){
+                $("#psTable").find("button").attr("disabled", "disabled");
+                $("#invTable").find("button").attr("disabled", "disabled");
+            }
+
             /** 수주부서 일때 */
             if (status == "0") {
                 buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";

@@ -58,7 +58,7 @@
         <span class="addPSActive" style="font-size: 12px; margin-bottom: 0; display: none">◎ 공정설정</span>
         <table class="popTable table table-bordered mb-0 addPSActive" style="display: none; margin-top: 0px">
             <colgroup>
-                <col width="7%">
+                <col width="5%">
                 <col width="10%">
                 <col width="15%">
                 <col width="26%">
@@ -125,10 +125,10 @@
             <span class="addPSActive" style="font-size: 12px; margin-bottom: 0; display: none">◎ 예상비용</span>
             <table class="popTable table table-bordered mb-0" style="font-size: 12px; margin-top: 0">
                 <colgroup>
-                    <col width="7%">
+                    <col width="5%">
                     <col width="15%">
-                    <col width="10%">
-                    <col width="10%">
+                    <col width="5%">
+                    <col width="7%">
                     <col width="10%">
                     <col width="15%">
                     <col width="15%">
@@ -177,6 +177,15 @@
     function fn_userMultiSelectPop(i) {
         idx = i;
         window.open("/user/pop/userMultiSelectPop.do?type=dev","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    }
+
+    function userSearch(i) {
+        window.open("/common/deptListPop.do?type=dev&idx="+ i, "조직도", "width=750, height=650");
+    }
+
+    function userPopClose(empSeq, empName, i){
+        $("#psEmpNm" + i).val(empName);
+        $("#psEmpSeq" + i).val(empSeq);
     }
 
     function userDataSet(arr){
