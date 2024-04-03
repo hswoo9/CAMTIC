@@ -167,6 +167,10 @@ public class ProjectRepository extends AbstractDAO {
         return selectList("project.getProcessList", params);
     }
 
+    public List<Map<String, Object>> getProcessList2(Map<String, Object> params) {
+        return selectList("project.getProcessList2", params);
+    }
+
     public void updProcess(Map<String, Object> params) {
         update("project.updProcess", params);
     }
