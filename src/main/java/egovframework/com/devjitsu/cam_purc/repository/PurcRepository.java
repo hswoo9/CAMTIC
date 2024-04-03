@@ -277,4 +277,8 @@ public class PurcRepository extends AbstractDAO {
     public void updClaimPurcOrder(Map<String, Object> purcReqMap) {
         update("purc.updClaimPurcOrder", purcReqMap);
     }
+
+    public List<Map<String, Object>> getPurcReqClaimList(Map<String, Object> params) {
+        return selectList("purc.getPurcReqClaimList", params);
+    }
 }

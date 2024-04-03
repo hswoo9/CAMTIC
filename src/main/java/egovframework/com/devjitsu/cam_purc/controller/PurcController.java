@@ -104,6 +104,18 @@ public class PurcController {
     }
 
     /**
+     * 구매요청관리 리스트 (청구기준)
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/purc/getPurcReqClaimList.do")
+    public String getPurcReqClaimList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", purcService.getPurcReqClaimList(params));
+        return "jsonView";
+    }
+
+    /**
      * 구매요청품목 리스트
      * @param params
      * @param model
