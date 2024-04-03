@@ -247,6 +247,7 @@ var customBudgetPop = {
     },
 
     tempGridSetting : function(){
+        sum = 0;
         var dataItemA = $("#customBudgetGridA").data("kendoGrid").dataItem(customBudgetPop.global.cBudgetA);
         var dataItemB = $("#customBudgetGridB").data("kendoGrid").dataItem(customBudgetPop.global.cBudgetB);
 

@@ -39,6 +39,11 @@
                                         SSA.PJT_SN = SA.PJT_SN
                                     AND SSA.PART_RATE_VER = (SELECT MAX(SSSA.PART_RATE_VER) FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER SSSA WHERE SSSA.PJT_SN = SA.PJT_SN GROUP BY SSSA.PJT_SN ))
         ) R ON A.PJT_SN = R.PJT_SN
+        LEFT JOIN (
+            SELECT
+                PJT_SN, PS_EMP_SEQ
+            FROM cam_pjt_mng.dj_pjt_ps
+        ) R2 ON A.PJT_SN = R2.PJT_SN
         WHERE
         1=1
         AND A.TEAM_STAT = "N"
@@ -66,13 +71,13 @@
         </if>
         <if test= '"1".equals(searchValue)'>
             AND
-                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq})
+                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
 
             AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
         </if>
         <if test= '"2".equals(searchValue)'>
             AND
-                A.REG_EMP_SEQ = #{regEmpSeq}
+                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
         </if>
         <if test= '"3".equals(searchValue)'>
             AND

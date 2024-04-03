@@ -2,6 +2,7 @@ let sum=0;
 var rndDetail = {
 
     global : {
+        codeCk: "N",
         taxCk: "N"
     },
 
@@ -182,6 +183,9 @@ var rndDetail = {
 
         const pjtInfo2 = customKendo.fn_customAjax("/project/getProjectStep", parameters);
         const map = pjtInfo2.rs;
+        if(map != null && map.CODE_VAL != null){
+            rndDetail.global.codeCk = "Y";
+        }
         if(map != null && map.TAX_GUBUN != null){
             rndDetail.global.taxCk = "Y";
         }
@@ -606,11 +610,12 @@ var rndDetail = {
 
     setCustomBudgetDel : function(i){
         if($("input[name='pCbPk"+i+"']:checked").length == 0){ alert("삭제할 예산을 선택해주세요."); return; }
-        if(confirm("선택한 코드를 삭제하시겠습니까?\n삭제 후 저장시 반영됩니다.")) {
+        if(confirm("선택한 코드를 삭제하시겠습니까?\n수정 후 자동저장 됩니다.")) {
             var grid = $("#customBudgetGrid"+i).data("kendoGrid");
             $.each($("input[name='pCbPk"+i+"']:checked"), function(i, v){
                 grid.removeRow($(v).closest("tr"));
             });
         }
+        rndDetail.fn_save();
     }
 }
