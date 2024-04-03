@@ -199,6 +199,12 @@ var regUnRnd = {
             var doc3 = parser.parseFromString(html3, 'text/html');
             $("#tabstrip li")[9].before(doc3.body.firstChild);
         }
+
+        tabStrip.disable(tabStrip.tabGroup.children().eq(2));
+
+        if(setParameters.loginVO.uniqId == setParameters.PM_EMP_SEQ || setParameters.loginVO.uniqId == setParameters.EMP_SEQ){
+            tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+        }
     },
 
     fn_setPage : function(setParameters){

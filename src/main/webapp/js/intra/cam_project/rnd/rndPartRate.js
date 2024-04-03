@@ -132,10 +132,7 @@ var rndPR = {
                 }, {
                     title: "학위",
                     field: "DEGREE_CODE_NM",
-                    width: 100,
-                    template : function (e){
-
-                    }
+                    width: 100
                 }, {
                     title: "출신학교/전공",
                     field: "SCHOOL",

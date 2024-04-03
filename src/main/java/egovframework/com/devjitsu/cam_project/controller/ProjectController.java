@@ -437,7 +437,12 @@ public class ProjectController {
      */
     @RequestMapping("/project/getProjectStep")
     public String getProjectStep(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
         Map<String, Object> map = projectService.getProjectStep(params);
+
+        map.put("loginVO", loginVO);
         model.addAttribute("rs", map);
 
         return "jsonView";
