@@ -35,10 +35,12 @@ var purcInfo = {
                     $("#purcInfoMainGrid").css("display", "");
                     $("#purcInfoMainGrid2").css("display", "none");
                     $("#purcTitleWrap").text("◎ 구매 리스트")
+                    $("#mainGrid1Wrap").show();
                 } else if (idx == 2){
                     $("#purcInfoMainGrid").css("display", "none");
                     $("#purcInfoMainGrid2").css("display", "");
-                    $("#purcTitleWrap").text("◎ 구매 지급 리스트")
+                    $("#purcTitleWrap").text("◎ 구매 지급 리스트");
+                    $("#mainGrid1Wrap").hide();
                 }
             }
         });

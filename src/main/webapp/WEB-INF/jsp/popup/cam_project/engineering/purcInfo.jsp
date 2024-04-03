@@ -54,10 +54,12 @@
         <div id="purcInfoMainGrid"></div>
         <div id="purcInfoMainGrid2" style="display: none"></div>
     </div>
-<%--    <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 구매내역 리스트</span>--%>
-<%--    <div class="table-responsive">--%>
-<%--        <div id="purcInfoSubGrid"></div>--%>
-<%--    </div>--%>
+    <span id="mainGrid1Wrap">
+        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 구매내역 리스트</span>
+        <div class="table-responsive">
+            <div id="purcInfoSubGrid"></div>
+        </div>
+    </span>
 </div>
 
 <script>
