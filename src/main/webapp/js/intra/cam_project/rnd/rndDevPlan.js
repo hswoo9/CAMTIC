@@ -372,8 +372,6 @@ var rndDP = {
     },
 
     fn_modInv : function (invSn, row){
-        console.log(invSn, row);
-
         var data = {
             invSn : invSn,
             pjtSn : $("#pjtSn").val(),
@@ -645,7 +643,6 @@ var rndDP = {
         if(devMap != null){
             var status = devMap.STATUS;
 
-            // check
             if(status != "0" && status != "30" && status != "40"){
                 $("#psTable").find("button").attr("disabled", "disabled");
                 $("#invTable").find("button").attr("disabled", "disabled");
@@ -656,7 +653,7 @@ var rndDP = {
                 buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.fn_save()\">저장</button>";
                 buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"display: none; float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDP.devDrafting()\">상신</button>";
-            }else if(status == "10" || status == "20" || status == "30"){
+            }else if(status == "10" || status == "20" || status == "50"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
             }else if(status == "30" || status == "40"){
                 buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
