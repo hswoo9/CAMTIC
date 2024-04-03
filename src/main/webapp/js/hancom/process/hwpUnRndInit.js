@@ -58,12 +58,12 @@ var unRndInit = {
         hwpDocCtrl.putFieldText("SUP_DEP", supDepTxt);
         /** 세무정보 */
         let taxText = "";
-        if(map.TAX_GUBUN == "1"){
-            taxText = "과세";
-        }else if(map.TAX_GUBUN == "2"){
-            taxText = "면세";
-        }else if(map.TAX_GUBUN == "3"){
-            taxText = "비과세";
+        if(map.CODE_VAL == "1"){
+            taxText = "수익사업";
+        }else if(map.CODE_VAL == "2"){
+            taxText = "고유목적사업";
+        }else if(map.CODE_VAL == "3"){
+            taxText = "공통사업";
         }
         hwpDocCtrl.putFieldText("TAX_GUBUN", taxText);
         /** 전담기관 */
@@ -91,9 +91,13 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
 
         /** 사업책임자 */
-        hwpDocCtrl.putFieldText('MANAGE_NM', map.PM);
+        const mngInfo = getUser(map.PM_EMP_SEQ);
+        const mngText = map.PM + " " + fn_getSpot(mngInfo.DUTY_NAME, mngInfo.POSITION_NAME);
+        hwpDocCtrl.putFieldText('MANAGE_NM', mngText);
         /** 사업담당자 */
-        hwpDocCtrl.putFieldText('PM_EMP_NM', map.EMP_NAME);
+        const pmInfo = getUser(map.EMP_SEQ);
+        const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
+        hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
 
         /** 2. 사업 목적 및 내용 */
         hwpDocCtrl.putFieldText('OBJ', delvMap.UN_RND_OBJ);

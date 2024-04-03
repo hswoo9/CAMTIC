@@ -319,8 +319,8 @@
             alert("예산이 설정되지 않았습니다. 예산 설정 후 저장버튼을 누르고 진행 바랍니다."); return;
         }
 
-        if(rndDetail.global.taxCk == "N"){
-            alert("수주보고전 과세여부 체크해주세요-재무회계팀에 문의"); return;
+        if(rndDetail.global.codeCk == "N"){
+            alert("수주보고전 세무정보 체크해주세요-재무회계팀에 문의"); return;
         }
 
         $("#dialog").data("kendoWindow").open();

@@ -334,6 +334,7 @@ var regUnRnd = {
             pjtNm : $("#pjtNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
+            crmPartSn : $("#crmPartSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
             allBusnCost : uncomma($("#allBusnCost").val()),
 
@@ -439,6 +440,7 @@ var regUnRnd = {
             pjtNm : $("#pjtNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
+            crmPartSn : $("#crmPartSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
             allBusnCost : uncomma($("#allBusnCost").val()),
 

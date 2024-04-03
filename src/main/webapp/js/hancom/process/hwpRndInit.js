@@ -59,12 +59,12 @@ var rndInit = {
         hwpDocCtrl.putFieldText("SUP_DEP", supDepTxt);
         /** 세무정보 */
         let taxText = "";
-        if(map.TAX_GUBUN == "1"){
-            taxText = "과세";
-        }else if(map.TAX_GUBUN == "2"){
-            taxText = "면세";
-        }else if(map.TAX_GUBUN == "3"){
-            taxText = "비과세";
+        if(map.CODE_VAL == "1"){
+            taxText = "수익사업";
+        }else if(map.CODE_VAL == "2"){
+            taxText = "고유목적사업";
+        }else if(map.CODE_VAL == "3"){
+            taxText = "공통사업";
         }
         hwpDocCtrl.putFieldText("TAX_GUBUN", taxText);
 
