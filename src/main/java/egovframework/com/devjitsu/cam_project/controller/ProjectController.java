@@ -924,6 +924,14 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getProcessList2")
+    public String getProcessList2(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("list", projectService.getProcessList2(params));
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/modProcessData")
     public String modProcessData(@RequestParam Map<String, Object> params, Model model){
 

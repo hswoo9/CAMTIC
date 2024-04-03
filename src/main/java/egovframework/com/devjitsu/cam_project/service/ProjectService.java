@@ -62,6 +62,8 @@ public interface ProjectService {
 
     List<Map<String, Object>> getProcessList(Map<String, Object> params);
 
+    List<Map<String, Object>> getProcessList2(Map<String, Object> params);
+
     void updProcess(Map<String, Object> params);
 
     void delProcess(Map<String, Object> params);

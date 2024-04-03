@@ -932,6 +932,17 @@
             DEV_SN = #{devSn}
     </select>
 
+    <select id="getProcessList2" parameterType="map" resultType="map">
+        /*getProcessList2*/
+        SELECT
+            GROUP_CONCAT(PS_EMP_NM SEPARATOR ', ') AS GROUP_PS_EMP_NM, A.*
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PS A
+        WHERE
+            DEV_SN = #{devSn}
+        GROUP BY PS_NM, PS_STR_DE, PS_END_DE, PS_PREP
+    </select>
+
     <update id="updProcess" parameterType="map">
         UPDATE CAM_PJT_MNG.DJ_PJT_PS
         SET

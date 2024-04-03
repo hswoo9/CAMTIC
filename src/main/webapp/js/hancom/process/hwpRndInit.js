@@ -138,13 +138,18 @@ var rndInit = {
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
 
+        console.log("delvMap", delvMap);
+
         /** 1. 사업정보 */
         hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-        hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.MNG_DEPT_NAME);
         hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
-        hwpDocCtrl.putFieldText('PM_EMP_NM', map.PM);
+        /** 사업담당자 */
+        const pmInfo = getUser(map.EMP_SEQ);
+        const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
+        hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
+        hwpDocCtrl.putFieldText('DEPT_NAME', pmInfo.DEPT_NAME);
         hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
         hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
         hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
@@ -171,7 +176,7 @@ var rndInit = {
         }
 
         /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn: devSn});
+        const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn: devSn});
         const processList = processResult.list;
         const htmlPs = engnInit.htmlPs(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
@@ -269,9 +274,12 @@ var rndInit = {
         hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
         hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-        hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.MNG_DEPT_NAME);
         hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
-        hwpDocCtrl.putFieldText('PM_EMP_NM', map.PM);
+        /** 사업담당자 */
+        const pmInfo = getUser(map.EMP_SEQ);
+        const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
+        hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
+        hwpDocCtrl.putFieldText('DEPT_NAME', pmInfo.DEPT_NAME);
         hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
         hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
         hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
@@ -316,7 +324,7 @@ var rndInit = {
         }
 
         /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn : devMap.DEV_SN});
+        const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn : devMap.DEV_SN});
         const processList = processResult.list;
         const htmlPs = engnInit.htmlPs(processList, map);
         setTimeout(function() {

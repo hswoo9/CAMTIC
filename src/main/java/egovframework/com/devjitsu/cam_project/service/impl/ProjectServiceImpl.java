@@ -408,6 +408,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Map<String, Object>> getProcessList2(Map<String, Object> params) {
+        return projectRepository.getProcessList2(params);
+    }
+
+    @Override
     public void updProcess(Map<String, Object> params) {
         projectRepository.updProcess(params);
     }
