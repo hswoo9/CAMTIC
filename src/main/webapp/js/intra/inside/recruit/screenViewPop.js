@@ -231,78 +231,78 @@ var screenViewPop = {
     },
 
     makeType2ApplicationList : function(e, cnt){
-        var html = "";
-        var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
+        for(var x = 0 ; x < cnt.length ; x++){
+            var html = "";
+            var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
 
-        var totLen = e.length;
+            var totLen = e.length;
 
-        var aLen = Math.round((totLen / 16 * 100) / 100);
+            var aLen = Math.round((totLen / 16 * 100) / 100);
 
-        if(aLen == 0){
-            aLen = 1;
-        }
+            if(aLen == 0){
+                aLen = 1;
+            }
 
-        var rowIdx = 0;
-        var jdx = 0;
-
-        for(var i = 0; i < aLen; i++){
-            html += '' +
-                '<div class="pdf_page mt-20" style="height: 700px">' +
+            var rowIdx = 0;
+            var jdx = 0;
+            for(var i = 0; i < aLen; i++){
+                html += '' +
+                    '<div class="pdf_page mt-20" style="height: 700px">' +
                     '<h2 class="text-center" style="margin: 0">채용 서류심사 평가표(신입)</h2>' +
                     '<table class="searchTable table table-bordered mb-0 mt-20">' +
-                        '<colgroup>' +
-                            '<col style="width: 10%">' +
-                        '</colgroup>' +
-                        '<tr>' +
-                            '<th>근무부서</th>' +
-                            '<td>' +
-                                area.DEPT_NAME + ' - ' + area.TEAM_NAME +
-                            '</td>' +
-                            '<th>채용부문</th>' +
-                            '<td>' +
-                                area.JOB +
-                            '</td>' +
-                            '<th>필요경력</th>' +
-                            '<td>' +
-                                area.CAREER +
-                            '</td>' +
-                            '<th>채용직급</th>' +
-                            '<td>' +
-                                area.DUTY +
-                            '</td>' +
-                        '</tr>' +
+                    '<colgroup>' +
+                    '<col style="width: 10%">' +
+                    '</colgroup>' +
+                    '<tr>' +
+                    '<th>근무부서</th>' +
+                    '<td>' +
+                    area.DEPT_NAME + ' - ' + area.TEAM_NAME +
+                    '</td>' +
+                    '<th>채용부문</th>' +
+                    '<td>' +
+                    area.JOB +
+                    '</td>' +
+                    '<th>필요경력</th>' +
+                    '<td>' +
+                    area.CAREER +
+                    '</td>' +
+                    '<th>채용직급</th>' +
+                    '<td>' +
+                    area.DUTY +
+                    '</td>' +
+                    '</tr>' +
                     '</table>' +
                     '<div style="height: 380px;">' +
                     '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center">' +
-                        '<colgroup>' +
-                        '    <col style="width: 6%">' +
-                        '    <col style="width: 10%">' +
-                        '    <col style="width: 7%">' +
-                        '    <col style="width: 7%">' +
-                        '    <col style="width: 7%">' +
-                        '    <col style="width: 7%">' +
-                        '    <col style="width: 7%">' +
-                        '    <col style="width: 7%">' +
-                        '    <col style="width: 15%">' +
-                        '    <col>' +
-                        '</colgroup>' +
-                        '<tr>' +
-                        '    <th rowSpan="2">번호</th>' +
-                        '    <th rowSpan="2">성명</th>' +
-                        '    <th colSpan="3">학력/전공(40점)</th>' +
-                        '    <th colSpan="3">서류충실도(60점)</th>' +
-                        '    <th rowSpan="2">평가점수<br>(100점)</th>' +
-                        '    <th rowspan="2">기타의견</th>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '    <th>上(40)</th>' +
-                        '    <th>中(30)</th>' +
-                        '    <th>下(20)</th>' +
-                        '    <th>上(60)</th>' +
-                        '    <th>中(50)</th>' +
-                        '    <th>下(40)</th>' +
-                        '</tr>' +
-                        '<tbody id="applicationTb">';
+                    '<colgroup>' +
+                    '    <col style="width: 6%">' +
+                    '    <col style="width: 10%">' +
+                    '    <col style="width: 7%">' +
+                    '    <col style="width: 7%">' +
+                    '    <col style="width: 7%">' +
+                    '    <col style="width: 7%">' +
+                    '    <col style="width: 7%">' +
+                    '    <col style="width: 7%">' +
+                    '    <col style="width: 15%">' +
+                    '    <col>' +
+                    '</colgroup>' +
+                    '<tr>' +
+                    '    <th rowSpan="2">번호</th>' +
+                    '    <th rowSpan="2">성명</th>' +
+                    '    <th colSpan="3">학력/전공(40점)</th>' +
+                    '    <th colSpan="3">서류충실도(60점)</th>' +
+                    '    <th rowSpan="2">평가점수<br>(100점)</th>' +
+                    '    <th rowspan="2">기타의견</th>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '    <th>上(40)</th>' +
+                    '    <th>中(30)</th>' +
+                    '    <th>下(20)</th>' +
+                    '    <th>上(60)</th>' +
+                    '    <th>中(50)</th>' +
+                    '    <th>下(40)</th>' +
+                    '</tr>' +
+                    '<tbody id="applicationTb">';
                 if(e != null && e.length > 0){
                     var tCnt = 0;
                     if(totLen > 16){
@@ -310,39 +310,39 @@ var screenViewPop = {
                     } else {
                         tCnt = totLen;
                     }
-                    
+
                     for(var j = 0; j < tCnt; j++){
                         rowIdx++;
                         html += "" +
                             '<tr class="userEvalDocScreen">' +
-                                '<td>' + (rowIdx) + '</td>' +
-                                '<td>' +
-                                    '<input type="hidden" id="applicationId" name="applicationId" value="' + e[jdx].APPLICATION_ID + '">' + e[jdx].USER_NAME +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class="evalRadio" name="evalItemVal_doc1_' + e[jdx].APPLICATION_ID + '_' + cnt[0].EVAL_LOGIN_ID + '" id="itemScore_doc1_1_' + e[jdx].APPLICATION_ID + '" score="40"></span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class="evalRadio" name="evalItemVal_doc1_' + e[jdx].APPLICATION_ID + '_' + cnt[0].EVAL_LOGIN_ID + '" id="itemScore_doc1_2_' + e[jdx].APPLICATION_ID + '" score="30"></span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class="evalRadio" name="evalItemVal_doc1_' + e[jdx].APPLICATION_ID + '_' + cnt[0].EVAL_LOGIN_ID + '" id="itemScore_doc1_3_' + e[jdx].APPLICATION_ID + '" score="20"></span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class="evalRadio" name="evalItemVal_doc2_' + e[jdx].APPLICATION_ID + '_' + cnt[0].EVAL_LOGIN_ID + '" id="itemScore_doc2_1_' + e[jdx].APPLICATION_ID + '" score="60"></span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class="evalRadio" name="evalItemVal_doc2_' + e[jdx].APPLICATION_ID + '_' + cnt[0].EVAL_LOGIN_ID + '" id="itemScore_doc2_2_' + e[jdx].APPLICATION_ID + '" score="50"></span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span class="evalRadio" name="evalItemVal_doc2_' + e[jdx].APPLICATION_ID + '_' + cnt[0].EVAL_LOGIN_ID + '" id="itemScore_doc2_3_' + e[jdx].APPLICATION_ID + '" score="40"></span>' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span id="sum_' + e[jdx].APPLICATION_ID  + '_' + cnt[0].EVAL_LOGIN_ID + '" name="sum"></span>점 ' +
-                                '</td>' +
-                                '<td>' +
-                                    '<span id="otherRmk_' + e[jdx].APPLICATION_ID  + '_' + cnt[0].EVAL_LOGIN_ID + '" name="otherRmk"></span>' +
-                                '</td>' +
+                            '<td>' + (rowIdx) + '</td>' +
+                            '<td>' +
+                            '<input type="hidden" id="applicationId" name="applicationId" value="' + e[jdx].APPLICATION_ID + '">' + e[jdx].USER_NAME +
+                            '</td>' +
+                            '<td>' +
+                            '<span class="evalRadio" name="evalItemVal_doc1_' + e[jdx].APPLICATION_ID + '_' + cnt[x].EVAL_LOGIN_ID + '" id="itemScore_doc1_1_' + e[jdx].APPLICATION_ID + '" score="40"></span>' +
+                            '</td>' +
+                            '<td>' +
+                            '<span class="evalRadio" name="evalItemVal_doc1_' + e[jdx].APPLICATION_ID + '_' + cnt[x].EVAL_LOGIN_ID + '" id="itemScore_doc1_2_' + e[jdx].APPLICATION_ID + '" score="30"></span>' +
+                            '</td>' +
+                            '<td>' +
+                            '<span class="evalRadio" name="evalItemVal_doc1_' + e[jdx].APPLICATION_ID + '_' + cnt[x].EVAL_LOGIN_ID + '" id="itemScore_doc1_3_' + e[jdx].APPLICATION_ID + '" score="20"></span>' +
+                            '</td>' +
+                            '<td>' +
+                            '<span class="evalRadio" name="evalItemVal_doc2_' + e[jdx].APPLICATION_ID + '_' + cnt[x].EVAL_LOGIN_ID + '" id="itemScore_doc2_1_' + e[jdx].APPLICATION_ID + '" score="60"></span>' +
+                            '</td>' +
+                            '<td>' +
+                            '<span class="evalRadio" name="evalItemVal_doc2_' + e[jdx].APPLICATION_ID + '_' + cnt[x].EVAL_LOGIN_ID + '" id="itemScore_doc2_2_' + e[jdx].APPLICATION_ID + '" score="50"></span>' +
+                            '</td>' +
+                            '<td>' +
+                            '<span class="evalRadio" name="evalItemVal_doc2_' + e[jdx].APPLICATION_ID + '_' + cnt[x].EVAL_LOGIN_ID + '" id="itemScore_doc2_3_' + e[jdx].APPLICATION_ID + '" score="40"></span>' +
+                            '</td>' +
+                            '<td>' +
+                            '<span id="sum_' + e[jdx].APPLICATION_ID  + '_' + cnt[x].EVAL_LOGIN_ID + '" name="sum"></span>점 ' +
+                            '</td>' +
+                            '<td>' +
+                            '<span id="otherRmk_' + e[jdx].APPLICATION_ID  + '_' + cnt[x].EVAL_LOGIN_ID + '" name="otherRmk"></span>' +
+                            '</td>' +
                             '</tr>';
 
 
@@ -354,22 +354,22 @@ var screenViewPop = {
                     }
                 }else{
                     html += "" +
-                            '<tr>' +
-                                '<td colspan="10">데이터가 없습니다.</td>' +
-                            '</tr>'
+                        '<tr>' +
+                        '<td colspan="10">데이터가 없습니다.</td>' +
+                        '</tr>'
                 }
 
                 /** 사인 조회후 사인이 있으면 이미지 첨부 없으면 정자 */
-                const result = customKendo.fn_customAjax("/user/getSign", {empSeq: cnt[0].EMP_SEQ});
+                const result = customKendo.fn_customAjax("/user/getSign", {empSeq: cnt[x].EMP_SEQ});
                 console.log("userSign : ");
                 console.log(result);
 
                 let imgHtml = '';
                 if(result.data.signImg != null){
                     const imgMap = result.data.signImg;
-                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[0].EMP_NAME_KR+'&nbsp;(인)</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"'+imgMap.file_path+imgMap.file_uuid+'\">';
+                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[x].EMP_NAME_KR+'&nbsp;(인)</span> <img id=\"signPhotoView\" style=\"position:relative; right: -198px; top: -6px\" width=\"50px;\" height=\"50px;\" src=\"'+imgMap.file_path+imgMap.file_uuid+'\">';
                 }else{
-                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[0].EMP_NAME_KR+'&nbsp;<b style=\"\">'+cnt[0].EMP_NAME_KR+'</b></span>';
+                    imgHtml += '<span style=\"width: 180px; margin-top: 10px; float: right\">심사위원 : '+cnt[x].EMP_NAME_KR+'&nbsp;<b style=\"\">'+cnt[x].EMP_NAME_KR+'</b></span>';
                 }
 
                 html +=     '</tbody>' +
@@ -381,12 +381,14 @@ var screenViewPop = {
                     '</p>' +
                     '</div>' +
                     '<div style="text-align: right;font-size: 12px; position: relative; top: 0px; right: 50px; margin-top: 130px">' +
-                    cnt[0].REG_DT + "<br>" +
+                    cnt[x].REG_DT + "<br>" +
                     imgHtml +
                     '</div>' +
                     '</div>';
+            }
+
+            $("#tbDiv").append(html)
         }
-        $("#tbDiv").append(html)
     },
 
 
