@@ -4166,6 +4166,7 @@
         ,REG_EMP_SEQ
         ,REG_DATE
         ,MAIN_TASK
+        ,RMK
         ,CAREER_MONTH
         ,ADMIN_APPROVAL
         ,ADD_NO
@@ -4180,6 +4181,7 @@
         ,#{REG_EMP_SEQ}
         ,NOW()
         ,#{CHARGE_WORK}
+        ,#{CAREER_CONTENT}
         ,#{CAREER_MONTH}
         ,'Y'
         ,#{CAREER_FILE}
