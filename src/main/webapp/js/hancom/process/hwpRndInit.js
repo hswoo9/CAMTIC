@@ -172,7 +172,7 @@ var rndInit = {
             hwpDocCtrl.putFieldText('TM_NAME', team.TEAM_NAME);
             hwpDocCtrl.putFieldText('TM_EMP_NAME', team.EMP_NAME);
             hwpDocCtrl.putFieldText('TM_AMT', fn_numberWithCommas(team.TM_AMT));
-            hwpDocCtrl.putFieldText('TM_PER', ((team.TM_AMT/map.PJT_AMT) * 100).toString().substring(0,4)+"%");
+            hwpDocCtrl.putFieldText('TM_PER', ((team.TM_AMT/delvMap.TOT_RES_COST) * 100).toString().substring(0,4)+"%");
         }
 
         /** 4. 수행계획 */
@@ -197,11 +197,14 @@ var rndInit = {
             const map = purcList[i];
             invSum += Number(map.EST_TOT_AMT);
         }
+        console.log("delvMap.TOT_RES_COST",delvMap.TOT_RES_COST);
+        console.log("invSum",invSum);
+        console.log();
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', String(fn_numberWithCommas(invSum)));
-        let invPer = (invSum / map.PJT_AMT * 100).toFixed(1);
+        let invPer = (invSum / delvMap.TOT_RES_COST * 100).toFixed(1);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
-        hwpDocCtrl.putFieldText('INV_AMT2', String(fn_numberWithCommas(map.PJT_AMT-invSum)));
+        hwpDocCtrl.putFieldText('INV_AMT2', String(fn_numberWithCommas(delvMap.TOT_RES_COST-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
         if(map.TM_YN == "Y"){
@@ -215,11 +218,11 @@ var rndInit = {
                 teamInvSum += Number(teamPurcMap.EST_TOT_AMT);
             }
             let delvAmt = 0;
-            delvAmt = map.PJT_AMT - team.TM_AMT;
+            delvAmt = delvMap.TOT_RES_COST - team.TM_AMT;
 
             /** 수부부서 매출*/
             hwpDocCtrl.putFieldText('AMT1', delvAmt == 0 ? "0" : fn_numberWithCommas(delvAmt));
-            let delvPer = (delvAmt / map.PJT_AMT * 100).toFixed(1);
+            let delvPer = (delvAmt / delvMap.TOT_RES_COST * 100).toFixed(1);
             hwpDocCtrl.putFieldText('INV_PER', delvPer+"%");
 
             /** 수주부서 비용*/
@@ -246,9 +249,9 @@ var rndInit = {
             hwpDocCtrl.putFieldText('TEAM_PER3', (100-teamPer)+"%");
 
             /** 합계 */
-            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT));
+            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
             hwpDocCtrl.putFieldText('TEAM_INV_AMT_SUM', fn_numberWithCommas(invSum + teamInvSum));
-            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(map.PJT_AMT - invSum - teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(delvMap.TOT_RES_COST - invSum - teamInvSum));
         }
 
         /** 7. 특이사항 */
