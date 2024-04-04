@@ -56,17 +56,42 @@ const partRatePrintPop = {
         partRatePrintPop.global.hwpCtrl.PutFieldText("pjtNm", pjtNm);
         partRatePrintPop.global.hwpCtrl.PutFieldText("sbjDate", sbjDate);
 
-        var empList;
-        var htmlData;
+        var memHtml = '';
 
-        htmlData += '<div>테스트입니다.</div>';
-        if(mem != null && mem == null){
-            var memHtml = '';
+        if(mem != null){
+            memHtml += '<table style="font-family: 함초롱바탕; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; font-size: 5px; text-align: left; font-size:10px; line-height: 10px; width: 100%; ">';
+            memHtml += '   <tr>';
+            memHtml += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+            memHtml += '           <table border="1" style="border-collapse: collapse; margin-top: 0px;">';
+            memHtml += '<tr>';
+            memHtml += '<th rowspan="2" style="height:25px; text-align:center; width: 60px;"><span style="font-size: 10px;">구분</span></th>';
+            memHtml += '<th rowspan="2" style="height:25px; text-align:center; width: 60px;"><span style="font-size: 10px;">참여인력</span></th>';
+            memHtml += '<th rowspan="2" style="height:25px; text-align:center; width: 70px;"><span style="font-size: 10px;">기준급여</span></th>';
+            memHtml += '<th rowspan="2" style="height:25px; text-align:center; width: 75px;"><span style="font-size: 10px;">인건비총액<br>(연간급여)</span></th>';
+            memHtml += '<th rowspan="2" style="height:25px; text-align:center; width: 85px;"><span style="font-size: 10px;">참여시작</span></th>';
+            memHtml += '<th rowspan="2" style="height:25px; text-align:center; width: 85px;"><span style="font-size: 10px;">참여종료</span></th>';
+            memHtml += '<th rowspan="2" style="height:25px; text-align:center; width: 55px;"><span style="font-size: 10px;">참여<br>개월</span></th>';
+            memHtml += '<th colspan="2" style="height:25px; text-align:center; width: 80px;"><span style="font-size: 10px;">현금</span></th>';
+            memHtml += '<th colspan="2" style="height:25px; text-align:center; width: 80px;"><span style="font-size: 10px;">현물</span></th>';
+            memHtml += '<th rowspan="2" style="height:25px; text-align:center; width: 55px;"><span style="font-size: 10px;">총참여율<br>(%)</span></th>';
+            memHtml += '<th rowspan="2" style="height:25px; text-align:center; width: 70px;"><span style="font-size: 10px;">인건비총액<br>(원)</span></th>';
+            memHtml += '<th rowspan="2" style="height:25px; text-align:center; width: 65px;"><span style="font-size: 10px;">월인건비<br>(원)</span></th>';
+            memHtml += '</tr>';
 
+            memHtml += '<tr>';
+            memHtml += '<th style="height:25px; text-align:center; width: 65px;padding: 5px;"><span style="font-size: 10px;">참여율(%)</span></th>';
+            memHtml += '<th style="height:25px; text-align:center; width: 65px;padding: 5px;"><span style="font-size: 10px;">인건비(원)</span></th>';
+            memHtml += '<th style="height:25px; text-align:center; width: 65px;padding: 5px;"><span style="font-size: 10px;">참여율(%)</span></th>';
+            memHtml += '<th style="height:25px; text-align:center; width: 65px; padding: 5px;"><span style="font-size: 10px;">인건비(원)</span></th>';
+            memHtml += '</tr>';
+
+            var allPayTotal = 0;
+            var total = 0;
+            var itemTotPay = 0;
+            var monthTotPay = 0;
             for (var i = 0; i < mem.length; i++) {
                 var e = mem[i];
                 var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-
 
                 /** 국민연금 */
                 var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
@@ -97,43 +122,53 @@ const partRatePrintPop = {
                     gubun = mem[i].GUBUN;
                 }
 
-                empList += mem[i].EMP_SEQ + ",";
                 memHtml += '<tr style="text-align: center" class="bodyTr">';
-                memHtml += '   <td style="font-size: 18px;">' + gubun + '</td>';
-                memHtml += '   <td style="font-size: 18px;">' + mem[i].EMP_NAME + '</td>';
-                memHtml += '   <td style="text-align: right;font-size: 18px;">' + comma(bsSal) + '</td>';
-                memHtml += '   <td style="text-align: right;font-size: 18px;">' + comma(totAmt) + '</td>';
-                memHtml += '   <td style="font-size: 18px;">' + mem[i].PJT_STR_DT + '</td>';
-                memHtml += '   <td style="font-size: 18px;">' + mem[i].PJT_END_DT + '</td>';
-                memHtml += '   <td style="font-size: 18px;">' + rndPR.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT) + '</td>';
-                memHtml += '   <td style="text-align: right;font-size: 18px;">' + mem[i].PAY_RATE + '</td>';      // 참여율 현금(%)
-                memHtml += '   <td style="text-align: right;font-size: 18px;">' + comma(mem[i].TOT_PAY_BUDG) + '</td>';      // 인건비 현금 총액
-                memHtml += '   <td style="text-align: right;font-size: 18px;">' + mem[i].ITEM_RATE + '</td>';
-                memHtml += '   <td style="text-align: right;font-size: 18px;">' + comma(mem[i].TOT_ITEM_BUDG) + '</td>';      // 인건비 현물 총액
-                memHtml += '   <td style="text-align: right;font-size: 18px;">' + mem[i].TOT_RATE + '</td>';      // 총 참여율(%)
-                memHtml += '   <td style="text-align: right;font-size: 18px;">' + comma(mem[i].PAY_TOTAL) + '</td>';
-                memHtml += '   <td style="text-align: right;font-size: 18px;">' + comma(mem[i].MON_SAL) + '</td>';      // 월 인건비
+                memHtml += '   <td style="height: 30px; padding: 5px;"><span style="font-size: 10px;">' + gubun + '</span></td>';
+                memHtml += '   <td style="font-size: 8px;"><span style="font-size: 10px;">' + mem[i].EMP_NAME + '</span></td>';
+                memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + comma(bsSal) + '</span></td>';
+                memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + comma(totAmt) + '</span></td>';
+                memHtml += '   <td style="padding: 5px;"><span style="font-size: 10px;">' + mem[i].PJT_STR_DT + '</span></td>';
+                memHtml += '   <td style="padding: 5px;"><span style="font-size: 10px;">' + mem[i].PJT_END_DT + '</span></td>';
+                memHtml += '   <td style="padding: 5px;"><span style="font-size: 10px;">' + partRatePrintPop.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT) + '</span></td>';
+                memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + mem[i].PAY_RATE + '</span></td>';      // 참여율 현금(%)
+                total += mem[i].TOT_PAY_BUDG;
+                memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + comma(mem[i].TOT_PAY_BUDG) + '</span></td>';      // 인건비 현금 총액
+                memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + mem[i].ITEM_RATE + '</span></td>';
+                itemTotPay += mem[i].TOT_ITEM_BUDG;
+                memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + comma(mem[i].TOT_ITEM_BUDG) + '</span></td>';      // 인건비 현물 총액
+                memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + mem[i].TOT_RATE + '</span></td>';      // 총 참여율(%)
+                allPayTotal += mem[i].PAY_TOTAL;
+                memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + comma(mem[i].PAY_TOTAL) + '</span></td>';
+                monthTotPay += mem[i].MON_SAL;
+                memHtml += '   <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">' + comma(mem[i].MON_SAL) + '</span></td>';      // 월 인건비
                 memHtml += '</tr>';
             }
 
+            memHtml += '<tr style="text-align: center">';
+            memHtml += '    <td colspan="8" style="height: 30px;"><span style="font-size: 10px;">합계</td>';
+            memHtml += '    <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">'+ comma(total) +'</span></td>';
+            memHtml += '    <td></td>';
+            memHtml += '    <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">'+ comma(itemTotPay) +'</span></td>';
+            memHtml += '    <td></td>';
+            memHtml += '    <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">'+ comma(allPayTotal) +'</span></td>';
+            memHtml += '    <td style="text-align: right;padding: 5px;"><span style="font-size: 10px;">'+ comma(monthTotPay) +'</span></td>';
+            memHtml += '</tr>';
 
-            var allPayTotal = $("input[name='payTotal']").get().reduce(function (acc, element) {
-                return acc + Number(uncomma(element.value));
-            }, 0);
-            var total = $("input[name='totPayBudget']").get().reduce(function (acc, element) {
-                return acc + Number(uncomma(element.value)); // 현금-인건비(원)
-            }, 0);
-            var itemTotPay = $("input[name='totItemBudget']").get().reduce(function (acc, element) {
-                return acc + Number(uncomma(element.value)); // 현물-인건비(원)
-            }, 0);
-            var monthTotPay = $("input[name='monSal']").get().reduce(function (acc, element) {
-                return acc + Number(uncomma(element.value)); // 월인건비(원)
-            }, 0);
-        }else{
-            htmlData.replaceAll("\n", "<br>");
+            memHtml += '</table>';
+
+            memHtml += '</td>';
+            memHtml += '</tr>';
+            memHtml += '</table>';
+
+            memHtml.replaceAll("\n", "<br>");
             partRatePrintPop.global.hwpCtrl.PutFieldText("PARTRATE_HTML", " ");
             partRatePrintPop.global.hwpCtrl.MoveToField("PARTRATE_HTML", true, true, false);
-            partRatePrintPop.global.hwpCtrl.SetTextFile(htmlData, "HTML","insertfile");
+            partRatePrintPop.global.hwpCtrl.SetTextFile(memHtml, "HTML","insertfile");
+        }else{
+            memHtml.replaceAll("\n", "<br>");
+            partRatePrintPop.global.hwpCtrl.PutFieldText("PARTRATE_HTML", " ");
+            partRatePrintPop.global.hwpCtrl.MoveToField("PARTRATE_HTML", true, true, false);
+            partRatePrintPop.global.hwpCtrl.SetTextFile(memHtml, "HTML","insertfile");
         }
 
     },
@@ -163,5 +198,48 @@ const partRatePrintPop = {
             fontawesome      : "fa fa-spinner fa-pulse fa-fw",
             fontawesomeColor : "#FFFFFF",
         });
-    }
+    },
+    fn_monDiff : function (_date1, _date2){
+        var pSDate = _date1; // 참여 시작일
+        var pEDate = _date2; // 참여 종료일
+
+        var pSDateArray = pSDate.split("-");
+        var pEDateArray = pEDate.split("-");
+
+        var pSDateSet = new Date(pSDateArray[0], pSDateArray[1] - 1, pSDateArray[2]);
+        var pEDateSet = new Date(pEDateArray[0], pEDateArray[1] - 1, pEDateArray[2]);
+
+        var pSDateLastSet = new Date(pSDateArray[0], pSDateArray[1], 0).getDate();
+        var pEDateLastSet = new Date(pEDateArray[0], pEDateArray[1], 0).getDate();
+
+        var pSDateYear = pSDateSet.getFullYear();
+        var pSDateMonth = pSDateSet.getMonth();
+        var pSDateDay = pSDateSet.getDate();
+
+        var pEDateYear = pEDateSet.getFullYear();
+        var pEDateMonth = pEDateSet.getMonth();
+        var pEDateDay = pEDateSet.getDate();
+
+        var pMonthSet = ((pEDateYear - pSDateYear) * 12) + (pEDateMonth - pSDateMonth) - 1;
+
+        var pSDateDaySet = pSDateLastSet - pSDateDay + 1;
+        var pEDateDaySet = pEDateDay;
+
+        var pSDateDayPerSet = pSDateDaySet / pSDateLastSet;
+        var pEDateDayPerSet = pEDateDaySet / pEDateLastSet;
+
+        var pDateMonth = pMonthSet + pSDateDayPerSet + pEDateDayPerSet;
+
+        var finalReturn = partRatePrintPop.truncateStringToOneDecimal(pDateMonth.toString());
+
+        if(finalReturn == 0){
+            finalReturn = 0.1;
+        }
+
+        return finalReturn;
+    },
+
+    truncateStringToOneDecimal : function (str) {
+        return (Math.floor(Number(str) * 10) / 10).toString();
+    },
 }
