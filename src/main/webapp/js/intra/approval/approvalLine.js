@@ -369,9 +369,7 @@ var approvalLine = {
             if(amt == null){
                 requestAmt = 0;
             }
-        }else if(1==1){
-
-        } else if(data.menuCd == "study" || data.menuCd == "propag" || data.menuCd == "ojt"){
+        }else if(data.menuCd == "study" || data.menuCd == "propag" || data.menuCd == "ojt"){
             const pk = data.approKey.split("_")[1];
 
             if (pk == null || pk == undefined || pk == "") {
