@@ -102,7 +102,7 @@ var applicationReg = {
     },
 
     userSave : function () {
-        /*var degreeCode;
+        var degreeCode;
         if ($("#schoolType").val() == "1") {
             degreeCode = "고졸";
         }else if ($("#schoolType").val() == "2") {
@@ -125,7 +125,7 @@ var applicationReg = {
             }
         }else{
             degreeCode = "기타";
-        }*/
+        }
 
 
         if(!confirm("신청내용을 저장하시겠습니까?")){
@@ -146,7 +146,7 @@ var applicationReg = {
                 BEFOR_CAREER : $("#beforCareer").val(), //전직경력
                 JOIN_DAY : $("#joinDay").val(), // 입사일자
                 TEMP_DIVISION : 'Y',
-                /*DEGREE_CODE : degreeCode,*/
+                DEGREE_CODE : degreeCode,
                 JOB_DETAIL : $("#job").val()
             }
 

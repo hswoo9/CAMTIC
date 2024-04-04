@@ -1,5 +1,9 @@
 var delvInfo = {
 
+    global : {
+        codeCk: "N",
+        taxCk: "N"
+    },
 
     fn_defaultScript : function (){
         commonProject.setPjtStat();
@@ -70,7 +74,17 @@ var delvInfo = {
         }
         $("#delvPjtNm").val(map.PJT_NM);
         $("#pjtCd").val(map.PJT_CD);
+
         delvInfo.fn_setButton(delvMap);
+
+        const pjtInfo2 = customKendo.fn_customAjax("/project/getProjectStep", data);
+        const map2 = pjtInfo2.rs;
+        if(map2 != null && map2.CODE_VAL != null){
+            delvInfo.global.codeCk = "Y";
+        }
+        if(map2 != null && map2.TAX_GUBUN != null){
+            delvInfo.global.taxCk = "Y";
+        }
     },
 
     fn_setButton : function(delvMap){
