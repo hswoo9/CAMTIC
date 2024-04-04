@@ -10,12 +10,12 @@
             <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">
                 <table border="5.5" style="border-collapse: collapse; margin: 0px;">
                     <tr>
-                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 97px;"><p style="font-size:12px;"><b>상   호</b></p></td>
+                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 106px;"><p style="font-size:12px;"><b>상   호</b></p></td>
                         <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 97px;"><p style="font-size:12px;"><b>사업자번호</b></p></td>
                         <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 60px;"><p style="font-size:12px;"><b>대표자</b></p></td>
                         <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 125px;"><p style="font-size:12px;"><b>금   액</b></p></td>
-                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 148px;"><p style="font-size:12px;"><b>품   명</b></p></td>
-                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 72px;"><p style="font-size:12px;"><b>비 고</b></p></td>
+                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 181px;"><p style="font-size:12px;"><b>품   명</b></p></td>
+                        <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 71px;"><p style="font-size:12px;"><b>비 고</b></p></td>
                     </tr
                     <c:set var="sum" value="0"/>
                     <c:forEach var="list" items="${payIncpItemList}" varStatus="status">
