@@ -176,26 +176,39 @@ var purcInfo = {
                     field: "STATUS",
                     width: 70,
                     template: function (e) {
-                        var status = "";
-                        if (e.CLAIM_STATUS == "CAYSY") {
-                            if (e.ORDER_DT != "" && e.ORDER_DT != null && e.ORDER_DT != undefined) {
-                                if (e.INSPECT_STATUS != "100") {
-                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                                } else {
-                                    status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                        /** 구매청구서 작성시 검수 버튼 생성*/
+                        let html = "";
+                        if(e.PAYMENT_METHOD == "A"){
+                            if(e.ORDER_DT != null && e.ORDER_DT != ""){
+                                if(e.CLAIM_STATUS == "CAYSY"){
+                                    if(e.INSPECT_STATUS != "100"){
+                                        html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                    }else{
+                                        html += '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+
+                                        status = "-";
+                                    }
+                                }else{
+                                    html += "-"
                                 }
                             } else {
-                                if ((e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101')) {
-                                    if(e.PAYMENT_METHOD == "C" || e.PAYMENT_METHOD == "I") {
-                                        if (e.CLAIM_STATUS == "CAYSY") {
-                                            status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                                        }
-                                    }
+                                html += "-"
+                            }
+                        } else {
+                            if(e.CLAIM_STATUS == "CAYSY"){
+                                if(e.INSPECT_STATUS != "100"){
+                                    html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                }else{
+                                    html += '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+
+                                    status = "-";
                                 }
+                            }else{
+                                html += "-"
                             }
                         }
 
-                        return status
+                        return html;
                     }
                 }, {
                     title: "금액",
@@ -242,47 +255,79 @@ var purcInfo = {
                     title: "상태",
                     width: 120,
                     template : function(e){
-                        if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
-                            return '구매요청서 작성중';
-                        } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
-                            return '구매요청서 결재중';
-                        } else if(e.APPROVE_STAT_CODE == '30') {
-                            return '구매요청서 반려';
-                        } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
-                            if(e.CLAIM_DOC_STATUS == '0' || e.CLAIM_DOC_STATUS == '40' || e.CLAIM_DOC_STATUS == '60'){
-                                return '구매청구서 작성중';
-                            } else if(e.CLAIM_DOC_STATUS == '10' || e.CLAIM_DOC_STATUS == '20' || e.CLAIM_DOC_STATUS == '50') {
-                                return '구매청구서 결재중';
-                            } else if(e.CLAIM_DOC_STATUS == '30') {
-                                return '구매청구서 반려';
-                            } else if(e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101') {
-                                if(e.PAYMENT_METHOD == "A"){
-                                    if(e.ORDER_DT != null && e.ORDER_DT != "" && e.ORDER_DT != undefined && e.ORDER_DT != "undefined"){
-                                        if(e.INSPECT_YN == "Y"){
-                                            if(e.INSPECT_STATUS != "100"){
-                                                return "검수";
-                                            }else{
-                                                return "<div style='font-weight: bold'>검수</div>";
-                                            }
-                                        }
-                                    } else {
-                                        return "발주대기중";
-                                    }
-                                } else {
+                        var status = "";
+                        /** 구매요청서 */
+                        if(e.DOC_STATUS == "0"){
+                            status = "구매요청작성중";
+                        }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
+                            status = "구매요청작성중";
+                        }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
+                            status = "구매요청완료";
+
+                            /** 구매청구서 */
+                            if(e.CLAIM_STATUS == "CN"){
+                                status = "구매요청완료";
+                            }else if(e.CLAIM_STATUS == "CAN"){
+                                status = "구매청구작성중";
+                            }else if(e.CLAIM_STATUS == "CAYSN"){
+                                status = "구매청구작성중";
+                            }else if(e.CLAIM_STATUS == "CAYSY"){
+                                status = "구매청구완료";
+                            }
+
+                            if(e.PAYMENT_METHOD == "A"){
+                                if(e.ORDER_DT != null && e.ORDER_DT != ""){
                                     if(e.INSPECT_YN == "Y"){
                                         if(e.INSPECT_STATUS != "100"){
-                                            return "검수";
+                                            status = "검수요청중";
                                         }else{
-                                            return "<div style='font-weight: bold'>검수</div>";
+                                            status = "<div style='font-weight: bold'>검수승인완료</div>";
                                         }
                                     }
+                                } else {
+                                    status = "발주대기중";
                                 }
                             } else {
-                                return '구매청구서 작성중';
+                                if(e.INSPECT_YN == "Y"){
+                                    if(e.INSPECT_STATUS != "100"){
+                                        status = "검수요청중";
+                                    }else{
+                                        status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                    }
+                                }
+                            }
+
+                        }
+                        return status
+                    }
+                }, {
+                    title: "지출상태",
+                    width: 80,
+                    template: function (e) {
+                        console.log(e);
+                        var stat = "";
+                        if (e.INSPECT_YN == "Y" && e.INSPECT_STATUS == "100") {
+                            if (e.PAY_DOC_STATUS == "100") {
+                                stat = "결재완료"
+                                if (e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0) {
+                                    stat = "지출완료";
+                                } else if (e.EXNP_DOC_STATUS != e.EXNP_STATUS && e.EXNP_DOC_STATUS != 0) {
+                                    stat = "부분지출";
+                                } else if (e.EXNP_STATUS != 0) {
+                                    stat = "지출대기";
+                                }
+                            } else if (e.PAY_DOC_STATUS == "10" || e.PAY_DOC_STATUS == "50") {
+                                stat = "결재중"
+                            } else if (e.PAY_DOC_STATUS == "30") {
+                                stat = "반려"
+                            } else {
+                                stat = "작성중"
                             }
                         } else {
-                            return '-';
+                            stat = "-";
                         }
+
+                        return stat;
                     }
                 }
                 // , {
@@ -628,9 +673,19 @@ var purcInfo = {
             claimSn += $(this).val() + ",";
         });
 
-        claimSn = claimSn.substring(0, claimSn.length - 1);
+        var claimExnpSn = "";
+        $('input[name="clm"]:checked').each(function(){
+            var ces = "N";
+            if($(this).attr("claimExnpSn") != ""){
+                ces = $(this).attr("claimExnpSn");
+            }
+            claimExnpSn += ces + ",";
+        });
 
-        var url = "/payApp/pop/regPayAppPop.do?claimSn="+claimSn+"&reqType=claim";
+        claimSn = claimSn.substring(0, claimSn.length - 1);
+        claimExnpSn = claimExnpSn.substring(0, claimExnpSn.length - 1);
+
+        var url = "/payApp/pop/regPayAppPop.do?claimSn="+claimSn+"&reqType=claim&claimExnpSn="+claimExnpSn;
 
         // var url = "/payApp/pop/regPayAppPop.do?purcSn=" + purcSn + "&claimSn=" + claimSn + "&claimExnpSn=" + claimExnpSn + "&reqType=claimExnp";
 

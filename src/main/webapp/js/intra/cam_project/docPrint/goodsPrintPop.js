@@ -117,10 +117,10 @@ const goodsPrint = {
 
         /** 견적가 500*/
         /** 미포함 500 50 550*/
-        const supAmtSum2 = Math.floor(supAmtSum/10);
+        const supAmtSum2 = Math.round(supAmtSum/10);
 
         /** 포함 455 45 500*/
-        const supAmtSum3 = Math.ceil(supAmtSum / 1.1);
+        const supAmtSum3 = Math.round(supAmtSum / 1.1);
         const supAmtSum4 = supAmtSum - supAmtSum3;
 
         /** 면세 500 0 500*/

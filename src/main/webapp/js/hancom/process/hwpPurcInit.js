@@ -114,16 +114,20 @@ var purcInit = {
 
         for(let i=0; i<list.length; i++){
             const map = list[i];
+            var absFlag = true;
 
-            let amt = uncomma(map.PURC_ITEM_AMT_COMMA); console.log(amt)
-            let sum2 = Math.floor(amt/10);
-            let sum3 = Math.ceil(amt / 1.1);
+            if(map.PURC_ITEM_AMT_COMMA < 0){
+                absFlag = false;
+            }
+
+            let amt = uncomma(map.PURC_ITEM_AMT_COMMA);
+            let sum2 = Math.round(amt/10);
+            let sum3 = Math.round(amt / 1.1);
             let sum4 = amt - sum3;
 
             let supAmt = 0;
             let vatAmt = 0;
             let itemAmt = 0;
-
 
             if(purcInit.global.purcInfo.VAT == "N"){
                 supAmt = comma(amt);
@@ -137,6 +141,12 @@ var purcInit = {
                 supAmt = comma(amt);
                 vatAmt = "0";
                 itemAmt = comma(amt);
+            }
+
+            if(!absFlag){
+                supAmt = "-" + supAmt;
+                vatAmt = "-" + vatAmt;
+                itemAmt = "-" + itemAmt;
             }
 
             html += '   <tr>';

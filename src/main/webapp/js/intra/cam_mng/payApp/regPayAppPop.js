@@ -209,7 +209,8 @@ var regPay = {
 
             for(var x = 0 ; x < $("#claimSn").val().toString().split(",").length ; x++){
                 var data = {
-                    claimSn : $("#claimSn").val().toString().split(",")[x]
+                    claimSn : $("#claimSn").val().toString().split(",")[x],
+                    claimExnpSn : $("#claimExnpSn").val().toString().split(",")[x]
                 }
                 //
                 // var map = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
@@ -220,6 +221,7 @@ var regPay = {
                 var result = customKendo.fn_customAjax("/purc/getPurcAndClaimData", data);
 
                 var rs = result.data;
+
                 const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: rs.PJT_SN}).rs;
 
                 var claimExnpData = customKendo.fn_customAjax("/purc/getClaimExnpData", data);
@@ -244,6 +246,7 @@ var regPay = {
                 }
 
                 if(cem == null){
+                    debugger
                     var ls = rs.itemList;
 
                     for (let i = 0; i < ls.length; i++) {

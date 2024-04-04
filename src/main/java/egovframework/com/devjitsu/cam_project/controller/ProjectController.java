@@ -442,7 +442,9 @@ public class ProjectController {
 
         Map<String, Object> map = projectService.getProjectStep(params);
 
-        map.put("loginVO", loginVO);
+        if(map != null){
+            map.put("loginVO", loginVO);
+        }
         model.addAttribute("rs", map);
 
         return "jsonView";

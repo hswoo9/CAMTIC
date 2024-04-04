@@ -748,8 +748,8 @@ public class PurcServiceImpl implements PurcService {
         for(Map<String, Object> purcItem : purcItemMap){
             sum += Integer.parseInt(purcItem.get("PURC_ITEM_AMT").toString());
         }
-        sum2 = Math.floor(sum/10);
-        sum3 = Math.ceil(sum/1.1);
+        sum2 = Math.round(sum/10);
+        sum3 = Math.round(sum/1.1);
         sum4 = sum - sum3;
 
         if(purcMap.get("VAT").equals("N")){
@@ -1153,5 +1153,10 @@ public class PurcServiceImpl implements PurcService {
     @Override
     public List<Map<String, Object>> getPurcReqClaimList(Map<String, Object> params) {
         return purcRepository.getPurcReqClaimList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPurcReqClaimEmpList(Map<String, Object> params) {
+        return purcRepository.getPurcReqClaimEmpList(params);
     }
 }

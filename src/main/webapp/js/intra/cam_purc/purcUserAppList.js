@@ -46,6 +46,13 @@ var purcUserAppList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcUserAppList.fn_reqPayAppMultiPopup()">' +
+                            '	<span class="k-button-text">지급신청</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcUserAppList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -61,6 +68,12 @@ var purcUserAppList = {
                 //     }
                 // },
                 {
+                    headerTemplate: '<input type="checkbox" id="clmCheckAll" name="clmCheckAll" onclick="fn_checkAll(\'clmCheckAll\', \'clm\');"/>',
+                    width: 40,
+                    template : function (e){
+                        return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"' claimExnpSn='"+e.CLAIM_EXNP_SN+"'/>";
+                    }
+                }, {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
@@ -242,7 +255,42 @@ var purcUserAppList = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
-    }
+    },
+
+    fn_reqPayAppMultiPopup : function (){
+        if($('input[name="clm"]:checked').length == 0){
+            alert("선택된 지급건이 없습니다.");
+            return;
+        }
+
+        var claimSn = "";
+        $('input[name="clm"]:checked').each(function(){
+            claimSn += $(this).val() + ",";
+        });
+
+        var claimExnpSn = "";
+        $('input[name="clm"]:checked').each(function(){
+            var ces = "N";
+            if($(this).attr("claimExnpSn") != ""){
+                ces = $(this).attr("claimExnpSn");
+            }
+            claimExnpSn += ces + ",";
+        });
+
+        claimSn = claimSn.substring(0, claimSn.length - 1);
+        claimExnpSn = claimExnpSn.substring(0, claimExnpSn.length - 1);
+
+        var url = "/payApp/pop/regPayAppPop.do?claimSn="+claimSn+"&reqType=claim&claimExnpSn="+claimExnpSn;
+
+        // var url = "/payApp/pop/regPayAppPop.do?purcSn=" + purcSn + "&claimSn=" + claimSn + "&claimExnpSn=" + claimExnpSn + "&reqType=claimExnp";
+
+        // if(payAppSn != "undefiend" && payAppSn != undefined && payAppSn != null){
+        //     url = "/payApp/pop/regPayAppPop.do?payAppSn=" + payAppSn;
+        // }
+        var name = "_blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
 
 
 }
