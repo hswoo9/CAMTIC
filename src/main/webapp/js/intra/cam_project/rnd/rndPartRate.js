@@ -588,4 +588,14 @@ var rndPR = {
 
         $("#partRateMemberPdf").append(lastHtml);
     },
+
+    partRatePrintPop: function(){
+        var pjtSn = $("#pjtSn").val();
+        var partRateVerSn = $("#partRateVerSn").val();
+
+        var url = "/projectRnd/pop/partRatePrintPop.do?pjtSn="+pjtSn+"&partRateVerSn="+partRateVerSn;
+        var name = "partRatePrintPop";
+        var option = "width=1300, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    }
 }
