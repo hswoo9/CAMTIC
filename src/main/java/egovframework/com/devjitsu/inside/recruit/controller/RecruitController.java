@@ -1108,8 +1108,12 @@ public class RecruitController {
                 schoolData.put("EMP_SEQ",empSeq);
                 schoolData.put("EMP_NAME",applicationInfo.get("USER_NAME"));
                 schoolData.put("REG_EMP_SEQ", loginVO.getUniqId());
+                schoolData.put("SCHOOL_NAME", schoolData.get("SCHOOL_NAME")+ " " +schoolData.get("MAJOR"));
 
                 Map<String,Object> resultMap = classifySchoolData(schoolData);
+
+                resultMap.put("DEGREE_CODE","B0204");
+
 
                 userManageService.setEduReqDetailInsert(resultMap);
             }
