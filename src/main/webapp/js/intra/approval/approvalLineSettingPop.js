@@ -646,7 +646,7 @@ var lineSettingPop = {
             return;
         }
 
-        if(opener.draft.global.lastApprover.approveEmpSeq == null){
+        if(opener.draft.global.lastApprover == null || (opener.draft.global.lastApprover != null && opener.draft.global.lastApprover.approveEmpSeq == null)){
             var lastTdSpan = $("#approvalLineDataTb tr:last").find("td:last span").attr("approveType");
             opener.draft.global.lastApprover = {
                 approveEmpSeq : $("#approvalLineDataTb tr:last").find("#approveEmpSeq").val(),
