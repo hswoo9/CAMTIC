@@ -1014,6 +1014,7 @@
                     </div>
                 </div>
             </div>
+            <input type="button" id="listBak" value="목록" onclick="listBack();" style="float: right;width: 100px;">
         </div>
     </div>
 </div><!-- col-md-9 -->
@@ -1515,14 +1516,14 @@
         }
 
         if($("#gubun1").val()==""){ alert("학력구분을 입력해주세요."); return;}
-        if($("#sDate1").val()==""){ alert("기간을 입력해주세요."); return;}
+        /*if($("#sDate1").val()==""){ alert("기간을 입력해주세요."); return;}
         if($("#eDate1").val()==""){ alert("기간을 입력해주세요."); return;}
         if($("#school1").val()==""){ alert("학교 및 학과를 입력해주세요."); return;}
         if($("#degree1").val()==""){ alert("학위를 입력해주세요."); return;}
         if($("#gradeFile").val()==""){ alert("증명서를 첨부해주세요."); return;}
         if($("#socreFile").val()==""){ alert("증명서를 첨부해주세요."); return;}
         if($("#graduation1").val()==""){ alert("졸업여부를 입력해주세요."); return;}
-        if($("#score1").val()==""){ alert("성적을 입력해주세요."); return;}
+        if($("#score1").val()==""){ alert("성적을 입력해주세요."); return;}*/
 
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userDegreeInfoInsert',formData);
@@ -1576,14 +1577,12 @@
         }
 
         if($("#gubun"+ key).val()==""){ alert("학력구분을 입력해주세요."); return;}
-        if($("#sDate"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
+        /*if($("#sDate"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
         if($("#eDate"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
         if($("#school"+ key).val()==""){ alert("학교 및 학과를 입력해주세요."); return;}
         if($("#degree"+ key).val()==""){ alert("학위를 입력해주세요."); return;}
-        /*   if($("#gradeFile"+ key)[0].files.length == 1){ alert("학위증명서를 첨부해주세요."); return;}
-           if($("#socreFile"+ key)[0].files.length == 1){ alert("성적증명서를 첨부해주세요."); return;}*/
         if($("#graduation"+ key).val()==""){ alert("졸업여부를 입력해주세요."); return;}
-        if($("#score"+ key).val()==""){ alert("성적을 입력해주세요."); return;}
+        if($("#score"+ key).val()==""){ alert("성적을 입력해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userDegreeInfoModify',formData);
         /*var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);*/
@@ -1591,7 +1590,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
-                location.reload();
+                /*location.reload();*/
 
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
@@ -1652,13 +1651,14 @@
             formData.append("addFile", $("#addFile")[0].files[0]);
         }
 
-        if($("#sDate3").val()==""){ alert("기간을 입력해주세요."); return;}
-        if($("#eDate3").val()==""){ alert("기간을 입력해주세요."); return;}
+
+        /*if($("#sDate3").val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#eDate3").val()==""){ alert("기간을 입력해주세요."); return;}*/
         if($("#place3").val()==""){ alert("근무처를 입력해주세요."); return;}
-        if($("#position3").val()==""){ alert("직위(급)을 입력해주세요."); return;}
+        /*if($("#position3").val()==""){ alert("직위(급)을 입력해주세요."); return;}
         if($("#workType3").val()==""){ alert("담당업무를 입력해주세요."); return;}
         if($("#dateY3").val()=="" && $("#dateM3").val()==""){ alert("근무년수를 입력해주세요."); return;}
-        if($("#addFile").val()==""){ alert("증명서를 첨부해주세요."); return;}
+        if($("#addFile").val()==""){ alert("증명서를 첨부해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userCareerInfoInsert',formData);
         /*var result = customKendo.fn_customFormDataAjax('/useManage/setUserPersonnelRecordInfo',formData);*/
@@ -1706,19 +1706,18 @@
             formData.append("addFile", $("#addFile" + key)[0].files[0]);
         }
 
-        if($("#sDate2"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
-        if($("#eDate2"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
+        /*if($("#sDate2"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
+        if($("#eDate2"+ key).val()==""){ alert("기간을 입력해주세요."); return;}*/
         if($("#place2"+ key).val()==""){ alert("근무처를 입력해주세요."); return;}
-        if($("#position2"+ key).val()==""){ alert("직위(급)을 입력해주세요."); return;}
+        /*if($("#position2"+ key).val()==""){ alert("직위(급)을 입력해주세요."); return;}
         if($("#workType2"+ key).val()==""){ alert("담당업무를 입력해주세요."); return;}
-        if($("#dateY2"+ key).val()=="" && $("#dateM2"+ key).val()==""){ alert("근무년수를 입력해주세요."); return;}
-        /*  if($("#addFile"+ key).val()==""){ alert("증명서를 첨부해주세요."); return;}*/
+        if($("#dateY2"+ key).val()=="" && $("#dateM2"+ key).val()==""){ alert("근무년수를 입력해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userCareerInfoModify',formData);
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
-                location.reload();
+                /*location.reload();*/
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -1782,7 +1781,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정을 성공하였습니다.");
-                location.reload();
+                /*location.reload();*/
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -1857,7 +1856,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
-                location.reload();
+                /*location.reload();*/
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -1909,10 +1908,10 @@
         }
 
         if($("#licenseName1").val()==""){ alert("면허 종류를 입력해주세요."); return;}
-        if($("#sDate6").val()==""){ alert("취득일을 입력해주세요."); return;}
+        /*if($("#sDate6").val()==""){ alert("취득일을 입력해주세요."); return;}
         if($("#licenseNum1").val()==""){ alert("자격번호를 입력해주세요."); return;}
         if($("#agency1").val()==""){ alert("발급기관을 입력해주세요."); return;}
-        if($("#certificateAddFile").val()==""){ alert("증명서를 첨부해주세요."); return;}
+        if($("#certificateAddFile").val()==""){ alert("증명서를 첨부해주세요."); return;}*/
 
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userLinInfoInsert',formData);
@@ -1954,16 +1953,16 @@
         }
 
         if($("#licenseName"+key).val()==""){ alert("면허 종류를 입력해주세요."); return;}
-        if($("#sDate5"+key).val()==""){ alert("취득일을 입력해주세요."); return;}
+        /*if($("#sDate5"+key).val()==""){ alert("취득일을 입력해주세요."); return;}
         if($("#licenseNum"+key).val()==""){ alert("자격번호를 입력해주세요."); return;}
-        if($("#agency"+key).val()==""){ alert("발급기관을 입력해주세요."); return;}
+        if($("#agency"+key).val()==""){ alert("발급기관을 입력해주세요."); return;}*/
        /* if($("#certificateAddFile"+key).val()==""){ alert("증명서를 첨부해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userLinInfoModify',formData);
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
-                location.reload();
+                /*location.reload();*/
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -2011,9 +2010,9 @@
 
         if($("#sDate8").val()==""){ alert("기간을 입력해주세요."); return;}
         if($("#eDate8").val()==""){ alert("기간를 입력해주세요."); return;}
-        if($("#pay1").val()==""){ alert("계약연봉을 입력해주세요."); return;}
+        /*if($("#pay1").val()==""){ alert("계약연봉을 입력해주세요."); return;}
         if($("#work1").val()==""){ alert("주요직무를 입력해주세요."); return;}
-        if($("#rank2").val()==""){ alert("직급을 입력해주세요."); return;}
+        if($("#rank2").val()==""){ alert("직급을 입력해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userJobInfoInsert',formData);
         if(result.flag){
@@ -2047,15 +2046,15 @@
 
         if($("#sDate7"+ key).val()==""){ alert("기간을 입력해주세요."); return;}
         if($("#eDate7"+ key).val()==""){ alert("기간를 입력해주세요."); return;}
-        if($("#pay"+ key).val()==""){ alert("계약연봉을 입력해주세요."); return;}
+        /*if($("#pay"+ key).val()==""){ alert("계약연봉을 입력해주세요."); return;}
         if($("#work"+ key).val()==""){ alert("주요직무를 입력해주세요."); return;}
-        if($("#rank1"+ key).val()==""){ alert("직급을 입력해주세요."); return;}
+        if($("#rank1"+ key).val()==""){ alert("직급을 입력해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userJobInfoModify',formData);
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
-                location.reload();
+                /*location.reload();*/
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -2121,12 +2120,12 @@
         }
 
         if($("#rGubunOutIn1").data("kendoDropDownList").value()==""){ alert("내/외부를 선택해주세요."); return;}
-        if($("#rGubun1").val()==""){ alert("포상/징계 구분을 입력해주세요."); return;}
+        /*if($("#rGubun1").val()==""){ alert("포상/징계 구분을 입력해주세요."); return;}
         if($("#sDate10").val()==""){ alert("포상/징계 일자를 입력해주세요."); return;}
         if($("#rwdSn1").val()==""){ alert("포상/징계 번호를 입력해주세요."); return;}
         if($("#rIssue1").val()==""){ alert("공적사항을 입력해주세요."); return;}
         if($("#agency3").val()==""){ alert("시행처을 입력해주세요."); return;}
-        if($("#rewardAddFile").val()==""){ alert("증명서를 첨부해주세요."); return;}
+        if($("#rewardAddFile").val()==""){ alert("증명서를 첨부해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userRewInfoInsert',formData);
         if(result.flag){
@@ -2171,18 +2170,18 @@
         }
 
         if($("#rGubunOutIn"+key).data("kendoDropDownList").value()==""){ alert("내/외부를 선택해주세요."); return;}
-        if($("#rGubun"+key).val()==""){ alert("포상/징계 구분을 입력해주세요."); return;}
+        /*if($("#rGubun"+key).val()==""){ alert("포상/징계 구분을 입력해주세요."); return;}
         if($("#sDate9"+key).val()==""){ alert("포상/징계 일자를 입력해주세요."); return;}
         if($("#rwdSn"+key).val()==""){ alert("포상/징계 번호를 입력해주세요."); return;}
         if($("#rIssue"+key).val()==""){ alert("공적사항을 입력해주세요."); return;}
-        if($("#agency2"+key).val()==""){ alert("시행처을 입력해주세요."); return;}
+        if($("#agency2"+key).val()==""){ alert("시행처을 입력해주세요."); return;}*/
      /*   if($("#rewardAddFile"+key).val()==""){ alert("증명서를 첨부해주세요."); return;}*/
 
         var result = customKendo.fn_customFormDataAjax('/useManage/userRewInfoModify',formData);
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정이 완료 되었습니다.");
-                location.reload();
+                /*location.reload();*/
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -2221,7 +2220,7 @@
         if(result.flag){
             if(result.rs == "SUCCESS") {
                 alert("수정을 성공하였습니다.");
-                location.reload();
+                /*location.reload();*/
             }else{
                 alert("수정에 실패하였습니다. 다시 확인부탁드립니다.");
             }
@@ -2233,6 +2232,8 @@
     function fileChange(e){
         $(e).next().text($(e)[0].files[0].name);
     }
-
+    function listBack(){
+        open_in_frame('/Inside/userPersonList.do');
+    }
 
 </script>
