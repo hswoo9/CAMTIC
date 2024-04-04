@@ -102,6 +102,32 @@ var applicationReg = {
     },
 
     userSave : function () {
+        /*var degreeCode;
+        if ($("#schoolType").val() == "1") {
+            degreeCode = "고졸";
+        }else if ($("#schoolType").val() == "2") {
+            degreeCode = "전문학사";
+        }else if($("#schoolType").val() == "3"){
+            degreeCode = "학사";
+        }else if($("#schoolType").val() == "4"){
+            degreeCode = "학사";
+        }else if($("#schoolType").val() == "5"){
+            if($("#graduateType").val() == "3"){
+                degreeCode = "석사수료";
+            }else{
+                degreeCode = "석사";
+            }
+        }else if($("#schoolType").val() == "6"){
+            if($("#graduateType").val() == "3"){
+                degreeCode = "박사수료";
+            }else{
+                degreeCode = "박사";
+            }
+        }else{
+            degreeCode = "기타";
+        }*/
+
+
         if(!confirm("신청내용을 저장하시겠습니까?")){
             return ;
         }
@@ -119,7 +145,9 @@ var applicationReg = {
                 OCCUPATION_CODE : $("#occupationCode").val(),
                 BEFOR_CAREER : $("#beforCareer").val(), //전직경력
                 JOIN_DAY : $("#joinDay").val(), // 입사일자
-                TEMP_DIVISION : 'Y'
+                TEMP_DIVISION : 'Y',
+                /*DEGREE_CODE : degreeCode,*/
+                JOB_DETAIL : $("#job").val()
             }
 
         if($("#teamName").val() != '' && $("#teamName").val() != null){

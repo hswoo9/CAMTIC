@@ -186,6 +186,9 @@
                     <th>[우편번호] 거주지</th>
                     <td colspan="3">
                         [${uprinfList.ZIP_CODE}] ${uprinfList.ADDR}
+                        <c:if test="${uprinfList.ADDR_DETAIL != null}">
+                            ${uprinfList.ADDR_DETAIL}
+                        </c:if>
                     </td>
                 </tr>
                 <tr>

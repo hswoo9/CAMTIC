@@ -49,6 +49,9 @@
         </table>
 
         <table class="popTable table table-bordered mb-0 mt10" style="border: 0; margin-top : 5px; border: 1px solid #dedfdf;">
+            <input type="hidden" id="graduateType" value="${applicationInfo.school[applicationInfo.school.size() - 1].GRADUATE_TYPE}">
+            <input type="hidden" id="schoolType" value="${applicationInfo.school[applicationInfo.school.size() - 1].SCHOOL_TYPE}">
+            <input type="hidden" id="job" value="${applicationInfo.JOB}">
             <colgroup>
                 <col width="30%">
             </colgroup>
