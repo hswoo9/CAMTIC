@@ -79,14 +79,15 @@ public class CommonServiceImpl implements CommonService {
 
         out = response.getOutputStream();
         String fileUrl = path;
+
+
         try {
             URL url = new URL(fileUrl);
             // 만약 프로토콜이 https 라면 https SSL을 무시하는 로직을 수행해주어야 한다.('https 인증서 무시' 라는 키워드로 구글에 검색하면 많이 나옵니다.)
             disableSslVerification();
             in = url.openStream();
-        }catch (FileNotFoundException e){
-            fileUrl.replace("http://218.158.231.184", "http://218.158.231.189");
-            URL url = new URL(fileUrl);
+        }catch (Exception e){
+            URL url = new URL(fileUrl.replace("http://218.158.231.184", "http://218.158.231.189"));
             disableSslVerification();
             in = url.openStream();
         }
