@@ -2,7 +2,11 @@ var regUnRnd = {
 
 
     fn_defaultScript : function (){
-        const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
+        let setParameters = null;
+
+        if($("#mainPjtSn").val() != ""){
+            setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
+        }
 
         /** 외부공개 여부 비공개일시 비밀번호 입력하는 모달창 뜸*/
         if(setParameters != null && setParameters.SECURITY == "Y"){
