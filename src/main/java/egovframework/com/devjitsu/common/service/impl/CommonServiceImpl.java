@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import javax.net.ssl.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -78,12 +79,18 @@ public class CommonServiceImpl implements CommonService {
 
         out = response.getOutputStream();
         String fileUrl = path;
-        URL url = new URL(fileUrl);
+        try {
+            URL url = new URL(fileUrl);
+            // 만약 프로토콜이 https 라면 https SSL을 무시하는 로직을 수행해주어야 한다.('https 인증서 무시' 라는 키워드로 구글에 검색하면 많이 나옵니다.)
+            disableSslVerification();
+            in = url.openStream();
+        }catch (FileNotFoundException e){
+            fileUrl.replace("http://218.158.231.184", "http://218.158.231.189");
+            URL url = new URL(fileUrl);
+            disableSslVerification();
+            in = url.openStream();
+        }
 
-        // 만약 프로토콜이 https 라면 https SSL을 무시하는 로직을 수행해주어야 한다.('https 인증서 무시' 라는 키워드로 구글에 검색하면 많이 나옵니다.)
-        disableSslVerification();
-
-        in = url.openStream();
         while(true){
             //파일을 읽어온다.
             int data = in.read();
