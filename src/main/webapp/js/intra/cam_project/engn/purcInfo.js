@@ -97,11 +97,11 @@ var purcInfo = {
                 }, {
                     field: "PURC_REQ_DATE",
                     title: "요청일",
-                    width: 120,
+                    width: 100,
                 }, {
                     title: "요청자",
                     field: "EMP_NAME_KR",
-                    width: 100,
+                    width: 80,
                     footerTemplate: function(){
                         return "<div style='text-align: right'>투자금액</div>";
                     }
@@ -137,34 +137,7 @@ var purcInfo = {
                     footerTemplate: function(){
                         return "<div style='text-align: right'>잔여금액</div>";
                     }
-                },
-                // {
-                //     title: "검수",
-                //     field: "STATUS",
-                //     width: 100,
-                //     template : function(e){
-                //         var status = "";
-                //         console.log(e);
-                //         if(e.CLAIM_STATUS == "CAYSY"){
-                //             if(e.ORDER_DT != ""){
-                //                 if(e.INSPECT_STATUS != "100"){
-                //                     status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                //                 }else{
-                //                     status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                //                 }
-                //             } else {
-                //                 if((e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') && e.PAYMENT_METHOD == "C"){
-                //                     if(e.CLAIM_STATUS == "CAYSY"){
-                //                         status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                //                     }
-                //                 }
-                //             }
-                //         }
-                //
-                //         return status
-                //     },
-
-                {
+                }, {
                     title: "구매청구서",
                     width: 100,
                     template: function(e){
@@ -173,7 +146,11 @@ var purcInfo = {
                         if(e.CLAIM_DOC_STATUS == "100"){
                             status = '<button type="button" class="k-button k-button-solid-info" onclick="approveDocView(' + e.CLAIM_DOC_ID + ', \''+e.APPRO_KEY+'\', \'claim\')">구매청구서</button>';
                         } else {
-                            status = '';
+                            if(e.PAYMENT_METHOD == "C"){
+                                status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                            } else {
+                                status = '';
+                            }
                         }
 
                         return status
@@ -193,6 +170,32 @@ var purcInfo = {
                         }
                         leftSum = invSum - purcSum2;
                         return "<div style='text-align: right'>"+comma(leftSum)+"</div>";
+                    }
+                }, {
+                    title: "검수",
+                    field: "STATUS",
+                    width: 70,
+                    template: function (e) {
+                        var status = "";
+                        if (e.CLAIM_STATUS == "CAYSY") {
+                            if (e.ORDER_DT != "" && e.ORDER_DT != null && e.ORDER_DT != undefined) {
+                                if (e.INSPECT_STATUS != "100") {
+                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                } else {
+                                    status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                }
+                            } else {
+                                if ((e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101')) {
+                                    if(e.PAYMENT_METHOD == "C" || e.PAYMENT_METHOD == "I") {
+                                        if (e.CLAIM_STATUS == "CAYSY") {
+                                            status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        return status
                     }
                 }, {
                     title: "금액",
@@ -221,7 +224,7 @@ var purcInfo = {
                     }
                 }, {
                     title: "결재상태",
-                    width: 100,
+                    width: 80,
                     template : function(e){
                         if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
                             return '작성중';
@@ -236,22 +239,69 @@ var purcInfo = {
                         }
                     }
                 }, {
-                    title: "현장(카드)결제 청구",
-                    width: 130,
-                    template: function(e){
-                        if((e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') && e.PAYMENT_METHOD == "C"){
-                            if(e.CLAIM_STATUS == "CAYSY"){
-                                return '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqCliaming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">결재완료</button>';
-                            } else if(e.CLAIM_STATUS == "CAYSY"){
-                                return '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqCliaming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">결재중</button>';
+                    title: "상태",
+                    width: 120,
+                    template : function(e){
+                        if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
+                            return '구매요청서 작성중';
+                        } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
+                            return '구매요청서 결재중';
+                        } else if(e.APPROVE_STAT_CODE == '30') {
+                            return '구매요청서 반려';
+                        } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
+                            if(e.CLAIM_DOC_STATUS == '0' || e.CLAIM_DOC_STATUS == '40' || e.CLAIM_DOC_STATUS == '60'){
+                                return '구매청구서 작성중';
+                            } else if(e.CLAIM_DOC_STATUS == '10' || e.CLAIM_DOC_STATUS == '20' || e.CLAIM_DOC_STATUS == '50') {
+                                return '구매청구서 결재중';
+                            } else if(e.CLAIM_DOC_STATUS == '30') {
+                                return '구매청구서 반려';
+                            } else if(e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101') {
+                                if(e.PAYMENT_METHOD == "A"){
+                                    if(e.ORDER_DT != null && e.ORDER_DT != "" && e.ORDER_DT != undefined && e.ORDER_DT != "undefined"){
+                                        if(e.INSPECT_YN == "Y"){
+                                            if(e.INSPECT_STATUS != "100"){
+                                                return "검수";
+                                            }else{
+                                                return "<div style='font-weight: bold'>검수</div>";
+                                            }
+                                        }
+                                    } else {
+                                        return "발주대기중";
+                                    }
+                                } else {
+                                    if(e.INSPECT_YN == "Y"){
+                                        if(e.INSPECT_STATUS != "100"){
+                                            return "검수";
+                                        }else{
+                                            return "<div style='font-weight: bold'>검수</div>";
+                                        }
+                                    }
+                                }
                             } else {
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.claimDrafting(' + e.PURC_SN + ')">청구서작성</button>';
+                                return '구매청구서 작성중';
                             }
                         } else {
                             return '-';
                         }
                     }
                 }
+                // , {
+                //     title: "현장(카드)결제 청구",
+                //     width: 130,
+                //     template: function(e){
+                //         if((e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') && e.PAYMENT_METHOD == "C"){
+                //             if(e.CLAIM_STATUS == "CAYSY"){
+                //                 return '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqCliaming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">결재완료</button>';
+                //             } else if(e.CLAIM_STATUS == "CAYSY"){
+                //                 return '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqCliaming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">결재중</button>';
+                //             } else {
+                //                 return '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.claimDrafting(' + e.PURC_SN + ')">청구서작성</button>';
+                //             }
+                //         } else {
+                //             return '-';
+                //         }
+                //     }
+                // }
             ],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
@@ -276,21 +326,26 @@ var purcInfo = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcInfo.fn_reqPayAppMultiPopup()">' +
+                            '	<span class="k-button-text">지급신청</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcInfo.mainGrid2Reload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }],
             columns: [
-                // {
-                //     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'clm\');"/>',
-                //     width: 40,
-                //     template : function (e){
-                //         console.log(e)
-                //         return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"'/>";
-                //     }
-                // },
                 {
+                    headerTemplate: '<input type="checkbox" id="clmCheckAll" name="clmCheckAll" onclick="fn_checkAll(\'clmCheckAll\', \'clm\');"/>',
+                    width: 40,
+                    template : function (e){
+                        return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"'/>";
+                    }
+                }, {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
@@ -397,12 +452,20 @@ var purcInfo = {
                     title : "지급신청",
                     width : 70,
                     template: function(e){
-                        console.log(e);
-                        if($("#loginEmpSeq").val() == e.F_EMP_SEQ){
-                            return '<button type="button" class="k-button k-button-solid-base" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
-                        } else {
-                            return '';
-                        }
+                        // if(e.PURC_TYPE == 'R' || e.PURC_TYPE == 'S'){
+                        //     if($("#loginEmpSeq").val() == e.REG_EMP_SEQ){
+                        //         return '<button type="button" class="k-button k-button-solid-base" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
+                        //     } else {
+                        //         return '';
+                        //     }
+                        // } else {
+                        //     if($("#loginEmpSeq").val() == e.F_EMP_SEQ){
+                        //         return '<button type="button" class="k-button k-button-solid-base" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
+                        //     } else {
+                        //         return '';
+                        //     }
+                        // }
+                        return '<button type="button" class="k-button k-button-solid-base" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
                     }
                 }
             ],
@@ -554,6 +617,31 @@ var purcInfo = {
         var popup = window.open(url, name, option);
     },
 
+    fn_reqPayAppMultiPopup : function (){
+        if($('input[name="clm"]:checked').length == 0){
+            alert("선택된 지급건이 없습니다.");
+            return;
+        }
+
+        var claimSn = "";
+        $('input[name="clm"]:checked').each(function(){
+            claimSn += $(this).val() + ",";
+        });
+
+        claimSn = claimSn.substring(0, claimSn.length - 1);
+
+        var url = "/payApp/pop/regPayAppPop.do?claimSn="+claimSn+"&reqType=claim";
+
+        // var url = "/payApp/pop/regPayAppPop.do?purcSn=" + purcSn + "&claimSn=" + claimSn + "&claimExnpSn=" + claimExnpSn + "&reqType=claimExnp";
+
+        // if(payAppSn != "undefiend" && payAppSn != undefined && payAppSn != null){
+        //     url = "/payApp/pop/regPayAppPop.do?payAppSn=" + payAppSn;
+        // }
+        var name = "_blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
     fn_reqCliaming : function(key, subKey) {
         var url = _contextPath_ + "/purc/pop/reqClaiming.do";
 
@@ -604,6 +692,17 @@ var purcInfo = {
         var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
+
+    fn_reqRegClaimPopup : function(key, stat){
+        var url = "/purc/pop/regPurcReqPop.do";
+        if(key != null && key != ""){
+            url = "/purc/pop/regPurcReqPop.do?purcSn=" + key + "&stat=" + stat;
+        }
+        url += "&vType=M&auto=Y";
+        var name = "_blank";
+        var option = "width = 1820, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    }
 }
 
 function gridReload(){

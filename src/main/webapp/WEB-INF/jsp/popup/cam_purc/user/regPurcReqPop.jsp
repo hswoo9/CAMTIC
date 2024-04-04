@@ -14,7 +14,7 @@
 <input type="hidden" id="stat" value="${params.stat}" />
 <input type="hidden" id="busnClass" value="${pjtData.BUSN_CLASS}" />
 
-
+<input type="hidden" id="auto" value="${params.auto}">
 <input type="hidden" id="apprMngStat" value="${params.vType}">
 
 <style>
