@@ -921,6 +921,7 @@
                     </div>
                 </div>
             </div>
+            <input type="button" id="listBak" value="목록" onclick="listBack();" style="float: right;width: 100px;">
         </div>
     </div>
 </div><!-- col-md-9 -->
@@ -2134,5 +2135,9 @@
         const name = "userPrintPop";
         const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
         window.open(url, name, option);
+    }
+
+    function listBack(){
+        open_in_frame('/Inside/userPersonList.do');
     }
 </script>
