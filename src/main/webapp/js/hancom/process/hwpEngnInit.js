@@ -12,37 +12,69 @@ var engnInit = {
         }else{
             hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.CRM_MEM_PHN);
         }
+
+        if(map.CRM_MEM_TEMP_MAIL != null){
+            hwpDocCtrl.putFieldText('CRM_MEM_EMAIL', map.CRM_MEM_TEMP_MAIL);
+        }else{
+            hwpDocCtrl.putFieldText('CRM_MEM_EMAIL', map.EMAIL);
+        }
     },
 
     delvInit: function(pjtSn){
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
         const delvMap = result.delvMap;
         const map = result.map;
-        console.log("map");
-        console.log(map);
+
+        /** 마지막 견적 */
+        const ests = customKendo.fn_customAjax("/project/getStep1Data", {pjtSn: pjtSn});
+        var estSubList = ests.result.estSubList;
 
         /** 1. 사업정보 */
+
+        /** 사업분류 */
         hwpDocCtrl.putFieldText('BUSN_NAME', map.BUSN_NM);
-        hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
-        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-        hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
-        hwpDocCtrl.putFieldText('PM_EMP_NM', delvMap.PM_EMP_NM);
-        hwpDocCtrl.putFieldText("PJT_DT", delvMap.PJT_STR_DT + " ~ " + delvMap.PJT_END_DT);
-        hwpDocCtrl.putFieldText('DELV_DEPT', delvMap.DELV_DEPT == "0" ? "부서내 진행" : "부서간 협업");
-        hwpDocCtrl.putFieldText("DELV_PAY", delvMap.DELV_PAY);
-        hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
-        hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
-        hwpDocCtrl.putFieldText('ADDR', map.ADDR);
-        hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
+
+        const pjtInfo2 = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        const map2 = pjtInfo2.rs;
+        /** 세무정보 */
+        let taxText = "";
+        if(map2.CODE_VAL == "1"){
+            taxText = "수익사업";
+        }else if(map2.CODE_VAL == "2"){
+            taxText = "고유목적사업";
+        }else if(map2.CODE_VAL == "3"){
+            taxText = "공통사업";
+        }
+        hwpDocCtrl.putFieldText("TAX_GUBUN", taxText);
+
+        /** 프로젝트명 */
+        hwpDocCtrl.putFieldText("PJT_NM", map.PJT_NM);
+
+        /** 업체명 */
+        hwpDocCtrl.putFieldText("CRM_NM", map.CRM_NM);
+
+        /** 지역구분
+         * TODO. CRM 지역구분 작업후 추가작업 해야 함 */
+        hwpDocCtrl.putFieldText("LOCAL_GUBUN", "");
+
+        /** 의뢰인 연락처 이메일 */
         engnInit.crmTempData(map);
 
+        /** 프로젝트 기간 */
+        hwpDocCtrl.putFieldText("PJT_DT", delvMap.PJT_STR_DT + " ~ " + delvMap.PJT_END_DT);
 
-        /** 2. 납품정보 */
-        hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
-        hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT == undefined ? "" : delvMap.DELV_CNT));
-        hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
-        hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
+        /** 사업담당자(PM)*/
+        const pmInfo = getUser(map.EMP_SEQ);
+        const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
+        hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
+
+        /** 3. 수주금액 */
+        hwpDocCtrl.putFieldText("PJT_AMT", fn_numberWithCommas(delvMap.DELV_AMT));
+
+        const htmlEst = engnInit.htmlEst(estSubList);
+        hwpDocCtrl.putFieldText("EST_TABLE", "");
+        hwpDocCtrl.moveToField("EST_TABLE", true, true, false);
+        hwpDocCtrl.setTextFile(htmlEst, "html","insertfile");
 
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
@@ -58,8 +90,44 @@ var engnInit = {
         }
 
         /** 4. 특이사항 */
-        hwpDocCtrl.moveToField('ETC', true, true, false);
-        hwpDocCtrl.setTextFile(delvMap.DELV_ISSU.replaceAll("\n", "<br>"), "html","insertfile");
+        setTimeout(function() {
+            hwpDocCtrl.moveToField("ETC", true, true, false);
+            hwpDocCtrl.setTextFile(delvMap.DELV_ISSU.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
+    },
+
+    htmlEst: function(estSubList){
+        let html = '';
+        html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="1" style="border-collapse: collapse; margin: 0px;">';
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>품명 및 규격</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>단가</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>수량</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>단위</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>합계(원)</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>비고</b></p></td>';
+        html += '               </tr>';
+        let sum = 0;
+        for(let i=0; i<estSubList.length; i++){
+            const info = estSubList[i];
+            html += '               <tr>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.PROD_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.UNIT_AMT) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ info.PROD_CNT +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.UNIT +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.SUP_AMT) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ETC +'</p></td>';
+            html += '               </tr>';
+        }
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
     },
 
     devInit: function(devSn){
