@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_project.controller;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import org.slf4j.Logger;
@@ -18,9 +19,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class ProjectRndController {
@@ -36,6 +36,8 @@ public class ProjectRndController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -982,5 +984,36 @@ public class ProjectRndController {
         projectRndService.delDevSch(params);
 
         return "jsonView";
+    }
+
+    @RequestMapping("/projectRnd/pop/partRatePrintPop.do")
+    public String partRatePrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        System.out.println("****params : "+params);
+        model.addAttribute("pjtSn", params.get("pjtSn"));
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        return "popup/cam_project/rnd/partRatePrintPop";
+    }
+
+    //오늘날짜 구하기 yyyyMMddhhmmss
+    public static String getCurrentDateTime() {
+        Date today = new Date();
+        Locale currentLocale = new Locale("KOREAN", "KOREA");
+        String pattern = "yyyyMMddHHmmss";
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, currentLocale);
+        return formatter.format(today);
     }
 }

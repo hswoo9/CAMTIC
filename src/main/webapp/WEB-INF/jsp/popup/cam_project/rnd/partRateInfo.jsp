@@ -28,7 +28,7 @@
 <div style="padding: 10px">
 
     <span id="titleVersionName"></span>
-    <button type="button" id="excelDown" style="float:right; font-size: 12px;" class="k-button k-button-solid-base" onclick="fn_pdfDown()">참여율현황표 다운로드</button>
+    <button type="button" id="excelDown" style="float:right; font-size: 12px;" class="k-button k-button-solid-base" onclick="fn_pdfDown()" <%--onclick="rndPR.partRatePrintPop()"--%>>참여율현황표 다운로드</button>
     <button type="button" id="confBtn" style="float:right; margin-right: 5px;  font-size: 12px;" class="k-button k-button-solid-base" onclick="fn_confirm()" disabled>참여율확정</button>
     <%--    <button type="button" disabled id="regBtn" style="float:right; margin-right: 5px" class="k-button k-button-solid-info" onclick="fn_reqRegPopup()">지급신청</button>--%>
 

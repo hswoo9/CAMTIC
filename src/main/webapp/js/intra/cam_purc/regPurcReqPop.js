@@ -143,6 +143,13 @@ var prp = {
         }else{
             $("#sum").text(comma(sum) + "원")
         }
+
+
+        if($("#auto").val() == "Y"){
+            $("#checkAll").click();
+
+            prp.fn_reqClaiming();
+        }
     },
 
     vatCalc : function(){

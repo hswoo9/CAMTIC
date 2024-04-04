@@ -1093,7 +1093,6 @@ public class RecruitController {
 
         System.out.println("****edit applicationInfo****"+applicationInfo);
 
-
         userManageService.setUserReqDetailInsert(applicationInfo);
         Object empSeq = applicationInfo.get("empSeq");
         System.out.println("empSeq : " +empSeq);
@@ -1113,8 +1112,6 @@ public class RecruitController {
                 Map<String,Object> resultMap = classifySchoolData(schoolData);
 
                 userManageService.setEduReqDetailInsert(resultMap);
-
-
             }
         }
 
@@ -1149,7 +1146,7 @@ public class RecruitController {
                 certData.put("EMP_SEQ",empSeq);
                 certData.put("EMP_NAME",applicationInfo.get("USER_NAME"));
                 certData.put("REG_EMP_SEQ", loginVO.getUniqId());
-                certData.put("ACQUISITION_DAY", "undefined");
+                certData.put("ACQUISITION_DAY", "-");
 
                 userManageService.setCertReqDetailInsert(certData);
             }
@@ -1166,14 +1163,8 @@ public class RecruitController {
                 langData.put("EMP_SEQ",empSeq);
                 langData.put("EMP_NAME",applicationInfo.get("USER_NAME"));
                 langData.put("REG_EMP_SEQ", loginVO.getUniqId());
-
-
-
             }
         }
-
-
-
 
         return "jsonView";
     }

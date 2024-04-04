@@ -127,7 +127,7 @@
         1=1
         AND A.TEAM_STAT = "N"
         AND A.PJT_STEP in (${busnSubClass})
-        <![CDATA[ AND YEAR(STR_DT) <= #{year} AND YEAR(END_DT) >= #{year} ]]>
+        <![CDATA[ AND ((YEAR(STR_DT) <= #{year} AND YEAR(END_DT) >= #{year}) OR (YEAR(CONSULT_DT) <= #{year} AND YEAR(CONSULT_DT) >= #{year})) ]]>
         <if test='busnClass != null and busnClass != ""'>
             AND
                 A.BUSN_CLASS = #{busnClass}

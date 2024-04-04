@@ -254,6 +254,10 @@
     });
 
     function openModal(){
+        if(delvInfo.global.codeCk == "N"){
+            alert("수주보고전 세무정보 체크해주세요-재무회계팀에 문의"); return;
+        }
+
         $("#dialog").data("kendoWindow").open();
     }
 

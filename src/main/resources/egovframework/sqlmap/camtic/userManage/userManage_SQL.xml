@@ -4170,6 +4170,7 @@
         ,CAREER_MONTH
         ,ADMIN_APPROVAL
         ,ADD_NO
+        ,RMK
         )VALUES (
         #{EMP_SEQ}
         ,#{EMP_NAME}
@@ -4185,6 +4186,7 @@
         ,#{CAREER_MONTH}
         ,'Y'
         ,#{CAREER_FILE}
+        ,#{CAREER_CONTENT}
         )
         <selectKey keyProperty="careerId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_HR' AND TABLE_NAME = 'DJ_EMP_CAREER'
