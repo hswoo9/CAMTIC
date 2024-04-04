@@ -172,11 +172,15 @@ var purcClaim = {
                             if(e.PAYMENT_METHOD == "I" || e.PAYMENT_METHOD == "C"){
                                 return "발주생략";
                             } else {
-                                if(e.GOODS_DT == null || e.GOODS_DT == ""){
+                                if(((e.GOODS_DT == null || e.GOODS_DT == "") && e.ORDER_YN == "N") || e.ORDER_YN == null) {
                                     return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
                                         '	<span class="k-button-text">발주대기</span>' +
                                         '</button>';
-                                } else {
+                                } else if(e.ORDER_YN == "N") {
+                                    return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
+                                        '	<span class="k-button-text">발주저장</span>' +
+                                        '</button>';
+                                } else if(e.ORDER_YN == "Y") {
                                     return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcClaim.fn_reqOrder(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">' +
                                         '	<span class="k-button-text">발주완료</span>' +
                                         '</button>';
@@ -258,7 +262,7 @@ var purcClaim = {
         }
 
         var name = "blank";
-        var option = "width = 1500, height = 840, top = 100, left = 400, location = no";
+        var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 

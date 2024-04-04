@@ -437,7 +437,12 @@ public class ProjectController {
      */
     @RequestMapping("/project/getProjectStep")
     public String getProjectStep(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
         Map<String, Object> map = projectService.getProjectStep(params);
+
+        map.put("loginVO", loginVO);
         model.addAttribute("rs", map);
 
         return "jsonView";
@@ -919,6 +924,27 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getProcessList2")
+    public String getProcessList2(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("list", projectService.getProcessList2(params));
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/modProcessData")
+    public String modProcessData(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            projectService.modProcessData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/project/updProcess")
     public String updProcess(@RequestParam Map<String, Object> params, Model model){
 
@@ -986,6 +1012,19 @@ public class ProjectController {
         }
 
         return "jsonView";
+    }
+
+    @RequestMapping("/project/updInvestData")
+    public String updInvestData(@RequestParam Map<String, Object> params, Model model){
+
+    	try{
+    		projectService.updInvestData(params);
+    		model.addAttribute("code", 200);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+
+    	return "jsonView";
     }
 
     @RequestMapping("/project/delInvest")

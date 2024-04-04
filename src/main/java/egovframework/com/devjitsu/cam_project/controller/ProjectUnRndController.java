@@ -419,6 +419,14 @@ public class ProjectUnRndController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    /** 단위사업(교육) 복사 */
+    @RequestMapping("/projectUnRnd/setLecCopyInsert")
+    public String setLecCopyInsert(@RequestParam Map<String, Object> params, Model model){
+        projectUnRndService.setLecCopyInsert(params);
+        return "jsonView";
+    }
+
     /** 단위사업(컨설팅) 리스트 */
     @RequestMapping("/projectUnRnd/getConsultingList")
     public String getConsultingList(@RequestParam Map<String, Object> params, Model model){
@@ -454,6 +462,7 @@ public class ProjectUnRndController {
         try{
             projectUnRndService.insLectureInfo(params, request, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
+            model.addAttribute("lecSn", params.get("lecSn"));
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -466,6 +475,7 @@ public class ProjectUnRndController {
         try{
             projectUnRndService.insConsultingInfo(params);
             model.addAttribute("code", 200);
+            model.addAttribute("conSn", params.get("conSn"));
         } catch(Exception e){
             e.printStackTrace();
         }

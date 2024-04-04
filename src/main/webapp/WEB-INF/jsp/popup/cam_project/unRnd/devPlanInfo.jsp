@@ -21,7 +21,7 @@
 
 <div class="devInfo" style="padding: 10px">
     <div class="table-responsive">
-        <div id="devBtnDiv">
+        <div id="devBtnDiv" style="display: none">
             <button type="button" id="addVerBtn2" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-base" onclick="unRndDP.fn_addVersion()">수행계획서 추가</button>
         </div>
 
@@ -124,10 +124,10 @@
             <span class="addPSActive" style="font-size: 12px; margin-bottom: 0; display: none">◎ 예상비용</span>
             <table class="popTable table table-bordered mb-0" style="font-size: 12px; margin-top: 0">
                 <colgroup>
-                    <col width="7%">
+                    <col width="5%">
                     <col width="15%">
-                    <col width="10%">
-                    <col width="10%">
+                    <col width="7%">
+                    <col width="7%">
                     <col width="10%">
                     <col width="15%">
                     <col width="15%">
@@ -178,16 +178,42 @@
         window.open("/user/pop/userMultiSelectPop.do?type=dev","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
 
+    function userSearch(i) {
+        window.open("/common/deptListPop.do?type=dev&idx="+ i, "조직도", "width=750, height=650");
+    }
+
+    function userPopClose(empSeq, empName, i){
+        $("#psEmpNm" + i).val(empName);
+        $("#psEmpSeq" + i).val(empSeq);
+    }
+
     function userDataSet(arr){
         console.log(arr);
         var psEmpSeq = "";
         var psEmpNm = "";
+
+        var prepList = $("#prepList").val();
+        var psNm = $("#psNm").val();
+        var psStrDe = $("#psStrDe").val();
+        var psEndDe = $("#psEndDe").val();
+
         for(var i = 0 ; i < arr.length ; i++){
-            psEmpSeq += arr[i].empSeq + ",";
-            psEmpNm += arr[i].empName + ",";
+            psEmpSeq = arr[i].empSeq;
+            psEmpNm  = arr[i].empName;
+
+            $("#psEmpNm").val(psEmpNm);
+            $("#psEmpSeq").val(psEmpSeq);
+
+            if(arr.length > 1){
+                devInfo.fn_addProcess('d')
+
+                $("#prepList").data("kendoDropDownList").value(prepList);
+                $("#psNm").val(psNm);
+                $("#psStrDe").val(psStrDe);
+                $("#psEndDe").val(psEndDe);
+            }
         }
-        $("#psEmpNm").val(psEmpNm.slice(0, -1));
-        $("#psEmpSeq").val(psEmpSeq.slice(0, -1));
+
     }
 
     function fn_selCrmInfo(e){

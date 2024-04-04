@@ -28,7 +28,7 @@ const orderSendMail = {
         $("#receiveEml").val(rs.CRM_EMAIL);
 
         $("#subject").val("CAMTIC 발주서 - " + rs.CRM_NM);
-        $("#sendEml").val(rs.EMAIL_ADDR);
+        $("#sendEml").val(rs.CLAIM_EMAIL_ADDR);
     },
 
     fn_sendMail : function(){

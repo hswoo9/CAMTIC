@@ -523,6 +523,13 @@ var userReqPop = {
                 $("#carNumDiv").hide();
             }
         });
+
+        $("#birthDay").bind("change", function(){
+            $("#bDay").val($("#birthDay").val());
+        });
+        $("#bDay").bind("change", function(){
+            $("#birthDay").val($("#bDay").val());
+        });
     },
 
     fn_showDivisDet: function (){
@@ -895,8 +902,8 @@ var userReqPop = {
             DEGREE_CODE : $("#degreeCode").val(),
 
             /*직원구분 추가*/
-            CTR_ST_DAY : $("#sDate").val(), //계약시작일
-            CTR_EN_DAY : $("#eDate").val(), //계약종료일
+            // CTR_ST_DAY : $("#sDate").val(), //계약시작일
+            // CTR_EN_DAY : $("#eDate").val(), //계약종료일
             WEEK_WORK_TIME : $("#workTime").val(), //근무시간/일
             CONTRACT : $("#contract").val(), //근로계약/협약 조건
 
@@ -999,6 +1006,13 @@ var userReqPop = {
             data.ACTIVE = "N"
         } else {
             data.ACTIVE = "Y"
+        }
+
+        if($("#sDate").val() != ""){
+            data.CTR_ST_DAY = $("#sDate").val();
+        }
+        if($("#eDate").val() != ""){
+            data.CTR_EN_DAY = $("#eDate").val();
         }
 
         if(data.EMP_NAME_KR == "" || data.EMP_NAME_KR == null){

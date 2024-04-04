@@ -64,7 +64,6 @@
 
 <div style="padding: 10px">
     <div id="detailBtnDiv">
-        <button type="button" id="approveBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="openModal()">결재</button>
         <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="unRndDetail.fn_save()">저장</button>
         <button type="button" id="aBtn" style="display : none; float: right; margin-bottom: 5px; margin-right:5px;" class="k-button k-button-solid-base" onclick="">열람</button>
     </div>
@@ -260,9 +259,13 @@
         window.open("/common/deptListPop.do?params=" + p , "조직도", "width=750, height=650");
     }
 
-    function openModal(){
+    function openModalUnRnd(){
         if($("#totResCost").val() == 0){
             alert("예산이 설정되지 않았습니다. 예산 설정 후 저장버튼을 누르고 진행 바랍니다."); return;
+        }
+
+        if(unRndDetail.global.codeCk == "N"){
+            alert("수주보고전 세무정보 체크해주세요-재무회계팀에 문의"); return;
         }
 
         $("#dialog").data("kendoWindow").open();

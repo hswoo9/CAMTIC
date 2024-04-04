@@ -35,15 +35,17 @@ var purcInfo = {
                     $("#purcInfoMainGrid").css("display", "");
                     $("#purcInfoMainGrid2").css("display", "none");
                     $("#purcTitleWrap").text("◎ 구매 리스트")
+                    $("#mainGrid1Wrap").show();
                 } else if (idx == 2){
                     $("#purcInfoMainGrid").css("display", "none");
                     $("#purcInfoMainGrid2").css("display", "");
-                    $("#purcTitleWrap").text("◎ 구매 지급 리스트")
+                    $("#purcTitleWrap").text("◎ 구매 지급 리스트");
+                    $("#mainGrid1Wrap").hide();
                 }
             }
         });
 
-        purcInfo.mainGrid("/purc/getPurcReqList.do", purcInfo.global.searchAjaxData);
+        purcInfo.mainGrid("/purc/getPurcReqClaimList.do", purcInfo.global.searchAjaxData);
         purcInfo.mainGrid2("/purc/getUserPurcAppList", purcInfo.global.searchAjaxData);
         purcInfo.subGrid("/purc/getPjtPurcItemList", purcInfo.global.searchAjaxData);
     },
@@ -99,21 +101,15 @@ var purcInfo = {
                 }, {
                     title: "요청자",
                     field: "EMP_NAME_KR",
-                    width: 100
+                    width: 100,
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>투자금액</div>";
+                    }
                 }, {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
                         return e.PURC_REQ_PURPOSE
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>투자금액</div>";
-                    }
-                }, {
-                    title: "구매",
-                    width: 100,
-                    template : function(e){
-                        return e.CP_CNT + "건 / " + '<span style="color:red;">'+e.RP_CNT+'</span>' + "건"
                     },
                     footerTemplate: function(){
                         const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
@@ -142,27 +138,42 @@ var purcInfo = {
                         return "<div style='text-align: right'>잔여금액</div>";
                     }
                 },
+                // {
+                //     title: "검수",
+                //     field: "STATUS",
+                //     width: 100,
+                //     template : function(e){
+                //         var status = "";
+                //         console.log(e);
+                //         if(e.CLAIM_STATUS == "CAYSY"){
+                //             if(e.ORDER_DT != ""){
+                //                 if(e.INSPECT_STATUS != "100"){
+                //                     status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                //                 }else{
+                //                     status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                //                 }
+                //             } else {
+                //                 if((e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') && e.PAYMENT_METHOD == "C"){
+                //                     if(e.CLAIM_STATUS == "CAYSY"){
+                //                         status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                //                     }
+                //                 }
+                //             }
+                //         }
+                //
+                //         return status
+                //     },
+
                 {
-                    title: "검수",
-                    field: "STATUS",
+                    title: "구매청구서",
                     width: 100,
-                    template : function(e){
+                    template: function(e){
                         var status = "";
-                        console.log(e);
-                        if(e.CLAIM_STATUS == "CAYSY"){
-                            if(e.ORDER_DT != ""){
-                                if(e.INSPECT_STATUS != "100"){
-                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                                }else{
-                                    status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                                }
-                            } else {
-                                if((e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') && e.PAYMENT_METHOD == "C"){
-                                    if(e.CLAIM_STATUS == "CAYSY"){
-                                        status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                                    }
-                                }
-                            }
+                        /** 구매요청서 */
+                        if(e.CLAIM_DOC_STATUS == "100"){
+                            status = '<button type="button" class="k-button k-button-solid-info" onclick="approveDocView(' + e.CLAIM_DOC_ID + ', \''+e.APPRO_KEY+'\', \'claim\')">구매청구서</button>';
+                        } else {
+                            status = '';
                         }
 
                         return status
@@ -184,15 +195,6 @@ var purcInfo = {
                         return "<div style='text-align: right'>"+comma(leftSum)+"</div>";
                     }
                 }, {
-                    title: "상태",
-                    width: 100,
-                    template: function(e){
-                        return "";
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>청구 합계</div>";
-                    }
-                }, {
                     title: "금액",
                     width: 100,
                     template: function(e){
@@ -200,8 +202,9 @@ var purcInfo = {
                         purcSum  += Number(e.PURC_ITEM_AMT_SUM);
                         return "<div style='text-align: right'>"+comma(e.PURC_ITEM_AMT_SUM)+"</div>";
                     },
+
                     footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(purcSum)+"</div>";
+                        return "<div style='text-align: right'>청구 합계</div>";
                     }
                 }, {
                     title: "처리",
@@ -212,6 +215,9 @@ var purcInfo = {
                         } else {
                             return "";
                         }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(purcSum)+"</div>";
                     }
                 }, {
                     title: "결재상태",
@@ -511,7 +517,7 @@ var purcInfo = {
 
 
         var name = "_blank";
-        var option = "width = 1690, height = 820, top = 100, left = 600, location = no"
+        var option = "width = 1820, height = 820, top = 100, left = 600, location = no"
         var popup = window.open(url, name, option);
     },
 
@@ -560,7 +566,7 @@ var purcInfo = {
         }
 
         var name = "blank";
-        var option = "width = 1500, height = 840, top = 100, left = 400, location = no";
+        var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 
@@ -581,7 +587,23 @@ var purcInfo = {
                 }
             }
         });
-    }
+    },
+
+    fn_reqClaiming : function(key, subKey){
+        var url = "/purc/pop/reqClaiming.do";
+
+        if(key != null && key != ""){
+            url = "/purc/pop/reqClaiming.do?claimSn=" + key;
+
+            if(subKey != null && subKey != "" && subKey != "undefined"){
+                url += "&purcSn=" + subKey;
+            }
+        }
+
+        var name = "blank";
+        var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
 }
 
 function gridReload(){

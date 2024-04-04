@@ -1,7 +1,8 @@
 const reqOr = {
 
     global : {
-        
+        faxNum : "",
+        telNum : "",
     },
 
     fn_defaultScript : function(){
@@ -119,11 +120,11 @@ const reqOr = {
         significantValue += "* 담당자 : \n";
         significantValue += "* 특이사항 : \n";
 
-       $("#significant").val(significantValue)
-
+       $("#significant").val(significantValue);
     },
 
     fn_dataSet : function(){
+        console.log("fn_dataSet");
         const result = customKendo.fn_customAjax("/purc/getPurcClaimData", {
             claimSn : $("#claimSn").val(),
             purcSn : $("#purcSn").val()
@@ -153,16 +154,17 @@ const reqOr = {
         this.fn_setClaimItem(orderMap);
         reqOr.fn_OrderBtnSet(orderMap);
 
+        $("#PHNum").val(orderMap.CRM_TEL_NUM);
+        $("#FaxNum").val(orderMap.CRM_FAX_NUM);
+
         if(orderMap.ORDER_CK == "Y"){
             $("#orderDt").val(orderMap.ORDER_DT);
             $("#goodsDt").val(orderMap.GOODS_DT);
-            $("#PHNum").val(orderMap.PH_NUM);
-            $("#FaxNum").val(orderMap.FAX_NUM);
             $("#significant").val(orderMap.SIGNIFICANT);
         }
     },
 
-    fn_orderSave : function(){
+    fn_orderSave : function(type){
         const data = {
             claimSn: $("#claimSn").val(),
             orderDt: $("#orderDt").val(),
@@ -175,13 +177,49 @@ const reqOr = {
         if(data.orderDt == ""){alert("발주일을 입력해주세요"); return;}
         if(data.goodsDt == ""){alert("납품요청일를 입력해주세요"); return;}
 
-        var result = customKendo.fn_customAjax("/purc/setOrderInfo", data);
-        if(result.flag){
-            alert("데이터 저장이 완료되었습니다.");
-            location.reload();
-            opener.purcClaim.gridReload();
-        }else{
-            alert("저장 중 오류가 발생하였습니다.");
+        if(type == "save"){
+            if(!confirm("저장하시겠습니까?")){
+                return;
+            }
+
+            var result = customKendo.fn_customAjax("/purc/setOrderInfo", data);
+            if(result.flag){
+                alert("데이터 저장이 완료되었습니다.");
+                location.reload();
+                opener.purcClaim.gridReload();
+            }else{
+                alert("저장 중 오류가 발생하였습니다.");
+            }
+        } else if(type == "complete") {
+            if(!confirm("발주 완료처리 하시겠습니까?")){
+                return;
+            }
+
+            data.orderYn = "Y";
+
+            var result = customKendo.fn_customAjax("/purc/setOrderYnInfo", data);
+            if(result.flag){
+                alert("완료되었습니다.");
+                location.reload();
+                opener.purcClaim.gridReload();
+            }else{
+                alert("저장 중 오류가 발생하였습니다.");
+            }
+        } else if(type == "cancel"){
+            if(!confirm("발주 취소처리 하시겠습니까?")){
+                return;
+            }
+
+            data.orderYn = "N";
+
+            var result = customKendo.fn_customAjax("/purc/setOrderYnInfo", data);
+            if(result.flag){
+                alert("완료되었습니다.");
+                location.reload();
+                opener.purcClaim.gridReload();
+            }else{
+                alert("저장 중 오류가 발생하였습니다.");
+            }
         }
     },
 
@@ -375,9 +413,9 @@ const reqOr = {
                     '       <td>' +
                     '           <label for="itemEtc"></label><input type="text" id="itemEtc" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
                     '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="discountAmt" class="discountAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
+                    // '       <td>' +
+                    // '           <input type="text" id="discountAmt" class="discountAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    // '       </td>' +
                     '       <td style="text-align: center" class="listDelBtn">' +
                     '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
                     '               <span class="k-button-text">삭제</span>' +
@@ -411,9 +449,9 @@ const reqOr = {
                     '       <td>' +
                     '           <label for="itemEtc'+index+'"></label><input type="text" id="itemEtc'+index+'" value="'+e.itemList[i].ITEM_ETC+'" class="itemEtc">' +
                     '       </td>' +
-                    '       <td>' +
-                    '           <input type="text" id="discountAmt'+index+'" class="discountAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
+                    // '       <td>' +
+                    // '           <input type="text" id="discountAmt'+index+'" class="discountAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    // '       </td>' +
                     '       <td style="text-align: center" class="listDelBtn">' +
                     '           <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="reqOr.fn_delete(this)">' +
                     '               <span class="k-button-text">삭제</span>' +
@@ -464,11 +502,18 @@ const reqOr = {
     fn_OrderBtnSet : function(orderMap){
 
         let buttonHtml = "";
-        buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave()">발주 저장</button>';
+        if(orderMap.ORDER_YN != "Y"){
+            buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave(\'save\')">발주 저장</button>';
+        }
         if(orderMap.ORDER_CK != "Y"){
         }else{
             buttonHtml += '<button type="button" id="sendBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-base" onclick="reqOr.fn_sendMailPop()">메일 전송</button>';
             buttonHtml += '<button type="button" id="printBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-base" onclick="reqOr.fn_orderPrint()">인쇄</button>';
+        }
+        if(orderMap.ORDER_CK == "Y" && orderMap.ORDER_YN != "Y"){
+            buttonHtml += '<button type="button" id="sendBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave(\'complete\')">발주 완료</button>';
+        } else if(orderMap.ORDER_CK == "Y" && orderMap.ORDER_YN != "Y") {
+            buttonHtml += '<button type="button" id="sendBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave(\'cancel\')">발주 취소</button>';
         }
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" style="font-size: 12px;" onclick="window.close()">닫기</button>';
 

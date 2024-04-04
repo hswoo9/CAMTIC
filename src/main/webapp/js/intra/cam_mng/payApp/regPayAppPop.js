@@ -265,20 +265,24 @@ var regPay = {
                     $("#card" + i).val(ls[i].TR_NM);
                     $("#cardNo" + i).val(ls[i].CARD_BA_NB);
 
-                    var totalAmt = ls[i].AUTH_AMT;
-                    if(rs.VAT == "N"){
-                        $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
-                        $("#supCost" + i).val(regPay.comma(totalAmt));
-                        $("#vatCost" + i).val(regPay.comma(Math.floor(Number(totalAmt / 10))));
-                    } else if(rs.VAT == "Y"){
-                        $("#totCost" + i).val(regPay.comma(totalAmt));
-                        $("#supCost" + i).val(regPay.comma(Math.ceil(Number(totalAmt / 1.1))));
-                        $("#vatCost" + i).val(regPay.comma(Number(totalAmt - Math.ceil(Number(totalAmt / 1.1)))));
-                    } else if(rs.VAT == "D") {
-                        $("#totCost" + i).val(regPay.comma(totalAmt));
-                        $("#supCost" + i).val(regPay.comma(totalAmt));
-                        $("#vatCost" + i).val(0);
-                    }
+                    $("#totCost" + i).val(regPay.comma(ls[i].AUTH_AMT.toString().split(".")[0]));
+                    $("#supCost" + i).val(regPay.comma(ls[i].SUPP_PRICE.toString().split(".")[0]));
+                    $("#vatCost" + i).val(regPay.comma(ls[i].SURTAX.toString().split(".")[0]));
+
+                    // var totalAmt = ls[i].AUTH_AMT;
+                    // if(rs.VAT == "N"){
+                    //     $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
+                    //     $("#supCost" + i).val(regPay.comma(totalAmt));
+                    //     $("#vatCost" + i).val(regPay.comma(Math.floor(Number(totalAmt / 10))));
+                    // } else if(rs.VAT == "Y"){
+                    //     $("#totCost" + i).val(regPay.comma(totalAmt));
+                    //     $("#supCost" + i).val(regPay.comma(Math.ceil(Number(totalAmt / 1.1))));
+                    //     $("#vatCost" + i).val(regPay.comma(Number(totalAmt - Math.ceil(Number(totalAmt / 1.1)))));
+                    // } else if(rs.VAT == "D") {
+                    //     $("#totCost" + i).val(regPay.comma(totalAmt));
+                    //     $("#supCost" + i).val(regPay.comma(totalAmt));
+                    //     $("#vatCost" + i).val(0);
+                    // }
                 }
             } else if (cem.EVID_TYPE == 1){
                 var ls = claimExnpData.result.rsList;

@@ -17,6 +17,15 @@ var purcUserAppList = {
 
         $("#searchDept").data("kendoDropDownList").enable(false);
 
+        var rs = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId: 25});
+
+        for(var i = 0 ; i < rs.rs.length ; i++){
+            if(rs.rs[i].EMP_SEQ == $("#regEmpSeq").val()){
+                $("#searchDept").data("kendoDropDownList").enable(true);
+                break;
+            }
+        }
+
         purcUserAppList.gridReload();
     },
 
@@ -166,6 +175,7 @@ var purcUserAppList = {
                     title: "지출상태",
                     width: 60,
                     template: function(e){
+
                         if(e.REQ_AMT == e.EXNP_AMT){
                             return "승인"
                         } else {
@@ -195,7 +205,7 @@ var purcUserAppList = {
             url = "/purc/pop/regPurcReqPop.do?purcSn=" + key + "&stat=" + stat;
         }
         var name = "blank";
-        var option = "width = 1690, height = 820, top = 100, left = 400, location = no";
+        var option = "width = 1820, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 

@@ -408,6 +408,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Map<String, Object>> getProcessList2(Map<String, Object> params) {
+        return projectRepository.getProcessList2(params);
+    }
+
+    @Override
     public void updProcess(Map<String, Object> params) {
         projectRepository.updProcess(params);
     }
@@ -724,7 +729,9 @@ public class ProjectServiceImpl implements ProjectService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
+            projectRepository.updateDevApprStat(params);
+        }else if("20".equals(docSts) ) { // 중간 결재
             projectRepository.updateDevApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             projectRepository.updateDevApprStat(params);
@@ -1653,6 +1660,21 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Map<String, Object>> getHistEduList(Map<String, Object> params) {
         return prjRepository.getHistEduList(params);
+    }
+
+    @Override
+    public Map<String, Object> getProjectCodeData(Map<String, Object> params) {
+        return projectRepository.getProjectCodeData(params);
+    }
+
+    @Override
+    public void modProcessData(Map<String, Object> params) {
+        projectRepository.modProcessData(params);
+    }
+
+    @Override
+    public void updInvestData(Map<String, Object> params) {
+        projectRepository.updInvestData(params);
     }
 }
 

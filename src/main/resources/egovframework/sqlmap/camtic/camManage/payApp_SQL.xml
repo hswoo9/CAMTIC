@@ -843,8 +843,6 @@
             CAM_MNG.DJ_EXNP E ON ED.EXNP_SN = E.EXNP_SN
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
-        LEFT JOIN
-            CAM_MNG.DJ_EXNP_DET ED2 ON ED2.EXNP_SN = E.EXNP_SN
         WHERE (ED.EVID_TYPE IN (1, 2, 3) or ED.EVID_TYPE NOT IN (1, 2, 3))
         AND E.DOC_STATUS = '100'
         AND E.PAY_APP_TYPE = 1
@@ -866,7 +864,7 @@
                 AND ED.BUDGET_NM LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "CRM_NM".equals(searchKeyword)'>
-                AND ED2.CRM_NM LIKE CONCAT('%', #{searchValue} ,'%')
+                AND ED.CRM_NM LIKE CONCAT('%', #{searchValue} ,'%')
             </when>
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "EXNP_BRIEFS".equals(searchKeyword)'>
                 AND E.EXNP_BRIEFS LIKE CONCAT('%',#{searchValue},'%')
@@ -875,7 +873,7 @@
                 AND
                 (
                     E.PJT_NM LIKE CONCAT('%',#{searchValue},'%') OR
-                    ED2.CRM_NM LIKE CONCAT('%', #{searchValue} ,'%') OR
+                    ED.CRM_NM LIKE CONCAT('%', #{searchValue} ,'%') OR
                     ED.BUDGET_NM LIKE CONCAT('%',#{searchValue},'%') OR
                     E.EXNP_BRIEFS LIKE CONCAT('%',#{searchValue},'%')
                 )
@@ -883,6 +881,83 @@
         </choose>
 
         GROUP BY E.EXNP_SN
+        ORDER BY E.EXNP_SN DESC
+    </select>
+
+    <select id="getExnpReListForExcelDown" parameterType="map" resultType="map">
+        /*getExnpReListForExcelDown*/
+        SELECT
+            E.EXNP_SN,
+            CASE
+                WHEN ED.EVID_TYPE IN (1,2,3)
+                THEN '반제(지출)'
+                ELSE '지출'
+            END AS TYPE,
+            E.PJT_NM,
+            E.EXNP_BRIEFS,
+            CONCAT(E.ACC_NM, ' ', E.ACC_NO, ' [', E.BNK_NM, ']') as ACC_INFO,
+            ED.CRM_NM,
+            CASE
+                WHEN ED.EVID_TYPE = 1 THEN '세금계산서'
+                WHEN ED.EVID_TYPE = 2 THEN '계산서'
+                WHEN ED.EVID_TYPE = 3 THEN '신용카드'
+                WHEN ED.EVID_TYPE = 4 THEN '직원지급'
+                WHEN ED.EVID_TYPE = 5 THEN '사업소득자'
+                WHEN ED.EVID_TYPE = 6 THEN '기타'
+                WHEN ED.EVID_TYPE = 9 THEN '기타소득자'
+            END AS EVID_TYPE_TEXT,
+            CASE
+                WHEN ED.EVID_TYPE IN (1,2,3)
+                THEN E.DT1
+                ELSE E.DT3
+            END AS R_DT,
+            ED.BUDGET_NM AS BUDGET_NM_EX,
+            ED.TOT_COST,
+            DI.DOC_NO AS DOC_NO,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = E.REG_EMP_SEQ) AS REG_EMP_NAME
+        FROM
+            CAM_MNG.DJ_EXNP_DET ED
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP E ON ED.EXNP_SN = E.EXNP_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
+        WHERE (ED.EVID_TYPE IN (1, 2, 3) or ED.EVID_TYPE NOT IN (1, 2, 3))
+            AND E.DOC_STATUS = '100'
+            AND E.PAY_APP_TYPE = 1
+        <if test='pjtCd != null and !"".equals(pjtCd)'>
+            AND E.PJT_CD = #{pjtCd}
+        </if>
+        <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
+            AND CASE WHEN ED.EVID_TYPE IN (1,2,3) THEN E.DT1 ELSE E.DT3 END
+            BETWEEN #{startDt} AND #{endDt}
+        </if>
+        <if test='searchStatus != null and !"".equals(searchStatus)'>
+            AND E.RE_STAT = #{searchStatus}
+        </if>
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PJT_NM".equals(searchKeyword)'>
+                AND E.PJT_NM LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "BUDGET_NM".equals(searchKeyword)'>
+                AND ED.BUDGET_NM LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "CRM_NM".equals(searchKeyword)'>
+                AND ED.CRM_NM LIKE CONCAT('%', #{searchValue} ,'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "EXNP_BRIEFS".equals(searchKeyword)'>
+                AND E.EXNP_BRIEFS LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                E.PJT_NM LIKE CONCAT('%',#{searchValue},'%') OR
+                ED.CRM_NM LIKE CONCAT('%', #{searchValue} ,'%') OR
+                ED.BUDGET_NM LIKE CONCAT('%',#{searchValue},'%') OR
+                E.EXNP_BRIEFS LIKE CONCAT('%',#{searchValue},'%')
+                )
+            </otherwise>
+        </choose>
+
         ORDER BY E.EXNP_SN DESC
     </select>
 

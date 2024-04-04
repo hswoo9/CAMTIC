@@ -43,6 +43,13 @@ var returnList = {
                 {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="returnList.fn_exnpApprove()">' +
+                            '	<span class="k-button-text">결의서 승인</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="returnList.fn_regExnpRePop()">' +
                             '	<span class="k-button-text">반납결의서 작성</span>' +
                             '</button>';
@@ -58,6 +65,20 @@ var returnList = {
             ],
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    width: 30,
+                    template : function(e){
+                        if(e.DOC_STATUS == "100"){
+                            if(e.RE_STAT == "N"){
+                                return '<input type="checkbox" name="check" value="'+e.EXNP_SN+'"/>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            return '';
+                        }
+                    }
+                }, {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
@@ -98,33 +119,29 @@ var returnList = {
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
-                    width: 210,
-                    template: function (e){
-                        var pjtNm = e.PJT_NM.toString().substring(0, 25);
-                        return pjtNm + "...";
-                    }
+                    width: 200,
                 }, {
                     title: "세출과목",
                     field: "BUDGET_NM_EX",
-                    width: 210
+                    width: 200
                 }, {
                     title: "신청일",
-                    width: 70,
+                    width: 80,
                     field: "REG_DT",
                     template: function(e){
                         return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
                 }, {
                     title: "지출요청일",
-                    width: 70,
+                    width: 80,
                     field: "REQ_DE"
                 }, {
                     title: "지출예정일",
-                    width: 70,
+                    width: 80,
                     field: "DT3"
                 }, {
                     title: "결의일자",
-                    width: 70,
+                    width: 80,
                     field: "EXNP_DE",
                     template : function(e){
                         if(e.DOC_STATUS == "100"){
@@ -135,7 +152,7 @@ var returnList = {
                     }
                 }, {
                     title: "지출완료일",
-                    width: 70,
+                    width: 80,
                     field: "REQ_END_DE",
                     template : function(e){
                         if(e.DOC_STATUS == "100"){
@@ -146,7 +163,7 @@ var returnList = {
                     }
                 }, {
                     title: "지출금액",
-                    width: 80,
+                    width: 90,
                     template: function(e){
                         var cost = e.TOT_COST;
                         if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
@@ -159,21 +176,11 @@ var returnList = {
                     title: "상태",
                     width: 60,
                     template: function(e){
-                        var status = "";
-                        if(e.DOC_STATUS == "100"){
-                            status = "결재완료";
-                            if(e.REQ_END_DE != null && e.REQ_END_DE != "" && e.REQ_END_DE != undefined){
-                                status = "승인";
-                            } else {
-                                status = "미결";
-                            }
-                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
-                            status = "결재중"
+                        if(e.RE_STAT == "N"){
+                            return "미승인"
                         } else {
-                            status = "작성중"
+                            return "승인"
                         }
-
-                        return status;
                     }
                 }
             ],
@@ -181,6 +188,11 @@ var returnList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")) $("input[name=check]").prop("checked", true);
+            else $("input[name=check]").prop("checked", false);
+        });
     },
 
     gridReload : function(){
@@ -214,5 +226,34 @@ var returnList = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
-    }
+    },
+
+    fn_exnpApprove : function (){
+
+        if($("input[name='check']:checked").length == 0){
+            alert("선택된 결의서가 없습니다.");
+            return;
+        }
+
+        if(!confirm("승인하시겠습니까?")){
+            return ;
+        }
+
+        $("#div_ajax_load_image").show();
+        $("input[name=check]:checked").each(function(){
+            var parameters = {
+                exnpSn : this.value,
+                regEmpSeq : $("#myEmpSeq").val(),
+                empSeq : $("#myEmpSeq").val(),
+                exnpG20Stat : 'Y',
+            }
+
+            const result = customKendo.fn_customAjax("/pay/resolutionExnpAppr", parameters);
+        });
+
+        alert("승인되었습니다.");
+        $("#div_ajax_load_image").hide();
+
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
 }

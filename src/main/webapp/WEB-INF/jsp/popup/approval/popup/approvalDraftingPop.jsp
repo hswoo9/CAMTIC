@@ -23,6 +23,7 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/process/hwpCampusInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/process/hwpEngnInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/process/hwpHolidayInit.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpMeetingInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/process/hwpPayInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/process/hwpPurcInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/process/hwpRndInit.js?v=${today}'/>"></script>

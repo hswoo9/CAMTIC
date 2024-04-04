@@ -163,6 +163,19 @@ public class RecruitController {
     }
 
     /**
+     * 채용공고 분야 단일 데이터
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/getUserInfoByApplication")
+    public String getUserInfoByApplication(@RequestParam Map<String,Object> params, Model model) {
+        Map<String, Object> data = recruitService.getUserInfoByApplication(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /**
      * 채용관리 채용등록 팝업
      * @param params
      * @param request
@@ -1059,6 +1072,7 @@ public class RecruitController {
         applicationId.put("applicationId",appId);
 
         Map <String,Object> applicationInfo = recruitService.getApplication(applicationId);
+        applicationInfo.put("applicationId", applicationInfo.get("applicationId"));
         params.remove("applicationId");
 
 

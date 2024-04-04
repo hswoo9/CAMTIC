@@ -448,6 +448,17 @@
             AND RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
     </select>
 
+    <select id="getUserInfoByApplication" parameterType="map" resultType="map">
+        /* getUserInfoByApplication */
+        SELECT
+            *
+        FROM
+            CAM_HR.DJ_EMP_INFO
+        WHERE EMP_NAME_KR = #{kName}
+          AND BDAY = #{bDay}
+        limit 1
+    </select>
+
     <select id="getApplicationList" parameterType="map" resultType="map">
         /* getApplicationList */
         SELECT
@@ -462,9 +473,9 @@
                 ELSE '여자'
             END AS GENDER,
             DAS.SCHOOL_NAME,
-            SUM(TIMESTAMPDIFF(MONTH, WORK_ST_DT, DATE_ADD(DATE_FORMAT(WORK_EN_DT, '%Y%m%d'), INTERVAL 1 MONTH))) AS WORK_DATE,
+            (SELECT SUM(TIMESTAMPDIFF(MONTH, WORK_ST_DT, DATE_ADD(DATE_FORMAT(WORK_EN_DT, '%Y%m%d'), INTERVAL 1 MONTH))) FROM CAM_INSIDE.DJ_APPLICATION_CAREER WHERE AM.APPLICATION_ID = APPLICATION_ID) AS WORK_DATE,
             REPLACE(SUBSTRING_INDEX(REPLACE(AM.ADDR, ' ', '_'), '_', 2), '_', ' ') AS ADDR,
-            GROUP_CONCAT(LA.LANG_NAME SEPARATOR ', ') AS LANG_NAME,
+            GROUP_CONCAT(DISTINCT LA.LANG_NAME) AS LANG_NAME,
             AI.JOB,
             CASE WHEN INSTR(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM') > 0 THEN REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM', '오후')
                  ELSE REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'AM', '오전')
@@ -596,7 +607,7 @@
             </choose>
         </if>
         GROUP BY AM.SAVE_DATE DESC
-        ORDER BY AM.RECRUIT_INFO_SN DESC, AM.APPLICATION_ID DESC
+        ORDER BY AM.RECRUIT_INFO_SN DESC, AM.SAVE_DATE DESC
     </select>
 
     <select id="getUserDuplicationList" parameterType="map" resultType="map">

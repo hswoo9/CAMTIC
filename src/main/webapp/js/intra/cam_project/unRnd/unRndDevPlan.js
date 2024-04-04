@@ -9,6 +9,54 @@ var unRndDP = {
     fn_defaultScript: function(){
         commonProject.setPjtStat();
         unRndDP.fn_setPage();
+        unRndDP.fn_ckAdmin();
+    },
+
+    fn_ckAdmin : function(){
+        const pjtSn = $("#pjtSn").val();
+
+        const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        const map = pjtInfo.rs;
+
+        const empSeq = $("#regEmpSeq").val();
+        console.log("login Emp Seq", empSeq);
+        if(map.PM_EMP_SEQ != null && empSeq == map.PM_EMP_SEQ){
+            console.log("map.PM_EMP_SEQ", map.PM_EMP_SEQ);
+            $("#devBtnDiv").show();
+        }
+
+        if(map.REG_EMP_SEQ != null && empSeq == map.REG_EMP_SEQ){
+            console.log("map.REG_EMP_SEQ", map.REG_EMP_SEQ);
+            $("#devBtnDiv").show();
+        }
+
+        if(map.EMP_SEQ != null && empSeq == map.EMP_SEQ){
+            console.log("map.EMP_SEQ", map.EMP_SEQ);
+            $("#devBtnDiv").show();
+        }
+
+        const partVerResult = customKendo.fn_customAjax("/projectRnd/getReqPartRateVerList", {pjtSn : pjtSn});
+        const partVerList = partVerResult.list;
+        console.log("partVerList", partVerList);
+
+        if(partVerList.length != 0){
+            const partDetailResult = customKendo.fn_customAjax("/project/getPartRateVerData", {
+                pjtSn : pjtSn,
+                partRateVerSn : partVerList[partVerList.length - 1].PART_RATE_VER_SN
+            });
+            const partDetailMap = partDetailResult.result;
+            const partMem = partDetailMap.projectMemberInfo;
+
+            for(let i = 0 ; i < partMem.length; i++){
+                var partMemMap = partMem[i];
+
+                if(partMemMap.EMP_SEQ != null && empSeq == partMemMap.EMP_SEQ){
+                    console.log("partMemMap.EMP_SEQ", partMemMap.EMP_SEQ);
+                    $("#devBtnDiv").show();
+                    break;
+                }
+            }
+        }
     },
 
     fn_setPage : function(){
@@ -87,6 +135,10 @@ var unRndDP = {
 
     fn_setVersion : function (key){
         unRndDP.fn_setData(key);
+
+        if(unRndDP.global.appCk == "Y"){
+            $("#devAppBtn").show();
+        }
     },
 
     fn_setData: function (key){
@@ -154,7 +206,9 @@ var unRndDP = {
                         html += '   <td style="text-align: center"><input type="text" class="psStrDe" id="psStrDe'+idx+'" style="width: 45%" />~<input type="text" class="psEndDe" style="width: 45%" id="psEndDe'+idx+'" /></td>';
                         html += '   <td><input type="text" id="psEmpNm'+idx+'" value="'+list[i].PS_EMP_SEQ+'" disabled /><input type="hidden" id="psEmpSeq'+idx+'" value="'+list[i].PS_EMP_SEQ+'" /></td>';
                         html += '   <td style="text-align: center">';
-                        html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
+                        html += '       <button type="button" onclick="userSearch('+idx+')" class="k-button k-button-solid-base btn'+idx+'">추진담당</button>'
+                        html += '       <button type="button" onclick="devInfo.fn_modProcess('+list[i].PS_SN+', '+idx+')" style="margin-left: 5px;" class="k-button k-button-solid-primary btn'+idx+'">수정</button>';
+                        html += '       <button type="button" onclick="devInfo.fn_delRow('+idx+')" style="margin-left: 5px;" class="k-button k-button-solid-error btn'+idx+'">삭제</button>';
                         html += '   </td>';
                         html += '</tr>';
                         $("#psTable").append(html);
@@ -185,6 +239,8 @@ var unRndDP = {
                         $("#psEndDe" + idx).val(list[i].PS_END_DE);
 
                         $("#psNm" + idx).val(list[i].PS_NM);
+
+                        unRndDP.global.appCk = "Y";
                     }
                 } else {
                     html += '<tr>' +
@@ -221,6 +277,8 @@ var unRndDP = {
                     customKendo.fn_datePicker("psStrDe", "depth", "yyyy-MM-dd", new Date());
                     customKendo.fn_datePicker("psEndDe", "depth", "yyyy-MM-dd", new Date());
                     $("#psEmpNm").kendoTextBox();
+
+                    unRndDP.global.appCk = "N";
                 }
 
             }
@@ -280,6 +338,7 @@ var unRndDP = {
                 '       </td>\n' +
                 '       <td><input type="text" id="invEtc'+idx+'" class="invEtc" /></td>\n' +
                 '       <td style="text-align: center;">' +
+                '           <button type="button" id="modBtn" onclick="unRndDP.fn_modInv('+list[i].INV_SN+','+idx+')" class="k-button k-button-solid-primary">수정</button>' +
                 '           <button type="button" id="delBtn" onclick="unRndDP.fn_delInv('+idx+')" class="k-button k-button-solid-error">삭제</button>' +
                 '       </td>';
             html += '</tr>';
@@ -560,14 +619,19 @@ var unRndDP = {
         if(devMap != null){
             var status = devMap.STATUS;
 
+            if(status != "0" && status != "30" && status != "40"){
+                $("#psTable").find("button").attr("disabled", "disabled");
+                $("#invTable").find("button").attr("disabled", "disabled");
+            }
+
             /** 수주부서 일때 */
             if(status == "0"){
                 buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.fn_save()\">저장</button>";
                 if(unRndDP.global.invCk == "Y") {
-                    buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.devDrafting()\">상신</button>";
+                    buttonHtml += "<button type=\"button\" id=\"devAppBtn\" style=\"display: none; float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"unRndDP.devDrafting()\">상신</button>";
                 }
-            }else if(status == "10" || status == "20" || status == "30"){
+            }else if(status == "10" || status == "20" || status == "50"){
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+devMap.DOC_ID+"', '"+devMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
             }else if(status == "30" || status == "40"){
                 buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
@@ -672,5 +736,32 @@ var unRndDP = {
     selCrmInfo :  function(e){
         $("#estOfc" + unRndDP.global.crmIdx).val(e.CRM_NM);
         unRndDP.global.crmIdx = "";
-    }
+    },
+
+    fn_modInv : function (invSn, row){
+        var data = {
+            invSn : invSn,
+            pjtSn : $("#pjtSn").val(),
+            invRow : row,
+            invNm : $("#invNm"+row).val(),
+            invCnt : uncomma($("#invCnt"+row).val()),
+            invUnit : $("#invUnit"+row).val(),
+            invUnitPrice : uncomma($("#invUnitPrice"+row).val()),
+            estTotAmt : uncomma($("#estTotAmt"+row).val()),
+            estOfc : $("#estOfc"+row).val(),
+            invEtc : $("#invEtc"+row).val()
+        }
+
+        $.ajax({
+            url : "/project/updInvestData",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                if(rs.code == 200){
+                    alert("수정하였습니다.");
+                }
+            }
+        });
+    },
 }

@@ -238,11 +238,19 @@ function fn_getNowDate(type){
 
     let toDate = ""
     if(type == 1){
+        /** yyyy년 m월 d일 */
         toDate = year+"년 "+month+"월 "+date+"일";
     }else if(type == 2){
+        /** yyyy-m-d */
         toDate = year+"-"+month+"-"+date;
     }else if(type == 3){
+        /** yyyy.m.d */
         toDate = year+". "+month+". "+date+".";
+    }else if(type == 4){
+        /** yyyy-mm-dd */
+        const month2 = ("0" + (1 + today.getMonth())).slice(-2);
+        const day2 = ("0" + today.getDate()).slice(-2);
+        toDate = year + "-" + month2 + "-" + day2;
     }
     return toDate;
 }
@@ -418,11 +426,17 @@ function makeApprBtnHtml(dataInfo, onClick, type, target){
             "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
             "   <span class='k-button-text'>상신</span>" +
             "</button>";
-    }else if(status == "10" || status == "20" || status == "50"){
+    }else if(status == "10" || status == "50"){
         html =
             "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base' onclick='docApprovalRetrieve(\""+docId+"\", \""+approKey+"\", 1, \"retrieve\");'>" +
             "   <span class='k-icon k-i-x-circle k-button-icon'></span>" +
             "   <span class='k-button-text'>회수</span>" +
+            "</button>";
+    }else if(status == "20"){
+        html =
+            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+docId+"\", \""+approKey+"\", \""+menuCd+"\");'>" +
+            "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
+            "   <span class='k-button-text'>결재중</span>" +
             "</button>";
     }else if(status == "30" || status == "40"){
         html =

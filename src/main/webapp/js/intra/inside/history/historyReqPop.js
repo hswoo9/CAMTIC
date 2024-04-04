@@ -679,12 +679,15 @@ const historyReq = {
     fn_saveApnt : function(){
         let arr = [];
         const grid = $("#popMainGrid").data("kendoGrid");
+        var dataSource = grid.dataSource;
+        var data = dataSource.data();
 
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
         let numberName = $("#numberName").val();
         let relevantName = $("#relevantName").val();
         let historyDate = $("#historyDate").val().replace(/-/g, "");
+        console.log(arr)
         if(numberName == "") {
             alert("호수가 작성되지 않았습니다.");
             return;
@@ -692,6 +695,12 @@ const historyReq = {
             alert("관련근거가 작성되지 않았습니다.");
             return;
         }
+
+        if (data.length === 0) {
+            alert("선택된 인원이 없습니다.");
+            return;
+        }
+
 
         let flag = true;
         $.each($('#popMainGrid .k-master-row'), function(i, v) {

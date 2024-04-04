@@ -1,3 +1,4 @@
+var calcAmSum = 0;
 var outUseList = {
 
     global : {
@@ -18,6 +19,12 @@ var outUseList = {
             dataValueField : "value"
         });
 
+        var d = new Date();
+        var bd = new Date(d.setMonth(d.getMonth() - 1));
+        console.log(bd.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2));
+        customKendo.fn_datePicker("aStrDe", 'month', "yyyy-MM-dd", bd.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2));
+        customKendo.fn_datePicker("aEndDe", 'month', "yyyy-MM-dd", new Date());
+
         outUseList.mainGrid();
     },
 
@@ -37,6 +44,8 @@ var outUseList = {
                 parameterMap: function(data) {
                     data.regHistYn = $("#regHistYn").val();
                     data.searchValue = $("#searchValue").val();
+                    data.startDt = $("#aStrDe").val();
+                    data.endDt = $("#aEndDe").val();
                     return data;
                 }
             },
@@ -56,7 +65,7 @@ var outUseList = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 508,
+            height: 600,
             pageable: {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
@@ -100,13 +109,19 @@ var outUseList = {
                             width: 150,
                             template : function (e){
                                 return '<div style="cursor: pointer; font-weight: bold" onclick="outUseList.fn_useCardDetailPop(\''+e.AUTH_NO+'\', \''+e.AUTH_DD+'\', \''+e.AUTH_HH+'\', \''+e.CARD_NO+'\', \''+e.BUY_STS+'\')">'+e.MER_NM+'</div>'
-                            }
+                            },
+                            footerTemplate: "합계"
                         }, {
                             field: "AUTH_AMT",
                             title: "금액",
                             width: 100,
                             template : function (e){
+                                calcAmSum  += Number(e.AUTH_AMT);
+
                                 return '<div style="text-align: right;">' + comma(e.AUTH_AMT) + '</div>';
+                            },
+                            footerTemplate: function(){
+                                return "<div style='text-align: right'>"+comma(calcAmSum)+"</div>";
                             }
                         }
                     ]

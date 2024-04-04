@@ -541,8 +541,20 @@
 
         GROUP BY DI.DOC_ID
         ) RE
-        WHERE RE.APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc}
-        ORDER BY IFNULL(RE.LAST_APPROVE_DT2, RE.DRAFT_DT) DESC
+        WHERE 1=1
+        <if test='approveStatCodeDesc != null and !"".equals(approveStatCodeDesc)'>
+            AND RE.APPROVE_STAT_CODE_DESC = #{approveStatCodeDesc}
+        </if>
+        <choose>
+            <when test='approveType != null and "completion".equals(approveType)'>
+                ORDER BY (
+                CASE WHEN RE.APPROVE_STAT_CODE_DESC in ('결재') THEN 1 WHEN RE.APPROVE_STAT_CODE_DESC in ('반려') THEN 3 ELSE 2 END
+                ),  IFNULL(RE.LAST_APPROVE_DT2, RE.DRAFT_DT) DESC
+            </when>
+            <otherwise>
+                ORDER BY IFNULL(RE.LAST_APPROVE_DT2, RE.DRAFT_DT) DESC
+            </otherwise>
+        </choose>
         /*ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC*/
     </select>
 
@@ -668,7 +680,7 @@
             </otherwise>
         </choose>
         GROUP BY DI.DOC_ID
-        ORDER BY IFNULL(RE.LAST_APPROVE_DT2, RE.DRAFT_DT) DESC
+        ORDER BY IFNULL(LAST_APPROVE_DT, DRAFT_DT) DESC
         <if test='startPage != null and !"".equals(startPage)'>
             LIMIT #{startPage}, 5
         </if>

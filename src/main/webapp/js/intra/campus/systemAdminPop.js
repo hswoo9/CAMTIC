@@ -133,6 +133,7 @@ const systemAdmin = {
                 },
                 parameterMap: function(data){
                     data.largeCategoryId = systemAdmin.global.largeCategoryId == "" ? -1 : systemAdmin.global.largeCategoryId;
+                    data.manageYn = 'Y';
                     return data;
                 }
             },

@@ -7,34 +7,25 @@
 <div id="approveDataPop">
 </div>
 <script>
-    let pjtSn = "${params.pjtSn}";
-    let result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
-    const map = result.map;
-
-    let formId = "142";
-    /** 협업일때 */
-    if(map.TM_YN == "Y"){
-        formId = "162";
-    }
-
     window.resizeTo(965, 900);
+
     approvalDataInit();
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = formId;
+        approvalParams.formId = "192";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
-        approvalParams.docTitle = "[수행계획서]${loginVO.orgnztNm}-${loginVO.name}";
+        approvalParams.docTitle = "[회의비 사용 사전 승인 신청서]${loginVO.orgnztNm}-${loginVO.name}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
-        approvalParams.menuCd = "dev";
+        approvalParams.menuCd = "meeting";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "12";
+        approvalParams.linkageProcessId = "49";
         approvalParams.linkageType = "2";
-        approvalParams.linkageProcessCode = "camticDev";
-        approvalParams.approKey = "camticDev_${params.devSn}";
+        approvalParams.linkageProcessCode = "camticMeeting";
+        approvalParams.approKey = "camticMeeting_${params.metSn}";
 
         linkageProcessOn(approvalParams);
     }

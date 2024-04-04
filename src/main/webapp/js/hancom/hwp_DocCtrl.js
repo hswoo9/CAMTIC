@@ -577,6 +577,10 @@ var hwpDocCtrl = {
             const studyResultSn = data.approKey.split("_")[1];
             if (studyResultSn == null || studyResultSn == undefined || studyResultSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             campusInit.ojtResInit(studyResultSn, "ojtRes");
+        }else if(data.menuCd == "meeting") {
+            const metSn = data.approKey.split("_")[1];
+            if (metSn == null || metSn == undefined || metSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            meetingInit.meetingInit(metSn);
         }
 
         /** 문서제목 양식 최초 입력 */
@@ -686,7 +690,49 @@ var hwpDocCtrl = {
             if (studyResultSn == null || studyResultSn == undefined || studyResultSn == "") { alert(errorText); return; }
             campusInit.ojtResInit(studyResultSn);
 
-        }
+        }else if(data.menuCd == "meeting") {
+
+            const metSn = pk;
+            if (metSn == null || metSn == undefined || metSn == "") { alert(errorText); return; }
+            meetingInit.meetingInit(metSn);
+
+        } else if(data.menuCd == "delv") {
+
+            const pjtSn = pk;
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") {alert(errorText); return; }
+            engnInit.delvInit(pjtSn);
+
+        } else if(data.menuCd == "rndDelv") {
+
+            const pjtSn = pk;
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert(errorText); return; }
+            rndInit.delvInit(pjtSn);
+
+        } else if(data.menuCd == "unRndDelv") {
+
+            const pjtSn = pk;
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert(errorText); return; }
+            unRndInit.delvInit(pjtSn);
+
+        }/* else if(data.menuCd == "dev") {
+
+            const devSn = pk;
+            if (devSn == null || devSn == undefined || devSn == "") {alert(errorText); return; }
+            engnInit.devInit(devSn);
+
+        } else if(data.menuCd == "rndDev") {
+
+            const devSn = pk;
+            if (devSn == null || devSn == undefined || devSn == "") { alert(errorText); return; }
+            rndInit.devInit(devSn);
+
+        } else if(data.menuCd == "unRndDev") {
+
+            const devSn = pk;
+            if (devSn == null || devSn == undefined || devSn == "") { alert(errorText); return; }
+            unRndInit.devInit(devSn);
+
+        }*/
 
         /** 재상신이면 사인 초기화 */
         if($("#formId").val() == "1"){

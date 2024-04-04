@@ -668,6 +668,8 @@
         SELECT
             A.*,
             B.EMAIL AS CRM_EMAIL,
+            B.TEL_NUM AS CRM_TEL_NUM,
+            B.FAX AS CRM_FAX_NUM,
             EI.EMP_SEQ,
             EI.EMP_NAME_KR,
             EI.POSITION_NAME,
@@ -675,8 +677,15 @@
             EI.OFFICE_TEL_NUM,
             EI.MOBILE_TEL_NUM,
             EI.EMAIL_ADDR,
+            EI2.EMP_SEQ AS CLAIM_EMP_SEQ,
+            EI2.EMP_NAME_KR AS CLAIM_EMP_NAME,
+            EI2.POSITION_NAME AS CLAIM_POSITION_NAME,
+            EI2.OFFICE_TEL_NUM AS CLAIM_OFFICE_TEL_NUM,
+            EI2.MOBILE_TEL_NUM AS CLAIM_MOBILE_TEL_NUM,
+            EI2.EMAIL_ADDR AS CLAIM_EMAIL_ADDR,
             DI.DOC_NO,
             CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI.DEPT_SEQ)) AS DEPT_NAME,
+            CONCAT((SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI2.DEPT_SEQ)), ' ', (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = EI2.DEPT_SEQ)) AS CLAIM_DEPT_NAME,
             DI.APPRO_KEY,
             DI.DOC_MENU_CD,
             (CASE WHEN A.ORDER_DT IS NOT NULL THEN 'Y' ELSE 'N' END) AS ORDER_CK,
@@ -686,6 +695,9 @@
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO EI
         ON A.PURC_EMP_SEQ = EI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO EI2
+        ON A.CLAIM_EMP_SEQ = EI2.EMP_SEQ
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI
         ON
@@ -856,7 +868,7 @@
         SELECT ABC.* FROM
         (
             SELECT
-                A.CLAIM_SN, A.PURC_SN, A.PURC_TYPE,  A.CLAIM_DE, A.EXP_DE, A.GOODS_DT, A.CLAIM_TITLE, A.CRM_NM, A.TOT_AMT, B.EMP_NAME_KR AS CLAIM_EMP_NAME,
+                A.CLAIM_SN, A.PURC_SN, A.PURC_TYPE,  A.CLAIM_DE, A.EXP_DE, A.GOODS_DT, A.ORDER_YN, A.CLAIM_TITLE, A.CRM_NM, A.TOT_AMT, B.EMP_NAME_KR AS CLAIM_EMP_NAME,
                 (SELECT SEI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI WHERE SEI.EMP_SEQ = CLAIM_EMP_SEQ) AS CLAIM_DEPT_NAME, D.EMP_NAME_KR AS PURC_EMP_NAME,
                 (SELECT SEI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI WHERE SEI.EMP_SEQ = PURC_EMP_SEQ) AS PURC_DEPT_NAME, C.DELV_DE, DI.DOC_NO, A.STATUS,
                 (SELECT INSPECT_YN FROM CAM_MNG.DJ_MNG_PURC SA WHERE SA.PURC_SN = A.PURC_SN) AS INSPECT_YN,
@@ -878,7 +890,7 @@
             UNION
 
             SELECT
-                A.CLAIM_SN, A.PURC_SN, A.PURC_TYPE,  A.CLAIM_DE, A.EXP_DE, A.GOODS_DT, A.CLAIM_TITLE, A.CRM_NM, A.TOT_AMT, B.EMP_NAME_KR AS CLAIM_EMP_NAME,
+                A.CLAIM_SN, A.PURC_SN, A.PURC_TYPE,  A.CLAIM_DE, A.EXP_DE, A.GOODS_DT, A.ORDER_YN, A.CLAIM_TITLE, A.CRM_NM, A.TOT_AMT, B.EMP_NAME_KR AS CLAIM_EMP_NAME,
                 (SELECT SEI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI WHERE SEI.EMP_SEQ = CLAIM_EMP_SEQ) AS CLAIM_DEPT_NAME, D.EMP_NAME_KR AS PURC_EMP_NAME,
                 (SELECT SEI.DEPT_NAME FROM CAM_HR.DJ_EMP_INFO SEI WHERE SEI.EMP_SEQ = PURC_EMP_SEQ) AS PURC_DEPT_NAME, '' AS DELV_DE, DI.DOC_NO, A.STATUS,
                 '' AS INSPECT_YN, '' AS INSPECT_STATUS,
@@ -1134,6 +1146,16 @@
             CLAIM_SN = #{claimSn}
     </update>
 
+    <update id="setOrderYnInfo" parameterType="map">
+        /* setOrderYnInfo */
+        UPDATE
+            CAM_MNG.DJ_PURC_CLAIM
+        SET
+            ORDER_YN = #{orderYn}
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </update>
+
     <select id="getProjectPurcList" parameterType="map" resultType="map">
         /*getProjectPurcList*/
         SELECT
@@ -1262,6 +1284,7 @@
                 AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
             </when>
         </choose>
+        GROUP BY CLAIM_SN
         ORDER BY CLAIM_SN DESC
     </select>
 
@@ -1683,5 +1706,65 @@
         AND
             TAX_TY = #{taxTy}
         LIMIT 1
+    </select>
+
+    <select id="getMaxCeGwIdx" parameterType="map" resultType="int">
+        /*getMaxCeGwIdx*/
+        SELECT
+            MAX(CE_GW_IDX)
+        FROM
+            CAM_MNG.DJ_CLAIM_EXNP
+    </select>
+
+    <select id="getClaimListByPurcSn" parameterType="map" resultType="map">
+        /*getClaimListByPurcSn*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM
+        WHERE
+            PURC_SN = #{purcSn}
+    </select>
+
+    <update id="updClaimPurcOrder" parameterType="map">
+        /*updClaimPurcOrder*/
+        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        SET
+            ORDER_DT = #{orderDt},
+            GOODS_DT = #{goodsDt},
+            ORDER_YN = #{orderYn}
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </update>
+
+    <select id="getPurcReqClaimList" parameterType="map" resultType="map">
+        /*getPurcReqClaimList*/
+        SELECT
+            DI.DOC_NO,
+            B.PURC_REQ_DATE,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_REQ_EMP_SEQ) AS EMP_NAME_KR,
+            B.PURC_REQ_PURPOSE,
+            A.PURC_SN,
+            B.STATUS,
+            B.DOC_STATUS,
+            IFNULL((SELECT SUM(PURC_ITEM_AMT) FROM CAM_MNG.DJ_PURC_CLAIM_ITEM WHERE CLAIM_SN = A.CLAIM_SN), 0) AS PURC_ITEM_AMT_SUM,
+            IFNULL(DI.APPROVE_STAT_CODE,0) AS APPROVE_STAT_CODE,
+            'CAYSY' AS CLAIM_STATUS,
+            A.CLAIM_SN,
+            A.STATUS AS CLAIM_DOC_STATUS,
+            A.DOC_ID AS CLAIM_DOC_ID,
+            (SELECT APPRO_KEY FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = A.DOC_ID) AS APPRO_KEY
+        FROM
+            CAM_MNG.DJ_PURC_CLAIM A
+        LEFT JOIN
+            CAM_MNG.DJ_MNG_PURC B
+        ON
+            A.PURC_SN = B.PURC_SN
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI
+        ON
+            B.DOC_ID = DI.DOC_ID
+        WHERE
+            A.PJT_SN =  #{pjtSn}
     </select>
 </mapper>

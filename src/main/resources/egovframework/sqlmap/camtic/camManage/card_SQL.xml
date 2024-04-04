@@ -70,7 +70,8 @@
         </if>
         <if test='searchValue != null and !"".equals(searchValue)'>
             AND (B.TR_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
-            OR A.CARD_NO LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%'))
+            OR A.CARD_NO LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%')
+            OR A.MER_NM LIKE CONCAT('%', REPLACE(#{searchValue}, '-', ''), '%'))
         </if>
         <if test='regHistYn != null and !"".equals(regHistYn)'>
             <choose>
@@ -321,6 +322,9 @@
                 #{pjtNm},
                 #{regEmpSeq}
             )
+        <selectKey keyProperty="cardToSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_CARD_TO'
+        </selectKey>
     </insert>
 
     <delete id="delCardTo" parameterType="map">
@@ -1024,4 +1028,133 @@
         /*delCardAuthUserData*/
         DELETE FROM CAM_MNG.DJ_CARD_AUTH_USER_MNG WHERE CARD_AUTH_USER_SN IN (${cardAuthUserSn})
     </delete>
+
+    <insert id="insMeetingData" parameterType="map">
+        /*insMeetingData*/
+        INSERT INTO CAM_MNG.DJ_MEETING
+            (
+                CARD_TO_SN,
+                PJT_NM,
+                PJT_SN,
+                PJT_CD,
+                PM_EMP_SEQ,
+                PM,
+                PJT_SUB_NM,
+                MET_DE,
+                MET_STR_TIME,
+                MET_END_TIME,
+                MET_LOC,
+                MET_OBJ,
+                MET_CONT,
+                MET_EMP_NAME,
+                MET_EMP_SEQ
+            )
+        VALUES
+            (
+                #{cardToSn},
+                #{pjtNm},
+                #{pjtSn},
+                #{pjtCd},
+                #{pmEmpSeq},
+                #{pm},
+                #{pjtSubNm},
+                #{metDe},
+                #{metStrTime},
+                #{metEndTime},
+                #{metLoc},
+                #{metObj},
+                #{metCont},
+                #{metEmpName},
+                #{metEmpSeq}
+            )
+        <selectKey keyProperty="metSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_MEETING'
+        </selectKey>
+    </insert>
+
+    <update id="updMeetingData" parameterType="map">
+        /*updMeetingData*/
+        UPDATE CAM_MNG.DJ_MEETING
+        SET
+            MET_DE = #{metDe},
+            MET_STR_TIME = #{metStrTime},
+            MET_END_TIME = #{metEndTime},
+            MET_LOC = #{metLoc},
+            MET_OBJ = #{metObj},
+            MET_CONT = #{metCont},
+            MET_EMP_NAME = #{metEmpName},
+            MET_EMP_SEQ = #{metEmpSeq}
+        WHERE
+            MET_SN = #{metSn}
+    </update>
+
+    <insert id="insMeetingExternal" parameterType="map">
+        /*insMeetingExternal*/
+        INSERT INTO CAM_MNG.DJ_MEETING_EXT
+            (
+                MET_SN,
+                EXT_NM,
+                EXT_BELONG,
+                EXT_SPOT,
+                EXT_ETC
+            )
+        VALUES
+            (
+                #{metSn},
+                #{name},
+                #{belong},
+                #{spot},
+                #{etc}
+            )
+    </insert>
+
+    <update id="updCardToByFrKey" parameterType="map">
+        /*updCardToByFrKey*/
+        UPDATE CAM_MNG.DJ_CARD_TO
+        SET
+            FR_KEY = #{frKey}
+        WHERE
+            CARD_TO_SN = #{cardToSn}
+    </update>
+
+    <select id="getMeetingData" parameterType="map" resultType="map">
+        /*getMeetingData*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_MEETING
+        WHERE
+            MET_SN = #{metSn}
+    </select>
+
+    <select id="getExtData" parameterType="map" resultType="map">
+        /*getExtData*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_MEETING_EXT
+        WHERE
+            MET_SN = #{metSn}
+    </select>
+
+    <update id="updateMeetingApprStat" parameterType="map">
+        /* updateMeetingApprStat */
+        UPDATE CAM_MNG.DJ_MEETING
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            MET_SN = #{metSn}
+    </update>
+
+    <update id="updateMeetingFinalApprStat" parameterType="map">
+        /* updateMeetingFinalApprStat */
+        UPDATE CAM_MNG.DJ_MEETING
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            MET_SN = #{metSn}
+    </update>
 </mapper>

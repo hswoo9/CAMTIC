@@ -65,19 +65,19 @@
                 <tr>
                     <th scope="row" class="text-center th-color">청구부서</th>
                     <td>
-                        <c:if test="${map.DEPT_NAME != null}">
-                            <div>${map.DEPT_NAME}</div>
+                        <c:if test="${map.CLAIM_DEPT_NAME != null}">
+                            <div>${map.CLAIM_DEPT_NAME}</div>
                         </c:if>
-                        <c:if test="${map.DEPT_NAME == null}">
+                        <c:if test="${map.CLAIM_DEPT_NAME == null}">
                             <div>${loginVO.orgnztNm}</div>
                         </c:if>
                     </td>
                     <th scope="row" class="text-center th-color">직위</th>
                     <td>
-                        <c:if test="${map.POSITION_NAME != null}">
-                            <div>${map.POSITION_NAME}</div>
+                        <c:if test="${map.CLAIM_POSITION_NAME != null}">
+                            <div>${map.CLAIM_POSITION_NAME}</div>
                         </c:if>
-                        <c:if test="${map.POSITION_NAME == null}">
+                        <c:if test="${map.CLAIM_POSITION_NAME == null}">
                             <div>${loginVO.positionNm}</div>
                         </c:if>
                     </td>
@@ -85,10 +85,10 @@
                 <tr>
                     <th scope="row" class="text-center th-color">성명</th>
                     <td>
-                        <c:if test="${map.EMP_NAME_KR != null}">
-                            <div>${map.EMP_NAME_KR}</div>
+                        <c:if test="${map.CLAIM_EMP_NAME != null}">
+                            <div>${map.CLAIM_EMP_NAME}</div>
                         </c:if>
-                        <c:if test="${map.EMP_NAME_KR == null}">
+                        <c:if test="${map.CLAIM_EMP_NAME == null}">
                             <div>${loginVO.name}</div>
                         </c:if>
                     </td>
@@ -281,13 +281,14 @@
                     <colgroup>
 <%--                        <col style="width: 3%;">--%>
                         <col style="width: 480px;">
-                        <col style="width: 10%;">
+                        <col style="width: 8%;">
                         <col style="width: 5%;">
                         <col style="width: 5%;">
-                        <col style="width: 10%;">
+                        <col style="width: 8%;">
                         <col style="width: 5%;">
-                        <col style="width: 10%;">
-                        <col style="width: 10%;">
+                        <col style="width: 7%;">
+                        <col style="width: 7%;">
+                        <col style="width: 7%;">
 <%--                        <col style="width: 7%;">--%>
                         <col style="width: 7%;">
 <%--                        <col style="width: 18%;">--%>
@@ -302,9 +303,11 @@
                             <th>수량</th>
                             <th>단가</th>
                             <th>단위</th>
+                            <th>공급가액</th>
+                            <th>세액</th>
                             <th>금액</th>
                             <th>요청금액</th>
-                            <th>할인금액</th>
+<%--                            <th>할인금액</th>--%>
                             <th>비고</th>
 <%--                            <th>자산</th>--%>
                             <th>명령</th>
@@ -339,14 +342,20 @@
                                 <input type="text" id="itemUnit0" class="itemUnit">
                             </td>
                             <td>
+                                <input type="text" id="purcSupAmt0" class="purcSupAmt" disabled onkeyup="prp.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="text-align: right">
+                            </td>
+                            <td>
+                                <input type="text" id="purcVatAmt0" class="purcVatAmt" disabled onkeyup="prp.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style="text-align: right">
+                            </td>
+                            <td>
                                 <input type="text" id="itemAmt0" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
                             <td>
                                 <input type="text" id="purcItemAmt0" class="itemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
                             </td>
-                            <td>
-                                <input type="text" id="difAmt0" class="difAmt" value="0" style="text-align: right" onkeyup="reqCl.fn_calcN('0', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                            </td>
+<%--                            <td>--%>
+<%--                                <input type="text" id="difAmt0" class="difAmt" value="0" style="text-align: right" onkeyup="reqCl.fn_calcN('0', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">--%>
+<%--                            </td>--%>
                             <td>
                                 <label for="itemEtc0"></label><input type="text" id="itemEtc0" class="itemEtc">
                             </td>

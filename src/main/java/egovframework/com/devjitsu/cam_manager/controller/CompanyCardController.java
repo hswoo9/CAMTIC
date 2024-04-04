@@ -1,8 +1,12 @@
 package egovframework.com.devjitsu.cam_manager.controller;
 
 import egovframework.com.devjitsu.cam_manager.service.CompanyCardService;
+import egovframework.com.devjitsu.cam_project.controller.ProjectController;
+import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +23,13 @@ import java.util.Map;
 @Controller
 public class CompanyCardController {
 
+    private static final Logger logger = LoggerFactory.getLogger(CompanyCardController.class);
+
     @Autowired
     private CompanyCardService companyCardService;
+
+    @Autowired
+    private ProjectService projectService;
 
     @RequestMapping("/card/cardList.do")
     public String paymentList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -165,11 +174,55 @@ public class CompanyCardController {
                 params.put("frKey", null);
             }
             companyCardService.saveRegCardTo(params);
+            model.addAttribute("params", params);
             model.addAttribute("code", 200);
         } catch(Exception e){
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/pop/regMeeting.do")
+    public String regMeeting(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        Map<String, Object> cardMap = companyCardService.getCardToInfo(params);
+        params.put("PJT_CD", cardMap.get("PJT_CD"));
+
+        Map<String, Object> pjtInfo = projectService.getProjectCodeData(params);
+
+        model.addAttribute("cardMap", cardMap);
+        model.addAttribute("pjtInfo", pjtInfo);
+
+        return "popup/cam_manager/companyCard/regMeeting";
+    }
+
+    @RequestMapping("/card/setMeetingData")
+    public String setMeetingData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        try{
+            companyCardService.setMeetingData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/card/getMeetingData")
+    public String getMeetingData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        Map<String, Object> data = companyCardService.getMeetingData(params);
+        model.addAttribute("data", data);
+        params.put("pjtCd", data.get("PJT_CD"));
+        model.addAttribute("pjtInfo", projectService.getProjectByPjtCd(params));
+        model.addAttribute("extData", companyCardService.getExtData(params));
         return "jsonView";
     }
 
@@ -509,6 +562,42 @@ public class CompanyCardController {
         } catch(Exception e){
             e.printStackTrace();
         }
+        return "jsonView";
+    }
+
+    /**
+     * 회의실사용사전승인신청서 전자결재 양식 페이지
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/cam_manager/pop/meetingApprovalPop.do")
+    public String meetingApprovalPop(HttpServletRequest request, @RequestParam Map<String, Object> params, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_manager/approvalFormPopup/meetingApprovalPop";
+    }
+
+    /** 회의실사용사전승인신청서 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/card/meetingReqApp")
+    public String meetingReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            companyCardService.updateMeetingDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
         return "jsonView";
     }
 }

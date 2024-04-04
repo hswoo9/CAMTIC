@@ -110,7 +110,8 @@ var systemManagement = {
         $.ajax({
             url : "/campus/getEduCategoryList",
             data : {
-                largeCategoryId : $("#detailSearch").data("kendoDropDownTree").value().toString()
+                largeCategoryId : $("#detailSearch").data("kendoDropDownTree").value().toString(),
+                manageYn : 'N'
             },
             type : "post",
             dataType : "json",

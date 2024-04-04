@@ -152,7 +152,7 @@ var campusInit = {
             const userResult3 = customKendo.fn_customAjax("/campus/getStudyUserList", {pk: studyInfoSn, studyClassSn: 5});
             const userList3 = userResult3.list;
             campusInit.global.userList3 = userList3;
-        }else if(studyType == "ojt" || studyType == "ojtRes"){
+        }else if(studyType == "ojt"){
             const userResult2 = customKendo.fn_customAjax("/campus/getStudyUserList", {pk: studyInfoSn, studyClassSn: 4});
             const userList2 = userResult2.list;
             campusInit.global.userList2 = userList2;
@@ -714,6 +714,12 @@ var campusInit = {
         const ojtSubList = ojtSubResult.list;
         campusInit.global.ojtSubList = ojtSubList;
 
+        const getOjtResult = customKendo.fn_customAjax("/campus/getOjtResultList", {pk: studyInfoSn});
+        const getOjtResList = getOjtResult.list;
+        campusInit.global.getOjtResList = getOjtResList;
+
+
+
         hwpDocCtrl.putFieldText("STUDY_TITLE", "OJT 결과보고서");
         hwpDocCtrl.putFieldText('STUDY_SUBJECT', "지도명칭 : "+studyInfo.STUDY_NAME);
 
@@ -732,6 +738,8 @@ var campusInit = {
         const userList3 = campusInit.global.userList3;
 
         const ojtSubList = campusInit.global.ojtSubList;
+        const getOjtResList = campusInit.global.getOjtResList;
+
 
         let rowspan = userList2.length + userList3.length + 1;
 
@@ -819,13 +827,13 @@ var campusInit = {
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 168px;"><p style="font-family:굴림;font-size:14px;"><b>중점 지도항목</b></p></td>';
         html += '                   <td style="height:25px;background-color:#FFE0E0; text-align:center; width: 128px;"><p style="font-family:굴림;font-size:14px;"><b>비고</b></p></td>';
         html += '               </tr>';
-        for(let i=0; i<ojtSubList.length; i++){
-            const map = ojtSubList[i];
+        for(let i=0; i<getOjtResList.length; i++){
+            const map = getOjtResList[i];
 
             html += '               <tr>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (i+1) +'차</p></td>';
-            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.START_DT+ ' ~ '+map.END_DT +'</p></td>';
-            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.TITLE +'</p></td>';
+            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.OJT_DT + map.START_TIME+ ' ~ '+map.END_TIME +'</p></td>';
+            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.CONTENT +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.ETC +'</p></td>';
             html += '               </tr>';
         }

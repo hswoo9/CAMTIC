@@ -1,4 +1,4 @@
-const bustripExnpReq = {
+var bustripExnpReq = {
     global: {
         costData: "",
         bustripInfo: {},
@@ -19,6 +19,9 @@ const bustripExnpReq = {
 
         corpCarTollFile : [],
         corpCarTollBsFile : [],
+
+        maxEatCost : 0, // 식비 한도액
+        ingEatCost : 0, // 현재 입력된 식비 총액
     },
 
     init: function(type){
@@ -511,7 +514,11 @@ const bustripExnpReq = {
         var bustripNum = $(".addData").length;           // 출장인원
         var extNum = $(".extData").length;               // 외부인원
         var maxEatCost = Number(bustripDays * (bustripNum + extNum) * 30000);    // 식비 한도
+        bustripExnpReq.global.maxEatCost = maxEatCost;
+
         var sum = 0;
+
+        sum += Number(uncomma($("#corp6").val()));
 
         $("span > .eatCost").each(function(){
             const eatCost = Number(uncomma(this.value));
@@ -519,6 +526,8 @@ const bustripExnpReq = {
             console.log("maxEatCost", maxEatCost);
             sum += Number(uncomma(this.value));
             console.log("sum ", sum);
+
+            bustripExnpReq.global.ingEatCost = sum;
             if(sum > maxEatCost){
                 this.value = comma(Number(uncomma(this.value) - (sum - maxEatCost)));
                 // bustripExnpReq.global.flag = true;

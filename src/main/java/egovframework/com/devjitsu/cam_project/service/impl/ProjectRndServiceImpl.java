@@ -115,7 +115,25 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Override
     public void setDevPjtVer(Map<String, Object> params) {
+        List<Map<String, Object>> list = new ArrayList<>();
+
+        list = projectRepository.getPsList(params);
+
         projectRndRepository.insDevPjtVer(params);
+
+        for(Map<String, Object> map : list){
+            params.put("psRow", map.get("PS_ROW"));
+            params.put("psPrep", map.get("PS_PREP"));
+            params.put("psPrepNm", map.get("PS_PREP_NM"));
+            params.put("psNm", map.get("PS_NM"));
+            params.put("psStrDe", map.get("PS_STR_DE"));
+            params.put("psEndDe", map.get("PS_END_DE"));
+            params.put("psEmpSeq", map.get("PS_EMP_SEQ"));
+            params.put("psEmpNm", map.get("PS_EMP_NM"));
+            params.put("regEmpSeq", map.get("REG_EMP_SEQ"));
+
+            projectRepository.insPjtPs(params);
+        }
     }
 
     @Override
@@ -464,7 +482,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         params.put("approveStatCode", docSts);
         params.put("empSeq", empSeq);
 
-        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 재상신
+            projectRndRepository.updateRndDevApprStat(params);
+        }else if("20".equals(docSts)) { // 중간 결재
             projectRndRepository.updateRndDevApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             projectRndRepository.updateRndDevApprStat(params);

@@ -33,20 +33,31 @@ var regCardToPop = {
                 if(this.value() == "기타"){
                     $("#cardToPurpose2Div").css("display", "");
                     $("#cardToBustripDiv").css("display", "none");
+                    $("#cardToMeeting").css("display", "none");
                     $("#cardToPurcDiv").css("display", "none");
                     $("#hrBizReqId").val("");
                     $("#hrBizVisitCrm").val("");
                 } else if(this.value() == "출장"){
                     $("#cardToBustripDiv").css("display", "");
                     $("#cardToPurcDiv").css("display", "none");
+                    $("#cardToMeeting").css("display", "none");
                     $("#cardToPurpose2Div").css("display", "none");
                 } else if(this.value() == "구매"){
                     $("#cardToPurcDiv").css("display", "");
                     $("#cardToPurpose2Div").css("display", "none");
                     $("#cardToBustripDiv").css("display", "none");
-                }else {
+                    $("#cardToMeeting").css("display", "none");
+                }else if(this.value() == "회의"){
                     $("#cardToPurpose2Div").css("display", "none");
                     $("#cardToBustripDiv").css("display", "none");
+                    $("#cardToPurcDiv").css("display", "none");
+                    $("#hrBizReqId").val("");
+                    $("#hrBizVisitCrm").val("");
+                    $("#cardToMeeting").css("display", "");
+                } else {
+                    $("#cardToPurpose2Div").css("display", "none");
+                    $("#cardToBustripDiv").css("display", "none");
+                    $("#cardToMeeting").css("display", "none");
                     $("#cardToPurcDiv").css("display", "none");
                     $("#hrBizReqId").val("");
                     $("#hrBizVisitCrm").val("");
@@ -233,7 +244,17 @@ var regCardToPop = {
                     alert("저장되었습니다.");
                     opener.parent.statementList.mainGrid();
                     opener.parent.$("#mainHistGrid").css("display", "none");
+
+                    if($("#chkMeeting").prop("checked")){
+
+                        var url = "/card/pop/regMeeting.do?cardToSn=" + rs.params.cardToSn;
+
+                        var name = "blank";
+                        var option = "width = 1000, height = 700, top = 100, left = 300, location = no"
+                        var popup = window.open(url, name, option);
+                    }
                     window.close();
+
                 }
             }
         });

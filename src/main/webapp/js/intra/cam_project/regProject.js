@@ -2,7 +2,11 @@ var regPrj = {
 
 
     fn_defaultScript : function () {
-        const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
+        let setParameters = null;
+
+        if($("#mainPjtSn").val() != ""){
+            setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
+        }
 
         /** 외부공개 여부 비공개일시 비밀번호 입력하는 모달창 뜸*/
         if(setParameters != null && setParameters.SECURITY == "Y"){
@@ -463,6 +467,16 @@ var regPrj = {
             dataType : "json",
             async : false,
             success : function(rs){
+                if($("#mainPjtSn").val() == ""){
+                    commonProject.global.pjtSn = rs.params.PJT_SN;
+                    var result = commonProject.setDelvAlarmEvent();
+                    if(result.flag){
+                        if(result.rs != "SUCCESS") {
+                            alert(result.message);
+                        }
+                    }
+                }
+
                 opener.parent.camPrj.gridReload();
                 if($("#mainPjtSn").val() == ""){
                     window.location.href="/project/pop/viewRegProject.do?pjtSn=" + rs.params.PJT_SN;

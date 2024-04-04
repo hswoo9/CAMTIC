@@ -73,6 +73,7 @@ const costReq = {
     },
 
     setSaveData : function(){
+        console.log("setSaveData");
         var result = customKendo.fn_customAjax("/bustrip/getBusinessCostOne", { hrCostInfoSn : $("#hrCostInfoSn").val() });
         if(result.flag){
             var rs = result.data;
@@ -83,6 +84,20 @@ const costReq = {
             $("#exnpCode").data("kendoDropDownList").value(rs.EXNP_CODE);
             $("#costAmt").val(comma(rs.COST_AMT));
             $("#remarkCn").val(rs.REMARK_CN);
+
+            if($("#tripCode").data("kendoDropDownList").value() == "3" && $("#exnpCode").data("kendoDropDownList").value() == "dayCost"){
+                $("#detailTr").show();
+                let exnpCodeDetailDataSource = [
+                    { text: "대중교통", value: "1" },
+                    { text: "자가(운행시)", value: "2" },
+                    { text: "자가(동행시)", value: "3" },
+                    { text: "법인차량", value: "4" }
+                ]
+                customKendo.fn_dropDownList("exnpDetailCode", exnpCodeDetailDataSource, "text", "value", 2);
+                $("#exnpDetailCode").data("kendoDropDownList").value(rs.EXNP_DETAIL_CODE);
+            }else{
+                $("#detailTr").hide();
+            }
         }
     },
 

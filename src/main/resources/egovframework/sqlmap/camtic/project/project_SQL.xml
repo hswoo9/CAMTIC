@@ -18,11 +18,32 @@
     </select>
 
     <select id="getProjectList" parameterType="map" resultType="map">
+        /* getProjectList */
         SELECT
             A.*,
-            (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK
+            (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
+            R.PART_EMP_SEQ
         FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
+        LEFT JOIN (
+            SELECT
+                PJT_SN, PART_EMP_SEQ
+            FROM
+                CAM_PJT_MNG.DJ_PART_RATE_DET SA
+            WHERE
+                PART_RATE_VER_SN = (SELECT
+                                        SSA.PART_RATE_VER_SN
+                                    FROM
+                                        CAM_PJT_MNG.DJ_PJT_PART_RATE_VER SSA
+                                    WHERE
+                                        SSA.PJT_SN = SA.PJT_SN
+                                    AND SSA.PART_RATE_VER = (SELECT MAX(SSSA.PART_RATE_VER) FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER SSSA WHERE SSSA.PJT_SN = SA.PJT_SN GROUP BY SSSA.PJT_SN ))
+        ) R ON A.PJT_SN = R.PJT_SN
+        LEFT JOIN (
+            SELECT
+                PJT_SN, PS_EMP_SEQ
+            FROM cam_pjt_mng.dj_pjt_ps
+        ) R2 ON A.PJT_SN = R2.PJT_SN
         WHERE
         1=1
         AND A.TEAM_STAT = "N"
@@ -50,19 +71,21 @@
         </if>
         <if test= '"1".equals(searchValue)'>
             AND
-                A.REG_EMP_SEQ = #{regEmpSeq} AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
+                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
+
+            AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
         </if>
         <if test= '"2".equals(searchValue)'>
             AND
-                A.REG_EMP_SEQ = #{regEmpSeq}
+                (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
         </if>
         <if test= '"3".equals(searchValue)'>
             AND
-                A.PJT_STEP in ('E1','E2','E3','E4','E5','R2')
+                A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
         </if>
         <if test='"".equals(searchValue) and "".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
-                (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.BS_TITLE LIKE CONCAT('%', #{searchText}, '%'))
+                (A.PJT_NM LIKE CONCAT('%', #{searchText}, '%') OR A.BS_TITLE LIKE CONCAT('%', #{searchText}, '%')
         </if>
         <if test='"1".equals(searchValue2) and searchText != null and !"".equals(searchText)'>
             AND
@@ -87,6 +110,7 @@
         <if test='type != null and !"".equals(type)'>
             AND A.BUSN_CLASS IN ('S', 'R') AND A.PJT_CD IS NOT NULL
         </if>
+        GROUP BY A.PJT_SN
         ORDER BY A.REG_DT DESC
     </select>
 
@@ -906,6 +930,17 @@
             CAM_PJT_MNG.DJ_PJT_PS
         WHERE
             DEV_SN = #{devSn}
+    </select>
+
+    <select id="getProcessList2" parameterType="map" resultType="map">
+        /*getProcessList2*/
+        SELECT
+            GROUP_CONCAT(PS_EMP_NM SEPARATOR ', ') AS GROUP_PS_EMP_NM, A.*
+        FROM
+            CAM_PJT_MNG.DJ_PJT_PS A
+        WHERE
+            DEV_SN = #{devSn}
+        GROUP BY PS_NM, PS_STR_DE, PS_END_DE, PS_PREP
     </select>
 
     <update id="updProcess" parameterType="map">
@@ -2506,6 +2541,10 @@
             AND
                 B.BUSN_CLASS = #{busnClass}
         </if>
+        <if test='status != null and !"".equals(status)'>
+            AND
+                A.MNG_STAT = #{status}
+        </if>
         <if test='pjtNm != null and !"".equals(pjtNm)'>
             AND
                 PJT_NM LIKE CONCAT('%', #{pjtNm}, '%')
@@ -2916,6 +2955,34 @@
     <select id="partRateEmpInfo" parameterType="map" resultType="map">
         /*partRateEmpInfo*/
         SELECT
+            A.EMP_SEQ,
+            A.EMP_NAME_KR,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ)) AS DEPT_NAME,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE DEPT_SEQ = A.DEPT_SEQ) AS DEPT_TEAM_NAME,
+            A.POSITION_NAME,
+            A.JOIN_DAY,
+            A.RES_REGIS_NUM,
+            A.EMAIL_ADDR,
+            A.MOBILE_TEL_NUM,
+            (SELECT SCHOOL_NAME FROM CAM_HR.DJ_EMP_EDUCATIONAL WHERE EMP_SEQ = A.EMP_SEQ ORDER BY EDUCATIONAL_ID DESC LIMIT 1) AS SCHOOL,
+            (SELECT YEAR(GRADUATION_DAY) FROM CAM_HR.DJ_EMP_EDUCATIONAL WHERE EMP_SEQ = A.EMP_SEQ ORDER BY EDUCATIONAL_ID DESC LIMIT 1) AS GRADE,
+            (SELECT HR_DT_CODE_NM FROM CAM_HR.DJ_HR_CODE WHERE (SELECT GUBUN_CODE FROM CAM_HR.DJ_EMP_EDUCATIONAL WHERE EMP_SEQ = A.EMP_SEQ ORDER BY EDUCATIONAL_ID DESC LIMIT 1) = CONCAT(HR_MC_CODE, HR_MD_CODE, HR_DT_CODE)) as GUBUN_CODE_NM,
+            (SELECT HR_DT_CODE_NM FROM CAM_HR.DJ_HR_CODE WHERE (SELECT DEGREE_CODE FROM CAM_HR.DJ_EMP_EDUCATIONAL WHERE EMP_SEQ = A.EMP_SEQ ORDER BY EDUCATIONAL_ID DESC LIMIT 1) = CONCAT(HR_MC_CODE, HR_MD_CODE, HR_DT_CODE)) as DEGREE_CODE_NM,
+            (SELECT HR_DT_CODE_NM FROM CAM_HR.DJ_HR_CODE WHERE (SELECT GRADUATION_CODE FROM CAM_HR.DJ_EMP_EDUCATIONAL WHERE EMP_SEQ = A.EMP_SEQ ORDER BY EDUCATIONAL_ID DESC LIMIT 1) = CONCAT(HR_MC_CODE, HR_MD_CODE, HR_DT_CODE)) as GRADUATION_CODE_NM,
+            A.SCIENCE_NO
+        FROM
+            CAM_HR.DJ_EMP_INFO A
+        WHERE
+        A.EMP_SEQ IN
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY REG_DATE DESC
+    </select>
+
+    <select id="partRateEmpInfoTest" parameterType="map" resultType="map">
+        /*partRateEmpInfo*/
+        SELECT
             A.EMP_NAME_KR,
             A.DEPT_NAME,
             A.DEPT_TEAM_NAME,
@@ -2928,7 +2995,8 @@
             YEAR(B.GRADUATION_DAY) AS GRADE,
             C.HR_DT_CODE_NM AS GUBUN_CODE_NM,
             C2.HR_DT_CODE_NM AS DEGREE_CODE_NM,
-            C3.HR_DT_CODE_NM AS GRADUATION_CODE_NM
+            C3.HR_DT_CODE_NM AS GRADUATION_CODE_NM,
+            A.SCIENCE_NO
         FROM
             CAM_HR.DJ_EMP_INFO A
         JOIN
@@ -3269,4 +3337,36 @@
         SELECT * FROM CAM_PJT_MNG.DJ_PJT_PS
         WHERE DEV_SN = #{devSn}
     </select>
+
+    <update id="modProcessData" parameterType="map">
+        /*modProcessData*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_PS
+        SET
+            PS_PREP = #{psPrep},
+            PS_PREP_NM = #{psPrepNm},
+            PS_NM = #{psNm},
+            PS_STR_DE = #{psStrDe},
+            PS_END_DE = #{psEndDe},
+            PS_EMP_SEQ = #{psEmpSeq},
+            PS_EMP_NM = #{psEmpNm}
+        WHERE
+            PS_SN = #{psSn}
+    </update>
+
+    <update id="updInvestData" parameterType="map">
+        /*updInvestData*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_INV
+        SET
+            DIV_CD = #{divCd},
+            DIV_NM = #{divNm},
+            INV_NM = #{invNm},
+            INV_CNT = #{invCnt},
+            INV_UNIT = #{invUnit},
+            INV_UNIT_PRICE = #{invUnitPrice},
+            EST_TOT_AMT = #{estTotAmt},
+            EST_OFC = #{estOfc},
+            INV_ETC = #{invEtc}
+        WHERE
+            INV_SN = #{invSn}
+    </update>
 </mapper>

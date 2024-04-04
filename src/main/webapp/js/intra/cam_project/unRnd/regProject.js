@@ -2,7 +2,11 @@ var regUnRnd = {
 
 
     fn_defaultScript : function (){
-        const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
+        let setParameters = null;
+
+        if($("#mainPjtSn").val() != ""){
+            setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#mainPjtSn").val()}).rs;
+        }
 
         /** 외부공개 여부 비공개일시 비밀번호 입력하는 모달창 뜸*/
         if(setParameters != null && setParameters.SECURITY == "Y"){
@@ -199,6 +203,12 @@ var regUnRnd = {
             var doc3 = parser.parseFromString(html3, 'text/html');
             $("#tabstrip li")[9].before(doc3.body.firstChild);
         }
+
+        tabStrip.disable(tabStrip.tabGroup.children().eq(2));
+
+        if(setParameters.loginVO.uniqId == setParameters.PM_EMP_SEQ || setParameters.loginVO.uniqId == setParameters.EMP_SEQ){
+            tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+        }
     },
 
     fn_setPage : function(setParameters){
@@ -268,6 +278,7 @@ var regUnRnd = {
         $("#modBtn").css("display", "");
 
         $("#bsTitle").val(e.BS_TITLE);
+        $("#yearClass").data("kendoDropDownList").value(e.YEAR_CLASS);
         $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
         $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
         $("#supDep").data("kendoDropDownList").trigger("change");
@@ -298,6 +309,12 @@ var regUnRnd = {
         $("#empSeq").val(e.EMP_SEQ);
         $("#deptSeq").val(e.DEPT_SEQ);
 
+        const pmUserInfo = getUser(e.PM_EMP_SEQ);
+        $("#mngDeptName").val(pmUserInfo.DEPT_NAME);
+        $("#mngDeptSeq").val(pmUserInfo.DEPT_SEQ);
+        $("#mngEmpName").val(e.PM);
+        $("#mngEmpSeq").val(e.PM_EMP_SEQ);
+
         $("#pjtNm").val(e.PJT_NM);
 
         $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
@@ -327,6 +344,7 @@ var regUnRnd = {
             pjtNm : $("#pjtNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
+            crmPartSn : $("#crmPartSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
             allBusnCost : uncomma($("#allBusnCost").val()),
 
@@ -398,6 +416,14 @@ var regUnRnd = {
             type: "post",
             dataType : "json",
             success : function (rs){
+                commonProject.global.pjtSn = rs.params.pjtSn;
+                var result = commonProject.setDelvAlarmEvent();
+                if(result.flag){
+                    if(result.rs != "SUCCESS") {
+                        alert(result.message);
+                    }
+                }
+
                 if(rs.code == 200){
                     location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + rs.params.pjtSn;
                 }
@@ -424,6 +450,7 @@ var regUnRnd = {
             pjtNm : $("#pjtNm").val(),
             crmConSn : $("#rndConCrmSn").val(),
             crmSn : $("#rndCrmSn").val(),
+            crmPartSn : $("#crmPartSn").val(),
             pjtExpAmt : uncomma($("#pjtExpAmt").val()),
             allBusnCost : uncomma($("#allBusnCost").val()),
 

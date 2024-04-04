@@ -442,7 +442,7 @@ public class PayAppServiceImpl implements PayAppService {
             params.put("approveStatCode", 100);
             payAppRepository.updateExnpFinalApprStat(params);
             Map<String, Object> pkMap = payAppRepository.getExnpData(params);
-            if(!"4".equals(pkMap.get("PAY_APP_TYPE"))){
+            if("1".equals(pkMap.get("PAY_APP_TYPE"))){
                 params.put("payAppType", pkMap.get("PAY_APP_TYPE"));
                 updateG20ExnpFinalAppr(params, "app");
             }
@@ -549,6 +549,11 @@ public class PayAppServiceImpl implements PayAppService {
     @Override
     public List<Map<String, Object>> getExnpReList(Map<String, Object> params) {
         return payAppRepository.getExnpReList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getExnpReListForExcelDown(Map<String, Object> params) {
+        return payAppRepository.getExnpReListForExcelDown(params);
     }
 
     @Override
@@ -683,11 +688,15 @@ public class PayAppServiceImpl implements PayAppService {
             Map<String, Object> execMap = new HashMap<>();
             int i = 0;
 
+            int docNumber = 0;          // 전체 지출결의서 CNT
+            docNumber = payAppRepository.getCountDoc(list.get(i));
+            int userSq = docNumber + 1;
+
             for(Map<String, Object> data : list) {
 
-                int docNumber = 0;          // 전체 지출결의서 CNT
-                docNumber = payAppRepository.getCountDoc(list.get(i));
-                int userSq = docNumber + 1;
+//                int docNumber = 0;          // 전체 지출결의서 CNT
+//                docNumber = payAppRepository.getCountDoc(list.get(i));
+//                int userSq = docNumber + 1;
 
                 int exnpDocNumber = 0;      // 같은 지출결의서 CNT
                 exnpDocNumber = payAppRepository.getExnpCountDoc(data);
@@ -698,9 +707,12 @@ public class PayAppServiceImpl implements PayAppService {
                     if (duplCheck == 0) {
                         break;
                     }
-                    userSq++;
+
+                    exnpDocNumber++;
                     data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
                 }
+
+//                userSq++;
 
                 data.put("USER_SQ", userSq);
 

@@ -105,7 +105,7 @@ var engnInit = {
         }
 
         /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn: devSn});
+        const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn: devSn});
         const processList = processResult.list;
         const htmlPs = engnInit.htmlPs(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
@@ -231,7 +231,7 @@ var engnInit = {
         }
 
         /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn : devMap.DEV_SN});
+        const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn : devMap.DEV_SN});
         const processList = processResult.list;
         const htmlPs = engnInit.htmlPs(processList, map);
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
@@ -345,8 +345,8 @@ var engnInit = {
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.PS_PREP_NM +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.PS_NM +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.PS_STR_DE +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.PS_EMP_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.PS_STR_DE+" ~ "+map.PS_END_DE +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ map.GROUP_PS_EMP_NM +'</p></td>';
             html += '               </tr>';
         }
         if(map.TM_YN == "Y"){

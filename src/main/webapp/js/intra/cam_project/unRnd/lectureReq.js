@@ -421,8 +421,11 @@ const lectureReq = {
                 /*window.close();*/
             } else {
                 alert("단위사업이 등록되었습니다.");
+                let src = "/projectUnRnd/lectureReqPop.do?pjtSn="+$("#pjtSn").val();
+                src += "&type=lec";
+                src += "&pk="+result.lecSn;
+                window.location = src;
                 opener.unRndLectList.mainGrid();
-                window.close();
             }
         }else if(typeValue == "con"){
             const data = {
@@ -514,8 +517,11 @@ const lectureReq = {
                 window.close();
             } else {
                 alert("단위사업이 등록되었습니다.");
+                let src = "/projectUnRnd/lectureReqPop.do?pjtSn="+$("#pjtSn").val();
+                src += "&type=con";
+                src += "&pk="+result.conSn;
+                window.location = src;
                 opener.unRndLectList.mainGrid();
-                window.close();
             }
         }
     },
@@ -595,11 +601,6 @@ const lectureReq = {
             }
         }
     }
-
-
-
-
-
 }
 
 function fileDown(filePath, fileName){

@@ -211,6 +211,8 @@ public class UserManageServiceImpl implements UserManageService {
         }
 
         userManageRepository.setUserReqDetailInsert(params);
+
+        if(params.containsKey("empSeq")){}
     }
 
     @Override

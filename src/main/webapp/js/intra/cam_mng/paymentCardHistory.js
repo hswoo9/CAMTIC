@@ -46,6 +46,9 @@ var payCardHist = {
                 && opener.parent.$("#tripDayFr").val() != null && opener.parent.$("#tripDayTo").val() != null){
                 $("#startDt").val(opener.parent.$("#tripDayFr").val());
                 $("#endDt").val(opener.parent.$("#tripDayTo").val());
+
+                $("#startDt").data("kendoDatePicker").enable(false);
+                $("#endDt").data("kendoDatePicker").enable(false);
             }
         } else if(reqType == "snack"){
             if(opener.parent.$("#useDt").val() != "" && opener.parent.$("#useDt").val() != null){
@@ -358,7 +361,7 @@ var payCardHist = {
         const reqType = $("#reqType").val();
         if(reqType == "snack"){
             payDetView.fn_selCardInfo(trCd,trNm,cardBaNb,jiroNm,clttrCd,baNb,depositor);
-        }else{
+        } else {
             $("#searchValue").val(cardBaNb);
             payCardHist.gridReload();
         }
@@ -403,6 +406,7 @@ var payCardHist = {
         opener.parent.$("#authDd" + index).val(data.AUTH_DD);
         opener.parent.$("#authHh" + index).val(data.AUTH_HH);
 
+
         if(opener.parent.regPay){
             opener.parent.regPay.fn_changeAllCost();
 
@@ -432,6 +436,30 @@ var payCardHist = {
         console.log(list);
         if($("#reqType").val() == "snack"){
             opener.parent.fn_setCardInfo(list);
+        } else if ($("#reqType").val() == "bustrip" && $("#corpType").val() == "eat"){
+            if(opener.parent.bustripExnpReq){
+                opener.parent.bustripExnpReq.fn_eatCostCheck();
+                var ingAmt = opener.parent.bustripExnpReq.global.ingEatCost;
+                var maxAmt = opener.parent.bustripExnpReq.global.maxEatCost;
+
+                var authAmt = 0;
+
+                for(var i = 0; i < list.length; i++){
+                    authAmt += list[i].AUTH_AMT
+                }
+
+                if(Number(authAmt) > (maxAmt - ingAmt)){
+                    alert("식비 한도금액이 초과되었습니다.");
+
+                    return;
+                } else if (Number(authAmt) > 30000){
+                    alert("1일당 한도를 초과하였습니다.");
+
+                    return;
+                } else {
+                    opener.parent.cardHistSet(list, $("#exnpType").val(), $("#corpType").val());
+                }
+            }
         } else {
             if($("#requestType").val() == 3){
                 opener.parent.fn_setCardInfo(list);

@@ -52,6 +52,8 @@ public interface PurcService {
 
     void setOrderInfo(Map<String, Object> params);
 
+    void setOrderYnInfo(Map<String, Object> params);
+
     List<Map<String, Object>> getProjectPurcList(Map<String, Object> params);
 
     List<Map<String, Object>> getProjectPurcReqList(Map<String, Object> params);
@@ -97,4 +99,6 @@ public interface PurcService {
     Map<String, Object> getClaimExnpGwCardList(Map<String, Object> map);
 
     Map<String, Object> getClaimExnpGwEtaxList(Map<String, Object> map);
+
+    List<Map<String, Object>> getPurcReqClaimList(Map<String, Object> params);
 }

@@ -375,9 +375,13 @@ var hwpApprovalLine = {
 
                 /** 협조 사인 */
                 }else{
+                    let dApprInfo = getUser(map.APPROVE_EMP_SEQ);
 
-                    let empName = map.APPROVE_EMP_NAME;
-                    let deptName = map.APPROVE_DEPT_NAME;
+                    let empName = dApprInfo.EMP_NAME_KR;
+                    let deptName = dApprInfo.DEPT_NAME;
+                    if(dApprInfo.DEPT_LEVEL != null && dApprInfo.DEPT_LEVEL == "2"){
+                        deptName = dApprInfo.teamNm;
+                    }
 
                     /** 부재설정이 되어있으면 대결자의 정자가 들어감 */
                     if(map.PROXY_APPROVE_EMP_SEQ != null){

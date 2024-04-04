@@ -70,7 +70,7 @@
             B.admin_approval = 'Y'
         AND
             B.ACTIVE = 'Y'
-        ORDER BY B.EDUCATIONAL_ID DESC;
+        ORDER BY DEGREE_CODE ASC;
     </select>
     <select id="getMilitarySvcInfo" parameterType="map" resultType="map">
         /* getMilitarySvcInfo */
@@ -99,7 +99,7 @@
             A.admin_approval = 'Y'
         AND
             A.ACTIVE = 'Y'
-        ORDER BY A.CAREER_ID DESC;
+        ORDER BY A.JOIN_DAY DESC;
     </select>
 
     <select id="getFamilyInfoList" parameterType="map" resultType="map">
@@ -121,7 +121,7 @@
             A.ADMIN_APPROVAL = 'Y'
         AND
             A.ACTIVE = 'Y'
-        ORDER BY A.FAMILY_ID DESC;
+        ORDER BY A.FAMILY_BIRTH ASC;
     </select>
 
     <select id="getLicenceInfoList" parameterType="map" resultType="map">   
@@ -139,7 +139,7 @@
             b.admin_approval = 'Y'
         AND
             b.ACTIVE = 'Y'
-        ORDER BY b.CERTIFICATE_ID DESC;
+        ORDER BY b.ACQUISITION_DAY DESC;
     </select>
 
     <select id="getAppointInfoList" parameterType="map" resultType="map">
@@ -197,7 +197,7 @@
             ADMIN_APPROVAL = 'Y'
         AND
             ACTIVE = 'Y'
-        ORDER BY REWORD_ID DESC;
+        ORDER BY REWORD_DAY DESC;
     </select>
     <select id="getDutyInfoList" parameterType="map" resultType="map">
         /*getDutyInfoList*/
@@ -215,7 +215,7 @@
             b.admin_approval = 'Y'
         AND
             b.ACTIVE = 'Y'
-        ORDER BY b.DUTY_ID DESC;
+        ORDER BY b.WORK_JOIN_DAY DESC;
     </select>
     <select id="getProposalInfoList" parameterType="map" resultType="map">
         /*getProposalInfoList*/
@@ -2029,8 +2029,8 @@
         OCCUPATION_CODE = #{OCCUPATION_CODE},
         </if>
         LUNAR_CAL = #{LUNAR_CAL},
---         CTR_ST_DAY = NULL,
---         CTR_EN_DAY = NULL,
+        CTR_ST_DAY = #{CTR_ST_DAY},
+        CTR_EN_DAY = #{CTR_EN_DAY},
         WEEK_WORK_TIME = #{WEEK_WORK_TIME},
         NICK_NAME = #{NICK_NAME},
         CONTRACT = #{CONTRACT},
