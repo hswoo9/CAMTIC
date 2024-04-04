@@ -170,7 +170,8 @@ var docuList = {
                     title: "삭제",
                     width: "5%",
                     template: function(row){
-                        return "<button type=\"button\" class=\"k-grid-button k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"docuList.tmpDel('" + row.DOCUMENT_SN + "', '" + row.DEL_STS + "','" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">삭제</button>";
+                        return "";
+                        // return "<button type=\"button\" class=\"k-grid-button k-button k-button-md k-button-solid k-button-solid-base\" onclick=\"docuList.tmpDel('" + row.DOCUMENT_SN + "', '" + row.DEL_STS + "','" + row.DOCUMENT_FIRST_NUMBER + "', '" + row.DOCUMENT_SECOND_NUMBER + "')\">삭제</button>";
                     }
                 }]
         }).data("kendoGrid");
@@ -188,10 +189,13 @@ var docuList = {
     },
 
     documentPopup: function(){
-        var url = "/Inside/pop/documentPop.do";
-        var name = "popup test";
-        var option = "width = 750, height = 360, top = 100, left = 200, location = no"
-        var popup = window.open(url, name, option);
+
+        alert("캠스팟 2.0의 문서번호는 전자결재에서 자동으로 생성됩니다.\n(최종결재 완료시)\n현재 등록대장 화면 삭제 예정입니다.");
+
+        // var url = "/Inside/pop/documentPop.do";
+        // var name = "popup test";
+        // var option = "width = 750, height = 360, top = 100, left = 200, location = no"
+        // var popup = window.open(url, name, option);
     },
     gridReload : function(){
         $("#mainGrid").data("kendoGrid").dataSource.read();
