@@ -174,7 +174,7 @@
                                 <table class="searchTable table" style="text-align:center;">
                                     <colgroup>
                                         <col width="5%">
-                                        <col width="8%">
+                                        <col width="12%">
                                         <col width="20%">
                                         <col width="11%">
                                         <col width="6%">
@@ -1086,6 +1086,14 @@
         dataTextField: "HR_DT_CODE_NM",
         dataValueField: "value",
         dataSource: edCodeDataSource("B01"),
+        /*change: function(e) {
+            var selectedValue = this.value();
+            if(selectedValue === "B0102" || selectedValue === "B0101") {
+                $("#degree1, #gradeFileName, #socreFileName").css("display", "none");
+            } else {
+                $("#degree1, #gradeFileName, #socreFileName").css("display", "");
+            }
+        }*/
 
     });
 
