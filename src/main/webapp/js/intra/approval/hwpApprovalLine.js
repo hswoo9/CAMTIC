@@ -164,7 +164,7 @@ var hwpApprovalLine = {
                     const empSeq = $("#empSeq").val();
                     const empName = $("#empName").val();
                     if(draft.global.params.formId != "1" && $("#mySignCk").val() == "N"){
-                        if(draft.global.params.formId != "96"){
+                        if(draft.global.params.formId != "96" && draft.global.params.formId != "153"){
                             hwpApprovalLine.setSign(field, empSeq, empName);
                         }else{
                             hwpApprovalLine.setTranscript(field, $("#approveEmpSeq").val(), $("#approveEmpName").val());
@@ -224,7 +224,7 @@ var hwpApprovalLine = {
                     teamCk = "Y";
 
                     const signField = "appr0";
-                    if(docView.global.rs.docInfo.FORM_ID != "96"){
+                    if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                         hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                     }else{
                         hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
@@ -248,7 +248,7 @@ var hwpApprovalLine = {
 
                 const signField = "appr2";
 
-                if(docView.global.rs.docInfo.FORM_ID != "96"){
+                if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                     hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                 }else{
                     hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
@@ -263,7 +263,7 @@ var hwpApprovalLine = {
                 const signField = "appr2";
 
 
-                if(docView.global.rs.docInfo.FORM_ID != "96"){
+                if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                     hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                 }else{
                     hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
@@ -281,7 +281,7 @@ var hwpApprovalLine = {
 
                     const signField = "appr0";
 
-                    if(docView.global.rs.docInfo.FORM_ID != "96"){
+                    if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                         hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                     }else{
                         hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
@@ -305,7 +305,7 @@ var hwpApprovalLine = {
                     }
 
                     const signField = "appr1";
-                    if(docView.global.rs.docInfo.FORM_ID != "96"){
+                    if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                         hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                     }else{
                         hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
@@ -328,7 +328,7 @@ var hwpApprovalLine = {
                 }
 
                 const signField = "appr2";
-                if(docView.global.rs.docInfo.FORM_ID != "96"){
+                if(docView.global.rs.docInfo.FORM_ID != "96" && docView.global.rs.docInfo.FORM_ID != "153"){
                     hwpApprovalLine.setSign(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                 }else{
                     hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
