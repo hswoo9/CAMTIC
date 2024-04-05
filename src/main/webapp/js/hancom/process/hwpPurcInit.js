@@ -144,9 +144,17 @@ var purcInit = {
             }
 
             if(!absFlag){
-                supAmt = "-" + supAmt;
-                vatAmt = "-" + vatAmt;
-                itemAmt = "-" + itemAmt;
+                if(supAmt != 0){
+                    supAmt = "-" + supAmt;
+                }
+
+                if(vatAmt != 0){
+                    vatAmt = "-" + vatAmt;
+                }
+
+                if(itemAmt != 0){
+                    itemAmt = "-" + itemAmt;
+                }
             }
 
             html += '   <tr>';
@@ -254,6 +262,9 @@ var purcInit = {
         const list = purcInit.global.claimItemList;
         const totMap = purcInit.global.claimAmtTotal;
 
+
+
+
         var dcPay = 0;
         var html = '';
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
@@ -275,9 +286,15 @@ var purcInit = {
         for(let i=0; i<list.length; i++){
             const map = list[i];
 
+            var absFlag = true;
+
+            if(map.ITEM_AMT_COMMA < 0){
+                absFlag = false;
+            }
+
             let amt = uncomma(map.ITEM_AMT_COMMA); console.log(amt)
-            let sum2 = Math.floor(amt/10);
-            let sum3 = Math.ceil(amt / 1.1);
+            let sum2 = Math.round(amt/10);
+            let sum3 = Math.round(amt / 1.1);
             let sum4 = amt - sum3;
 
             let supAmt = 0;
@@ -296,6 +313,20 @@ var purcInit = {
                 supAmt = comma(amt);
                 vatAmt = "0";
                 itemAmt = comma(amt);
+            }
+
+            if(absFlag == false){
+                if(supAmt != 0){
+                    supAmt = "-" + supAmt;
+                }
+
+                if(vatAmt != 0){
+                    vatAmt = "-" + vatAmt;
+                }
+
+                if(itemAmt != 0){
+                    itemAmt = "-" + itemAmt;
+                }
             }
 
             html += '   <tr>';
@@ -348,14 +379,22 @@ var purcInit = {
         html += '       <td colspan="6" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>합       계</b></p></td>';
         html += '       <td colspan="3" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(purcInit.global.claimInfo.TOT_AMT)+'</b></p></td>';
         html += '   </tr>';
-
+        var priPay = ""
+        if(claimInfo.PRI_PAY == 'N'){
+            priPay = "해당"
+        } else {
+            priPay = "미해당"
+        }
         html += '   <tr>';
-        html += '       <td colspan="9" style="height:50px;background-color:#FFFFFF; text-align:left;">';
-        html += '       <div style="margin-top: 20px"></div>';
-        html += '       <p>&nbsp;&nbsp;&nbsp;&nbsp;    구 매 목 적 : '+claimInfo.PURC_REQ_PURPOSE+'</p>';
-        html += '       <p>&nbsp;&nbsp;&nbsp;&nbsp;    구 매 업 체 : '+claimInfo.CRM_NM+'</p>';
-        html += '       <p>&nbsp;&nbsp;&nbsp;&nbsp;    프 로 젝 트 : '+claimInfo.PJT_NM+'</p>';
-        html += '       <p>&nbsp;&nbsp;&nbsp;&nbsp;     비     고 : '+(claimInfo.ETC == null ? '' : claimInfo.ETC)+'</p>';
+        html += '       <td colspan="9" style="background-color:#FFFFFF; text-align:left;">';
+        html += '       <div style="margin-top: 20px;">';
+        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    구 입 목 적 : '+claimInfo.PURC_REQ_PURPOSE+'<br>';
+        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    거 래 업 체 : '+claimInfo.CRM_NM+'<br>';
+        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    관 련 사 업 : '+claimInfo.PJT_NM+'<br>';
+        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    선 지 급 여 부 : '+priPay+'<br>';
+        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    계 약 진 행 여 부 : 미해당<br>';
+        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    비     고  : '+(claimInfo.ETC == null ? '' : claimInfo.ETC)+'<br>';
+        html += '       </div>';
         html += '       <div style="margin-bottom: 5px"></div>';
         html += '   </tr>';
 
@@ -364,6 +403,7 @@ var purcInit = {
         html += '   </tr>';
         html += '</table>';
 
+        console.log(html)
         return html.replaceAll("\n", "<br>");
     }
 }

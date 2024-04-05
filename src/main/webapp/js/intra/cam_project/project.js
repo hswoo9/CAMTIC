@@ -265,7 +265,6 @@ var camPrj = {
                     title: "진행단계",
                     width: 80,
                     template: function(e){
-                        console.log(e.BUSN_CLASS);
 
                         var pjtStepNm = "";
                         if(e.BUSN_CLASS == "D"){
@@ -340,7 +339,6 @@ var camPrj = {
     },
 
     detailInit : function(e) {
-        console.log(e);
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -452,17 +450,56 @@ var camPrj = {
 
     // project 상세페이지
     fn_projectPopView : function (key, cs){
-        var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
+        var uid = $("#myEmpSeq").val()
+        var rs = customKendo.fn_customAjax("/project/getProjectData", { pjtSn: key });
+        var mem = customKendo.fn_customAjax("/project/projectEnterMemberList", { pjtSn: key });
+        console.log(rs);
+        console.log(mem);
 
-        if(cs == "R"){
-            url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
-        } else if (cs == "S"){
-            url = "/projectUnRnd/pop/regProject.do?pjtSn=" + key;
+        var prml = mem.list.partRateMemberList;
+        var pml = mem.list.psMemberList;
+        var aml = mem.list.aceMemberList;
+        var flag = false;
+
+        if(rs.data.PM_EMP_SEQ == uid || rs.data.REG_EMP_SEQ == uid || rs.data.EMP_SEQ == uid){
+            flag = true;
         }
-        var name = "blank";
-        var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
 
-        var popup = window.open(url, name, option);
+        for(var i = 0; i < prml.length; i++){
+            if(prml[i].PART_EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
+        for(var i = 0 ; i < pml.length ; i++){
+            if(pml[i].PS_EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
+        for(var i = 0 ; i < aml.length ; i++){
+            if(aml[i].EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
+        if(flag){
+            var url = "/project/pop/viewRegProject.do?pjtSn=" + key;
+
+            if(cs == "R"){
+                url = "/projectRnd/pop/regProject.do?pjtSn=" + key;
+            } else if (cs == "S"){
+                url = "/projectUnRnd/pop/regProject.do?pjtSn=" + key;
+            }
+            var name = "blank";
+            var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
+
+            var popup = window.open(url, name, option);
+        } else {
+            alert("참여중인 프로젝트가 아닙니다.");
+            return;
+        }
+
     },
 
     projectDoc: function(key) {

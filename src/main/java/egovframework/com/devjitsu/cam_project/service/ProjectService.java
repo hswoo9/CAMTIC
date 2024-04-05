@@ -222,4 +222,6 @@ public interface ProjectService {
     void modProcessData(Map<String, Object> params);
 
     void updInvestData(Map<String, Object> params);
+
+    Map<String, Object> projectEnterMemberList(Map<String, Object> params);
 }

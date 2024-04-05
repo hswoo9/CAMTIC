@@ -1676,6 +1676,26 @@ public class ProjectServiceImpl implements ProjectService {
     public void updInvestData(Map<String, Object> params) {
         projectRepository.updInvestData(params);
     }
+
+    @Override
+    public Map<String, Object> projectEnterMemberList(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+
+        // 참여인력 정보
+        List<Map<String, Object>> partRateMemberList = projectRepository.getPartRateMemberList(params);
+
+        // 수행계획 공정 참여 인원
+        List<Map<String, Object>> psMemberList = projectRepository.getPsMemberList(params);
+
+        // 경영지원실 사람들
+        List<Map<String, Object>> aceMemberList = projectRepository.getAceMemberList(params);
+
+        result.put("partRateMemberList", partRateMemberList);
+        result.put("psMemberList", psMemberList);
+        result.put("aceMemberList", aceMemberList);
+
+        return result;
+    }
 }
 
 

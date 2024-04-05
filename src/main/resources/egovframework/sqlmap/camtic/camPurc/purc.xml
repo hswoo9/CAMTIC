@@ -1180,6 +1180,7 @@
         WHERE
             A.PJT_SN = #{pjtSn}
         AND A.DOC_STATUS = '100'
+        ORDER BY A.REG_DATE DESC
     </select>
 
     <update id="updPurcItemStatusChange" parameterType="map">
@@ -1740,7 +1741,7 @@
 
     <select id="getPurcReqClaimList" parameterType="map" resultType="map">
         /*getPurcReqClaimList*/
-        SELECT
+        SELECT * FROM (SELECT
             DI.DOC_NO,
             B.PURC_REQ_DATE,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_REQ_EMP_SEQ) AS EMP_NAME_KR,
@@ -1761,7 +1762,9 @@
             A.ORDER_DT,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = PA.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS,
-            PA.DOC_STATUS AS PAY_DOC_STATUS
+            PA.DOC_STATUS AS PAY_DOC_STATUS,
+            B.REG_DATE,
+            A.CRM_NM
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
         LEFT JOIN
@@ -1799,7 +1802,9 @@
             null,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = PA.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS,
-            PA.DOC_STATUS AS PAY_DOC_STATUS
+            PA.DOC_STATUS AS PAY_DOC_STATUS,
+            B.REG_DATE,
+            ''
         FROM
             CAM_MNG.DJ_MNG_PURC B
         LEFT JOIN
@@ -1812,7 +1817,8 @@
         WHERE
             B.PJT_SN =  #{pjtSn}
         AND
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_PURC_CLAIM WHERE PURC_SN = B.PURC_SN) = 0
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PURC_CLAIM WHERE PURC_SN = B.PURC_SN) = 0) RE
+        ORDER BY RE.REG_DATE DESC
     </select>
 
     <select id="getPurcReqClaimEmpList" parameterType="map" resultType="map">
@@ -1841,20 +1847,23 @@
             A.ORDER_DT,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = PA.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS,
-            PA.DOC_STATUS AS PAY_DOC_STATUS
+            PA.DOC_STATUS AS PAY_DOC_STATUS,
+            B.REG_DATE,
+            A.CRM_NM,
+            A.PJT_NM
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
-            LEFT JOIN
+        LEFT JOIN
             CAM_MNG.DJ_MNG_PURC B
         ON
             A.PURC_SN = B.PURC_SN
-            LEFT JOIN
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI
-            ON
+        ON
             B.DOC_ID = DI.DOC_ID
-            LEFT JOIN
+        LEFT JOIN
             CAM_MNG.DJ_PAY_APP PA
-            ON PA.LINK_KEY = B.PURC_SN
+        ON PA.LINK_KEY = B.PURC_SN
         UNION ALL
         SELECT
             DI.DOC_NO,
@@ -1879,16 +1888,19 @@
             null,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = PA.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
             (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = PA.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "") AS EXNP_DOC_STATUS,
-            PA.DOC_STATUS AS PAY_DOC_STATUS
+            PA.DOC_STATUS AS PAY_DOC_STATUS,
+            B.REG_DATE,
+            '',
+            ''
         FROM
             CAM_MNG.DJ_MNG_PURC B
-            LEFT JOIN
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI
         ON
             B.DOC_ID = DI.DOC_ID
-            LEFT JOIN
+        LEFT JOIN
             CAM_MNG.DJ_PAY_APP PA
-            ON PA.LINK_KEY = B.PURC_SN
+        ON PA.LINK_KEY = B.PURC_SN
         WHERE
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PURC_CLAIM WHERE PURC_SN = B.PURC_SN) = 0 ) RE
         WHERE
@@ -1930,5 +1942,6 @@
                     AND RE.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
                 </when>
             </choose>
+        ORDER BY RE.REG_DATE DESC
     </select>
 </mapper>

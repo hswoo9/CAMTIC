@@ -267,7 +267,7 @@ var prm = {
                 }, {
                     title: "문서번호",
                     field: "DOC_NO",
-                    width: 180,
+                    width: 120,
                 }, {
                     field: "PURC_REQ_DATE",
                     title: "요청일",
@@ -276,6 +276,10 @@ var prm = {
                     title: "요청자",
                     field: "EMP_NAME_KR",
                     width: 80
+                }, {
+                    title: "프로젝트",
+                    field: "PJT_NM",
+                    width: 120
                 }, {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",
@@ -307,7 +311,11 @@ var prm = {
                             status = '<button type="button" class="k-button k-button-solid-info" onclick="approveDocView(' + e.CLAIM_DOC_ID + ', \''+e.APPRO_KEY+'\', \'claim\')">구매청구서</button>';
                         } else {
                             if(e.PAYMENT_METHOD == "C"){
-                                status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                if(e.CLAIM_SN != ""){
+                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
+                                } else {
+                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                }
                             } else {
                                 status = '';
                             }
@@ -342,6 +350,10 @@ var prm = {
                         return status
                     }
                 }, {
+                    title: "업체",
+                    width: 150,
+                    field : "CRM_NM"
+                }, {
                     title: "금액",
                     width: 100,
                     template: function(e){
@@ -350,7 +362,7 @@ var prm = {
                     }
                 }, {
                     title: "처리",
-                    width: 100,
+                    width: 70,
                     template: function(e){
                         if(e.DOC_STATUS == "0"){
                             return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-error' onclick='prm.fn_pjtPurcDel(" + e.PURC_SN + ")'>삭제</button>";
@@ -360,7 +372,7 @@ var prm = {
                     }
                 }, {
                     title: "결재상태",
-                    width: 80,
+                    width: 70,
                     template : function(e){
                         if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
                             return '작성중';
@@ -561,6 +573,35 @@ var prm = {
         var option = "width = 1820, height = 820, top = 100, left = 600, location = no"
         var popup = window.open(url, name, option);
     },
+
+    fn_reqRegClaimPopup : function(key, stat){
+        var url = "/purc/pop/regPurcReqPop.do";
+        if(key != null && key != ""){
+            url = "/purc/pop/regPurcReqPop.do?purcSn=" + key + "&stat=" + stat;
+        }
+        url += "&vType=M&auto=Y";
+        var name = "_blank";
+        var option = "width = 1820, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+    fn_reqClaiming : function(key, subKey){
+        var url = "/purc/pop/reqClaiming.do";
+
+        if(key != null && key != ""){
+            url = "/purc/pop/reqClaiming.do?claimSn=" + key;
+
+            if(subKey != null && subKey != "" && subKey != "undefined"){
+                url += "&purcSn=" + subKey;
+            }
+        }
+
+        var name = "blank";
+        var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    },
+
+
 
 
 

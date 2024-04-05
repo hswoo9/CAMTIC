@@ -172,6 +172,10 @@ var purcInfo = {
                         return "<div style='text-align: right'>"+comma(leftSum)+"</div>";
                     }
                 }, {
+                    title: "업체명",
+                    field: "CRM_NM",
+                    width: 70
+                }, {
                     title: "검수",
                     field: "STATUS",
                     width: 70,
@@ -435,8 +439,8 @@ var purcInfo = {
                     }
                 }, {
                     field: "CRM_NM",
-                    title: "업체명",
-                    width: 100
+                    title: "업체",
+                    width: 120
                 }, {
                     field: "DOC_NO",
                     title: "문서번호",

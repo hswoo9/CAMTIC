@@ -52,7 +52,7 @@ public class ProjectController {
     @RequestMapping("/project/viewProject.do")
     private String viewProject(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         session.setAttribute("menuNm", request.getRequestURI());
 
         model.addAttribute("loginVO", loginVO);
@@ -1686,6 +1686,12 @@ public class ProjectController {
     @RequestMapping("/projectHist/getHistEduList")
     public String getHistEduList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", projectService.getHistEduList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/project/projectEnterMemberList")
+    public String projectEnterMemberList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", projectService.projectEnterMemberList(params));
         return "jsonView";
     }
 }
