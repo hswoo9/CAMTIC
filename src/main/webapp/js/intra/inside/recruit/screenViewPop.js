@@ -204,10 +204,10 @@ var screenViewPop = {
                             '<span class="evalRadio" name="evalItemVal_doc3_' + e[jdx].APPLICATION_ID + '_' + cnt[0].EVAL_LOGIN_ID + '" id="itemScore_doc3_3_' + e[jdx].APPLICATION_ID + '" score="20"></span>' +
                             '</td>' +
                             '<td>' +
-                            '<span id="sum_' + e[jdx].APPLICATION_ID + '_' + cnt[0].EVAL_LOGIN_ID + '" name="sum"></span>점 ' +
+                            '<span id="sum_' + e[jdx].APPLICATION_ID + '_' + cnt[x].EVAL_LOGIN_ID + '" name="sum"></span>점 ' +
                             '</td>' +
                             '<td>' +
-                            '<span id="otherRmk_' + e[jdx].APPLICATION_ID + '_' + cnt[0].EVAL_LOGIN_ID + '" name="otherRmk"></span>' +
+                            '<span id="otherRmk_' + e[jdx].APPLICATION_ID + '_' + cnt[x].EVAL_LOGIN_ID + '" name="otherRmk"></span>' +
                             '</td>' +
                             '</tr>';
 

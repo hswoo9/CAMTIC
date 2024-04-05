@@ -160,10 +160,10 @@ var prp = {
 
         /** 견적가 500*/
         /** 미포함 500 50 550*/
-        const sum2 = Math.floor(sum/10);
+        const sum2 = Math.round(sum/10);
 
         /** 포함 455 45 500*/
-        const sum3 = Math.ceil(sum / 1.1);
+        const sum3 = Math.round(sum / 1.1);
         const sum4 = sum - sum3;
 
         if($("#vat").data("kendoRadioGroup").value() == "N"){
@@ -192,10 +192,10 @@ var prp = {
 
         /** 견적가 500*/
         /** 미포함 500 50 550*/
-        const sum2 = Math.floor(sum/10);
+        const sum2 = Math.round(sum/10);
 
         /** 포함 455 45 500*/
-        const sum3 = Math.ceil(sum / 1.1);
+        const sum3 = Math.round(sum / 1.1);
         const sum4 = sum - sum3;
 
         // if($("#vat").data("kendoRadioGroup").value() == "N"){
@@ -220,10 +220,10 @@ var prp = {
 
             /** 견적가 500*/
             /** 미포함 500 50 550*/
-            const sum2 = Math.floor(amount/10);
+            const sum2 = Math.round(amount/10);
 
             /** 포함 455 45 500*/
-            const sum3 = Math.ceil(amount / 1.1);
+            const sum3 = Math.round(amount / 1.1);
             const sum4 = amount - sum3;
 
             if($("#vat").data("kendoRadioGroup").value() == "N"){
