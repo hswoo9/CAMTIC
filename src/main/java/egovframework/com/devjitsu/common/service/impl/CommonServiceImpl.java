@@ -78,16 +78,23 @@ public class CommonServiceImpl implements CommonService {
         response.setHeader("Content-Transfer-Encoding", "binary");
 
         out = response.getOutputStream();
-        String fileUrl = path;
-
+        String[] enCoderFileName = path.split("/");
+        String newFilePath = "";
+        for(int i = 0; i < enCoderFileName.length; i++){
+            if(enCoderFileName.length - 1 == i){
+                newFilePath += "/" + URLEncoder.encode(enCoderFileName[enCoderFileName.length-1], "UTF-8");
+            }else {
+                newFilePath += "/" + enCoderFileName[i];
+            }
+        }
 
         try {
-            URL url = new URL(fileUrl);
+            URL url = new URL(newFilePath.substring(1));
             // 만약 프로토콜이 https 라면 https SSL을 무시하는 로직을 수행해주어야 한다.('https 인증서 무시' 라는 키워드로 구글에 검색하면 많이 나옵니다.)
             disableSslVerification();
             in = url.openStream();
         }catch (FileNotFoundException e){
-            URL url = new URL(fileUrl.replace("http://218.158.231.184", "http://218.158.231.189"));
+            URL url = new URL(newFilePath.substring(1).replace("http://218.158.231.184", "http://218.158.231.189"));
             disableSslVerification();
             in = url.openStream();
         }
