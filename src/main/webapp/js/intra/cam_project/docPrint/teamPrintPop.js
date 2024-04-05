@@ -208,7 +208,7 @@ const teamPrintPop = {
             if(i == 0){
                 gubunText = "수주부서";
             }else{
-                gubunText = commonProject.getDept(teamList[i].TM_PM_SEQ);
+                gubunText = "협업부서"/*commonProject.getDept(teamList[i].TM_PM_SEQ)*/;
             }
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 93px;"><p style="font-size:13px;"><b>'+gubunText+'</b></p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 93px;"><p style="font-size:13px;"><b>(서명)</b></p></td>';
@@ -224,9 +224,9 @@ const teamPrintPop = {
             teamPrintPop.global.hwpCtrl.SetTextFile(html, "html","insertfile");
         }, 500);
 
-        if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
+        /*if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
             teamPrintPop.htmlTeamG20();
-        }
+        }*/
     },
 
     resize: function() {

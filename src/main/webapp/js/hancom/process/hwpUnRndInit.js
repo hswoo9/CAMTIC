@@ -1,11 +1,24 @@
 var unRndInit = {
 
-    delvInit: function(pjtSn){
+    global: {
+        pjtInfo: new Object(),
+        unRndInfo: new Object()
+    },
+
+    globalDataSet: function(pjtSn, menuCd){
         const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        unRndInit.global.pjtInfo = pjtInfo;
+
         const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: pjtSn});
+        unRndInit.global.unRndInfo = unRndInfo;
+    },
+
+    delvSet: function(){
+        const pjtInfo = unRndInit.global.pjtInfo;
+        const unRndInfo = unRndInit.global.unRndInfo;
+
         const map = pjtInfo.rs;
         const delvMap = unRndInfo.map;
-        const customG20 = customKendo.fn_customAjax("/project/getProjectBudgetListSum.do", {pjtSn: pjtSn});
 
         /** 과제구분(참여형태) */
         var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", {
@@ -41,7 +54,6 @@ var unRndInit = {
             }
         }
 
-        /** 1. 사업정보 */
         let yearText = " ";
         if(map.YEAR_CLASS != null){
             if(map.YEAR_CLASS == "M"){
@@ -98,6 +110,22 @@ var unRndInit = {
         const pmInfo = getUser(map.EMP_SEQ);
         const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
         hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
+    },
+
+    delvInit: function(pjtSn){
+        unRndInit.globalDataSet(pjtSn, "delv");
+
+        const pjtInfo = unRndInit.global.pjtInfo;
+        const unRndInfo = unRndInit.global.unRndInfo;
+
+        const map = pjtInfo.rs;
+        const delvMap = unRndInfo.map;
+
+        const customG20 = customKendo.fn_customAjax("/project/getProjectBudgetListSum.do", {pjtSn: pjtSn});
+
+
+        /** 1. 사업정보 */
+        unRndInfo.delvSet();
 
         /** 2. 사업 목적 및 내용 */
         hwpDocCtrl.putFieldText('OBJ', delvMap.UN_RND_OBJ);
@@ -131,63 +159,58 @@ var unRndInit = {
 
     devInit: function(devSn){
         const pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: devSn}).rs.PJT_SN;
-        const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
-        const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: pjtSn});
+
+        unRndInit.globalDataSet(pjtSn, "dev");
+        const pjtInfo = unRndInit.global.pjtInfo;
+        const unRndInfo = unRndInit.global.unRndInfo;
         const map = pjtInfo.rs;
         const delvMap = unRndInfo.map;
 
         /** 1. 사업정보 */
-        hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
-        hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
-        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
-        /** 사업담당자 */
-        const pmInfo = getUser(map.EMP_SEQ);
-        const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
-        hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
-        hwpDocCtrl.putFieldText('DEPT_NAME', pmInfo.DEPT_NAME);
-        hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
-        hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
-        hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
-        hwpDocCtrl.putFieldText('ADDR', map.ADDR);
-        hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
-        hwpDocCtrl.putFieldText('CRM_MEM_NM', map.TEL_NUM == "" ? map.CRM_CEO : map.TEL_NUM);
-        hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
+        unRndInfo.delvSet();
 
-        /** 2. 과제정보 */
-        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
-        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
-        hwpDocCtrl.putFieldText('PEO_RES_ITEM', delvMap.PEO_RES_ITEM == 0 ? "0" : fn_numberWithCommas(delvMap.PEO_RES_ITEM));
-
+        /** 1-1. 협업사항 */
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
             const team = teamResult.map;
 
-            /** 3. 협업사항 */
             hwpDocCtrl.putFieldText('TM_NAME', team.TEAM_NAME);
             hwpDocCtrl.putFieldText('TM_EMP_NAME', team.EMP_NAME);
             hwpDocCtrl.putFieldText('TM_AMT', fn_numberWithCommas(team.TM_AMT));
             hwpDocCtrl.putFieldText('TM_PER', ((team.TM_AMT/delvMap.TOT_RES_COST) * 100).toString().substring(0,4)+"%");
         }
 
-        /** 4. 수행계획 */
+        /** 2. 사업 예산 **/
+        const customG20Result = customKendo.fn_customAjax("/project/getProjectBudgetList.do", {pjtSn: pjtSn});
+        const customG20List = customG20Result.list;
+
+        const htmlCustomG20 = rndInit.htmlCustomG20(customG20List);
+        hwpDocCtrl.putFieldText("G20_HTML", " ");
+        hwpDocCtrl.moveToField("G20_HTML", true, true, false);
+        hwpDocCtrl.setTextFile(htmlCustomG20, "html","insertfile");
+
+        /** 3. 참여인력 및 일정 */
         const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn: devSn});
         const processList = processResult.list;
         const htmlPs = engnInit.htmlPs(processList, map);
-        hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
-        hwpDocCtrl.setTextFile(htmlPs, "html","insertfile");
 
-        /** 5. 구매예정 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("DEV_HTML", " ");
+            hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
+            hwpDocCtrl.setTextFile(htmlPs, "html","insertfile");
+        }, 1000);
+
+        /** 4. 투자내역 */
         const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devSn});
         const purcList = purcResult.list;
         const htmlData = engnInit.htmlInv(purcList, map);
         setTimeout(function() {
+            hwpDocCtrl.putFieldText("PURC_HTML", " ");
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }, 1000);
+        }, 2000);
 
-        /** 6. 정산내역 */
+        /** 5. 예상재무성과 */
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
@@ -247,13 +270,14 @@ var unRndInit = {
             hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(delvMap.TOT_RES_COST - invSum - teamInvSum));
         }
 
-        /** 7. 특이사항 */
+        /** 6. 특이사항 */
         const getDevelopPlan = customKendo.fn_customAjax("/project/getDevelopPlan", {devSn: devSn});
         const dev = getDevelopPlan.rs;
         setTimeout(function() {
+            hwpDocCtrl.putFieldText("ETC", " ");
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(dev.ETC.replaceAll("\n", "<br>"), "html","insertfile");
-        }, 2000);
+        }, 3000);
     },
 
     resInit: function(pjtSn){

@@ -184,7 +184,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>사업책임자
+                        <span class="red-star">*</span><span id="mngText">사업책임자</span>
                     </th>
                     <td>
                         <input type="text" id="mngDeptName" style="width: 40%" disabled>

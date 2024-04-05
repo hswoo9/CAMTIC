@@ -383,7 +383,7 @@ var camPrj = {
                         }
                     }
                 }, {
-                    title:"수주금액",
+                    title:"협업금액",
                     template: function(e) {
                         return '<div style="text-align: right">'+camPrj.comma(e.TM_AMT)+'</div>';
                     },

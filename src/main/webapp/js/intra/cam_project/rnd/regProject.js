@@ -339,6 +339,19 @@ var regRnd = {
                 }
             }
             $("input[name='securityYn'][value='" + e.SECURITY + "']").prop("checked", true);
+
+            if(e.TEAM_STAT == "Y"){
+                $("#mngText").text("협업담당자");
+                const mainPjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: e.PNT_PJT_SN}).rs;
+
+                $("#mngText").text("협업담당자");
+
+                $("#deptName").val(mainPjtInfo.DEPT_NAME);
+                $("#empName").val(mainPjtInfo.EMP_NAME);
+                $("#empSeq").val(mainPjtInfo.EMP_SEQ);
+                $("#deptSeq").val(mainPjtInfo.DEPT_SEQ);
+                $("#staffSelect").hide();
+            }
         }
     },
 

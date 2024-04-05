@@ -426,9 +426,16 @@ var docView = {
 
         docView.documentHwpDataCtrl();
 
-        setTimeout(() => docView.documentHwpSave(), 1000);
+        setTimeout(function(){
+            hwpDocCtrl.global.HwpCtrl.GetTextFile("HWPML2X", "", function(data) {
+                docView.global.hwpFileTextData = data;
 
-        setTimeout(() => docView.docApproveAjax(), 1500);
+                hwpDocCtrl.global.HwpCtrl.GetTextFile("HTML", "", function(data) {
+                    docView.global.htmlFileTextData = data;
+                    docView.docApproveAjax();
+                })
+            })
+        }, 5000);
     },
 
     docApproveAjax : function(){

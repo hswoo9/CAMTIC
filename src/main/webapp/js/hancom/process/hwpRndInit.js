@@ -1,11 +1,24 @@
 var rndInit = {
 
-    delvInit: function(pjtSn){
+    global: {
+        pjtInfo: new Object(),
+        rndInfo: new Object()
+    },
+
+    globalDataSet: function(pjtSn, menuCd){
         const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        rndInit.global.pjtInfo = pjtInfo;
+
         const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: pjtSn});
+        rndInit.global.rndInfo = rndInfo;
+    },
+
+    delvSet: function(){
+        const pjtInfo = rndInit.global.pjtInfo;
+        const rndInfo = rndInit.global.rndInfo;
+
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
-        const customG20 = customKendo.fn_customAjax("/project/getProjectBudgetListSum.do", {pjtSn: pjtSn});
 
         /** 과제구분(참여형태) */
         var sbjDs = customKendo.fn_customAjax("/common/commonCodeList", {
@@ -29,7 +42,7 @@ var rndInit = {
             }
         }
 
-        /** 전담기관*/
+        /** 전담기관 */
         var smCodeDs = customKendo.fn_customAjax("/project/selSmCode", {
             lgCd: map.SBJ_DEP,
             grpSn: "SUP_DEP"
@@ -40,9 +53,7 @@ var rndInit = {
                 supDepSubTxt = smCodeDs[i].PJT_CD_NM;
             }
         }
-        console.log("smCodeDs", smCodeDs);
 
-        /** 1. 사업정보 */
         let yearText = " ";
         if(map.YEAR_CLASS != null){
             if(map.YEAR_CLASS == "M"){
@@ -100,6 +111,20 @@ var rndInit = {
         const pmInfo = getUser(map.EMP_SEQ);
         const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
         hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
+    },
+
+    delvInit: function(pjtSn){
+        rndInit.globalDataSet(pjtSn, "delv");
+        const pjtInfo = rndInit.global.pjtInfo;
+        const rndInfo = rndInit.global.rndInfo;
+
+        const map = pjtInfo.rs;
+        const delvMap = rndInfo.map;
+
+        const customG20 = customKendo.fn_customAjax("/project/getProjectBudgetListSum.do", {pjtSn: pjtSn});
+
+        /** 1. 사업정보 */
+        rndInit.delvSet();
 
         /** 2. 사업 목적 및 내용 */
         hwpDocCtrl.putFieldText('OBJ', delvMap.RND_OBJ);
@@ -125,81 +150,67 @@ var rndInit = {
             }
         }
         hwpDocCtrl.putFieldText('G20_TOT', fn_numberWithCommas(g20Sum));
-
-        //const htmlG20 = rndInit.htmlCustomG20(customG20, delvMap.TOT_RES_COST);
-        //hwpDocCtrl.moveToField('content', true, true, false);
-        //hwpDocCtrl.setTextFile(htmlG20, "HTML", "insertfile", {});
     },
 
     devInit: function(devSn){
         const pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: devSn}).rs.PJT_SN;
-        const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
-        const rndInfo = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: pjtSn});
+
+        rndInit.globalDataSet(pjtSn, "dev");
+        const pjtInfo = rndInit.global.pjtInfo;
+        const rndInfo = rndInit.global.rndInfo;
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
 
-        console.log("delvMap", delvMap);
-
         /** 1. 사업정보 */
-        hwpDocCtrl.putFieldText('BUSN_CLASS', map.BUSN_NM);
-        hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
-        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
-        /** 사업담당자 */
-        const pmInfo = getUser(map.EMP_SEQ);
-        const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
-        hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
-        hwpDocCtrl.putFieldText('DEPT_NAME', pmInfo.DEPT_NAME);
-        hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
-        hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
-        hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
-        hwpDocCtrl.putFieldText('ADDR', map.ADDR);
-        hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
-        hwpDocCtrl.putFieldText('CRM_MEM_NM', map.TEL_NUM == "" ? map.CRM_CEO : map.TEL_NUM);
-        hwpDocCtrl.putFieldText('CRM_MEM_PHN', map.PH_NUM);
+        rndInit.delvSet();
 
-        /** 2. 과제정보 */
-        hwpDocCtrl.putFieldText('PJT_NM_EX', map.PJT_NM);
-        hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(Number(delvMap.TOT_RES_COST) + Number(delvMap.PEO_RES_ITEM)));
-        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
-        hwpDocCtrl.putFieldText('PEO_RES_ITEM', delvMap.PEO_RES_ITEM == 0 ? "0" : fn_numberWithCommas(delvMap.PEO_RES_ITEM));
-
+        /** 1-1. 협업사항 */
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
             const team = teamResult.map;
 
-            /** 3. 협업사항 */
             hwpDocCtrl.putFieldText('TM_NAME', team.TEAM_NAME);
             hwpDocCtrl.putFieldText('TM_EMP_NAME', team.EMP_NAME);
             hwpDocCtrl.putFieldText('TM_AMT', fn_numberWithCommas(team.TM_AMT));
             hwpDocCtrl.putFieldText('TM_PER', ((team.TM_AMT/delvMap.TOT_RES_COST) * 100).toString().substring(0,4)+"%");
         }
 
-        /** 4. 수행계획 */
+        /** 2. 사업 예산 **/
+        const customG20Result = customKendo.fn_customAjax("/project/getProjectBudgetList.do", {pjtSn: pjtSn});
+        const customG20List = customG20Result.list;
+
+        const htmlCustomG20 = rndInit.htmlCustomG20(customG20List);
+        hwpDocCtrl.putFieldText("G20_HTML", " ");
+        hwpDocCtrl.moveToField("G20_HTML", true, true, false);
+        hwpDocCtrl.setTextFile(htmlCustomG20, "html","insertfile");
+
+        /** 3. 참여인력 및 일정 */
         const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn: devSn});
         const processList = processResult.list;
         const htmlPs = engnInit.htmlPs(processList, map);
+
+        setTimeout(function() {
+        hwpDocCtrl.putFieldText("DEV_HTML", " ");
         hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
         hwpDocCtrl.setTextFile(htmlPs, "html","insertfile");
+        }, 1000);
 
-        /** 5. 구매예정 */
+        /** 4. 투자내역 */
         const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devSn});
         const purcList = purcResult.list;
         const htmlData = engnInit.htmlInv(purcList, map);
         setTimeout(function() {
+            hwpDocCtrl.putFieldText("PURC_HTML", " ");
             hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }, 1000);
+        }, 2000);
 
-        /** 6. 정산내역 */
+        /** 5. 예상재무성과 */
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
             invSum += Number(map.EST_TOT_AMT);
         }
-        console.log("delvMap.TOT_RES_COST",delvMap.TOT_RES_COST);
-        console.log("invSum",invSum);
-        console.log();
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', String(fn_numberWithCommas(invSum)));
         let invPer = (invSum / delvMap.TOT_RES_COST * 100).toFixed(1);
@@ -254,13 +265,14 @@ var rndInit = {
             hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(delvMap.TOT_RES_COST - invSum - teamInvSum));
         }
 
-        /** 7. 특이사항 */
+        /** 6. 특이사항 */
         const getDevelopPlan = customKendo.fn_customAjax("/project/getDevelopPlan", {devSn: devSn});
         const dev = getDevelopPlan.rs;
         setTimeout(function() {
+            hwpDocCtrl.putFieldText("ETC", " ");
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(dev.ETC.replaceAll("\n", "<br>"), "html","insertfile");
-        }, 2000);
+        }, 3000);
     },
 
     resInit: function(pjtSn){
@@ -469,30 +481,38 @@ var rndInit = {
         }, 1000);
     },
 
-    htmlCustomG20: function(g20, amt){
+    htmlCustomG20: function(g20){
         let html = '';
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="3" style="border-collapse: collapse; margin: 0px;">';
         html += '               <tr>';
-        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 200px;"><p style="font-size:12px;"><b>장</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 235px;"><p style="font-size:12px;"><b>예산액</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 200px;"><p style="font-size:12px;"><b>비율</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 70px;"><p style="font-size:12px;"><b>장</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 150px;"><p style="font-size:12px;"><b>관</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 220px;"><p style="font-size:12px;"><b>항</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 110px;"><p style="font-size:12px;"><b>사업비(예산)</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 85px;"><p style="font-size:12px;"><b>비중</b></p></td>';
         html += '               </tr>';
         let sum = 0;
-        for(let i=0; i<g20.list.length; i++){
-            const map = g20.list[i];
+        for(let i=0; i<g20.length; i++){
+            const map = g20[i];
+            sum += Number(map.CB_BUDGET);
+        }
+
+        for(let i=0; i<g20.length; i++){
+            const map = g20[i];
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CB_CODE_NAME_1 +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ fn_numberWithCommas(map.CB_BUDGET) +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Math.round((map.CB_BUDGET / amt * 100)  * 10) / 10 +"%" +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CB_CODE_NAME_2 +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CB_CODE_NAME_3 +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right; padding-right: 5px;"><p style="font-size:12px;">'+ fn_numberWithCommas(map.CB_BUDGET) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ Math.round((map.CB_BUDGET / sum * 100)  * 10) / 10 +"%" +'</p></td>';
             html += '               </tr>';
-            sum += map.CB_BUDGET;
         }
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center;"><p style="font-size:12px;">합계</p></td>';
-        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ fn_numberWithCommas(sum) +'</p></td>';
+        html += '                   <td colspan="3" style="height:30px;background-color:#FFFFFF; text-align:right; padding-right: 5px;"><p style="font-size:12px;">'+ fn_numberWithCommas(sum) +'</p></td>';
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
         html += '               </tr>';
         html += '           </table>';
