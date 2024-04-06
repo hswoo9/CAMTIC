@@ -1,5 +1,22 @@
 var engnInit = {
 
+    global: {
+        pjtInfo: new Object(),
+        pjtInfo2: new Object(),
+        estInfo: new Object()
+    },
+
+    globalDataSet: function(pjtSn, menuCd){
+        const pjtInfo = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
+        engnInit.global.pjtInfo = pjtInfo;
+
+        const pjtInfo2 = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+        engnInit.global.pjtInfo2 = pjtInfo2;
+
+        const estInfo = customKendo.fn_customAjax("/project/getStep1Data", {pjtSn: pjtSn});
+        engnInit.global.estInfo = estInfo;
+    },
+
     crmTempData: function(map){
         if(map.CRM_MEM_TEMP_NM != null){
             hwpDocCtrl.putFieldText('CRM_MEM_NM', map.CRM_MEM_TEMP_NM);
@@ -20,22 +37,17 @@ var engnInit = {
         }
     },
 
-    delvInit: function(pjtSn){
-        const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
-        const delvMap = result.delvMap;
-        const map = result.map;
+    delvSet: function(){
+        const pjtInfo = engnInit.global.pjtInfo;
+        const delvMap = pjtInfo.delvMap;
+        const map = pjtInfo.map;
 
-        /** 마지막 견적 */
-        const ests = customKendo.fn_customAjax("/project/getStep1Data", {pjtSn: pjtSn});
-        var estSubList = ests.result.estSubList;
-
-        /** 1. 사업정보 */
+        const pjtInfo2 = engnInit.global.pjtInfo2
+        const map2 = pjtInfo2.rs;
 
         /** 사업분류 */
         hwpDocCtrl.putFieldText('BUSN_NAME', map.BUSN_NM);
 
-        const pjtInfo2 = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
-        const map2 = pjtInfo2.rs;
         /** 세무정보 */
         let taxText = "";
         if(map2.CODE_VAL == "1"){
@@ -67,20 +79,22 @@ var engnInit = {
         const pmInfo = getUser(map.EMP_SEQ);
         const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
         hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
+    },
 
-        /** 3. 수주금액 */
-        hwpDocCtrl.putFieldText("PJT_AMT", fn_numberWithCommas(delvMap.DELV_AMT));
+    delvInit: function(pjtSn){
+        engnInit.globalDataSet(pjtSn, "delv");
+        const pjtInfo = engnInit.global.pjtInfo;
+        const delvMap = pjtInfo.delvMap;
+        const map = pjtInfo.map;
 
-        const htmlEst = engnInit.htmlEst(estSubList);
-        hwpDocCtrl.putFieldText("EST_TABLE", "");
-        hwpDocCtrl.moveToField("EST_TABLE", true, true, false);
-        hwpDocCtrl.setTextFile(htmlEst, "html","insertfile");
+        /** 1. 사업정보 */
+        engnInit.delvSet();
 
+        /** 2. 협업사항 */
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
             const team = teamResult.map;
 
-            /** 3. 협업사항 */
             hwpDocCtrl.putFieldText('TM_NAME', team.TEAM_NAME);
             hwpDocCtrl.putFieldText('TM_EMP_NAME', team.EMP_NAME);
             hwpDocCtrl.putFieldText('TM_AMT', fn_numberWithCommas(team.TM_AMT));
@@ -89,6 +103,17 @@ var engnInit = {
             hwpDocCtrl.putFieldText('TM_PER', Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%"));
         }
 
+        /** 3. 수주금액 */
+        hwpDocCtrl.putFieldText("PJT_AMT", fn_numberWithCommas(delvMap.DELV_AMT));
+
+        /** 마지막 견적 */
+        const ests = engnInit.global.estInfo;
+        var estSubList = ests.result.estSubList;
+        const htmlEst = engnInit.htmlEst(estSubList);
+        hwpDocCtrl.putFieldText("EST_TABLE", "");
+        hwpDocCtrl.moveToField("EST_TABLE", true, true, false);
+        hwpDocCtrl.setTextFile(htmlEst, "html","insertfile");
+
         /** 4. 특이사항 */
         setTimeout(function() {
             hwpDocCtrl.moveToField("ETC", true, true, false);
@@ -96,69 +121,24 @@ var engnInit = {
         }, 1000);
     },
 
-    htmlEst: function(estSubList){
-        let html = '';
-        html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
-        html += '   <tr>';
-        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
-        html += '           <table border="1" style="border-collapse: collapse; margin: 0px;">';
-        html += '               <tr>';
-        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>품명 및 규격</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>단가</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>수량</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>단위</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>합계(원)</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>비고</b></p></td>';
-        html += '               </tr>';
-        let sum = 0;
-        for(let i=0; i<estSubList.length; i++){
-            const info = estSubList[i];
-            html += '               <tr>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.PROD_NM +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.UNIT_AMT) +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ info.PROD_CNT +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.UNIT +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.SUP_AMT) +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ETC +'</p></td>';
-            html += '               </tr>';
-        }
-        html += '           </table>';
-        html += '       </td>';
-        html += '   </tr>';
-        html += '</table>';
-
-        return html.replaceAll("\n", "<br>");
-    },
-
     devInit: function(devSn){
         const pjtSn = customKendo.fn_customAjax("/project/getPjtSnToDev", {devSn: devSn}).rs.PJT_SN;
-        const result = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: pjtSn});
-        const delvMap = result.delvMap;
-        const map = result.map;
+        engnInit.globalDataSet(pjtSn, "dev");
+        const pjtInfo = engnInit.global.pjtInfo;
+        const delvMap = pjtInfo.delvMap;
+        const map = pjtInfo.map;
+
+        /** 참여인력 및 일정 */
+        const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn: devSn});
+        /** 투자내역 */
+        const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devSn});
+        /** 특이사항 */
+        const getDevelopPlan = customKendo.fn_customAjax("/project/getDevelopPlan", {devSn: devSn});
 
         /** 1. 사업정보 */
-        hwpDocCtrl.putFieldText('BUSN_NAME', map.BUSN_NM);
-        hwpDocCtrl.putFieldText('PJT_CD', map.PJT_TMP_CD);
-        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-        hwpDocCtrl.putFieldText('DEPT_NAME', delvMap.DEPT_NAME);
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_AMT));
-        hwpDocCtrl.putFieldText('PM_EMP_NM', delvMap.PM_EMP_NM);
-        hwpDocCtrl.putFieldText("PJT_DT", delvMap.PJT_STR_DT + " ~ " + delvMap.PJT_END_DT);
-        hwpDocCtrl.putFieldText('DELV_DEPT', delvMap.DELV_DEPT == "0" ? "부서내 진행" : "부서간 협업");
-        hwpDocCtrl.putFieldText("DELV_PAY", delvMap.DELV_PAY);
-        hwpDocCtrl.putFieldText('CRM_NM', map.CRM_NM);
-        hwpDocCtrl.putFieldText('CRM_CEO', map.CRM_CEO);
-        hwpDocCtrl.putFieldText('ADDR', map.ADDR);
-        hwpDocCtrl.putFieldText('PH_NUM', map.PH_NUM);
-        engnInit.crmTempData(map);
+        engnInit.delvSet();
 
-        /** 2. 납품정보 */
-        hwpDocCtrl.putFieldText('DELV_ITEM', delvMap.DELV_ITEM);
-        hwpDocCtrl.putFieldText('DELV_CNT', String(delvMap.DELV_CNT == undefined ? "" : delvMap.DELV_CNT));
-        hwpDocCtrl.putFieldText('DELV_UNIT', delvMap.DELV_UNIT);
-        hwpDocCtrl.putFieldText('DELV_AMT', fn_numberWithCommas(delvMap.DELV_AMT));
-
-        console.log(map)
+        /** 2. 협업사항 */
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: pjtSn});
             const team = teamResult.map;
@@ -172,23 +152,33 @@ var engnInit = {
             hwpDocCtrl.putFieldText('TM_PER', Number.isInteger(per) ? (per + "%") : (per.toFixed(2) + "%"));
         }
 
-        /** 4. 수행계획 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn: devSn});
+        /** 3. 사업예산 */
+        const ests = engnInit.global.estInfo;
+        var estSubList = ests.result.estSubList;
+        const htmlEst = engnInit.htmlEst(estSubList);
+        hwpDocCtrl.putFieldText("EST_TABLE", "");
+        hwpDocCtrl.moveToField("EST_TABLE", true, true, false);
+        hwpDocCtrl.setTextFile(htmlEst, "html","insertfile");
+
+        /** 4. 참여인력 및 일정 */
         const processList = processResult.list;
         const htmlPs = engnInit.htmlPs(processList, map);
-        hwpDocCtrl.moveToField('DEV_HTML', true, true, false);
+        setTimeout(function() {
+        hwpDocCtrl.putFieldText("DEV_HTML", "");
+        hwpDocCtrl.moveToField("DEV_HTML", true, true, false);
         hwpDocCtrl.setTextFile(htmlPs, "html","insertfile");
+        }, 1000);
 
-        /** 5. 구매예정 */
-        const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devSn});
+        /** 5. 투자내역 */
         const purcList = purcResult.list;
         const htmlData = engnInit.htmlInv(purcList, map);
         setTimeout(function() {
-            hwpDocCtrl.moveToField('PURC_HTML', true, true, false);
+            hwpDocCtrl.putFieldText("PURC_HTML", "");
+            hwpDocCtrl.moveToField("PURC_HTML", true, true, false);
             hwpDocCtrl.setTextFile(htmlData, "html","insertfile");
-        }, 1000);
+        }, 2000);
 
-        /** 6. 정산내역 */
+        /** 6. 예상재무성과 */
         let invSum = 0;
         for(let i=0; i<purcList.length; i++){
             const map = purcList[i];
@@ -196,7 +186,7 @@ var engnInit = {
         }
         hwpDocCtrl.putFieldText('AMT1', (map.PJT_AMT) == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
         hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
-        let invPer = Math.round(invSum / map.PJT_AMT * 100);
+        let invPer = (invSum / map.PJT_AMT * 100).toFixed(1);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
         hwpDocCtrl.putFieldText('INV_AMT2', (map.PJT_AMT-invSum) == 0 ? "0" : String(fn_numberWithCommas(map.PJT_AMT-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
@@ -216,18 +206,17 @@ var engnInit = {
 
             /** 수부부서 매출*/
             hwpDocCtrl.putFieldText('AMT1', delvAmt == 0 ? "0" : fn_numberWithCommas(delvAmt));
-            let delvPer = Math.round(delvAmt / map.PJT_AMT * 100);
+            let delvPer = (delvAmt / map.PJT_AMT * 100).toFixed(1);
             hwpDocCtrl.putFieldText('INV_PER', delvPer+"%");
 
             /** 수주부서 비용*/
             hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
-            invPer = Math.round(invSum / delvAmt * 100);
+            invPer = (invSum / delvAmt * 100).toFixed(1);
             hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
 
             /** 수주부서 수익*/
             hwpDocCtrl.putFieldText('INV_AMT2', (delvAmt - invSum) == 0 ? "0" : fn_numberWithCommas(delvAmt - invSum));
             hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
-
 
             /** 협업부서 매출*/
             hwpDocCtrl.putFieldText('TEAM_AMT', fn_numberWithCommas(team.TM_AMT));
@@ -235,7 +224,7 @@ var engnInit = {
 
             /** 협업부서 비용*/
             hwpDocCtrl.putFieldText('TEAM_INV_AMT', teamInvSum == 0 ? "0" : fn_numberWithCommas(teamInvSum));
-            let teamPer = Math.round(teamInvSum / team.TM_AMT * 100);
+            let teamPer = (teamInvSum / team.TM_AMT * 100).toFixed(1);
             hwpDocCtrl.putFieldText('TEAM_PER2', teamPer+"%");
 
             /** 수주부서 수익*/
@@ -249,12 +238,11 @@ var engnInit = {
         }
 
         /** 7. 특이사항 */
-        const getDevelopPlan = customKendo.fn_customAjax("/project/getDevelopPlan", {devSn: devSn});
         const dev = getDevelopPlan.rs;
         setTimeout(function() {
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(dev.ETC.replaceAll("\n", "<br>"), "html","insertfile");
-        }, 2000);
+        }, 3000);
     },
 
     resInit: function(pjtSn){
@@ -330,7 +318,7 @@ var engnInit = {
         hwpDocCtrl.putFieldText('AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
-        let invPer = Math.round(invSum / map.PJT_AMT * 100);
+        let invPer = (invSum / map.PJT_AMT * 100).toFixed(1);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
         hwpDocCtrl.putFieldText('INV_AMT2', (map.PJT_AMT-invSum) == 0 ? "0" : String(fn_numberWithCommas(map.PJT_AMT-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
@@ -354,12 +342,12 @@ var engnInit = {
 
             /** 수부부서 매출*/
             hwpDocCtrl.putFieldText('AMT1', delvAmt == 0 ? "0" : fn_numberWithCommas(delvAmt));
-            let delvPer = Math.round(delvAmt / map.PJT_AMT * 100);
+            let delvPer = (delvAmt / map.PJT_AMT * 100).toFixed(1);
             hwpDocCtrl.putFieldText('INV_PER', delvPer+"%");
 
             /** 수주부서 비용*/
             hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
-            invPer = Math.round(invSum / delvAmt * 100);
+            invPer = (invSum / delvAmt * 100).toFixed(1);
             hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
 
             /** 수주부서 수익*/
@@ -373,7 +361,7 @@ var engnInit = {
 
             /** 협업부서 비용*/
             hwpDocCtrl.putFieldText('TEAM_INV_AMT', teamInvSum == 0 ? "0" : fn_numberWithCommas(teamInvSum));
-            let teamPer = Math.round(teamInvSum / team.TM_AMT * 100);
+            let teamPer = (teamInvSum / team.TM_AMT * 100).toFixed(1);
             hwpDocCtrl.putFieldText('TEAM_PER2', teamPer+"%");
 
             /** 수주부서 수익*/
@@ -394,6 +382,46 @@ var engnInit = {
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(res.RS_ISS.replaceAll("\n", "<br>"), "html","insertfile");
         }, 2000);
+    },
+
+    htmlEst: function(estSubList){
+        let html = '';
+        html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="1" style="border-collapse: collapse; margin: 0px;">';
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>품명 및 규격</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>단가</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>수량</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>단위</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>합계(원)</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#E5E5E5; text-align:center; width: 105px;"><p style="font-size:13px;"><b>비고</b></p></td>';
+        html += '               </tr>';
+        let sum = 0;
+        for(let i=0; i<estSubList.length; i++){
+            const info = estSubList[i];
+            html += '               <tr>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.PROD_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.UNIT_AMT) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ info.PROD_CNT +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.UNIT +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.SUP_AMT) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ETC +'</p></td>';
+            html += '               </tr>';
+            sum += Number(info.SUP_AMT);
+        }
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">합계</p></td>';
+        html += '                   <td colspan="4" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(sum) +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">-</p></td>';
+        html += '               </tr>';
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
     },
 
     htmlPs: function(list, map){

@@ -714,7 +714,7 @@ var hwpDocCtrl = {
             if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert(errorText); return; }
             unRndInit.delvInit(pjtSn);
 
-        }/* else if(data.menuCd == "dev") {
+        } else if(data.menuCd == "dev") {
 
             const devSn = pk;
             if (devSn == null || devSn == undefined || devSn == "") {alert(errorText); return; }
@@ -732,7 +732,7 @@ var hwpDocCtrl = {
             if (devSn == null || devSn == undefined || devSn == "") { alert(errorText); return; }
             unRndInit.devInit(devSn);
 
-        }*/
+        }
 
         /** 재상신이면 사인 초기화 */
         if($("#formId").val() == "1"){

@@ -351,6 +351,7 @@ var regRnd = {
                 $("#empSeq").val(mainPjtInfo.EMP_SEQ);
                 $("#deptSeq").val(mainPjtInfo.DEPT_SEQ);
                 $("#staffSelect").hide();
+                $("#allBusnCost").val(comma(mainPjtInfo.ALL_BUSN_COST));
             }
         }
     },

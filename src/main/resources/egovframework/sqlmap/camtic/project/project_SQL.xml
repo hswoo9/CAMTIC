@@ -74,6 +74,7 @@
                 (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
 
             AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
+            AND A.PJT_STOP != "Y"
         </if>
         <if test= '"2".equals(searchValue)'>
             AND
