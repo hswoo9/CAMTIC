@@ -118,7 +118,7 @@ var rndDP = {
                 html += "   <td>"+ docNo +"</td>";
                 html += "   <td>"+ sdfDate +"</td>";
                 html += "   <td id='invAmt002'>"+comma(invAmt)+"</td>";
-                html += "   <td>"+rs.list[i].EMP_NAME_KR+"</td>";
+                html += "   <td>"+rs.list[i].REG_EMP_NAME+"</td>";
                 html += "   <td></td>";
                 html += "   <td>"+pjtStepNm+"</td>";
                 html += "</tr>";

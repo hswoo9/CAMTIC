@@ -274,6 +274,7 @@ var customBudgetPop = {
                     CB_BUDGET : 0,
                 })
             }else{
+                alert("이미 선택된 비목입니다.");
             }
         });
     },

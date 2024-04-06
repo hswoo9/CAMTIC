@@ -857,7 +857,8 @@
         SELECT
             *,
             C.REG_DT AS INV_DT,
-            CASE WHEN A.TM_SN IS NULL THEN 'N' ELSE 'Y' END AS TM_YN
+            CASE WHEN A.TM_SN IS NULL THEN 'N' ELSE 'Y' END AS TM_YN,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS REG_EMP_NAME
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN
