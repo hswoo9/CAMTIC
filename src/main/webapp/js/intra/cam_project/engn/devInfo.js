@@ -77,7 +77,7 @@ var devInfo = {
             html += "   <td>"+ docNo +"</td>";
             html += "   <td>"+ sdfDate +"</td>";
             html += "   <td id='invAmt002'>"+comma(invAmt)+"</td>";
-            html += "   <td>"+rs.list[i].PM+"</td>";
+            html += "   <td>"+rs.list[i].EMP_NAME_KR+"</td>";
             html += "   <td></td>";
             html += "   <td>"+pjtStepNm+"</td>";
             html += "</tr>";
@@ -665,7 +665,7 @@ var devInfo = {
 
         var data = {
             pjtSn : $("#pjtSn").val(),
-            empSeq : $("#empSeq").val()
+            empSeq : $("#regEmpSeq").val()
         }
         var result = customKendo.fn_customAjax("/project/addDevVersion", data);
 

@@ -606,7 +606,11 @@ public class ProjectRndController {
      * @return
      */
     @RequestMapping("/projectRnd/setDevPjtVer")
-    public String setDevPjtVer(@RequestParam Map<String, Object> params, Model model){
+    public String setDevPjtVer(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO)session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+
         try{
             projectRndService.setDevPjtVer(params);
             model.addAttribute("params", params);
