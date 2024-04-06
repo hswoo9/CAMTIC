@@ -70,7 +70,7 @@
                     <input type="text" id="delvDe" style="width: 90%;">
                 </td>
             </tr>
-            <tr>
+            <tr style="display:none">
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>사업기간
                 </th>
@@ -91,7 +91,7 @@
                     <input type="text" id="delvPay" style="width: 90%;">
                 </td>--%>
             </tr>
-            <tr>
+            <tr style="display:none">
                 <th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>납품수량
                 </th>

@@ -56,8 +56,15 @@ var resultInfo = {
             $("#rsIss").val(result.map.RS_ISS);
             $("#rsSupCont").val(result.map.SUP_CONT);
             $("#rsActEquip").val(equipmentNameList.substring(0, equipmentNameList.length - 1));
-            $("#rsEndDt").val(result.map.RS_END_DT);
-            $("#rsStrDt").val(result.map.RS_STR_DT);
+
+            if(resultMap.pjtInfo.BUSN_CLASS == "S" || resultMap.pjtInfo.BUSN_CLASS == "R"){
+                $("#rsEndDt").val(result.map.RS_END_DT);
+                $("#rsStrDt").val(result.map.RS_STR_DT);
+            } else {
+                $("#rsEndDt").val(resultMap.pjtInfo.GOODS_DT);
+                $("#rsStrDt").val(resultMap.pjtInfo.DELV_EST_DE || result.map.RS_STR_DT);
+            }
+
             $("#rsEtc").val(result.map.RS_ETC);
 
             /** 버튼 세팅 */

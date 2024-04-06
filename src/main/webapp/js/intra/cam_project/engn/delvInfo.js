@@ -125,20 +125,20 @@ var delvInfo = {
 
     fn_save : function(){
 
-        if($("#delvItem").val() == ""){
-            alert("납품품목을 입력해주세요.");
-            return;
-        }
+        // if($("#delvItem").val() == ""){
+        //     alert("납품품목을 입력해주세요.");
+        //     return;
+        // }
 
-        if($("#delvCnt").val() == ""){
-            alert("납품수량을 입력해주세요.");
-            return;
-        }
+        // if($("#delvCnt").val() == ""){
+        //     alert("납품수량을 입력해주세요.");
+        //     return;
+        // }
 
-        if($("#delvUnit").val() == ""){
-            alert("납품단위를 입력해주세요.");
-            return;
-        }
+        // if($("#delvUnit").val() == ""){
+        //     alert("납품단위를 입력해주세요.");
+        //     return;
+        // }
 
         if($("#delvIssu").val() == ""){
             alert("특이사항을 입력해주세요.");

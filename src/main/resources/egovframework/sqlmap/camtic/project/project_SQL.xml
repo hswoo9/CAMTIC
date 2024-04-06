@@ -350,6 +350,7 @@
             A.*,
             D.*,
             CM.*,
+            DE.DELV_EST_DE,
             EI.DEPT_NAME,
             EI.EMP_NAME_KR,
             EI.POSITION_NAME,
