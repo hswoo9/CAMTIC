@@ -70,12 +70,12 @@ var unRndInit = {
         hwpDocCtrl.putFieldText("SUP_DEP", supDepTxt);
         /** 세무정보 */
         let taxText = "";
-        if(map.CODE_VAL == "1"){
-            taxText = "수익사업";
-        }else if(map.CODE_VAL == "2"){
-            taxText = "고유목적사업";
-        }else if(map.CODE_VAL == "3"){
-            taxText = "공통사업";
+        if(map.TAX_GUBUN == "1"){
+            taxText = "과세";
+        }else if(map.TAX_GUBUN == "2"){
+            taxText = "면세";
+        }else if(map.TAX_GUBUN == "3"){
+            taxText = "비과세";
         }
         hwpDocCtrl.putFieldText("TAX_GUBUN", taxText);
         /** 전담기관 */
@@ -104,12 +104,19 @@ var unRndInit = {
 
         /** 사업책임자 */
         const mngInfo = getUser(map.PM_EMP_SEQ);
-        const mngText = map.PM + " " + fn_getSpot(mngInfo.DUTY_NAME, mngInfo.POSITION_NAME);
+        const mngText = mngInfo.deptNm + " " + map.PM + " " + fn_getSpot(mngInfo.DUTY_NAME, mngInfo.POSITION_NAME);
         hwpDocCtrl.putFieldText('MANAGE_NM', mngText);
         /** 사업담당자 */
         const pmInfo = getUser(map.EMP_SEQ);
-        const pmText = map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
+        const pmText = pmInfo.deptNm + " " + map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
         hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
+
+        /** 3. 특이사항 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("map", " ");
+            hwpDocCtrl.moveToField('ETC', true, true, false);
+            hwpDocCtrl.setTextFile(delvMap.UN_RND_ETC.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
     },
 
     delvInit: function(pjtSn){
@@ -175,7 +182,9 @@ var unRndInit = {
             const team = teamResult.map;
 
             hwpDocCtrl.putFieldText('TM_NAME', team.TEAM_NAME);
-            hwpDocCtrl.putFieldText('TM_EMP_NAME', team.EMP_NAME);
+
+            const tmPmInfo = getUser(team.TM_PM_SEQ);
+            hwpDocCtrl.putFieldText('TM_EMP_NAME', tmPmInfo.deptNm + " " + tmPmInfo.EMP_NAME_KR + " " + fn_getSpot(tmPmInfo.DUTY_NAME, tmPmInfo.POSITION_NAME));
             hwpDocCtrl.putFieldText('TM_AMT', fn_numberWithCommas(team.TM_AMT));
             hwpDocCtrl.putFieldText('TM_PER', ((team.TM_AMT/delvMap.TOT_RES_COST) * 100).toString().substring(0,4)+"%");
         }

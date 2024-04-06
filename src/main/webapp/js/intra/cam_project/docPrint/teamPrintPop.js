@@ -52,6 +52,13 @@ const teamPrintPop = {
     },
 
     openCallBack: function(){
+        let ip = "";
+        if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
+            ip = "http://218.158.231.184";
+        }else{
+            ip = "http://218.158.231.184";
+        }
+
         const pjtSn = $("#pjtSn").val();
         const data = {
             pjtSn : pjtSn
@@ -211,8 +218,25 @@ const teamPrintPop = {
                 gubunText = "협업부서"/*commonProject.getDept(teamList[i].TM_PM_SEQ)*/;
             }
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 93px;"><p style="font-size:13px;"><b>'+gubunText+'</b></p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 93px;"><p style="font-size:13px;"><b>(서명)</b></p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 93px;"><p style="font-size:13px;"><b>(서명)</b></p></td>';
+
+            const result = customKendo.fn_customAjax("/user/getSign", {empSeq: teamList[i].PM_EMP_SEQ});
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 93px;">';
+            if(result.data.signImg != null){
+                const imgMap = result.data.signImg;
+                html += '<img id=\"signPhotoView\" style=\"position:relative;\" width=\"50px;\" height=\"50px;\" src=\"'+ip+imgMap.file_path+imgMap.file_uuid+'\">';
+            }else{
+                html += '<b style=\"\">'+getUser(teamList[i].PM_EMP_SEQ).EMP_NAME_KR+'</b>';
+            }
+            html += '</td>';
+            const result2 = customKendo.fn_customAjax("/user/getSign", {empSeq: teamList[i].TEAM_EMP_SEQ});
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; width: 93px;">';
+            if(result2.data.signImg != null){
+                const imgMap = result2.data.signImg;
+                html += '<img id=\"signPhotoView\" style=\"position:relative;\" width=\"50px;\" height=\"50px;\" src=\"'+ip+imgMap.file_path+imgMap.file_uuid+'\">';
+            }else{
+                html += '<b style=\"\">'+getUser(teamList[i].PM_EMP_SEQ).EMP_NAME_KR+'</b>';
+            }
+            html += '</td>';
             html += '               </tr>';
         }
         html += '           </table>';

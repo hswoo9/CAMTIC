@@ -122,6 +122,7 @@
                 TM_PM_SEQ,
                 TM_INV_AMT,
                 REG_DT,
+                PM_EMP_SEQ,
                 PM_CK,
                 TEAM_EMP_SEQ,
                 REG_EMP_SEQ
@@ -135,6 +136,7 @@
                 #{regEmpSeq},
                 0,
                 NOW(),
+                #{regEmpSeq},
                 'Y',
                 (
                     SELECT
@@ -152,12 +154,14 @@
                             AND WORK_STATUS_CODE = 'Y'
                             ORDER BY REG_DATE DESC LIMIT 1
                         ) ELSE (
-                            SELECT EI.EMP_SEQ FROM CAM_HR.DJ_EMP_INFO EI
+                            SELECT EI.EMP_SEQ FROM CAM_HR.DJ_EMP_TMP_DUTY ETD
+                            LEFT JOIN CAM_HR.DJ_EMP_INFO EI ON ETD.EMP_SEQ = EI.EMP_SEQ
                             LEFT JOIN CAM_HR.DJ_DEPT_INFO DI ON EI.DEPT_SEQ = DI.DEPT_SEQ
-                            WHERE (EI.DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq}) OR DI.PARENT_DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq}))
-                            AND EI.DUTY_CODE IN ('2', '3', '4')
+                            WHERE (ETD.TMP_DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq}))
+                            AND EI.DUTY_CODE IN ('2', '3', '7', '4', '5', '6')
                             AND (EI.DIVISION = 0 OR (EI.DIVISION = 4 AND EI.DIVISION_SUB != 3))
                             AND EI.WORK_STATUS_CODE = 'Y'
+                            AND ETD.ACTIVE = 'Y'
                             ORDER BY EI.REG_DATE DESC LIMIT 1
                         )
                         END
@@ -218,12 +222,14 @@
                         AND WORK_STATUS_CODE = 'Y'
                         ORDER BY REG_DATE DESC LIMIT 1
                     ) ELSE (
-                        SELECT EI.EMP_SEQ FROM CAM_HR.DJ_EMP_INFO EI
+                        SELECT EI.EMP_SEQ FROM CAM_HR.DJ_EMP_TMP_DUTY ETD
+                        LEFT JOIN CAM_HR.DJ_EMP_INFO EI ON ETD.EMP_SEQ = EI.EMP_SEQ
                         LEFT JOIN CAM_HR.DJ_DEPT_INFO DI ON EI.DEPT_SEQ = DI.DEPT_SEQ
-                        WHERE (EI.DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq}) OR DI.PARENT_DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq}))
-                        AND EI.DUTY_CODE IN ('2', '3', '4')
+                        WHERE (ETD.TMP_DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq}))
+                        AND EI.DUTY_CODE IN ('2', '3', '7', '4', '5', '6')
                         AND (EI.DIVISION = 0 OR (EI.DIVISION = 4 AND EI.DIVISION_SUB != 3))
                         AND EI.WORK_STATUS_CODE = 'Y'
+                        AND ETD.ACTIVE = 'Y'
                         ORDER BY EI.REG_DATE DESC LIMIT 1
                     )
                     END

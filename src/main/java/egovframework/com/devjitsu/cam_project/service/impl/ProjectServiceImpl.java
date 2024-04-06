@@ -638,26 +638,20 @@ public class ProjectServiceImpl implements ProjectService {
                             g20Repository.insProject(params);
                         }
                     }
-                    if(pjtMap.get("BUSN_CLASS").toString().equals("R")){
-                        // 결재 완료 처리
-                        projectRndRepository.updRndProjectInfo(params);
-                    }else{
-                        // 결재 완료 처리
-                        projectUnRndRepository.updUnRndProjectInfo(params);
-                    }
                 } catch(Exception e){
                     e.printStackTrace();
                 }
 
                 if(pjtMap.get("BUSN_CLASS").toString().equals("R")){
+                    projectRndRepository.updRndProjectInfo(params);
                     params.put("pjtStep", "R2");
                     params.put("pjtStepNm", "수주보고");
-                    projectRepository.updProjectStep(params);
                 }else{
+                    projectUnRndRepository.updUnRndProjectInfo(params);
                     params.put("pjtStep", "S2");
                     params.put("pjtStepNm", "수주보고");
-                    projectRepository.updProjectStep(params);
                 }
+                projectRepository.updProjectStep(params);
             }
         }
     }
