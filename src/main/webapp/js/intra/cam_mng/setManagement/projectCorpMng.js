@@ -82,6 +82,11 @@ var prjCorpMng = {
                             return e.PM_NM;
                         }
                     }
+                }, {
+                    field: "REG_DATE",
+                    title: "요청일자",
+                    width: 80,
+
                 }
             ],
             dataBinding: function(){
