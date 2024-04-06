@@ -190,9 +190,9 @@ var purcInfo = {
                             if(e.ORDER_DT != null && e.ORDER_DT != ""){
                                 if(e.CLAIM_STATUS == "CAYSY"){
                                     if(e.INSPECT_STATUS != "100"){
-                                        html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                        html += '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                     }else{
-                                        html += '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                        html += '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
 
                                         status = "-";
                                     }
@@ -205,9 +205,9 @@ var purcInfo = {
                         } else {
                             if(e.CLAIM_STATUS == "CAYSY"){
                                 if(e.INSPECT_STATUS != "100"){
-                                    html += '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                    html += '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                 }else{
-                                    html += '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                    html += '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
 
                                     status = "-";
                                 }
