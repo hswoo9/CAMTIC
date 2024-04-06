@@ -147,7 +147,11 @@ var purcInfo = {
                             status = '<button type="button" class="k-button k-button-solid-info" onclick="approveDocView(' + e.CLAIM_DOC_ID + ', \''+e.APPRO_KEY+'\', \'claim\')">구매청구서</button>';
                         } else {
                             if(e.PAYMENT_METHOD == "C"){
-                                status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                if(e.CLAIM_SN != ""){
+                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
+                                } else {
+                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                }
                             } else {
                                 status = '';
                             }
