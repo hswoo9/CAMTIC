@@ -60,7 +60,7 @@
                     <span class="red-star"></span>의뢰일자
                 </th>
                 <td>
-                    <input type="text" id="delvEstDe" style="width: 90%;" disabled>
+                    <input type="text" id="delvEstDe" style="width: 90%;">
                     <input type="hidden" id="befEstDe" />
                 </td>
                 <th scope="row" class="text-center th-color">
