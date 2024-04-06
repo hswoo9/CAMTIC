@@ -1433,6 +1433,7 @@
         INSERT INTO CAM_PJT_MNG.DJ_PJT_DELV
             (
                 PJT_SN,
+                DELV_EST_DE,
                 DELV_DE,
                 DELV_ISSU,
                 DELV_ITEM,
@@ -1453,6 +1454,7 @@
         VALUES
             (
                 #{pjtSn},
+                #{delvEstDe},
                 #{delvDe},
                 #{delvIssu},
                 #{delvItem},
@@ -1479,6 +1481,7 @@
         /*updDelvInfo*/
         UPDATE CAM_PJT_MNG.DJ_PJT_DELV
         SET
+            DELV_EST_DE = #{delvEstDe},
             DELV_DE = #{delvDe},
             DELV_ISSU = #{delvIssu},
             DELV_ITEM = #{delvItem},

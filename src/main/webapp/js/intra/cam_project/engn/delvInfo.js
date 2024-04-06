@@ -42,7 +42,6 @@ var delvInfo = {
         var delvMap = result.delvMap;
         var map = result.map;
         var rs = result.estMap.estList[result.estMap.estList.length - 1];
-
         if(delvFile != null && delvFile != ''){
             $("#delvFileName").text(delvFile.file_org_name + "." +delvFile.file_ext);
         }
@@ -66,6 +65,7 @@ var delvInfo = {
             });
             $("#pmName").val(delvMap.PM_EMP_NM);
             $("#pmSeq").val(delvMap.PM_EMP_SEQ);
+            $("#delvEstDe").val(delvMap.DELV_EST_DE);
             $("#delvDe").val(delvMap.DELV_DE);
         } else {
             $("#delvAmt").val(comma(rs.EST_TOT_AMT));
@@ -167,6 +167,7 @@ var delvInfo = {
 
         var parameters = {
             pjtSn : $("#pjtSn").val(),
+            delvEstDe : $("#delvEstDe").val(),
             delvDe : $("#delvDe").val(),
             delvItem : $("#delvItem").val(),
             delvCnt : uncomma($("#delvCnt").val()),
@@ -178,7 +179,7 @@ var delvInfo = {
             pmEmpNm : $("#pmName").val(),
             pmEmpSeq : $("#pmSeq").val(),
             empSeq : $("#empSeq").val(),
-            estDe : $("#delvEstDe").val(),
+
             pjtStrDt : $("#pjtStrDt").val(),
             pjtEndDt : $("#pjtEndDt").val(),
             delvPay : "",
@@ -192,6 +193,7 @@ var delvInfo = {
 
         var fd = new FormData();
         fd.append("pjtSn", parameters.pjtSn);
+        fd.append("delvEstDe", parameters.delvEstDe);
         fd.append("delvDe", parameters.delvDe);
         fd.append("delvItem", parameters.delvItem);
         fd.append("delvCnt", parameters.delvCnt);
