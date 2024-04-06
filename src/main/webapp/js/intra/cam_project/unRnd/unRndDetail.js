@@ -67,6 +67,7 @@ var unRndDetail = {
                 $("#totResCost").val(comma(rs.TOT_RES_COST));
 
                 $("#unRndObj").val(rs.UN_RND_OBJ);
+                $("#unRndEtc").val(rs.UN_RND_ETC);
 
                 if(rs.file_org_name != null){
                     $("#bsPlanFileName").text(rs.file_org_name + "." + rs.file_ext);
