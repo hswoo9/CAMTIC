@@ -157,43 +157,53 @@
     <select id="getCorpProjectListMng" parameterType="map" resultType="map">
         /*getCorpProjectListMng*/
         SELECT
-            A.PJT_SN AS PJT_SN,
-            A.BUSN_CLASS AS BUSN_CLASS,
-            A.BUSN_NM AS BUSN_NM,
-            A.PJT_TMP_CD AS PJT_TMP_CD,
-            A.PJT_NM AS PJT_NM,
-            B.PJT_STR_DT AS STR_DT,
-            B.PJT_END_DT AS END_DT,
-            A.DELV_APPROVE_STAT AS STATUS,
-            B.PM_EMP_NM AS ENGN_PM_NM,
-            A.PM AS PM_NM
-        FROM
-            CAM_PJT_MNG.DJ_PROJECT A
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PJT_DELV B ON A.PJT_SN = B.PJT_SN
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PJT_RND C ON A.PJT_SN = C.PJT_SN
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PJT_UNRND D ON A.PJT_SN = D.PJT_SN
-        WHERE A.DELV_APPROVE_STAT = '10'
-        AND (B.STATUS = '100' || C.STATUS = '100' || D.STATUS = '100')
+            *
+        FROM (
+            SELECT
+                A.PJT_SN AS PJT_SN,
+                A.BUSN_CLASS AS BUSN_CLASS,
+                A.BUSN_NM AS BUSN_NM,
+                A.PJT_TMP_CD AS PJT_TMP_CD,
+                A.PJT_NM AS PJT_NM,
+                B.PJT_STR_DT AS STR_DT,
+                B.PJT_END_DT AS END_DT,
+                A.DELV_APPROVE_STAT AS STATUS,
+                B.PM_EMP_NM AS ENGN_PM_NM,
+                A.PM AS PM_NM,
+                DATE_FORMAT(CASE WHEN A.BUSN_CLASS = 'R' THEN C.APPROVAL_DATE
+                     WHEN A.BUSN_CLASS = 'S' THEN D.APPROVAL_DATE
+                     WHEN A.BUSN_CLASS = 'D' THEN B.APPROVAL_DATE
+                END, '%Y-%m-%d') AS REG_DATE
+            FROM
+                CAM_PJT_MNG.DJ_PROJECT A
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PJT_DELV B ON A.PJT_SN = B.PJT_SN
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PJT_RND C ON A.PJT_SN = C.PJT_SN
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PJT_UNRND D ON A.PJT_SN = D.PJT_SN
+            WHERE A.DELV_APPROVE_STAT = '10'
+            AND (B.STATUS = '100' || C.STATUS = '100' || D.STATUS = '100')
 
-        UNION ALL
+            UNION ALL
 
-        SELECT
-            CORP_PJT_SN AS PJT_SN,
-            'M' AS BUSN_CLASS,
-            '법인' AS BUSN_NM,
-            CORP_PJT_CD AS PJT_TMP_CD,
-            CORP_PJT_NM AS PJT_NM,
-            STR_DT AS STR_DT,
-            END_DT AS END_DT,
-            STATUS AS STATUS,
-            PM_EMP_NAME AS PM_NM,
-            PM_EMP_NAME AS PM_NM
-        FROM
-            CAM_PJT_MNG.DJ_CORP_PROJECT
-        WHERE STATUS = '10'
+            SELECT
+                CORP_PJT_SN AS PJT_SN,
+                'M' AS BUSN_CLASS,
+                '법인' AS BUSN_NM,
+                CORP_PJT_CD AS PJT_TMP_CD,
+                CORP_PJT_NM AS PJT_NM,
+                STR_DT AS STR_DT,
+                END_DT AS END_DT,
+                STATUS AS STATUS,
+                PM_EMP_NAME AS PM_NM,
+                PM_EMP_NAME AS PM_NM,
+                ''
+            FROM
+                CAM_PJT_MNG.DJ_CORP_PROJECT
+            WHERE STATUS = '10'
+        )A
+        ORDER BY A.REG_DATE DESC, A.PJT_SN DESC
     </select>
 
     <select id="getCorpProjectData" parameterType="map" resultType="map">
