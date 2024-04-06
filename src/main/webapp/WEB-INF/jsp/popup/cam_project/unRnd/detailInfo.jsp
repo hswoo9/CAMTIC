@@ -89,6 +89,14 @@
             </tr>
             <tr>
                 <th scope="row" class="text-center th-color">
+                    <span class="red-star"></span>특이사항
+                </th>
+                <td colspan="3">
+                    <textarea type="text" id="unRndEtc" name="unRndEtc" style="width: 100%"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>사업계획서
                 </th>
                 <td colspan="3">

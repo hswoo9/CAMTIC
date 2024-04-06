@@ -18,6 +18,10 @@ var unRndDetail = {
             rows : 7
         });
 
+        $("#unRndEtc").kendoTextArea({
+            rows : 7
+        });
+
         /** 사업비 분리사용 유무 change 이벤트 */
         $("input[name='sbjSepYn']").change(function(){
             if($("input[name='sbjSepYn']:checked").val() == "Y"){
@@ -171,7 +175,7 @@ var unRndDetail = {
             totResCost : uncomma($("#totResCost").val()),
 
             unRndObj : $("#unRndObj").val(),
-
+            unRndEtc : $("#unRndEtc").val(),
             empSeq: $("#mngEmpSeq").val(),
             regEmpSeq : $("#regEmpSeq").val(),
         }

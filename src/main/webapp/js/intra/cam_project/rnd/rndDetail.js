@@ -18,6 +18,10 @@ var rndDetail = {
             rows : 7
         });
 
+        $("#rndEtc").kendoTextArea({
+            rows : 7
+        });
+
         /*$("#bank").kendoDropDownList({
             dataTextField : "text",
             dataValueField : "value",
@@ -214,7 +218,7 @@ var rndDetail = {
             resDay : $("#resDay").val(),*/
 
             rndObj : $("#rndObj").val(),
-
+            rndEtc : $("#rndEtc").val(),
             empSeq : $("#mngEmpSeq").val(),
             regEmpSeq : $("#regEmpSeq").val()
         }

@@ -378,6 +378,7 @@
                 PEO_RES_ITEM,
                 TOT_RES_COST,
                 RND_OBJ,
+                RND_ETC,
                 DELV_DAY,
                 RES_DAY
             )
@@ -394,6 +395,7 @@
                 #{peoResItem},
                 #{totResCost},
                 #{rndObj},
+                #{rndEtc},
                 #{delvDay},
                 #{resDay}
             )
@@ -443,6 +445,7 @@
             RES_CARD_CHECK = #{resCardCheck},
             RES_CARD_NO = #{resCardNo},
             RND_OBJ = #{rndObj},
+            RND_ETC = #{rndEtc},
             DELV_DAY = #{delvDay},
             RES_DAY = #{resDay}
         WHERE
