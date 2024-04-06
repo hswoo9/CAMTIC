@@ -339,7 +339,7 @@ var commonProject = {
             pjtNm = "사업명 : " + $("#bsTitle").val();
             ntUrl = "/projectRnd/pop/regProject.do?pjtSn=" + commonProject.global.pjtSn;
         }else if(pjtStep == "S"){
-            pjtNm = "사업명 : " + $("bsTitle").val();
+            pjtNm = "사업명 : " + $("#bsTitle").val();
             ntUrl = "/projectUnRnd/pop/regProject.do?pjtSn=" + commonProject.global.pjtSn;
         }
 
