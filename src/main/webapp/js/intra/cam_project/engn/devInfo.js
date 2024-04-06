@@ -449,6 +449,7 @@ var devInfo = {
                     });
 
                     $("#invAmt").val(comma(totAmt));
+                    $("#totalAmt").text(comma(totAmt));
 
                     /*var invPer = 0;*/
 
@@ -955,6 +956,7 @@ var devInfo = {
                 if(rs.code == 200){
                     $("#invSn" + idx).val(rs.rep.INV_SN);
                     $("#invAmt").val(comma(totAmt));
+                    $("#totalAmt").text(comma(totAmt));
                     /*$("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));*/
                 }
 
@@ -1198,6 +1200,7 @@ var devInfo = {
 
                     if(rs.code = 200){
                         $("#invAmt").val(comma(totAmt));
+                        $("#totalAmt").text(comma(totAmt));
                         /*$("#invPer").val(Math.round(totAmt / uncomma($("#devDelvAmt").val()) * 100));*/
                     }
 
@@ -1271,6 +1274,21 @@ var devInfo = {
             success : function (rs){
                 if(rs.code == 200){
                     alert("수정하였습니다.");
+
+                    var idx = 0;
+                    var totAmt = 0;
+                    $("#invTable > tr").each(function(e){
+                        idx++;
+                        totAmt += Number(uncomma($("#estTotAmt" + idx).val()));
+                    });
+
+                    var data = {
+                        devSn : $("#devSn").val(),
+                        totAmt : totAmt
+                    }
+                    customKendo.fn_customAjax("/project/updPjtDevTotAmt", data);
+
+                    $("#totalAmt").text(comma(totAmt));
                 }
             }
         });

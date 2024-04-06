@@ -315,7 +315,9 @@ var rndDP = {
             rndDP.global.invCk = "N";
         }
 
+        var sum = 0;
         for(var i = 0 ; i < list.length ; i++){
+
             var idx = i+1;
             var html = "";
             html += '<tr id="itr'+idx+'">';
@@ -354,7 +356,10 @@ var rndDP = {
             $("#invEtc" + idx).val(list[i].INV_ETC);
             $("#estOfc" + idx).val(list[i].EST_OFC);
             rndDP.global.invCk = "Y";
+
+            sum += Number(list[i].EST_TOT_AMT);
         }
+        $("#totalAmt").text(comma(sum));
 
         $("#invTable > tr").each(function (e) {
             $("#invCnt" + e + ", #invUnitPrice" + e).on("keyup", function () {
@@ -393,6 +398,21 @@ var rndDP = {
             success : function (rs){
                 if(rs.code == 200){
                     alert("수정하였습니다.");
+
+                    var idx = 0;
+                    var totAmt = 0;
+                    $("#invTable > tr").each(function(e){
+                        idx++;
+                        totAmt += Number(uncomma($("#estTotAmt" + idx).val()));
+                    });
+
+                    var data = {
+                        devSn : $("#devSn").val(),
+                        totAmt : totAmt
+                    }
+                    customKendo.fn_customAjax("/project/updPjtDevTotAmt", data);
+
+                    $("#totalAmt").text(comma(totAmt));
                 }
             }
         });
@@ -508,7 +528,7 @@ var rndDP = {
                     idx++;
                     totAmt += Number(uncomma($("#estTotAmt" + idx).val()));
                 });
-
+                $("#totalAmt").text(comma(totAmt));
                 //$("#invAmt002").text(comma(totAmt));
 
                 var data = {
@@ -611,7 +631,7 @@ var rndDP = {
                     }
                     customKendo.fn_customAjax("/project/updPjtDevTotAmt", data);
 
-                    $("#invAmt002").text(comma(totAmt));
+                    $("#totalAmt").text(comma(totAmt));
                 }
             }
         });
