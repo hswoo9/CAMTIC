@@ -25,7 +25,7 @@ var regUnRnd = {
         //var tab1Url = "/projectRnd/researcherInfo.do";           // 01참여인력
         var tab3Url = "/projectRnd/partRate.do";                   // 02참여율관리
         var tab4Url = "/projectUnRnd/unRndDevPlan.do";             // 03수행계획
-        var tab17Url= "/intra/cam_project/processInfo.do";         // 04공정
+        var tab18Url= "/intra/cam_project/processInfo.do";         // 04공정
         var tab5Url = "/projectUnRnd/lectureList.do";              // 05단위사업
         var tab6Url = "/intra/cam_project/teamInfoEngn.do";        // 06협업
         var tab7Url = "/projectRnd/budgetInfo.do";                 // 07사업비관리(예산/지급)
@@ -45,6 +45,7 @@ var regUnRnd = {
             //tab1Url += "?pjtSn=" + setParameters.PJT_SN;
             tab3Url += "?pjtSn=" + setParameters.PJT_SN;
             tab4Url += "?pjtSn=" + setParameters.PJT_SN;
+            tab18Url += "?pjtSn=" + setParameters.PJT_SN;
             tab5Url += "?pjtSn=" + setParameters.PJT_SN;
             tab6Url += "?pjtSn=" + setParameters.PJT_SN;
             tab7Url += "?pjtSn=" + setParameters.PJT_SN;
@@ -63,7 +64,7 @@ var regUnRnd = {
         if(setParameters != null && setParameters.TEAM_STAT == "Y"){
             dataSource = [
                 {name: "수행계획", url: tab4Url},
-                {name: "공정", url: tab17Url},
+                {name: "공정", url: tab18Url},
                 {name: "실적관리", url: tab15Url},
 
                 {name: "출장", url: tab9Url},
@@ -76,7 +77,7 @@ var regUnRnd = {
                 //{name: "참여인력", url: tab1Url},
                 {name: "참여율관리", url: tab3Url},
                 {name: "수행계획", url: tab4Url, imageUrl: "/images/ico/etc_01_1.png"},
-                {name: "공정", url: tab17Url},
+                {name: "공정", url: tab18Url},
                 {name: "단위사업", url: tab5Url},
                 {name: "협업", url: tab6Url},
                 {name: "사업비관리", url: tab7Url},
