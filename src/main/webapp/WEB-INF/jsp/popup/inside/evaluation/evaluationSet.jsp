@@ -202,6 +202,191 @@
             </table>
             <h5>※ 자기신고 기간 : 평가시작일 이전 일주일로 자동 설정</h5>
         </div>
+
+        <div class="panel-body" style="padding-top: unset">
+            <div class="card-header">
+                <h4 style="position: relative; top:7px">
+                    평가항목 및 가중치
+                </h4>
+            </div>
+            <table class="searchTable table table-bordered mb-0">
+                <colgroup>
+                    <col style="width: 10%">
+                    <col style="width: 10%">
+                    <col style="width: 20%">
+                    <col style="width: 20%">
+                    <col style="width: 40%">
+                </colgroup>
+                <tr>
+                    <th>구분</th>
+                    <th>평가 대상</th>
+                    <th>평가 분야</th>
+                    <th>가중치(%)</th>
+                    <th>성과 지표</th>
+                </tr>
+                <tr>
+                    <td rowspan="8">사업인원</td>
+                    <td>팀원</td>
+                    <td colspan="3">
+                        <div id="btnDiv3" class="btn-st popButton" style="font-size: 12px; float: right">
+                            <button type="button" class="k-button k-button-solid-info" id="btAddBt" onclick="fn_btAddRow()">추가</button>
+                            <button type="button" class="k-button k-button-solid-error" onclick="fn_btDelRow()">삭제</button>
+                        </div>
+                        <table class="searchTable table table-bordered mb-0">
+                            <colgroup>
+                                <col width="10%">
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="40%">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>순번</th>
+                                <th>평가 분야</th>
+                                <th>가중치(%)</th>
+                                <th>성과지표</th>
+                            </tr>
+                            </thead>
+                            <tbody id="btList"></tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>소계</td>
+                    <td colspan="3"><input type="text" id="btSum" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">팀장</td>
+                    <td>팀 성과</td>
+                    <td><input type="text" id="btResult1" class ="textBox" ></td>
+                    <td><input type="text" id="btResult2" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td>부서 성과</td>
+                    <td><input type="text" id="bdResult1" class ="textBox" ></td>
+                    <td><input type="text" id="bdResult2" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td>소계</td>
+                    <td colspan="3"><input type="text" id="bdSum" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">부서장</td>
+                    <td>부서 성과</td>
+                    <td><input type="text" id="bhResult1" class ="textBox" ></td>
+                    <td><input type="text" id="bhResult2" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td>법인 성과</td>
+                    <td><input type="text" id="bcResult1" class ="textBox" ></td>
+                    <td><input type="text" id="bcResult2" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td>소계</td>
+                    <td colspan="3"><input type="text" id="bhSum" class ="textBox" ></td>
+                </tr>
+
+                <tr>
+                    <td rowspan="8">지원인원<br>(경영기획실, <br>개발지원팀)</td>
+                    <td>팀원</td>
+                    <td colspan="3">
+                        <div id="btnDiv4" class="btn-st popButton" style="font-size: 12px; float: right">
+                            <button type="button" class="k-button k-button-solid-info" id="bsAddBt" onclick="fn_bsAddRow()">추가</button>
+                            <button type="button" class="k-button k-button-solid-error" onclick="fn_bsDelRow()">삭제</button>
+                        </div>
+                        <table class="searchTable table table-bordered mb-0">
+                            <colgroup>
+                                <col width="10%">
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="40%">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>순번</th>
+                                <th>평가 분야</th>
+                                <th>가중치(%)</th>
+                                <th>성과지표</th>
+                            </tr>
+                            </thead>
+                            <tbody id="bsList"></tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>소계</td>
+                    <td colspan="3"><input type="text" id="bsSum" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">팀장</td>
+                    <td>팀 성과</td>
+                    <td><input type="text" id="stResult1" class ="textBox" ></td>
+                    <td><input type="text" id="stResult2" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td>부서 성과</td>
+                    <td><input type="text" id="sdResult1" class ="textBox" ></td>
+                    <td><input type="text" id="sdResult2" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td>소계</td>
+                    <td colspan="3"><input type="text" id="sdSum" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td rowspan="2">부서장</td>
+                    <td>부서 성과</td>
+                    <td><input type="text" id="shResult1" class ="textBox" ></td>
+                    <td><input type="text" id="shResult2" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td>법인 성과</td>
+                    <td><input type="text" id="scResult1" class ="textBox" ></td>
+                    <td><input type="text" id="scResult2" class ="textBox" ></td>
+                </tr>
+                <tr>
+                    <td>소계</td>
+                    <td colspan="3"><input type="text" id="scSum" class ="textBox" ></td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="panel-body" style="padding-top: unset">
+            <div class="card-header">
+                <h4 style="position: relative; top:7px">
+                    평가 등급별 수준 및 점수
+                </h4>
+                <div id="btnDiv5" class="btn-st popButton" style="font-size: 12px; float: right">
+                    <button type="button" class="k-button k-button-solid-info" id="scAddBt" onclick="fn_scAddRow()">추가</button>
+                    <button type="button" class="k-button k-button-solid-error" onclick="fn_scDelRow()">삭제</button>
+                </div>
+            </div>
+            <table class="searchTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="20%">
+                    <col width="40%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>등급</th>
+                    <th>수준</th>
+                    <th>인원 비율</th>
+                    <th>점수</th>
+                </tr>
+                </thead>
+                <tbody id="scoreList">
+                <tr style="text-align: center;">';
+                       <td><input type="text" id="scClass0" class ="textBox" ></td>
+                       <td><input type="text" id="scLevel0" class ="textBox" ></td>
+                       <td><input type="text" id="scPerson0" class ="textBox" style="width: 80%;"> %</td>
+                       <td><input type="text" id="scScore1_0" class ="textBox" style="width: 35%;"> 점 ~ <input type="text" id="scScore2_0" class ="textBox" style="width: 35%;"> 점
+                       </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div><!-- col-md-9 -->
 
@@ -211,7 +396,10 @@
 
         customKendo.fn_textBox(["bsYear", "evalList", "idx0", "teamMemberA0", "teamMemberB0", "teamMemberC0", "teamManagerA0", "teamManagerB0", "teamManagerC0"
                                 , "deptManagerA0", "deptManagerB0", "deptManagerC0"
-                                , "achTeamMngA", "achTeamMngB", "achTotTeamMng", "achDeptMngA", "achDeptMngB", "achTotDeptMng"]);
+                                , "achTeamMngA", "achTeamMngB", "achTotTeamMng", "achDeptMngA", "achDeptMngB", "achTotDeptMng"
+                                , "btSum", "btResult1", "btResult2", "bdResult1", "bdResult2", "bdSum", "bhResult1", "bhResult2", "bcResult1", "bcResult2", "bhSum"
+                                , "bsSum", "stResult1", "stResult2", "sdResult1", "sdResult2", "sdSum", "shResult1", "shResult2", "scResult1", "scResult2", "scSum"
+                                , "scClass0", "scLevel0", "scPerson0", "scScore1_0", "scScore2_0"]);
 
         customKendo.fn_datePicker("condStrDt0", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("condEndDt0", '', "yyyy-MM-dd", new Date());
@@ -382,6 +570,88 @@
 
         if($("#capBody").find("tr").length > 1){
             $("#capBody").find("tr:last").remove();
+        }
+    }
+
+    function fn_btAddRow(){
+        var btNum = $("#btList").find("tr").length;
+        var html = "";
+        html += '<tr style="text-align: center;">';
+        html += '   <td>';
+        html += "       <input type='text' id='btNum" + btNum + "' class='idx' style='width: 60%' disabled value='" + (btNum + 1) + "'>";
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="text" id="btField'+btNum+'" class ="textBox" >';
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="text" id="btValue'+btNum+'" class ="textBox" style="width: 80%"> %';
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="text" id="btScore'+btNum+'" class ="textBox" >';
+        html += '   </td>';
+        html += '</tr>';
+
+        $('#btList').append(html);
+
+        customKendo.fn_textBox(["btNum" + btNum, "btField" + btNum, "btValue" + btNum, "btScore" + btNum]);
+    }
+
+    function fn_btDelRow(){
+        $("#btList").find("tr:last").remove();
+    }
+
+    function fn_bsAddRow(){
+        var bsNum = $("#bsList").find("tr").length;
+        var html = "";
+        html += '<tr style="text-align: center;">';
+        html += '   <td>';
+        html += "       <input type='text' id='bsNum" + bsNum + "' class='idx' style='width: 60%' disabled value='" + (bsNum + 1) + "'>";
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="text" id="bsField'+bsNum+'" class ="textBox" >';
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="text" id="bsValue'+bsNum+'" class ="textBox" style="width: 80%" > %';
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="text" id="bsScore'+bsNum+'" class ="textBox" >';
+        html += '   </td>';
+        html += '</tr>';
+
+        $('#bsList').append(html);
+        customKendo.fn_textBox(["bsNum" + bsNum, "bsField" + bsNum, "bsValue" + bsNum, "bsScore" + bsNum]);
+    }
+
+    function fn_bsDelRow(){
+        $("#bsList").find("tr:last").remove();
+    }
+
+    function fn_scAddRow(){
+        var scNum = $("#scoreList").find("tr").length;
+        var html = "";
+        html += '<tr style="text-align: center;">';
+        html += '   <td>';
+        html += '       <input type="text" id="scClass'+scNum+'" class ="textBox" >';
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="text" id="scLevel'+scNum+'" class ="textBox" >';
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="text" id="scPerson'+scNum+'" class ="textBox" style="width: 80%"> %';
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="text" id="scScore1_'+scNum+'" class ="textBox" style="width: 35%;"> 점 ~ ';
+        html += '       <input type="text" id="scScore2_'+scNum+'" class ="textBox" style="width: 35%;"> 점';
+        html += '   </td>';
+        html += '</tr>';
+
+        $('#scoreList').append(html);
+        customKendo.fn_textBox(["scClass" + scNum, "scLevel" + scNum, "scPerson" + scNum, "scScore1_" + scNum, "scScore2_" + scNum]);
+    }
+
+    function fn_scDelRow(){
+        if($("#scoreList").find("tr").length > 1){
+            $("#scoreList").find("tr:last").remove();
         }
     }
 </script>
