@@ -43,12 +43,12 @@ var regPayDepo = {
             index: 0
         });
 
-        if($("#paramPm").val() != null && $("#paramPm").val() != ""){
-            $("#depoManager").val($("#paramPm").val());
+        if($("#crmMemTempNm").val() != null && $("#crmMemTempNm").val() != ""){
+            $("#depoManager").val($("#crmMemTempNm").val());
         }
 
         if($("#getPjtAmt").val() != null && $("#getPjtAmt").val() != ""){
-            $("#depoAmt").val(comma(Number($("#getPjtAmt").val() * 1.1) - Number($("#totDepoAmt").val())));
+            $("#depoAmt").val(comma((Number($("#getPjtAmt").val() * 1.1) - Number($("#totDepoAmt").val())).toString().split(".")[0]));
         }
 
         $("#depoCont").kendoTextArea({

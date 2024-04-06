@@ -28,6 +28,8 @@
 <input type="hidden" id="getPjtAmt" value="${hashMap.PJT_AMT}" />
 <input type="hidden" id="totDepoAmt" value="${hashMap.TOT_DEPO_AMT}" />
 
+<input type="hidden" id="crmMemTempNm" value="${hashMap.CRM_MEM_TEMP_NM}" />
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
