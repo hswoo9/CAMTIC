@@ -857,7 +857,13 @@ var draft = {
                 if($("#files").closest('.k-upload').find('.k-file.k-toupload').length > 0){
                     $("#files").data("kendoUpload").upload();
                 }else{
-                    window.close();
+                    approveDocView(params.DOC_ID || params.docId, params.approKey, params.menuCd)
+
+                    if(params.DOC_ID != undefined && params.DOC_ID != "" && params.DOC_ID != null){
+                        window.close();
+                    } else {
+                        
+                    }
                 }
             },
             error : function (){
