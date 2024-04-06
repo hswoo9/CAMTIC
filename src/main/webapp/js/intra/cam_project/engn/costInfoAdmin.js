@@ -89,7 +89,7 @@ var costInfo = {
             pjtSn : $("#pjtSn").val()
         }
 
-        this.grid2("/purc/getPurcReqList.do", costInfo.global.searchAjaxData2);
+        this.grid2("/purc/getPurcReqClaimList.do", costInfo.global.searchAjaxData2);
         this.grid3("/bustrip/getProjectBustList", costInfo.global.searchAjaxData3);
         this.grid4("/payApp/getPjtExnpList", costInfo.global.searchAjaxData4);
 
@@ -140,16 +140,19 @@ var costInfo = {
                     template : function(e){
                         return '<div onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')" style="cursor : pointer">' + e.PURC_REQ_PURPOSE + '</div>'
                     }
-                }, {
-                    title: "구매",
-                    width: 100,
-                    template : function(e){
-                        return e.CP_CNT + "건 / " + '<span style="color:red;">'+e.RP_CNT+'</span>' + "건"
-                    }
-                }, {
-                    title: "외주",
-                    width: 100
-                }, {
+                }
+                // , {
+                //     title: "구매",
+                //     width: 100,
+                //     template : function(e){
+                //         return e.CP_CNT + "건 / " + '<span style="color:red;">'+e.RP_CNT+'</span>' + "건"
+                //     }
+                // }
+                // , {
+                //     title: "외주",
+                //     width: 100
+                // }
+                , {
                     title: "상태",
                     field: "STATUS",
                     width: 120,
