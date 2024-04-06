@@ -74,6 +74,7 @@
                 (A.REG_EMP_SEQ = #{regEmpSeq} OR A.PM_EMP_SEQ = #{regEmpSeq} OR A.EMP_SEQ = #{regEmpSeq} OR R.PART_EMP_SEQ = #{regEmpSeq} OR R2.PS_EMP_SEQ = #{regEmpSeq})
 
             AND A.PJT_STEP in ('E1','E2','E3','E4','E5','R','R2','S','S2')
+            AND A.PJT_STOP != "Y"
         </if>
         <if test= '"2".equals(searchValue)'>
             AND
@@ -857,7 +858,8 @@
         SELECT
             *,
             C.REG_DT AS INV_DT,
-            CASE WHEN A.TM_SN IS NULL THEN 'N' ELSE 'Y' END AS TM_YN
+            CASE WHEN A.TM_SN IS NULL THEN 'N' ELSE 'Y' END AS TM_YN,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS REG_EMP_NAME
         FROM
             CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN

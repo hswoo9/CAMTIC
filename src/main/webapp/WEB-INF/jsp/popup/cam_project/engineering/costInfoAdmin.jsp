@@ -24,6 +24,8 @@
 <input type="hidden" id="loginEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}">
 
+<input type="hidden" id="busnClassData" value="${hashMap.BUSN_CLASS}"/>
+
 <input type="hidden" id="busnNm" value="" />
 <input type="hidden" id="searchKeyword" />
 <input type="hidden" id="searchValue" />
@@ -169,13 +171,16 @@
         <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 출장내역</span>
         <div id="grid3"></div>
 
-        <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 지출내역</span>
-        <div id="grid4"></div>
+        <c:if test="${hashMap.BUSN_CLASS == 'R' || hashMap.BUSN_CLASS == 'S'}">
+            <div style="margin-top:10px;"></div><span style="font-size: 12px;">◎ 지출내역</span>
+            <div id="grid4"></div>
+        </c:if>
     </div>
 </div>
 
 <script>
     costInfo.fn_defaultScript();
+
 </script>
 </body>
 </html>
