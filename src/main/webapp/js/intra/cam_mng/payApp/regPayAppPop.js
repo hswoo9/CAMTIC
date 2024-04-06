@@ -436,12 +436,12 @@ var regPay = {
             var cem = claimExnpData.map;
 
             console.log(claimExnpData)
-            if($("#pjtSn").val != ""){
-                $("#pjtSn").val(rs.PJT_SN);
-            }
+            // if($("#pjtSn").val != ""){
+            //     $("#pjtSn").val(rs.PJT_SN);
+            // }
             if($("#pjtSn").val() != ""){
-                $("#pjtSn").val(pjtMap.PJT_SN);
-                selectProject(rs.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD)
+                $("#pjtSn").val(claimExnpData.PJT_SN || "");
+                selectProject(claimExnpData.PJT_SN || "", claimExnpData.PJT_NM, claimExnpData.PJT_CD)
             } else {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }

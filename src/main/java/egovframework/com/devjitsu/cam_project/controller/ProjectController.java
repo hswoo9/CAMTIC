@@ -6,6 +6,7 @@ import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import egovframework.com.devjitsu.inside.bustrip.controller.BustripController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectRndService projectRndService;
+
+    @Autowired
+    private AssetService assetService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -530,6 +534,7 @@ public class ProjectController {
 
         model.addAttribute("pjtInfo", projectService.getProjectData(params));
         model.addAttribute("invInfo", projectService.getInvList(params));
+        model.addAttribute("equipList", assetService.getEqipmnUseListByPjt(params));
         model.addAttribute("result", map);
         model.addAttribute("list", list);
 

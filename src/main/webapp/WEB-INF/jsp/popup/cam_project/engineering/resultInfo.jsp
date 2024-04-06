@@ -43,13 +43,13 @@
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>프로젝트 코드
                 </th>
-                <td>
-                    <input type="text" id="rsPjtSn" disabled value="${hashMap.PJT_CD}" style="width: 90%; text-align: left" />
+                <td colspan="3">
+                    <input type="text" id="rsPjtSn" disabled value="${hashMap.PJT_CD}" style="width: 40%; text-align: left" />
                 </td>
-                <th scope="row" class="text-center th-color">
+                <th scope="row" class="text-center th-color" style="display: none">
                     <span class="red-star"></span>시제품 여부
                 </th>
-                <td>
+                <td style="display: none">
                     <input type="text" id="rsPrototype" style="width: 90%;">
                 </td>
             </tr>
@@ -73,7 +73,7 @@
                     </table>
                 </td>
             </tr>--%>
-            <tr>
+            <tr style="display: none;">
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>지원내용
                 </th>
@@ -89,7 +89,7 @@
                     <textarea type="text" id="rsIss" style="width: 100%;"></textarea>
                 </td>
             </tr>
-            <tr>
+            <tr style="display: none;">
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>비고
                 </th>
@@ -114,7 +114,7 @@
                     <input type="text" id="rsEndDt" style="width: 15%;">
                 </td>
             </tr>
-            <tr>
+            <tr style="display: none">
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>설계이미지
                 </th>
@@ -137,7 +137,7 @@
                     <span class="red-star"></span>활용장비
                 </th>
                 <td colspan="3">
-                    <input type="text" id="rsActEquip" style="width: 90%;">
+                    <input type="text" id="rsActEquip" disabled style="width: 90%;">
                 </td>
             </tr>
             </thead>

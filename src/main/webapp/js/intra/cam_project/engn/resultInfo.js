@@ -46,10 +46,16 @@ var resultInfo = {
             $("#devFileName").text(result.devFileList.file_org_name + "." +result.devFileList.file_ext);
         }
 
+        var equipmentNameList = "";
+
+        for(var i = 0 ; i < resultMap.equipList.length; i++){
+            equipmentNameList = resultMap.equipList[i].EQIPMN_NAME + ",";
+        }
+
         if(result.map != null){
             $("#rsIss").val(result.map.RS_ISS);
             $("#rsSupCont").val(result.map.SUP_CONT);
-            $("#rsActEquip").val(result.map.RS_ACT_EQUIP);
+            $("#rsActEquip").val(equipmentNameList.substring(0, equipmentNameList.length - 1));
             $("#rsEndDt").val(result.map.RS_END_DT);
             $("#rsStrDt").val(result.map.RS_STR_DT);
             $("#rsEtc").val(result.map.RS_ETC);
