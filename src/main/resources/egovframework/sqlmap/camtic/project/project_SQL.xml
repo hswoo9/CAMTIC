@@ -399,26 +399,27 @@
     <insert id="insEngnEstInfo" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_EST
         (
-        PJT_SN,
-        EST_DE,
-        EST_NM,
-        CRM_NM,
-        CRM_MEM,
-        VAT,
-        EST_TOT_AMT,
-        EST_ISS,
-        REG_EMP_SEQ
-        ) VALUES
+            PJT_SN,
+            EST_DE,
+            EST_NM,
+            CRM_NM,
+            CRM_MEM,
+            VAT,
+            EST_TOT_AMT,
+            EST_ISS,
+            REG_EMP_SEQ
+        )
+        VALUES
         (
-        #{pjtSn},
-        #{estDe},
-        #{estNm},
-        #{crmNm},
-        #{crmMem},
-        #{vat},
-        #{estTotAmt},
-        #{estIss},
-        #{regEmpSeq}
+            #{pjtSn},
+            #{estDe},
+            #{estNm},
+            #{crmNm},
+            #{crmMem},
+            #{vat},
+            #{estTotAmt},
+            #{estIss},
+            #{regEmpSeq}
         )
 
         <selectKey keyProperty="EST_SN" resultType="Integer" order="BEFORE">
@@ -1311,6 +1312,24 @@
             MOD_DT = now()
         WHERE
             ENGN_SN = #{engnSn} AND ${stepColumn} = 'N'
+    </update>
+
+    <update id="updEngnAmt" parameterType="map">
+        /** updEngnAmt */
+        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
+        SET
+            EXP_AMT = IFNULL((SELECT IF(VAT = 'Y', CEIL((EST_TOT_AMT) / 1.1), EST_TOT_AMT) FROM CAM_PJT_MNG.DJ_PJT_EST A WHERE PJT_SN = #{pjtSn} ORDER BY EST_SN DESC LIMIT 1), 0)
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updLastEngnAmt" parameterType="map">
+        /** updLastEngnAmt */
+        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
+        SET
+            EXP_AMT = IFNULL((SELECT IF(VAT = 'Y', CEIL((EST_TOT_AMT) / 1.1), EST_TOT_AMT) FROM CAM_PJT_MNG.DJ_PJT_EST A WHERE PJT_SN = #{pjtSn} ORDER BY EST_SN DESC LIMIT 1), 0)
+        WHERE
+            PJT_SN = #{pjtSn}
     </update>
 
     <update id="updateDelvApprStat" parameterType="map">

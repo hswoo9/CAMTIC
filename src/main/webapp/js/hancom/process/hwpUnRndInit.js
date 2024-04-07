@@ -142,8 +142,13 @@ var unRndInit = {
 
         /** 2. 사업 목적 및 내용 */
         hwpDocCtrl.putFieldText('OBJ', delvMap.UN_RND_OBJ);
-        hwpDocCtrl.putFieldText('NOW_AMT', comma(Number((delvMap.TOT_RES_COST / 1.1).toString().split(".")[0]) + Number(delvMap.PEO_RES_ITEM)));
-        hwpDocCtrl.putFieldText('BUSN_COST', comma((delvMap.TOT_RES_COST / 1.1).toString().split(".")[0]));
+        if(map.TAX_GUBUN == "1"){
+            hwpDocCtrl.putFieldText('NOW_AMT', comma(Number((delvMap.TOT_RES_COST / 1.1).toString().split(".")[0]) + Number(delvMap.PEO_RES_ITEM)));
+            hwpDocCtrl.putFieldText('BUSN_COST', comma((delvMap.TOT_RES_COST / 1.1).toString().split(".")[0]));
+        }else{
+            hwpDocCtrl.putFieldText('NOW_AMT', comma(Number((delvMap.TOT_RES_COST).toString().split(".")[0]) + Number(delvMap.PEO_RES_ITEM)));
+            hwpDocCtrl.putFieldText('BUSN_COST', comma((delvMap.TOT_RES_COST).toString().split(".")[0]));
+        }
         hwpDocCtrl.putFieldText('PEO_RES_ITEM', delvMap.PEO_RES_ITEM == 0 ? "0" : fn_numberWithCommas(delvMap.PEO_RES_ITEM));
 
         let g20Sum = 0;
