@@ -334,6 +334,12 @@ var regUnRnd = {
 
         $("#pjtNm").val(e.PJT_NM);
 
+        if(e.SBJ_STAT_YN != undefined){
+            if(e.SBJ_STAT_YN == "Y"){
+                $("#unRndStatYn").prop("checked", true);
+            }
+        }
+
         $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
 
         $("#pjtConYear").val(e.PJT_CON_YEAR);
@@ -388,6 +394,12 @@ var regUnRnd = {
             pjtStepNm : $("#pjtStepNm").val(),
             pjtConYear : $("#pjtConYear").val()
 
+        }
+
+        if($("#unRndStatYn").is(":checked")){
+            parameters.sbjStatYn = "Y";
+        } else {
+            parameters.sbjStatYn = "N";
         }
 
         $("input[name='securityYn']").each(function(){
@@ -491,6 +503,12 @@ var regUnRnd = {
             mngEmpSeq : $("#mngEmpSeq").val(),
 
             pjtConYear : $("#pjtConYear").val()
+        }
+
+        if($("#unRndStatYn").is(":checked")){
+            parameters.sbjStatYn = "Y";
+        } else {
+            parameters.sbjStatYn = "N";
         }
 
         $("input[name='securityYn']").each(function(){

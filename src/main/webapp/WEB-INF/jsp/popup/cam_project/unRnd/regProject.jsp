@@ -267,7 +267,7 @@
                     <th scope="row" class="text-center th-color">
                         <span class="red-star"></span>예산정보
                     </th>
-                    <td colspan="3">
+                    <td>
                         <c:if test="${data.BUDGET_GUBUN == 'CASH'}">현금</c:if>
                         <c:if test="${data.BUDGET_GUBUN == 'POINT'}">
                             포인트 -
@@ -279,6 +279,13 @@
                             <c:if test="${data.EXEC_SYSTEM == '6'}">JBTP</c:if>
                             <c:if test="${data.EXEC_SYSTEM == '99'}">기타</c:if>
                         </c:if>
+                    </td>
+                    <th scope="row" class="text-center th-color">
+                        3책 5공
+                    </th>
+                    <td>
+                        <input type="checkbox" id="unRndStatYn" name="unRndStatYn" style="position: relative; top: 3px;">
+                        <label for="unRndStatYn">적용</label>
                     </td>
                 </tr>
                 </thead>
