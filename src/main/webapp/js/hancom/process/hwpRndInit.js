@@ -167,7 +167,7 @@ var rndInit = {
 
         /** 3. 특이사항 */
         setTimeout(function() {
-            hwpDocCtrl.putFieldText("map", " ");
+            hwpDocCtrl.putFieldText("ETC", " ");
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(delvMap.RND_ETC.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1000);
