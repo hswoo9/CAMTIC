@@ -173,8 +173,15 @@ var estInfo = {
 
         var rs = customKendo.fn_customAjax("/project/engn/getEstData", data);
 
+
+        const result2 = customKendo.fn_customAjax("/project/engn/getCrmInfo", data);
+        const rs2 = result2.rs;
         $("#crmCompNm").val(rs.hashMap.CRM_NM);
-        $("#crmMem").val(rs.hashMap.CRM_CEO);
+        if(rs2.CRM_MEM_TEMP_NM != null || rs2.CRM_MEM_TEMP_NM != ""){
+            $("#crmMem").val(rs2.CRM_MEM_TEMP_NM);
+        }else{
+            $("#crmMem").val(rs2.CRM_MEM_NM);
+        }
         $("#estExpAmt").val(0);
 
         var html = "";
@@ -262,6 +269,7 @@ var estInfo = {
             });
 
             $("#estPjtNm").val(rs.result.estList[len - 1].EST_NM);
+            $("#crmMem").val(rs.result.estList[len - 1].CRM_MEM);
             $("#estDe").val(rs.result.estList[len - 1].EST_DE);
             $("#etc").val(rs.result.estList[len - 1].EST_ISS);
             $("#estExpAmt").val(estInfo.comma(rs.result.estList[len - 1].EST_TOT_AMT));
@@ -348,6 +356,7 @@ var estInfo = {
 
         $("#estDe").val(estSub.EST_DE);
         $("#estPjtNm").val(estSub.EST_NM);
+        $("#crmMem").val(estSub.CRM_MEM);
         $("input[name='vatYn'][value='" + estSub.VAT + "']").prop("checked", true);
         $("#estExpAmt").val(estInfo.comma(estSub.EST_TOT_AMT));
         $("#etc").val(estSub.EST_ISS);

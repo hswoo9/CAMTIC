@@ -50,7 +50,8 @@
                     <span class="red-star"></span>참고
                 </th>
                 <td>
-                    <input type="text" id="crmMem" style="width: 95%;" disabled>
+                    <input type="text" id="crmMem" style="width: 80%;">
+                    <button type="button" class="k-button k-button-solid-base" onclick="crmInfo.fn_popCamCrmMemList();">검색</button>
                 </td>
             </tr>
             <tr>

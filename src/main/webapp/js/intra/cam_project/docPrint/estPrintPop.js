@@ -104,7 +104,7 @@ const estPrintPop = {
 
         /** 2. CRM 정보 */
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_NM", crmMap.CRM_NM);
-        estPrintPop.global.hwpCtrl.PutFieldText("CRM_CEO", crmMap.CRM_CEO);
+        estPrintPop.global.hwpCtrl.PutFieldText("CRM_CEO", estMap.CRM_MEM);
 
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_NM2", "캠틱종합기술원");
         estPrintPop.global.hwpCtrl.PutFieldText("CRM_NO2", "402-82-13594");
