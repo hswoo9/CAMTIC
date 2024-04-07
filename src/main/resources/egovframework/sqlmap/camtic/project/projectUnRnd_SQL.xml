@@ -127,6 +127,8 @@
                 TOT_RES_COST,
                 UN_RND_OBJ,
                 UN_RND_ETC,
+                NOW_STR_DE,
+                NOW_END_DE,
                 UN_RND_CONT
             )
         VALUE
@@ -143,6 +145,8 @@
                 #{totResCost},
                 #{unRndObj},
                 #{unRndEtc},
+                #{nowStrDe},
+                #{nowEndDe},
                 #{unRndCont}
             )
         <selectKey keyProperty="unRndSn" resultType="Integer" order="BEFORE">
@@ -188,6 +192,8 @@
             TOT_RES_COST = #{totResCost},
             UN_RND_OBJ = #{unRndObj},
             UN_RND_ETC = #{unRndEtc},
+            NOW_STR_DE = #{nowStrDe},
+            NOW_END_DE = #{nowEndDe},
             UN_RND_CONT = #{unRndCont}
         WHERE
             PJT_SN = #{pjtSn}

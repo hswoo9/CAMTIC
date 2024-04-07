@@ -54,12 +54,15 @@ var rndInit = {
             }
         }
 
+        /** 사업기간 */
         let yearText = " ";
         if(map.YEAR_CLASS != null){
             if(map.YEAR_CLASS == "M"){
                 yearText = "다년";
+                hwpDocCtrl.putFieldText("PJT_DT_NOW", delvMap.NOW_STR_DE + " ~ " + delvMap.NOW_END_DE);
             }else{
                 yearText = "단년";
+                hwpDocCtrl.putFieldText("PJT_DT_NOW", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
             }
         }
         /** 사업구분 */
@@ -91,12 +94,14 @@ var rndInit = {
         if(map.CRM_CON_NM != null){
             hwpDocCtrl.putFieldText('CRM_CON_NM', map.CRM_CON_NM);
         }
+        hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
+
+
         /** 사업명 */
         hwpDocCtrl.putFieldText('BS_TITLE', map.BS_TITLE);
         /** 과제명 */
         hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
-        /** 사업기간 */
-        hwpDocCtrl.putFieldText("PJT_DT", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
+
 
         /** 총사업비 */
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.ALL_BUSN_COST));

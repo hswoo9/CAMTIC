@@ -47,8 +47,16 @@ var rndDetail = {
             ));
         });*/
 
-        /*customKendo.fn_datePicker("delvDay", "month", "yyyy-MM-dd", new Date());
-        customKendo.fn_datePicker("resDay", "month", "yyyy-MM-dd", new Date());*/
+        customKendo.fn_datePicker("nowStrDe", "month", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("nowEndDe", "month", "yyyy-MM-dd", new Date());
+
+        if($("#yearClass").val() == "S"){
+            $("#nowStrDe").val($("#sbjStrDe").val())
+            $("#nowEndDe").val($("#sbjEndDe").val())
+
+            $("#nowYearBetween").css("display", "none");
+        }
+
 
         /** 사업비 분리사용 유무 change 이벤트 */
         $("input[name='sbjSepYn']").change(function(){
@@ -88,6 +96,9 @@ var rndDetail = {
         /** 최초 저장 이후 데이터 세팅 */
         if(rs != null){
             $("#rndSn").val(rs.RND_SN);
+
+            $("#nowStrDe").val(rs.NOW_STR_DE);
+            $("#nowEndDe").val(rs.NOW_END_DE);
 
             if(rs.RND_OBJ != null){
                 $("#peoResCost").val(comma(rs.PEO_RES_COST));
@@ -211,6 +222,9 @@ var rndDetail = {
             peoResCost : uncomma($("#peoResCost").val()),
             peoResItem : uncomma($("#peoResItem").val()),
             totResCost : uncomma($("#totResCost").val()),
+
+            nowStrDe : $("#nowStrDe").val(),
+            nowEndDe : $("#nowEndDe").val(),
 
             //resCardCheck : $("input[name='resCardCheck']:checked").val(),
             //resCardNo : $("#resCardNo").val(),

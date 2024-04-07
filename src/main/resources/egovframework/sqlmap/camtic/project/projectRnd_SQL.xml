@@ -380,6 +380,8 @@
                 RND_OBJ,
                 RND_ETC,
                 DELV_DAY,
+                NOW_STR_DE,
+                NOW_END_DE,
                 RES_DAY
             )
         VALUE
@@ -397,6 +399,8 @@
                 #{rndObj},
                 #{rndEtc},
                 #{delvDay},
+                #{nowStrDe},
+                #{nowEndDe},
                 #{resDay}
             )
         <selectKey keyProperty="rndSn" resultType="Integer" order="BEFORE">
@@ -447,6 +451,8 @@
             RND_OBJ = #{rndObj},
             RND_ETC = #{rndEtc},
             DELV_DAY = #{delvDay},
+            NOW_STR_DE = #{nowStrDe},
+            NOW_END_DE = #{nowEndDe},
             RES_DAY = #{resDay}
         WHERE
             PJT_SN = #{pjtSn}

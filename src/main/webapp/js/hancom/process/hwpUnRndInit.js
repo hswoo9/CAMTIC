@@ -58,8 +58,10 @@ var unRndInit = {
         if(map.YEAR_CLASS != null){
             if(map.YEAR_CLASS == "M"){
                 yearText = "다년";
+                hwpDocCtrl.putFieldText("PJT_DT_NOW", delvMap.NOW_STR_DE + " ~ " + delvMap.NOW_END_DE);
             }else{
                 yearText = "단년";
+                hwpDocCtrl.putFieldText("PJT_DT_NOW", map.PJT_STR_DT + " ~ " + map.PJT_END_DT);
             }
         }
         /** 사업구분 */

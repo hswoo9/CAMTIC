@@ -154,6 +154,15 @@
                     <input type="text" id="totResCost" name="totResCost" style="width: 32%;text-align: right" value="0" disabled/>
                 </td>
             </tr>
+            <tr id="nowYearBetween">
+                <th scope="row" class="text-center th-color">
+                    <span class="red-star">*</span>당해년도 사업기간<br><span style="color: blue"></span>
+                </th>
+                <td colspan="3">
+                    <input type="text" id="nowStrDe" name="nowStrDe" style="width: 15%"/> ~
+                    <input type="text" id="nowEndDe" name="nowEndDe" style="width: 15%"/>
+                </td>
+            </tr>
             <tr style="display: none">
                 <%--<th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>과제책임자
