@@ -184,7 +184,7 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span><span id="mngText">사업책임자</span>
+                        <span class="red-star">*</span><span id="mngText">사업책임자</span><br>(사업계획서상)
                     </th>
                     <td>
                         <input type="text" id="mngDeptName" style="width: 40%" disabled>
@@ -196,7 +196,7 @@
                         </button>
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>과제담당자(PM)
+                        <span class="red-star">*</span>과제담당자(PM)<br>(법인내부)
                     </th>
                     <td>
                         <input type="text" id="deptName" style="width: 40%" disabled>
