@@ -70,7 +70,13 @@ var delvInfo = {
             $("#delvEstDe").val(delvMap.DELV_EST_DE);
             $("#delvDe").val(delvMap.DELV_DE);
         } else {
-            $("#delvAmt").val(comma(rs.EST_TOT_AMT));
+            if(rs.VAT = "Y"){
+                const supAmtSum3 = Math.round(rs.EST_TOT_AMT / 1.1);
+                $("#delvAmt").val(comma(supAmtSum3));
+            }else{
+                $("#delvAmt").val(comma(rs.EST_TOT_AMT));
+            }
+
             $("#delvExpAmt").val(comma(rs.EST_TOT_AMT));
             $("#delvEstDe").val(rs.EST_DE);
         }

@@ -418,7 +418,7 @@ var estInfo = {
 
     fn_delEst : function(e, i){
         if(confirm("버전 " + i + " 삭제하시겠습니까?")){
-            var result = customKendo.fn_customAjax("/project/engn/setEstInfoDel", {estSn : e});
+            var result = customKendo.fn_customAjax("/project/engn/setEstInfoDel", {estSn : e, pjtSn : $("#pjtSn").val()});
             if(result.flag){
                 alert("삭제되었습니다.");
                 if(commonProject.global.teamStat == "Y"){

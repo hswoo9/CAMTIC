@@ -251,6 +251,14 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updEngn", params);
     }
 
+    public void updEngnAmt(Map<String, Object> params) {
+        update("project.updEngnAmt", params);
+    }
+
+    public void updLastEngnAmt(Map<String, Object> params) {
+        update("project.updLastEngnAmt", params);
+    }
+
     public void updBustInfo(Map<String, Object> params) {
 //        update("bustrip.updBustPjtsnReset", params);
         update("bustrip.updBustPjtSn", params);
