@@ -103,7 +103,11 @@ var rndDetail = {
             if(rs.RND_OBJ != null) {
                 $("#peoResCost").val(comma(rs.PEO_RES_COST));
                 $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
-                $("#totResCost").val(comma(rs.TOT_RES_COST));
+                if($("#taxGubun").val() == "1"){
+                    $("#totResCost").val(comma((rs.TOT_RES_COST * 1.1).toString().split(".")[0]));
+                } else {
+                    $("#totResCost").val(comma(rs.TOT_RES_COST));
+                }
 
                 $("#rndObj").val(rs.RND_OBJ);
                 $("#rndEtc").val(rs.RND_ETC);

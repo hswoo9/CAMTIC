@@ -79,7 +79,11 @@ var unRndDetail = {
             if(rs.UN_RND_OBJ != null){
                 $("#peoResCost").val(comma(rs.PEO_RES_COST));
                 $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
-                $("#totResCost").val(comma(rs.TOT_RES_COST));
+                if($("#taxGubun").val() == "1"){
+                    $("#totResCost").val(comma((rs.TOT_RES_COST * 1.1).toString().split(".")[0]));
+                } else {
+                    $("#totResCost").val(comma(rs.TOT_RES_COST));
+                }
 
                 $("#unRndObj").val(rs.UN_RND_OBJ);
                 $("#unRndEtc").val(rs.UN_RND_ETC);
