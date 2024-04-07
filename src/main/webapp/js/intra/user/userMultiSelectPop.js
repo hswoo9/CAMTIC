@@ -83,7 +83,11 @@ var userMultiSel = {
                     } else {
                         data.sEmpName = $("#sEmpName").val();
                     }
-                    data.fullTime2 = "1";
+
+                    if($("#type").val() != "partRate"){
+                        data.fullTime2 = "1";
+                    }
+
                     return data;
                 }
             },
