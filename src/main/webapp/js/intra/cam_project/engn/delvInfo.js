@@ -70,7 +70,7 @@ var delvInfo = {
             $("#delvEstDe").val(delvMap.DELV_EST_DE);
             $("#delvDe").val(delvMap.DELV_DE);
         } else {
-            if(rs.VAT = "Y"){
+            if(rs.VAT == "Y"){
                 const supAmtSum3 = Math.round(rs.EST_TOT_AMT / 1.1);
                 $("#delvAmt").val(comma(supAmtSum3));
             }else{
