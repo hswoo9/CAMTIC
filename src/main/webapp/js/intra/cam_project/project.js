@@ -264,9 +264,9 @@ var camPrj = {
                         var html = "";
 
                         if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
-                            html = e.EMP_NAME;
+                            html = e.EMP_NAME || "";
                         } else {
-                            html = e.PM;
+                            html = e.PM || "";
                         }
                         return html;
                     }
