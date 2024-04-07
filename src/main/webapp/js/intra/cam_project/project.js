@@ -474,7 +474,7 @@ var camPrj = {
         }
 
         for(var i = 0; i < pral.length; i++){
-            if(pral[i].PART_EMP_SEQ == uid){
+            if(pral[i].EMP_SEQ == uid){
                 flag = true
             }
         }

@@ -100,7 +100,7 @@ var rndDetail = {
             $("#nowStrDe").val(rs.NOW_STR_DE);
             $("#nowEndDe").val(rs.NOW_END_DE);
 
-            if(rs.RND_OBJ != null){
+            if(rs.RND_OBJ != null) {
                 $("#peoResCost").val(comma(rs.PEO_RES_COST));
                 $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
                 $("#totResCost").val(comma(rs.TOT_RES_COST));
@@ -108,19 +108,21 @@ var rndDetail = {
                 $("#rndObj").val(rs.RND_OBJ);
                 $("#rndEtc").val(rs.RND_ETC);
 
-                if(rs.file_org_name != null){
-                    $("#bsPlanFileName").text(rs.file_org_name + "." + rs.file_ext);
+                var fileHtml = "";
+                fileHtml += '<span style="cursor: pointer" onClick="fileDown(\''+rs.file_path+rs.file_uuid+ '\', \''+rs.file_org_name+'.'+rs.file_ext+'\')">'+rs.file_org_name+ '.' + rs.file_ext + '</span>'
+                if (rs.file_org_name != null) {
+                    $("#bsPlanFileName").html(fileHtml);
                 }
 
                 let AcResult = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {
                     pjtSn: pjtMap.PJT_SN
                 });
-                if(pjtMap.SBJ_SEP != undefined){
-                    if(pjtMap.SBJ_SEP == "Y"){
+                if (pjtMap.SBJ_SEP != undefined) {
+                    if (pjtMap.SBJ_SEP == "Y") {
                         $("#sbjSepY").prop("checked", true);
                         $("#checkboxDiv").show();
-                        for(let i=0; i<AcResult.list.length; i++){
-                            $("#at" + AcResult.list[i].IS_TYPE).prop('checked',true);
+                        for (let i = 0; i < AcResult.list.length; i++) {
+                            $("#at" + AcResult.list[i].IS_TYPE).prop('checked', true);
                         }
                     } else {
                         $("#sbjSepN").prop("checked", true);
@@ -137,19 +139,19 @@ var rndDetail = {
                 };
                 arr.push(sum);
 
-                for(let i=0; i<list.length; i++){
+                for (let i = 0; i < list.length; i++) {
                     let label = "";
-                    if(list[i].IS_TYPE == "1"){
+                    if (list[i].IS_TYPE == "1") {
                         label = "국비";
-                    }else if(list[i].IS_TYPE == "2"){
+                    } else if (list[i].IS_TYPE == "2") {
                         label = "도비";
-                    }else if(list[i].IS_TYPE == "3"){
+                    } else if (list[i].IS_TYPE == "3") {
                         label = "시비";
-                    }else if(list[i].IS_TYPE == "4"){
+                    } else if (list[i].IS_TYPE == "4") {
                         label = "자부담";
-                    }else if(list[i].IS_TYPE == "5"){
+                    } else if (list[i].IS_TYPE == "5") {
                         label = "업체부담";
-                    }else if(list[i].IS_TYPE == "9"){
+                    } else if (list[i].IS_TYPE == "9") {
                         label = "기타";
                     }
                     let data = {
@@ -157,12 +159,12 @@ var rndDetail = {
                         value: list[i].IS_TYPE == "9" ? "6" : list[i].IS_TYPE
                     };
                     arr.push(data);
-                    if(i == 0){
+                    if (i == 0) {
                         firstValue = -1;
                     }
                 }
 
-                if(list.length == 0){
+                if (list.length == 0) {
                     arr = [
                         {
                             label: "사업비",
@@ -174,15 +176,15 @@ var rndDetail = {
                 customKendo.fn_radioGroup("budgetType", arr, "horizontal");
                 $("#budgetType").data("kendoRadioGroup").value(firstValue);
 
-                for(let i=-1; i<=6; i++){
-                    $("#customBudgetGrid"+i).hide();
+                for (let i = -1; i <= 6; i++) {
+                    $("#customBudgetGrid" + i).hide();
                 }
 
                 $("#customBudgetGrid" + firstValue).show();
 
-                $("#budgetType").data("kendoRadioGroup").bind("change", function(){
-                    for(let i=-1; i<=6; i++){
-                        $("#customBudgetGrid"+i).hide();
+                $("#budgetType").data("kendoRadioGroup").bind("change", function () {
+                    for (let i = -1; i <= 6; i++) {
+                        $("#customBudgetGrid" + i).hide();
                     }
                     $("#customBudgetGrid" + $("#budgetType").data("kendoRadioGroup").value()).show();
                 })
@@ -637,4 +639,15 @@ var rndDetail = {
         }
         rndDetail.fn_save();
     }
+
+
+}
+
+function fileDown(filePath, fileName, stat){
+    if(stat == "recruit"){
+        filePath = "http://218.158.231.189" + filePath;
+    }
+    kendo.saveAs({
+        dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+    });
 }

@@ -205,8 +205,8 @@ var regUnRnd = {
             $("#tabstrip li")[9].before(doc3.body.firstChild);
         }
 
-        var mem = customKendo.fn_customAjax("/project/projectEnterMemberList", { pjtSn: key });
-
+        var mem = customKendo.fn_customAjax("/project/projectEnterMemberList", { pjtSn: $("#pjtSn").val() });
+        var uid = $("#regEmpSeq").val()
         var pral = mem.list.partRateAdminList;
         var flag = false;
 
@@ -214,7 +214,7 @@ var regUnRnd = {
 
 
         for(var i = 0; i < pral.length; i++){
-            if(pral[i].PART_EMP_SEQ == uid){
+            if(pral[i].EMP_SEQ == uid){
                 flag = true
             }
         }

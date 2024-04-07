@@ -84,8 +84,10 @@ var unRndDetail = {
                 $("#unRndObj").val(rs.UN_RND_OBJ);
                 $("#unRndEtc").val(rs.UN_RND_ETC);
 
+                var fileHtml = "";
+                fileHtml += '<span style="cursor: pointer" onClick="fileDown(\''+rs.file_path+rs.file_uuid+ '\', \''+rs.file_org_name+'.'+rs.file_ext+'\')">'+rs.file_org_name+ '.' + rs.file_ext + '</span>'
                 if(rs.file_org_name != null){
-                    $("#bsPlanFileName").text(rs.file_org_name + "." + rs.file_ext);
+                    $("#bsPlanFileName").html(fileHtml);
                 }
 
                 let AcResult = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {
