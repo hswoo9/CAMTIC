@@ -80,7 +80,7 @@ var unRndDetail = {
                 $("#peoResCost").val(comma(rs.PEO_RES_COST));
                 $("#peoResItem").val(comma(rs.PEO_RES_ITEM));
                 if($("#taxGubun").val() == "1"){
-                    $("#totResCost").val(comma((rs.TOT_RES_COST * 1.1).toString().split(".")[0]));
+                    $("#totResCost").val(comma((rs.TOT_RES_COST / 1.1).toString().split(".")[0]));
                 } else {
                     $("#totResCost").val(comma(rs.TOT_RES_COST));
                 }
