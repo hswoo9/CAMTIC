@@ -42,8 +42,9 @@ var delvInfo = {
         var delvMap = result.delvMap;
         var map = result.map;
         var rs = result.estMap.estList[result.estMap.estList.length - 1];
+
         if(delvFile != null && delvFile != ''){
-            $("#delvFileName").text(delvFile.file_org_name + "." +delvFile.file_ext);
+            $("#delvFileName").html('<span style="cursor: pointer" onclick="fileDown(\''+delvFile.file_path + delvFile.file_uuid+'\', \''+delvFile.file_org_name+'.'+delvFile.file_ext+'\')">'+delvFile.file_org_name+ '.' + delvFile.file_ext+'</span>');
         }
         if(delvMap != null && delvMap != ''){
             $("#delvAmt").val(comma(delvMap.DELV_AMT));

@@ -52,9 +52,8 @@ var camPrj = {
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
-                { text: "전체", value: "" },
-                { text: "프로젝트코드", value: "1" },
                 { text: "프로젝트명", value: "2" },
+                { text: "프로젝트코드", value: "1" },
                 { text: "업체명", value: "3" },
                 { text: "담당자", value: "4" },
             ],
