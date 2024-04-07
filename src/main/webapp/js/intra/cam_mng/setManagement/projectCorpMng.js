@@ -77,9 +77,9 @@ var prjCorpMng = {
                     width: 80,
                     template: function(e){
                         if(e.BUSN_CLASS == "D"){
-                            return e.ENGN_PM_NM;
+                            return e.ENGN_PM_NM || "";
                         }else{
-                            return e.PM_NM;
+                            return e.PM_NM || "";
                         }
                     }
                 }, {
