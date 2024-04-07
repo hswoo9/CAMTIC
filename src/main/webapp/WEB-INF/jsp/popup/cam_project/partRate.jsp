@@ -264,7 +264,7 @@
 
 
         <c:if test='${data.MNG_STAT != "S" and data.MNG_STAT != "C"}'>
-            <button type="button" style="float: right; margin-top: 10px; font-size: 14px; margin-right: 5px;" onclick="fn_userMultiSelectPop();" class="k-button k-button-solid-base">추가</button>
+            <button type="button" style="float: right; margin-top: 10px; font-size: 14px; margin-right: 5px;" onclick="fn_userMultiSelectPop('partRate');" class="k-button k-button-solid-base">추가</button>
         </c:if>
         <div class="table-responsive" style="margin-bottom: 25px;">
             <table class="popTable table table-bordered mb-0">

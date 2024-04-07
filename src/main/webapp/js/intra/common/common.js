@@ -141,7 +141,7 @@ function userSearch() {
 }
 
 function fn_userMultiSelectPop(type) {
-    if(type == "bustrip"){
+    if(type == "bustrip" || type == "partRate"){
         window.open("/user/pop/userMultiSelectPop.do?type="+type,"조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }else{
         window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
