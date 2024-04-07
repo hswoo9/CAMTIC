@@ -118,12 +118,14 @@ var engnInit = {
 
         /** 4. 특이사항 */
         setTimeout(function() {
+            hwpDocCtrl.putFieldText("ETC", " ");
             hwpDocCtrl.moveToField("ETC", true, true, false);
             hwpDocCtrl.setTextFile(delvMap.DELV_ISSU.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1000);
 
         /** 2. 사업내용 */
         setTimeout(function() {
+            hwpDocCtrl.putFieldText("DELV_CONT", " ");
             hwpDocCtrl.moveToField("DELV_CONT", true, true, false);
             hwpDocCtrl.setTextFile(delvMap.DELV_CONT.replaceAll("\n", "<br>"), "html","insertfile");
         }, 2000);

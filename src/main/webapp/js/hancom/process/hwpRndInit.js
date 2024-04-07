@@ -105,8 +105,12 @@ var rndInit = {
 
         /** 총사업비 */
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.ALL_BUSN_COST));
-        /** 법인사업비(수주금액) */ /** 법인사업비 정의 4번째 바뀜 */
-        hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
+        /** 법인사업비(수주금액) */ /** 법인사업비 정의 5번째 바뀜 */
+        if(map.TAX_GUBUN == "1"){
+            hwpDocCtrl.putFieldText('PJT_AMT', comma((delvMap.TOT_RES_COST * 1.1).toString().split(".")[0]));
+        }else{
+            hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
+        }
 
         /** 사업책임자 */
         const mngInfo = getUser(map.PM_EMP_SEQ);
@@ -133,11 +137,21 @@ var rndInit = {
 
         /** 2. 사업 목적 및 내용 */
         hwpDocCtrl.putFieldText('OBJ', delvMap.RND_OBJ);
-        hwpDocCtrl.putFieldText('BUSN_COST', fn_numberWithCommas(delvMap.TOT_RES_COST));
+        hwpDocCtrl.putFieldText('NOW_AMT', comma(Number((delvMap.TOT_RES_COST * 1.1).toString().split(".")[0]) + Number(delvMap.PEO_RES_ITEM)));
+        hwpDocCtrl.putFieldText('BUSN_COST', comma((delvMap.TOT_RES_COST * 1.1).toString().split(".")[0]));
         hwpDocCtrl.putFieldText('PEO_RES_ITEM', delvMap.PEO_RES_ITEM == 0 ? "0" : fn_numberWithCommas(delvMap.PEO_RES_ITEM));
 
         let g20Sum = 0;
         console.log("customG20", customG20);
+
+        /** 초기화 */
+        hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', "0");
+        hwpDocCtrl.putFieldText('CB_BUDGET_PER0', "0%");
+        hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', "0");
+        hwpDocCtrl.putFieldText('CB_BUDGET_PER0', "0%");
+        hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', "0");
+        hwpDocCtrl.putFieldText('CB_BUDGET_PER0', "0%");
+
         for(let i=0; i<customG20.list.length; i++){
             const g20Map = customG20.list[i];
             if(g20Map.CB_CODE_NAME_1 == "인건비" && g20Map.CB_BUDGET != null){
@@ -158,7 +172,7 @@ var rndInit = {
 
         /** 3. 특이사항 */
         setTimeout(function() {
-            hwpDocCtrl.putFieldText("map", " ");
+            hwpDocCtrl.putFieldText("ETC", " ");
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(delvMap.RND_ETC.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1000);
@@ -173,6 +187,14 @@ var rndInit = {
         const map = pjtInfo.rs;
         const delvMap = rndInfo.map;
 
+        let pjtAmt = 0;
+
+        if(map.PJT_AMT != null && map.PJT_AMT != "" && map.PJT_AMT != 0){
+            pjtAmt = Number(map.PJT_AMT);
+        }else{
+            pjtAmt = Number(delvMap.TOT_RES_COST);
+        }
+
         /** 1. 사업정보 */
         rndInit.delvSet();
 
@@ -186,7 +208,7 @@ var rndInit = {
             const tmPmInfo = getUser(team.TM_PM_SEQ);
             hwpDocCtrl.putFieldText('TM_EMP_NAME', tmPmInfo.deptNm + " " + tmPmInfo.EMP_NAME_KR + " " + fn_getSpot(tmPmInfo.DUTY_NAME, tmPmInfo.POSITION_NAME));
             hwpDocCtrl.putFieldText('TM_AMT', fn_numberWithCommas(team.TM_AMT));
-            hwpDocCtrl.putFieldText('TM_PER', ((team.TM_AMT/delvMap.TOT_RES_COST) * 100).toString().substring(0,4)+"%");
+            hwpDocCtrl.putFieldText('TM_PER', ((team.TM_AMT/pjtAmt) * 100).toString().substring(0,4)+"%");
         }
 
         /** 2. 사업 예산 **/
@@ -227,9 +249,9 @@ var rndInit = {
         }
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', String(fn_numberWithCommas(invSum)));
-        let invPer = (invSum / delvMap.TOT_RES_COST * 100).toFixed(1);
+        let invPer = (invSum / pjtAmt * 100).toFixed(1);
         hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
-        hwpDocCtrl.putFieldText('INV_AMT2', String(fn_numberWithCommas(delvMap.TOT_RES_COST-invSum)));
+        hwpDocCtrl.putFieldText('INV_AMT2', String(fn_numberWithCommas(pjtAmt-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
 
         if(map.TM_YN == "Y"){
@@ -243,11 +265,11 @@ var rndInit = {
                 teamInvSum += Number(teamPurcMap.EST_TOT_AMT);
             }
             let delvAmt = 0;
-            delvAmt = delvMap.TOT_RES_COST - team.TM_AMT;
+            delvAmt = pjtAmt - team.TM_AMT;
 
             /** 수부부서 매출*/
             hwpDocCtrl.putFieldText('AMT1', delvAmt == 0 ? "0" : fn_numberWithCommas(delvAmt));
-            let delvPer = (delvAmt / delvMap.TOT_RES_COST * 100).toFixed(1);
+            let delvPer = (delvAmt / pjtAmt * 100).toFixed(1);
             hwpDocCtrl.putFieldText('INV_PER', delvPer+"%");
 
             /** 수주부서 비용*/
@@ -274,9 +296,9 @@ var rndInit = {
             hwpDocCtrl.putFieldText('TEAM_PER3', (100-teamPer)+"%");
 
             /** 합계 */
-            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
+            hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(pjtAmt));
             hwpDocCtrl.putFieldText('TEAM_INV_AMT_SUM', fn_numberWithCommas(invSum + teamInvSum));
-            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(delvMap.TOT_RES_COST - invSum - teamInvSum));
+            hwpDocCtrl.putFieldText('TEAM_INV2_AMT_SUM', fn_numberWithCommas(pjtAmt - invSum - teamInvSum));
         }
 
         /** 6. 특이사항 */

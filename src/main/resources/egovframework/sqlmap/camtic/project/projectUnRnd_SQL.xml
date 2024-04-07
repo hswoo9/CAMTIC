@@ -228,6 +228,12 @@
                             WHERE PJT_SN = #{pjtSn}
                               AND
                                 ( ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn})
+                                    OR ACCOUNT = CASE WHEN (SELECT COUNT(IS_TYPE) FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn} AND IS_TYPE = '9') = 1 THEN '6' ELSE NULL END)),
+
+            PEO_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
+                            WHERE PJT_SN = #{pjtSn}
+                              AND
+                                ( ACCOUNT IN (SELECT IS_TYPE FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn})
                                     OR ACCOUNT = CASE WHEN (SELECT COUNT(IS_TYPE) FROM CAM_PJT_MNG.DJ_PJT_ACCOUNT SSA WHERE PJT_SN = #{pjtSn} AND IS_TYPE = '9') = 1 THEN '6' ELSE NULL END))
         WHERE
             UN_RND_SN = #{unRndSn}
@@ -238,6 +244,10 @@
         UPDATE CAM_PJT_MNG.DJ_PJT_UNRND
         SET
             TOT_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
+                            WHERE PJT_SN = #{pjtSn}
+                              AND ACCOUNT = '0'),
+
+            PEO_RES_COST = (SELECT IFNULL(SUM(CB_BUDGET), 0) AS TOTAL_AMT FROM CAM_PJT_MNG.DJ_PJT_CB
                             WHERE PJT_SN = #{pjtSn}
                               AND ACCOUNT = '0')
         WHERE
@@ -259,7 +269,9 @@
         SET
             PJT_STEP = "S2",
             PJT_STEP_NM = "수주보고",
-            PJT_AMT = (SELECT TOT_RES_COST FROM CAM_PJT_MNG.DJ_PJT_UNRND WHERE PJT_SN = #{pjtSn})
+            PJT_AMT = (SELECT IF(DDS.TAX_GUBUN = 1, SUBSTRING_INDEX((SELECT TOT_RES_COST FROM CAM_PJT_MNG.DJ_PJT_UNRND WHERE PJT_SN = A.PJT_SN) * 1.1, '.', 1), (SELECT TOT_RES_COST FROM CAM_PJT_MNG.DJ_PJT_RND WHERE PJT_SN = A.PJT_SN)) FROM CAM_PJT_MNG.DJ_PROJECT A
+                       LEFT JOIN CAM_MNG.DJ_DEPO_SETTING DDS ON A.PJT_SN = DDS.FR_PJT_SN
+                       WHERE A.PJT_SN = #{pjtSn})
         WHERE
             PJT_SN = #{pjtSn}
     </update>
