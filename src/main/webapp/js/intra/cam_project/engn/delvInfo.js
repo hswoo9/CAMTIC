@@ -13,7 +13,7 @@ var delvInfo = {
         customKendo.fn_datePicker("delvEstDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("delvDe", "depth", "yyyy-MM-dd", new Date());
 
-        $("#sumry, #specf, #delvAssu, #delvTest, #delvIssu").kendoTextArea({
+        $("#sumry, #specf, #delvAssu, #delvTest, #delvIssu, #delvCont").kendoTextArea({
             rows: 5,
         });
 
@@ -55,6 +55,7 @@ var delvInfo = {
             $("#delvUnit").val(delvMap.DELV_UNIT);
             $("#delvCnt").val(delvMap.DELV_CNT);
             $("#delvIssu").val(delvMap.DELV_ISSU);
+            $("#delvCont").val(delvMap.DELV_CONT);
             /*$("#delvPay").val(delvMap.DELV_PAY);*/
             $("#pjtStrDt").val(delvMap.PJT_STR_DT);
             $("#pjtEndDt").val(delvMap.PJT_END_DT);
@@ -140,6 +141,11 @@ var delvInfo = {
         //     return;
         // }
 
+        if($("#delvCont").val() == ""){
+            alert("사업내용을 입력해주세요.");
+            return;
+        }
+
         if($("#delvIssu").val() == ""){
             alert("특이사항을 입력해주세요.");
             return;
@@ -174,6 +180,7 @@ var delvInfo = {
             delvUnit : $("#delvUnit").val(),
             delvLoc : $("#delvLoc").val(),
             delvIssu : $("#delvIssu").val(),
+            delvCont : $("#delvCont").val(),
             delvAmt : uncomma($("#delvAmt").val()),
             delvDept : $("input[name='delvDept']:checked").val(),
             pmEmpNm : $("#pmName").val(),
@@ -200,6 +207,7 @@ var delvInfo = {
         fd.append("delvUnit", parameters.delvUnit);
         fd.append("delvLoc", parameters.delvLoc);
         fd.append("delvIssu", parameters.delvIssu);
+        fd.append("delvCont", parameters.delvCont);
         if(parameters.delvAmt == "" || parameters.delvAmt == undefined){
             fd.append("delvAmt", "0");
         }else{
