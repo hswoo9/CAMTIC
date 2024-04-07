@@ -108,13 +108,33 @@
                         프로젝트 시작
                     </th>
                     <td>
-                        ${data.STR_DT}
+                        <c:if test="${data.YEAR_CLASS == 'M'}">
+                            <c:if test="${map.BUSN_NM == 'R&D'}">
+                                ${data.NOW_STR_DE_RND}
+                            </c:if>
+                            <c:if test="${map.BUSN_NM != 'R&D'}">
+                                ${data.NOW_STR_DE_UNRND}
+                            </c:if>
+                        </c:if>
+                        <c:if test="${data.YEAR_CLASS != 'M'}">
+                            ${data.STR_DT}
+                        </c:if>
                     </td>
                     <th scope="row" class="text-center th-color">
                         프로젝트 종료
                     </th>
                     <td>
-                        ${data.END_DT}
+                        <c:if test="${data.YEAR_CLASS == 'M'}">
+                            <c:if test="${map.BUSN_NM == 'R&D'}">
+                                ${data.NOW_END_DE_RND}
+                            </c:if>
+                            <c:if test="${map.BUSN_NM != 'R&D'}">
+                                ${data.NOW_END_DE_UNRND}
+                            </c:if>
+                        </c:if>
+                        <c:if test="${data.YEAR_CLASS != 'M'}">
+                            ${data.END_DT}
+                        </c:if>
                     </td>
                 </tr>
                 <tr>

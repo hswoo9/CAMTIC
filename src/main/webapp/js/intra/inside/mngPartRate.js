@@ -98,11 +98,24 @@ var mngPartRate = {
                 }, {
                     field: "STR_DT",
                     title: "프로젝트 시작",
-                    width: "7%"
+                    width: "7%",
+                    template: function (e){
+                        if(e.BUSN_NM == "R&D"){
+                            return e.NOW_STR_DE_RND || e.STR_DT
+                        } else {
+                            return e.NOW_STR_DE_UNRND || e.STR_DT
+                        }
+                    }
                 }, {
                     field: "END_DT",
                     title: "프로젝트 종료",
-                    width: "7%"
+                    template: function (e){
+                        if(e.BUSN_NM == "R&D"){
+                            return e.NOW_END_DE_RND || e.END_DT
+                        } else {
+                            return e.NOW_END_DE_UNRND || e.END_DT
+                        }
+                    }
                 }, {
                     title: "인건비 예산(원)",
                     width: "7%",
