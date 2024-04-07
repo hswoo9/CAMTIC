@@ -197,7 +197,7 @@ var partRate = {
                 memHtml += '   </td>';
                 memHtml += '   <td><input type="text" id="memStrDt'+i+'" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" onchange="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" name="strDt" /></td>';
                 memHtml += '   <td><input type="text" id="memEndDt'+i+'" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');" onchange="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +');"  name="endDt" /></td>';
-                memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" value="'+partRate.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'"></td>';
+                memHtml += '   <td><input type="text" id="memMon'+i+'" name="mon" style="text-align: right" value="'+partRate.fn_monDiff(mem[i].PJT_STR_DT, mem[i].PJT_END_DT)+'" onkeypress="if(window.event.keyCode==13){partRate.fn_monChange(' + uncomma(totAmt) + ',' + rs.PAY_BUDGET + ',' + i + ')}"></td>';
                 memHtml += '   <td><input type="text" id="memPayRate'+i+'" name="payRate" style="text-align: right" disabled value="0"></td>';      // 참여율 현금(%)
                 memHtml += '   <td><input type="text" id="memTotPayBudget'+i+'" name="totPayBudget" style="text-align: right" disabled value="0"></td>';      // 인건비 현금 총액
                 memHtml += '   <td><input type="text" id="memItemRate'+i+'" name="itemRate" value="0" style="text-align: right" onkeyup="partRate.fn_memCalc('+uncomma(totAmt)+','+rs.PAY_BUDGET+','+ i +', this, true);" oninput="this.value = this.value.replace(/[^\\d.]/g, \'\').replace(/(\\..*?)\\./g, \'$1\');"></td>';
@@ -336,7 +336,9 @@ var partRate = {
             return;
         }
 
-        $("#memMon" + i).val(partRate.fn_monDiff($("#memStrDt" + i).val(), $("#memEndDt" + i).val()));                                  // 참여개월 계산
+        partRate.fn_monDiff($("#memStrDt" + i).val(), $("#memEndDt" + i).val())
+
+        // $("#memMon" + i).val(partRate.fn_monDiff($("#memStrDt" + i).val(), $("#memEndDt" + i).val()));                                  // 참여개월 계산
 
         var memMonSal = Math.floor((Number(uncomma($("#memPayTotal" + i).val())) / ($("#memMon" + i).val()))/10) * 10;
         if(isNaN(memMonSal)){
@@ -404,15 +406,10 @@ var partRate = {
     fn_monDiff : function (_date1, _date2){
         var pSDate = _date1; // 참여 시작일
         var pEDate = _date2; // 참여 종료일
-
         var pSDateArray = pSDate.split("-");
         var pEDateArray = pEDate.split("-");
-
         var pSDateSet = new Date(pSDateArray[0], pSDateArray[1] - 1, pSDateArray[2]);
         var pEDateSet = new Date(pEDateArray[0], pEDateArray[1] - 1, pEDateArray[2]);
-
-        var pSDateLastSet = new Date(pSDateArray[0], pSDateArray[1], 0).getDate();
-        var pEDateLastSet = new Date(pEDateArray[0], pEDateArray[1], 0).getDate();
 
         var pSDateYear = pSDateSet.getFullYear();
         var pSDateMonth = pSDateSet.getMonth();
@@ -422,22 +419,100 @@ var partRate = {
         var pEDateMonth = pEDateSet.getMonth();
         var pEDateDay = pEDateSet.getDate();
 
-        var pMonthSet = ((pEDateYear - pSDateYear) * 12) + (pEDateMonth - pSDateMonth) - 1;
+        let monthsDiff = (pEDateYear - pSDateYear) * 12 + (pEDateMonth - pSDateMonth);
+        var daysDiff = Math.round((pEDateSet - pSDateSet) / (1000 * 60 * 60 * 24));
 
-        var pSDateDaySet = pSDateLastSet - pSDateDay + 1;
-        var pEDateDaySet = pEDateDay;
+        for (let year = pSDateYear; year < pEDateYear; year++) {
+            if (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) {
+                monthsDiff++;
+            }
+        }
 
-        var pSDateDayPerSet = pSDateDaySet / pSDateLastSet;
-        var pEDateDayPerSet = pEDateDaySet / pEDateLastSet;
+        if (pSDateSet.getMonth() === 1 && pEDateSet.getDate() === 29) {
+            if (!(pSDateYear % 4 === 0 && (pSDateYear % 100 !== 0 || pSDateYear % 400 === 0))) {
+                daysDiff--;
+            }
+        }
 
-        var pDateMonth = pMonthSet + pSDateDayPerSet + pEDateDayPerSet;
+        if (pEDateSet.getMonth() === 1 && pEDateSet.getDate() === 29) {
+            if (!(pEDateYear % 4 === 0 && (pEDateYear % 100 !== 0 || pEDateYear % 400 === 0))) {
+                daysDiff++;
+            }
+        }
 
-        var finalReturn = partRate.truncateStringToOneDecimal(pDateMonth.toString());
-
+        var finalReturn = partRate.truncateStringToOneDecimal((monthsDiff + daysDiff / 30.44).toString());
         if(finalReturn == 0){
             finalReturn = 0.1;
         }
-        return finalReturn;
+
+        return finalReturn
+
+
+        // var pSDate = _date1; // 참여 시작일
+        // var pEDate = _date2; // 참여 종료일
+        //
+        // var pSDateArray = pSDate.split("-");
+        // var pEDateArray = pEDate.split("-");
+        //
+        // var pSDateSet = new Date(pSDateArray[0], pSDateArray[1] - 1, pSDateArray[2]);
+        // var pEDateSet = new Date(pEDateArray[0], pEDateArray[1] - 1, pEDateArray[2]);
+        //
+        // var pSDateLastSet = new Date(pSDateArray[0], pSDateArray[1], 0).getDate();
+        // var pEDateLastSet = new Date(pEDateArray[0], pEDateArray[1], 0).getDate();
+        //
+        // var pSDateYear = pSDateSet.getFullYear();
+        // var pSDateMonth = pSDateSet.getMonth();
+        // var pSDateDay = pSDateSet.getDate();
+        //
+        // var pEDateYear = pEDateSet.getFullYear();
+        // var pEDateMonth = pEDateSet.getMonth();
+        // var pEDateDay = pEDateSet.getDate();
+        //
+        // var pMonthSet = ((pEDateYear - pSDateYear) * 12) + (pEDateMonth - pSDateMonth) - 1;
+        //
+        // var pSDateDaySet = pSDateLastSet - pSDateDay + 1;
+        // var pEDateDaySet = pEDateDay;
+        //
+        // var pSDateDayPerSet = pSDateDaySet / pSDateLastSet;
+        // var pEDateDayPerSet = pEDateDaySet / pEDateLastSet;
+        //
+        // var pDateMonth = pMonthSet + pSDateDayPerSet + pEDateDayPerSet;
+        //
+        // var finalReturn = partRate.truncateStringToOneDecimal(pDateMonth.toString());
+        //
+        // if(finalReturn == 0){
+        //     finalReturn = 0.1;
+        // }
+        // return finalReturn;
+    },
+
+    fn_monChange : function(amt, budget, e){
+        var partMonth = $("#memMon" + e).val(); /** 참여개월 수기입력 */
+
+        if(partMonth == "0"){
+            $("#memMon" + e).val("0.1")
+            partMonth = "0.1";
+        }
+
+        var pSDate = $("#memStrDt" + e).val();
+        var pSDateArray = pSDate.split("-");
+        var pSDateSet = new Date(pSDateArray[0], pSDateArray[1], pSDateArray[2]); /** 참여 시작일 */
+
+        var monthToAdd = Math.floor(partMonth);
+        var daysToAdd = Math.round((partMonth - monthToAdd) * 30.44);
+
+        for (let year = pSDateSet.getFullYear(); year <= pSDateSet.getFullYear() + monthToAdd; year++) {
+            if ((year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0))) {
+                daysToAdd++;
+            }
+        }
+
+        pSDateSet.setMonth((pSDateSet.getMonth() - 1) + monthToAdd);
+        pSDateSet.setDate(pSDateSet.getDate() + daysToAdd);
+
+        $("#memEndDt" + e).data("kendoDatePicker").value(new Date(pSDateSet.getFullYear(), pSDateSet.getMonth(), pSDateSet.getDate()));
+
+        partRate.fn_memCalc(amt, budget, e);
     },
 
     truncateStringToOneDecimal : function (str) {
