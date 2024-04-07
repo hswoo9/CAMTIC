@@ -2732,6 +2732,7 @@
             D.PART_DET_END_DT,
             D.PART_EMP_NM,
             D.PART_EMP_SEQ,
+            CASE WHEN HEI.DUTY_NAME IS NULL THEN HEI.POSITION_NAME ELSE HEI.DUTY_NAME END AS POSITION_NAME,
             D.PAY_RATE,
             D.ITEM_RATE,
             D.MON_SAL,
@@ -2775,6 +2776,9 @@
             CAM_PJT_MNG.DJ_PART_RATE_DET D
         ON
             A.PART_RATE_VER_SN = D.PART_RATE_VER_SN AND D.PART_EMP_SEQ = #{MEMBER_SEQ} AND D.PJT_SN = #{PJT_SN}
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI
+        ON HEI.EMP_SEQ = #{MEMBER_SEQ}
         WHERE A.PJT_SN = #{PJT_SN} AND A.PART_RATE_VER = #{PART_RATE_VER}
         ]]>
     </select>
