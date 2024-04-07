@@ -259,7 +259,17 @@ var camPrj = {
                 }, {
                     field: "PM",
                     title: "PM",
-                    width: 60
+                    width: 60,
+                    template : function (e){
+                        var html = "";
+
+                        if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
+                            html = e.EMP_NAME;
+                        } else {
+                            html = e.PM;
+                        }
+                        return html;
+                    }
                 }, {
                     field: "PJT_STEP_NM",
                     title: "진행단계",
