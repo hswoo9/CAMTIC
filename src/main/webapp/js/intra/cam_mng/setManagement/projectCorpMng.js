@@ -59,7 +59,7 @@ var prjCorpMng = {
                     title: "프로젝트 명",
                     width: 560,
                     template: function(e){
-                        if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"){
+                        if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "R" || e.BUSN_CLASS == "S"|| e.BUSN_CLASS == "V"){
                             return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjCorpMng.fn_popDelvProject(\'' + e.PJT_SN + '\')";>' + e.PJT_NM + '</a>'
                         }
                         return '<a href="javascript:void(0);" style="font-weight: bold;" onclick="prjCorpMng.fn_popCorpProject(\'' + e.PJT_SN + '\')";>' + e.PJT_NM + '</a>'
