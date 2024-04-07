@@ -494,7 +494,7 @@
     <select id="getStep1EstList" parameterType="map" resultType="map">
         SELECT
             A.*,
-            (SELECT EMP_NAME_KR from CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = 1) AS EMP_NAME,
+            (SELECT EMP_NAME_KR from CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
             (SELECT COUNT(*) FROM CAM_PJT_MNG.DJ_PJT_EST_SUB WHERE EST_SN = A.EST_SN) AS CNT,
             (SELECT SUM(SUP_AMT) FROM CAM_PJT_MNG.DJ_PJT_EST_SUB WHERE EST_SN = A.EST_SN) AS SUM_AMT
         FROM
