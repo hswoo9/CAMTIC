@@ -159,12 +159,15 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectRepository.updProject(params);
         projectRepository.updEngn(params);
+        projectRepository.updEngnAmt(params);
     }
 
     @Override
     public void setEstInfoDel(Map<String, Object> params) {
         projectRepository.setEstInfoDel(params);
         projectRepository.delEstSub(params);
+
+        projectRepository.updEngnAmt(params);
     }
 
     @Override

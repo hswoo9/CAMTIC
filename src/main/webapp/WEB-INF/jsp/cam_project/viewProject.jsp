@@ -153,8 +153,8 @@
                             <td id="expectEngnSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: center; background-color: #FFFFFF">예상</td>
-                            <td style="text-align: right; background-color: #FFFFFF">0건</td>
-                            <td style="text-align: right; background-color: #FFFFFF">0백만원</td>
+                            <td id="expectVCount" style="text-align: right; background-color: #FFFFFF">0건</td>
+                            <td id="expectVSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: right; background-color: #EFF6E7"><b id="expectCount">0건</b></td>
                             <td style="text-align: right; background-color: #EFF6E7"><b id="expectSum">0백만원</b></td>
@@ -173,8 +173,8 @@
                             <td id="progressEngnSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: center; background-color: #FFFFFF">진행</td>
-                            <td style="text-align: right; background-color: #FFFFFF">0건</td>
-                            <td style="text-align: right; background-color: #FFFFFF">0백만원</td>
+                            <td id="progressVCount" style="text-align: right; background-color: #FFFFFF">0건</td>
+                            <td id="progressVSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: right; background-color: #EFF6E7"><b id="progressCount">0건</b></td>
                             <td style="text-align: right; background-color: #EFF6E7"><b id="progressSum">0백만원</b></td>
@@ -193,8 +193,8 @@
                             <td id="completeEngnSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: center; background-color: #FFFFFF">완료</td>
-                            <td style="text-align: right; background-color: #FFFFFF">0건</td>
-                            <td style="text-align: right; background-color: #FFFFFF">0백만원</td>
+                            <td id="completeVCount" style="text-align: right; background-color: #FFFFFF">0건</td>
+                            <td id="completeVSum" style="text-align: right; background-color: #FFFFFF">0백만원</td>
 
                             <td style="text-align: right; background-color: #EFF6E7"><b id="completeCount">0건</b></td>
                             <td style="text-align: right; background-color: #EFF6E7"><b id="completeSum">0백만원</b></td>
@@ -213,8 +213,8 @@
                             <td style="text-align: right;"><b id="engnSum">0백만원</b></td>
 
                             <td style="text-align: center;"><b>합계</b></td>
-                            <td style="text-align: right; "><b>0건</b></td>
-                            <td style="text-align: right;"><b>0백만원</b></td>
+                            <td style="text-align: right; "><b id="vCount">0건</b></td>
+                            <td style="text-align: right;"><b id="vSum">0백만원</b></td>
 
                             <td style="text-align: right;"><b id="totCount">0건</b></td>
                             <td style="text-align: right;"><b id="totSum">0백만원</b></td>

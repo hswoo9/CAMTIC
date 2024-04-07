@@ -213,32 +213,41 @@ var camPrj = {
                     title: "수주일",
                     width: 100,
                     template: function (e) {
-                        if (e.STR_DT == null || e.STR_DT == "") {
-                            return "";
+                        if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
+                            if(e.STR_DT == null || e.STR_DT == ""){
+                                return "";
+                            }
+                            var date = new Date(e.STR_DT);
+                            var yyyy = date.getFullYear();
+                            var mm = date.getMonth()+1;
+                            mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                            var dd = date.getDate();
+                            dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                            return yyyy+'-'+mm+'-'+dd;
+                        } else {
+                            return e.DELV_EST_DE || "";
                         }
-                        var date = new Date(e.STR_DT);
-                        var yyyy = date.getFullYear();
-                        var mm = date.getMonth() + 1;
-                        mm = mm >= 10 ? mm : '0' + mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                        var dd = date.getDate();
-                        dd = dd >= 10 ? dd : '0' + dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                        return yyyy + '-' + mm + '-' + dd;
                     }
                 }, {
                     field: "END_DT",
                     title: "종료일자",
                     width: 100,
                     template: function(e){
-                        if(e.END_DT == null || e.END_DT == ""){
-                            return "";
+                        if(e.BUSN_CLASS == "S" || e.BUSN_CLASS == "R"){
+                            if(e.END_DT == null || e.END_DT == ""){
+                                return "";
+                            }
+                            var date = new Date(e.END_DT);
+                            var yyyy = date.getFullYear();
+                            var mm = date.getMonth()+1;
+                            mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+                            var dd = date.getDate();
+                            dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+                            return yyyy+'-'+mm+'-'+dd;
+                        } else {
+                            return e.GOODS_DT || "";
                         }
-                        var date = new Date(e.END_DT);
-                        var yyyy = date.getFullYear();
-                        var mm = date.getMonth()+1;
-                        mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
-                        var dd = date.getDate();
-                        dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
-                        return yyyy+'-'+mm+'-'+dd;
+
                     },
                     footerTemplate: "합계"
                 }, /*{
@@ -545,6 +554,21 @@ var camPrj = {
 
         $("#engnCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 0)'>"+camPrj.comma(totalData.ENGN_EXPECT_COUNT + totalData.ENGN_PROGRESS_COUNT + totalData.ENGN_COMPLETE_COUNT)+ "건</span>");
         $("#engnSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"D\", 0)'>"+camPrj.comma(expectEngnSum + progressEngnSum + completeEngnSum)+"백만원</span>");
+
+        $("#expectVCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"V\", 1)'>"+camPrj.comma(totalData.V_EXPECT_COUNT)+ "건</span>");
+        let expectVSum = Math.floor(totalData.V_EXPECT_SUM / 1000000);
+        $("#expectVSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"V\", 1)'>"+camPrj.comma(expectVSum)+"백만원</span>");
+
+        $("#progressVCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"V\", 2)'>"+camPrj.comma(totalData.V_PROGRESS_COUNT)+ "건</span>");
+        let progressVSum = Math.floor(totalData.V_PROGRESS_SUM / 1000000);
+        $("#progressVSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"V\", 2)'>"+camPrj.comma(progressVSum)+"백만원</span>");
+
+        $("#completeVCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"V\", 3)'>"+camPrj.comma(totalData.V_COMPLETE_COUNT)+ "건</span>");
+        let completeVSum = Math.floor(totalData.V_COMPLETE_SUM / 1000000);
+        $("#completeVSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"V\", 3)'>"+camPrj.comma(completeVSum)+"백만원</span>");
+
+        $("#vCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"V\", 0)'>"+camPrj.comma(totalData.V_EXPECT_COUNT + totalData.V_PROGRESS_COUNT + totalData.V_COMPLETE_COUNT)+ "건</span>");
+        $("#vSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"V\", 0)'>"+camPrj.comma(expectVSum + progressVSum + completeVSum)+"백만원</span>");
 
 
         $("#expectRndCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"R\", 1)'>"+camPrj.comma(totalData.RND_EXPECT_COUNT)+ "건</span>");

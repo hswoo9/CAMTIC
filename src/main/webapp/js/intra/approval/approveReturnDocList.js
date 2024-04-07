@@ -54,7 +54,24 @@ var approveReturn = {
                 {
                     field : "FORM_NAME",
                     title : "문서종류",
-                    width : 180
+                    width : 180,
+                    template : function(e){
+                        if(e.DOC_MENU_CD == "rndDelv"){
+                            return "수주보고_R&D";
+                        } else if (e.DOC_MENU_CD == "unRndDelv"){
+                            return "수주보고_비R&D";
+                        } else if (e.DOC_MENU_CD == "rndDev"){
+                            return "수행계획서_R&D";
+                        } else if (e.DOC_MENU_CD == "unRndDelv"){
+                            return "수행계획서_비R&D";
+                        } else if (e.DOC_MENU_CD == "rndRes"){
+                            return "결과보고서_R&D";
+                        } else if (e.DOC_MENU_CD == "unRndRes"){
+                            return "결과보고서_비R&D";
+                        } else {
+                            return e.FORM_NAME;
+                        }
+                    }
                 }, {
                     field : "DOC_NO",
                     title : "문서번호",

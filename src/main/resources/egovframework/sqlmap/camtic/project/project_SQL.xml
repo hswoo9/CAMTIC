@@ -21,10 +21,12 @@
         /* getProjectList */
         SELECT
             A.*,
+            DLP.DELV_EST_DE,
             (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
             R.PART_EMP_SEQ
         FROM CAM_PJT_MNG.DJ_PROJECT A
         LEFT JOIN CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_DELV DLP ON A.PJT_SN = DLP.PJT_SN
         LEFT JOIN (
             SELECT
                 PJT_SN, PART_EMP_SEQ
@@ -391,31 +393,33 @@
             A.PJT_SN = DS.FR_PJT_SN
         WHERE
             A.PJT_SN = #{pjtSn}
+        LIMIT 1
     </select>
 
     <insert id="insEngnEstInfo" parameterType="map">
         INSERT INTO CAM_PJT_MNG.DJ_PJT_EST
         (
-        PJT_SN,
-        EST_DE,
-        EST_NM,
-        CRM_NM,
-        CRM_MEM,
-        VAT,
-        EST_TOT_AMT,
-        EST_ISS,
-        REG_EMP_SEQ
-        ) VALUES
+            PJT_SN,
+            EST_DE,
+            EST_NM,
+            CRM_NM,
+            CRM_MEM,
+            VAT,
+            EST_TOT_AMT,
+            EST_ISS,
+            REG_EMP_SEQ
+        )
+        VALUES
         (
-        #{pjtSn},
-        #{estDe},
-        #{estNm},
-        #{crmNm},
-        #{crmMem},
-        #{vat},
-        #{estTotAmt},
-        #{estIss},
-        #{regEmpSeq}
+            #{pjtSn},
+            #{estDe},
+            #{estNm},
+            #{crmNm},
+            #{crmMem},
+            #{vat},
+            #{estTotAmt},
+            #{estIss},
+            #{regEmpSeq}
         )
 
         <selectKey keyProperty="EST_SN" resultType="Integer" order="BEFORE">
@@ -1308,6 +1312,24 @@
             MOD_DT = now()
         WHERE
             ENGN_SN = #{engnSn} AND ${stepColumn} = 'N'
+    </update>
+
+    <update id="updEngnAmt" parameterType="map">
+        /** updEngnAmt */
+        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
+        SET
+            EXP_AMT = IFNULL((SELECT IF(VAT = 'Y', CEIL((EST_TOT_AMT) / 1.1), EST_TOT_AMT) FROM CAM_PJT_MNG.DJ_PJT_EST A WHERE PJT_SN = #{pjtSn} ORDER BY EST_SN DESC LIMIT 1), 0)
+        WHERE
+            PJT_SN = #{pjtSn}
+    </update>
+
+    <update id="updLastEngnAmt" parameterType="map">
+        /** updLastEngnAmt */
+        UPDATE CAM_PJT_MNG.DJ_PJT_ENGN
+        SET
+            EXP_AMT = IFNULL((SELECT IF(VAT = 'Y', CEIL((EST_TOT_AMT) / 1.1), EST_TOT_AMT) FROM CAM_PJT_MNG.DJ_PJT_EST A WHERE PJT_SN = #{pjtSn} ORDER BY EST_SN DESC LIMIT 1), 0)
+        WHERE
+            PJT_SN = #{pjtSn}
     </update>
 
     <update id="updateDelvApprStat" parameterType="map">
@@ -2927,12 +2949,19 @@
                 #{busnClass} AS BUSN_CLASS
         )
         SELECT
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS ENGN_EXPECT_COUNT,
-            (SELECT IFNULL(SUM(SE.EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN SE ON SP.PJT_SN = SE.PJT_SN WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS ENGN_EXPECT_SUM,
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E3', 'E4', 'E5') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS ENGN_PROGRESS_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E3', 'E4', 'E5') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS ENGN_PROGRESS_SUM,
-            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS ENGN_COMPLETE_COUNT,
-            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS ENGN_COMPLETE_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D') AS ENGN_EXPECT_COUNT,
+            (SELECT IFNULL(SUM(SE.EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN SE ON SP.PJT_SN = SE.PJT_SN WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D') AS ENGN_EXPECT_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E3', 'E4', 'E5') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D') AS ENGN_PROGRESS_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E3', 'E4', 'E5') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D') AS ENGN_PROGRESS_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D') AS ENGN_COMPLETE_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'D') AS ENGN_COMPLETE_SUM,
+
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V') AS V_EXPECT_COUNT,
+            (SELECT IFNULL(SUM(SE.EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN SE ON SP.PJT_SN = SE.PJT_SN WHERE PJT_STEP IN ('E', 'E1', 'E2') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V') AS V_EXPECT_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E3', 'E4', 'E5') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V') AS V_PROGRESS_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E3', 'E4', 'E5') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V') AS V_PROGRESS_SUM,
+            (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V') AS V_COMPLETE_COUNT,
+            (SELECT IFNULL(SUM(SP.PJT_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('E6', 'E7') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N' AND BUSN_CLASS = 'V') AS V_COMPLETE_SUM,
 
             (SELECT COUNT(-1) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('R') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS RND_EXPECT_COUNT,
             (SELECT IFNULL(SUM(SP.PJT_EXP_AMT), 0) FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE PJT_STEP IN ('R') AND SP.PJT_STOP = 'N' AND TEAM_STAT = 'N') AS RND_EXPECT_SUM,
