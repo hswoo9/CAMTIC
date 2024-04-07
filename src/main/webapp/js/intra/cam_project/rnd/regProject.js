@@ -219,9 +219,25 @@ var regRnd = {
 
 
 
+        var mem = customKendo.fn_customAjax("/project/projectEnterMemberList", { pjtSn: key });
+
+        var pral = mem.list.partRateAdminList;
+        var flag = false;
+
         tabStrip.disable(tabStrip.tabGroup.children().eq(2));
 
+
+        for(var i = 0; i < pral.length; i++){
+            if(pral[i].PART_EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
         if(setParameters.loginVO.uniqId == setParameters.PM_EMP_SEQ || setParameters.loginVO.uniqId == setParameters.EMP_SEQ){
+            tabStrip.enable(tabStrip.tabGroup.children().eq(2));
+        }
+
+        if(flag){
             tabStrip.enable(tabStrip.tabGroup.children().eq(2));
         }
 

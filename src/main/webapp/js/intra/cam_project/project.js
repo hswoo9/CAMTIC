@@ -456,6 +456,8 @@ var camPrj = {
         console.log(rs);
         console.log(mem);
 
+
+        var pral = mem.list.partRateAdminList;
         var prml = mem.list.partRateMemberList;
         var pml = mem.list.psMemberList;
         var aml = mem.list.aceMemberList;
@@ -467,6 +469,12 @@ var camPrj = {
 
         for(var i = 0; i < prml.length; i++){
             if(prml[i].PART_EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
+        for(var i = 0; i < pral.length; i++){
+            if(pral[i].PART_EMP_SEQ == uid){
                 flag = true
             }
         }

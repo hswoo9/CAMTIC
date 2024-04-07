@@ -1684,9 +1684,13 @@ public class ProjectServiceImpl implements ProjectService {
         // 경영지원실 사람들
         List<Map<String, Object>> aceMemberList = projectRepository.getAceMemberList(params);
 
+        // 경영지원실 사람들
+        List<Map<String, Object>> partRateAdminList = projectRepository.getPartRateAdminList(params);
+
         result.put("partRateMemberList", partRateMemberList);
         result.put("psMemberList", psMemberList);
         result.put("aceMemberList", aceMemberList);
+        result.put("partRateAdminList", partRateAdminList);
 
         return result;
     }

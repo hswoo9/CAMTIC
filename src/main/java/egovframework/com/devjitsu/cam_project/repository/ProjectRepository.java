@@ -773,4 +773,8 @@ public class ProjectRepository extends AbstractDAO {
     public List<Map<String, Object>> getAceMemberList(Map<String, Object> params) {
         return selectList("project.getAceMemberList", params);
     }
+
+    public List<Map<String, Object>> getPartRateAdminList(Map<String, Object> params) {
+        return selectList("project.getPartRateAdminList", params);
+    }
 }

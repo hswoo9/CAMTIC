@@ -3412,5 +3412,25 @@
             MAG.AUTHORITY_GROUP_ID = '46'
     </select>
 
+    <select id="getPartRateAdminList" parameterType="map" resultType="map">
+        /*getPartRateAdminList*/
+        SELECT
+            MAG.AUTHORITY_GRANT_ID,
+            MAG.AUTHORITY_GROUP_ID,
+            MAG.EMP_SEQ,
+            MAG.EMP_NAME,
+            MAG.LOGIN_ID,
+            CONCAT(MAG.EMP_NAME, '(', MAG.LOGIN_ID, ')') AS EMP_NAME_ID,
+            MAG.DEPT_SEQ,
+            MAG.DEPT_NAME,
+            MAG.DUTY_NAME,
+            MAG.POSITION_NAME,
+            MAG.AUTHORITY_DATE
+        FROM
+            CAM_COMMON.DJ_MENU_AUTHORITY_GRANT MAG
+        WHERE
+            MAG.AUTHORITY_GROUP_ID = '32'
+    </select>
+
 
 </mapper>
