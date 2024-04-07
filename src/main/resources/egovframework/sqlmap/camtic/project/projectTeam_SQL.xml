@@ -7,7 +7,8 @@
         /* getTeamVersion */
         SELECT
             PTV.*,
-            DATE_FORMAT(PTV.REG_DT, '%Y-%m-%d') AS REG_DATE
+            DATE_FORMAT(PTV.REG_DT, '%Y-%m-%d') AS REG_DATE,
+            DATE_FORMAT(PTV.APPROVAL_DATE, '%Y-%m-%d') AS APP_DATE
         FROM
             CAM_PJT_MNG.DJ_PJT_TEAM_VERSION PTV
         WHERE PJT_SN = #{pjtSn}
@@ -429,7 +430,8 @@
         /* updTeamVersionAppStat */
         UPDATE CAM_PJT_MNG.DJ_PJT_TEAM_VERSION
         SET
-            STATUS = #{stat}
+            STATUS = #{stat},
+            APPROVAL_DATE = NOW()
         WHERE TEAM_VERSION_SN = #{teamVersionSn}
           AND PJT_SN = #{pjtSn}
     </update>

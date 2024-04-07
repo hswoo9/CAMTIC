@@ -109,7 +109,9 @@ const teamPrintPop = {
                 verMap = verList[i];
                 teamPrintPop.global.hwpCtrl.PutFieldText('VERSION', String(i+1));
                 teamPrintPop.global.hwpCtrl.PutFieldText('REG_DATE', verMap.REG_DATE);
-                teamPrintPop.global.hwpCtrl.PutFieldText('TEAM_VERSION_SN', "협업번호 : 23-"+verMap.TEAM_VERSION_SN);
+                teamPrintPop.global.hwpCtrl.PutFieldText('TEAM_VERSION_SN', "협업번호 : 23-"+String(verMap.TEAM_VERSION_SN).padStart(3, "0"));
+                teamPrintPop.global.hwpCtrl.PutFieldText('toDate', verMap.APP_DATE);
+
             }
         }
 
@@ -129,7 +131,7 @@ const teamPrintPop = {
         /** 자가 배분비율 */
         const myPer = Math.round(Number(myAmt) / Number(delvAmt) * 100) + "%";
         /** 자가 예상수익 */
-        const myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(delvAmt) * 100)) + "%";
+        const myIncomePer = Math.round(100 - Number(myMap.TM_INV_AMT / uncomma(myAmt) * 100)) + "%";
 
         let html = '';
         html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
@@ -157,7 +159,7 @@ const teamPrintPop = {
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ myPer +'</p></td>';
         html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ myIncomePer +'</p></td>';
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ comma(Number(myAmt) - Number(myMap.TM_INV_AMT)) +'</p></td>';
-        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ "100%" +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ myPer +'</p></td>';
         html += '               </tr>';
 
         incomeSum += Number(myAmt) - Number(myMap.TM_INV_AMT);
@@ -175,7 +177,7 @@ const teamPrintPop = {
             const teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100) + "%";
             html += '                   <td style="height:30px;background-color:#FFE0E0; text-align:right;"><p style="font-size:13px;">'+ teamIncomePer +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ comma(Number(teamMap.TM_AMT) - Number(teamMap.TM_INV_AMT)) +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ "0%" +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ teamPer +'</p></td>';
             html += '               </tr>';
             incomeSum += Number(teamMap.TM_AMT) - Number(teamMap.TM_INV_AMT);
         }
