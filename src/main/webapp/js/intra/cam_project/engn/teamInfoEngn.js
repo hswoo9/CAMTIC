@@ -127,7 +127,7 @@ var teamEngn = {
             "                <th></th>\n" +
             "                <th>구분</th>\n" +
             "                <th>팀</th>\n" +
-            "                <th>담당자(PM)</th>\n" +
+            "                <th>담당자</th>\n" +
             "                <th>총예산</th>\n" +
             "                <th>배분금액(매출)</th>\n" +
             "                <th>배분비율</th>\n" +
@@ -189,7 +189,7 @@ var teamEngn = {
         html += '    <td style="text-align: center"><span style="position: relative; top: 5px">자가</span></td>';
         /** 팀 */
         html += '    <td style="text-align: center"><span style="position: relative; top: 5px">'+commonProject.getDept(verMap.REG_EMP_SEQ)+'</span></td>';
-        /** 담당자(PM) */
+        /** 담당자 */
         html += '    <td style="text-align: center"><span style="position: relative; top: 5px">'+commonProject.getName(myMap.TM_PM_SEQ)+'</span></td>';
         /** 총예산 */
         html += '    <td style="text-align: right"><span id="nowTotalAmt'+myMap.TM_SN+'" style="position: relative; top: 5px">'+comma(delvAmt)+'</td>';
@@ -226,7 +226,7 @@ var teamEngn = {
             }else{
                 html += '    <td style="text-align: center"><span>'+commonProject.getDept(teamMap.TM_PM_SEQ)+'</span></td>';
             }
-            /** 담당자(PM) */
+            /** 담당자 */
             html += '    <td style="text-align: center"><span>'+commonProject.getName(teamMap.TM_PM_SEQ)+'</span></td>';
             /** 총예산 */
             html += '    <td style="text-align: right"><span>'+$("#totalAmt"+teamVersionSn).text()+'</td>';

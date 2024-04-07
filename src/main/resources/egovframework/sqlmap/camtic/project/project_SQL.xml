@@ -1435,6 +1435,7 @@
                 PJT_SN,
                 DELV_EST_DE,
                 DELV_DE,
+                DELV_CONT,
                 DELV_ISSU,
                 DELV_ITEM,
             <if test='delvCnt != null and !"".equals(delvCnt)'>
@@ -1456,6 +1457,7 @@
                 #{pjtSn},
                 #{delvEstDe},
                 #{delvDe},
+                #{delvCont},
                 #{delvIssu},
                 #{delvItem},
             <if test='delvCnt != null and !"".equals(delvCnt)'>
@@ -1483,6 +1485,7 @@
         SET
             DELV_EST_DE = #{delvEstDe},
             DELV_DE = #{delvDe},
+            DELV_CONT = #{delvCont},
             DELV_ISSU = #{delvIssu},
             DELV_ITEM = #{delvItem},
         <if test='delvCnt != null and !"".equals(delvCnt)'>

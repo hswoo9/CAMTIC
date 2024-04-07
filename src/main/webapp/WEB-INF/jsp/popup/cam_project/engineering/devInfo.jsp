@@ -216,6 +216,14 @@
                 <td style="text-align: center;"><button type="button" onclick="devInfo.fn_addInv()" class="k-button k-button-solid-base">추가</button></td>
             </tr>
             </tbody>
+            <tfoot>
+            <th colspan="6">
+            </th>
+            <td class=text-right>
+                합계 : <span id="totalAmt">0</span>
+            </td>
+            <th colspan="3"></th>
+            </tfoot>
         </table>
 
         <table class="popTable table table-bordered mb-0">
