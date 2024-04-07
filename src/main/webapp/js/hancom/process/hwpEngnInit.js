@@ -50,11 +50,11 @@ var engnInit = {
 
         /** 세무정보 */
         let taxText = "";
-        if(map.TAX_GUBUN == "1"){
+        if(map2.TAX_GUBUN == "1"){
             taxText = "과세";
-        }else if(map.TAX_GUBUN == "2"){
+        }else if(map2.TAX_GUBUN == "2"){
             taxText = "면세";
-        }else if(map.TAX_GUBUN == "3"){
+        }else if(map2.TAX_GUBUN == "3"){
             taxText = "비과세";
         }
         hwpDocCtrl.putFieldText("TAX_GUBUN", taxText);
