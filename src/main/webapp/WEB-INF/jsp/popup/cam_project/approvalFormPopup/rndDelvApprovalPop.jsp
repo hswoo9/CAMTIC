@@ -7,6 +7,10 @@
 <div id="approveDataPop">
 </div>
 <script>
+    let pjtSn = "${params.pjtSn}";
+    const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
+    const map = pjtInfo.rs;
+
     window.resizeTo(965, 900);
     approvalDataInit();
     function approvalDataInit(){
@@ -15,7 +19,7 @@
         approvalParams.formId = "149";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
-        approvalParams.docTitle = "[수주보고_R%26D]${loginVO.orgnztNm}-${loginVO.name}";
+        approvalParams.docTitle = "[수주보고서]" + map.PJT_NM;
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
         approvalParams.menuCd = "rndDelv";
