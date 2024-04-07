@@ -132,7 +132,7 @@ var unRndInit = {
 
 
         /** 1. 사업정보 */
-        unRndInfo.delvSet();
+        unRndInit.delvSet();
 
         /** 2. 사업 목적 및 내용 */
         hwpDocCtrl.putFieldText('OBJ', delvMap.UN_RND_OBJ);
@@ -174,7 +174,7 @@ var unRndInit = {
         const delvMap = unRndInfo.map;
 
         /** 1. 사업정보 */
-        unRndInfo.delvSet();
+        unRndInit.delvSet();
 
         /** 1-1. 협업사항 */
         if(map.TM_YN == "Y"){
