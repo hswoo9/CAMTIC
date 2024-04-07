@@ -9,6 +9,7 @@
             EI.EMP_SEQ,
             EI.EMP_NAME_KR,
             EI.RES_REGIS_NUM,
+            DATEDIFF(now(), EI.JOIN_DAY) as DIFF_DAY,
             DATE_FORMAT(EI.JOIN_DAY, '%Y-%m-%d') AS JOIN_DAY,
             CASE WHEN EI.DIVISION = '0' THEN '정규직원'
                 WHEN EI.DIVISION = '4' AND EI.DIVISION_SUB = '1' THEN '계약직원'

@@ -277,6 +277,7 @@ var esm = {
                     title : "퇴직금<br>추계액",
                     width: 50,
                     template : function(e){
+                        console.log(e);
                         /** 퇴직금 추계액 = (기본급 + 수당 + 상여)/12 */
                         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
                         return (Math.floor((cnt/12)/10) * 10).toString().toMoney();
