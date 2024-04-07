@@ -113,7 +113,7 @@ const partRatePrintPop = {
                 var bsSal = totAmt;
                 if (mem[i].CHNG_SAL != undefined && mem[i].CHNG_SAL != null) {
                     bsSal = mem[i].CHNG_SAL;
-                    totAmt = mem[i].CHNG_SAL;
+                    totAmt = (mem[i].CHNG_SAL * 12);
                 }
                 var gubun = "";
                 if (mem[i].GUBUN == undefined || mem[i].GUBUN == null || mem[i].GUBUN == "") {
