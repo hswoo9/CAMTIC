@@ -166,6 +166,11 @@ function uncomma(str) {
     return str.replace(/[^\d]+/g, '');
 }
 
+function uncommaN(str) {
+    str = String(str);
+    return str.replace(/[^\d-]|(?<=\d)-/g, '');
+}
+
 //숫자에 콤마찍기 string
 function fn_comma(str){
     if (!str || str=="" || str==undefined) {
