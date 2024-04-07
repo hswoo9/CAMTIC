@@ -107,7 +107,7 @@ var rndInit = {
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.ALL_BUSN_COST));
         /** 법인사업비(수주금액) */ /** 법인사업비 정의 5번째 바뀜 */
         if(map.TAX_GUBUN == "1"){
-            hwpDocCtrl.putFieldText('PJT_AMT', comma((delvMap.TOT_RES_COST * 1.1).toString().split(".")[0]));
+            hwpDocCtrl.putFieldText('PJT_AMT', comma((delvMap.TOT_RES_COST / 1.1).toString().split(".")[0]));
         }else{
             hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
         }
@@ -137,8 +137,8 @@ var rndInit = {
 
         /** 2. 사업 목적 및 내용 */
         hwpDocCtrl.putFieldText('OBJ', delvMap.RND_OBJ);
-        hwpDocCtrl.putFieldText('NOW_AMT', comma(Number((delvMap.TOT_RES_COST * 1.1).toString().split(".")[0]) + Number(delvMap.PEO_RES_ITEM)));
-        hwpDocCtrl.putFieldText('BUSN_COST', comma((delvMap.TOT_RES_COST * 1.1).toString().split(".")[0]));
+        hwpDocCtrl.putFieldText('NOW_AMT', comma(Number((delvMap.TOT_RES_COST / 1.1).toString().split(".")[0]) + Number(delvMap.PEO_RES_ITEM)));
+        hwpDocCtrl.putFieldText('BUSN_COST', comma((delvMap.TOT_RES_COST / 1.1).toString().split(".")[0]));
         hwpDocCtrl.putFieldText('PEO_RES_ITEM', delvMap.PEO_RES_ITEM == 0 ? "0" : fn_numberWithCommas(delvMap.PEO_RES_ITEM));
 
         let g20Sum = 0;
