@@ -72,8 +72,9 @@ var engnInit = {
         /** 의뢰인 연락처 이메일 */
         engnInit.crmTempData(map);
 
+        debugger
         /** 프로젝트 기간 */
-        hwpDocCtrl.putFieldText("PJT_DT", delvMap.PJT_STR_DT + " ~ " + delvMap.PJT_END_DT);
+        hwpDocCtrl.putFieldText("PJT_DT", delvMap.DELV_EST_DE + " ~ " + delvMap.DELV_DE);
 
         /** 사업담당자(PM)*/
         const pmInfo = getUser(map.EMP_SEQ);
