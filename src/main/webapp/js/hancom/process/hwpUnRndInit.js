@@ -143,6 +143,15 @@ var unRndInit = {
 
         let g20Sum = 0;
         console.log("customG20", customG20);
+
+        /** 초기화 */
+        hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', "0");
+        hwpDocCtrl.putFieldText('CB_BUDGET_PER0', "0%");
+        hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', "0");
+        hwpDocCtrl.putFieldText('CB_BUDGET_PER0', "0%");
+        hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', "0");
+        hwpDocCtrl.putFieldText('CB_BUDGET_PER0', "0%");
+
         for(let i=0; i<customG20.list.length; i++){
             const g20Map = customG20.list[i];
             if(g20Map.CB_CODE_NAME_1 == "인건비" && g20Map.CB_BUDGET != null){
