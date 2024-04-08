@@ -609,8 +609,8 @@ var camPrj = {
         $("#progressCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"\", 2)'>"+camPrj.comma(totalData.ENGN_PROGRESS_COUNT + totalData.RND_PROGRESS_COUNT + totalData.URND_PROGRESS_COUNT + totalData.V_PROGRESS_COUNT)+ "건</span>");
         $("#progressSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"\", 2)'>"+camPrj.comma(progressEngnSum + progressRndSum + progressUrndSum + progressVSum)+"백만원</span>");
 
-        $("#completeCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"\", 2)'>"+camPrj.comma(totalData.ENGN_COMPLETE_COUNT + totalData.RND_COMPLETE_COUNT + totalData.URND_COMPLETE_COUNT + totalData.V_COMPLETE_COUNT)+ "건</span>");
-        $("#completeSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"\", 2)'>"+camPrj.comma(completeEngnSum + completeRndSum + completeUrndSum + completeVSum)+"백만원</span>");
+        $("#completeCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"\", 3)'>"+camPrj.comma(totalData.ENGN_COMPLETE_COUNT + totalData.RND_COMPLETE_COUNT + totalData.URND_COMPLETE_COUNT + totalData.V_COMPLETE_COUNT)+ "건</span>");
+        $("#completeSum").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"\", 3)'>"+camPrj.comma(completeEngnSum + completeRndSum + completeUrndSum + completeVSum)+"백만원</span>");
 
         $("#totCount").html("<span class='hoverSpan' style='cursor:pointer' onclick='camPrj.searchGrid(\"\", 0)'>"+camPrj.comma(totalData.ENGN_EXPECT_COUNT + totalData.RND_EXPECT_COUNT + totalData.URND_EXPECT_COUNT + totalData.V_EXPECT_COUNT +
             totalData.ENGN_PROGRESS_COUNT + totalData.RND_PROGRESS_COUNT + totalData.URND_PROGRESS_COUNT + totalData.V_PROGRESS_COUNT + totalData.ENGN_COMPLETE_COUNT + totalData.RND_COMPLETE_COUNT + totalData.URND_COMPLETE_COUNT + totalData.V_COMPLETE_COUNT)+ "건</span>");
