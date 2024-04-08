@@ -162,6 +162,12 @@ const reqOr = {
             $("#goodsDt").val(orderMap.GOODS_DT);
             $("#significant").val(orderMap.SIGNIFICANT);
         }
+
+        if(orderMap.ORDER_YN == "Y"){
+            reqOr.fn_kendoUIEnableSet2(false);
+        } else {
+            reqOr.fn_kendoUIEnableSet2(true);
+        }
     },
 
     fn_orderSave : function(type){
@@ -202,6 +208,7 @@ const reqOr = {
                 alert("완료되었습니다.");
                 location.reload();
                 opener.purcClaim.gridReload();
+                reqOr.fn_kendoUIEnableSet2(false);
             }else{
                 alert("저장 중 오류가 발생하였습니다.");
             }
@@ -217,6 +224,7 @@ const reqOr = {
                 alert("완료되었습니다.");
                 location.reload();
                 opener.purcClaim.gridReload();
+                reqOr.fn_kendoUIEnableSet2(true);
             }else{
                 alert("저장 중 오류가 발생하였습니다.");
             }
@@ -499,6 +507,21 @@ const reqOr = {
         $(".listDelBtn").text("-");
     },
 
+    fn_kendoUIEnableSet2 : function(e){
+        $("#orderDt").data("kendoDatePicker").enable(e);
+        $("#goodsDt").data("kendoDatePicker").enable(e);
+
+        if(e){
+            $(".k-textbox").removeClass("k-disabled");
+            $(".k-textarea").removeClass("k-disabled");
+            $(".listDelBtn").removeClass("k-disabled");
+        } else {
+            $(".k-textbox").addClass("k-disabled");
+            $(".k-textarea").addClass("k-disabled");
+            $(".listDelBtn").addClass("k-disabled");
+        }
+    },
+
     fn_OrderBtnSet : function(orderMap){
 
         let buttonHtml = "";
@@ -512,7 +535,7 @@ const reqOr = {
         }
         if(orderMap.ORDER_CK == "Y" && orderMap.ORDER_YN != "Y"){
             buttonHtml += '<button type="button" id="sendBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave(\'complete\')">발주 완료</button>';
-        } else if(orderMap.ORDER_CK == "Y" && orderMap.ORDER_YN != "Y") {
+        } else if(orderMap.ORDER_CK == "Y" && orderMap.ORDER_YN == "Y") {
             buttonHtml += '<button type="button" id="sendBtn" style="margin-right: 5px; font-size: 12px;" class="k-button k-button-solid-info" onclick="reqOr.fn_orderSave(\'cancel\')">발주 취소</button>';
         }
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" style="font-size: 12px;" onclick="window.close()">닫기</button>';
