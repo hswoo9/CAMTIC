@@ -189,7 +189,14 @@ var camPrj = {
                 }, {
                     field: "PJT_CD",
                     title: "프로젝트 코드",
-                    width: 100
+                    width: 100,
+                    template: function(e){
+                        if(e.DELV_APPROVE_STAT == "100"){
+                            return e.PJT_CD;
+                        }else{
+                            return "";
+                        }
+                    }
                 }, {
                     field: "PJT_NM",
                     title: "프로젝트 명",

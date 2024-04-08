@@ -76,7 +76,7 @@ var prjCorpMng = {
                     title: "PM",
                     width: 80,
                     template: function(e){
-                        if(e.BUSN_CLASS == "D"){
+                        if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
                             return e.ENGN_PM_NM || "";
                         }else{
                             return e.PM_NM || "";

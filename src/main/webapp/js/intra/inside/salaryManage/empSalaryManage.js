@@ -253,34 +253,40 @@ var esm = {
                     width: 70,
                     template : function(e){
                         /** 사대보험 사업자부담분 = 국민연금 + 건강보험 + 장기요양보험 +고용보험 + 산재보험 */
+                        if(e.BUSN_PAY != null && e.BUSN_PAY != "") {
+                            return e.BUSN_PAY;
+                        }else{
+                            /** 기본급 */
+                            var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
 
-                        /** 기본급 */
-                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+                            /** 국민연금 */
+                            var nationalPension = Math.floor(cnt * (e.NATIONAL_PENSION / 100));
+                            if(nationalPension > Number(e.LIMIT_AMT)){
+                                nationalPension = Number(e.LIMIT_AMT);
+                            }
+                            /** 건강보험 */
+                            var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
+                            /** 장기요양보험 */
+                            var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10
+                            /** 고용보험 */
+                            var employInsurance = Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10;
+                            /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
+                            var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
 
-                        /** 국민연금 */
-                        var nationalPension = Math.floor(cnt * (e.NATIONAL_PENSION / 100));
-                        if(nationalPension > Number(e.LIMIT_AMT)){
-                            nationalPension = Number(e.LIMIT_AMT);
+                            return (nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance).toString().toMoney();
                         }
-                        /** 건강보험 */
-                        var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
-                        /** 장기요양보험 */
-                        var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10
-                        /** 고용보험 */
-                        var employInsurance = Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10;
-                        /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
-                        var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
-
-                        return (nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance).toString().toMoney();
                     }
                 }, {
                     title : "퇴직금<br>추계액",
                     width: 50,
                     template : function(e){
-                        console.log(e);
-                        /** 퇴직금 추계액 = (기본급 + 수당 + 상여)/12 */
-                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-                        return (Math.floor((cnt/12)/10) * 10).toString().toMoney();
+                        if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
+                            return  Number(e.RETIRE_PAY).toString().toMoney();;
+                        }else{
+                            /** 퇴직금 추계액 = (기본급 + 식대 + 수당 + 상여)/12 */
+                            var cnt = Number(e.BASIC_SALARY) + Number(e.FOOD_PAY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+                            return (Math.floor((cnt/12)/10) * 10).toString().toMoney();
+                        }
                     }
                 }, {
                     title : "기준급여",
@@ -288,7 +294,7 @@ var esm = {
                     template : function(e){
                         /** 기준급여 = (기본급 + 수당 + 상여 + 사업자부담분 + 퇴직금추계액) */
                         /** 기본급 */
-                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+                        var cnt = Number(e.BASIC_SALARY) + Number(e.FOOD_PAY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
 
                         /** 국민연금 */
                         var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
@@ -306,11 +312,87 @@ var esm = {
 
                         var sum = cnt + nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance + (Math.floor((cnt/12)/10) * 10);
 
+                        if(e.BUSN_PAY != null && e.BUSN_PAY != ""){
+                            sum += Number(e.BUSN_PAY);
+                        }else{
+                            sum += nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance;
+                        }
+
+                        if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
+                            sum += Number(e.RETIRE_PAY);
+                        }
+
                         return (Math.floor(sum/10) * 10).toString().toMoney();
                     }
                 }],
             dataBinding: function(){
                 record = fn_getRowNum(this, 2);
+            },
+            excelExport : function (e){
+                var sheet = e.workbook.sheets[0];
+                sheet.rows[0].cells.push({
+                    background : "#7a7a7a",
+                    color : "#fff",
+                    firstCell : false,
+                    rowSpan : 2,
+                    value : "국민연금"
+                },{
+                    background : "#7a7a7a",
+                    color : "#fff",
+                    firstCell : false,
+                    rowSpan : 2,
+                    value : "건강보험"
+                },{
+                    background : "#7a7a7a",
+                    color : "#fff",
+                    firstCell : false,
+                    rowSpan : 2,
+                    value : "장기요양 보험"
+                },{
+                    background : "#7a7a7a",
+                    color : "#fff",
+                    firstCell : false,
+                    rowSpan : 2,
+                    value : "고용보험"
+                },{
+                    background : "#7a7a7a",
+                    color : "#fff",
+                    firstCell : false,
+                    rowSpan : 2,
+                    value : "산재보험"
+                },{
+                    background : "#7a7a7a",
+                    color : "#fff",
+                    firstCell : false,
+                    rowSpan : 2,
+                    value : "사대보험 사업자부담분"
+                },{
+                    background : "#7a7a7a",
+                    color : "#fff",
+                    firstCell : false,
+                    rowSpan : 2,
+                    value : "퇴직금 추계액"
+                },{
+                    background : "#7a7a7a",
+                    color : "#fff",
+                    firstCell : false,
+                    rowSpan : 2,
+                    value : "기준급여"
+                });
+                sheet.rows = sheet.rows.filter(h => h.type == "header");
+                $.each($("#mainGrid tbody > tr"), function(i, v){
+                    var data = {
+                        type : "data",
+                        cells : new Array(),
+                    }
+                    $.each($(v).find("td[role='gridcell']:not(:eq(0))"), function(a, b){
+                        var cellsData = {
+                            value : $(b).text()
+                        };
+                        data.cells.push(cellsData);
+                    })
+                    sheet.rows.push(data);
+                })
             }
         }).data("kendoGrid");
 
@@ -323,6 +405,10 @@ var esm = {
 
 
     gridReload : function() {
+        if($("#mainGrid").data("kendoGrid") != null){
+            $("#mainGrid").data("kendoGrid").destroy();
+        }
+
         esm.global.searchAjaxData = {
             workStatusCode : $("#workStatusCode").val(),
             searchDateType : $("#searchDateType").val(),
