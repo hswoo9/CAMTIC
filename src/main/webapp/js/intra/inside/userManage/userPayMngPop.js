@@ -410,7 +410,6 @@ function fn_bsPay(e, c, i){
     if(e.BUSN_PAY != null && e.BUSN_PAY != ""){
         sum += Number(popUserPay.uncomma(e.BUSN_PAY));
     }else{
-        console.log("dd");
         sum += Number(nationalPension) + Number(healthInsurance) + Number(longCareInsurance) + Number(employInsurance) + Number(accidentInsurance);
     }
 
