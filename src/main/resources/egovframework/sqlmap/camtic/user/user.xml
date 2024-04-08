@@ -39,11 +39,23 @@
             HDI.DEPT_LEVEL,
             HEI.DIVISION,
             HEI.DIVISION_SUB,
-            HEI.JOB_DETAIL
+            HEI.JOB_DETAIL,
+            IM.FILE_PATH
         FROM
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        LEFT JOIN (
+            SELECT
+                IM.SIGN_IMAGE_PK,
+                CONCAT(FI.FILE_PATH, FI.FILE_UUID) AS FILE_PATH,
+                IM.EMP_SEQ
+            FROM
+                CAM_INSIDE.DJ_IMAGE_MANAGE IM
+            LEFT JOIN
+                CAM_COMMON.DJ_FILE_INFO FI
+            ON FI.FILE_NO = IM.SIGN_IMAGE_PK
+        )IM ON IM.EMP_SEQ = HEI.EMP_SEQ
         WHERE 1=1
         <choose>
             <when test='active != null and !"".equals(active)'></when>

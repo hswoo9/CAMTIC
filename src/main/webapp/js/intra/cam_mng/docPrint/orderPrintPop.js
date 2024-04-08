@@ -84,8 +84,10 @@ const orderPrintPop = {
         orderPrintPop.global.hwpCtrl.PutFieldText("CRM_PROD2", "자동차부품설계, 모델링, 시제품제작, 상품화컨설팅");
         orderPrintPop.global.hwpCtrl.PutFieldText("CRM_EVENT2", "서비스, 제조");
 
-        orderPrintPop.global.hwpCtrl.PutFieldText("CRM_MANAGER2", empInfo.EMP_NAME_KR + (empInfo.OFFICE_TEL_NUM == undefined ? "" : ("/"+ empInfo.OFFICE_TEL_NUM)));
-        orderPrintPop.global.hwpCtrl.PutFieldText("EMAIL2", empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
+        // orderPrintPop.global.hwpCtrl.PutFieldText("CRM_MANAGER2", empInfo.EMP_NAME_KR + (empInfo.OFFICE_TEL_NUM == undefined ? "" : ("/"+ empInfo.OFFICE_TEL_NUM)));
+        orderPrintPop.global.hwpCtrl.PutFieldText("CRM_MANAGER2", "063-219-0300 / 063-219-0303");
+        // orderPrintPop.global.hwpCtrl.PutFieldText("EMAIL2", empInfo.EMAIL_ADDR == undefined ? "" : empInfo.EMAIL_ADDR);
+        orderPrintPop.global.hwpCtrl.PutFieldText("EMAIL2", "http://camtic.or.kr/");
 
         let supAmtSum = 0;
         console.log(order);
@@ -131,6 +133,39 @@ const orderPrintPop = {
             orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
         }
         orderPrintPop.global.hwpCtrl.PutFieldText("ISS", order.SIGNIFICANT.replaceAll("\n", "\r"));
+
+        /** 담당자 서명 */
+        let regSign = order.CLAIM_EMP_NAME;
+        orderPrintPop.global.hwpCtrl.MoveToField('EMP_SIGN', true, true, false);
+        orderPrintPop.global.hwpCtrl.PutFieldText('EMP_SIGN', regSign);
+
+        var hostFlag = location.host;
+        var hostProtocol = location.protocol;
+
+        var host = "";
+        if(hostFlag.indexOf("218.158.231.184") > -1 || hostFlag.indexOf("new.camtic.or.kr") > -1){
+            host = hostProtocol + "//218.158.231.184/";
+        }else{
+            host = hostProtocol + "//218.158.231.186/";
+        }
+
+        if(empInfo.FILE_PATH != null){
+            console.log(empInfo)
+            if(orderPrintPop.global.hwpCtrl.FieldExist('EMP_SIGN')){
+                orderPrintPop.global.hwpCtrl.PutFieldText('EMP_SIGN', " ");
+                orderPrintPop.global.hwpCtrl.MoveToField('EMP_SIGN', true, true, false);
+                orderPrintPop.global.hwpCtrl.InsertBackgroundPicture(
+                    "SelectedCell",
+                    host + empInfo.FILE_PATH,
+                    1,
+                    5,
+                    0,
+                    0,
+                    0,
+                    0
+                );
+            }
+        }
     },
 
     resize: function() {
