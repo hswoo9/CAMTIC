@@ -96,14 +96,14 @@ var esm = {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="esm.templateExcelFormDown()">' +
-                            '	<span class="k-button-text">고객등록양식 다운로드</span>' +
+                            '	<span class="k-button-text">급여관리 등록양식 다운로드</span>' +
                             '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="esm.fn_crmExcelUploadPop()">' +
-                            '	<span class="k-button-text">고객등록양식 업로드</span>' +
+                            '	<span class="k-button-text">급여관리 등록양식 업로드</span>' +
                             '</button>';
                     }
                 }, {

@@ -47,11 +47,50 @@
             <tr>
                 <th>주민등록번호</th>
                 <td>
-
+                    ${data.RES_REGIS_NUM}
                 </td>
                 <th>직원구분</th>
                 <td>
-
+                    <c:choose>
+                        <c:when test="${data.TEMP_DIVISION eq 'N'}">
+                            <c:choose>
+                                <c:when test="${data.DIVISION eq '0'}">
+                                    정규직원
+                                </c:when>
+                                <c:when test="${data.DIVISION eq '1' and data.DIVISION_SUB eq '6'}">
+                                    위촉직원
+                                </c:when>
+                                <c:when test="${data.DIVISION eq '3'}">
+                                    단기직원
+                                </c:when>
+                                <c:when test="${data.DIVISION eq '2'}">
+                                    연수생/학생연구원
+                                </c:when>
+                                <c:when test="${data.DIVISION eq '4'}">
+                                    <c:choose>
+                                        <c:when test="${data.DIVISION_SUB eq '1'}">
+                                            계약직원
+                                        </c:when>
+                                        <c:when test="${data.DIVISION_SUB eq '2'}">
+                                            인턴사원
+                                        </c:when>
+                                        <c:when test="${data.DIVISION_SUB eq '3'}">
+                                            시설/환경
+                                        </c:when>
+                                    </c:choose>
+                                </c:when>
+                                <c:when test="${data.DIVISION eq '10'}">
+                                    기타
+                                </c:when>
+                                <c:when test="${data.DIVISION eq '9999'}">
+                                    퇴사직원
+                                </c:when>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            임시직원
+                        </c:otherwise>
+                    </c:choose>
                 </td>
             </tr>
             <tr>
@@ -67,17 +106,17 @@
             <tr>
                 <th>직책</th>
                 <td>
-
+                    ${data.DUTY_NAME}
                 </td>
                 <th>직급</th>
                 <td>
-                    ${data.POTISION_NAME}
+                    ${data.POSITION_NAME}
                 </td>
             </tr>
             <tr>
                 <th>등급</th>
                 <td>
-                    ${data.GRADE}
+                    ${data.GRADE_NAME}
                 </td>
                 <th>입사일</th>
                 <td>
