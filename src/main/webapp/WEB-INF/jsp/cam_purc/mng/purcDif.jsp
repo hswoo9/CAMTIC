@@ -67,14 +67,19 @@
                         <col width="25%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">조회유형</th>
+                        <th class="text-center th-color">청구일자</th>
                         <td>
-                            <input type="text" id="searchDept" style="width: 150px;">
+                            <input type="text" id="startDt" style="width: 150px;"> ~
+                            <input type="text" id="endDt" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">구분</th>
+                        <td>
+                            <input type="text" id="busnClass" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){crm.gridReload()}"/>
+                            <input type="text" id="searchKeyword" style="width: 100px;"/>
+                            <input type="text" id="searchValue" style="width: 180px;" onkeypress="if(window.event.keyCode==13){purcDif.gridReload()}"/>
                         </td>
                     </tr>
                 </table>

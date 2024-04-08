@@ -10,8 +10,39 @@ var purcDif = {
 
     fn_defaultScript : function (){
         purcDif.global.dropDownDataSource = [];
-        customKendo.fn_dropDownList("searchDept", purcDif.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", purcDif.gridReload);
+        // customKendo.fn_dropDownList("searchDept", purcDif.global.dropDownDataSource, "text", "value");
+        // $("#searchDept").data("kendoDropDownList").bind("change", purcDif.gridReload);
+
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+
+        $("#startDt").change(function (){
+            if($("#startDt").val() > $("#endDt").val()){
+                $("#endDt").val($("#startDt").val());
+            }
+            purcDif.gridReload();
+        });
+        $("#endDt").change(function (){
+            if($("#startDt").val() > $("#endDt").val()){
+                $("#startDt").val($("#endDt").val());
+            }
+            purcDif.gridReload();
+        });
+
+        $("#busnClass").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                {text: "전체", value: ""},
+                {text: "법인운영", value: "C"},
+                {text: "R&D", value: "R"},
+                {text: "비R&D", value: "S"},
+                {text: "엔지니어링", value: "D"},
+                {text: "기타/용역", value: "V"},
+            ],
+        });
+
+        $("#busnClass").data("kendoDropDownList").bind("change", purcDif.gridReload);
 
         purcDif.global.dropDownDataSource = [
             { text: "문서번호", value: "DOC_NO" },
@@ -38,12 +69,19 @@ var purcDif = {
                     data.searchDept = $("#searchDept").val();
                     data.searchKeyword = $("#searchKeyword").val();
                     data.searchValue = $("#searchValue").val();
+                    data.busnClass = $("#busnClass").val();
+                    data.startDt = $("#startDt").val();
+                    data.endDt = $("#endDt").val();
 
                     return data;
                 }
             },
             schema: {
                 data: function (data) {
+                    for(let i=0; i<data.list.length; i++){
+                        sum1 += Number(data.list[i].TOT_PURC_ITEM_AMT);
+                        sum2 += Number(data.list[i].TOT_AMT);
+                    }
                     return data.list;
                 },
                 total: function (data) {
@@ -66,14 +104,15 @@ var purcDif = {
                 template: "데이터가 존재하지 않습니다."
             },
             toolbar: [
+                // {
+                //     name: 'button',
+                //     template: function(){
+                //         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcDif.fn_reqClaiming()">' +
+                //             '	<span class="k-button-text">구매청구서 작성</span>' +
+                //             '</button>';
+                //     }
+                // },
                 {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="purcDif.fn_reqClaiming()">' +
-                            '	<span class="k-button-text">구매청구서 작성</span>' +
-                            '</button>';
-                    }
-                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcDif.gridReload()">' +
@@ -82,11 +121,11 @@ var purcDif = {
                     }
                 }
             ],
-            dataBound : function(e){
+            /*dataBound : function(e){
                 sum1 = 0;
                 sum2 = 0;
                 sum3 = 0;
-            },
+            },*/
             columns: [
                 {
                     title: "번호",
@@ -102,7 +141,7 @@ var purcDif = {
                     width: 120,
                 }, {
                     title: "납품(예정)일",
-                    field: "DELV_DE",
+                    field: "GOODS_DT",
                     width: 120
                 }, {
                     title: "제목",
@@ -143,7 +182,7 @@ var purcDif = {
                     title: "요청금액",
                     width: 100,
                     template: function (e){
-                        sum1  += Number(e.TOT_PURC_ITEM_AMT);
+                        // sum1  += Number(e.TOT_PURC_ITEM_AMT);
                         return '<div style="text-align: right">'+comma(e.TOT_PURC_ITEM_AMT)+'</div>'
                     },
                     footerTemplate: function(){
@@ -153,23 +192,24 @@ var purcDif = {
                     title: "청구금액",
                     width: 100,
                     template: function (e){
-                        sum2  += Number(e.TOT_AMT);
+                        // sum2  += Number(e.TOT_AMT);
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>'
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(sum2)+"</div>";
                     }
-                }, {
-                    title: "할인금액",
-                    width: 100,
-                    template: function (e){
-                        sum3  += Number(e.TOT_DIF_AMT);
-                        return '<div style="text-align: right">'+comma(e.TOT_DIF_AMT)+'</div>'
-                    },
-                    footerTemplate: function(){
-                        return "<div style='text-align: right'>"+comma(sum3)+"</div>";
-                    }
-                }
+                },
+                // {
+                //     title: "할인금액",
+                //     width: 100,
+                //     template: function (e){
+                //         sum3  += Number(e.TOT_DIF_AMT);
+                //         return '<div style="text-align: right">'+comma(e.TOT_DIF_AMT)+'</div>'
+                //     },
+                //     footerTemplate: function(){
+                //         return "<div style='text-align: right'>"+comma(sum3)+"</div>";
+                //     }
+                // }
                 // , {
                 //     title: "상태",
                 //     width: 120,
