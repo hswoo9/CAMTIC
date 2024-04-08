@@ -34,14 +34,14 @@ var popUserPay = {
             e.EXTRA_PAY = extraPay;
             e.BONUS = bonus;
 
-            var nationalPay = fn_nationalPay(e);
-            var healthPay = fn_healthPay(e);
-            var longCarePay = fn_longCarePay(e);
-            var employPay = fn_employPay(e);
-            var accPay = fn_accPay(e);
+            var nationalPay = fn_nationalPay(e, this);
+            var healthPay = fn_healthPay(e, this);
+            var longCarePay = fn_longCarePay(e, this);
+            var employPay = fn_employPay(e, this);
+            var accPay = fn_accPay(e, this);
             var busnPay = fn_busnPay(e);
-            var retirePay = fn_retirePay(e);
-            var bsPay = fn_bsPay(e);
+            var retirePay = fn_retirePay(e, null, this);
+            var bsPay = fn_bsPay(e, null, this);
 
 
             $("#nationalPay").val(nationalPay);
@@ -92,10 +92,10 @@ var popUserPay = {
                 '<tr id="tr'+count+'">' +
                 '   <td><input type="text" style="font-size: 11px" id="startDt'+count+'" name="startDt" /></td>' +
                 '   <td><input type="text" style="font-size: 11px" id="endDt'+count+'" name="endDt" /></td>' +
-                '   <td><input type="text" style="text-align: right;font-size: 11px" id="basicSalary'+count+'" name="basicSalary" value="'+ popUserPay.comma(list[count].BASIC_SALARY) +'" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
-                '   <td><input type="text" style="text-align: right;font-size: 11px" id="foodPay'+count+'" name="foodPay" value="'+ popUserPay.comma(foodPay) +'" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
-                '   <td><input type="text" style="text-align: right;font-size: 11px" id="extraPay'+count+'" name="extraPay" value="'+popUserPay.comma(extraPay)+'" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
-                '   <td><input type="text" style="text-align: right;font-size: 11px" id="bonus'+count+'" name="bonus" value="'+popUserPay.comma(bonus)+'" onkeyup="popUserPay.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                '   <td><input type="text" style="text-align: right;font-size: 11px" id="basicSalary'+count+'" name="basicSalary" value="'+ popUserPay.comma(list[count].BASIC_SALARY) +'" onkeyup="popUserPay.inputNumberFormat(this);popUserPay.socialRateChange(' + count + ',\'Y\')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                '   <td><input type="text" style="text-align: right;font-size: 11px" id="foodPay'+count+'" name="foodPay" value="'+ popUserPay.comma(foodPay) +'" onkeyup="popUserPay.inputNumberFormat(this);popUserPay.socialRateChange(' + count + ',\'Y\')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                '   <td><input type="text" style="text-align: right;font-size: 11px" id="extraPay'+count+'" name="extraPay" value="'+popUserPay.comma(extraPay)+'" onkeyup="popUserPay.inputNumberFormat(this);popUserPay.socialRateChange(' + count + ',\'Y\')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
+                '   <td><input type="text" style="text-align: right;font-size: 11px" id="bonus'+count+'" name="bonus" value="'+popUserPay.comma(bonus)+'" onkeyup="popUserPay.inputNumberFormat(this);popUserPay.socialRateChange(' + count + ',\'Y\')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" /></td>' +
                 '   <td><input type="text" style="font-size: 11px" id="socialRateSn'+count+'" name="socialRateSn"/></td>' +
                 '   <td><input type="text" disabled style="text-align: right;font-size: 11px" id="nationalPay'+count+'" name="nationalPay" /></td>' +
                 '   <td><input type="text" disabled style="text-align: right;font-size: 11px" id="healthPay'+count+'" name="healthPay" /></td>' +
@@ -136,7 +136,7 @@ var popUserPay = {
 
     },
 
-    socialRateChange : function(count){
+    socialRateChange : function(count, auto){
         var data = {
             socialRateSn : $("#socialRateSn" + count).val()
         }
@@ -151,27 +151,27 @@ var popUserPay = {
         var busnPay = $("#busnPay" + count).val();
         var retirePay = $("#retirePay" + count).val();
         e.BASIC_SALARY = basicSalary;
+        e.FOOD_PAY = foodPay;
         e.EXTRA_PAY = extraPay;
         e.BONUS = bonus;
-        e.BUSN_PAY = busnPay;
-        e.RETIRE_PAY = retirePay;
 
-        var nationalPay = fn_nationalPay(e);
-        var healthPay = fn_healthPay(e);
-        var longCarePay = fn_longCarePay(e);
-        var employPay = fn_employPay(e);
-        var accPay = fn_accPay(e);
-        var bsPay = fn_bsPay(e, count);
+        if(auto != "Y"){
+            e.BUSN_PAY = busnPay;
+            e.RETIRE_PAY = retirePay;
+        }
+
+        $("#nationalPay" + count).val(fn_nationalPay(e, $("#nationalPay" + count)));
+        $("#healthPay" + count).val(fn_healthPay(e, $("#healthPay" + count)));
+        $("#longCarePay" + count).val(fn_longCarePay(e, $("#longCarePay" + count)));
+        $("#employPay" + count).val(fn_employPay(e, $("#employPay" + count)));
+        $("#accPay" + count).val(fn_accPay(e, $("#accPay" + count)));
 
 
-        $("#nationalPay" + count).val(nationalPay);
-        $("#healthPay" + count).val(healthPay);
-        $("#longCarePay" + count).val(longCarePay);
-        $("#employPay" + count).val(employPay);
-        $("#accPay" + count).val(accPay);
-        $("#busnPay" + count).val(fn_busnPay(e));
-        $("#retirePay" + count).val(fn_retirePay(e, count));
-        $("#bsPay" + count).val(bsPay);
+        $("#busnPay" + count).val(fn_busnPay(e, $("#accPay" + count)));
+        $("#retirePay" + count).val(fn_retirePay(e, count, $("#retirePay" + count)));
+
+
+        $("#bsPay" + count).val(fn_bsPay(e, count, $("#bsPay" + count)));
 
     },
 
@@ -275,52 +275,63 @@ var popUserPay = {
     }
 }
 
-function fn_nationalPay(e, id){
+function fn_nationalPay(e, i){
     /** 국민연금 = (기본급 + 상여금)/ 국민연금요율(%) */
-    var cnt = Number(popUserPay.uncomma(e.BASIC_SALARY)) + Number(popUserPay.uncomma(e.EXTRA_PAY)) + Number(popUserPay.uncomma(e.BONUS));
+    var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='bonus']").val()));
     var nationalPension = Math.floor(Math.floor(cnt * (e.NATIONAL_PENSION / 100))/10)*10;
 
     if(nationalPension > Number(e.LIMIT_AMT)){
-        return e.LIMIT_AMT.toString().toMoney()
+        return e.LIMIT_AMT.toString().toMoney();
     }else{
         return nationalPension.toString().toMoney();
     }
 }
 
-function fn_healthPay(e){
+function fn_healthPay(e, i){
     /** 건강보험 = (기본급 + 상여금) / 건강보험요율(%)*/
-    var cnt = Number(popUserPay.uncomma(e.BASIC_SALARY)) + Number(popUserPay.uncomma(e.EXTRA_PAY)) + Number(popUserPay.uncomma(e.BONUS));
-    return (Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10).toString().toMoney()
+    var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='bonus']").val()));
+    return (Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10).toString().toMoney();
 }
 
-function fn_longCarePay(e){
+function fn_longCarePay(e, i){
     /** 장기요양보험 = (건강보험합계 / 장기요양보험요율(%))*/
-    var cnt = Number(popUserPay.uncomma(e.BASIC_SALARY)) + Number(popUserPay.uncomma(e.EXTRA_PAY)) + Number(popUserPay.uncomma(e.BONUS));
+    var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='bonus']").val()));
     var healthInsuranceCnt = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10;
 
-    return (Math.floor(Math.floor(healthInsuranceCnt * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10).toString().toMoney()
+    return (Math.floor(Math.floor(healthInsuranceCnt * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10).toString().toMoney();
 }
 
-function fn_employPay(e){
+function fn_employPay(e, i){
     /** 고용보험 = (기본급 + 상여금) / 고용보험요율(%)*/
-    var cnt = Number(popUserPay.uncomma(e.BASIC_SALARY)) + Number(popUserPay.uncomma(e.EXTRA_PAY)) + Number(popUserPay.uncomma(e.BONUS));
+    var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='bonus']").val()));
     return (Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10).toString().toMoney()
 }
 
-function fn_accPay(e){
+function fn_accPay(e, i){
     /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
-    var cnt = Number(popUserPay.uncomma(e.BASIC_SALARY)) + Number(popUserPay.uncomma(e.EXTRA_PAY)) + Number(popUserPay.uncomma(e.BONUS));
+    var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='bonus']").val()));
     return (Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10).toString().toMoney()
 }
 
-function fn_busnPay(e){
+function fn_busnPay(e, i){
     /** 사대보험 사업자부담분 = 국민연금 + 건강보험 + 장기요양보험 +고용보험 + 산재보험 */
-
     if(e.BUSN_PAY != null && e.BUSN_PAY != ""){
         return e.BUSN_PAY;
     }else{
         /** 기본급 */
-        var cnt = Number(popUserPay.uncomma(e.BASIC_SALARY)) + Number(popUserPay.uncomma(e.EXTRA_PAY)) + Number(popUserPay.uncomma(e.BONUS));
+        var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
+            Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
+            Number(popUserPay.uncomma($(i).closest("tr").find("input[name='bonus']").val()));
 
         /** 국민연금 */
         var nationalPension = Math.floor(cnt * (e.NATIONAL_PENSION / 100));
@@ -341,8 +352,8 @@ function fn_busnPay(e){
 
 }
 
-function fn_retirePay(e, c){
-    /** 퇴직금 추계액 = (기본급 + 수당 + 상여)/12 */
+function fn_retirePay(e, c, i){
+    /** 퇴직금 추계액 = (기본급 + 식대 + 수당 + 상여)/12 */
     if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
         return e.RETIRE_PAY;
     }else{
@@ -356,13 +367,16 @@ function fn_retirePay(e, c){
         if(isLessOneYear(startDt)){
             return 0;
         }else{
-            var cnt = Number(popUserPay.uncomma(e.BASIC_SALARY)) + Number(popUserPay.uncomma(e.EXTRA_PAY)) + Number(popUserPay.uncomma(e.BONUS));
+            var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
+                Number(popUserPay.uncomma($(i).closest("tr").find("input[name='foodPay']").val())) +
+                Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
+                Number(popUserPay.uncomma($(i).closest("tr").find("input[name='bonus']").val()));
             return (Math.floor((cnt/12)/10) * 10).toString().toMoney();
         }
     }
 }
 
-function fn_bsPay(e, c){
+function fn_bsPay(e, c, i){
     /** 기준급여 = (기본급 + 수당 + 상여 + 사업자부담분 + 퇴직금추계액) */
     var startDt;
     if(c != null){
@@ -372,7 +386,10 @@ function fn_bsPay(e, c){
     }
 
     /** 기본급 */
-    var cnt = Number(popUserPay.uncomma(e.BASIC_SALARY)) + Number(popUserPay.uncomma(e.EXTRA_PAY)) + Number(popUserPay.uncomma(e.BONUS));
+    var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='foodPay']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
+        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='bonus']").val()));
 
     /** 국민연금 */
     var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
@@ -393,7 +410,8 @@ function fn_bsPay(e, c){
     if(e.BUSN_PAY != null && e.BUSN_PAY != ""){
         sum += Number(popUserPay.uncomma(e.BUSN_PAY));
     }else{
-        sum += Number(nationalPension) + Number(healthInsurance) + Number(longCareInsurance) + Number(employInsurance) + Number(accidentInsurance)
+        console.log("dd");
+        sum += Number(nationalPension) + Number(healthInsurance) + Number(longCareInsurance) + Number(employInsurance) + Number(accidentInsurance);
     }
 
     if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
