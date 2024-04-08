@@ -168,6 +168,7 @@
                 B.PJT_STR_DT AS STR_DT,
                 B.PJT_END_DT AS END_DT,
                 A.DELV_APPROVE_STAT AS STATUS,
+                A.EMP_NAME AS ENGN_PM_NM,
                 A.EMP_NAME AS PM_NM,
                 DATE_FORMAT(CASE WHEN A.BUSN_CLASS = 'R' THEN C.APPROVAL_DATE
                      WHEN A.BUSN_CLASS = 'S' THEN D.APPROVAL_DATE
@@ -196,7 +197,7 @@
                 STR_DT AS STR_DT,
                 END_DT AS END_DT,
                 STATUS AS STATUS,
-                PM_EMP_NAME AS PM_NM,
+                PM_EMP_NAME AS ENGN_PM_NM,
                 PM_EMP_NAME AS PM_NM,
                 ''
             FROM
