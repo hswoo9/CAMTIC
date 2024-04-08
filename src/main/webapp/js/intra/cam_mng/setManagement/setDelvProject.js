@@ -42,6 +42,7 @@ var setDelvPjt = {
         setDelvPjt.global.pjtStat = pjtStat;
         const pjtStatSub = pjtCd.substring(4, 5);
         setDelvPjt.global.pjtStatSub = pjtStatSub;
+
         console.log("pjtCode : "+pjtCode);
         console.log("supDep : "+supDep);
         console.log("supDepSub : "+supDepSub);
@@ -91,7 +92,7 @@ var setDelvPjt = {
         }
 
         $("#pjtNm").text(pjtMap.PJT_NM);
-        if(pjtMap.BUSN_CLASS == "D"){
+        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
             $("#strDt").text(delvMap.PJT_STR_DT);
             $("#endDt").text(delvMap.PJT_END_DT);
             $("#pmNm").text(delvMap.PM_EMP_NM);
