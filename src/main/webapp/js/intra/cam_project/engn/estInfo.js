@@ -368,7 +368,7 @@ var estInfo = {
             "                    <td><input type=\"text\" class=\"prodNm\" alias=\"prodNm\" id=\"prodNm\" /></td>\n" +
             "                    <td><input type=\"text\" class=\"prodCnt\" alias=\"prodCnt\" id=\"prodCnt\" style=\"text-align: right;\" onkeyup=\"estInfo.inputNumberFormat(this)\" oninput=\"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\" /></td>\n" +
             "                    <td><input type=\"text\" class=\"unit\" alias=\"unit\" id=\"unit\" /></td>\n" +
-            "                    <td><input type=\"text\" class=\"unitAmt\" alias=\"unitAmt\" id=\"unitAmt\" style=\"text-align: right;\" onkeyup=\"estInfo.inputNumberFormat(this)\" oninput=\"this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\" /></td>\n" +
+            "                    <td><input type=\"text\" class=\"unitAmt\" alias=\"unitAmt\" id=\"unitAmt\" style=\"text-align: right;\" onkeyup=\"estInfo.inputNumberFormat(this)\" oninput=\"this.value = this.value.replace(/[^-0-9.]/g, '').replace(/(\\..*)\\./g, '$1');\" /></td>\n" +
             "                    <td><input type=\"text\" class=\"supAmt\" alias=\"supAmt\" id=\"supAmt\" disabled style=\"text-align: right;\" /></td>\n" +
             "                    <td><input type=\"text\" class=\"prodEtc\" alias=\"prodEtc\" id=\"prodEtc\" /></td>\n" +
             "                    <td style=\"text-align: center\"><button type=\"button\" id=\"addBtn\" onclick='estInfo.fn_addClickEvent()' class=\"k-button k-button-solid-base\">추가</button> </td>\n" +

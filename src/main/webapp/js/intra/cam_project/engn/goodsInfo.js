@@ -67,7 +67,7 @@ var goodsInfo = {
             html += '   <td><input type="text" class="goodsProdNm" id="goodsProdNm'+(idx+1)+'" value="'+estSubList[idx].PROD_NM+'"/></td>';
             html += '   <td><input type="text" class="goodsProdCnt" id="goodsProdCnt'+(idx+1)+'" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(estSubList[idx].PROD_CNT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
             html += '   <td><input type="text" class="goodsUnit" id="goodsUnit'+(idx+1)+'" value="'+estSubList[idx].UNIT+'"/></td>';
-            html += '   <td><input type="text" class="goodsUnitAmt" id="goodsUnitAmt'+(idx+1)+'" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(estSubList[idx].UNIT_AMT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
+            html += '   <td><input type="text" class="goodsUnitAmt" id="goodsUnitAmt'+(idx+1)+'" style="text-align: right;" onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(estSubList[idx].UNIT_AMT)+'" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
             html += '   <td><input type="text" class="goodsSupAmt" id="goodsSupAmt'+(idx+1)+'" style="text-align: right;" disabled onkeyup="goodsInfo.inputNumberFormat(this)" value="'+goodsInfo.comma(estSubList[idx].SUP_AMT)+'" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');"/></td>';
             html += '   <td><input type="text" class="goodsProdEtc" id="goodsProdEtc'+(idx+1)+'" value="'+etc+'" /></td>';
             html += '   <td style="text-align: center">';
