@@ -132,7 +132,7 @@ const orderPrintPop = {
             orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
             orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
         }
-        orderPrintPop.global.hwpCtrl.PutFieldText("ISS", order.SIGNIFICANT.replaceAll("\n", "\r"));
+        orderPrintPop.global.hwpCtrl.PutFieldText("ISS", order.SIGNIFICANT == "" || order.SIGNIFICANT == null ? "" : order.SIGNIFICANT.replaceAll("\n", "\r"));
 
         /** 담당자 서명 */
         let regSign = order.CLAIM_EMP_NAME;
