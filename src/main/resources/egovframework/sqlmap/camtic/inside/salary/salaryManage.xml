@@ -120,6 +120,8 @@
             SM.FOOD_PAY,
             SM.EXTRA_PAY,
             SM.BONUS,
+            SM.BUSN_PAY,
+            SM.RETIRE_PAY,
             RS.NATIONAL_PENSION,
             RS.LIMIT_AMT,
             RS.HEALTH_INSURANCE,
@@ -165,6 +167,8 @@
             FOOD_PAY,
             EXTRA_PAY,
             BONUS,
+            BUSN_PAY,
+            RETIRE_PAY,
             REG_EMP_SEQ
         )
         VALUES
@@ -178,6 +182,8 @@
             #{foodPay},
             #{extraPay},
             #{bonus},
+            #{busnPay},
+            #{retirePay},
             #{loginEmpSeq}
         )
     </insert>
@@ -193,6 +199,8 @@
             FOOD_PAY = #{foodPay},
             EXTRA_PAY = #{extraPay},
             BONUS = #{bonus},
+            BUSN_PAY = #{busnPay},
+            RETIRE_PAY = #{retirePay},
             MOD_EMP_SEQ = #{loginEmpSeq},
             MOD_DATE = NOW()
         WHERE
