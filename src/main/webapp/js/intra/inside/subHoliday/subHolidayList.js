@@ -127,7 +127,7 @@ var subHolidayList = {
                     },
                     width: 150,
                 }, {
-                    title : "승인요청",
+                    title : "결재요청",
                     template : function(e){
                         if(e.BF_YN != "Y"){
                             if(e.APPR_STAT == "N"){
