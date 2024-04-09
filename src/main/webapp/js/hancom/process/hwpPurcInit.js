@@ -116,7 +116,7 @@ var purcInit = {
             const map = list[i];
             var absFlag = true;
 
-            if(map.PURC_ITEM_AMT_COMMA < 0){
+            if(map.PURC_ITEM_AMT < 0){
                 absFlag = false;
             }
 
@@ -132,7 +132,7 @@ var purcInit = {
             if(purcInit.global.purcInfo.VAT == "N"){
                 supAmt = comma(amt);
                 vatAmt = comma(sum2);
-                itemAmt = comma(amt+sum2);
+                itemAmt = comma(Number(amt)+Number(sum2));
             }else if(purcInit.global.purcInfo.VAT == "Y"){
                 supAmt = comma(sum3);
                 vatAmt = comma(sum4);
