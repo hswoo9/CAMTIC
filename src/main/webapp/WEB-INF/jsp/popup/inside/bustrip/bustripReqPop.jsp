@@ -84,6 +84,13 @@
                     <input id="reqDate" name="reqDate" class="defaultVal" style="width: 80%;" disabled>
                 </td>
             </tr>
+            <tr>
+                <th>출장자</th>
+                <td colspan="5">
+                    <input id="empName2" name="empName2" class="defaultVal k-input" value="${loginVO.name}" style="width: 20%;" disabled>
+                    <input type="button" class="k-button-solid-info k-button" value="출장자 변경">
+                </td>
+            </tr>
             </thead>
         </table>
         <table class="popTable table table-bordered mb-0" id="bustripReqPopTb">
