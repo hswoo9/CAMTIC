@@ -155,7 +155,7 @@
                                     <input type="hidden" id="hrBizExnpId" class="hrBizExnpId" name="hrBizExnpId" value="${list.HR_BIZ_EXNP_ID}" />
                                 </td>
                                 <td>
-                                    <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" value="${list.OIL_COST}" oninput="onlyNumber(this)" style="width: 100%" disabled />
+                                    <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" value="${list.OIL_COST}" oninput="onlyNumber(this)" style="width: 100%" />
                                 </td>
                                 <td>
                                     <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%" />
@@ -298,7 +298,7 @@
                                     <input type="hidden" id="hrBizExnpId" class="hrBizExnpId" name="hrBizExnpId" value="${list.HR_BIZ_EXNP_ID}" />
                                 </td>
                                 <td>
-                                    <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" <%--value="${list.OIL_COST}"--%> oninput="onlyNumber(this)" style="width: 100%" disabled />
+                                    <input type="text" id="oilCost${list.EMP_SEQ}" class="oilCost" <%--value="${list.OIL_COST}"--%> oninput="onlyNumber(this)" style="width: 100%" />
                                 </td>
                                 <td>
                                     <input type="text" id="trafCost${list.EMP_SEQ}" class="trafCost" value="${list.TRAF_COST}" oninput="onlyNumber(this)" style="width: 100%" />

@@ -112,7 +112,7 @@ var bustInfo = {
                     template: function(row){
                         return bustInfo.fn_getTripCodeText(row);
                     }
-                }, {
+                }, /*{
                     title: "사업명",
                     width: 150,
                     template: function(row){
@@ -127,7 +127,7 @@ var bustInfo = {
                         }
                         return  $("#pjtNm").val();
                     }
-                }, {
+                },*/ {
                     field: "EMP_NAME",
                     title: "출장자",
                     width: 80,
@@ -303,6 +303,37 @@ var bustInfo = {
                     },
                     footerTemplate: "출장완료 여비합계"
                 }, {
+                    title: "입금상태",
+                    width: 60,
+                    template : function (e){
+                        var docStatus = e.EXNP_DOC_STATUS;
+                        var payExnpDe = e.PAY_EXNP_DE;
+
+                        if(payExnpDe != undefined && docStatus != 100){
+                            return '입금예정';
+                        }else if(docStatus == 100){
+                            return '입금완료';
+                        }else{
+                            return '-';
+                        }
+                    }
+                }, {
+                    title: "지출일자",
+                    width: 60,
+                    template : function (e){
+                        var payExnpDe = e.PAY_EXNP_DE;
+                        var docStatus = e.EXNP_DOC_STATUS;
+                        var approvalDate = e.APPROVAL_DATE;
+
+                        if((payExnpDe == undefined || payExnpDe == null || payExnpDe == "") && docStatus != 100){
+                            return '-';
+                        }else if(docStatus != 100){
+                            return payExnpDe;
+                        }else{
+                            return approvalDate;
+                        }
+                    }
+                }, {
                     title : "여비금액",
                     width: 50,
                     template : function (e){
@@ -465,10 +496,10 @@ var bustInfo = {
             alert("선택된 출장이 없습니다.");
             return false;
         }
-        if(!flag){
-            alert("서로 다른 사업은 일괄 지급신청이 불가합니다.");
-            return false;
-        }
+        // if(!flag){
+        //     alert("서로 다른 사업은 일괄 지급신청이 불가합니다.");
+        //     return false;
+        // }
         if(!flag2){
             alert("지급신청 불가한 신청건이 존재합니다.");
             return false;

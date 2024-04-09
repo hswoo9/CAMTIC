@@ -47,8 +47,8 @@ var payCardHist = {
                 $("#startDt").val(opener.parent.$("#tripDayFr").val());
                 $("#endDt").val(opener.parent.$("#tripDayTo").val());
 
-                $("#startDt").data("kendoDatePicker").enable(false);
-                $("#endDt").data("kendoDatePicker").enable(false);
+                // $("#startDt").data("kendoDatePicker").enable(false);
+                // $("#endDt").data("kendoDatePicker").enable(false);
             }
         } else if(reqType == "snack"){
             if(opener.parent.$("#useDt").val() != "" && opener.parent.$("#useDt").val() != null){
@@ -452,11 +452,44 @@ var payCardHist = {
                     alert("식비 한도금액이 초과되었습니다.");
 
                     return;
-                } else if (Number(authAmt) > 30000){
+                } /*else if (Number(authAmt) > 30000){
                     alert("1일당 한도를 초과하였습니다.");
 
                     return;
-                } else {
+                }*/ else {
+                    // 중복 체크 후 함수 실행
+                    if (opener.parent.bustrip.global.corpCardList) {
+                        if (opener.parent.bustrip.global.corpCardList.length === 0) {
+                            for (var k = 0; k < list.length; k++) {
+                                opener.parent.bustrip.global.corpCardList.push(list[k]);
+                            }
+                        } else {
+                            var isDuplicate = false;
+                            for (var i = 0; i < opener.parent.bustrip.global.corpCardList.length; i++) {
+                                // 중복 체크
+                                for(var j=0; j < list.length; j++){
+                                    if (opener.parent.bustrip.global.corpCardList[i].CARD_NO === list[j].CARD_NO &&
+                                        opener.parent.bustrip.global.corpCardList[i].AUTH_DD === list[j].AUTH_DD &&
+                                        opener.parent.bustrip.global.corpCardList[i].AUTH_HH === list[j].AUTH_HH &&
+                                        opener.parent.bustrip.global.corpCardList[i].AUTH_NO === list[j].AUTH_NO &&
+                                        opener.parent.bustrip.global.corpCardList[i].BUY_STS === list[j].BUY_STS &&
+                                        opener.parent.bustrip.global.corpCardList[i].AUTH_AMT === list[j].AUTH_AMT
+                                    ) {
+                                        alert("이미 선택된 내역입니다.");
+                                        isDuplicate = true;
+                                        return;
+                                    }
+                                }
+                            }
+
+                            if (!isDuplicate) {
+                                for (var k = 0; k < list.length; k++) {
+                                    opener.parent.bustrip.global.corpCardList.push(list[k]);
+                                }
+                            }
+                        }
+                    }
+
                     opener.parent.cardHistSet(list, $("#exnpType").val(), $("#corpType").val());
                 }
             }

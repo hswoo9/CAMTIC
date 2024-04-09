@@ -448,10 +448,10 @@ var bustList = {
             alert("선택된 출장이 없습니다.");
             return false;
         }
-        if(!flag){
-            alert("서로 다른 출장구분은 일괄 지급신청이 불가합니다.");
-            return false;
-        }
+        // if(!flag){
+        //     alert("서로 다른 출장구분은 일괄 지급신청이 불가합니다.");
+        //     return false;
+        // }
         if(!flag2){
             alert("지급신청 불가한 신청건이 존재합니다.");
             return false;

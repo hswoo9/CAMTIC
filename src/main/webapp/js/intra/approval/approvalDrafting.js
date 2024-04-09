@@ -1444,15 +1444,15 @@ var draft = {
                 count ++;
             }
 
-            for(let i=0; i<cardList.length; i++){
-                if(cardList[i].FILE_NO != null){
-                    const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
-                        fileNo: cardList[i].FILE_NO
-                    }).data;
-                    tempArr[count] = fileData;
-                    count ++;
-                }
-            }
+            // for(let i=0; i<cardList.length; i++){
+            //     if(cardList[i].FILE_NO != null){
+            //         const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
+            //             fileNo: cardList[i].FILE_NO
+            //         }).data;
+            //         tempArr[count] = fileData;
+            //         count ++;
+            //     }
+            // }
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
