@@ -113,6 +113,10 @@
                         <span id="expType"></span>
                     </td>--%>
                 </tr>
+                <th scope="row" class="text-center th-color"><span class="red-star"></span>계약여부</th>
+                <td colspan="3">
+                    <input type="checkbox" id="contYn" class="k-checkbox k-checkbox-lg k-checkbox-item" />
+                </td>
                 <tr>
                     <th scope="row" class="text-center th-color">비용지급방식</th>
                     <td>

@@ -189,30 +189,36 @@ var purcInfo = {
                         if(e.PAYMENT_METHOD == "A"){
                             if(e.ORDER_DT != null && e.ORDER_DT != ""){
                                 if(e.CLAIM_STATUS == "CAYSY"){
-                                    if(e.INSPECT_STATUS != "100"){
-                                        html += '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                                    }else{
-                                        html += '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                    if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101") {
+                                        if(e.INSPECT_STATUS != "100"){
+                                            html = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                        }else{
+                                            html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
 
-                                        status = "-";
+                                        }
+                                    } else {
+                                        html = '';
                                     }
+
                                 }else{
-                                    html += "-"
+                                    html = "-"
                                 }
                             } else {
-                                html += "-"
+                                html = "-"
                             }
                         } else {
                             if(e.CLAIM_STATUS == "CAYSY"){
-                                if(e.INSPECT_STATUS != "100"){
-                                    html += '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                                }else{
-                                    html += '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-
-                                    status = "-";
+                                if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101"){
+                                    if(e.INSPECT_STATUS != "100"){
+                                        html = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                    }else{
+                                        html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                    }
+                                } else {
+                                    html = '-';
                                 }
                             }else{
-                                html += "-"
+                                html = "-"
                             }
                         }
 
