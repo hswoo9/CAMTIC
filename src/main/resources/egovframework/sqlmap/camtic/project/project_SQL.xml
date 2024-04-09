@@ -3320,9 +3320,9 @@
         WHERE
             EMP_SEQ = #{empSeq}
         AND
-            DATE_FORMAT(#{startDt}, '%Y-%m-%d') BETWEEN DATE_FORMAT(START_DT, '%Y-%m-%d') AND DATE_FORMAT(END_DT, '%Y-%m-%d')
+            DATE_FORMAT(#{startDt}, '%Y-%m-%d') BETWEEN DATE_FORMAT(START_DT, '%Y-%m-%d') AND IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31'))
         ORDER BY
-            ABS(TIMESTAMPDIFF(SECOND, START_DT, #{startDt}))
+            ABS(TIMESTAMPDIFF(SECOND, START_DT, #{startDt})) LIMIT 1
     </select>
 
     <delete id="delJoinMember" parameterType="map">
