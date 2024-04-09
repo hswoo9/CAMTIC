@@ -75,7 +75,7 @@ var pri = {
 
         if($("#mode").val() == "mng"){
         }else{
-            $("#inspectBtn").hide();
+            // $("#inspectBtn").hide();
         }
     },
     

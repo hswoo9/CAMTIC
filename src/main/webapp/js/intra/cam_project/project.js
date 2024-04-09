@@ -97,6 +97,7 @@ var camPrj = {
                     data.empName = $("#empName").val();
                     return data;
                 }
+
             },
             schema : {
                 data: function (data) {

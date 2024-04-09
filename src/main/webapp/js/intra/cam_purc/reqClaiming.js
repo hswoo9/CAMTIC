@@ -645,6 +645,12 @@ var reqCl = {
             parameters.priPay = "N";
         }
 
+        if($("#contYn").is(":checked")){
+            parameters.contYn = "Y";
+        } else {
+            parameters.contYn = "N";
+        }
+
         if($("#checkProfit").prop("checked")){
             parameters.checkProfit = "Y";
         } else {

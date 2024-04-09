@@ -288,7 +288,7 @@ var purcInit = {
 
             var absFlag = true;
 
-            if(map.ITEM_AMT_COMMA < 0){
+            if(map.ITEM_AMT < 0){
                 absFlag = false;
             }
 
@@ -381,10 +381,18 @@ var purcInit = {
         html += '   </tr>';
         var priPay = ""
         if(claimInfo.PRI_PAY == 'N'){
-            priPay = "해당"
-        } else {
             priPay = "미해당"
+        } else {
+            priPay = "해당"
         }
+
+        var contYn = ""
+        if(claimInfo.CONT_YN == 'N'){
+            contYn = "미해당"
+        } else {
+            contYn = "해당"
+        }
+
         html += '   <tr>';
         html += '       <td colspan="9" style="background-color:#FFFFFF; text-align:left;">';
         html += '       <div style="margin-top: 20px;">';
@@ -392,7 +400,7 @@ var purcInit = {
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    거 래 업 체 : '+claimInfo.CRM_NM+'<br>';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    관 련 사 업 : '+claimInfo.PJT_NM+'<br>';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    선 지 급 여 부 : '+priPay+'<br>';
-        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    계 약 진 행 여 부 : 미해당<br>';
+        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    계 약 진 행 여 부 : '+contYn+'<br>';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    비     고  : '+(claimInfo.ETC == null ? '' : claimInfo.ETC)+'<br>';
         html += '       </div>';
         html += '       <div style="margin-bottom: 5px"></div>';

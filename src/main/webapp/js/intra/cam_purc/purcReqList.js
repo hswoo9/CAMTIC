@@ -337,7 +337,7 @@ var prm = {
                                     status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                 }
                             } else {
-                                if ((e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101')) {
+                                if ((e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101')) {
                                     if(e.PAYMENT_METHOD == "C" || e.PAYMENT_METHOD == "I") {
                                         if (e.CLAIM_STATUS == "CAYSY") {
                                             status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';

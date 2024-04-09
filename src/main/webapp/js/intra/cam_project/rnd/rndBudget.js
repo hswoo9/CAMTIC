@@ -11,10 +11,64 @@ var rndBg = {
 
     fn_defaultScript : function (){
         commonProject.setPjtStat();
+        rndBg.setAccount();
         this.gridReload();
     },
 
-    gridReload : function (){
+    setAccount : function(){
+        var date = new Date();
+        var year = date.getFullYear().toString().substring(2,4);
+
+        let params = {
+            pjtSn: $("#pjtSn").val()
+        }
+        const result = customKendo.fn_customAjax("/projectRnd/getAccountInfo", params);
+        const list = result.list;
+        let arr = [];
+        let firstValue = "";
+        for(let i=0; i<list.length; i++){
+            let label = "";
+            if(list[i].IS_TYPE == "1"){
+                label = "국비";
+            }else if(list[i].IS_TYPE == "2"){
+                label = "도비";
+            }else if(list[i].IS_TYPE == "3"){
+                label = "시비";
+            }else if(list[i].IS_TYPE == "4"){
+                label = "자부담";
+            }else if(list[i].IS_TYPE == "5"){
+                label = "업체부담";
+            }else if(list[i].IS_TYPE == "9"){
+                label = "기타";
+            }
+            let data = {
+                label: label,
+                value: $("#mgtCd").val().slice(0, -1) + list[i].IS_TYPE
+            };
+            arr.push(data);
+            if(i == 0){
+                firstValue = $("#mgtCd").val().slice(0, -1) + list[i].IS_TYPE;
+            }
+        }
+
+        if(list.length == 0){
+            arr = [
+                {
+                    label: "사업비",
+                    value: $("#mgtCd").val()
+                }
+            ];
+            firstValue = $("#mgtCd").val();
+        }
+        customKendo.fn_radioGroup("budgetClass", arr, "horizontal");
+        $("#budgetClass").data("kendoRadioGroup").value(firstValue);
+
+        $("#budgetClass").data("kendoRadioGroup").bind("change", function(){
+            rndBg.gridReload($("#budgetClass").data("kendoRadioGroup").value());
+        })
+    },
+
+    gridReload : function (pjtCd){
         rndBg.global.searchAjaxData = {
             pjtCd : $("#mgtCd").val(),
             pageType : "USER",
@@ -52,15 +106,20 @@ var rndBg = {
                 }
             }
         });
-        rndBg.budgetMainGrid();     // 수입예산 리스트
-        rndBg.budgetMainGrid2();    // 지출예산 리스트
+        rndBg.budgetMainGrid(pjtCd);     // 수입예산 리스트
+        rndBg.budgetMainGrid2(pjtCd);    // 지출예산 리스트
         rndBg.budgetMainGrid3("/pay/getPaymentList", rndBg.global.searchAjaxData);  // 지급신청서 리스트
         rndBg.budgetMainGrid4("/pay/getExnpReList", rndBg.global.searchAjaxData);   // 지출결의서 리스트
     },
 
 
 
-    budgetMainGrid : function(){
+    budgetMainGrid : function(mgtCd){
+        let mgtSeq = $("#mgtCd").val();
+        if(mgtCd != null && mgtCd != undefined && mgtCd != ""){
+            mgtSeq = mgtCd;
+        }
+
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -76,7 +135,7 @@ var rndBg = {
                     data.gisu = year;
                     data.fromDate = $("#sbjStrDe").val().replace(/-/g, "");
                     data.toDate = $("#sbjEndDe").val().replace(/-/g, "");
-                    data.mgtSeq = $("#mgtCd").val();
+                    data.mgtSeq = mgtSeq;
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';
@@ -211,7 +270,11 @@ var rndBg = {
         }).data("kendoGrid");
     },
 
-    budgetMainGrid2 : function(){
+    budgetMainGrid2 : function(mgtCd){
+        let mgtSeq = $("#mgtCd").val();
+        if(mgtCd != null && mgtCd != undefined && mgtCd != ""){
+            mgtSeq = mgtCd;
+        }
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -227,7 +290,7 @@ var rndBg = {
                     data.gisu = year;
                     data.fromDate = $("#sbjStrDe").val().replace(/-/g, "");
                     data.toDate = $("#sbjEndDe").val().replace(/-/g, "");
-                    data.mgtSeq = $("#mgtCd").val()
+                    data.mgtSeq = mgtSeq
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';
