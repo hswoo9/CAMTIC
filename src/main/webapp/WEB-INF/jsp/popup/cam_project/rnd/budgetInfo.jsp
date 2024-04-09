@@ -34,6 +34,10 @@
         <span id="selectType"></span>
     </div>
 
+    <div id="btnDiv2" style="background-color: #eef6ff; padding: 10px; font-size: 13px;">
+        <span id="budgetClass"></span>
+    </div>
+
     <br>
     <span style="font-size: 12px;" id="titleWrap">◎ 예산현황</span>
     <div class="table-responsive" style="margin-top: 5px;">
