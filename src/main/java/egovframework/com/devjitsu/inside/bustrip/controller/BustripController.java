@@ -1237,7 +1237,6 @@ public class BustripController {
             document.close();
             pdfWriter.close();
 
-            // DB에 데이터 저장
             Map<String, Object> fileParameters = new HashMap<>();
             fileParameters.put("fileCd", fileCd);
             fileParameters.put("fileUUID", fileUUID+"."+fileExt);
@@ -1247,6 +1246,10 @@ public class BustripController {
             fileParameters.put("fileSize", 99);
             fileParameters.put("contentId", params.get("hrBizReqResultId"));
             fileParameters.put("empSeq", "1");
+
+            // 이전에 저장한 파일 삭제
+            commonService.delContentFileOne(fileParameters);
+            // DB에 데이터 저장
             commonService.insFileInfoOne(fileParameters);
 
         } catch (Exception e){

@@ -107,4 +107,6 @@ public interface CommonService {
     void delBudgetCode(Map<String, Object> params);
 
     void insFileInfoOne(Map<String, Object> params);
+
+    void delContentFileOne(Map<String, Object> params);
 }

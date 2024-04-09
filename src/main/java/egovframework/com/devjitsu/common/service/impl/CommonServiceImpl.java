@@ -500,4 +500,9 @@ public class CommonServiceImpl implements CommonService {
     public void insFileInfoOne(Map<String, Object> params) {
         commonRepository.insFileInfoOne(params);
     }
+
+    @Override
+    public void delContentFileOne(Map<String, Object> params) {
+        commonRepository.delContentFileOne(params);
+    }
 }
