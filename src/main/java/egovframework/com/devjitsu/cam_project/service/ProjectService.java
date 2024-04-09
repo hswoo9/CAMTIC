@@ -204,7 +204,7 @@ public interface ProjectService {
     List<Map<String, Object>> getG20ProjectList(Map<String, Object> params);
 
     Map<String, Object> getDevMap(Map<String, Object> params);
-
+    Map<String, Object> getPartStartBs(Map<String, Object> params);
     void delJoinMember(Map<String, Object> params);
 
     List<Map<String, Object>> getFinalPartRateChangeDocList(Map<String, Object> params);

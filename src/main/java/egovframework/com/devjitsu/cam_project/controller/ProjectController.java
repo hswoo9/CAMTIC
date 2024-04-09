@@ -1452,6 +1452,7 @@ public class ProjectController {
 
         Map<String, Object> pjtMap = projectService.getProjectData(params);
         map.put("busnClass", pjtMap.get("BUSN_CLASS"));
+        map.put("startDt", params.get("startDt"));
         Map<String, Object> result = projectService.getMngPartRate(map);
         model.addAttribute("result", result);
         if(map != null){
@@ -1462,6 +1463,13 @@ public class ProjectController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/project/getPartStartBs")
+    public String getPartStartBs(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("rs", projectService.getPartStartBs(params));
+        return "jsonView";
+    }
+
 
     @RequestMapping("/project/delJoinMember")
     public String delJoinMember(@RequestParam Map<String, Object> params, Model model) {
