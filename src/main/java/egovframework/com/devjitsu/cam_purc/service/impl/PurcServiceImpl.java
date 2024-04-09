@@ -22,10 +22,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class PurcServiceImpl implements PurcService {
@@ -325,6 +323,14 @@ public class PurcServiceImpl implements PurcService {
                 String fmtNow = now.format(fmt);
                 paramMap.put("inspectDt", fmtNow);
 
+
+                Map<String, Object> claimSettingMap = new HashMap<>();
+                claimSettingMap.put("pjtNm", claimData.get("PJT_NM"));
+                claimSettingMap.put("pjtCd", claimData.get("PJT_CD"));
+                claimSettingMap.put("claimSn", claimData.get("CLAIM_SN"));
+                claimSettingMap.put("empSeq", claimData.get("EMP_SEQ"));
+                purcRepository.insPurcBasicSetting(claimSettingMap);
+
                 // 현장(카드) 결재일 경우 청구서 결재완료시 검수처리 후 PURC_TYPE이 R OR S 였을 경우에 구매지급요청에 데이터 INSERT
                 Map<String, Object> purcReqMap = new HashMap<>();
                 purcReqMap.put("claimSn", claimData.get("CLAIM_SN"));
@@ -345,8 +351,8 @@ public class PurcServiceImpl implements PurcService {
                 purcRepository.insPayAppPurcReq(purcReqMap);
                 purcRepository.updClaimPurcOrder(purcReqMap);
 
-                purcRepository.updPurcInspect(paramMap);
-                purcRepository.updPurcInspectStat(paramMap);
+//                purcRepository.updPurcInspect(paramMap);
+//                purcRepository.updPurcInspectStat(paramMap);
             }
         }
     }
@@ -1158,5 +1164,15 @@ public class PurcServiceImpl implements PurcService {
     @Override
     public List<Map<String, Object>> getPurcReqClaimEmpList(Map<String, Object> params) {
         return purcRepository.getPurcReqClaimEmpList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPurcClaimExnpList(Map<String, Object> params) {
+        return purcRepository.getPurcClaimExnpList(params);
+    }
+
+    @Override
+    public void delClaimExnpData(Map<String, Object> params) {
+        purcRepository.delClaimExnpData(params);
     }
 }
