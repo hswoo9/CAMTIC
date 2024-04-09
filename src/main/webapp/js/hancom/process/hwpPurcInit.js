@@ -120,7 +120,7 @@ var purcInit = {
                 absFlag = false;
             }
 
-            let amt = uncomma(map.PURC_ITEM_AMT_COMMA);
+            let amt = uncomma(Number(map.ITEM_UNIT_AMT) * Number(map.ITEM_EA));
             let sum2 = Math.round(amt/10);
             let sum3 = Math.round(amt / 1.1);
             let sum4 = amt - sum3;
@@ -292,7 +292,7 @@ var purcInit = {
                 absFlag = false;
             }
 
-            let amt = uncomma(map.ITEM_AMT_COMMA); console.log(amt)
+            let amt = uncomma(Number(map.ITEM_UNIT_AMT) * Number(map.ITEM_EA));
             let sum2 = Math.round(amt/10);
             let sum3 = Math.round(amt / 1.1);
             let sum4 = amt - sum3;
