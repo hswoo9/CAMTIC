@@ -29,7 +29,7 @@
 
         <div class="panel-body">
             <input type="text" id="bsYMD" style="width: 10%" value=""/>
-            <button type="button" id="searchBtn" class="k-button k-button-solid-base" style="font-size: 11px;">검색</button>
+            <button type="button" id="searchBtn" class="k-button k-button-solid-base" onclick="requestEvaluationMainGrid()" style="font-size: 11px;">검색</button>
         </div>
 
         <div class="panel-body">
@@ -137,6 +137,26 @@
                     field: "OCC_NM"
 
                 }, {
+                    title: "입사일",
+                    width: 120,
+                    template: function (row){
+                        var joinDay = row.JOIN_DAY;
+                        var date = new Date(joinDay);
+
+                        var year = date.getFullYear();
+                        var month = ("0" + (date.getMonth() + 1)).slice(-2);
+                        var day = ("0" + date.getDate()).slice(-2);
+
+                        return year + "-" + month + "-" + day;
+                    }
+                },
+                {
+                    title: "현직경력",
+                    width: 120,
+                    template: function (row){
+                        return row.hire + " 년 " + row.hire_mon + " 개월";
+                    }
+                },{
                     field: "",
                     title: "비고",
                     width: 50,
