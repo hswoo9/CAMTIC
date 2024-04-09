@@ -134,7 +134,7 @@ var purcInit = {
                         absFlag = false;
                     }
 
-            let amt = uncomma(Number(map.ITEM_UNIT_AMT) * Number(map.ITEM_EA));
+            let amt = uncomma(map.PURC_ITEM_AMT);
             let sum2 = Math.round(amt/10);
             let sum3 = Math.round(amt / 1.1);
             let sum4 = amt - sum3;
