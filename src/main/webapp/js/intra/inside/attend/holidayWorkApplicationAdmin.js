@@ -115,7 +115,8 @@ var holidayWorkApplicationAdmin ={
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="holidayWorkApplicationAdmin.fn_checkAll();" class=""/>',
                     template : function(e){
-                        if(e.APPR_STAT == "N"){
+                        if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101 && e.DEL_YN =="N"){
+                        /*if(e.APPR_STAT == "N"){*/
                             return "<input type='checkbox' id='hisPk#=SUBHOLIDAY_USE_ID#' name='hisPk' value=\""+e.SUBHOLIDAY_USE_ID+"\" class=''/>";
                         } else {
                             return "";
@@ -158,7 +159,7 @@ var holidayWorkApplicationAdmin ={
                     width: 100,
                     template : function(e){
                         if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
-                            return '결재완료';
+                            return '결재완료'
                         }else if(e.DOC_STATUS == 10 || e.DOC_STATUS == 20 || e.DOC_STATUS == 50){
                             return '결재중';
                         }else if(e.DOC_STATUS == 30){
@@ -176,19 +177,24 @@ var holidayWorkApplicationAdmin ={
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                     "<span class='k-button-text'>열람</span>" +
+                                    '   <input type="hidden" name="delYn" value="' + e.DEL_YN + '">' +
                                     "</button>";
                             }else if(e.DOC_STATUS == 10 || e.DOC_STATUS == 20 || e.DOC_STATUS == 50){
                                 return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='approveDocView(\""+e.DOC_ID+"\", \""+e.APPRO_KEY+"\", \""+e.DOC_MENU_CD+"\");'>" +
                                     "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                                     "<span class='k-button-text'>결재중</span>" +
+                                    '   <input type="hidden" name="delYn" value="' + e.DEL_YN + '">' +
                                     "</button>";
                             }else if(e.DOC_STATUS == 30){
-                                return '-';
+                                return '' +
+                                    '   <input type="hidden" name="delYn" value="' + e.DEL_YN + '">' ;
                             }else {
-                                return '-';
+                                return '' +
+                                    '   <input type="hidden" name="delYn" value="' + e.DEL_YN + '">' ;
                             }
                         }else{
-                            return '-';
+                            return '' +
+                                '   <input type="hidden" name="delYn" value="' + e.DEL_YN + '">' ;
                         }
                     },
                     width: 100,
@@ -202,6 +208,14 @@ var holidayWorkApplicationAdmin ={
 
     onDataBound : function(){
         var grid = this;
+        grid.tbody.find("tr").each(function(){
+            var delYn = $(this).find("input[name='delYn']").val();
+
+            if(delYn == "Y"){
+                $(this).css('text-decoration', 'line-through');
+                $(this).css('color', 'red');
+            }
+        });
 
         // grid.tbody.find("tr").dblclick(function (e) {
         //     var dataItem = grid.dataItem($(this));
@@ -256,7 +270,7 @@ var holidayWorkApplicationAdmin ={
             return;
         }
 
-        var result = customKendo.fn_customAjax("/Inside/setHistoryWorkApplyDel.do", {subHolidayUseId : checkedList.join()});
+        var result = customKendo.fn_customAjax("/Inside/setHistoryWorkApplyAdminDel.do", {subHolidayUseId : checkedList.join()});
         if(result.flag){
             alert("휴가 작성내역이 삭제되었습니다.");
             holidayWorkApplicationAdmin.gridReload();

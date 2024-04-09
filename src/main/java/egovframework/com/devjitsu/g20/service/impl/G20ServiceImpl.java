@@ -43,8 +43,14 @@ public class G20ServiceImpl implements G20Service {
          List<Map<String, Object>> listMap = g20Repository.getCommonGisuInfo(params);
 
         params.put("gisu", listMap.get(0).get("gisu"));
-        params.put("fromDate", listMap.get(0).get("fromDate"));
-        params.put("toDate", listMap.get(0).get("toDate"));
+
+        if(!params.containsKey("fromDate")){
+            params.put("fromDate", listMap.get(0).get("fromDate"));
+        }
+        if(!params.containsKey("toDate")){
+            params.put("toDate", listMap.get(0).get("toDate"));
+        }
+
 
         List<Map<String, Object>> payWaitList = payAppRepository.getWaitPaymentList(params);  // 지출대기
         List<Map<String, Object>> payCompleteList = payAppRepository.getCompletePaymentList(params); // 지출완료

@@ -58,6 +58,8 @@ var rndBg = {
         rndBg.budgetMainGrid4("/pay/getExnpReList", rndBg.global.searchAjaxData);   // 지출결의서 리스트
     },
 
+
+
     budgetMainGrid : function(){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -72,9 +74,9 @@ var rndBg = {
                     var year = date.getFullYear().toString().substring(2,4);
                     data.stat = "project";
                     data.gisu = year;
-                    data.fromDate = date.getFullYear().toString() + "0101";
-                    data.toDate = date.getFullYear().toString() + "1231";
-                    data.mgtSeq = $("#mgtCd").val()
+                    data.fromDate = $("#sbjStrDe").val().replace(/-/g, "");
+                    data.toDate = $("#sbjEndDe").val().replace(/-/g, "");
+                    data.mgtSeq = $("#mgtCd").val();
                     data.opt01 = '3';
                     data.opt02 = '1';
                     data.opt03 = '2';
@@ -223,8 +225,8 @@ var rndBg = {
                     var year = date.getFullYear().toString().substring(2,4);
                     data.stat = "project";
                     data.gisu = year;
-                    data.fromDate = date.getFullYear().toString() + "0101";
-                    data.toDate = date.getFullYear().toString() + "1231";
+                    data.fromDate = $("#sbjStrDe").val().replace(/-/g, "");
+                    data.toDate = $("#sbjEndDe").val().replace(/-/g, "");
                     data.mgtSeq = $("#mgtCd").val()
                     data.opt01 = '3';
                     data.opt02 = '1';

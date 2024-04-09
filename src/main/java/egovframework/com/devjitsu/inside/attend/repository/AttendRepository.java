@@ -60,6 +60,10 @@ public class AttendRepository extends AbstractDAO {
         update("attend.setHistoryWorkApplyDel", params);
     }
 
+    public void setHistoryWorkApplyAdminDel(Map<String, Object> params){
+        update("attend.setHistoryWorkApplyAdminDel", params);
+    }
+
     public List<Map<String, Object>> holidayWorkApplicationList(Map<String, Object> params) {
         return selectList("attend.holidayWorkApplicationList", params);
     }
