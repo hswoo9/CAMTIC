@@ -41,7 +41,8 @@
                 <tr>
                     <th>년도</th>
                     <td>
-                        <input type="text" id="bsYear" class="bsYear" style="text-align: right; width: 30%" /> 년
+                        <input type="text" id="bsYear" class="bsYear" style="text-align: right; width: 30%" />
+                        <input type="text" id="bsNum" class="bsNum" style="text-align: right; width: 30%" />
                     </td>
                     <th>평가대상</th>
                     <td>
@@ -63,10 +64,10 @@
                 <h4 style="position: relative; top:7px">
                     역량평가
                 </h4>
-                <div id="btnDiv2" class="btn-st popButton" style="font-size: 12px; float: right">
+                <%--<div id="btnDiv2" class="btn-st popButton" style="font-size: 12px; float: right">
                     <button type="button" class="k-button k-button-solid-info" id="capAddBt" onclick="fn_capAddRow()">추가</button>
                     <button type="button" class="k-button k-button-solid-error" onclick="fn_capDelRow()">삭제</button>
-                </div>
+                </div>--%>
             </div>
             <table class="searchTable table table-bordered mb-0">
                 <colgroup>
@@ -108,17 +109,17 @@
                 <tbody id="capBody">
                 <tr>
                     <td>
-                        <input type="text" id="idx0" class="idx" name="idx" value="1" style="width: 60%" disabled /> 차
+                        <input type="text" id="idx0" class="idx" name="idx" value="" style="width: 60%" disabled /> 차
                     </td>
                     <td>
                         평가 <input type="text" id="evalStrDt0" class="evalStrDt" name="evalStrDt" style="width: 40%" /> ~ <input type="text" id="evalEndDt0" class="evalEndDt" name="evalEndDt" style="width: 40%" /> <br>
                         실시 <input type="text" id="condStrDt0" class="condStrDt" name="condStrDt" style="width: 40%" /> ~ <input type="text" id="condEndDt0" class="condEndDt" name="condEndDt" style="width: 40%" />
                     </td>
                     <td>
-                        <input type="text" id="teamMemberA0" class="teamMemberA" name="teamMemberA" style="width: 100%; text-align: right" />
+                        <input type="text" id="teamMemberA0" class="teamMemberA" name="teamMemberA" style="width: 80%; text-align: right" />
                     </td>
                     <td>
-                        <input type="text" id="teamMemberB0" class="teamMemberB" name="teamMemberB" style="width: 100%; text-align: right" />
+                        <input type="text" id="teamMemberB0" class="teamMemberB" name="teamMemberB" style="width: 80%; text-align: right" />
                     </td>
                     <td>
                         <input type="text" id="teamMemberC0" class="teamMemberC" name="teamMemberC" style="width: 100%; text-align: right" />
@@ -213,7 +214,7 @@
                 <colgroup>
                     <col style="width: 10%">
                     <col style="width: 10%">
-                    <col style="width: 20%">
+                    <col style="width: 25%">
                     <col style="width: 20%">
                     <col style="width: 40%">
                 </colgroup>
@@ -234,10 +235,10 @@
                         </div>
                         <table class="searchTable table table-bordered mb-0">
                             <colgroup>
-                                <col width="10%">
+                                <col width="7%">
                                 <col width="20%">
-                                <col width="20%">
-                                <col width="40%">
+                                <col width="24%">
+                                <col width="39%">
                             </colgroup>
                             <thead>
                             <tr>
@@ -296,10 +297,10 @@
                         </div>
                         <table class="searchTable table table-bordered mb-0">
                             <colgroup>
-                                <col width="10%">
+                                <col width="7%">
                                 <col width="20%">
-                                <col width="20%">
-                                <col width="40%">
+                                <col width="24%">
+                                <col width="39%">
                             </colgroup>
                             <thead>
                             <tr>
@@ -377,7 +378,7 @@
                 </tr>
                 </thead>
                 <tbody id="scoreList">
-                <tr style="text-align: center;">';
+                <tr style="text-align: center;">
                        <td><input type="text" id="scClass0" class ="textBox" ></td>
                        <td><input type="text" id="scLevel0" class ="textBox" ></td>
                        <td><input type="text" id="scPerson0" class ="textBox" style="width: 80%;"> %</td>
@@ -387,6 +388,20 @@
                 </tbody>
             </table>
         </div>
+
+
+
+        <div class="panel-body" style="padding-top: unset">
+            <div class="card-header">
+                <h4 style="position: relative; top:7px">
+                    안내 페이지 설정
+                </h4>
+            </div>
+
+        </div>
+
+
+
     </div>
 </div><!-- col-md-9 -->
 
@@ -394,7 +409,7 @@
     var empSeqArr = [];
     $(function (){
 
-        customKendo.fn_textBox(["bsYear", "evalList", "idx0", "teamMemberA0", "teamMemberB0", "teamMemberC0", "teamManagerA0", "teamManagerB0", "teamManagerC0"
+        customKendo.fn_textBox(["evalList", "idx0", "teamMemberA0", "teamMemberB0", "teamMemberC0", "teamManagerA0", "teamManagerB0", "teamManagerC0"
                                 , "deptManagerA0", "deptManagerB0", "deptManagerC0"
                                 , "achTeamMngA", "achTeamMngB", "achTotTeamMng", "achDeptMngA", "achDeptMngB", "achTotDeptMng"
                                 , "btSum", "btResult1", "btResult2", "bdResult1", "bdResult2", "bdSum", "bhResult1", "bhResult2", "bcResult1", "bcResult2", "bhSum"
@@ -408,6 +423,26 @@
 
         customKendo.fn_datePicker("achStrDt", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("achEndDt", '', "yyyy-MM-dd", new Date());
+
+        customKendo.fn_datePicker("bsYear", 'decade', "yyyy", new Date());
+
+        $("#bsNum").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "차수 선택", value: "" },
+                { text: "1차", value: "1" },
+                { text: "2차", value: "2" },
+                { text: "3차", value: "3" },
+                { text: "4차", value: "4" },
+                { text: "5차", value: "5" }
+            ],
+            index: 0,
+            change: function(e) {
+                $("#idx0").val($("#bsNum").val())
+            }
+        });
+
 
         $("#achConf").kendoRadioGroup({
             items: [
@@ -513,6 +548,13 @@
             $("#bsYear").val("");
             return;
         }
+
+        if($("#bsNum").val() == ""){
+            alert("차수를 선택해주세요.");
+            return;
+        }
+
+
 
         window.open("/evaluation/pop/requestEvaluationUsers.do?bsYear=" + $("#bsYear").val(),"조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
