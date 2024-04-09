@@ -732,6 +732,24 @@ var hwpDocCtrl = {
             if (devSn == null || devSn == undefined || devSn == "") { alert(errorText); return; }
             unRndInit.devInit(devSn);
 
+        } else if(data.menuCd == "pjtRes") {
+
+            const pjtSn = pk;
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert(errorText); return; }
+            engnInit.resInit(pjtSn);
+
+        } else if(data.menuCd == "rndRes") {
+
+            const pjtSn = pk;
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert(errorText); return; }
+            rndInit.resInit(pjtSn);
+
+        } else if(data.menuCd == "unRndRes") {
+
+            const pjtSn = pk;
+            if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert(errorText); return; }
+            unRndInit.resInit(pjtSn);
+
         }
 
         /** 재상신이면 사인 초기화 */
