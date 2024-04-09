@@ -220,7 +220,8 @@ var busInit = {
         }else if (carList == 15) {
             carText = "기타(" + busInfo.USE_TRSPT_RMK + ")";
         }
-        let car = carText;
+        let car = carText + "(" + busInfo.MOVE_DST + "Km)";
+
         hwpDocCtrl.putFieldText('car', car);
 
         hwpDocCtrl.putFieldText('empName', busInfo.EMP_NAME);
