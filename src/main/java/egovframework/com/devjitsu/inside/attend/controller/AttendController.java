@@ -260,6 +260,13 @@ public class AttendController {
         return "jsonView";
     }
 
+    // 휴일 근로 관리자 삭제
+    @RequestMapping("/Inside/setHistoryWorkApplyAdminDel.do")
+    public String setHistoryWorkApplyAdminDel(@RequestParam Map<String, Object> params){
+        attendService.setHistoryWorkApplyAdminDel(params);
+        return "jsonView";
+    }
+
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {
         Date today = new Date();
