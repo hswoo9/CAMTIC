@@ -2742,7 +2742,6 @@
     </select>
 
     <select id="getProjectMemberInfo" parameterType="map" resultType="map">
-        <![CDATA[
         /*getProjectMemberInfo*/
         SELECT
             A.*,
@@ -2784,7 +2783,7 @@
                  SM.SOCIAL_RATE_SN = RS.SOCIAL_RATE_SN
              WHERE
                  IF((SELECT REPLACE(STR_DT , "-", "") FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(REPLACE(SM.START_DT , "-", "")) AND IFNULL(IF(DATE(REPLACE(SM.END_DT , "-", "")) = "", null, DATE(REPLACE(SM.END_DT , "-", ""))), DATE('9999-12-31')) = "",
-                  (SM.EMP_SEQ = #{MEMBER_SEQ}) AND SM.SALARY_SN = (SELECT SALARY_SN FROM CAM_INSIDE.DJ_SALARY_MANAGE WHERE EMP_SEQ = SM.EMP_SEQ ORDER BY DATE(SM.END_DT) DESC LIMIT 1),
+                  (SM.EMP_SEQ = #{MEMBER_SEQ}) AND SM.SALARY_SN = ((SELECT SALARY_SN FROM CAM_INSIDE.DJ_SALARY_MANAGE WHERE EMP_SEQ = SM.EMP_SEQ ORDER BY DATE(SM.END_DT) DESC LIMIT 1)),
                     (SELECT REPLACE(STR_DT , "-", "") FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{PJT_SN}) BETWEEN DATE(REPLACE(SM.START_DT , "-", "")) AND IFNULL(IF(DATE(REPLACE(SM.END_DT , "-", "")) = "", null, DATE(REPLACE(SM.END_DT , "-", ""))), DATE('9999-12-31'))
                  )
             ) B
@@ -2802,7 +2801,7 @@
             CAM_HR.DJ_EMP_INFO HEI
         ON HEI.EMP_SEQ = #{MEMBER_SEQ}
         WHERE A.PJT_SN = #{PJT_SN} AND A.PART_RATE_VER = #{PART_RATE_VER}
-        ]]>
+
     </select>
 
     <select id="getProjectMemberTemp" parameterType="map" resultType="map">
@@ -3307,6 +3306,23 @@
         ORDER BY
             DEV_SN DESC
         LIMIT 1
+    </select>
+
+    <select id="getPartStartBs" parameterType="map" resultType="map">
+        /* getPartStartBs */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_SALARY_MANAGE SM
+        JOIN
+            CAM_INSIDE.DJ_SOCIAL_RATE RS
+        ON SM.SOCIAL_RATE_SN = RS.SOCIAL_RATE_SN
+        WHERE
+            EMP_SEQ = #{empSeq}
+        AND
+            DATE_FORMAT(#{startDt}, '%Y-%m-%d') BETWEEN DATE_FORMAT(START_DT, '%Y-%m-%d') AND DATE_FORMAT(END_DT, '%Y-%m-%d')
+        ORDER BY
+            ABS(TIMESTAMPDIFF(SECOND, START_DT, #{startDt}))
     </select>
 
     <delete id="delJoinMember" parameterType="map">

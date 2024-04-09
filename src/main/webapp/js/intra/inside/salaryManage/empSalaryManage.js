@@ -294,7 +294,7 @@ var esm = {
                     template : function(e){
                         /** 기준급여 = (기본급 + 수당 + 상여 + 사업자부담분 + 퇴직금추계액) */
                         /** 기본급 */
-                        var cnt = Number(e.BASIC_SALARY) + Number(e.FOOD_PAY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
 
                         /** 국민연금 */
                         var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
@@ -573,7 +573,7 @@ function retirePay(e){
 function baseSalary(e){
     /** 기준급여 = (기본급 + 수당 + 상여 + 사업자부담분 + 퇴직금추계액) */
     /** 기본급 */
-    var cnt = Number(e.BASIC_SALARY) + Number(e.FOOD_PAY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+    var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
 
     /** 국민연금 */
     var nationalPension = cnt * (e.NATIONAL_PENSION / 100);

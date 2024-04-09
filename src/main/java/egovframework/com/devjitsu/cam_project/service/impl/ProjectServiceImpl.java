@@ -1620,6 +1620,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getPartStartBs(Map<String, Object> params) {
+        return projectRepository.getPartStartBs(params);
+    }
+
+    @Override
     public void delJoinMember(Map<String, Object> params) {
         if(params.containsKey("partRateDet")){
             projectRepository.delJoinMember(params);

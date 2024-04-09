@@ -685,7 +685,9 @@ public class ProjectRepository extends AbstractDAO {
     public Map<String, Object> getDevMap(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getDevMap", params);
     }
-
+    public Map<String, Object> getPartStartBs(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getPartStartBs", params);
+    }
     public void insCustomBudget(Map<String, Object> params) {
         insert("project.insCustomBudget", params);
     }

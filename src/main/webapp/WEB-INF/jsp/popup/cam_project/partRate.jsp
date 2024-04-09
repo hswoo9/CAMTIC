@@ -302,13 +302,16 @@
     function userDataSet(arr){
         var empSeq = "";
         var empNm = "";
+        console.log(arr);
         for(var i = 0 ; i < arr.length ; i++){
-            empSeq += arr[i].empSeq + ",";
-            empNm += arr[i].empName + ",";
+            if($("input[name='partEmpSeq'][value='" + arr[i].empSeq + "']").length == 0){
+                empSeq += arr[i].empSeq + ",";
+                empNm += arr[i].empName + ",";
+            }
         }
+
         $("#joinMember").val(empNm.slice(0, -1));
         $("#joinMemberSn").val(empSeq.slice(0, -1));
-
 
         var data = {
             joinMemSn: $("#joinMemberSn").val(),
