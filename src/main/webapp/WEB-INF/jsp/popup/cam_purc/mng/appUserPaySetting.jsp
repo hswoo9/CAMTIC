@@ -198,6 +198,18 @@
             </table>
         </div>
     </div>
+
+
+    <div class="table-responsive" id="histGridDiv">
+        <div style="padding: 20px 30px;">
+            <div>
+                <span style="font-weight: bold;">지출요청이력</span>
+            </div>
+
+            <div id="appUserSettingHistGrid"></div>
+        </div>
+    </div>
+
 </div>
 <script>
     appUserPaySetting.fn_DefaultScript();

@@ -94,6 +94,10 @@ var purcInit = {
 
         var dcPay = 0;
         var html = '';
+        var page = Math.ceil(Number(list.length / 13)) ;
+
+        var index = 0;
+        var itemCnt = list.length;
         html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
@@ -111,83 +115,119 @@ var purcInit = {
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;"><b>업체명</b></p></td>';
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 58px;"><p style="font-size:12px;"><b>비고</b></p></td>';
         html += '               </tr>';
+        for(var cnt = 0 ; cnt < page ; cnt++){
 
-        for(let i=0; i<list.length; i++){
-            const map = list[i];
-            var absFlag = true;
 
-            if(map.PURC_ITEM_AMT < 0){
-                absFlag = false;
+            var tIdx = list.length;
+            if(13 < itemCnt){
+                tIdx = 13;
+            } else if(cnt == 0){
+                tIdx = 13;
             }
+
+            for(let i=0; i < tIdx; i++){
+                const map = list[index];
+                var absFlag = true;
+
+                if(index < list.length){
+                    if(map.PURC_ITEM_AMT < 0){
+                        absFlag = false;
+                    }
 
             let amt = uncomma(Number(map.ITEM_UNIT_AMT) * Number(map.ITEM_EA));
             let sum2 = Math.round(amt/10);
             let sum3 = Math.round(amt / 1.1);
             let sum4 = amt - sum3;
 
-            let supAmt = 0;
-            let vatAmt = 0;
-            let itemAmt = 0;
+                    let supAmt = 0;
+                    let vatAmt = 0;
+                    let itemAmt = 0;
 
-            if(purcInit.global.purcInfo.VAT == "N"){
-                supAmt = comma(amt);
-                vatAmt = comma(sum2);
-                itemAmt = comma(Number(amt)+Number(sum2));
-            }else if(purcInit.global.purcInfo.VAT == "Y"){
-                supAmt = comma(sum3);
-                vatAmt = comma(sum4);
-                itemAmt = comma(amt);
-            }else if(purcInit.global.purcInfo.VAT == "D"){
-                supAmt = comma(amt);
-                vatAmt = "0";
-                itemAmt = comma(amt);
+                    if(purcInit.global.purcInfo.VAT == "N"){
+                        supAmt = comma(amt);
+                        vatAmt = comma(sum2);
+                        itemAmt = comma(Number(amt)+Number(sum2));
+                    }else if(purcInit.global.purcInfo.VAT == "Y"){
+                        supAmt = comma(sum3);
+                        vatAmt = comma(sum4);
+                        itemAmt = comma(amt);
+                    }else if(purcInit.global.purcInfo.VAT == "D"){
+                        supAmt = comma(amt);
+                        vatAmt = "0";
+                        itemAmt = comma(amt);
+                    }
+
+                    if(!absFlag){
+                        if(supAmt != 0){
+                            supAmt = "-" + supAmt;
+                        }
+
+                        if(vatAmt != 0){
+                            vatAmt = "-" + vatAmt;
+                        }
+
+                        if(itemAmt != 0){
+                            itemAmt = "-" + itemAmt;
+                        }
+                    }
+
+                    html += '   <tr>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>구매</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_NAME+'</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_STD+'</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_UNIT_PRICE_COMMA+'</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_QTY+'</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_UNIT+'</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+supAmt+'</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+vatAmt+'</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+itemAmt+'</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.CRM_NM+'</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.RMK+'</b></p></td>';
+                    html += '   </tr>';
+                }
+                else {
+                    html += '   <tr>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>구매</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b></b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b></b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b></b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b></b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b></b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b></b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b></b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b></b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b></b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b></b></p></td>';
+                    html += '   </tr>';
+                }
+
+
+                index++;
+            }
+            // if(list.length < 8){
+            //     for(let i=0; i<8-list.length; i++){
+            //         html += '   <tr>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+            //         html += '   </tr>';
+            //     }
+            // }
+
+            if(13 < itemCnt){
+                itemCnt -= 13;
             }
 
-            if(!absFlag){
-                if(supAmt != 0){
-                    supAmt = "-" + supAmt;
-                }
-
-                if(vatAmt != 0){
-                    vatAmt = "-" + vatAmt;
-                }
-
-                if(itemAmt != 0){
-                    itemAmt = "-" + itemAmt;
-                }
-            }
-
-            html += '   <tr>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>구매</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_NAME+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_STD+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_UNIT_PRICE_COMMA+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_QTY+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.PURC_ITEM_UNIT+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+supAmt+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+vatAmt+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+itemAmt+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.CRM_NM+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.RMK+'</b></p></td>';
-            html += '   </tr>';
         }
-        if(list.length < 8){
-            for(let i=0; i<8-list.length; i++){
-                html += '   <tr>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
-                html += '   </tr>';
-            }
-        }
+
         // html += '   <tr>';
         // html += '       <td colspan="9" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>가격조정</b></p></td>';
         // // html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>&#8361; '+comma(totMap.DISCOUNT_AMT)+'</b></p></td>';

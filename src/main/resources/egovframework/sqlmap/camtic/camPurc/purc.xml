@@ -637,6 +637,7 @@
         /*getClaimData*/
         SELECT
             A.*,
+            (SELECT PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = A.PJT_SN) AS PJT_CD,
             EI.EMP_SEQ,
             EI.EMP_NAME_KR,
             EI.POSITION_NAME,
@@ -1365,6 +1366,8 @@
             (
                 CLAIM_SN,
                 REQ_AMT,
+                PJT_NM,
+                PJT_CD,
                 CE_GW_IDX,
                 EVID_TYPE,
                 EMP_SEQ
@@ -1373,6 +1376,8 @@
             (
                 #{claimSn},
                 #{reqAmt},
+                (SELECT PJT_NM FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = #{claimSn}),
+                (SELECT PJT_CD FROM CAM_MNG.DJ_CLAIM_SETTING WHERE CLAIM_SN = #{claimSn}),
                 #{ceGwIdx},
                 #{evidType},
                 #{empSeq}
@@ -1411,7 +1416,8 @@
         </if>
         <if test='pjtSn != null and !"".equals(pjtSn)'>
             AND
-                B.PJT_SN = #{pjtSn}
+            A.PJT_CD = (SELECT PJT_CD FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+
         </if>
         GROUP BY A.CE_GW_IDX
         ORDER BY A.CLAIM_EXNP_SN DESC
@@ -1950,4 +1956,20 @@
             </choose>
         ORDER BY RE.REG_DATE DESC
     </select>
+
+    <select id="getPurcClaimExnpList" parameterType="map" resultType="map">
+        /*getPurcClaimExnpList*/
+        SELECT
+            A.*,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ) AS EMP_NAME_KR
+        FROM
+            CAM_MNG.DJ_CLAIM_EXNP A
+        WHERE
+            CLAIM_SN = #{claimSn}
+    </select>
+
+    <delete id="delClaimExnpData" parameterType="map">
+        /*delClaimExnpData*/
+        DELETE FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn}
+    </delete>
 </mapper>

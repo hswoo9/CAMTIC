@@ -36,6 +36,13 @@ var goodsInfo = {
         var rs = customKendo.fn_customAjax("/project/getStep1Data", data);
         var rs2 = customKendo.fn_customAjax("/project/getDevPjtVerList", data);
 
+        const pjtInfo = customKendo.fn_customAjax("/project/engn/getDelvData", {pjtSn: $("#pjtSn").val()});
+        const pjtMap = pjtInfo.map;
+        if(pjtMap.DELV_DE != null && pjtMap.DELV_DE != ""){
+            $("#goodsDelvDe").val(pjtMap.DELV_DE);
+        }
+
+
         var estSubList = rs.result.estSubList;
 
         var data = {

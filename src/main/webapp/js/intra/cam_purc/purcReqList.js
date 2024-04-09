@@ -339,7 +339,9 @@ var prm = {
                             } else {
                                 if ((e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101')) {
                                     if(e.PAYMENT_METHOD == "C" || e.PAYMENT_METHOD == "I") {
-                                        if (e.CLAIM_STATUS == "CAYSY") {
+                                        if (e.INSPECT_STATUS != "100") {
+                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                        } else {
                                             status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                         }
                                     }
