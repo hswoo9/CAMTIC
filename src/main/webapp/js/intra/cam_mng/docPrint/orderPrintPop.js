@@ -107,8 +107,8 @@ const orderPrintPop = {
         /** 4. 견적 합계 */
 
         /** 할인금액 */
-        orderPrintPop.global.hwpCtrl.PutFieldText("DISCOUNT_AMT", fn_numberWithCommas(order.DISCOUNT_AMT));
-        supAmtSum -= order.DISCOUNT_AMT;
+        // orderPrintPop.global.hwpCtrl.PutFieldText("DISCOUNT_AMT", fn_numberWithCommas(order.DISCOUNT_AMT));
+        // supAmtSum -= order.DISCOUNT_AMT;
 
         /** 견적가 500*/
         /** 미포함 500 50 550*/
