@@ -455,7 +455,7 @@ var bustripExnpReq = {
             console.log("costInfo", costInfo);
             console.log("bustripInfo", bustripInfo);
 
-            let realDis = Number(bustripInfo.MOVE_DST);
+            let realDis = Math.round(Number(bustripInfo.MOVE_DST) /10) * 10;
             let codeDis = Number(costInfo.DISTANCE);
             let ceil = Math.ceil(realDis/codeDis);
             let amt = ceil * Number(costInfo.COST_AMT);

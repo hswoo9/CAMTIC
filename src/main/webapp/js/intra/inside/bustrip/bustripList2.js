@@ -101,8 +101,9 @@ var bustList = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'bstCheck\');" class=""/>',
                     template: function(row){
+                        console.log(row)
                         if(row.RS_STATUS == 100 && row.EXP_STAT == 100 && row.PAY_APP_SN == null){
-                            return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_RESULT_ID+"' name='bstCheck' value='"+row.HR_BIZ_REQ_RESULT_ID+"' trip-code='"+row.TRIP_CODE+"' style='position: relative; top:3px' class='bstCheck'/>"
+                            return "<input type='checkbox' id='bst"+row.HR_BIZ_REQ_RESULT_ID+"' name='bstCheck' pjt-code='"+(row.PJT_SN || 0)+"' value='"+row.HR_BIZ_REQ_RESULT_ID+"' trip-code='"+row.TRIP_CODE+"' style='position: relative; top:3px' class='bstCheck'/>"
                         }else{
                             return "";
                         }
@@ -436,9 +437,9 @@ var bustList = {
             }
 
             if (tripCode === null) {
-                tripCode = $(this).attr("trip-code");
+                tripCode = $(this).attr("pjt-code");
             } else {
-                if (tripCode !== $(this).attr("trip-code")) {
+                if (tripCode !== $(this).attr("pjt-code")) {
                     flag = false;
                 }
             }
@@ -448,10 +449,11 @@ var bustList = {
             alert("선택된 출장이 없습니다.");
             return false;
         }
-        // if(!flag){
-        //     alert("서로 다른 출장구분은 일괄 지급신청이 불가합니다.");
-        //     return false;
-        // }
+        if(!flag){
+            alert("서로 다른 사업건은 일괄 지급신청이 불가합니다.");
+            return false;
+        }
+        
         if(!flag2){
             alert("지급신청 불가한 신청건이 존재합니다.");
             return false;
