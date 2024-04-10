@@ -492,19 +492,15 @@ public class ApprovalServiceImpl implements ApprovalService {
             params.put("payAppSn", map.get("PAY_APP_SN"));
 
             returnMap = approvalRepository.getDocAttachmentList(params);
-            List<Map<String, Object>> list = payAppRepository.getExnpDetailData(params);
-            for(Map<String, Object> data : list){
-                String filePath = "/upload/useCard/" + data.get("AUTH_NO") + "/" + data.get("AUTH_DD") + "/" + data.get("AUTH_HH") + "/" + data.get("CARD_NO").toString().replaceAll("-", "") + "/" + data.get("BUY_STS") + "/";
-                data.put("payAppSn", params.get("payAppSn"));
-                data.put("filePath", filePath);
-                data.put("type", "exnpDetail");
-                data.put("docId", params.get("docId"));
-
-                List<Map<String, Object>> listMap = approvalRepository.getDocAttachmentList(data);
-                if(listMap.size() > 0){
-                    returnMap.add(listMap.get(0));
-                }
-            }
+//            List<Map<String, Object>> list = payAppRepository.getExnpDetailData(params);
+//            for(Map<String, Object> data : list){
+//                String filePath = "/upload/useCard/" + data.get("AUTH_NO") + "/" + data.get("AUTH_DD") + "/" + data.get("AUTH_HH") + "/" + data.get("CARD_NO").toString().replaceAll("-", "") + "/" + data.get("BUY_STS") + "/";
+//                data.put("payAppSn", params.get("payAppSn"));
+//                data.put("filePath", filePath);
+//                data.put("type", "payAppSn");
+//                data.put("docId", params.get("docId"));
+//                returnMap.add(approvalRepository.getDocAttachmentList(data).get(0));
+//            }
         } else if("claim".equals(params.get("type"))) {
             Map<String, Object> map = purcRepository.getPurcClaimData(params);
 
@@ -662,11 +658,11 @@ public class ApprovalServiceImpl implements ApprovalService {
              * 변경할 시 테스트 후 커밋을 하지 말아주세요.
              * 최종커밋이 http://127.0.0.1 이여야 합니다.
              * */
-//            URL url = new URL("http://127.0.0.1:8080"+ urlStr);
+            URL url = new URL("http://127.0.0.1:8080"+ urlStr);
 //            URL url = new URL("http://127.0.0.1:5959"+ urlStr);
-//            URL url = new URL("http://218.158.231.186"+ urlStr);
+//              URL url = new URL("http://218.158.231.186"+ urlStr);
 //            URL url = new URL("http://localhost:8080"+ urlStr);
-            URL url = new URL("http://127.0.0.1"+ urlStr);
+//            URL url = new URL("http://127.0.0.1"+ urlStr);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
