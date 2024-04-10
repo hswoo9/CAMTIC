@@ -916,8 +916,8 @@ var bustripResultPop = {
             receiptFile += '</div>';
             
             html += "<form class='pdfForm' style=\"padding: 20px 30px;width:100%;height: 100%;\">" +
-                "<h1 style=\"text-align: center;padding-bottom: 5px;\">여 비 지 출 증 빙 자 료</h1>" +
-                "<table style=\"padding-left: 5px;width:100%;height:100%;font-size: 16px;background: white;color: black;border: 2px solid black;\">" +
+                "<h1 style=\"text-align: center;padding-bottom: 5px; font-size: 30px\"><b>여 비 지 출 증 빙 자 료</b></h1>" +
+                "<table style=\"margin-top: 10px; padding-left: 5px;width:100%;height:100%;font-size: 16px;background: white;color: black;border: 2px solid black;\">" +
                 "<tr>" +
                 "<th style=\"width:110px;height: 60px;background-color: #ffe0e0;padding-left: 5px;border: 1px solid black;font-weight: bold;\">사용일</th>" +
                 "<td style=\"width:220px;border: 1px solid black;text-align:center;\">"+useDate+"</td>" +
@@ -946,7 +946,7 @@ var bustripResultPop = {
                 "<th colspan=\"4\" style=\"background-color: #ffe0e0; height: 40px; padding-left: 5px; text-align: center; border: 1px solid black;font-weight: bold;\">증 빙 서 류</th>" +
                 "</tr>" +
                 "<tr>" +
-                "<td colspan=\"4\" style=\"height: 900px;border: 1px solid black;\">" +
+                "<td colspan=\"4\" style=\"height: 600px;border: 1px solid black;\">" +
                 "<div style=\"display: flex; flex-wrap: wrap;\">"+
                 receiptFile+
                 "</div></td>" +
