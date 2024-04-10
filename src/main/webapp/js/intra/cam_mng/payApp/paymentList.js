@@ -253,6 +253,7 @@ var paymentList = {
     gridReload : function(){
         paymentList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
+            regEmpSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),

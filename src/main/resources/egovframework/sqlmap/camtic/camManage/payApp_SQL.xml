@@ -437,6 +437,9 @@
         <if test='pjtCd != null and !"".equals(pjtCd)'>
             AND A.PJT_CD = #{pjtCd}
         </if>
+        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+            AND A.REG_EMP_SEQ = #{regEmpSeq}
+        </if>
         ) AA
         WHERE
             1=1
