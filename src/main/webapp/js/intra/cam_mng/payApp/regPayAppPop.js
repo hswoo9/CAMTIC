@@ -1592,6 +1592,16 @@ var regPay = {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
         }
+
+        if($("#payDestTb").find("tr").length != 1){
+            for(var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
+                if($("#totCost" + i).val() == 0){
+                    regPayDet.delRow(i)
+                }
+            }
+        }
+
+
     },
 
     fn_reasonClickModal : function(e){
