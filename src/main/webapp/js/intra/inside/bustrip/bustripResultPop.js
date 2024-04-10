@@ -32,7 +32,7 @@ var bustripResultPop = {
     pageSet: function(){
         window.resizeTo(1200, 795);
         /** Kendo 위젯 세팅 */
-        customKendo.fn_textBox(["busnName", "popEmpName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName", "carRmk"]);
+        customKendo.fn_textBox(["busnName", "popEmpName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empName", "deptName", "dutyName", "carRmk", "regEmpName"]);
         customKendo.fn_textArea(["bustObj", "result"]);
         customKendo.fn_datePicker("reqDate", 'month', "yyyy-MM-dd", new Date());
         $("#visitCrm").attr("readonly", true);
@@ -584,8 +584,10 @@ var bustripResultPop = {
         var formData = new FormData();
         formData.append("menuCd", "bustripResReq");
         formData.append("hrBizReqId", hrBizReqId);
-        formData.append("empSeq", $("#regEmpSeq").val());
-        formData.append("empName", $("#regEmpName").val());
+        formData.append("empSeq", $("#empSeq").val());
+        formData.append("empName", $("#empName").val());
+        formData.append("regEmpSeq", $("#regEmpSeq").val());
+        formData.append("regEmpName", $("#regEmpName").val());
         formData.append("deptSeq", $("#regDeptSeq").val());
         formData.append("deptName", $("#regDeptName").val());
         formData.append("positionCode", $("#regPositionCode").val());

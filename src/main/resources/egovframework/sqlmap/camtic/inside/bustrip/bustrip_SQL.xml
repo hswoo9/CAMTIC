@@ -285,8 +285,8 @@
             <if test="nationCode != null and !''.equals(nationCode)">
                 #{nationCode},
             </if>
-                #{empSeq},
-                #{empName}
+                #{regEmpSeq},
+                #{regEmpName}
             )
         <selectKey keyProperty="hrBizReqId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_BIZ_REQ'
@@ -359,8 +359,8 @@
             <if test="nationCode != null and !''.equals(nationCode)">
                 #{nationCode},
             </if>
-                #{empSeq},
-                #{empName},
+                #{regEmpSeq},
+                #{regEmpName},
                 DATE_FORMAT(now(), '%Y-%m-%d'),
                 #{result},
                 #{driverEmpSeq},
@@ -582,6 +582,8 @@
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
         SET
             CRM_SN = #{crmSn},
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
             TRIP_CODE = #{tripCode},
             VISIT_CRM = #{visitCrm},
             VISIT_LOC = #{visitLoc},
@@ -599,7 +601,7 @@
         <if test="nationCode != null and !''.equals(nationCode)">
             NATION_CODE = #{nationCode},
         </if>
-            MOD_EMP_SEQ = #{empSeq}
+            MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>

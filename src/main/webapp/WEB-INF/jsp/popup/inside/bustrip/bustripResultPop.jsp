@@ -31,7 +31,6 @@
 
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="regDeptSeq" value="${loginVO.deptId}"/>
 <input type="hidden" id="regDeptName" value="${loginVO.deptNm}"/>
 <input type="hidden" id="regTeamSeq" value="${loginVO.teamId}"/>
@@ -91,7 +90,7 @@
             <tr>
                 <th>성명</th>
                 <td>
-                    <input id="empName" name="empName" class="defaultVal" value="${loginVO.name}" style="width: 80%;" disabled>
+                    <input id="regEmpName" name="regEmpName" class="defaultVal" value="${loginVO.name}" style="width: 80%;" disabled>
                 </td>
                 <th>부서명</th>
                 <td>
@@ -100,6 +99,14 @@
                 <th>신청일</th>
                 <td>
                     <input id="reqDate" name="reqDate" class="defaultVal" style="width: 80%;" disabled>
+                </td>
+            </tr>
+            <tr>
+                <th>출장자</th>
+                <td colspan="5">
+                    <input type="text" id="empName" name="empName" value="" style="width: 20%;" disabled>
+                    <input type="hidden" id="empSeq" name="empSeq" value="" style="width: 20%;" disabled>
+                    <button type="button" class="k-button k-button-solid-info" onclick="fn_userMultiSelectPop('bustripT');" disabled>출장자 변경</button>
                 </td>
             </tr>
             </thead>
