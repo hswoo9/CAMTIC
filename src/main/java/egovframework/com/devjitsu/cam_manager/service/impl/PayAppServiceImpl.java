@@ -88,7 +88,7 @@ public class PayAppServiceImpl implements PayAppService {
                 paramMaps.put("hrBizReqResultId", hrBizReqResultId);
 
                 // 출장 지급신청 Key Insert
-                payAppRepository.updPurcBustripByPayAppSn(params);
+                payAppRepository.updPurcBustripByPayAppSn(paramMaps);
             }
         }
 
