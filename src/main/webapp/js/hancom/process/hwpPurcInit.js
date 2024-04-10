@@ -132,10 +132,10 @@ var purcInit = {
                         absFlag = false;
                     }
 
-            let amt = uncomma(map.PURC_ITEM_AMT);
-            let sum2 = Math.round(amt/10);
-            let sum3 = Math.round(amt / 1.1);
-            let sum4 = amt - sum3;
+                    let amt = uncomma(map.PURC_ITEM_UNIT_PRICE * map.PURC_ITEM_QTY);
+                    let sum2 = Math.round(amt/10);
+                    let sum3 = Math.round(amt / 1.1);
+                    let sum4 = amt - sum3;
 
                     let supAmt = 0;
                     let vatAmt = 0;
@@ -460,7 +460,7 @@ var purcInit = {
         html += '       <div style="margin-top: 20px;">';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    구 입 목 적 : '+claimInfo.PURC_REQ_PURPOSE+'<br>';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    거 래 업 체 : '+claimInfo.CRM_NM+'<br>';
-        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    관 련 사 업 : '+claimInfo.PJT_NM+'<br>';
+        html += '       &nbsp;&nbsp;&nbsp;&nbsp;    관 련 사 업 : '+(claimInfo.PJT_NM || '법인운영')+'<br>';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    선 지 급 여 부 : '+priPay+'<br>';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    계 약 진 행 여 부 : '+contYn+'<br>';
         html += '       &nbsp;&nbsp;&nbsp;&nbsp;    비     고  : '+(claimInfo.ETC == null ? '' : claimInfo.ETC)+'<br>';

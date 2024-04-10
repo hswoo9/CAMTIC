@@ -892,7 +892,7 @@ var prp = {
             const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
             const pjtMap = pjtInfo.map;
 
-            const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
+            const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val(), ck: '1'}).list;
             let invSum = 0;
             for(let i=0; i<list.length; i++){
                 invSum += Number(list[i].EST_TOT_AMT);

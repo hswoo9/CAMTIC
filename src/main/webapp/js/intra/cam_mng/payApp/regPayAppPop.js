@@ -222,6 +222,7 @@ var regPay = {
 
                 var rs = result.data;
 
+                console.log("rs", rs);
                 const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: rs.PJT_SN}).rs;
 
                 var claimExnpData = customKendo.fn_customAjax("/purc/getClaimExnpData", data);
@@ -239,13 +240,15 @@ var regPay = {
 
                 $("#appTitle").val(rs.PURC_REQ_PURPOSE);
 
-                if(x != 0){
-                    for(let i = 0; i < rs.itemList.length; i++) {
-                        regPayDet.addRow();
-                    }
-                }
+
 
                 if(cem == null){
+                    if(x != 0){
+                        for(let i = 0; i < rs.itemList.length; i++) {
+                            regPayDet.addRow();
+                        }
+                    }
+
                     var ls = rs.itemList;
 
                     for (let i = 0; i < ls.length; i++) {
@@ -283,11 +286,16 @@ var regPay = {
 
                         idx++;
 
-                        regPayDet.addRow();
+                        // regPayDet.addRow();
                     }
 
                 }else if(cem.EVID_TYPE == 3){
                     var ls = claimExnpData.result.list;
+
+                    if(idx > 0){
+                        regPayDet.addRow();
+                    }
+
 
                     for(let i = 0; i < ls.length; i++) {
                         $("#eviType" + idx).data("kendoDropDownList").value(cem.EVID_TYPE);
@@ -331,11 +339,14 @@ var regPay = {
                         //     $("#vatCost" + i).val(0);
                         // }
                         idx++;
-                        regPayDet.addRow();
 
                     }
                 } else if (cem.EVID_TYPE == 1){
                     var ls = claimExnpData.result.rsList;
+
+                    if(idx > 0){
+                        regPayDet.addRow();
+                    }
 
                     for(let i = 0; i <ls.length; i++) {
                         $("#eviType" + idx).data("kendoDropDownList").value(cem.EVID_TYPE);
@@ -376,48 +387,46 @@ var regPay = {
                         }*/
                         idx++;
 
+
                     }
                 } else {
-                    var ls = rs.itemList;
 
-                    for (let i = 0; i < ls.length; i++) {
-                        $("#eviType" + idx).data("kendoDropDownList").value(cem.EVID_TYPE);
-                        $("#crmNm" + idx).val(ls[i].CRM_NM);
-                        $("#crmSn" + idx).val(ls[i].CRM_SN);
-                        $("#regNo" + idx).val(ls[i].CRM_NO_TMP);
-                        $("#crmBnkNm" + idx).val(ls[i].CRM_BN);
-                        $("#crmAccNo" + idx).val(ls[i].CRM_BN_NUM);
-                        $("#crmAccHolder" + idx).val(ls[i].BN_DEPO);
-                        // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
-                        // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
-                        $("#budgetNm" + idx).val(cem.BUDGET_NM);
-                        $("#budgetSn" + idx).val(cem.BUDGET_SN);
-                        $("#budgetAmt" + idx).val(9999999999);
-
-                        var totalAmt = cem.TOT_AMT || cem.REQ_AMT;
-                        console.log(rs.VAT)
-                        // if (rs.VAT == "N") {
-                        //     $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
-                        //     $("#supCost" + i).val(regPay.comma(totalAmt));
-                        //     $("#vatCost" + i).val(regPay.comma(Math.floor(Number(totalAmt / 10))));
-                        // } else if (rs.VAT == "Y") {
-                        //     $("#totCost" + i).val(regPay.comma(totalAmt));
-                        //     $("#supCost" + i).val(regPay.comma(Math.ceil(Number(totalAmt / 1.1))));
-                        //     $("#vatCost" + i).val(regPay.comma(Number(totalAmt - Math.ceil(Number(totalAmt / 1.1)))));
-                        // } else if (rs.VAT == "D") {
-                        //     $("#totCost" + i).val(regPay.comma(totalAmt));
-                        //     $("#supCost" + i).val(regPay.comma(totalAmt));
-                        //     $("#vatCost" + i).val(0);
-                        // }
-
-                        $("#totCost" + idx).val(regPay.comma(totalAmt));
-                        $("#supCost" + idx).val(regPay.comma(totalAmt));
-                        $("#vatCost" + idx).val(0);
-
-                        idx++;
+                    if(idx > 0){
                         regPayDet.addRow();
-                        
                     }
+                    $("#eviType" + idx).data("kendoDropDownList").value(cem.EVID_TYPE);
+                    $("#crmNm" + idx).val(cem.CRM_NM);
+                    $("#crmSn" + idx).val(cem.CRM_SN);
+                    $("#regNo" + idx).val(cem.CRM_NO_TMP);
+                    $("#crmBnkNm" + idx).val(cem.CRM_BN);
+                    $("#crmAccNo" + idx).val(cem.CRM_BN_NUM);
+                    $("#crmAccHolder" + idx).val(cem.BN_DEPO);
+                    // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
+                    // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
+                    $("#budgetNm" + idx).val(cem.BUDGET_NM);
+                    $("#budgetSn" + idx).val(cem.BUDGET_SN);
+                    $("#budgetAmt" + idx).val(9999999999);
+
+                    var totalAmt = cem.TOT_AMT || cem.REQ_AMT;
+                    // if (rs.VAT == "N") {
+                    //     $("#totCost" + i).val(regPay.comma(Number(totalAmt) + Math.floor(Number(totalAmt / 10))));
+                    //     $("#supCost" + i).val(regPay.comma(totalAmt));
+                    //     $("#vatCost" + i).val(regPay.comma(Math.floor(Number(totalAmt / 10))));
+                    // } else if (rs.VAT == "Y") {
+                    //     $("#totCost" + i).val(regPay.comma(totalAmt));
+                    //     $("#supCost" + i).val(regPay.comma(Math.ceil(Number(totalAmt / 1.1))));
+                    //     $("#vatCost" + i).val(regPay.comma(Number(totalAmt - Math.ceil(Number(totalAmt / 1.1)))));
+                    // } else if (rs.VAT == "D") {
+                    //     $("#totCost" + i).val(regPay.comma(totalAmt));
+                    //     $("#supCost" + i).val(regPay.comma(totalAmt));
+                    //     $("#vatCost" + i).val(0);
+                    // }
+
+                    $("#totCost" + idx).val(regPay.comma(totalAmt));
+                    $("#supCost" + idx).val(regPay.comma(totalAmt));
+                    $("#vatCost" + idx).val(0);
+
+                    idx++;
                 }
             }
         }
