@@ -314,7 +314,7 @@ var prm = {
                                 if(e.CLAIM_SN != ""){
                                     status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
                                 } else {
-                                    if(e.STATUS == 100){
+                                    if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
                                         status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
                                     } else {
                                         status = '';
