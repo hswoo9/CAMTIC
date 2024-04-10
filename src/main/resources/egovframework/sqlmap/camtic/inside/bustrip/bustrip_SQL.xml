@@ -1505,6 +1505,15 @@
         ORDER BY IHFCI.REG_DT DESC limit 1
     </select>
 
+    <select id="getRegFuelCost" parameterType="map" resultType="map">
+        /* getRegFuelCost */
+        <![CDATA[
+        SELECT IF((SELECT COUNT(-1) FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO HFCI WHERE START_DT <= #{endDt} AND END_DT IS NULL AND PROJECT_CD = #{projectCd}) = 1,
+        (SELECT COST_AMT FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO WHERE START_DT <= #{endDt} AND END_DT IS NULL AND PROJECT_CD = #{projectCd} ORDER BY START_DT DESC),
+        (SELECT COST_AMT FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO WHERE #{endDt} BETWEEN START_DT AND END_DT AND PROJECT_CD = #{projectCd} limit 1)) AS REG_COST_AMT
+        ]]>
+    </select>
+
     <select id="getExchangeInfo" parameterType="map" resultType="map">
         /* getExchangeInfo */
         SELECT
