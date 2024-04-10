@@ -587,6 +587,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public Map<String, Object> getRegFuelCost(Map<String, Object> params) {
+        return bustripRepository.getRegFuelCost(params);
+    }
+
+    @Override
     public Map<String, Object> getExchangeInfo(Map<String, Object> params) {
         return bustripRepository.getExchangeInfo(params);
     }

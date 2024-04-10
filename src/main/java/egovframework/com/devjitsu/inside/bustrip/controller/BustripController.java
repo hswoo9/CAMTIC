@@ -969,6 +969,15 @@ public class BustripController {
         return "jsonView";
     }
 
+    //출장 시점 유류 기준정보 조회
+    @RequestMapping("/bustrip/getRegFuelCost")
+    public String getRegFuelCost(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = bustripService.getRegFuelCost(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
     //유류 기준정보 조회
     @RequestMapping("/bustrip/getExchangeInfo")
     public String getExchangeInfo(@RequestParam Map<String, Object> params, Model model){

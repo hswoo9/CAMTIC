@@ -246,7 +246,6 @@ var regPay = {
                 }
 
                 if(cem == null){
-                    debugger
                     var ls = rs.itemList;
 
                     for (let i = 0; i < ls.length; i++) {
@@ -283,6 +282,8 @@ var regPay = {
                         $("#vatCost" + idx).val(0);
 
                         idx++;
+
+                        regPayDet.addRow();
                     }
 
                 }else if(cem.EVID_TYPE == 3){
@@ -330,6 +331,8 @@ var regPay = {
                         //     $("#vatCost" + i).val(0);
                         // }
                         idx++;
+                        regPayDet.addRow();
+
                     }
                 } else if (cem.EVID_TYPE == 1){
                     var ls = claimExnpData.result.rsList;
@@ -412,6 +415,8 @@ var regPay = {
                         $("#vatCost" + idx).val(0);
 
                         idx++;
+                        regPayDet.addRow();
+                        
                     }
                 }
             }
@@ -1043,6 +1048,15 @@ var regPay = {
 
             $("#fileText").text(resultFileName + ' | ' + docFileThumbText);
             $("#bList").val(resultBlist);
+
+
+            if($("#payDestTb").find("tr").length != 1){
+                for(var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
+                    if($("#totCost" + i).val() == 0){
+                        regPayDet.delRow(i)
+                    }
+                }
+            }
         }
 
 
@@ -1538,7 +1552,6 @@ var regPay = {
                     }
                 }
             }
-
         }
 
         if($("#reqType").val() == "camproject"){
@@ -1593,13 +1606,7 @@ var regPay = {
             }
         }
 
-        if($("#payDestTb").find("tr").length != 1){
-            for(var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
-                if($("#totCost" + i).val() == 0){
-                    regPayDet.delRow(i)
-                }
-            }
-        }
+
 
 
     },
@@ -2013,6 +2020,16 @@ var regPay = {
     },
 
     fn_popDateSetting : function(){
+        var eviFlag = true;
+        for (var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
+            if($("#eviType" + i).val() == ""){
+                eviFlag = false;
+            }
+        }
+        if(!eviFlag){
+            alert("증빙유형을 선택해주세요.");
+            return;
+        }
         regPay.fn_save("", "drafting");
         var trDe = $("#trDe0").val();
         var trDeAr = trDe.split("-");
