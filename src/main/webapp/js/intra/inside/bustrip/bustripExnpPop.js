@@ -353,7 +353,7 @@ var bustripExnpReq = {
 
                             for(let j=0; j<dayCostArr.length; j++){
                                 if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "1"){
-                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
+                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                                 }
                             }
                         }
@@ -368,7 +368,7 @@ var bustripExnpReq = {
                             }
 
                             for(let j=0; j<dayCostArr.length; j++){
-                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
+                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                             }
                         }
 
@@ -382,7 +382,7 @@ var bustripExnpReq = {
                             }
 
                             for(let j=0; j<dayCostArr.length; j++){
-                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
+                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                             }
                         }
 
@@ -396,7 +396,7 @@ var bustripExnpReq = {
                             }
 
                             for(let j=0; j<dayCostArr.length; j++){
-                                $("#dayCost"+dayCostArr[j].empSeq).val(fn_comma(costAmt));
+                                $("#dayCost"+dayCostArr[j].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                             }
                         }
                         
@@ -410,7 +410,7 @@ var bustripExnpReq = {
                                 $("#dayCost"+dayCostArr[i].empSeq).val(0);
                             } else{
                                 if(costList[j].TRIP_CODE == "1" && costList[j].EXNP_CODE == "dayCost" && bustripInfo.MOVE_DST >= costList[j].EXNP_DETAIL_CODE){
-                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
+                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                                 }
                             }
                         }
@@ -422,7 +422,7 @@ var bustripExnpReq = {
                             }
                         }
                         for(let j=0; j<dayCostArr.length; j++){
-                            $("#dayCost"+dayCostArr[j].empSeq).val(fn_comma(costAmt));
+                            $("#dayCost"+dayCostArr[j].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                         }
                     } else {
                         for(let j=0; j<dayCostArr.length; j++){

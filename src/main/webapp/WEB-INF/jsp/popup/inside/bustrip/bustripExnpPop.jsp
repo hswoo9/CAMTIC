@@ -167,7 +167,7 @@
                                     <input type="text" id="tollCost${list.EMP_SEQ}" class="tollCost" value="${list.TOLL_COST}" oninput="onlyNumber(this)" style="width: 100%" />
                                 </td>
                                 <td>
-                                    <input type="text" id="dayCost${list.EMP_SEQ}" class="dayCost" value="${list.DAY_COST}" oninput="onlyNumber(this)" />
+                                    <input type="text" id="dayCost${list.EMP_SEQ}" class="dayCost" value="${list.DAY_COST * data.DIFDAY}" oninput="onlyNumber(this)" />
                                 </td>
                                 <td>
                                     <input type="text" id="eatCost${list.EMP_SEQ}" class="eatCost" name="eatCost" value="${list.EAT_COST}"<%-- onkeyup="bustripExnpReq.fn_eatCostCheck(this);"--%> oninput="onlyNumber(this)" style="width: 100%" />
@@ -205,7 +205,7 @@
                                 <input type="text" id="tollCost${list.EXT_MEM_SN}" class="extCost" value="${list.TOLL_COST}" oninput="onlyNumber(this)" style="width: 100%" />
                             </td>
                             <td>
-                                <input type="text" id="dayCost${list.EXT_MEM_SN}" class="extCost" value="${list.DAY_COST}" oninput="onlyNumber(this)" />
+                                <input type="text" id="dayCost${list.EXT_MEM_SN}" class="extCost" value="${list.DAY_COST * data.DIFDAY}" oninput="onlyNumber(this)" />
                             </td>
                             <td>
                                 <input type="text" id="eatCost${list.EXT_MEM_SN}" class="extCost eatCost" name="eatCost" value="${list.EAT_COST}"<%-- onkeyup="bustripExnpReq.fn_eatCostCheck(this);"--%> oninput="onlyNumber(this)" style="width: 100%" />
