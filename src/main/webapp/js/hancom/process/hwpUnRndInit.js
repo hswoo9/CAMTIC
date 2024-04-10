@@ -343,6 +343,9 @@ var unRndInit = {
         const customG20Result = customKendo.fn_customAjax("/project/getProjectBudgetList.do", {pjtSn: pjtSn});
         const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
 
+        const resResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
+        const resMap = resResult.result.map;
+
         /** 1. 사업정보 */
         rndInit.delvSet();
 
@@ -360,8 +363,14 @@ var unRndInit = {
         }
 
         /** 3. 사업결과 */
-        hwpDocCtrl.putFieldText("TEMP_END_DT", delvMap.DELV_DE);
-        hwpDocCtrl.putFieldText("REAL_END_DT", map.DELV_DE);
+        if(map.YEAR_CLASS == "M"){
+            yearText = "다년";
+            hwpDocCtrl.putFieldText("TEMP_END_DT", delvMap.NOW_STR_DE);
+        }else{
+            yearText = "단년";
+            hwpDocCtrl.putFieldText("TEMP_END_DT", map.PJT_STR_DT);
+        }
+        hwpDocCtrl.putFieldText("REAL_END_DT", resMap.RS_END_DT);
 
         let psAllText = "";
         const processList = processResult.list;
