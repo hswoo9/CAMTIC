@@ -88,14 +88,6 @@ var payInit = {
             /** 연구책임자 성명 */
             hwpDocCtrl.putFieldText("EMP_NAME", pjtMap.PM);
 
-            /** 2. 지급신청서 데이터 */
-            const htmlPay = payInit.htmlPay(ls, rs);
-            hwpDocCtrl.moveToField('PAY_HTML', true, true, false);
-            hwpDocCtrl.setTextFile(htmlPay, "html","insertfile");
-
-
-
-
             /** 연구비지원기관 */
             var lgCodeDs = customKendo.fn_customAjax("/project/selLgCode", {
                 grpSn: "SUP_DEP"
@@ -122,12 +114,18 @@ var payInit = {
             }
             hwpDocCtrl.putFieldText("SBJ_CLASS", sbjClassTxt);
             hwpDocCtrl.putFieldText("TR_DT", ls[0].TR_DE.split("-")[0]+"년 "+ls[0].TR_DE.split("-")[1]+"월 "+ls[0].TR_DE.split("-")[2]+"일");
+
+            /** 2. 지급신청서 데이터 */
+            const htmlPay = payInit.htmlPay(ls, rs);
+            hwpDocCtrl.putFieldText("PAY_HTML", " ");
+            hwpDocCtrl.moveToField("PAY_HTML", true, true, false);
+            hwpDocCtrl.setTextFile(htmlPay, "html","insertfile");
         }
     },
 
     htmlPay: function(list, rs){
         let html = '';
-        html += '<table style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '<table border="5" style="font-family:굴림체; margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
         html += '           <table border="5" style="border-collapse: collapse; margin: 0px;">';
@@ -142,17 +140,25 @@ var payInit = {
         html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 125px;"><p style="font-size:12px;"><b>입금계좌/예금주</b></p></td>';
         html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 113px;"><p style="font-size:12px;"><b>비고</b></p></td>';
         html += '               </tr>';
+        let sum = 0;
         for(let i=0; i<list.length; i++){
             const map = list[i];
             html += '               <tr>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;">'+ map.BUDGET_NM.replace(/ \/ /g, ' - <br>') +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:left; padding: 3px"><p style="font-size:12px;">'+ map.BUDGET_NM.replace(/ \/ /g, ' - <br>') +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.REASON +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_NM +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;">'+ fn_numberWithCommas(map.TOT_COST) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_BNK_NM +'<br>'+ map.CRM_ACC_NO +'<br>'+ map.CRM_ACC_HOLDER +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.ETC +'</p></td>';
             html += '               </tr>';
+            sum += Number(map.TOT_COST);
         }
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 113px;"><p style="font-size:12px;"><b>합계</b></p></td>';
+        html += '                   <td colspan="3" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;">'+ fn_numberWithCommas(sum) +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+        html += '               </tr>';
         html += '           </table>';
         html += '       </td>';
         html += '   </tr>';
