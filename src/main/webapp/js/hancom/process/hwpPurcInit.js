@@ -116,8 +116,6 @@ var purcInit = {
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 58px;"><p style="font-size:12px;"><b>비고</b></p></td>';
         html += '               </tr>';
         for(var cnt = 0 ; cnt < page ; cnt++){
-
-
             var tIdx = list.length;
             if(13 < itemCnt){
                 tIdx = 13;
@@ -187,7 +185,7 @@ var purcInit = {
                 }
                 else {
                     html += '   <tr>';
-                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>구매</b></p></td>';
+                    html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b></b></p></td>';
                     html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b></b></p></td>';
                     html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b></b></p></td>';
                     html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b></b></p></td>';

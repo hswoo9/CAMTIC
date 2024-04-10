@@ -150,7 +150,11 @@ var purcInfo = {
                                 if(e.CLAIM_SN != ""){
                                     status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
                                 } else {
-                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                    if(e.STATUS == 100){
+                                        status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                    } else {
+                                        status = '';
+                                    }
                                 }
                             } else {
                                 status = '';

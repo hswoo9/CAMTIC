@@ -152,6 +152,7 @@ var purcClaim = {
                     title: "상태",
                     width: 100,
                     template: function (e){
+                        console.log(e)
                         if(e.STATUS != null && e.STATUS != ""){
                             if(e.STATUS == 100){
                                 return "구매청구완료";
