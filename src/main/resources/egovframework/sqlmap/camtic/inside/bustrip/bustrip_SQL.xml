@@ -1085,7 +1085,8 @@
 
     <select id="getBustripResultInfoR" parameterType="map" resultType="map">
         SELECT
-            A.*, DI.APPRO_KEY AS DOC_APPRO_KEY
+            A.*, DI.APPRO_KEY AS DOC_APPRO_KEY,
+            DATEDIFF(A.TRIP_DAY_TO, A.TRIP_DAY_FR) + 1 AS DIFDAY
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT A
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI

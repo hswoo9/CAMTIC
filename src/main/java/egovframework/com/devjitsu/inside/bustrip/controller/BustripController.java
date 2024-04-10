@@ -335,6 +335,7 @@ public class BustripController {
             model.addAttribute("type", "upd");
         }
 
+        model.addAttribute("data", data);
         model.addAttribute("rs", bustripService.getBustripOne(params));
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
