@@ -160,6 +160,10 @@ var reqCl = {
                     $("#priPay").prop("checked", true);
                 }
 
+                if(data.CONT_YN == "Y"){
+                    $("#contYn").prop("checked", true);
+                }
+
                 if(data.itemList[0].CLAIM_SN == "" || data.itemList[0].CLAIM_SN == null || data.itemList[0].CLAIM_SN == undefined) {
                     reqCl.fn_setItem(data);
                 } else {
@@ -234,6 +238,10 @@ var reqCl = {
 
             if(data.PRI_PAY == "Y"){
                 $("#priPay").prop("checked", true);
+            }
+
+            if(data.CONT_YN == "Y"){
+                $("#contYn").prop("checked", true);
             }
 
             if(data.CHECK_PROFIT == "Y"){
@@ -373,12 +381,12 @@ var reqCl = {
 
         /** 포함 455 45 500*/
         const sum3 = Math.round(sum / 1.1);
-        const sum4 = sum - sum3;
+        const sum4 = Number(sum) - Number(sum3);
 
         if($("#vat").data("kendoRadioGroup").value() == "N"){
             $("#estAmt").val(comma(sum));
             $("#vatAmt").val(comma(sum2));
-            $("#totAmt").val(comma(sum+sum2));
+            $("#totAmt").val(comma(Number(sum)+Number(sum2)));
         }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
             $("#estAmt").val(comma(sum3));
             $("#vatAmt").val(comma(sum4));
@@ -407,14 +415,17 @@ var reqCl = {
                 $("#purcSupAmt" + idx).val(comma(amount));
                 $("#purcVatAmt" + idx).val(comma(sum2));
                 $("#purcItemAmt" + idx).val(comma(amount+sum2));
+                $("#itemAmt" + idx).val(comma(amount+sum2));
             }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
                 $("#purcSupAmt" + idx).val(comma(sum3));
                 $("#purcVatAmt" + idx).val(comma(sum4));
                 $("#purcItemAmt" + idx).val(comma(amount));
+                $("#itemAmt" + idx).val(comma(amount));
             }else if($("#vat").data("kendoRadioGroup").value() == "D"){
                 $("#purcSupAmt" + idx).val(comma(amount));
                 $("#purcVatAmt" + idx).val("0");
                 $("#purcItemAmt" + idx).val(comma(amount));
+                $("#itemAmt" + idx).val(comma(amount));
             }
         });
     },
