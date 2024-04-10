@@ -2020,6 +2020,16 @@ var regPay = {
     },
 
     fn_popDateSetting : function(){
+        var eviFlag = true;
+        for (var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
+            if($("#eviType" + i).val() == ""){
+                eviFlag = false;
+            }
+        }
+        if(!eviFlag){
+            alert("증빙유형을 선택해주세요.");
+            return;
+        }
         regPay.fn_save("", "drafting");
         var trDe = $("#trDe0").val();
         var trDeAr = trDe.split("-");
