@@ -154,7 +154,7 @@ var purcClaim = {
                     template: function (e){
                         console.log(e)
                         if(e.STATUS != null && e.STATUS != ""){
-                            if(e.STATUS == 100){
+                            if(e.STATUS == 100 || e.STATUS == 101){
                                 return "구매청구완료";
                             }else if(e.STATUS > 0 || (e.PURC_SN == null && e.STATUS == 0)){
                                 return "구매청구작성중";
@@ -169,7 +169,7 @@ var purcClaim = {
                     title: "발주상태",
                     width: 100,
                     template: function (e){
-                        if(e.STATUS == 100){
+                        if(e.STATUS == 100 || e.STATUS == 101){
                             if(e.PAYMENT_METHOD == "I" || e.PAYMENT_METHOD == "C"){
                                 return "발주생략";
                             } else {
