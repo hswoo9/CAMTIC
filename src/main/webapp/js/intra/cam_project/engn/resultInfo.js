@@ -185,7 +185,18 @@ var resultInfo = {
             if(rs2.list[0].TM_YN != "N" && rs2.list[0].PJT_TEAM_CK == "N"){
                 alert("협업 프로젝트 마감처리가 진행되지 않았습니다."); return;
             }
+
         }
+
+        const devInfo = customKendo.fn_customAjax("/project/engn/getDevData", {pjtSn: $("#pjtSn").val()});
+        var devMap = devInfo.rs;
+        if(devMap == null){
+            alert("수행계획서가 작성되지 않았습니다."); return;
+        }else if(devMap != null && devMap.STATUS != 100){
+            alert("수행계획서 마지막 버전 종결처리가 진행되지 않았습니다."); return;
+        }
+
+        var rs3 = customKendo.fn_customAjax("/project/getDevPjtVerList", {pjtSn: $("#pjtSn").val()});
 
         $("#resDraftFrm").one("submit", function(){
             var url = "";
