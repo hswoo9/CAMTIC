@@ -237,6 +237,7 @@ var regPrj = {
                     tabStrip.enable(tabStrip.tabGroup.children().eq(9));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(10));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(11));
+                    tabStrip.enable(tabStrip.tabGroup.children().eq(12));
                     tabStrip.enable(tabStrip.tabGroup.children().eq(13));
                 }
 
@@ -256,7 +257,6 @@ var regPrj = {
                 }
 
                 if(setParameters.PJT_STEP >= "E6"){
-                    tabStrip.enable(tabStrip.tabGroup.children().eq(12));
 
                     var resultMap = customKendo.fn_customAjax("/project/engn/getResultInfo", {
                         pjtSn: setParameters.PJT_SN,
