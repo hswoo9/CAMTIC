@@ -214,6 +214,15 @@ var userMultiSel = {
                 return;
             }
         }
+        if($("#type").val() == "bustripT"){
+            if(e == $("#empSeq").val()){
+                return;
+            }
+            if($("#approvalLineDataDiv").find("tr").length > 0){
+                alert("출장자는 1명만 선택가능합니다.");
+                return;
+            }
+        }
         if($("#type").val() == "dev2"){
             if($("#approvalLineDataDiv").find("tr").length > 0){
                 alert("담당자는 1명만 선택가능합니다.");
@@ -359,7 +368,7 @@ var userMultiSel = {
             return false;
         }
 
-        opener.parent.userDataSet(userArr, empNameArr, empSeqArr);
+        opener.parent.userDataSet(userArr, empNameArr, empSeqArr, $("#type").val());
 
         window.close();
     }

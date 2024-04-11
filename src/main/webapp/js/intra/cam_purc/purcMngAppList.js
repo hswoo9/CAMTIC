@@ -89,7 +89,7 @@ var purcMngAppList = {
                     width: 30,
                     template : function (e){
                         console.log(e)
-                        var amt = (Number(e.TOT_AMT) - Number(e.REQ_AMT));
+                        var amt = (Number(e.TOT_AMT) - Number(e.EXNP_AMT));
                         if(amt == 0){
                             return "";
                         } else {
@@ -188,7 +188,7 @@ var purcMngAppList = {
                     title: "지출요청",
                     width: 65,
                     template : function(e){
-                        var amt = (Number(e.TOT_AMT) - Number(e.REQ_AMT));
+                        var amt = (Number(e.TOT_AMT) - Number(e.EXNP_AMT));
                         if(amt == 0){
                             return "";
                         } else {

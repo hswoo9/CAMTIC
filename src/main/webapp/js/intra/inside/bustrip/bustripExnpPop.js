@@ -353,7 +353,7 @@ var bustripExnpReq = {
 
                             for(let j=0; j<dayCostArr.length; j++){
                                 if(costList[j].TRIP_CODE == "3" && costList[j].EXNP_CODE == "dayCost" && costList[j].EXNP_DETAIL_CODE == "1"){
-                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
+                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                                 }
                             }
                         }
@@ -368,7 +368,7 @@ var bustripExnpReq = {
                             }
 
                             for(let j=0; j<dayCostArr.length; j++){
-                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
+                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                             }
                         }
 
@@ -382,7 +382,7 @@ var bustripExnpReq = {
                             }
 
                             for(let j=0; j<dayCostArr.length; j++){
-                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
+                                $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                             }
                         }
 
@@ -396,7 +396,7 @@ var bustripExnpReq = {
                             }
 
                             for(let j=0; j<dayCostArr.length; j++){
-                                $("#dayCost"+dayCostArr[j].empSeq).val(fn_comma(costAmt));
+                                $("#dayCost"+dayCostArr[j].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                             }
                         }
                         
@@ -410,7 +410,7 @@ var bustripExnpReq = {
                                 $("#dayCost"+dayCostArr[i].empSeq).val(0);
                             } else{
                                 if(costList[j].TRIP_CODE == "1" && costList[j].EXNP_CODE == "dayCost" && bustripInfo.MOVE_DST >= costList[j].EXNP_DETAIL_CODE){
-                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt));
+                                    $("#dayCost"+dayCostArr[i].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                                 }
                             }
                         }
@@ -422,7 +422,7 @@ var bustripExnpReq = {
                             }
                         }
                         for(let j=0; j<dayCostArr.length; j++){
-                            $("#dayCost"+dayCostArr[j].empSeq).val(fn_comma(costAmt));
+                            $("#dayCost"+dayCostArr[j].empSeq).val(fn_comma(costAmt * bustripInfo.DIFDAY));
                         }
                     } else {
                         for(let j=0; j<dayCostArr.length; j++){
@@ -455,7 +455,7 @@ var bustripExnpReq = {
             console.log("costInfo", costInfo);
             console.log("bustripInfo", bustripInfo);
 
-            let realDis = Number(bustripInfo.MOVE_DST);
+            let realDis = Math.round(Number(bustripInfo.MOVE_DST) /10) * 10;
             let codeDis = Number(costInfo.DISTANCE);
             let ceil = Math.ceil(realDis/codeDis);
             let amt = ceil * Number(costInfo.COST_AMT);
@@ -980,7 +980,13 @@ var bustripExnpReq = {
         }else{
             var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
             alert("저장이 완료되었습니다.");
-            opener.gridReload();
+            // opener.gridReload();
+            if(window.opener.bustList){
+                window.opener.bustList.gridReload();
+            }
+            if(window.opener.bustInfo){
+                window.opener.bustInfo.bustripMainGrid();
+            }
             window.close();
         }
 

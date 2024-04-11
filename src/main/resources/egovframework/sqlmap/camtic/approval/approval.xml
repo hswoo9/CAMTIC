@@ -621,7 +621,6 @@
         <if test='type == "bustripRes" or "bustripRes".equals(type)'>
             OR (FI.CONTENT_ID = (SELECT HR_BIZ_REQ_ID FROM CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT WHERE HR_BIZ_REQ_RESULT_ID = #{bustripResSn}) AND file_cd in ('bustripReq'))
             OR (CONTENT_ID = #{bustripResSn} AND file_cd in ('bustripRes', 'bustripResReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc'))
-            OR (FILE_NO IN (SELECT FILE_NO FROM CAM_INSIDE.DJ_HR_CARD_HIST WHERE HR_BIZ_REQ_RESULT_ID = #{bustripResSn}))
         </if>
         <if test='type == "payIncp" or "payIncp".equals(type)'>
             OR (CONTENT_ID = #{payIncpSn} AND file_cd = #{type})

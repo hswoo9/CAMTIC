@@ -920,4 +920,28 @@ public class PurcController {
         return "popup/cam_purc/mng/purcListView";
     }
 
+    @RequestMapping("/purc/getPurcClaimExnpList")
+    public String getPurcClaimExnpList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = purcService.getPurcClaimExnpList(params);
+
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/purc/delClaimExnpData")
+    public String delClaimExnpData(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+
+            purcService.delClaimExnpData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
 }

@@ -150,7 +150,11 @@ var purcInfo = {
                                 if(e.CLAIM_SN != ""){
                                     status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
                                 } else {
-                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                    if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
+                                        status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                    } else {
+                                        status = '';
+                                    }
                                 }
                             } else {
                                 status = '';
@@ -402,7 +406,7 @@ var purcInfo = {
                     headerTemplate: '<input type="checkbox" id="clmCheckAll" name="clmCheckAll" onclick="fn_checkAll(\'clmCheckAll\', \'clm\');"/>',
                     width: 40,
                     template : function (e){
-                        return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"'/>";
+                        return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' claimExnpSn='"+e.CLAIM_EXNP_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"'/>";
                     }
                 }, {
                     title: "번호",

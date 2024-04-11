@@ -79,7 +79,7 @@ var busInit = {
             carText = "솔라티";
         }else if (carList == 14) {
             carText = "드론관제차량";
-        }else if (carList == 15) {
+        }else if (carList == 11) {
             carText = "기타(" + busInfo.USE_TRSPT_RMK + ")";
         }
         let car = carText;
@@ -217,10 +217,11 @@ var busInit = {
             carText = "솔라티";
         }else if (carList == 14) {
             carText = "드론관제차량";
-        }else if (carList == 15) {
+        }else if (carList == 11) {
             carText = "기타(" + busInfo.USE_TRSPT_RMK + ")";
         }
-        let car = carText;
+        let car = carText + "(" + busInfo.MOVE_DST + "Km)";
+
         hwpDocCtrl.putFieldText('car', car);
 
         hwpDocCtrl.putFieldText('empName', busInfo.EMP_NAME);

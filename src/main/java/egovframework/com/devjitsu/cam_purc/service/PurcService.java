@@ -103,4 +103,8 @@ public interface PurcService {
     List<Map<String, Object>> getPurcReqClaimList(Map<String, Object> params);
 
     List<Map<String, Object>> getPurcReqClaimEmpList(Map<String, Object> params);
+
+    List<Map<String, Object>> getPurcClaimExnpList(Map<String, Object> params);
+
+    void delClaimExnpData(Map<String, Object> params);
 }

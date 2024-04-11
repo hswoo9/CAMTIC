@@ -54,6 +54,9 @@ const appUserPaySetting = {
         $(".payDestInfo td input").css("font-size", "10px");
         $(".payDestInfo td").css("padding", "0.35rem");
         $(".payDestInfo td span").css("font-size", "10px");
+
+
+
     },
 
     fn_setData : function (array){
@@ -81,7 +84,7 @@ const appUserPaySetting = {
                 for (var i = 0; i < ls.length; i++) {
                     html += '<tr id="tr'+ls[i].claimSn+'" value="'+i+'">';
                     html += '   <td style="text-align: center">';
-                    html += '       <input type="hidden" id="claminSn'+i+'" name="clm" value="' + ls[i].CLAIM_SN + '">';
+                    html += '       <input type="hidden" id="claimSn'+i+'" name="clm" value="' + ls[i].CLAIM_SN + '">';
                     html += '       ' + (i + 1);
                     html += '   </td>';
                     html += '   <td>';
@@ -109,6 +112,13 @@ const appUserPaySetting = {
                 $("#empName").val(ls[0].PURC_EMP_NAME);
             }
         })
+
+
+        if(array.length == 1){
+            appUserPaySetting.appUserSettingHistGrid(array[0]);
+        } else {
+            $("#histGridDiv").css("display", "none");
+        }
     },
 
     fn_delRow : function(idx){
@@ -148,7 +158,7 @@ const appUserPaySetting = {
                 flag = false;
             } else {
                 var itemParameters = {
-                    claimSn : $("#claminSn" + $(this).attr("index")).val(),
+                    claimSn : $("#claimSn" + $(this).attr("index")).val(),
                     reqAmt : appUserPaySetting.uncomma(this.value),
                     empSeq : $("#empSeq").val()
                 }
@@ -484,6 +494,115 @@ const appUserPaySetting = {
             /*appUserPaySetting.global.itemIndex--;*/
         }
     },
+
+    appUserSettingHistGrid:function (key){
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/purc/getPurcClaimExnpList',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.claimSn = key;
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
+        $("#appUserSettingHistGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            scrollable: true,
+            selectable: "row",
+            height: 508,
+            pageable : {
+                refresh : true,
+                pageSizes : [ 10, 20, 30, 50, 100 ],
+                buttonCount : 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "순번",
+                    template: "#= --record #",
+                    width: 50
+                }, {
+                    field: "",
+                    title: "증빙유형",
+                    width: 80,
+                    template: function (e){
+                        if(e.EVID_TYPE == 1){
+                            return "세금계산서";
+                        } else if (e.EVID_TYPE == 3){
+                            return "신용카드";
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    field: "PJT_NM",
+                    title: "프로젝트명",
+                    width: 70
+                }, {
+                    field: "PJT_CD",
+                    title: "프로젝트코드",
+                    width: 70
+                }, {
+                    title: "요청액",
+                    width: 70,
+                    template : function(e){
+                        return '<div style="text-align: right;">'+comma(e.REQ_AMT)+'</div>';
+                    }
+                }, {
+                    title : "기타",
+                    width: 60,
+                    template: function(e){
+                        if(e.PAY_APP_SN != null && e.PAY_APP_SN != undefined && e.PAY_APP_SN != ''){
+                            return '';
+                        } else {
+                            return '<button type="button" class="k-button k-button-solid-error" onclick="appUserPaySetting.fn_histDel('+e.CLAIM_EXNP_SN+')">삭제</button>';
+                        }
+                    }
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
+    fn_histDel : function (key){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            claimExnpSn : key
+        }
+
+        var rs = customKendo.fn_customAjax("/purc/delClaimExnpData", data);
+
+
+        if(rs.code == 200){
+            alert("삭제되었습니다.");
+
+            location.reload();
+        }
+
+    }
 }
 
 function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, idx, fileNo, baNb, bankNm, depositor, tradeDe){

@@ -268,6 +268,10 @@ public class BustripRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("bustrip.getBustripFuelCostInfo", params);
     }
 
+    public Map<String, Object> getRegFuelCost(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getRegFuelCost", params);
+    }
+
     public Map<String, Object> getExchangeInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("bustrip.getExchangeInfo", params);
     }

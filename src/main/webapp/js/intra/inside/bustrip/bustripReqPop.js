@@ -13,7 +13,7 @@ const bustripReq = {
     pageSet: function(){
         window.resizeTo(1200, 700);
         /** Kendo 위젯 세팅 */
-        customKendo.fn_textBox(["busnName", "popEmpName", "externalName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName", "carRmk"]);
+        customKendo.fn_textBox(["busnName", "popEmpName", "externalName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empName", "deptName", "dutyName", "carRmk","regEmpName"]);
         customKendo.fn_textArea(["bustObj"]);
         customKendo.fn_datePicker("reqDate", 'month', "yyyy-MM-dd", new Date());
         $("#visitCrm").attr("readonly", true);
@@ -311,8 +311,10 @@ const bustripReq = {
 
         var formData = new FormData();
         formData.append("menuCd", "bustripReq");
-        formData.append("empSeq", $("#regEmpSeq").val());
-        formData.append("empName", $("#regEmpName").val());
+        formData.append("empSeq", $("#empSeq").val());
+        formData.append("empName", $("#empName").val());
+        formData.append("regEmpSeq", $("#regEmpSeq").val());
+        formData.append("regEmpName", $("#regEmpName").val());
         formData.append("deptSeq", $("#regDeptSeq").val());
         formData.append("deptName", $("#regDeptName").val());
         formData.append("positionCode", $("#regPositionCode").val());
@@ -597,7 +599,7 @@ const bustripReq = {
     }
 }
 
-function userDataSet(userArr){
+function userDataSet(userArr, empNameArr, empSeqArr, type){
     let userText = "";
     let userSn = "";
     let userDeptText = "";
@@ -615,10 +617,15 @@ function userDataSet(userArr){
         userDeptSn += userArr[i].deptSeq;
     }
 
-    $("#popEmpSeq").val(userSn);
-    $("#popEmpName").val(userText);
-    $("#popDeptSeq").val(userDeptSn);
-    $("#popDeptName").val(userDeptText);
+    if(type == "bustripT"){
+        $("#empSeq").val(userSn);
+        $("#empName").val(userText);
+    } else {
+        $("#popEmpSeq").val(userSn);
+        $("#popEmpName").val(userText);
+        $("#popDeptSeq").val(userDeptSn);
+        $("#popDeptName").val(userDeptText);
+    }
 }
 
 function externalDataSet(externalArr){

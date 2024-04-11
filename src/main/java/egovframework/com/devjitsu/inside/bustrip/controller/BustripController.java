@@ -335,6 +335,7 @@ public class BustripController {
             model.addAttribute("type", "upd");
         }
 
+        model.addAttribute("data", data);
         model.addAttribute("rs", bustripService.getBustripOne(params));
         model.addAttribute("params", params);
         model.addAttribute("toDate", getCurrentDateTime());
@@ -968,6 +969,15 @@ public class BustripController {
         return "jsonView";
     }
 
+    //출장 시점 유류 기준정보 조회
+    @RequestMapping("/bustrip/getRegFuelCost")
+    public String getRegFuelCost(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = bustripService.getRegFuelCost(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
     //유류 기준정보 조회
     @RequestMapping("/bustrip/getExchangeInfo")
     public String getExchangeInfo(@RequestParam Map<String, Object> params, Model model){
@@ -1237,7 +1247,6 @@ public class BustripController {
             document.close();
             pdfWriter.close();
 
-            // DB에 데이터 저장
             Map<String, Object> fileParameters = new HashMap<>();
             fileParameters.put("fileCd", fileCd);
             fileParameters.put("fileUUID", fileUUID+"."+fileExt);
@@ -1247,6 +1256,10 @@ public class BustripController {
             fileParameters.put("fileSize", 99);
             fileParameters.put("contentId", params.get("hrBizReqResultId"));
             fileParameters.put("empSeq", "1");
+
+            // 이전에 저장한 파일 삭제
+            commonService.delContentFileOne(fileParameters);
+            // DB에 데이터 저장
             commonService.insFileInfoOne(fileParameters);
 
         } catch (Exception e){

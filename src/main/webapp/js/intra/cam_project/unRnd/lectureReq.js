@@ -423,7 +423,13 @@ const lectureReq = {
                 alert("단위사업이 등록되었습니다.");
                 let src = "/projectUnRnd/lectureReqPop.do?pjtSn="+$("#pjtSn").val();
                 src += "&type=lec";
-                src += "&pk="+result.lecSn;
+
+                if ($("#pk").val() != "") {
+                    data.pk = $("#pk").val();
+                    src += "&pk="+$("#pk").val();
+                }else{
+                    src += "&pk="+result.lecSn;
+                }
                 window.location = src;
                 opener.unRndLectList.mainGrid();
             }

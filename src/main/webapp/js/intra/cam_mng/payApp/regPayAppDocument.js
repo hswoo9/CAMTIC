@@ -16,8 +16,8 @@ var payAppDoc = {
          $.each($(".payDestInfo"), function(i, v){
             var index = $(this).find(".budgetSn").attr("id").slice(-1);
 
-            // 증빙유형 신용카드일때
-            if($("#eviType" + index).val() == "3"){
+            // 증빙유형 신용카드일때 & 증빙 이미지 있을때
+            if($("#eviType" + index).val() == "3" && $("#fileNo" + index).val() != undefined && $("#fileNo" + index).val() != null && $("#fileNo" + index).val() != "null" && $("#fileNo" + index).val() != "undefined" && $("#fileNo" + index).val() != ""){
                 if($("#pjtNm").val().indexOf("법인운영") > -1 && $("#budgetNm" + index).val().indexOf("부서운영비") > -1){
                     var data = {
                         budgetNm : $("#budgetNm" + index).val(),

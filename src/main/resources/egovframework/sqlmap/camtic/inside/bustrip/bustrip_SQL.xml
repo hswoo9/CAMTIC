@@ -285,8 +285,8 @@
             <if test="nationCode != null and !''.equals(nationCode)">
                 #{nationCode},
             </if>
-                #{empSeq},
-                #{empName}
+                #{regEmpSeq},
+                #{regEmpName}
             )
         <selectKey keyProperty="hrBizReqId" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_HR_BIZ_REQ'
@@ -359,8 +359,8 @@
             <if test="nationCode != null and !''.equals(nationCode)">
                 #{nationCode},
             </if>
-                #{empSeq},
-                #{empName},
+                #{regEmpSeq},
+                #{regEmpName},
                 DATE_FORMAT(now(), '%Y-%m-%d'),
                 #{result},
                 #{driverEmpSeq},
@@ -582,6 +582,8 @@
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ
         SET
             CRM_SN = #{crmSn},
+            EMP_SEQ = #{empSeq},
+            EMP_NAME = #{empName},
             TRIP_CODE = #{tripCode},
             VISIT_CRM = #{visitCrm},
             VISIT_LOC = #{visitLoc},
@@ -599,7 +601,7 @@
         <if test="nationCode != null and !''.equals(nationCode)">
             NATION_CODE = #{nationCode},
         </if>
-            MOD_EMP_SEQ = #{empSeq}
+            MOD_EMP_SEQ = #{regEmpSeq}
         WHERE
             HR_BIZ_REQ_ID = #{hrBizReqId}
     </update>
@@ -1085,7 +1087,8 @@
 
     <select id="getBustripResultInfoR" parameterType="map" resultType="map">
         SELECT
-            A.*, DI.APPRO_KEY AS DOC_APPRO_KEY
+            A.*, DI.APPRO_KEY AS DOC_APPRO_KEY,
+            DATEDIFF(A.TRIP_DAY_TO, A.TRIP_DAY_FR) + 1 AS DIFDAY
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT A
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
@@ -1502,6 +1505,15 @@
         WHERE
             1=1
         ORDER BY IHFCI.REG_DT DESC limit 1
+    </select>
+
+    <select id="getRegFuelCost" parameterType="map" resultType="map">
+        /* getRegFuelCost */
+        <![CDATA[
+        SELECT IF((SELECT COUNT(-1) FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO HFCI WHERE START_DT <= #{endDt} AND END_DT IS NULL AND PROJECT_CD = #{projectCd}) = 1,
+        (SELECT COST_AMT FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO WHERE START_DT <= #{endDt} AND END_DT IS NULL AND PROJECT_CD = #{projectCd} ORDER BY START_DT DESC),
+        (SELECT COST_AMT FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO WHERE #{endDt} BETWEEN START_DT AND END_DT AND PROJECT_CD = #{projectCd} limit 1)) AS REG_COST_AMT
+        ]]>
     </select>
 
     <select id="getExchangeInfo" parameterType="map" resultType="map">

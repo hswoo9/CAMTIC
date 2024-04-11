@@ -85,18 +85,22 @@ public class ProjectServiceImpl implements ProjectService {
             Map<String, Object> tempMap = projectRepository.getProjectCodeData(map);
 
             if(tempMap != null){
+                map.put("BUSN_CLASS", tempMap.get("BUSN_CLASS"));
                 map.put("BUSN_NM", tempMap.get("BUSN_NM"));
                 map.put("STR_DT", tempMap.get("STR_DT"));
                 map.put("END_DT", tempMap.get("END_DT"));
                 map.put("PJT_AMT", tempMap.get("PJT_AMT"));
                 map.put("PM", tempMap.get("PM"));
+                map.put("EMP_NAME", tempMap.get("EMP_NAME"));
                 map.put("PJT_STEP_NM", tempMap.get("PJT_STEP_NM"));
             } else {
+                map.put("BUSN_CLASS", "");
                 map.put("BUSN_NM", "");
                 map.put("STR_DT", "");
                 map.put("END_DT", "");
                 map.put("PJT_AMT", "");
                 map.put("PM", "");
+                map.put("EMP_NAME", "");
                 map.put("PJT_STEP_NM", "");
             }
             list.add(map);

@@ -314,7 +314,11 @@ var prm = {
                                 if(e.CLAIM_SN != ""){
                                     status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
                                 } else {
-                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                    if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
+                                        status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                    } else {
+                                        status = '';
+                                    }
                                 }
                             } else {
                                 status = '';
@@ -339,7 +343,9 @@ var prm = {
                             } else {
                                 if ((e.CLAIM_DOC_STATUS == '100' || e.CLAIM_DOC_STATUS == '101')) {
                                     if(e.PAYMENT_METHOD == "C" || e.PAYMENT_METHOD == "I") {
-                                        if (e.CLAIM_STATUS == "CAYSY") {
+                                        if (e.INSPECT_STATUS != "100") {
+                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                        } else {
                                             status = '<button type="button" class="k-button k-button-solid-info" onclick="prm.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                         }
                                     }

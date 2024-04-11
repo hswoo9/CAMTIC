@@ -32,7 +32,7 @@ var bustripResultPop = {
     pageSet: function(){
         window.resizeTo(1200, 795);
         /** Kendo 위젯 세팅 */
-        customKendo.fn_textBox(["busnName", "popEmpName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empSeq", "empName", "deptName", "dutyName", "carRmk"]);
+        customKendo.fn_textBox(["busnName", "popEmpName", "visitCrm", "visitLoc", "visitLocSub", "userName", "moveDst", "empName", "deptName", "dutyName", "carRmk", "regEmpName"]);
         customKendo.fn_textArea(["bustObj", "result"]);
         customKendo.fn_datePicker("reqDate", 'month', "yyyy-MM-dd", new Date());
         $("#visitCrm").attr("readonly", true);
@@ -55,6 +55,20 @@ var bustripResultPop = {
                 $("#busnLine").css("display", "");
             } else {
                 $("#busnLine").css("display", "none");
+            }
+        });
+
+        $("#date2").on("change", function(){
+            let endDt = $(this).val();
+
+            /** 종료일 시점 유가정보 조회 */
+            let costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", {
+                endDt: endDt,
+                projectCd: '0'
+            }).data;
+
+            if(costInfo != null){
+                $("#constText").text("(10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)");
             }
         });
     },
@@ -257,6 +271,16 @@ var bustripResultPop = {
             $("#externalSpot").val(extSpot.substring(0,extSpot.length-1));
             $("#externalEtc").val(extEtc.substring(0,extEtc.length-1));
         }
+
+        /** 종료일 시점 유가정보 조회 */
+        let costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", {
+            endDt: busInfo.TRIP_DAY_TO,
+            projectCd: '0'
+        }).data;
+
+        if(costInfo != null){
+            $("#constText").text("(10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)");
+        }
     },
 
     resDataSet: function() {
@@ -445,15 +469,15 @@ var bustripResultPop = {
         //     count ++;
         // }
 
-        for(let i=0; i<cardList.length; i++){
-            if(cardList[i].FILE_NO != null){
-                const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
-                    fileNo: cardList[i].FILE_NO
-                }).data;
-                tempArr[count] = fileData;
-                count ++;
-            }
-        }
+        // for(let i=0; i<cardList.length; i++){
+        //     if(cardList[i].FILE_NO != null){
+        //         const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
+        //             fileNo: cardList[i].FILE_NO
+        //         }).data;
+        //         tempArr[count] = fileData;
+        //         count ++;
+        //     }
+        // }
 
         bustripInit.settingTempFileDataInit(tempArr, 'result');
 
@@ -528,6 +552,16 @@ var bustripResultPop = {
             $("#externalEtc").val(extEtc.substring(0,extEtc.length-1));
         }
 
+        /** 종료일 시점 유가정보 조회 */
+        let costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", {
+            endDt: resInfo.TRIP_DAY_TO,
+            projectCd: '0'
+        }).data;
+
+        if(costInfo != null){
+            $("#constText").text("(10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)");
+        }
+
     },
 
     fn_saveBtn: function(){
@@ -550,8 +584,10 @@ var bustripResultPop = {
         var formData = new FormData();
         formData.append("menuCd", "bustripResReq");
         formData.append("hrBizReqId", hrBizReqId);
-        formData.append("empSeq", $("#regEmpSeq").val());
-        formData.append("empName", $("#regEmpName").val());
+        formData.append("empSeq", $("#empSeq").val());
+        formData.append("empName", $("#empName").val());
+        formData.append("regEmpSeq", $("#regEmpSeq").val());
+        formData.append("regEmpName", $("#regEmpName").val());
         formData.append("deptSeq", $("#regDeptSeq").val());
         formData.append("deptName", $("#regDeptName").val());
         formData.append("positionCode", $("#regPositionCode").val());
@@ -916,8 +952,8 @@ var bustripResultPop = {
             receiptFile += '</div>';
             
             html += "<form class='pdfForm' style=\"padding: 20px 30px;width:100%;height: 100%;\">" +
-                "<h1 style=\"text-align: center;padding-bottom: 5px;\">여 비 지 출 증 빙 자 료</h1>" +
-                "<table style=\"padding-left: 5px;width:100%;height:100%;font-size: 16px;background: white;color: black;border: 2px solid black;\">" +
+                "<h1 style=\"text-align: center;padding-bottom: 5px; font-size: 30px\"><b>여 비 지 출 증 빙 자 료</b></h1>" +
+                "<table style=\"margin-top: 10px; padding-left: 5px;width:100%;height:100%;font-size: 16px;background: white;color: black;border: 2px solid black;\">" +
                 "<tr>" +
                 "<th style=\"width:110px;height: 60px;background-color: #ffe0e0;padding-left: 5px;border: 1px solid black;font-weight: bold;\">사용일</th>" +
                 "<td style=\"width:220px;border: 1px solid black;text-align:center;\">"+useDate+"</td>" +
@@ -946,7 +982,7 @@ var bustripResultPop = {
                 "<th colspan=\"4\" style=\"background-color: #ffe0e0; height: 40px; padding-left: 5px; text-align: center; border: 1px solid black;font-weight: bold;\">증 빙 서 류</th>" +
                 "</tr>" +
                 "<tr>" +
-                "<td colspan=\"4\" style=\"height: 900px;border: 1px solid black;\">" +
+                "<td colspan=\"4\" style=\"height: 600px;border: 1px solid black;\">" +
                 "<div style=\"display: flex; flex-wrap: wrap;\">"+
                 receiptFile+
                 "</div></td>" +

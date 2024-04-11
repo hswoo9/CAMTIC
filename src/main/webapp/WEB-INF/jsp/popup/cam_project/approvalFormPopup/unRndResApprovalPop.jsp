@@ -25,7 +25,7 @@
         approvalParams.formId = formId;
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
-        approvalParams.docTitle = "[결과보고서]${loginVO.orgnztNm}-${loginVO.name}";
+        approvalParams.docTitle = "[결과보고서]"+map.PJT_NM;
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
         approvalParams.menuCd = "unRndRes";
