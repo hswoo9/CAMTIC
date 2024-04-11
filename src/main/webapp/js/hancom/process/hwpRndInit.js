@@ -209,6 +209,7 @@ var rndInit = {
         const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn: devSn});
         const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devSn});
         const getDevelopPlan = customKendo.fn_customAjax("/project/getDevelopPlan", {devSn: devSn});
+        const purcList = purcResult.list;
 
         /** 1. 사업정보 */
         rndInit.delvSet();
@@ -305,7 +306,6 @@ var rndInit = {
         }, 1000);
 
         /** 4. 투자내역 */
-        const purcList = purcResult.list;
         const htmlData = engnInit.htmlInv(purcList, map);
         setTimeout(function() {
             hwpDocCtrl.putFieldText("PURC_HTML", " ");

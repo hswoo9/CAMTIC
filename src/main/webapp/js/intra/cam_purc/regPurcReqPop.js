@@ -41,6 +41,7 @@ var prp = {
         ]
         customKendo.fn_radioGroup("vat", radioVatDataSource, "horizontal");
 
+        $("#vat").data("kendoRadioGroup").value('Y')
         /** 부가세 Change function */
         $("#vat").data("kendoRadioGroup").bind("change", function(){
             prp.vatCalcN();
@@ -1113,8 +1114,8 @@ var prp = {
                 console.log(rowdata);
 
                 for(var i = 0 ; i < rowdata.length ; i++){
-                    $("#purcItemType" + index).data("kendoDropDownList").text(rowdata[index]['* 구분']);
-                    $("#productA" + index).data("kendoDropDownList").text(rowdata[index]['* 대분류']);
+                    $("#purcItemType" + index).data("kendoDropDownList").text(rowdata[index]['구분']);
+                    $("#productA" + index).data("kendoDropDownList").text(rowdata[index]['대분류']);
                     $("#productA" + index).trigger("change");
 
                     if(rowdata[index]['중분류'] != undefined && rowdata[index]['중분류'] != null && rowdata[index]['중분류'] != ""){
@@ -1129,14 +1130,14 @@ var prp = {
                     $("#purcItemUnitPrice" + index).val(comma(rowdata[index]['* 단가']));
                     $("#purcItemQty" + index).val(rowdata[index]['* 수량']);
                     $("#purcItemUnit" + index).val(rowdata[index]['* 단위']);
-                    $("#purcSupAmt" + index).val(comma(rowdata[index]['공급가액']));
-                    $("#purcVatAmt" + index).val(comma(rowdata[index]['세액']));
-                    $("#purcItemAmt" + index).val(comma(rowdata[index]['금액']));
+                    $("#purcSupAmt" + index).val((comma(rowdata[index]['공급가액'] || 0)));
+                    $("#purcVatAmt" + index).val((comma(rowdata[index]['세액'] || 0)));
+                    $("#purcItemAmt" + index).val((comma(rowdata[index]['금액'] || 0)));
                     $("#rmk" + index).val(rowdata[index]['비고']);
 
                     var data = {
-                        excelCrmNm : rowdata[index]['업체명'],
-                        excelCrmNo : rowdata[index]['사업자번호'].replace(/-/g, '')
+                        excelCrmNm : rowdata[index]['* 업체명'],
+                        excelCrmNo : rowdata[index]['* 사업자번호'].replace(/-/g, '')
                     }
 
                     $.ajax({
@@ -1151,18 +1152,19 @@ var prp = {
 
                             prp.addRow();
                             index++;
+
                         }, error : function (){
                             alert("에러가 발생하였습니다.");
                         }
                     });
                 }
 
+                prp.vatCalcN();
+
             });
             $("#delRowBtn" + index).click();
-
         };
         reader.readAsBinaryString(input.files[0]);
-
         $('#excelUpload').data('kendoWindow').close();
     },
 

@@ -425,6 +425,51 @@ var screenViewPop = {
                 searchTypeArr : "'D','I','IF'"
             }
 
+            /*var result = customKendo.fn_customAjax("/recruit/manage/eval/getApplicationInterViewList.do", screenViewPop.global.searchAjaxData);
+            console.log("makeInterViewScreenTable", result);
+
+            if(result.flag) {
+                $("#tbDiv *").remove();
+                var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
+                var sum = 0;
+                var evalCnt = 0;
+                var application = [];
+                var index = 0;
+                var paramArr = [];
+                var userArr = [];
+
+                var html = "";
+
+                const userLen = result.list.length;
+                const userUniqueLen = result.countH.COUNT_H;
+                const maxLen = Number(userLen) + Number(userUniqueLen)
+
+                let pageCount = Math.ceil((maxLen/20));
+
+                for(let i=0; i<pageCount; i++){
+                    html += '' +
+                        '<div class="pdf_page mt-20">' +
+                        '<h2 class="text-center">면접위원 평가점수 및 의견</h2><br>' +
+                        '<h4 class="text-left">■ ' + area.JOB + '</h4>' +
+                        '<table class="searchTable table table-bordered mb-0 mt-10" style="text-align: center">' +
+                        '<colgroup>' +
+                        '    <col style="width: 8%">' +
+                        '    <col style="width: 10%">' +
+                        '    <col style="width: 8%">' +
+                        '    <col>' +
+                        '    <col style="width: 11%">' +
+                        '    <col>' +
+                        '</colgroup>' +
+                        '<tr style="height: 50px;">' +
+                        '    <th>지원자</th>' +
+                        '    <th>면접위원</th>' +
+                        '    <th>점수</th>' +
+                        '    <th>평가의견</th>' +
+                        '    <th>비고</th>' +
+                        '</tr>' +
+                        '<tbody id="applicationTb">';
+                }*/
+
             var result = customKendo.fn_customAjax("/recruit/manage/eval/getApplicationInterViewList.do", screenViewPop.global.searchAjaxData);
             console.log(result);
             if(result.flag) {

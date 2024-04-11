@@ -68,6 +68,24 @@ var approveWaitDocList = {
                             return "결과보고서_R&D";
                         } else if (e.DOC_MENU_CD == "unRndRes"){
                             return "결과보고서_비R&D";
+                        } else if (e.DOC_MENU_CD == "delv"){
+                            if(e.BUSN_CLASS == "D"){
+                                return "수주보고_엔지니어링";
+                            }else{
+                                return "수주보고_용역/기타";
+                            }
+                        } else if (e.DOC_MENU_CD == "dev"){
+                            if(e.BUSN_CLASS == "D"){
+                                return "수행계획서_엔지니어링";
+                            }else{
+                                return "수행계획서_용역/기타";
+                            }
+                        } else if (e.DOC_MENU_CD == "pjtRes"){
+                            if(e.BUSN_CLASS == "D"){
+                                return "결과보고서_엔지니어링";
+                            }else{
+                                return "결과보고서_용역/기타";
+                            }
                         } else {
                             return e.FORM_NAME;
                         }

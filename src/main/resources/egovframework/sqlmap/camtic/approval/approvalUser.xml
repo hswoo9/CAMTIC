@@ -433,7 +433,16 @@
             DI.LAST_APPROVE_DT AS LAST_APPROVE_DT2,
             DI.DRAFT_DEPT_NAME,
             DI.DRAFT_EMP_NAME,
-            CASE WHEN DI.LAST_APPROVE_EMP_SEQ = '32' and DI.APPROVE_STAT_CODE_DESC = '전결' THEN '최종결재' ELSE DI.APPROVE_STAT_CODE_DESC END AS APPROVE_STAT_CODE_DESC
+            CASE WHEN DI.LAST_APPROVE_EMP_SEQ = '32' and DI.APPROVE_STAT_CODE_DESC = '전결' THEN '최종결재' ELSE DI.APPROVE_STAT_CODE_DESC END AS APPROVE_STAT_CODE_DESC,
+            CASE
+                WHEN DI.DOC_MENU_CD = 'dev'
+                THEN (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PJT_DEV WHERE DEV_SN = SUBSTRING_INDEX(DI.APPRO_KEY, '_', -1)))
+
+                WHEN DI.DOC_MENU_CD = 'delv' OR DI.DOC_MENU_CD = 'res'
+                THEN (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = SUBSTRING_INDEX(DI.APPRO_KEY, '_', -1))
+
+                ELSE NULL
+            END AS BUSN_CLASS
         <choose>
             <when test='approveType != null and ("wait".equals(approveType) or "tobe".equals(approveType))'>
                 , CASE WHEN AF.C_UIUSERKEY = #{empSeq} THEN 'N' ELSE 'Y' END AS SUB_APPROVAL
