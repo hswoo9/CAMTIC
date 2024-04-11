@@ -169,13 +169,13 @@ var purcInit = {
                         }
                     }
                     var productA = "";
-                    if(map.PRODUCT_A == 1){
+                    if(map.PURC_ITEM_TYPE == "P"){
                         productA = "구매";
-                    } else if (map.PRODUCT_A == 2){
+                    } else if (map.PURC_ITEM_TYPE == "O"){
                         productA = "외주";
-                    } else if (map.PRODUCT_A == 3){
+                    } else if (map.PURC_ITEM_TYPE == "C"){
                         productA = "시설/공사";
-                    } else if(map.PRODUCT_A == 4){
+                    } else if(map.PURC_ITEM_TYPE == "L"){
                         productA = "리스";
                     }
                     html += '   <tr>';
@@ -379,13 +379,13 @@ var purcInit = {
             }
 
             var productA = "";
-            if(map.PRODUCT_A == 1){
+            if(map.PURC_ITEM_TYPE == "P"){
                 productA = "구매";
-            } else if (map.PRODUCT_A == 2){
+            } else if (map.PURC_ITEM_TYPE == "O"){
                 productA = "외주";
-            } else if (map.PRODUCT_A == 3){
+            } else if (map.PURC_ITEM_TYPE == "C"){
                 productA = "시설/공사";
-            } else if(map.PRODUCT_A == 4){
+            } else if(map.PURC_ITEM_TYPE == "L"){
                 productA = "리스";
             }
 
