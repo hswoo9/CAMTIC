@@ -152,6 +152,7 @@ public class EvalManageController {
     @RequestMapping("/recruit/manage/eval/getApplicationInterViewList.do")
     public String getApplicationInterViewList(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("list", evalManageService.getApplicationInterViewList(params));
+        model.addAttribute("countH", evalManageService.getApplicationCountH(params));
         return "jsonView";
     }
 
