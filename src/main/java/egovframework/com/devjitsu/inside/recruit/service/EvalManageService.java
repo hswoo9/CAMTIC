@@ -17,4 +17,5 @@ public interface EvalManageService {
     void setRecruitEvalSelSheet(Map<String, Object> params);
     List<Map<String, Object>> getApplicationScreenViewList(Map<String, Object> params);
     List<Map<String, Object>> getApplicationInterViewList(Map<String, Object> params);
+    Map<String, Object> getApplicationCountH(Map<String, Object> params);
 }

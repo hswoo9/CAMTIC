@@ -482,6 +482,7 @@
         </if>
         AND
             AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        AND AM.IN_AVOID != 'Y'
         GROUP BY AM.APPLICATION_ID, A.EVAL_LOGIN_ID
         ORDER BY AM.USER_NAME
     </select>
@@ -498,4 +499,59 @@
         AND
             EVAL_TYPE = #{evalType}
     </delete>
+
+    <select id="getApplicationCountH" parameterType="map" resultType="map">
+        /* getApplicationCountH */
+        SELECT COUNT(-1) AS COUNT_H FROM (SELECT
+            AM.*
+        FROM
+            CAM_INSIDE.DJ_APPLICATION_MAIN AM
+        JOIN
+            CAM_INSIDE.DJ_RECRUIT_AREA_INFO AI ON AM.RECRUIT_AREA_INFO_SN = AI.RECRUIT_AREA_INFO_SN
+        LEFT JOIN (
+            SELECT
+                A.APPLICATION_ID,
+                A.EVAL_ITEM_ID,
+                B.EVAL_LOGIN_ID,
+                B.EMP_NAME_KR,
+                TRUNCATE(SUM(A.EVAL_ITEM_SCORE)/COUNT(DISTINCT A.EVAL_LOGIN_ID), 1) AS SUM_SCORE,
+                (
+                    SELECT
+                        SB.EVAL_ITEM_SCORE
+                    FROM
+                        CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD SB
+                    WHERE
+                        SB.EVAL_ITEM_ID = 'opinion'
+                    AND
+                        A.EVAL_LOGIN_ID = SB.EVAL_LOGIN_ID
+                    AND
+                        A.APPLICATION_ID = SB.APPLICATION_ID
+                ) AS OPINION
+            FROM
+                CAM_INSIDE.DJ_APPLICATION_EVAL_SCORE_BOARD A
+            LEFT JOIN
+                CAM_INSIDE.DJ_APPLICATION_EVAL_LOGIN B ON A.EVAL_LOGIN_ID = B.EVAL_LOGIN_ID/* AND B.EVAL_STATUS = 'E'*/
+            WHERE
+                EVAL_ITEM_ID != 'opinion'
+            AND
+                EVAL_SCREEN_TYPE = 'in'
+            GROUP BY B.EVAL_LOGIN_ID, APPLICATION_ID
+        ) A ON AM.APPLICATION_ID = A.APPLICATION_ID
+        WHERE
+            AM.RECRUIT_INFO_SN = #{recruitInfoSn}
+        AND
+            AM.SAVE_TYPE = 'S'
+        <if test='searchTypeArr != null and !"".equals(searchTypeArr)'>
+            AND AM.APPLICATION_STAT IN (${searchTypeArr})
+        </if>
+
+        <if test='notSearchTypeArr != null and !"".equals(notSearchTypeArr)'>
+            AND AM.APPLICATION_STAT NOT IN (${notSearchTypeArr})
+        </if>
+        AND AM.RECRUIT_AREA_INFO_SN = #{recruitAreaInfoSn}
+        AND AM.IN_AVOID != 'Y'
+
+        GROUP BY AM.APPLICATION_ID
+        ORDER BY AM.USER_NAME) R
+    </select>
 </mapper>
