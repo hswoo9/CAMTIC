@@ -368,7 +368,6 @@ function fn_retirePay(e, c, i){
             return 0;
         }else{
             var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
-                Number(popUserPay.uncomma($(i).closest("tr").find("input[name='foodPay']").val())) +
                 Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
                 Number(popUserPay.uncomma($(i).closest("tr").find("input[name='bonus']").val()));
             return (Math.floor((cnt/12)/10) * 10).toString().toMoney();
@@ -387,7 +386,6 @@ function fn_bsPay(e, c, i){
 
     /** 기본급 */
     var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
-        Number(popUserPay.uncomma($(i).closest("tr").find("input[name='foodPay']").val())) +
         Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
         Number(popUserPay.uncomma($(i).closest("tr").find("input[name='bonus']").val()));
 
