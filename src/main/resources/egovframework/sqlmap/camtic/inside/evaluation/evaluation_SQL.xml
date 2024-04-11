@@ -56,23 +56,139 @@
         ]]>
     </select>
 
+    <select id="getEvaluationList" parameterType="map" resultType="map">
+        SELECT
+            A.*,
+            B.*,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_EVALUATION_MEM WHERE eval_sn = A.EVAL_SN) AS EVAL_MEM
+        FROM
+            CAM_INSIDE.DJ_EVALUATION A
+        LEFT JOIN
+            CAM_INSIDE.dj_evaluation_cap B ON A.EVAL_SN = B.EVAL_SN
+        WHERE
+            A.ACTIVE = 'Y'
+          AND
+            A.BS_YEAR = #{year}
+    </select>
+
+    <select id="getEvaluationOne" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION
+        WHERE
+            ACTIVE = 'Y'
+        ORDER BY EVAL_SN DESC
+        LIMIT 1;
+    </select>
+
     <insert id="insEvaluation" parameterType="map">
         /*insEvaluation*/
         INSERT INTO CAM_INSIDE.DJ_EVALUATION
             (
                  BS_YEAR,
+                 EVAL_NUM,
                  EVAL_STAT,
+                 EVAL_CONTENT,
                  REG_EMP_SEQ
             )
         VALUES
             (
                 #{bsYear},
+                #{evalNum},
                 #{evalStat},
+                #{content},
                 #{regEmpSeq}
             )
 
         <selectKey keyProperty="evalSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVALUATION'
+        </selectKey>
+    </insert>
+
+    <insert id="insEvaluationAppBt" parameterType="map">
+        /*insEvaluationAppBt*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION_APP
+            (
+                EVAL_SN,
+                EVAL_TYPE,
+                TEAM_SUM,
+                TEAM_LEADER_TEAM,
+                TEAM_LEADER_TEAM_RESULT,
+                TEAM_LEADER_DEPT,
+                TEAM_LEADER_DEPT_RESULT,
+                TEAM_LEADER_SUM,
+                DEPT_HD_DEPT,
+                DEPT_HD_DEPT_RESULT,
+                DEPT_HD_COR,
+                DEPT_HD_COR_RESULT,
+                DEPT_HD_SUM,
+                REG_DT,
+                REG_EMP_SEQ
+            )
+            VALUES
+            (
+                #{evalSn},
+                'business',
+                #{btSum},
+                #{btResult1},
+                #{btResult2},
+                #{bdResult1},
+                #{bdResult2},
+                #{bdSum},
+                #{bhResult1},
+                #{bhResult2},
+                #{bcResult1},
+                #{bcResult2},
+                #{bhSum},
+                NOW(),
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="evalAppSnBt" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVALUATION_APP'
+        </selectKey>
+    </insert>
+
+    <insert id="insEvaluationAppBs" parameterType="map">
+        /*insEvaluationAppBs*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION_APP
+        (
+            EVAL_SN,
+            EVAL_TYPE,
+            TEAM_SUM,
+            TEAM_LEADER_TEAM,
+            TEAM_LEADER_TEAM_RESULT,
+            TEAM_LEADER_DEPT,
+            TEAM_LEADER_DEPT_RESULT,
+            TEAM_LEADER_SUM,
+            DEPT_HD_DEPT,
+            DEPT_HD_DEPT_RESULT,
+            DEPT_HD_COR,
+            DEPT_HD_COR_RESULT,
+            DEPT_HD_SUM,
+            REG_DT,
+            REG_EMP_SEQ
+        )
+        VALUES
+            (
+                #{evalSn},
+                'support',
+                #{bsSum},
+                #{stResult1},
+                #{stResult2},
+                #{sdResult1},
+                #{sdResult2},
+                #{sdSum},
+                #{shResult1},
+                #{shResult2},
+                #{scResult1},
+                #{scResult2},
+                #{scSum},
+                NOW(),
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="evalAppSnBs" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVALUATION_APP'
         </selectKey>
     </insert>
 
@@ -94,7 +210,7 @@
 
     <delete id="delEvaluationCap" parameterType="map">
         /*delEvaluationCap*/
-        DELETE * FROM CAM_INSIDE.DJ_EVALUATION_CAP WHERE EVAL_SN = #{evalSn}
+        DELETE FROM CAM_INSIDE.DJ_EVALUATION_CAP WHERE EVAL_SN = #{evalSn}
     </delete>
 
     <insert id="insEvaluationCap" parameterType="map">
@@ -134,6 +250,87 @@
                 #{deptManagerA},
                 #{deptManagerB},
                 #{deptManagerC}
+            )
+    </insert>
+
+    <delete id="delEvaluationBt" parameterType="map">
+        /*delEvaluationBt*/
+        DELETE FROM CAM_INSIDE.DJ_EVALUATION_APP_TEAM WHERE EVAL_SN = #{evalSn} AND EVAL_TYPE = 'business'
+    </delete>
+
+    <insert id="insEvaluationBt" parameterType="map">
+        /*insEvaluationBt*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION_APP_TEAM
+            (
+                EVAL_SN,
+                EVAL_APP_SN,
+                EVAL_TYPE,
+                EVAL_FIELD,
+                EVAL_W,
+                EVAL_R
+            )
+        VALUES
+            (
+                #{evalSn},
+                #{evalAppSn},
+                #{evalType},
+                #{btField},
+                #{btValue},
+                #{btScore}
+            )
+    </insert>
+
+    <delete id="delEvaluationBs" parameterType="map">
+        /*delEvaluationBs*/
+        DELETE FROM CAM_INSIDE.DJ_EVALUATION_APP_TEAM WHERE EVAL_SN = #{evalSn} AND EVAL_TYPE = 'support'
+    </delete>
+
+    <insert id="insEvaluationBs" parameterType="map">
+        /*insEvaluationBs*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION_APP_TEAM
+            (
+                EVAL_SN,
+                EVAL_APP_SN,
+                EVAL_TYPE,
+                EVAL_FIELD,
+                EVAL_W,
+                EVAL_R
+            )
+        VALUES
+            (
+                #{evalSn},
+                #{evalAppSn},
+                #{evalType},
+                #{bsField},
+                #{bsValue},
+                #{bsScore}
+            )
+    </insert>
+
+    <delete id="delEvaluationScore" parameterType="map">
+        /*delEvaluationScore*/
+        DELETE FROM CAM_INSIDE.DJ_EVALUATION_GRADE WHERE EVAL_SN = #{evalSn}
+    </delete>
+
+    <insert id="insEvaluationScore" parameterType="map">
+        /*insEvaluationScore*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION_GRADE
+            (
+                EVAL_SN,
+                EVAL_GRADE,
+                EVAL_LEVEL,
+                EVAL_RATE,
+                EVAL_SCORE_A,
+                EVAL_SCORE_B
+            )
+        VALUES
+            (
+                #{evalSn},
+                #{scClass},
+                #{scLevel},
+                #{scPerson},
+                #{scScore1},
+                #{scScore2}
             )
     </insert>
 </mapper>

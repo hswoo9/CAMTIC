@@ -40,6 +40,12 @@ public class EvaluationController {
         return "inside/userManage/evaluationReq";
     }
 
+    @RequestMapping("/evaluation/getEvaluationOne")
+    public String getEvaluationOne(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        model.addAttribute("data", evaluationService.getEvaluationOne(params));
+        return "jsonView";
+    }
+
     //평가관리
     @RequestMapping("/Inside/evaluationList.do")
     public String evaluationList(HttpServletRequest request, Model model) {
@@ -60,10 +66,7 @@ public class EvaluationController {
      */
     @RequestMapping("/evaluation/getEvaluationList")
     public String getEvaluationList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
-
-
-        model.addAttribute("list", "");
-
+        model.addAttribute("list", evaluationService.getEvaluationList(params));
         return "jsonView";
     }
 
