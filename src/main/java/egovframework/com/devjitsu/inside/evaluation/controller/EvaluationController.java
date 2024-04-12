@@ -46,6 +46,24 @@ public class EvaluationController {
         return "jsonView";
     }
 
+    //역량평가 하기
+    @RequestMapping("/Inside/pop/evalPop.do")
+    public String evalPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return  "popup/inside/userManage/evalPop";
+    }
+
+    @RequestMapping("/evaluation/getEvaluationOneList")
+    public String getEvaluationOneList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        model.addAttribute("list", evaluationService.getEvaluationOneList(params));
+        return "jsonView";
+    }
+
     //평가관리
     @RequestMapping("/Inside/evaluationList.do")
     public String evaluationList(HttpServletRequest request, Model model) {
@@ -77,12 +95,13 @@ public class EvaluationController {
      * @return
      */
     @RequestMapping("/evaluation/pop/evaluationSet.do")
-    public String evaluationSet(HttpServletRequest request, Model model) {
+    public String evaluationSet(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
 
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/inside/evaluation/evaluationSet";
     }
 
@@ -134,6 +153,21 @@ public class EvaluationController {
         } catch(Exception e) {
             e.printStackTrace();
         }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/evaluation/getEvaluation")
+    public String getEvaluation(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        model.addAttribute("data", evaluationService.getEvaluation(params));
+        model.addAttribute("bsData", evaluationService.getEvaluationBs(params));
+        model.addAttribute("btData", evaluationService.getEvaluationBt(params));
+
+        model.addAttribute("bsList", evaluationService.getEvaluationBsList(params));
+        model.addAttribute("btList", evaluationService.getEvaluationBtList(params));
+        model.addAttribute("scList", evaluationService.getEvaluationScList(params));
+
 
         return "jsonView";
     }

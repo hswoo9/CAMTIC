@@ -89,7 +89,7 @@
             </div>
 
             <div style="margin: 40px 0; display: flex; justify-content: center;">
-                <button class="k-button k-button-md k-button-solid k-button-solid-error" style="margin: 10px">역량평가 하기</button>
+                <button class="k-button k-button-md k-button-solid k-button-solid-error" style="margin: 10px" onclick="evalPop()">역량평가 하기</button>
                 <button class="k-button k-button-md k-button-solid-info" style="margin: 10px">인사평가 결과 조회</button>
             </div>
         </div>
@@ -99,6 +99,9 @@
 <script type="text/javascript">
     /*evaluationReq.fn_defaultScript();*/
 
+    var bsYear;
+    var evalSn;
+
     $(function (){
         $.ajax({
             url : "/evaluation/getEvaluationOne",
@@ -107,7 +110,8 @@
             dataType : "json",
             async : false,
             success : function(result){
-                console.log(result)
+                bsYear = result.data.BS_YEAR
+                evalSn = result.data.EVAL_SN
                 fn_addNotice(result.data);
             },
             error : function(e) {
@@ -122,5 +126,12 @@
         var html = "";
         html += data.EVAL_CONTENT ;
         $('#evalContent').append(html);
+    }
+
+    function evalPop(){
+        var url = "/Inside/pop/evalPop.do?bsYear="+bsYear+"&evalSn="+evalSn;
+        var name = "evalPop";
+        var option = "width=965, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
     }
 </script>

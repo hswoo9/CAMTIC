@@ -19,6 +19,7 @@
 </style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="evalSn" value="${params.pk}"/>
 <body class="font-opensans" style="background-color:#fff;">
 <div class="pop_sign_wrap">
     <div class="table-responsive">
@@ -476,12 +477,90 @@
         });
 
 
+        if( $("#evalSn").val() != "") {
+            const data = {
+                evalSn: $("#evalSn").val()
+            };
+            const result = customKendo.fn_customAjax("/evaluation/getEvaluation", data);
+            const evalMap = result.data;
+            const bsData = result.bsData;
+            const btData = result.btData;
+
+            const bsList = result.bsList  //사업
+            const btList = result.btList  //지원
+            const scList = result.scList
+
+            $("#bsYear").data("kendoDatePicker").value(evalMap.BS_YEAR);
+            $("#evalNum").data("kendoDropDownList").value(evalMap.EVAL_NUM);
+            $("#evalStat").data("kendoRadioGroup").value(evalMap.EVAL_STAT);  // 작성중; 평가중; 평가완료
+            // 평가대상
+
+            $("#idx0").val(evalMap.CAP_IDX);
+            $("#evalStrDt0").data("kendoDatePicker").value(evalMap.COND_STR_DT);
+            $("#evalEndDt0").data("kendoDatePicker").value(evalMap.COND_END_DT);
+            $("#condStrDt0").data("kendoDatePicker").value(evalMap.EVAL_STR_DT);
+            $("#condEndDt0").data("kendoDatePicker").value(evalMap.EVAL_END_DT);
+            $("#teamMemberA0").val(evalMap.TEAM_MEMBER_A);
+            $("#teamMemberB0").val(evalMap.TEAM_MEMBER_B);
+            $("#teamMemberC0").val(evalMap.TEAM_MEMBER_C);
+            $("#teamManagerA0").val(evalMap.TEAM_MANAGER_A);
+            $("#teamManagerB0").val(evalMap.TEAM_MANAGER_B);
+            $("#teamManagerC0").val(evalMap.TEAM_MANAGER_C);
+            $("#deptManagerA0").val(evalMap.DEPT_MANAGER_A);
+            $("#deptManagerB0").val(evalMap.DEPT_MANAGER_B);
+            $("#deptManagerC0").val(evalMap.DEPT_MANAGER_C);
+
+            // 평가항목 및 가중치 - 사업인원
+            for (var i = 0; i < bsList.length; i++) {
+                var bsItem = bsList[i];
+                fn_btAddRow(bsItem);
+            }
+            $("#btSum").val(bsData.TEAM_SUM);
+            $("#btResult1").val(bsData.TEAM_LEADER_TEAM);
+            $("#btResult2").val(bsData.TEAM_LEADER_TEAM_RESULT);
+            $("#bdResult1").val(bsData.TEAM_LEADER_DEPT);
+            $("#bdResult2").val(bsData.TEAM_LEADER_DEPT_RESULT);
+            $("#bdSum").val(bsData.TEAM_LEADER_SUM);
+            $("#bhResult1").val(bsData.DEPT_HD_DEPT);
+            $("#bhResult2").val(bsData.DEPT_HD_DEPT_RESULT);
+            $("#bcResult1").val(bsData.DEPT_HD_COR);
+            $("#bcResult2").val(bsData.DEPT_HD_COR_RESULT);
+            $("#bhSum").val(bsData.DEPT_HD_SUM);
+
+            // 지원인원
+            for (var i = 0; i < btList.length; i++) {
+                var btItem = btList[i];
+                fn_bsAddRow(btItem);
+            }
+            $("#bsSum").val(btData.TEAM_SUM);
+            $("#stResult1").val(btData.TEAM_LEADER_TEAM);
+            $("#stResult2").val(btData.TEAM_LEADER_TEAM_RESULT);
+            $("#sdResult1").val(btData.TEAM_LEADER_DEPT);
+            $("#sdResult2").val(btData.TEAM_LEADER_DEPT_RESULT);
+            $("#sdSum").val(btData.TEAM_LEADER_SUM);
+            $("#shResult1").val(btData.DEPT_HD_DEPT);
+            $("#shResult2").val(btData.DEPT_HD_DEPT_RESULT);
+            $("#scResult1").val(btData.DEPT_HD_COR);
+            $("#scResult2").val(btData.DEPT_HD_COR_RESULT);
+            $("#scSum").val(btData.DEPT_HD_SUM);
+
+            for (var i = 0; i < scList.length; i++) {
+                var scItem = scList[i];
+                fn_scAddRow(scItem);
+            }
+
+            // 안내 페이지 설정
+            CKEDITOR.instances.contents.setData(evalMap.EVAL_CONTENT);
+        }
+
+
 
     });
 
     function fn_save(){
         var content = CKEDITOR.instances.contents.getData();
         var parameters = {
+            evalSn : $("#evalSn").val(),
             bsYear : $("#bsYear").val(),  // 년도
             evalNum : $("#evalNum").val(), // 차수
             evalStat : $("#evalStat").data("kendoRadioGroup").value(),  // 작성중, 평가중, 평가완료
@@ -713,26 +792,41 @@
         }
     }
 
-    function fn_btAddRow(){
+    function fn_btAddRow(bsItem){
         var btNum = $("#btList").find("tr").length;
         var html = "";
-        html += '<tr style="text-align: center;">';
-        html += '   <td>';
-        html += "       <input type='text' id='btNum" + btNum + "' class='idx' style='width: 60%' disabled value='" + (btNum + 1) + "'>";
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="text" id="btField'+btNum+'" class ="textBox" >';
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="text" id="btValue'+btNum+'" class ="textBox" style="width: 80%"> %';
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="text" id="btScore'+btNum+'" class ="textBox" >';
-        html += '   </td>';
-        html += '</tr>';
-
+        if(bsItem != null){
+            html += '<tr style="text-align: center;">';
+            html += '   <td>';
+            html += "       <input type='text' id='btNum" + btNum + "' class='idx' style='width: 60%' disabled value='" + (btNum + 1) + "'>";
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="btField'+btNum+'" class ="textBox" value="' +  bsItem.EVAL_FIELD + '" >';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="btValue'+btNum+'" class ="textBox" value="' +  bsItem.EVAL_W + '"  style="width: 80%"> %';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="btScore'+btNum+'" class ="textBox" value="' +  bsItem.EVAL_R + '" >';
+            html += '   </td>';
+            html += '</tr>';
+        }else{
+            html += '<tr style="text-align: center;">';
+            html += '   <td>';
+            html += "       <input type='text' id='btNum" + btNum + "' class='idx' style='width: 60%' disabled value='" + (btNum + 1) + "'>";
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="btField'+btNum+'" class ="textBox" value="" >';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="btValue'+btNum+'" class ="textBox" value=""  style="width: 80%"> %';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="btScore'+btNum+'" class ="textBox" value="" >';
+            html += '   </td>';
+            html += '</tr>';
+        }
         $('#btList').append(html);
-
         customKendo.fn_textBox(["btNum" + btNum, "btField" + btNum, "btValue" + btNum, "btScore" + btNum]);
     }
 
@@ -740,24 +834,40 @@
         $("#btList").find("tr:last").remove();
     }
 
-    function fn_bsAddRow(){
+    function fn_bsAddRow(btItem){
         var bsNum = $("#bsList").find("tr").length;
         var html = "";
-        html += '<tr style="text-align: center;">';
-        html += '   <td>';
-        html += "       <input type='text' id='bsNum" + bsNum + "' class='idx' style='width: 60%' disabled value='" + (bsNum + 1) + "'>";
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="text" id="bsField'+bsNum+'" class ="textBox" >';
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="text" id="bsValue'+bsNum+'" class ="textBox" style="width: 80%" > %';
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="text" id="bsScore'+bsNum+'" class ="textBox" >';
-        html += '   </td>';
-        html += '</tr>';
-
+        if(btItem != null){
+            html += '<tr style="text-align: center;">';
+            html += '   <td>';
+            html += "       <input type='text' id='bsNum" + bsNum + "' class='idx' style='width: 60%' disabled value='" + (bsNum + 1) + "'>";
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="bsField'+bsNum+'" class ="textBox" value="' +  btItem.EVAL_FIELD + '" >';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="bsValue'+bsNum+'" class ="textBox" value="' +  btItem.EVAL_W + '"  style="width: 80%"> %';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="bsScore'+bsNum+'" class ="textBox" value="' +  btItem.EVAL_R + '" >';
+            html += '   </td>';
+            html += '</tr>';
+        }else {
+            html += '<tr style="text-align: center;">';
+            html += '   <td>';
+            html += "       <input type='text' id='bsNum" + bsNum + "' class='idx' style='width: 60%' disabled value='" + (bsNum + 1) + "'>";
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="bsField' + bsNum + '" class ="textBox" >';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="bsValue' + bsNum + '" class ="textBox" style="width: 80%" > %';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="bsScore' + bsNum + '" class ="textBox" >';
+            html += '   </td>';
+            html += '</tr>';
+        }
         $('#bsList').append(html);
         customKendo.fn_textBox(["bsNum" + bsNum, "bsField" + bsNum, "bsValue" + bsNum, "bsScore" + bsNum]);
     }
@@ -766,25 +876,43 @@
         $("#bsList").find("tr:last").remove();
     }
 
-    function fn_scAddRow(){
+    function fn_scAddRow(scItem){
         var scNum = $("#scoreList").find("tr").length;
         var html = "";
-        html += '<tr style="text-align: center;">';
-        html += '   <td>';
-        html += '       <input type="text" id="scClass'+scNum+'" class ="textBox" >';
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="text" id="scLevel'+scNum+'" class ="textBox" >';
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="text" id="scPerson'+scNum+'" class ="textBox" style="width: 80%"> %';
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="text" id="scScore1_'+scNum+'" class ="textBox" style="width: 35%;"> 점 ~ ';
-        html += '       <input type="text" id="scScore2_'+scNum+'" class ="textBox" style="width: 35%;"> 점';
-        html += '   </td>';
-        html += '</tr>';
 
+        if(scItem != null){
+            html += '<tr style="text-align: center;">';
+            html += '   <td>';
+            html += '       <input type="text" id="scClass'+scNum+'" class ="textBox" value="'+ scItem.EVAL_GRADE +'">';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="scLevel'+scNum+'" class ="textBox" value="'+ scItem.EVAL_LEVEL +'">';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="scPerson'+scNum+'" class ="textBox" value="'+ scItem.EVAL_RATE +'" style="width: 80%"> %';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="scScore1_'+scNum+'" class ="textBox" value="'+ scItem.EVAL_SCORE_A +'" style="width: 35%;"> 점 ~ ';
+            html += '       <input type="text" id="scScore2_'+scNum+'" class ="textBox" value="'+ scItem.EVAL_SCORE_B +'" style="width: 35%;"> 점';
+            html += '   </td>';
+            html += '</tr>';
+        }else{
+            html += '<tr style="text-align: center;">';
+            html += '   <td>';
+            html += '       <input type="text" id="scClass'+scNum+'" class ="textBox" >';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="scLevel'+scNum+'" class ="textBox" >';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="scPerson'+scNum+'" class ="textBox" style="width: 80%"> %';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="scScore1_'+scNum+'" class ="textBox" style="width: 35%;"> 점 ~ ';
+            html += '       <input type="text" id="scScore2_'+scNum+'" class ="textBox" style="width: 35%;"> 점';
+            html += '   </td>';
+            html += '</tr>';
+        }
         $('#scoreList').append(html);
         customKendo.fn_textBox(["scClass" + scNum, "scLevel" + scNum, "scPerson" + scNum, "scScore1_" + scNum, "scScore2_" + scNum]);
     }
