@@ -25,6 +25,10 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Map<String, Object>> getEvaluationList(Map<String, Object> params) {
         return evaluationRepository.getEvaluationList(params);
     }
+    @Override
+    public Map<String, Object> getEvaluationOneList(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationOneList(params);
+    }
 
     @Override
     public Map<String, Object> getEvaluationOne(Map<String, Object> params) {
@@ -32,16 +36,52 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
+    public Map<String, Object> getEvaluation(Map<String, Object> params) {
+        return evaluationRepository.getEvaluation(params);
+    }
+    @Override
+    public Map<String, Object> getEvaluationBs(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationBs(params);
+    }
+    @Override
+    public Map<String, Object> getEvaluationBt(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationBt(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEvaluationBsList(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationBsList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEvaluationBtList(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationBtList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEvaluationScList(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationScList(params);
+    }
+
+    @Override
     public void setEvaluation(Map<String, Object> params) {
-        evaluationRepository.insEvaluation(params);
-        evaluationRepository.insEvaluationAppBt(params); // 평가항목 및 가중치 사업인원 insert
-        evaluationRepository.insEvaluationAppBs(params); // 평가항목 및 가중치 지원인원 insert
+      /*  params.get("evalSn")*/
+
+        if(params.get("evalSn") != null && !params.get("evalSn").equals("")){
+            evaluationRepository.updEvaluation(params);
+            evaluationRepository.updEvaluationAppBt(params); // 평가항목 및 가중치 사업인원 update
+            evaluationRepository.updEvaluationAppBs(params); // 평가항목 및 가중치 지원인원 update
+        }else{
+            evaluationRepository.insEvaluation(params);
+            evaluationRepository.insEvaluationAppBt(params); // 평가항목 및 가중치 사업인원 insert
+            evaluationRepository.insEvaluationAppBs(params); // 평가항목 및 가중치 지원인원 insert
+        }
 
         if(params.containsKey("empSeqArr")){
             params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
+            evaluationRepository.delEvaluationEmp(params);
             evaluationRepository.insEvaluationEmp(params);
         }
-
 
         // 역량평가 데이터 insert / update
         Gson gson = new Gson();
