@@ -35,14 +35,6 @@ var busInit = {
         let diffInDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
         let weekends = 0;
 
-        // 주말제외
-        for(let i = 0; i < diffInDays; i++){
-            if(startDate.getDay() == 0 || startDate.getDay() == 6){
-                weekends++;
-            }
-            startDate.setDate(startDate.getDate() + 1);
-        }
-
         diffInDays = diffInDays - weekends + 1;
         dayText = " (" + diffInDays + "일간)";
 
@@ -175,14 +167,6 @@ var busInit = {
         let dayText = "";
         let diffInDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
         let weekends = 0;
-
-        // 주말제외
-        for(let i = 0; i < diffInDays; i++){
-            if(startDate.getDay() == 0 || startDate.getDay() == 6){
-                weekends++;
-            }
-            startDate.setDate(startDate.getDate() + 1);
-        }
 
         diffInDays = diffInDays - weekends + 1;
         dayText = " (" + diffInDays + "일간)";
