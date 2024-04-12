@@ -17,8 +17,36 @@ public class EvaluationRepository extends AbstractDAO {
         return selectList("evaluation.getEvaluationList", params);
     }
 
+    public Map<String, Object> getEvaluationOneList(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvaluationOneList", params);
+    }
+
     public Map<String, Object> getEvaluationOne(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("evaluation.getEvaluationOne", params);
+    }
+
+    public Map<String, Object> getEvaluation(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvaluation", params);
+    }
+
+    public Map<String, Object> getEvaluationBs(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvaluationBs", params);
+    }
+
+    public Map<String, Object> getEvaluationBt(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvaluationBt", params);
+    }
+
+    public List<Map<String, Object>> getEvaluationBsList(Map<String, Object> params) {
+        return selectList("evaluation.getEvaluationBsList", params);
+    }
+
+    public List<Map<String, Object>> getEvaluationBtList(Map<String, Object> params) {
+        return selectList("evaluation.getEvaluationBtList", params);
+    }
+
+    public List<Map<String, Object>> getEvaluationScList(Map<String, Object> params) {
+        return selectList("evaluation.getEvaluationScList", params);
     }
 
     public void insEvaluation(Map<String, Object> params) {
@@ -33,8 +61,24 @@ public class EvaluationRepository extends AbstractDAO {
         insert("evaluation.insEvaluationAppBs", params);
     }
 
+    public void updEvaluation(Map<String, Object> params) {
+        insert("evaluation.updEvaluation", params);
+    }
+
+    public void updEvaluationAppBt(Map<String, Object> params) {
+        insert("evaluation.updEvaluationAppBt", params);
+    }
+
+    public void updEvaluationAppBs(Map<String, Object> params) {
+        insert("evaluation.updEvaluationAppBs", params);
+    }
+
     public void insEvaluationEmp(Map<String, Object> params) {
         insert("evaluation.insEvaluationEmp", params);
+    }
+
+    public void delEvaluationEmp(Map<String, Object> params) {
+        insert("evaluation.delEvaluationEmp", params);
     }
 
     public void delEvaluationCap(Map<String, Object> params) {

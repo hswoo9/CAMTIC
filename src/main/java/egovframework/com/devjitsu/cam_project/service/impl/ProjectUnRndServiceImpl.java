@@ -571,6 +571,16 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public void delLecture(Map<String, Object> params) {
+        projectUnRndRepository.delLecture(params);
+    }
+
+    @Override
+    public void delConsulting(Map<String, Object> params) {
+        projectUnRndRepository.delConsulting(params);
+    }
+
+    @Override
     public void updateUnRndDelvDocState(Map<String, Object> bodyMap) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));
@@ -773,13 +783,8 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
 
             /** STEP2. resultData 에서 DSGN_FILE_SN, PROD_FILE_SN 있으면 update */
             if (resultMap != null && !resultMap.isEmpty()) {
-                if(resultMap.containsKey("DSGN_FILE_SN")){
-                    params.put("fileNo", resultMap.get("DSGN_FILE_SN").toString());
-                    projectRepository.setResultFileDocNm(params);
-                }
-
-                if(resultMap.containsKey("PROD_FILE_SN")){
-                    params.put("fileNo", resultMap.get("PROD_FILE_SN").toString());
+                if(resultMap.containsKey("DEV_FILE_SN")){
+                    params.put("fileNo", resultMap.get("DEV_FILE_SN").toString());
                     projectRepository.setResultFileDocNm(params);
                 }
             }

@@ -186,6 +186,8 @@ public class ProjectUnRndRepository extends AbstractDAO {
     public void setLecTeacherCopyInsert(Map<String, Object> params) {
         insert("unRnd.setLecTeacherCopyInsert", params);
     }
+    public void delLecture(Map<String, Object> params) {update("unRnd.delLecture", params);}
+    public void delConsulting(Map<String, Object> params) {update("unRnd.delConsulting", params);}
 
     public void updUnRndProjectInfoRes(Map<String, Object> params) {
         update("unRnd.updUnRndProjectInfoRes", params);

@@ -1567,7 +1567,9 @@ var draft = {
                 pjtSn: data.pjtSn
             });*/
 
-            console.log(result2);
+            console.log("result", result);
+            console.log("result2", result2);
+            console.log("result4", result4);
             let tempArr = [];
             tempArr[0] = result.delvFile;
 
@@ -1606,9 +1608,7 @@ var draft = {
                 }
             }
 
-            tempArr[count] = result4.result.designFileList;
-            count ++;
-            tempArr[count] = result4.result.prodFileList;
+            tempArr[count] = result4.result.devFileList;
             count ++;
 
             /*const purcList = result5.list;
@@ -1684,9 +1684,7 @@ var draft = {
                 }
             }
 
-            tempArr[count] = result4.result.designFileList;
-            count ++;
-            tempArr[count] = result4.result.prodFileList;
+            tempArr[count] = result4.result.devFileList;
             count ++;
 
             /*const purcList = result5.list;
@@ -1760,9 +1758,7 @@ var draft = {
                 }
             }
 
-            tempArr[count] = result4.result.designFileList;
-            count ++;
-            tempArr[count] = result4.result.prodFileList;
+            tempArr[count] = result4.result.devFileList;
             count ++;
 
             /*const purcList = result5.list;

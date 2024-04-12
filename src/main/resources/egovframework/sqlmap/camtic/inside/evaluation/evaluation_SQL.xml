@@ -82,6 +82,93 @@
         LIMIT 1;
     </select>
 
+    <select id="getEvaluationOneList" parameterType="map" resultType="map">
+        SELECT
+            A.*,
+            B.*
+        FROM
+            CAM_INSIDE.DJ_EVALUATION A
+        LEFT JOIN
+            CAM_INSIDE.DJ_EVALUATION_CAP B ON A.EVAL_SN = B.EVAL_SN
+        WHERE
+            A.ACTIVE = 'Y'
+        AND
+            A.EVAL_SN = #{evalSn}
+    </select>
+
+    <select id="getEvaluation" parameterType="map" resultType="map">
+        /*getEvaluation*/
+        SELECT
+            A.*,
+            B.*
+        FROM
+            CAM_INSIDE.DJ_EVALUATION A
+        LEFT JOIN
+            CAM_INSIDE.DJ_EVALUATION_CAP B ON A.EVAL_SN = B.EVAL_SN
+        WHERE
+            A.ACTIVE = 'Y'
+          AND
+            A.EVAL_SN = #{evalSn}
+    </select>
+
+    <select id="getEvaluationBs" parameterType="map" resultType="map">
+        /*getEvaluationBs*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_APP
+        WHERE
+            EVAL_SN = #{evalSn}
+          AND
+            EVAL_TYPE = 'business'
+    </select>
+
+    <select id="getEvaluationBt" parameterType="map" resultType="map">
+        /*getEvaluationBs*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_APP
+        WHERE
+            EVAL_SN = #{evalSn}
+          AND
+            EVAL_TYPE = 'support'
+    </select>
+
+    <select id="getEvaluationBsList" parameterType="map" resultType="map">
+        /*getEvaluationBsList*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_APP_TEAM
+        WHERE
+            EVAL_SN = #{evalSn}
+          AND
+            EVAL_TYPE = 'business'
+    </select>
+
+    <select id="getEvaluationBtList" parameterType="map" resultType="map">
+        /*getEvaluationBsList*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_APP_TEAM
+        WHERE
+            EVAL_SN = #{evalSn}
+          AND
+            EVAL_TYPE = 'support'
+    </select>
+
+    <select id="getEvaluationScList" parameterType="map" resultType="map">
+        /*getEvaluationScList*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_GRADE
+        WHERE
+            EVAL_SN = #{evalSn}
+    </select>
+
     <insert id="insEvaluation" parameterType="map">
         /*insEvaluation*/
         INSERT INTO CAM_INSIDE.DJ_EVALUATION
@@ -105,6 +192,20 @@
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVALUATION'
         </selectKey>
     </insert>
+
+    <update id="updEvaluation" parameterType="map">
+        /*updEvaluation*/
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATION
+        SET
+            BS_YEAR = #{bsYear},
+            EVAL_NUM = #{evalNum},
+            EVAL_STAT = #{evalStat},
+            EVAL_CONTENT = #{content},
+            MOD_EMP_SEQ =  #{regEmpSeq}
+        WHERE
+            EVAL_SN = #{evalSn}
+    </update>
 
     <insert id="insEvaluationAppBt" parameterType="map">
         /*insEvaluationAppBt*/
@@ -149,6 +250,30 @@
         </selectKey>
     </insert>
 
+    <update id="updEvaluationAppBt" parameterType="map">
+        /*updEvaluationAppBt*/
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATION_APP
+        SET
+            TEAM_SUM = #{btSum},
+            TEAM_LEADER_TEAM = #{btResult1},
+            TEAM_LEADER_TEAM_RESULT = #{btResult2},
+            TEAM_LEADER_DEPT = #{bdResult1},
+            TEAM_LEADER_DEPT_RESULT = #{bdResult2},
+            TEAM_LEADER_SUM = #{bdSum},
+            DEPT_HD_DEPT = #{bhResult1},
+            DEPT_HD_DEPT_RESULT = #{bhResult2},
+            DEPT_HD_COR = #{bcResult1},
+            DEPT_HD_COR_RESULT = #{bcResult2},
+            DEPT_HD_SUM = #{bhSum},
+            MOD_DT = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            EVAL_SN = #{evalSn}
+        AND
+            EVAL_TYPE = 'business'
+    </update>
+
     <insert id="insEvaluationAppBs" parameterType="map">
         /*insEvaluationAppBs*/
         INSERT INTO CAM_INSIDE.DJ_EVALUATION_APP
@@ -192,6 +317,30 @@
         </selectKey>
     </insert>
 
+    <update id="updEvaluationAppBs" parameterType="map">
+        /*updEvaluationAppBs*/
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATION_APP
+        SET
+            TEAM_SUM = #{bsSum},
+            TEAM_LEADER_TEAM = #{stResult1},
+            TEAM_LEADER_TEAM_RESULT = #{stResult2},
+            TEAM_LEADER_DEPT = #{sdResult1},
+            TEAM_LEADER_DEPT_RESULT = #{sdResult2},
+            TEAM_LEADER_SUM = #{sdSum},
+            DEPT_HD_DEPT = #{shResult1},
+            DEPT_HD_DEPT_RESULT = #{shResult2},
+            DEPT_HD_COR = #{scResult1},
+            DEPT_HD_COR_RESULT = #{scResult2},
+            DEPT_HD_SUM = #{scSum},
+            MOD_DT = NOW(),
+            MOD_EMP_SEQ = #{regEmpSeq}
+        WHERE
+            EVAL_SN = #{evalSn}
+          AND
+            EVAL_TYPE = 'support'
+    </update>
+
     <insert id="insEvaluationEmp" parameterType="map">
         /*insEvaluationEmp*/
         INSERT INTO CAM_INSIDE.DJ_EVALUATION_MEM
@@ -205,6 +354,13 @@
                 #{evalSn},
                 #{item}
             )
+        </foreach>
+    </insert>
+
+    <insert id="delEvaluationEmp" parameterType="map">
+        /*delEvaluationEmp*/
+        <foreach collection="empSeqArr" item="item" separator=",">
+            DELETE FROM CAM_INSIDE.DJ_EVALUATION_MEM WHERE EVAL_SN = #{evalSn}
         </foreach>
     </insert>
 

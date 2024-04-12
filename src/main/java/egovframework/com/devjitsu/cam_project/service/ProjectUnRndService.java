@@ -56,6 +56,8 @@ public interface ProjectUnRndService {
     void insConTeacherTimeInfo(Map<String, Object> params);
     void delConTeacherInfo(Map<String, Object> params);
     void setLecCopyInsert(Map<String, Object> params);
+    void delLecture(Map<String, Object> params);
+    void delConsulting(Map<String, Object> params);
 
     /** 수주관리 결재 상태값에 따른 UPDATE 메서드 */
     void updateUnRndDelvDocState(Map<String, Object> bodyMap) throws Exception;

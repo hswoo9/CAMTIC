@@ -148,12 +148,12 @@
 
         if(list.length > 0){
             for(var i = 0; i < list.length; i++){
-                html += '<tr style="text-align: center;">';
+                html += "<tr style='text-align: center;'>";
                 html += "     <td>" + (i+1) + "</td>";
-                html += "     <td>" + list[i].BS_YEAR + "</td>";
-                html += "     <td>" + list[i].EVAL_NUM + "</td>";
+                html += "     <td onclick='evalModify("+ list[i].EVAL_SN +")' style='cursor: pointer;'>" + list[i].BS_YEAR + "</td>";
+                html += "     <td>" + list[i].EVAL_NUM + " 차</td>";
                 html += "     <td>" + list[i].EVAL_MEM + " 명</td>";
-                html += "     <td>" + list[i].EVAL_STR_DT + " ~ " + list[i].EVAL_END_DT + " </td>";
+                html += "     <td onclick='empList("+ list[i].EVAL_SN +")' style='cursor: pointer;'>" + list[i].EVAL_STR_DT + " ~ " + list[i].EVAL_END_DT + "</td>";
                 html += "     <td></td>";
                 html += "     <td></td>";
                 html += "     <td></td>";
@@ -173,7 +173,17 @@
 
         $('#evalList').append(html);
     }
+    function evalModify(pk){
+        var url = "/evaluation/pop/evaluationSet.do?pk="+pk;
 
+        var name = "_blank";
+        var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    }
+
+    function empList(pk) {
+
+    }
     /*evaluationList.fn_defaultScript();*/
 
 </script>
