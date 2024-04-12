@@ -147,6 +147,7 @@ var bustripResultPop = {
         $("#project").data("kendoRadioGroup").enable(false);
 
         /** 차량 */
+        $("#carReqSn").val(busInfo.CAR_REQ_SN);
         $("#carList").data("kendoDropDownList").value(busInfo.USE_TRSPT);
         $("#carRmk").val(busInfo.USE_TRSPT_RMK);
         if(busInfo.USE_CAR == "Y"){
@@ -402,6 +403,7 @@ var bustripResultPop = {
 
         /** 차량 */
         $("#bustObj").val(resInfo.TITLE);
+        $("#carReqSn").val(resInfo.CAR_REQ_SN);
         $("#carList").data("kendoDropDownList").value(resInfo.USE_TRSPT);
         $("#carRmk").val(resInfo.USE_TRSPT_RMK);
         if(resInfo.USE_CAR == "Y"){
@@ -666,54 +668,97 @@ var bustripResultPop = {
             formData.append("hrBizReqResultId", hrBizReqResultId);
         }
 
-        $.ajax({
-            url : "/bustrip/saveBustripResult",
-            type : 'POST',
-            data : formData,
-            dataType : "json",
-            contentType: false,
-            processData: false,
-            enctype : 'multipart/form-data',
-            async : false,
-            success : function(result){
-                if(bustripResultPop.global.busResData != null && bustripResultPop.global.busResData.DOC_ID != null){
-                    let formId = "136";
+        /** 차량신청 체크 */
+        if($("#tripCode").data("kendoRadioGroup").value() != 4 && $("#carList").val() != "10" && $("#carList").val() != "0"){
+            let data = {
+                startDt : $("#date1").val(),
+                endDt : $("#date2").val(),
+                startTime : $("#time1").val(),
+                endTime : $("#time2").val(),
+                useDeptSeq : $("#regDeptSeq").val(),
+                useDeptName : $("#regDeptName").val(),
+                carClassSn : $("#carList").val(),
+                carClassText : $("#carList").data("kendoDropDownList").text(),
+                carClassRmk : $("#carRmk").val(),
+                carTypeSn : 1,
+                carTypeText : "업무용",
+                carTitleName : $("#bustObj").val(),
+                visitName : $("#visitLoc").val(),
+                waypointName : $("#visitLocSub").val(),
+                empSeq : $("#regEmpSeq").val(),
+                empName : $("#regEmpName").val(),
+                regEmpSeq : $("#regEmpSeq").val(),
+                regEmpName : $("#regEmpName").val(),
+                type: "bustripReq"
+            }
 
-                    let tripCode = $("#tripCode").data("kendoRadioGroup").value();
+            if($("#carList").data("kendoDropDownList").text() != "기타"){
+                carReq.searchDuplicateCar(data);
+            } else {
+                flag = true;
+            }
 
-                    /** 도내 */
-                    if(tripCode == 1 || tripCode == 2) {
-                        formId = "136";
+            if(flag) {
+                data.carReqSn = $("#carReqSn").val();
+                carReq.setCarRequestUpdate(data);
+                formData.append("carReqSn", $("#carReqSn").val());
+            } else {
+                return ;
+            }
+        }else {
+            flag = true;
+        }
 
-                    /** 도외 */
-                    }else if(tripCode == 3) {
-                        formId = "170";
+        if(flag){
+            $.ajax({
+                url : "/bustrip/saveBustripResult",
+                type : 'POST',
+                data : formData,
+                dataType : "json",
+                contentType: false,
+                processData: false,
+                enctype : 'multipart/form-data',
+                async : false,
+                success : function(result){
+                    if(bustripResultPop.global.busResData != null && bustripResultPop.global.busResData.DOC_ID != null){
+                        let formId = "136";
 
-                    /** 해외 */
-                    }else if(tripCode == 4) {
-                        formId = "171";
+                        let tripCode = $("#tripCode").data("kendoRadioGroup").value();
+
+                        /** 도내 */
+                        if(tripCode == 1 || tripCode == 2) {
+                            formId = "136";
+
+                            /** 도외 */
+                        }else if(tripCode == 3) {
+                            formId = "170";
+
+                            /** 해외 */
+                        }else if(tripCode == 4) {
+                            formId = "171";
+                        }
+
+                        customKendo.fn_customAjax("/approval/setFormIdUpd", {
+                            docId : bustripResultPop.global.busResData.DOC_ID,
+                            formId : formId
+                        });
                     }
 
-                    customKendo.fn_customAjax("/approval/setFormIdUpd", {
-                        docId : bustripResultPop.global.busResData.DOC_ID,
-                        formId : formId
-                    });
+                    console.log(result);
+                    if(hrBizReqResultId == ""){
+                        alert("출장 결과보고 저장이 완료되었습니다.");
+                        var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+result.params.hrBizReqResultId+"&hrBizReqId="+hrBizReqId+"&tripType="+$("#tripCode").data("kendoRadioGroup").value();
+                    }else{
+                        alert("출장 결과보고 수정이 완료되었습니다.");
+                        var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+hrBizReqResultId+"&hrBizReqId="+hrBizReqId+"&tripType="+$("#tripCode").data("kendoRadioGroup").value();
+                    }
+                    var name = "_self";
+                    var option = "width=1700, height=750, scrollbars=no, top=100, left=100, resizable=no, toolbars=no, menubar=no"
+                    var popup = window.open(url, name, option);
+                    opener.gridReload();
                 }
-
-                console.log(result);
-                if(hrBizReqResultId == ""){
-                    alert("출장 결과보고 저장이 완료되었습니다.");
-                    var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+result.params.hrBizReqResultId+"&hrBizReqId="+hrBizReqId+"&tripType="+$("#tripCode").data("kendoRadioGroup").value();
-                }else{
-                    alert("출장 결과보고 수정이 완료되었습니다.");
-                    var url = "/bustrip/pop/bustripExnpPop.do?hrBizReqResultId="+hrBizReqResultId+"&hrBizReqId="+hrBizReqId+"&tripType="+$("#tripCode").data("kendoRadioGroup").value();
-                }
-                var name = "_self";
-                var option = "width=1700, height=750, scrollbars=no, top=100, left=100, resizable=no, toolbars=no, menubar=no"
-                var popup = window.open(url, name, option);
-                opener.gridReload();
-            }
-        });
+            });
+        }
     },
 
     fn_setCertRep : function (p){

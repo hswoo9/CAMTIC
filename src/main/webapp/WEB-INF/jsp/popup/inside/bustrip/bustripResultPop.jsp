@@ -21,6 +21,7 @@
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResult.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripInit.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripResultPop.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/inside/bustrip/carPop.js?v=${today}"></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripPopup.js?v=${today}"></script>
 
@@ -44,6 +45,7 @@
 <input type="hidden" id="pageName" value="bustripResultPop"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
+<input type="hidden" id="carReqSn" value=""/>
 <input type="hidden" id="companionChangeCheck" value="N"/>
 <input type="hidden" id="tripType" value="${params.tripType}"/>
 
