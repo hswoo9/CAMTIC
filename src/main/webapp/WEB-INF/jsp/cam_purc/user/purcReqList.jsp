@@ -50,7 +50,7 @@
                     <tr>
                         <th class="text-center th-color">조회유형</th>
                         <td>
-                            <input type="text" id="searchDept" style="width: 150px;">
+                            <input type="text" id="searchDept" style="width: 150px;" disabled>
                         </td>
                         <th class="text-center th-color">검수상태</th>
                         <td>
