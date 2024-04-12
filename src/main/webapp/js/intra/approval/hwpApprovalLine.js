@@ -423,6 +423,11 @@ var hwpApprovalLine = {
                             );
                         }
                     }
+
+                    /** 종결날짜 */
+                    if(docInfo != null && docInfo.LAST_APPROVE_DT != null){
+                        hwpDocCtrl.putFieldText('DOC_DT', docInfo.LAST_APPROVE_DT);
+                    }
                 }
             }
 
