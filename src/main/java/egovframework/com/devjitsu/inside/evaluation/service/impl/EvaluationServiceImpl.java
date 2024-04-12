@@ -22,24 +22,61 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
+    public List<Map<String, Object>> getEvaluationList(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationList(params);
+    }
+
+    @Override
+    public Map<String, Object> getEvaluationOne(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationOne(params);
+    }
+
+    @Override
     public void setEvaluation(Map<String, Object> params) {
-//        evaluationRepository.insEvaluation(params);
+        evaluationRepository.insEvaluation(params);
+        evaluationRepository.insEvaluationAppBt(params); // 평가항목 및 가중치 사업인원 insert
+        evaluationRepository.insEvaluationAppBs(params); // 평가항목 및 가중치 지원인원 insert
 
         if(params.containsKey("empSeqArr")){
             params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
-//            evaluationRepository.insEvaluationEmp(params);
+            evaluationRepository.insEvaluationEmp(params);
         }
 
 
         // 역량평가 데이터 insert / update
         Gson gson = new Gson();
         List<Map<String, Object>> capBodyArr = gson.fromJson((String) params.get("capBodyArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
-
-//        evaluationRepository.delEvaluationCap(params);
-
+        evaluationRepository.delEvaluationCap(params);
         for(Map<String, Object> capBody : capBodyArr){
             capBody.put("evalSn", params.get("evalSn"));
-//            evaluationRepository.insEvaluationCap(capBody);
+            evaluationRepository.insEvaluationCap(capBody);
         }
+
+        // 평가항목 및 가중치 사업인원 - 팀원 insert / update
+        List<Map<String, Object>> btBodyArr = gson.fromJson((String) params.get("btBodyArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        evaluationRepository.delEvaluationBt(params);
+        for(Map<String, Object> btBody : btBodyArr){
+            btBody.put("evalSn", params.get("evalSn"));
+            btBody.put("evalAppSn", params.get("evalAppSnBt"));
+            evaluationRepository.insEvaluationBt(btBody);
+        }
+
+        // 평가항목 및 가중치 지원인원 - 팀원 insert / update
+        List<Map<String, Object>> bsBodyArr = gson.fromJson((String) params.get("bsBodyArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        evaluationRepository.delEvaluationBs(params);
+        for(Map<String, Object> bsBody : bsBodyArr){
+            bsBody.put("evalSn", params.get("evalSn"));
+            bsBody.put("evalAppSn", params.get("evalAppSnBs"));
+            evaluationRepository.insEvaluationBs(bsBody);
+        }
+
+        // 평가 등급별 수준 및 점수 insert / update
+        List<Map<String, Object>> scoreBodyArr = gson.fromJson((String) params.get("scoreBodyArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        evaluationRepository.delEvaluationScore(params);
+        for(Map<String, Object> scoreBody : scoreBodyArr){
+            scoreBody.put("evalSn", params.get("evalSn"));
+            evaluationRepository.insEvaluationScore(scoreBody);
+        }
+
     }
 }

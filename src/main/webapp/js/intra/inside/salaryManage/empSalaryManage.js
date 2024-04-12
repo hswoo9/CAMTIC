@@ -203,126 +203,50 @@ var esm = {
                     title : "국민연금",
                     width: 50,
                     template : function(e){
-                        /** 국민연금 = (기본급 + 상여금)/ 국민연금요율(%) */
-                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-                        var nationalPension = Math.floor(Math.floor(cnt * (e.NATIONAL_PENSION / 100))/10)*10;
-
-                        if(nationalPension > Number(e.LIMIT_AMT)){
-                            return e.LIMIT_AMT.toString().toMoney()
-                        }else{
-                            return nationalPension.toString().toMoney()
-                        }
+                        return annuities(e)
                     }
                 }, {
                     title : "건강보험",
                     width: 50,
                     template : function(e){
-                        /** 건강보험 = (기본급 + 상여금) / 건강보험요율(%)*/
-                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-                        return (Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10).toString().toMoney()
+                        return insurance1(e);
                     }
                 }, {
                     title : "장기요양<br>보험",
                     width: 50,
                     template : function(e){
-                        /** 장기요양보험 = (건강보험합계 / 장기요양보험요율(%))*/
-                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-                        var healthInsuranceCnt = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10;
-
-                        return (Math.floor(Math.floor(healthInsuranceCnt * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10).toString().toMoney()
+                        return insurance2(e);
                     }
                 }, {
                     title : "고용보험",
                     width: 50,
                     template : function(e){
-                        /** 고용보험 = (기본급 + 상여금) / 고용보험요율(%)*/
-                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-                        return (Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10).toString().toMoney()
+                        return insurance3(e)
                     }
                 }, {
                     field : "",
                     title : "산재보험",
                     width: 50,
                     template : function(e){
-                        /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
-                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-                        return (Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10).toString().toMoney()
+                        return insurance4(e)
                     }
                 }, {
                     title : "사대보험<br>사업자부담분",
                     width: 70,
                     template : function(e){
-                        /** 사대보험 사업자부담분 = 국민연금 + 건강보험 + 장기요양보험 +고용보험 + 산재보험 */
-                        if(e.BUSN_PAY != null && e.BUSN_PAY != "") {
-                            return e.BUSN_PAY;
-                        }else{
-                            /** 기본급 */
-                            var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-
-                            /** 국민연금 */
-                            var nationalPension = Math.floor(cnt * (e.NATIONAL_PENSION / 100));
-                            if(nationalPension > Number(e.LIMIT_AMT)){
-                                nationalPension = Number(e.LIMIT_AMT);
-                            }
-                            /** 건강보험 */
-                            var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
-                            /** 장기요양보험 */
-                            var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10
-                            /** 고용보험 */
-                            var employInsurance = Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10;
-                            /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
-                            var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
-
-                            return (nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance).toString().toMoney();
-                        }
+                        return insuranceComp(e);
                     }
                 }, {
                     title : "퇴직금<br>추계액",
                     width: 50,
                     template : function(e){
-                        if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
-                            return  Number(e.RETIRE_PAY).toString().toMoney();;
-                        }else{
-                            /** 퇴직금 추계액 = (기본급 + 식대 + 수당 + 상여)/12 */
-                            var cnt = Number(e.BASIC_SALARY) + Number(e.FOOD_PAY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-                            return (Math.floor((cnt/12)/10) * 10).toString().toMoney();
-                        }
+                        return retirePay(e)
                     }
                 }, {
                     title : "기준급여",
                     width: 60,
                     template : function(e){
-                        /** 기준급여 = (기본급 + 수당 + 상여 + 사업자부담분 + 퇴직금추계액) */
-                        /** 기본급 */
-                        var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-
-                        /** 국민연금 */
-                        var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
-                        if(nationalPension > Number(e.LIMIT_AMT)){
-                            nationalPension = Number(e.LIMIT_AMT);
-                        }
-                        /** 건강보험 */
-                        var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
-                        /** 장기요양보험 */
-                        var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10
-                        /** 고용보험 */
-                        var employInsurance = Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10;
-                        /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
-                        var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
-
-                        var sum = cnt + nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance + (Math.floor((cnt/12)/10) * 10);
-
-                        if(e.BUSN_PAY != null && e.BUSN_PAY != ""){
-                            sum += Number(e.BUSN_PAY);
-                        }else{
-                            sum += nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance;
-                        }
-
-                        if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
-                            sum += Number(e.RETIRE_PAY);
-                        }
-
-                        return (Math.floor(sum/10) * 10).toString().toMoney();
+                        return baseSalary(e);
                     }
                 }],
             dataBinding: function(){
@@ -482,12 +406,9 @@ var esm = {
                     cellsData.value = baseSalary(e.sender.dataSource._data[i]);
                 }
                 data.cells.push(cellsData);
-                console.log(data.cells);
             }
             sheet.rows.push(data);
-            console.log(sheet.rows);
         }
-
 
         return sheet;
     },
@@ -576,29 +497,27 @@ function baseSalary(e){
     var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
 
     /** 국민연금 */
-    var nationalPension = cnt * (e.NATIONAL_PENSION / 100);
-    if(nationalPension > Number(e.LIMIT_AMT)){
-        nationalPension = Number(e.LIMIT_AMT);
-    }
+    var nationalPension = annuities(e).toString().toMoney2();
     /** 건강보험 */
-    var healthInsurance = Math.floor(Math.floor(cnt * (e.HEALTH_INSURANCE / 100))/10) * 10
+    var healthInsurance = insurance1(e).toString().toMoney2();
     /** 장기요양보험 */
-    var longCareInsurance =  Math.floor(Math.floor(healthInsurance * (e.LONG_CARE_INSURANCE / 100)) / 10) * 10
+    var longCareInsurance = insurance2(e).toString().toMoney2();
     /** 고용보험 */
-    var employInsurance = Math.floor(Math.floor(cnt * (e.EMPLOY_INSURANCE / 100))/10) * 10;
+    var employInsurance = insurance3(e).toString().toMoney2();
     /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
-    var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
+    var accidentInsurance = insurance4(e).toString().toMoney2();
 
-    var sum = cnt + nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance + (Math.floor((cnt/12)/10) * 10);
-
+    var sum = Number(cnt);
     if(e.BUSN_PAY != null && e.BUSN_PAY != ""){
         sum += Number(e.BUSN_PAY);
     }else{
-        sum += nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance;
+        sum += Number(nationalPension) + Number(healthInsurance) + Number(longCareInsurance) + Number(employInsurance) + Number(accidentInsurance);
     }
 
     if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
         sum += Number(e.RETIRE_PAY);
+    }else{
+        sum += (Math.floor((cnt/12)/10) * 10);
     }
 
     return (Math.floor(sum/10) * 10).toString().toMoney();

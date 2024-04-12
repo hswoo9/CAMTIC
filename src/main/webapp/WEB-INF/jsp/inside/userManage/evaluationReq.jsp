@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="/css/kendoui/kendo.default-ocean-blue.min.css" />
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/evaluation/evaluationReq.js?v=${today}"/></script>
-<script type="text/javascript" src="/js/intra/inside/evaluation/fn_evaluation.js?v=${today}"/></script>
 <% pageContext.setAttribute("CRLF", "\r\n"); %>
 <% pageContext.setAttribute("LF", "\n"); %>
 
@@ -80,360 +79,48 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">평가등록</h4>
-            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 > 인사평가 > 평가등록</div>
+            <h4 class="panel-title">인사평가</h4>
+            <div class="title-road" style="text-align: right; margin-bottom: 5px;">캠인사이드 > 인사관리 > 인사평가</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
-            <div>
-                <table class="searchTable table table-bordered mb-0">
-                    <colgroup>
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col>
-                    </colgroup>
-                    <tr>
-                        <th class="text-center th-color">년도</th>
-                        <td>
-                            <input type="text" id="evalYear" style="width: 150px;"> 년
-                        </td>
-                        <th class="text-center th-color">평가대상</th>
-                        <td>
-                            <input type="text" id="evalPersonCnt" style="width: 15%;"/> 명
-                            <%--<input type="text" id="evalPersonSearch" style="width: 60%;"/>--%>
-                            <input type="button" id="evalPersonSearch" value="평가대상 선택"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="text-center th-color">상태</th>
-                        <td colspan="3">
-                            <span id="evalState" style="padding: 0 10px"></span>
-                        </td>
-                    </tr>
-                </table>
+            <div id="evalContent" style="display: flex; justify-content: center;">
+
             </div>
 
-            <div>
-                <div id="tabstrip">
-                    <div class="capabilityTb">
-                        <div style="display: flex; justify-content: space-between;">
-                            <div style="display:flex; justify-content: space-between;">
-                                <div class="subTitSt">· 역량 평가</div>
-                            </div>
-                            <div class="btn-st">
-                                <input type="button" class="k-button k-button-solid-info" value="추가하기" onclick="evaluationReq.fu_addCapability()"/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제하기" onclick="evaluationReq.fu_removeCapability()"/>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <div>
-                                <table class="searchTable table" style="text-align:center;">
-                                    <colgroup>
-                                        <col width="5%">
-                                        <col width="25%">
-                                        <col width="5%">
-                                        <col width="5%">
-                                        <col width="5%">
-                                        <col width="5%">
-                                        <col width="5%">
-                                        <col width="5%">
-                                        <col width="5%">
-                                        <col width="5%">
-                                        <col width="5%">
-                                        <col width="5%">
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th rowspan="3">회차</th>
-                                        <th rowspan="3">평가기간</th>
-                                        <th colspan="9">평가 차수별 가중치</th>
-                                        <th rowspan="3">설정</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3">팀원</th>
-                                        <th colspan="3">팀장</th>
-                                        <th colspan="3">부서장</th>
-                                    </tr>
-                                    <tr>
-                                        <th>1차</th>
-                                        <th>2차</th>
-                                        <th>3차</th>
-                                        <th>1차</th>
-                                        <th>2차</th>
-                                        <th>3차</th>
-                                        <th>1차</th>
-                                        <th>2차</th>
-                                        <th>3차</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="capabilityTbody"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="resultsTb">
-                        <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt">· 업적 평가</div>
-                        </div>
-                        <div class="table-responsive">
-                            <div>
-                                <table class="searchTable table" style="text-align:center;">
-                                    <colgroup>
-                                        <col width="15%">
-                                        <col width="20%">
-                                        <col width="15%">
-                                        <col width="50%">
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th>평가 기간</th>
-                                        <td style="display:flex; flex-direction: column;border: none;">
-                                            <span id="evalPeriod" style="padding: 0 10px"></span>
-                                            <div id="allPeriod" style="display: none;">
-                                                기간 : <input type="text" id="allSPr" class ="textBox" style="width: 35%;"> ~ <input type="text" id="allEPr" class ="textBox" style="width: 35%;">
-                                            </div>
-                                            <div id="partPeriod" style="display: none;">
-                                                1차 평가 : <input type="text" id="partPr1_1" class ="textBox" style="width: 35%;"> ~ <input type="text" id="partPr1_2" class ="textBox" style="width: 35%;">
-                                                2차 평가 : <input type="text" id="partPr2_1" class ="textBox" style="width: 35%;"> ~ <input type="text" id="partPr2_2" class ="textBox" style="width: 35%;">
-                                                3차 평가 : <input type="text" id="partPr3_1" class ="textBox" style="width: 35%;"> ~ <input type="text" id="partPr3_2" class ="textBox" style="width: 35%;">
-                                            </div>
-                                        </td>
-                                        <th style="padding: 5px;">차수별 가중치</th>
-                                        <td>
-                                            <table class="subTable">
-                                                <tr>
-                                                    <th>구분</th>
-                                                    <th>팀(장)</th>
-                                                    <th>부서장</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>1차 평가자</td>
-                                                    <td><input type="text" id="assessor1_1" class ="textBox" width="100%" ></td>
-                                                    <td><input type="text" id="assessor1_2" class ="textBox" width="100%" ></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2차 평가자</td>
-                                                    <td><input type="text" id="assessor2_1" class ="textBox" width="100%" ></td>
-                                                    <td><input type="text" id="assessor2_2" class ="textBox" width="100%" ></td>
-                                                </tr>
-                                                <tr>
-                                                    <th>계</th>
-                                                    <td><input type="text" id="txtEvalST1" class ="textBox" ></td>
-                                                    <td><input type="text" id="txtEvalST2" class ="textBox" ></td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    </thead>
-                                </table>
-                                <p>※ 자기신고 기간 : 평가시작일 이전 일주일로 자동 설정</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="resultsDetailTb">
-                        <div style="display:flex;justify-content: space-between;">
-                            <div class="subTitSt" id="mText">- 평가항목 및 가중치</div>
-                        </div>
-                        <div class="table-responsive">
-                            <div>
-                                <table class="searchTable table" id="mTable">
-                                    <colgroup>
-                                        <col width="5%">
-                                        <col width="5%">
-                                        <col width="15%">
-                                        <col width="10%">
-                                        <col width="20%">
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th>구분</th>
-                                        <th>평가 대상</th>
-                                        <th>평가 분야</th>
-                                        <th>가중치(%)</th>
-                                        <th>성과 지표</th>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="8">사업인원</td>
-                                        <td>팀원</td>
-                                        <td colspan="3">
-                                            <div class="btn-st" style="display: flex;flex-direction: row-reverse;margin-bottom: 5px;">
-                                                <input type="button" class="k-button k-button-solid-error" value="삭제하기" style="margin: 3px;" onclick="evaluationReq.fu_removeBTList()"/>
-                                                <input type="button" class="k-button k-button-solid-info" value="추가하기" style="margin: 3px;" onclick="evaluationReq.fu_addBTList()"/>
-                                            </div>
-                                            <table class="subTable">
-                                                <colgroup>
-                                                    <col width="10%">
-                                                    <col width="20%">
-                                                    <col width="20%">
-                                                    <col width="40%">
-                                                </colgroup>
-                                                <thead>
-                                                <tr>
-                                                    <th>순번</th>
-                                                    <th>평가 분야</th>
-                                                    <th>가중치(%)</th>
-                                                    <th>성과지표</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody id="btList"></tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>소계</td>
-                                        <td colspan="3"><input type="text" id="btSum" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2">팀장</td>
-                                        <td>팀 성과</td>
-                                        <td><input type="text" id="btResult1" class ="textBox" ></td>
-                                        <td><input type="text" id="btResult2" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td>부서 성과</td>
-                                        <td><input type="text" id="bdResult1" class ="textBox" ></td>
-                                        <td><input type="text" id="bdResult2" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td>소계</td>
-                                        <td colspan="3"><input type="text" id="bdSum" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2">부서장</td>
-                                        <td>부서 성과</td>
-                                        <td><input type="text" id="bhResult1" class ="textBox" ></td>
-                                        <td><input type="text" id="bhResult2" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td>법인 성과</td>
-                                        <td><input type="text" id="bcResult1" class ="textBox" ></td>
-                                        <td><input type="text" id="bcResult2" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td>소계</td>
-                                        <td colspan="3"><input type="text" id="bhSum" class ="textBox" ></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td rowspan="8">지원인원<br>(경영기획실, <br>개발지원팀)</td>
-                                        <td>팀원</td>
-                                        <td colspan="3">
-                                            <div class="btn-st" style="display: flex;flex-direction: row-reverse;margin-bottom: 5px;">
-                                                <input type="button" class="k-button k-button-solid-error" value="삭제하기" style="margin: 3px;" onclick="evaluationReq.fu_removeBSList()"/>
-                                                <input type="button" class="k-button k-button-solid-info" value="추가하기" style="margin: 3px;" onclick="evaluationReq.fu_addBSList()"/>
-                                            </div>
-                                            <table class="subTable">
-                                                <colgroup>
-                                                    <col width="10%">
-                                                    <col width="20%">
-                                                    <col width="20%">
-                                                    <col width="40%">
-                                                </colgroup>
-                                                <thead>
-                                                <tr>
-                                                    <th>순번</th>
-                                                    <th>평가 분야</th>
-                                                    <th>가중치(%)</th>
-                                                    <th>성과지표</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody id="bsList"></tbody>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>소계</td>
-                                        <td colspan="3"><input type="text" id="bsSum" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2">팀장</td>
-                                        <td>팀 성과</td>
-                                        <td><input type="text" id="stResult1" class ="textBox" ></td>
-                                        <td><input type="text" id="stResult2" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td>부서 성과</td>
-                                        <td><input type="text" id="sdResult1" class ="textBox" ></td>
-                                        <td><input type="text" id="sdResult2" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td>소계</td>
-                                        <td colspan="3"><input type="text" id="sdSum" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2">부서장</td>
-                                        <td>부서 성과</td>
-                                        <td><input type="text" id="shResult1" class ="textBox" ></td>
-                                        <td><input type="text" id="shResult2" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td>법인 성과</td>
-                                        <td><input type="text" id="scResult1" class ="textBox" ></td>
-                                        <td><input type="text" id="scResult2" class ="textBox" ></td>
-                                    </tr>
-                                    <tr>
-                                        <td>소계</td>
-                                        <td colspan="3"><input type="text" id="scSum" class ="textBox" ></td>
-                                    </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="scoreTb">
-                        <div style="display: flex; justify-content: space-between;">
-                            <div style="display:flex; justify-content: space-between;">
-                                <div class="subTitSt">· 평가 등급별 수준 및 점수</div>
-                            </div>
-                            <div class="btn-st">
-                                <input type="button" class="k-button k-button-solid-info" value="추가하기" onclick="evaluationReq.fu_addScore()"/>
-                                <input type="button" class="k-button k-button-solid-error" value="삭제하기" onclick="evaluationReq.fu_removeScore()"/>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <div>
-                                <table class="searchTable table" style="text-align:center;">
-                                    <colgroup>
-                                        <col width="20%">
-                                        <col width="20%">
-                                        <col width="20%">
-                                        <col width="40%">
-                                    </colgroup>
-                                    <thead>
-                                    <tr>
-                                        <th>등급</th>
-                                        <th>수준</th>
-                                        <th>인원 비율</th>
-                                        <th>점수</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="scoreList"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="noticeTb">
-                        <div style="display: flex; justify-content: space-between;">
-                            <div style="display:flex; justify-content: space-between;">
-                                <div class="subTitSt">· 안내 페이지 설정</div>
-                            </div>
-                            <div id="noticeDiv">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div style="margin: 40px 0; display: flex; justify-content: center;">
+                <button class="k-button k-button-md k-button-solid k-button-solid-error" style="margin: 10px">역량평가 하기</button>
+                <button class="k-button k-button-md k-button-solid-info" style="margin: 10px">인사평가 결과 조회</button>
             </div>
         </div>
-
     </div>
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-    evaluationReq.fn_defaultScript();
+    /*evaluationReq.fn_defaultScript();*/
+
+    $(function (){
+        $.ajax({
+            url : "/evaluation/getEvaluationOne",
+            type : "post",
+            data : { year : $("#SearchYear").val()},
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result)
+                fn_addNotice(result.data);
+            },
+            error : function(e) {
+                console.log(e);
+            }
+        });
+
+
+    });
+
+    function  fn_addNotice(data){
+        var html = "";
+        html += data.EVAL_CONTENT ;
+        $('#evalContent').append(html);
+    }
 </script>

@@ -145,5 +145,10 @@ public class EvalManageServiceImpl implements EvalManageService {
         return evalManageRepository.getApplicationInterViewList(params);
     }
 
+    @Override
+    public Map<String, Object> getApplicationCountH(Map<String, Object> params) {
+        return evalManageRepository.getApplicationCountH(params);
+    }
+
 
 }

@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <jsp:useBean id="today" class="java.util.Date" />
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<script type="text/javascript" src="<c:url value='/js/ckEditor/ckeditor.js'/>"></script>
 <link rel="stylesheet" href="/css/quirk.css">
 <link rel="stylesheet" href="/css/style.css">
 
@@ -13,6 +14,8 @@
         color: white;
         text-align: center;
     }
+
+    .txt_area_01 {display: inline-block; width: 100%; height: 170px; border: 1px solid #c9c9c9; }
 </style>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -42,7 +45,7 @@
                     <th>년도</th>
                     <td>
                         <input type="text" id="bsYear" class="bsYear" style="text-align: right; width: 30%" />
-                        <input type="text" id="bsNum" class="bsNum" style="text-align: right; width: 30%" />
+                        <input type="text" id="evalNum" class="evalNum" style="text-align: right; width: 30%" />
                     </td>
                     <th>평가대상</th>
                     <td>
@@ -378,7 +381,7 @@
                 </tr>
                 </thead>
                 <tbody id="scoreList">
-                <tr style="text-align: center;">
+                    <tr style="text-align: center;">
                        <td><input type="text" id="scClass0" class ="textBox" ></td>
                        <td><input type="text" id="scLevel0" class ="textBox" ></td>
                        <td><input type="text" id="scPerson0" class ="textBox" style="width: 80%;"> %</td>
@@ -397,6 +400,9 @@
                     안내 페이지 설정
                 </h4>
             </div>
+            <div>
+                <textarea class="txt_area_01" id="contents"></textarea>
+            </div>
 
         </div>
 
@@ -408,6 +414,10 @@
 <script>
     var empSeqArr = [];
     $(function (){
+
+        CKEDITOR.replace('contents', {
+            height: 250
+        });
 
         customKendo.fn_textBox(["evalList", "idx0", "teamMemberA0", "teamMemberB0", "teamMemberC0", "teamManagerA0", "teamManagerB0", "teamManagerC0"
                                 , "deptManagerA0", "deptManagerB0", "deptManagerC0"
@@ -426,7 +436,7 @@
 
         customKendo.fn_datePicker("bsYear", 'decade', "yyyy", new Date());
 
-        $("#bsNum").kendoDropDownList({
+        $("#evalNum").kendoDropDownList({
             dataTextField: "text",
             dataValueField: "value",
             dataSource: [
@@ -439,7 +449,7 @@
             ],
             index: 0,
             change: function(e) {
-                $("#idx0").val($("#bsNum").val())
+                $("#idx0").val($("#evalNum").val())
             }
         });
 
@@ -470,12 +480,43 @@
     });
 
     function fn_save(){
-
+        var content = CKEDITOR.instances.contents.getData();
         var parameters = {
-            bsYear : $("#bsYear").val(),
-            evalStat : $("#evalStat").data("kendoRadioGroup").value(),
-            empSeqArr : empSeqArr,
-            regEmpSeq : $("#empSeq").val()
+            bsYear : $("#bsYear").val(),  // 년도
+            evalNum : $("#evalNum").val(), // 차수
+            evalStat : $("#evalStat").data("kendoRadioGroup").value(),  // 작성중, 평가중, 평가완료
+            empSeqArr : empSeqArr,  // 평가대상
+            regEmpSeq : $("#empSeq").val(),
+
+            // 평가항목 및 가중치 - 사업인원
+            btSum : $("#btSum").val(),  // 팀원 - 소계
+            btResult1 : $("#btResult1").val(),  // 팀장 - 팀 성과 - 가중치
+            btResult2 : $("#btResult2").val(),  // 성과지표
+            bdResult1 : $("#bdResult1").val(),  // 팀장 - 부서성과 - 가중치
+            bdResult2 : $("#bdResult2").val(),  // 팀장 - 부서성과 - 성과지표
+            bdSum : $("#bdSum").val(),  // 팀장 소계
+            bhResult1 : $("#bhResult1").val(),  // 부서장 - 부서성과 - 가중치
+            bhResult2 : $("#bhResult2").val(),  // 성과지표
+            bcResult1 : $("#bcResult1").val(),  // 부서장 - 법인성과 - 가중치
+            bcResult2 : $("#bcResult2").val(),   // 성과지표
+            bhSum : $("#bhSum").val(),  // 부서장 소계
+
+            // 지원인원
+            bsSum : $("#bsSum").val(),  // 팀원 - 소계
+            stResult1 : $("#stResult1").val(),  // 팀장 - 팀 성과 - 가중치
+            stResult2 : $("#stResult2").val(),  // 성과지표
+            sdResult1 : $("#sdResult1").val(),  // 팀장 - 부서성과 - 가중치
+            sdResult2 : $("#sdResult2").val(),  // 팀장 - 부서성과 - 성과지표
+            sdSum : $("#sdSum").val(),  // 팀장 소계
+            shResult1 : $("#shResult1").val(),  // 부서장 - 부서성과 - 가중치
+            shResult2 : $("#shResult2").val(),  // 성과지표
+            scResult1 : $("#scResult1").val(),  // 부서장 - 법인성과 - 가중치
+            scResult2 : $("#scResult2").val(),  // 성과지표
+            scSum : $("#scSum").val(),  // 부서장 소계
+
+            // 안내 페이지 설정
+            content : content
+
         }
 
         // if(parameters.bsYear == ""){
@@ -495,13 +536,20 @@
         // }
 
         var capBodyArr = [];
+        var btBodyArr = [];
+        var bsBodyArr = [];
+        var scoreBodyArr = [];
 
         var capLen = $("#capBody").find("tr").length;
+        var btLen = $("#btList").find("tr").length;
+        var bsLen = $("#bsList").find("tr").length;
+        var scoreLen = $("#scoreList").find("tr").length;
 
+        // 역량평가
         for(var i = 0 ; i < capLen ; i++){
-            if($("#teamMemberA" + i).val() == "" || $("#teamMemberB" + i).val() == "" || $("#teamMemberC" + i).val() == ""
-                || $("#teamManagerA" + i).val() == "" || $("#teamManagerB" + i).val() == "" || $("#teamManagerC" + i).val() == ""
-                || $("#deptManagerA" + i).val() == "" || $("#deptManagerB" + i).val() == "" || $("#deptManagerC" + i).val() == ""){
+            if($("#teamMemberA" + i).val() == "" || $("#teamMemberB" + i).val() == ""
+                || $("#teamManagerA" + i).val() == "" || $("#teamManagerB" + i).val() == ""
+                || $("#deptManagerA" + i).val() == "" || $("#deptManagerB" + i).val() == "" ){
                 alert("입력되지 않은 항목이 있습니다. 확인해주세요.");
                 return;
             }
@@ -525,6 +573,60 @@
         }
 
         parameters.capBodyArr = JSON.stringify(capBodyArr);
+
+        // 평가항목 및 가중치 - 사업인원 - 팀원
+        for(var i = 0 ; i < btLen ; i++){
+            if($("#btNum" + i).val() == "" || $("#btField" + i).val() == "" || $("#btValue" + i).val() == "" || $("#btScore" + i).val() == ""){
+                alert("입력되지 않은 항목이 있습니다. 확인해주세요.");
+                return;
+            }
+
+            btBodyArr.push({
+                evalType : "business ",
+                btNum : $("#btNum" + i).val(),
+                btField : $("#btField" + i).val(),
+                btValue : $("#btValue" + i).val(),
+                btScore : $("#btScore" + i).val()
+            });
+        }
+
+        parameters.btBodyArr = JSON.stringify(btBodyArr);
+
+        // 평가항목 및 가중치 - 지원인원 - 팀원
+        for(var i = 0 ; i < bsLen ; i++){
+            if($("#bsNum" + i).val() == "" || $("#bsField" + i).val() == "" || $("#bsValue" + i).val() == "" || $("#bsScore" + i).val() == ""){
+                alert("입력되지 않은 항목이 있습니다. 확인해주세요.");
+                return;
+            }
+
+            bsBodyArr.push({
+                evalType : "support",
+                bsNum : $("#bsNum" + i).val(),
+                bsField : $("#bsField" + i).val(),
+                bsValue : $("#bsValue" + i).val(),
+                bsScore : $("#bsScore" + i).val()
+            });
+        }
+
+        parameters.bsBodyArr = JSON.stringify(bsBodyArr);
+
+        // 평가 등급별 수준 및 점수
+        for(var i = 0 ; i < scoreLen ; i++){
+            if($("#scClass" + i).val() == "" || $("#scLevel" + i).val() == "" || $("#scPerson" + i).val() == "" || $("#scScore1_" + i).val() == "" || $("#scScore2_" + i).val() == ""){
+                alert("입력되지 않은 항목이 있습니다. 확인해주세요.");
+                return;
+            }
+
+            scoreBodyArr.push({
+                scClass : $("#scClass" + i).val(),
+                scLevel : $("#scLevel" + i).val(),
+                scPerson : $("#scPerson" + i).val(),
+                scScore1 : $("#scScore1_" + i).val(),
+                scScore2 : $("#scScore2_" + i).val()
+            });
+        }
+
+        parameters.scoreBodyArr = JSON.stringify(scoreBodyArr);
 
         $.ajax({
             url : "/evaluation/setEvaluation",
@@ -554,8 +656,6 @@
             return;
         }
 
-
-
         window.open("/evaluation/pop/requestEvaluationUsers.do?bsYear=" + $("#bsYear").val(),"조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     }
 
@@ -567,8 +667,6 @@
         for(var i = 0; i < e.length; i++){
             seqArr.push(e[i]);
         }
-
-
 
         $("#evaluationMemberCnt").text(seqArr.length - 1);
     }

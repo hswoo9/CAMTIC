@@ -671,7 +671,6 @@ var partRate = {
             $("#totAmt" + i).val("0");
             $("#basicSalary" + i).val("0");
             $("#basicSalaryTxt" + i).text("0");
-            console.log($("#memChngSal" + i));
             $("#memChngSal" + i).val("0");
         }
     },
@@ -758,7 +757,19 @@ var partRate = {
         /** 산재보험 = (기본급 + 상여금) / 산재보험요율(%)*/
         var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
 
-        var sum = cnt + nationalPension + healthInsurance + longCareInsurance + employInsurance + accidentInsurance + (Math.floor((cnt/12)/10) * 10);
+        var sum = cnt;
+
+        if(e.BUSN_PAY != null && e.BUSN_PAY != ""){
+            sum += Number(e.BUSN_PAY);
+        }else{
+            sum += Number(nationalPension) + Number(healthInsurance) + Number(longCareInsurance) + Number(employInsurance) + Number(accidentInsurance);
+        }
+
+        if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
+            sum += Number(e.RETIRE_PAY);
+        }else{
+            sum += (Math.floor((cnt/12)/10) * 10);
+        }
 
         return sum;
     }

@@ -880,7 +880,7 @@
                 HR_BIZ_REQ_ID,
                 '출장' AS SCHEDULE_TYPE,
                 CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
-                EMP_NAME AS REG_EMP_NAME,
+                EMP_NAME_KR AS REG_EMP_NAME,
                 DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d') as start,
                 DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d') as end
             FROM
@@ -888,6 +888,22 @@
             JOIN
                 CAM_HR.DJ_EMP_INFO DEI
             ON A.EMP_SEQ = DEI.EMP_SEQ
+            WHERE
+                STATUS = 100
+            UNION ALL
+            SELECT
+                B.HR_BIZ_REQ_ID,
+                '출장' AS SCHEDULE_TYPE,
+                CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
+                EMP_NAME_KR AS REG_EMP_NAME,
+                DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d') as start,
+                DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d') as end
+            FROM
+                CAM_INSIDE.DJ_HR_BIZ_REQ A
+            LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_COMPANION B ON A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+            JOIN
+                CAM_HR.DJ_EMP_INFO DEI
+            ON B.EMP_SEQ = DEI.EMP_SEQ
             WHERE
                 STATUS = 100
             UNION ALL
@@ -964,6 +980,22 @@
             JOIN
                 CAM_HR.DJ_EMP_INFO DEI
             ON A.EMP_SEQ = DEI.EMP_SEQ
+            WHERE
+                STATUS = 100
+            UNION ALL
+            SELECT
+                B.HR_BIZ_REQ_ID,
+                '출장' AS SCHEDULE_TYPE,
+                CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
+                EMP_NAME_KR AS REG_EMP_NAME,
+                DATE_FORMAT(TRIP_DAY_FR, '%Y-%m-%d') as start,
+                DATE_FORMAT(TRIP_DAY_TO, '%Y-%m-%d') as end
+            FROM
+                CAM_INSIDE.DJ_HR_BIZ_REQ A
+            LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_COMPANION B ON A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+            JOIN
+                CAM_HR.DJ_EMP_INFO DEI
+            ON B.EMP_SEQ = DEI.EMP_SEQ
             WHERE
                 STATUS = 100
             UNION ALL

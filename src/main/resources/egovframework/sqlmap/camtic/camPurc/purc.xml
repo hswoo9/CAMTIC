@@ -1917,9 +1917,14 @@
             (SELECT COUNT(*) FROM CAM_MNG.DJ_PURC_CLAIM WHERE PURC_SN = B.PURC_SN) = 0 ) RE
         WHERE
             1=1
-            <if test='searchDept != null and !"".equals(searchDept)'>
-                AND RE.PURC_REQ_EMP_SEQ = #{empSeq}
-            </if>
+            <choose>
+                <when test='searchDept != null and !"".equals(searchDept)'>
+                    AND RE.PURC_REQ_EMP_SEQ = #{empSeq}
+                </when>
+                <otherwise>
+                    AND RE.DOC_STATUS = '100'
+                </otherwise>
+            </choose>
             <if test='pjtSn != null and !"".equals(pjtSn)'>
                 AND RE.PJT_SN = #{pjtSn}
             </if>

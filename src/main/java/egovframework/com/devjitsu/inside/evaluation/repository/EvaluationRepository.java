@@ -13,8 +13,24 @@ public class EvaluationRepository extends AbstractDAO {
         return selectList("evaluation.requestEvaluationMemberTot", params);
     }
 
+    public List<Map<String, Object>> getEvaluationList(Map<String, Object> params) {
+        return selectList("evaluation.getEvaluationList", params);
+    }
+
+    public Map<String, Object> getEvaluationOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvaluationOne", params);
+    }
+
     public void insEvaluation(Map<String, Object> params) {
         insert("evaluation.insEvaluation", params);
+    }
+
+    public void insEvaluationAppBt(Map<String, Object> params) {
+        insert("evaluation.insEvaluationAppBt", params);
+    }
+
+    public void insEvaluationAppBs(Map<String, Object> params) {
+        insert("evaluation.insEvaluationAppBs", params);
     }
 
     public void insEvaluationEmp(Map<String, Object> params) {
@@ -24,8 +40,30 @@ public class EvaluationRepository extends AbstractDAO {
     public void delEvaluationCap(Map<String, Object> params) {
         delete("evaluation.delEvaluationCap", params);
     }
-
     public void insEvaluationCap(Map<String, Object> capBody) {
         insert("evaluation.insEvaluationCap", capBody);
     }
+
+    public void delEvaluationBt(Map<String, Object> params) {
+        delete("evaluation.delEvaluationBt", params);
+    }
+    public void insEvaluationBt(Map<String, Object> btBody) {
+        insert("evaluation.insEvaluationBt", btBody);
+    }
+
+    public void delEvaluationBs(Map<String, Object> params) {
+        delete("evaluation.delEvaluationBs", params);
+    }
+    public void insEvaluationBs(Map<String, Object> bsBody) {
+        insert("evaluation.insEvaluationBs", bsBody);
+    }
+
+    public void delEvaluationScore(Map<String, Object> params) {
+        delete("evaluation.delEvaluationScore", params);
+    }
+    public void insEvaluationScore(Map<String, Object> scoreBody) {
+        insert("evaluation.insEvaluationScore", scoreBody);
+    }
+
+
 }

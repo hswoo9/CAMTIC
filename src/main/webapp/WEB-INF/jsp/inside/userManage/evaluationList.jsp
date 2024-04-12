@@ -9,21 +9,16 @@
 <link rel="stylesheet" href="/css/kendoui/kendo.default-ocean-blue.min.css" />
 <link rel="stylesheet" href="/css/style.css">
 <script type="text/javascript" src="/js/intra/inside/evaluation/evaluationList.js?v=${today}"/></script>
-<script type="text/javascript" src="/js/intra/inside/evaluation/fn_evaluation.js?v=${today}"/></script>
+<%--<script type="text/javascript" src="/js/intra/inside/evaluation/fn_evaluation.js?v=${today}"/></script>--%>
 
 <style>
     .pink{background-color: #eee0d9;font-weight: bold;text-align: center;}
     .yellow{background-color: #ffffdd;font-weight: bold;text-align: center;}
 </style>
 
-
-
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
-
-<script type="text/javascript" src="/js/intra/inside/evaluation/evaluationList.js?v=${today}"/></script>
-<%--<script type="text/javascript" src="/js/intra/inside/evaluation/fn_evaluation.js?v=${today}"/></script>--%>
 
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
@@ -35,14 +30,15 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
 
-       <%-- <div class="panel-body">
+       <%--<div class="panel-body">
 
             <div id="mainGrid" />
         </div>--%>
 
 
         <div class="panel-body">
-            <div style="float:right; margin: 10px 5px;">
+            <div style="display: flex; justify-content: space-between; margin: 10px 5px;">
+                <input type="text" id="SearchYear" style="width: 110px;" onchange="getEvaluationList()">
                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationList.fn_popEvaluationSet()">
                     <span class="k-button-text">등록</span>
                 </button>
@@ -88,8 +84,8 @@
                         <td class="yellow">B</td>
                         <td class="yellow">C</td>
                     </tr>
-                    <tbody>
-                    <tr style="text-align: center;">
+                    <tbody id="evalList">
+                    <%--<tr style="text-align: center;">
                         <td>1</td>
                         <td>2023년</td>
                         <td>1차</td>
@@ -104,7 +100,7 @@
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
-                    </tr>
+                    </tr>--%>
                     </tbody>
                 </table>
             </div>
@@ -114,5 +110,70 @@
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
-   /* evaluationList.fn_defaultScript();*/
+    $(function (){
+
+        $("#SearchYear").kendoDatePicker({
+            start: "decade",
+            depth: "decade",
+            culture : "ko-KR",
+            format : "yyyy",
+            value : new Date()
+        });
+
+        getEvaluationList();
+
+    });
+
+
+    function  getEvaluationList(){
+        $.ajax({
+            url : "/evaluation/getEvaluationList",
+            type : "post",
+            data : { year : $("#SearchYear").val()},
+            dataType : "json",
+            async : false,
+            success : function(result){
+                console.log(result.list)
+                fn_addEvalList(result.list);
+            },
+            error : function(e) {
+                console.log(e);
+            }
+        });
+    }
+
+    function fn_addEvalList(list){
+        $('#evalList').empty();
+        var html = "";
+
+        if(list.length > 0){
+            for(var i = 0; i < list.length; i++){
+                html += '<tr style="text-align: center;">';
+                html += "     <td>" + (i+1) + "</td>";
+                html += "     <td>" + list[i].BS_YEAR + "</td>";
+                html += "     <td>" + list[i].EVAL_NUM + "</td>";
+                html += "     <td>" + list[i].EVAL_MEM + " 명</td>";
+                html += "     <td>" + list[i].EVAL_STR_DT + " ~ " + list[i].EVAL_END_DT + " </td>";
+                html += "     <td></td>";
+                html += "     <td></td>";
+                html += "     <td></td>";
+                html += "     <td></td>";
+                html += "     <td>-</td>";
+                html += "     <td>-</td>";
+                html += "     <td>-</td>";
+                html += "     <td>-</td>";
+                html += "     <td>-</td>";
+                html += '</tr>';
+            }
+        }else{
+            html += '<tr style="text-align: center;">';
+            html += "     <td colspan='14'>데이터가 없습니다.</td>";
+            html += '</tr>';
+        }
+
+        $('#evalList').append(html);
+    }
+
+    /*evaluationList.fn_defaultScript();*/
+
 </script>

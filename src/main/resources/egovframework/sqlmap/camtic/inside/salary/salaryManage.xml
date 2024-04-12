@@ -22,6 +22,8 @@
             SM.FOOD_PAY,
             SM.EXTRA_PAY,
             SM.BONUS,
+            SM.BUSN_PAY,
+            SM.RETIRE_PAY,
             RS.NATIONAL_PENSION,
             RS.LIMIT_AMT,
             RS.HEALTH_INSURANCE,
