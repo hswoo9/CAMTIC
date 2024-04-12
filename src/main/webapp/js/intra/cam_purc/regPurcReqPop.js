@@ -691,7 +691,7 @@ var prp = {
 
         this.vatCalcN();
 
-        return inputNumberFormatN(e);
+        // return inputNumberFormatN(e);
     },
 
     delRow : function(e){
@@ -1101,6 +1101,73 @@ var prp = {
     },
 
     fn_excelUpload : function(){
+        $(".purcItemInfo").remove();
+        prp.global.itemIndex = 0;
+        var html = "" +
+            '<tr class="purcItemInfo newArray" id="item0">' +
+                '<td>' +
+                    '<input type="checkbox" id="check0" class="childCheck k-checkbox" style="margin-left: 4px;" value="0" />' +
+                '</td>' +
+                '<td>' +
+                    '<input type="hidden" id="purcItemSn0" name="purcItemSn0" class="purcItemSn"> ' +
+                    '<input type="text" id="purcItemType0" class="purcItemType" style="width: 110px"> ' +
+                    '<input type="text" id="productA0" class="productA" style="width: 110px"> ' +
+                    '<input type="text" id="productB0" class="productB" style="width: 110px; display: none"> ' +
+                    '<input type="text" id="productC0" class="productC" style="width: 110px; display: none"> ' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemName0" class="purcItemName">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemStd0" class="purcItemStd">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemUnitPrice0" style="text-align: right" class="purcItemUnitPrice" onKeyUp="prp.fn_calcN(0, this)" onInput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemQty0" style="text-align: right" class="purcItemQty" onKeyUp="prp.fn_calcN(0, this)" onInput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemUnit0" class="purcItemUnit">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcSupAmt0" class="purcSupAmt" style="text-align: right" disabled onKeyUp="inputNumberFormat(this)" onInput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcVatAmt0" class="purcVatAmt" style="text-align: right" disabled onKeyUp="inputNumberFormat(this)" onInput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="purcItemAmt0" class="purcItemAmt" style="text-align: right" disabled onKeyUp="inputNumberFormat(this)" onInput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');">' +
+                '</td>' +
+                '<td>' +
+                    '<input type="hidden" id="crmSn0" class="crmSn">' +
+                    '<input type="text" id="crmNm0" disabled class="crmNm" style="width: 60%">' +
+                    '<button type="button" id="crmSelBtn0" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onClick="prp.fn_popCamCrmList(\'crmSn0\', \'crmNm0\');">검색</button>' +
+                '</td>' +
+                '<td>' +
+                    '<input type="text" id="rmk0" class="rmk">' +
+                '</td>' +
+                '<td>' +
+                    '<button type="button" id="delRowBtn0" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onClick="prp.delRow(0)">' +
+                        '삭제' +
+                    '</button>' +
+                '</td>' +
+            '</tr>';
+
+        $("#purcItemTb").html(html);
+
+        let productsDataSource = customKendo.fn_customAjax("/system/commonCodeManagement/getCmCodeList", {cmGroupCodeId: "38"});
+        customKendo.fn_dropDownList("purcItemType0", productsDataSource, "CM_CODE_NM", "CM_CODE", 2);
+
+        let productADataSource = customKendo.fn_customAjax("/projectMng/getProductCodeInfo", {productGroupCodeId: 1}).list;
+
+        customKendo.fn_dropDownList("productA0", productADataSource, "PRODUCT_DT_CODE_NM", "PRODUCT_DT_CODE", 2);
+        customKendo.fn_textBox(["purcReqPurpose", "purcLink", "purcItemName0", "purcItemStd0", "purcItemUnitPrice0", "purcSupAmt0", "purcVatAmt0",
+            "purcItemQty0", "purcItemUnit0", "purcItemAmt0", "crmNm0", "rmk0", "pjtNm", "allCrmNm", "estAmt", "vatAmt", "totAmt", "discountAmt0", "disRate"]);
+
+        $("#purcItemType0").data("kendoDropDownList").select(1);
+        $("#productA0").data("kendoDropDownList").select(2);
+
         var excelArr = [];
         var event = prp.global.event;
         var input = event.target;
@@ -1114,9 +1181,14 @@ var prp = {
                 console.log(rowdata);
 
                 for(var i = 0 ; i < rowdata.length ; i++){
-                    $("#purcItemType" + index).data("kendoDropDownList").text(rowdata[index]['구분']);
-                    $("#productA" + index).data("kendoDropDownList").text(rowdata[index]['대분류']);
-                    $("#productA" + index).trigger("change");
+                    if(rowdata[index]['구분'] != undefined && rowdata[index]['구분'] != null && rowdata[index]['구분'] != ""){
+                        $("#purcItemType" + index).data("kendoDropDownList").text(rowdata[index]['구분']);
+                    }
+
+                    if(rowdata[index]['대분류'] != undefined && rowdata[index]['대분류'] != null && rowdata[index]['대분류'] != ""){
+                        $("#productA" + index).data("kendoDropDownList").text(rowdata[index]['대분류']);
+                        $("#productA" + index).trigger("change");
+                    }
 
                     if(rowdata[index]['중분류'] != undefined && rowdata[index]['중분류'] != null && rowdata[index]['중분류'] != ""){
                         $("#productB" + index).data("kendoDropDownList").text(rowdata[index]['중분류']);
