@@ -43,7 +43,10 @@ var resultInfo = {
         }
 
         if(result.devFileList != null){
-            $("#devFileName").text(result.devFileList.file_org_name + "." +result.devFileList.file_ext);
+            var fileHtml = "";
+            fileHtml += '<span style="cursor: pointer" onClick="fileDown(\''+result.devFileList.file_path+result.devFileList.file_uuid+ '\', \''+result.devFileList.file_org_name+'.'+result.devFileList.file_ext+'\')">'+result.devFileList.file_org_name+ '.' + result.devFileList.file_ext + '</span>'
+
+            $("#devFileName").html(fileHtml);
         }
 
         var equipmentNameList = "";
@@ -233,4 +236,14 @@ var resultInfo = {
         str = String(str);
         return str.replace(/[^\d]+/g, '');
     },
+}
+
+
+function fileDown(filePath, fileName, stat){
+    if(stat == "recruit"){
+        filePath = "http://218.158.231.189" + filePath;
+    }
+    kendo.saveAs({
+        dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+    });
 }
