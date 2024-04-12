@@ -293,15 +293,8 @@ public class FormManagementServiceImpl implements FormManagementService {
                 formFileMap.putAll(mainLib.fileUpload(form, filePath(servletRequest, params, server_dir)));
                 formFileMap.put("filePath", dbFilePath(servletRequest, params, base_dir));
 
-                String[] org = formFileMap.get("orgFilename").toString().split("[.]");
-                String fileOrgName = "";
-                for(int z = 0 ; z < org.length ; z++){
-                    if(z != org.length - 1){
-                        fileOrgName += org[z];
-                    }
-                }
-                formFileMap.put("fileOrgName", fileOrgName);
-                formFileMap.put("fileExt", org[org.length-1]);
+                formFileMap.put("fileOrgName", formFileMap.get("orgFilename").toString().substring(0, formFileMap.get("orgFilename").toString().lastIndexOf(".")));
+                formFileMap.put("fileExt", formFileMap.get("orgFilename").toString().substring(formFileMap.get("orgFilename").toString().lastIndexOf(".") + 1));
 
             }
             formManagementRepository.setTemplateFormFile(formFileMap);
@@ -319,15 +312,8 @@ public class FormManagementServiceImpl implements FormManagementService {
                 formFileExistsDel(null, formFileMap, server_path);
                 formFileMap.putAll(mainLib.fileUpload(logo, filePath(servletRequest, params, server_dir)));
                 formFileMap.put("filePath", dbFilePath(servletRequest, params, base_dir));
-                String[] org = formFileMap.get("orgFilename").toString().split("[.]");
-                String fileOrgName = "";
-                for(int z = 0 ; z < org.length ; z++){
-                    if(z != org.length - 1){
-                        fileOrgName += org[z];
-                    }
-                }
-                formFileMap.put("fileOrgName", fileOrgName);
-                formFileMap.put("fileExt", org[org.length-1]);
+                formFileMap.put("fileOrgName",formFileMap.get("orgFilename").toString().substring(0, formFileMap.get("orgFilename").toString().lastIndexOf(".")));
+                formFileMap.put("fileExt", formFileMap.get("orgFilename").toString().substring(formFileMap.get("orgFilename").toString().lastIndexOf(".") + 1));
                 formFileMap.put("fileHostAddress", "server");
             }
             formManagementRepository.setTemplateFormFile(formFileMap);
@@ -345,15 +331,8 @@ public class FormManagementServiceImpl implements FormManagementService {
                 formFileExistsDel(null, formFileMap, server_path);
                 formFileMap.putAll(mainLib.fileUpload(symbol, filePath(servletRequest, params, server_dir)));
                 formFileMap.put("filePath", dbFilePath(servletRequest, params, base_dir));
-                String[] org = formFileMap.get("orgFilename").toString().split("[.]");
-                String fileOrgName = "";
-                for(int z = 0 ; z < org.length ; z++){
-                    if(z != org.length - 1){
-                        fileOrgName += org[z];
-                    }
-                }
-                formFileMap.put("fileOrgName", fileOrgName);
-                formFileMap.put("fileExt", org[org.length-1]);
+                formFileMap.put("fileOrgName",formFileMap.get("orgFilename").toString().substring(0, formFileMap.get("orgFilename").toString().lastIndexOf(".")));
+                formFileMap.put("fileExt", formFileMap.get("orgFilename").toString().substring(formFileMap.get("orgFilename").toString().lastIndexOf(".") + 1));
 
                 formFileMap.put("fileHostAddress", "server");
             }

@@ -670,9 +670,9 @@ public class CampusServiceImpl implements CampusService {
                 fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));
                 fileInsMap.put("studyJournalSn", params.get("studyJournalSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -752,9 +752,9 @@ public class CampusServiceImpl implements CampusService {
                 fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));
                 fileInsMap.put("studyJournalSn", params.get("studyJournalSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -867,9 +867,9 @@ public class CampusServiceImpl implements CampusService {
                 fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));
                 fileInsMap.put("ojtResultSn", params.get("ojtResultSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -968,9 +968,9 @@ public class CampusServiceImpl implements CampusService {
                 fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));
                 fileInsMap.put("ojtResultSn", params.get("ojtResultSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1126,9 +1126,9 @@ public class CampusServiceImpl implements CampusService {
                 fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));
                 fileInsMap.put("studyPropagSn", params.get("studyPropagSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1265,9 +1265,9 @@ public class CampusServiceImpl implements CampusService {
                 fileInsMap = mainLib.fileUpload(files, filePath(params, SERVER_DIR));
                 fileInsMap.put("studyPropagSn", params.get("studyPropagSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 

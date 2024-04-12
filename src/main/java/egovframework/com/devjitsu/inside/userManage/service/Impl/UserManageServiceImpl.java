@@ -231,9 +231,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("educationalId"));
                 fileInsMap.put("educationalId", params.get("educationalId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("EMP_SEQ"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -248,9 +248,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("educationalId"));
                 fileInsMap.put("educationalId", params.get("educationalId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("EMP_SEQ"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -275,9 +275,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("careerId"));
                 fileInsMap.put("careerId", params.get("careerId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("EMP_SEQ"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -321,9 +321,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("certificateId"));
                 fileInsMap.put("certificateId", params.get("certificateId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("EMP_SEQ"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -358,9 +358,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("rewordId"));
                 fileInsMap.put("rewordId", params.get("rewordId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("EMP_SEQ"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -466,17 +466,10 @@ public class UserManageServiceImpl implements UserManageService {
         for(Map<String, Object> map : list){
             int fileLen = map.get("orgFilename").toString().split("\\.").length;
 
-            String orgFilename = "";
-            for(int i = 0 ; i < fileLen - 1 ; i++ ){
-                orgFilename = orgFilename + map.get("orgFilename").toString().split("\\.")[i];
-            }
-
-            String fileExt = map.get("orgFilename").toString().split("\\.")[fileLen - 1];
-
-            fileParam.put("fileExt", fileExt);
+            fileParam.put("fileOrgName",map.get("orgFilename").toString().substring(0, map.get("orgFilename").toString().lastIndexOf(".")));
+            fileParam.put("fileExt", map.get("orgFilename").toString().substring(map.get("orgFilename").toString().lastIndexOf(".") + 1));
             fileParam.put("fileSize", map.get("fileSize"));
             fileParam.put("fileUUID", map.get("fileUUID"));
-            fileParam.put("fileOrgName", orgFilename);
 
             fileParam.put("fileCd", params.get("menuCd"));
             fileParam.put("filePath", path);
@@ -1104,9 +1097,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("educationalId"));
                 fileInsMap.put("educationalId", params.get("educationalId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1121,9 +1114,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("educationalId"));
                 fileInsMap.put("educationalId", params.get("educationalId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1149,9 +1142,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("educationalId"));
                 fileInsMap.put("educationalId", params.get("educationalId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1166,9 +1159,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("educationalId"));
                 fileInsMap.put("educationalId", params.get("educationalId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1199,9 +1192,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("careerId"));
                 fileInsMap.put("careerId", params.get("careerId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1228,9 +1221,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("careerId"));
                 fileInsMap.put("careerId", params.get("careerId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1268,9 +1261,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("certificateId"));
                 fileInsMap.put("certificateId", params.get("certificateId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1295,9 +1288,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("certificateId"));
                 fileInsMap.put("certificateId", params.get("certificateId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1342,9 +1335,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("rewordId"));
                 fileInsMap.put("rewordId", params.get("rewordId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -1369,9 +1362,9 @@ public class UserManageServiceImpl implements UserManageService {
                 fileInsMap.put("contentId", params.get("rewordId"));
                 fileInsMap.put("rewordId", params.get("rewordId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 

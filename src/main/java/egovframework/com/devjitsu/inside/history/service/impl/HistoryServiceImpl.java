@@ -145,9 +145,9 @@ public class HistoryServiceImpl implements HistoryService {
                 fileInsMap.put("contentId", params.get("rewordId"));
                 fileInsMap.put("rewordId", params.get("rewordId"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, base_dir));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("empSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 

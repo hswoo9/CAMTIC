@@ -157,8 +157,8 @@ public class BoardServiceImpl implements BoardService {
                 list.get(i).put("empSeq", "1");
                 list.get(i).put("fileCd", params.get("menuCd"));
                 list.get(i).put("filePath", filePath(servletRequest, params, base_dir));
-                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
-                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
             }
             commonRepository.insFileInfo(list);
         }
@@ -178,8 +178,8 @@ public class BoardServiceImpl implements BoardService {
                 list.get(i).put("empSeq", "1");
                 list.get(i).put("fileCd", params.get("menuCd"));
                 list.get(i).put("filePath", filePath(servletRequest, params, base_dir));
-                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
-                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
             }
             commonRepository.insFileInfo(list);
         }
@@ -225,8 +225,8 @@ public class BoardServiceImpl implements BoardService {
                 list.get(i).put("empSeq", "1");
                 list.get(i).put("fileCd", params.get("menuCd"));
                 list.get(i).put("filePath", filePath(servletRequest, params, base_dir));
-                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
-                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
             }
             commonRepository.insFileInfo(list);
         }

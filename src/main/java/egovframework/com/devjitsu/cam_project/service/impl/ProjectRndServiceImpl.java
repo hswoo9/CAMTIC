@@ -182,8 +182,8 @@ public class ProjectRndServiceImpl implements ProjectRndService {
                 list.get(i).put("empSeq", params.get("empSeq"));
                 list.get(i).put("fileCd", params.get("menuCd"));
                 list.get(i).put("filePath", filePath(params, BASE_DIR));
-                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().split("[.]")[0]);
-                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().split("[.]")[1]);
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
             }
             commonRepository.insFileInfo(list);
         }
@@ -239,9 +239,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
                 fileInsMap = mainLib.fileUpload(bsPlanFile, filePath(params, SERVER_DIR));
                 fileInsMap.put("rndSn", params.get("rndSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 

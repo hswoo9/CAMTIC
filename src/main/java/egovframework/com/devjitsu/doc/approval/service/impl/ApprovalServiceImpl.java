@@ -561,15 +561,8 @@ public class ApprovalServiceImpl implements ApprovalService {
                 list.get(i).put("empSeq", params.get("empSeq"));
                 list.get(i).put("fileCd", params.get("menuCd").toString());
                 list.get(i).put("filePath", filePath(params, baseDir));
-                String[] org = list.get(i).get("orgFilename").toString().split("[.]");
-                String fileOrgName = "";
-                for(int z = 0 ; z < org.length ; z++){
-                    if(z != org.length - 1){
-                        fileOrgName += org[z];
-                    }
-                }
-                list.get(i).put("fileOrgName", fileOrgName);
-                list.get(i).put("fileExt", org[org.length-1]);
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
             }
             commonRepository.insFileInfo(list);
         }

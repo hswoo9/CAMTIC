@@ -113,9 +113,9 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                 fileInsMap = mainLib.fileUpload(bsPlanFile, filePath(params, SERVER_DIR));
                 fileInsMap.put("unRndSn", params.get("unRndSn"));
                 fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 commonRepository.insOneFileInfo(fileInsMap);
 
@@ -377,8 +377,8 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 fileInsMap.put("fileCd", "lecBookImgSn");
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 params.put("lecBookImgSn", fileInsMap.get("file_no"));
@@ -393,10 +393,8 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 fileInsMap.put("fileCd", "lecApplSn");
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                //fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                //fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
-                fileInsMap.put("fileOrgName", fileList.get(i).get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("fileExt", fileList.get(i).get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("fileUUID", fileList.get(i).get("fileUUID"));
                 fileInsMap.put("fileSize", fileList.get(i).get("fileSize"));
                 commonRepository.insOneFileInfo(fileInsMap);
@@ -412,8 +410,8 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 fileInsMap.put("fileCd", "lecMainImgSn");
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 params.put("lecMainImgSn", fileInsMap.get("file_no"));
@@ -451,8 +449,8 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                     fileInsMap.put("empSeq", params.get("regEmpSeq"));
                     fileInsMap.put("fileCd", "lecBookImgSn");
                     fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                    fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                    fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                    fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                    fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                     commonRepository.insOneFileInfo(fileInsMap);
 
                     params.put("lecBookImgSn", fileInsMap.get("file_no"));
@@ -470,8 +468,8 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 fileInsMap.put("fileCd", "lecApplSn");
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileOrgName", fileList.get(i).get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("fileExt", fileList.get(i).get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("fileUUID", fileList.get(i).get("fileUUID"));
                 fileInsMap.put("fileSize", fileList.get(i).get("fileSize"));
                 commonRepository.insOneFileInfo(fileInsMap);
@@ -492,8 +490,8 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 fileInsMap.put("fileCd", "lecMainImgSn");
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().split("[.]")[0]);
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().split("[.]")[1]);
+                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
                 commonRepository.insOneFileInfo(fileInsMap);
 
                 params.put("lecMainImgSn", fileInsMap.get("file_no"));
