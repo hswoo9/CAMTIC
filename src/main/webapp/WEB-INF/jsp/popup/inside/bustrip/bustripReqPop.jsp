@@ -33,6 +33,7 @@
 <input type="hidden" id="paramsType" value="${params.type}" />
 <input type="hidden" id="paramsTripCode" value="${params.tripCode}"/>
 <input type="hidden" id="paramsPjtSn" value="${params.pjtSn}"/>
+<input type="hidden" id="carReqSn" value=""/>
 
 <form id="bustripDraftFrm" method="post">
     <input type="hidden" id="menuCd" name="menuCd" value="bustrip">

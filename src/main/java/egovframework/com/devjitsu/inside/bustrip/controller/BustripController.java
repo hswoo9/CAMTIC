@@ -589,6 +589,7 @@ public class BustripController {
         try{
             Map<String, Object> params = new HashMap<>();
             params.put("keyAr", keyAr);
+            params.put("hrBizReqId", keyAr[0]);
             bustripService.delBustripReq(params);
             model.addAttribute("rs", "sc");
         } catch (Exception e){

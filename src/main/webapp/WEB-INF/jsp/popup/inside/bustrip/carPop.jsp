@@ -80,6 +80,7 @@
                     </th>
                     <td>
                         <input type="text" id="carType" style="width: 40%;"/>
+                        <span id="hrBizText" style="display: none;">(출장신청차량)</span>
                     </td>
                 </tr>
                 <tr>

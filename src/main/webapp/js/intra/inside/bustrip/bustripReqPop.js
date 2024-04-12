@@ -171,6 +171,7 @@ const bustripReq = {
         $("#pjtSn").val(busInfo.PJT_SN);
 
         /** 차량 */
+        $("#carReqSn").val(busInfo.CAR_REQ_SN);
         $("#carList").data("kendoDropDownList").value(busInfo.USE_TRSPT);
         $("#carRmk").val(busInfo.USE_TRSPT_RMK);
         if(busInfo.USE_CAR == "Y"){
@@ -391,7 +392,13 @@ const bustripReq = {
             }
 
             if(flag) {
-                carReq.setCarRequestInsert(data);
+                if($("#carReqSn").val() == ""){
+                    carReq.setCarRequestInsert(data);
+                } else {
+                    data.carReqSn = $("#carReqSn").val();
+                    carReq.setCarRequestUpdate(data);
+                }
+                formData.append("carReqSn", $("#carReqSn").val());
             }
         }else {
             flag = true;
@@ -414,7 +421,6 @@ const bustripReq = {
         }
 
         formData.append("externalArr", JSON.stringify(extArr));
-
 
         if(flag || (!flag && carType == "B")){
             if(hrBizReqId == ""){

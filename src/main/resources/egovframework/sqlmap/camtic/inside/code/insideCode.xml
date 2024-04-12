@@ -57,7 +57,8 @@
             IHCR.STATUS,
             IHCR.APPROVAL_EMP_SEQ,
             DI.APPRO_KEY,
-            DI.DOC_MENU_CD
+            DI.DOC_MENU_CD,
+            (SELECT COUNT(*) FROM CAM_INSIDE.DJ_HR_BIZ_REQ WHERE CAR_REQ_SN = #{carReqSn}) AS hrBizReqChk
         FROM
             CAM_INSIDE.DJ_HR_CAR_REQ IHCR
         LEFT JOIN

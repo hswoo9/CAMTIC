@@ -9,6 +9,7 @@ import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
 import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
 import egovframework.com.devjitsu.inside.bustrip.service.BustripService;
+import egovframework.com.devjitsu.inside.code.repository.InsideCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +37,9 @@ public class BustripServiceImpl implements BustripService {
 
     @Autowired
     private PayAppRepository payAppRepository;
+
+    @Autowired
+    private InsideCodeRepository insideCodeRepository;
 
     @Override
     public List<Map<String, Object>> getBustripList(Map<String, Object> params) {
@@ -244,6 +248,10 @@ public class BustripServiceImpl implements BustripService {
 
     @Override
     public void delBustripReq(Map<String, Object> params) {
+        Map<String, Object> bustripMap = bustripRepository.getBustripReqInfo(params);
+        params.put("carReqSn", bustripMap.get("CAR_REQ_SN"));
+        insideCodeRepository.setCarRequestDelete(params);
+
         bustripRepository.delBustripReq(params);
     }
 

@@ -67,6 +67,12 @@ var carReq = {
             } else {
                 $("#inputWrap").hide();
             }
+
+            if(data.hrBizReqChk > 0){
+                $("#hrBizText").show();
+            } else {
+                $("#hrBizText").hide();
+            }
         }
     },
 
@@ -216,6 +222,8 @@ var carReq = {
                         opener.location.reload();
                         window.close();
                     }
+                } else {
+                    $("#carReqSn").val(result.params.carReqSn);
                 }
             },
             error : function() {
@@ -234,9 +242,11 @@ var carReq = {
             async : false,
             success : function(result){
                 console.log(result);
-                alert("차량 사용 신청이 완료되었습니다.");
-                opener.carList.refresh();
-                window.close();
+                if(data.type != "bustripReq") {
+                    alert("차량 사용 신청이 완료되었습니다.");
+                    opener.carList.refresh();
+                    window.close();
+                }
             },
             error : function() {
                 alert("데이터 저장 중 에러가 발생했습니다.");
@@ -276,8 +286,10 @@ var carReq = {
                     buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
                 }
             }else{
-                buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
-                buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" disabled onclick=\"carReq.delBtn();\">삭제</button>";
+                if(carMap.hrBizReqChk == "0"){
+                    buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                    buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" disabled onclick=\"carReq.delBtn();\">삭제</button>";
+                }
             }
         }else{
             buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
