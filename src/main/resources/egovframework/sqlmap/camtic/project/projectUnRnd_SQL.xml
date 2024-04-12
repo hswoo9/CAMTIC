@@ -478,6 +478,7 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE PL
         WHERE PJT_SN = #{pjtSn}
+        AND ACTIVE = 'Y'
         ORDER BY LEC_SN DESC
     </select>
 
@@ -493,6 +494,7 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_CONSULTING PL
         WHERE PJT_SN = #{pjtSn}
+        AND ACTIVE = 'Y'
         ORDER BY CON_SN DESC
     </select>
 
@@ -1317,6 +1319,24 @@
         WHERE
             PJT_UNIT_SN = #{pjtUnitSn} AND
             UNIT_CRM_SN = #{unitCrmSn}
+    </update>
+
+    <update id="delLecture" parameterType="map">
+        /*delLecture*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_LECTURE
+        SET
+            ACTIVE = 'N'
+        WHERE
+            LEC_SN = #{pk}
+    </update>
+
+    <update id="delConsulting" parameterType="map">
+        /*delConsulting*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_CONSULTING
+        SET
+            ACTIVE = 'N'
+        WHERE
+            CON_SN = #{pk}
     </update>
 
     <insert id="setLecCopyInsert" parameterType="map">

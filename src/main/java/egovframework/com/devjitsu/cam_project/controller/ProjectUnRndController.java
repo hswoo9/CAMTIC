@@ -18,7 +18,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -424,6 +423,20 @@ public class ProjectUnRndController {
     @RequestMapping("/projectUnRnd/setLecCopyInsert")
     public String setLecCopyInsert(@RequestParam Map<String, Object> params, Model model){
         projectUnRndService.setLecCopyInsert(params);
+        return "jsonView";
+    }
+
+    /** 단위사업(교육) 삭제 */
+    @RequestMapping("/projectUnRnd/delLecture")
+    public String delLecture(@RequestParam Map<String, Object> params, Model model){
+        projectUnRndService.delLecture(params);
+        return "jsonView";
+    }
+
+    /** 단위사업(컨설팅) 삭제 */
+    @RequestMapping("/projectUnRnd/delConsulting")
+    public String delConsulting(@RequestParam Map<String, Object> params, Model model){
+        projectUnRndService.delConsulting(params);
         return "jsonView";
     }
 

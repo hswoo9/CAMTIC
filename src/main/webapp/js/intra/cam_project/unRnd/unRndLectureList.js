@@ -176,10 +176,13 @@ var unRndLectList = {
                     width: "10%"
                 }, {
                     title: "복사",
-                    width: "5%",
+                    width: "10%",
                     template : function (e){
                         return  '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="unRndLectList.fn_copy('+ e.LEC_SN +')">' +
                             '	<span class="k-button-text">복사</span>' +
+                            '</button>' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="unRndLectList.fn_delete('+ e.LEC_SN +')">' +
+                            '	<span class="k-button-text">삭제</span>' +
                             '</button>';
                     }
                 }
@@ -211,10 +214,61 @@ var unRndLectList = {
 
             }
         });
+    },
 
+    fn_delete: function(pk){
+
+        if(!confirm("해당 교육단위사업을 삭제하시겠습니까?")) {
+            return;
+        }
+
+        $.ajax({
+            url : "/projectUnRnd/delLecture",
+            data : {
+                pk : pk
+            },
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(){
+                unRndLectList.gridReload();
+            },
+            error : function() {
+                alert("데이터  중 에러가 발생했습니다.");
+
+            }
+        });
 
 
     },
+
+    fn_conDelete: function(pk){
+
+        if(!confirm("해당 컨설팅단위사업을 삭제하시겠습니까?")) {
+            return;
+        }
+
+        $.ajax({
+            url : "/projectUnRnd/delConsulting",
+            data : {
+                pk : pk
+            },
+            type : "post",
+            dataType : "json",
+            async : false,
+            success : function(){
+                unRndLectList.consultingGridReload();
+            },
+            error : function() {
+                alert("데이터  중 에러가 발생했습니다.");
+
+            }
+        });
+
+
+    },
+
+
 
     onDataBound: function(){
         const grid = this;
@@ -401,6 +455,14 @@ var unRndLectList = {
                     field: "LEC_STATUS_NAME",
                     title: "현재상태",
                     width: "10%"
+                }, {
+                    title: "",
+                    width: "5%",
+                    template : function (e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" style="margin-left: 5px;" onclick="unRndLectList.fn_conDelete('+ e.CON_SN +')">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    }
                 }
             ],
             dataBinding: function(){

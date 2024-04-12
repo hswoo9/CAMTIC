@@ -573,6 +573,16 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public void delLecture(Map<String, Object> params) {
+        projectUnRndRepository.delLecture(params);
+    }
+
+    @Override
+    public void delConsulting(Map<String, Object> params) {
+        projectUnRndRepository.delConsulting(params);
+    }
+
+    @Override
     public void updateUnRndDelvDocState(Map<String, Object> bodyMap) throws Exception {
         bodyMap.put("docSts", bodyMap.get("approveStatCode"));
         String docSts = String.valueOf(bodyMap.get("docSts"));
