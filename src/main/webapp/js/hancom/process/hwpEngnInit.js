@@ -233,11 +233,11 @@ var engnInit = {
 
             /** 수주부서 수익*/
             hwpDocCtrl.putFieldText('INV_AMT2', (delvAmt - invSum) == 0 ? "0" : fn_numberWithCommas(delvAmt - invSum));
-            hwpDocCtrl.putFieldText('INV_PER3', (100-invPer)+"%");
+            hwpDocCtrl.putFieldText('INV_PER3', Number(100-invPer).toFixed(1)+"%");
 
             /** 협업부서 매출*/
             hwpDocCtrl.putFieldText('TEAM_AMT', fn_numberWithCommas(team.TM_AMT));
-            hwpDocCtrl.putFieldText('TEAM_PER', (100-delvPer)+"%");
+            hwpDocCtrl.putFieldText('TEAM_PER', Number(100-delvPer).toFixed(1)+"%");
 
             /** 협업부서 비용*/
             hwpDocCtrl.putFieldText('TEAM_INV_AMT', teamInvSum == 0 ? "0" : fn_numberWithCommas(teamInvSum));
@@ -246,7 +246,7 @@ var engnInit = {
 
             /** 수주부서 수익*/
             hwpDocCtrl.putFieldText('TEAM_INV2_AMT', fn_numberWithCommas(team.TM_AMT-teamInvSum));
-            hwpDocCtrl.putFieldText('TEAM_PER3', (100-teamPer)+"%");
+            hwpDocCtrl.putFieldText('TEAM_PER3', Number(100-teamPer).toFixed(1)+"%");
 
             /** 합계 */
             hwpDocCtrl.putFieldText('SUM_AMT', fn_numberWithCommas(map.PJT_AMT));
@@ -326,7 +326,7 @@ var engnInit = {
             hwpDocCtrl.putFieldText('AMT1', (map.PJT_AMT) == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
             hwpDocCtrl.putFieldText('INV_AMT', invSum == 0 ? "0" : fn_numberWithCommas(invSum));
             let invPer = (invSum / map.PJT_AMT * 100).toFixed(1);
-            hwpDocCtrl.putFieldText('INV_PER2', Number(invPer).toFixed(1)+"%");
+            hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
             hwpDocCtrl.putFieldText('INV_AMT2', (map.PJT_AMT-invSum) == 0 ? "0" : String(fn_numberWithCommas(map.PJT_AMT-invSum)));
             hwpDocCtrl.putFieldText('INV_PER3', Number(100-invPer).toFixed(1)+"%");
 
