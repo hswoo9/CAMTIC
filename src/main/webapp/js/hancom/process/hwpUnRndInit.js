@@ -124,7 +124,6 @@ var unRndInit = {
 
         /** 3. 특이사항 */
         setTimeout(function() {
-            hwpDocCtrl.putFieldText("map", " ");
             hwpDocCtrl.putFieldText("ETC", "");
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(delvMap.UN_RND_ETC.replaceAll("\n", "<br>"), "html","insertfile");
@@ -339,7 +338,7 @@ var unRndInit = {
         const devMap = devInfo.rs;
 
         /** 참여인력 및 일정 */
-        const processResult = customKendo.fn_customAjax("/project/getProcessList", {devSn: devMap.DEV_SN});
+        const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn: devMap.DEV_SN});
         /** 투자내역 */
         const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
         /** 구매/비용내역 */
@@ -377,19 +376,6 @@ var unRndInit = {
             hwpDocCtrl.putFieldText("TEMP_END_DT", map.PJT_STR_DT);
         }
         hwpDocCtrl.putFieldText("REAL_END_DT", resMap.RS_END_DT);
-
-        let psAllText = "";
-        const processList = processResult.list;
-        for(let i=0; i<processList.length; i++){
-            const psMap = processList[i];
-            if(i != 0){
-                psAllText += ", ";
-            }
-            psAllText += "("+psMap.PS_NM+") "+psMap.PS_EMP_NM;
-        }
-        hwpDocCtrl.putFieldText("PS_ALL", psAllText);
-        hwpDocCtrl.putFieldText("RES_ETC", "");
-        hwpDocCtrl.putFieldText("RES_ETC", "");
 
         /** 4. 예상재무성과 */
 
@@ -540,12 +526,21 @@ var unRndInit = {
         hwpDocCtrl.moveToField("G20_HTML", true, true, false);
         hwpDocCtrl.setTextFile(htmlCustomG20, "html","insertfile");
 
+        /** 4. 참여인력 및 일정 */
+        const processList = processResult.list;
+        const htmlPs = engnInit.htmlPs(processList, map);
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("DEV_HTML", " ");
+            hwpDocCtrl.moveToField("DEV_HTML", true, true, false);
+            hwpDocCtrl.setTextFile(htmlPs, "html","insertfile");
+        }, 1000);
+
         /** 8. 특이사항 */
         const res = getResult.result.map;
         setTimeout(function() {
             hwpDocCtrl.putFieldText("ETC", " ");
             hwpDocCtrl.moveToField("ETC", true, true, false);
             hwpDocCtrl.setTextFile(res.RS_ISS.replaceAll("\n", "<br>"), "html","insertfile");
-        }, 1000);
+        }, 2000);
     }
 }
