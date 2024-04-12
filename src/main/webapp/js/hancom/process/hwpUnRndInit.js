@@ -125,6 +125,7 @@ var unRndInit = {
         /** 3. 특이사항 */
         setTimeout(function() {
             hwpDocCtrl.putFieldText("map", " ");
+            hwpDocCtrl.putFieldText("ETC", "");
             hwpDocCtrl.moveToField('ETC', true, true, false);
             hwpDocCtrl.setTextFile(delvMap.UN_RND_ETC.replaceAll("\n", "<br>"), "html","insertfile");
         }, 1000);
@@ -168,6 +169,7 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('CB_BUDGET_PER0', "0%");
 
         for(let i=0; i<customG20.list.length; i++){
+            debugger
             const g20Map = customG20.list[i];
             if(g20Map.CB_CODE_NAME_1 == "인건비" && g20Map.CB_BUDGET != null){
                 hwpDocCtrl.putFieldText('CB_BUDGET_AMT0', fn_numberWithCommas(g20Map.CB_BUDGET));
