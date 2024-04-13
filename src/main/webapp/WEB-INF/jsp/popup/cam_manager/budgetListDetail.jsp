@@ -72,13 +72,15 @@
                         프로젝트 시작일
                     </th>
                     <td>
-                        ${g20Info.PR_DT}
+                        ${g20Info.FR_DT}
+                        <input type="hidden" id="g20FrDt" value="${g20Info.FR_DT}"/>
                     </td>
                     <th scope="row" class="text-center th-color">
                         프로젝트 종료일
                     </th>
                     <td>
                         ${g20Info.TO_DT}
+                        <input type="hidden" id="g20ToDt" value="${g20Info.TO_DT}"/>
                     </td>
                 </tr>
                 <tr>
