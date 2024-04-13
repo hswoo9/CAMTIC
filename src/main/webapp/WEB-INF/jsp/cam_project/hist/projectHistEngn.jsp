@@ -16,6 +16,19 @@
         </div>
         <div class="panel-body">
             <div>
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                    </colgroup>
+                    <tbody><tr>
+                        <th class="text-center th-color">상담제목</th>
+                        <td>
+                            <input type="text" id="jSubject" style="width: 50%;" autocomplete="off">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
         </div>
@@ -24,6 +37,5 @@
 
 <script>
     var a= '${loginVO}'
-    console.log("loginVo", a)
     histEngn.fn_defaultScript();
 </script>

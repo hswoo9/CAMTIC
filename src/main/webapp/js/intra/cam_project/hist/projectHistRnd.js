@@ -4,11 +4,15 @@ var histRnd = {
     },
 
     fn_defaultScript : function (){
+        customKendo.fn_textBox(["subject"]);
+
         this.gridReload();
     },
 
     gridReload: function(){
-        histRnd.global.searchAjaxData = {}
+        histRnd.global.searchAjaxData = {
+            subject : $("#subject").val()
+        }
         histRnd.mainGrid("/projectHist/getHistRndList", histRnd.global.searchAjaxData);
     },
 

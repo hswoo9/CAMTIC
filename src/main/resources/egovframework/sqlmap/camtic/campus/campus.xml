@@ -1066,7 +1066,7 @@
                 </if>
                 ORDER BY COSI.REG_DT
             ) RE
-        ORDER BY RE.OPEN_STUDY_INFO_SN DESC
+        ORDER BY CONCAT(DATE_FORMAT(RE.OPEN_STUDY_DT, '%Y-%m-%d'), ' ', RE.START_TIME) ASC
     </select>
 
     <select id="getOpenStudyInfoOne" resultType="map" parameterType="map">

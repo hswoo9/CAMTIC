@@ -24,6 +24,9 @@
         <![CDATA[
         AND YEAR(C.JWorkDate) <= 2023
         ]]>
+        <if test='jSubject != null and !"".equals(jSubject)'>
+            AND JSUBJECT LIKE '%' + #{jSubject} + '%'
+        </if>
         ORDER BY A.JNum DESC
     </select>
 
@@ -56,6 +59,9 @@
         <![CDATA[
             YEAR(A.PSDate) <= 2023
         ]]>
+        <if test='subject != null and !"".equals(subject)'>
+            AND SUBJECT LIKE '%' + #{subject} + '%'
+        </if>
         ORDER BY A.PrjID DESC
     </select>
 
@@ -81,6 +87,9 @@
         <![CDATA[
             YEAR(A.StartDate) <= 2023
         ]]>
+        <if test='name != null and !"".equals(name)'>
+            AND Name LIKE '%' + #{name} + '%'
+        </if>
         ORDER BY A.LectureCode DESC
     </select>
 
