@@ -6,10 +6,10 @@
         /* getUserPersonnelRecordList */
         SELECT
             <![CDATA[
-            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1 OR CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) >= 1
                       THEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) ELSE 0
                 END) AS prev_hire,
-            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1 OR CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) >=1
                       THEN CONCAT(CAST(a.BEFOR_CAREER AS SIGNED) - (CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) * 12))
                   ELSE a.BEFOR_CAREER
                 END) AS prev_hire_mon,
@@ -1700,10 +1700,10 @@
         /* getUserPersonnelinformList */
         SELECT
             <![CDATA[
-            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1 OR CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) >= 1
                   THEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) ELSE 0
             END) AS prev_hire,
-            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1 OR CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) >= 1
                   THEN CONCAT(CAST(a.BEFOR_CAREER AS SIGNED) - (CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) * 12))
                   ELSE a.BEFOR_CAREER
             END) AS prev_hire_mon,
