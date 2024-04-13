@@ -9,6 +9,8 @@ var sr = {
     },
     
     fn_defaultScript : function(){
+        window.resizeTo(1140, 740);
+
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", sr.global.now);
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", sr.global.now);
 
@@ -36,28 +38,8 @@ var sr = {
 
         });
 
-        if($("#masterSn").val()){
-            sr.getItemMaster();
-        }
-    },
-
-    getItemNoDuplicate : function(){
-        if(!$("#itemNo").val()){
-            alert("품번을 입력해주세요.");
-            return;
-        }
-
-        sr.global.saveAjaxData = {
-            itemNo : $("#itemNo").val()
-        }
-        var result = customKendo.fn_customAjax("/item/getItemNoDuplicate.do", sr.global.saveAjaxData)
-        if(result.flag){
-            sr.global.duplicateFlag = result.rs;
-            if(result.rs){
-                alert("이미 등록된 품번입니다.");
-            }else {
-                alert("등록 가능한 품번입니다.");
-            }
+        if($("#scheduleBoardId").val()){
+            sr.getSchedule();
         }
     },
 
@@ -118,21 +100,37 @@ var sr = {
         }
     },
 
-    getItemMaster : function(){
+    getSchedule : function(){
         sr.global.searchAjaxData = {
-            masterSn : $("#masterSn").val()
+            scheduleBoardId : $("#scheduleBoardId").val()
         }
-        var result = customKendo.fn_customAjax("/item/getItemMaster.do", sr.global.searchAjaxData);
+
+        var result = customKendo.fn_customAjax("/spot/getSchedule.do", sr.global.searchAjaxData);
         if(result.flag){
-            sr.global.duplicateFlag = false;
-            $("#itemNo").val(result.rs.ITEM_NO);
-            $("#itemName").val(result.rs.ITEM_NAME);
-            $("#itemUnitCd").data("kendoDropDownList").value(result.rs.ITEM_UNIT_CD);
-            $("#standard").val(result.rs.STANDARD)
-            $("#itemType").data("kendoDropDownList").value(result.rs.ITEM_TYPE);
-            $("#safetyInven").val(result.rs.SAFETY_INVEN)
-            $("#whCd").data("kendoDropDownList").value(result.rs.WH_CD)
-            $("#active").data("kendoDropDownList").value(result.rs.ACTIVE)
+            var rs = result.rs;
+            $("#startDt").val(rs.START_DT);
+            $("#endDt").val(rs.END_DT);
+            if(rs.HOLIDAY_YN == "Y"){
+                $("#holidayYn").prop("checked", true);
+            }
+            $("#startTime").val(rs.START_TIME);
+            $("#endTime").val(rs.END_TIME);
+            if(rs.ALL_DAY_YN == "Y"){
+                $("#allDayYn").prop("checked", true);
+            }
+            if(rs.SCHEDULE_TYPE != null){
+                $("input[name='scheduleType'][value='" + rs.SCHEDULE_TYPE + "']").prop("checked", true);
+            }
+
+            $("#scheduleTitle").val(rs.SCHEDULE_TITLE);
+            CKEDITOR.instances.scheduleContent.setData(rs.SCHEDULE_CONTENT);
+            $("#schedulePlace").val(rs.SCHEDULE_PLACE);
+            if(rs.PUBLIC_CLASS != null){
+                $("input[name='publicClass'][value='" + rs.PUBLIC_CLASS + "']").prop("checked", true);
+            }
+            if(rs.CAMS_POT_POST == "Y"){
+                $("#camsPotPost").prop("checked", true);
+            }
         }
     },
 

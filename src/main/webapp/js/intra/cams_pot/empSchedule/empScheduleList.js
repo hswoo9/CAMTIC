@@ -56,6 +56,11 @@ var esl = {
                 row.end = new Date(esl.global.data[i].end);
                 row.scheduleBoardId = esl.global.data[i].SCHEDULE_BOARD_ID;
                 row.hrBizReqId = esl.global.data[i].hrBizReqId;
+                row.color = "#3a87ad94";
+
+                if(esl.global.data[i].PUBLIC_CLASS == "CS"){
+                    row.color = "#3a87ad";
+                }
                 scheduleData.push(row);
             }
         }

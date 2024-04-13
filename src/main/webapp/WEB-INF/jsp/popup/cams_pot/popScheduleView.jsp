@@ -37,7 +37,9 @@
             <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">일정조회</span>
             </h3>
             <div class="btn-st popButton">
-<%--                <button type="button" class="k-button k-button-solid-info" onclick="sr.setScheduleReg()">저장</button>--%>
+                <c:if test="${rs.REG_EMP_SEQ eq loginVO.uniqId}">
+                <button type="button" class="k-button k-button-solid-info" onclick="moveToScheduleReg()">수정</button>
+                </c:if>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -136,14 +138,15 @@
 </div>
 
 <script type="text/javascript">
-    sr.fn_defaultScript();
-
     var publicClass = ${map.PUBLIC_CLASS};
 
     function fn_Scheduledetail(key, selectedDate) {
         location.href = "/spot/pop/popScheduleView.do?scheduleBoardId=" + key + "&pazing=Y&selectedDate=" + selectedDate;
     }
 
+    function moveToScheduleReg (){
+        location.href = "/spot/pop/popScheduleReg.do?scheduleBoardId=" +$("#scheduleBoardId").val();
+    }
 </script>
 </body>
 </html>

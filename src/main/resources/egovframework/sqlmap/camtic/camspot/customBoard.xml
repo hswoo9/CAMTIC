@@ -455,8 +455,8 @@
             SCHEDULE_CONTENT = #{scheduleContent},
             SCHEDULE_PLACE = #{schedulePlace},
             PUBLIC_CLASS = #{publicClass},
-            CAMS_POT_POST = #{startDt},
-            MOD_EMP_SEQ = #{camsPotPost},
+            CAMS_POT_POST = #{camsPotPost},
+            MOD_EMP_SEQ = #{empSeq},
             MOD_DATE = NOW()
         WHERE
             SCHEDULE_BOARD_ID = #{scheduleBoardId}
