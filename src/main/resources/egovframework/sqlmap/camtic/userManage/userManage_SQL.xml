@@ -6,16 +6,16 @@
         /* getUserPersonnelRecordList */
         SELECT
             <![CDATA[
-            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) >= 1
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1
                       THEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) ELSE 0
                 END) AS prev_hire,
-            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) >= 1
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1
                       THEN CONCAT(CAST(a.BEFOR_CAREER AS SIGNED) - (CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) * 12))
                   ELSE a.BEFOR_CAREER
                 END) AS prev_hire_mon,
             ]]>
-            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
-            CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon,
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', 1) AS hire,
+            CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', -1) + 1) AS hire_mon,
             a.emp_seq AS 'empSeq',
             a.erp_emp_seq AS 'erpEmpSeq',
             a.login_id AS 'loginId',
@@ -714,8 +714,8 @@
     <select id="getEmpInfoDetailList" parameterType="map" resultType="map">
         select
         A.*,
-        SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
-        SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1 AS hire_mon
+        SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', 1) AS hire,
+        SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', -1) + 1 AS hire_mon
         from
         (
         SELECT
@@ -1700,16 +1700,16 @@
         /* getUserPersonnelinformList */
         SELECT
             <![CDATA[
-            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) >= 1
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1
                   THEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) ELSE 0
             END) AS prev_hire,
-            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) >= 1
+            (CASE WHEN CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) <= 1
                   THEN CONCAT(CAST(a.BEFOR_CAREER AS SIGNED) - (CAST(SUBSTRING_INDEX(a.BEFOR_CAREER/12, '.', 1) AS SIGNED) * 12))
                   ELSE a.BEFOR_CAREER
             END) AS prev_hire_mon,
             ]]>
-            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
-            CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon,
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', 1) AS hire,
+            CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, a.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', -1) + 1) AS hire_mon,
             a.EMP_SEQ,
             a.ERP_EMP_SEQ,
             a.LOGIN_ID,
@@ -3088,8 +3088,8 @@
             /*getJoinResignEmpList*/
         SELECT
             HEI.*,
-            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
-            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1 AS hire_mon,
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', 1) AS hire,
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', -1) + 1 AS hire_mon,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
@@ -3582,8 +3582,8 @@
     <select id="getPositionListByYear" parameterType="map" resultType="map">
         SELECT
             HEI.*,
-            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
-            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1 AS hire_mon,
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', 1) AS hire,
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', -1) + 1 AS hire_mon,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
@@ -3630,8 +3630,8 @@
             HEI.*,
             history_dt as his_year,
             apnt_name as apnt_name,
-            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire,
-            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1 AS hire_mon,
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', 1) AS hire,
+            SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, HEI.JOIN_DAY, ADDDATE(DATE_FORMAT(NOW(), '%Y-%m-%d'), INTERVAL 1 DAY)) / 12, 1), '.', -1) + 1 AS hire_mon,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
