@@ -182,15 +182,15 @@ var appUser = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" id="approve" onclick="appUser.approveTypeChange(\'approve\')">' +
-                                    '<span class="k-button-text">검토</span>' +
-                                '</button>';
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" id="cooperation" onclick="appUser.approveTypeChange(\'cooperation\')">' +
+                            '<span class="k-button-text">협조</span>' +
+                            '</button>';
                     }
                 }, {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" id="cooperation" onclick="appUser.approveTypeChange(\'cooperation\')">' +
-                                    '<span class="k-button-text">협조</span>' +
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" id="approve" onclick="appUser.approveTypeChange(\'approve\')">' +
+                                    '<span class="k-button-text">검토</span>' +
                                 '</button>';
                     }
                 }, {

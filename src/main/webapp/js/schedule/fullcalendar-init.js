@@ -16,7 +16,7 @@
             let name = "bustripReqPop";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
             window.open(url, name, option);
-        }else if(t.hrBizReqId != null && t.hrBizReqId != ""){
+        }else if(t.scheduleBoardId != null && t.scheduleBoardId != ""){
             esl.fn_detailSchedule(t.scheduleBoardId);
         }
         /*$("#event-modal").find("strong").text("일정수정");

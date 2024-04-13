@@ -4,11 +4,16 @@ var histEngn = {
     },
 
     fn_defaultScript : function (){
+        customKendo.fn_textBox(["jSubject"]);
+
         this.gridReload();
     },
 
     gridReload: function(){
-        histEngn.global.searchAjaxData = {}
+        histEngn.global.searchAjaxData = {
+            jSubject : $("#jSubject").val()
+        }
+
         histEngn.mainGrid("/projectHist/getHistEngnList", histEngn.global.searchAjaxData);
     },
 

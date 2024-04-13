@@ -184,6 +184,18 @@ public class CustomBoardController {
     }
 
     /**
+     * 일정 조회 - 수정 데이터
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/spot/getSchedule.do")
+    public String getSchedule(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", customBoardService.getSchedule(params));
+        return "jsonView";
+    }
+
+    /**
      * 일정리스트
      * @param params
      * @param model
@@ -214,10 +226,12 @@ public class CustomBoardController {
      * @return
      */
     @RequestMapping("/spot/pop/popScheduleView.do")
-    public String popScheduleView(@RequestParam Map<String, Object> params, Model model){
-
+    public String popScheduleView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         Map<String, Object> map = customBoardService.getSchedule(params);
 
+        model.addAttribute("loginVO", loginVO);
         model.addAttribute("rs", customBoardService.getSchedule(params));
         model.addAttribute("map", map);
         model.addAttribute("params", params);

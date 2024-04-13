@@ -4,11 +4,15 @@ var histEdu = {
     },
 
     fn_defaultScript : function (){
+        customKendo.fn_textBox(["name"]);
+
         this.gridReload();
     },
 
     gridReload: function(){
-        histEdu.global.searchAjaxData = {}
+        histEdu.global.searchAjaxData = {
+            name : $("#name").val()
+        }
         histEdu.mainGrid("/projectHist/getHistEduList", histEdu.global.searchAjaxData);
     },
 

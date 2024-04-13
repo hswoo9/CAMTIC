@@ -40,7 +40,7 @@ public class G20ServiceImpl implements G20Service {
 
     @Override
     public List<Map<String, Object>> getSubjectList(Map<String, Object> params) {
-         List<Map<String, Object>> listMap = g20Repository.getCommonGisuInfo(params);
+        List<Map<String, Object>> listMap = g20Repository.getCommonGisuInfo(params);
 
         params.put("gisu", listMap.get(0).get("gisu"));
 

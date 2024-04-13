@@ -39,9 +39,15 @@
                                     캠스팟2.0매뉴얼
                                 </button>
                             </a>
-                            <a href="#">
-                                <b style="color: white; float: left; position: relative; top: 25px; right: 10px;" onclick="pastPage()">기존 캠스팟 바로가기</b>
-                            </a>
+<%--                            <a href="javascript:void(0)">--%>
+                            <select id="shortcuts" style="float: left;background-color: #3b4354;height:31px;color: white;margin: 17px 5px 0 0px;" onchange="pastPage(this)">
+                                <option value="">바로가기</option>
+                                <option value="0">기존 캠스팟</option>
+                                <option value="1">캠틱종합기술원</option>
+                                <option value="2">기업성장지원센터</option>
+                            </select>
+<%--                                <b style="color: white; float: left; position: relative; top: 25px; right: 10px;" onclick="pastPage()">기존 캠스팟 바로가기</b>--%>
+<%--                            </a>--%>
                             <a href="#">
                                 <button class="btn btn-notice" style="float:left; font-size:22px;" onclick="orgPopup();">
                                     <i class="fa fa-sitemap"></i>
@@ -345,15 +351,25 @@
         }).trigger("submit");
     }
 
-    function pastPage(){
-        const id = "${loginVO.id}";
-        let url = "http://www.camtic.or.kr/CAMsPot";
-        if(id != ""){
-            url = "http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id;
-        }
+    function pastPage(e){
         var name = "_blank";
         var option = "";
-        var popup = window.open(url, name, option);
+        if($(e).val() == "0"){
+            const id = "${loginVO.id}";
+            let url = "http://www.camtic.or.kr/CAMsPot";
+            if(id != ""){
+                url = "http://www.camtic.or.kr/CAMsPot/Login.aspx?NEWCAMTICS="+id;
+            }
+            var popup = window.open(url, name, option);
+        }else if($(e).val() == "1"){
+            let url = "http://www.camtic.or.kr/camtic";
+            var option = "";
+            var popup = window.open(url, name, option);
+        }else if($(e).val() == "2"){
+            let url = "http://www.camtic.or.kr/cg";
+            var name = "_blank";
+            var popup = window.open(url, name, option);
+        }
     }
 
     function goMenual(){

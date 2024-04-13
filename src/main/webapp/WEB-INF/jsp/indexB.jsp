@@ -555,8 +555,8 @@
             type: 'GET',
             success: function (data) {
                 const filteredData = data.list.filter(item => item.STEP === 'B');
-                const sortedData = filteredData.sort((a, b) => b.SN - a.SN);
-                const recentData = sortedData.slice(0, 3);
+                // const sortedData = filteredData.sort((a, b) => b.SN - a.SN);
+                const recentData = filteredData.slice(0, 3);
                 drawTable(recentData);
             },
         });
@@ -667,14 +667,14 @@
             if (result.flag) {
                 var html = "";
 
-                result.list.sort(function (a, b) {
-                    return new Date(b.start) - new Date(a.start);
-                });
+                // result.list.sort(function (a, b) {
+                //     return new Date(b.start) - new Date(a.start);
+                // });
 
                 if (result.list.length > 0) {
                     var recentPosts = result.list.slice(0, 7);
+
                     for (var i = 0; i < recentPosts.length; i++) {
-                        console.log(recentPosts);
                         var article = result.list[i];
 
                         html += '' +
