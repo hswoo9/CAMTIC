@@ -1607,6 +1607,35 @@
         WHERE A.PJT_SN = #{pjtSn}
     </select>
 
+    <select id="getProjectBustMetList" parameterType="map" resultType="map">
+        /*getProjectBustMetList*/
+        SELECT
+            A.HR_BIZ_REQ_ID AS hrBizReqId,
+            '' AS cardToSn,
+            concat('[출장]', IFNULL(B.EMP_NAME, A.EMP_NAME)) AS title,
+            CONCAT(DATE_FORMAT(IFNULL(B.TRIP_DAY_FR, A.TRIP_DAY_FR), '%Y-%m-%d'), ' ', IFNULL(B.TRIP_TIME_FR, A.TRIP_TIME_FR)) AS start,
+            CONCAT(DATE_FORMAT(IFNULL(B.TRIP_DAY_TO, A.TRIP_DAY_TO), '%Y-%m-%d'), ' ', IFNULL(B.TRIP_TIME_TO, A.TRIP_TIME_TO)) AS end,
+            '1' AS viewType
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ A
+        LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B ON A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+        WHERE
+            A.STATUS = 100
+          AND
+            A.PJT_SN = #{pjtSn}
+        UNION ALL
+        SELECT
+            A.MET_SN AS hrBizReqId,
+            A.CARD_TO_SN AS cardToSn,
+            CONCAT('[회의]', A.MET_EMP_NAME) AS title,
+            CONCAT(DATE_FORMAT(A.MET_DE, '%Y-%m-%d'), ' ', A.MET_STR_TIME) AS start,
+            CONCAT(DATE_FORMAT(A.MET_DE, '%Y-%m-%d'), ' ', A.MET_END_TIME) AS end,
+            '2' AS viewType
+        FROM
+            CAM_MNG.DJ_MEETING A
+        WHERE A.PJT_SN = #{pjtSn}
+    </select>
+
     <update id="updBustPjtsnReset" parameterType="map">
         UPDATE CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
         SET

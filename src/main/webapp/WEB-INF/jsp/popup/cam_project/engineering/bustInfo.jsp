@@ -27,23 +27,52 @@
     .k-footer-template td:nth-child(9) {
         border-width: 0;
     }
+
+    .fc-row.fc-week.fc-widget-content {
+        height: 110px;
+    }
+
+    #calendar.fc .fc-toolbar .fc-today-button,
+    #calendar.fc .fc-toolbar .fc-state-default {
+        background: #f5f5f5;
+        color: #808488;
+        padding: 4px 10px;
+        height: auto;
+        border: 1px solid;
+        border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+        text-shadow: 0 1px 1px rgba(255,255,255,.75);
+    }
+
+    #calendar.fc .fc-toolbar .fc-center h2 {
+        font-weight: bold;
+    }
+
+    .fc-event{
+        cursor: pointer !important;
+    }
 </style>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 
 <div style="padding: 10px">
-    <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="bustInfo.fn_save()">저장</button>
-    <button type="button" id="bustReqBtn" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-info" onclick="bustInfo.bustripReqPop('${params.pjtSn}')">출장신청</button>
+    <div id="btnDiv" style="background-color: #eef6ff; padding: 10px; font-size: 13px;">
+        <span id="radioSelectType"></span>
+    </div>
 
-    <table class="popTable table table-bordered mb-0">
-        <colgroup>
-            <col width="20%">
-            <col width="30%">
-            <col width="20%">
-            <col width="30%">
-        </colgroup>
-        <thead>
+    <div id="selectType1">
+        <button type="button" id="saveBtn" style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="bustInfo.fn_save()">저장</button>
+        <button type="button" id="bustReqBtn" style="float: right; margin-bottom: 5px; margin-right: 5px;" class="k-button k-button-solid-info" onclick="bustInfo.bustripReqPop('${params.pjtSn}')">출장신청</button>
+
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+                <col width="20%">
+                <col width="30%">
+                <col width="20%">
+                <col width="30%">
+            </colgroup>
+            <thead>
             <tr>
                 <th scope="row" class="text-center th-color">
                     <span class="red-star"></span>상담내용
@@ -65,14 +94,30 @@
                     </button>
                 </td>
             </tr>
-        </thead>
-    </table>
+            </thead>
+        </table>
 
-    <br>
-    <span style=""> ※ 출장 정보</span>
-    <div id="bustripMainGrid"></div>
+        <br>
+        <span style=""> ※ 출장 정보</span>
+        <div id="bustripMainGrid"></div>
+    </div>
+
+    <div id="selectType2" style="display: none;">
+        <div id="calendar" class="app-fullcalendar"></div>
+    </div>
 </div>
 
+<link href="/css/schedule/fullcalendar.min.css" rel="stylesheet" />
+<link href="/css/schedule/styleA.css" rel="stylesheet" />
+
+<script src="/js/schedule/global.min.js"></script>
+<script src="/js/schedule/custom.min.js"></script>
+<script src="/js/schedule/jquery-ui.min.js"></script>
+<script src="/js/schedule/moment.min.js"></script>
+<script src="/js/schedule/fullcalendar.min.js"></script>
+<script src="/js/schedule/fullcalendar-bustrip-init.js?v=${today}"></script>
 <script>
+    jQuery.noConflict();
     bustInfo.fn_defaultScript();
+    bustInfo.refresh();
 </script>

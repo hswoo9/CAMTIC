@@ -1114,6 +1114,16 @@ public class BustripController {
         return "jsonView";
     }
 
+    @RequestMapping("/bustrip/getProjectBustMetList")
+    public String getProjectBustMetList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = bustripService.getProjectBustMetList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     /** 출장 여비정산 개인 데이터(지급신청용) */
     @RequestMapping("/bustrip/getPersonalExnpData")
     public String getPersonalExnpData(@RequestParam Map<String, Object> params, Model model){

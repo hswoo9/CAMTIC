@@ -647,6 +647,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public List<Map<String, Object>> getProjectBustMetList(Map<String, Object> params) {
+        return bustripRepository.getProjectBustMetList(params);
+    }
+
+    @Override
     public void setCardHist(Map<String, Object> params) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("HR_BIZ_REQ_RESULT_ID", params.get("hrBizReqResultId"));

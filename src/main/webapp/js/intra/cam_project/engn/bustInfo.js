@@ -2,6 +2,18 @@ let bustSum = 0;
 
 var bustInfo = {
 
+    global : {
+        now : new Date(),
+        year : "",
+        month : "",
+        day : "",
+        searchAjaxData : "",
+        data : new Array(),
+        minuteList : new Array(),
+        hourList : new Array(),
+        dropDownDataSource : "",
+    },
+
     fn_defaultScript : function(){
         commonProject.setPjtStat();
         customKendo.fn_textBox(["bustripReq"]);
@@ -18,6 +30,28 @@ var bustInfo = {
     },
 
     bustripMainGrid : function(){
+
+        $("#radioSelectType").kendoRadioGroup({
+            items: [
+                { label : "출장 정보", value : "1" },
+                { label : "일정", value : "2" },
+            ],
+            layout : "horizontal",
+            labelPosition : "after",
+            value : "1",
+            change : function(e){
+                var idx = this.value();
+
+                if(idx == 1){
+                    $("#selectType1").css("display", "");
+                    $("#selectType2").css("display", "none");
+                } else if (idx == 2){
+                    $("#selectType1").css("display", "none");
+                    $("#selectType2").css("display", "");
+                }
+            }
+        });
+
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -529,8 +563,52 @@ var bustInfo = {
         }
         return tripCodeText;
     },
+
+    getScheduleData : function(){
+        var scheduleData = new Array();
+
+        bustInfo.global.searchAjaxData = {
+            pjtSn : $("#pjtSn").val(),
+        }
+
+        var ds = customKendo.fn_customAjax("/bustrip/getProjectBustMetList", bustInfo.global.searchAjaxData);
+        if(ds.flag){
+            bustInfo.global.data = ds.list;
+        }
+        if(bustInfo.global.data.length > 0){
+            for(var i = 0 ; i < bustInfo.global.data.length ; i++){
+                var row = {};
+                row.title = bustInfo.global.data[i].title;
+                row.start = new Date(bustInfo.global.data[i].start);
+                row.end = new Date(bustInfo.global.data[i].end);
+                row.hrBizReqId = bustInfo.global.data[i].hrBizReqId;
+                row.cardToSn = bustInfo.global.data[i].cardToSn;
+                row.viewType = bustInfo.global.data[i].viewType;
+                scheduleData.push(row);
+            }
+        }
+        return scheduleData;
+    },
+
+    fn_regMeetingPop: function (key, frKey){
+        var url = "/card/pop/regMeeting.do?cardToSn=" + key + "&metSn=" + frKey;
+
+        if(frKey == null || frKey == "" || frKey == undefined){
+            url = "/card/pop/regMeeting.do?cardToSn=" + key;
+        }
+        var name = "_blank";
+        var option = "width = 1000, height = 700, top = 100, left = 300, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    refresh: function(){
+        $("#calendar").html("");
+        bustInfo.global.cal.$calendar.fullCalendar("destroy");
+        bustInfo.global.cal.init();
+    }
 }
 
 function gridReload(){
     bustInfo.bustripMainGrid();
+    bustInfo.refresh();
 }

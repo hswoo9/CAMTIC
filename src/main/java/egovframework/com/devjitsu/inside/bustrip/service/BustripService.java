@@ -125,6 +125,7 @@ public interface BustripService {
     void delBustripCost(Map<String, Object> params);
 
     List<Map<String, Object>> getProjectBustList(Map<String, Object> params);
+    List<Map<String, Object>> getProjectBustMetList(Map<String, Object> params);
     void setCardHist(Map<String, Object> params);
 
     List<Map<String, Object>> getCardList(Map<String, Object> params);
