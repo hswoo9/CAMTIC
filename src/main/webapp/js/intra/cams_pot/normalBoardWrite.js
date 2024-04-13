@@ -138,6 +138,7 @@ var normalArticleWrite = {
 			e.data = {
 				fileNo : e.files[0].fileNo
 			};
+			return;
 			customKendo.fn_customAjax("/board/commonBoardFileDel", e.data);
 		}else{
 			e.preventDefault();
