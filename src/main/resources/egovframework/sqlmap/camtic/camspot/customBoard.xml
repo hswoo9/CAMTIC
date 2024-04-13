@@ -271,6 +271,7 @@
             AND DATE_FORMAT(#{selectedDate}, '%Y-%m') BETWEEN DATE_FORMAT(SC.START_DT, '%Y-%m') AND DATE_FORMAT(SC.END_DT, '%Y-%m')
         </if>
         AND ACTIVE = 'Y'
+        ORDER BY CONCAT(DATE_FORMAT(SC.START_DT, '%Y-%m-%d'), ' ', SC.START_TIME) ASC
     </select>
 
     <select id="getBustripScheduleList" parameterType="map" resultType="map">
@@ -1115,7 +1116,7 @@
              )A
         WHERE
             #{selectedDate} BETWEEN A.start AND A.end
-        ORDER BY A.start DESC
+        ORDER BY A.start ASC
 
         LIMIT 7
     </select>

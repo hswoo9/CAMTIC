@@ -162,7 +162,7 @@
                         <span class="red-star"></span>최대 참여율
                     </th>
                     <td>
-                        <input type="text" id="maxPartRate" value="0" maxlength="2" style="width: 80%; text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> %
+                        <input type="text" id="maxPartRate" value="0" maxlength="3" style="width: 80%; text-align: right" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"> %
                     </td>
                 </tr>
                 <tr>
