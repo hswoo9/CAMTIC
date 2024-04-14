@@ -13,7 +13,7 @@
 
     <task:scheduler id="etaxG20Scheduler" pool-size="1"/>
     <task:scheduled-tasks scheduler="etaxG20Scheduler">
-        <task:scheduled ref="schedulerService" method="etaxG20Scheduler" cron="0 55 * * * ?"/>
+        <task:scheduled ref="schedulerService" method="etaxG20Scheduler" cron="0 0 0 * * ?"/>
     </task:scheduled-tasks>
 
     <task:scheduler id="exnpApproveStatChangeSheduler" pool-size="1"/>
