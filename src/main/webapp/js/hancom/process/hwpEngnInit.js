@@ -281,6 +281,8 @@ var engnInit = {
 
         /** 1. 사업정보 */
         engnInit.delvSet();
+        /** 결과보고는 결과보고 탭에 작성한 날짜 */
+        hwpDocCtrl.putFieldText("PJT_DT_NOW", resMap.RS_STR_DT + " ~ " + resMap.RS_END_DT);
 
         /** 1-1. 협업사항 */
         if(map.TM_YN == "Y"){

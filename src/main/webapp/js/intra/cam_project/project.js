@@ -18,8 +18,8 @@ var camPrj = {
                 { text: "전체", value: "" },
                 { text: "미수주", value: "Y" },
                 { text: "예상", value: "'Y', 'E', 'E1', 'E2', 'R', 'S'" },
-                { text: "진행", value: "'E3', 'E4', 'E5', 'R2', 'R2', 'S2'" },
-                { text: "완료", value: "'E6', 'E7', 'R3', 'S3'" }
+                { text: "진행", value: "'E3', 'E4', 'E5', 'E6', 'E7', 'R2', 'R2', 'S2', 'R3', 'S3'" },
+                { text: "완료", value: "res" }
             ],
             index: 0
         });
@@ -412,7 +412,7 @@ var camPrj = {
                 }, {
                     title:"협업금액",
                     template: function(e) {
-                        return '<div style="text-align: right">'+camPrj.comma(e.TM_AMT)+'</div>';
+                        return '<div style="text-align: right">'+camPrj.comma(e.PJT_AMT)+'</div>';
                     },
                     width: "150px"
                 },

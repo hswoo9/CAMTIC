@@ -79,16 +79,47 @@ var teamReq = {
     fn_calCost: function(obj){
         if(obj.id.match("teamAmt") || obj.id.match("teamInvAmt")){
             /** 배분비율 */
-            const teamAmt = uncomma($("#teamAmt").val());
-            const leftAmt = uncomma($("#leftAmt").val());
+            const teamAmt = uncommaN($("#teamAmt").val());
+            const leftAmt = uncommaN($("#leftAmt").val());
             const teamPer = 100 - Math.round(100 - Number(teamAmt) / Number(leftAmt) * 100);
             $("#teamPer").val(teamPer);
 
             /** 수익비율 */
-            const teamInvAmt = uncomma($("#teamInvAmt").val());
-            const teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100);
+            const teamInvAmt = uncommaN($("#teamInvAmt").val());
+            let teamIncomePer = 0;
+            if(teamAmt == "0"){
+                teamIncomePer = 0;
+            }else{
+                teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100);
+            }
             $("#teamIncomePer").val(teamIncomePer);
         }
+
+        inputNumberFormat(obj);
+    },
+
+    fn_calCost2: function(obj){
+
+        let sum = 0;
+        $.each($(".bgtAmt"), function(i, v){
+            let bgtAmt = 0;
+            if(v.value == null || v.value == undefined || v.value == ""){
+                sum += 0;
+            }else{
+                sum += Number(uncomma(v.value));
+            }
+        })
+        $("#teamAmt").val(comma(sum));
+
+        const teamAmt = uncomma($("#teamAmt").val());
+        const leftAmt = uncomma($("#leftAmt").val());
+        const teamPer = 100 - Math.round(100 - Number(teamAmt) / Number(leftAmt) * 100);
+        $("#teamPer").val(teamPer);
+
+        /** 수익비율 */
+        const teamInvAmt = uncomma($("#teamInvAmt").val());
+        const teamIncomePer = Math.round(100 - Number(teamInvAmt) / Number(teamAmt) * 100);
+        $("#teamIncomePer").val(teamIncomePer);
 
         inputNumberFormat(obj);
     },
@@ -226,8 +257,8 @@ var teamReq = {
                 html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px; position: relative; top: 3px">'+ mediumText +'</p></td>';
                 html += '    <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px; position: relative; top: 3px">'+ map.BGT_NM +'</p></td>';
                 html += '    <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px; position: relative; top: 3px">'+ fn_numberWithCommas(map.SUB_AM) +'</p></td>';
-                html += '    <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px; position: relative; top: 3px"><input id="bgtTeamAmt'+map.BGT_CD+'"' +
-                    'style="text-align: right" value="0" onkeyup="fn_inputNumberFormat(this)" oninput="onlyNumber(this)"/></p></td>';
+                html += '    <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px; position: relative; top: 3px"><input id="bgtTeamAmt'+map.BGT_CD+'" class="bgtAmt"' +
+                    'style="text-align: right" value="0" onkeyup="teamReq.fn_calCost2(this)" oninput="onlyNumber(this)"/></p></td>';
                 html += '</tr>';
             }
             sum += map.SUB_AM;
@@ -241,6 +272,8 @@ var teamReq = {
             html += '    <td colspan="5" style="text-align:center;">등록된 예산이 없습니다.</td>';
             html += '</tr>';
             $("#g20Row").html(html);
+        }else{
+            $("#teamAmt").data("kendoTextBox").enable(false);
         }
     }
 }

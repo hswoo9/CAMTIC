@@ -403,7 +403,7 @@ var docView = {
          *  최종결재 할때 추가
          * */
         let list = docView.global.rs.approveRoute;
-        if(list[list.length - 1].APPROVE_EMP_SEQ == docView.global.loginVO.uniqId){
+        if(list[list.length - 1].APPROVE_EMP_SEQ == docView.global.loginVO.uniqId || (docView.global.rs.approveNowRoute.SUB_APPROVAL == 'Y' && (docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ))){
             const draftDeptSeq = docView.global.rs.approveRoute[0].APPROVE_DEPT_SEQ;
             const searchAjaxData = {
                 type : "approve",
