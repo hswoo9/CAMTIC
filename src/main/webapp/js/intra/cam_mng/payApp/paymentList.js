@@ -73,9 +73,11 @@ var paymentList = {
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="paymentList.fn_checkAll(this)"/>',
                     template : function (e){
-
-                        return "<input type='checkbox' id='payAppSn"+e.PAY_APP_SN+"' name='payChk' value='"+e.PAY_APP_SN+"'/>"
-
+                        if(e.ORG_YN == 'N'){
+                            return "<input type='checkbox' id='payAppSn"+e.PAY_APP_SN+"' name='payChk' value='"+e.PAY_APP_SN+"'/>"
+                        } else {
+                            return "";
+                        }
                     },
                     width: 30
                 }, {
@@ -115,7 +117,12 @@ var paymentList = {
                         } else if (e.PAY_APP_TYPE == 4){
                             status = "alt";
                         }
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+', \''+status+'\', \'user\')">'+e.APP_TITLE+'</div>';
+
+                        if(e.ORG_YN == 'N'){
+                            return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+', \''+status+'\', \'user\')">'+e.APP_TITLE+'</div>';
+                        } else {
+                            return '<div style="cursor: pointer; font-weight: bold">'+e.APP_TITLE+'</div>';
+                        }
                     }
                 }, {
                     title: "프로젝트 명",
