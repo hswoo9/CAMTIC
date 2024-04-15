@@ -50,7 +50,7 @@
                     </td>
                     <th>평가대상</th>
                     <td>
-                        <span id="evaluationMemberCnt" name="evaluationMemberCnt">0</span> 명
+                        <span id="evaluationMemberCnt" name="evaluationMemberCnt"></span> 명
                         <button type="button" id="setEvaluationMember" class="k-button k-button-solid-info" onclick="fn_userMultiSelectPop()">평가대상 선택</button>
                     </td>
                 </tr>
@@ -86,13 +86,13 @@
                     <col style="width: 7%">
                     <col style="width: 7%">
                     <col style="width: 7%">
-                    <col style="width: 7%">
+                    <%--<col style="width: 7%">--%>
                 </colgroup>
                 <tr>
                     <th rowspan="3">회차</th>
                     <th rowspan="3">평가기간</th>
                     <th colspan="9">평가 차수별 가중치</th>
-                    <th rowspan="3">설정</th>
+                    <%--<th rowspan="3">설정</th>--%>
                 </tr>
                 <tr>
                     <th colspan="3">팀원</th>
@@ -146,12 +146,59 @@
                     <td>
                         <input type="text" id="deptManagerC0" class="deptManagerC" name="deptManagerC" style="width: 100%; text-align: right" />
                     </td>
-                    <td style="text-align: center" >
+                    <%--<td style="text-align: center" >
                         <button type="button" class="k-button k-button-solid-base" onclick="">설정</button>
-                    </td>
+                    </td>--%>
                 </tr>
                 </tbody>
             </table>
+
+            <div id="evalMng" style="display: none;">
+                <button class="k-button k-button-solid-info" style="margin: 20px 0 5px 0; float: right;">전년도 평가표 복사</button>
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col style="width: 10%">
+                        <col style="width: 30%">
+                        <col style="width: 30%">
+                        <col style="width: 30%">
+                    </colgroup>
+                    <tr>
+                        <th>직원구분</th>
+                        <th>연구개발(R&D)직군</th>
+                        <th>기업지원(A&C)직군</th>
+                        <th>경영관리(P&M)직군</th>
+                    </tr>
+                    <tr>
+                        <th>부서장용</th>
+                        <td colspan="3">
+                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('deptHeader', '')">부서장 역량평가 설정</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>팀장용</th>
+                        <td>
+                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('teamLeader' , 'RD')">팀장 R&D 역량평가 설정</button>
+                        </td>
+                        <td>
+                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('teamLeader' , 'AC')">팀장 A&C 역량평가 설정</button>
+                        </td>
+                        <td>
+                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('teamLeader' , 'PM')">팀장 P&M 역량평가 설정</button>
+                        </td>
+                    <tr>
+                        <th>팀원용</th>
+                        <td>
+                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team' , 'PD')">팀원 R&D 역량평가 설정</button>
+                        </td>
+                        <td>
+                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team' , 'PD')">팀원 A&C 역량평가 설정</button>
+                        </td>
+                        <td>
+                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team', 'PD')">팀원 P&M 역량평가 설정</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <div class="panel-body" style="padding-top: unset">
@@ -356,8 +403,8 @@
         </div>
 
 
-        <div class="panel-body" style="padding-top: unset">
-            <div class="card-header">
+        <div class="panel-body" style="padding-top: unset; width: 50%;">
+            <div class="card-header" style="padding-right: 0;">
                 <h4 style="position: relative; top:7px">
                     평가 등급별 수준 및 점수
                 </h4>
@@ -415,6 +462,11 @@
 <script>
     var empSeqArr = [];
     $(function (){
+
+        if($("#evalSn").val() != "" && $("#evalSn").val() != null){
+
+            $('#evalMng').css("display", "");
+        }
 
         CKEDITOR.replace('contents', {
             height: 250
@@ -489,7 +541,7 @@
             const bsList = result.bsList  //사업
             const btList = result.btList  //지원
             const scList = result.scList
-
+            $("#evaluationMemberCnt").text(result.empCnt.cnt);
             $("#bsYear").data("kendoDatePicker").value(evalMap.BS_YEAR);
             $("#evalNum").data("kendoDropDownList").value(evalMap.EVAL_NUM);
             $("#evalStat").data("kendoRadioGroup").value(evalMap.EVAL_STAT);  // 작성중; 평가중; 평가완료
@@ -736,7 +788,8 @@
             return;
         }
 
-        window.open("/evaluation/pop/requestEvaluationUsers.do?bsYear=" + $("#bsYear").val(),"조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        window.open("/evaluation/pop/requestEvaluationUsers.do?pk="+ $("#evalSn").val() +"&bsYear=" + $("#bsYear").val(),"조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        newWindow.empSeqArr = empSeqArr;
     }
 
     function fn_userMultiSelectPopCallBack(e){
@@ -922,6 +975,13 @@
         if($("#scoreList").find("tr").length > 1){
             $("#scoreList").find("tr:last").remove();
         }
+    }
+
+    function fn_open_mng(pType,type){
+        var url = "/evaluation/pop/evalMngList.do?type="+type+"&pType="+pType+"&pk="+$("#evalSn").val();
+        var name = "_blank";
+        var option = "width = 1500, height = 820, top = 200, left = 600, location = no";
+        var popup = window.open(url, name, option);
     }
 </script>
 </body>

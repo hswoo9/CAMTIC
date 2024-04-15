@@ -127,6 +127,17 @@ public class EvaluationController {
         return "jsonView";
     }
 
+    @RequestMapping("/evaluation/pop/evalMngList.do")
+    public String evalMngList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/inside/evaluation/evalMngList";
+    }
+
 
     /**
      * 인사평가 대상설정 팝업
@@ -137,7 +148,9 @@ public class EvaluationController {
      */
     @RequestMapping("/evaluation/pop/requestEvaluationUsers")
     public String requestEvaluationUsers(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
-
+        params.put("evalSn", params.get("pk"));
+        List<Map<String, Object>> chkList = evaluationService.getRequestEvaluationUser(params);
+        model.addAttribute("chkList", chkList);
         model.addAttribute("params", params);
 
         return "popup/inside/evaluation/requestEvaluationUsers";
@@ -180,9 +193,21 @@ public class EvaluationController {
         return "jsonView";
     }
 
+    @RequestMapping("/evaluation/setEvaluationMngList")
+    public String setEvaluationMngList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        try{
+            evaluationService.setEvaluationMngList(params);
+            model.addAttribute("params", params);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/evaluation/getEvaluation")
     public String getEvaluation(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
-
+        model.addAttribute("empCnt", evaluationService.getRequestEvaluationUserCnt(params));
         model.addAttribute("data", evaluationService.getEvaluation(params));
         model.addAttribute("bsData", evaluationService.getEvaluationBs(params));
         model.addAttribute("btData", evaluationService.getEvaluationBt(params));
@@ -190,6 +215,15 @@ public class EvaluationController {
         model.addAttribute("bsList", evaluationService.getEvaluationBsList(params));
         model.addAttribute("btList", evaluationService.getEvaluationBtList(params));
         model.addAttribute("scList", evaluationService.getEvaluationScList(params));
+
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/evaluation/getEvaluationMngList")
+    public String getEvaluationMngList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        model.addAttribute("list", evaluationService.getEvaluationMngList(params));
 
 
         return "jsonView";

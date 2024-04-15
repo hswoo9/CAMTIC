@@ -22,6 +22,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
+    public List<Map<String, Object>> getRequestEvaluationUser(Map<String, Object> params) {
+        return evaluationRepository.getRequestEvaluationUser(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getEvaluationList(Map<String, Object> params) {
         return evaluationRepository.getEvaluationList(params);
     }
@@ -43,6 +48,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public Map<String, Object> getEvaluation(Map<String, Object> params) {
         return evaluationRepository.getEvaluation(params);
+    }
+
+    @Override
+    public Map<String, Object> getRequestEvaluationUserCnt(Map<String, Object> params) {
+        return evaluationRepository.getRequestEvaluationUserCnt(params);
     }
     @Override
     public Map<String, Object> getEvaluationBs(Map<String, Object> params) {
@@ -66,6 +76,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public List<Map<String, Object>> getEvaluationScList(Map<String, Object> params) {
         return evaluationRepository.getEvaluationScList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEvaluationMngList(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationMngList(params);
     }
 
     @Override
@@ -119,6 +134,24 @@ public class EvaluationServiceImpl implements EvaluationService {
         for(Map<String, Object> scoreBody : scoreBodyArr){
             scoreBody.put("evalSn", params.get("evalSn"));
             evaluationRepository.insEvaluationScore(scoreBody);
+        }
+
+    }
+
+
+    @Override
+    public void setEvaluationMngList(Map<String, Object> params) {
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> evalBodyArr = gson.fromJson((String) params.get("evalBodyArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        evaluationRepository.delEvaluationMngList(params);
+        for(Map<String, Object> evalBody : evalBodyArr){
+            evalBody.put("evalSn", params.get("evalSn"));
+            evalBody.put("eType", params.get("eType"));
+            evalBody.put("pType", params.get("pType"));
+            evalBody.put("empSeq", params.get("empSeq"));
+
+            evaluationRepository.setEvaluationMngList(evalBody);
         }
 
     }

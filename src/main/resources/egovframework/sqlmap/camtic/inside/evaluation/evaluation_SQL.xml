@@ -56,6 +56,23 @@
         ]]>
     </select>
 
+    <select id="getRequestEvaluationUser" parameterType="map" resultType="map">
+        SELECT
+            A.EVAL_EMP_SEQ
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_MEM A
+        WHERE
+            EVAL_SN = #{evalSn}
+    </select>
+
+    <select id="getRequestEvaluationUserCnt" parameterType="map" resultType="map">
+        SELECT COUNT(A.EVAL_EMP_SEQ) as cnt
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_MEM A
+        WHERE
+            EVAL_SN = #{evalSn}
+    </select>
+
     <select id="getEvaluationList" parameterType="map" resultType="map">
         SELECT
             A.*,
@@ -506,6 +523,69 @@
             AND DUTY_CODE = #{duty}
         </if>
 
+    </select>
+
+    <delete id="delEvaluationMngList" parameterType="map">
+        /*delEvaluationMngList*/
+        DELETE FROM CAM_INSIDE.DJ_EVALUATION_ITEM WHERE EVAL_SN = #{evalSn} AND EVAL_TYPE = #{eType} AND EVAL_POSITION_TYPE = #{pType}
+    </delete>
+
+    <insert id="setEvaluationMngList" parameterType="map">
+        /*setEvaluationMngList*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION_ITEM
+        (
+            EVAL_SN,
+            EVAL_TYPE,
+            EVAL_POSITION_TYPE,
+            EVAL_CAP,
+            EVAL_TITLE,
+            EVAL_VAL,
+            EVAL_STR_S,
+            EVAL_END_S,
+            EVAL_STR_A,
+            EVAL_END_A,
+            EVAL_STR_B,
+            EVAL_END_B,
+            EVAL_STR_C,
+            EVAL_END_C,
+            EVAL_STR_D,
+            EVAL_END_D,
+            REG_EMP_SEQ
+        )
+        VALUES
+            (
+                #{evalSn},
+                #{eType},
+                #{pType},
+                #{evalCap},
+                #{evalTitle},
+                #{evalVal},
+                #{gradeS_s},
+                #{gradeS_e},
+                #{gradeA_s},
+                #{gradeA_e},
+                #{gradeB_s},
+                #{gradeB_e},
+                #{gradeC_s},
+                #{gradeC_e},
+                #{gradeD_s},
+                #{gradeD_e},
+                #{empSeq}
+            )
+    </insert>
+
+    <select id="getEvaluationMngList" parameterType="map" resultType="map">
+        /*getEvaluationMngList*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_ITEM
+        WHERE
+            EVAL_SN = #{evalSn}
+        AND
+            EVAL_TYPE = #{eType}
+        AND
+            EVAL_POSITION_TYPE = #{pType}
     </select>
 
 </mapper>
