@@ -830,7 +830,7 @@ var prp = {
             $("#item" + i).find("#crmSn" + i).val(e[i].CRM_SN);
             $("#item" + i).find("#crmNm" + i).val(e[i].CRM_NM);
             // $("#item" + i).find("#discountAmt" + i).val(comma(e[i].DISCOUNT_AMT));
-            $("#item" + i).find("#rmk" + i).val(e[i].CERT_CONTENT);
+            $("#item" + i).find("#rmk" + i).val(e[i].RMK);
             if(e[i].STATUS == "R"){
                 $("#item" + i).find("#retBtn" + i).css("display", "none");
                 $("#item" + i).find("#itemStatus" + i).append("<div style='margin-left:9px; color:red'>반려</div>");
