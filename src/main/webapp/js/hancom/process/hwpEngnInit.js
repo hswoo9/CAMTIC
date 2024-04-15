@@ -116,8 +116,9 @@ var engnInit = {
 
         /** 마지막 견적 */
         const ests = engnInit.global.estInfo;
+        var estMap = ests.result.estList[0];
         var estSubList = ests.result.estSubList;
-        const htmlEst = engnInit.htmlEst(estSubList);
+        const htmlEst = engnInit.htmlEst(estSubList, estMap);
         hwpDocCtrl.putFieldText("EST_TABLE", " ");
         hwpDocCtrl.moveToField("EST_TABLE", true, true, false);
         hwpDocCtrl.setTextFile(htmlEst, "html","insertfile");
@@ -466,7 +467,8 @@ var engnInit = {
         }, 2000);
     },
 
-    htmlEst: function(estSubList){
+    htmlEst: function(estSubList, estMap){
+        const vat = estMap.VAT;
         let html = '';
         html += '<table style="font-family:굴림체;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
@@ -483,15 +485,29 @@ var engnInit = {
         let sum = 0;
         for(let i=0; i<estSubList.length; i++){
             const info = estSubList[i];
-            html += '               <tr>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.PROD_NM +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.UNIT_AMT) +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ info.PROD_CNT +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.UNIT +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.SUP_AMT) +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ETC +'</p></td>';
-            html += '               </tr>';
-            sum += Number(info.SUP_AMT);
+
+            /** 부가세 포함이 아닐 때 */
+            if(vat != "Y"){
+                html += '               <tr>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.PROD_NM +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.UNIT_AMT) +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ info.PROD_CNT +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.UNIT +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(info.SUP_AMT) +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ETC +'</p></td>';
+                html += '               </tr>';
+                sum += Number(info.SUP_AMT);
+            }else{
+                html += '               <tr>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.PROD_NM +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(Math.floor(info.UNIT_AMT / 1.1)) +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ info.PROD_CNT +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.UNIT +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:13px;">'+ fn_numberWithCommas(Math.floor(info.SUP_AMT / 1.1)) +'</p></td>';
+                html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">'+ info.ETC +'</p></td>';
+                html += '               </tr>';
+                sum += Number(Math.floor(info.SUP_AMT / 1.1));
+            }
         }
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:13px;">합계</p></td>';

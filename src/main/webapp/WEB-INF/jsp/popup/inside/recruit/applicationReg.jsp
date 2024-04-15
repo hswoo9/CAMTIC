@@ -62,6 +62,7 @@
                 </th>
                 <td>
                     <input type="text" id="loginId" name="loginId" style="width: 50%;">
+                    <button type="button" class="k-button k-button-solid-base" id="idCheck">중복확인</button>
                 </td>
             </tr>
             <tr>
@@ -158,6 +159,7 @@
     </div> <!--col lg 12 end-->
 
 <script>
+    var idFlag = false;
     applicationReg.fn_defaultScript();
 
 </script>
