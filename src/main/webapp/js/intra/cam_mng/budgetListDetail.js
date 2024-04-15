@@ -328,7 +328,11 @@ var bld = {
             type : "post",
             dataType : "json",
             success : function(rs){
-                $("#currentAmt").text(comma(rs.data.TX_CUR_BAL));
+                if(rs.data != null){
+                    $("#currentAmt").text(comma(rs.data.TX_CUR_BAL));
+                } else {
+                    $("#currentAmt").text("-");
+                }
             }
         })
     },
