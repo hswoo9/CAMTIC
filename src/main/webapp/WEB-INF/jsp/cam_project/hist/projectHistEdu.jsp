@@ -23,7 +23,7 @@
                     <tbody><tr>
                         <th class="text-center th-color">단위사업명</th>
                         <td>
-                            <input type="text" id="name" style="width: 50%;" autocomplete="off">
+                            <input type="text" id="name" style="width: 50%;" autocomplete="off" onkeypress="if(window.event.keyCode==13){histEdu.gridReload();}">
                         </td>
                     </tr>
                     </tbody>

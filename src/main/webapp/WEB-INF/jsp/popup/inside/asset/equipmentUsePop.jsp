@@ -75,15 +75,24 @@
                             <span class="red-star">*</span>사용일자
                         </th>
                         <td>
-                            <input id="usePdStrDe" type="date" style="width: 40%;">
-                            <input id="time1" style="width: 26%" onchange="equipmentUsePop.fn_calTime()"> ~
-                            <input id="time2" style="width: 26%" onchange="equipmentUsePop.fn_calTime()">
+                            <input id="usePdStrDe" type="date" style="width: 110px;" onchange="equipmentUsePop.fn_calTime()">
+                            <input id="time1" style="width: 80px" onchange="equipmentUsePop.fn_calTime()"> ~
+                            <input id="time2" style="width: 80px" onchange="equipmentUsePop.fn_calTime()">
                         </td>
+                        <td colspan="2">
+                            <input id="usePdEndDe" type="date" style="width: 110px;" onchange="equipmentUsePop.fn_calTime()">
+                            <input id="endTime1" style="width: 80px" onchange="equipmentUsePop.fn_calTime()"> ~
+                            <input id="endTime2" style="width: 80px" onchange="equipmentUsePop.fn_calTime()">
+                            <input type="checkbox" id="oneDay" onchange="equipmentUsePop.oneDay()" checked>
+                            <label class="__lab" for="oneDay" style="vertical-align: middle;">당일</label>
+                        </td>
+                    </tr>
+                    <tr>
                         <th scope="row" class="text-center th-color">
                             사용시간
                         </th>
-                        <td>
-                            <input type="text" id="useTime" maxlength="3" oninput="onlyNumber(this);" onkeyup="equipmentUsePop.fn_EqipmnHUF(this.value)" style="text-align: right; width: 65%;" disabled> 시간
+                        <td colspan="4">
+                            <input type="text" id="useTime" maxlength="3" oninput="onlyNumber(this);" onkeyup="equipmentUsePop.fn_EqipmnHUF(this.value)" style="text-align: right; width: 80px;" disabled> 시간
                         </td>
                     </tr>
                     <tr>

@@ -29,7 +29,7 @@ var equipmentUsePop = {
             start: "month",
             culture : "ko-KR",
             format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth()+1))
+            value : new Date(now.setDate(now.getDate() + 1))
         });
 
         //장비명
@@ -59,7 +59,10 @@ var equipmentUsePop = {
 
         customKendo.fn_timePicker("time1", '10', "HH:mm", "09:00");
         customKendo.fn_timePicker("time2", '10', "HH:mm", "18:00");
-        $("#usePdStrDe, #time1, #time2").attr("readonly", true);
+        customKendo.fn_timePicker("endTime1", '10', "HH:mm", "09:00");
+        customKendo.fn_timePicker("endTime2", '10', "HH:mm", "18:00");
+
+        $("#usePdStrDe, #usePdEndDe, #time1, #time2, #endTime1, #endTime2").attr("readonly", true);
 
         //장비명 드롭박스 리스트
         $.ajax({
@@ -141,7 +144,7 @@ var equipmentUsePop = {
                 });
             }
         });
-        equipmentUsePop.fn_calTime();
+        equipmentUsePop.oneDay();
 
         window.call = function (data){
             equipmentUsePop.fn_EqipmnInfo(data);
@@ -149,7 +152,6 @@ var equipmentUsePop = {
 
         if($("#pjtSn").val() != ""){
             const setParameters = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#pjtSn").val()}).rs;
-            console.log(setParameters);
             $("#busnName").val(setParameters.PJT_NM);
             $("#projectAddBtn").hide();
         }
@@ -165,79 +167,52 @@ var equipmentUsePop = {
 
     equipUseSave : function (){
         /** 사용대금 필수값 해제로 인하여 공백값일시 0원 들어가게 변경 */
-        let useAmt = $("#useAmt").val().replace(/,/g, '');
-        if($("#useAmt").val() == ""){
-            useAmt = 0;
-        }
-
         let perAmt = $("#perAmt").val().replace(/,/g, '');
         if($("#perAmt").val() == ""){
             perAmt = 0;
         }
 
         if(confirm("등록하시겠습니까?")){
-            var data = {
-                pjtSn : $("#pjtSn").val(),
-                eqipmnGbnName : $("#eqipmnGbnName").data("kendoDropDownList").text(), //구분명
-                eqipmnGbnCmmnCdSn : $("#eqipmnGbnName").data("kendoDropDownList").value(), //구분공통코드sn
-                eqipmnName : $("#eqipmnName").data("kendoDropDownList").text(), //장비명
-                eqipmnMstSn : $("#eqipmnName").data("kendoDropDownList").value(), //장비마스터 순번
-                usePdStrDe : $("#usePdStrDe").val().replaceAll('-',''), //사용기간 시작일
-                time1 : $("#time1").val(), //사용기간 시작시간
-                time2 : $("#time2").val(), //사용기간 종료시간
-                //usePdEndDe : $("#usePdEndDe").val().replaceAll('-',''), //사용기간 종료일
-                userName : $("#userName").val(), //사용자명
-                userSn : $("#empSeq").val(), //사용자 사원번호
-                operCn : $("#operCn").val(), //작업내용
-                useTime : $("#useTime").val(), //사용시간
-                useAmt : useAmt, //사용대금
-                perAmt : perAmt, //할인금액
-                perReason : $("#perReason").val(),
-                regDe : $("#regDe").val().replaceAll('-',''), //작성일자
-                crtrSn : $("#regEmpSeq").val(), //생성자sn - 로그인한 계정
-                clientPrtpcoName : $("#clientPrtpcoName").val(), //의뢰업체명
-                custNm : $("#custNm").val()
-            }
+            var data = equipmentUsePop.insertDataList(perAmt);
 
-            if($("#crmCd").val()){
-                data.prtpcoSn = $("#crmCd").val()
-            }
+            $.each(data, function(i, v){
+                if($("#crmCd").val()){
+                    data[i].prtpcoSn = $("#crmCd").val();
+                }
+            })
 
-            if(data.eqipmnGbnCmmnCdSn == null || data.eqipmnGbnCmmnCdSn == ''){
+            if(data[0].eqipmnGbnCmmnCdSn == null || data[0].eqipmnGbnCmmnCdSn == ''){
                 alert("장비명의 첫번째 항목을 선택하세요.")
-                return false;
-            }else if(data.eqipmnMstSn == null || data.eqipmnMstSn == '') {
+                return;
+            }else if(data[0].eqipmnMstSn == null || data[0].eqipmnMstSn == '') {
                 alert("장비명의 두번째 항목을 입력하세요.")
-                return false;
-            }else if(data.usePdStrDe == null || data.usePdStrDe == '') {
+                return;
+            }else if(data[0].usePdStrDe == null || data[0].usePdStrDe == '') {
                 alert("사용기간 시작일을 입력하세요.")
-                return false;
-            //}else if(data.usePdEndDe == null || data.usePdEndDe == '') {
-            //    alert("사용기간 종료일을 입력하세요.")
-            //    return false;
-            }else if(data.userName == null || data.userName == '') {
+                return;
+            }else if(data[0].userName == null || data[0].userName == '') {
                 alert("사용기간 사용자명을 입력하세요.")
-                return false;
-            }else if(data.operCn == null || data.operCn == '') {
+                return;
+            }else if(data[0].operCn == null || data[0].operCn == '') {
                 alert("작업내용을 입력하세요.")
-                return false;
-            }else if(data.useTime == null || data.useTime == '') {
+                return;
+            }else if(data[0].useTime == null || data[0].useTime == '') {
                 alert("사용시간을 입력하세요.")
-                return false;
-            }else if(data.regDe == null || data.regDe == '') {
+                return;
+            }else if(data[0].regDe == null || data[0].regDe == '') {
                 alert("작성일자를 입력하세요.")
-                return false;
-            }else if(data.userSn == null || data.userSn == '') {
+                return;
+            }else if(data[0].userSn == null || data[0].userSn == '') {
                 alert("담당자를 선택하세요.")
-                return false;
-            }else if(data.custNm == null || data.custNm == '') {
+                return;
+            }else if(data[0].custNm == null || data[0].custNm == '') {
                 alert("사용자를 선택하세요.")
-                return false;
+                return;
             }
 
             $.ajax({
                 url : '/asset/setEquipmentUseInsert',
-                data : data,
+                data : {data : JSON.stringify(data)},
                 dataType: "json",
                 type : "get",
                 async : false
@@ -282,7 +257,6 @@ var equipmentUsePop = {
     },
 
     fn_EqipmnInfo : function (name){
-
         $.ajax({
             url : "/asset/getEqipmnOne",
             type : "post",
@@ -324,24 +298,133 @@ var equipmentUsePop = {
         var popup = window.open(url, name, option);
     },
 
-    fn_calTime : function(){
-        let startTime = $("#time1").val();
-        let endTime = $("#time2").val();
-        var now = new Date();
-        var year = now.getFullYear();
-        var month = now.getMonth()+1;
-        var day = now.getDate();
-        var hour1 = startTime.split(":")[0];
-        var hour2 = endTime.split(":")[0];
-        var min1 = startTime.split(":")[1];
-        var min2 = endTime.split(":")[1];
-        var bfDate = new Date(year, month, day, hour1, min1);
-        var afDate = new Date(year, month, day, hour2, min2);
-        var diffSec = afDate.getTime() - bfDate.getTime();
-        var diffMin = diffSec / 1000 / 60 / 60;
+    oneDay : function(){
+        if($("#oneDay").is(":checked")){
+            $("#usePdEndDe").val($("#usePdStrDe").val());
+            $("#endTime1").val($("#time1").val());
+            $("#endTime2").val($("#time2").val());
+            $("#usePdEndDe").data("kendoDatePicker").enable(false);
+            $("#endTime1").data("kendoTimePicker").enable(false);
+            $("#endTime2").data("kendoTimePicker").enable(false);
+        }else{
+            var startDt = $("#usePdStrDe").val().split("-");
+            $("#usePdEndDe").val(startDt[0] + "-" + startDt[1] + "-" + (Number(startDt[2]) + 1));
+            $("#usePdEndDe").data("kendoDatePicker").min(startDt[0] + "-" + startDt[1] + "-" + (Number(startDt[2]) + 1));
+            $("#usePdEndDe").data("kendoDatePicker").enable(true);
+            $("#endTime1").data("kendoTimePicker").enable(true);
+            $("#endTime2").data("kendoTimePicker").enable(true);
+        }
 
+        equipmentUsePop.fn_calTime();
+    },
+
+    fn_calTime : function(){
+        /** 시작일 시간 */
+        var startDt = new Date($("#usePdStrDe").val());
+        let startTime1 = $("#time1").val();
+        let startTime2 = $("#time2").val();
+        var bfDate = new Date(startDt.getFullYear(), startDt.getMonth()+1, startDt.getDate(), startTime1.split(":")[0], startTime1.split(":")[1]);
+        var afDate = new Date(startDt.getFullYear(), startDt.getMonth()+1, startDt.getDate(), startTime2.split(":")[0], startTime2.split(":")[1]);
+
+        /** 종료일 시간 */
+        var diffSec = afDate.getTime() - bfDate.getTime();
+
+        if(!$("#oneDay").is(":checked")){
+            var endDt = new Date($("#usePdEndDe").val());
+            let endTime1 = $("#endTime1").val();
+            let endTime2 = $("#endTime2").val();
+            var bfDate2 = new Date(endDt.getFullYear(), endDt.getMonth()+1, endDt.getDate(), endTime1.split(":")[0], endTime1.split(":")[1]);
+            var afDate2 = new Date(endDt.getFullYear(), endDt.getMonth()+1, endDt.getDate(), endTime2.split(":")[0], endTime2.split(":")[1]);
+
+            if(startDt.getTime() != endDt.getTime()){
+                const diffDate = Math.abs((startDt.getTime() - endDt.getTime())/(1000 * 60 * 60 * 24));
+                diffSec += afDate2.getTime() - bfDate2.getTime();
+                if(diffDate > 1){
+                    for(var i = 1; i < diffDate; i++){
+                        diffSec += (1000 * 60 * 60 * 24);
+                    }
+                }
+            }
+        }
+
+        var diffMin = diffSec / 1000 / 60 / 60;
         $("#useTime").val(Math.ceil(diffMin));
         equipmentUsePop.fn_EqipmnHUF(Math.ceil(diffMin));
+    },
+
+    insertDataList : function(perAmt){
+        /** 시작일 */
+        var startDt = new Date($("#usePdStrDe").val());
+        let startTime1 = $("#time1").val();
+        let startTime2 = $("#time2").val();
+        var bfDate = new Date(startDt.getFullYear(), startDt.getMonth()+1, startDt.getDate(), startTime1.split(":")[0], startTime1.split(":")[1]);
+        var afDate = new Date(startDt.getFullYear(), startDt.getMonth()+1, startDt.getDate(), startTime2.split(":")[0], startTime2.split(":")[1]);
+        var diffSec = afDate.getTime() - bfDate.getTime();
+
+        var arr = new Array();
+        var startData = equipmentUsePop.saveData(perAmt);
+        startData.usePdStrDe = $("#usePdStrDe").val().replaceAll('-','');
+        startData.time1 = $("#time1").val();
+        startData.time2 = $("#time2").val();
+        startData.useTime = Math.ceil(diffSec / 1000 / 60 / 60);
+        startData.useAmt = startData.useTime * $("#hourlyUsageFee").val()
+        arr.push(startData);
+
+        if(!$("#oneDay").is(":checked")){
+            /** 종료일 시간 */
+            var endDt = new Date($("#usePdEndDe").val());
+            let endTime1 = $("#endTime1").val();
+            let endTime2 = $("#endTime2").val();
+            var bfDate2 = new Date(endDt.getFullYear(), endDt.getMonth()+1, endDt.getDate(), endTime1.split(":")[0], endTime1.split(":")[1]);
+            var afDate2 = new Date(endDt.getFullYear(), endDt.getMonth()+1, endDt.getDate(), endTime2.split(":")[0], endTime2.split(":")[1]);
+            diffSec = afDate2.getTime() - bfDate2.getTime();
+
+            var endData = equipmentUsePop.saveData(perAmt);
+            endData.usePdStrDe = $("#usePdEndDe").val().replaceAll('-',''); //사용기간 시작일
+            endData.time1 = $("#endTime1").val(); //사용기간 시작시간
+            endData.time2 = $("#endTime2").val(); //사용기간 종료시간
+            endData.useTime = Math.ceil(diffSec / 1000 / 60 / 60)
+            endData.useAmt = endData.useTime * $("#hourlyUsageFee").val()
+            arr.push(endData);
+
+            const diffDate = Math.abs((startDt.getTime() - endDt.getTime())/(1000 * 60 * 60 * 24));
+            if(diffDate > 1){ //diffDate 2
+                for(var i = 1; i < diffDate; i++){
+                    var a = new Date($("#usePdStrDe").val());
+                    var date = new Date(a.setDate(a.getDate() + i));
+                    var data = equipmentUsePop.saveData(perAmt);
+                    data.usePdStrDe = date.getFullYear() + "" + ("0" + (date.getMonth()+1)).slice(-2) + date.getDate();
+                    data.time1 = "00:00"; //사용기간 시작시간
+                    data.time2 = "23:50"; //사용기간 종료시간
+                    data.useTime = 24;
+                    data.useAmt = data.useTime * $("#hourlyUsageFee").val()
+                    arr.push(data);
+                }
+            }
+        }
+
+        return arr;
+    },
+    
+    saveData : function(perAmt){
+        var e = {
+            pjtSn : $("#pjtSn").val(),
+            eqipmnGbnName : $("#eqipmnGbnName").data("kendoDropDownList").text(), //구분명
+            eqipmnGbnCmmnCdSn : $("#eqipmnGbnName").data("kendoDropDownList").value(), //구분공통코드sn
+            eqipmnName : $("#eqipmnName").data("kendoDropDownList").text(), //장비명
+            eqipmnMstSn : $("#eqipmnName").data("kendoDropDownList").value(), //장비마스터 순번
+            userName : $("#userName").val(), //사용자명
+            userSn : $("#empSeq").val(), //사용자 사원번호
+            operCn : $("#operCn").val(), //작업내용
+            perAmt : perAmt, //할인금액
+            perReason : $("#perReason").val(),
+            regDe : $("#regDe").val().replaceAll('-',''), //작성일자
+            crtrSn : $("#regEmpSeq").val(), //생성자sn - 로그인한 계정
+            clientPrtpcoName : $("#clientPrtpcoName").val(), //의뢰업체명
+            custNm : $("#custNm").val()
+        }
+        
+        return e;
     }
 }
 
