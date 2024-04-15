@@ -109,7 +109,7 @@ const teamPrintPop = {
                 verMap = verList[i];
                 teamPrintPop.global.hwpCtrl.PutFieldText('VERSION', String(i+1));
                 teamPrintPop.global.hwpCtrl.PutFieldText('REG_DATE', verMap.REG_DATE);
-                teamPrintPop.global.hwpCtrl.PutFieldText('TEAM_VERSION_SN', "협업번호 : 23-"+String(verMap.TEAM_VERSION_SN).padStart(3, "0"));
+                teamPrintPop.global.hwpCtrl.PutFieldText('TEAM_VERSION_SN', "협업번호 : 24-"+String(verMap.TEAM_VERSION_SN).padStart(3, "0"));
                 teamPrintPop.global.hwpCtrl.PutFieldText('toDate', verMap.APP_DATE);
 
             }

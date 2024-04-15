@@ -133,4 +133,9 @@ public class ManageServiceImpl implements ManageService {
     public Map<String, Object> getAccountInfoOne(Map<String, Object> params) {
         return manageRepository.getAccountInfoOne(params);
     }
+
+    @Override
+    public Map<String, Object> getCurrentAmountStatus(Map<String, Object> params) {
+        return manageRepository.getCurrentAmountStatus(params);
+    }
 }

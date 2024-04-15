@@ -408,9 +408,9 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            subAmSum += Number(e.SUB_AM);
+                            subAmSum += Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK));
                         }
-                        return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
+                        return "<div style='text-align: right'>"+comma(Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK)))+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
@@ -492,7 +492,12 @@ var rndBg = {
                         } else if (e.PAY_APP_TYPE == 4){
                             status = "alt";
                         }
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="rndBg.fn_reqRegPopup('+e.PAY_APP_SN+', \''+status+'\', \'user\')">'+e.APP_TITLE+'</div>';
+
+                        if(e.ORG_YN == 'N'){
+                            return '<div style="cursor: pointer; font-weight: bold" onclick="rndBg.fn_reqRegPopup('+e.PAY_APP_SN+', \''+status+'\', \'user\')">'+e.APP_TITLE+'</div>';
+                        } else {
+                            return '<div style="cursor: pointer; font-weight: bold">'+e.APP_TITLE+'</div>';
+                        }
                     }
                 }, {
                     title: "프로젝트 명",

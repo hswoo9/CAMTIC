@@ -270,25 +270,29 @@ var carReq = {
         if(carMap != null){
             if(carMap.CAR_TYPE_SN == "2"){
                 var status = carMap.STATUS;
-                if(status == "0"){
-                    buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
-                    buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" disabled onclick=\"carReq.delBtn();\">삭제</button>";
-                    buttonHtml += "<button type=\"button\" id=\"carAppBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.carDrafting()\">상신</button>";
-                }else if(status == "10"){
-                    buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+carMap.DOC_ID+"', '"+carMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
-                }else if(status == "30" || status == "40"){
-                    buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
-                    buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" disabled onclick=\"carReq.delBtn();\">삭제</button>";
-                    buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+carMap.DOC_ID+"', '"+carMap.DOC_MENU_CD+"', '"+carMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
-                }else if(status == "100"){
-                    buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+carMap.DOC_ID+"', '"+carMap.APPRO_KEY+"', '"+carMap.DOC_MENU_CD+"');\">열람</button>";
-                } else {
-                    buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                if($("#regEmpSeq").val() == carMap.REG_EMP_SEQ){
+                    if(status == "0"){
+                        buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                        buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"carReq.delBtn();\">삭제</button>";
+                        buttonHtml += "<button type=\"button\" id=\"carAppBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.carDrafting()\">상신</button>";
+                    }else if(status == "10"){
+                        buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"docApprovalRetrieve('"+carMap.DOC_ID+"', '"+carMap.APPRO_KEY+"', 1, 'retrieve');\">회수</button>";
+                    }else if(status == "30" || status == "40"){
+                        buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                        buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"carReq.delBtn();\">삭제</button>";
+                        buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('"+carMap.DOC_ID+"', '"+carMap.DOC_MENU_CD+"', '"+carMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+                    }else if(status == "100"){
+                        buttonHtml += "<button type=\"button\" id=\"carCanBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+carMap.DOC_ID+"', '"+carMap.APPRO_KEY+"', '"+carMap.DOC_MENU_CD+"');\">열람</button>";
+                    } else {
+                        buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                    }
                 }
             }else{
                 if(carMap.hrBizReqChk == "0"){
-                    buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
-                    buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" disabled onclick=\"carReq.delBtn();\">삭제</button>";
+                    if($("#regEmpSeq").val() == carMap.REG_EMP_SEQ){
+                        buttonHtml += "<button type=\"button\" id=\"carSaveBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"carReq.saveBtn()\">저장</button>";
+                        buttonHtml += "<button type=\"button\" id=\"carDelBtn\" style=\"margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"carReq.delBtn();\">삭제</button>";
+                    }
                 }
             }
         }else{

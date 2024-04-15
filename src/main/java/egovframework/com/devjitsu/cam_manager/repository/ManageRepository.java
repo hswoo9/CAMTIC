@@ -93,4 +93,9 @@ public class ManageRepository extends AbstractDAO {
 
         return (Map<String, Object>) selectOne("manage.getAccountInfoOne", params);
     }
+
+    public Map<String, Object> getCurrentAmountStatus(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("manage.getCurrentAmountStatus", params);
+    }
 }

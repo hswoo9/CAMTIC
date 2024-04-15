@@ -7,6 +7,7 @@ let subAmSum = 0;
 var bld = {
 
     fn_defaultScript: function (){
+        bld.getCurrentAmountStatus();
         bld.budgetMainGrid();
         bld.budgetMainGrid2();
     },
@@ -300,9 +301,9 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            subAmSum += Number(e.SUB_AM);
+                            subAmSum += Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK));
                         }
-                        return "<div style='text-align: right'>"+comma(e.SUB_AM)+"</div>";
+                        return "<div style='text-align: right'>"+comma(Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK)))+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
@@ -314,6 +315,26 @@ var bld = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             }
         }).data("kendoGrid");
+    },
+
+    getCurrentAmountStatus : function(){
+        console.log("getCurrentAmountStatus");
+        var data = {
+            bankNB : $("#bankNB").val().replaceAll("-", ""),
+        }
+        $.ajax({
+            url : "/mng/getCurrentAmountStatus",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.data != null){
+                    $("#currentAmt").text(comma(rs.data.TX_CUR_BAL));
+                } else {
+                    $("#currentAmt").text("-");
+                }
+            }
+        })
     },
 
     onDataBound : function(){

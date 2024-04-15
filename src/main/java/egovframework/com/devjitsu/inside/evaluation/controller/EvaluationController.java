@@ -106,6 +106,29 @@ public class EvaluationController {
     }
 
     /**
+     * 평가결과 팝업창
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/evaluation/pop/evalResult.do")
+    public String evalResult(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/inside/evaluation/evalResult";
+    }
+    @RequestMapping("/evaluation/getEvalResultEmpList")
+    public String getEvalResultEmpList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        model.addAttribute("list", evaluationService.getEvalResultEmpList(params));
+        return "jsonView";
+    }
+
+
+    /**
      * 인사평가 대상설정 팝업
      * @param request
      * @param model

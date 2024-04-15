@@ -245,9 +245,6 @@
                 NOW(),
                 #{regEmpSeq}
             )
-        <selectKey keyProperty="evalAppSnBt" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVALUATION_APP'
-        </selectKey>
     </insert>
 
     <update id="updEvaluationAppBt" parameterType="map">
@@ -312,9 +309,6 @@
                 NOW(),
                 #{regEmpSeq}
             )
-        <selectKey keyProperty="evalAppSnBs" resultType="Integer" order="BEFORE">
-            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_INSIDE' AND TABLE_NAME = 'DJ_EVALUATION_APP'
-        </selectKey>
     </insert>
 
     <update id="updEvaluationAppBs" parameterType="map">
@@ -419,7 +413,6 @@
         INSERT INTO CAM_INSIDE.DJ_EVALUATION_APP_TEAM
             (
                 EVAL_SN,
-                EVAL_APP_SN,
                 EVAL_TYPE,
                 EVAL_FIELD,
                 EVAL_W,
@@ -428,7 +421,6 @@
         VALUES
             (
                 #{evalSn},
-                #{evalAppSn},
                 #{evalType},
                 #{btField},
                 #{btValue},
@@ -446,7 +438,6 @@
         INSERT INTO CAM_INSIDE.DJ_EVALUATION_APP_TEAM
             (
                 EVAL_SN,
-                EVAL_APP_SN,
                 EVAL_TYPE,
                 EVAL_FIELD,
                 EVAL_W,
@@ -455,7 +446,6 @@
         VALUES
             (
                 #{evalSn},
-                #{evalAppSn},
                 #{evalType},
                 #{bsField},
                 #{bsValue},
@@ -489,4 +479,33 @@
                 #{scScore2}
             )
     </insert>
+
+    <select id="getEvalResultEmpList" parameterType="map" resultType="map">
+        SELECT
+            A.*,
+            B.*,
+            C.PARENT_DEPT_SEQ
+        FROM
+            CAM_INSIDE.dj_evaluation_mem A
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO B ON A.EVAL_EMP_SEQ = B.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.dj_dept_info C ON B.DEPT_SEQ = C.DEPT_SEQ
+        WHERE
+            EVAL_SN = #{evalSn}
+        <if test='dept != null and dept != ""'>
+            AND C.PARENT_DEPT_SEQ = #{dept}
+        </if>
+        <if test='team != null and team != ""'>
+            AND B.DEPT_SEQ = #{team}
+        </if>
+        <if test='position != null and position != ""'>
+            AND POSITION_CODE = #{position}
+        </if>
+        <if test='duty != null and duty != ""'>
+            AND DUTY_CODE = #{duty}
+        </if>
+
+    </select>
+
 </mapper>

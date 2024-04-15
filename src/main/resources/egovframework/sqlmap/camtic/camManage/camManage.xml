@@ -636,4 +636,9 @@
         WHERE
             ACCOUNT_TO_SN = #{accountToSn}
     </select>
+
+    <select id="getCurrentAmountStatus" parameterType="map" resultType="map">
+        /*getCurrentAmountStatus*/
+        SELECT * FROM CAM_HR.ERP_HIST_ACCT_CONSOL_TR WHERE ACCT_NO = #{bankNB} ORDER BY ACCT_TXDAY DESC, ACCT_TXTIME DESC, ACCT_TXDAY_SEQ DESC LIMIT 1
+    </select>
 </mapper>

@@ -25,6 +25,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Map<String, Object>> getEvaluationList(Map<String, Object> params) {
         return evaluationRepository.getEvaluationList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getEvalResultEmpList(Map<String, Object> params) {
+        return evaluationRepository.getEvalResultEmpList(params);
+    }
     @Override
     public Map<String, Object> getEvaluationOneList(Map<String, Object> params) {
         return evaluationRepository.getEvaluationOneList(params);
@@ -97,7 +102,6 @@ public class EvaluationServiceImpl implements EvaluationService {
         evaluationRepository.delEvaluationBt(params);
         for(Map<String, Object> btBody : btBodyArr){
             btBody.put("evalSn", params.get("evalSn"));
-            btBody.put("evalAppSn", params.get("evalAppSnBt"));
             evaluationRepository.insEvaluationBt(btBody);
         }
 
@@ -106,7 +110,6 @@ public class EvaluationServiceImpl implements EvaluationService {
         evaluationRepository.delEvaluationBs(params);
         for(Map<String, Object> bsBody : bsBodyArr){
             bsBody.put("evalSn", params.get("evalSn"));
-            bsBody.put("evalAppSn", params.get("evalAppSnBs"));
             evaluationRepository.insEvaluationBs(bsBody);
         }
 
