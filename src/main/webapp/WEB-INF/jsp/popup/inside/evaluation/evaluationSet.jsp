@@ -382,13 +382,13 @@
                 </tr>
                 </thead>
                 <tbody id="scoreList">
-                    <tr style="text-align: center;">
+                    <%--<tr style="text-align: center;">
                        <td><input type="text" id="scClass0" class ="textBox" ></td>
                        <td><input type="text" id="scLevel0" class ="textBox" ></td>
                        <td><input type="text" id="scPerson0" class ="textBox" style="width: 80%;"> %</td>
                        <td><input type="text" id="scScore1_0" class ="textBox" style="width: 35%;"> 점 ~ <input type="text" id="scScore2_0" class ="textBox" style="width: 35%;"> 점
                        </td>
-                    </tr>
+                    </tr>--%>
                 </tbody>
             </table>
         </div>
@@ -713,6 +713,7 @@
             dataType : "json",
             success : function (rs){
                 console.log(rs);
+                alert("등록이 완료 되었습니다.");
             }
         });
     }
