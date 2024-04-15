@@ -327,6 +327,12 @@ public class ManageController {
         return "popup/cam_manager/budgetListDetail";
     }
 
+    @RequestMapping("/mng/getCurrentAmountStatus")
+    public String getCurrentAmountStatus(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        model.addAttribute("data", manageService.getCurrentAmountStatus(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/mng/imgSaveTest")
     @ResponseBody
     public ModelMap imgSaveTest(@RequestParam HashMap<Object, Object> params, final HttpServletRequest request, final HttpServletResponse response) throws Exception{

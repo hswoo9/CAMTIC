@@ -7,6 +7,7 @@ let subAmSum = 0;
 var bld = {
 
     fn_defaultScript: function (){
+        bld.getCurrentAmountStatus();
         bld.budgetMainGrid();
         bld.budgetMainGrid2();
     },
@@ -314,6 +315,22 @@ var bld = {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
             }
         }).data("kendoGrid");
+    },
+
+    getCurrentAmountStatus : function(){
+        console.log("getCurrentAmountStatus");
+        var data = {
+            bankNB : $("#bankNB").val().replaceAll("-", ""),
+        }
+        $.ajax({
+            url : "/mng/getCurrentAmountStatus",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                $("#currentAmt").text(comma(rs.data.TX_CUR_BAL));
+            }
+        })
     },
 
     onDataBound : function(){

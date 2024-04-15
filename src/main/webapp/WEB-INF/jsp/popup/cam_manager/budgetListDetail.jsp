@@ -94,6 +94,7 @@
                         관리예금계좌번호
                     </th>
                     <td>
+                        <input type="hidden" id="bankNB" value="${g20Info.BA_NB}">
                         ${g20Info.BANK_NM} - ${g20Info.BA_NB}
                     </td>
                 </tr>
@@ -108,7 +109,7 @@
                         시재현황
                     </th>
                     <td>
-
+                        <span id="currentAmt"></span>
                     </td>
                 </tr>
                 </thead>
