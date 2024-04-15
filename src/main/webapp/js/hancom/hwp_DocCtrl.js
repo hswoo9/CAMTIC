@@ -750,6 +750,53 @@ var hwpDocCtrl = {
             if (pjtSn == null || pjtSn == undefined || pjtSn == "") { alert(errorText); return; }
             unRndInit.resInit(pjtSn);
 
+        } else if(data.menuCd == "car") {
+
+            const carReqSn = pk;
+            if (carReqSn == null || carReqSn == undefined || carReqSn == "") { alert(errorText); return; }
+            hwpInit.carInit(carReqSn);
+
+        }else if(data.menuCd == "workPlan") {
+            const workPlanApprovalId = data.approKey.split("_")[1];
+            if(workPlanApprovalId == null || workPlanApprovalId == undefined || workPlanApprovalId == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); }
+            var ds = customKendo.fn_customAjax("/workPlan/getWorkPlanData.do", { workPlanApprovalId : workPlanApprovalId});
+            if(ds.flag){
+                ds.data;
+                hwpDocCtrl.global.HwpCtrl.MoveToField('applyEmpInfo', true, true, false);
+                hwpDocCtrl.putFieldText('applyEmpInfo', ds.data.DEPT_NAME2 + " " + ds.data.EMP_NAME_KR);
+
+                hwpDocCtrl.global.HwpCtrl.MoveToField('workReason', true, true, false);
+                hwpDocCtrl.putFieldText('workReason', ds.data.WORK_REASON);
+
+                if(ds.data.workTimeList != null){
+                    for(var i = 0 ; i < ds.data.workTimeList.length ; i++){
+                        if(ds.data.WORK_TIME_CODE_ID == ds.data.workTimeList[i].WORK_TIME_CODE_ID){
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('workTimeType' + i, true, true, false);
+                            hwpDocCtrl.putFieldText('workTimeType' + i, "✓ " + ds.data.workTimeList[i].label);
+                        }else{
+                            hwpDocCtrl.global.HwpCtrl.MoveToField('workTimeType' + i, true, true, false);
+                            hwpDocCtrl.putFieldText('workTimeType' + i, "▢ " + ds.data.workTimeList[i].label);
+                        }
+                    }
+                }else{
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('workTimeType0', true, true, false);
+                    hwpDocCtrl.putFieldText('workTimeType0', "▢ 시차출퇴근A (08:00~17:00)");
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('workTimeType1', true, true, false);
+                    hwpDocCtrl.putFieldText('workTimeType1', "▢ 시차출퇴근B (10:00~19:00)");
+                    hwpDocCtrl.global.HwpCtrl.MoveToField('workTimeType2', true, true, false);
+                    hwpDocCtrl.putFieldText('workTimeType2', "▢ 시차출퇴근C (14:00~22:30)");
+                }
+
+
+                hwpDocCtrl.global.HwpCtrl.MoveToField('workDate', true, true, false);
+                hwpDocCtrl.putFieldText('workDate', ds.data.APPLY_WORK_DATE);
+
+                hwpDocCtrl.global.HwpCtrl.MoveToField('applyDate', true, true, false);
+                hwpDocCtrl.putFieldText('applyDate', ds.data.APPLY_DATE_KR);
+
+                hwpDocCtrl.global.HwpCtrl.MoveToField('applyEmpName', true, true, false);
+                hwpDocCtrl.putFieldText('applyEmpName', ds.data.LOGIN_EMP_NAME_KR);
+            }
         }
 
         /** 재상신이면 사인 초기화 */
