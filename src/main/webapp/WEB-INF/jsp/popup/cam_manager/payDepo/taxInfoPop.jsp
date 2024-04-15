@@ -37,6 +37,7 @@
         <div style="padding: 20px 30px;">
             <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}">
             <input type="hidden" id="regDeptSeq" value="${loginVO.orgnztId}">
+            <span id="lastRegEmpName"></span>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col width="20%">
@@ -134,6 +135,8 @@
                     $("#purpCode").data("kendoDropDownList").value(rs.PURP_CODE);
                     $("#commCode").data("kendoDropDownList").value(rs.COMM_CODE);
                     $("input[name=taxRadio][value=" + rs.TAX_GUBUN + "]").prop("checked", true);
+
+                    $("#lastRegEmpName").text("마지막 변경자: " + (rs.MOD_EMP_NAME ? rs.MOD_EMP_NAME : rs.REG_EMP_NAME));
                 }
             });
         }
