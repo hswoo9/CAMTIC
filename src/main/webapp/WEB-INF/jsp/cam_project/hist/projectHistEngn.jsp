@@ -23,7 +23,7 @@
                     <tbody><tr>
                         <th class="text-center th-color">상담제목</th>
                         <td>
-                            <input type="text" id="jSubject" style="width: 50%;" autocomplete="off">
+                            <input type="text" id="jSubject" style="width: 50%;" autocomplete="off" onkeypress="if(window.event.keyCode==13){histEngn.gridReload();}">
                         </td>
                     </tr>
                     </tbody>

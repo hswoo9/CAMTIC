@@ -254,7 +254,11 @@ public class AssetServiceImpl implements AssetService {
     //장비관리 팝업창 - 장비사용 등록
     @Override
     public void setEquipmentUseInsert(Map<String, Object> params) {
-        assetRepository.setEquipmentUseInsert(params);
+        Gson gson = new Gson();
+        List<Map<String, Object>> data = gson.fromJson((String) params.get("data"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        for(Map<String, Object> dataMap : data){
+            assetRepository.setEquipmentUseInsert(dataMap);
+        }
     }
 
     //장비사용 등록 - 장비명 조회
