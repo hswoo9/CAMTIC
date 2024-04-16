@@ -161,6 +161,18 @@ public class CommonRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("common.getHangInfo", params);
     }
 
+    public Map<String, Object> getJangCodeInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("common.getJangCodeInfo", params);
+    }
+
+    public Map<String, Object> getGwanCodeInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("common.getGwanCodeInfo", params);
+    }
+
+    public Map<String, Object> getHangCodeInfo(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("common.getHangCodeInfo", params);
+    }
+
     public void updJangInfo(Map<String, Object> params) {
         update("common.updJangInfo", params);
     }

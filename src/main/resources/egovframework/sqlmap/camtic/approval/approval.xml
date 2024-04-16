@@ -605,6 +605,9 @@
         ON FI.DOC_ID = DI.DOC_ID AND DI.ATFILE_SN != FI.FILE_NO AND FI.FILE_EXT != 'html'
         WHERE
             DI.DOC_ID = #{docId}
+        <if test='"purc".equals(type)'>
+            OR (CONTENT_ID = CONCAT('purcReq_', #{purcSn}))
+        </if>
         <if test='type == "claim" or "claim".equals(type)'>
             OR (CONTENT_ID = #{contentId} AND FILE_CD = #{fileCd})
             OR (FI.DOC_ID  = (SELECT DOC_ID FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = #{purcSn}) AND FI.FILE_CD = 'purc')

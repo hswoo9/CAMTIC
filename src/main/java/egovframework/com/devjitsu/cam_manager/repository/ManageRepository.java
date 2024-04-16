@@ -98,4 +98,9 @@ public class ManageRepository extends AbstractDAO {
 
         return (Map<String, Object>) selectOne("manage.getCurrentAmountStatus", params);
     }
+
+    public List<Map<String, Object>> getBudgetDetailViewData(Map<String, Object> params) {
+
+        return selectList("manage.getBudgetDetailViewData", params);
+    }
 }

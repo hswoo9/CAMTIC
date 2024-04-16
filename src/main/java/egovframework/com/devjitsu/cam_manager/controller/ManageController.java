@@ -333,6 +333,19 @@ public class ManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/mng/pop/budgetDetailView.do")
+    public String budgetDetailView(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("params", params);
+        model.addAttribute("bgtCode", manageService.getBudgetCodeData(params));
+        return "popup/cam_manager/budgetDetailView";
+    }
+
+    @RequestMapping("/mng/getBudgetDetailViewData")
+    public String getBudgetDetailViewData(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", manageService.getBudgetDetailViewData(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/mng/imgSaveTest")
     @ResponseBody
     public ModelMap imgSaveTest(@RequestParam HashMap<Object, Object> params, final HttpServletRequest request, final HttpServletResponse response) throws Exception{

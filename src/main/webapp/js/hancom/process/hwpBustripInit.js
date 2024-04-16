@@ -62,12 +62,12 @@ var busInit = {
         }else if (carList == 3) {
             carText = "트럭";
         }else if (carList == 10) {
+        }else if (carList == 13) {
             carText = "자가";
         }else if (carList == 0) {
             carText = "대중교통";
         }else if (carList == 12) {
             carText = "모하비";
-        }else if (carList == 13) {
             carText = "솔라티";
         }else if (carList == 14) {
             carText = "드론관제차량";
@@ -144,6 +144,11 @@ var busInit = {
 
         const exnpList = customKendo.fn_customAjax("/inside/getBustripExnpInfo", { hrBizReqResultId: hrBizReqResultId }).list;
 
+        const costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", {
+            endDt: busInfo.TRIP_DAY_TO,
+            projectCd: '0'
+        }).data;
+
         console.log("exnpList", exnpList);
         //요청일
         hwpDocCtrl.putFieldText('toDate', fn_getNowDate(1));
@@ -204,7 +209,13 @@ var busInit = {
         }else if (carList == 11) {
             carText = "기타(" + busInfo.USE_TRSPT_RMK + ")";
         }
-        let car = carText + "(" + busInfo.MOVE_DST + "Km)";
+        let car = "";
+
+        if(costInfo != null){
+            car = carText + "(" + busInfo.MOVE_DST + "Km, 10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)";
+        }else{
+            car = carText + "(" + busInfo.MOVE_DST + "Km)";
+        }
 
         hwpDocCtrl.putFieldText('car', car);
 
