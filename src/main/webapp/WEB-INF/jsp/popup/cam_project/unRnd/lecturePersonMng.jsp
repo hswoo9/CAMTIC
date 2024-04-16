@@ -49,7 +49,7 @@
                     <th><span class="red-star">*</span>이름</th>
                     <td><input id="name" style="width: 150px"></td>
                     <th><span class="red-star">*</span>휴대폰번호</th>
-                    <td><input id="hpNum" style="width: 150px" oninput="lecturePersonMng.pnChk()"><button class="id_check" onclick="lecturePersonMng.dupleCk();" style="border: none;border-radius: 5px;">중복확인</button></td>
+                    <td><input id="hpNum" style="width: 150px; margin-right: 5px;" oninput="lecturePersonMng.pnChk()"><button class="id_check" onclick="lecturePersonMng.dupleCk();" style="border: none;border-radius: 5px;">중복확인</button></td>
                 </tr>
                 <tr>
                     <th><span class="red-star">*</span>비밀번호</th>
@@ -67,7 +67,7 @@
                     <th><span class="red-star">*</span>우편번호</th>
                     <td><input type="text" id="zipCode" style="width: 150px; margin-right: 5px;"><button class="id_check" onclick="addrSearch()" style="border: none;border-radius: 5px;">우편번호 찾기</button></td>
                     <th><span class="red-star">*</span>주소</th>
-                    <td><input type="text" id="address" style="width: 80%"></td>
+                    <td><input type="text" id="address" style="width: 80%" disabled></td>
                 </tr>
                 <tr>
 
@@ -82,8 +82,55 @@
                 </tr>
                 <tr>
                     <th>구분</th>
-                    <td colspan="3"><span id="joinType"></span></td>
+                    <td colspan="3">
+                        <span id="joinType"></span>
+                        <input type="hidden" name="crmSn" id="crmSn" value="">
+                    </td>
                 </tr>
+                </thead>
+            </table>
+
+            <table class="popTable table table-bordered mb-0" id="crmTable" style="display: none;">
+                <colgroup>
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><span class="red-star">*</span>회사</th>
+                    <td colspan="3">
+                        <input type="text" id="crmName" style="width: 250px; margin-right: 5px;">
+                        <button class="id_check" onclick="conBtn()" style="border: none;border-radius: 5px;">회사 선택</button>
+                    </td>
+                </tr>
+                </thead>
+            </table>
+
+
+            <table class="popTable table table-bordered mb-0" id="schoolTable" style="display: none;">
+                <colgroup>
+                    <col width="15%">
+                    <col width="35%">
+                    <col width="15%">
+                    <col width="35%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th><span class="red-star">*</span>학교</th>
+                    <td>
+                        <input type="text" id="schoolName" style="width: 200px; margin-right: 5px;">
+                        <button class="id_check" onclick="schoolBtn()" style="border: none;border-radius: 5px;">대학 선택</button>
+                    </td>
+                    <th><span class="red-star">*</span>전공</th>
+                    <td>
+                        <input type="text" id="schoolMajor" style="width: 150px; margin-right: 5px;">
+                    </td>
+                </tr>
+                </thead>
+            </table>
+
              <%--   <tr>
                     <th>회사명</th>
                     <td>
@@ -118,6 +165,21 @@
 </div>
 <script type="text/javascript">
     lecturePersonMng.fn_defaultScript();
+
+    $(document).ready(function() {
+        $('input[name="joinType"]').change(function() {
+            if ($(this).val() === "S") {
+                $('#schoolTable').css("display" , "");
+                $('#crmTable').css("display" , "none");
+            } else if($(this).val() === "C") {
+                $('#schoolTable').css("display" , "none");
+                $('#crmTable').css("display" , "");
+            } else {
+                $('#schoolTable').css("display" , "none");
+                $('#crmTable').css("display" , "none");
+            }
+        });
+    });
 
     function addrSearch(){
         daum.postcode.load(function(){
@@ -171,6 +233,20 @@
                 }
             }).open();
         });
+    }
+
+    function conBtn(){
+        var url = "/projectUnRnd/popCrmList.do";
+        var name = "companyPop";
+        var option = "width=1200, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    }
+
+    function schoolBtn(){
+        var url = "/projectUnRnd/popSchoolList.do";
+        var name = "companyPop";
+        var option = "width=1200, height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
     }
 </script>
 </body>

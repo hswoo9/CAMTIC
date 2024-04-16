@@ -208,4 +208,7 @@ public class ProjectUnRndRepository extends AbstractDAO {
     public void updateUnRndResFinalApprStat(Map<String, Object> params) {
         update("unRnd.updateUnRndResFinalApprStat", params);
     }
+
+    public List<Map<String, Object>> getPopCrmList(Map<String, Object> params) {return selectList("unRnd.getPopCrmList", params);}
+    public Map<String, Object> getPopCrmOne(Map<String, Object> params) {return (Map<String, Object>)selectOne("unRnd.getPopCrmOne", params);}
 }

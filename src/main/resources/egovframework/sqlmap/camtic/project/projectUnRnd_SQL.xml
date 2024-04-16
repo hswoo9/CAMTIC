@@ -1494,4 +1494,42 @@
           AND
             HP_NUM = #{hpNum}
     </select>
+
+    <select id="getPopCrmList" parameterType="map" resultType="map">
+        /*getPopCrmList*/
+        SELECT
+        *
+        FROM
+        CAM_CRM.DJ_CRM_INFO
+        WHERE
+        1=1
+        <choose>
+            <when test='searchCategory != null and !"".equals(searchInput) and "3".equals(searchCategory)'>
+                AND CRM_NO LIKE CONCAT('%', #{searchInput}, '%')
+            </when>
+            <when test='searchCategory != null and !"".equals(searchInput) and "2".equals(searchCategory)'>
+                AND CRM_NM LIKE CONCAT('%', #{searchInput}, '%')
+            </when>
+            <when test="nameSearch != null and nameSearch != ''">
+                AND CRM_NM LIKE CONCAT('%', #{nameSearch}, '%')
+            </when>
+            <!-- 추가된 조건: "전체"를 선택한 경우 -->
+            <otherwise>
+                AND (CRM_NO LIKE CONCAT('%', #{searchInput}, '%')
+                OR CRM_NM LIKE CONCAT('%', #{searchInput}, '%'))
+            </otherwise>
+        </choose>
+        ORDER BY MOD_DT DESC
+    </select>
+
+    <select id="getPopCrmOne" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_CRM.DJ_CRM_INFO
+        WHERE
+            1=1
+          AND  CRM_SN = #{crmSn}
+    </select>
+
 </mapper>

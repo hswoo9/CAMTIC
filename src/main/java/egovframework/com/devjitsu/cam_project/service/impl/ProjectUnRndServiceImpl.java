@@ -860,4 +860,13 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     public void setPurcUnitCrm(Map<String, Object> params) {
         projectRepository.updPurcUnitCrm(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getPopCrmList(Map<String, Object> params) {
+        return projectUnRndRepository.getPopCrmList(params);
+    }
+    @Override
+    public Map<String, Object> getPopCrmOne(Map<String, Object> params){
+        return projectUnRndRepository.getPopCrmOne(params);
+    }
 }

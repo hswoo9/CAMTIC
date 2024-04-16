@@ -299,6 +299,40 @@ public class ProjectUnRndController {
         model.addAttribute("params", params);
         return "popup/cam_project/unRnd/lecturePersonMng";
     }
+    @RequestMapping("/projectUnRnd/popCrmList.do")
+    public String popCrmList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/crmList";
+    }
+
+    @RequestMapping("/projectUnRnd/getPopCrmList")
+    public String getPopCrmList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectUnRndService.getPopCrmList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+    @RequestMapping("/projectUnRnd/getPopCrmOne")
+    public String getPopCrmOne(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = projectUnRndService.getPopCrmOne(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/popSchoolList.do")
+    public String popSchoolList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/crmSchoolList";
+    }
+
     /** 단위사업(교육) 강사 신규추가 팝업창 */
     @RequestMapping("/projectUnRnd/lectureTeacherMngPop.do")
     public String lectureTeacherMngPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){

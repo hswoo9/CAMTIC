@@ -81,4 +81,7 @@ public interface ProjectUnRndService {
     List<Map<String, Object>> getPjtUnitCrmList(Map<String, Object> params);
 
     void setPurcUnitCrm(Map<String, Object> params);
+
+    List<Map<String, Object>> getPopCrmList(Map<String, Object> params);
+    Map<String, Object> getPopCrmOne(Map<String, Object> params);
 }

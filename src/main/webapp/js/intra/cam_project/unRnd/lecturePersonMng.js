@@ -9,7 +9,7 @@ const lecturePersonMng = {
     },
 
     fn_pageSet: function(){
-        customKendo.fn_textBox(["id", "pwd", "name", "coName", "birth", "part", "place", "telNum", "hpNum", "faxNum", "zipCode", "address", "addDetail", "pwdCheck"]);
+        customKendo.fn_textBox(["id", "pwd", "name", "coName", "birth", "part", "place", "telNum", "hpNum", "faxNum", "zipCode", "address", "addDetail", "pwdCheck", "crmName", "schoolName", "schoolMajor"]);
         let genderDataSource = [
             { label: "남", value: "M" },
             { label: "여", value: "F" }
@@ -76,8 +76,8 @@ const lecturePersonMng = {
             telNum : $("#telNum").val(),
             email : $("#email").val(),
             joinType: $("input[name='joinType']:checked").val(),
-            /*schoolMajor: $("#schoolMajor").val(),
-            crmSn: $("#crmSn").val()*/
+            schoolMajor: $("#schoolMajor").val(),
+            crmSn: $("#crmSn").val()
         }
 
         if($("#personSn").val() != ""){
