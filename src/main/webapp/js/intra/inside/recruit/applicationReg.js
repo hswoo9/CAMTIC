@@ -12,6 +12,21 @@ var applicationReg = {
         console.log("recruitAreaInfoSn : ",recruitAreaInfoSn);
 
         applicationReg.dataSet();
+
+        $("#idCheck").click(function(){
+            var data = {
+                loginId : $("#loginId").val()
+            }
+
+            var rs = customKendo.fn_customAjax("/user/getIdCheck", data);
+
+            if(rs.rs == null || rs.rs == "" || rs.rs == undefined){
+                idFlag = true;
+                alert("등록이 가능한 아이디입니다.");
+            } else {
+                alert("중복 등록된 아이디입니다.");
+            }
+        });
     },
 
     dataSet : function (){
@@ -196,6 +211,12 @@ var applicationReg = {
             alert("아이디를 입력해주세요.");
             return;
         }
+
+        if(!idFlag){
+            alert("중복확인을 해주세요.")
+            return;
+        }
+
         if(data.division == "" || data.division == null) {
             alert("직원구분을 선택해주세요.");
             return;

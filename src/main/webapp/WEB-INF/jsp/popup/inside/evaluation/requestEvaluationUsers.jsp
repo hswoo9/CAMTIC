@@ -17,6 +17,7 @@
 </style>
 
 <input type="hidden" id="bsYear" value="${params.bsYear}"/>
+<input type="hidden" id="evalSn" value="${params.pk}"/>
 
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12 pop_sign_wrap" style="width:100%;padding: 0px">
@@ -39,12 +40,27 @@
 </div><!-- col-md-9 -->
 
 <script>
+    if(window.opener.empSeqArr.length == 0){
+        chkEmpSeqArr = [];
+    }else{
+        var chkEmpSeqArr = window.opener.empSeqArr.split(',').filter(function(value) {
+            return value.trim() !== "";
+        }).map(function(value) {
+            return parseInt(value, 10);
+        });
+    }
+
     $(function () {
-
         customKendo.fn_datePicker("bsYMD", '', "yyyy-MM-dd", new Date($("#bsYear").val()+"-12-31"));
-
         requestEvaluationMainGrid();
+        chkCount();
     });
+
+    function chkCount(){
+        var checkedCount = $("input[name='empPk']:checked").length;
+        console.log(checkedCount)
+        $("#chkEvalMem").text(checkedCount);
+    }
 
     function requestEvaluationMainGrid () {
         let dataSource = new kendo.data.DataSource({
@@ -58,6 +74,7 @@
                 parameterMap: function(data) {
                     data.empSeq = $("#empSeq").val();
                     data.bsYMD = $("#bsYMD").val();
+                    data.evalSn = $("#evalSn").val();
                     return data;
                 }
             },
@@ -83,7 +100,7 @@
                 {
                     name : 'text',
                     template : function (e){
-                        return '평가대상 : <span id="totEvalMem" style="color: red;">0</span> 명';
+                        return '평가대상 : <span id="chkEvalMem">0</span> / <span id="totEvalMem" style="color: red;">0</span> 명';
                     }
                 }, {
                     name : 'excel',
@@ -104,7 +121,17 @@
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'empPk\');"/>',
-                    template : "<input type='checkbox' id='empPk#=EMP_SEQ#' name='empPk' class='empPk' value='#=EMP_SEQ#'/>",
+                    template : function(row){
+                        console.log(chkEmpSeqArr)
+                        if(chkEmpSeqArr.includes(row.EMP_SEQ)){
+                            return "<input type='checkbox' id='empPk" + row.EMP_SEQ + "' name='empPk' class='empPk' onclick='chkCount();' value='" + row.EMP_SEQ + "' checked/>";
+                        }else{
+                            return "<input type='checkbox' id='empPk" + row.EMP_SEQ + "' name='empPk' class='empPk' onclick='chkCount();' value='" + row.EMP_SEQ + "'/>";
+                        }
+                    },
+
+
+                    /*template : "<input type='checkbox' id='empPk#=EMP_SEQ#' name='empPk' class='empPk' value='#=EMP_SEQ#'/>",*/
                     width: 50
                 }, {
                     field: "DEPT_NAME_OD",
