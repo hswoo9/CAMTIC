@@ -903,7 +903,7 @@
                                  INNER JOIN (
                                  ${deptPathQuery}
                                  )OC
-                                            ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1212' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+                                            ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1212' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ OR (DRD.READER_EMP_SEQ = 0 AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ)
                          GROUP BY DRD.DOC_ID
                      )DRD
                               ON DI.DOC_ID = DRD.DOC_ID
