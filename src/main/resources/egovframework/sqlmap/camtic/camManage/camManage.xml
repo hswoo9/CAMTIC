@@ -641,4 +641,34 @@
         /*getCurrentAmountStatus*/
         SELECT * FROM CAM_HR.ERP_HIST_ACCT_CONSOL_TR WHERE ACCT_NO = #{bankNB} ORDER BY ACCT_TXDAY DESC, ACCT_TXTIME DESC, ACCT_TXDAY_SEQ DESC LIMIT 1
     </select>
+
+    <select id="getBudgetDetailViewData" parameterType="map" resultType="map">
+        /*getBudgetDetailViewData*/
+        SELECT
+            A.PAY_APP_SN,
+            A.BUDGET_SN,
+            A.BUDGET_NM,
+            B.PAY_APP_TYPE,
+            B.APP_TITLE,
+            B.APP_CONT,
+            B.REQ_DE,
+            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET S WHERE S.PAY_APP_SN = B.PAY_APP_SN AND S.DET_STAT != 'N') AS TOT_COST,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = B.REG_EMP_SEQ) AS EMP_NAME,
+            B.REVERT_YN,
+            B.DOC_STATUS,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET S WHERE S.PAY_APP_SN = B.PAY_APP_SN) AS ITEM_COUNT,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET S WHERE S.PAY_APP_SN = B.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN WHERE Y.PAY_APP_SN = B.PAY_APP_SN AND Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != '') AS EXNP_DOC_STATUS,                                                                                                                                                                                                                                                       (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP S WHERE S.PAY_APP_SN = B.PAY_APP_SN AND S.REQ_END_DE IS NOT NULL AND S.REQ_END_DE != '' ORDER BY S.EXNP_SN DESC LIMIT 1) AS EXNP_DOC_STATUS2,
+            B.ORG_YN,
+            B.INFO_CODE
+        FROM CAM_MNG.DJ_PAY_APP_DET A
+        LEFT JOIN CAM_MNG.DJ_PAY_APP B ON A.PAY_APP_SN = B.PAY_APP_SN
+        WHERE 1=1
+        AND
+            B.PJT_CD = #{pjtCd}
+        AND
+            A.BUDGET_SN LIKE CONCAT(#{bgtCd}, '%')
+        GROUP BY A.PAY_APP_SN
+        ORDER BY B.REQ_DE DESC
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.cam_project.controller;
 
+import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -107,6 +109,13 @@ public class ProjectUnRndController {
     public String getUnRndDetail(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("map", projectUnRndService.getUnRndDetail(params));
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/getMemberIdCheck")
+    public String getMemberIdCheck(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = projectUnRndService.getMemberIdCheck(params);
+        model.addAttribute("data", map);
         return "jsonView";
     }
 
@@ -290,6 +299,40 @@ public class ProjectUnRndController {
         model.addAttribute("params", params);
         return "popup/cam_project/unRnd/lecturePersonMng";
     }
+    @RequestMapping("/projectUnRnd/popCrmList.do")
+    public String popCrmList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/crmList";
+    }
+
+    @RequestMapping("/projectUnRnd/getPopCrmList")
+    public String getPopCrmList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = projectUnRndService.getPopCrmList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+    @RequestMapping("/projectUnRnd/getPopCrmOne")
+    public String getPopCrmOne(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = projectUnRndService.getPopCrmOne(params);
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/popSchoolList.do")
+    public String popSchoolList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        return "popup/cam_project/unRnd/crmSchoolList";
+    }
+
     /** 단위사업(교육) 강사 신규추가 팝업창 */
     @RequestMapping("/projectUnRnd/lectureTeacherMngPop.do")
     public String lectureTeacherMngPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
@@ -533,6 +576,12 @@ public class ProjectUnRndController {
     /** 단위사업(교육) 신규수강자 등록 */
     @RequestMapping("/projectUnRnd/setLecturePersonData")
     public String setLecturePersonData(@RequestParam Map<String, Object> params, Model model){
+        if(params.containsKey("pwd")) {
+            String passwordTmp = params.get("pwd").toString();
+            String password = Hashing.sha256().hashString(passwordTmp, StandardCharsets.UTF_8).toString();
+            params.put("password", password);
+        }
+
         try{
             projectUnRndService.setLecturePersonData(params);
             model.addAttribute("code", 200);

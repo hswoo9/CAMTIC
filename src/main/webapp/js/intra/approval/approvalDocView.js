@@ -260,6 +260,11 @@ var docView = {
             docView.global.searchAjaxData.type = "bustripRes";
         }
 
+        if(docView.global.rs.docInfo.DOC_MENU_CD == "purc"){
+            docView.global.searchAjaxData.purcSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
+            docView.global.searchAjaxData.type = "purc";
+        }
+
         if(docView.global.rs.docInfo.DOC_MENU_CD == "claim"){
             docView.global.searchAjaxData.claimSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
             docView.global.searchAjaxData.type = "claim";

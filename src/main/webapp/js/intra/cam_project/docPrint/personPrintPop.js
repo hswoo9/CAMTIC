@@ -50,6 +50,12 @@ const personPrintPop = {
         const personMap = result.data;
         const lectureResult = customKendo.fn_customAjax("/projectUnRnd/getLectureInfo", data);
         const lecMap = lectureResult.data;
+
+        const year = new Date(lecMap.LEC_END_DE).getFullYear();
+        const desiredValue = year % 100;
+        console.log(desiredValue);
+
+
         console.log(personMap);
         console.log(lecMap);
 
@@ -62,7 +68,8 @@ const personPrintPop = {
         personPrintPop.global.hwpCtrl.PutFieldText("LEC_DT", lecMap.LEC_STR_DE + " ~ " + lecMap.LEC_END_DE);
         personPrintPop.global.hwpCtrl.PutFieldText("LEC_TIME", lecMap.LEC_TIME + "시간");
 
-        personPrintPop.global.hwpCtrl.PutFieldText("PRINT_NO", "제 CAMTIC EDU 23-"+personMap.PERSON_REQ_SN+"호");
+        personPrintPop.global.hwpCtrl.PutFieldText("PRINT_NO", "제 CAMTIC EDU 24-"+personMap.PERSON_REQ_SN+"호");
+        personPrintPop.global.hwpCtrl.PutFieldText("PRINT_NO", "제 CAMTIC EDU "+desiredValue+"-"+personMap.PERSON_REQ_SN+"호");
         personPrintPop.global.hwpCtrl.PutFieldText("REG_DT", fn_getNowDate(1));
     },
 

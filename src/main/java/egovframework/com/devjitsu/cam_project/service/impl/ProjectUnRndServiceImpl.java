@@ -85,6 +85,11 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
 
     @Override
+    public Map<String, Object> getMemberIdCheck(Map<String, Object> params) {
+        return projectUnRndRepository.getMemberIdCheck(params);
+    }
+
+    @Override
     public void setUnRndDetail(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
 
         if(params.get("stat") == "ins" || "ins".equals(params.get("stat"))){
@@ -854,5 +859,14 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     @Override
     public void setPurcUnitCrm(Map<String, Object> params) {
         projectRepository.updPurcUnitCrm(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPopCrmList(Map<String, Object> params) {
+        return projectUnRndRepository.getPopCrmList(params);
+    }
+    @Override
+    public Map<String, Object> getPopCrmOne(Map<String, Object> params){
+        return projectUnRndRepository.getPopCrmOne(params);
     }
 }

@@ -835,6 +835,42 @@
             HANG_SN = #{pk}
     </select>
 
+    <select id="getJangCodeInfo" parameterType="map" resultType="map">
+        /*getJangCodeInfo*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_JANG_CODE
+        WHERE
+            JANG_CD = #{jangCd}
+        AND
+            BUDGET_VAL = #{temp}
+    </select>
+
+    <select id="getGwanCodeInfo" parameterType="map" resultType="map">
+        /*getGwanCodeInfo*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_GWAN_CODE
+        WHERE
+            GWAN_CD = #{gwanCd}
+        AND
+            BUDGET_VAL = #{temp}
+    </select>
+
+    <select id="getHangCodeInfo" parameterType="map" resultType="map">
+        /*getHangCodeInfo*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_HANG_CODE
+        WHERE
+            HANG_CD = #{hangCd}
+        AND
+            BUDGET_VAL = #{temp}
+    </select>
+
     <update id="updJangInfo" parameterType="map">
         /*updJangInfo*/
         UPDATE CAM_COMMON.DJ_JANG_CODE

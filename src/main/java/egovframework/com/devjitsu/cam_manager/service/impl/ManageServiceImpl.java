@@ -26,6 +26,9 @@ public class ManageServiceImpl implements ManageService {
     @Autowired
     private ManageRepository manageRepository;
 
+    @Autowired
+    private CommonRepository commonRepository;
+
     @Override
     public List<Map<String, Object>> getMemList(Map<String, Object> params) {
         return manageRepository.getMemList(params);
@@ -137,5 +140,36 @@ public class ManageServiceImpl implements ManageService {
     @Override
     public Map<String, Object> getCurrentAmountStatus(Map<String, Object> params) {
         return manageRepository.getCurrentAmountStatus(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getBudgetDetailViewData(Map<String, Object> params) {
+        return manageRepository.getBudgetDetailViewData(params);
+    }
+
+    @Override
+    public Map<String, Object> getBudgetCodeData(Map<String, Object> params) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        int bgtCdLen = params.get("bgtCd").toString().length();
+
+        if(bgtCdLen == 1){
+            params.put("jangCd", params.get("bgtCd").toString().substring(0, 1));
+            resultMap.put("JANG_NM", commonRepository.getJangCodeInfo(params).get("JANG_NM"));
+        } else if(bgtCdLen == 3){
+            params.put("jangCd", params.get("bgtCd").toString().substring(0, 1));
+            resultMap.put("JANG_NM", commonRepository.getJangCodeInfo(params).get("JANG_NM"));
+            params.put("gwanCd", params.get("bgtCd").toString().substring(1, 3));
+            resultMap.put("GWAN_NM", commonRepository.getGwanCodeInfo(params).get("GWAN_NM"));
+        } else if(bgtCdLen == 6){
+            params.put("jangCd", params.get("bgtCd").toString().substring(0, 1));
+            resultMap.put("JANG_NM", commonRepository.getJangCodeInfo(params).get("JANG_NM"));
+            params.put("gwanCd", params.get("bgtCd").toString().substring(1, 3));
+            resultMap.put("GWAN_NM", commonRepository.getGwanCodeInfo(params).get("GWAN_NM"));
+            params.put("hangCd", params.get("bgtCd").toString().substring(3, 6));
+            resultMap.put("HANG_NM", commonRepository.getHangCodeInfo(params).get("HANG_NM"));
+        }
+
+        return resultMap;
     }
 }

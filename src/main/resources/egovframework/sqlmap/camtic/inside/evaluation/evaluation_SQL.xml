@@ -370,9 +370,7 @@
 
     <insert id="delEvaluationEmp" parameterType="map">
         /*delEvaluationEmp*/
-        <foreach collection="empSeqArr" item="item" separator=",">
             DELETE FROM CAM_INSIDE.DJ_EVALUATION_MEM WHERE EVAL_SN = #{evalSn}
-        </foreach>
     </insert>
 
     <delete id="delEvaluationCap" parameterType="map">
