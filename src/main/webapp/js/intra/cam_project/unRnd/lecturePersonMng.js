@@ -9,7 +9,7 @@ const lecturePersonMng = {
     },
 
     fn_pageSet: function(){
-        customKendo.fn_textBox(["id", "pwd", "name", "coName", "birth", "part", "place", "telNum", "hpNum", "faxNum", "zipCode", "address", "addDetail", "pwdCheck", "crmName", "schoolName", "schoolMajor"]);
+        customKendo.fn_textBox(["id", "pwd", "name", "coName", "birth", "part", "place", "telNum", "hpNum", "faxNum", "zipCode", "address", "addDetail", "pwdCheck", "crmName", "schoolName", "schoolMajor", "email"]);
         let genderDataSource = [
             { label: "남", value: "M" },
             { label: "여", value: "F" }
