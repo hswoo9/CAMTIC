@@ -205,7 +205,11 @@ var unRndInit = {
         if(map.PJT_AMT != null && map.PJT_AMT != "" && map.PJT_AMT != 0){
             pjtAmt = Number(map.PJT_AMT);
         }else{
-            pjtAmt = Number(delvMap.TOT_RES_COST);
+            if(map.TAX_GUBUN == "1"){
+                pjtAmt = Number(delvMap.TOT_RES_COST/1.1);
+            }else{
+                pjtAmt = Number(delvMap.TOT_RES_COST);
+            }
         }
 
         const customG20Result = customKendo.fn_customAjax("/project/getProjectBudgetList.do", {pjtSn: pjtSn});

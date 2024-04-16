@@ -327,9 +327,12 @@
     <select id="getPersonData" parameterType="map" resultType="map">
         /*getPersonData*/
         SELECT
-            *
+            A.*,
+            B.CRM_NM
         FROM
-            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON A
+        LEFT JOIN
+            CAM_CRM.DJ_CRM_INFO B ON A.CRM_SN = B.CRM_SN
         WHERE PERSON_SN = #{personSn}
     </select>
 

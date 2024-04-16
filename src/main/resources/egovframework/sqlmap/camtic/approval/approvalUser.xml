@@ -287,7 +287,7 @@
                 DJ_CAMTIC.A_DOC_READER DRD
         INNER JOIN (
             ${deptPathQuery}
-        )OC ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1212' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ
+        )OC ON OC.GBN_ORG = DRD.SEQ_TYPE AND OC.GROUP_SEQ = 'camtic_new' AND OC.COMP_SEQ = '1212' AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ AND OC.EMP_SEQ = DRD.READER_EMP_SEQ OR (DRD.READER_EMP_SEQ = 0 AND OC.DEPT_SEQ = DRD.READER_DEPT_SEQ)
         WHERE 1=1
 --         <![CDATA[
 --             AND
@@ -1125,6 +1125,7 @@
                 DI.DRAFT_EMP_SEQ = #{empSeq}
                 AND (
                 DI.APPROVE_STAT_CODE = 10 OR
+                DI.APPROVE_STAT_CODE = 20 OR
                 DI.APPROVE_STAT_CODE = 50
                 )
             </when>
@@ -1200,6 +1201,7 @@
                 DI.DRAFT_EMP_SEQ = #{empSeq}
                 AND (
                 DI.APPROVE_STAT_CODE = 10 OR
+                DI.APPROVE_STAT_CODE = 20 OR
                 DI.APPROVE_STAT_CODE = 50
                 )
             </when>

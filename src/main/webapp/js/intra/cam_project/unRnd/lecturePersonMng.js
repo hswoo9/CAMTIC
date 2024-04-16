@@ -9,7 +9,7 @@ const lecturePersonMng = {
     },
 
     fn_pageSet: function(){
-        customKendo.fn_textBox(["id", "pwd", "name", "coName", "birth", "part", "place", "telNum", "hpNum", "faxNum", "zipCode", "address", "addDetail", "pwdCheck", "crmName", "schoolName", "schoolMajor"]);
+        customKendo.fn_textBox(["id", "pwd", "name", "coName", "birth", "part", "place", "telNum", "hpNum", "faxNum", "zipCode", "address", "addDetail", "pwdCheck", "crmName", "schoolName", "schoolMajor", "email"]);
         let genderDataSource = [
             { label: "남", value: "M" },
             { label: "여", value: "F" }
@@ -56,6 +56,26 @@ const lecturePersonMng = {
             if(psMap.USER_TYPE != null && psMap.USER_TYPE != ""){
                 $("#joinType").data("kendoRadioGroup").value(psMap.USER_TYPE);
             }
+
+            if (psMap.USER_TYPE === "S") {
+                $('#schoolTable').css("display" , "");
+                $('#crmTable').css("display" , "none");
+            } else if(psMap.USER_TYPE === "C") {
+                $('#schoolTable').css("display" , "none");
+                $('#crmTable').css("display" , "");
+            } else {
+                $('#schoolTable').css("display" , "none");
+                $('#crmTable').css("display" , "none");
+            }
+            $("#crmSn").val(psMap.CRM_SN);
+
+            if(psMap.SCHOOL_MAJOR != "" && psMap.SCHOOL_MAJOR != null && psMap.SCHOOL_MAJOR != undefined){
+                $("#schoolName").val(psMap.CRM_NM);
+            }else{
+                $("#crmName").val(psMap.CRM_NM);
+            }
+
+            $("#schoolMajor").val(psMap.SCHOOL_MAJOR);
         }
     },
 
