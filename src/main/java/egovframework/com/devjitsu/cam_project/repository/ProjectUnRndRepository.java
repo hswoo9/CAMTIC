@@ -22,6 +22,8 @@ public class ProjectUnRndRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("unRnd.getUnRndDetail", params);
     }
 
+    public Map<String,Object> getMemberIdCheck (Map<String,Object> params) {return (Map<String,Object>)selectOne("unRnd.getMemberIdCheck", params);}
+
     public void insUnRndDetail(Map<String, Object> params) {
         insert("unRnd.insUnRndDetail", params);
     }

@@ -611,35 +611,43 @@
     <insert id="insPersonData" parameterType="map">
         /*insPersonData*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
-            (
-                ID,
-                PASSWORD,
-                NAME,
-                BIRTH,
-                GENDER,
-                CO_NAME,
-                PART,
-                PLACE,
-                TEL_NUM,
-                HP_NUM,
-                FAX_NUM,
-                REG_EMP_SEQ
-            )
+        (
+            PASSWORD,
+            NAME,
+            BIRTH,
+            GENDER,
+            ZIP_CODE,
+            ADDRESS,
+            ADDRESS_DETAIL,
+            TEL_NUM,
+            HP_NUM,
+            EMAIL,
+            MAIL_YN,
+            CRM_SN,
+            USER_TYPE,
+            SCHOOL_MAJOR,
+            REG_EMP_SEQ,
+            REG_DT
+        )
         VALUE
-            (
-                #{id},
-                #{password},
-                #{name},
-                #{birth},
-                #{gender},
-                #{coName},
-                #{part},
-                #{place},
-                #{telNum},
-                #{hpNum},
-                #{faxNum},
-                #{regEmpSeq}
-            )
+        (
+            #{password},
+            #{name},
+            #{birth},
+            #{gender},
+            #{zipCode},
+            #{address},
+            #{addressDetail},
+            #{telNum},
+            #{hpNum},
+            #{email},
+            #{mailSv},
+            #{crmSn},
+            #{joinType},
+            #{schoolMajor},
+            #{regEmpSeq},
+            NOW()
+        )
         <selectKey keyProperty="personSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_PJT_MNG' AND TABLE_NAME = 'DJ_PJT_LECTURE_PERSON'
         </selectKey>
@@ -650,17 +658,20 @@
         UPDATE
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
         SET
-            ID = #{id},
             PASSWORD = #{password},
             NAME = #{name},
             BIRTH = #{birth},
             GENDER = #{gender},
-            CO_NAME = #{coName},
-            PART = #{part},
-            PLACE = #{place},
+            ZIP_CODE = #{zipCode},
+            ADDRESS = #{address},
+            ADDRESS_DETAIL = #{addressDetail},
             TEL_NUM = #{telNum},
             HP_NUM = #{hpNum},
-            FAX_NUM = #{faxNum},
+            EMAIL = #{email},
+            MAIL_YN = #{mailSv},
+            CRM_SN = #{crmSn},
+            USER_TYPE = #{joinType},
+            SCHOOL_MAJOR = #{schoolMajor},
             MOD_EMP_SEQ = #{regEmpSeq},
             MOD_DT = NOW()
         WHERE
@@ -1472,4 +1483,15 @@
             LEC_SN = #{pk}
     </insert>
 
+    <select id="getMemberIdCheck" parameterType="map" resultType="map">
+        /* getIdCheck */
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
+        WHERE
+            NAME = #{name}
+          AND
+            HP_NUM = #{hpNum}
+    </select>
 </mapper>

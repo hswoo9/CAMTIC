@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.cam_project.controller;
 
+import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -107,6 +109,13 @@ public class ProjectUnRndController {
     public String getUnRndDetail(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("map", projectUnRndService.getUnRndDetail(params));
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/projectUnRnd/getMemberIdCheck")
+    public String getMemberIdCheck(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> map = projectUnRndService.getMemberIdCheck(params);
+        model.addAttribute("data", map);
         return "jsonView";
     }
 
@@ -533,6 +542,12 @@ public class ProjectUnRndController {
     /** 단위사업(교육) 신규수강자 등록 */
     @RequestMapping("/projectUnRnd/setLecturePersonData")
     public String setLecturePersonData(@RequestParam Map<String, Object> params, Model model){
+        if(params.containsKey("pwd")) {
+            String passwordTmp = params.get("pwd").toString();
+            String password = Hashing.sha256().hashString(passwordTmp, StandardCharsets.UTF_8).toString();
+            params.put("password", password);
+        }
+
         try{
             projectUnRndService.setLecturePersonData(params);
             model.addAttribute("code", 200);
