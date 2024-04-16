@@ -9,6 +9,11 @@
     .table-responsive {
         overflow-x: hidden !important;
     }
+
+    a:hover{
+        text-decoration: underline !important;
+        cursor: pointer;
+    }
 </style>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/budgetListDetail.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>

@@ -291,7 +291,7 @@ var bld = {
                         if(e.DIV_FG_NM == "장"){
                             acctAm2Sum  += Number(e.ACCT_AM_2 + e.WAIT_CK);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK)+"</div>";
+                        return '<div style="text-align: right"><a href="javascript:void(0);" style="text-align: right;" onclick="bld.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\')">'+comma(e.ACCT_AM_2 + e.WAIT_CK)+'</a></div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
@@ -335,6 +335,14 @@ var bld = {
                 }
             }
         })
+    },
+
+    fn_budgetDetailViewPop : function(type, bgtCd){
+        var url = "/mng/pop/budgetDetailView.do?pjtCd=" + $("#pjtCd").val() + "&bgtCd=" + bgtCd + "&type=" + type + "&temp=A&strDt=" + $("#g20FrDt").val() + "&endDt=" + $("#g20ToDt").val();
+        var name = "_blank";
+        var option = "width = 1000, height = 720, top = 100, left = 200, location = no";
+
+        var popup = window.open(url, name, option);
     },
 
     onDataBound : function(){
