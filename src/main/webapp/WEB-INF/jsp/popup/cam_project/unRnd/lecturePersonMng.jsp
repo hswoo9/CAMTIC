@@ -167,6 +167,7 @@
     lecturePersonMng.fn_defaultScript();
 
     $(document).ready(function() {
+
         $('input[name="joinType"]').change(function() {
             if ($(this).val() === "S") {
                 $('#schoolTable').css("display" , "");
