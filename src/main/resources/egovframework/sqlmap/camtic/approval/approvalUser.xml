@@ -1125,6 +1125,7 @@
                 DI.DRAFT_EMP_SEQ = #{empSeq}
                 AND (
                 DI.APPROVE_STAT_CODE = 10 OR
+                DI.APPROVE_STAT_CODE = 20 OR
                 DI.APPROVE_STAT_CODE = 50
                 )
             </when>
@@ -1200,6 +1201,7 @@
                 DI.DRAFT_EMP_SEQ = #{empSeq}
                 AND (
                 DI.APPROVE_STAT_CODE = 10 OR
+                DI.APPROVE_STAT_CODE = 20 OR
                 DI.APPROVE_STAT_CODE = 50
                 )
             </when>
