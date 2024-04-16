@@ -461,6 +461,7 @@
 
 <script>
     var empSeqArr = [];
+    var chkEmpSeqArr = [];
     $(function (){
 
         if($("#evalSn").val() != "" && $("#evalSn").val() != null){
@@ -534,6 +535,7 @@
                 evalSn: $("#evalSn").val()
             };
             const result = customKendo.fn_customAjax("/evaluation/getEvaluation", data);
+            chkEmpSeqArr = result.empList.map(item => Object.values(item));
             const evalMap = result.data;
             const bsData = result.bsData;
             const btData = result.btData;
@@ -790,6 +792,7 @@
 
         window.open("/evaluation/pop/requestEvaluationUsers.do?pk="+ $("#evalSn").val() +"&bsYear=" + $("#bsYear").val(),"조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
         newWindow.empSeqArr = empSeqArr;
+        newWindow.chkEmpSeqArr = chkEmpSeqArr;
     }
 
     function fn_userMultiSelectPopCallBack(e){

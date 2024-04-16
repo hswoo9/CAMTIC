@@ -207,6 +207,7 @@ public class EvaluationController {
 
     @RequestMapping("/evaluation/getEvaluation")
     public String getEvaluation(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        model.addAttribute("empList", evaluationService.getRequestEvaluationUser(params));
         model.addAttribute("empCnt", evaluationService.getRequestEvaluationUserCnt(params));
         model.addAttribute("data", evaluationService.getEvaluation(params));
         model.addAttribute("bsData", evaluationService.getEvaluationBs(params));

@@ -24,7 +24,7 @@
     <div class="table-responsive">
         <div class="card-header pop-header" style="text-align: center">
             <h3 class="card-title title_NM">
-                2025년도 인사평가 대상 설정
+                인사평가 대상 설정
             </h3>
         </div>
 
@@ -40,17 +40,22 @@
 </div><!-- col-md-9 -->
 
 <script>
-    if(window.opener.empSeqArr.length == 0){
-        chkEmpSeqArr = [];
-    }else{
-        var chkEmpSeqArr = window.opener.empSeqArr.split(',').filter(function(value) {
-            return value.trim() !== "";
-        }).map(function(value) {
-            return parseInt(value, 10);
-        });
-    }
+    var chkEmpSeqArr = [];
 
     $(function () {
+        if(window.opener.empSeqArr.length == 0){
+            chkEmpSeqArr = window.opener.chkEmpSeqArr.map(function(value) {
+                return parseInt(value, 10);
+            });
+        }else{
+            chkEmpSeqArr = window.opener.empSeqArr.split(',').filter(function(value) {
+                return value.trim() !== "";
+            }).map(function(value) {
+                return parseInt(value, 10);
+            });
+        }
+
+
         customKendo.fn_datePicker("bsYMD", '', "yyyy-MM-dd", new Date($("#bsYear").val()+"-12-31"));
         requestEvaluationMainGrid();
         chkCount();
@@ -58,7 +63,6 @@
 
     function chkCount(){
         var checkedCount = $("input[name='empPk']:checked").length;
-        console.log(checkedCount)
         $("#chkEvalMem").text(checkedCount);
     }
 
@@ -122,7 +126,6 @@
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'empPk\');"/>',
                     template : function(row){
-                        console.log(chkEmpSeqArr)
                         if(chkEmpSeqArr.includes(row.EMP_SEQ)){
                             return "<input type='checkbox' id='empPk" + row.EMP_SEQ + "' name='empPk' class='empPk' onclick='chkCount();' value='" + row.EMP_SEQ + "' checked/>";
                         }else{
