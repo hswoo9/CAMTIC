@@ -68,6 +68,7 @@
 
                 </tbody>
             </table>
+            <input type="hidden" id="reqAmtTotal">
         </div>
     </div>
 
@@ -110,11 +111,11 @@
                 <span style="font-weight: bold;">증빙서류</span>
                 <span style="float:right; position: relative; color: red; font-size: 12px;">세금계산서, 법인카드 증빙서류가 필요한 경우에만 선택해주세요 (지출요청 후 지급신청서에서 확인 가능)</span>
             </div>
-            <%--<div style="font-size: 13px; text-align: right;">
+            <div style="font-size: 13px; text-align: right;">
                 <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="appUserPaySetting.addRow()">
                     <span class="k-button-text">추가</span>
                 </button>
-            </div>--%>
+            </div>
             <table class="popTable table table-bordered mb-0">
                 <colgroup>
                     <col style="width: 6%;">
@@ -127,7 +128,7 @@
                     <col style="width: 4%;">
                     <col style="width: 4%;">
                     <col style="width: 4%;">
-<%--                    <col style="width: 3%;">--%>
+                    <col style="width: 3%;">
                 </colgroup>
                 <thead>
                 <tr>
@@ -141,7 +142,7 @@
                     <th>총액</th>
                     <th>공급가액</th>
                     <th>세액</th>
-<%--                    <th>명령</th>--%>
+                    <th>기타</th>
                 </tr>
                 </thead>
                 <tbody id="payDestTb">
@@ -150,6 +151,7 @@
                         <input type="hidden" id="payDestSn0" name="payDestSn" class="payDestSn">
                         <input type="text" id="eviType0" class="eviType" style="width: 100%">
                         <input type="hidden" id="fileNo0" class="fileNo">
+                        <input type="hidden" id="card0" class="card">
                         <input type="hidden" id="cardNo0" class="cardNo">
                         <input type="hidden" id="authNo0" class="authNo" style="width: 100%">
                         <input type="hidden" id="authHh0" class="authHh" style="width: 100%">
@@ -188,11 +190,11 @@
                     <td>
                         <input type="text" id="vatCost0" class="vatCost" value="0" style="text-align: right" disabled>
                     </td>
-<%--                    <td>--%>
-<%--                        <div style="text-align: center">--%>
-<%--                            <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>--%>
-<%--                        </div>--%>
-<%--                    </td>--%>
+                    <td>
+                        <div style="text-align: center">
+                            <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>

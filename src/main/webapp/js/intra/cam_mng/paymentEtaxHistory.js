@@ -396,6 +396,13 @@ var payEtaxHist = {
     },
 
     fn_selEtaxInfo2 : function (trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, coCd, taxTy, baNb, bankNm, depositor) {
+        if($("#paySetting").val() == "Y"){
+            if(Math.round(sumAm) > Number(opener.parent.$("#reqAmtTotal").val())){
+                alert("지출금액을 초과하였습니다.");
+                return;
+            }
+        }
+
         var idx = $("#index").val();
 
         var data = {
@@ -659,6 +666,11 @@ var payEtaxHist = {
                     eTaxInfo.supAm, eTaxInfo.vatAm, eTaxInfo.sumAm, eTaxInfo.issNo, eTaxInfo.coCd,
                     eTaxInfo.taxTy, eTaxInfo.idx, fileNo, eTaxInfo.baNb, eTaxInfo.bankNm,
                     eTaxInfo.depositor, eTaxInfo.tradeDe);
+
+                if($("#paySetting").val() == "Y" && opener.parent.$(".payTr").length == 1){
+                    var openerAmt = uncommaN(opener.parent.$("#reqAmt0").val());
+                    opener.parent.$("#reqAmt0").val(comma(Number(openerAmt) + Number(eTaxInfo.sumAm)));
+                }
 
                 window.close();
 

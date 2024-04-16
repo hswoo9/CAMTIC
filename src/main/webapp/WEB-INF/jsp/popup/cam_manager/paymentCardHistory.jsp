@@ -41,6 +41,7 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="type" value="${params.type}" />
 <input type="hidden" id="index" value="${params.index}" />
+<input type="hidden" id="paySetting" value="${params.paySetting}" />
 
 <input type="hidden" id="reqType" value="${params.reqType}" />
 
@@ -244,6 +245,12 @@
                             opener.parent.$("#fileNo" + index).val(fileNo);
 
                             alert("반영되었습니다.");
+
+                            if($("#paySetting").val() == "Y" && opener.parent.$(".payTr").length == 1){
+                                var openerAmt = uncommaN(opener.parent.$("#reqAmt0").val());
+                                opener.parent.$("#reqAmt0").val(comma(Number(openerAmt) + Number(amt)));
+                            }
+
 
                             window.close();
 

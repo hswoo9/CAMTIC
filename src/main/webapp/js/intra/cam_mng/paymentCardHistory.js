@@ -387,6 +387,13 @@ var payCardHist = {
             return;
         }
 
+        if($("#paySetting").val() == "Y"){
+            if(uncommaN(data.AUTH_AMT) > Number(opener.parent.$("#reqAmtTotal").val())){
+                alert("지출금액을 초과하였습니다.");
+                return;
+            }
+        }
+
         console.log(data);
 
         opener.parent.$("#crmNm" + index).val(data.MER_NM);

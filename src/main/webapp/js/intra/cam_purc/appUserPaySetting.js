@@ -4,6 +4,7 @@ const appUserPaySetting = {
         attFiles : [],
         itemIndex : 1,
         createHtmlStr : "",
+        reqAmtTotal : 0,
     },
 
     fn_DefaultScript: function() {
@@ -82,7 +83,7 @@ const appUserPaySetting = {
                 var ls = rs.list;
 
                 for (var i = 0; i < ls.length; i++) {
-                    html += '<tr id="tr'+ls[i].claimSn+'" value="'+i+'">';
+                    html += '<tr id="tr'+ls[i].claimSn+'" value="'+i+'" class="payTr">';
                     html += '   <td style="text-align: center">';
                     html += '       <input type="hidden" id="claimSn'+i+'" name="clm" value="' + ls[i].CLAIM_SN + '">';
                     html += '       ' + (i + 1);
@@ -98,7 +99,7 @@ const appUserPaySetting = {
                     html += '       <input type="hidden" id="totAmt'+i+'" name="totAmt" value="' + (Number(ls[i].TOT_AMT) - Number(ls[i].REQ_AMT)) + '">';
                     html += '   </td>';
                     html += '   <td>';
-                    html += '       <input type="text" style="text-align: right" index="'+i+'" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" id="reqAmt'+i+'" name="reqAmt" onkeyup="appUserPaySetting.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" value="' + comma((Number(ls[i].TOT_AMT) - Number(ls[i].REQ_AMT))) + '">';
+                    html += '       <input type="text" style="text-align: right" index="'+i+'" class="k-input k-textbox k-input-solid k-input-md k-rounded-md" id="reqAmt'+i+'" name="reqAmt" onkeyup="appUserPaySetting.inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" value="0">';
                     html += '   </td>';
                     html += '   <td style="text-align: center">';
                     html += '       <button type="button" class="k-button k-button-solid-error" onclick="appUserPaySetting.fn_delRow('+ls[i].CLAIM_SN+')">삭제</button>';
@@ -110,6 +111,11 @@ const appUserPaySetting = {
 
                 $("#empSeq").val(ls[0].PURC_EMP_SEQ);
                 $("#empName").val(ls[0].PURC_EMP_NAME);
+
+                $.each($(".payTr"), function(i){
+                    appUserPaySetting.global.reqAmtTotal += Number(uncommaN($("#totAmt" + i).val()));
+                });
+                $("#reqAmtTotal").val(appUserPaySetting.global.reqAmtTotal);
             }
         })
 
@@ -190,25 +196,38 @@ const appUserPaySetting = {
         formData.append("itemArray", JSON.stringify(itemArr));
 
         // 증빙유형
-        formData.append("evidType", $("#eviType0").val());
-        formData.append("authNo", $("#authNo0").val());
-        formData.append("authDd", $("#authDd0").val());
-        formData.append("authHh", $("#authHh0").val());
-        formData.append("issNo", $("#issNo0").val());
-        formData.append("coCd", $("#coCd0").val());
-        formData.append("taxTy", $("#taxTy0").val());
-        formData.append("crmNm", $("#crmNm0").val());
-        formData.append("regNo", $("#regNo0").val());
-        formData.append("trCd", $("#trCd0").val());
-        formData.append("crmBnkNm", $("#crmBnkNm0").val());
-        formData.append("crmAccNo", $("#crmAccNo0").val());
-        formData.append("trDe", $("#trDe0").val());
-        formData.append("totCost", appUserPaySetting.uncomma($("#totCost0").val()));
-        formData.append("supCost", appUserPaySetting.uncomma($("#supCost0").val()));
-        formData.append("vatCost", appUserPaySetting.uncomma($("#vatCost0").val()));
-        formData.append("buySts", $("#buySts0").val());
-        formData.append("cardNo", $("#cardNo0").val());
-        formData.append("fileNo", $("#fileNo0").val());
+        var payItemArr = new Array();
+        $.each($(".payDestInfo"), function(i, v){
+            var index = $(this).attr("id").replace(/[^0-9]/g, '');
+
+            var data = {
+                evidType : $("#eviType" + index).val(),
+                authNo : $("#authNo" + index).val(),
+                authDd : $("#authDd" + index).val(),
+                authHh : $("#authHh" + index).val(),
+                issNo : $("#issNo" + index).val(),
+                coCd : $("#coCd" + index).val(),
+                taxTy : $("#taxTy" + index).val(),
+                crmNm : $("#crmNm" + index).val(),
+                regNo : $("#regNo" + index).val(),
+                trCd : $("#trCd" + index).val(),
+                crmBnkNm : $("#crmBnkNm" + index).val(),
+                crmAccNo : $("#crmAccNo" + index).val(),
+                crmAccHolder : $("#crmAccHolder" + index).val(),
+                trDe : $("#trDe" + index).val(),
+                totCost : uncommaN($("#totCost" + index).val()),
+                supCost : uncommaN($("#supCost" + index).val()),
+                vatCost : uncommaN($("#vatCost" + index).val()),
+                buySts : $("#buySts" + index).val(),
+                card : $("#card" + index).val(),
+                cardNo : $("#cardNo" + index).val(),
+                fileNo : $("#fileNo" + index).val(),
+            }
+
+            payItemArr.push(data);
+        });
+
+        formData.append("payItemArr", JSON.stringify(payItemArr));
 
         if(appUserPaySetting.global.attFiles != null){
             for(var i = 0; i < appUserPaySetting.global.attFiles.length; i++){
@@ -345,7 +364,7 @@ const appUserPaySetting = {
     },
 
     fn_paymentCardHistory : function (v, i){
-        var url = "/mng/pop/paymentCardHistory.do?type=" + v + "&index=" + i;
+        var url = "/mng/pop/paymentCardHistory.do?type=" + v + "&index=" + i + "&paySetting=Y";
 
         var name = "_blank";
         var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
@@ -353,7 +372,7 @@ const appUserPaySetting = {
     },
 
     fn_paymentEtaxHistory : function (v, i){
-        var url = "/mng/pop/paymentEtaxHistory.do?type=" + v + "&index=" + i;
+        var url = "/mng/pop/paymentEtaxHistory.do?type=" + v + "&index=" + i + "&paySetting=Y";
 
         var name = "_blank";
         var option = "width = 1500, height = 700, top = 100, left = 300, location = no"
@@ -393,14 +412,16 @@ const appUserPaySetting = {
             '<tr class="payDestInfo newArray" id="pay' + appUserPaySetting.global.itemIndex + '" style="text-align: center;">' +
             '   <td>' +
             '       <input type="hidden" style="width: 70%" id="payDestSn' + appUserPaySetting.global.itemIndex + '" name="payDestSn" class="payDestSn">' +
-            '       <input type="text" id="eviType' + appUserPaySetting.global.itemIndex + '" class="eviType" style="width: 100%">' +
-            '       <input type="hidden" id="fileNo' + appUserPaySetting.global.itemIndex + '" class="fileNo" style="width: 100%">' +
-            '       <input type="hidden" id="authNo' + appUserPaySetting.global.itemIndex + '" class="authNo" style="width: 100%">' +
-            '       <input type="hidden" id="authHh' + appUserPaySetting.global.itemIndex + '" class="authHh" style="width: 100%">' +
-            '       <input type="hidden" id="authDd' + appUserPaySetting.global.itemIndex + '" class="authDd" style="width: 100%">' +
-            '       <input type="hidden" id="issNo' + appUserPaySetting.global.itemIndex + '" class="issNo" style="width: 100%">' +
-            '       <input type="hidden" id="coCd' + appUserPaySetting.global.itemIndex + '" class="coCd" style="width: 100%">' +
-            '       <input type="hidden" id="taxTy' + appUserPaySetting.global.itemIndex + '" class="taxTy" style="width: 100%">' +
+            '       <input type="text" id="eviType' + appUserPaySetting.global.itemIndex + '" class="eviType">' +
+            '       <input type="hidden" id="fileNo' + appUserPaySetting.global.itemIndex + '" class="fileNo">' +
+            '       <input type="hidden" id="card' + appUserPaySetting.global.itemIndex + '" class="card">' +
+            '       <input type="hidden" id="cardNo' + appUserPaySetting.global.itemIndex + '" class="cardNo">' +
+            '       <input type="hidden" id="authNo' + appUserPaySetting.global.itemIndex + '" class="authNo">' +
+            '       <input type="hidden" id="authHh' + appUserPaySetting.global.itemIndex + '" class="authHh">' +
+            '       <input type="hidden" id="authDd' + appUserPaySetting.global.itemIndex + '" class="authDd">' +
+            '       <input type="hidden" id="issNo' + appUserPaySetting.global.itemIndex + '" class="issNo">' +
+            '       <input type="hidden" id="coCd' + appUserPaySetting.global.itemIndex + '" class="coCd">' +
+            '       <input type="hidden" id="taxTy' + appUserPaySetting.global.itemIndex + '" class="taxTy">' +
             '   </td>' +
             '   <td>' +
             '       <input type="text" style="width: 100%" id="crmNm' + appUserPaySetting.global.itemIndex + '" class="crmNm" disabled>' +

@@ -973,6 +973,7 @@ public class PurcServiceImpl implements PurcService {
     public void setPayAppPurcReq(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArray"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        List<Map<String, Object>> payItemArr = gson.fromJson((String) params.get("payItemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
         int maxIdx = purcRepository.getGwIdx(params);
 
@@ -1003,27 +1004,29 @@ public class PurcServiceImpl implements PurcService {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("CE_GW_IDX", maxIdx);
 
-        // dj_file_info contentId 업데이트
-        paramMap.put("contentId", "payClaim_" + maxIdx);
-        paramMap.put("fileNo", params.get("fileNo"));
-        commonRepository.updFileOwnerClaimExnp(paramMap);
+        for(Map<String, Object> map : payItemArr){
+            // dj_file_info contentId 업데이트
+            paramMap.put("contentId", "payClaim_" + maxIdx);
+            paramMap.put("fileNo", map.get("fileNo"));
+            commonRepository.updFileOwnerClaimExnp(paramMap);
 
-        // DJ_USE_CARD_INFO INSERT
-        if(!"".equals(params.get("authNo")) && !"".equals(params.get("authHh")) && !"".equals(params.get("authDd")) && !"".equals(params.get("cardNo")) && !"".equals(params.get("buySts"))){
-            paramMap.put("AUTH_NO", params.get("authNo"));
-            paramMap.put("AUTH_HH", params.get("authHh"));
-            paramMap.put("AUTH_DD", params.get("authDd"));
-            paramMap.put("CARD_NO", params.get("cardNo"));
-            paramMap.put("BUY_STS", params.get("buySts"));
-            payAppRepository.insUseCardInfo(paramMap);
-        }
+            // DJ_USE_CARD_INFO INSERT
+            if(!"".equals(map.get("authNo")) && !"".equals(map.get("authHh")) && !"".equals(map.get("authDd")) && !"".equals(map.get("cardNo")) && !"".equals(map.get("buySts"))){
+                paramMap.put("AUTH_NO", map.get("authNo"));
+                paramMap.put("AUTH_HH", map.get("authHh"));
+                paramMap.put("AUTH_DD", map.get("authDd"));
+                paramMap.put("CARD_NO", map.get("cardNo"));
+                paramMap.put("BUY_STS", map.get("buySts"));
+                payAppRepository.insUseCardInfo(paramMap);
+            }
 
-        // DJ_USE_ETAX_INFO INSERT
-        if(!"".equals(params.get("issNo")) && !"".equals(params.get("coCd")) && !"".equals(params.get("taxTy"))){
-            paramMap.put("ISS_NO", params.get("issNo"));
-            paramMap.put("CO_CD", params.get("coCd"));
-            paramMap.put("TAX_TY", params.get("taxTy"));
-            payAppRepository.insUseEtaxInfo(paramMap);
+            // DJ_USE_ETAX_INFO INSERT
+            if(!"".equals(map.get("issNo")) && !"".equals(map.get("coCd")) && !"".equals(map.get("taxTy"))){
+                paramMap.put("ISS_NO", map.get("issNo"));
+                paramMap.put("CO_CD", map.get("coCd"));
+                paramMap.put("TAX_TY", map.get("taxTy"));
+                payAppRepository.insUseEtaxInfo(paramMap);
+            }
         }
     }
 

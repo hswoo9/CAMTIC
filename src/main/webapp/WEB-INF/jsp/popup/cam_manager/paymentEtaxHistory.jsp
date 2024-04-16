@@ -41,6 +41,7 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="type" value="${params.type}" />
 <input type="hidden" id="index" value="${params.index}" />
+<input type="hidden" id="paySetting" value="${params.paySetting}" />
 
 <div>
     <div class="card-header pop-header">
