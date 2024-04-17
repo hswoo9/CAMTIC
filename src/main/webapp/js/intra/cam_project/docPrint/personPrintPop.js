@@ -53,8 +53,9 @@ const personPrintPop = {
 
         const year = new Date(lecMap.LEC_END_DE).getFullYear();
         const desiredValue = year % 100;
-        console.log(desiredValue);
 
+        var num = personMap.REQ_STATUS_O_COUNT.toString();
+        var maxNum = num.padStart(4, '0');
 
         console.log(personMap);
         console.log(lecMap);
@@ -68,8 +69,7 @@ const personPrintPop = {
         personPrintPop.global.hwpCtrl.PutFieldText("LEC_DT", lecMap.LEC_STR_DE + " ~ " + lecMap.LEC_END_DE);
         personPrintPop.global.hwpCtrl.PutFieldText("LEC_TIME", lecMap.LEC_TIME + "시간");
 
-        personPrintPop.global.hwpCtrl.PutFieldText("PRINT_NO", "제 CAMTIC EDU 24-"+personMap.PERSON_REQ_SN+"호");
-        personPrintPop.global.hwpCtrl.PutFieldText("PRINT_NO", "제 CAMTIC EDU "+desiredValue+"-"+personMap.PERSON_REQ_SN+"호");
+        personPrintPop.global.hwpCtrl.PutFieldText("PRINT_NO", "제 CAMTIC EDU "+desiredValue+"-"+maxNum+"호");
         personPrintPop.global.hwpCtrl.PutFieldText("REG_DT", fn_getNowDate(1));
     },
 
