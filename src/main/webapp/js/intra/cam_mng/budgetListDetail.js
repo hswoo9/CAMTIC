@@ -261,9 +261,9 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm3Sum += Number(e.ACCT_AM_3);
+                            acctAm3Sum += Number(e.ACCT_AM_2);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm3Sum)+"</div>";

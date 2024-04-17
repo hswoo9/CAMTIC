@@ -466,6 +466,7 @@
         LEFT JOIN CAM_MNG.DJ_EXNP C ON C.PAY_APP_SN = B.PAY_APP_SN
         WHERE
             A.PJT_CD = #{mgtSeq}
+        AND A.DOC_STATUS = 100
         AND ((C.PAY_APP_TYPE IN (4, 5, 6) AND C.DOC_STATUS != 100) OR (C.PAY_APP_TYPE IN (1, 2, 3) AND C.RE_STAT != 'Y') OR C.PAY_APP_TYPE IS NULL)
     </select>
 
