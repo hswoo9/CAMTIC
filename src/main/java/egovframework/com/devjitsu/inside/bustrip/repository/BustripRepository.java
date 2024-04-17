@@ -84,6 +84,9 @@ public class BustripRepository extends AbstractDAO {
     public List<Map<String, Object>> getBustripDocFile(Map<String, Object> params) {
         return selectList("bustrip.getBustripDocFile", params);
     }
+    public Map<String, Object> getFileDocInfoByDocId(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("bustrip.getFileDocInfoByDocId", params);
+    }
 
     public void updBustripResult(Map<String, Object> params) {
         update("bustrip.updBustripResReq", params);
@@ -286,6 +289,10 @@ public class BustripRepository extends AbstractDAO {
 
     public void setBustripFileNum(Map<String, Object> params) {
         update("bustrip.setBustripFileNum", params);
+    }
+
+    public void setBustripDocFileCopy(Map<String, Object> params) {
+        update("bustrip.setBustripDocFileCopy", params);
     }
 
     public void delBustripCompanion(Map<String, Object> params) {

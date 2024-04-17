@@ -329,7 +329,13 @@ var readerPop = {
             if(dataItem.seqType == "d"){
                 readerEmpNameStr += "," + dataItem.readerDeptName;
             }else{
-                readerEmpNameStr += "," + dataItem.readerEmpName + "(" + fn_getSpot(dataItem.readerDutyName, dataItem.readerPositionName) + ")";
+                let spot = fn_getSpot(dataItem.readerDutyName, dataItem.readerPositionName);
+
+                if(spot != ""){
+                    readerEmpNameStr += "," + dataItem.readerEmpName + "(" + spot + ")";
+                }else{
+                    readerEmpNameStr += "," + dataItem.readerEmpName;
+                }
             }
 
             var data = {

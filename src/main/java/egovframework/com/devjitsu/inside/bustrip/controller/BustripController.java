@@ -741,6 +741,9 @@ public class BustripController {
 //        }
         model.addAttribute("fileInfo", resultMap);
 
+        List<Map<String, Object>> fileList = bustripService.getBustripDocFile(params);
+        model.addAttribute("fileList", fileList);
+
         return "jsonView";
     }
 

@@ -1437,10 +1437,15 @@ var draft = {
             let tempArr = [];
             let count = 0;
             const bustripList = result.fileInfo;
+            const bustripList2 = result.fileList;
             const cardList = cardResult.list;
 
             for(let i=0; i<bustripList.length; i++){
                 tempArr[count] = bustripList[i];
+                count ++;
+            }
+            for(let i=0; i<bustripList2.length; i++){
+                tempArr[count] = bustripList2[i];
                 count ++;
             }
 

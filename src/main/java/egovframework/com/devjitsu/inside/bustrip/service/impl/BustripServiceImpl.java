@@ -211,18 +211,10 @@ public class BustripServiceImpl implements BustripService {
         Map<String, Object> bustripId = bustripRepository.getBustripId(params);
 
         Map<String, Object> map = new HashMap<>();
-        map.put("docId", bustripId.get("docId"));
+        map.put("docId", bustripId.get("bustripDocId"));
 
         List<Map<String, Object>> resultList = bustripRepository.getBustripDocFile(map);
 
-        params.put("hrBizReqId", bustripId.get("hrBizReqId").toString());
-        List<Map<String, Object>> resFileList = bustripRepository.getBustripReqFileInfoR(params);  // 출장신청서&출장결과보고 첨부파일
-
-        if(resFileList != null){
-            for(Map<String, Object> resFile : resFileList){
-                resultList.add(resFile);
-            }
-        }
         return resultList;
     }
 
@@ -326,7 +318,16 @@ public class BustripServiceImpl implements BustripService {
         params.put("empSeq", empSeq);
 
         Map<String, Object> histMap = bustripRepository.getBustripResultInfoR(params);
+
         params.put("hrBizReqId", histMap.get("HR_BIZ_REQ_ID").toString());
+        Map<String, Object> reqMap = bustripRepository.getBustripReqInfo(params);
+
+        params.put("reqDocId", reqMap.get("DOC_ID").toString());
+        Map<String, Object> reqFileMap = bustripRepository.getFileDocInfoByDocId(params);
+
+        reqFileMap.put("docId", params.get("docId").toString());
+        reqFileMap.put("hrBizReqId", histMap.get("HR_BIZ_REQ_ID").toString());
+
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             bustripRepository.updateResApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
@@ -354,6 +355,8 @@ public class BustripServiceImpl implements BustripService {
                     }
                 }
             }
+
+            bustripRepository.setBustripDocFileCopy(reqFileMap);
         }
     }
 
