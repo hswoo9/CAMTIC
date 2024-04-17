@@ -112,26 +112,30 @@ const orderPrintPop = {
 
         /** 견적가 500*/
         /** 미포함 500 50 550*/
-        const supAmtSum2 = Math.floor(supAmtSum/10);
+        // const supAmtSum2 = Math.floor(supAmtSum/10);
 
         /** 포함 455 45 500*/
-        const supAmtSum3 = Math.ceil(supAmtSum / 1.1);
-        const supAmtSum4 = supAmtSum - supAmtSum3;
+        // const supAmtSum3 = Math.ceil(supAmtSum / 1.1);
+        // const supAmtSum4 = supAmtSum - supAmtSum3;
 
         /** 면세 500 0 500*/
-        if(order.VAT == "N"){
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum+supAmtSum2));
-        }else if(order.VAT == "Y"){
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum3));
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum4));
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
-        }else{
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
-            orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
-        }
+        // if(order.VAT == "N"){
+        //     orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
+        //     orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum2));
+        //     orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum+supAmtSum2));
+        // }else if(order.VAT == "Y"){
+        //     orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum3));
+        //     orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(supAmtSum4));
+        //     orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
+        // }else{
+        //     orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(supAmtSum));
+        //     orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", "0");
+        //     orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
+        // }
+
+        orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(order.EST_AMT));
+        orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(order.VAT_AMT));
+        orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(order.TOT_AMT));
         orderPrintPop.global.hwpCtrl.PutFieldText("ISS", order.SIGNIFICANT == "" || order.SIGNIFICANT == null ? "" : order.SIGNIFICANT.replaceAll("\n", "\r"));
 
         /** 담당자 서명 */
