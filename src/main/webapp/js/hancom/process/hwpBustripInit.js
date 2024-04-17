@@ -62,13 +62,13 @@ var busInit = {
         }else if (carList == 3) {
             carText = "트럭";
         }else if (carList == 10) {
-        }else if (carList == 13) {
             carText = "자가";
+        }else if (carList == 13) {
+            carText = "솔라티";
         }else if (carList == 0) {
             carText = "대중교통";
         }else if (carList == 12) {
             carText = "모하비";
-            carText = "솔라티";
         }else if (carList == 14) {
             carText = "드론관제차량";
         }else if (carList == 11) {
