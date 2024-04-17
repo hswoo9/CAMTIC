@@ -151,7 +151,7 @@ var applicationReg = {
                 applicationId : $("#applicationId").val(),
                 DEPT_NAME : $("#deptName").val(),
                 DEPT_TEAM_NAME : $("#teamName").val(),
-
+                ADDR : opener.parent.$("#paramAddr").val(),
                 LOGIN_ID : $("#loginId").val(),
                 RES_REGIS_NUM: $("#resRegisNum1").val() + '-' + $("#resRegisNum2").val(),
                 POSITION_CODE : $("#position").val(), // 직급 / 등급

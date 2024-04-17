@@ -26,6 +26,8 @@
 <input type="hidden" id="recruitInfoSn" value="${params.recruitInfoSn}">
 <input type="hidden" id="type" value="${params.type}">
 
+<input type="hidden" id="paramAddr" value="${data.ADDR} ${data.ADDR_DETAIL}" />
+
 <body class="font-opensans" style="background-color:#fff;">
 <div class="col-lg-12" style="padding:0;">
     <div class="card-header pop-header">
