@@ -2096,7 +2096,7 @@
         FROM
             CAM_COMMON.DJ_FILE_INFO
         WHERE
-            FILE_NO IN (select group_concat(FILE_NO) from cam_inside.dj_hr_card_hist where HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId} and exnp_type = #{exnpType} and file_no is not null)
+            FILE_NO IN (select FILE_NO from cam_inside.dj_hr_card_hist where HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId} and exnp_type = #{exnpType} and file_no is not null)
     </select>
 
     <select id="getExnpHistOne" parameterType="map" resultType="map">
