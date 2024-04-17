@@ -101,7 +101,7 @@ var pri = {
             $("#inspectEmpName").text(data.INSPECT_EMP_NAME);
 
             if($("#mode").val() == "mng"){
-                $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+data.INSPECT_DT+"</div>");
+                $("#inspectDtTd").html("<div id='INSPECT_DT_MNG' style='margin-top: 3px'>"+(data.INSPECT_DT || "")+"</div>");
                 $("#file1Label").hide();
             }else{
                 if(data.INSPECT_DT != null){
