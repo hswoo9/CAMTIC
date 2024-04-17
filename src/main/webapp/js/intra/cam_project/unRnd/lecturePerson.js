@@ -156,6 +156,7 @@ let lecturePerson = {
             personList: personArr.join(),
             stat: stat,
             pk: $("#pk").val(),
+            year: $("#year").val(),
             statText: statText
         }
         if($("input[name=person]:checked").length == 0) {

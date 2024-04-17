@@ -43,7 +43,10 @@ var lecturePop = {
     },
 
     lectureEduPop: function(pk){
-        let url = "/projectUnRnd/lectureEduPop.do?pk="+pk;
+        const scYear = $("#recruitEndDt").val();
+        var year = scYear.split("-")[0];
+
+        let url = "/projectUnRnd/lectureEduPop.do?pk="+pk+"&year="+year;
         const name = "lectureEduPop";
         const option = "width = 1200, height = 589, top = 150, left = 300, location = no";
         window.open(url, name, option);
@@ -136,7 +139,7 @@ var lecturePop = {
             alert("SMS 발송 할 직원을 선택해주세요."); return;
         }
 
-        var url = "/system/pop/messageSendPop.do?userList="+joinSn+"&type=lecture";;
+        var url = "/system/pop/messageSendPop.do?userList="+joinSn+"&type=lecture";
         var name = "messageSendPop";
         var option = "width=315, height=600, scrollbars=no, top=200, left=600, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);

@@ -444,7 +444,8 @@
             A.*,
             DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DATE,
             B.*,
-            C.LEC_COST
+            C.LEC_COST,
+            (SELECT YEAR(C.LEC_END_DE)) AS scYear
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ A
         LEFT JOIN
@@ -1082,7 +1083,7 @@
         SET
             REQ_STATUS = #{stat},
             REQ_STATUS_NAME = #{statText},
-            REQ_STATUS_O_COUNT = (SELECT MAX(A.REQ_STATUS_O_COUNT) FROM CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ A LEFT JOIN CAM_PJT_MNG.dj_pjt_lecture B ON A.LEC_SN = B.LEC_SN WHERE B.LEC_END_DE LIKE CONCAT('%', YEAR(CURDATE()), '%')) + 1
+            REQ_STATUS_O_COUNT = (SELECT MAX(A.REQ_STATUS_O_COUNT) FROM CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ A LEFT JOIN CAM_PJT_MNG.dj_pjt_lecture B ON A.LEC_SN = B.LEC_SN WHERE B.LEC_END_DE LIKE CONCAT ('%', #{year}, '%')) + 1
         WHERE
             LEC_SN = #{pk}
           AND PERSON_SN = #{personSn}
