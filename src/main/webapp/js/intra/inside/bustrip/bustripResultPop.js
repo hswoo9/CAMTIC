@@ -983,16 +983,17 @@ var bustripResultPop = {
             if(corpCardHist.FILE_NO != "" && corpCardHist.FILE_NO != undefined){
                 let data2 = {
                     hrBizReqResultId: hrBizReqResultId,
-                    exnpType: corpCardHist.EXNP_TYPE
+                    exnpType: corpCardHist.EXNP_TYPE,
+                    FILE_NO: corpCardHist.FILE_NO
                 };
-                corpCardHistFile = customKendo.fn_customAjax("/bustrip/getExnpHistFileList", data2).list;
+                corpCardHistFile = customKendo.fn_customAjax("/bustrip/getExnpHistFileOne", data2).data;
             }
 
             let receiptFile = '<div style="width: 70%; text-align: center; margin: 0 auto;">';
             if(corpCardHist.FILE_NO != "" && corpCardHist.FILE_NO != undefined){
-                for(let i=0; i<corpCardHistFile.length; i++){
-                    receiptFile += '<img src="' + hostUrl + corpCardHistFile[i].file_path + corpCardHistFile[i].file_uuid + '" />';
-                }
+                // for(let i=0; i<corpCardHistFile.length; i++){
+                    receiptFile += '<img src="' + hostUrl + corpCardHistFile.file_path + corpCardHistFile.file_uuid + '" />';
+                // }
             }
             receiptFile += '</div>';
             

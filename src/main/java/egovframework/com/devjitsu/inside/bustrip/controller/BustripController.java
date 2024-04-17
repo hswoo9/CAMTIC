@@ -1190,6 +1190,12 @@ public class BustripController {
         return "jsonView";
     }
 
+    @RequestMapping("/bustrip/getExnpHistFileOne")
+    public String getExnpHistFileOne(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", bustripService.getExnpHistFileOne(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/bustrip/getBustripEmpInfo")
     public String getBustripEmpInfo(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("empInfo", userManageService.getEmpInfo(params));

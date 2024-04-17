@@ -749,6 +749,12 @@ public class BustripServiceImpl implements BustripService {
     public List<Map<String, Object>> getExnpHistFileList(Map<String, Object> params) {
         return bustripRepository.getExnpHistFileList(params);
     }
+
+    @Override
+    public Map<String, Object> getExnpHistFileOne(Map<String, Object> params) {
+        return bustripRepository.getExnpHistFileOne(params);
+    }
+
     @Override
     public Map<String, Object> getExnpHistOne(Map<String, Object> params) {
         Map<String, Object> histMap = bustripRepository.getExnpHistOne(params);
