@@ -64,15 +64,15 @@ const reqOr = {
             totAmt = Number(totAmt) - Number(disAmt);
             console.log(totAmt);
 
-            if(e.target.val() == "N"){
-                vatAmt = (totAmt / 10);
-                $("#estAmt").val(comma(totAmt - vatAmt));
-                $("#vatAmt").val(comma(vatAmt));
-            } else {
-                $("#estAmt").val(comma(totAmt));
-                $("#vatAmt").val(0);
-            }
-            $("#totAmt").val(comma(totAmt));
+            // if(e.target.val() == "N"){
+            //     vatAmt = (totAmt / 10);
+            //     $("#estAmt").val(comma(totAmt - vatAmt));
+            //     $("#vatAmt").val(comma(vatAmt));
+            // } else {
+            //     $("#estAmt").val(comma(totAmt));
+            //     $("#vatAmt").val(0);
+            // }
+            // $("#totAmt").val(comma(totAmt));
         });
 
         reqOr.fn_kendoUIEnableSet();
@@ -248,16 +248,16 @@ const reqOr = {
 
         totAmt = Number(totAmt);
 
-        if($("#vat").data("kendoRadioGroup").value() == "N"){
-            vatAmt = (totAmt / 10);
-            $("#estAmt").val(comma(totAmt));
-            $("#vatAmt").val(comma(vatAmt));
-            totAmt = totAmt + vatAmt;
-        } else {
-            $("#estAmt").val(comma(totAmt));
-            $("#vatAmt").val(0);
-        }
-        $("#totAmt").val(comma(totAmt));
+        // if($("#vat").data("kendoRadioGroup").value() == "N"){
+        //     vatAmt = (totAmt / 10);
+        //     $("#estAmt").val(comma(totAmt));
+        //     $("#vatAmt").val(comma(vatAmt));
+        //     totAmt = totAmt + vatAmt;
+        // } else {
+        //     $("#estAmt").val(comma(totAmt));
+        //     $("#vatAmt").val(0);
+        // }
+        // $("#totAmt").val(comma(totAmt));
         $("#discountAmt").val()
     },
 
