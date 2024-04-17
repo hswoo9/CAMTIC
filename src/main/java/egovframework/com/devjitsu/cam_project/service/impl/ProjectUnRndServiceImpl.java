@@ -528,7 +528,15 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
     }
     @Override
     public void updPersonApp(Map<String, Object> params) {
-        projectUnRndRepository.updPersonApp(params);
+        if(params.get("stat").equals("O")){
+            String[] strArr = params.get("personList").toString().split(",");
+            for (String str : strArr){
+                params.put("personSn" , str);
+                projectUnRndRepository.updPersonAppStatO(params);
+            }
+        }else{
+            projectUnRndRepository.updPersonApp(params);
+        }
     }
     @Override
     public void updPersonPartic(Map<String, Object> params) {
