@@ -1831,6 +1831,18 @@
             A.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
     </select>
 
+    <select id="getBustripDoc" parameterType="map" resultType="map">
+        /* getBustripDoc */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD IN ('bustrip', 'bustripRes')
+          AND DOC_ID IN (${docId})
+          AND FR_KEY IS NULL
+    </select>
+
     <select id="getBustripDocFile" parameterType="map" resultType="map">
         /* getBustripDocFile */
         SELECT
@@ -1842,6 +1854,52 @@
         AND DOC_ID IN (${docId})
         AND FR_KEY IS NULL
     </select>
+
+    <select id="getFileDocInfoByDocId" parameterType="map" resultType="map">
+        /* getFileDocInfoByDocId */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD IN ('bustrip')
+          AND DOC_ID = #{reqDocId}
+          AND FR_KEY IS NULL
+    </select>
+
+    <insert id="setBustripDocFileCopy" parameterType="map">
+        /* setBustripDocFileCopy */
+        INSERT INTO CAM_COMMON.DJ_FILE_INFO
+            (
+                FILE_CD,
+                FILE_UUID,
+                FILE_ORG_NAME,
+                FILE_PATH,
+                FILE_DOWN_PATH,
+                FILE_SIZE,
+                FILE_EXT,
+                EMP_SEQ,
+                CONTENT_ID,
+                DOC_ID,
+                FR_KEY,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{file_cd},
+                #{file_uuid},
+                #{file_org_name},
+                #{file_path},
+                #{file_down_path},
+                #{file_size},
+                #{file_ext},
+                #{emp_seq},
+                #{hrBizReqId},
+                #{docId},
+                #{FR_KEY},
+                #{REG_EMP_SEQ}
+            )
+    </insert>
 
     <select id="getBustripExnpSum" parameterType="map" resultType="map">
         /* getBustripExnpSum */

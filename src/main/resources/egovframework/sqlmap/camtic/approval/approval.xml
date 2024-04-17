@@ -267,6 +267,7 @@
                     FILE_PATH LIKE '%approveDocFile%'
                 AND
                     FILE_EXT = 'hwp'
+                AND CONTENT_ID IS NULL
         <choose>
             <when test='DOC_ID != null and !"".equals(DOC_ID)'>
                 AND DOC_ID = #{DOC_ID}

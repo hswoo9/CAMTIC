@@ -172,9 +172,12 @@ var engnInit = {
         }
 
         /** 3. 사업예산 */
+
+        /** 마지막 견적 */
         const ests = engnInit.global.estInfo;
+        var estMap = ests.result.estList[0];
         var estSubList = ests.result.estSubList;
-        const htmlEst = engnInit.htmlEst(estSubList);
+        const htmlEst = engnInit.htmlEst(estSubList, estMap);
         hwpDocCtrl.putFieldText("EST_TABLE", " ");
         hwpDocCtrl.moveToField("EST_TABLE", true, true, false);
         hwpDocCtrl.setTextFile(htmlEst, "html","insertfile");
@@ -441,9 +444,12 @@ var engnInit = {
         }
 
         /** 2. 사업예산 */
+
+        /** 마지막 견적 */
         const ests = engnInit.global.estInfo;
+        var estMap = ests.result.estList[0];
         var estSubList = ests.result.estSubList;
-        const htmlEst = engnInit.htmlEst(estSubList);
+        const htmlEst = engnInit.htmlEst(estSubList, estMap);
         hwpDocCtrl.putFieldText("EST_TABLE", " ");
         hwpDocCtrl.moveToField("EST_TABLE", true, true, false);
         hwpDocCtrl.setTextFile(htmlEst, "html","insertfile");
