@@ -55,6 +55,9 @@ public class EvaluationServiceImpl implements EvaluationService {
         return evaluationRepository.getRequestEvaluationUserCnt(params);
     }
     @Override
+    public Map<String, Object> getUserPersonnelinformOne(Map<String, Object> params) {
+        return evaluationRepository.getUserPersonnelinformOne(params);
+    }    @Override
     public Map<String, Object> getEvaluationBs(Map<String, Object> params) {
         return evaluationRepository.getEvaluationBs(params);
     }
@@ -81,6 +84,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public List<Map<String, Object>> getEvaluationMngList(Map<String, Object> params) {
         return evaluationRepository.getEvaluationMngList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getEvaluationScoreList(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationScoreList(params);
     }
 
     @Override
@@ -138,7 +146,6 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     }
 
-
     @Override
     public void setEvaluationMngList(Map<String, Object> params) {
 
@@ -152,6 +159,30 @@ public class EvaluationServiceImpl implements EvaluationService {
             evalBody.put("empSeq", params.get("empSeq"));
 
             evaluationRepository.setEvaluationMngList(evalBody);
+        }
+
+    }
+
+    @Override
+    public void setEvalScoreTemSave(Map<String, Object> params) {
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> evalBodyArr = gson.fromJson((String) params.get("evalBodyArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> evalBody : evalBodyArr){
+            evalBody.put("evalSn", params.get("evalSn"));
+            evalBody.put("evalEmpSeq", params.get("evalEmpSeq"));
+            evalBody.put("empSeq", params.get("empSeq"));
+            evalBody.put("evalType", params.get("evalResultType"));
+
+            if(params.get("save").equals("10")){
+                evaluationRepository.updEvalScoreTemSave(evalBody);
+            }else{
+                evaluationRepository.delEvalScoreTemSave(evalBody);
+                evaluationRepository.setEvalScoreTemSave(evalBody);
+            }
+
+
         }
 
     }

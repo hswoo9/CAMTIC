@@ -53,11 +53,11 @@
                     <th scope="row" class="text-center th-color" colspan="5">평가기준</th>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color">S</th>
-                    <th scope="row" class="text-center th-color">A</th>
-                    <th scope="row" class="text-center th-color">B</th>
-                    <th scope="row" class="text-center th-color">C</th>
-                    <th scope="row" class="text-center th-color">D</th>
+                    <th scope="row" class="text-center th-color">탁월</th>
+                    <th scope="row" class="text-center th-color">우수</th>
+                    <th scope="row" class="text-center th-color">보통</th>
+                    <th scope="row" class="text-center th-color">미흡</th>
+                    <th scope="row" class="text-center th-color">부족</th>
                 </tr>
                 </thead>
                 <tbody id="evalList">
@@ -113,24 +113,20 @@
             html += '       <input type="text" id="evalVal' + evNum + '" class ="textBox" value="' +  item.EVAL_VAL + '">';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeS_s' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_STR_S + '"> ~ ';
-            html += '       <input type="text" id="gradeS_e' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_END_S + '">';
+            html += '       <input type="text" id="gradeS_s' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_STR_S + '">';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeA_s' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_STR_A + '">~ ';
-            html += '       <input type="text" id="gradeA_e' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_END_A + '">';
+            html += '       <input type="text" id="gradeA_s' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_STR_A + '">';
             html += '   </td>';
             html += '   <td>';
             html += '       <input type="text" id="gradeB_s' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_STR_B + '"> ~ ';
-            html += '       <input type="text" id="gradeB_e' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_END_B + '">';
+            html += '       <input type="text" id="gradeB_e' + evNum + '" class ="textBox" style="width: 40%;" value="' +  item.EVAL_END_B + '">';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeC_s' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_STR_C + '"> ~ ';
-            html += '       <input type="text" id="gradeC_e' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_END_C + '">';
+            html += '       <input type="text" id="gradeC_s' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_STR_C + '">';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeD_s' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_STR_D + '"> ~ ';
-            html += '       <input type="text" id="gradeD_e' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_END_D + '">';
+            html += '       <input type="text" id="gradeD_s' + evNum + '" class ="textBox" style="width: 35%;" value="' +  item.EVAL_STR_D + '">';
             html += '   </td>';
             html += '</tr>';
         }else {
@@ -146,31 +142,26 @@
             html += '       <input type="text" id="evalVal' + evNum + '" class ="textBox" >';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeS_s' + evNum + '" class ="textBox" style="width: 35%;"> ~ ';
-            html += '       <input type="text" id="gradeS_e' + evNum + '" class ="textBox" style="width: 35%;">';
+            html += '       <input type="text" id="gradeS_s' + evNum + '" class ="textBox" style="width: 35%;">';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeA_s' + evNum + '" class ="textBox" style="width: 35%;">~ ';
-            html += '       <input type="text" id="gradeA_e' + evNum + '" class ="textBox" style="width: 35%;">';
+            html += '       <input type="text" id="gradeA_s' + evNum + '" class ="textBox" style="width: 35%;">';
             html += '   </td>';
             html += '   <td>';
             html += '       <input type="text" id="gradeB_s' + evNum + '" class ="textBox" style="width: 35%;"> ~ ';
             html += '       <input type="text" id="gradeB_e' + evNum + '" class ="textBox" style="width: 35%;">';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeC_s' + evNum + '" class ="textBox" style="width: 35%;"> ~ ';
-            html += '       <input type="text" id="gradeC_e' + evNum + '" class ="textBox" style="width: 35%;">';
+            html += '       <input type="text" id="gradeC_s' + evNum + '" class ="textBox" style="width: 35%;">';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="gradeD_s' + evNum + '" class ="textBox" style="width: 35%;"> ~ ';
-            html += '       <input type="text" id="gradeD_e' + evNum + '" class ="textBox" style="width: 35%;">';
+            html += '       <input type="text" id="gradeD_s' + evNum + '" class ="textBox" style="width: 35%;">';
             html += '   </td>';
             html += '</tr>';
         }
         $('#evalList').append(html);
-        customKendo.fn_textBox(["evalCap" + evNum, "evalTitle" + evNum, "evalVal" + evNum, "gradeS_s" + evNum, "gradeS_e" + evNum
-            , "gradeA_s" + evNum, "gradeA_e" + evNum, "gradeB_s" + evNum, "gradeB_e" + evNum, "gradeC_s" + evNum, "gradeC_e" + evNum
-            , "gradeD_s" + evNum, "gradeD_e" + evNum]);
+        customKendo.fn_textBox(["evalCap" + evNum, "evalTitle" + evNum, "evalVal" + evNum, "gradeS_s" + evNum,
+             "gradeA_s" + evNum, "gradeB_s" + evNum, "gradeB_e" + evNum, "gradeC_s" + "gradeD_s" + evNum]);
     }
 
     function fn_delRow(){
@@ -192,9 +183,9 @@
 
         for(var i = 0 ; i < evalLen ; i++){
             if($("#evalCap" + i).val() == "" || $("#evalTitle" + i).val() == "" || $("#evalVal" + i).val() == ""
-                || $("#gradeS_s" + i).val() == "" || $("#gradeS_e" + i).val() == "" || $("#gradeA_s" + i).val() == "" || $("#gradeA_e" + i).val() == ""
-                || $("#gradeB_s" + i).val() == "" || $("#gradeB_e" + i).val() == "" || $("#gradeC_s" + i).val() == "" || $("#gradeC_e" + i).val() == ""
-                || $("#gradeD_s" + i).val() == "" || $("#gradeD_e" + i).val() == ""){
+                || $("#gradeS_s" + i).val() == "" || $("#gradeA_s" + i).val() == ""
+                || $("#gradeB_s" + i).val() == "" || $("#gradeB_e" + i).val() == "" || $("#gradeC_s" + i).val() == ""
+                || $("#gradeD_s" + i).val() == "" ){
                 alert("입력되지 않은 항목이 있습니다. 확인해주세요.");
                 return;
             }
@@ -205,15 +196,11 @@
                 evalTitle : $("#evalTitle" + i).val(),
                 evalVal : $("#evalVal" + i).val(),
                 gradeS_s : $("#gradeS_s" + i).val(),
-                gradeS_e : $("#gradeS_e" + i).val(),
                 gradeA_s : $("#gradeA_s" + i).val(),
-                gradeA_e : $("#gradeA_e" + i).val(),
                 gradeB_s : $("#gradeB_s" + i).val(),
                 gradeB_e : $("#gradeB_e" + i).val(),
                 gradeC_s : $("#gradeC_s" + i).val(),
-                gradeC_e : $("#gradeC_e" + i).val(),
-                gradeD_s : $("#gradeD_s" + i).val(),
-                gradeD_e : $("#gradeD_e" + i).val()
+                gradeD_s : $("#gradeD_s" + i).val()
             });
         }
 
