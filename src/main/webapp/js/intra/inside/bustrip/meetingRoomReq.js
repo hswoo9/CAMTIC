@@ -143,7 +143,7 @@ var meetingRoomReq = {
         if(meetingRoomReq.global.data.length > 0){
             for(var i = 0 ; i < meetingRoomReq.global.data.length ; i++){
                 var row = {};
-                row.title = meetingRoomReq.global.data[i].schTitle;
+                row.title = meetingRoomReq.global.data[i].schTitle + " " + meetingRoomReq.global.data[i].USE_TIME;
                 row.start = new Date(meetingRoomReq.global.data[i].START_DATE);
                 row.end = new Date(meetingRoomReq.global.data[i].END_DATE);
                 row.roomReqSn = meetingRoomReq.global.data[i].ROOM_REQ_SN;

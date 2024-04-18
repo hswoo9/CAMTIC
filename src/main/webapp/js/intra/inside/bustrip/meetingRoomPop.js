@@ -10,13 +10,15 @@ var roomReq = {
 
     dataSet: function(){
         customKendo.fn_textBox(["etc", "pay", "empName", "name", "remarkCn"]);
-        let saveTypeArr = [
-            {text: "기간 등록", value: "1"},
-            {text: "일별 등록", value: "2"}
-        ]
-        customKendo.fn_dropDownList("saveType", saveTypeArr, "text", "value", 2);
-        $("#saveType").data("kendoDropDownList").value(1);
-        $("#saveType").data("kendoDropDownList").enable(false);
+
+        // let saveTypeArr = [
+        //     {text: "기간 등록", value: "1"},
+        //     {text: "일별 등록", value: "2"}
+        // ]
+        // customKendo.fn_dropDownList("saveType", saveTypeArr, "text", "value", 2);
+        // $("#saveType").data("kendoDropDownList").value(1);
+        // $("#saveType").data("kendoDropDownList").enable(false);
+
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", $("#startDt").val() == "" ? new Date() : $("#startDt").val());
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         $("#startTime").kendoTimePicker({culture : "ko-KR", format : "HH:mm", value : "09:00"});
@@ -29,11 +31,13 @@ var roomReq = {
             dataValueField: "value",
             dataSource: roomArr,
             filter: "contains",
+            autoClose: false,
             downArrow: true,
             placeholder: "선택하세요.",
-
         })
+
         // customKendo.fn_dropDownList("roomClass", roomArr, "text", "value", 1);
+
         let usePurposeArr = [
             {text: "교육 훈련", value: "1"},
             {text: "일반 회의", value: "4"},
@@ -46,12 +50,10 @@ var roomReq = {
         $("#exSpecificDay").kendoDropDownTree({
             placeholder: "해당없음",
             checkboxes: true,
-            checkAll: true,
             autoClose: false,
-            dataSource: [
-                {text: "토요일 제외", expanded: true},
-                {text: "일요일 제외", expanded: true}
-            ]
+            enable : false,
+            dataValueField: "value",
+            dataTextField: "text"
         });
 
         $("#rentalFee").kendoDropDownList({
@@ -92,77 +94,40 @@ var roomReq = {
 
 
     saveBtn: function(){
-
-        let roomReqSn = $("#roomReqSn").val();
-        let startDt = $("#startDt").val();
-        let endDt = $("#endDt").val();
-        let startTime = $("#startTime").val();
-        let endTime = $("#endTime").val();
-        let usePurposeSn = $("#usePurpose").val();
-        let usePurposeText = $("#usePurpose").data("kendoDropDownList").text();
-        let etc = "";
-        let rentalFeeSn = $("#rentalFee").val();
-        let rentalFeeText = $("#rentalFee").data("kendoDropDownList").text();
-        let pay = $("#pay").val();
-        let empSeq = $("#empSeq").val();
-        let empName = $("#empName").val();
-        let remarkCn = $("#remarkCn").val();
-        let regEmpSeq = $("#regEmpSeq").val();
-        let regEmpName = $("#regEmpName").val();
-        let roomIdxArr = [];
-
-        roomIdxArr = $("#roomClass").data("kendoMultiSelect").value();
-
-        if(startDt == "" || endDt == ""){ alert("운행일시가 작성되지 않았습니다."); return;}
-        if(roomIdxArr.length == "0"){ alert("사용회의실이 선택되지 않았습니다."); return;}
-        if(usePurposeSn == ""){ alert("사용목적이 선택되지 않았습니다."); return;}
-        if(rentalFeeSn == ""){ alert("대관료가 선택되지 않았습니다."); return;}
-        if(empSeq == ""){ alert("사용 담당자가 선택되지 않았습니다."); return;}
-        if(rentalFeeSn == "0" && pay == ""){ alert("대관료가 작성되지 않았습니다."); return;}
+        if($("#startDt").val() == "" || $("#endDt").val() == ""){
+            alert("운행일시가 작성되지 않았습니다.");
+            return;
+        }else if($("#roomClass").data("kendoMultiSelect").value().length == "0"){
+            alert("사용회의실이 선택되지 않았습니다.");
+            return;
+        }else if($("#usePurpose").val() == ""){
+            alert("사용목적이 선택되지 않았습니다.");
+            return;
+        }else if($("#rentalFee").val() == "") {
+            alert("대관료가 선택되지 않았습니다.");
+            return;
+        }else if($("#empSeq").val() == ""){
+            alert("사용 담당자가 선택되지 않았습니다.");
+            return;
+        }else if($("#rentalFee").val() == "0" && $("#pay").val() == ""){
+            alert("대관료가 작성되지 않았습니다.");
+            return;
+        }
 
         if(!confirm("회의실사용신청을 저장하시겠습니까?")){
             return;
         }
 
-        for(var i = 0; i < roomIdxArr.length; i++){
-            let roomClassSn = roomIdxArr[i];
-            let roomClassText = "";
+        var result = customKendo.fn_customAjax("/inside/setRoomRequestInsert", {
+            dataList : JSON.stringify(roomReq.insertDataList())
+        });
 
-            let data = {
-                roomReqSn : roomReqSn,
-                startDt : startDt,
-                endDt : endDt,
-                startTime : startTime,
-                endTime : endTime,
-                roomClassSn : roomClassSn,
-                roomClassText : roomClassText,
-                usePurposeSn : usePurposeSn,
-                usePurposeText : usePurposeText,
-                etc : etc,
-                rentalFeeSn : rentalFeeSn,
-                rentalFeeText : rentalFeeText,
-                pay : pay,
-                empSeq : empSeq,
-                empName : empName,
-                remarkCn : remarkCn,
-                regEmpSeq : regEmpSeq,
-                regEmpName : regEmpName
-            }
-            roomReq.searchDuplicateRoom(data);
-
-            if(!flag){
-                break;
-            } else {
-
-                var result = customKendo.fn_customAjax("/inside/setRoomRequestInsert", data);
-                if(result.flag){
-                    alert("저장이 완료되었습니다.");
-                    opener.gridReload();
-                    window.close();
-                }else{
-                    alert("데이터 저장 중 에러가 발생했습니다.");
-                }
-            }
+        if(result.flag){
+            alert("저장이 완료되었습니다.");
+            opener.gridReload();
+            window.close();
+        }else{
+            alert("데이터 저장 중 에러가 발생했습니다.");
         }
     },
 
@@ -190,7 +155,6 @@ var roomReq = {
             dataType : "json",
             async : false,
             success : function(result){
-                console.log(result);
                 if(result.flag == "true") {
                     let duplicateText = "";
                     for(let i = 0; i < result.list.length; i++) {
@@ -258,6 +222,116 @@ var roomReq = {
         var name = "특정일 제외 팝업";
         var option = "width = 500, height = 200, top = 100, left = 200, location = no, _blank"
         var popup = window.open(url, name, option);
+    },
+
+    addExSpecificDay : function(){
+        var startDt = new Date($("#startDt").val());
+        var endDt = new Date($("#endDt").val());
+        const diffDate = Math.abs((startDt.getTime() - endDt.getTime())/(1000 * 60 * 60 * 24));
+        var otherArr = new kendo.data.HierarchicalDataSource({
+            data : [{text: "일요일 제외", value : "noSun"}, {text: "토요일 제외", value : "noSat"}]
+        })
+
+        if(diffDate > 1){
+            for(var i = 0; i < diffDate + 1; i++){
+                var a = new Date($("#startDt").val());
+                var date = new Date(a.setDate(a.getDate() + i));
+                if(date.getDay() != "0" && date.getDay() != "6"){
+                    otherArr.options.data.push({
+                        text : date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + date.getDate() + "(" + roomReq.getDay(date.getDay()) + ")",
+                        value : date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + date.getDate()
+                    })
+                }
+            }
+
+            $("#exSpecificDay").data("kendoDropDownTree").setDataSource(otherArr);
+            $("#exSpecificDay").data("kendoDropDownTree").enable(true);
+        }else{
+            $("#exSpecificDay").data("kendoDropDownTree").enable(false);
+        }
+    },
+
+    getDay : function(dayNum){
+        var dayKor = ['일', '월', '화', '수', '목', '금', '토'];
+        return dayKor[dayNum];
+    },
+
+    insertDataList : function(){
+        var dataArr = new Array();
+        var roomIdxArr = $("#roomClass").data("kendoMultiSelect").value();
+        var startDt = new Date($("#startDt").val());
+        var endDt = new Date($("#endDt").val());
+        var exSpecificDayVal = $("#exSpecificDay").data("kendoDropDownTree").value();
+
+        for(var i = 0; i < roomIdxArr.length; i++){
+            let roomClassSn = roomIdxArr[i];
+            let roomClassText = "";
+
+            const diffDate = Math.abs((startDt.getTime() - endDt.getTime())/(1000 * 60 * 60 * 24));
+
+            if(diffDate > 0) {
+                for (var j = 0; j < diffDate + 1; j++) {
+                    var a = new Date($("#startDt").val());
+                    var date = new Date(a.setDate(a.getDate() + j));
+
+                    var isExcludedDate = !exSpecificDayVal.includes(date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + date.getDate());
+                    var isWeekend = date.getDay() === 0 || date.getDay() === 6;
+                    var allowedWeekend = !exSpecificDayVal.includes("noSun") && date.getDay() === 0 || !exSpecificDayVal.includes("noSat") && date.getDay() === 6;
+
+                    if(isExcludedDate && (isWeekend && allowedWeekend || !isWeekend)){
+                        var data = roomReq.saveData();
+                        data.startDt = date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + date.getDate();
+                        data.endDt = date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + date.getDate();
+                        data.roomClassSn = roomClassSn;
+                        data.roomClassText = roomClassText;
+                        roomReq.searchDuplicateRoom(data);
+                        if(!flag){
+                            return;
+                        }else{
+                            dataArr.push(data);
+                        }
+                    }
+                }
+            }else{
+                var data = roomReq.saveData();
+                data.startDt = $("#startDt").val();
+                data.endDt = $("#endDt").val();
+                data.roomClassSn = roomClassSn;
+                data.roomClassText = roomClassText;
+                roomReq.searchDuplicateRoom(data);
+                if(!flag){
+                    return;
+                }else{
+                    dataArr.push(data);
+                }
+            }
+        }
+        if(!flag){
+            return;
+        }
+
+        return dataArr;
+    },
+
+    saveData : function(){
+        var e = {
+            roomReqSn : $("#roomReqSn").val(),
+            startTime : $("#startTime").val(),
+            endTime : $("#endTime").val(),
+            usePurposeSn : $("#usePurpose").val(),
+            usePurposeText : $("#usePurpose").data("kendoDropDownList").text(),
+            etc : "",
+            rentalFeeSn : $("#rentalFee").val(),
+            rentalFeeText : $("#rentalFee").data("kendoDropDownList").text(),
+            pay : $("#pay").val(),
+            empSeq : $("#empSeq").val(),
+            empName : $("#empName").val(),
+            remarkCn : $("#remarkCn").val(),
+            regEmpSeq : $("#regEmpSeq").val(),
+            regEmpName : $("#regEmpName").val(),
+        }
+
+        return e;
     }
 }
 

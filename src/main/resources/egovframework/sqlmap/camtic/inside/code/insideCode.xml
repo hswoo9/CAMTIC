@@ -212,6 +212,7 @@
         SELECT
             IRR.ROOM_REQ_SN,
             CONCAT('[',IRR.ROOM_CLASS_TEXT,']') AS schTitle,
+            CONCAT(IRR.START_TIME, ' ~ ', IRR.END_TIME) AS USE_TIME,
             CONCAT(IRR.START_DT, ' ',IRR.START_TIME) AS START_DATE,
             CONCAT(IRR.END_DT, ' ',IRR.END_TIME) AS END_DATE,
             IRR.*
