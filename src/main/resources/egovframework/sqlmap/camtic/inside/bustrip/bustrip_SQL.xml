@@ -1589,7 +1589,8 @@
             C.PAY_EXNP_DE,
             C.DOC_STATUS,
             IFNULL(D.DOC_STATUS, 0) AS BF_DOC_STATUS,
-            DATE_FORMAT(C.APPROVAL_DATE, '%Y-%m-%d') AS APPROVAL_DATE
+            DATE_FORMAT(C.APPROVAL_DATE, '%Y-%m-%d') AS APPROVAL_DATE,
+            'N' as ORG_YN
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ A
         LEFT JOIN
@@ -1605,6 +1606,46 @@
         ON
             A.BF_PAY_APP_SN = D.PAY_APP_SN
         WHERE A.PJT_SN = #{pjtSn}
+        UNION
+        SELECT
+            bb.SeqNo AS HR_BIZ_REQ_ID,
+            '' AS HR_BIZ_REQ_RESULT_ID,
+            bb.IsType AS TRIP_CODE,
+            '' as BUSN_NAME,
+            (SELECT userName FROM DJ_CAMTIC.TripInfo a LEFT JOIN DJ_CAMTIC.tripuser b ON a.SeqNo = b.TripNum WHERE a.SeqNo = bb.SeqNo LIMIT 1) AS EMP_NAME,
+            bb.LocationEx AS VISIT_CRM,
+            bb.Location AS VISIT_LOC,
+            bb.LocationPass AS VISIT_LOC_SUB,
+            ifnull(bb.SDate, bb.ResultSDate) AS TRIP_DAY_FR,
+            concat(bb.STimeY,':',bb.STimeM) AS TRIP_TIME_FR,
+            ifnull(bb.EDate, bb.ResultEDate) AS TRIP_DAY_TO,
+            concat(bb.ETimeY,':',bb.ETimeM) AS TRIP_TIME_TO,
+            bb.IsCar AS USE_TRSPT,
+            bb.IsCarText AS USE_TRSPT_RMK,
+            bb.IsPayMoney AS OVER_TOT_COST,
+            '' AS STATUS,
+            '' AS BF_PAY_APP_SN,
+            '100' AS RS_STATUS,
+            aa.ProjectCode AS PJT_SN,
+            '' AS BF_EXP_STAT,
+            '' AS EXNP_STAT,
+            '' AS PAY_APP_SN,
+            bb.IsPayMoney AS RES_EXNP_SUM,
+            (SELECT COUNT(*) FROM DJ_CAMTIC.TripInfo a LEFT JOIN DJ_CAMTIC.tripuser b ON a.SeqNo = b.TripNum WHERE a.SeqNo = bb.SeqNo) - 1 AS COMPANION,
+            '' AS COMPANION2,
+            '' AS EXNP_STATUS,
+            '' AS EXNP_DOC_STATUS,
+            '' as PAY_EXNP_DE,
+            '' as DOC_STATUS,
+            '' AS BF_DOC_STATUS,
+            '' AS APPROVAL_DATE,
+            'Y' as ORG_YN
+        FROM
+            DJ_CAMTIC.ProjectAcceptInfo aa
+        LEFT JOIN
+            DJ_CAMTIC.TripInfo bb ON aa.IntraCode = bb.ObjectCode
+        WHERE bb.ObjectCode IS NOT NULL
+        AND bb.State IN ('5','6') AND aa.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})
     </select>
 
     <select id="getProjectBustMetList" parameterType="map" resultType="map">

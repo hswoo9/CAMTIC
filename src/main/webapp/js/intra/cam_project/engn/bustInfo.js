@@ -166,17 +166,25 @@ var bustInfo = {
                     title: "출장자",
                     width: 80,
                     template: function(row){
-                        if(row.RS_STATUS != null){
-                            if(row.COMPANION2 != 0){
-                                return row.EMP_NAME + " 외 "+row.COMPANION2+"명";
+                        if(row.ORG_YN == "N"){
+                            if(row.RS_STATUS != null){
+                                if(row.COMPANION2 != 0){
+                                    return row.EMP_NAME + " 외 "+row.COMPANION2+"명";
+                                }else{
+                                    return row.EMP_NAME;
+                                }
                             }else{
-                                return row.EMP_NAME;
+                                if(row.COMPANION != 0){
+                                    return row.EMP_NAME + " 외 "+row.COMPANION+"명";
+                                }else{
+                                    return row.EMP_NAME;
+                                }
                             }
-                        }else{
-                            if(row.COMPANION != 0){
-                                return row.EMP_NAME + " 외 "+row.COMPANION+"명";
-                            }else{
+                        } else {
+                            if(row.COMPANION == 0){
                                 return row.EMP_NAME;
+                            } else {
+                                return row.EMP_NAME + " 외 " + row.COMPANION + "명";
                             }
                         }
                     }
@@ -224,6 +232,8 @@ var bustInfo = {
                             return "자가";
                         } else if (e.USE_TRSPT == 0){
                             return "대중교통";
+                        } else if (e.USE_TRSPT == 15){
+                            return "기타(" + e.USE_TRSPT_RMK + ")";
                         } else {
                             return "-";
                         }
@@ -233,31 +243,35 @@ var bustInfo = {
                     width: 60,
                     template : function (e){
                         console.log("출장 결재 상태값 ::"+e.STATUS);
-                        /** 국내출장 해외출장 분기 */
-                        if(e.TRIP_CODE != "4"){
-                            if(e.STATUS == 100){
-                                return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재완료</button>';
-                            }else if(e.STATUS == 10){
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재중</button>';
-                            }else if(e.STATUS == 30){
-                                return '<button type="button" class="k-button k-button-solid-error" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">반려</button>';
-                            }else {
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">작성중</button>';
-                            }
-                        }else{
-                            if(e.STATUS != "100"){
-                                if(e.STATUS == "30"){
+                        if(e.ORG_YN == 'N'){
+                            /** 국내출장 해외출장 분기 */
+                            if(e.TRIP_CODE != "4"){
+                                if(e.STATUS == 100){
+                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재완료</button>';
+                                }else if(e.STATUS == 10){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재중</button>';
+                                }else if(e.STATUS == 30){
                                     return '<button type="button" class="k-button k-button-solid-error" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">반려</button>';
-                                } else {
+                                }else {
                                     return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">작성중</button>';
                                 }
-                            } else if(e.STATUS == "100" && e.BF_EXP_STAT == "0"){
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">사전정산</button>';
-                            } else if(e.STATUS == "100" && e.BF_EXP_STAT == "100"){
-                                return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">사전정산</button>';
-                            } else {
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재완료</button>';
+                            }else{
+                                if(e.STATUS != "100"){
+                                    if(e.STATUS == "30"){
+                                        return '<button type="button" class="k-button k-button-solid-error" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">반려</button>';
+                                    } else {
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">작성중</button>';
+                                    }
+                                } else if(e.STATUS == "100" && e.BF_EXP_STAT == "0"){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">사전정산</button>';
+                                } else if(e.STATUS == "100" && e.BF_EXP_STAT == "100"){
+                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">사전정산</button>';
+                                } else {
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.bustripReqPop('+e.HR_BIZ_REQ_ID+', \'req\', '+e.PJT_SN+')">결재완료</button>';
+                                }
                             }
+                        } else {
+                            return "-";
                         }
                     }
                 }, {
@@ -266,73 +280,81 @@ var bustInfo = {
                     template : function (e){
                         console.log("결과보고 컬럼 console.log");
                         console.log(e);
-                        /** 국내출장 해외출장 분기 */
-                        if(e.TRIP_CODE != "4"){
-                            if(e.STATUS == 100){
-                                if(e.HR_BIZ_REQ_RESULT_ID == "" || e.HR_BIZ_REQ_RESULT_ID == null || e.HR_BIZ_REQ_RESULT_ID == undefined){
-                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">작성중</button>'
-                                }else{
-                                    if(e.RS_STATUS == 100) {
-                                        return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes(' + e.HR_BIZ_REQ_RESULT_ID + ', ' + e.HR_BIZ_REQ_ID + ')">결재완료</button>'
-                                    }else if(e.RS_STATUS == 10){
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결재중</button>'
-                                    } else if(e.RS_STATUS == 30){
-                                        return '<button type="button" class="k-button k-button-solid-error" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">반려</button>'
-                                    } else {
-                                        // if(e.EXP_STAT == 100){
-                                        //     return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>'
-                                        // } else {
+                        if(e.ORG_YN == 'N'){
+                            /** 국내출장 해외출장 분기 */
+                            if(e.TRIP_CODE != "4"){
+                                if(e.STATUS == 100){
+                                    if(e.HR_BIZ_REQ_RESULT_ID == "" || e.HR_BIZ_REQ_RESULT_ID == null || e.HR_BIZ_REQ_RESULT_ID == undefined){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">작성중</button>'
+                                    }else{
+                                        if(e.RS_STATUS == 100) {
+                                            return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes(' + e.HR_BIZ_REQ_RESULT_ID + ', ' + e.HR_BIZ_REQ_ID + ')">결재완료</button>'
+                                        }else if(e.RS_STATUS == 10){
+                                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결재중</button>'
+                                        } else if(e.RS_STATUS == 30){
+                                            return '<button type="button" class="k-button k-button-solid-error" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">반려</button>'
+                                        } else {
+                                            // if(e.EXP_STAT == 100){
+                                            //     return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성완료</button>'
+                                            // } else {
                                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>'
-                                        // }
+                                            // }
+                                        }
                                     }
-                                }
-                            }else {
-                                return "-";
-                            }
-                        }else{
-                            /** 사전정산 -> 지급신청 */
-                            if(e.BF_PAY_APP_SN != null){
-                                /** 결과보고 작성 -> 사후정산 -> -> 결과보고 전자결재 */
-                                if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.EXP_STAT == null){
-                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">작성중</button>';
-                                } else if(e.EXP_STAT == "0"){
-                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>';
-                                } else if(e.EXP_STAT == "100" && e.RS_STATUS != "100"){
-                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>';
-                                } else if(e.RS_STATUS == "100"){
-                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결재완료</button>';
-                                } else {
+                                }else {
                                     return "-";
                                 }
                             }else{
-                                return "-";
+                                /** 사전정산 -> 지급신청 */
+                                if(e.BF_PAY_APP_SN != null){
+                                    /** 결과보고 작성 -> 사후정산 -> -> 결과보고 전자결재 */
+                                    if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.EXP_STAT == null){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">작성중</button>';
+                                    } else if(e.EXP_STAT == "0"){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>';
+                                    } else if(e.EXP_STAT == "100" && e.RS_STATUS != "100"){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">작성중</button>';
+                                    } else if(e.RS_STATUS == "100"){
+                                        return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">결재완료</button>';
+                                    } else {
+                                        return "-";
+                                    }
+                                }else{
+                                    return "-";
+                                }
                             }
+                        } else {
+                            return "-";
                         }
                     }
                 }, {
                     title : "지급신청",
                     width: 70,
                     template : function (e){
-                        /** 국내출장 해외출장 분기 */
-                        if(e.TRIP_CODE != "4"){
-                            if(e.RS_STATUS == 100 && e.EXP_STAT == 100 && e.PAY_APP_SN == null){
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
-                            }else if (e.PAY_APP_SN != null){
-                                return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">지급신청</button>'
+                        if(e.ORG_YN == 'N'){
+                            /** 국내출장 해외출장 분기 */
+                            if(e.TRIP_CODE != "4"){
+                                if(e.RS_STATUS == 100 && e.EXP_STAT == 100 && e.PAY_APP_SN == null){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
+                                }else if (e.PAY_APP_SN != null){
+                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">지급신청</button>'
+                                }else{
+                                    return '-';
+                                }
                             }else{
-                                return '-';
+                                console.log(e.BF_EXP_STAT);
+                                console.log(e.PAY_APP_SN == null);
+                                console.log(e.BF_EXP_STAT == "100" && e.PAY_APP_SN == null);
+                                if(e.BF_EXP_STAT == "100" && e.PAY_APP_SN == null){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.businessExnp('+e.HR_BIZ_REQ_ID+')">작성중</button>'
+                                }else if (e.PAY_APP_SN != null){
+                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.businessExnp('+e.HR_BIZ_REQ_ID+', '+e.HR_BIZ_REQ_RESULT_ID+')">결재완료</button>'
+                                }else{
+                                    return '-';
+                                }
                             }
-                        }else{
-                            console.log(e.BF_EXP_STAT);
-                            console.log(e.PAY_APP_SN == null);
-                            console.log(e.BF_EXP_STAT == "100" && e.PAY_APP_SN == null);
-                            if(e.BF_EXP_STAT == "100" && e.PAY_APP_SN == null){
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.businessExnp('+e.HR_BIZ_REQ_ID+')">작성중</button>'
-                            }else if (e.PAY_APP_SN != null){
-                                return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.businessExnp('+e.HR_BIZ_REQ_ID+', '+e.HR_BIZ_REQ_RESULT_ID+')">결재완료</button>'
-                            }else{
-                                return '-';
-                            }
+                        } else {
+                            return '-';
                         }
                     },
                     footerTemplate: "출장완료 여비합계"
@@ -343,11 +365,15 @@ var bustInfo = {
                         var docStatus = e.EXNP_DOC_STATUS;
                         var payExnpDe = e.PAY_EXNP_DE;
 
-                        if(payExnpDe != undefined && docStatus != 100){
-                            return '입금예정';
-                        }else if(docStatus == 100){
-                            return '입금완료';
-                        }else{
+                        if(e.ORG_YN == 'N'){
+                            if(payExnpDe != undefined && docStatus != 100){
+                                return '입금예정';
+                            }else if(docStatus == 100){
+                                return '입금완료';
+                            }else{
+                                return '-';
+                            }
+                        } else {
                             return '-';
                         }
                     }
@@ -359,12 +385,16 @@ var bustInfo = {
                         var docStatus = e.EXNP_DOC_STATUS;
                         var approvalDate = e.APPROVAL_DATE;
 
-                        if((payExnpDe == undefined || payExnpDe == null || payExnpDe == "") && docStatus != 100){
+                        if(e.ORG_YN == 'N'){
+                            if((payExnpDe == undefined || payExnpDe == null || payExnpDe == "") && docStatus != 100){
+                                return '-';
+                            }else if(docStatus != 100){
+                                return payExnpDe;
+                            }else{
+                                return approvalDate;
+                            }
+                        } else {
                             return '-';
-                        }else if(docStatus != 100){
-                            return payExnpDe;
-                        }else{
-                            return approvalDate;
                         }
                     }
                 }, {
@@ -383,7 +413,11 @@ var bustInfo = {
                     title : "처리",
                     width: 50,
                     template : function (e){
-                        return '<button type="button" class="k-button k-button-solid-error" onclick="bustInfo.fn_delPjtBustrip('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">제외</button>';
+                        if(e.ORG_YN == 'N'){
+                            return '<button type="button" class="k-button k-button-solid-error" onclick="bustInfo.fn_delPjtBustrip('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+')">제외</button>';
+                        } else {
+                            return '-';
+                        }
                     }
                 }
             ]

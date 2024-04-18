@@ -1827,9 +1827,44 @@
             CAM_MNG.DJ_PAY_APP PA
         ON PA.LINK_KEY = B.PURC_SN
         WHERE
-            B.PJT_SN =  #{pjtSn}
+            B.PJT_SN = #{pjtSn}
         AND
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_PURC_CLAIM WHERE PURC_SN = B.PURC_SN) = 0) RE
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PURC_CLAIM WHERE PURC_SN = B.PURC_SN) = 0
+        UNION ALL
+        SELECT
+            A.JDocNo AS DOC_NO,
+            DATE_FORMAT(A.JReqDate, '%Y-%m-%d') AS PURC_REQ_DATE,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.ReqUserID) AS EMP_NAME_KR,
+            A.JReason AS PURC_REQ_PURPOSE,
+            '' as PURC_SN,
+            '' as STATUS,
+            '' as DOC_STATUS,
+            (SELECT SUM(JSUM) FROM DJ_CAMTIC.JPRICEITEM WHERE JPRICENO = A.JPRICENO) AS PURC_ITEM_AMT_SUM,
+            '' AS APPROVE_STAT_CODE,
+            '' AS CLAIM_STATUS,
+            '' AS CLAIM_SN,
+            '' AS CLAIM_DOC_STATUS,
+            '' AS CLAIM_DOC_ID,
+            '' AS APPRO_KEY,
+            '' as INSPECT_YN,
+            '' as INSPECT_STATUS,
+            '' as PAYMENT_METHOD,
+            '' as ORDER_DT,
+            '' AS EXNP_STATUS,
+            '' AS EXNP_DOC_STATUS,
+            '' AS PAY_DOC_STATUS,
+            DATE_FORMAT(A.JReqDate, '%Y-%m-%d') as REG_DATE,
+            '' AS CRM_NM,
+            'Y' AS ORG_YN
+        FROM
+            DJ_CAMTIC.JPRICEINFO A
+        LEFT JOIN
+            DJ_CAMTIC.PROJECTACCEPTINFO B
+        ON
+            A.JCode = B.ProjectCode
+        WHERE
+            A.JState != 1
+        AND B.ProjectCode = (SELECT LEFT(PJT_CD,9) FROM CAM_PJT_MNG.DJ_PROJECT where PJT_SN = #{pjtSn})) RE
         ORDER BY RE.REG_DATE DESC
     </select>
 

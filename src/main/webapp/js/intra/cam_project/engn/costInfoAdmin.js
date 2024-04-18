@@ -138,7 +138,11 @@ var costInfo = {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
-                        return '<div onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')" style="cursor : pointer">' + e.PURC_REQ_PURPOSE + '</div>'
+                        if(e.ORG_YN == 'N'){
+                            return '<div onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')" style="cursor : pointer">' + e.PURC_REQ_PURPOSE + '</div>';
+                        } else {
+                            return e.PURC_REQ_PURPOSE;
+                        }
                     }
                 }
                 // , {
@@ -158,32 +162,36 @@ var costInfo = {
                     width: 120,
                     template : function(e){
                         var status = "";
-                        /** 구매요청서 */
-                        if(e.DOC_STATUS == "0"){
-                            status = "구매요청작성중";
-                        }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
-                            status = "구매요청작성중";
-                        }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
-                            status = "구매요청완료";
-
-                            /** 구매청구서 */
-                            if(e.CLAIM_STATUS == "CN"){
+                        if(e.ORG_YN == 'N'){
+                            /** 구매요청서 */
+                            if(e.DOC_STATUS == "0"){
+                                status = "구매요청작성중";
+                            }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
+                                status = "구매요청작성중";
+                            }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
                                 status = "구매요청완료";
-                            }else if(e.CLAIM_STATUS == "CAN"){
-                                status = "구매청구작성중";
-                            }else if(e.CLAIM_STATUS == "CAYSN"){
-                                status = "구매청구작성중";
-                            }else if(e.CLAIM_STATUS == "CAYSY"){
-                                status = "구매청구완료";
-                            }
 
-                            if(e.INSPECT_YN == "Y"){
-                                if(e.INSPECT_STATUS != "100"){
-                                    status = "검수요청중";
-                                }else{
-                                    status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                /** 구매청구서 */
+                                if(e.CLAIM_STATUS == "CN"){
+                                    status = "구매요청완료";
+                                }else if(e.CLAIM_STATUS == "CAN"){
+                                    status = "구매청구작성중";
+                                }else if(e.CLAIM_STATUS == "CAYSN"){
+                                    status = "구매청구작성중";
+                                }else if(e.CLAIM_STATUS == "CAYSY"){
+                                    status = "구매청구완료";
+                                }
+
+                                if(e.INSPECT_YN == "Y"){
+                                    if(e.INSPECT_STATUS != "100"){
+                                        status = "검수요청중";
+                                    }else{
+                                        status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                    }
                                 }
                             }
+                        } else {
+                            status = '이관 데이터';
                         }
                         return status
                     },
@@ -204,10 +212,14 @@ var costInfo = {
                     title: "업체선택",
                     width: 100,
                     template: function(e){
-                        if(e.PJT_UNIT_SN != null && e.PJT_UNIT_SN != "" && e.PJT_UNIT_SN != undefined && e.BUSN_NM != "비R&D"){
-                            return '';
+                        if(e.ORG_YN == 'N'){
+                            if(e.PJT_UNIT_SN != null && e.PJT_UNIT_SN != "" && e.PJT_UNIT_SN != undefined && e.BUSN_NM != "비R&D"){
+                                return '';
+                            } else {
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="costInfo.lectureTeamListPop(' + e.PURC_SN + ')">선택</button>';
+                            }
                         } else {
-                            return '<button type="button" class="k-button k-button-solid-base" onclick="costInfo.lectureTeamListPop(' + e.PURC_SN + ')">선택</button>';
+                            return '';
                         }
                     }
                 }
@@ -260,7 +272,7 @@ var costInfo = {
                 template: "데이터가 존재하지 않습니다."
             },
             columns: [
-                {
+                /*{
                     title: "사업명",
                     width: 150,
                     template: function(row){
@@ -275,10 +287,21 @@ var costInfo = {
                         }
                         return  $("#pjtNm").val();
                     }
-                }, {
+                },*/ {
                     field: "EMP_NAME",
                     title: "출장자",
-                    width: 80
+                    width: 80,
+                    template: function(row){
+                        if(row.ORG_YN = 'N'){
+                            return row.EMP_NAME;
+                        } else {
+                            if(row.COMPANION == 0){
+                                return row.EMP_NAME;
+                            } else {
+                                return row.EMP_NAME + " 외 " + row.COMPANION + "명";
+                            }
+                        }
+                    }
                 }, {
                     title: "출장지 (경유지)",
                     template: function(row){
@@ -308,22 +331,24 @@ var costInfo = {
                     template : function (e){
                         if(e.USE_TRSPT == 1){
                             return "카니발";
-                        } else if(e.USE_TRSPT == 2){
+                        } else if(e.USE_TRSPT == 5){
                             return "아반떼";
                         } else if (e.USE_TRSPT == 3){
                             return "트럭";
-                        } else if (e.USE_TRSPT == 4){
+                        } else if (e.USE_TRSPT == 12){
                             return "모하비";
-                        } else if (e.USE_TRSPT == 5){
+                        } else if (e.USE_TRSPT == 13){
                             return "솔라티";
-                        } else if (e.USE_TRSPT == 6){
+                        } else if (e.USE_TRSPT == 14){
                             return "드론관제차량";
-                        } else if (e.USE_TRSPT == 7){
+                        } else if (e.USE_TRSPT == 10){
                             return "자가";
-                        } else if (e.USE_TRSPT == 8){
+                        } else if (e.USE_TRSPT == 0){
                             return "대중교통";
+                        } else if (e.USE_TRSPT == 15){
+                            return "기타(" + e.USE_TRSPT_RMK + ")";
                         } else {
-                            return "";
+                            return "-";
                         }
                     },
                     footerTemplate: "출장완료 여비합계"

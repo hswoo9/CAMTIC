@@ -125,11 +125,15 @@ var purcInfo = {
                     width: 100,
                     template : function(e){
                         var status = "";
-                        /** 구매요청서 */
-                        if(e.DOC_STATUS == "100"){
-                            status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                        if(e.ORG_YN == 'N'){
+                            /** 구매요청서 */
+                            if(e.DOC_STATUS == "100"){
+                                status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                            } else {
+                                status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                            }
                         } else {
-                            status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                            status = '이관 데이터';
                         }
 
                         return status
@@ -142,23 +146,27 @@ var purcInfo = {
                     width: 100,
                     template: function(e){
                         var status = "";
-                        /** 구매요청서 */
-                        if(e.CLAIM_DOC_STATUS == "100"){
-                            status = '<button type="button" class="k-button k-button-solid-info" onclick="approveDocView(' + e.CLAIM_DOC_ID + ', \''+e.APPRO_KEY+'\', \'claim\')">구매청구서</button>';
-                        } else {
-                            if(e.PAYMENT_METHOD == "C"){
-                                if(e.CLAIM_SN != ""){
-                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
-                                } else {
-                                    if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
-                                        status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
-                                    } else {
-                                        status = '';
-                                    }
-                                }
+                        if(e.ORG_YN == 'N'){
+                            /** 구매요청서 */
+                            if(e.CLAIM_DOC_STATUS == "100"){
+                                status = '<button type="button" class="k-button k-button-solid-info" onclick="approveDocView(' + e.CLAIM_DOC_ID + ', \''+e.APPRO_KEY+'\', \'claim\')">구매청구서</button>';
                             } else {
-                                status = '';
+                                if(e.PAYMENT_METHOD == "C"){
+                                    if(e.CLAIM_SN != ""){
+                                        status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
+                                    } else {
+                                        if(e.DOC_STATUS == 100 || e.DOC_STATUS == 101){
+                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                        } else {
+                                            status = '';
+                                        }
+                                    }
+                                } else {
+                                    status = '';
+                                }
                             }
+                        } else {
+                            status = '이관 데이터';
                         }
 
                         return status
@@ -190,40 +198,44 @@ var purcInfo = {
                     template: function (e) {
                         /** 구매청구서 작성시 검수 버튼 생성*/
                         let html = "";
-                        if(e.PAYMENT_METHOD == "A"){
-                            if(e.ORDER_DT != null && e.ORDER_DT != ""){
+                        if(e.ORG_YN == 'N'){
+                            if(e.PAYMENT_METHOD == "A"){
+                                if(e.ORDER_DT != null && e.ORDER_DT != ""){
+                                    if(e.CLAIM_STATUS == "CAYSY"){
+                                        if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101") {
+                                            if(e.INSPECT_STATUS != "100"){
+                                                html = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+                                            }else{
+                                                html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
+
+                                            }
+                                        } else {
+                                            html = '';
+                                        }
+
+                                    }else{
+                                        html = "-"
+                                    }
+                                } else {
+                                    html = "-"
+                                }
+                            } else {
                                 if(e.CLAIM_STATUS == "CAYSY"){
-                                    if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101") {
+                                    if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101"){
                                         if(e.INSPECT_STATUS != "100"){
                                             html = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
                                         }else{
                                             html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-
                                         }
                                     } else {
-                                        html = '';
+                                        html = '-';
                                     }
-
                                 }else{
                                     html = "-"
                                 }
-                            } else {
-                                html = "-"
                             }
                         } else {
-                            if(e.CLAIM_STATUS == "CAYSY"){
-                                if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101"){
-                                    if(e.INSPECT_STATUS != "100"){
-                                        html = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                                    }else{
-                                        html = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_inspectionPopup(' + e.PURC_SN + ')">검수</button>';
-                                    }
-                                } else {
-                                    html = '-';
-                                }
-                            }else{
-                                html = "-"
-                            }
+                            html = "-";
                         }
 
                         return html;
@@ -244,8 +256,12 @@ var purcInfo = {
                     title: "처리",
                     width: 100,
                     template: function(e){
-                        if(e.DOC_STATUS == "0"){
-                            return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-error' onclick='purcInfo.fn_pjtPurcDel(" + e.PURC_SN + ")'>삭제</button>";
+                        if(e.ORG_YN == 'N'){
+                            if(e.DOC_STATUS == "0"){
+                                return "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-error' onclick='purcInfo.fn_pjtPurcDel(" + e.PURC_SN + ")'>삭제</button>";
+                            } else {
+                                return "";
+                            }
                         } else {
                             return "";
                         }
@@ -257,14 +273,18 @@ var purcInfo = {
                     title: "결재상태",
                     width: 80,
                     template : function(e){
-                        if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
-                            return '작성중';
-                        } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
-                            return '결재중';
-                        } else if(e.APPROVE_STAT_CODE == '30') {
-                            return '반려';
-                        } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
-                            return '결재완료';
+                        if(e.ORG_YN == 'N'){
+                            if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
+                                return '작성중';
+                            } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
+                                return '결재중';
+                            } else if(e.APPROVE_STAT_CODE == '30') {
+                                return '반려';
+                            } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
+                                return '결재완료';
+                            } else {
+                                return '-';
+                            }
                         } else {
                             return '-';
                         }
@@ -274,27 +294,39 @@ var purcInfo = {
                     width: 120,
                     template : function(e){
                         var status = "";
-                        /** 구매요청서 */
-                        if(e.DOC_STATUS == "0"){
-                            status = "구매요청작성중";
-                        }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
-                            status = "구매요청작성중";
-                        }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
-                            status = "구매요청완료";
-
-                            /** 구매청구서 */
-                            if(e.CLAIM_STATUS == "CN"){
+                        if(e.ORG_YN == 'N'){
+                            /** 구매요청서 */
+                            if(e.DOC_STATUS == "0"){
+                                status = "구매요청작성중";
+                            }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
+                                status = "구매요청작성중";
+                            }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
                                 status = "구매요청완료";
-                            }else if(e.CLAIM_STATUS == "CAN"){
-                                status = "구매청구작성중";
-                            }else if(e.CLAIM_STATUS == "CAYSN"){
-                                status = "구매청구작성중";
-                            }else if(e.CLAIM_STATUS == "CAYSY"){
-                                status = "구매청구완료";
-                            }
 
-                            if(e.PAYMENT_METHOD == "A"){
-                                if(e.ORDER_DT != null && e.ORDER_DT != ""){
+                                /** 구매청구서 */
+                                if(e.CLAIM_STATUS == "CN"){
+                                    status = "구매요청완료";
+                                }else if(e.CLAIM_STATUS == "CAN"){
+                                    status = "구매청구작성중";
+                                }else if(e.CLAIM_STATUS == "CAYSN"){
+                                    status = "구매청구작성중";
+                                }else if(e.CLAIM_STATUS == "CAYSY"){
+                                    status = "구매청구완료";
+                                }
+
+                                if(e.PAYMENT_METHOD == "A"){
+                                    if(e.ORDER_DT != null && e.ORDER_DT != ""){
+                                        if(e.INSPECT_YN == "Y"){
+                                            if(e.INSPECT_STATUS != "100"){
+                                                status = "검수요청중";
+                                            }else{
+                                                status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                            }
+                                        }
+                                    } else {
+                                        status = "발주대기중";
+                                    }
+                                } else {
                                     if(e.INSPECT_YN == "Y"){
                                         if(e.INSPECT_STATUS != "100"){
                                             status = "검수요청중";
@@ -302,19 +334,11 @@ var purcInfo = {
                                             status = "<div style='font-weight: bold'>검수승인완료</div>";
                                         }
                                     }
-                                } else {
-                                    status = "발주대기중";
                                 }
-                            } else {
-                                if(e.INSPECT_YN == "Y"){
-                                    if(e.INSPECT_STATUS != "100"){
-                                        status = "검수요청중";
-                                    }else{
-                                        status = "<div style='font-weight: bold'>검수승인완료</div>";
-                                    }
-                                }
-                            }
 
+                            }
+                        } else {
+                            status = "이관 데이터";
                         }
                         return status
                     }
@@ -324,22 +348,26 @@ var purcInfo = {
                     template: function (e) {
                         console.log(e);
                         var stat = "";
-                        if (e.INSPECT_YN == "Y" && e.INSPECT_STATUS == "100") {
-                            if (e.PAY_DOC_STATUS == "100") {
-                                stat = "결재완료"
-                                if (e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0) {
-                                    stat = "지출완료";
-                                } else if (e.EXNP_DOC_STATUS != e.EXNP_STATUS && e.EXNP_DOC_STATUS != 0) {
-                                    stat = "부분지출";
-                                } else if (e.EXNP_STATUS != 0) {
-                                    stat = "지출대기";
+                        if(e.ORG_YN == 'N'){
+                            if (e.INSPECT_YN == "Y" && e.INSPECT_STATUS == "100") {
+                                if (e.PAY_DOC_STATUS == "100") {
+                                    stat = "결재완료"
+                                    if (e.EXNP_STATUS == e.EXNP_DOC_STATUS && e.EXNP_STATUS != 0) {
+                                        stat = "지출완료";
+                                    } else if (e.EXNP_DOC_STATUS != e.EXNP_STATUS && e.EXNP_DOC_STATUS != 0) {
+                                        stat = "부분지출";
+                                    } else if (e.EXNP_STATUS != 0) {
+                                        stat = "지출대기";
+                                    }
+                                } else if (e.PAY_DOC_STATUS == "10" || e.PAY_DOC_STATUS == "50") {
+                                    stat = "결재중"
+                                } else if (e.PAY_DOC_STATUS == "30") {
+                                    stat = "반려"
+                                } else {
+                                    stat = "작성중"
                                 }
-                            } else if (e.PAY_DOC_STATUS == "10" || e.PAY_DOC_STATUS == "50") {
-                                stat = "결재중"
-                            } else if (e.PAY_DOC_STATUS == "30") {
-                                stat = "반려"
                             } else {
-                                stat = "작성중"
+                                stat = "-";
                             }
                         } else {
                             stat = "-";
