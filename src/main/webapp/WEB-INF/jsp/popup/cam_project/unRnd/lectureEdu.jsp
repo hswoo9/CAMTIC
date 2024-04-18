@@ -28,6 +28,7 @@
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="pk" value="${params.pk}"/>
+<input type="hidden" id="year" value="${params.year}"/>
 <input type="hidden" id="mode" value="${params.mode}"/>
 <input type="hidden" id="type" name="type" />
 

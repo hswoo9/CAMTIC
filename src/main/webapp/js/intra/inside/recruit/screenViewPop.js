@@ -698,6 +698,270 @@ var screenViewPop = {
         }
     },
 
+
+    makeInterViewScreenTableBak(){
+        if(this.value()){
+            screenViewPop.global.searchAjaxData = {
+                recruitInfoSn : $("#recruitInfoSn").val(),
+                recruitAreaInfoSn : $("#recruitAreaInfoSn").val(),
+                searchTypeArr : "'D','I','IF'"
+            }
+
+            var result = customKendo.fn_customAjax("/recruit/manage/eval/getApplicationInterViewList.do", screenViewPop.global.searchAjaxData);
+            console.log("makeInterViewScreenTable", result);
+
+            if(result.flag) {
+                $("#tbDiv *").remove();
+                var area = $("#recruitAreaInfoSn").data("kendoDropDownList").dataSource._data.find(element => element.RECRUIT_AREA_INFO_SN == $("#recruitAreaInfoSn").val())
+                var sum = 0;
+                var evalCnt = 0;
+                var application = [];
+                var index = 0;
+                var paramArr = [];
+                var userArr = [];
+
+                var html = "";
+
+                const userLen = result.list.length;
+                const userUniqueLen = result.countH.COUNT_H;
+                const maxLen = Number(userLen) + Number(userUniqueLen);
+
+                let leftCount = maxLen;
+                let nowCount = 0;
+
+                let pageCount = Math.ceil((maxLen/20));
+
+                for(let i= 0; i<pageCount; i++){
+                    html += '' +
+                        '<div class="pdf_page mt-20">' +
+                        '<h2 class="text-center">면접위원 평가점수 및 의견</h2><br>' +
+                        '<h4 class="text-left">■ ' + area.JOB + '</h4>' +
+                        '<table class="searchTable table table-bordered mb-0 mt-10" style="text-align: center">' +
+                        '<colgroup>' +
+                        '    <col style="width: 8%">' +
+                        '    <col style="width: 10%">' +
+                        '    <col style="width: 8%">' +
+                        '    <col>' +
+                        '    <col style="width: 11%">' +
+                        '    <col>' +
+                        '</colgroup>' +
+                        '<tr style="height: 50px;">' +
+                        '    <th>지원자</th>' +
+                        '    <th>면접위원</th>' +
+                        '    <th>점수</th>' +
+                        '    <th>평가의견</th>' +
+                        '    <th>비고</th>' +
+                        '</tr>' +
+                        '<tbody id="applicationTb">';
+
+                    let tCnt = leftCount;
+                    if(leftCount > 20){
+                        tCnt = 20;
+                    }else{
+                        tCnt = leftCount;
+                    }
+                    for(var j = 0; j < tCnt; j++) {
+                        const map = result.list[nowCount];
+
+                        if (map.SUM_SCORE != null) {
+                            sum += Number(map.SUM_SCORE);
+                        }
+                        evalCnt++;
+                        index = nowCount;
+
+                        if (j < tCnt - 1) {
+                            index++
+                        }
+
+                        if (map.EMP_NAME_KR != undefined && map.EMP_NAME_KR != null) {
+                            html += '' +
+                                '<tr style="height: 50px;">' +
+                                '<td class="applicationId_' + map.APPLICATION_ID + '">' + map.USER_NAME + '</td>' +
+                                '<td>' + map.EMP_NAME_KR + '</td>' +
+                                '<td>' + map.SUM_SCORE + '</td>' +
+                                '<td>' + map.OPINION + '</td>' +
+                                '<td></td>' +
+                                '</tr>';
+                        } else {
+                            html += '' +
+                                '<tr style="height: 50px;">' +
+                                '<td class="applicationId_' + map.APPLICATION_ID + '">' + map.USER_NAME + '</td>' +
+                                '<td>-</td>' +
+                                '<td>-</td>' +
+                                '<td>-</td>' +
+                                '<td></td>' +
+                                '</tr>';
+                        }
+
+
+                        console.log(Number((sum / evalCnt)));
+                        console.log("Number((sum/evalCnt)).toFixed(1)");
+                        console.log("index", index, result.list);
+                        if (map.APPLICATION_ID != result.list[index].APPLICATION_ID || result.list.length == (j + 1)) {
+                            html += '' +
+                                '<tr style="height: 50px;">' +
+                                '<td class="applicationId_' + map.APPLICATION_ID + '">' + map.USER_NAME + '</td>' +
+                                '<td>평균점수</td>' +
+                                '<td>' + Number((sum / evalCnt)).toFixed(1) + '</td>' +
+                                '<td></td>' +
+                                '<td></td>' +
+                                '</tr>';
+
+                            sum = 0;
+                            evalCnt = 0;
+                            application.push(map.APPLICATION_ID);
+                        }
+
+                        if (map.EVAL_LOGIN_ID != undefined && map.EVAL_LOGIN_ID != null) {
+                            var data = {
+                                evalItemMainId: map.EVAL_ITEM_MAIN_ID,
+                                evalLoginId: map.EVAL_LOGIN_ID,
+                                evalScreenType: "in",
+                                applicationId: map.APPLICATION_ID,
+                                userName: map.USER_NAME,
+                                empName: map.EMP_NAME_KR,
+                                empSeq: map.EMP_SEQ
+                            };
+                            paramArr.push(data);
+                        }
+                        userArr.push(map.USER_NAME);
+
+                        leftCount--;
+                        nowCount++;
+                    }
+                }
+
+                html += '' +
+                    '</tbody>' +
+                    '</table>' +
+                    '</div>';
+
+                console.log(paramArr);
+
+                for(var x = 0; x < paramArr.length; x++) {
+
+                    html += '' +
+                        '<div class="pdf_page mt-20">' +
+                        '<h2 class="text-center">면접평가표</h2><br>' +
+                        '<table class="searchTable table table-bordered mb-0 mt-20" style="text-align: center;">' +
+                        '<colgroup>' +
+                        '    <col style="width: 15%">' +
+                        '    <col>' +
+                        '    <col style="width: 15%">' +
+                        '    <col style="width: 20%">' +
+                        '</colgroup>' +
+                        '<tr style="height: 50px;">' +
+                        '    <th>지원분야</th>' +
+                        '    <td>' + area.JOB + '</td>' +
+                        '    <th>지원자이름</th>' +
+                        '    <td>' + paramArr[x].userName + '</td>' +
+                        '</tr>' +
+                        '</table>' +
+
+                        '<table class="searchTable table table-bordered mb-0 mt-10" style="text-align: center">' +
+                        '<colgroup>' +
+                        '    <col style="width: 10%">' +
+                        '    <col style="width: 15%">' +
+                        '    <col>' +
+                        '    <col style="width: 10%">' +
+                        '    <col style="width: 10%">' +
+                        '    <col>' +
+                        '</colgroup>' +
+                        '<tr style="height: 50px;">' +
+                        '    <th>연번</th>' +
+                        '    <th>평가구분</th>' +
+                        '    <th>질문 및 평가에 대한 착안점</th>' +
+                        '    <th>평가</th>' +
+                        '    <th>점수</th>' +
+                        '</tr>';
+
+
+                    console.log(paramArr);
+                    var result = customKendo.fn_customAjax("/evaluation/getApplicationScoreBoard", paramArr[x]);
+                    if (result.flag) {
+                        console.log(result.rs);
+
+                        var total = 0;
+                        var itemList = result.rs.itemList;
+                        var evalScoreBoard = result.rs.evalScoreBoard;
+                        var opinion = "";
+
+                        for(var i = 0; i < evalScoreBoard.length; i++) {
+                            if(evalScoreBoard[i].EVAL_ITEM_ID == 'opinion'){
+                                opinion = evalScoreBoard[i].EVAL_ITEM_SCORE;
+                            }
+                            //평가일자
+                            paramArr[x].REG_DT = evalScoreBoard[0].EVALUATION_DT;
+                        }
+
+                        for(var i = 0; i < itemList.length; i++) {
+                            html += "" +
+                                '<tr style="height: 50px;">' +
+                                '<td>' + (i + 1) + '</td>' +
+                                '<td style="text-align: left;">' + itemList[i].EVAL_ITEM_TYPE + '</td>' +
+                                '<td style="text-align: left">' + itemList[i].EVAL_ITEM_TITLE.replaceAll("\n", "<br>") + '</td>' +
+                                '<td>' + itemList[i].EVAL_ITEM_VAL + '</td>' +
+                                '<td>' + evalScoreBoard[i].EVAL_ITEM_SCORE + '</td>' +
+                                '</tr>';
+
+                            total += Number(evalScoreBoard[i].EVAL_ITEM_SCORE);
+                        }
+                        html += "" +
+                            '<tr style="height: 50px;">' +
+                            '<th colSpan="3">총&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;점</th>' +
+                            '<td>100</td>' +
+                            '<td>' + total + '</td>' +
+                            '</tr>' +
+                            '<caption>※ 채점기준점수 : ▲80점이상 : 합격 ▲80점미만~70점이상 : 후보 ▲70점미만 : 불합격</caption>' +
+
+                            '<table  class="searchTable table table-bordered mb-0 mt-10" style="text-align: center">' +
+                            '<tr style="height: 50px;"><th>의&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;견</th></tr>' +
+                            '<tr><td><textarea id="opinion'+x+'" style="height: 150px;" readonly>' + opinion + '</textarea></td></tr>'+
+                            '</table>';
+
+                        /** 사인 조회후 사인이 있으면 이미지 첨부 없으면 정자 */
+                        const result2 = customKendo.fn_customAjax("/user/getSign", {empSeq: paramArr[x].empSeq});
+                        console.log("userSign : ");
+                        console.log(result2);
+
+                        var imgHtml = '';
+                        if(result2.data.signImg != null){
+                            const imgMap = result2.data.signImg;
+                            imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;(인)</div> <img id=\"signPhotoView\" style=\"position:relative; right: -92%; top: -33px\" width=\"50px;\" height=\"50px;\" src=\"'+imgMap.file_path+imgMap.file_uuid+'\">';
+                        }else{
+                            imgHtml += '심사위원 : '+paramArr[x].empName+'&nbsp;<b style=\"\">'+paramArr[x].empName+'</b>';
+                        }
+
+                        html += "" +
+                            '<div style="text-align: right;font-size: 12px;margin-right: 40px;" class="mt-20">' +
+                            paramArr[x].REG_DT +
+                            '<br>' +
+                            imgHtml +
+                            '</div>';
+                    }
+                    html += "" +
+                        '</table>'+
+                        '</div>';
+                }
+
+                $("#tbDiv").append(html);
+
+                for(var x = 0; x < paramArr.length; x++) {
+                    $("#opinion"+x).kendoTextArea({
+                        rows : 5
+                    });
+                }
+            }
+
+            for (var i = 0; i < application.length; i++){
+                /*$(".applicationId_" + application[i]).attr("rowspan", $(".applicationId_" + application[i]).length)
+                $(".applicationId_" + application[i]).not(":first").remove();*/
+            }
+
+            screenViewPop.fnResizeForm();
+        }
+    },
+
     applicationEvalDataSet : function(e){
         var sum = 0;
         for(var i = 0; i < e.length; i ++){

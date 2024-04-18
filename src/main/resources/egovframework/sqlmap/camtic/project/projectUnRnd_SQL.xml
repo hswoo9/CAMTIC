@@ -315,6 +315,7 @@
         /*getPersonReqData*/
         SELECT
             A.PERSON_REQ_SN,
+            A.REQ_STATUS_O_COUNT,
             B.*
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ A
@@ -443,7 +444,8 @@
             A.*,
             DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DATE,
             B.*,
-            C.LEC_COST
+            C.LEC_COST,
+            (SELECT YEAR(C.LEC_END_DE)) AS scYear
         FROM
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ A
         LEFT JOIN
@@ -1066,11 +1068,26 @@
             CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
         SET
             REQ_STATUS = #{stat},
-            REQ_STATUS_NAME = #{statText}
+            REQ_STATUS_NAME = #{statText},
+            REQ_STATUS_O_COUNT = 0
         WHERE
             LEC_SN = #{pk}
         AND PERSON_SN IN (${personList})
         AND ACTIVE = 'Y'
+    </update>
+
+    <update id="updPersonAppStatO" parameterType="map">
+        /*updPersonAppStatO*/
+        UPDATE
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ
+        SET
+            REQ_STATUS = #{stat},
+            REQ_STATUS_NAME = #{statText},
+            REQ_STATUS_O_COUNT = (SELECT MAX(A.REQ_STATUS_O_COUNT) FROM CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON_REQ A LEFT JOIN CAM_PJT_MNG.dj_pjt_lecture B ON A.LEC_SN = B.LEC_SN WHERE B.LEC_END_DE LIKE CONCAT ('%', #{year}, '%')) + 1
+        WHERE
+            LEC_SN = #{pk}
+          AND PERSON_SN = #{personSn}
+          AND ACTIVE = 'Y'
     </update>
 
     <update id="updPersonPartic" parameterType="map">

@@ -196,9 +196,9 @@ var regPay = {
                 $("#crmNm" + i).val(ls[i].CRM_NM);
                 $("#crmSn" + i).val(ls[i].CRM_SN);
                 $("#regNo" + i).val(ls[i].CRM_NO_TMP);
-                $("#crmBnkNm" + i).val(ls[i].CRM_BN);
-                $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM);
-                $("#crmAccHolder" + i).val(ls[i].BN_DEPO);
+                $("#crmBnkNm" + i).val(ls[i].CRM_BN == "undefined" ? "" : ls[i].CRM_BN);
+                $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM == "undefined" ? "" : ls[i].CRM_BN_NUM);
+                $("#crmAccHolder" + i).val(ls[i].BN_DEPO == "undefined" ? "" : ls[i].BN_DEPO);
                 $("#totCost" + i).val(regPay.comma(ls[i].PURC_ITEM_AMT));
                 $("#supCost" + i).val(regPay.comma(ls[i].PURC_ITEM_AMT));
             }
@@ -256,9 +256,9 @@ var regPay = {
                         $("#crmNm" + idx).val(ls[i].CRM_NM);
                         $("#crmSn" + idx).val(ls[i].CRM_SN);
                         $("#regNo" + idx).val(ls[i].CRM_NO_TMP);
-                        $("#crmBnkNm" + idx).val(ls[i].CRM_BN);
-                        $("#crmAccNo" + idx).val(ls[i].CRM_BN_NUM);
-                        $("#crmAccHolder" + idx).val(ls[i].BN_DEPO);
+                        $("#crmBnkNm" + idx).val(ls[i].CRM_BN == "undefined" ? "" : ls[i].CRM_BN);
+                        $("#crmAccNo" + idx).val(ls[i].CRM_BN_NUM == "undefined" ? "" : ls[i].CRM_BN_NUM);
+                        $("#crmAccHolder" + idx).val(ls[i].BN_DEPO == "undefined" ? "" : ls[i].BN_DEPO);
                         // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
                         // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
                         $("#budgetNm" + idx).val();
@@ -560,9 +560,9 @@ var regPay = {
                     $("#crmNm" + i).val(ls[i].CRM_NM);
                     $("#crmSn" + i).val(ls[i].CRM_SN);
                     $("#regNo" + i).val(ls[i].CRM_NO_TMP);
-                    $("#crmBnkNm" + i).val(ls[i].CRM_BN);
-                    $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM);
-                    $("#crmAccHolder" + i).val(ls[i].BN_DEPO);
+                    $("#crmBnkNm" + i).val(ls[i].CRM_BN == "undefined" ? "" : ls[i].CRM_BN);
+                    $("#crmAccNo" + i).val(ls[i].CRM_BN_NUM == "undefined" ? "" : ls[i].CRM_BN_NUM);
+                    $("#crmAccHolder" + i).val(ls[i].BN_DEPO == "undefined" ? "" : ls[i].BN_DEPO);
                     // $("#totCost" + i).val(regPay.comma(cem.TOT_AMT));
                     // $("#supCost" + i).val(regPay.comma(cem.TOT_AMT));
                     $("#budgetNm" + i).val(cem.BUDGET_NM);
