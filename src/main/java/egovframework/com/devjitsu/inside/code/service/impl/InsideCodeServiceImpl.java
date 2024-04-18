@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.code.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.inside.code.repository.InsideCodeRepository;
 import egovframework.com.devjitsu.inside.code.service.InsideCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,12 +128,15 @@ public class InsideCodeServiceImpl implements InsideCodeService {
 
     @Override
     public void setRoomRequestInsert(Map<String, Object> params) {
-        if(StringUtils.isEmpty(params.get("roomReqSn"))){
-            insideCodeRepository.setRoomRequestInsert(params);
-        }else{
-            insideCodeRepository.setRoomRequestUpdate(params);
+        Gson gson = new Gson();
+        List<Map<String, Object>> dataList = gson.fromJson((String) params.get("dataList"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+        for(Map<String, Object> data : dataList){
+            if(StringUtils.isEmpty(data.get("roomReqSn"))){
+                insideCodeRepository.setRoomRequestInsert(data);
+            }else{
+                insideCodeRepository.setRoomRequestUpdate(data);
+            }
         }
-
     }
 
     @Override
