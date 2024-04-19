@@ -2416,7 +2416,7 @@ var regPay = {
                         location.href = url;
 
                         if($("#reqType").val() != "business"){
-                            // opener.parent.paymentList.gridReload();
+                            opener.parent.paymentList.gridReload();
                         }else{
                             opener.location.reload();
                             opener.opener.gridReload();
