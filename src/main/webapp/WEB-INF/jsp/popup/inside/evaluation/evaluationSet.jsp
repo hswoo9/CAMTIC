@@ -188,13 +188,13 @@
                     <tr>
                         <th>팀원용</th>
                         <td>
-                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team' , 'PD')">팀원 R&D 역량평가 설정</button>
+                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team' , 'RD')">팀원 R&D 역량평가 설정</button>
                         </td>
                         <td>
-                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team' , 'PD')">팀원 A&C 역량평가 설정</button>
+                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team' , 'AC')">팀원 A&C 역량평가 설정</button>
                         </td>
                         <td>
-                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team', 'PD')">팀원 P&M 역량평가 설정</button>
+                            <button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_mng('team', 'PM')">팀원 P&M 역량평가 설정</button>
                         </td>
                     </tr>
                 </table>

@@ -11,6 +11,10 @@
 
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="evalSn" value="${params.evalSn}"/>
+<input type="hidden" id="bsYear" value="${params.bsYear}"/>
+<input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<%--<input type="hidden" id="loginVO" value="${loginVO}"/>--%>
+
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -72,13 +76,28 @@
         html += '<tr>';
         html += '   <td>'+ list.EVAL_NUM +' 차</td>';
         html += '   <td>'+ list.EVAL_STR_DT +' ~ ' + list.EVAL_END_DT +'</td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
-        html += '   <td></td>';
+        html += '   <td><button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_eval(0)">본인 평가</button></td>';
+        html += '   <td><button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_eval(1)">1차 평가</button></td>';
+        html += '   <td><button class="k-button" style="background-color: #dcdcdc; border: none;" onclick="fn_open_eval(2)">2차 평가</button></td>';
         html += '   <td></td>';
         html += '</tr>';
 
         $('#evalList').append(html);
+    }
+
+    function fn_open_eval(key) {
+        if(key === 1 || key === 2){
+            var url = "/evaluation/pop/evaluationEmpListPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+$("#empSeq").val()+"&key="+key;
+            var name = "_blank";
+            var option = "width = 1500, height = 820, top = 200, left = 600, location = no";
+            var popup = window.open(url, name, option);
+        }else{
+            var url = "/evaluation/pop/evaluationPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+$("#empSeq").val()+"&key="+key;
+            var name = "_blank";
+            var option = "width = 1700, height = 820, top = 200, left = 600, location = no";
+            var popup = window.open(url, name, option);
+        }
+
     }
 </script>
 </body>

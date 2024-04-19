@@ -138,6 +138,19 @@ public class EvaluationController {
         return "popup/inside/evaluation/evalMngList";
     }
 
+    @RequestMapping("/evaluation/pop/evaluationPop.do")
+    public String evaluationPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        params.put("bsYMD", params.get("bsYear")+"-12-31");
+
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("empData", evaluationService.getUserPersonnelinformOne(params));
+        return "popup/inside/evaluation/evaluationPop";
+    }
+
 
     /**
      * 인사평가 대상설정 팝업
@@ -193,6 +206,21 @@ public class EvaluationController {
         return "jsonView";
     }
 
+    @RequestMapping("/evaluation/setEvalScoreTemSave")
+    public String setEvalScoreTemSave(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        try{
+            evaluationService.setEvalScoreTemSave(params);
+            model.addAttribute("params", params);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+
+
     @RequestMapping("/evaluation/setEvaluationMngList")
     public String setEvaluationMngList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
         try{
@@ -229,6 +257,16 @@ public class EvaluationController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/evaluation/getEvaluationScoreList")
+    public String getEvaluationScoreList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        model.addAttribute("list", evaluationService.getEvaluationScoreList(params));
+
+
+        return "jsonView";
+    }
+
 
     //평가결과조회
     @RequestMapping("/Inside/evaluationResultList.do")

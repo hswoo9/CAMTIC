@@ -21,6 +21,7 @@ public class EvaluationRepository extends AbstractDAO {
         return selectList("evaluation.getEvaluationList", params);
     }
 
+
     public List<Map<String, Object>> getEvalResultEmpList(Map<String, Object> params) {
         return selectList("evaluation.getEvalResultEmpList", params);
     }
@@ -39,6 +40,10 @@ public class EvaluationRepository extends AbstractDAO {
 
     public Map<String, Object> getRequestEvaluationUserCnt(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("evaluation.getRequestEvaluationUserCnt", params);
+    }
+
+    public Map<String, Object> getUserPersonnelinformOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getUserPersonnelinformOne", params);
     }
 
     public Map<String, Object> getEvaluationBs(Map<String, Object> params) {
@@ -65,6 +70,9 @@ public class EvaluationRepository extends AbstractDAO {
         return selectList("evaluation.getEvaluationMngList", params);
     }
 
+    public List<Map<String, Object>> getEvaluationScoreList(Map<String, Object> params) {
+        return selectList("evaluation.getEvaluationScoreList", params);
+    }
     public void insEvaluation(Map<String, Object> params) {
         insert("evaluation.insEvaluation", params);
     }
@@ -131,5 +139,17 @@ public class EvaluationRepository extends AbstractDAO {
 
     public void setEvaluationMngList(Map<String, Object> scoreBody) {
         insert("evaluation.setEvaluationMngList", scoreBody);
+    }
+
+    public void delEvalScoreTemSave(Map<String, Object> params) {
+        delete("evaluation.delEvalScoreTemSave", params);
+    }
+
+    public void setEvalScoreTemSave(Map<String, Object> scoreBody) {
+        insert("evaluation.setEvalScoreTemSave", scoreBody);
+    }
+
+    public void updEvalScoreTemSave(Map<String, Object> scoreBody) {
+        insert("evaluation.updEvalScoreTemSave", scoreBody);
     }
 }
