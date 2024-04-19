@@ -33,6 +33,10 @@ public interface ManageService {
 
     Map<String, Object> getCurrentAmountStatus(Map<String, Object> params);
 
+    Map<String, Object> getCarryoverAmt(Map<String, Object> params);
+
+    void updCarryoverAmt(Map<String, Object> params);
+
     List<Map<String, Object>> getBudgetDetailViewData(Map<String, Object> params);
 
     Map<String, Object> getBudgetCodeData(Map<String, Object> params);

@@ -143,6 +143,17 @@ public class ManageServiceImpl implements ManageService {
     }
 
     @Override
+    public Map<String, Object> getCarryoverAmt(Map<String, Object> params) {
+        return manageRepository.getCarryoverAmt(params);
+    }
+
+    @Override
+    public void updCarryoverAmt(Map<String, Object> params) {
+        manageRepository.updProjectCarryoverAmt(params);
+        manageRepository.updCorpProjectCarryoverAmt(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getBudgetDetailViewData(Map<String, Object> params) {
         return manageRepository.getBudgetDetailViewData(params);
     }

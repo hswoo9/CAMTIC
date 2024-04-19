@@ -333,6 +333,18 @@ public class ManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/mng/getCarryoverAmt")
+    public String getCarryoverAmt(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", manageService.getCarryoverAmt(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/mng/updCarryoverAmt")
+    public String updCarryoverAmt(@RequestParam Map<String, Object> params){
+        manageService.updCarryoverAmt(params);
+        return "jsonView";
+    }
+
     @RequestMapping("/mng/pop/budgetDetailView.do")
     public String budgetDetailView(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("params", params);
