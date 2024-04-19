@@ -108,7 +108,8 @@
                         이월잔액
                     </th>
                     <td>
-
+                        <input type="text" id="carryoverAmt" style="width: 200px; text-align: right;" onkeyup="inputNumberFormatN(this)">
+                        <button class="k-button k-button-solid-base" onclick="bld.fn_carryoverSave();">저장</button>
                     </td>
                     <th scope="row" class="text-center th-color">
                         시재현황
@@ -120,7 +121,6 @@
                 </thead>
             </table>
         </div>
-
 
         <div>
             <table class="popTable table table-bordered mb-0">

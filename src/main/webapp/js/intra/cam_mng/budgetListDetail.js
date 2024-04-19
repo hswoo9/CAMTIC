@@ -7,6 +7,9 @@ let subAmSum = 0;
 var bld = {
 
     fn_defaultScript: function (){
+        $("#carryoverAmt").kendoTextBox();
+
+        bld.getCarryoverAmt();
         bld.getCurrentAmountStatus();
         bld.budgetMainGrid();
         bld.budgetMainGrid2();
@@ -345,6 +348,46 @@ var bld = {
         var popup = window.open(url, name, option);
     },
 
+    getCarryoverAmt: function(){
+        var data = {
+            pjtCd : $("#pjtCd").val()
+        }
+
+        $.ajax({
+            url : "/mng/getCarryoverAmt",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                $("#carryoverAmt").val(comma(rs.data.CARRYOVER_AMT));
+            }
+        })
+    },
+
+    fn_carryoverSave : function(){
+        if(!confirm("이월잔액을 저장 하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            carryoverAmt : uncommaN($("#carryoverAmt").val()),
+            pjtCd : $("#pjtCd").val()
+        }
+
+        $.ajax({
+            url : "/mng/updCarryoverAmt",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                alert("저장되었습니다.");
+                window.location.reload();
+            }
+        })
+
+
+    },
+
     onDataBound : function(){
         calcAmSum = 0;
         acctAm2Sum = 0;
@@ -352,4 +395,18 @@ var bld = {
         acctAm3Sum = 0;
         subAmSum = 0;
     }
+}
+
+function inputNumberFormatN (obj){
+    obj.value = comma(uncommaN(obj.value));
+}
+
+function uncommaN(str) {
+    str = String(str);
+    return str.replace(/[^\d-]|(?<=\d)-/g, '');
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 }

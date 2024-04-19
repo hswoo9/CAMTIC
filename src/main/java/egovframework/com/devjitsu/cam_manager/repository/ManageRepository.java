@@ -99,6 +99,21 @@ public class ManageRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("manage.getCurrentAmountStatus", params);
     }
 
+    public Map<String, Object> getCarryoverAmt(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("manage.getCarryoverAmt", params);
+    }
+
+    public void updProjectCarryoverAmt(Map<String, Object> params) {
+
+        update("manage.updProjectCarryoverAmt", params);
+    }
+
+    public void updCorpProjectCarryoverAmt(Map<String, Object> params) {
+
+        update("manage.updCorpProjectCarryoverAmt", params);
+    }
+
     public List<Map<String, Object>> getBudgetDetailViewData(Map<String, Object> params) {
 
         return selectList("manage.getBudgetDetailViewData", params);

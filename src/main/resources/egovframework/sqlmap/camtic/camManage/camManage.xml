@@ -671,4 +671,29 @@
         GROUP BY A.PAY_APP_SN
         ORDER BY B.REQ_DE DESC
     </select>
+
+    <select id="getCarryoverAmt" parameterType="map" resultType="map">
+        /*getCarryoverAmt*/
+        SELECT CARRYOVER_AMT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD = #{pjtCd}
+        UNION
+        SELECT CARRYOVER_AMT FROM CAM_PJT_MNG.DJ_CORP_PROJECT WHERE CORP_PJT_CD = #{pjtCd}
+    </select>
+
+    <update id="updProjectCarryoverAmt" parameterType="map">
+        /*updProjectCarryoverAmt*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT
+        SET
+            CARRYOVER_AMT = #{carryoverAmt}
+        WHERE
+            PJT_CD = #{pjtCd}
+    </update>
+
+    <update id="updCorpProjectCarryoverAmt" parameterType="map">
+        /*updCorpProjectCarryoverAmt*/
+        UPDATE CAM_PJT_MNG.DJ_CORP_PROJECT
+        SET
+            CARRYOVER_AMT = #{carryoverAmt}
+        WHERE
+            CORP_PJT_CD = #{pjtCd}
+    </update>
 </mapper>
