@@ -1842,7 +1842,8 @@
             '' as STATUS,
             '' as DOC_STATUS,
             (SELECT SUM(JSUM) FROM DJ_CAMTIC.JPRICEITEM WHERE JPRICENO = A.JPRICENO) AS PURC_ITEM_AMT_SUM,
-            '' AS APPROVE_STAT_CODE,
+            '' AS APPROVE_STAT_CODE,0
+            .
             'CAYSY' AS CLAIM_STATUS,
             '' AS CLAIM_SN,
             '' AS CLAIM_DOC_STATUS,
