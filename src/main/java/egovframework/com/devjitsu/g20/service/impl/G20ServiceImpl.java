@@ -451,7 +451,7 @@ public class G20ServiceImpl implements G20Service {
     public void insEtcEmpInfo(Map<String, Object> params) {
         int lastPCd = g20Repository.getLastPCd();
 
-        params.put("pCD", lastPCd + 1);
+        params.put("pCD",  "T" + lastPCd + 1);
 
         System.out.println(params);
         g20Repository.insEtcEmpInfo(params);
