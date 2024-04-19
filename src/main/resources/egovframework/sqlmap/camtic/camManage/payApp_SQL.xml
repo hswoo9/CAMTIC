@@ -2597,4 +2597,34 @@
         AND
             RE_STAT = 'Y'
     </select>
+
+    <select id="getWaitPaymentIncpList" parameterType="map" resultType="map">
+        /*getWaitPaymentIncpList*/
+        SELECT A.PJT_CD, A.BUDGET_SN,
+               SUBSTRING(A.BUDGET_SN, 1, 1) AS JANG_SN,
+               SUBSTRING(A.BUDGET_SN, 1, 3) AS GWAN_SN,
+               B.*
+        FROM
+            CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET B ON A.PAY_INCP_SN = B.PAY_INCP_SN
+        WHERE
+            A.PJT_CD = #{mgtSeq}
+          AND A.DOC_STATUS = 100
+          AND A.RE_STAT = 'N'
+    </select>
+
+    <select id="getApprovePaymentIncpList" parameterType="map" resultType="map">
+        /*getApprovePaymentIncpList*/
+        SELECT A.PJT_CD, A.BUDGET_SN,
+               SUBSTRING(A.BUDGET_SN, 1, 1) AS JANG_SN,
+               SUBSTRING(A.BUDGET_SN, 1, 3) AS GWAN_SN,
+               B.*
+        FROM
+            CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET B ON A.PAY_INCP_SN = B.PAY_INCP_SN
+        WHERE
+            A.PJT_CD = #{mgtSeq}
+          AND A.DOC_STATUS = 100
+          ANd A.RE_STAT = 'Y'
+    </select>
 </mapper>
