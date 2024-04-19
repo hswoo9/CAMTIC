@@ -57,6 +57,17 @@ public class EvaluationController {
         return  "popup/inside/userManage/evalPop";
     }
 
+    @RequestMapping("/evaluation/pop/evaluationEmpListPop.do")
+    public String evaluationEmpListPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        model.addAttribute("empData", evaluationService.getUserPersonnelinformOne(params));
+        return "popup/inside/evaluation/evaluationEmpListPop";
+    }
+
     @RequestMapping("/evaluation/getEvaluationOneList")
     public String getEvaluationOneList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
 
@@ -85,6 +96,12 @@ public class EvaluationController {
     @RequestMapping("/evaluation/getEvaluationList")
     public String getEvaluationList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
         model.addAttribute("list", evaluationService.getEvaluationList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/evaluation/getEvaluationEmpList")
+    public String getEvaluationEmpList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        model.addAttribute("list", evaluationService.getEvaluationEmpList(params));
         return "jsonView";
     }
 

@@ -612,45 +612,46 @@
     });
 
     function fn_save(){
+        var formData = new FormData();
         var content = CKEDITOR.instances.contents.getData();
-        var parameters = {
-            evalSn : $("#evalSn").val(),
-            bsYear : $("#bsYear").val(),  // 년도
-            evalNum : $("#evalNum").val(), // 차수
-            evalStat : $("#evalStat").data("kendoRadioGroup").value(),  // 작성중, 평가중, 평가완료
-            empSeqArr : empSeqArr,  // 평가대상
-            regEmpSeq : $("#empSeq").val(),
 
-            // 평가항목 및 가중치 - 사업인원
-            btSum : $("#btSum").val(),  // 팀원 - 소계
-            btResult1 : $("#btResult1").val(),  // 팀장 - 팀 성과 - 가중치
-            btResult2 : $("#btResult2").val(),  // 성과지표
-            bdResult1 : $("#bdResult1").val(),  // 팀장 - 부서성과 - 가중치
-            bdResult2 : $("#bdResult2").val(),  // 팀장 - 부서성과 - 성과지표
-            bdSum : $("#bdSum").val(),  // 팀장 소계
-            bhResult1 : $("#bhResult1").val(),  // 부서장 - 부서성과 - 가중치
-            bhResult2 : $("#bhResult2").val(),  // 성과지표
-            bcResult1 : $("#bcResult1").val(),  // 부서장 - 법인성과 - 가중치
-            bcResult2 : $("#bcResult2").val(),   // 성과지표
-            bhSum : $("#bhSum").val(),  // 부서장 소계
 
-            // 지원인원
-            bsSum : $("#bsSum").val(),  // 팀원 - 소계
-            stResult1 : $("#stResult1").val(),  // 팀장 - 팀 성과 - 가중치
-            stResult2 : $("#stResult2").val(),  // 성과지표
-            sdResult1 : $("#sdResult1").val(),  // 팀장 - 부서성과 - 가중치
-            sdResult2 : $("#sdResult2").val(),  // 팀장 - 부서성과 - 성과지표
-            sdSum : $("#sdSum").val(),  // 팀장 소계
-            shResult1 : $("#shResult1").val(),  // 부서장 - 부서성과 - 가중치
-            shResult2 : $("#shResult2").val(),  // 성과지표
-            scResult1 : $("#scResult1").val(),  // 부서장 - 법인성과 - 가중치
-            scResult2 : $("#scResult2").val(),  // 성과지표
-            scSum : $("#scSum").val(),  // 부서장 소계
+        formData.append("evalSn" , $("#evalSn").val());
+        formData.append("bsYear" , $("#bsYear").val()); // 년도
+        formData.append("evalNum" , $("#evalNum").val()); // 차수
+        formData.append("evalStat" , $("#evalStat").data("kendoRadioGroup").value());  // 작성중, 평가중, 평가완료
+        formData.append("empSeqArr" , empSeqArr);  // 평가대상
+        formData.append("regEmpSeq", $("#empSeq").val());
 
-            // 안내 페이지 설정
-            content : content
+        // 평가항목 및 가중치 - 사업인원
+        formData.append("btSum" , $("#btSum").val());  // 팀원 - 소계
+        formData.append("btResult1" , $("#btResult1").val());  // 팀장 - 팀 성과 - 가중치
+        formData.append("btResult2" , $("#btResult2").val()); // 성과지표
+        formData.append("bdResult1" , $("#bdResult1").val());  // 팀장 - 부서성과 - 가중치
+        formData.append("bdResult2" , $("#bdResult2").val());  // 팀장 - 부서성과 - 성과지표
+        formData.append("bdSum" , $("#bdSum").val());  // 팀장 소계
+        formData.append("bhResult1" , $("#bhResult1").val());  // 부서장 - 부서성과 - 가중치
+        formData.append("bhResult2" , $("#bhResult2").val());  // 성과지표
+        formData.append("bcResult1" , $("#bcResult1").val());  // 부서장 - 법인성과 - 가중치
+        formData.append("bcResult2" , $("#bcResult2").val());   // 성과지표
+        formData.append("bhSum" , $("#bhSum").val());  // 부서장 소계
 
-        }
+        // 지원인원
+        formData.append("bsSum" , $("#bsSum").val()); // 팀원 - 소계
+        formData.append("stResult1" , $("#stResult1").val());  // 팀장 - 팀 성과 - 가중치
+        formData.append("stResult2" , $("#stResult2").val()); // 성과지표
+        formData.append("sdResult1" , $("#sdResult1").val()); // 팀장 - 부서성과 - 가중치
+        formData.append("sdResult2" , $("#sdResult2").val()); // 팀장 - 부서성과 - 성과지표
+        formData.append("sdSum" , $("#sdSum").val()); // 팀장 소계
+        formData.append("shResult1" , $("#shResult1").val());  // 부서장 - 부서성과 - 가중치
+        formData.append("shResult2" , $("#shResult2").val());  // 성과지표
+        formData.append("scResult1" , $("#scResult1").val());  // 부서장 - 법인성과 - 가중치
+        formData.append("scResult2" , $("#scResult2").val());  // 성과지표
+        formData.append("scSum" , $("#scSum").val());  // 부서장 소계
+
+        // 안내 페이지 설정
+        formData.append("content" , content);
+
 
         // if(parameters.bsYear == ""){
         //     alert("년도를 입력해주세요.");
@@ -705,7 +706,7 @@
             });
         }
 
-        parameters.capBodyArr = JSON.stringify(capBodyArr);
+        formData.append("capBodyArr", JSON.stringify(capBodyArr));
 
         // 평가항목 및 가중치 - 사업인원 - 팀원
         for(var i = 0 ; i < btLen ; i++){
@@ -723,7 +724,7 @@
             });
         }
 
-        parameters.btBodyArr = JSON.stringify(btBodyArr);
+        formData.append("btBodyArr", JSON.stringify(btBodyArr));
 
         // 평가항목 및 가중치 - 지원인원 - 팀원
         for(var i = 0 ; i < bsLen ; i++){
@@ -741,7 +742,7 @@
             });
         }
 
-        parameters.bsBodyArr = JSON.stringify(bsBodyArr);
+        formData.append("bsBodyArr", JSON.stringify(bsBodyArr));
 
         // 평가 등급별 수준 및 점수
         for(var i = 0 ; i < scoreLen ; i++){
@@ -759,11 +760,17 @@
             });
         }
 
-        parameters.scoreBodyArr = JSON.stringify(scoreBodyArr);
+        formData.append("scoreBodyArr", JSON.stringify(scoreBodyArr));
 
         $.ajax({
             url : "/evaluation/setEvaluation",
-            data : parameters,
+            data : formData,
+            type : "post",
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
             dataType : "json",
             success : function (rs){
                 console.log(rs);

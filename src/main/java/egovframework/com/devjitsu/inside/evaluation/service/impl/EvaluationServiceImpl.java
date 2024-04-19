@@ -30,6 +30,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Map<String, Object>> getEvaluationList(Map<String, Object> params) {
         return evaluationRepository.getEvaluationList(params);
     }
+    @Override
+    public List<Map<String, Object>> getEvaluationEmpList(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationEmpList(params);
+    }
+
 
     @Override
     public List<Map<String, Object>> getEvalResultEmpList(Map<String, Object> params) {

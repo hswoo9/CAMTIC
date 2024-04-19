@@ -13,8 +13,6 @@
 <input type="hidden" id="evalSn" value="${params.evalSn}"/>
 <input type="hidden" id="bsYear" value="${params.bsYear}"/>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<%--<input type="hidden" id="loginVO" value="${loginVO}"/>--%>
-
 
 <div style="padding:0;">
     <div class="table-responsive">
@@ -87,9 +85,9 @@
 
     function fn_open_eval(key) {
         if(key === 1 || key === 2){
-            var url = "/evaluation/pop/evaluationEmpListPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+$("#empSeq").val()+"&key="+key;
+            var url = "/evaluation/pop/evaluationEmpListPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&key="+key;
             var name = "_blank";
-            var option = "width = 1500, height = 820, top = 200, left = 600, location = no";
+            var option = "width=965, height=600, scrollbars=no, top=300, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);
         }else{
             var url = "/evaluation/pop/evaluationPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+$("#empSeq").val()+"&key="+key;
@@ -97,7 +95,6 @@
             var option = "width = 1700, height = 820, top = 200, left = 600, location = no";
             var popup = window.open(url, name, option);
         }
-
     }
 </script>
 </body>

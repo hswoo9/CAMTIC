@@ -21,6 +21,10 @@ public class EvaluationRepository extends AbstractDAO {
         return selectList("evaluation.getEvaluationList", params);
     }
 
+    public List<Map<String, Object>> getEvaluationEmpList(Map<String, Object> params) {
+        return selectList("evaluation.getEvaluationEmpList", params);
+    }
+
 
     public List<Map<String, Object>> getEvalResultEmpList(Map<String, Object> params) {
         return selectList("evaluation.getEvalResultEmpList", params);

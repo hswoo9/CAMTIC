@@ -84,27 +84,27 @@
 
 <script>
     if($("#duty").val() == "4" || $("#duty").val() == "5"){
-        var evalPositionType = "teamLeader"
+        var evalPositionType = "teamLeader";
     }else if($("#duty").val() == "2" || $("#duty").val() == "3" || $("#duty").val() == "7"){
-        var evalPositionType = "deptHeader"
+        var evalPositionType = "deptHeader";
     }else{
-        var evalPositionType = "team"
+        var evalPositionType = "team";
     }
 
     if($("#occupation").val() == "P&M"){
-        var evalType = "PM"
+        var evalType = "PM";
     }else if($("#occupation").val() == "A&C"){
-        var evalType = "AC"
+        var evalType = "AC";
     }else if($("#occupation").val() == " R&D"){
-        var evalType = "RD"
+        var evalType = "RD";
     }
 
     if($("#step").val() == "0"){  // 본인평가
-        var evalResultType = "eval"
+        var evalResultType = "eval";
     }else if($("#step").val() == "1"){ // 1차평가
-        var evalResultType = "evalF"
+        var evalResultType = "evalF";
     }else if($("#step").val() == "2"){ // 2차평가
-        var evalResultType = "evalS"
+        var evalResultType = "evalS";
     }
 
     $(function (){

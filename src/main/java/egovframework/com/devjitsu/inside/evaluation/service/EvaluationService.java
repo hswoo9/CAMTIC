@@ -8,6 +8,7 @@ public interface EvaluationService {
     List<Map<String, Object>> getRequestEvaluationUser(Map<String, Object> params);
     Map<String, Object> getEvaluationOneList(Map<String, Object> params);
     List<Map<String, Object>> getEvaluationList(Map<String, Object> params);
+    List<Map<String, Object>> getEvaluationEmpList(Map<String, Object> params);
     List<Map<String, Object>> getEvalResultEmpList(Map<String, Object> params);
     Map<String, Object> getRequestEvaluationUserCnt(Map<String, Object> params);
     Map<String, Object> getUserPersonnelinformOne(Map<String, Object> params);
