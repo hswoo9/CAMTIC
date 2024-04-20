@@ -869,7 +869,7 @@
             END AS TYPE,
             E.*,
             ED.CRM_NM,
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP_DET A WHERE A.EXNP_SN = E.EXNP_SN) AS CRM_CNT,
+            ED2.CRM_CNT,
             ED.EVID_TYPE,
             CASE
                 WHEN ED.EVID_TYPE = 1 THEN '세금계산서'
@@ -895,6 +895,9 @@
         LEFT JOIN
             CAM_MNG.DJ_EXNP E ON ED.EXNP_SN = E.EXNP_SN
         LEFT JOIN
+            (SELECT EXNP_SN, COUNT(*) AS CRM_CNT FROM CAM_MNG.DJ_EXNP_DET GROUP BY EXNP_SN) ED2
+        ON E.EXNP_SN = ED2.EXNP_SN
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
         WHERE (ED.EVID_TYPE IN (1, 2, 3) or ED.EVID_TYPE NOT IN (1, 2, 3))
         AND E.DOC_STATUS = '100'
@@ -903,7 +906,7 @@
             AND E.PJT_CD = #{pjtCd}
         </if>
         <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
-            AND CASE WHEN ED.EVID_TYPE IN (1,2,3) THEN E.DT1 ELSE E.DT3 END
+            AND E.REQ_DE
             BETWEEN #{startDt} AND #{endDt}
         </if>
         <if test='searchStatus != null and !"".equals(searchStatus)'>
