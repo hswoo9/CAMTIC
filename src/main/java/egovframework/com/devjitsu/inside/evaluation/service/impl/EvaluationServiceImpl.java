@@ -186,8 +186,10 @@ public class EvaluationServiceImpl implements EvaluationService {
                 evaluationRepository.delEvalScoreTemSave(evalBody);
                 evaluationRepository.setEvalScoreTemSave(evalBody);
             }
+        }
 
-
+        if(params.get("save").equals("10")){
+            evaluationRepository.updEvaluationMem(params);
         }
 
     }

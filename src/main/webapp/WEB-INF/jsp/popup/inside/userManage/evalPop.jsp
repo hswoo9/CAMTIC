@@ -85,7 +85,7 @@
 
     function fn_open_eval(key) {
         if(key === 1 || key === 2){
-            var url = "/evaluation/pop/evaluationEmpListPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&key="+key;
+            var url = "/evaluation/pop/evaluationEmpListPop.do?pk="+$("#evalSn").val()+"&empSeq="+$("#empSeq").val()+"&bsYear="+$("#bsYear").val()+"&key="+key;
             var name = "_blank";
             var option = "width=965, height=600, scrollbars=no, top=300, left=200, resizable=no, toolbars=no, menubar=no"
             var popup = window.open(url, name, option);

@@ -116,6 +116,7 @@
             type : "post",
             data : {
                 evalSn : $("#evalSn").val(),
+                empSeq : $("#empSeq").val(),
                 eType : evalType,
                 pType : evalPositionType,
                 rType : evalResultType

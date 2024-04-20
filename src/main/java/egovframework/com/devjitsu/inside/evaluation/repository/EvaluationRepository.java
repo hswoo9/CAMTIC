@@ -156,4 +156,8 @@ public class EvaluationRepository extends AbstractDAO {
     public void updEvalScoreTemSave(Map<String, Object> scoreBody) {
         insert("evaluation.updEvalScoreTemSave", scoreBody);
     }
+
+    public void updEvaluationMem(Map<String, Object> params) {
+        insert("evaluation.updEvaluationMem", params);
+    }
 }

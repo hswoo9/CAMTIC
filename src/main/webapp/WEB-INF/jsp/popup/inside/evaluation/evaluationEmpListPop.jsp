@@ -3,15 +3,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
-<script src="/js/kendoui/kendo.all.min.js"></script>
-<script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
+
 <script type="text/javascript" src="/js/intra/inside/evaluation/evaluationEmpListPop.js?v=${today}"></script>
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
-<link rel="stylesheet" href="/css/style.css">
+
 
 <body class="font-opensans" style="background-color:#fff;">
-<input type="hidden" id="evalSn" value="${params.evalSn}"/>
+<input type="hidden" id="evalSn" value="${params.pk}"/>
 <input type="hidden" id="bsYear" value="${params.bsYear}"/>
 <input type="hidden" id="key" value="${params.key}"/>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
@@ -32,11 +31,25 @@
                 <h3 class="card-title title_NM">2차 역량평가</h3>
             </c:if>
         </div>
-        <div class="col-md-12 col-lg-12 dash-left">
+      <%--  <div class="col-md-12 col-lg-12 dash-left">
             <div id="mainGrid"></div>
+        </div>--%>
+    </div>
+</div>
+
+
+
+<div class="col-md-12 col-lg-12 dash-left">
+    <div class="panel" id="mainCard">
+        <div class="panel-body">
+            <div style="margin-bottom:10px;">
+                <div id="mainGrid" style="margin:20px 0;"></div>
+            </div>
         </div>
     </div>
 </div>
+
+
 
 
 <script>

@@ -59,6 +59,8 @@ public class EvaluationController {
 
     @RequestMapping("/evaluation/pop/evaluationEmpListPop.do")
     public String evaluationEmpListPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        params.put("bsYMD", params.get("bsYear")+"-12-31");
+
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
