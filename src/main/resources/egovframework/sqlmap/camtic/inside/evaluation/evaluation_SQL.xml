@@ -501,13 +501,17 @@
         SELECT
             A.*,
             B.*,
-            C.PARENT_DEPT_SEQ
+            C.PARENT_DEPT_SEQ,
+        IFNULL((SELECT SUM(EVAL_SCORE) FROM CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT WHERE EVAL_TYPE = 'eval' AND TEM_ACTIVE='Y'AND EVAL_SN = #{evalSn} AND EMP_SEQ= A.EVAL_EMP_SEQ),0)AS EVAL_SCORE,
+        IFNULL((SELECT SUM(EVAL_SCORE) FROM CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT WHERE EVAL_TYPE = 'evalF' AND TEM_ACTIVE='Y'AND EVAL_SN = #{evalSn} AND EMP_SEQ= A.EVAL_EMP_SEQ),0)AS EVAL_F_SCORE,
+        IFNULL((SELECT SUM(EVAL_SCORE) FROM CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT WHERE EVAL_TYPE = 'evalS' AND TEM_ACTIVE='Y'AND EVAL_SN = #{evalSn} AND EMP_SEQ= A.EVAL_EMP_SEQ),0)AS EVAL_S_SCORE
         FROM
             CAM_INSIDE.dj_evaluation_mem A
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO B ON A.EVAL_EMP_SEQ = B.EMP_SEQ
         LEFT JOIN
             CAM_HR.dj_dept_info C ON B.DEPT_SEQ = C.DEPT_SEQ
+
         WHERE
             EVAL_SN = #{evalSn}
         <if test='dept != null and dept != ""'>
@@ -522,7 +526,15 @@
         <if test='duty != null and duty != ""'>
             AND DUTY_CODE = #{duty}
         </if>
+    </select>
 
+    <select id="getEvaluationApp" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_CAP
+        WHERE
+            EVAL_SN = #{evalSn}
     </select>
 
     <delete id="delEvaluationMngList" parameterType="map">

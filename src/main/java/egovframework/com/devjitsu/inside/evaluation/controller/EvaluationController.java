@@ -143,6 +143,7 @@ public class EvaluationController {
     @RequestMapping("/evaluation/getEvalResultEmpList")
     public String getEvalResultEmpList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
         model.addAttribute("list", evaluationService.getEvalResultEmpList(params));
+        model.addAttribute("data", evaluationService.getEvaluationApp(params));
         return "jsonView";
     }
 
