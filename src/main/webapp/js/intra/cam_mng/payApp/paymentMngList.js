@@ -32,6 +32,16 @@ var paymentMngList = {
             ]
         });
 
+
+
+        var d = new Date();
+        var bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
+
+        var bdStr = d.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2)
+
+        customKendo.fn_datePicker("payAppStrDe", "depth", "yyyy-MM-dd", bdStr);
+        customKendo.fn_datePicker("payAppEndDe", "depth", "yyyy-MM-dd", new Date());
+
         customKendo.fn_dropDownList("searchKeyword", paymentMngList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
         customKendo.fn_datePicker("payExnpDe", "depth", "yyyy-MM-dd", new Date());
@@ -264,6 +274,10 @@ var paymentMngList = {
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             payAppType : $("#payAppType").val(),
+
+            strDe : $("#payAppStrDe").val(),
+            endDe : $("#payAppEndDe").val(),
+
             pageType : "USER",
         }
 

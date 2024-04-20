@@ -20,6 +20,14 @@ var exnpList = {
             { text: "문서번호", value: "DOC_NO" },
         ]
 
+        var d = new Date();
+        var bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
+
+        var bdStr = d.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2)
+
+        customKendo.fn_datePicker("exnpStrDe", "depth", "yyyy-MM-dd", bdStr);
+        customKendo.fn_datePicker("exnpEndDe", "depth", "yyyy-MM-dd", new Date());
+
         customKendo.fn_dropDownList("searchKeyword", exnpList.global.dropDownDataSource, "text", "value");
         customKendo.fn_textBox(["searchValue"]);
         exnpList.gridReload();
@@ -185,6 +193,8 @@ var exnpList = {
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
+            strDe : $("#exnpStrDe").val(),
+            endDe : $("#exnpEndDe").val(),
             payAppType : 1
         }
 

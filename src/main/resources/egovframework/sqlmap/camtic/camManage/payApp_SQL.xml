@@ -403,11 +403,11 @@
         SELECT
             A.*,
             B.DOC_NO,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND DET_STAT != "N") AS TOT_COST,
+            C.TOT_COST,
+            C.ITEM_COUNT,
             (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN) AS ITEM_COUNT,
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = A.PAY_APP_SN AND EXNP_SAVE = 'Y') AS EXNP_STATUS,
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN WHERE Y.PAY_APP_SN = A.PAY_APP_SN AND Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != "") AS EXNP_DOC_STATUS,
+            D.EXNP_STATUS,
+            E.EXNP_DOC_STATUS,
             (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS EXNP_DOC_STATUS2,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME
         FROM
@@ -416,8 +416,37 @@
             DJ_CAMTIC.A_DOC_INFO B
         ON
             A.DOC_ID = B.DOC_ID
+        LEFT JOIN
+            (SELECT
+                PAY_APP_SN,
+                SUM(TOT_COST) AS TOT_COST,
+                COUNT(*) AS ITEM_COUNT
+            FROM CAM_MNG.DJ_PAY_APP_DET
+            GROUP BY PAY_APP_SN) C
+        ON
+            A.PAY_APP_SN = C.PAY_APP_SN
+        LEFT JOIN
+            (SELECT
+                PAY_APP_SN,
+                COUNT(*) AS EXNP_STATUS
+            FROM CAM_MNG.DJ_PAY_APP_DET
+            WHERE EXNP_SAVE = 'Y'
+            GROUP BY PAY_APP_SN ) D
+        ON
+            A.PAY_APP_SN = D.PAY_APP_SN
+        LEFT JOIN
+            (SELECT
+                Y.PAY_APP_SN,
+                COUNT(*) AS EXNP_DOC_STATUS
+            FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN
+            WHERE Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != ""
+            GROUP BY Y.PAY_APP_SN ) E
+        ON
+            A.PAY_APP_SN = E.PAY_APP_SN
         WHERE
-            1=1
+        <![CDATA[
+            A.APP_DE > #{strDe} and A.APP_DE <= #{endDe}
+        ]]>
         <if test='payAppType == "1" or "1".equals(payAppType)'>
             AND PAY_APP_TYPE = 1
         </if>
@@ -787,18 +816,38 @@
         SELECT
             A.*,
             B.DOC_NO,
-            (SELECT PAY_EXNP_DE FROM CAM_MNG.DJ_PAY_APP WHERE PAY_APP_SN = A.PAY_APP_SN) AS PAY_EXNP_DE,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = A.EXNP_SN) AS TOT_COST,
-            (SELECT BUDGET_NM FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = A.EXNP_SN LIMIT 1) AS BUDGET_NM_EX,
-            (SELECT EVID_TYPE FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = A.EXNP_SN LIMIT 1) AS EVI_TYPE
+            C.PAY_EXNP_DE,
+            D.TOT_COST,
+            D.BUDGET_NM BUDGET_NM_EX,
+            D.EVID_TYPE EVI_TYPE
         FROM
             CAM_MNG.DJ_EXNP A
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO B
         ON
             A.DOC_ID = B.DOC_ID
+        LEFT JOIN
+            (SELECT
+                PAY_APP_SN,
+                PAY_EXNP_DE
+            FROM CAM_MNG.DJ_PAY_APP
+            GROUP BY PAY_APP_SN) C
+        ON
+            A.PAY_APP_SN = C.PAY_APP_SN
+        LEFT JOIN
+            (SELECT
+                EXNP_SN,
+                SUM(TOT_COST) TOT_COST,
+                BUDGET_NM,
+                EVID_TYPE
+            FROM CAM_MNG.DJ_EXNP_DET
+            GROUP BY EXNP_SN) D
+        ON
+            A.EXNP_SN = D.EXNP_SN
         WHERE
-            1 = 1
+            <![CDATA[
+                A.REQ_DE > #{strDe} AND A.REQ_DE <= #{endDe}
+            ]]>
         <if test='!"".equals(payAppType) and payAppType != null'>
             AND
                 A.PAY_APP_TYPE = #{payAppType}

@@ -41,6 +41,10 @@
                         <col width="25%">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">기간</th>
+                        <td>
+                            <input type="text" id="exnpStrDe" style="width: 45%;"> ~ <input type="text" id="exnpEndDe" style="width: 45%;">
+                        </td>
                         <th class="text-center th-color">상태</th>
                         <td>
                             <input type="text" id="searchDept" style="width: 150px;">

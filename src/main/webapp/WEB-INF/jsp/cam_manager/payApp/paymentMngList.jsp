@@ -33,14 +33,20 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
+                        <col width="7%">
+                        <col width="20%">
+                        <col width="7%">
                         <col width="10%">
+                        <col width="7%">
+                        <col width="10%">
+                        <col width="7%">
                         <col width="15%">
-                        <col width="10%">
-                        <col width="15%">
-                        <col width="10%">
-                        <col width="25%">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">기간</th>
+                        <td>
+                            <input type="text" id="payAppStrDe" style="width: 45%;"> ~ <input type="text" id="payAppEndDe" style="width: 45%;">
+                        </td>
                         <th class="text-center th-color">문서유형</th>
                         <td>
                             <input type="text" id="payAppType" style="width: 150px;">
