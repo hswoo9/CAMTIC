@@ -151,6 +151,24 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     }
 
+
+
+    @Override
+    public void setEvaluationItemCopy(Map<String, Object> params) {
+
+        int evalSn = Integer.parseInt(params.get("evalSn").toString());
+        int copyEvalSn = evalSn - 1;
+        params.put("copyEvalSn", copyEvalSn);
+
+        evaluationRepository.delEvaluationItemCopy(params);
+        evaluationRepository.setEvaluationItemCopy(params);
+    }
+
+
+
+
+
+
     @Override
     public void setEvaluationMngList(Map<String, Object> params) {
 

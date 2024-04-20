@@ -225,6 +225,12 @@ public class EvaluationController {
         return "jsonView";
     }
 
+    @RequestMapping("/evaluation/setEvaluationItemCopy")
+    public String setEvaluationItemCopy(@RequestParam Map<String, Object> params) {
+        evaluationService.setEvaluationItemCopy(params);
+        return "jsonView";
+    }
+
     @RequestMapping("/evaluation/setEvalScoreTemSave")
     public String setEvalScoreTemSave(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
 

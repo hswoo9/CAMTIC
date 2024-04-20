@@ -796,6 +796,45 @@
             EVAL_SN = #{evalSn} AND EVAL_EMP_SEQ = #{empSeq}
     </update>
 
+    <delete id="delEvaluationItemCopy" parameterType="map">
+        /*delEvaluationItemCopy*/
+        DELETE FROM CAM_INSIDE.DJ_EVALUATION_ITEM WHERE EVAL_SN = #{evalSn}
+    </delete>
 
+    <insert id="setEvaluationItemCopy" parameterType="map">
+        /*setEvaluationItemCopy*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION_ITEM
+        (
+            EVAL_SN,
+            EVAL_TYPE,
+            EVAL_POSITION_TYPE,
+            EVAL_CAP,
+            EVAL_TITLE,
+            EVAL_VAL,
+            EVAL_STR_S,
+            EVAL_STR_A,
+            EVAL_STR_B,
+            EVAL_END_B,
+            EVAL_STR_C,
+            EVAL_STR_D,
+            REG_EMP_SEQ
+        )
+        SELECT
+            #{evalSn},
+            EVAL_TYPE,
+            EVAL_POSITION_TYPE,
+            EVAL_CAP,
+            EVAL_TITLE,
+            EVAL_VAL,
+            EVAL_STR_S,
+            EVAL_STR_A,
+            EVAL_STR_B,
+            EVAL_END_B,
+            EVAL_STR_C,
+            EVAL_STR_D,
+            #{empSeq}
+        FROM CAM_INSIDE.DJ_EVALUATION_ITEM
+        WHERE EVAL_SN = #{copyEvalSn}
+    </insert>
 
 </mapper>
