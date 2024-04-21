@@ -213,9 +213,9 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm2Sum += Number(e.ACCT_AM_2);
+                            acctAm2Sum += Number(e.ACCT_AM_2 - e.RETURN_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.RETURN_AMT)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
@@ -241,9 +241,9 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.FULL_WAIT_CK != null){
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.FULL_WAIT_CK)+"</div>";
+                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.FULL_WAIT_CK - e.RETURN_AMT)+"</div>";
                         } else {
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.RETURN_AMT)+"</div>";
                         }
                     },
                     footerTemplate: function(){

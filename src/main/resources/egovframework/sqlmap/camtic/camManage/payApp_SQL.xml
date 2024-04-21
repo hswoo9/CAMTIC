@@ -2679,4 +2679,28 @@
           AND A.DOC_STATUS = 100
           ANd A.RE_STAT = 'Y'
     </select>
+
+    <select id="getReturnPaymentList" parameterType="map" resultType="map">
+        /*getReturnPaymentList*/
+        SELECT
+            A.PAY_APP_TYPE,
+            A.EXNP_SN,
+            A.RE_STAT,
+            A.DOC_STATUS,
+            B.BUDGET_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+            B.TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B
+        ON
+            A.EXNP_SN = B.EXNP_SN
+        WHERE
+            PJT_CD = #{mgtSeq}
+          AND
+            DOC_STATUS IN (100, 101)
+          AND A.PAY_APP_TYPE = '3'
+    </select>
 </mapper>

@@ -54,10 +54,12 @@ public class G20ServiceImpl implements G20Service {
         List<Map<String, Object>> payWaitList = new ArrayList<>();  // 지출대기
         List<Map<String, Object>> payCompleteList = new ArrayList<>();  // 지출완료
         List<Map<String, Object>> payApproveList = new ArrayList<>();   // 승인
+        List<Map<String, Object>> payReturnList = new ArrayList<>();    // 반납
 
         if(params.get("temp").equals("1")){
             payWaitList = payAppRepository.getWaitPaymentIncpList(params);  // 입금대기
             payApproveList = payAppRepository.getApprovePaymentIncpList(params);  // 승인
+            payReturnList = payAppRepository.getReturnPaymentList(params);  // 반납
         } else {
             payWaitList = payAppRepository.getWaitPaymentList(params);  // 지출대기
             payCompleteList = payAppRepository.getCompletePaymentList(params); // 지출완료
@@ -82,6 +84,7 @@ public class G20ServiceImpl implements G20Service {
                     if(!"0".equals(map.get("DIV_FG"))){
                         int paySum = 0;
                         int approvePaySum = 0;
+                        int returnPaySum = 0;
 
                         for (int i=0; i<payWaitList.size(); i++){
                             if(map.get("BGT_CD").toString().equals(payWaitList.get(i).get("BUDGET_SN").toString())){
@@ -123,8 +126,29 @@ public class G20ServiceImpl implements G20Service {
                             }
                         }
 
+                        for(int i=0; i< payReturnList.size(); i++){
+                            if(map.get("BGT_CD").toString().equals(payReturnList.get(i).get("BUDGET_SN").toString())){
+                                int payAmount = Integer.parseInt(payReturnList.get(i).get("TOT_COST").toString());
+
+                                returnPaySum += payAmount;
+                            }
+
+                            if(map.get("BGT_CD").toString().equals(payReturnList.get(i).get("JANG_SN").toString())){
+                                int payAmount = Integer.parseInt(payReturnList.get(i).get("TOT_COST").toString());
+
+                                returnPaySum += payAmount;
+                            }
+
+                            if(map.get("BGT_CD").toString().equals(payReturnList.get(i).get("GWAN_SN").toString())){
+                                int payAmount = Integer.parseInt(payReturnList.get(i).get("TOT_COST").toString());
+
+                                returnPaySum += payAmount;
+                            }
+                        }
+
                         map.put("FULL_WAIT_CK", paySum);
                         map.put("ACCT_AM_2", approvePaySum);
+                        map.put("RETURN_AMT", returnPaySum);
                         result.add(map);
                     }
                 } else {   // 지출예산

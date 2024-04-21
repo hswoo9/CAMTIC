@@ -111,9 +111,9 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm2Sum += Number(e.ACCT_AM_2);
+                            acctAm2Sum += Number(e.ACCT_AM_2 - e.RETURN_AMT);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.RETURN_AMT)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
@@ -152,9 +152,9 @@ var bld = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            subAmSum += Number(e.CALC_AM + e.ACCT_AM_2 + e.FULL_WAIT_CK);
+                            subAmSum += Number(e.SUB_AM);
                         }
-                        return "<div style='text-align: right'>"+comma(Number(e.CALC_AM + e.ACCT_AM_2 + e.FULL_WAIT_CK))+"</div>";
+                        return "<div style='text-align: right'>"+comma(Number(e.SUB_AM))+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
@@ -294,7 +294,7 @@ var bld = {
                         if(e.DIV_FG_NM == "장"){
                             acctAm2Sum  += Number(e.ACCT_AM_2 + e.WAIT_CK);
                         }
-                        return '<div style="text-align: right"><a href="javascript:void(0);" style="text-align: right;" onclick="bld.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\')">'+comma(e.ACCT_AM_2 + e.WAIT_CK)+'</a></div>';
+                        return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bld.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\')">'+comma(e.ACCT_AM_2 + e.WAIT_CK)+'</a></div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
