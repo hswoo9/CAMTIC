@@ -231,11 +231,11 @@
             html += '   </td>';
             if(item.TEM_ACTIVE == "Y"){
                 html += '   <td>';
-                html += '       <input type="text" id="evalScore' + evNum + '" class ="textBox evalScore" value="' + item.EVAL_SCORE + '" oninput="fn_sumScore()" disabled>';
+                html += '       <input type="text" id="evalScore' + evNum + '" class ="textBox evalScore" value="' + item.EVAL_SCORE + '" onchange="fn_sumScore()" disabled>';
                 html += '   </td>';
             }else{
                 html += '   <td>';
-                html += '       <input type="text" id="evalScore' + evNum + '" class ="textBox evalScore" value="' + item.EVAL_SCORE + '" oninput="fn_sumScore()">';
+                html += '       <input type="text" id="evalScore' + evNum + '" class ="textBox evalScore" value="' + item.EVAL_SCORE + '" onchange="fn_sumScore('+evNum+')">';
                 html += '   </td>';
             }
             html += '</tr>';
@@ -247,7 +247,16 @@
             "Sscore", "Ascore", "Bscore_s", "Bscore_e", "Cscore", "Dscore", "totalScore" ]);
     }
 
-    function fn_sumScore(){
+    function fn_sumScore(evNum){
+
+        var evalScoreValue = parseFloat(document.getElementById("evalScore" + evNum).value);
+        var gradeS_sValue = parseFloat(document.getElementById("gradeS_s" + evNum).value);
+        var gradeD_sValue = parseFloat(document.getElementById("gradeD_s" + evNum).value);
+
+        if (evalScoreValue > gradeS_sValue || evalScoreValue < gradeD_sValue) {
+            alert("afsfdgsfgdf");
+            $("#evalScore"+evNum).val("0");
+        }
 
         var evalScore = 0;
 
@@ -259,12 +268,6 @@
         });
 
         $("#totalScore").val(evalScore);
-    }
-
-    function fn_delRow(){
-        if($("#evalList").find("tr").length > 1){
-            $("#evalList").find("tr:last").remove();
-        }
     }
 
     function saveData(key){

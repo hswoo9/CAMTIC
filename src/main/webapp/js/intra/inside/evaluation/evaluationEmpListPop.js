@@ -2,30 +2,6 @@ var evaluationEmpListPop = {
 
 
     fn_defaultScript : function (){
-       /* if($("#duty").val() == "4" || $("#duty").val() == "5"){
-            var evalPositionType = "teamLeader";
-        }else if($("#duty").val() == "2" || $("#duty").val() == "3" || $("#duty").val() == "7"){
-            var evalPositionType = "deptHeader";
-        }else{
-            var evalPositionType = "team";
-        }
-
-        if($("#occupation").val() == "P&M"){
-            var evalType = "PM";
-        }else if($("#occupation").val() == "A&C"){
-            var evalType = "AC";
-        }else if($("#occupation").val() == " R&D"){
-            var evalType = "RD";
-        }
-
-        if($("#step").val() == "0"){  // 본인평가
-            var evalResultType = "eval";
-        }else if($("#step").val() == "1"){ // 1차평가
-            var evalResultType = "evalF";
-        }else if($("#step").val() == "2"){ // 2차평가
-            var evalResultType = "evalS";
-        }*/
-
         evaluationEmpListPop.mainGrid();
     },
 
@@ -39,34 +15,44 @@ var evaluationEmpListPop = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-                    data.bsYMD = $("#bsYear").val()+"-12-31";
                     data.evalSn = $("#evalSn").val();
                     if($("#key").val() == "1"){ // 1차평가
-                        if($("#duty").val() == "4" || $("#duty").val() == "5"){  // 팀장 -> 팀원
+                        if($("#duty").val() == "4" || $("#duty").val() == "5"){// 팀장 -> 팀원
+                            data.bsYMD = $("#bsYear").val()+"-12-31";
                             data.teamLeader = "N";
                             data.deptHeader = "N";
                             data.deptSeq = $("#deptSeq").val();
-
                         }else if($("#duty").val() == "2" || $("#duty").val() == "3" || $("#duty").val() == "7"){ //부장,실장 -> 팀장
-                            console.log("3");
+                            data.bsYMD = $("#bsYear").val()+"-12-31";
                             data.teamLeader = "Y";
                             data.deptHeader = "N";
                             data.pDeptSeq = $("#deptSeq").val();
-
-                        }else {  //원장 -> 실장,부장
+                        }else if($("#duty").val() == "1"){  //원장 -> 실장,부장
+                            data.bsYMD = $("#bsYear").val()+"-12-31";
+                            data.teamLeader = "N";
                             data.deptHeader = "Y";
+                            data.pDeptSeq = $("#deptSeq").val();
+                            data.duty = "1";
                         }
+                        else{
 
+                        }
                     }else if($("#key").val() == "2"){ // 2차평가
-
                         if($("#duty").val() == "2" || $("#duty").val() == "3" || $("#duty").val() == "7"){ //부장,실장 -> 팀원
+                            data.bsYMD = $("#bsYear").val()+"-12-31";
                             data.teamLeader = "N";
                             data.deptHeader = "N";
                             data.empSeq = $("#empSeq").val();
                             data.pDeptSeq = $("#deptSeq").val();
 
-                        }else{  // 원장 -> 팀장
+                        }else if($("#duty").val() == "1"){  // 원장 -> 팀장
+                            data.bsYMD = $("#bsYear").val()+"-12-31";
                             data.teamLeader = "Y";
+                            data.deptHeader = "N";
+                            data.duty = "1";
+                        }
+                        else{
+
                         }
 
                     }
