@@ -1,6 +1,3 @@
-let purcSum = 0;
-let bustSum = 0;
-let costSum = 0;
 var costInfo = {
 
     global : {
@@ -57,7 +54,7 @@ var costInfo = {
             html += pjtMap.DEPT_NAME;
             html += '</td>';
             html += '<td>';
-            html += pjtMap.PJT_START_DT.substring(0, 4)+"년";
+            html += pjtMap.PJT_START_DT == null ? "" : pjtMap.PJT_START_DT.substring(0, 4)+"년";
             html += '</td>';
             html += '<td>';
             html += pjtMap.DEPT_NAME;
@@ -93,11 +90,46 @@ var costInfo = {
         this.grid3("/bustrip/getProjectBustList", costInfo.global.searchAjaxData3);
         this.grid4("/payApp/getPjtExnpList", costInfo.global.searchAjaxData4);
 
+        const purcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", costInfo.global.searchAjaxData2);
+        const bustResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", costInfo.global.searchAjaxData3);
+        const payResult = customKendo.fn_customAjax("/payApp/getPjtExnpList", costInfo.global.searchAjaxData4);
 
-        $("#purcSum").text($("#purcSumTemp").text());
-        $("#bustSum").text($("#bustSumTemp").text());
-        $("#costSum").text($("#costSumTemp").text());
-        $("#invSum").text(comma(Number(uncomma($("#purcSumTemp").text()))+Number(uncomma($("#bustSumTemp").text()))+Number(uncomma($("#costSumTemp").text()))));
+        const purcList = purcResult.list;
+        const bustList = bustResult.list;
+        const payList = payResult.list;
+
+        let purcSum = 0;
+        for(let i=0; i<purcList.length; i++){
+            const purcMap = purcList[i];
+            if(purcMap.CLAIM_STATUS == "CAYSY"){
+                purcSum  += Number(purcMap.PURC_ITEM_AMT_SUM);
+            }
+        }
+
+        console.log();
+        let bustSum = 0;
+        for(let i=0; i<bustList.length; i++){
+            const bustMap = bustList[i];
+            if(bustMap.RS_STATUS == "100"){
+                bustSum  += Number(bustMap.RES_EXNP_SUM);
+            }
+        }
+
+        let paySum = 0;
+        for(let i=0; i<payList.length; i++){
+            const payMap = payList[i];
+            paySum += Number(payMap.COST_SUM);
+        }
+
+
+        $("#purcSum").text(comma(purcSum));
+        $("#bustSum").text(comma(bustSum));
+        $("#costSum").text(comma(paySum));
+        $("#purcSumTemp").text(comma(purcSum));
+        $("#bustSumTemp").text(comma(bustSum));
+        $("#costSumTemp").text(comma(paySum));
+
+        $("#invSum").text(comma(purcSum + bustSum + paySum));
     },
 
     grid2 : function (url, params){
@@ -113,9 +145,6 @@ var costInfo = {
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
-            },
-            dataBound: function(){
-                purcSum = 0;
             },
             columns: [
                 {
@@ -200,13 +229,10 @@ var costInfo = {
                     title: "금액",
                     width: 100,
                     template: function(e){
-                        if(e.CLAIM_STATUS == "CAYSY"){
-                            purcSum  += Number(e.PURC_ITEM_AMT_SUM);
-                        }
                         return "<div style='text-align: right'>"+comma(e.PURC_ITEM_AMT_SUM)+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div id='purcSumTemp' style='text-align: right'>"+comma(purcSum)+"</div>";
+                        return "<div id='purcSumTemp' style='text-align: right'></div>";
                     }
                 }, {
                     title: "업체선택",
@@ -246,7 +272,7 @@ var costInfo = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustInfo.bustripMainGrid()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="costInfo.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -266,7 +292,6 @@ var costInfo = {
 
                     $(this).css("background-color", "#a7e1fc");
                 });
-                bustSum = 0;
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -356,13 +381,10 @@ var costInfo = {
                     title : "여비금액",
                     width: 50,
                     template : function (e){
-                        if(e.RS_STATUS == "100"){
-                            bustSum  += Number(e.RES_EXNP_SUM);
-                        }
                         return "<div style='text-align: right'>"+comma(e.RES_EXNP_SUM)+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div id='bustSumTemp' style='text-align: right'>"+comma(bustSum)+"</div>";
+                        return "<div id='bustSumTemp' style='text-align: right'></div>";
                     }
                 }
             ]
@@ -385,7 +407,7 @@ var costInfo = {
                 {
                     name : 'button',
                     template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustInfo.bustripMainGrid()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="costInfo.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -405,7 +427,6 @@ var costInfo = {
 
                     $(this).css("background-color", "#a7e1fc");
                 });
-                costSum = 0;
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -450,11 +471,10 @@ var costInfo = {
                 }, {
                     title: "비용",
                     template: function(row){
-                        costSum += Number(row.COST_SUM);
                         return "<div style='text-align: right'>"+comma(row.COST_SUM)+"</div>";
                     },
                     footerTemplate: function(){
-                        return "<div id='costSumTemp' style='text-align: right'>"+comma(costSum)+"</div>";
+                        return "<div id='costSumTemp' style='text-align: right'></div>";
                     }
                 }
             ]
