@@ -14,10 +14,11 @@
 <input type="hidden" id="bsYear" value="${params.bsYear}"/>
 <input type="hidden" id="key" value="${params.key}"/>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
-<input type="hidden" id="dfgdfg" value="${loginVO}"/>
-<input type="hidden" id="duty" value="${empData.DUTY_CODE}"/>
-<input type="hidden" id="occupation" value="${empData.OCCUPATION_NM}"/>
+<input type="hidden" id="duty" value="${loginVO.dutyCode}"/>
+<%--<input type="hidden" id="duty" value="${empData.DUTY_CODE}"/>--%>
 <input type="hidden" id="deptSeq" value="${empData.DEPT_SEQ}"/>
+
+<input type="hidden" id="occupation" value="${empData.OCCUPATION_NM}"/>
 <input type="hidden" id="pDeptSeq" value="${empData.PARENT_DEPT_SEQ}"/>
 
 

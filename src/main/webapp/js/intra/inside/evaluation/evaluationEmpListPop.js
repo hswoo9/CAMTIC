@@ -28,10 +28,10 @@ var evaluationEmpListPop = {
                             data.deptHeader = "N";
                             data.pDeptSeq = $("#deptSeq").val();
                         }else if($("#duty").val() == "1"){  //원장 -> 실장,부장
+                            console.log("adfadf")
                             data.bsYMD = $("#bsYear").val()+"-12-31";
                             data.teamLeader = "N";
                             data.deptHeader = "Y";
-                            data.pDeptSeq = $("#deptSeq").val();
                             data.duty = "1";
                         }
                         else{

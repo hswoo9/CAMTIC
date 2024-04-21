@@ -90,7 +90,7 @@
 
             <div style="margin: 40px 0; display: flex; justify-content: center;">
                 <button class="k-button k-button-md k-button-solid k-button-solid-error" style="margin: 10px" onclick="evalPop()">역량평가 하기</button>
-                <button class="k-button k-button-md k-button-solid-info" style="margin: 10px">인사평가 결과 조회</button>
+                <button class="k-button k-button-md k-button-solid-info" style="margin: 10px" onclick="evalResultPop()">인사평가 결과 조회</button>
             </div>
         </div>
     </div>
@@ -134,4 +134,14 @@
         var option = "width=965, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);
     }
+
+    function evalResultPop(){
+        var url = "/evaluation/pop/evalResult.do?pk="+evalSn;
+        var name = "_blank";
+        var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+
+    }
+
+
 </script>
