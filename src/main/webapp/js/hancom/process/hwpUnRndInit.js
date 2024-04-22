@@ -245,8 +245,8 @@ var unRndInit = {
         hwpDocCtrl.putFieldText('INV_PER', "100%");
         hwpDocCtrl.putFieldText('INV_AMT', String(fn_numberWithCommas(invSum)));
         let invPer = (invSum / pjtAmt * 100).toFixed(1);
-        hwpDocCtrl.putFieldText('INV_PER2', invPer+"%");
-        hwpDocCtrl.putFieldText('INV_AMT2', String(fn_numberWithCommas(pjtAmt-invSum)));
+        hwpDocCtrl.putFieldText('INV_PER2', Number(invPer).toFixed(1)+"%");
+        hwpDocCtrl.putFieldText('INV_AMT2', (pjtAmt-invSum) == 0 ? "0" : String(fn_numberWithCommas(pjtAmt-invSum)));
         hwpDocCtrl.putFieldText('INV_PER3', Number(100-invPer).toFixed(1)+"%");
 
         if(map.TM_YN == "Y"){
