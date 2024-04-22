@@ -1599,6 +1599,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getProjectByPjtCd2(Map<String, Object> params) {
+        return projectRepository.getProjectByPjtCd2(params);
+    }
+
+    @Override
     public Map<String, Object> getProjectByDocId(Map<String, Object> params) {
         return projectRepository.getProjectByDocId(params);
     }
