@@ -244,7 +244,7 @@ var rndInit = {
         let invPer = (invSum / pjtAmt * 100).toFixed(1);
         hwpDocCtrl.putFieldText('INV_PER2', Number(invPer).toFixed(1)+"%");
         hwpDocCtrl.putFieldText('INV_AMT2', (pjtAmt-invSum) == 0 ? "0" : String(fn_numberWithCommas(pjtAmt-invSum)));
-        hwpDocCtrl.putFieldText('INV_PER3', Number(100-invPer)+"%");
+        hwpDocCtrl.putFieldText('INV_PER3', Number(100-invPer).toFixed(1)+"%");
 
         if(map.TM_YN == "Y"){
             const teamResult = customKendo.fn_customAjax("/project/getTeamInfo", {pjtSn: map.PJT_SN});
