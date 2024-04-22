@@ -124,7 +124,8 @@ var bgView = {
                 }, {
                     title: "장",
                     width: 150,
-                    field : "BGT1_NM"
+                    field : "BGT1_NM",
+
                 }, {
                     title: "관",
                     width: 150,
@@ -194,10 +195,17 @@ var bgView = {
                     title: "예산잔액",
                     width: 150,
                     template: function(e){
+                        var subAm = "";
                         if(e.DIV_FG_NM == "항"){
-                            subAmSum += Number(e.CALC_AM - e.WAIT_CK);
+                            if($("#status").val() != "incp"){
+                                subAmSum += Number(e.CALC_AM - e.WAIT_CK);
+                                subAm = Number(e.CALC_AM - e.WAIT_CK);
+                            } else {
+                                subAmSum += Number(e.SUB_AM);
+                                subAm = Number(e.SUB_AM);
+                            }
                         }
-                        return "<div style='text-align: right'>"+comma(e.CALC_AM - e.WAIT_CK)+"</div>";
+                        return "<div style='text-align: right'>"+comma(subAm)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
@@ -208,8 +216,15 @@ var bgView = {
                     template: function(e){
                         var bgtNm = e.BGT1_NM + " / " + e.BGT2_NM + " / " + e.BGT_NM;
                         var idx = $("#idx").val();
+                        var subAm = "";
 
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\', \'' + e.SUB_AM + '\', \'' + (e.CALC_AM - e.WAIT_CK) + '\')">선택</button>';
+                        if($("#status").val() != "incp"){
+                            subAm += Number(e.CALC_AM - e.WAIT_CK);
+                        } else {
+                            subAm += Number(e.SUB_AM);
+                        }
+
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="bgView.fn_selBudgetInfo(\'' + e.BGT_CD + '\', \'' + bgtNm + '\', \'' + idx + '\', \'' + subAm + '\')">선택</button>';
                     }
                 }
             ],
@@ -354,10 +369,10 @@ var bgView = {
 
     },
 
-    fn_selBudgetInfo: function (cd, name, idx, subAm, waitCk){
+    fn_selBudgetInfo: function (cd, name, idx, subAm){
 
         if(name != "기타 / 기타 / 기타"){
-            if(waitCk <= 0) {
+            if(subAm <= 0) {
                 alert("예산잔액이 부족합니다.");
                 return;
             }
