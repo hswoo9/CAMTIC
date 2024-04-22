@@ -215,4 +215,17 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
 
     }
+
+    @Override
+    public void setSaveMngScore(Map<String, Object> params) {
+
+        Gson gson = new Gson();
+        List<Map<String, Object>> evalScoreMngArr = gson.fromJson((String) params.get("evalScoreMngArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        for(Map<String, Object> evalScoreMng : evalScoreMngArr){
+            evaluationRepository.setSaveMngScore(evalScoreMng);
+        }
+
+
+    }
 }
