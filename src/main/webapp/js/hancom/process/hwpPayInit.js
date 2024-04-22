@@ -54,7 +54,6 @@ var payInit = {
         console.log("pjtMap", pjtMap);
 
         if(pjtMap == null) {
-            alert("캠스팟 2.0에 등록되지 않은 사업정보입니다.");
             return;
         }else{
             /** 사업명 */
@@ -119,19 +118,20 @@ var payInit = {
             hwpDocCtrl.putFieldText("PAY_HTML", " ");
             hwpDocCtrl.moveToField("PAY_HTML", true, true, false);
             hwpDocCtrl.setTextFile(htmlPay, "html","insertfile");
-        }
 
-        if(draft.global.params.formId == "147"){
-            if(pjtMap == null){ return; }
+            if(draft.global.params.formId == "147"){
+                if(pjtMap == null){ return; }
 
-            /**PM 데이터 */
-            const userInfo = getUser(pjtMap.PM_EMP_SEQ);
+                /**PM 데이터 */
+                const userInfo = getUser(pjtMap.PM_EMP_SEQ);
 
-            if($("#empSeq").val() == pjtMap.PM_EMP_SEQ){
-                const signField = "paySign";
-                setTimeout(function() {
-                    hwpApprovalLine.setTranscript(signField, pjtMap.PM_EMP_SEQ, userInfo.EMP_NAME_KR);
-                }, 2000)
+                if($("#empSeq").val() == pjtMap.PM_EMP_SEQ){
+                    hwpDocCtrl.putFieldText("paySign", " ");
+                    const signField = "paySign";
+                    setTimeout(function() {
+                        hwpApprovalLine.setTranscript(signField, pjtMap.PM_EMP_SEQ, userInfo.EMP_NAME_KR);
+                    }, 2000)
+                }
             }
         }
     },
