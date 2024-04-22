@@ -224,18 +224,50 @@ var exnpReList = {
                     width: 80,
                     field: "EVID_TYPE_TEXT",
                 }, {
+                    title: "프로젝트코드",
+                    field: "PJT_CD",
+                    width: 200,
+                },{
                     title: "프로젝트명",
                     field: "PJT_NM",
                     width: 200,
                 }, {
-                    title: "출금계좌",
-                    field: "ACC_INFO",
+                    title: "출금계좌_계좌명",
+                    field: "ACC_NM",
                     width: 200,
                 }, {
-                    title: "예산비목",
-                    field: "BUDGET_NM_EX",
+                    title: "출금계좌_계좌번호",
+                    field: "ACC_NO",
                     width: 200,
                 }, {
+                    title: "출금계좌_은행명",
+                    field: "BNK_NM",
+                    width: 200,
+                }, {
+                    title: "예산비목(장)",
+                    field: "BUDGET_NM_1",
+                    width: 200,
+                }, {
+                    title: "예산비목(관)",
+                    field: "BUDGET_NM_2",
+                    width: 200,
+                }, {
+                    title: "예산비목(항)",
+                    field: "BUDGET_NM_3",
+                    width: 200,
+                }, {
+                    title: "지급처_은행명",
+                    width: 200,
+                    field: "CRM_BNK_NM"
+                },{
+                    title: "지급처_계좌번호",
+                    width: 200,
+                    field: "CRM_ACC_NO"
+                },{
+                    title: "지급처_예금주",
+                    width: 200,
+                    field: "CRM_ACC_HOLDER"
+                },{
                     title: "거래처",
                     width: 200,
                     field: "CRM_NM"
@@ -252,8 +284,12 @@ var exnpReList = {
                     width: 80,
                     field: "R_DT",
                 }, {
-                    title: "작성자",
+                    title: "부서명",
                     field: "REG_EMP_NAME",
+                    width: 80
+                }, {
+                    title: "작성자",
+                    field: "REG_DEPT_NAME",
                     width: 80
                 },
             ],
