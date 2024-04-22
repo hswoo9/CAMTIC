@@ -28,7 +28,7 @@
 
 <div style="padding: 10px">
     <div id="resultBtnDiv">
-        <button type="button" id="saveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>
+        <button type="button" id="resSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>
     </div>
     <div class="table-responsive">
         <table class="popTable table table-bordered mb-0">

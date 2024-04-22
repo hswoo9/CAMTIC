@@ -375,6 +375,15 @@ function fn_per(A, B, C){
     return Number.isInteger(per) ? (per + "%") : (per.toFixed(C) + "%");
 }
 
+/** 프로젝트용 퍼센트 표기 숫자를 받아서 fiexd 자리까지 뿌려줌 **/
+function pjtPer(per, fiexd){
+    if(per == null || per == undefined || per == 0){
+        return "0%";
+    }
+
+    return Number.isInteger(per) ? (per + "%") : (per.toFixed(fiexd) + "%");
+}
+
 /** 문자가 장문일때 짜르고 ... 찍기 */
 function titleCut(text, cutLength){
     let returnText;
