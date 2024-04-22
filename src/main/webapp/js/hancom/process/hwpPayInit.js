@@ -1,6 +1,6 @@
 var payInit = {
 
-    payAppInit: function(payAppSn){
+    payAppInit: function(payAppSn, mode){
         const result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", {
             payAppSn: payAppSn
         });
@@ -45,19 +45,18 @@ var payInit = {
 
         console.log("pjtCd" , rs);
 
-        if(rs.PJT_CD.substring(0,1) != "M"){
-            /** 사업 데이터 */
+        const pjtResult = customKendo.fn_customAjax("/project/getProjectByPjtCd2", {
+            pjtCd: rs.PJT_CD
+        });
 
-            const pjtResult = customKendo.fn_customAjax("/project/getProjectByPjtCd", {
-                pjtCd: rs.PJT_CD
-            });
-            const pjtMap = pjtResult.map;
-            console.log(pjtMap);
+        /** 사업 데이터 */
+        const pjtMap = pjtResult.map;
+        console.log("pjtMap", pjtMap);
 
-            if(pjtMap == null){
-                alert("캠스팟 2.0에 등록되지 않은 사업정보입니다."); return;
-            }
-
+        if(pjtMap == null) {
+            alert("캠스팟 2.0에 등록되지 않은 사업정보입니다.");
+            return;
+        }else{
             /** 사업명 */
             hwpDocCtrl.putFieldText("BS_TITLE", (pjtMap.BS_TITLE || ""));
             /** 과제명 */
@@ -120,6 +119,20 @@ var payInit = {
             hwpDocCtrl.putFieldText("PAY_HTML", " ");
             hwpDocCtrl.moveToField("PAY_HTML", true, true, false);
             hwpDocCtrl.setTextFile(htmlPay, "html","insertfile");
+        }
+
+        if(draft.global.params.formId == "147"){
+            if(pjtMap == null){ return; }
+
+            /**PM 데이터 */
+            const userInfo = getUser(pjtMap.PM_EMP_SEQ);
+
+            if($("#empSeq").val() == pjtMap.PM_EMP_SEQ){
+                const signField = "paySign";
+                setTimeout(function() {
+                    hwpApprovalLine.setTranscript(signField, pjtMap.PM_EMP_SEQ, userInfo.EMP_NAME_KR);
+                }, 2000)
+            }
         }
     },
 

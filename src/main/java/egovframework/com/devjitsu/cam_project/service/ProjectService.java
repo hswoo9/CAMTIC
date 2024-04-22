@@ -195,6 +195,8 @@ public interface ProjectService {
 
     Map<String, Object> getProjectByPjtCd(Map<String, Object> params);
 
+    Map<String, Object> getProjectByPjtCd2(Map<String, Object> params);
+
     Map<String, Object> getProjectByDocId(Map<String, Object> params);
 
     Map<String, Object> getProjectByDocId2(Map<String, Object> params);

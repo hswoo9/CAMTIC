@@ -950,8 +950,14 @@
                 ELSE '지출'
             END AS TYPE,
             E.PJT_NM,
+            E.PJT_CD,
             E.EXNP_BRIEFS,
-            CONCAT(E.ACC_NM, ' ', E.ACC_NO, ' [', E.BNK_NM, ']') as ACC_INFO,
+            E.ACC_NM,
+            E.ACC_NO,
+            E.BNK_NM,
+            ED.CRM_ACC_HOLDER,
+            ED.CRM_ACC_NO,
+            ED.CRM_BNK_NM,
             ED.CRM_NM,
             CASE
                 WHEN ED.EVID_TYPE = 1 THEN '세금계산서'
@@ -964,19 +970,27 @@
             END AS EVID_TYPE_TEXT,
             CASE
                 WHEN ED.EVID_TYPE IN (1,2,3)
-                THEN E.DT1
-                ELSE E.DT3
+                THEN DATE_FORMAT(E.DT1, '%Y-%m-%d')
+                ELSE DATE_FORMAT(E.DT3, '%Y-%m-%d')
             END AS R_DT,
             ED.BUDGET_NM AS BUDGET_NM_EX,
+            SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', 1) AS BUDGET_NM_1,
+            SUBSTRING_INDEX(SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', -2), ' / ', 1) AS BUDGET_NM_2,
+            SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', -1) as BUDGET_NM_3,
             ED.TOT_COST,
             DI.DOC_NO AS DOC_NO,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = E.REG_EMP_SEQ) AS REG_EMP_NAME
+            HEI.EMP_NAME_KR AS REG_EMP_NAME,
+            HDI.DEPT_NAME AS REG_DEPT_NAME
         FROM
             CAM_MNG.DJ_EXNP_DET ED
         LEFT JOIN
             CAM_MNG.DJ_EXNP E ON ED.EXNP_SN = E.EXNP_SN
         LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO HEI ON E.REG_EMP_SEQ = HEI.EMP_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE (ED.EVID_TYPE IN (1, 2, 3) or ED.EVID_TYPE NOT IN (1, 2, 3))
             AND E.DOC_STATUS = '100'
             AND E.PAY_APP_TYPE = 1
@@ -984,7 +998,7 @@
             AND E.PJT_CD = #{pjtCd}
         </if>
         <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
-            AND CASE WHEN ED.EVID_TYPE IN (1,2,3) THEN E.DT1 ELSE E.DT3 END
+            AND E.REQ_DE
             BETWEEN #{startDt} AND #{endDt}
         </if>
         <if test='searchStatus != null and !"".equals(searchStatus)'>

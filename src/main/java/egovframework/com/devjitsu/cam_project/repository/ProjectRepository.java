@@ -666,6 +666,10 @@ public class ProjectRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("project.getProjectByPjtCd", params);
     }
 
+    public Map<String, Object> getProjectByPjtCd2(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("project.getProjectByPjtCd2", params);
+    }
+
     public Map<String, Object> getProjectByDocId(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("project.getProjectByDocId", params);
     }

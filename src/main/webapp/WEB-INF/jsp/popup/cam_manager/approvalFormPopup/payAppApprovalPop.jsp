@@ -105,7 +105,14 @@
     const rs = result.map;
 
     let formId = "147";
-    if(rs.PJT_CD.substring(0,1) == "M" || rs.PJT_CD.substring(0,1) == "Z"){
+
+    const pjtResult = customKendo.fn_customAjax("/project/getProjectByPjtCd2", {
+        pjtCd: rs.PJT_CD
+    });
+    const pjtMap = pjtResult.map;
+
+    /** pjtMap가 null이면서 (법인프로젝트) 앞자리가 M또는 Z일때 */
+    if(pjtMap == null && (rs.PJT_CD.substring(0,1) == "M" || rs.PJT_CD.substring(0,1) == "Z")){
         formId = "154";
     }
 

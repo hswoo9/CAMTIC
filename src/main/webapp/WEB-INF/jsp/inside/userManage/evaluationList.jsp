@@ -182,7 +182,7 @@
     }
 
     function empList(pk) {
-        var url = "/evaluation/pop/evalResult.do?pk="+pk;
+        var url = "/evaluation/pop/evalResultMng.do?pk="+pk;
         var name = "_blank";
         var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
