@@ -862,7 +862,7 @@
         WHERE
             PJT_SN = #{pjtSn}
           AND
-            STATUS = 0
+            STATUS IN (0, 30, 40)
     </select>
 
     <select id="getDevPjtVerList" parameterType="map" resultType="map">

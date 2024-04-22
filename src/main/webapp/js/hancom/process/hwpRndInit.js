@@ -110,11 +110,11 @@ var rndInit = {
 
         /** 총사업비 */
         hwpDocCtrl.putFieldText('ALL_BUSN_COST', fn_numberWithCommas(map.ALL_BUSN_COST));
-        /** 법인사업비(수주금액) */ /** 법인사업비 정의 5번째 바뀜 */
+        /** 법인사업비(수주금액) */
         if(map.TAX_GUBUN == "1"){
-            hwpDocCtrl.putFieldText('PJT_AMT', comma((delvMap.TOT_RES_COST / 1.1).toString().split(".")[0]));
+            hwpDocCtrl.putFieldText('PJT_AMT', comma((map.PJT_EXP_AMT / 1.1).toString().split(".")[0]));
         }else{
-            hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(delvMap.TOT_RES_COST));
+            hwpDocCtrl.putFieldText('PJT_AMT', fn_numberWithCommas(map.PJT_EXP_AMT));
         }
 
         /** 사업책임자 */
@@ -556,14 +556,14 @@ var rndInit = {
         const g20 = customKendo.fn_customAjax("/g20/getSubjectList", {
             stat: "project",
             gisu: "23",
-            fromDate: "20230101",
-            toDate: "20231231",
+            fromDate: map.PJT_STR_DT.replace(/-/g, ""),
+            toDate: map.PJT_END_DT.replace(/-/g, ""),
             mgtSeq: map.PJT_CD,
             opt01: "3",
             opt02: "1",
             opt03: "2",
             temp: "2",
-            baseDate: "2023" + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
+            baseDate: map.PJT_STR_DT.split("-")[0] + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
             pjtSn: pjtSn
         });
         console.log("g20");

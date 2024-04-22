@@ -58,7 +58,7 @@
 
             const date = new Date();
             const year = date.getFullYear().toString().substring(2,4);
-            const g20 = customKendo.fn_customAjax("/g20/getSubjectList", {
+            let data = {
                 stat: "project",
                 gisu: "23",
                 fromDate: $("#sbjStrDe").val().replace(/-/g, ""),
@@ -69,8 +69,9 @@
                 opt03: "2",
                 temp: "2",
                 baseDate: $("#sbjStrDe").val().split("-")[0] + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
-                pjtSn: $("#pjtSn").val()
-            });
+                pjtSn: $("#pjtSn").val(),
+            }
+            const g20 = customKendo.fn_customAjax("/g20/getSubjectList", data);
 
             if(g20.list.length == 0){
                 alert("생성된 예산이 없습니다."); return;
