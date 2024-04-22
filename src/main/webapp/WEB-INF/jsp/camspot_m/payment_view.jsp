@@ -37,7 +37,7 @@
             <!-- 버튼모음 {-->
             <div class="btWrap disF">
             	<a href="javascript:history.back()" class="back"><img src="/images/camspot_m/ico-back.png" /></a>
-                <span class="pbtBox disF">
+                <span class="pbtBox disF" id="buttonEvent">
                     <c:if test="${mDocType == 'WAIT'}">
                         <a href="#" class="txt type26" onclick="approvalKendoSetting()">결재</a>
                         <a href="#" class="txt type26" onclick="returnKendoSetting()">반려</a>
@@ -189,16 +189,70 @@
     var approveFlag = true
     $(document).ready(function() {
 
+
         const agent = window.navigator.userAgent.toLowerCase();
+
+        var varUA = navigator.userAgent.toLowerCase();
+        var deviceNm = "";
+        if ( varUA.indexOf('android') > -1) {
+            //안드로이드
+            deviceNm =  "android";
+        } else if ( varUA.indexOf("iphone") > -1||varUA.indexOf("ipad") > -1||varUA.indexOf("ipod") > -1 ) {
+            //IOS
+            deviceNm = "ios";
+        } else {
+            //아이폰, 안드로이드 외
+            deviceNm = "other";
+        }
+
         let browserName;
 
-        if(agent.indexOf("chrome") > -1 && !!window.chrome){
-            browserName = "Chrome";
-            console.log(browserName);
+        if(deviceNm == "android"){
+            switch (true) {
+                case agent.indexOf("samsungbrowser") > -1:
+                    browserName = "Samsung Internet";
+                    break;
+                case agent.indexOf("edge") > -1:
+                    browserName = "MS Edge"; // MS 엣지
+                    break;
+                case agent.indexOf("edg/") > -1:
+                    browserName = "Edge (chromium based)"; // 크롬 기반 엣지
+                    break;
+                case agent.indexOf("opr") > -1 && !!window.opr:
+                    browserName = "Opera"; // 오페라
+                    break;
+                case agent.indexOf("chrome") > -1 && !!window.chrome:
+                    browserName = "Chrome"; // 크롬
+                    break;
+                case agent.indexOf("trident") > -1:
+                    browserName = "MS IE"; // 익스플로러
+                    break;
+                case agent.indexOf("firefox") > -1:
+                    browserName = "Mozilla Firefox"; // 파이어 폭스
+                    break;
+                case agent.indexOf("safari") > -1:
+                    browserName = "Safari"; // 사파리
+                    break;
+                default:
+                    browserName = "other"; // 기타
+            }
+            if(browserName == "Chrome") {
+            } else {
+                alert("chrome 브라우저에서 확인가능합니다.");
+                $("#buttonEvent").css("display", "none")
+                history.back();
+            }
         } else {
-            alert("Chrome브라우저에서 확인가능합니다.");
-            history.back();
+            if( agent.indexOf("crios") == -1 ) {
+                alert("chrome 브라우저에서 확인가능합니다.");
+                $("#buttonEvent").css("display", "none")
+                history.back();
+            }else{
+
+            }
         }
+
+
 
         $("#approveModal").kendoWindow({
             title: "결재의견",
