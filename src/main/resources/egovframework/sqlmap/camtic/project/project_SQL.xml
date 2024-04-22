@@ -2757,6 +2757,7 @@
         SELECT
             A.*,
             B.*,
+            HEI.JOIN_DAY,
             DATE_FORMAT(C.STR_DT, '%Y-%m-%d') AS PJT_STR_DT,
             DATE_FORMAT(C.END_DT, '%Y-%m-%d') AS PJT_END_DT,
             D.CHNG_SAL,
@@ -3328,8 +3329,11 @@
         JOIN
             CAM_INSIDE.DJ_SOCIAL_RATE RS
         ON SM.SOCIAL_RATE_SN = RS.SOCIAL_RATE_SN
+        JOIN
+            CAM_HR.DJ_EMP_INFO EI
+        ON SM.EMP_SEQ = EI.EMP_SEQ
         WHERE
-            EMP_SEQ = #{empSeq}
+            SM.EMP_SEQ = #{empSeq}
         AND
             DATE_FORMAT(#{startDt}, '%Y-%m-%d') BETWEEN DATE_FORMAT(START_DT, '%Y-%m-%d') AND IFNULL(IF(END_DT = "", null, END_DT), DATE('9999-12-31'))
         ORDER BY

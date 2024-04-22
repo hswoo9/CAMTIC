@@ -279,6 +279,8 @@ var partRate = {
                 if(mem[i].MON_SAL != null){
                     $("#memMonSal" + i).val(comma(mem[i].MON_SAL));
                 }
+
+                partRate.getPartStartBs(rs.PAY_BUDGET, $("#memStrDt" + i), i);
             }
         }
 
@@ -661,7 +663,7 @@ var partRate = {
             $("#totAmt" + i).val(totAmt);
             $("#basicSalary" + i).val(uncomma(totAmt));
             $("#basicSalaryTxt" + i).text(comma(totAmt));
-            $("#memChngSal" + i).val(comma(totAmt));
+            // $("#memChngSal" + i).val(comma(totAmt));
 
             // partRate.fn_memMonChange(p, $("#memMon" + i), i);
             partRate.fn_memCalc(p, i);
@@ -671,7 +673,7 @@ var partRate = {
             $("#totAmt" + i).val("0");
             $("#basicSalary" + i).val("0");
             $("#basicSalaryTxt" + i).text("0");
-            $("#memChngSal" + i).val("0");
+            // $("#memChngSal" + i).val("0");
         }
     },
 
@@ -758,19 +760,26 @@ var partRate = {
         var accidentInsurance = Math.floor(Math.floor(cnt * (e.ACCIDENT_INSURANCE / 100))/10) * 10;
 
         var sum = cnt;
-
         if(e.BUSN_PAY != null && e.BUSN_PAY != ""){
             sum += Number(e.BUSN_PAY);
         }else{
             sum += Number(nationalPension) + Number(healthInsurance) + Number(longCareInsurance) + Number(employInsurance) + Number(accidentInsurance);
         }
-
         if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
             sum += Number(e.RETIRE_PAY);
         }else{
-            sum += (Math.floor((cnt/12)/10) * 10);
+            var joinDay = new Date(e.JOIN_DAY);
+            if(!isLessOneYear(joinDay)){
+                sum += (Math.floor((cnt/12)/10) * 10);
+            }
         }
-
         return sum;
     }
+}
+
+function isLessOneYear(j){
+    const now = new Date();
+    const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+
+    return j >= oneYearAgo;
 }

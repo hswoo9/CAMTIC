@@ -23,6 +23,8 @@
         <input type="hidden" id="loginEmpSeq" name="loginEmpSeq" value="${loginVO.uniqId}" />
         <input type="hidden" id="empSeq" name="empSeq" value="${params.empSeq}" />
         <input type="hidden" id="empName" name="empName" value="${data.EMP_NAME_KR}" />
+        <input type="hidden" id="joinDay" name="joinDay" value="${data.JOIN_DAY}" />
+
         <table class="popTable table table-bordered mb-0" id="userReqPopImageTable">
             <colgroup>
                 <col width="15%">
