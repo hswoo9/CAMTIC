@@ -40,6 +40,10 @@ public class EvaluationRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("evaluation.getEvaluationOne", params);
     }
 
+    public Map<String, Object> getEvaluationView(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvaluationView", params);
+    }
+
     public Map<String, Object> getEvaluation(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("evaluation.getEvaluation", params);
     }
@@ -151,10 +155,13 @@ public class EvaluationRepository extends AbstractDAO {
         delete("evaluation.delEvalScoreTemSave", params);
     }
 
-    public void setEvalScoreTemSave(Map<String, Object> scoreBody) {
-        insert("evaluation.setEvalScoreTemSave", scoreBody);
+    public void setEvalScoreTemSave(Map<String, Object> evalBody) {
+        insert("evaluation.setEvalScoreTemSave", evalBody);
     }
 
+    public void updEvalView(Map<String, Object> evalBody) {
+        insert("evaluation.updEvalView", evalBody);
+    }
     public void setSaveMngScore(Map<String, Object> scoreBody) {
         update("evaluation.setSaveMngScore", scoreBody);
     }
