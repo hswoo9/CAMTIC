@@ -18,7 +18,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">역량평가 결과</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" <%--onclick="saveData()"--%>>평가점수 조정</button>
+                <button type="button" class="k-button k-button-solid-info" onclick="saveMngScore()">평가점수 조정</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -128,7 +128,7 @@
             dataType : "json",
             async : false,
             success : function(result){
-                fn_addTbody(result.list);
+                fn_addTbody(result);
             },
             error : function(e) {
                 console.log(e);
@@ -136,36 +136,121 @@
         });
     }
 
-    function fn_addTbody(list){
+    function fn_addTbody(result){
+        var list = result.list
+        var data = result.data
         $("#evalList").empty();
         var html = "";
 
         for(var i = 0 ; i < list.length ; i++) {
+            var scoreF;
+            var scoreS;
+
             html += '<tr>';
-            html += '   <td></td>';
+            html += '   <td><input type="checkbox" id="check' + i + '" value="'+ list[i].EVAL_MEM_SN+'" onchange="scoreMng('+i+')" /></td>';
             html += '   <td>' + list[i].DEPT_NAME + '</td>';
             html += '   <td>' + list[i].DEPT_TEAM_NAME + '</td>';
             html += '   <td>' + list[i].EMP_NAME_KR + '</td>';
             html += '   <td>' + list[i].EVAL_SCORE + '</td>';
             html += '   <td>' + list[i].EVAL_F_SCORE + '</td>';
-            html += '   <td>70</td>';
-            html += '   <td>70</td>';
+
+            if(list[i].DUTY_CODE == "2" || list[i].DUTY_CODE == "3" || list[i].DUTY_CODE == "7"){
+                scoreF = (parseFloat(data.DEPT_MANAGER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(2)
+                html += '   <td>'+ data.DEPT_MANAGER_A +'</td>';
+                html += '   <td>' + scoreF + '</td>';
+            }else if(list[i].DUTY_CODE == "4" || list[i].DUTY_CODE == "5"){
+                scoreF = (parseFloat(data.TEAM_MANAGER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(2)
+                html += '   <td>'+ data.TEAM_MANAGER_A +'</td>';
+                html += '   <td>' + scoreF + '</td>';
+            }else{
+                scoreF = (parseFloat(data.TEAM_MEMBER_A / 100 * list[i].EVAL_F_SCORE)).toFixed(2)
+                html += '   <td>'+ data.TEAM_MEMBER_A +'</td>';
+                html += '   <td>' + scoreF + '</td>';
+            }
+
+
             html += '   <td>' + list[i].EVAL_S_SCORE + '</td>';
-            html += '   <td>30</td>';
-            html += '   <td>30</td>';
+
+            if(list[i].DUTY_CODE == "2" || list[i].DUTY_CODE == "3" || list[i].DUTY_CODE == "7"){
+                scoreS =  (parseFloat(data.DEPT_MANAGER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(2)
+                html += '   <td>'+ data.DEPT_MANAGER_B +'</td>';
+                html += '   <td>' + scoreS + '</td>';
+            }else if(list[i].DUTY_CODE == "4" || list[i].DUTY_CODE == "5"){
+                scoreS = (parseFloat(data.TEAM_MANAGER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(2)
+                html += '   <td>'+ data.TEAM_MANAGER_B +'</td>';
+                html += '   <td>' + scoreS + '</td>';
+            }else{
+                scoreS = (parseFloat(data.TEAM_MEMBER_B / 100 * list[i].EVAL_S_SCORE)).toFixed(2)
+                html += '   <td>'+ data.TEAM_MEMBER_B +'</td>';
+                html += '   <td>' + scoreS + '</td>';
+            }
+
             html += '   <td>0</td>';
-            html += '   <td>0</td>';
-            html += '   <td>0</td>';
-            html += '   <td>100</td>';
-            html += '   <td>S</td>';
-            html += '   <td>0</td>';
-            html += '   <td>100</td>';
-            html += '   <td>S</td>';
+            if(list[i].DUTY_CODE == "2" || list[i].DUTY_CODE == "3" || list[i].DUTY_CODE == "7"){
+                html += '   <td>'+ data.DEPT_MANAGER_C +'</td>';
+                html += '   <td>0</td>';
+            }else if(list[i].DUTY_CODE == "4" || list[i].DUTY_CODE == "5"){
+                html += '   <td>'+ data.TEAM_MANAGER_C +'</td>';
+                html += '   <td>0</td>';
+            }else{
+                html += '   <td>'+ data.TEAM_MEMBER_C +'</td>';
+                html += '   <td>0</td>';
+            }
+
+            var totalScore = (parseFloat(scoreS) + parseFloat(scoreF)).toFixed(2);
+            html += '   <td>'+ totalScore +'</td>';
+
+            html += '   <td>S</td>';   // 평가등급
+            html += '   <td><input type="text" id="scoreMng'+i+'" value="'+ list[i].EVAL_SCORE_MNG +'" style="width: 35px;" disabled></td>';
+            html += '   <td>'+ ( parseFloat(totalScore) + parseFloat(list[i].EVAL_SCORE_MNG)) +'</td>';
+            html += '   <td>S</td>';  // 최종등급
             html += '</tr>';
         }
 
         $('#evalList').append(html);
     }
+
+    function scoreMng(i){
+        var checkbox = document.getElementById('check' + i);
+        var scoreInput = document.getElementById('scoreMng' + i);
+
+        if (checkbox.checked) {
+            scoreInput.disabled = false;
+        } else {
+            scoreInput.disabled = true;
+        }
+    }
+
+    function saveMngScore() {
+        var evalScoreMngArr = [];
+        $("#evalList").find("tr").each(function(index, row) {
+            var evalMemSn = $(row).find("input[type='checkbox']");
+            var scoreMng = $(row).find("input[type='text']");
+
+            if (evalMemSn.is(":checked")) {
+                evalScoreMngArr.push({
+                    evalMemSn: evalMemSn.val(),
+                    scoreMng: scoreMng.val()
+                });
+            }
+        });
+
+        var parameters = {
+            evalScoreMngArr: JSON.stringify(evalScoreMngArr)
+        };
+
+        $.ajax({
+            url: "/evaluation/setSaveMngScore",
+            data: parameters,
+            dataType: "json",
+            success: function(rs) {
+                console.log(rs);
+            }
+        });
+    }
+
+
+
 </script>
 </body>
 </html>

@@ -1021,23 +1021,31 @@
         /* getIncpList */
         SELECT
             A.*,
-            C.EVID_TYPE,
-            B.EMP_NAME_KR AS EMP_NAME,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET WHERE PAY_INCP_SN = A.PAY_INCP_SN) AS TOT_COST,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_DET_AMT,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_AMT,
-            (SELECT MAX(TR_DE) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) LAST_DT,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y') RE_TOT_COST,
-            (SELECT COUNT(PAY_INCP_RE_SN) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y') RE_CNT
+            IFNULL(D.EMP_NAME_KR, '') AS EMP_NAME,
+            B.DOC_NO,
+            C.TOT_COST
         FROM
             CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO B
+        ON
+            A.DOC_ID = B.DOC_ID
         LEFT JOIN
-            CAM_HR.DJ_EMP_INFO B
-        ON A.EXNP_EMP_SEQ = B.EMP_SEQ
-        LEFT JOIN
-            CAM_MNG.DJ_PAY_INCP_DET C
+            (
+                SELECT
+                    PAY_INCP_SN,
+                    SUM(TOT_COST) AS TOT_COST
+                FROM CAM_MNG.DJ_PAY_INCP_DET
+                GROUP BY PAY_INCP_SN
+            ) C
         ON
             A.PAY_INCP_SN = C.PAY_INCP_SN
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO D
+        ON A.EXNP_EMP_SEQ = D.EMP_SEQ
+        WHERE
+            <![CDATA[
+                A.APP_DE > #{startDt} AND A.APP_DE <= #{endDt}
+            ]]>
         ORDER BY A.PAY_INCP_SN DESC
     </select>
 
@@ -1050,13 +1058,16 @@
                 DI.DOC_MENU_CD AS DOC_MENU_CD,
                 IFNULL(SUM(ID.TOT_COST), 0) AS TOT_COST,
                 '' AS PAY_INCP_RE_SN,
-                '' AS RE_APP_DE
+                '' AS RE_APP_DE,
+                HEI.EMP_NAME_KR AS EMP_NAME
             FROM
                 CAM_MNG.DJ_PAY_INCP_DET ID
             LEFT JOIN CAM_MNG.DJ_PAY_INCP I
                 ON ID.PAY_INCP_SN = I.PAY_INCP_SN
             LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
                 ON I.DOC_ID = DI.DOC_ID
+            LEFT JOIN CAM_HR.DJ_EMP_INFO HEI
+                ON HEI.EMP_SEQ = I.EXNP_EMP_SEQ
             WHERE I.DOC_STATUS = '100'
             AND ID.EVID_TYPE NOT IN (1, 3, 5, 6)
             GROUP BY I.PAY_INCP_SN
@@ -1072,7 +1083,8 @@
                 DI.DOC_MENU_CD AS DOC_MENU_CD,
                 IFNULL(B.TOT_COST, 0) AS TOT_COST,
                 B.PAY_INCP_RE_SN,
-                B.RE_APP_DE
+                B.RE_APP_DE,
+                HEI.EMP_NAME_KR AS EMP_NAME
             FROM
                 CAM_MNG.DJ_PAY_INCP_RE B
             LEFT JOIN
@@ -1080,7 +1092,13 @@
             ON
                 B.PAY_INCP_SN = A.PAY_INCP_SN
             LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
-            ON A.DOC_ID = DI.DOC_ID) AB
+            ON A.DOC_ID = DI.DOC_ID
+            LEFT JOIN CAM_HR.DJ_EMP_INFO HEI
+                ON HEI.EMP_SEQ = A.EXNP_EMP_SEQ) AB
+        WHERE
+        <![CDATA[
+            AB.APP_DE > #{startDt} AND AB.APP_DE <= #{endDt}
+        ]]>
         ORDER BY AB.REG_DT DESC
     </select>
 

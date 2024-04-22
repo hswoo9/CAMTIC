@@ -502,9 +502,7 @@
             A.*,
             B.*,
             C.PARENT_DEPT_SEQ,
-        IFNULL((SELECT SUM(EVAL_SCORE) FROM CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT WHERE EVAL_TYPE = 'eval' AND TEM_ACTIVE='Y'AND EVAL_SN = #{evalSn} AND EMP_SEQ= A.EVAL_EMP_SEQ),0)AS EVAL_SCORE,
-        IFNULL((SELECT SUM(EVAL_SCORE) FROM CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT WHERE EVAL_TYPE = 'evalF' AND TEM_ACTIVE='Y'AND EVAL_SN = #{evalSn} AND EMP_SEQ= A.EVAL_EMP_SEQ),0)AS EVAL_F_SCORE,
-        IFNULL((SELECT SUM(EVAL_SCORE) FROM CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT WHERE EVAL_TYPE = 'evalS' AND TEM_ACTIVE='Y'AND EVAL_SN = #{evalSn} AND EMP_SEQ= A.EVAL_EMP_SEQ),0)AS EVAL_S_SCORE
+        IFNULL((SELECT SUM(EVAL_SCORE +EVAL_F_SCORE+ EVAL_S_SCORE) FROM CAM_INSIDE.dj_evaluation_mem WHERE EVAL_SN = #{evalSn} AND EVAL_EMP_SEQ = B.EMP_SEQ),0)AS EVAL_TOTAL_SCORE
         FROM
             CAM_INSIDE.dj_evaluation_mem A
         LEFT JOIN
@@ -804,16 +802,29 @@
             CAM_INSIDE.DJ_EVALUATION_MEM
         SET
         <if test='"eval".equals(evalResultType)'>
-            EVAL = 'Y'
+            EVAL = 'Y',
+            EVAL_SCORE = #{totalScore}
         </if>
         <if test='"evalF".equals(evalResultType)'>
-            EVAL_F = 'Y'
+            EVAL_F = 'Y',
+            EVAL_F_SCORE = #{totalScore}
         </if>
         <if test='"evalS".equals(evalResultType)'>
-            EVAL_S = 'Y'
+            EVAL_S = 'Y',
+            EVAL_S_SCORE = #{totalScore}
         </if>
         WHERE
             EVAL_SN = #{evalSn} AND EVAL_EMP_SEQ = #{empSeq}
+    </update>
+
+    <update id="setSaveMngScore" parameterType="map">
+        /*setSaveMngScore*/
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATION_MEM
+        SET
+            EVAL_SCORE_MNG = #{scoreMng}
+        WHERE
+            EVAL_MEM_SN = #{evalMemSn}
     </update>
 
     <delete id="delEvaluationItemCopy" parameterType="map">

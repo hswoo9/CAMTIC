@@ -155,6 +155,10 @@ public class EvaluationRepository extends AbstractDAO {
         insert("evaluation.setEvalScoreTemSave", scoreBody);
     }
 
+    public void setSaveMngScore(Map<String, Object> scoreBody) {
+        update("evaluation.setSaveMngScore", scoreBody);
+    }
+
     public void updEvalScoreTemSave(Map<String, Object> scoreBody) {
         insert("evaluation.updEvalScoreTemSave", scoreBody);
     }

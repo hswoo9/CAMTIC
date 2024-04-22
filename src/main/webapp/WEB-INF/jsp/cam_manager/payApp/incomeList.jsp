@@ -38,6 +38,10 @@
                         <col width="25%">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">결의일자</th>
+                        <td>
+                            <input type="text" id="startDt" style="width: 150px;"> ~ <input type="text" id="endDt" style="width: 150px;">
+                        </td>
                         <th class="text-center th-color">상태</th>
                         <td>
                             <input type="text" id="searchDept" style="width: 150px;">
