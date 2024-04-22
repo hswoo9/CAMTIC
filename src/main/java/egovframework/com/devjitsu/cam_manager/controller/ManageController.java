@@ -358,6 +358,12 @@ public class ManageController {
         return "jsonView";
     }
 
+    @RequestMapping("/mng/getIncpBudgetDetailViewData")
+    public String getIncpBudgetDetailViewData(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", manageService.getIncpBudgetDetailViewData(params));
+        return "jsonView";
+    }
+
     @RequestMapping("/mng/imgSaveTest")
     @ResponseBody
     public ModelMap imgSaveTest(@RequestParam HashMap<Object, Object> params, final HttpServletRequest request, final HttpServletResponse response) throws Exception{

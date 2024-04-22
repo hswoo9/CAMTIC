@@ -159,6 +159,11 @@ public class ManageServiceImpl implements ManageService {
     }
 
     @Override
+    public List<Map<String, Object>> getIncpBudgetDetailViewData(Map<String, Object> params) {
+        return manageRepository.getIncpBudgetDetailViewData(params);
+    }
+
+    @Override
     public Map<String, Object> getBudgetCodeData(Map<String, Object> params) {
         Map<String, Object> resultMap = new HashMap<>();
 

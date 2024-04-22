@@ -1067,7 +1067,7 @@
                 A.EXNP_EMP_SEQ, A.G20_EMP_CD, A.G20_DEPT_CD, A.APP_CONT, A.BNK_SN,
                 A.ACC_NM, A.ACC_NO, A.BNK_NM, A.PAY_APP_STAT, A.GUBUN, A.DOC_ID, A.DOC_STATUS,
                 A.APPROVAL_EMP_SEQ, A.APPROVAL_DATE, A.PMR_NO, A.REG_DT, A.REG_EMP_SEQ, A.MOD_DT,
-                A.MOD_EMP_SEQ, B.RE_STAT,
+                A.MOD_EMP_SEQ, B.RE_STAT, A.INFO_CODE,
                 DI.APPRO_KEY AS APPRO_KEY,
                 DI.DOC_MENU_CD AS DOC_MENU_CD,
                 IFNULL(B.TOT_COST, 0) AS TOT_COST,
@@ -2678,5 +2678,29 @@
             A.PJT_CD = #{mgtSeq}
           AND A.DOC_STATUS = 100
           ANd A.RE_STAT = 'Y'
+    </select>
+
+    <select id="getReturnPaymentList" parameterType="map" resultType="map">
+        /*getReturnPaymentList*/
+        SELECT
+            A.PAY_APP_TYPE,
+            A.EXNP_SN,
+            A.RE_STAT,
+            A.DOC_STATUS,
+            B.BUDGET_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 1) AS JANG_SN,
+            SUBSTRING(B.BUDGET_SN, 1, 3) AS GWAN_SN,
+            B.TOT_COST
+        FROM
+            CAM_MNG.DJ_EXNP A
+        LEFT JOIN
+            CAM_MNG.DJ_EXNP_DET B
+        ON
+            A.EXNP_SN = B.EXNP_SN
+        WHERE
+            PJT_CD = #{mgtSeq}
+          AND
+            DOC_STATUS IN (100, 101)
+          AND A.PAY_APP_TYPE = '3'
     </select>
 </mapper>

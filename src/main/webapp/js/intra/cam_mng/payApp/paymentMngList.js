@@ -259,6 +259,12 @@ var paymentMngList = {
                         }
                     },
                     width: 60
+                }, {
+                    title : "비용처리",
+                    template : function(e){
+                        return '<button type="button" class="k-button k-button-solid-info" onclick="paymentMngList.fn_reqRegPayPopup('+e.PAY_APP_SN+')">비용처리</button>';
+                    },
+                    width: 120
                 }
             ],
             dataBinding: function(){
@@ -297,6 +303,16 @@ var paymentMngList = {
         }
         url += "&vType=M";
         var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_reqRegPayPopup : function(key, status, auth){
+        var url = "/payApp/pop/regPayAppCostPop.do?payAppSn=" + key + "&auth=mng&status=rev&reqType=costProcess";
+        if(key != null && key != ""){
+
+        }
+        var name = "regPayAppPop";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },

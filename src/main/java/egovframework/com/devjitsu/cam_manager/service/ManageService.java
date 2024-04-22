@@ -39,5 +39,7 @@ public interface ManageService {
 
     List<Map<String, Object>> getBudgetDetailViewData(Map<String, Object> params);
 
+    List<Map<String, Object>> getIncpBudgetDetailViewData(Map<String, Object> params);
+
     Map<String, Object> getBudgetCodeData(Map<String, Object> params);
 }

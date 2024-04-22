@@ -1,10 +1,14 @@
 var bdv = {
 
     fn_defaultScript: function (){
-        bdv.mainGrid("/mng/getBudgetDetailViewData", { pjtCd: $("#pjtCd").val(), bgtCd: $("#bgtCd").val() });
+        if($("#temp").val() == "A"){
+            bdv.mainGridA("/mng/getBudgetDetailViewData", { pjtCd: $("#pjtCd").val(), bgtCd: $("#bgtCd").val() });
+        } else if($("#temp").val() == "B"){
+            bdv.mainGridB("/mng/getIncpBudgetDetailViewData", { pjtCd: $("#pjtCd").val(), bgtCd: $("#bgtCd").val() });
+        }
     },
 
-    mainGrid : function(url, params){
+    mainGridA : function(url, params){
         $("#mainGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
@@ -42,16 +46,6 @@ var bdv = {
                     field: "APP_TITLE",
                     width: 280,
                     template: function(e){
-                        var status = "";
-                        if(e.PAY_APP_TYPE == 1){
-                            status = "rev";
-                        } else if (e.PAY_APP_TYPE == 2){
-                            status = "in";
-                        } else if (e.PAY_APP_TYPE == 3){
-                            status = "re";
-                        } else if (e.PAY_APP_TYPE == 4){
-                            status = "alt";
-                        }
 
                         var title = "";
                         if(e.APP_TITLE != null && e.APP_TITLE != "" && e.APP_TITLE != undefined){
@@ -61,7 +55,7 @@ var bdv = {
                         }
 
                         if(e.ORG_YN == 'N'){
-                            return '<div style="cursor: pointer; font-weight: bold" onclick="paymentList.fn_reqRegPopup('+e.PAY_APP_SN+', \''+status+'\', \'user\')">'+title+'</div>';
+                            return '<div style="cursor: pointer; font-weight: bold" onclick="bdv.fn_reqRegPopup('+e.PAY_APP_SN+', \'A\')">'+title+'</div>';
                         } else {
                             return '<div style="cursor: pointer; font-weight: bold">'+title+'</div>';
                         }
@@ -130,5 +124,97 @@ var bdv = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
-    }
+    },
+
+    mainGridB : function(url, params){
+        $("#mainGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100 ],
+                buttonCount: 5
+            },
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "번호",
+                    width: 50,
+                    template: "#= --record #"
+                }, {
+                    title: "구분",
+                    width: 90,
+                    template: function(e){
+                        if(e.PAY_APP_TYPE == 'N'){
+                            return "수입결의서";
+                        } else if (e.PAY_APP_TYPE == 'Y'){
+                            return "반제(수입)";
+                        } else if(e.PAY_APP_TYPE == 3){
+                            return "반납결의서";
+                        }
+                    }
+                }, {
+                    title: "결의일자",
+                    width: 70,
+                    field: "PAY_EXNP_DE",
+                }, {
+                    title: "적요",
+                    field: "APP_CONT",
+                    width: 280,
+                    template: function(e){
+                        if(e.INFO_CODE != null && e.INFO_CODE != "" && e.INFO_CODE != undefined){
+                            return '<div style="cursor: pointer; font-weight: bold">'+e.APP_CONT+'</div>';
+                        } else {
+                            return '<div style="cursor: pointer; font-weight: bold" onclick="bdv.fn_reqRegPopup('+e.PAY_INCP_SN+', \'B\')">'+e.APP_CONT+'</div>';
+                        }
+                    }
+                }, {
+                    title: "거래처",
+                    width: 120,
+                    field: "CRM_NM"
+                }, {
+                    title: "신청자",
+                    width: 80,
+                    field: "EMP_NAME"
+                }, {
+                    title: "총금액",
+                    width: 100,
+                    template: function(e){
+                        if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
+                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
+                        } else {
+                            return '<div style="text-align: right">'+0+'</div>';
+                        }
+                    }
+                },
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            }
+        }).data("kendoGrid");
+    },
+
+    fn_reqRegPopup : function(key, type){
+        var url = "";
+
+        if(type == "A"){
+            url = "/payApp/pop/regPayAppPop.do";
+            if(key != null && key != ""){
+                url = "/payApp/pop/regPayAppPop.do?payAppSn=" + key;
+            }
+        } else if(type == "B"){
+            url = "/payApp/pop/regIncmPop.do";
+            if(key != null && key != ""){
+                url = "/payApp/pop/regIncmPop.do?payIncpSn=" + key;
+            }
+        }
+
+        var name = "blank";
+        var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
 }

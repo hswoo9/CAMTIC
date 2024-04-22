@@ -524,15 +524,17 @@ var regPayDet = {
                 if(rs.code == 200){
                     alert(successText);
 
-                    const busnClass = opener.commonProject.global.busnClass;
-                    if(busnClass == "D"){
-                        opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + opener.commonProject.global.pjtSn + "&tab=12";
-                    }else if(busnClass == "R"){
-                        opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + opener.commonProject.global.pjtSn + "&tab=13";
-                    }else if(busnClass == "S"){
-                        opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + opener.commonProject.global.pjtSn + "&tab=13";
-                    }else{
-                        opener.window.location.reload();
+                    if(opener.commonProject != null){
+                        const busnClass = opener.commonProject.global.busnClass;
+                        if(busnClass == "D"){
+                            opener.window.location.href="/project/pop/viewRegProject.do?pjtSn=" + opener.commonProject.global.pjtSn + "&tab=12";
+                        }else if(busnClass == "R"){
+                            opener.window.location.href="/projectRnd/pop/regProject.do?pjtSn=" + opener.commonProject.global.pjtSn + "&tab=13";
+                        }else if(busnClass == "S"){
+                            opener.window.location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + opener.commonProject.global.pjtSn + "&tab=13";
+                        }else{
+                            opener.window.location.reload();
+                        }
                     }
                     window.close();
                 }

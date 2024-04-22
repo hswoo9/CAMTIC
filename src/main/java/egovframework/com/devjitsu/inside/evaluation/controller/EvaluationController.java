@@ -59,6 +59,8 @@ public class EvaluationController {
 
     @RequestMapping("/evaluation/pop/evaluationEmpListPop.do")
     public String evaluationEmpListPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        params.put("bsYMD", params.get("bsYear")+"-12-31");
+
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
@@ -141,6 +143,7 @@ public class EvaluationController {
     @RequestMapping("/evaluation/getEvalResultEmpList")
     public String getEvalResultEmpList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
         model.addAttribute("list", evaluationService.getEvalResultEmpList(params));
+        model.addAttribute("data", evaluationService.getEvaluationApp(params));
         return "jsonView";
     }
 
@@ -220,6 +223,12 @@ public class EvaluationController {
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/evaluation/setEvaluationItemCopy")
+    public String setEvaluationItemCopy(@RequestParam Map<String, Object> params) {
+        evaluationService.setEvaluationItemCopy(params);
         return "jsonView";
     }
 

@@ -146,11 +146,11 @@
             html += '   <td>' + list[i].DEPT_NAME + '</td>';
             html += '   <td>' + list[i].DEPT_TEAM_NAME + '</td>';
             html += '   <td>' + list[i].EMP_NAME_KR + '</td>';
-            html += '   <td>100</td>';
-            html += '   <td>100</td>';
+            html += '   <td>' + list[i].EVAL_SCORE + '</td>';
+            html += '   <td>' + list[i].EVAL_F_SCORE + '</td>';
             html += '   <td>70</td>';
             html += '   <td>70</td>';
-            html += '   <td>100</td>';
+            html += '   <td>' + list[i].EVAL_S_SCORE + '</td>';
             html += '   <td>30</td>';
             html += '   <td>30</td>';
             html += '   <td>0</td>';

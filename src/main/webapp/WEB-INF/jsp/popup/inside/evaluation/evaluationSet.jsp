@@ -154,7 +154,7 @@
             </table>
 
             <div id="evalMng" style="display: none;">
-                <button class="k-button k-button-solid-info" style="margin: 20px 0 5px 0; float: right;">전년도 평가표 복사</button>
+                <button class="k-button k-button-solid-info" style="margin: 20px 0 5px 0; float: right;" onclick="evalItemCopy()">전년도 평가표 복사</button>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col style="width: 10%">
@@ -992,6 +992,31 @@
         var name = "_blank";
         var option = "width = 1500, height = 820, top = 200, left = 600, location = no";
         var popup = window.open(url, name, option);
+    }
+
+    function evalItemCopy(){
+        if(!confirm("전년도 평가표 복사 시 이전 평가표는 삭제됩니다. 복사하시겠습니까?")){
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append("evalSn" , $("#evalSn").val());
+        formData.append("empSeq" , $("#empSeq").val());
+
+        $.ajax({
+            url : "/evaluation/setEvaluationItemCopy",
+            data : formData,
+            type : "post",
+            dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async : false,
+            success : function (rs){
+                console.log(rs);
+                alert("평가표 등록이 완료 되었습니다.");
+            }
+        });
     }
 </script>
 </body>

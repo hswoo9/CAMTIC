@@ -118,4 +118,9 @@ public class ManageRepository extends AbstractDAO {
 
         return selectList("manage.getBudgetDetailViewData", params);
     }
+
+    public List<Map<String, Object>> getIncpBudgetDetailViewData(Map<String, Object> params) {
+
+        return selectList("manage.getIncpBudgetDetailViewData", params);
+    }
 }

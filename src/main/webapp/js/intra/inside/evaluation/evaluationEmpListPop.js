@@ -2,36 +2,10 @@ var evaluationEmpListPop = {
 
 
     fn_defaultScript : function (){
-        if($("#duty").val() == "4" || $("#duty").val() == "5"){
-            var evalPositionType = "teamLeader";
-        }else if($("#duty").val() == "2" || $("#duty").val() == "3" || $("#duty").val() == "7"){
-            var evalPositionType = "deptHeader";
-        }else{
-            var evalPositionType = "team";
-        }
-
-        if($("#occupation").val() == "P&M"){
-            var evalType = "PM";
-        }else if($("#occupation").val() == "A&C"){
-            var evalType = "AC";
-        }else if($("#occupation").val() == " R&D"){
-            var evalType = "RD";
-        }
-
-        if($("#step").val() == "0"){  // 본인평가
-            var evalResultType = "eval";
-        }else if($("#step").val() == "1"){ // 1차평가
-            var evalResultType = "evalF";
-        }else if($("#step").val() == "2"){ // 2차평가
-            var evalResultType = "evalS";
-        }
-
         evaluationEmpListPop.mainGrid();
     },
 
     mainGrid: function(){
-
-
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
             transport: {
@@ -41,33 +15,44 @@ var evaluationEmpListPop = {
                     type : "post"
                 },
                 parameterMap: function(data) {
-
-                    if($("#step").val() == "1"){ // 1차평가
-
-                        if($("#duty").val() == "4" || $("#duty").val() == "5"){  // 팀장 -> 팀원
+                    data.evalSn = $("#evalSn").val();
+                    if($("#key").val() == "1"){ // 1차평가
+                        if($("#duty").val() == "4" || $("#duty").val() == "5"){// 팀장 -> 팀원
+                            data.bsYMD = $("#bsYear").val()+"-12-31";
                             data.teamLeader = "N";
                             data.deptHeader = "N";
                             data.deptSeq = $("#deptSeq").val();
-
                         }else if($("#duty").val() == "2" || $("#duty").val() == "3" || $("#duty").val() == "7"){ //부장,실장 -> 팀장
-                            data.deptHeader = "N";
-                            data.empSeq = $("#empSeq").val();
-                            data.parent_dept_seq = $("#pDeptSeq").val();
+                            data.bsYMD = $("#bsYear").val()+"-12-31";
                             data.teamLeader = "Y";
-                        }else{  //원장 -> 실장,부장
+                            data.deptHeader = "N";
+                            data.pDeptSeq = $("#deptSeq").val();
+                        }else if($("#duty").val() == "1"){  //원장 -> 실장,부장
+                            console.log("adfadf")
+                            data.bsYMD = $("#bsYear").val()+"-12-31";
+                            data.teamLeader = "N";
                             data.deptHeader = "Y";
+                            data.duty = "1";
                         }
+                        else{
 
-                    }else if($("#step").val() == "2"){ // 2차평가
-
+                        }
+                    }else if($("#key").val() == "2"){ // 2차평가
                         if($("#duty").val() == "2" || $("#duty").val() == "3" || $("#duty").val() == "7"){ //부장,실장 -> 팀원
+                            data.bsYMD = $("#bsYear").val()+"-12-31";
                             data.teamLeader = "N";
                             data.deptHeader = "N";
                             data.empSeq = $("#empSeq").val();
-                            data.parent_dept_seq = $("#pDeptSeq").val();
+                            data.pDeptSeq = $("#deptSeq").val();
 
-                        }else{  // 원장 -> 팀장
+                        }else if($("#duty").val() == "1"){  // 원장 -> 팀장
+                            data.bsYMD = $("#bsYear").val()+"-12-31";
                             data.teamLeader = "Y";
+                            data.deptHeader = "N";
+                            data.duty = "1";
+                        }
+                        else{
+
                         }
 
                     }
@@ -91,29 +76,12 @@ var evaluationEmpListPop = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 200,
+            height: 450,
             pageable : {
                 refresh : true,
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
-            toolbar : [
-                {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationList.fn_popEvaluationSet()">' +
-                            '	<span class="k-button-text">등록</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="evaluationList.mainGrid()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }
-            ],
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -123,35 +91,65 @@ var evaluationEmpListPop = {
                     title: "순번",
                     width: 30
                 }, {
-                    field: "",
+                    field: "DEPT_NAME_OD",
                     title: "부서",
-                    width: 200
+                    width: 100
+                },{
+                    field: "TEAM_NAME",
+                    title: "팀",
+                    width: 100
                 }, {
-                    field: "",
+                    field: "DUTY_POSITION_NAME",
                     title: "직위",
                     width: 100
                 }, {
-                    field: "",
+                    field: "EMP_NAME_KR",
                     title: "성명",
                     width: 100
                 }, {
                     field: "",
                     title: "평가하기",
-                    width: 100
+                    width: 100,
+                    template: function (e){
+                        return "<button class='k-button' style='background-color: #dcdcdc; border: none;' onclick='evaluationEmpListPop.fn_open_eval(" + e.EMP_SEQ + ")'>역량평가하기</button>";
+                    }
+
                 }, {
-                    field: "",
                     title: "제출상태",
-                    width: 100
+                    width: 100,
+                    template: function (e){
+                        if($("#key").val() == "1"){ // 1차평가
+                            if(e.EVAL_F == "Y"){
+                                return "제출완료";
+                            }else{
+                                return "미제출";
+                            }
+
+                        }else if($("#key").val() == "2"){ // 2차평가
+
+                            if(e.EVAL_S == "Y"){
+                                return "제출완료";
+                            }else{
+                                return "미제출";
+                            }
+
+                        }else{
+                            if(e.EVAL == "Y"){
+                                return "제출완료";
+                            }else{
+                                return "미제출";
+                            }
+                        }
+                    }
                 }
             ]
         }).data("kendoGrid");
     },
 
-    fn_popEvaluationSet : function (){
-        var url = "/evaluation/pop/evaluationSet.do";
-
+    fn_open_eval : function (empSeq){
+        var url = "/evaluation/pop/evaluationPop.do?pk="+$("#evalSn").val()+"&bsYear="+$("#bsYear").val()+"&empSeq="+empSeq+"&key="+$("#key").val();
         var name = "_blank";
-        var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
+        var option = "width = 1700, height = 820, top = 200, left = 600, location = no";
         var popup = window.open(url, name, option);
     }
 }

@@ -41,6 +41,10 @@ public class EvaluationServiceImpl implements EvaluationService {
         return evaluationRepository.getEvalResultEmpList(params);
     }
     @Override
+    public Map<String, Object> getEvaluationApp(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationApp(params);
+    }
+    @Override
     public Map<String, Object> getEvaluationOneList(Map<String, Object> params) {
         return evaluationRepository.getEvaluationOneList(params);
     }
@@ -151,6 +155,24 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     }
 
+
+
+    @Override
+    public void setEvaluationItemCopy(Map<String, Object> params) {
+
+        int evalSn = Integer.parseInt(params.get("evalSn").toString());
+        int copyEvalSn = evalSn - 1;
+        params.put("copyEvalSn", copyEvalSn);
+
+        evaluationRepository.delEvaluationItemCopy(params);
+        evaluationRepository.setEvaluationItemCopy(params);
+    }
+
+
+
+
+
+
     @Override
     public void setEvaluationMngList(Map<String, Object> params) {
 
@@ -186,8 +208,10 @@ public class EvaluationServiceImpl implements EvaluationService {
                 evaluationRepository.delEvalScoreTemSave(evalBody);
                 evaluationRepository.setEvalScoreTemSave(evalBody);
             }
+        }
 
-
+        if(params.get("save").equals("10")){
+            evaluationRepository.updEvaluationMem(params);
         }
 
     }

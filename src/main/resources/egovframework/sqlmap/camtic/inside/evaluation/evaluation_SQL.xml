@@ -30,7 +30,7 @@
                 , (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = IF((SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1000, A.DEPT_SEQ, (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ))) AS DEPT_NAME_OD
                 , (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 9 AND CM_CODE = A.OCCUPATION_CODE) AS OCCUPATION_NM
                 , IF((SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1000, '', B.DEPT_NAME) AS TEAM_NAME
-                ,(SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ= A.DEPT_SEQ) AS PARENT_DEPT_NAME
+                ,(SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ= A.DEPT_SEQ) AS PARENT_DEPT_SEQ
                 ,A.*
                 ,SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire
                 ,CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon
@@ -501,13 +501,17 @@
         SELECT
             A.*,
             B.*,
-            C.PARENT_DEPT_SEQ
+            C.PARENT_DEPT_SEQ,
+        IFNULL((SELECT SUM(EVAL_SCORE) FROM CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT WHERE EVAL_TYPE = 'eval' AND TEM_ACTIVE='Y'AND EVAL_SN = #{evalSn} AND EMP_SEQ= A.EVAL_EMP_SEQ),0)AS EVAL_SCORE,
+        IFNULL((SELECT SUM(EVAL_SCORE) FROM CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT WHERE EVAL_TYPE = 'evalF' AND TEM_ACTIVE='Y'AND EVAL_SN = #{evalSn} AND EMP_SEQ= A.EVAL_EMP_SEQ),0)AS EVAL_F_SCORE,
+        IFNULL((SELECT SUM(EVAL_SCORE) FROM CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT WHERE EVAL_TYPE = 'evalS' AND TEM_ACTIVE='Y'AND EVAL_SN = #{evalSn} AND EMP_SEQ= A.EVAL_EMP_SEQ),0)AS EVAL_S_SCORE
         FROM
             CAM_INSIDE.dj_evaluation_mem A
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO B ON A.EVAL_EMP_SEQ = B.EMP_SEQ
         LEFT JOIN
             CAM_HR.dj_dept_info C ON B.DEPT_SEQ = C.DEPT_SEQ
+
         WHERE
             EVAL_SN = #{evalSn}
         <if test='dept != null and dept != ""'>
@@ -522,7 +526,15 @@
         <if test='duty != null and duty != ""'>
             AND DUTY_CODE = #{duty}
         </if>
+    </select>
 
+    <select id="getEvaluationApp" parameterType="map" resultType="map">
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_CAP
+        WHERE
+            EVAL_SN = #{evalSn}
     </select>
 
     <delete id="delEvaluationMngList" parameterType="map">
@@ -589,11 +601,13 @@
         FROM
             CAM_INSIDE.DJ_EVALUATION_ITEM A
         LEFT JOIN
-            CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT B ON A.EVAL_ITEM_ID = B.EVAL_ITEM_ID
+            CAM_INSIDE.DJ_EVALUATION_ITEM_RESULT B ON A.EVAL_ITEM_ID = B.EVAL_ITEM_ID AND B.EMP_SEQ = #{empSeq}
         WHERE
             A.EVAL_SN = #{evalSn}
+       <if test='!"deptHeader".equals(pType)'>
           AND
             A.EVAL_TYPE = #{eType}
+      </if>
           AND
             A.EVAL_POSITION_TYPE = #{pType}
           AND (B.EVAL_ITEM_ID IS NULL OR B.EVAL_TYPE = #{rType});
@@ -626,7 +640,7 @@
                   , (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = IF((SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1000, A.DEPT_SEQ, (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ))) AS DEPT_NAME_OD
                   , (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 9 AND CM_CODE = A.OCCUPATION_CODE) AS OCCUPATION_NM
                   , IF((SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1000, '', B.DEPT_NAME) AS TEAM_NAME
-                  ,(SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ= A.DEPT_SEQ) AS PARENT_DEPT_NAME
+                  ,(SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ= A.DEPT_SEQ) AS PARENT_DEPT_SEQ
                   ,A.*
                   ,SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire
                   ,CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon
@@ -698,6 +712,11 @@
         /*getEvaluationEmpList*/
         <![CDATA[
         SELECT
+              row_number() OVER (ORDER BY (CASE
+                WHEN ASCII(SUBSTRING(Z.DEPT_NAME_OD,1)) BETWEEN 48 AND 57 THEN 3
+                WHEN ASCII(SUBSTRING(Z.DEPT_NAME_OD,1)) < 128 THEN 2 ELSE 1 END),
+                Z.DEPT_NAME_OD, TEAM_NAME,
+                FIELD(DUTY_CODE, 1, 2, 3, 7, 4, 5, ''), EMP_NAME_KR) AS ROW_NUM,
             IF(DUTY_NAME = '' || DUTY_NAME IS NULL, POSITION_NAME, DUTY_NAME) AS DUTY_POSITION_NAME,
             IF(T1_A = '' || T1_A IS NULL, T1_B, T1_A) AS T1,
             IF(T2_A = '' || T2_A IS NULL, T2_B, T2_A) AS T2,
@@ -721,17 +740,24 @@
                   , (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = IF((SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1000, A.DEPT_SEQ, (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ))) AS DEPT_NAME_OD
                   , (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 9 AND CM_CODE = A.OCCUPATION_CODE) AS OCCUPATION_NM
                   , IF((SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1000, '', B.DEPT_NAME) AS TEAM_NAME
-                  ,(SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ= A.DEPT_SEQ) AS PARENT_DEPT_NAME
+                  ,(SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ= A.DEPT_SEQ) AS PARENT_DEPT_SEQ
                   ,A.*
                   ,SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire
                   ,CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon
+                 ,C.*
              FROM
                  CAM_HR.DJ_EMP_INFO A
                      LEFT JOIN
                  CAM_HR.DJ_DEPT_INFO B
                  ON
                      A.DEPT_SEQ = B.DEPT_SEQ
+                    INNER JOIN
+              CAM_INSIDE.DJ_EVALUATION_MEM C
+              ON
+                  A.EMP_SEQ = C.EVAL_EMP_SEQ
              WHERE
+                 C.EVAL_SN = #{evalSn}
+               AND
                  A.ACTIVE = 'Y'
                AND
                  A.WORK_STATUS_CODE = 'Y'
@@ -739,7 +765,29 @@
                  DATE_FORMAT(#{bsYMD}, '%Y%m%d') >= DATE_FORMAT(A.JOIN_DAY, '%Y%m%d')
                AND
                  OCCUPATION_CODE IN (1,2,3)
+            ]]>
+             <if test='"N".equals(teamLeader) and "N".equals(deptHeader) and deptSeq != null and deptSeq != ""'>
+               AND B.DEPT_SEQ = #{deptSeq}
+               AND DUTY_CODE NOT IN (1,2,3,4,5,7)
+             </if>
+             <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
+               AND PARENT_DEPT_SEQ = #{pDeptSeq}
+               AND DUTY_CODE IN (4,5)
+             </if>
+            <if test='"N".equals(teamLeader) and "Y".equals(deptHeader) and "1".equals(duty)'>
+                AND DUTY_CODE IN (2,3,7)
+            </if>
 
+             <if test='"N".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
+               AND PARENT_DEPT_SEQ = #{pDeptSeq}
+               AND DUTY_CODE NOT IN (1,2,3,4,5,7)
+             </if>
+            <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and "1".equals(duty)'>
+                AND DUTY_CODE IN (4,5)
+            </if>
+
+
+        <![CDATA[
             ) Z
         ORDER BY
             (CASE
@@ -749,5 +797,64 @@
             FIELD(DUTY_CODE, 1, 2, 3, 7, 4, 5, ''), EMP_NAME_KR
         ]]>
     </select>
+
+    <update id="updEvaluationMem" parameterType="map">
+        /*updEvaluationMem*/
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATION_MEM
+        SET
+        <if test='"eval".equals(evalResultType)'>
+            EVAL = 'Y'
+        </if>
+        <if test='"evalF".equals(evalResultType)'>
+            EVAL_F = 'Y'
+        </if>
+        <if test='"evalS".equals(evalResultType)'>
+            EVAL_S = 'Y'
+        </if>
+        WHERE
+            EVAL_SN = #{evalSn} AND EVAL_EMP_SEQ = #{empSeq}
+    </update>
+
+    <delete id="delEvaluationItemCopy" parameterType="map">
+        /*delEvaluationItemCopy*/
+        DELETE FROM CAM_INSIDE.DJ_EVALUATION_ITEM WHERE EVAL_SN = #{evalSn}
+    </delete>
+
+    <insert id="setEvaluationItemCopy" parameterType="map">
+        /*setEvaluationItemCopy*/
+        INSERT INTO CAM_INSIDE.DJ_EVALUATION_ITEM
+        (
+            EVAL_SN,
+            EVAL_TYPE,
+            EVAL_POSITION_TYPE,
+            EVAL_CAP,
+            EVAL_TITLE,
+            EVAL_VAL,
+            EVAL_STR_S,
+            EVAL_STR_A,
+            EVAL_STR_B,
+            EVAL_END_B,
+            EVAL_STR_C,
+            EVAL_STR_D,
+            REG_EMP_SEQ
+        )
+        SELECT
+            #{evalSn},
+            EVAL_TYPE,
+            EVAL_POSITION_TYPE,
+            EVAL_CAP,
+            EVAL_TITLE,
+            EVAL_VAL,
+            EVAL_STR_S,
+            EVAL_STR_A,
+            EVAL_STR_B,
+            EVAL_END_B,
+            EVAL_STR_C,
+            EVAL_STR_D,
+            #{empSeq}
+        FROM CAM_INSIDE.DJ_EVALUATION_ITEM
+        WHERE EVAL_SN = #{copyEvalSn}
+    </insert>
 
 </mapper>
