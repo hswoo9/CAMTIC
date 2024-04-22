@@ -321,15 +321,15 @@ var purcInit = {
         html += '           <table border="1" style="border-collapse: collapse; margin-top: 0px;">';
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 40px;"><p style="font-size:12px;"><b>구분</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 100px;"><p style="font-size:12px;"><b>품 명</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 40px;"><p style="font-size:12px;"><b>규 격</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:12px;"><b>단가</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 120px;"><p style="font-size:12px;"><b>품 명</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 60px;"><p style="font-size:12px;"><b>규 격</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 60px;"><p style="font-size:12px;"><b>단가</b></p></td>';
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 40px;"><p style="font-size:12px;"><b>수량</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:12px;"><b>단위</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;"><b>공급가액</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;"><b>세액</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 90px;"><p style="font-size:12px;"><b>금액</b></p></td>';
-        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 68px;"><p style="font-size:12px;"><b>비고</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 60px;"><p style="font-size:12px;"><b>단위</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:12px;"><b>공급가액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 70px;"><p style="font-size:12px;"><b>세액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;"><b>금액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 78px;"><p style="font-size:12px;"><b>비고</b></p></td>';
         html += '               </tr>';
 
         for(let i=0; i<list.length; i++){
@@ -391,15 +391,15 @@ var purcInit = {
 
             html += '   <tr>';
             html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+productA+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"><b>'+map.ITEM_NM+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+map.ITEM_STD+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+map.ITEM_UNIT_AMT_COMMA+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+map.ITEM_EA+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+map.ITEM_UNIT+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+supAmt+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+vatAmt+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+itemAmt+'</b></p></td>';
-            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+map.ITEM_ETC+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.ITEM_NM+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.ITEM_STD+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+map.ITEM_UNIT_AMT_COMMA+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+map.ITEM_EA+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.ITEM_UNIT+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+supAmt+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+vatAmt+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+itemAmt+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.ITEM_ETC+'</b></p></td>';
             html += '   </tr>';
 
             dcPay += Number(map.DIF_AMT);
@@ -407,16 +407,16 @@ var purcInit = {
         if(list.length < 8){
             for(let i=0; i<8-list.length; i++){
                 html += '   <tr>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
-                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:12px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
                 html += '   </tr>';
             }
         }
