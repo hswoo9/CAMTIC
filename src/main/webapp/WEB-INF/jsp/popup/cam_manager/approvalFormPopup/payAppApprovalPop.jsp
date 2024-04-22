@@ -105,7 +105,7 @@
     const rs = result.map;
 
     let formId = "147";
-    if(rs.PJT_CD.substring(0,1) == "M" ){
+    if(rs.PJT_CD.substring(0,1) == "M" || rs.PJT_CD.substring(0,1) == "Z"){
         formId = "154";
     }
 
