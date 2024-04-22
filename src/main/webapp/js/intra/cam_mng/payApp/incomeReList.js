@@ -8,6 +8,20 @@ var incomeReList = {
 
     fn_defaultScript : function (){
 
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+
+        $("#startDt").change(function (){
+            if($("#startDt").val() > $("#endDt").val()){
+                $("#endDt").val($("#startDt").val());
+            }
+        });
+        $("#endDt").change(function (){
+            if($("#startDt").val() > $("#endDt").val()){
+                $("#startDt").val($("#endDt").val());
+            }
+        });
+
         incomeReList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
@@ -135,7 +149,9 @@ var incomeReList = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val()
+            searchValue : $("#searchValue").val(),
+            startDt : $("#startDt").val(),
+            endDt : $("#endDt").val(),
         }
 
         incomeReList.mainGrid("/pay/getIncpReList", incomeReList.global.searchAjaxData);
