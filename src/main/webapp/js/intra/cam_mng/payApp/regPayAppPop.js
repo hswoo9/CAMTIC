@@ -642,7 +642,7 @@ var regPay = {
                     var busnClass = pjtMap.BUSN_CLASS;
                     $("#pjtSn").val(pjtMap.PJT_SN);
                     $("#pjtNm").val(pjtMap.PJT_NM);
-                    if ($("#pjtSn").val() != "" && busnClass != "V") {
+                    if ($("#pjtSn").val() != "" && busnClass != "D" && busnClass != "V") {
                         selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
                     } else {
                         selectProject('', '[2024년]법인운영', 'Mm1m124010');
@@ -803,8 +803,8 @@ var regPay = {
                 var busnClass = pjtMap.BUSN_CLASS; console.log(busnClass);
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
-                if ($("#pjtSn").val() != "" && busnClass != "V") {
-
+                if ($("#pjtSn").val() != "" && busnClass != "D" && busnClass != "V") {
+                    selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
                     if (corpCar != null) {
                         const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
                             searchValue: '법인차량',
@@ -858,7 +858,11 @@ var regPay = {
 
                         count++;
                     }
+                } else {
+                    selectProject('', '[2024년]법인운영', 'Mm1m124010');
                 }
+            } else {
+                selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }
 
             /*if (exnpList[0].PJT_SN != null) {
@@ -1090,7 +1094,7 @@ var regPay = {
                     var busnClass = pjtMap.BUSN_CLASS; console.log(busnClass);
                     $("#pjtSn").val(pjtMap.PJT_SN);
                     $("#pjtNm").val(pjtMap.PJT_NM);
-                    if($("#pjtSn").val() != "" && busnClass != "V"){
+                    if($("#pjtSn").val() != "" && busnClass != "D" && busnClass != "V"){
                         selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
                     }else{
                         selectProject('', '[2024년]법인운영', 'Mm1m124010');
