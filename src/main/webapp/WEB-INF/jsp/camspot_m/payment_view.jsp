@@ -189,6 +189,17 @@
     var approveFlag = true
     $(document).ready(function() {
 
+        const agent = window.navigator.userAgent.toLowerCase();
+        let browserName;
+
+        if(agent.indexOf("chrome") > -1 && !!window.chrome){
+            browserName = "Chrome";
+            console.log(browserName);
+        } else {
+            alert("Chrome브라우저에서 확인가능합니다.");
+            history.back();
+        }
+
         $("#approveModal").kendoWindow({
             title: "결재의견",
             visible: false,
