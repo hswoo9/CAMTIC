@@ -556,14 +556,14 @@ var rndInit = {
         const g20 = customKendo.fn_customAjax("/g20/getSubjectList", {
             stat: "project",
             gisu: "23",
-            fromDate: "20230101",
-            toDate: "20231231",
+            fromDate: map.PJT_STR_DT.replace(/-/g, ""),
+            toDate: map.PJT_END_DT.replace(/-/g, ""),
             mgtSeq: map.PJT_CD,
             opt01: "3",
             opt02: "1",
             opt03: "2",
             temp: "2",
-            baseDate: "2023" + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
+            baseDate: map.PJT_STR_DT.split("-")[0] + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0'),
             pjtSn: pjtSn
         });
         console.log("g20");

@@ -67,7 +67,11 @@ var budgetChangeInfo = {
                     field: "DOC_TITLE",
                     title: "문서제목",
                     template : function(e){
-                        return '<a onclick="approveDocView(\''+e.DOC_ID+'\', \''+e.APPRO_KEY+'\', \''+e.DOC_MENU_CD+'\')" style="font-weight: bold ">' + e.DOC_TITLE + '</a>'
+                        if(e.STATUS == "30" || e.STATUS == "40"){
+                            return '<div onclick="tempOrReDraftingPop(\''+e.DOC_ID+'\', \''+e.DOC_MENU_CD+'\', \''+e.APPRO_KEY+'\', 2, \'reDrafting\', \'target\');" style="font-weight: bold ">' + e.DOC_TITLE + '</div>';
+                        } else {
+                            return '<div onclick="approveDocView(\''+e.DOC_ID+'\', \''+e.APPRO_KEY+'\', \''+e.DOC_MENU_CD+'\')" style="font-weight: bold">' + e.DOC_TITLE + '</div>';
+                        }
                     }
                 }, {
                     field: "DRAFT_DATE",
@@ -82,7 +86,7 @@ var budgetChangeInfo = {
                     field: "STATUS",
                     width: 100,
                     template: function(e){
-                        if(e.STATUS != "100"){
+                        if(e.STATUS != "100" && e.STATUS != "101"){
                             return "요청중"
                         }else{
                             return "결재완료"
