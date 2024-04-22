@@ -27,13 +27,17 @@
 
 <input type="hidden" id="pjtCd" value="${params.pjtCd}"/>
 <input type="hidden" id="bgtCd" value="${params.bgtCd}"/>
+<input type="hidden" id="temp" value="${params.temp}"/>
 
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
-                <span style="position: relative; top: 3px;" id="title">지출 내역</span>
+                <span style="position: relative; top: 3px;" id="title">
+                    <c:if test="${params.temp eq 'A'}">지출 내역</c:if>
+                    <c:if test="${params.temp eq 'B'}">수입 내역</c:if>
+                </span>
             </h3>
 
             <div class="btn-st popButton" style="font-size: 13px;">
