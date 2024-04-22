@@ -3474,7 +3474,7 @@
         /*getPartRateMemberList*/
         SELECT * FROM CAM_PJT_MNG.DJ_PART_RATE_DET
         WHERE PART_RATE_VER_SN =
-              (SELECT PART_RATE_VER_SN FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE MNG_STAT IN ('C', 'S') AND PJT_SN = #{pjtSn} ORDER BY PART_RATE_VER_SN DESC LIMIT 1)
+              (SELECT PART_RATE_VER_SN FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE MNG_STAT IN ('R', 'C', 'S') AND PJT_SN = #{pjtSn} ORDER BY PART_RATE_VER_SN DESC LIMIT 1)
     </select>
 
     <select id="getPsMemberList" parameterType="map" resultType="map">
