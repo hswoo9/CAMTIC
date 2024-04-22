@@ -461,7 +461,7 @@ var rndInit = {
                 const costList = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn: map.PJT_SN}).list;
                 for(let i=0; i<costList.length; i++){
                     const map = costList[i];
-                    invSum += map.COST_SUM;
+                    resInvSum += map.COST_SUM;
                 }
             }
             hwpDocCtrl.putFieldText('RES_AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));

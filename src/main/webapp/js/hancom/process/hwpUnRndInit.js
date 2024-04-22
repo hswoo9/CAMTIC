@@ -121,13 +121,6 @@ var unRndInit = {
         const pmInfo = getUser(map.EMP_SEQ);
         const pmText = pmInfo.deptNm + " " + map.EMP_NAME + " " + fn_getSpot(pmInfo.DUTY_NAME, pmInfo.POSITION_NAME);
         hwpDocCtrl.putFieldText('PM_EMP_NM', pmText);
-
-        /** 3. 특이사항 */
-        setTimeout(function() {
-            hwpDocCtrl.putFieldText("ETC", "");
-            hwpDocCtrl.moveToField('ETC', true, true, false);
-            hwpDocCtrl.setTextFile(delvMap.UN_RND_ETC.replaceAll("\n", "<br>"), "html","insertfile");
-        }, 1000);
     },
 
     delvInit: function(pjtSn){
@@ -189,6 +182,13 @@ var unRndInit = {
         //const htmlG20 = rndInit.htmlCustomG20(customG20, delvMap.TOT_RES_COST);
         //hwpDocCtrl.moveToField('content', true, true, false);
         //hwpDocCtrl.setTextFile(htmlG20, "HTML", "insertfile", {});
+
+        /** 3. 특이사항 */
+        setTimeout(function() {
+            hwpDocCtrl.putFieldText("ETC", "");
+            hwpDocCtrl.moveToField('ETC', true, true, false);
+            hwpDocCtrl.setTextFile(delvMap.UN_RND_ETC.replaceAll("\n", "<br>"), "html","insertfile");
+        }, 1000);
     },
 
     devInit: function(devSn){
@@ -463,7 +463,7 @@ var unRndInit = {
                 const costList = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn: map.PJT_SN}).list;
                 for(let i=0; i<costList.length; i++){
                     const map = costList[i];
-                    invSum += map.COST_SUM;
+                    resInvSum += map.COST_SUM;
                 }
             }
             hwpDocCtrl.putFieldText('RES_AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
