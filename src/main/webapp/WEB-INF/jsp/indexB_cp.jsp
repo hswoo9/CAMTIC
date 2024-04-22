@@ -111,7 +111,7 @@
     </div>
 </div>
 <div class="col-md-7 col-lg-7" style="margin-top:-10px; float:left;">
-    <div class="panel" style="margin-bottom:10px; height: 465px;">
+    <div class="panel" style="margin-bottom:10px; height: 490px;">
         <div style="padding: 25px 0 0 25px;">
             <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">게시판 최근글</h4>
         </div>
@@ -124,6 +124,12 @@
                     <li><a href="#tab3" data-toggle="tab" onclick="getActiveList('tab3Ul', '41')"><strong style="font-size:14px;">업무보고</strong></a></li>
                     <li><a href="#tab4" data-toggle="tab" onclick="getActiveList('tab4Ul', '42')"><strong style="font-size:14px;">업무메뉴얼</strong></a></li> <!--규정/지침/절차/양식-->
                     <li><a href="#tab5" data-toggle="tab" onclick="getActiveList('tab5Ul', '43')"><strong style="font-size:14px;">홍보자료</strong></a></li>
+                    <li>
+                        <div>
+                            <i class="k-i-plus k-icon" style="cursor: pointer; float: right;font-size:20px; margin:35px 20px 0 0;" onclick="goMoreView2();"></i>
+                            <input type="hidden" id="moreId2" value="" />
+                        </div>
+                    </li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -168,7 +174,7 @@
         </div>
     </div>
 
-    <div class="panel" style="height: 407px;">
+    <div class="panel" style="height: 489px;">
         <div style="padding: 25px 0 0 25px;">
             <h4 class="media-heading" style="color:#333;font-size:18px; font-weight:600;letter-spacing: -2px;">주요일정</h4>
         </div>
@@ -483,6 +489,8 @@
     //게시판 연동
     function getActiveList(v, e){
         $("#" + v + " li").remove();
+
+        $("#moreId2").val(v);
 
         var data = {
             recordSize : 8,
@@ -828,6 +836,20 @@
             openSchedulePopup(today, "ES", "more");
         }else if(moreId == "study"){ //오픈스터디
             open_in_frame('/Campus/openStudyInfo.do');
+        }
+    }
+
+    function goMoreView2(){
+        var moreId2 = $("#moreId2").val();
+
+        if(moreId2 == "tab2Ul"){ //법인일정
+            open_in_frame('/board/normalBoardList.do?boardId=40');
+        }else if(moreId2 == "tab3Ul"){ //직원일정
+            open_in_frame('/board/normalBoardList.do?boardId=41');
+        }else if(moreId2 == "tab4Ul"){ //오픈스터디
+            open_in_frame('/board/normalBoardList.do?boardId=42');
+        }else if(moreId2 == "tab5Ul"){ //오픈스터디
+            open_in_frame('/board/normalBoardList.do?boardId=43')
         }
     }
 </script>
