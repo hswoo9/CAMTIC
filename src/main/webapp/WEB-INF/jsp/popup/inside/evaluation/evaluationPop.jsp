@@ -5,6 +5,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 <script src="/js/kendoui/kendo.all.min.js"></script>
 <script type="text/javascript" src="/js/intra/inside/evaluation/evalResult.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/inside/evaluation/evaluationEmpListPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
 <link rel="stylesheet" href="/css/quirk.css">
@@ -27,8 +28,8 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">본인 평가</h3>
             <div class="btn-st popButton">
-                <button type="button" class="k-button k-button-solid-info" onclick="saveData(1)">저장</button>
-                <button type="button" class="k-button k-button-solid-info" onclick="saveData(10)">제출</button>
+                <button type="button" class="k-button k-button-solid-info" id="btnActive1" onclick="saveData(1)">저장</button>
+                <button type="button" class="k-button k-button-solid-info" id="btnActive2"  onclick="saveData(10)">제출</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -77,6 +78,24 @@
                 </tr>
                 </thead>
             </table>
+
+            <table class="popTable table table-bordered mb-0" style="border-left: none;">
+                <colgroup>
+                    <col width="13%">
+                    <col width="37%">
+                    <col width="13%">
+                    <col width="37%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th id="interview_topic1" colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">평가의견</th>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <span class="k-input k-textarea k-input-solid k-input-md k-rounded-md" style="width: 95%; height: 100px;"><textarea type="text" id="evalView" style="width: 100%; height: 100px; resize: none;" data-role="textarea" aria-disabled="false" rows="5" class="!k-overflow-y-auto k-input-inner" autocomplete="off"></textarea></span>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
@@ -95,7 +114,7 @@
         var evalType = "PM";
     }else if($("#occupation").val() == "A&C"){
         var evalType = "AC";
-    }else if($("#occupation").val() == " R&D"){
+    }else if($("#occupation").val() == "R&D"){
         var evalType = "RD";
     }
 
@@ -124,6 +143,18 @@
             dataType : "json",
             async : false,
             success : function(result){
+                if(result.data.EVAL_F == "Y" || result.data.EVAL_S == "Y"){
+                    document.getElementById("evalView").disabled = true;
+                    document.getElementById("btnActive1").disabled = true;
+                    document.getElementById("btnActive2").disabled = true;
+                }
+
+                if($("#step").val() == "1"){ // 1차평가
+                    $("#evalView").val(result.data.EVAL_F_VIEW)
+                }else if($("#step").val() == "2"){ // 2차평가
+                    $("#evalView").val(result.data.EVAL_S_VIEW)
+                }
+
                 const list = result.list
                 for (var i = 0; i < list.length; i++) {
                     var item = list[i];
@@ -253,8 +284,13 @@
         var gradeS_sValue = parseFloat(document.getElementById("gradeS_s" + evNum).value);
         var gradeD_sValue = parseFloat(document.getElementById("gradeD_s" + evNum).value);
 
-        if (evalScoreValue > gradeS_sValue || evalScoreValue < gradeD_sValue) {
-            alert("afsfdgsfgdf");
+        if (evalScoreValue > gradeS_sValue) {
+            alert(gradeS_sValue + "점 이하로 입력해주세요.");
+            $("#evalScore"+evNum).val("0");
+        }
+
+        if (evalScoreValue < gradeD_sValue) {
+            alert(gradeD_sValue + "점 이상으로 입력해주세요.");
             $("#evalScore"+evNum).val("0");
         }
 
@@ -283,6 +319,7 @@
             evalEmpSeq : $("#evalEmpSeq").val(),
             empSeq : $("#empSeq").val(),
             totalScore : $("#totalScore").val(),
+            evalView : $("#evalView").val(),
             evalResultType : evalResultType,
             save : key
         }
@@ -307,10 +344,12 @@
                 console.log(rs);
                 if(key == "1") {
                     alert("저장 되었습니다.");
+                    window.close();
                 }else if(key == "10") {
+                    opener.location.reload();
+                    window.close();
                     alert("제출이 완료되었습니다.");
                 }
-                // window.reload();
             }
         });
     }

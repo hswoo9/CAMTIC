@@ -18,6 +18,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">역량평가 결과</h3>
             <div class="btn-st popButton">
+                <button type="button" class="k-button k-button-solid-info" onclick="saveMngScore()">평가점수 조정</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -36,10 +37,13 @@
                         <input type="text" id="position" style="width: 160px;">
                         <input type="text" id="duty" style="width: 160px;">
                     </td>
-                    <td>
+                    <td <%--style="display: flex; justify-content: space-between;"--%>>
                         <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_empList();">	<span class="k-button-text">조회</span></button>
                     </td>
-
+                    <%--<th class="text-center th-color">이름</th>
+                    <td>
+                        <input type="text" id="name" style="width: 150px;" onkeypress="if(window.event.keyCode==13){employmentManage.gridReload()}">
+                    </td>--%>
 
                 </tr>
             </table>
@@ -118,6 +122,8 @@
                 team : $("#team").val(),
                 position : $("#position").val(),
                 duty : $("#duty").val()
+                /*searchText : $("#searchText").val(),
+                searchDate : $("#searchDate").val()*/
             },
             dataType : "json",
             async : false,
@@ -141,7 +147,7 @@
             var scoreS;
 
             html += '<tr>';
-            html += '   <td style="text-align: center;">' + (i+1) + '</td>';
+            html += '   <td><input type="checkbox" id="check' + i + '" value="'+ list[i].EVAL_MEM_SN+'" onchange="scoreMng('+i+')" /></td>';
             html += '   <td>' + list[i].DEPT_NAME + '</td>';
             html += '   <td>' + list[i].DEPT_TEAM_NAME + '</td>';
             html += '   <td>' + list[i].EMP_NAME_KR + '</td>';
@@ -195,7 +201,7 @@
             html += '   <td>'+ totalScore +'</td>';
 
             html += '   <td>S</td>';   // 평가등급
-            html += '   <td>'+ list[i].EVAL_SCORE_MNG +'</td>';
+            html += '   <td><input type="text" id="scoreMng'+i+'" value="'+ list[i].EVAL_SCORE_MNG +'" style="width: 35px;" disabled></td>';
             html += '   <td>'+ ( parseFloat(totalScore) + parseFloat(list[i].EVAL_SCORE_MNG)) +'</td>';
             html += '   <td>S</td>';  // 최종등급
             html += '</tr>';
@@ -203,6 +209,48 @@
 
         $('#evalList').append(html);
     }
+
+    function scoreMng(i){
+        var checkbox = document.getElementById('check' + i);
+        var scoreInput = document.getElementById('scoreMng' + i);
+
+        if (checkbox.checked) {
+            scoreInput.disabled = false;
+        } else {
+            scoreInput.disabled = true;
+        }
+    }
+
+    function saveMngScore() {
+        var evalScoreMngArr = [];
+        $("#evalList").find("tr").each(function(index, row) {
+            var evalMemSn = $(row).find("input[type='checkbox']");
+            var scoreMng = $(row).find("input[type='text']");
+
+            if (evalMemSn.is(":checked")) {
+                evalScoreMngArr.push({
+                    evalMemSn: evalMemSn.val(),
+                    scoreMng: scoreMng.val()
+                });
+            }
+        });
+
+        var parameters = {
+            evalScoreMngArr: JSON.stringify(evalScoreMngArr)
+        };
+
+        $.ajax({
+            url: "/evaluation/setSaveMngScore",
+            data: parameters,
+            dataType: "json",
+            success: function(rs) {
+                console.log(rs);
+            }
+        });
+    }
+
+
+
 </script>
 </body>
 </html>

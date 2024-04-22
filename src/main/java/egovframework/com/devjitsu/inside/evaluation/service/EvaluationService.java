@@ -27,4 +27,5 @@ public interface EvaluationService {
     Map<String, Object> getEvaluationOne(Map<String, Object> params);
     List<Map<String, Object>> getEvaluationMngList(Map<String, Object> params);
     List<Map<String, Object>> getEvaluationScoreList(Map<String, Object> params);
+    Map<String, Object> getEvaluationView(Map<String, Object> params);
 }

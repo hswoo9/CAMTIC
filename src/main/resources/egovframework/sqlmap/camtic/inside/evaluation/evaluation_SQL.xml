@@ -611,6 +611,18 @@
           AND (B.EVAL_ITEM_ID IS NULL OR B.EVAL_TYPE = #{rType});
     </select>
 
+    <select id="getEvaluationView" parameterType="map" resultType="map">
+        /*getEvaluationView*/
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_EVALUATION_MEM
+        WHERE
+            eval_sn = #{evalSn}
+        AND
+            EVAL_EMP_SEQ = #{empSeq}
+    </select>
+
     <select id="getUserPersonnelinformOne" parameterType="map" resultType="map">
         /*getUserPersonnelinformOne*/
         <![CDATA[
@@ -771,6 +783,7 @@
              <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
                AND PARENT_DEPT_SEQ = #{pDeptSeq}
                AND DUTY_CODE IN (4,5)
+
              </if>
             <if test='"N".equals(teamLeader) and "Y".equals(deptHeader) and "1".equals(duty)'>
                 AND DUTY_CODE IN (2,3,7)
@@ -783,8 +796,6 @@
             <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and "1".equals(duty)'>
                 AND DUTY_CODE IN (4,5)
             </if>
-
-
         <![CDATA[
             ) Z
         ORDER BY
@@ -807,14 +818,31 @@
         </if>
         <if test='"evalF".equals(evalResultType)'>
             EVAL_F = 'Y',
-            EVAL_F_SCORE = #{totalScore}
+            EVAL_F_SCORE = #{totalScore},
+            EVAL_F_VIEW = #{evalView}
         </if>
         <if test='"evalS".equals(evalResultType)'>
             EVAL_S = 'Y',
-            EVAL_S_SCORE = #{totalScore}
+            EVAL_S_SCORE = #{totalScore},
+            EVAL_S_VIEW = #{evalView}
         </if>
         WHERE
             EVAL_SN = #{evalSn} AND EVAL_EMP_SEQ = #{empSeq}
+    </update>
+
+    <update id="updEvalView" parameterType="map">
+        /*updEvalView*/
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATION_MEM
+        SET
+        <if test='"evalF".equals(evalResultType)'>
+            EVAL_F_VIEW = #{evalView}
+        </if>
+        <if test='"evalS".equals(evalResultType)'>
+            EVAL_S_VIEW = #{evalView}
+        </if>
+        WHERE
+        EVAL_SN = #{evalSn} AND EVAL_EMP_SEQ = #{empSeq}
     </update>
 
     <update id="setSaveMngScore" parameterType="map">

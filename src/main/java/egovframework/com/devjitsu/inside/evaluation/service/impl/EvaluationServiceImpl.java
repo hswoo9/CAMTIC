@@ -55,6 +55,11 @@ public class EvaluationServiceImpl implements EvaluationService {
     }
 
     @Override
+    public Map<String, Object> getEvaluationView(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationView(params);
+    }
+
+    @Override
     public Map<String, Object> getEvaluation(Map<String, Object> params) {
         return evaluationRepository.getEvaluation(params);
     }
@@ -207,6 +212,9 @@ public class EvaluationServiceImpl implements EvaluationService {
             }else{
                 evaluationRepository.delEvalScoreTemSave(evalBody);
                 evaluationRepository.setEvalScoreTemSave(evalBody);
+                if(!params.get("evalResultType").equals("eval")) {
+                    evaluationRepository.updEvalView(params);
+                }
             }
         }
 

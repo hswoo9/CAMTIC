@@ -5,6 +5,10 @@ var evaluationEmpListPop = {
         evaluationEmpListPop.mainGrid();
     },
 
+    gridReload : function (){
+        evaluationEmpListPop.mainGrid();
+    },
+
     mainGrid: function(){
         let dataSource = new kendo.data.DataSource({
             serverPaging: false,
@@ -68,7 +72,7 @@ var evaluationEmpListPop = {
                     return data.list.length;
                 },
             },
-            pageSize: 10,
+            pageSize: 50
         });
 
         $("#mainGrid").kendoGrid({
@@ -76,10 +80,9 @@ var evaluationEmpListPop = {
             sortable: true,
             scrollable: true,
             selectable: "row",
-            height: 450,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 100, "ALL" ],
                 buttonCount : 5
             },
             noRecords: {
@@ -120,17 +123,17 @@ var evaluationEmpListPop = {
                     template: function (e){
                         if($("#key").val() == "1"){ // 1차평가
                             if(e.EVAL_F == "Y"){
-                                return "제출완료";
+                                return "<span style='color: blue'>제출완료</span>";
                             }else{
-                                return "미제출";
+                                return "<span style='color: red'>미제출</span>";
                             }
 
                         }else if($("#key").val() == "2"){ // 2차평가
 
                             if(e.EVAL_S == "Y"){
-                                return "제출완료";
+                                return "<span style='color: blue'>제출완료</span>";
                             }else{
-                                return "미제출";
+                                return "<span style='color: red'>미제출</span>";
                             }
 
                         }else{
