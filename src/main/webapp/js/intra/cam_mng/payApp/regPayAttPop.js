@@ -589,6 +589,8 @@ const regPayAtt = {
                         }
                     }
                 });
+            } else {
+                window.close();
             }
         } else {
 

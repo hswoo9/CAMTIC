@@ -1,9 +1,12 @@
 package egovframework.com.devjitsu.inside.certificate.service.impl;
 
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.certificate.repository.CertificateRepository;
 import egovframework.com.devjitsu.inside.certificate.service.CertificateService;
+import egovframework.com.devjitsu.system.service.MenuManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.security.krb5.internal.PAData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +18,13 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Autowired
     private CertificateRepository certificateRepository;
+
+    @Autowired
+    private CommonRepository commonRepository;
+
+    @Autowired
+    private MenuManagementService menuManagementService;
+
 
     @Override
     public List<Map<String, Object>> getCertificateList(Map<String, Object> params){
@@ -38,6 +48,23 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public void setCertificateInsert(Map<String, Object> params) {
         certificateRepository.setCertificateInsert(params);
+
+
+        params.put("authorityGroupId", "47");
+        List<Map<String, Object>> authUser = menuManagementService.getAuthorityGroupUserList(params);
+        for(Map<String, Object> map : authUser){
+            Map<String, Object> alarm = new HashMap<>();
+
+            alarm.put("sdEmpSeq", params.get("empSeq"));
+            alarm.put("SND_EMP_NM", params.get("regtrName"));
+            alarm.put("SND_DEPT_SEQ", params.get("deptSeq"));
+            alarm.put("SND_DEPT_NM", params.get("regDeptName"));
+            alarm.put("recEmpSeq", map.get("EMP_SEQ"));
+            alarm.put("ntTitle", "[승인요청] 요청자 : " + params.get("regtrName"));
+            alarm.put("ntContent", "[증명서] " + params.get("regDeptName") + " - " + params.get("regtrName"));
+            alarm.put("ntUrl", "/Inside/certificateAdmin.do");
+            commonRepository.setAlarm(alarm);
+        }
     }
 
     @Override

@@ -196,28 +196,53 @@
 
             if(rs.length > 0){
                 for(var i = 0; i < rs.length; i++){
-                    html += '' +
-                        '<li class="list-group-item unread">' +
-                        '<div class="row">' +
-                        '<div class="col-xs-2">' +
-                        '<i class="fa fa-envelope"></i>' +
-                        '</div>' +
-                        '<div class="col-xs-10">' +
-                        '<h5>' +
-                        '<a href="javascript:void(0)" onclick=\"fn_opener(\'' + rs[i].URL + '\', \'' + rs[i].AL_ID + '\')\">' +
-                        rs[i].TITLE +
-                        '</a>' +
-                        '<span style="float:right;margin: 0;font-size: 12px;cursor: pointer" onclick="alarmListDel('+ rs[i].AL_ID +')">X</span>' +
-                        '</h5>' +
-                        '<small>' +
-                        rs[i].REG_DATE +
-                        '</small>' +
-                        '<span>' +
-                        rs[i].CONTENT+
-                        '</span>' +
-                        '</div>' +
-                        '</div>' +
-                        '</li>';
+                    if(rs[i].URL.indexOf("certificate") > -1){
+                        html += '' +
+                            '<li class="list-group-item unread">' +
+                            '<div class="row">' +
+                            '<div class="col-xs-2">' +
+                            '<i class="fa fa-envelope"></i>' +
+                            '</div>' +
+                            '<div class="col-xs-10">' +
+                            '<h5>' +
+                            '<a href="javascript:void(0)" onclick=\"alarmListDel('+ rs[i].AL_ID +');open_in_frame(\'' + rs[i].URL + '\');\">' +
+                            rs[i].TITLE +
+                            '</a>' +
+                            '<span style="float:right;margin: 0;font-size: 12px;cursor: pointer" onclick="alarmListDel('+ rs[i].AL_ID +')">X</span>' +
+                            '</h5>' +
+                            '<small>' +
+                            rs[i].REG_DATE +
+                            '</small>' +
+                            '<span>' +
+                            rs[i].CONTENT+
+                            '</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '</li>';
+                    }else{
+                        html += '' +
+                            '<li class="list-group-item unread">' +
+                            '<div class="row">' +
+                            '<div class="col-xs-2">' +
+                            '<i class="fa fa-envelope"></i>' +
+                            '</div>' +
+                            '<div class="col-xs-10">' +
+                            '<h5>' +
+                            '<a href="javascript:void(0)" onclick=\"fn_opener(\'' + rs[i].URL + '\', \'' + rs[i].AL_ID + '\')\">' +
+                            rs[i].TITLE +
+                            '</a>' +
+                            '<span style="float:right;margin: 0;font-size: 12px;cursor: pointer" onclick="alarmListDel('+ rs[i].AL_ID +')">X</span>' +
+                            '</h5>' +
+                            '<small>' +
+                            rs[i].REG_DATE +
+                            '</small>' +
+                            '<span>' +
+                            rs[i].CONTENT+
+                            '</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '</li>';
+                    }
                 }
                 $("#alarmUl").html(html);
 

@@ -691,7 +691,7 @@
         WHERE
         1=1
             <if test='alId != null and !"".equals(alId)'>
-                AL_ID = #{alId}
+                AND AL_ID = #{alId}
             </if>
             <if test='rcvEmpSeq != null or !"".equals(rcvEmpSeq)'>
                 AND RCV_EMP_SEQ = #{rcvEmpSeq}
