@@ -353,18 +353,12 @@ function fn_busnPay(e, i){
 }
 
 function fn_retirePay(e, c, i){
-    /** 퇴직금 추계액 = (기본급 + 식대 + 수당 + 상여)/12 */
+    /** 퇴직금 추계액 = (기본급 + 수당 + 상여)/12 */
     if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
         return e.RETIRE_PAY;
     }else{
-        var startDt;
-        if(c != null){
-            startDt = new Date($("#startDt" + c).val());
-        }else{
-            startDt = new Date($("#startDt").val());
-        }
-
-        if(isLessOneYear(startDt)){
+        var joinDay = new Date($("#joinDay").val());
+        if(isLessOneYear(joinDay)){
             return 0;
         }else{
             var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
@@ -377,13 +371,7 @@ function fn_retirePay(e, c, i){
 
 function fn_bsPay(e, c, i){
     /** 기준급여 = (기본급 + 수당 + 상여 + 사업자부담분 + 퇴직금추계액) */
-    var startDt;
-    if(c != null){
-        startDt = new Date($("#startDt" + c).val());
-    }else{
-        startDt = new Date($("#startDt").val());
-    }
-
+    var joinDay = new Date($("#joinDay").val())
     /** 기본급 */
     var cnt = Number(popUserPay.uncomma($(i).closest("tr").find("input[name='basicSalary']").val())) +
         Number(popUserPay.uncomma($(i).closest("tr").find("input[name='extraPay']").val())) +
@@ -414,7 +402,7 @@ function fn_bsPay(e, c, i){
     if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
         sum += Number(popUserPay.uncomma(e.RETIRE_PAY));
     }else{
-        if(!isLessOneYear(startDt)){
+        if(!isLessOneYear(joinDay)){
             sum += (Math.floor((cnt/12)/10) * 10);
         }
     }

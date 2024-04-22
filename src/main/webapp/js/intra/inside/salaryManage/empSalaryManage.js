@@ -458,7 +458,7 @@ function insurance4(e){
 
 function insuranceComp(e){
     if(e.BUSN_PAY != null && e.BUSN_PAY != "") {
-        return e.BUSN_PAY;
+        return e.BUSN_PAY.toString().toMoney();
     }else{
         /** 기본급 */
         var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
@@ -483,11 +483,16 @@ function insuranceComp(e){
 
 function retirePay(e){
     if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
-        return  Number(e.RETIRE_PAY).toString().toMoney();;
+        return  Number(e.RETIRE_PAY).toString().toMoney();
     }else{
-        /** 퇴직금 추계액 = (기본급 + 식대 + 수당 + 상여)/12 */
-        var cnt = Number(e.BASIC_SALARY) + Number(e.FOOD_PAY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
-        return (Math.floor((cnt/12)/10) * 10).toString().toMoney();
+        /** 퇴직금 추계액 = (기본급 + 수당 + 상여)/12 */
+        var joinDay = new Date(e.JOIN_DAY);
+        if(isLessOneYear(joinDay)){
+            return 0;
+        }else{
+            var cnt = Number(e.BASIC_SALARY) + Number(e.EXTRA_PAY) + Number(e.BONUS);
+            return (Math.floor((cnt/12)/10) * 10).toString().toMoney();
+        }
     }
 }
 
@@ -517,8 +522,18 @@ function baseSalary(e){
     if(e.RETIRE_PAY != null && e.RETIRE_PAY != ""){
         sum += Number(e.RETIRE_PAY);
     }else{
-        sum += (Math.floor((cnt/12)/10) * 10);
+        var joinDay = new Date(e.JOIN_DAY);
+        if(!isLessOneYear(joinDay)){
+            sum += (Math.floor((cnt/12)/10) * 10);
+        }
     }
 
     return (Math.floor(sum/10) * 10).toString().toMoney();
+}
+
+function isLessOneYear(j){
+    const now = new Date();
+    const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+
+    return j >= oneYearAgo;
 }
