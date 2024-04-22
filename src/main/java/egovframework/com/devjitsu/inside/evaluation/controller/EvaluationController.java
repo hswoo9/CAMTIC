@@ -245,6 +245,20 @@ public class EvaluationController {
         return "jsonView";
     }
 
+    @RequestMapping("/evaluation/setSaveMngScore")
+    public String setSaveMngScore(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        try{
+            evaluationService.setSaveMngScore(params);
+            model.addAttribute("params", params);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+
 
 
     @RequestMapping("/evaluation/setEvaluationMngList")

@@ -282,6 +282,7 @@
             evalSn : $("#evalSn").val(),
             evalEmpSeq : $("#evalEmpSeq").val(),
             empSeq : $("#empSeq").val(),
+            totalScore : $("#totalScore").val(),
             evalResultType : evalResultType,
             save : key
         }

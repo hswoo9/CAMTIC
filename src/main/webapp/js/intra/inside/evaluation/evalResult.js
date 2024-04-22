@@ -11,7 +11,8 @@ var evalResult = {
     },
 
     dataSet: function (){
-        customKendo.fn_textBox(["searchText"]);
+
+        customKendo.fn_textBox(["searchText", "scoreMng"]);
         let searchArr = [
             {text: "이름", value: "1"}
         ]

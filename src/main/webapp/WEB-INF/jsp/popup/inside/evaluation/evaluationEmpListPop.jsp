@@ -33,13 +33,8 @@
                 <h3 class="card-title title_NM">2차 역량평가</h3>
             </c:if>
         </div>
-      <%--  <div class="col-md-12 col-lg-12 dash-left">
-            <div id="mainGrid"></div>
-        </div>--%>
     </div>
 </div>
-
-
 
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel" id="mainCard">
