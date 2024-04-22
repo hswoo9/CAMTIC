@@ -10,6 +10,7 @@
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="empName" value="${loginVO.name}"/>
+<input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="dutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="positionName" value="${loginVO.positionNm}"/>
@@ -31,7 +32,6 @@
                         <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
                     </c:when>
                 </c:choose>
-
             </div>
         </div>
         <form id="subHolidayReqPop" style="padding: 20px 30px;">

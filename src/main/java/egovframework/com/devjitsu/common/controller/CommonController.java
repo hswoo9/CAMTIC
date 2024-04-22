@@ -359,7 +359,7 @@ public class CommonController {
     public String setAlarmTopListDel(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
-        params.put("empSeq", loginVO.getUniqId());
+        params.put("rcvEmpSeq", loginVO.getUniqId());
         commonService.setAlarmTopListDel(params);
 
         return "jsonView";
