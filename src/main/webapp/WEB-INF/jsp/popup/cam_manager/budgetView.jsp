@@ -31,6 +31,9 @@
 <input type="hidden" id="status" value="${params.status}" />
 
 <input type="hidden" id="payAppType" value="${params.payAppType}" />
+
+<input type="hidden" id="g20FrDt" value="${g20Info.FR_DT}" />
+<input type="hidden" id="g20ToDt" value="${g20Info.TO_DT}" />
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
