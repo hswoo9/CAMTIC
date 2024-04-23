@@ -1403,6 +1403,7 @@
             BUDGET_NM = #{budgetNm},
             BUSN_CD = #{busnCd},
             BUSN_EX_CD = #{busnExCd},
+            PAY_EXNP_DE = #{payExnpDe},
             BNK_SN = #{bnkSn},
             BNK_NM = #{bnkNm},
             ACC_NO = #{accNo},
