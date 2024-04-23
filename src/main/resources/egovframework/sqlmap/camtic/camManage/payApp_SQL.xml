@@ -407,7 +407,7 @@
             C.ITEM_COUNT,
             (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
             D.EXNP_STATUS,
-            E.EXNP_DOC_STATUS,
+            IFNULL(E.EXNP_DOC_STATUS, 0) AS EXNP_DOC_STATUS,
             (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS EXNP_DOC_STATUS2,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME
         FROM
@@ -474,7 +474,7 @@
             1=1
             <if test='pageType != "USER" and !"USER".equals(pageType)'>
                 AND
-                    ITEM_COUNT != EXNP_STATUS
+                    ITEM_COUNT != IFNULL(EXNP_STATUS, 0)
             </if>
             <if test='searchDept != null and !"".equals(searchDept)'>
                 AND
@@ -1403,6 +1403,7 @@
             BUDGET_NM = #{budgetNm},
             BUSN_CD = #{busnCd},
             BUSN_EX_CD = #{busnExCd},
+            PAY_EXNP_DE = #{payExnpDe},
             BNK_SN = #{bnkSn},
             BNK_NM = #{bnkNm},
             ACC_NO = #{accNo},
