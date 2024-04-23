@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -211,10 +212,23 @@ public class BustripServiceImpl implements BustripService {
         Map<String, Object> bustripId = bustripRepository.getBustripId(params);
 
         Map<String, Object> map = new HashMap<>();
-        map.put("docId", bustripId.get("bustripDocId"));
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        if(bustripId.containsKey("bustripResDocId")){
+            map.put("docId", bustripId.get("bustripResDocId"));
+            resultList = bustripRepository.getBustripDoc(map);
+        } else {
+            map.put("docId", bustripId.get("bustripDocId"));
+            resultList = bustripRepository.getBustripReqDocFile(map);
+        }
 
-        List<Map<String, Object>> resultList = bustripRepository.getBustripDocFile(map);
+        params.put("hrBizReqId", bustripId.get("hrBizReqId").toString());
+        List<Map<String, Object>> resFileList = bustripRepository.getBustripReqFileInfoR(params);  // 출장신청서&출장결과보고 첨부파일
 
+        if(resFileList != null){
+            for(Map<String, Object> resFile : resFileList){
+                resultList.add(resFile);
+            }
+        }
         return resultList;
     }
 
