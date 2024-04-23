@@ -1130,8 +1130,17 @@ var devInfo = {
             return ;
         }
 
+        if($("#devSn").val() == ""){
+            alert("잘못된 접근입니다. 버전을 선택하여 주십시오."); return;
+        }
+
         var data = {
-            invSn : $("#invSn" + i).val()
+            invSn : $("#invSn" + i).val(),
+            devSn : $("#devSn").val()
+        }
+
+        if(data.invSn != "" && data.invSn != null){
+            data.ck = "Y";
         }
 
         $.ajax({

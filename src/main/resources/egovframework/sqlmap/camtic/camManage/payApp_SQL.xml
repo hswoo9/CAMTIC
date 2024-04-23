@@ -2707,7 +2707,6 @@
             DOC_STATUS IN (100, 101)
         AND
             RE_STAT = 'Y'
-        AND B.BUDGET_SN IS NOT NULL
     </select>
 
     <select id="getWaitPaymentIncpList" parameterType="map" resultType="map">
@@ -2781,6 +2780,15 @@
         SET
             EXNP_STAT = "N",
             EXNP_CNT = 0
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
+
+    <update id="updateExnpDe" parameterType="map">
+        /*updateExnpDe*/
+        UPDATE CAM_MNG.DJ_EXNP
+        SET
+            EXNP_DE = #{exnpDe}
         WHERE
             EXNP_SN = #{exnpSn}
     </update>

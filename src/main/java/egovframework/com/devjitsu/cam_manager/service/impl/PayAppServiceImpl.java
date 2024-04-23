@@ -1829,4 +1829,9 @@ public class PayAppServiceImpl implements PayAppService {
 
         g20Repository.delExnpDocData(g20Map);
     }
+
+    @Override
+    public void updateExnpDe(Map<String, Object> params) {
+        payAppRepository.updateExnpDe(params);
+    }
 }
