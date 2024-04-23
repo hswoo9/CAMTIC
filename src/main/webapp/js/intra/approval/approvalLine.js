@@ -653,7 +653,7 @@ var approvalLine = {
         const payAppSn = draft.global.params.approKey.split("_")[1];
         const result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", { payAppSn: payAppSn });
         const rs = result.map;
-        const pjtResult = customKendo.fn_customAjax("/project/getProjectByPjtCd", { pjtCd: rs.PJT_CD });
+        const pjtResult = customKendo.fn_customAjax("/project/getProjectByPjtCd2", { pjtCd: rs.PJT_CD });
         const pjtMap = pjtResult.map;
         console.log("payApp Map", pjtMap);
         if(pjtMap == null){ return; }

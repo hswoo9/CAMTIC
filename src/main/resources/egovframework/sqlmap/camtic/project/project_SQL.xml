@@ -862,7 +862,7 @@
         WHERE
             PJT_SN = #{pjtSn}
           AND
-            STATUS = 0
+            STATUS IN (0, 30, 40)
     </select>
 
     <select id="getDevPjtVerList" parameterType="map" resultType="map">
@@ -3474,7 +3474,7 @@
         /*getPartRateMemberList*/
         SELECT * FROM CAM_PJT_MNG.DJ_PART_RATE_DET
         WHERE PART_RATE_VER_SN =
-              (SELECT PART_RATE_VER_SN FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE MNG_STAT IN ('C', 'S') AND PJT_SN = #{pjtSn} ORDER BY PART_RATE_VER_SN DESC LIMIT 1)
+              (SELECT PART_RATE_VER_SN FROM CAM_PJT_MNG.DJ_PJT_PART_RATE_VER WHERE MNG_STAT IN ('R', 'C', 'S') AND PJT_SN = #{pjtSn} ORDER BY PART_RATE_VER_SN DESC LIMIT 1)
     </select>
 
     <select id="getPsMemberList" parameterType="map" resultType="map">
@@ -3521,6 +3521,37 @@
             CAM_COMMON.DJ_MENU_AUTHORITY_GRANT MAG
         WHERE
             MAG.AUTHORITY_GROUP_ID = '32'
+    </select>
+
+    <select id="getTeamReaderList" parameterType="map" resultType="map">
+        /*getTeamReaderList*/
+        SELECT
+            C.*
+        FROM CAM_HR.DJ_EMP_INFO A
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO B
+          ON A.DEPT_SEQ = B.DEPT_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO C
+          ON C.DEPT_SEQ = B.DEPT_SEQ
+        WHERE
+            A.EMP_SEQ = (SELECT IFNULL(PM_EMP_SEQ, EMP_SEQ) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+          AND C.DUTY_CODE IN (2,5,4,3,7)
+          AND C.DIVISION != 9999
+        UNION
+        SELECT
+            C.*
+        FROM CAM_HR.DJ_EMP_INFO A
+        LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO B
+          ON A.DEPT_SEQ = B.DEPT_SEQ
+        LEFT JOIN
+            CAM_HR.DJ_EMP_INFO C
+          ON C.DEPT_SEQ = B.PARENT_DEPT_SEQ
+        WHERE
+            A.EMP_SEQ = (SELECT IFNULL(PM_EMP_SEQ, EMP_SEQ) FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{pjtSn})
+          AND C.DUTY_CODE IN (2,5,4,3,7)
+          AND C.DIVISION != 9999
     </select>
 
 

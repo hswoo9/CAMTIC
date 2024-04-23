@@ -57,6 +57,7 @@ public class ManageController {
         model.addAttribute("loginVO", loginVO);
         //model.addAttribute("map", new Gson().toJson(map));
         //model.addAttribute("data", map);
+        model.addAttribute("g20Info", g20Service.getProjectInfo(params));
         model.addAttribute("params", params);
 
         return "popup/cam_manager/budgetView";

@@ -488,6 +488,7 @@ var camPrj = {
         var prml = mem.list.partRateMemberList;
         var pml = mem.list.psMemberList;
         var aml = mem.list.aceMemberList;
+        var trl = mem.list.teamReaderList;
         var flag = false;
 
         if(rs.data.PM_EMP_SEQ == uid || rs.data.REG_EMP_SEQ == uid || rs.data.EMP_SEQ == uid){
@@ -514,6 +515,12 @@ var camPrj = {
 
         for(var i = 0 ; i < aml.length ; i++){
             if(aml[i].EMP_SEQ == uid){
+                flag = true
+            }
+        }
+
+        for(var i = 0 ; i < trl.length ; i++){
+            if(trl[i].EMP_SEQ == uid){
                 flag = true
             }
         }
