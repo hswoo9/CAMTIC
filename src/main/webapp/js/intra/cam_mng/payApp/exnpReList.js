@@ -284,6 +284,10 @@ var exnpReList = {
                     width: 80,
                     field: "R_DT",
                 }, {
+                    title: "요청일자",
+                    width: 80,
+                    field: "REQ_DE",
+                }, {
                     title: "부서명",
                     field: "REG_DEPT_NAME",
                     width: 80
