@@ -93,7 +93,7 @@ var purcMngAppList = {
                         if(amt == 0){
                             return "";
                         } else {
-                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' setting='"+e.SETTING+"' value='"+e.CLAIM_SN+"'/>";
+                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' setting='"+e.SETTING+"' value='"+e.CLAIM_SN+"' crm-sn='"+e.CRM_SN+"'/>";
                         }
                     }
                 }, {
@@ -289,11 +289,20 @@ var purcMngAppList = {
     fn_appUserPaySetting : function (clmSn, e){
         purcMngAppList.global.clmList = [];
         var flag = true;
+        var flag2= true;
+        var crmSn = null;
 
         if(clmSn == 0){
             $("input[name='clm']:checked").each(function(){
                 if($(this).attr("setting") == 0){
                     flag = false;
+                }
+                if (crmSn === null) {
+                    crmSn = $(this).attr("crm-sn");
+                } else {
+                    if (crmSn !== $(this).attr("crm-sn")) {
+                        flag2 = false;
+                    }
                 }
                 purcMngAppList.global.clmList.push($(this).val());
             });
@@ -306,6 +315,11 @@ var purcMngAppList = {
 
         if(!flag){
             alert("지급설정이 완료되지 않았습니다.");
+            return;
+        }
+
+        if(!flag2){
+            alert("같은 업체일 경우에만 다건지출요청이 가능합니다.");
             return;
         }
 
