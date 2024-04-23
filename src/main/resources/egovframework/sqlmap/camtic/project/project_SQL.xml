@@ -1577,6 +1577,15 @@
             DEV_SN = #{devSn}
     </update>
 
+    <update id="updDevInfoAmt" parameterType="map">
+        /*updDevInfoAmt*/
+        UPDATE CAM_PJT_MNG.DJ_PJT_DEV
+        SET
+            INV_AMT = IFNULL((SELECT SUM(EST_TOT_AMT) FROM CAM_PJT_MNG.DJ_PJT_INV WHERE DEV_SN = #{devSn}), 0)
+        WHERE
+            DEV_SN = #{devSn}
+    </update>
+
     <delete id="setDevInfoDel" parameterType="map">
         /*setDevInfoDel*/
         DELETE FROM CAM_PJT_MNG.DJ_PJT_DEV
