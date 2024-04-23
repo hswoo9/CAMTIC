@@ -484,7 +484,7 @@
             CAM_PJT_MNG.DJ_PJT_LECTURE PL
         WHERE PJT_SN = #{pjtSn}
         AND ACTIVE = 'Y'
-        ORDER BY LEC_SN DESC
+        ORDER BY LEC_STR_DE DESC, LEC_SN DESC
     </select>
 
     <select id="getConsultingList" parameterType="map" resultType="map">

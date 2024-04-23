@@ -318,6 +318,7 @@ var regExnpRe = {
             success : function(rs){
                 if(rs.code == 200){
                     alert("반제결의서 승인이 취소되었습니다.");
+                    location.reload()
                 }
             }
         });
@@ -589,7 +590,6 @@ var regExnpRe = {
             alert("사업을 선택해주세요.");
             return ;
         }
-
 
         var url = "/mng/pop/budgetView.do?pjtCd=" + $("#pjtCd").val() + "&idx=" + idx;
 

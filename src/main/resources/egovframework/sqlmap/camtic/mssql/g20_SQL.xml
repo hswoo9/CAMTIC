@@ -544,7 +544,7 @@
             #{DIV_CD2},
             #{DEPT_CD},
             #{EMP_CD},
-            #{TXT_DONE_DT},
+            #{IN_DT},
             #{LOGIN_EMP_CD},
             '';
     </insert>
