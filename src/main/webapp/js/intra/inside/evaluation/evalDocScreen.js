@@ -32,7 +32,8 @@ var evalDocScreen = {
         evalDocScreen.global.saveAjaxData = {
             recruitInfoSn : $("#recruitInfoSn").val(),
             recruitAreaInfoSn : $("#recruitAreaInfoSn").val() == "" ? "All" : $("#recruitAreaInfoSn").val(),
-            searchType : "S"
+            searchType : "S",
+            screenCk : "Y"
         }
 
         var result = customKendo.fn_customAjax("/inside/getApplicationList", evalDocScreen.global.saveAjaxData);
