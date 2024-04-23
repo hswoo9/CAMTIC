@@ -669,7 +669,7 @@ var partRate = {
             partRate.fn_memCalc(p, i);
             // partRate.fn_memCalc('+rs.PAY_BUDGET+','+ i +');
         }else{
-            alert("기준급여 데이터가 존재하지 않습니다.");
+            // alert("기준급여 데이터가 존재하지 않습니다.");
             $("#totAmt" + i).val("0");
             $("#basicSalary" + i).val("0");
             $("#basicSalaryTxt" + i).text("0");
