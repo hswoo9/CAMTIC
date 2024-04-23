@@ -96,12 +96,12 @@ var lectureEdu = {
                     field: "BIRTH",
                     title: "생년월일",
                     width: "6%"
-                }, {
+                }, /*{
                     field: "TEL_NUM",
                     title: "전화번호",
                     width: "6%"
-                }, {
-                    field: "HP_NUM",
+                },*/ {
+                    field: "FAX_NUM",
                     title: "팩스번호",
                     width: "6%"
                 }, {
