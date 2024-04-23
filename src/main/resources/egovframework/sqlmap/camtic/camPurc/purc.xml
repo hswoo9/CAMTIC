@@ -130,50 +130,48 @@
 
     <select id="getMngReqPurcList" parameterType="map" resultType="map">
         /*getMngReqPurcList*/
-        SELECT
-            MP.PURC_SN,
-            DI.DOC_NO,
-            DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
-            EI.EMP_NAME_KR,
-            MP.PURC_REQ_PURPOSE,
-            DP.BUSN_CLASS,
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = MP.PURC_SN AND CLAIM_STAT = 'N')  AS CP_CNT,
-            COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
-            MP.STATUS,
-            MC.STATUS AS MC_STATUS,
-            MC.DOC_ID AS MC_DOC_ID,
-            MDI.APPRO_KEY AS MC_APPRO_KEY,
-            MDI.DOC_MENU_CD AS MC_DOC_MENU_CD,
-            MP.INSPECT_YN,
-            MP.INSPECT_STATUS
-        FROM
-            CAM_MNG.DJ_MNG_PURC MP
-        JOIN
-            CAM_HR.DJ_EMP_INFO EI
-        ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
-        JOIN
-            (SELECT * FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE CLAIM_STAT = 'N') MPI
-        ON MP.PURC_SN = MPI.PURC_SN
-        LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO DI
-        ON
-            MP.DOC_ID = DI.DOC_ID
-        LEFT JOIN
-            CAM_PJT_MNG.DJ_PROJECT DP
-        ON
-            MP.PJT_SN = DP.PJT_SN
-        LEFT JOIN
-            CAM_MNG.DJ_PURC_CLAIM MC
-        ON MP.PURC_SN = MC.PURC_SN
-        LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO MDI
-        ON MC.DOC_ID = MDI.DOC_ID
-
+        SELECT SS.* FROM (
+            SELECT
+                MP.PURC_SN,
+                DI.DOC_NO,
+                DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
+                EI.EMP_NAME_KR,
+                MP.PURC_REQ_PURPOSE,
+                DP.BUSN_CLASS,
+                (SELECT COUNT(*) FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = MP.PURC_SN AND CLAIM_STAT = 'N') AS CP_CNT,
+                COUNT(CASE WHEN MPI.STATUS = 'R' THEN 1 END) AS RP_CNT,
+                MP.STATUS,
+                MC.STATUS AS MC_STATUS,
+                MC.DOC_ID AS MC_DOC_ID,
+                MDI.APPRO_KEY AS MC_APPRO_KEY,
+                MDI.DOC_MENU_CD AS MC_DOC_MENU_CD,
+                MP.INSPECT_YN,
+                MP.INSPECT_STATUS
+            FROM
+                CAM_MNG.DJ_MNG_PURC MP
+            JOIN
+                CAM_HR.DJ_EMP_INFO EI
+            ON MP.PURC_REQ_EMP_SEQ = EI.EMP_SEQ
+            JOIN
+                (SELECT * FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE CLAIM_STAT = 'N') MPI
+            ON MP.PURC_SN = MPI.PURC_SN
+            LEFT JOIN
+                DJ_CAMTIC.A_DOC_INFO DI
+            ON MP.DOC_ID = DI.DOC_ID
+            LEFT JOIN
+                CAM_PJT_MNG.DJ_PROJECT DP
+            ON MP.PJT_SN = DP.PJT_SN
+            LEFT JOIN
+                CAM_MNG.DJ_PURC_CLAIM MC
+            ON MP.PURC_SN = MC.PURC_SN
+            LEFT JOIN
+                DJ_CAMTIC.A_DOC_INFO MDI
+            ON MC.DOC_ID = MDI.DOC_ID
         WHERE 1=1
         AND
             MP.DOC_STATUS = 100 AND (MDI.APPRO_KEY IS NULL OR MPI.PURC_SN IS NOT NULL)
             <if test='searchDept != null and !"".equals(searchDept)'>
-                AND MP.PURC_REQ_EMP_SEQ = #{empSeq}
+            AND  MP.PURC_REQ_EMP_SEQ = #{empSeq}
             </if>
             <choose>
                 <when test='busnClass != null and !"".equals(busnClass) and "C".equals(busnClass)'>
@@ -205,9 +203,9 @@
                 <otherwise>
                     AND
                     (
-                    DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
-                    MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
-                    MPI.PURC_ITEM_NAME LIKE CONCAT('%',#{searchValue},'%')
+                        DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
+                        MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
+                        MPI.PURC_ITEM_NAME LIKE CONCAT('%',#{searchValue},'%')
                     )
                 </otherwise>
             </choose>
@@ -224,6 +222,8 @@
             </choose>
             GROUP BY MP.PURC_SN
             ORDER BY MP.PURC_SN DESC
+        ) SS
+        WHERE SS.CP_CNT != SS.RP_CNT
     </select>
 
     <insert id="setPurcReq" parameterType="map">
