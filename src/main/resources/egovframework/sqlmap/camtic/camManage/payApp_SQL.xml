@@ -2030,6 +2030,7 @@
     </select>
 
     <select id="getPayAppDocFileList" parameterType="map" resultType="map">
+        /*getExnpDocFileList*/
         SELECT
             *
         FROM
@@ -2037,6 +2038,16 @@
         WHERE 1=1
         AND FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'payApp' AND DOC_ID IN (select doc_id from cam_mng.dj_pay_app where pay_app_sn = #{payAppSn}))
         OR FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'exnp' AND DOC_ID = #{exnpDocId})
+    </select>
+
+    <select id="getPayAppDocFileList2" parameterType="map" resultType="map">
+        /*getPayAppDocFileList2*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE 1=1
+            AND FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'payApp' AND DOC_ID IN (select doc_id from cam_mng.dj_pay_app where pay_app_sn = #{payAppSn}))
     </select>
 
     <delete id="delPayAppFileList" parameterType="map">
