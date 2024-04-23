@@ -109,7 +109,7 @@ var purcInfo = {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
-                        return e.PURC_REQ_PURPOSE
+                        return '<input type="hidden" id="reStat" value="'+e.RE_STATUS+'" />'+ e.PURC_REQ_PURPOSE
                     },
                     footerTemplate: function(){
                         const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
@@ -273,6 +273,10 @@ var purcInfo = {
                     title: "결재상태",
                     width: 80,
                     template : function(e){
+                        if(e.RE_STATUS == 'R'){
+                            return '반려';
+                        }
+
                         if(e.ORG_YN == 'N'){
                             if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
                                 return '작성중';
@@ -293,6 +297,10 @@ var purcInfo = {
                     title: "상태",
                     width: 120,
                     template : function(e){
+                        if(e.RE_STATUS == 'R'){
+                            return '반려';
+                        }
+
                         var status = "";
                         if(e.ORG_YN == 'N'){
                             /** 구매요청서 */
@@ -677,6 +685,16 @@ var purcInfo = {
 
     onDataBound : function(){
         purcSum = 0;
+
+        var grid = this;
+        grid.tbody.find("tr").each(function(){
+            var delYn = $(this).find("input[name='reStat']").val();
+
+            if(delYn == "R"){
+                $(this).css('text-decoration', 'line-through');
+                $(this).css('color', 'red');
+            }
+        });
     },
 
     fn_inspectionPopup : function(key){
