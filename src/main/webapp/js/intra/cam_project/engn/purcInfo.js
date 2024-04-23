@@ -109,7 +109,7 @@ var purcInfo = {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
-                        return '<input type="hidden" id="reStat" value="'+e.RE_STATUS+'" />'+ e.PURC_REQ_PURPOSE
+                        return '<input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />'+ e.PURC_REQ_PURPOSE
                     },
                     footerTemplate: function(){
                         const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val()}).list;
