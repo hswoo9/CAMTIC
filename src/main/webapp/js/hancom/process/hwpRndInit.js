@@ -239,7 +239,7 @@ var rndInit = {
             const map = purcList[i];
             invSum += Number(map.EST_TOT_AMT);
         }
-        hwpDocCtrl.putFieldText('AMT1', pjtAmt);
+        hwpDocCtrl.putFieldText('AMT1', String(comma(pjtAmt)));
         hwpDocCtrl.putFieldText('INV_AMT', String(fn_numberWithCommas(invSum)));
         let invPer = (invSum / pjtAmt * 100);
         hwpDocCtrl.putFieldText('INV_PER2', pjtPer(invPer, 1));
@@ -259,6 +259,7 @@ var rndInit = {
             let delvAmt = 0;
             delvAmt = pjtAmt - team.TM_AMT;
 
+            hwpDocCtrl.putFieldText('AMT2', String(comma(pjtAmt)));
             /** 수부부서 매출*/
             hwpDocCtrl.putFieldText('AMT1', delvAmt == 0 ? "0" : fn_numberWithCommas(delvAmt));
             let delvPer = (delvAmt / pjtAmt * 100);
@@ -411,7 +412,7 @@ var rndInit = {
                 delvAmt = map.PJT_AMT - team.TM_AMT;
 
                 /** 수부부서 매출*/
-                hwpDocCtrl.putFieldText('PJT_AMT', (map.PJT_AMT) == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
+                hwpDocCtrl.putFieldText('AMT2', (map.PJT_AMT) == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
                 hwpDocCtrl.putFieldText('AMT1', delvAmt == 0 ? "0" : fn_numberWithCommas(delvAmt));
                 let delvPer = (delvAmt / map.PJT_AMT * 100);
 
