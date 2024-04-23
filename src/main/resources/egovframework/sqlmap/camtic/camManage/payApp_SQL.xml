@@ -497,6 +497,7 @@
             A.PJT_CD = #{mgtSeq}
         AND A.DOC_STATUS = 100
         AND ((C.PAY_APP_TYPE IN (4, 5, 6) AND C.DOC_STATUS != 100) OR (C.PAY_APP_TYPE IN (1, 2, 3) AND C.RE_STAT != 'Y') OR C.PAY_APP_TYPE IS NULL)
+        AND B.BUDGET_SN IS NOT NULL
     </select>
 
     <update id="updatePayAppApprStat" parameterType="map">
@@ -2043,6 +2044,7 @@
     </select>
 
     <select id="getPayAppDocFileList" parameterType="map" resultType="map">
+        /*getExnpDocFileList*/
         SELECT
             *
         FROM
@@ -2050,6 +2052,16 @@
         WHERE 1=1
         AND FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'payApp' AND DOC_ID IN (select doc_id from cam_mng.dj_pay_app where pay_app_sn = #{payAppSn}))
         OR FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'exnp' AND DOC_ID = #{exnpDocId})
+    </select>
+
+    <select id="getPayAppDocFileList2" parameterType="map" resultType="map">
+        /*getPayAppDocFileList2*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE 1=1
+            AND FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'payApp' AND DOC_ID IN (select doc_id from cam_mng.dj_pay_app where pay_app_sn = #{payAppSn}))
     </select>
 
     <delete id="delPayAppFileList" parameterType="map">
@@ -2669,6 +2681,7 @@
             PJT_CD = #{mgtSeq}
         AND
             DOC_STATUS IN (100, 101)
+        AND B.BUDGET_SN IS NOT NULL
     </select>
 
     <select id="getApprovePaymentList" parameterType="map" resultType="map">
@@ -2694,6 +2707,7 @@
             DOC_STATUS IN (100, 101)
         AND
             RE_STAT = 'Y'
+        AND B.BUDGET_SN IS NOT NULL
     </select>
 
     <select id="getWaitPaymentIncpList" parameterType="map" resultType="map">
