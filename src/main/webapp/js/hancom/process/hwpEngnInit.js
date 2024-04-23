@@ -283,6 +283,9 @@ var engnInit = {
         /** 구매/비용내역 */
         const resPurcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", data);
 
+        const resResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
+        const resMap = resResult.result.map;
+
         /** 1. 사업정보 */
         engnInit.delvSet();
         /** 결과보고는 결과보고 탭에 작성한 날짜 */

@@ -52,6 +52,17 @@ var payInit = {
         console.log("pjtMap", pjtMap);
 
         if(pjtMap == null) {
+            /** 2. 지급신청서 데이터 */
+            let htmlPay = "";
+            if(rs.PAY_APP_TYPE != "2"){
+                htmlPay = payInit.htmlDocuPay1(ls, rs);
+            }else{
+                htmlPay = payInit.htmlDocuPay2(ls, rs);
+            }
+            hwpDocCtrl.putFieldText("PAY_HTML", " ");
+            hwpDocCtrl.moveToField("PAY_HTML", true, true, false);
+            hwpDocCtrl.setTextFile(htmlPay, "html","insertfile");
+
             return;
         }else{
             /** 사업명 */
@@ -169,6 +180,92 @@ var payInit = {
         html += '                   <td colspan="3" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;">'+ fn_numberWithCommas(sum) +'</p></td>';
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
         html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+        html += '               </tr>';
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
+    },
+
+    htmlDocuPay1: function(list, rs){
+        let html = '';
+        html += '<table style="font-family:휴먼명조;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="5.5" style="border-collapse: collapse; margin: 0px;">';
+        html += '               <tr id="rowType">';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFDD; text-align:center;"><p style="font-size:14px; font-weight: 500"><b>지&nbsp;&nbsp;&nbsp;급&nbsp;&nbsp;&nbsp;처</b></p></td>';
+        html += '               </tr>';
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 118px;"><p style="font-size:12px;"><b>상호</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 82px;"><p style="font-size:12px;"><b>요청액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 134px;"><p style="font-size:12px;"><b>은행명</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 134px;"><p style="font-size:12px;"><b>지급계좌</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 92px;"><p style="font-size:12px;"><b>예금주</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 83px;"><p style="font-size:12px;"><b>비고</b></p></td>';
+        html += '               </tr>';
+        let sum = 0;
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+            html += '               <tr>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; padding: 3px"><p style="font-size:12px;">'+ map.CRM_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.TOT_COST_COMMA +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_BNK_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_ACC_NO +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_ACC_HOLDER +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.ETC +'</p></td>';
+            html += '               </tr>';
+            sum += Number(map.TOT_COST);
+        }
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 113px;"><p style="font-size:12px;"><b>합계</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ fn_numberWithCommas(sum) +'</p></td>';
+        html += '                   <td colspan="4" style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+        html += '               </tr>';
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        return html.replaceAll("\n", "<br>");
+    },
+
+    htmlDocuPay2: function(list, rs){
+        let html = '';
+        html += '<table style="font-family:휴먼명조;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="5.5" style="border-collapse: collapse; margin: 0px;">';
+        html += '               <tr id="rowType">';
+        html += '                   <td colspan="6" style="height:30px;background-color:#FFFFDD; text-align:center;"><p style="font-size:14px; font-weight: 500"><b>여&nbsp;&nbsp;&nbsp;입&nbsp;&nbsp;&nbsp;처</b></p></td>';
+        html += '               </tr>';
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 118px;"><p style="font-size:12px;"><b>상호</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 82px;"><p style="font-size:12px;"><b>신청액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 134px;"><p style="font-size:12px;"><b>은행명</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 134px;"><p style="font-size:12px;"><b>지급계좌</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 92px;"><p style="font-size:12px;"><b>예금주</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 83px;"><p style="font-size:12px;"><b>비고</b></p></td>';
+        html += '               </tr>';
+        let sum = 0;
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+            html += '               <tr>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; padding: 3px"><p style="font-size:12px;">'+ map.CRM_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.TOT_COST_COMMA +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_BNK_NM +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_ACC_NO +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_ACC_HOLDER +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.ETC +'</p></td>';
+            html += '               </tr>';
+            sum += Number(map.TOT_COST);
+        }
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 113px;"><p style="font-size:12px;"><b>합계</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ fn_numberWithCommas(sum) +'</p></td>';
+        html += '                   <td colspan="4" style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
         html += '               </tr>';
         html += '           </table>';
         html += '       </td>';
