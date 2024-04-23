@@ -1777,7 +1777,8 @@
             PA.DOC_STATUS AS PAY_DOC_STATUS,
             B.REG_DATE,
             A.CRM_NM,
-            'N' AS ORG_YN
+            'N' AS ORG_YN,
+            (SELECT STATUS FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1) AS RE_STATUS
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
         LEFT JOIN
@@ -1818,7 +1819,8 @@
             PA.DOC_STATUS AS PAY_DOC_STATUS,
             B.REG_DATE,
             (SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = (SELECT CRM_SN FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1)) AS CRM_NM,
-            'N' AS ORG_YN
+            'N' AS ORG_YN,
+            (SELECT STATUS FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1) AS RE_STATUS
         FROM
             CAM_MNG.DJ_MNG_PURC B
         LEFT JOIN
@@ -1857,7 +1859,8 @@
             '' AS PAY_DOC_STATUS,
             DATE_FORMAT(A.JReqDate, '%Y-%m-%d') as REG_DATE,
             '' AS CRM_NM,
-            'Y' AS ORG_YN
+            'Y' AS ORG_YN,
+            ''
         FROM
             DJ_CAMTIC.JPRICEINFO A
         LEFT JOIN
@@ -1899,7 +1902,8 @@
             PA.DOC_STATUS AS PAY_DOC_STATUS,
             B.REG_DATE,
             A.CRM_NM,
-            A.PJT_NM
+            A.PJT_NM,
+            (SELECT STATUS FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1) AS RE_STATUS
         FROM
             CAM_MNG.DJ_PURC_CLAIM A
         LEFT JOIN
@@ -1940,7 +1944,8 @@
             PA.DOC_STATUS AS PAY_DOC_STATUS,
             B.REG_DATE,
             '',
-            ''
+            '',
+            (SELECT STATUS FROM CAM_MNG.DJ_MNG_PURC_ITEM WHERE PURC_SN = B.PURC_SN LIMIT 1) AS RE_STATUS
         FROM
             CAM_MNG.DJ_MNG_PURC B
         LEFT JOIN
