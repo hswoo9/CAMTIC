@@ -174,7 +174,7 @@ var regExnp = {
     },
 
     dataSet : function (){
-        console.log("dataSet");
+        console.log("reqExnpPop.dataSet");
 
         var data = {
             exnpSn : $("#exnpSn").val(),

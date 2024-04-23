@@ -1813,4 +1813,9 @@ public class PayAppServiceImpl implements PayAppService {
         payAppRepository.delExnpDetData(params);
     }
 
+    @Override
+    public void updateExnpDe(Map<String, Object> params) {
+        payAppRepository.updateExnpDe(params);
+    }
+
 }

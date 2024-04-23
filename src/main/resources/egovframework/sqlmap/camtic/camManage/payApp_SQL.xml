@@ -2747,4 +2747,13 @@
             DOC_STATUS IN (100, 101)
           AND A.PAY_APP_TYPE = '3'
     </select>
+
+    <update id="updateExnpDe" parameterType="map">
+        /*updateExnpDe*/
+        UPDATE CAM_MNG.DJ_EXNP
+        SET
+            EXNP_DE = #{exnpDe}
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
 </mapper>

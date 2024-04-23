@@ -37,9 +37,11 @@
                 <colgroup>
                     <col width="10%">
                     <col width="10%">
-                    <col width="25%">
+                    <col width="30%">
                     <col width="10%">
-                    <col width="35%">
+                    <col width="15%">
+                    <col width="10%">
+                    <col width="15%">
                 </colgroup>
                 <thead>
                 <tr>
@@ -49,20 +51,24 @@
                         <span id="payAppType"></span>
                     </td>
                     <th scope="row" class="text-center th-color">결의일자</th>
-                    <td colspan="2">
+                    <td>
                         <div id="exnpDe" style="margin-top: 3px"></div>
+                    </td>
+                    <th scope="row" class="text-center th-color">지출일자</th>
+                    <td>
+                        <input type="text" id="inDt" style="width: 120px;">
                     </td>
                 </tr>
                 <tr id="project">
                     <th scope="row" class="text-center th-color">사업명</th>
                     <td colspan="2">
                         <span>
-                            <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 80%;">
+                            <input type="text" id="pjtNm" disabled value="${pjtData.PJT_NM}"  style="width: 100%;">
                             <input type="hidden" id="pjtSn" value="${pjtData.PJT_SN}" />
                         </span>
                     </td>
                     <th scope="row" class="text-center th-color">결의자/부서</th>
-                    <td colspan="2">
+                    <td colspan="3">
                         <span>
                             <input type="text" id="exnpEmpNm" disabled value="${loginVO.name}"  style="width: 20%;">
                             <input type="hidden" id="g20EmpCd" value="${g20.EMP_CD}" />
@@ -75,45 +81,45 @@
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">사업장</th>
-                    <td colspan="4">
+                    <td colspan="6">
                         <input type="text" id="busnCd" style="width: 15%;" disabled>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">적요</th>
-                    <td colspan="4">
-                        <input type="text" id="exnpBriefs" style="width: 90%;" disabled>
+                    <td colspan="6">
+                        <input type="text" id="exnpBriefs" style="width: 100%;" disabled>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">추가적요<br>(G20연동 안됨)</th>
-                    <td colspan="4">
+                    <td colspan="6">
                         <textarea type="text" id="addExnpBriefs" style="width: 100%;"></textarea>
                     </td>
                 </tr>
                 <tr>
                     <th rowspan="3" scope="row" class="text-center th-color">출금계좌</th>
                     <th style="width: 10%">계좌명</th>
-                    <td colspan="3">
+                    <td colspan="5">
                         <input type="text" id="accNm" disabled style="width: 60%;">
                         <input type="hidden" id="bnkSn">
                     </td>
                 </tr>
                 <tr>
                     <th>계좌번호</th>
-                    <td colspan="3">
+                    <td colspan="6">
                         <input type="text" id="accNo" disabled style="width: 60%;">
                     </td>
                 </tr>
                 <tr>
                     <th>은행명</th>
-                    <td colspan="3">
+                    <td colspan="6">
                         <input type="text" id="bnkNm" disabled style="width: 60%;">
                     </td>
                 </tr>
                 <tr>
                     <th scope="row" class="text-center th-color">첨부파일</th>
-                    <td colspan="4">
+                    <td colspan="6">
                         <div>
                             <button type="button" class="k-button k-button-solid-base" id="attBtn" onclick="regExnpRe.fn_regPayAttPop()">첨부</button>
                             <span id="fileText"></span>

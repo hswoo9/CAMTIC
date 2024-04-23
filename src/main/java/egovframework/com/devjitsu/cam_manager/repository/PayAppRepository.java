@@ -514,4 +514,8 @@ public class PayAppRepository extends AbstractDAO {
     public List<Map<String, Object>> getReturnPaymentList(Map<String, Object> params) {
         return selectList("payApp.getReturnPaymentList", params);
     }
+
+    public void updateExnpDe(Map<String, Object> params) {
+        update("payApp.updateExnpDe", params);
+    }
 }

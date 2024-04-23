@@ -13,6 +13,8 @@ var regExnpRe = {
     },
 
     fn_defaultScript : function (){
+        customKendo.fn_datePicker("inDt", '', "yyyy-MM-dd", new Date());
+
         customKendo.fn_textBox(["pjtNm", "budgetNm", "appTitle", "accNm", "accNo", "bnkNm"
                                 ,"exnpEmpNm", "exnpDeptNm", "exnpBriefs"]);
 
@@ -87,8 +89,11 @@ var regExnpRe = {
     payAppBtnSet: function (data){
         let buttonHtml = "";
         if(data.RE_STAT == "N"){
+            buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_updateExnpDe()">수정</button>';
             if((data.EVID_TYPE == "1" || data.EVID_TYPE == "2" || data.EVID_TYPE == "3")){
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_save()">반제결의서 승인</button>';
+            } else {
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_save()">결의서 승인</button>';
             }
         } else{
             buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
@@ -107,7 +112,7 @@ var regExnpRe = {
     },
 
     dataSet : function (){
-        console.log("dataSet");
+        console.log("regExnpRePop.dataSet");
         var data = {
             exnpSn : $("#exnpSn").val(),
             payAppSn : $("#payAppSn").val(),
@@ -155,6 +160,7 @@ var regExnpRe = {
         } else {
             $("#exnpDe").text(rs.DT3);
         }
+        $("#inDt").val(rs.EXNP_DE);
 
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
@@ -465,6 +471,21 @@ var regExnpRe = {
                 window.close();
             }else{
                 alert("ERP 연동 중 오류가 발생하였습니다.");
+            }
+        }
+    },
+
+    fn_updateExnpDe : function(){
+        var data = {
+            exnpSn : $("#exnpSn").val(),
+            exnpDe : $("#inDt").val(),
+        }
+
+        const result = customKendo.fn_customAjax("/pay/updateExnpDe", data);
+        if(result.flag){
+            if(result.code == 200){
+                alert("수정되었습니다.");
+                window.location.reload();
             }
         }
     },

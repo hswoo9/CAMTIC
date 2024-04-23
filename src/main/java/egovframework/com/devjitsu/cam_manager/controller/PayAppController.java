@@ -1083,4 +1083,17 @@ public class PayAppController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/pay/updateExnpDe")
+    public String updateExnpDe(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            payAppService.updateExnpDe(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }
