@@ -285,11 +285,11 @@ var exnpReList = {
                     field: "R_DT",
                 }, {
                     title: "부서명",
-                    field: "REG_EMP_NAME",
+                    field: "REG_DEPT_NAME",
                     width: 80
                 }, {
                     title: "작성자",
-                    field: "REG_DEPT_NAME",
+                    field: "REG_EMP_NAME",
                     width: 80
                 },
             ],
