@@ -501,6 +501,19 @@ public class ApprovalServiceImpl implements ApprovalService {
 //                data.put("docId", params.get("docId"));
 //                returnMap.add(approvalRepository.getDocAttachmentList(data).get(0));
 //            }
+            params.put("exnpDocId", params.get("docId"));
+            if(payAppRepository.getPayAppDocFileList2(params) != null){
+                for(Map<String, Object> tempMap : payAppRepository.getPayAppDocFileList2(params)){
+                    tempMap.put("ZIP_NAME", tempMap.get("file_no"));
+                    tempMap.put("FILE_NO", tempMap.get("file_no"));
+                    tempMap.put("filename", tempMap.get("file_org_name") + "." + tempMap.get("file_ext"));
+                    tempMap.put("FILE_EXT", tempMap.get("file_ext"));
+                    tempMap.put("FILE_SIZE", tempMap.get("file_size"));
+                    tempMap.put("fileUUID", tempMap.get("file_uuid"));
+                    tempMap.put("FILE_DOWN_PATH", tempMap.get("file_path"));
+                    returnMap.add(tempMap);
+                }
+            }
         } else if("claim".equals(params.get("type"))) {
             Map<String, Object> map = purcRepository.getPurcClaimData(params);
 

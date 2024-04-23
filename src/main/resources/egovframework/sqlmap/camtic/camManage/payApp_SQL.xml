@@ -497,6 +497,7 @@
             A.PJT_CD = #{mgtSeq}
         AND A.DOC_STATUS = 100
         AND ((C.PAY_APP_TYPE IN (4, 5, 6) AND C.DOC_STATUS != 100) OR (C.PAY_APP_TYPE IN (1, 2, 3) AND C.RE_STAT != 'Y') OR C.PAY_APP_TYPE IS NULL)
+        AND B.BUDGET_SN IS NOT NULL
     </select>
 
     <update id="updatePayAppApprStat" parameterType="map">
@@ -774,8 +775,11 @@
         UPDATE CAM_MNG.DJ_EXNP_DET
         SET
             EXNP_STAT = "Y",
-            EXNP_CNT = #{USER_SQ},
-            PMR_NO = #{PMR_NO}
+            EXNP_CNT = #{USER_SQ}
+            <if test='DOCU_FG != "99" and !"99".equals(DOCU_FG)'>
+                ,
+                PMR_NO = #{PMR_NO}
+            </if>
         WHERE
             EXNP_DET_SN = #{EXNP_DET_SN}
     </update>
@@ -1134,6 +1138,16 @@
         SET
             RE_STAT = "Y",
             REQ_END_DE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d')
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
+
+    <update id="resolutionExnpReStatus" parameterType="map">
+        /*resolutionExnpStatus*/
+        UPDATE
+            CAM_MNG.DJ_EXNP
+        SET
+            RE_STAT = "N"
         WHERE
             EXNP_SN = #{exnpSn}
     </update>
@@ -2030,6 +2044,7 @@
     </select>
 
     <select id="getPayAppDocFileList" parameterType="map" resultType="map">
+        /*getExnpDocFileList*/
         SELECT
             *
         FROM
@@ -2037,6 +2052,16 @@
         WHERE 1=1
         AND FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'payApp' AND DOC_ID IN (select doc_id from cam_mng.dj_pay_app where pay_app_sn = #{payAppSn}))
         OR FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'exnp' AND DOC_ID = #{exnpDocId})
+    </select>
+
+    <select id="getPayAppDocFileList2" parameterType="map" resultType="map">
+        /*getPayAppDocFileList2*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE 1=1
+            AND FILE_NO IN (SELECT FILE_NO FROM CAM_COMMON.DJ_FILE_INFO WHERE FILE_CD = 'payApp' AND DOC_ID IN (select doc_id from cam_mng.dj_pay_app where pay_app_sn = #{payAppSn}))
     </select>
 
     <delete id="delPayAppFileList" parameterType="map">
@@ -2656,6 +2681,7 @@
             PJT_CD = #{mgtSeq}
         AND
             DOC_STATUS IN (100, 101)
+        AND B.BUDGET_SN IS NOT NULL
     </select>
 
     <select id="getApprovePaymentList" parameterType="map" resultType="map">
@@ -2736,4 +2762,34 @@
             DOC_STATUS IN (100, 101)
           AND A.PAY_APP_TYPE = '3'
     </select>
+
+    <select id="getExnpDetOne" parameterType="map" resultType="map">
+        /*getExnpDetOne*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_EXNP_DET
+        WHERE
+            EXNP_SN = #{exnpSn}
+        LIMIT 1
+    </select>
+
+    <update id="updExnpReStat" parameterType="map">
+        /*updExnpReStat*/
+        UPDATE CAM_MNG.DJ_EXNP_DET
+        SET
+            EXNP_STAT = "N",
+            EXNP_CNT = 0
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
+
+    <update id="updateExnpDe" parameterType="map">
+        /*updateExnpDe*/
+        UPDATE CAM_MNG.DJ_EXNP
+        SET
+            EXNP_DE = #{exnpDe}
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
 </mapper>

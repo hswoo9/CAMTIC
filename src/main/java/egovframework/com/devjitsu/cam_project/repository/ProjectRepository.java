@@ -343,6 +343,10 @@ public class ProjectRepository extends AbstractDAO {
         update("project.updDevInfo", params);
     }
 
+    public void updDevInfoAmt(Map<String, Object> params) {
+        update("project.updDevInfoAmt", params);
+    }
+
     public void setDevInfoDel(Map<String, Object> params) {
         update("project.setDevInfoDel", params);
     }

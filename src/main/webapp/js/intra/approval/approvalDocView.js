@@ -106,7 +106,7 @@ var docView = {
         }
 
         var result = customKendo.fn_customAjax("/approval/getDocSecurityIndexOfUserChk.do", docView.global.searchAjaxData);
-        if(!result.confirm && (docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL != 'Y') && docView.global.params.vType != 'M'){
+        if(!result.confirm && (docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL != 'Y') && docView.global.params.vType != 'M' && loginVO.uniqId != "1"){
             alert("열람 권한이 없습니다.");
             window.close();
             return;
@@ -283,6 +283,7 @@ var docView = {
         if(docView.global.rs.docInfo.DOC_MENU_CD == "exnp"){
             docView.global.searchAjaxData.exnpSn = docView.global.rs.docInfo.APPRO_KEY.split("_")[docView.global.rs.docInfo.APPRO_KEY.split("_").length - 1];
             docView.global.searchAjaxData.type = "exnp";
+            docView.global.searchAjaxData.docId = docView.global.rs.docInfo.DOC_ID;
         }
 
         if(docView.global.rs.docInfo.DOC_MENU_CD == "campus"){

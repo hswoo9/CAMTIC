@@ -457,6 +457,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void delInvest(Map<String, Object> params) {
         projectRepository.delInvest(params);
+        if(params.containsKey("ck")){
+            projectRepository.updDevInfoAmt(params);
+        }
     }
 
     @Override

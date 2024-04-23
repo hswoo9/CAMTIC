@@ -1908,6 +1908,18 @@
           AND FR_KEY IS NULL
     </select>
 
+    <select id="getBustripReqDocFile" parameterType="map" resultType="map">
+        /* getBustripReqDocFile */
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD IN ('bustrip')
+          AND DOC_ID IN (${docId})
+          AND FR_KEY IS NULL
+    </select>
+
     <insert id="setBustripDocFileCopy" parameterType="map">
         /* setBustripDocFileCopy */
         INSERT INTO CAM_COMMON.DJ_FILE_INFO

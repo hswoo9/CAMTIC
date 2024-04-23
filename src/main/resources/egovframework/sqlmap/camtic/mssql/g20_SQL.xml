@@ -778,4 +778,22 @@
         SELECT COUNT(*) FROM ZN_SAUTOABDOCU WHERE PMR_NO = #{PMR_NO};
     </select>
 
+    <select id="getExnpDocData" parameterType="map" resultType="map">
+        /*getExnpDocData*/
+        SELECT IN_DT, PMR_NO FROM ZN_SAUTOABDOCU WHERE RPMR_NO = #{PMR_NO}
+    </select>
+
+    <delete id="execUspAncj080Delete00" parameterType="map">
+        /*execUspAncj080Delete00*/
+        EXEC USP_ANCJ080_DELETE_00 '1212', #{IN_DT}, #{PMR_NO}, '', ''
+    </delete>
+
+    <delete id="delExnpDocData" parameterType="map">
+        DELETE
+        FROM
+            ZN_SAUTOABDOCU
+        WHERE
+            PMR_NO = #{PMR_NO}
+    </delete>
+
 </mapper>

@@ -642,7 +642,13 @@ var hwpDocCtrl = {
             if (purcSn == null || purcSn == undefined || purcSn == "") { alert(errorText); return; }
             purcInit.purcInit(purcSn, "reDraft");
 
-        }else if(menuCd == "claim") {
+        } else if(menuCd == "exnp") {
+
+            const exnpSn = pk;
+            if (exnpSn == null || exnpSn == undefined || exnpSn == "") { alert(errorText); return; }
+            hwpInit.exnpInit(exnpSn, "reDraft");
+
+        } else if(menuCd == "claim") {
 
             const claimSn = pk;
             if (claimSn == null || claimSn == undefined || claimSn == "") { alert(errorText); return; }
