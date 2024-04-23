@@ -1774,7 +1774,7 @@ var regPay = {
         regPay.global.fileArray = fileList;
         regPay.payAppBtnSet(rs);
 
-        console.log(rs);
+        console.log("rs", rs);
 
         // if(rs.ADVANCES != 'Y'){
         //     $("#advances").prop("checked", false);
@@ -1783,7 +1783,7 @@ var regPay = {
         // }
 
         $("#docStatus").val(rs.DOC_STATUS)
-        if(rs.DOC_STATUS != 0 && rs.DOC_STATUS != 30){
+        if(rs.DOC_STATUS != 0 && rs.DOC_STATUS != 30 && rs.DOC_STATUS != 40){
             $("#pjtSelBtn, #bgSelBtn, #appTitle, #appCont, #bnkSelBtn").prop("disabled", true);
         }
 
