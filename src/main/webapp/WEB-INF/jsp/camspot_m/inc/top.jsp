@@ -56,7 +56,7 @@
     <div id="notBar">
         <a class="bell" href="/m/alarm.do">
             <i class="on"></i>
-            <img src="/images/camspot_m/ico-bell.png" />
+            <img src="/images/camspot_m/ico-bell.png" id="alarmImg"/>
         </a>
         <a class="lo-admin" href="/m/admin.do">
             <font class="txt type22">${loginVO.teamNm != '' ? loginVO.teamNm : loginVO.deptNm}<br>${loginVO.name}</font>
@@ -64,7 +64,21 @@
         </a>
     </div>
     <!--} notBar -->
-    
+    <script>
+        getAlarmList();
+        function getAlarmList(){
+            var result = customKendo.fn_customAjax("/common/getAlarmList.do");
+            if(result.flag){
+                if(result.rs.length > 0){
+                    if(result.rs.filter(e => e.URL.indexOf("/approval/approvalDocView.do") > -1).length == 0){
+                        $("#alarmImg").prev().removeClass("on")
+                    }
+                }else{
+                    $("#alarmImg").prev().removeClass("on")
+                }
+            }
+        }
+    </script>
     
     
 

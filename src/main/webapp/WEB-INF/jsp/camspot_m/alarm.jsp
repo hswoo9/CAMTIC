@@ -14,16 +14,7 @@
             
             <!-- 알림내용 {-->            
             <div class="oviewBox mt20" id="alarmListDiv">
-            	<a href="#">
-                    <font class="txt type18 time">2024-03-15 14:09</font>
-                    <font class="txt type30 fP800 mt10 tit">[수입결의서] 테스트팀-관리자 testtesttesttest</font>
-                    <font class="txt type22 mt10 cate">홈 > 전자결재</font>
-                </a>
-            	<a href="#">
-                    <font class="txt type18 time">2024-03-15 14:09</font>
-                    <font class="txt type30 fP800 mt10 tit">[수입결의서] 테스트팀-관리자 testtesttesttest</font>
-                    <font class="txt type22 mt10 cate">홈 > 전자결재</font>
-                </a>
+
             </div>
             <!--} 알림내용 -->
 
