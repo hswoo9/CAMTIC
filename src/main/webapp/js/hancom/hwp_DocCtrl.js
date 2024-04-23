@@ -642,7 +642,13 @@ var hwpDocCtrl = {
             if (purcSn == null || purcSn == undefined || purcSn == "") { alert(errorText); return; }
             purcInit.purcInit(purcSn, "reDraft");
 
-        }else if(menuCd == "claim") {
+        } else if(menuCd == "exnp") {
+
+            const exnpSn = pk;
+            if (exnpSn == null || exnpSn == undefined || exnpSn == "") { alert(errorText); return; }
+            hwpInit.exnpInit(exnpSn, "reDraft");
+
+        } else if(menuCd == "claim") {
 
             const claimSn = pk;
             if (claimSn == null || claimSn == undefined || claimSn == "") { alert(errorText); return; }
@@ -762,7 +768,12 @@ var hwpDocCtrl = {
             if (payAppSn == null || payAppSn == undefined || payAppSn == "") { alert(errorText); return; }
             payInit.payAppInit(payAppSn, "reDraft");
 
-        }else if(data.menuCd == "workPlan") {
+        } else if(data.menuCd == "payIncp") {
+            const payIncpSn = pk;
+            if (payIncpSn == null || payIncpSn == undefined || payIncpSn == "") { alert(errorText); return; }
+            hwpInit.payIncpInit(payIncpSn, "reDraft");
+
+        } else if(data.menuCd == "workPlan") {
             const workPlanApprovalId = data.approKey.split("_")[1];
             if(workPlanApprovalId == null || workPlanApprovalId == undefined || workPlanApprovalId == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); }
             var ds = customKendo.fn_customAjax("/workPlan/getWorkPlanData.do", { workPlanApprovalId : workPlanApprovalId});
