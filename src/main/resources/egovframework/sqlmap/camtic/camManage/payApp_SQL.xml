@@ -774,8 +774,11 @@
         UPDATE CAM_MNG.DJ_EXNP_DET
         SET
             EXNP_STAT = "Y",
-            EXNP_CNT = #{USER_SQ},
-            PMR_NO = #{PMR_NO}
+            EXNP_CNT = #{USER_SQ}
+            <if test='DOCU_FG != "99" and !"99".equals(DOCU_FG)'>
+                ,
+                PMR_NO = #{PMR_NO}
+            </if>
         WHERE
             EXNP_DET_SN = #{EXNP_DET_SN}
     </update>
@@ -1134,6 +1137,16 @@
         SET
             RE_STAT = "Y",
             REQ_END_DE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d')
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
+
+    <update id="resolutionExnpReStatus" parameterType="map">
+        /*resolutionExnpStatus*/
+        UPDATE
+            CAM_MNG.DJ_EXNP
+        SET
+            RE_STAT = "N"
         WHERE
             EXNP_SN = #{exnpSn}
     </update>
@@ -2736,4 +2749,25 @@
             DOC_STATUS IN (100, 101)
           AND A.PAY_APP_TYPE = '3'
     </select>
+
+    <select id="getExnpDetOne" parameterType="map" resultType="map">
+        /*getExnpDetOne*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_EXNP_DET
+        WHERE
+            EXNP_SN = #{exnpSn}
+        LIMIT 1
+    </select>
+
+    <update id="updExnpReStat" parameterType="map">
+        /*updExnpReStat*/
+        UPDATE CAM_MNG.DJ_EXNP_DET
+        SET
+            EXNP_STAT = "N",
+            EXNP_CNT = 0
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
 </mapper>
