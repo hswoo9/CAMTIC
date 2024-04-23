@@ -106,7 +106,7 @@ var docView = {
         }
 
         var result = customKendo.fn_customAjax("/approval/getDocSecurityIndexOfUserChk.do", docView.global.searchAjaxData);
-        if(!result.confirm && (docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL != 'Y') && docView.global.params.vType != 'M'){
+        if(!result.confirm && (docView.global.rs.approveNowRoute != null && docView.global.rs.approveNowRoute.SUB_APPROVAL != 'Y') && docView.global.params.vType != 'M' && loginVO.uniqId != "1"){
             alert("열람 권한이 없습니다.");
             window.close();
             return;
