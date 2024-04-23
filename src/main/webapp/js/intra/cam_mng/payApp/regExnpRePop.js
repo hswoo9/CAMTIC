@@ -87,6 +87,7 @@ var regExnpRe = {
     },
 
     payAppBtnSet: function (data){
+        console.log("data", data)
         let buttonHtml = "";
         if(data.RE_STAT == "N"){
             buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_updateExnpDe()">수정</button>';
@@ -96,6 +97,7 @@ var regExnpRe = {
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_save()">결의서 승인</button>';
             }
         } else{
+            buttonHtml += '<button type="button" id="cancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regExnpRe.fn_regExnpCancel('+data.PAY_APP_SN+', '+data.EXNP_SN+')">반제결의서 승인 취소</button>';
             buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnpRe.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
         }
 
@@ -295,6 +297,30 @@ var regExnpRe = {
             this.method = 'POST';
             this.target = '_self';
         }).trigger("submit");
+    },
+
+    fn_regExnpCancel : function (payAppSn, exnpSn) {
+
+        if(!confirm("반제결의서 승인을 취소하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            payAppSn : payAppSn,
+            exnpSn : exnpSn
+        }
+
+        $.ajax({
+            url : "/payApp/regExnpCancel",
+            type : "POST",
+            data: data,
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("반제결의서 승인이 취소되었습니다.");
+                }
+            }
+        });
     },
 
     setData : function (){

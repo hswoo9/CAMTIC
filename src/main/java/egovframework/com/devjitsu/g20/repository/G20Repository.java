@@ -128,4 +128,16 @@ public class G20Repository extends AbstractDAO {
     public List<Map<String, Object>> getEtaxDb(Map<String, Object> params) {
         return selectListMs("g20.getEtaxDb", params);
     }
+
+    public void execUspAncj080Delete00(Map<String, Object> exnpMap) {
+        insertMs("g20.execUspAncj080Delete00", exnpMap);
+    }
+
+    public Map<String, Object> getExnpDocData(Map<String, Object> exnpMap) {
+        return (Map<String, Object>) selectOneMs("g20.getExnpDocData", exnpMap);
+    }
+
+    public void delExnpDocData(Map<String, Object> g20Map) {
+        insertMs("g20.delExnpDocData", g20Map);
+    }
 }
