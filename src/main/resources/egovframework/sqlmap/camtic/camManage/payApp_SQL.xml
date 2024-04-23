@@ -977,7 +977,7 @@
                 THEN DATE_FORMAT(E.DT1, '%Y-%m-%d')
                 ELSE DATE_FORMAT(E.DT3, '%Y-%m-%d')
             END AS R_DT,
-            E.REQ_DE,
+            E.REQ_EXNP_DE,
             ED.BUDGET_NM AS BUDGET_NM_EX,
             SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', 1) AS BUDGET_NM_1,
             SUBSTRING_INDEX(SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', -2), ' / ', 1) AS BUDGET_NM_2,
