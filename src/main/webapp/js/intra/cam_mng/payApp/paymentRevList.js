@@ -163,6 +163,8 @@ var paymentRevList = {
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             payAppType : $("#payAppType").val(),
+            strDe : '1900-01-01',
+            endDe : '2999-12-31',
             docStatus : 100
         }
 
