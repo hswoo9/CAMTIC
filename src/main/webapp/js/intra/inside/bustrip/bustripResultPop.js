@@ -201,7 +201,7 @@ var bustripResultPop = {
         //     }
         // }
 
-        bustripInit.settingTempFileDataInit(tempArr, 'result');
+        bustripInit.settingTempFileDataInit(tempArr, 'result', bustripResultPop.global.data.STATUS);
 
         /** 해외출장일시 폼 변경 */
         if(busInfo.TRIP_CODE == "4"){
@@ -481,7 +481,7 @@ var bustripResultPop = {
         //     }
         // }
 
-        bustripInit.settingTempFileDataInit(tempArr, 'result');
+        bustripInit.settingTempFileDataInit(tempArr, 'result', bustripResultPop.global.data.STATUS);
 
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
         if(resInfo.STATUS == 100 || $("#mod").val() == "mng"){
@@ -508,7 +508,7 @@ var bustripResultPop = {
             $("#time2").data("kendoTimePicker").enable(false);
 
             $("#carList").data("kendoDropDownList").enable(false);
-            if(resInfo.TRIP_CODE != "4"){
+            if(resInfo.TRIP_CODE != "4" && $("#carList").data("kendoDropDownList").text() == "기타"){
                 $("#carRmk").data("kendoDropDownList").enable(false);
             }
             $("#carBtn").css("display", "none");

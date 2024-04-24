@@ -219,7 +219,7 @@ const bustripReq = {
             }
         }
 
-        bustripInit.settingTempFileDataInit(tempArr, 'result');
+        bustripInit.settingTempFileDataInit(tempArr, 'result', bustripReq.global.bustripData.STATUS);
 
         /** 해외출장일시 폼 변경 */
         if(busInfo.TRIP_CODE == "4"){

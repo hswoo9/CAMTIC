@@ -304,7 +304,7 @@ var bustripInit = {
     },
 
     /** 첨부파일 데이터 세팅 */
-    settingTempFileDataInit: function(e, p){
+    settingTempFileDataInit: function(e, p, status){
         // let p = bustrip.global.pageName;
         var html = '';
 
@@ -321,7 +321,7 @@ var bustripInit = {
                     }
                     html += '   </td>';
                     html += '   <td>';
-                    if(p.STATUS != 100){
+                    if(status != 100){
                         html += '       <button type="button" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="fCommon.commonFileDel('+ e[i].file_no +', this)">' +
                             '			    <span class="k-button-text">삭제</span>' +
                             '		    </button>';

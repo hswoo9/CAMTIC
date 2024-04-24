@@ -71,7 +71,7 @@ var bgView = {
                     if($("#status").val() != "incp"){
                         data.temp = 2;
 
-                        if($("#payAppType").val() == "3"){
+                        if($("#payAppType").val() == "4"){
                             data.temp = 1;
                         }
                     }else{
@@ -198,8 +198,13 @@ var bgView = {
                         var subAm = "";
                         if(e.DIV_FG_NM == "항"){
                             if($("#status").val() != "incp"){
-                                subAmSum += Number(e.CALC_AM - e.WAIT_CK);
-                                subAm = Number(e.CALC_AM - e.WAIT_CK);
+                                if($("#payAppType").val() == "4"){
+                                    subAm += Number(e.SUB_AM);
+                                    subAmSum += Number(e.SUB_AM);
+                                } else {
+                                    subAm = Number(e.CALC_AM - e.WAIT_CK);
+                                    subAmSum += Number(e.CALC_AM - e.WAIT_CK);
+                                }
                             } else {
                                 subAmSum += Number(e.SUB_AM);
                                 subAm = Number(e.SUB_AM);
@@ -219,7 +224,11 @@ var bgView = {
                         var subAm = "";
 
                         if($("#status").val() != "incp"){
-                            subAm += Number(e.CALC_AM - e.WAIT_CK);
+                            if($("#payAppType").val() == "4"){
+                                subAm += Number(e.SUB_AM);
+                            } else {
+                                subAm += Number(e.CALC_AM - e.WAIT_CK);
+                            }
                         } else {
                             subAm += Number(e.SUB_AM);
                         }
