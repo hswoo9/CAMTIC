@@ -2917,7 +2917,7 @@ var regPayDet = {
         var eviTypeArr = [];
         $(".check:checked").each(function(){
             keyArr += $(this).val() + ",";
-            var rowIdx = $(this).attr("id").charAt($(this).attr("id").length - 1);
+            var rowIdx = $(this).attr("id").replace(/[^0-9]/g, '');
 
             budgetArr.push($("#budgetSn" + rowIdx).val());
             eviTypeArr.push($("#eviType" + rowIdx).val());
