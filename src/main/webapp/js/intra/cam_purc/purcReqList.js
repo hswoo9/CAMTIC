@@ -64,6 +64,7 @@ var prm = {
                             '</button>';
                     }
                 }],
+            dataBound : prm.onDataBound,
             columns: [
                 // {
                 //     title: "번호",
@@ -284,7 +285,7 @@ var prm = {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
-                        return e.PURC_REQ_PURPOSE
+                        return '<input type="hidden" id="reStat" name="reStat" value="'+e.RE_STATUS+'" />' + e.PURC_REQ_PURPOSE
                     }
                 }, {
                     title: "구매요청서",
@@ -380,6 +381,10 @@ var prm = {
                     title: "결재상태",
                     width: 70,
                     template : function(e){
+                        if(e.RE_STATUS == 'R'){
+                            return '반려';
+                        }
+
                         if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
                             return '작성중';
                         } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
@@ -396,6 +401,10 @@ var prm = {
                     title: "상태",
                     width: 120,
                     template : function(e){
+                        if(e.RE_STATUS == 'R'){
+                            return '반려';
+                        }
+
                         var status = "";
                         /** 구매요청서 */
                         if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
@@ -482,6 +491,18 @@ var prm = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+    },
+
+    onDataBound : function (){
+        var grid = this;
+        grid.tbody.find("tr").each(function(){
+            var delYn = $(this).find("input[name='reStat']").val();
+
+            if(delYn == "R"){
+                $(this).css('text-decoration', 'line-through');
+                $(this).css('color', 'red');
+            }
+        });
     },
 
     gridReload : function(){

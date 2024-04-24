@@ -27,7 +27,7 @@ var depositList = {
         });
 
         depositList.global.dropDownDataSource = [
-            { text: "문서번호", value: "DOC_NO" },
+            { text: "문서번호", value: "A" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", depositList.global.dropDownDataSource, "text", "value");

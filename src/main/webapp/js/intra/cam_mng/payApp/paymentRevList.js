@@ -8,16 +8,32 @@ var paymentRevList = {
 
     fn_defaultScript : function (){
 
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
+
+        $("#startDt").change(function (){
+            if($("#startDt").val() > $("#endDt").val()){
+                $("#endDt").val($("#startDt").val());
+            }
+        });
+        $("#endDt").change(function (){
+            if($("#startDt").val() > $("#endDt").val()){
+                $("#startDt").val($("#endDt").val());
+            }
+        });
+
         paymentRevList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
-            { text: "결재대기", value: "2" },
+            { text: "결재중", value: "2" },
             { text: "결재완료", value: "3" },
         ]
         customKendo.fn_dropDownList("searchDept", paymentRevList.global.dropDownDataSource, "text", "value");
         $("#searchDept").data("kendoDropDownList").bind("change", paymentRevList.gridReload);
 
         paymentRevList.global.dropDownDataSource = [
-            { text: "문서번호", value: "DOC_NO" },
+            { text: "문서번호", value: "A" },
+            { text: "신청건명", value: "B" },
+            { text: "프로젝트명", value: "C" },
         ]
 
         $("#payAppType").kendoDropDownList({
@@ -31,8 +47,11 @@ var paymentRevList = {
                 { text: "대체신청서", value: "4" },
             ]
         });
+        $("#payAppType").data("kendoDropDownList").bind("change", paymentRevList.gridReload);
 
         customKendo.fn_dropDownList("searchKeyword", paymentRevList.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", paymentRevList.gridReload);
+
         customKendo.fn_textBox(["searchValue"]);
         paymentRevList.gridReload();
     },
@@ -163,8 +182,8 @@ var paymentRevList = {
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             payAppType : $("#payAppType").val(),
-            strDe : '1900-01-01',
-            endDe : '2999-12-31',
+            strDe : $("#startDt").val(),
+            endDe : $("#endDt").val(),
             docStatus : 100
         }
 

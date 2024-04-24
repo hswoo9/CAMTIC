@@ -45,7 +45,7 @@
                 <button type="button" class="k-button k-button-solid-primary" onclick="lecturePop.personPrintPop()">수료증</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePop.lecturePersonReqPop(${params.pk})">수강자 추가</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePop.sendSmsPop()">SMS 발송</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('Y')">접수처리</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('Y')">신청완료</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('N')">취소처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('X')">불참처리</button>
                 <button type="button" class="k-button k-button-solid-base" onclick="lecturePerson.fn_appBtn('O')">수료처리</button>

@@ -16,19 +16,22 @@ var exnpList = {
         customKendo.fn_dropDownList("searchDept", exnpList.global.dropDownDataSource, "text", "value");
         $("#searchDept").data("kendoDropDownList").bind("change", exnpList.gridReload);
 
-        exnpList.global.dropDownDataSource = [
-            { text: "문서번호", value: "DOC_NO" },
-        ]
-
         var d = new Date();
-        var bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
+        var bd = new Date(d.setMonth(d.getMonth() - 2)); // 이전달
 
         var bdStr = d.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2)
 
         customKendo.fn_datePicker("exnpStrDe", "depth", "yyyy-MM-dd", bdStr);
         customKendo.fn_datePicker("exnpEndDe", "depth", "yyyy-MM-dd", new Date());
 
+        exnpList.global.dropDownDataSource = [
+            { text: "문서번호", value: "A" },
+            { text: "적요", value: "B" },
+            { text: "프로젝트명", value: "C" },
+        ]
         customKendo.fn_dropDownList("searchKeyword", exnpList.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", exnpList.gridReload);
+
         customKendo.fn_textBox(["searchValue"]);
         exnpList.gridReload();
     },

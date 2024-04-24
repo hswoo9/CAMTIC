@@ -691,7 +691,7 @@ var prp = {
 
         this.vatCalcN();
 
-        // return inputNumberFormatN(e);
+        return inputNumberFormatN(e);
     },
 
     delRow : function(e){

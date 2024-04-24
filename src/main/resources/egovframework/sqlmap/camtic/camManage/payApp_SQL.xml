@@ -400,75 +400,76 @@
     <select id="getPaymentList" parameterType="map" resultType="map">
         /*getPaymentList*/
         SELECT AA.* FROM (
-        SELECT
-            A.*,
-            B.DOC_NO,
-            C.TOT_COST,
-            C.ITEM_COUNT,
-            (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
-            D.EXNP_STATUS,
-            IFNULL(E.EXNP_DOC_STATUS, 0) AS EXNP_DOC_STATUS,
-            (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS EXNP_DOC_STATUS2,
-            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME
-        FROM
-            CAM_MNG.DJ_PAY_APP A
-        LEFT JOIN
-            DJ_CAMTIC.A_DOC_INFO B
-        ON
-            A.DOC_ID = B.DOC_ID
-        LEFT JOIN
-            (SELECT
-                PAY_APP_SN,
-                SUM(TOT_COST) AS TOT_COST,
-                COUNT(*) AS ITEM_COUNT
-            FROM CAM_MNG.DJ_PAY_APP_DET
-            GROUP BY PAY_APP_SN) C
-        ON
-            A.PAY_APP_SN = C.PAY_APP_SN
-        LEFT JOIN
-            (SELECT
-                PAY_APP_SN,
-                COUNT(*) AS EXNP_STATUS
-            FROM CAM_MNG.DJ_PAY_APP_DET
-            WHERE EXNP_SAVE = 'Y'
-            GROUP BY PAY_APP_SN ) D
-        ON
-            A.PAY_APP_SN = D.PAY_APP_SN
-        LEFT JOIN
-            (SELECT
-                Y.PAY_APP_SN,
-                COUNT(*) AS EXNP_DOC_STATUS
-            FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN
-            WHERE Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != ""
-            GROUP BY Y.PAY_APP_SN ) E
-        ON
-            A.PAY_APP_SN = E.PAY_APP_SN
-        WHERE
-        <![CDATA[
-            A.APP_DE > #{strDe} and A.APP_DE <= #{endDe}
-        ]]>
-        <if test='payAppType == "1" or "1".equals(payAppType)'>
-            AND PAY_APP_TYPE = 1
-        </if>
-        <if test='payAppType == "2" or "2".equals(payAppType)'>
-            AND PAY_APP_TYPE = 2
-        </if>
-        <if test='payAppType == "3" or "3".equals(payAppType)'>
-            AND PAY_APP_TYPE = 3
-        </if>
-        <if test='payAppType == "4" or "4".equals(payAppType)'>
-            AND PAY_APP_TYPE = 4
-        </if>
-        <if test='docStatus != null and !"".equals(docStatus)'>
-        AND
-            A.DOC_STATUS = #{docStatus}
-        </if>
-        <if test='pjtCd != null and !"".equals(pjtCd)'>
-            AND A.PJT_CD = #{pjtCd}
-        </if>
-        <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
-            AND A.REG_EMP_SEQ = #{regEmpSeq}
-        </if>
+            SELECT
+                A.*,
+                B.DOC_NO,
+                C.TOT_COST,
+                C.ITEM_COUNT,
+                (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
+                D.EXNP_STATUS,
+                IFNULL(E.EXNP_DOC_STATUS, 0) AS EXNP_DOC_STATUS,
+                (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS EXNP_DOC_STATUS2,
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME
+            FROM
+                CAM_MNG.DJ_PAY_APP A
+
+            LEFT JOIN
+                DJ_CAMTIC.A_DOC_INFO B
+            ON
+                A.DOC_ID = B.DOC_ID
+
+            LEFT JOIN
+                (SELECT
+                    PAY_APP_SN,
+                    SUM(TOT_COST) AS TOT_COST,
+                    COUNT(*) AS ITEM_COUNT
+                FROM CAM_MNG.DJ_PAY_APP_DET
+                GROUP BY PAY_APP_SN) C
+            ON
+                A.PAY_APP_SN = C.PAY_APP_SN
+
+            LEFT JOIN
+                (SELECT
+                    PAY_APP_SN,
+                    COUNT(*) AS EXNP_STATUS
+                FROM CAM_MNG.DJ_PAY_APP_DET
+                WHERE EXNP_SAVE = 'Y'
+                GROUP BY PAY_APP_SN ) D
+            ON
+                A.PAY_APP_SN = D.PAY_APP_SN
+
+            LEFT JOIN
+                (SELECT
+                    Y.PAY_APP_SN,
+                    COUNT(*) AS EXNP_DOC_STATUS
+                FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN
+                WHERE Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != ""
+                GROUP BY Y.PAY_APP_SN ) E
+            ON
+                A.PAY_APP_SN = E.PAY_APP_SN
+
+            WHERE
+            <![CDATA[
+                A.APP_DE > #{strDe} and A.APP_DE <= #{endDe}
+            ]]>
+            <if test='payAppType == "1" or "1".equals(payAppType)'>
+                AND PAY_APP_TYPE = 1
+            </if>
+            <if test='payAppType == "2" or "2".equals(payAppType)'>
+                AND PAY_APP_TYPE = 2
+            </if>
+            <if test='payAppType == "3" or "3".equals(payAppType)'>
+                AND PAY_APP_TYPE = 3
+            </if>
+            <if test='payAppType == "4" or "4".equals(payAppType)'>
+                AND PAY_APP_TYPE = 4
+            </if>
+            <if test='pjtCd != null and !"".equals(pjtCd)'>
+                AND A.PJT_CD = #{pjtCd}
+            </if>
+            <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
+                AND A.REG_EMP_SEQ = #{regEmpSeq}
+            </if>
         ) AA
         WHERE
             1=1
@@ -476,10 +477,37 @@
                 AND
                     ITEM_COUNT != IFNULL(EXNP_STATUS, 0)
             </if>
-            <if test='searchDept != null and !"".equals(searchDept)'>
-                AND
-                    AA.DOC_STATUS = #{searchDept}
+            <if test='searchDept == "1" or "1".equals(searchDept)'>
+                AND AA.DOC_STATUS IN (0,30,40)
             </if>
+            <if test='searchDept == "2" or "2".equals(searchDept)'>
+                AND AA.DOC_STATUS IN (10,20,50)
+            </if>
+            <if test='searchDept == "3" or "3".equals(searchDept)'>
+                AND AA.DOC_STATUS IN (100,101)
+            </if>
+            <choose>
+                <when test='"A".equals(searchKeyword)'>
+                    AND
+                        AA.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                </when>
+                <when test='"B".equals(searchKeyword)'>
+                    AND
+                        AA.APP_TITLE LIKE CONCAT('%', #{searchValue},'%')
+                </when>
+                <when test='"C".equals(searchKeyword)'>
+                    AND
+                        AA.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                </when>
+                <otherwise>
+                    AND
+                        (
+                            AA.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                            OR AA.APP_TITLE LIKE CONCAT('%', #{searchValue},'%')
+                            OR AA.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                        )
+                </otherwise>
+            </choose>
         ORDER BY AA.PAY_APP_SN DESC
     </select>
 
@@ -860,6 +888,40 @@
             AND
                 A.PJT_CD = #{pjtCd}
         </if>
+        <if test='searchDept == "1" or "1".equals(searchDept)'>
+            AND
+                A.DOC_STATUS IN (0,30,40)
+        </if>
+        <if test='searchDept == "2" or "2".equals(searchDept)'>
+            AND
+                A.DOC_STATUS IN (10,20,50)
+        </if>
+        <if test='searchDept == "3" or "3".equals(searchDept)'>
+            AND
+                A.DOC_STATUS IN (100,101)
+        </if>
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND
+                    B.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"B".equals(searchKeyword)'>
+                AND
+                    A.EXNP_BRIEFS LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"C".equals(searchKeyword)'>
+                AND
+                    A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <otherwise>
+                AND
+                    (
+                        B.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                        OR A.EXNP_BRIEFS LIKE CONCAT('%', #{searchValue},'%')
+                        OR A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                    )
+            </otherwise>
+        </choose>
         ORDER BY EXNP_SN DESC
     </select>
 
@@ -977,6 +1039,7 @@
                 THEN DATE_FORMAT(E.DT1, '%Y-%m-%d')
                 ELSE DATE_FORMAT(E.DT3, '%Y-%m-%d')
             END AS R_DT,
+            E.REQ_EXNP_DE,
             ED.BUDGET_NM AS BUDGET_NM_EX,
             SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', 1) AS BUDGET_NM_1,
             SUBSTRING_INDEX(SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', -2), ' / ', 1) AS BUDGET_NM_2,
@@ -984,7 +1047,9 @@
             ED.TOT_COST,
             DI.DOC_NO AS DOC_NO,
             HEI.EMP_NAME_KR AS REG_EMP_NAME,
-            HDI.DEPT_NAME AS REG_DEPT_NAME
+            HDI.DEPT_NAME AS REG_DEPT_NAME,
+            E.RE_STAT,
+            IF(E.RE_STAT = 'N','미승인','승인') AS RE_STAT_TXT
         FROM
             CAM_MNG.DJ_EXNP_DET ED
         LEFT JOIN
@@ -1698,6 +1763,27 @@
             CAM_PJT_MNG.DJ_PROJECT B
         ON
             A.PJT_SN = B.PJT_SN
+        LEFT JOIN
+            (SELECT
+                 PJT_SN,
+                 EMP_SEQ,
+                 CASE
+                     WHEN #{month} = '01' THEN MON_PAY_1
+                     WHEN #{month} = '02' THEN MON_PAY_2
+                     WHEN #{month} = '03' THEN MON_PAY_3
+                     WHEN #{month} = '04' THEN MON_PAY_4
+                     WHEN #{month} = '05' THEN MON_PAY_5
+                     WHEN #{month} = '06' THEN MON_PAY_6
+                     WHEN #{month} = '07' THEN MON_PAY_7
+                     WHEN #{month} = '08' THEN MON_PAY_8
+                     WHEN #{month} = '09' THEN MON_PAY_9
+                     WHEN #{month} = '10' THEN MON_PAY_10
+                     WHEN #{month} = '11' THEN MON_PAY_11
+                     WHEN #{month} = '12' THEN MON_PAY_12
+                     END AS MON_SAL_RE
+             FROM CAM_PJT_MNG.DJ_PART_PAY_MON WHERE BS_YEAR = #{year}) D
+        ON
+            A.PJT_SN = D.PJT_SN AND A.PART_EMP_SEQ = D.EMP_SEQ
         WHERE
             A.PJT_SN = #{pjtSn}
           AND
@@ -1710,36 +1796,52 @@
 
     <select id="getDepositList" parameterType="map" resultType="map">
         /*getDepositList*/
-        SELECT
-            A.*,
-            B.PJT_NM,
-            B.DOC_ID,
-            B.DOC_STATUS,
-            B.PAY_EXNP_DE,
-            (SELECT DOC_NO FROM dj_camtic.a_doc_info where DOC_ID = B.DOC_ID) AS DOC_NO,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_DET_AMT,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_AMT,
-            (SELECT MAX(TR_DE) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) LAST_DT,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y') RE_TOT_COST,
-            (SELECT COUNT(PAY_INCP_RE_SN) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y') RE_CNT
-        FROM
-            CAM_MNG.DJ_PAY_DEPO A
-        LEFT JOIN
-            CAM_MNG.DJ_PAY_INCP B
-        ON
-            A.PAY_INCP_SN = B.PAY_INCP_SN
-        WHERE
-            1=1
-        <if test='eviType != null and !"".equals(eviType)'>
+        SELECT * FROM (
+            SELECT
+                A.*,
+                B.DOC_ID,
+                B.DOC_STATUS,
+                B.PAY_EXNP_DE,
+                IFNULL((SELECT DOC_NO FROM dj_camtic.a_doc_info where DOC_ID = B.DOC_ID), '') AS DOC_NO,
+                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_DET_AMT,
+                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_AMT,
+                (SELECT MAX(TR_DE) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) LAST_DT,
+                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y')
+                RE_TOT_COST,
+                (SELECT COUNT(PAY_INCP_RE_SN) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y')
+                RE_CNT
+            FROM
+                CAM_MNG.DJ_PAY_DEPO A
+            LEFT JOIN
+                CAM_MNG.DJ_PAY_INCP B
+            ON
+                A.PAY_INCP_SN = B.PAY_INCP_SN
+            WHERE
+                1=1
+            <if test='eviType != null and !"".equals(eviType)'>
+                AND
+                    A.EVI_TYPE = #{eviType}
+            </if>
+            <if test='docStatus != null and !"".equals(docStatus)'>
+                AND
+                    A.DOC_STATUS = #{docStatus}
+            </if>
             AND
-                A.EVI_TYPE = #{eviType}
-        </if>
-        <if test='docStatus != null and !"".equals(docStatus)'>
-            AND
-                A.DOC_STATUS = #{docStatus}
-        </if>
-        AND
-            A.APPR_STAT = 'Y'
+                A.APPR_STAT = 'Y'
+        ) AA
+        WHERE 1=1
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND
+                    AA.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <otherwise>
+                AND
+                    (
+                        AA.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                    )
+            </otherwise>
+        </choose>
         ORDER BY PAY_DEPO_SN DESC
     </select>
 
@@ -2707,6 +2809,7 @@
             DOC_STATUS IN (100, 101)
         AND
             RE_STAT = 'Y'
+        AND B.BUDGET_SN IS NOT NULL
     </select>
 
     <select id="getWaitPaymentIncpList" parameterType="map" resultType="map">

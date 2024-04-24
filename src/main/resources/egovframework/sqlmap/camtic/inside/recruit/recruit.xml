@@ -607,7 +607,14 @@
             </choose>
         </if>
         GROUP BY AM.SAVE_DATE DESC
-        ORDER BY AM.RECRUIT_INFO_SN DESC, AM.SAVE_DATE DESC
+        <choose>
+            <when test='"Y".equals(screenCk)'>
+                ORDER BY AM.USER_NAME
+            </when>
+            <otherwise>
+                ORDER BY AM.RECRUIT_INFO_SN DESC, AM.SAVE_DATE DESC
+            </otherwise>
+        </choose>
     </select>
 
     <select id="getUserDuplicationList" parameterType="map" resultType="map">

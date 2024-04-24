@@ -284,12 +284,20 @@ var exnpReList = {
                     width: 80,
                     field: "R_DT",
                 }, {
+                    title: "예정일",
+                    width: 80,
+                    field: "REQ_EXNP_DE",
+                }, {
                     title: "부서명",
                     field: "REG_DEPT_NAME",
                     width: 80
                 }, {
                     title: "작성자",
                     field: "REG_EMP_NAME",
+                    width: 80
+                }, {
+                    title: "상태",
+                    field: "RE_STAT_TXT",
                     width: 80
                 },
             ],

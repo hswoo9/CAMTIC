@@ -36,11 +36,11 @@
                         <col width="7%">
                         <col width="20%">
                         <col width="7%">
-                        <col width="10%">
+                        <col width="8%">
                         <col width="7%">
-                        <col width="10%">
+                        <col width="8%">
                         <col width="7%">
-                        <col width="15%">
+                        <col width="19%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">기간</th>
@@ -57,8 +57,8 @@
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){crm.gridReload()}"/>
+                            <input type="text" id="searchKeyword" style="width: 35%;"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){paymentList.gridReload()}"/>
                         </td>
                     </tr>
                 </table>

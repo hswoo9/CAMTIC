@@ -44,6 +44,10 @@
                         <col width="25%">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">기간</th>
+                        <td>
+                            <input type="text" id="exnpStrDe" style="width: 45%;"> ~ <input type="text" id="exnpEndDe" style="width: 45%;">
+                        </td>
                         <th class="text-center th-color">상태</th>
                         <td>
                             <input type="text" id="searchDept" style="width: 150px;">
@@ -51,7 +55,7 @@
                         <th class="text-center th-color">검색어</th>
                         <td>
                             <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){crm.gridReload()}"/>
+                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){returnList.gridReload()}"/>
                         </td>
                     </tr>
                 </table>
