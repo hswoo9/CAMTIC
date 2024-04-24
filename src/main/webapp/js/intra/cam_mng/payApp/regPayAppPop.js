@@ -1030,24 +1030,24 @@ var regPay = {
                 }
             }
 
-            for (let i = 0; i < cardList.length; i++) {
-                if (cardList[i].FILE_NO != null) {
-                    const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
-                        fileNo: cardList[i].FILE_NO
-                    }).data;
-                    regPay.global.fileArray.push(fileData);
-
-                    if (blist != "") {
-                        blist += ",";
-                    }
-                    if (fileThumbText != "") {
-                        fileThumbText += " | ";
-                    }
-                    blist += fileData.file_no;
-                    fileThumbText += fileData.file_org_name;
-                    fileThumbText += "." + fileData.file_ext;
-                }
-            }
+            // for (let i = 0; i < cardList.length; i++) {
+            //     if (cardList[i].FILE_NO != null) {
+            //         const fileData = customKendo.fn_customAjax("/common/getFileInfo", {
+            //             fileNo: cardList[i].FILE_NO
+            //         }).data;
+            //         regPay.global.fileArray.push(fileData);
+            //
+            //         if (blist != "") {
+            //             blist += ",";
+            //         }
+            //         if (fileThumbText != "") {
+            //             fileThumbText += " | ";
+            //         }
+            //         blist += fileData.file_no;
+            //         fileThumbText += fileData.file_org_name;
+            //         fileThumbText += "." + fileData.file_ext;
+            //     }
+            // }
 
 
             var fileNameArray = fileThumbText.split(' | ');
