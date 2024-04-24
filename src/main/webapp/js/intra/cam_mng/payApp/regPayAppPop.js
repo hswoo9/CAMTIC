@@ -2297,7 +2297,7 @@ var regPay = {
         var befAdvances = "";
         var budgetNmFlag = true;
         $.each($(".payDestInfo"), function(i, v){
-            var index = $(this).find(".budgetSn").attr("id").slice(-1);
+            var index = $(this).attr("id").replace(/[^0-9]/g, '');
 
             if(!$("#budgetNm" + index).val()) {
                 budgetNmFlag = false;
@@ -2458,8 +2458,7 @@ var regPay = {
     },
 
     fn_calCost: function(obj){
-        var index = obj.id.substring(obj.id.length - 1);
-
+        var index = obj.id.replace(/[^0-9]/g, '');
 
         if($("#eviType" + index).val() == '4' || $("#eviType" + index).val() == '6'){
             if(obj.id.match("totCost")){

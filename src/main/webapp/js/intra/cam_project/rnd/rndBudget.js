@@ -73,6 +73,8 @@ var rndBg = {
             pjtCd : $("#mgtCd").val(),
             pageType : "USER",
             searchValue : '',
+            strDe : '1900-01-01',
+            endDe : '2999-12-31'
         }
 
         $("#selectType").kendoRadioGroup({
