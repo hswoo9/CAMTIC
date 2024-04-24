@@ -579,23 +579,6 @@ var docView = {
                     }
                 }
             }
-
-            if(docView.global.rs.docInfo.FORM_ID == "147"){
-                const payAppSn = docView.global.params.approKey.split("_")[1];
-                const result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", { payAppSn: payAppSn });
-                const rs = result.map;
-                const pjtResult = customKendo.fn_customAjax("/project/getProjectByPjtCd", { pjtCd: rs.PJT_CD });
-                const pjtMap = pjtResult.map;
-                if(pjtMap == null){ return; }
-
-                /**PM 데이터 */
-                const userInfo = getUser(pjtMap.PM_EMP_SEQ);
-
-                if(docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == pjtMap.PM_EMP_SEQ){
-                    const signField = "paySign";
-                    hwpApprovalLine.setTranscript(signField, pjtMap.PM_EMP_SEQ, userInfo.EMP_NAME_KR);
-                }
-            }
         }
     },
 
