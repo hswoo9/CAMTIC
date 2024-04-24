@@ -409,7 +409,12 @@
                 D.EXNP_STATUS,
                 IFNULL(E.EXNP_DOC_STATUS, 0) AS EXNP_DOC_STATUS,
                 (SELECT DOC_STATUS FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN AND REQ_END_DE IS NOT NULL AND REQ_END_DE != "" ORDER BY EXNP_SN DESC LIMIT 1) AS EXNP_DOC_STATUS2,
-                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO HR WHERE HR.EMP_SEQ = A.REG_EMP_SEQ) AS EMP_NAME,
+                CASE
+                    WHEN D.EVID_TYPE IN (1,2,3)
+                    THEN E.DT1
+                    ELSE E.DT3
+                END AS R_DT
             FROM
                 CAM_MNG.DJ_PAY_APP A
 
@@ -441,6 +446,7 @@
             LEFT JOIN
                 (SELECT
                     Y.PAY_APP_SN,
+                    Y.DT1, Y.DT3,
                     COUNT(*) AS EXNP_DOC_STATUS
                 FROM CAM_MNG.DJ_EXNP_DET X LEFT JOIN CAM_MNG.DJ_EXNP Y ON X.EXNP_SN = Y.EXNP_SN
                 WHERE Y.REQ_END_DE IS NOT NULL AND Y.REQ_END_DE != ""

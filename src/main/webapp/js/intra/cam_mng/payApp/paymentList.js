@@ -284,7 +284,10 @@ var paymentList = {
 
             strDe : $("#payAppStrDe").val(),
             endDe : $("#payAppEndDe").val(),
+        }
 
+        if($("#myEmpSeq").val() == "") {
+            return;
         }
 
         paymentList.mainGrid("/pay/getPaymentList", paymentList.global.searchAjaxData);

@@ -539,7 +539,10 @@ var rndBg = {
                 }, {
                     title: "지출완료일",
                     width: 80,
-                    field: "REQ_END_DE"
+                    field: "REQ_END_DE",
+                    template : function(e){
+                        return (e.R_DT || e.REQ_END_DE);
+                    }
                 },{
                     title: "지출금액",
                     width: 110,
