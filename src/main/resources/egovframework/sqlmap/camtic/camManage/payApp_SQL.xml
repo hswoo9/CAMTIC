@@ -464,9 +464,6 @@
             <if test='payAppType == "4" or "4".equals(payAppType)'>
                 AND PAY_APP_TYPE = 4
             </if>
-            <if test='docStatus != null and !"".equals(docStatus)'>
-                AND A.DOC_STATUS = #{docStatus}
-            </if>
             <if test='pjtCd != null and !"".equals(pjtCd)'>
                 AND A.PJT_CD = #{pjtCd}
             </if>
@@ -480,9 +477,14 @@
                 AND
                     ITEM_COUNT != IFNULL(EXNP_STATUS, 0)
             </if>
-            <if test='searchDept != null and !"".equals(searchDept)'>
-                AND
-                    AA.DOC_STATUS = #{searchDept}
+            <if test='searchDept == "1" or "1".equals(searchDept)'>
+                AND AA.DOC_STATUS IN (0,30,40)
+            </if>
+            <if test='searchDept == "2" or "2".equals(searchDept)'>
+                AND AA.DOC_STATUS IN (10,20,50)
+            </if>
+            <if test='searchDept == "3" or "3".equals(searchDept)'>
+                AND AA.DOC_STATUS IN (100,101)
             </if>
             <choose>
                 <when test='"A".equals(searchKeyword)'>
@@ -886,6 +888,40 @@
             AND
                 A.PJT_CD = #{pjtCd}
         </if>
+        <if test='searchDept == "1" or "1".equals(searchDept)'>
+            AND
+                A.DOC_STATUS IN (0,30,40)
+        </if>
+        <if test='searchDept == "2" or "2".equals(searchDept)'>
+            AND
+                A.DOC_STATUS IN (10,20,50)
+        </if>
+        <if test='searchDept == "3" or "3".equals(searchDept)'>
+            AND
+                A.DOC_STATUS IN (100,101)
+        </if>
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND
+                    B.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"B".equals(searchKeyword)'>
+                AND
+                    A.EXNP_BRIEFS LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"C".equals(searchKeyword)'>
+                AND
+                    A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <otherwise>
+                AND
+                    (
+                        B.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                        OR A.EXNP_BRIEFS LIKE CONCAT('%', #{searchValue},'%')
+                        OR A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                    )
+            </otherwise>
+        </choose>
         ORDER BY EXNP_SN DESC
     </select>
 
