@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script type="text/javascript" src="/js/intra/cam_mng/docPrint/orderPrintPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpPurcInit.js?v=${today}'/>"></script>
 <input type="hidden" id="claimSn" name="claimSn" value="${data.claimSn}"/>
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -39,6 +40,7 @@
 
 <script type="text/javascript">
     let params = JSON.parse('${params}');
+    const serverName = '${pageContext.request.serverName}';
     orderPrintPop.init();
 </script>
 </body>

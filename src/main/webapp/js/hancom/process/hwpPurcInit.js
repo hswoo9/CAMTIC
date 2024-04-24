@@ -475,5 +475,139 @@ var purcInit = {
 
         console.log(html)
         return html.replaceAll("\n", "<br>");
+    },
+
+    htmlOrderItem: function(){
+        let ip = "";
+        if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
+            ip = "http://218.158.231.184";
+        }else{
+            ip = "http://218.158.231.184";
+        }
+
+        const orderInfo = purcInit.global.orderInfo;
+        const list = purcInit.global.orderItemList;
+        const totMap = purcInit.global.claimAmtTotal;
+
+        var dcPay = 0;
+        var html = '';
+        html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '   <tr>';
+        html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
+        html += '           <table border="1" style="border-collapse: collapse; margin-top: 0px;">';
+        html += '               <tr>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 185px;"><p style="font-size:12px;"><b>품 명</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 175px;"><p style="font-size:12px;"><b>규 격</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 60px;"><p style="font-size:12px;"><b>단가</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 40px;"><p style="font-size:12px;"><b>수량</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 60px;"><p style="font-size:12px;"><b>단위</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 80px;"><p style="font-size:12px;"><b>금액</b></p></td>';
+        html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 78px;"><p style="font-size:12px;"><b>비고</b></p></td>';
+        html += '               </tr>';
+
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+
+            var absFlag = true;
+
+            if(map.ITEM_AMT < 0){
+                absFlag = false;
+            }
+
+            html += '   <tr>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.ITEM_NM+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.ITEM_STD+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+comma(map.ITEM_UNIT_AMT)+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+map.ITEM_EA+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:10px;"><b>'+map.ITEM_UNIT+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:10px;"><b>'+comma(list[i].ITEM_AMT)+'</b></p></td>';
+            html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"><b>'+map.ITEM_ETC+'</b></p></td>';
+            html += '   </tr>';
+
+            dcPay += Number(map.DIF_AMT);
+        }
+        if(list.length < 8){
+            for(let i=0; i<8-list.length; i++){
+                html += '   <tr>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '       <td style="height:30px;background-color:#FFFFFF; text-align:left;"><p style="font-size:10px;"></p></td>';
+                html += '   </tr>';
+            }
+        }
+
+        dcPay = dcPay * -1;
+        // html += '   <tr>';
+        // html += '       <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>가 격 조 정</b></p></td>';
+        // html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(dcPay)+'</b></p></td>';
+        // html += '   </tr>';
+
+        html += '   <tr>';
+        html += '       <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;계</b></p></td>';
+        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(orderInfo.EST_AMT)+'</b></p></td>';
+        html += '   </tr>';
+
+        html += '   <tr>';
+        html += '       <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>세&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;액</b></p></td>';
+        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(orderInfo.VAT_AMT)+'</b></p></td>';
+        html += '   </tr>';
+
+        html += '   <tr>';
+        html += '       <td colspan="5" style="height:30px;background-color:#BFBFFF; text-align:center;"><p style="font-size:12px;"><b>합&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;계</b></p></td>';
+        html += '       <td colspan="2" style="height:30px;background-color:#FFFFFF; text-align:right; width: 120px;"><p style="font-size:12px;"><b>&#8361; '+comma(orderInfo.TOT_AMT)+'</b></p></td>';
+        html += '   </tr>';
+        var priPay = ""
+        if(orderInfo.PRI_PAY == 'N'){
+            priPay = "미해당"
+        } else {
+            priPay = "해당"
+        }
+
+        var contYn = ""
+        if(orderInfo.CONT_YN == 'N'){
+            contYn = "미해당"
+        } else {
+            contYn = "해당"
+        }
+
+        html += '   <tr>';
+        html += '       <td colspan="7" style="background-color:#FFFFFF; text-align:left;">';
+        html += '       <div style="margin-top: 5px; font-size: 10px">';
+        html += '       '+orderInfo.SIGNIFICANT == "" || orderInfo.SIGNIFICANT == null ? "" : orderInfo.SIGNIFICANT.replaceAll("\n", "<br>")+'';
+        html += '       </div>';
+        html += '   </tr>';
+        html += '   <tr>';
+        html += '       <td colspan="7" style="background-color:#FFFFFF; text-align:left;">';
+        html += '       <div style="margin-top: 5px; font-size: 8px">';
+        html += '       &nbsp;[물품의검수]판매자는상품을인도할때내부수입검사원으로부터상품검수를받아야하고,상품의인도는이검수에합격함과동시에이루어지는것으로한다.';
+        html += '       <br><br>&nbsp;[하자담보책임]판매자는상품에대해인도후1년간인도전의원인으로발생한물품의품질불량,수량부족,변질등에대해서는책임을진다.';
+        html += '       <br><br>&nbsp;[대금의지급]당인법는상품대금을인도일부터당인법지급기준에의해판매자에게지급하고,선금이필요한경우에는선금지급보증서를발행하여,세금계산서,거래명세표와함께당법인에청구하여야한다.';
+        html += '       </div>';
+        html += '   </tr>';
+        const userInfo = getUser($("#regEmpSeq").val());
+        html += '   <tr style="border: 0">';
+        html += '       <td colspan="4" style="height:45px;background-color:#FFFFFF; text-align:center;"></td>';
+        html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">확인</p></td>';
+        html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+orderInfo.CLAIM_EMP_NAME+'</b></p></td>';
+        if(userInfo.FILE_PATH != null){
+            html += '       <td style="height:45px;background-color:#FFFFFF; text-align:right;">';
+            html += '<img id=\"signPhotoView\" style=\"position:relative;\" width=\"70px;\" src=\"'+ip+userInfo.FILE_PATH+'\">';
+            html += '</td>';
+        }else{
+            html += '       <td style="height:45px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+orderInfo.CLAIM_EMP_NAME+'</b></p></td>';
+        }
+        html += '   </tr>';
+
+        html += '           </table>';
+        html += '       </td>';
+        html += '   </tr>';
+        html += '</table>';
+
+        console.log(html)
+        return html.replaceAll("\n", "<br>");
     }
 }

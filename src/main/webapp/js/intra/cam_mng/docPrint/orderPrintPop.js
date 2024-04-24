@@ -25,7 +25,7 @@ const orderPrintPop = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186/upload/templateForm/orderPrintTmp.hwp";
+        let filePath = "http://218.158.231.186/upload/templateForm/orderPrintTmp2.hwp";
         orderPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             orderPrintPop.openCallBack();
             orderPrintPop.global.hwpCtrl.EditMode = 0;
@@ -51,6 +51,13 @@ const orderPrintPop = {
         });
         const crmMap = crmResult.rs;
         const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: $("#regEmpSeq").val()});
+
+        const claimItemResult = customKendo.fn_customAjax("/purc/getClaimItemList", {
+            claimSn: $("#claimSn").val()
+        });
+        const amtTotalResult = customKendo.fn_customAjax("/purc/getPurcClaimItemAmtTotal", {
+            claimSn: $("#claimSn").val()
+        });
 
         if(order == ""){
             alert("데이터 조회 중 오류가 발생하였습니다. 새로고침 후 진행바랍니다."); return;
@@ -90,9 +97,8 @@ const orderPrintPop = {
         orderPrintPop.global.hwpCtrl.PutFieldText("EMAIL2", "http://camtic.or.kr/");
 
         let supAmtSum = 0;
-        console.log(order);
         /** 3. 견적 리스트 */
-        const list = order.itemList;
+        /*const list = order.itemList;
         for(let i=0; i<list.length; i++){
             orderPrintPop.global.hwpCtrl.PutFieldText("PROD_NM"+i, String(list[i].ITEM_NM));
             orderPrintPop.global.hwpCtrl.PutFieldText("PROD_STD"+i, String(list[i].ITEM_STD));
@@ -102,7 +108,7 @@ const orderPrintPop = {
             orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT"+i, String(fn_numberWithCommas(list[i].ITEM_AMT)));
             orderPrintPop.global.hwpCtrl.PutFieldText("ETC"+i, list[i].ITEM_ETC);
             supAmtSum += list[i].ITEM_AMT;
-        }
+        }*/
 
         /** 4. 견적 합계 */
 
@@ -133,10 +139,21 @@ const orderPrintPop = {
         //     orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(supAmtSum));
         // }
 
-        orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(order.EST_AMT));
+        /*orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM1", fn_numberWithCommas(order.EST_AMT));
         orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM2", fn_numberWithCommas(order.VAT_AMT));
         orderPrintPop.global.hwpCtrl.PutFieldText("SUP_AMT_SUM", fn_numberWithCommas(order.TOT_AMT));
-        orderPrintPop.global.hwpCtrl.PutFieldText("ISS", order.SIGNIFICANT == "" || order.SIGNIFICANT == null ? "" : order.SIGNIFICANT.replaceAll("\n", "\r"));
+        orderPrintPop.global.hwpCtrl.PutFieldText("ISS", order.SIGNIFICANT == "" || order.SIGNIFICANT == null ? "" : order.SIGNIFICANT.replaceAll("\n", "\r"));*/
+
+
+        purcInit.global.orderInfo = result.data;
+        purcInit.global.claimAmtTotal = amtTotalResult.data;
+        purcInit.global.orderItemList = order.itemList;
+
+        orderPrintPop.global.hwpCtrl.PutFieldText("PURC_ITEM_HTML", " ");
+        let htmlData = '';
+        htmlData = purcInit.htmlOrderItem();
+        orderPrintPop.global.hwpCtrl.MoveToField("PURC_ITEM_HTML", true, true, false);
+        orderPrintPop.global.hwpCtrl.SetTextFile(htmlData, "html","insertfile");
 
         /** 담당자 서명 */
         let regSign = order.CLAIM_EMP_NAME;
