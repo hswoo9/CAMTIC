@@ -491,10 +491,10 @@ var purcInit = {
 
         var dcPay = 0;
         var html = '';
-        html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border : none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
-        html += '           <table border="1" style="border-collapse: collapse; margin-top: 0px; border : none;">';
+        html += '           <table border="1" style="border-collapse: collapse; margin-top: 0px;">';
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 185px;"><p style="font-size:12px;"><b>품 명</b></p></td>';
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 175px;"><p style="font-size:12px;"><b>규 격</b></p></td>';
@@ -580,25 +580,26 @@ var purcInit = {
         html += '       '+orderInfo.SIGNIFICANT == "" || orderInfo.SIGNIFICANT == null ? "" : orderInfo.SIGNIFICANT.replaceAll("\n", "<br>")+'';
         html += '       </div>';
         html += '   </tr>';
-        html += '   <tr>';
+        html += '   <tr style="border-bottom: white">';
         html += '       <td colspan="7" style="background-color:#FFFFFF; text-align:left;">';
         html += '       <div style="margin-top: 5px; font-size: 8px">';
-        html += '       &nbsp;[물품의검수]판매자는상품을인도할때내부수입검사원으로부터상품검수를받아야하고,상품의인도는이검수에합격함과동시에이루어지는것으로한다.';
-        html += '       <br><br>&nbsp;[하자담보책임]판매자는상품에대해인도후1년간인도전의원인으로발생한물품의품질불량,수량부족,변질등에대해서는책임을진다.';
-        html += '       <br><br>&nbsp;[대금의지급]당인법는상품대금을인도일부터당인법지급기준에의해판매자에게지급하고,선금이필요한경우에는선금지급보증서를발행하여,세금계산서,거래명세표와함께당법인에청구하여야한다.';
+        html += '       &nbsp;[물품의 검수] 판매자는 상품을 인도할 때 내부 수입검사원으로부터 상품 검수를 받아야하고, 상품의 인도는 이 검수에 합격함과 동시에 이루어지는 것으로 한다.';
+        html += '       <br><br>&nbsp;[하자담보책임] 판매자는 상품에 대해 인도 후 1년간 인도 전의 원인으로 발생한 물품의 품질불량, 수량부족, 변질 등에 대해서는 책임을 진다.';
+        html += '       <br><br>&nbsp;[대금의 지급] 당 인법는 상품 대금을 인도일부터 당 인법 지급 기준에 의해 판매자에게 지급하고, 선금이 필요한 경우에는 선금 지급 보증서를 발행하여, 세금계산서, 거래명세표와 함께당법인에 청구하여야 한다.';
         html += '       </div>';
         html += '   </tr>';
+
         const userInfo = getUser($("#regEmpSeq").val());
-        html += '   <tr style="border-color: #FFFFFF">';
+        html += '   <tr style="border-spacing: 0px; border: white">';
         html += '       <td colspan="4" style="height:45px;background-color:#FFFFFF; text-align:center;"></td>';
-        html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">확인</p></td>';
-        html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+orderInfo.CLAIM_EMP_NAME+'</b></p></td>';
+        html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center; border: 1px solid black"><p style="font-size:12px;">확 인</p></td>';
+        html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center; border-top: 1px solid black"><p style="font-size:12px;"><b>'+orderInfo.CLAIM_EMP_NAME+'</b></p></td>';
         if(userInfo.FILE_PATH != null){
-            html += '       <td style="height:45px;background-color:#FFFFFF; text-align:right;">';
+            html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center; border-top: 1px solid black">';
             html += '<img id=\"signPhotoView\" style=\"position:relative;\" width=\"70px;\" src=\"'+ip+userInfo.FILE_PATH+'\">';
             html += '</td>';
         }else{
-            html += '       <td style="height:45px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;"><b>'+orderInfo.CLAIM_EMP_NAME+'</b></p></td>';
+            html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center; border-top: 1px solid black"><p style="font-size:12px;"><b>'+orderInfo.CLAIM_EMP_NAME+'</b></p></td>';
         }
         html += '   </tr>';
 
