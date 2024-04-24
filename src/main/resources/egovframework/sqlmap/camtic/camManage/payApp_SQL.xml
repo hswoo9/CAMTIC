@@ -1763,6 +1763,27 @@
             CAM_PJT_MNG.DJ_PROJECT B
         ON
             A.PJT_SN = B.PJT_SN
+        LEFT JOIN
+            (SELECT
+                 PJT_SN,
+                 EMP_SEQ,
+                 CASE
+                     WHEN #{month} = '01' THEN MON_PAY_1
+                     WHEN #{month} = '02' THEN MON_PAY_2
+                     WHEN #{month} = '03' THEN MON_PAY_3
+                     WHEN #{month} = '04' THEN MON_PAY_4
+                     WHEN #{month} = '05' THEN MON_PAY_5
+                     WHEN #{month} = '06' THEN MON_PAY_6
+                     WHEN #{month} = '07' THEN MON_PAY_7
+                     WHEN #{month} = '08' THEN MON_PAY_8
+                     WHEN #{month} = '09' THEN MON_PAY_9
+                     WHEN #{month} = '10' THEN MON_PAY_10
+                     WHEN #{month} = '11' THEN MON_PAY_11
+                     WHEN #{month} = '12' THEN MON_PAY_12
+                     END AS MON_SAL_RE
+             FROM CAM_PJT_MNG.DJ_PART_PAY_MON WHERE BS_YEAR = #{year}) D
+        ON
+            A.PJT_SN = D.PJT_SN AND A.PART_EMP_SEQ = D.EMP_SEQ
         WHERE
             A.PJT_SN = #{pjtSn}
           AND

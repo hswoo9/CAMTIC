@@ -111,7 +111,6 @@ var busnPartRate = {
                                             tempArr.push(bsYm);
                                             checkItem = tempArr;
                                         }
-
                                     }
                                 }
                             }
