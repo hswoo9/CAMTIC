@@ -14,10 +14,11 @@ var paymentList = {
             { text: "결재완료", value: "100" },
         ]
         customKendo.fn_dropDownList("searchDept", paymentList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", paymentList.gridReload);
 
         paymentList.global.dropDownDataSource = [
-            { text: "문서번호", value: "DOC_NO" },
+            { text: "문서번호", value: "A" },
+            { text: "신청건명", value: "B" },
+            { text: "프로젝트명", value: "C" },
         ]
 
         $("#payAppType").kendoDropDownList({
@@ -44,6 +45,12 @@ var paymentList = {
         customKendo.fn_textBox(["searchValue"]);
         customKendo.fn_datePicker("payExnpDe", "depth", "yyyy-MM-dd", new Date());
 
+        $("#payAppStrDe, #payAppEndDe").attr("readonly", true);
+
+        $("#payAppStrDe").data("kendoDatePicker").bind("change", paymentList.gridReload);
+        $("#payAppEndDe").data("kendoDatePicker").bind("change", paymentList.gridReload);
+        $("#payAppType").data("kendoDropDownList").bind("change", paymentList.gridReload);
+        $("#searchDept").data("kendoDropDownList").bind("change", paymentList.gridReload);
         paymentList.gridReload();
     },
 
