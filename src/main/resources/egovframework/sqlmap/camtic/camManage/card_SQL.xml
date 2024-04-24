@@ -229,7 +229,7 @@
             (
                 SELECT sB.MER_NM FROM CAM_MNG.DJ_CARD_TO_HIST sA
                 LEFT JOIN CAM_HR.ERP_HIST_CORPCD_USE sB
-                ON sA.AUTH_NO = sB.AUTH_NO AND sA.AUTH_DD = sB.AUTH_DD AND sA.AUTH_HH = sB.AUTH_HH AND sA.BUY_STS = sB.BUY_STS AND sA.CARD_NO = REPLACE(sB.CARD_NO, "-", "")
+                ON sA.AUTH_NO = sB.AUTH_NO AND sA.AUTH_DD = sB.AUTH_DD AND sA.AUTH_HH = sB.AUTH_HH AND sA.CARD_NO = REPLACE(sB.CARD_NO, "-", "")
                 WHERE sA.CARD_TO_SN = A.CARD_TO_SN
                 ORDER BY sA.CARD_TO_HIST_SN DESC LIMIT 1
             ) AS LAST_MER_NM,
