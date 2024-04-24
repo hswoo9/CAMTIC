@@ -2708,6 +2708,7 @@
             DOC_STATUS IN (100, 101)
         AND
             RE_STAT = 'Y'
+        AND B.BUDGET_SN IS NOT NULL
     </select>
 
     <select id="getWaitPaymentIncpList" parameterType="map" resultType="map">
