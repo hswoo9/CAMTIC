@@ -491,10 +491,10 @@ var purcInit = {
 
         var dcPay = 0;
         var html = '';
-        html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
+        html += '<table style="font-family:굴림;margin: 0 auto; max-width: none; border : none; border-collapse: separate; border-spacing: 0; empty-cells: show; border-width: 0; outline: 0; text-align: left; font-size:12px; line-height: 20px; width: 100%; ">';
         html += '   <tr>';
         html += '       <td style="border-width: 0 0 0 0; font-weight: normal; box-sizing: border-box;">';
-        html += '           <table border="1" style="border-collapse: collapse; margin-top: 0px;">';
+        html += '           <table border="1" style="border-collapse: collapse; margin-top: 0px; border : none;">';
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 185px;"><p style="font-size:12px;"><b>품 명</b></p></td>';
         html += '                   <td style="height:30px;background-color:#BFBFFF; text-align:center; width: 175px;"><p style="font-size:12px;"><b>규 격</b></p></td>';
@@ -589,7 +589,7 @@ var purcInit = {
         html += '       </div>';
         html += '   </tr>';
         const userInfo = getUser($("#regEmpSeq").val());
-        html += '   <tr style="border: 0">';
+        html += '   <tr style="border-color: #FFFFFF">';
         html += '       <td colspan="4" style="height:45px;background-color:#FFFFFF; text-align:center;"></td>';
         html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">확인</p></td>';
         html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"><b>'+orderInfo.CLAIM_EMP_NAME+'</b></p></td>';
