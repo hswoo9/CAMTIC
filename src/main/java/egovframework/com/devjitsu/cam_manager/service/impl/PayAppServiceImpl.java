@@ -1446,6 +1446,10 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Override
     public List<Map<String, Object>> getPartRatePay(Map<String, Object> params) {
+
+        params.put("year", params.get("bsYm").toString().split("-")[0]);
+        params.put("month", params.get("bsYm").toString().split("-")[1]);
+
         return payAppRepository.getPartRatePay(params);
     }
 

@@ -158,8 +158,8 @@ var regPay = {
                         $("#crmBnkNm" + i).val(aiRs.BANK_NAME);
                         $("#crmAccNo" + i).val(aiRs.PAY_ACCOUNT);
                         $("#crmAccHolder" + i).val(aiRs.DEPOSITOR);
-                        $("#totCost" + i).val(regPay.comma(rs[i].MON_SAL));
-                        $("#supCost" + i).val(regPay.comma(rs[i].MON_SAL));
+                        $("#totCost" + i).val(regPay.comma(rs[i].MON_SAL_RE));
+                        $("#supCost" + i).val(regPay.comma(rs[i].MON_SAL_RE));
                     }
 
                     selectProject(rs[0].PJT_SN, rs[0].PJT_NM, rs[0].PJT_CD)
