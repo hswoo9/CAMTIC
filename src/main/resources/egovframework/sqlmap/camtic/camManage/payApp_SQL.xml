@@ -1737,36 +1737,52 @@
 
     <select id="getDepositList" parameterType="map" resultType="map">
         /*getDepositList*/
-        SELECT
-            A.*,
-            B.PJT_NM,
-            B.DOC_ID,
-            B.DOC_STATUS,
-            B.PAY_EXNP_DE,
-            (SELECT DOC_NO FROM dj_camtic.a_doc_info where DOC_ID = B.DOC_ID) AS DOC_NO,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_DET_AMT,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_AMT,
-            (SELECT MAX(TR_DE) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) LAST_DT,
-            (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y') RE_TOT_COST,
-            (SELECT COUNT(PAY_INCP_RE_SN) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y') RE_CNT
-        FROM
-            CAM_MNG.DJ_PAY_DEPO A
-        LEFT JOIN
-            CAM_MNG.DJ_PAY_INCP B
-        ON
-            A.PAY_INCP_SN = B.PAY_INCP_SN
-        WHERE
-            1=1
-        <if test='eviType != null and !"".equals(eviType)'>
+        SELECT * FROM (
+            SELECT
+                A.*,
+                B.DOC_ID,
+                B.DOC_STATUS,
+                B.PAY_EXNP_DE,
+                IFNULL((SELECT DOC_NO FROM dj_camtic.a_doc_info where DOC_ID = B.DOC_ID), '') AS DOC_NO,
+                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_DET WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_DET_AMT,
+                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) TOT_AMT,
+                (SELECT MAX(TR_DE) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN) LAST_DT,
+                (SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y')
+                RE_TOT_COST,
+                (SELECT COUNT(PAY_INCP_RE_SN) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN AND RE_STAT = 'Y')
+                RE_CNT
+            FROM
+                CAM_MNG.DJ_PAY_DEPO A
+            LEFT JOIN
+                CAM_MNG.DJ_PAY_INCP B
+            ON
+                A.PAY_INCP_SN = B.PAY_INCP_SN
+            WHERE
+                1=1
+            <if test='eviType != null and !"".equals(eviType)'>
+                AND
+                    A.EVI_TYPE = #{eviType}
+            </if>
+            <if test='docStatus != null and !"".equals(docStatus)'>
+                AND
+                    A.DOC_STATUS = #{docStatus}
+            </if>
             AND
-                A.EVI_TYPE = #{eviType}
-        </if>
-        <if test='docStatus != null and !"".equals(docStatus)'>
-            AND
-                A.DOC_STATUS = #{docStatus}
-        </if>
-        AND
-            A.APPR_STAT = 'Y'
+                A.APPR_STAT = 'Y'
+        ) AA
+        WHERE 1=1
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND
+                    AA.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <otherwise>
+                AND
+                    (
+                        AA.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                    )
+            </otherwise>
+        </choose>
         ORDER BY PAY_DEPO_SN DESC
     </select>
 

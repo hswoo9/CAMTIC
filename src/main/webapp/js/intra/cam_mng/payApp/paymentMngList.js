@@ -16,7 +16,7 @@ var paymentMngList = {
         customKendo.fn_dropDownList("searchDept", paymentMngList.global.dropDownDataSource, "text", "value");
 
         paymentMngList.global.dropDownDataSource = [
-            { text: "문서번호", value: "DOC_NO" },
+            { text: "문서번호", value: "A" },
             { text: "신청건명", value: "B" },
             { text: "프로젝트명", value: "C" },
         ]
