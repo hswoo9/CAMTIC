@@ -295,6 +295,10 @@ var exnpReList = {
                     title: "작성자",
                     field: "REG_EMP_NAME",
                     width: 80
+                }, {
+                    title: "상태",
+                    field: "RE_STAT_TXT",
+                    width: 80
                 },
             ],
         }).data("kendoGrid");

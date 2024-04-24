@@ -1011,7 +1011,9 @@
             ED.TOT_COST,
             DI.DOC_NO AS DOC_NO,
             HEI.EMP_NAME_KR AS REG_EMP_NAME,
-            HDI.DEPT_NAME AS REG_DEPT_NAME
+            HDI.DEPT_NAME AS REG_DEPT_NAME,
+            E.RE_STAT,
+            IF(E.RE_STAT = 'N','미승인','승인') AS RE_STAT_TXT
         FROM
             CAM_MNG.DJ_EXNP_DET ED
         LEFT JOIN
