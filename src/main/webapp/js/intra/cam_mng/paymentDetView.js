@@ -527,7 +527,7 @@ var payDetView = {
                     width: 80,
                     template: function(e){
                         return '<button type="button" class="k-button k-button-solid-base" ' +
-                            'onclick="payDetView.fn_selOtherInfo(\'' + e.PER_CD + '\', \'' + e.PER_NM + '\', \'' + e.ACCT_NO + '\', \'' + e.ACCT_NM + '\', \'' + e.BANK_NM + '\', \'' + e.REG_NO + '\')" style="font-size: 12px);">' +
+                            'onclick="payDetView.fn_selOtherInfo(\'' + e.PER_CD + '\', \'' + e.PER_NM + '\', \'' + e.ACCT_NO + '\', \'' + e.ACCT_NM + '\', \'' + e.BANK_NM + '\', \'' + e.REG_NO2 + '\')" style="font-size: 12px);">' +
                             '   선택' +
                             '</button>';
                     }
