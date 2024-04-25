@@ -81,16 +81,28 @@ var lectureEdu = {
                     title: "이름",
                     width: "4%"
                 }, {
-                    field: "CO_NAME",
-                    title: "회사명",
+                    /*field: "CO_NAME",*/
+                    field: "CRM_NM",
+                    title: "소속",
                     width: "6%"
                 }, {
-                    field: "PART",
-                    title: "부서",
-                    width: "5%"
+                    /*field: "PART",*/
+                    title: "부서(학과)",
+                    width: "5%",
+                    template: function(row){
+                        if(row.USER_TYPE == "S"){
+                            return row.SCHOOL_NAME;
+                        }else if(row.AUDIT_YN == "C"){
+                            return row.CRM_DEPT;
+                        }else{
+                            return "";
+                        }
+
+                    }
                 }, {
-                    field: "PLACE",
-                    title: "직책",
+                    /*field: "PLACE",*/
+                    field: "CRM_POSITION",
+                    title: "직위",
                     width: "5%"
                 }, {
                     field: "BIRTH",
@@ -101,7 +113,8 @@ var lectureEdu = {
                     title: "전화번호",
                     width: "6%"
                 },*/ {
-                    field: "FAX_NUM",
+                    /*field: "FAX_NUM",*/
+                    field: "CRM_FAX",
                     title: "팩스번호",
                     width: "6%"
                 }, {
