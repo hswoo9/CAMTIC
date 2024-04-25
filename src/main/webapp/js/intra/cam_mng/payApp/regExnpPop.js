@@ -171,6 +171,10 @@ var regExnp = {
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
 
         $("#payAppBtnDiv").html(buttonHtml);
+
+        if(data != null && data.DOC_ID != null){
+            reDraftOnlyOne(data.DOC_ID, $("#regEmpSeq").val(), "reReqBtn");
+        }
     },
 
     dataSet : function (){

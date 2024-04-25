@@ -454,7 +454,7 @@ function makeApprBtnHtml(dataInfo, onClick, type, target){
             "</button>";
     }else if(status == "30" || status == "40"){
         html =
-            "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+docId+"\", \""+menuCd+"\", \""+approKey+"\", 2, \"reDrafting\", \""+target+"\");'>" +
+            "<button id='reBtn' type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='tempOrReDraftingPop(\""+docId+"\", \""+menuCd+"\", \""+approKey+"\", 2, \"reDrafting\", \""+target+"\");'>" +
             "   <span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
             "   <span class='k-button-text'>재상신</span>" +
             "</button>";
@@ -484,4 +484,18 @@ function textCut(text, len){
         textEx = text.toString().substring(0, len)+ "...";
     }
     return textEx;
+}
+
+/** 재상신 버튼 숨기기
+ * draftEmpSeq : 기안자 DOC_INFO DRAFT_EMP_SEQ
+ * loginEmpSeq : 로그인한 사용자
+ * buttonId : 재상신 버튼 아이디
+ * */
+function reDraftOnlyOne(docId, loginEmpSeq, buttonId){
+    const draftResult = customKendo.fn_customAjax("/approval/getDraftEmpSeq", {docId: docId});
+    const draftEmpMap = draftResult.data;
+
+    if(loginEmpSeq == null || (draftEmpMap != null && draftEmpMap.DRAFT_EMP_SEQ != loginEmpSeq)){
+        $("#"+buttonId).hide();
+    }
 }

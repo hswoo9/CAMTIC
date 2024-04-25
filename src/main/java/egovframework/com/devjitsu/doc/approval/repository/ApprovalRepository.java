@@ -71,4 +71,6 @@ public class ApprovalRepository extends AbstractDAO {
 
     public void setFormIdUpd(Map<String, Object> params){ delete("approval.setFormIdUpd", params);}
 
+    public Map<String, Object> getDraftEmpSeq(Map<String, Object> params){ return (Map<String, Object>) selectOne("approval.getDraftEmpSeq", params);}
+
 }

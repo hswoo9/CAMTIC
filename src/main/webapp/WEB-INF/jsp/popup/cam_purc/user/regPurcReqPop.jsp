@@ -16,6 +16,7 @@
 
 <input type="hidden" id="auto" value="${params.auto}">
 <input type="hidden" id="apprMngStat" value="${params.vType}">
+<input type="hidden" id="reqEmpSeq" value="${loginVO.uniqId}">
 
 <style>
     #excelUpload {

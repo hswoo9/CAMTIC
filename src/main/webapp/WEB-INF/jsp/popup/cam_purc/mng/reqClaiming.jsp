@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/reqClaiming.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purchase.js?v=${today}'/>"></script>
+<input type="hidden" id="reqEmpSeq" value="${loginVO.uniqId}">
 
 <style>
     .k-list-horizontal .k-radio-item {

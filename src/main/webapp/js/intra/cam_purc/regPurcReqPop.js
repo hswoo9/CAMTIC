@@ -856,6 +856,10 @@ var prp = {
     purcBtnSet : function(purcMap){
         let html = makeApprBtnHtml(purcMap, 'prp.purcDrafting()', 2);
         $("#purcApprBtnBox").html(html);
+
+        if(purcMap != null && purcMap.DOC_ID != null){
+            reDraftOnlyOne(purcMap.DOC_ID, $("#reqEmpSeq").val(), "reBtn");
+        }
     },
 
     fileChange : function(e){

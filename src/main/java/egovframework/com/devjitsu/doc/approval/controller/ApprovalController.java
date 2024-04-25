@@ -462,6 +462,14 @@ public class ApprovalController {
         return "jsonView";
     }
 
+    @RequestMapping("/approval/getDraftEmpSeq")
+    public String getDraftEmpSeq(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = new HashMap<>();
+        data = approvalService.getDraftEmpSeq(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
 
     //오늘날짜 구하기 yyyyMMddhhmmss
     public static String getCurrentDateTime() {

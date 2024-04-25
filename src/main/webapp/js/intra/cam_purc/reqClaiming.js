@@ -1176,6 +1176,10 @@ var reqCl = {
     fn_ClaimBtnSet : function(claimMap){
         let html = makeApprBtnHtml(claimMap, 'reqCl.claimDrafting()');
         $("#claimBtnBox").html(html);
+
+        if(claimMap != null && claimMap.DOC_ID != null){
+            reDraftOnlyOne(claimMap.DOC_ID, $("#reqEmpSeq").val(), "reBtn");
+        }
     },
 
     claimDrafting : function(){

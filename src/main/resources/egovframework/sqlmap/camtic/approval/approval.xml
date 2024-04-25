@@ -1487,4 +1487,14 @@
             DOC_ID = #{docId}
     </update>
 
+    <select id="getDraftEmpSeq" parameterType="map" resultType="map">
+        /* getDraftEmpSeq */
+        SELECT
+            DRAFT_EMP_SEQ
+        FROM
+            DJ_CAMTIC.A_DOC_INFO DI
+        WHERE
+            DOC_ID = #{docId}
+    </select>
+
 </mapper>
