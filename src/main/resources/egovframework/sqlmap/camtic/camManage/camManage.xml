@@ -557,7 +557,9 @@
                 AND
                     A.TR_NM LIKE CONCAT('%', #{searchValue} , '%')
             </if>
-            AND B.USE_ETAX_SN IS NULL
+            <if test='viewType != null and !"".equals(viewType) and "payment".equals(viewType)'>
+                AND B.USE_ETAX_SN IS NULL
+            </if>
         ORDER BY A.ISS_DT DESC
     </select>
 
