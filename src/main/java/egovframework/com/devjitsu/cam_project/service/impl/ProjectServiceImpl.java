@@ -683,6 +683,8 @@ public class ProjectServiceImpl implements ProjectService {
 
         if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
             projectRepository.updateDelvApprStat(params);
+        }else if("20".equals(docSts)) { // 중간결재
+            projectRepository.updateDelvApprStat(params);
         }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
             projectRepository.updateDelvApprStat(params);
         }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결

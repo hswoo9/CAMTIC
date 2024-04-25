@@ -169,7 +169,7 @@ const regReListFilePop = {
                 size = fileArray[i].file_size > 0 ? fCommon.bytesToKB(fileArray[i].file_size) : 0;
 
                 html += '<tr style="text-align: center;padding-top: 10px;">';
-                html += '   <td style="text-align: left">' + fileArray[i].file_org_name + '</td>';
+                html += '   <td style="text-align: left"><span style="cursor: pointer;" onclick="fileDown(\''+fileArray[i].file_path+fileArray[i].file_uuid+'\', \''+fileArray[i].file_org_name+'.'+fileArray[i].file_ext+'\')">'+fileArray[i].file_org_name +'.'+fileArray[i].file_ext+'</span></td>';
                 html += '   <td>' + fileArray[i].file_ext + '</td>';
                 html += '   <td>' + size + '</td>';
                 html += '   <td>';
