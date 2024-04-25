@@ -52,6 +52,7 @@ var etaxList = {
                     data.strDt = $("#strDt").val().toString().replace(/-/g, "");
                     data.endDt = $("#endDt").val().toString().replace(/-/g, "");
                     data.type = $("#taxGubun").val();
+                    data.viewType = 'mng';
                     return data;
                 }
             },

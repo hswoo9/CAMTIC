@@ -50,9 +50,10 @@ var payEtaxHist = {
                 parameterMap: function(data){
                     data.searchValue = $("#searchValue").val();
                     data.type = $("#type").val();
-                    data.dtGubun = 'a'
+                    data.dtGubun = 'a';
                     data.strDt = $("#startDt").val().toString().replace(/-/g, "");
                     data.endDt = $("#endDt").val().toString().replace(/-/g, "");
+                    data.viewType = 'payment';
                     return data;
                 }
             },
