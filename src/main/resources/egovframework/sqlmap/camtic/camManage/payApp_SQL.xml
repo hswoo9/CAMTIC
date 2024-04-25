@@ -2912,4 +2912,13 @@
         WHERE
             PAY_INCP_SN = #{payIncpSn}
     </update>
+
+    <update id="updExnpNullStat" parameterType="map" >
+        /*updExnpNullStat*/
+        UPDATE CAM_MNG.DJ_EXNP_DET
+        SET
+            PMR_NO = null
+        WHERE
+            EXNP_SN = #{exnpSn}
+    </update>
 </mapper>
