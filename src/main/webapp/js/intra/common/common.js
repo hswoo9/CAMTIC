@@ -475,6 +475,10 @@ function textCut(text, len){
     if(text == null || text == ""){
         return "";
     }
+    if(len == null || len == ""){
+        len = 62;
+    }
+
     let textEx = text;
     if(text.toString().length > len){
         textEx = text.toString().substring(0, len)+ "...";
