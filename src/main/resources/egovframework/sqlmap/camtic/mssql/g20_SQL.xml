@@ -468,7 +468,11 @@
                 DUMMY2,
                 DUMMY3,
                 ACISU_DT,
-                DIV_CD2
+                DIV_CD2,
+                NDEP_AM,
+                INAD_AM,
+                INTX_AM,
+                RSTX_AM
             )
         VALUES
             (
@@ -528,7 +532,11 @@
                 #{DUMMY2},
                 #{DUMMY3},
                 #{IN_DT_TMP},
-                #{DIV_CD2}
+                #{DIV_CD2},
+                #{NDEP_AM},
+                #{INAD_AM},
+                #{INTX_AM},
+                #{RSTX_AM}
             )
     </insert>
 
