@@ -2882,6 +2882,7 @@
             CAM_MNG.DJ_EXNP_DET
         WHERE
             EXNP_SN = #{exnpSn}
+        ORDER BY PMR_NO DESC
         LIMIT 1
     </select>
 
