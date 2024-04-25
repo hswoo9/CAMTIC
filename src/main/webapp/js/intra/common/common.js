@@ -470,3 +470,14 @@ function makeApprBtnHtml(dataInfo, onClick, type, target){
 
     return html;
 }
+
+function textCut(text, len){
+    if(text == null || text == ""){
+        return "";
+    }
+    let textEx = text;
+    if(text.toString().length > len){
+        textEx = text.toString().substring(0, len)+ "...";
+    }
+    return textEx;
+}

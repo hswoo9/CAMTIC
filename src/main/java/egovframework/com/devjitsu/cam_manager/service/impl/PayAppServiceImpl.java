@@ -1835,6 +1835,22 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public void regIncpCancel(Map<String, Object> params) {
+
+        Map<String, Object> incpMap = payAppRepository.getIncpData(params);
+        // EXNP_DE > IN_DT
+
+        Map<String, Object> g20Map = g20Repository.getIncpDocData(incpMap);
+
+        payAppRepository.resolutionIncpReStatus(params);
+
+//        g20Repository.execUspAncj080Delete00(g20Map);
+
+        g20Repository.delExnpDocData(g20Map);
+    }
+
+
+    @Override
     public void updateExnpDe(Map<String, Object> params) {
         payAppRepository.updateExnpDe(params);
     }

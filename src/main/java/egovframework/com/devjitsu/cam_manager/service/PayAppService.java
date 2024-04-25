@@ -115,5 +115,7 @@ public interface PayAppService {
 
     void regExnpCancel(Map<String, Object> params);
 
+    void regIncpCancel(Map<String, Object> params);
+
     void updateExnpDe(Map<String, Object> params);
 }
