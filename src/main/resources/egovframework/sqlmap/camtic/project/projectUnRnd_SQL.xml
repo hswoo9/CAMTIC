@@ -444,6 +444,8 @@
             A.*,
             DATE_FORMAT(A.REG_DT, '%Y-%m-%d') AS REG_DATE,
             B.*,
+            (SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN=B.CRM_SN) AS CRM_NM,
+            (SELECT FAX FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN=B.CRM_SN) AS CRM_FAX,
             C.LEC_COST,
             (SELECT YEAR(C.LEC_END_DE)) AS scYear
         FROM

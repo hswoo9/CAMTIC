@@ -534,4 +534,8 @@ public class PayAppRepository extends AbstractDAO {
     public void resolutionIncpReStatus(Map<String, Object> params) {
         update("payApp.resolutionIncpReStatus", params);
     }
+
+    public void updExnpNullStat(Map<String, Object> params) {
+        update("payApp.updExnpNullStat", params);
+    }
 }

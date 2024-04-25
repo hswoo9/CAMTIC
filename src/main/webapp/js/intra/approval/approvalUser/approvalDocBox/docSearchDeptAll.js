@@ -143,7 +143,7 @@ var docSearchDeptAll = {
                         if(e.DOC_TITLE == null || e.DOC_TITLE == ""){
                             return securityIcon + '<a href="javascript:approveDocView(' + e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.DOC_MENU_CD + '\',\'' + e.DEL_FLAG + '\');" ' + textColor + '>제목 없음</a>';
                         }else{
-                            return securityIcon + '<a href="javascript:approveDocView(' + e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.DOC_MENU_CD + '\',\'' + e.DEL_FLAG + '\');" ' + textColor + '>'+textCut(e.DOC_TITLE, 92)+'</a>';
+                            return securityIcon + '<a href="javascript:approveDocView(' + e.DOC_ID + ',\'' + e.APPRO_KEY + '\',\'' + e.DOC_MENU_CD + '\',\'' + e.DEL_FLAG + '\');" ' + textColor + '>'+textCut(e.DOC_TITLE, 87)+'</a>';
                         }
                     },
                     attributes : {
