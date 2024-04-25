@@ -136,12 +136,16 @@ function fn_selOtherInfo(trCd, bankName,  accountHolder, accountNum, empNameKr, 
     if(trCd == null || trCd == "" || trCd == "undefined"){
         trCd = "";
     }
+    if(regNo == null || regNo == "" || regNo == "undefined"){
+        regNo = "";
+    }
 
     $("#trCd" + idx).val(trCd);
     $("#crmNm" + idx).val(empNameKr);
     $("#crmBnkNm" + idx).val(bankName);
     $("#crmAccNo" + idx).val(accountNum);
     $("#crmAccHolder" + idx).val(accountHolder);
+    $("#regNo" + idx).val(regNo);
 
 
     var url = "/payApp/pop/setPayRequest.do?idx=" + idx + "&type=" + type + "&trCd=" + trCd + "&empNameKr=" + empNameKr + "&bankName=" + bankName + "&accountNum=" + accountNum + "&accountHolder=" + accountHolder + "&regNo=" + regNo;
