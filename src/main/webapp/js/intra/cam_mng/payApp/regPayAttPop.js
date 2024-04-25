@@ -368,7 +368,7 @@ const regPayAtt = {
                 var fileName = fileArray[i].file_org_name;
                 var fileExt = fileArray[i].file_ext;
                 html1 += '<tr style="text-align: center;padding-top: 10px;">';
-                html1 += '   <td style="text-align: left">' + fileName + '</td>';
+                html1 += '   <td style="text-align: left"><span style="cursor: pointer;" onclick="fileDown(\''+fileArray[i].file_path+fileArray[i].file_uuid+'\', \''+fileArray[i].file_org_name+'.'+fileArray[i].file_ext+'\')">' + fileName + '</span></td>';
                 html1 += '   <td>' + fileExt + '</td>';
                 html1 += '   <td>' + size + '</td>';
                 html1 += '   <td>';
