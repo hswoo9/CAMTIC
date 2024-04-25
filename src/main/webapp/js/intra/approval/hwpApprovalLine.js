@@ -195,6 +195,8 @@ var hwpApprovalLine = {
 
         let empData;
         let copperData;
+        let pmData;
+
         for(let i=0; i<list.length; i++){
             if(list[i].APPROVE_TYPE == "2"){
                 empData = list[i];
@@ -205,6 +207,11 @@ var hwpApprovalLine = {
                 copperData = list[i];
                 console.log("----- 협조자는... -----");
                 console.log(copperData);
+            }
+            else if(list[i].APPROVE_TYPE == "147"){
+                pmData = list[i];
+                console.log("----- 사업책임자는... -----");
+                console.log(pmData);
             }
         }
         if(list[list.length - 1].APPROVE_TYPE == "0" && list[list.length - 1].APPROVE_DUTY_NAME == "원장"){
@@ -336,6 +343,10 @@ var hwpApprovalLine = {
                     hwpApprovalLine.setTranscript(signField, docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ, docView.global.rs.approveNowRoute.APPROVE_EMP_NAME, "view");
                 }
             }
+        }
+
+        if(pmData != null){
+            hwpApprovalLine.setPjtPayApp();
         }
 
         console.log("----- 양식 사인 세팅 끝 -----");

@@ -949,7 +949,8 @@
                 WHEN ED.EVID_TYPE = 2 THEN '계산서'
                 WHEN ED.EVID_TYPE = 3 THEN '신용카드'
                 WHEN ED.EVID_TYPE = 4 THEN '직원지급'
-                WHEN ED.EVID_TYPE = 5 THEN '소득신고자'
+                WHEN ED.EVID_TYPE = 5 THEN '사업소득자'
+                WHEN ED.EVID_TYPE = 9 THEN '기타소득자'
                 WHEN ED.EVID_TYPE = 6 THEN '기타'
             END AS EVID_TYPE_TEXT,
             CASE
