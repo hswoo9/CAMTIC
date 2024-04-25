@@ -381,6 +381,7 @@
         SELECT
             PER_CD,
             LEFT(REG_NO,6) AS REG_NO,
+            LEFT(REG_NO,6) + '-' + RIGHT(REG_NO,7) AS REG_NO2,
             PER_NM,
             ACCT_NO,
             ACCT_NM,
@@ -781,6 +782,11 @@
     <select id="getExnpDocData" parameterType="map" resultType="map">
         /*getExnpDocData*/
         SELECT IN_DT, PMR_NO FROM ZN_SAUTOABDOCU WHERE RPMR_NO = #{PMR_NO}
+    </select>
+
+    <select id="getIncpDocData" parameterType="map" resultType="map">
+        /*getIncpDocData*/
+        SELECT IN_DT, PMR_NO FROM ZN_SAUTOABDOCU WHERE PMR_NO = #{PMR_NO}
     </select>
 
     <delete id="execUspAncj080Delete00" parameterType="map">

@@ -81,6 +81,8 @@ var regIncmRe = {
         let buttonHtml = "";
         if(data.RE_STAT == "N"){
             buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncmRe.fn_save()">반제결의서 승인</button>';
+        } else {
+            buttonHtml += '<button type="button" id="cancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regIncmRe.fn_regExnpCancel('+data.PAY_INCP_SN+')">반제결의서 승인 취소</button>';
         }
 
         buttonHtml += '<button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>';
@@ -113,6 +115,30 @@ var regIncmRe = {
                 alert("ERP 연동 중 오류가 발생하였습니다.");
             }
         }
+    },
+
+    fn_regExnpCancel : function (payIncpSn) {
+
+        if(!confirm("수입 반제결의서 승인을 취소하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            payIncpSn : payIncpSn,
+        }
+
+        $.ajax({
+            url : "/payApp/regIncpCancel",
+            type : "POST",
+            data: data,
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("승인이 취소되었습니다.");
+                    location.reload()
+                }
+            }
+        });
     },
 
     payIncpDrafting: function(){

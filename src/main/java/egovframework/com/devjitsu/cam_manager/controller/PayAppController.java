@@ -1099,6 +1099,20 @@ public class PayAppController {
         return "jsonView";
     }
 
+    @RequestMapping("/payApp/regIncpCancel")
+    public String regIncpCancel(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+
+            payAppService.regIncpCancel(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
     @RequestMapping("/pay/updateExnpDe")
     public String updateExnpDe(@RequestParam Map<String, Object> params, Model model){
 

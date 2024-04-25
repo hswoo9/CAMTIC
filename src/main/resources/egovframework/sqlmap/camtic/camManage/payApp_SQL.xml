@@ -2902,4 +2902,13 @@
         WHERE
             EXNP_SN = #{exnpSn}
     </update>
+
+    <update id="resolutionIncpReStatus" parameterType="map">
+        /*resolutionIncpReStatus*/
+        UPDATE CAM_MNG.DJ_PAY_INCP
+        SET
+            RE_STAT = 'N'
+        WHERE
+            PAY_INCP_SN = #{payIncpSn}
+    </update>
 </mapper>
