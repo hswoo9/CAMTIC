@@ -763,7 +763,7 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "3");
 
-                } else if(data.get("EVID_TYPE").toString().equals("5")){
+                } else if(data.get("EVID_TYPE").toString().equals("5") || data.get("EVID_TYPE").toString().equals("9")){
                     data.put("SET_FG", "1");
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "4");
