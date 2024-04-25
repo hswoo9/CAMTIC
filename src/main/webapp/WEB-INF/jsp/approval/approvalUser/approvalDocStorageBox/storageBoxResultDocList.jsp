@@ -9,12 +9,6 @@
     .title-road{font-size: 11px; color: #999999; margin-top:10px;}
     .tit_p{font-weight: bold; margin-bottom: 13px; padding-left: 12px; font-size: 13px;}
     table { background-color: white; }
-
-    .k-grid-content td {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
 </style>
 <link rel="stylesheet" href="/css/intra/kTreeView.css?${toDate}">
 <script type="text/javascript" src="<c:url value='/js/intra/approval/storageBoxResultDocList.js?${toDate}'/>"></script>
