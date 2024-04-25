@@ -80,7 +80,7 @@ const ojtResult = {
         if(studyUserSeq == ""){ alert("학습자가 선택되지 않았습니다."); return; }
         if(location == ""){ alert("지도장소가 작성되지 않았습니다."); return; }
         if(content == ""){ alert("중점지도항목이 작성되지 않았습니다."); return; }
-        if(saveType == ""){ alert("내용저장 방법이 선택되지 않았습니다."); return; }
+        if(saveType == "" || saveType == null){ alert("내용저장 방법이 선택되지 않았습니다."); return; }
 
         let data = {
             mode: mode,
