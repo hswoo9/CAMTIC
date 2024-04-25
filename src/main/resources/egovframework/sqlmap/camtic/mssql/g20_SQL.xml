@@ -815,4 +815,12 @@
             PMR_NO = #{PMR_NO}
     </delete>
 
+    <delete id="delExnpReDocData" parameterType="map">
+        DELETE
+        FROM
+            ZN_SAUTOABDOCU
+        WHERE
+            RPMR_NO = #{PMR_NO}
+    </delete>
+
 </mapper>

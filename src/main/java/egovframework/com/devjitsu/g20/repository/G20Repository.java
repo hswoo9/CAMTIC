@@ -148,4 +148,9 @@ public class G20Repository extends AbstractDAO {
     public Map<String, Object> getExnpDocDataEtc(Map<String, Object> exnpMap) {
         return (Map<String, Object>) selectOneMs("g20.getExnpDocDataEtc", exnpMap);
     }
+
+    public void delExnpReDocData(Map<String, Object> map) {
+        insertMs("g20.delExnpReDocData", map);
+
+    }
 }
