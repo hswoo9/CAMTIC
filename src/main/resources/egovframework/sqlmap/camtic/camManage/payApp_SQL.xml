@@ -436,6 +436,7 @@
             LEFT JOIN
                 (SELECT
                     PAY_APP_SN,
+                    EVID_TYPE,
                     COUNT(*) AS EXNP_STATUS
                 FROM CAM_MNG.DJ_PAY_APP_DET
                 WHERE EXNP_SAVE = 'Y'
