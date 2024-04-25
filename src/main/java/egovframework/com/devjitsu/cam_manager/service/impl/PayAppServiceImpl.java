@@ -713,19 +713,19 @@ public class PayAppServiceImpl implements PayAppService {
                 }
 
                 if(hearnerMap != null) {
-                    data.put("ETCDATA_CD", hearnerMap.get("ETCDATA_CD"));
-                    data.put("ETCPER_CD", hearnerMap.get("ETCPER_CD"));
-                    data.put("ETCREG_NO", hearnerMap.get("ETCREG_NO"));
-                    data.put("ETCPER_NM", hearnerMap.get("ETCPER_NM"));
-                    data.put("ETCZIP_CD", hearnerMap.get("ETCZIP_CD"));
-                    data.put("ETCADDR", hearnerMap.get("ETCADDR"));
-                    data.put("ETCPHONE", hearnerMap.get("ETCPHONE"));
+                    data.put("ETCDATA_CD", hearnerMap.get("DATA_CD"));
+                    data.put("ETCPER_CD", hearnerMap.get("PER_CD"));
+                    data.put("ETCREG_NO", hearnerMap.get("REG_NO"));
+                    data.put("ETCPER_NM", hearnerMap.get("PER_NM"));
+                    data.put("ETCZIP_CD", hearnerMap.get("ZIP_CD"));
+                    data.put("ETCADDR", hearnerMap.get("ADDR"));
+                    data.put("ETCPHONE", hearnerMap.get("PHONE"));
                     data.put("ETCBANK_CD", "");
-                    data.put("ETCACCT_NO", hearnerMap.get("ETCACCT_NO"));
-                    data.put("ETCACCT_NM", hearnerMap.get("ETCACCT_NM"));
-                    data.put("ETCRVRS_YM", hearnerMap.get("ETCRVRS_YM"));
-                    data.put("ETCDIV_CD", hearnerMap.get("ETCDIV_CD"));
-                    data.put("ETCDUMMY1", "76");
+                    data.put("ETCACCT_NO", hearnerMap.get("ACCT_NO"));
+                    data.put("ETCACCT_NM", hearnerMap.get("ACCT_NM"));
+                    data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
+
+                    data.put("ETCDIV_CD", data.get("DIV_CD"));
                 }
 
                 if(data.get("EVID_TYPE").toString().equals("1")){
@@ -763,11 +763,26 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "3");
 
-                } else if(data.get("EVID_TYPE").toString().equals("5") || data.get("EVID_TYPE").toString().equals("9")){
+                } else if(data.get("EVID_TYPE").toString().equals("5")){
                     data.put("SET_FG", "1");
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "4");
+                    data.put("TAX_DT", data.get("IN_DT"));
 
+                    if(hearnerMap == null){
+                        data.put("ETCPER_NM", data.get("TR_NM"));
+                        data.put("ETCACCT_NO", data.get("CRM_ACC_NO"));
+                        data.put("ETCACCT_NM", data.get("CRM_ACC_HOLDER"));
+                        data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
+                        data.put("ETCDIV_CD", data.get("DIV_CD"));
+
+                        data.put("ETCDUMMY1", "76");
+                    }
+                } else if(data.get("EVID_TYPE").toString().equals("9")){
+                    data.put("SET_FG", "1");
+                    data.put("VAT_FG", "3");
+                    data.put("TR_FG", "4");
+                    data.put("TAX_DT", data.get("IN_DT"));
                     if(hearnerMap == null){
                         data.put("ETCPER_NM", data.get("TR_NM"));
                         data.put("ETCACCT_NO", data.get("CRM_ACC_NO"));
@@ -869,18 +884,18 @@ public class PayAppServiceImpl implements PayAppService {
                 }
 
                 if(hearnerMap != null) {
-                    data.put("ETCDATA_CD", hearnerMap.get("ETCDATA_CD"));
-                    data.put("ETCPER_CD", hearnerMap.get("ETCPER_CD"));
-                    data.put("ETCREG_NO", hearnerMap.get("ETCREG_NO"));
-                    data.put("ETCPER_NM", hearnerMap.get("ETCPER_NM"));
-                    data.put("ETCZIP_CD", hearnerMap.get("ETCZIP_CD"));
-                    data.put("ETCADDR", hearnerMap.get("ETCADDR"));
-                    data.put("ETCPHONE", hearnerMap.get("ETCPHONE"));
+                    data.put("ETCDATA_CD", hearnerMap.get("DATA_CD"));
+                    data.put("ETCPER_CD", hearnerMap.get("PER_CD"));
+                    data.put("ETCREG_NO", hearnerMap.get("REG_NO"));
+                    data.put("ETCPER_NM", hearnerMap.get("PER_NM"));
+                    data.put("ETCZIP_CD", hearnerMap.get("ZIP_CD"));
+                    data.put("ETCADDR", hearnerMap.get("ADDR"));
+                    data.put("ETCPHONE", hearnerMap.get("PHONE"));
                     data.put("ETCBANK_CD", "");
-                    data.put("ETCACCT_NO", hearnerMap.get("ETCACCT_NO"));
-                    data.put("ETCACCT_NM", hearnerMap.get("ETCACCT_NM"));
-                    data.put("ETCRVRS_YM", hearnerMap.get("ETCRVRS_YM"));
-                    data.put("ETCDIV_CD", hearnerMap.get("ETCDIV_CD"));
+                    data.put("ETCACCT_NO", hearnerMap.get("ACCT_NO"));
+                    data.put("ETCACCT_NM", hearnerMap.get("ACCT_NM"));
+                    data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
+                    data.put("ETCDIV_CD", data.get("DIV_CD"));
                 }
 
                 if(!data.get("RPMR_NO").toString().equals("")){
@@ -1822,8 +1837,12 @@ public class PayAppServiceImpl implements PayAppService {
 
         Map<String, Object> exnpMap = payAppRepository.getExnpDetOne(params);
         // EXNP_DE > IN_DT
-
-        Map<String, Object> g20Map = g20Repository.getExnpDocData(exnpMap);
+        Map<String, Object> g20Map = new HashMap<>();
+        if(!exnpMap.get("EVID_TYPE").equals("1") || !exnpMap.get("EVID_TYPE").equals("2") || !exnpMap.get("EVID_TYPE").equals("3")) {
+            g20Map = g20Repository.getExnpDocDataEtc(exnpMap);
+        } else {
+            g20Map = g20Repository.getExnpDocData(exnpMap);
+        }
 
         payAppRepository.updExnpReStat(params);
 

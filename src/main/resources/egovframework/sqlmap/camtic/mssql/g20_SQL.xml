@@ -784,6 +784,11 @@
         SELECT IN_DT, PMR_NO FROM ZN_SAUTOABDOCU WHERE RPMR_NO = #{PMR_NO}
     </select>
 
+    <select id="getExnpDocDataEtc" parameterType="map" resultType="map">
+        /*getExnpDocData*/
+        SELECT IN_DT, PMR_NO FROM ZN_SAUTOABDOCU WHERE PMR_NO = #{PMR_NO}
+    </select>
+
     <select id="getIncpDocData" parameterType="map" resultType="map">
         /*getIncpDocData*/
         SELECT IN_DT, PMR_NO FROM ZN_SAUTOABDOCU WHERE PMR_NO = #{PMR_NO}
