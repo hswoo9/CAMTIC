@@ -1853,7 +1853,16 @@ public class PayAppServiceImpl implements PayAppService {
         Map<String, Object> exnpMap = payAppRepository.getExnpDetOne(params);
         // EXNP_DE > IN_DT
         Map<String, Object> g20Map = new HashMap<>();
-        if(!exnpMap.get("EVID_TYPE").equals("1") || !exnpMap.get("EVID_TYPE").equals("2") || !exnpMap.get("EVID_TYPE").equals("3")) {
+        if(exnpMap.get("EVID_TYPE").equals("1") || !exnpMap.get("EVID_TYPE").equals("2") || exnpMap.get("EVID_TYPE").equals("3")) {
+            g20Map = g20Repository.getExnpDocData(exnpMap);
+            g20Repository.delExnpDocData(g20Map);
+
+            g20Repository.execUspAncj080Delete00(g20Map);
+
+            payAppRepository.updExnpReStat(params);
+
+        } else {
+
             g20Map = g20Repository.getExnpDocDataEtc(exnpMap);
 
             List<Map<String, Object>> listMap = payAppRepository.getExnpDetailData(params);
@@ -1865,14 +1874,6 @@ public class PayAppServiceImpl implements PayAppService {
             }
 
             payAppRepository.updExnpNullStat(params);
-
-        } else {
-            g20Map = g20Repository.getExnpDocData(exnpMap);
-            g20Repository.delExnpDocData(g20Map);
-
-            g20Repository.execUspAncj080Delete00(g20Map);
-
-            payAppRepository.updExnpReStat(params);
         }
 
 
