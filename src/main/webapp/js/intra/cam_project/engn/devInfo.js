@@ -544,7 +544,7 @@ var devInfo = {
             } else if (status == "30" || status == "40") {
                 buttonHtml += "<button type=\"button\" id=\"devDelBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"devInfo.fn_delete()\">삭제</button>";
                 buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
-                buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('" + devMap.DOC_ID + "', '" + devMap.DOC_MENU_CD + "', '" + devMap.APPRO_KEY + "', 2, 'reDrafting');\">재상신</button>";
+                buttonHtml += "<button type=\"button\" id=\"devReBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-error\" onclick=\"tempOrReDraftingPop('" + devMap.DOC_ID + "', '" + devMap.DOC_MENU_CD + "', '" + devMap.APPRO_KEY + "', 2, 'reDrafting');\">재상신</button>";
 
             } else if (status == "100") {
                 buttonHtml += "<button type=\"button\" id=\"devCanBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('" + devMap.DOC_ID + "', '" + devMap.APPRO_KEY + "', '" + devMap.DOC_MENU_CD + "');\">열람</button>";
@@ -581,6 +581,10 @@ var devInfo = {
             buttonHtml += "<button type=\"button\" id=\"devSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"devInfo.fn_save()\">저장</button>";
         }
         $("#devBtnDiv").html(buttonHtml);
+
+        if(devMap != null && devMap.DOC_ID != null){
+            reDraftOnlyOne(devMap.DOC_ID, $("#devRegEmpSeq").val(), "devReBtn");
+        }
     },
 
     fn_delRow : function(i){

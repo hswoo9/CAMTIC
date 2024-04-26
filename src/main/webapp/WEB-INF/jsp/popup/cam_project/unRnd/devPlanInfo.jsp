@@ -9,6 +9,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 
 <input type="hidden" id="step" value="S1" />
+<input type="hidden" id="devRegEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 
 <form id="unRndDevDraftFrm" method="post">

@@ -10,6 +10,7 @@
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="expAmt" value="${params.expAmt}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="devRegEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 
 <form id="devDraftFrm" method="post">
