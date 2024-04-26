@@ -515,7 +515,7 @@ var hwpApprovalLine = {
     },
 
     setPjtPayApp : function(){
-        if(docView.global.rs.docInfo.FORM_ID == "147"){
+        if($("#type").val() != "drafting" && docView.global.rs.docInfo.FORM_ID == "147"){
             const payAppSn = docView.global.params.approKey.split("_")[1];
             const result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", { payAppSn: payAppSn });
             const rs = result.map;
