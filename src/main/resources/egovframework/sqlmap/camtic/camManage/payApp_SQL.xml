@@ -858,7 +858,8 @@
             C.PAY_EXNP_DE,
             D.TOT_COST,
             D.BUDGET_NM BUDGET_NM_EX,
-            D.EVID_TYPE EVI_TYPE
+            D.EVID_TYPE EVI_TYPE,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS REG_EMP_NAME
         FROM
             CAM_MNG.DJ_EXNP A
         LEFT JOIN

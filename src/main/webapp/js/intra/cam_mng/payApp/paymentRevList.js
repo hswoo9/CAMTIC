@@ -105,7 +105,7 @@ var paymentRevList = {
                 }, {
                     title: "신청건명",
                     field: "APP_TITLE",
-                    width: 400,
+                    width: 330,
                     template: function(e){
                         var type = "rev";
 
@@ -127,6 +127,10 @@ var paymentRevList = {
                         return e.PJT_NM;
                     }
                 }, {
+                    title: "신청자",
+                    width: 80,
+                    field: "EMP_NAME"
+                }, {
                     title: "신청일",
                     width: 80,
                     field: "REG_DT",
@@ -147,7 +151,7 @@ var paymentRevList = {
                     field: "REQ_END_DE"
                 }, {
                     title: "지출금액",
-                    width: 120,
+                    width: 100,
                     template: function(e){
                         var cost = e.TOT_COST;
                         if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){

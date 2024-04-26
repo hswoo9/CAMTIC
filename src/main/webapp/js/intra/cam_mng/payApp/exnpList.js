@@ -89,21 +89,25 @@ var exnpList = {
                 }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",
-                    width: 250,
+                    width: 230,
                     template: function(e){
                         return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'rev\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
-                    width: 210,
+                    width: 190,
                     template: function (e){
                         return e.PJT_NM;
                     }
                 }, {
                     title: "세출과목",
                     field: "BUDGET_NM_EX",
-                    width: 210
+                    width: 190
+                }, {
+                    title: "작성자",
+                    field: "REG_EMP_NAME",
+                    width: 60
                 }, {
                     title: "신청일",
                     width: 70,
@@ -132,7 +136,7 @@ var exnpList = {
                     }
                 }, {
                     title: "지출금액",
-                    width: 80,
+                    width: 70,
                     template: function(e){
                         var cost = e.TOT_COST;
                         if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
