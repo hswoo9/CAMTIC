@@ -14,6 +14,14 @@
         text-decoration: underline !important;
         cursor: pointer;
     }
+
+    #budgetMainGrid TD{
+        border-width: 0 0 1px 1px !important;
+    }
+
+    #budgetMainGrid2 TD{
+        border-width: 0 0 1px 1px !important;
+    }
 </style>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/budgetListDetail.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>

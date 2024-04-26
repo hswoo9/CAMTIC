@@ -398,6 +398,38 @@ var bld = {
         acctAm1Sum = 0;
         acctAm3Sum = 0;
         subAmSum = 0;
+
+        var grid = $("#budgetMainGrid").data("kendoGrid");
+        var data = grid.dataSource.data();
+        $.each(data, function (i, row) {
+            if(row.DIV_FG_NM == "장"){
+                $('tr[data-uid="' + row.uid + '"] ').css("background-color", "#FFFCE3");
+            }
+
+            if(row.DIV_FG_NM == "관"){
+                $('tr[data-uid="' + row.uid + '"] ').css("background-color", "#EAEBFF");
+            }
+
+            if(row.DIV_FG_NM == "항"){
+                $('tr[data-uid="' + row.uid + '"] ').css("background-color", "#E7FFDD");
+            }
+        });
+
+        var grid = $("#budgetMainGrid2").data("kendoGrid");
+        var data = grid.dataSource.data();
+        $.each(data, function (i, row) {
+            if(row.DIV_FG_NM == "장"){
+                $('tr[data-uid="' + row.uid + '"] ').css("background-color", "#FFFCE3");
+            }
+
+            if(row.DIV_FG_NM == "관"){
+                $('tr[data-uid="' + row.uid + '"] ').css("background-color", "#EAEBFF");
+            }
+
+            if(row.DIV_FG_NM == "항"){
+                $('tr[data-uid="' + row.uid + '"] ').css("background-color", "#E7FFDD");
+            }
+        });
     }
 }
 

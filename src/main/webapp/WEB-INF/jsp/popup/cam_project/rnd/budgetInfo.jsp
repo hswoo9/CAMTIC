@@ -23,6 +23,14 @@
     .k-master-row {
         white-space: nowrap !important;
     }
+
+    #budgetMainGrid TD{
+        border-width: 0 0 1px 1px !important;
+    }
+
+    #budgetMainGrid2 TD{
+        border-width: 0 0 1px 1px !important;
+    }
 </style>
 
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
