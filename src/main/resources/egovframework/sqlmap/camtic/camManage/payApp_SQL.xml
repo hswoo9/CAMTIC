@@ -1138,6 +1138,37 @@
             <![CDATA[
                 A.APP_DE > #{startDt} AND A.APP_DE <= #{endDt}
             ]]>
+            <if test='searchDept == "1" or "1".equals(searchDept)'>
+                AND A.DOC_STATUS IN (0,30,40)
+            </if>
+            <if test='searchDept == "2" or "2".equals(searchDept)'>
+                AND A.DOC_STATUS IN (10,20,50)
+            </if>
+            <if test='searchDept == "3" or "3".equals(searchDept)'>
+                AND A.DOC_STATUS IN (100,101)
+            </if>
+            <choose>
+                <when test='"A".equals(searchKeyword)'>
+                    AND
+                    B.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                </when>
+                <when test='"B".equals(searchKeyword)'>
+                    AND
+                    A.APP_CONT LIKE CONCAT('%', #{searchValue},'%')
+                </when>
+                <when test='"C".equals(searchKeyword)'>
+                    AND
+                    A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                </when>
+                <otherwise>
+                    AND
+                    (
+                        B.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                        OR A.APP_CONT LIKE CONCAT('%', #{searchValue},'%')
+                        OR A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                    )
+                </otherwise>
+            </choose>
         ORDER BY A.PAY_INCP_SN DESC
     </select>
 
@@ -1146,6 +1177,7 @@
         SELECT * FROM (
             SELECT
                 I.*,
+                DI.DOC_NO,
                 DI.APPRO_KEY AS APPRO_KEY,
                 DI.DOC_MENU_CD AS DOC_MENU_CD,
                 IFNULL(SUM(ID.TOT_COST), 0) AS TOT_COST,
@@ -1171,6 +1203,7 @@
                 A.ACC_NM, A.ACC_NO, A.BNK_NM, A.PAY_APP_STAT, A.GUBUN, A.DOC_ID, A.DOC_STATUS,
                 A.APPROVAL_EMP_SEQ, A.APPROVAL_DATE, A.PMR_NO, A.REG_DT, A.REG_EMP_SEQ, A.MOD_DT,
                 A.MOD_EMP_SEQ, B.RE_STAT, A.INFO_CODE,
+                DI.DOC_NO,
                 DI.APPRO_KEY AS APPRO_KEY,
                 DI.DOC_MENU_CD AS DOC_MENU_CD,
                 IFNULL(B.TOT_COST, 0) AS TOT_COST,
@@ -1191,6 +1224,37 @@
         <![CDATA[
             AB.APP_DE > #{startDt} AND AB.APP_DE <= #{endDt}
         ]]>
+        <if test='searchDept == "1" or "1".equals(searchDept)'>
+            AND AB.DOC_STATUS IN (0,30,40)
+        </if>
+        <if test='searchDept == "2" or "2".equals(searchDept)'>
+            AND AB.DOC_STATUS IN (10,20,50)
+        </if>
+        <if test='searchDept == "3" or "3".equals(searchDept)'>
+            AND AB.DOC_STATUS IN (100,101)
+        </if>
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND
+                AB.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"B".equals(searchKeyword)'>
+                AND
+                AB.APP_CONT LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"C".equals(searchKeyword)'>
+                AND
+                AB.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                    AB.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                    OR AB.APP_CONT LIKE CONCAT('%', #{searchValue},'%')
+                    OR AB.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                )
+            </otherwise>
+        </choose>
         ORDER BY AB.REG_DT DESC
     </select>
 

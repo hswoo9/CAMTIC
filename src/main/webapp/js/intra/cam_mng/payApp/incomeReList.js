@@ -31,10 +31,14 @@ var incomeReList = {
         $("#searchDept").data("kendoDropDownList").bind("change",incomeReList.gridReload);
 
         incomeReList.global.dropDownDataSource = [
-            { text: "문서번호", value: "DOC_NO" },
+            { text: "문서번호", value: "A" },
+            { text: "적요", value: "B" },
+            { text: "프로젝트명", value: "C" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", incomeReList.global.dropDownDataSource, "text", "value");
+        $("#searchKeyword").data("kendoDropDownList").bind("change", incomeReList.gridReload);
+
         customKendo.fn_textBox(["searchValue"]);
         incomeReList.gridReload();
     },
