@@ -49,6 +49,7 @@
 <input type="hidden" id="step" value="S2" />
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="unRndSn" value=""/>
+<input type="hidden" id="delvRegEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 

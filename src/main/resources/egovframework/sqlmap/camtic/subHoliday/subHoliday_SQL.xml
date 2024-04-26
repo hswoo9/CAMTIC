@@ -177,6 +177,8 @@
             SUBHOLIDAY_WORK_DAY = #{vacWorkDt}
         AND
             SUBHOLIDAY_CODE_ID = '11'
+        AND
+            REG_EMP_SEQ = #{saveSeq}
     </update>
 
     <insert id="setHolidayWorkMasterIns" parameterType="map">

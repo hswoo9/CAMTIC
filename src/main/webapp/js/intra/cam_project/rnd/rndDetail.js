@@ -424,7 +424,7 @@ var rndDetail = {
                 buttonHtml += "<button type=\"button\" id=\"delvAppBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rndMap.DOC_ID+"', '"+rndMap.APPRO_KEY+"', '"+rndMap.DOC_MENU_CD+"');\">결재중</button>";
             }else if(status == "30" || status == "40"){
                 buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
-                buttonHtml += "<button type=\"button\" id=\"delvCanBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+rndMap.DOC_ID+"', '"+rndMap.DOC_MENU_CD+"', '"+rndMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
+                buttonHtml += "<button type=\"button\" id=\"delvReBtn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"tempOrReDraftingPop('"+rndMap.DOC_ID+"', '"+rndMap.DOC_MENU_CD+"', '"+rndMap.APPRO_KEY+"', 2, 'reDrafting');\">재상신</button>";
 
             }else if(status == "100"){
                 buttonHtml += "<button type=\"button\" id=\"delvAppBtn\" style=\"float: right; margin-bottom: 10px;\" class=\"k-button k-button-solid-base\" onclick=\"approveDocView('"+rndMap.DOC_ID+"', '"+rndMap.APPRO_KEY+"', '"+rndMap.DOC_MENU_CD+"');\">열람</button>";
@@ -447,6 +447,10 @@ var rndDetail = {
             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
         }
         $("#detailBtnDiv").html(buttonHtml);
+
+        if(rndMap != null && rndMap.DOC_ID != null){
+            reDraftOnlyOne(rndMap.DOC_ID, $("#delvRegEmpSeq").val(), "delvReBtn");
+        }
     },
 
     customBudgetGrid : function(url, params){
