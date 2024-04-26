@@ -82,20 +82,35 @@ var lecturePersonReq = {
                     title: "이름",
                     width: "10%"
                 }, {
-                    field: "CO_NAME",
+                    /*field: "CO_NAME",*/
+                    field: "CRM_NM",
                     title: "소속",
-                    width: "40%"
+                    width: "30%",
+                    template: function(row){
+                        if(row.CRM_NM == null || row.CRM_NM == ""){
+                            return row.CO_NAME;
+                        }else{
+                            return row.CRM_NM;
+                        }
+                    }
                 }, {
                     field: "PART",
                     title: "부서",
-                    width: "15%"
+                    width: "15%",
+                    template: function(row){
+                        if(row.USER_TYPE == "S"){
+                            return row.SCHOOL_NAME;
+                        }else{
+                            return row.PART;
+                        }
+                    }
                 }, {
                     field: "PLACE",
                     title: "직위",
                     width: "10%"
                 }, {
                     title: "처리명령",
-                    width: "8%",
+                    width: "15%",
                     template: function(e){
                         let buttonHtml = '<button type="button" id="saveBtn" style="margin-right: 5px" class="k-button k-button-solid-primary" onclick="lecturePop.lecturePersonMngPop('+e.PERSON_SN+')">수정</button>';
                         buttonHtml += '<button type="button" id="delBtn" class="k-button k-button-solid-error" onclick="lecturePersonReq.fn_delete('+e.PERSON_SN+')">삭제</button>';

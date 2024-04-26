@@ -110,11 +110,7 @@ const conTeacher = {
                             '<span class="k-radio-wrapper"></span>' +
                             '신강사' +
                             '</label>' +
-                            '<label class="k-radio-label">' +
-                            '<input type="radio" name="teacherType" value="existingTeacher" class="k-radio">' +
-                            '<span class="k-radio-wrapper"></span>' +
-                            '구강사' +
-                            '</label>';
+                            '<label class="k-radio-label">' ;
                     }
                 }
             ],

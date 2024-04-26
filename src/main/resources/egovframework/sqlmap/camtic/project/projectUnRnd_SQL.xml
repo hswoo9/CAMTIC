@@ -282,12 +282,13 @@
     <select id="getPersonList" parameterType="map" resultType="map">
         /*getPersonList*/
         SELECT
-            *
+            A.*,
+        (SELECT CRM_NM FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN=A.CRM_SN) AS CRM_NM
         FROM
-            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON
+            CAM_PJT_MNG.DJ_PJT_LECTURE_PERSON A
         WHERE 1=1
         <if test='notIn != null and !"".equals(notIn)'>
-            AND PERSON_SN NOT IN (
+            AND A.PERSON_SN NOT IN (
                 SELECT
                     PERSON_SN
                 FROM
@@ -298,17 +299,17 @@
             )
         </if>
         <if test="sEmpName != null and sEmpName != ''">
-            AND NAME LIKE CONCAT('%', #{sEmpName}, '%')
+            AND A.NAME LIKE CONCAT('%', #{sEmpName}, '%')
         </if>
         <if test="lectureType == 'newLecture' and lectureType != null and lectureType != ''">
-            AND EXISTING_YN = 'N'
+            AND A.EXISTING_YN = 'N'
         </if>
         <if test="lectureType == 'existingLecture' and lectureType != null and lectureType != ''">
-            AND EXISTING_YN = 'Y'
+            AND A.EXISTING_YN = 'Y'
         </if>
 
-        AND ACTIVE = 'Y'
-        ORDER BY NAME
+        AND A.ACTIVE = 'Y'
+        ORDER BY A.NAME
     </select>
 
     <select id="getPersonReqData" parameterType="map" resultType="map">
@@ -633,6 +634,8 @@
             CRM_SN,
             USER_TYPE,
             SCHOOL_MAJOR,
+            PART,
+            PLACE,
             REG_EMP_SEQ,
             REG_DT
         )
@@ -652,6 +655,8 @@
             #{crmSn},
             #{joinType},
             #{schoolMajor},
+            #{crmDept},
+            #{crmPosition},
             #{regEmpSeq},
             NOW()
         )
@@ -679,6 +684,8 @@
             CRM_SN = #{crmSn},
             USER_TYPE = #{joinType},
             SCHOOL_MAJOR = #{schoolMajor},
+            PART = #{crmDept},
+            PLACE = #{crmPosition},
             MOD_EMP_SEQ = #{regEmpSeq},
             MOD_DT = NOW()
         WHERE

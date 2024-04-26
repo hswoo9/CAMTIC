@@ -105,6 +105,16 @@
                         <button class="id_check" onclick="conBtn()" style="border: none;border-radius: 5px;">회사 선택</button>
                     </td>
                 </tr>
+                <tr>
+                    <th><span class="red-star">*</span>부서</th>
+                    <td>
+                        <input type="text" id="crmDept" style="width: 150px; margin-right: 5px;">
+                    </td>
+                    <th><span class="red-star">*</span>직위</th>
+                    <td>
+                        <input type="text" id="crmPosition" style="width: 150px; margin-right: 5px;">
+                    </td>
+                </tr>
                 </thead>
             </table>
 
