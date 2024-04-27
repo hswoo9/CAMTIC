@@ -162,7 +162,10 @@ var regIncmRe = {
         var rs = result.map;
         var ls = result.list;
 
-        regIncmRe.payAppBtnSet(rs);
+        // debugger
+        // if($("#payIncpReSn").val() != ""){
+        //     regIncmRe.payAppBtnSet(rs);
+        // }
         console.log(ls);
 
         $("#appDe").val(rs.APP_DE);

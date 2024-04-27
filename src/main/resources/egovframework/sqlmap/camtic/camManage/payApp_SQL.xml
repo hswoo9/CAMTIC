@@ -825,6 +825,10 @@
         SET
             EXNP_STAT = 'Y',
             EXNP_CNT = #{USER_SQ}
+            <if test='DOCU_FG != "89" and !"89".equals(DOCU_FG)'>
+                ,
+                PMR_NO = #{PMR_NO}
+            </if>
         WHERE
             PAY_INCP_DET_SN = #{PAY_INCP_DET_SN}
     </update>
@@ -1671,12 +1675,12 @@
             A.EVID_TYPE,
             A.TR_CD,
             B.BUDGET_SN AS BGT_CD,
-            REPLACE(A.TR_DE, "-", "") AS IN_DT,
+            REPLACE(B.APP_DE, "-", "") AS IN_DT,
             REPLACE(A.TR_DE, "-", "") AS TAX_DT,
             REPLACE(B.APP_DE, "-", "") AS REG_DT,
             REPLACE(B.PAY_EXNP_DE, "-", "") AS EXEC_DT,
             DATE_FORMAT(now(), '%Y%m%d') AS TXT_DONE_DT,
-            IFNULL(B.PMR_NO, "") AS RPMR_NO,
+            IFNULL(A.PMR_NO, "") AS RPMR_NO,
             A.TR_DE AS CNT_DT,
             "" AS DUMMY1,
             "" AS DUMMY2,
@@ -1741,10 +1745,10 @@
             A.EVID_TYPE,
             A.TR_CD,
             B.BUDGET_SN AS BGT_CD,
-            REPLACE(B.PAY_EXNP_DE, "-", "") AS IN_DT,
-            REPLACE(A.TR_DE, "-", "") AS TAX_DT,
+            REPLACE(A.RE_APP_DE, "-", "") AS IN_DT,
+            REPLACE(A.RE_APP_DE, "-", "") AS TAX_DT,
             REPLACE(B.APP_DE, "-", "") AS REG_DT,
-            REPLACE(B.PAY_EXNP_DE, "-", "") AS EXEC_DT,
+            REPLACE(A.RE_APP_DE, "-", "") AS EXEC_DT,
             DATE_FORMAT(now(), '%Y%m%d') AS TXT_DONE_DT,
             IFNULL(B.PMR_NO, "") AS RPMR_NO,
             A.TR_DE AS CNT_DT,
@@ -1757,7 +1761,7 @@
             B.G20_EMP_CD AS EMP_CD,
             B.PJT_CD AS MGT_CD,
             "" AS BOTTOM_CD,
-            "5" AS DOCU_FG,
+            "89" AS DOCU_FG,
             B.APP_CONT AS RMK_DC,
             B.ACC_NM AS BANK_NM1,
             B.ACC_NO AS BA_NB1,
@@ -2972,7 +2976,7 @@
 
     <update id="resolutionIncpReStatus" parameterType="map">
         /*resolutionIncpReStatus*/
-        UPDATE CAM_MNG.DJ_PAY_INCP
+        UPDATE CAM_MNG.DJ_PAY_INCP_RE
         SET
             RE_STAT = 'N'
         WHERE
@@ -2987,4 +2991,16 @@
         WHERE
             EXNP_SN = #{exnpSn}
     </update>
+
+    <select id="getIncpDetOne" parameterType="map" resultType="map">
+        /*getIncpDetOne*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_INCP_RE
+        WHERE
+            PAY_INCP_SN = #{payIncpSn}
+        ORDER BY PMR_NO DESC
+        LIMIT 1
+    </select>
 </mapper>

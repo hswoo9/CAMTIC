@@ -538,4 +538,8 @@ public class PayAppRepository extends AbstractDAO {
     public void updExnpNullStat(Map<String, Object> params) {
         update("payApp.updExnpNullStat", params);
     }
+
+    public Map<String, Object> getIncpDetOne(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getIncpDetOne", params);
+    }
 }

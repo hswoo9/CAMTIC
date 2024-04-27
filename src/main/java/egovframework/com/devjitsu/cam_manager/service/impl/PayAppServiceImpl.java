@@ -842,12 +842,8 @@ public class PayAppServiceImpl implements PayAppService {
         List<Map<String, Object>> list = new ArrayList<>();
 
         Map<String, Object> pkMap = payAppRepository.getIncpData(params);
+        params.put("evidTypeArr", "1,2,3,4,5,6,7");
 
-        if(type.equals("resolution")){
-            params.put("evidTypeArr", "1,2,3,4,5,6,7");
-        }else{
-            params.put("evidTypeArr", "1,2,3,4,5,6,7");
-        }
 
         if(params.containsKey("payIncpReSn")){
             list = payAppRepository.getIncpReG20List(params);
@@ -856,28 +852,30 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         if(list.size() != 0){
-            int docNumber = 0;          // 전체 지출결의서 CNT
-            docNumber = payAppRepository.getCountDoc(list.get(0));
-            int userSq = docNumber + 1;
-
             Map<String, Object> loginMap = payAppRepository.getEmpInfo(params);
             Map<String, Object> execMap = new HashMap<>();
-
             int i = 0;
+
+            int docNumber = 0;          // 전체 지출결의서 CNT
+            docNumber = payAppRepository.getCountDoc(list.get(i));
+            int userSq = docNumber + 1;
+
             for(Map<String, Object> data : list) {
                 int exnpDocNumber = 0;      // 같은 지출결의서 CNT
                 exnpDocNumber = payAppRepository.getIncpCountDoc(data);
                 data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
-                data.put("USER_SQ", userSq);
 
                 while (true){
                     int duplCheck = payAppRepository.getExnpCheck(data);
                     if (duplCheck == 0) {
                         break;
                     }
-                    userSq++;
+
+                    exnpDocNumber++;
                     data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
                 }
+
+                data.put("USER_SQ", userSq);
 
                 Map<String, Object> tradeMap = g20Repository.getTradeInfo(data);
                 Map<String, Object> hearnerMap = g20Repository.getHearnerInfo(data);
@@ -912,17 +910,6 @@ public class PayAppServiceImpl implements PayAppService {
                 data.put("INAD_AM", 0);
                 data.put("INTX_AM", 0);
                 data.put("RSTX_AM", 0);
-
-                if(!data.get("RPMR_NO").toString().equals("")){
-                    data.put("DOCU_FG", "89");
-                    data.put("IN_DT_TMP", data.get("IN_DT"));
-                    data.put("IN_DT", data.get("EXEC_DT"));
-
-                } else {
-                    data.put("ETCDUMMY1", "76");
-                    data.put("IN_DT_TMP", data.get("IN_DT"));
-                }
-
 
                 if(data.get("EVID_TYPE").toString().equals("1")){
                     data.put("SET_FG", "3");
@@ -973,8 +960,17 @@ public class PayAppServiceImpl implements PayAppService {
                 }
 
 
-
+                if(!data.get("RPMR_NO").toString().equals("")){
+                    data.put("DOCU_FG", "89");
+                    data.put("IN_DT_TMP", data.get("IN_DT"));
+                    data.put("IN_DT", data.get("EXEC_DT"));
+                } else {
+                    data.put("ETCDUMMY1", "76");
+                    data.put("IN_DT_TMP", data.get("IN_DT"));
+                }
                 g20Repository.insZnSautoabdocu(data);
+
+                i++;
 
                 if(params.containsKey("payIncpReSn")){
                     payAppRepository.updIncpReStat(data);
@@ -983,7 +979,6 @@ public class PayAppServiceImpl implements PayAppService {
                     payAppRepository.updIncpStat(data);
                 }
 
-                i++;
 
                 if(list.size() == i){
                     data.put("LOGIN_EMP_CD", loginMap.get("ERP_EMP_SEQ"));
@@ -1892,16 +1887,20 @@ public class PayAppServiceImpl implements PayAppService {
     @Override
     public void regIncpCancel(Map<String, Object> params) {
 
-        Map<String, Object> incpMap = payAppRepository.getIncpData(params);
+        Map<String, Object> incpMap = payAppRepository.getIncpDetOne(params);
         // EXNP_DE > IN_DT
 
         Map<String, Object> g20Map = g20Repository.getIncpDocData(incpMap);
 
+        List<Map<String, Object>> listMap = payAppRepository.getPayIncpDetailData(params);
+
+        g20Repository.execUspAncj080Delete00(g20Map);
+
+        for(Map<String, Object> map : listMap) {
+            g20Repository.delExnpReDocData(map);
+        }
         payAppRepository.resolutionIncpReStatus(params);
-
-//        g20Repository.execUspAncj080Delete00(g20Map);
-
-        g20Repository.delExnpDocData(g20Map);
+//        g20Repository.delExnpDocData(g20Map);
     }
 
 
