@@ -772,7 +772,8 @@
                 EST_AMT,
                 VAT_AMT,
                 CHECK_PROFIT,
-                TOT_AMT
+                TOT_AMT,
+                CLAIM_ETC
             )
         VALUES
             (
@@ -803,7 +804,8 @@
                 #{estAmt},
                 #{vatAmt},
                 #{checkProfit},
-                #{totAmt}
+                #{totAmt},
+                #{claimEtc}
             )
         <selectKey keyProperty="claimSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PURC_CLAIM'
@@ -841,7 +843,8 @@
             EST_AMT = #{estAmt},
             VAT_AMT = #{vatAmt},
             CHECK_PROFIT = #{checkProfit},
-            TOT_AMT = #{totAmt}
+            TOT_AMT = #{totAmt},
+            CLAIM_ETC = #{claimEtc}
         WHERE
             CLAIM_SN = #{claimSn}
     </update>
