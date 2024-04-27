@@ -589,7 +589,7 @@ var purcInit = {
         html += '       </div>';
         html += '   </tr>';
 
-        const userInfo = getUser($("#regEmpSeq").val());
+        const userInfo = getUser(orderInfo.CLAIM_EMP_SEQ);
         html += '   <tr style="border-spacing: 0px; border: white">';
         html += '       <td colspan="4" style="height:45px;background-color:#FFFFFF; text-align:center;"></td>';
         html += '       <td style="height:45px;background-color:#FFFFFF; text-align:center; border: 1px solid black"><p style="font-size:12px;">확 인</p></td>';
