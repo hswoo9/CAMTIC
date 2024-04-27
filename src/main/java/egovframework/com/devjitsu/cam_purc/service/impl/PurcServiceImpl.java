@@ -979,7 +979,8 @@ public class PurcServiceImpl implements PurcService {
 
         for(Map<String, Object> map : itemArr){
             map.put("ceGwIdx", maxIdx);
-            map.put("evidType", params.get("evidType"));
+//            map.put("evidType", params.get("evidType"));
+            map.put("evidType", payItemArr.get(0).get("evidType"));
             purcRepository.insPayAppPurcReq(map);
         }
 
