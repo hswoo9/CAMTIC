@@ -129,6 +129,7 @@ var regIncm = {
     },
 
     setData : function (){
+        console.log("setData");
         var data = {
             payIncpSn : $("#payIncpSn").val()
         }
@@ -200,6 +201,13 @@ var regIncm = {
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
         // $("#payAppStat").data("kendoRadioGroup").value(rs.PAY_APP_STAT);
+
+        $("#g20EmpCd").val(rs.G20_EMP_CD);
+        $("#g20DeptCd").val(rs.G20_DEPT_CD);
+        $("#exnpEmpNm").val(rs.REG_EMP_NAME);
+        $("#exnpEmpSeq").val(rs.REG_EMP_SEQ);
+        $("#exnpDeptNm").val(rs.REG_DEPT_NAME);
+        $("#exnpDeptSeq").val(rs.REG_DEPT_SEQ);
 
         if(ls.length > 0){
             $("#payDestTb").html("");
