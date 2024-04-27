@@ -89,6 +89,10 @@ public class MailUtil {
         String password = SMTPPW;
 
         String recipient = params.get("receiveEml").toString();     // 수신자
+        InternetAddress[] recipientArr = new InternetAddress[2];
+        recipientArr[0] = new InternetAddress(params.get("receiveEml").toString());
+        recipientArr[1] = new InternetAddress(params.get("sendEml").toString());
+
         String sender = params.get("sendEml").toString();           // 발신자
         String subject = params.get("subject").toString();          // 제목
         String contents = params.get("contents").toString();        // 내용
@@ -148,7 +152,7 @@ public class MailUtil {
          * recipient 에 스트링 배열
          mimeMessage.addRecipients(Message.RecipientType.TO, new InternetAddress(recipient));
          */
-        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+        mimeMessage.addRecipients(Message.RecipientType.TO, recipientArr);
 
         mimeMessage.setSubject(subject); // 제목
         mimeMessage.setContent(multipart, "text/html; charset=utf-8"); // 내용

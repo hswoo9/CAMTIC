@@ -177,6 +177,13 @@ var regExnpRe = {
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
 
+        $("#g20EmpCd").val(rs.ERP_EMP_SEQ);
+        $("#g20DeptCd").val(rs.G20_DEPT_CD);
+        $("#exnpEmpNm").val(rs.EMP_NAME_KR);
+        $("#exnpEmpSeq").val(rs.EMP_SEQ);
+        $("#exnpDeptNm").val(rs.DEPT_NAME);
+        $("#exnpDeptSeq").val(rs.DEPT_SEQ);
+
         if(ls.length > 0){
             $("#payDestTb").html("");
         }

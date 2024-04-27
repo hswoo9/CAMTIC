@@ -234,7 +234,7 @@ var draft = {
 
     },
 
-    getDocFormReqOpt : function(){
+    getDocFormReqOpt : function(type){
         draft.global.searchAjaxData = {
             formId : $("#formId").val()
         }
@@ -243,6 +243,8 @@ var draft = {
         var result = customKendo.fn_customAjax("/approval/getDocFormReqOpt", draft.global.searchAjaxData);
 
         draft.global.flag = result.flag;
+
+        console.log("getDocFormReqOpt result", result);
 
         if(result.flag){
             var formInfoReqOpt = result.formInfoReqOpt;
@@ -262,47 +264,34 @@ var draft = {
             $("#docGbn").data("kendoRadioGroup").value(formInfoReqOpt.DOC_GBN);
             $("#docGbn").data("kendoRadioGroup").trigger("change");
 
-            for(var i = 0; i < formReaderList.length; i++){
-                var readerData = {
-                    docId : $("#docId").val(),
-                    seqType : formReaderList[i].SEQ_TYPE,
-                    readerDeptSeq : formReaderList[i].READER_DEPT_SEQ,
-                    readerDeptName : formReaderList[i].READER_DEPT_NAME,
-                    readerEmpSeq : formReaderList[i].READER_EMP_SEQ,
-                    readerEmpName : formReaderList[i].READER_EMP_NAME,
-                    readerDutyCode : formReaderList[i].READER_DUTY_CODE,
-                    readerDutyName : formReaderList[i].READER_DUTY_NAME,
-                    readerDutyCode : formReaderList[i].READER_POSITION_CODE,
-                    readerDutyName : formReaderList[i].READER_POSITION_NAME,
-                    empSeq : $("#empSeq").val()
+            if(type == "A"){
+                for(var i = 0; i < formReaderList.length; i++){
+                    var readerData = {
+                        docId : $("#docId").val(),
+                        seqType : formReaderList[i].SEQ_TYPE,
+                        readerDeptSeq : formReaderList[i].READER_DEPT_SEQ,
+                        readerDeptName : formReaderList[i].READER_DEPT_NAME,
+                        readerEmpSeq : formReaderList[i].READER_EMP_SEQ,
+                        readerEmpName : formReaderList[i].READER_EMP_NAME,
+                        readerDutyCode : formReaderList[i].READER_DUTY_CODE,
+                        readerDutyName : formReaderList[i].READER_DUTY_NAME,
+                        readerDutyCode : formReaderList[i].READER_POSITION_CODE,
+                        readerDutyName : formReaderList[i].READER_POSITION_NAME,
+                        empSeq : $("#empSeq").val()
+                    }
+                    draft.global.readersArr.push(readerData);
                 }
-                draft.global.readersArr.push(readerData);
+
+                var readerName = "";
+                if(result.readerName != null && result.readerName != ""){
+                    readerName = result.readerName;
+                }
+
+                if($("#readerName").val() != ""){
+                    readerName += $("#readerName").val();
+                }
+                $("#readerName").val(readerName);
             }
-
-            // for(var i = 0; i < formReceiver.length; i++){
-            //     var receiverData = {
-            //         docId : $("#docId").val(),
-            //         seqType : formReceiver[i].SEQ_TYPE,
-            //         receiverDeptSeq : formReceiver[i].RECEIVER_DEPT_SEQ,
-            //         receiverDeptName : formReceiver[i].RECEIVER_DEPT_NAME,
-            //         receiverEmpSeq : formReceiver[i].RECEIVER_EMP_SEQ,
-            //         receiverEmpName : formReceiver[i].RECEIVER_EMP_NAME,
-            //         receiverDutyName : formReceiver[i].RECEIVER_DUTY_NAME,
-            //         receiverPositionName : formReceiver[i].RECEIVER_POSITION_NAME,
-            //         empSeq : $("#empSeq").val()
-            //     }
-            //     draft.global.receiversArr.push(receiverData);
-            // }
-
-            var readerName = "";
-
-            if($("#readerName").val() != ""){
-                readerName += $("#readerName").val();
-            }
-            $("#readerName").val(readerName);
-            // if(formInfoReqOpt.DOC_GBN == "001"){
-            //     $("#receiverName").val(result.receiverName);
-            // }
         }
 
         return returnArr;
@@ -348,7 +337,7 @@ var draft = {
                 window.close();
             }
 
-            draft.global.templateFormOpt = draft.getDocFormReqOpt().formInfoReqOpt;
+            draft.global.templateFormOpt = draft.getDocFormReqOpt("A").formInfoReqOpt;
             draft.global.templateFormCustomField = draft.getDocFormReqOpt().formCustomFieldList;
 
             var optFlag = draft.global.flag;

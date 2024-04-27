@@ -159,6 +159,7 @@ var regIncpRe = {
     },
 
     setData : function (){
+        console.log("setData");
         var data = {
             payIncpSn : $("#payIncpSn").val(),
             payIncpReSn : $("#payIncpReSn").val()
@@ -177,6 +178,7 @@ var regIncpRe = {
         }
 
         regIncpRe.payAppBtnSet(rs);
+        console.log(tmpRs);
 
         $("#redyAmt").val(tmpRs.TOT_COST - rs.TOT_COST);
         $("#incpTotAmt").val(incpTotAmt);
@@ -199,9 +201,17 @@ var regIncpRe = {
         $("#totAmt").val(rs.TOT_COST ? regIncpRe.comma(rs.TOT_COST) : 0);
         $("#supAmt").val(rs.SUP_COST ? regIncpRe.comma(rs.SUP_COST) : 0);
         $("#vatAmt").val(rs.VAT_COST ? regIncpRe.comma(rs.VAT_COST) : 0);
+
+        $("#g20EmpCd").val(tmpRs.G20_EMP_CD);
+        $("#g20DeptCd").val(tmpRs.G20_DEPT_CD);
+        $("#exnpEmpNm").val(tmpRs.REG_EMP_NAME);
+        $("#exnpEmpSeq").val(tmpRs.REG_EMP_SEQ);
+        $("#exnpDeptNm").val(tmpRs.REG_DEPT_NAME);
+        $("#exnpDeptSeq").val(tmpRs.REG_DEPT_SEQ);
     },
 
     setData2 : function (){
+        console.log("setData2");
         var data = {
             payIncpSn : $("#payIncpSn").val()
         }
@@ -238,6 +248,13 @@ var regIncpRe = {
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
         $("#totAmt").val(regIncpRe.comma(rs.TOT_DET_AMT - rs.TOT_COST));
+
+        $("#g20EmpCd").val(rs.G20_EMP_CD);
+        $("#g20DeptCd").val(rs.G20_DEPT_CD);
+        $("#exnpEmpNm").val(rs.REG_EMP_NAME);
+        $("#exnpEmpSeq").val(rs.REG_EMP_SEQ);
+        $("#exnpDeptNm").val(rs.REG_DEPT_NAME);
+        $("#exnpDeptSeq").val(rs.REG_DEPT_SEQ);
     },
 
     fn_viewStat: function (){

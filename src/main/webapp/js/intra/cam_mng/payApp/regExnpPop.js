@@ -253,6 +253,13 @@ var regExnp = {
         $("#reqExDe").val(rs.REQ_EXNP_DE);
         $("#reqEndDe").val(rs.REQ_END_DE);
 
+        /** 작성자(결의자)/부서 */
+        const userInfo = getUser(rs.REG_EMP_SEQ);
+        $("#exnpEmpNm").val(userInfo.EMP_NAME_KR);
+        $("#exnpEmpSeq").val(userInfo.EMP_SEQ);
+        $("#exnpDeptNm").val(userInfo.DEPT_NAME);
+        $("#exnpDeptSeq").val(userInfo.DEPT_SEQ);
+
         if(ls.length > 0){
             $("#payDestTb").html("");
             $("#budgetNm").val(ls[0].BUDGET_NM);

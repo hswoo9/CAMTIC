@@ -740,7 +740,18 @@ var docView = {
         }else if(menuCd == "exnp") {    // 지출결의서
             const result = customKendo.fn_customAjax("/payApp/pop/getExnpData", {exnpSn: pk}).map;
 
-            let url = "/payApp/pop/regExnpPop.do?payAppSn=" + result.PAY_APP_SN + "&exnpSn=" + pk + "&status=rev";
+            let status = "rev";
+            if(result.PAY_APP_TYPE == 1){
+                status = "rev";
+            } else if (result.PAY_APP_TYPE == 2){
+                status = "in";
+            } else if (result.PAY_APP_TYPE == 3){
+                status = "re";
+            } else if (result.PAY_APP_TYPE == 4){
+                status = "alt";
+            }
+
+            let url = "/payApp/pop/regExnpPop.do?payAppSn=" + result.PAY_APP_SN + "&exnpSn=" + pk + "&status=" + status;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
