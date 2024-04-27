@@ -200,7 +200,48 @@ var etaxList = {
                     title: "품목명",
                     width: 120,
                     field: "ITEM_DC"
-                }
+                }, {
+                    title: "전표처리",
+                    width: 50,
+                    template: function (e){
+                        if(e.CE_GW_IDX != null){
+                            if(e.PAY_APP_SN != null){
+                                return "지급신청";
+                            } else {
+                                return "구매";
+                            }
+                        } else if(e.PAY_APP_SN != null){
+                            return "지급신청";
+                        } else {
+                            return "";
+                        }
+                    }
+                }, {
+                    title: "처리자",
+                    width: 50,
+                    template: function (e) {
+                        if (e.PAY_EMP_SEQ != null) {
+                            return e.PAY_EMP_SEQ;
+                        } else if (e.PURC_EMP_SEQ != null) {
+                            return e.PURC_EMP_SEQ;
+                        } else {
+                            return '';
+                        }
+                    }
+                }, {
+                    title: "처리일자",
+                    width: 60,
+                    template: function(e){
+                        if(e.PAY_REG_DT != null){
+                            return e.PAY_REG_DT;
+                        } else if(e.CLAIM_EXNP_REG_DT != null){
+                            return e.CLAIM_EXNP_REG_DT;
+                        } else {
+                            return '';
+                        }
+                    },
+                },
+
             ],
             dataBinding: function() {
                 record = (this.dataSource.page() -1) * this.dataSource.pageSize();
