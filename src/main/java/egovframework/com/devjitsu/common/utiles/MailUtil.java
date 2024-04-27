@@ -89,7 +89,7 @@ public class MailUtil {
         String password = SMTPPW;
 
         String recipient = params.get("receiveEml").toString();     // 수신자
-        InternetAddress[] recipientArr = new InternetAddress[5];
+        InternetAddress[] recipientArr = new InternetAddress[2];
         recipientArr[0] = new InternetAddress(params.get("receiveEml").toString());
         recipientArr[1] = new InternetAddress(params.get("sendEml").toString());
 
