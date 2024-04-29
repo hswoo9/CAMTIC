@@ -614,17 +614,17 @@
                 -
                 IFNULL((
                 Sum(CASE
-                WHEN VUH.subholiday_code_id = 1  AND VUH.APPR_STAT = 'Y' THEN 1
+                WHEN VUH.subholiday_code_id = 1  AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN VUH.SUBHOLIDAY_USE_DAY
                 ELSE 0
                 END)
                 +
                 Sum(CASE
-                WHEN VUH.subholiday_code_id = 3  AND VUH.APPR_STAT = 'Y' THEN 0.5
+                WHEN VUH.subholiday_code_id = 3  AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 0.5
                 ELSE 0
                 END)
                 +
                 Sum(CASE
-                WHEN VUH.subholiday_code_id = 4  AND VUH.APPR_STAT = 'Y' THEN 0.5
+                WHEN VUH.subholiday_code_id = 4  AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 0.5
                 ELSE 0
                 END)
                 +
@@ -657,39 +657,39 @@
             WHEN VUI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = VUI.POSITION_CODE)
             ELSE 999 END SORT,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 1 AND VUH.APPR_STAT = 'Y' THEN 1
+                WHEN VUH.subholiday_code_id = 1 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN VUH.SUBHOLIDAY_USE_DAY
                 ELSE 0
             END) AS ANNUAL,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 3 AND VUH.APPR_STAT = 'Y' THEN 0.5
+                WHEN VUH.subholiday_code_id = 3 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 0.5
                 ELSE 0
             END) AS MORNING,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 4 AND VUH.APPR_STAT = 'Y' THEN 0.5
+                WHEN VUH.subholiday_code_id = 4 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 0.5
                 ELSE 0
             END) AS AFTERNOON,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 5 AND VUH.APPR_STAT = 'Y' THEN 1
+                WHEN VUH.subholiday_code_id = 5 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 1
                 ELSE 0
             END) AS SICK,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 6 AND VUH.APPR_STAT = 'Y' THEN 1
+                WHEN VUH.subholiday_code_id = 6 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 1
                 ELSE 0
             END) AS PUBLICHOLI,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 7 AND VUH.APPR_STAT = 'Y' THEN 1
+                WHEN VUH.subholiday_code_id = 7 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 1
                 ELSE 0
             END) AS CONDOLENCES,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 8 AND VUH.APPR_STAT = 'Y' THEN 1
+                WHEN VUH.subholiday_code_id = 8 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 1
                 ELSE 0
             END) AS MATERNITY,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 9 AND VUH.APPR_STAT = 'Y' THEN 1
+                WHEN VUH.subholiday_code_id = 9 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 1
                 ELSE 0
             END) AS ALTERNATIVE,
             Sum(CASE
-                WHEN VUH.subholiday_code_id = 10 AND VUH.APPR_STAT = 'Y' THEN 1
+                WHEN VUH.subholiday_code_id = 10 AND VUH.APPR_STAT = 'Y' AND VUH.DEL_YN != 'Y' THEN 1
                 ELSE 0
             END) AS LONGAWARD,
             (SELECT IFNULL(COUNT(-1), 0) FROM CAM_INSIDE.DJ_HOLIDAY_WORK_MASTER A LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST B ON A.HOLIDAY_WORK_MASTER_SN = B.HOLIDAY_WORK_MASTER_SN AND B.ACTIVE = 'Y' WHERE A.REG_EMP_SEQ = VUI.EMP_SEQ AND (A.STATUS = '100' OR A.STATUS = '101') AND B.SUBHOLIDAY_CODE_ID in (11) AND A.ACTIVE = 'Y' AND LEFT(B.APPLY_DATE, 4) = #{holidayYear} AND DEL_YN = 'N') AS HOLIDAYWORK
