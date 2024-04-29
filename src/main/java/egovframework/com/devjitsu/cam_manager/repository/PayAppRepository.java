@@ -542,4 +542,8 @@ public class PayAppRepository extends AbstractDAO {
     public Map<String, Object> getIncpDetOne(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("payApp.getIncpDetOne", params);
     }
+
+    public List<Map<String, Object>> getCompleteIncpList(Map<String, Object> params) {
+        return selectList("payApp.getCompleteIncpList", params);
+    }
 }
