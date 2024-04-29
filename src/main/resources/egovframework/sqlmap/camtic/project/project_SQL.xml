@@ -3327,8 +3327,15 @@
         FROM
             CAM_PJT_MNG.DJ_PROJECT
         WHERE
-            PJT_CD = #{PJT_CD}
+            LEFT(PJT_CD, 9) = LEFT(#{PJT_CD}, 9)
+        AND
+            TEAM_STAT = 'N'
         limit 1
+    </select>
+
+    <select id="getCbAmtByAccount" parameterType="map" resultType="map">
+        /*getCbAmtByAccount*/
+        SELECT IFNULL(SUM(CB_BUDGET), 0) AS BUDGET_AMT FROM cam_pjt_mng.dj_pjt_cb WHERE PJT_SN = #{pjtSn} AND ACCOUNT = RIGHT(#{PJT_CD}, 1);
     </select>
 
     <select id="getDevMap" parameterType="map" resultType="map">
