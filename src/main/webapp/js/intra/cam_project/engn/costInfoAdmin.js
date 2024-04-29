@@ -168,7 +168,7 @@ var costInfo = {
                     field: "PURC_REQ_PURPOSE",
                     template : function(e){
                         if(e.ORG_YN == 'N'){
-                            return '<div onclick="purcInfo.fn_reqRegPopup(' + e.PURC_SN + ')" style="cursor : pointer">' + e.PURC_REQ_PURPOSE + '</div>';
+                            return '<div onclick="costInfo.fn_reqClaiming(' + e.CLAIM_SN + ');" style="cursor : pointer">' + e.PURC_REQ_PURPOSE + '</div>';
                         } else {
                             return e.PURC_REQ_PURPOSE;
                         }
@@ -193,10 +193,10 @@ var costInfo = {
                         var status = "";
                         if(e.ORG_YN == 'N'){
                             /** 구매요청서 */
-                            if(e.DOC_STATUS == "0"){
+                            if(e.DOC_STATUS == "0" || e.DOC_STATUS == "30" || e.DOC_STATUS == "40"){
                                 status = "구매요청작성중";
-                            }else if(e.DOC_STATUS != "100" && e.DOC_STATUS != "101"){
-                                status = "구매요청작성중";
+                            }else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "20" || e.DOC_STATUS == "50"){
+                                status = "구매요청결재중";
                             }else if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
                                 status = "구매요청완료";
 
@@ -208,14 +208,31 @@ var costInfo = {
                                 }else if(e.CLAIM_STATUS == "CAYSN"){
                                     status = "구매청구작성중";
                                 }else if(e.CLAIM_STATUS == "CAYSY"){
-                                    status = "구매청구완료";
-                                }
+                                    if(e.CLAIM_DOC_STATUS == "100" || e.CLAIM_DOC_STATUS == "101"){
 
-                                if(e.INSPECT_YN == "Y"){
-                                    if(e.INSPECT_STATUS != "100"){
-                                        status = "검수요청중";
-                                    }else{
-                                        status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                        status = "구매청구완료";
+
+                                        if(e.PAYMENT_METHOD == "A"){
+                                            if(e.ORDER_DT != null && e.ORDER_DT != ""){
+                                                if(e.INSPECT_YN == "Y"){
+                                                    if(e.INSPECT_STATUS != "100"){
+                                                        status = "검수요청중";
+                                                    }else{
+                                                        status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                                    }
+                                                }
+                                            } else {
+                                                status = "발주대기중";
+                                            }
+                                        } else {
+                                            if(e.INSPECT_YN == "Y"){
+                                                if(e.INSPECT_STATUS != "100"){
+                                                    status = "검수요청중";
+                                                }else{
+                                                    status = "<div style='font-weight: bold'>검수승인완료</div>";
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -488,6 +505,18 @@ var costInfo = {
         }
         var name = "regPayAppPop";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
+    fn_reqClaiming : function(key){
+        var url = "/purc/pop/reqClaiming.do";
+
+        if(key != null && key != ""){
+            url = "/purc/pop/reqClaiming.do?claimSn=" + key;
+        }
+
+        var name = "_blank";
+        var option = "width = 1540, height = 840, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     },
 
