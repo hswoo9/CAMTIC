@@ -1913,4 +1913,16 @@ public class PayAppServiceImpl implements PayAppService {
     public List<Map<String, Object>> getPaymentNotDoneList(Map<String, Object> params) {
         return g20Repository.getPaymentNotDoneList(params);
     }
+
+    @Override
+    public void delIncpData(Map<String, Object> params) {
+        payAppRepository.delIncpData(params);
+        payAppRepository.delIncpDetData(params);
+    }
+
+
+    @Override
+    public void delIncpRe(Map<String, Object> params) {
+        payAppRepository.delIncpRe(params);
+    }
 }

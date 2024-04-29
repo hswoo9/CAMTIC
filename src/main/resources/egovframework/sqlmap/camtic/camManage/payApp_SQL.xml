@@ -2995,7 +2995,7 @@
         SET
             RE_STAT = 'N'
         WHERE
-            PAY_INCP_SN = #{payIncpSn}
+            PAY_INCP_RE_SN = #{payIncpReSn}
     </update>
 
     <update id="updExnpNullStat" parameterType="map" >
@@ -3033,4 +3033,23 @@
             A.PJT_CD = #{mgtSeq}
           AND A.DOC_STATUS = 100 AND B.PAY_INCP_RE_SN IS NOT NULL
     </select>
+
+    <delete id="delIncpData" parameterType="map">
+        /*delIncpData*/
+        DELETE FROM CAM_MNG.DJ_PAY_INCP
+        WHERE PAY_INCP_SN = #{payIncpSn}
+    </delete>
+
+    <delete id="delIncpDetData" parameterType="map">
+        /*delIncpDetData*/
+        DELETE FROM CAM_MNG.DJ_PAY_INCP_DET
+        WHERE PAY_INCP_SN = #{payIncpSn}
+    </delete>
+
+    <delete id="delIncpRe" parameterType="map">
+        /*delIncpRe*/
+        DELETE FROM CAM_MNG.DJ_PAY_INCP_RE
+        WHERE
+            PAY_INCP_RE_SN = #{payIncpReSn}
+    </delete>
 </mapper>

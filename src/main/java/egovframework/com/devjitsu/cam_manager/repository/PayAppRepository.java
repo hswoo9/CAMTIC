@@ -546,4 +546,16 @@ public class PayAppRepository extends AbstractDAO {
     public List<Map<String, Object>> getCompleteIncpList(Map<String, Object> params) {
         return selectList("payApp.getCompleteIncpList", params);
     }
+
+    public void delIncpData(Map<String, Object> params) {
+        delete("payApp.delIncpData", params);
+    }
+
+    public void delIncpDetData(Map<String, Object> params) {
+        delete("payApp.delIncpDetData", params);
+    }
+
+    public void delIncpRe(Map<String, Object> params) {
+        delete("payApp.delIncpRe", params);
+    }
 }

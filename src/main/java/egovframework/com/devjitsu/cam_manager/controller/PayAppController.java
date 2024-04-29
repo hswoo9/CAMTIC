@@ -1145,4 +1145,30 @@ public class PayAppController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/payApp/delIncpData")
+    public String delIncpData(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+
+            payAppService.delIncpData(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/payApp/delIncpRe")
+    public String delIncpRe(@RequestParam Map<String, Object> params, Model model) {
+        try {
+            payAppService.delIncpRe(params);
+            model.addAttribute("code", 200);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

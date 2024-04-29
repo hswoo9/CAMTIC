@@ -90,6 +90,7 @@ var regIncm = {
         if($("#status").val() != "rev"){
             if(data != null){
                 if(data.DOC_STATUS == "0"){
+                    buttonHtml += '<button type="button" id="delBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regIncm.fn_delBtn()">삭제</button>';
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_save()">저장</button>';
                     buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.payIncpDrafting()">상신</button>';
                 }else if(data.DOC_STATUS == "10" || data.DOC_STATUS == "50"){
@@ -690,6 +691,31 @@ var regIncm = {
         var name = "blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
+    },
+
+    fn_delBtn : function(){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+        var data = {
+            payIncpSn : $("#payIncpSn").val()
+        }
+
+
+        $.ajax({
+            url : "/payApp/delIncpData",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success:function(rs){
+                if(rs.code == 200){
+                    alert("삭제되었습니다.");
+
+                    opener.parent.incomeList.gridReload()
+                    window.close();
+                }
+            }
+        });
     }
 }
 

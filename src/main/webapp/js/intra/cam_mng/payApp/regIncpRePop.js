@@ -84,8 +84,9 @@ var regIncpRe = {
         let buttonHtml = "";
         if($("#type").val() != "new"){
             if(data.RE_STAT == "N"){
-                // buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_save()">저장</button>';
-                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_reApprove()">반제결의서 승인</button>';
+                buttonHtml += '<button type="button" id="delBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regIncpRe.fn_del()">삭제</button>';
+                buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_save()">저장</button>';
+                buttonHtml += '<button type="button" id="apprBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncpRe.fn_reApprove()">반제결의서 승인</button>';
             } else {
                 buttonHtml += '<button type="button" id="cancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regIncpRe.fn_regExnpCancel('+data.PAY_INCP_SN+')">반제결의서 승인 취소</button>';
             }
@@ -156,6 +157,38 @@ var regIncpRe = {
             }
         })
 
+    },
+
+    fn_del : function (){
+        if(!confirm("해당 반제결의서를 삭제하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+
+        }
+        if($("#payIncpReSn").val() != ""){
+            data.payIncpReSn = $("#payIncpReSn").val();
+        }
+
+        if(data.payIncpReSn == ""){
+            alert("오류가 발생하였습니다. 관리자에게 문의해주세요.");
+            return
+        }
+
+        $.ajax({
+            url : "/payApp/delIncpRe",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("저장되었습니다.");
+
+                    location.href="/payApp/pop/regIncpRePop.do?payIncpSn=" + data.payIncpSn + "&payIncpReSn=" + rs.rs.payIncpReSn;
+                }
+            }
+        })
     },
 
     setData : function (){

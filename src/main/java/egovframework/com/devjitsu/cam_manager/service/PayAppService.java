@@ -120,4 +120,8 @@ public interface PayAppService {
     void updateExnpDe(Map<String, Object> params);
 
     List<Map<String, Object>> getPaymentNotDoneList(Map<String, Object> params);
+
+    void delIncpData(Map<String, Object> params);
+
+    void delIncpRe(Map<String, Object> params);
 }
