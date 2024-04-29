@@ -1161,4 +1161,9 @@ public class PurcServiceImpl implements PurcService {
     public void delClaimExnpData(Map<String, Object> params) {
         purcRepository.delClaimExnpData(params);
     }
+
+    @Override
+    public void updClaimExpDe(Map<String, Object> params) {
+        purcRepository.updClaimExpDe(params);
+    }
 }
