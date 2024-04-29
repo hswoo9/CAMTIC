@@ -944,4 +944,17 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/updClaimExpDe")
+    public String updClaimExpDe(@RequestParam Map<String, Object> params, Model model){
+
+        try{
+            purcService.updClaimExpDe(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
 }

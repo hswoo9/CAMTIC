@@ -1245,12 +1245,7 @@
         LEFT JOIN CAM_MNG.DJ_MNG_PURC MP ON MP.PURC_SN = A.PURC_SN
         LEFT JOIN CAM_MNG.DJ_PURC_CLAIM_ITEM PCI ON PCI.CLAIM_SN = A.CLAIM_SN
         WHERE
-            A.STATUS = 100 AND (A.PRI_PAY = 'Y' OR (SELECT INSPECT_STATUS FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = A.PURC_SN) = 100)
-        AND
-            CASE
-                WHEN A.PAYMENT_METHOD = 'A' THEN A.ORDER_DT IS NOT NULL
-                ELSE 1=1
-            END
+            A.STATUS = 100
         <choose>
             <when test='busnClass != null and !"".equals(busnClass) and "C".equals(busnClass)'>
                 AND A.PURC_TYPE = ''
@@ -1269,21 +1264,25 @@
             </when>
         </choose>
         <choose>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "DOC_NO".equals(searchKeyword)'>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "A".equals(searchKeyword)'>
                 AND DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%')
             </when>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_REQ_PURPOSE".equals(searchKeyword)'>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "B".equals(searchKeyword)'>
                 AND MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%')
             </when>
-            <when test='searchKeyword != null and !"".equals(searchKeyword) and "PURC_ITEM_NAME".equals(searchKeyword)'>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "C".equals(searchKeyword)'>
                 AND PCI.ITEM_NM LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "D".equals(searchKeyword)'>
+                AND A.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
             </when>
             <otherwise>
                 AND
                 (
                 DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
                 MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
-                PCI.ITEM_NM LIKE CONCAT('%',#{searchValue},'%')
+                PCI.ITEM_NM LIKE CONCAT('%',#{searchValue},'%') OR
+                A.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
                 )
             </otherwise>
         </choose>
@@ -2025,4 +2024,13 @@
         /*delClaimExnpData*/
         DELETE FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn}
     </delete>
+
+    <update id="updClaimExpDe" parameterType="map">
+        /*updClaimExpDe*/
+        UPDATE CAM_MNG.DJ_PURC_CLAIM
+        SET
+            EXP_DE = #{expDe}
+        WHERE
+            CLAIM_SN IN (${claimSnArr})
+    </update>
 </mapper>

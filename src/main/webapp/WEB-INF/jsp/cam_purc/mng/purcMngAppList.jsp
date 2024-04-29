@@ -74,7 +74,36 @@
     </div>
 </div><!-- col-md-9 -->
 
+<div id="changeDialog" style="overflow-x: hidden;">
+    <table class="popTable table table-bordered mb-0" style="width: 100%">
+        <colgroup>
+            <col width="25%">
+            <col width="25%">
+            <col width="15%">
+            <col width="35%">
+        </colgroup>
+        <thead>
+        <tr style="" id="row3">
+            <th>지급예정일</th>
+            <td colspan="3">
+                <input type="text" id="expDe" style="width: 90%" name="expDe" value="">
+            </td>
+        </tr>
+        </thead>
+    </table>
+    <button type="button" onclick="purcMngAppList.fn_changeExpDe()" class="k-button k-button-solid-base" style="float: right; margin-top:8px; font-size: 12px;">변경</button>
+</div>
+
 <script>
+
+    $("#changeDialog").kendoWindow({
+        title: "지급예정일 변경",
+        visible : false,
+        resizable: false,
+        modal: true,
+        width: 500,
+        actions: ["Close"],
+    });
 
     purcMngAppList.fn_defaultScript();
 

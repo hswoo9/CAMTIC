@@ -13,9 +13,10 @@ var purcMngAppList = {
         // $("#searchDept").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
 
         purcMngAppList.global.dropDownDataSource = [
-            { text: "문서번호", value: "DOC_NO" },
-            { text: "목적", value: "PURC_REQ_PURPOSE" },
-            { text: "품명", value: "PURC_ITEM_NAME" },
+            { text: "문서번호", value: "A" },
+            { text: "목적", value: "B" },
+            { text: "품명", value: "C" },
+            { text: "업체명", value: "D" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", purcMngAppList.global.dropDownDataSource, "text", "value");
@@ -45,6 +46,8 @@ var purcMngAppList = {
         $("#busnClass").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
         // $("#searchKeyword").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
         purcMngAppList.gridReload();
+
+        customKendo.fn_datePicker("expDe", "depth", "yyyy-MM-dd", new Date());
     },
 
     mainGrid : function(url, params){
@@ -62,6 +65,13 @@ var purcMngAppList = {
             },
             toolbar: [
                 {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_claimExpDateChangeModal()">' +
+                            '	<span class="k-button-text">지급예정일 변경</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_purcBasicSettings()">' +
@@ -106,7 +116,7 @@ var purcMngAppList = {
                     width: 120,
                 }, {
                     title: "구매구분",
-                    width: 65,
+                    width: 60,
                     template: function(e){
                         var result = "";
 
@@ -143,6 +153,10 @@ var purcMngAppList = {
                     field: "ORDER_DT",
                     title: "발주일",
                     width: 70
+                }, {
+                    field: "EXP_DE",
+                    title: "지급예정일",
+                    width: 70
                 }
                 // , {
                 //     field: "EXNP_DE",
@@ -151,25 +165,25 @@ var purcMngAppList = {
                 // }
                 , {
                     title: "금액",
-                    width: 80,
+                    width: 62,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>';
                     }
                 }, {
                     title: "지출요청액",
-                    width: 80,
+                    width: 62,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.REQ_AMT)+'</div>';
                     }
                 }, {
                     title: "지출액",
-                    width: 80,
+                    width: 62,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(e.EXNP_AMT)+'</div>';
                     }
                 }, {
                     title: "미지급액",
-                    width: 80,
+                    width: 62,
                     template: function(e){
                         return '<div style="text-align: right">'+comma(Number(e.TOT_AMT) - Number(e.EXNP_AMT))+'</div>';
                     }
@@ -394,7 +408,51 @@ var purcMngAppList = {
                 }
             }
         });
-    }
+    },
+
+    fn_claimExpDateChangeModal : function(){
+        purcMngAppList.global.clmList = [];
+
+        $("input[name='clm']:checked").each(function(){
+            purcMngAppList.global.clmList.push($(this).val());
+        });
+
+        if(purcMngAppList.global.clmList.length == 0){
+            alert("선택된 값이 없습니다.");
+            return;
+        }
+
+        var dialog = $("#changeDialog").data("kendoWindow");
+
+        dialog.center();
+        dialog.open();
+    },
+
+    fn_changeExpDe : function(){
+        let claimSnArr = "";
+        for(let i=0; i < purcMngAppList.global.clmList.length; i++){
+            claimSnArr += "," + purcMngAppList.global.clmList[i];
+        }
+
+        $.ajax({
+            url : "/purc/updClaimExpDe",
+            data :{
+                claimSnArr : claimSnArr.substring(1),
+                expDe : $("#expDe").val()
+            },
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+                if(rs.code == 200){
+                    alert("변경되었습니다.");
+                    purcMngAppList.gridReload();
+                    $("#changeDialog").data("kendoWindow").close();
+                }
+            }
+        });
+    },
+
 
 
 }
