@@ -902,6 +902,7 @@
     </update>
 
     <insert id="insPjtPsRnd" parameterType="map">
+        /*insPjtPsRnd*/
         INSERT INTO CAM_PJT_MNG.DJ_PJT_PS
             (
                 PJT_SN,
@@ -934,13 +935,15 @@
     </insert>
 
     <update id="updPjtPsRnd" parameterType="map">
-        /*updRschData*/
+        /*updPjtPsRnd*/
         UPDATE CAM_PJT_MNG.DJ_PJT_PS
         SET
             PS_EMP_SEQ = #{EMP_SEQ},
             PS_EMP_NM = #{EMP_NAME_KR}
         WHERE
             PJT_SN = #{pjtSn}
+        AND PS_ROW = '0'
+        AND PS_PREP = '0'
     </update>
 
     <delete id="delPjtPsRnd" parameterType="map">
