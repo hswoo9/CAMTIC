@@ -1119,7 +1119,10 @@
             A.*,
             IFNULL(D.EMP_NAME_KR, '') AS EMP_NAME,
             B.DOC_NO,
-            C.TOT_COST
+            C.TOT_COST,
+            IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_SN = A.PAY_INCP_SN),0) AS RE_TOT_AMT,
+            IFNULL(E.RE_TOT_COST, 0) AS RE_TOT_COST,
+            IFNULL(E.RE_CNT,0) AS RE_CNT
         FROM
             CAM_MNG.DJ_PAY_INCP A
         LEFT JOIN DJ_CAMTIC.A_DOC_INFO B
@@ -1138,6 +1141,18 @@
         LEFT JOIN
             CAM_HR.DJ_EMP_INFO D
         ON A.EXNP_EMP_SEQ = D.EMP_SEQ
+        LEFT JOIN
+            (
+                SELECT
+                    PAY_INCP_SN,
+                    SUM(TOT_COST) AS RE_TOT_COST,
+                    COUNT(PAY_INCP_RE_SN) AS RE_CNT
+                FROM CAM_MNG.DJ_PAY_INCP_RE
+                WHERE RE_STAT = 'Y'
+                GROUP BY PAY_INCP_SN
+            ) E
+        ON
+            A.PAY_INCP_SN = E.PAY_INCP_SN
         WHERE
             <![CDATA[
                 A.APP_DE > #{startDt} AND A.APP_DE <= #{endDt}

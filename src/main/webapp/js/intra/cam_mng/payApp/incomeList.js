@@ -129,7 +129,7 @@ var incomeList = {
                             status = "결재완료";
                             if(e.RE_CNT != 0){
                                 if (e.RE_TOT_AMT != 0) {
-                                    if (e.RE_TOT_COST == e.TOT_DET_AMT) {
+                                    if (e.RE_TOT_COST == e.TOT_COST) {
                                         status = "입금완료"
                                     } else {
                                         status = "부분입금"

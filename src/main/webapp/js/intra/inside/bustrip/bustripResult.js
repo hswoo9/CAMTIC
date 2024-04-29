@@ -329,6 +329,13 @@ var bustripResList = {
         window.close();
     },
 
+    bustripResReDrafting: function(docId, menuCd, approKey, linkageType, type, target) {
+        // pdf 생성 및 저장
+        bustripResultPop.makeHtmlToPdf();
+
+        tempOrReDraftingPop(docId, menuCd, approKey, linkageType, type, target);
+    },
+
     fn_reqRegPopup : function (key){
         var url = "/payApp/pop/regPayAppPop.do";
         if(key != null && key != ""){

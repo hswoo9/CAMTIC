@@ -823,4 +823,11 @@
             RPMR_NO = #{PMR_NO}
     </delete>
 
+    <select id="getPaymentNotDoneList" parameterType="map" resultType="map">
+        /*getPaymentNotDoneList*/
+        <![CDATA[
+        SELECT * FROM VN_G20ABDOCU_INFO WHERE GINHANG_FG = '0' AND LEFT(GISU_DT, 4) >= #{year} ORDER BY GISU_DT DESC, GISU_SQ ASC
+        ]]>
+    </select>
+
 </mapper>

@@ -92,7 +92,7 @@ var regIncm = {
                 if(data.DOC_STATUS == "0"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_save()">저장</button>';
                     buttonHtml += '<button type="button" id="reqBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.payIncpDrafting()">상신</button>';
-                }else if(data.DOC_STATUS == "10"){
+                }else if(data.DOC_STATUS == "10" || data.DOC_STATUS == "50"){
                     buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \''+data.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
                 }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                     buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regIncm.fn_save()">저장</button>';
@@ -627,10 +627,10 @@ var regIncm = {
 
     fn_projectPop : function (type){
 
-        var url = "/project/pop/projectView.do?openType=" + type;
+        var url = "/project/pop/g20ProjectView.do?type=" + type;
 
         var name = "_blank";
-        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
+        var option = "width = 1100, height = 450, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 
