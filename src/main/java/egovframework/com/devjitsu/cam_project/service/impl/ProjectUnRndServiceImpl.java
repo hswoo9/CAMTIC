@@ -398,8 +398,8 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                 fileInsMap.put("empSeq", params.get("regEmpSeq"));
                 fileInsMap.put("fileCd", "lecApplSn");
                 fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
+                fileInsMap.put("fileOrgName", fileList.get(i).get("orgFilename").toString().substring(0, fileList.get(i).get("orgFilename").toString().lastIndexOf('.')));
+                fileInsMap.put("fileExt", fileList.get(i).get("orgFilename").toString().substring(fileList.get(i).get("orgFilename").toString().lastIndexOf('.') + 1));
                 fileInsMap.put("fileUUID", fileList.get(i).get("fileUUID"));
                 fileInsMap.put("fileSize", fileList.get(i).get("fileSize"));
                 commonRepository.insOneFileInfo(fileInsMap);
