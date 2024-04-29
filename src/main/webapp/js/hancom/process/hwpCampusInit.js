@@ -832,7 +832,7 @@ var campusInit = {
 
             html += '               <tr>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ (i+1) +'차</p></td>';
-            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.OJT_DT + map.START_TIME+ ' ~ '+map.END_TIME +'</p></td>';
+            html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.OJT_DT+ ', ' + map.START_TIME+ ' ~ '+map.END_TIME +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.CONTENT +'</p></td>';
             html += '                   <td style="height:25px;background-color:#FFFFFF; text-align:center;"><p style="font-family:굴림;font-size:14px;">'+ map.ETC +'</p></td>';
             html += '               </tr>';
