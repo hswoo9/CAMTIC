@@ -155,6 +155,12 @@ var regExnp = {
                         } else {
                             buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_regExnpInPop('+data.PAY_APP_SN+', '+data.EXNP_SN+')">여입결의서 작성</button>';
                         }
+                    } else if(($("#status").val() == "in" || $("#status").val() == "re")){
+                        if(data.RE_STAT == "N") {
+                            buttonHtml += '<button type="button" id="approveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_approve()">결의서 승인</button>';
+                        } else {
+                            buttonHtml += '<button type="button" id="approveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_regExnpCancel('+data.PAY_APP_SN+', '+data.EXNP_SN+');">결의서 승인취소</button>';
+                        }
                     }
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', \'exnp\');">열람</button>';
                     $("#addBtn").hide();
@@ -1060,6 +1066,31 @@ var regExnp = {
                 alert("ERP 연동 중 오류가 발생하였습니다.");
             }
         }
+    },
+
+    fn_regExnpCancel : function (payAppSn, exnpSn) {
+
+        if(!confirm("결의서 승인을 취소하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            payAppSn : payAppSn,
+            exnpSn : exnpSn
+        }
+
+        $.ajax({
+            url : "/payApp/regExnpCancel",
+            type : "POST",
+            data: data,
+            dataType : "json",
+            success : function(rs){
+                if(rs.code == 200){
+                    alert("승인이 취소되었습니다.");
+                    location.reload()
+                }
+            }
+        });
     },
 
     crmInfoChange : function(){
