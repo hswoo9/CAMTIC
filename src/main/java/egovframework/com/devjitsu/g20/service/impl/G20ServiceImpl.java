@@ -57,6 +57,7 @@ public class G20ServiceImpl implements G20Service {
         List<Map<String, Object>> payReturnList = new ArrayList<>();    // 반납
 
         if(params.get("temp").equals("1")){
+            payCompleteList = payAppRepository.getCompleteIncpList(params); //입금완료
             payWaitList = payAppRepository.getWaitPaymentIncpList(params);  // 입금대기
             payApproveList = payAppRepository.getApprovePaymentIncpList(params);  // 승인
             payReturnList = payAppRepository.getReturnPaymentList(params);  // 반납
@@ -83,6 +84,7 @@ public class G20ServiceImpl implements G20Service {
                 if(params.get("temp").equals("1")){     // 수입예산
                     if(!"0".equals(map.get("DIV_FG"))){
                         int paySum = 0;
+                        int compPaySum = 0;
                         int approvePaySum = 0;
                         int returnPaySum = 0;
 
@@ -103,6 +105,29 @@ public class G20ServiceImpl implements G20Service {
                                 int payAmount = Integer.parseInt(payWaitList.get(i).get("TOT_COST").toString());
 
                                 paySum += payAmount;
+                            }
+                        }
+
+                        for(int i = 0; i < payCompleteList.size(); i++){
+                            if(map.get("BGT_CD").toString().equals(payCompleteList.get(i).get("BUDGET_SN").toString())){
+                                int payAmount = Integer.parseInt(payCompleteList.get(i).get("TOT_COST").toString());
+
+                                compPaySum += payAmount;
+                                paySum -= payAmount;
+                            }
+
+                            if(map.get("BGT_CD").toString().equals(payCompleteList.get(i).get("JANG_SN").toString())){
+                                int payAmount = Integer.parseInt(payCompleteList.get(i).get("TOT_COST").toString());
+
+                                compPaySum += payAmount;
+                                paySum -= payAmount;
+                            }
+
+                            if(map.get("BGT_CD").toString().equals(payCompleteList.get(i).get("GWAN_SN").toString())){
+                                int payAmount = Integer.parseInt(payCompleteList.get(i).get("TOT_COST").toString());
+
+                                compPaySum += payAmount;
+                                paySum -= payAmount;
                             }
                         }
 
@@ -148,6 +173,7 @@ public class G20ServiceImpl implements G20Service {
 
                         map.put("FULL_WAIT_CK", paySum);
                         map.put("ACCT_AM_2", approvePaySum);
+                        map.put("ACCT_AM_3", compPaySum);
                         map.put("RETURN_AMT", returnPaySum);
                         result.add(map);
                     }

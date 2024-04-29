@@ -1125,4 +1125,24 @@ public class PayAppController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/pay/paymentNotDoneList.do")
+    public String paymentNotDoneList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_manager/payApp/paymentNotDoneList";
+    }
+
+    @RequestMapping("/pay/getPaymentNotDoneList")
+    public String getPaymentNotDoneList(@RequestParam Map<String, Object> params, Model model){
+
+        List<Map<String, Object>> list = payAppService.getPaymentNotDoneList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
 }
