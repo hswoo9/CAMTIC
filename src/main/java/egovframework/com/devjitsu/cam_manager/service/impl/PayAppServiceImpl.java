@@ -1908,4 +1908,9 @@ public class PayAppServiceImpl implements PayAppService {
     public void updateExnpDe(Map<String, Object> params) {
         payAppRepository.updateExnpDe(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getPaymentNotDoneList(Map<String, Object> params) {
+        return g20Repository.getPaymentNotDoneList(params);
+    }
 }

@@ -118,4 +118,6 @@ public interface PayAppService {
     void regIncpCancel(Map<String, Object> params);
 
     void updateExnpDe(Map<String, Object> params);
+
+    List<Map<String, Object>> getPaymentNotDoneList(Map<String, Object> params);
 }
