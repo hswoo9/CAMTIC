@@ -53,7 +53,7 @@ var docView = {
                 && (menuCd == "bustrip" || menuCd == "bustripRes" || menuCd == "subHoliday" || menuCd == "holidayWork" || menuCd == "purc" || menuCd == "claim" || menuCd == "campus" || menuCd == "invenDeadLine" ||
                     menuCd == "payApp" || menuCd == "payIncp" || menuCd == "exnp" || menuCd == "study" || menuCd == "propag" || menuCd == "ojt" || menuCd == "studyRes" || menuCd == "ojtRes" || menuCd == "propagRes" || menuCd == "workPlan" ||
                     menuCd == "rndDelv" || menuCd == "rndDev" || menuCd == "rndRes" || menuCd == "unRndDelv" || menuCd == "unRndDev" || menuCd == "unRndRes" || menuCd == "delv" || menuCd == "dev" || menuCd == "pjtRes" ||
-                    menuCd == "pjtCost" || menuCd == "pjtChange" || menuCd == "pjtRe" || menuCd == "pjtRate" || menuCd == "equipment" || menuCd == "invention" || menuCd == "rprRes" || menuCd == "car" || menuCd == "certifi"))
+                    menuCd == "pjtCost" || menuCd == "pjtRate" || menuCd == "equipment" || menuCd == "invention" || menuCd == "rprRes" || menuCd == "car" || menuCd == "certifi"))
             {
                 $("#modBtn").show();
             } else {
@@ -65,7 +65,7 @@ var docView = {
                     docView.global.rs.docInfo.FORM_ID == "91" || docView.global.rs.docInfo.FORM_ID == "92" || docView.global.rs.docInfo.FORM_ID == "93" || docView.global.rs.docInfo.FORM_ID == "104" ||
                     docView.global.rs.docInfo.FORM_ID == "111" || docView.global.rs.docInfo.FORM_ID == "112" || docView.global.rs.docInfo.FORM_ID == "106" || docView.global.rs.docInfo.FORM_ID == "107" ||
                     docView.global.rs.docInfo.FORM_ID == "108" || docView.global.rs.docInfo.FORM_ID == "95" || docView.global.rs.docInfo.FORM_ID == "99" || docView.global.rs.docInfo.FORM_ID == "100" ||
-                    docView.global.rs.docInfo.FORM_ID == "101" || docView.global.rs.docInfo.FORM_ID == "102"
+                    docView.global.rs.docInfo.FORM_ID == "101" || docView.global.rs.docInfo.FORM_ID == "102" || docView.global.rs.docInfo.FORM_ID == "139" || docView.global.rs.docInfo.FORM_ID == "156"
                 )
                 && docView.global.rs.approveRoute[0].DRAFT_EMP_SEQ == docView.global.loginVO.uniqId){
                 $("#modBtn2").show();
@@ -845,7 +845,7 @@ var docView = {
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
-        }else if(menuCd == "pjtChange") {    // 세세목 변경서
+        }/*else if(menuCd == "pjtChange") {    // 세세목 변경서
             const result = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: pk}).map;
 
             let url = '';
@@ -857,7 +857,7 @@ var docView = {
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
-        }else if(menuCd == "pjtRate") {    // 참여율 변경 공문 신청
+        }*/else if(menuCd == "pjtRate") {    // 참여율 변경 공문 신청
             const result = customKendo.fn_customAjax("/project/getPartRateVerInfo", {partRateVerSn: pk}).map;
 
             let url = '';
@@ -869,7 +869,7 @@ var docView = {
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
-        }else if(menuCd == "pjtRe") {    // 반납 신청
+        }/*else if(menuCd == "pjtRe") {    // 반납 신청
             const result = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: pk}).map;
 
             let url = '';
@@ -881,7 +881,7 @@ var docView = {
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
-        }else if(menuCd == "workPlan") {    // 시차출퇴근형
+        }*/else if(menuCd == "workPlan") {    // 시차출퇴근형
             let url = "/workPlan/workPlanApprovalModPop.do?workPlanApprovalId=" + pk;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
