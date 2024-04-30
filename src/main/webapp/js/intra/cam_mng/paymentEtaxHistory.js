@@ -339,8 +339,16 @@ var payEtaxHist = {
                         // var item = itemList[i];
                         var item = "";
                         //항목이 있는 경우만 리스트 나타냄
-                        var itemDateMonth = ((eTaxInfo.ISU_DT || '').substring(4, 6) || (item.issDate || '').substring(4, 6)) || '';
-                        var itemDateDate = ( (eTaxInfo.ISU_DT || '').substring(6, 8) || (item.issDate || '').substring(6, 8) ) || '';
+
+                        var itemDateMonth = "";
+                        var itemDateDate = "";
+                        if(eTaxInfo.TAX_TY == 2 && eTaxInfo.ETAX_TY == 2){
+                            itemDateMonth = ((eTaxInfo.ISS_DT || '').substring(4, 6) || (item.issDate || '').substring(4, 6)) || '';
+                            itemDateDate = ( (eTaxInfo.ISS_DT || '').substring(6, 8) || (item.issDate || '').substring(6, 8) ) || '';
+                        } else {
+                            itemDateMonth = ((eTaxInfo.ISU_DT || '').substring(4, 6) || (item.issDate || '').substring(4, 6)) || '';
+                            itemDateDate = ( (eTaxInfo.ISU_DT || '').substring(6, 8) || (item.issDate || '').substring(6, 8) ) || '';
+                        }
                         var itemCnt = Number(item.itemCnt || '0') == 0 ? fnGetCurrencyCode('1', '') : fnGetCurrencyCode(item.itemCnt, 0);
                         var itemUnitAmt = Number(eTaxInfo.SUP_AM || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.SUP_AM, 0);
                         var itemStdAmt = Number(eTaxInfo.SUP_AM || '0') == 0 ? '' : fnGetCurrencyCode(eTaxInfo.SUP_AM, 0);
