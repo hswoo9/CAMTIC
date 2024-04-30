@@ -183,9 +183,10 @@ var regIncpRe = {
             dataType : "json",
             success : function(rs){
                 if(rs.code == 200){
-                    alert("저장되었습니다.");
+                    alert("삭제되었습니다.");
 
-                    location.href="/payApp/pop/regIncpRePop.do?payIncpSn=" + data.payIncpSn + "&payIncpReSn=" + rs.rs.payIncpReSn;
+                    opener.parent.incomeReList.gridReload();
+                    window.close();
                 }
             }
         })
@@ -430,6 +431,7 @@ var regIncpRe = {
 
         var data = {
             payIncpSn : payIncpSn,
+            payIncpReSn : $("#payIncpReSn").val()
         }
 
         $.ajax({
