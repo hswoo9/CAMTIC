@@ -569,7 +569,11 @@ var purcInfo = {
                         //         return '';
                         //     }
                         // }
-                        return '<button type="button" class="k-button k-button-solid-base" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
+                        let buttonClass = "k-button k-button-solid-base";
+                        if(e.F_PAY_APP_SN != null){
+                            buttonClass = "k-button k-button-solid-info";
+                        }
+                        return '<button type="button" class="'+buttonClass+'" onClick="purcInfo.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
                     }
                 }
             ],

@@ -724,8 +724,10 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("ETCACCT_NO", hearnerMap.get("ACCT_NO"));
                     data.put("ETCACCT_NM", hearnerMap.get("ACCT_NM"));
                     data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
+                    data.put("ETCDUMMY1", hearnerMap.get("DUMMY1"));
 
                     data.put("ETCDIV_CD", data.get("DIV_CD"));
+
                 }
 
                 data.put("NDEP_AM", 0);
@@ -778,6 +780,7 @@ public class PayAppServiceImpl implements PayAppService {
 
                     data.put("INTX_AM", Integer.parseInt(data.get("VAT_AM").toString()) - (Integer.parseInt(data.get("VAT_AM").toString()) / 10));
                     data.put("RSTX_AM", Integer.parseInt(data.get("VAT_AM").toString()) / 10);
+                    data.put("ETCDUMMY1", "76");
 
                     if(hearnerMap == null){
                         data.put("ETCPER_NM", data.get("TR_NM"));
@@ -785,21 +788,20 @@ public class PayAppServiceImpl implements PayAppService {
                         data.put("ETCACCT_NM", data.get("CRM_ACC_HOLDER"));
                         data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
                         data.put("ETCDIV_CD", data.get("DIV_CD"));
-
-                        data.put("ETCDUMMY1", "76");
                     }
                 } else if(data.get("EVID_TYPE").toString().equals("9")){
                     data.put("SET_FG", "1");
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "4");
                     data.put("TAX_DT", data.get("IN_DT"));
+                    data.put("ETCDUMMY1", "76");
+
                     if(hearnerMap == null){
                         data.put("ETCPER_NM", data.get("TR_NM"));
                         data.put("ETCACCT_NO", data.get("CRM_ACC_NO"));
                         data.put("ETCACCT_NM", data.get("CRM_ACC_HOLDER"));
                         data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
                         data.put("ETCDIV_CD", data.get("DIV_CD"));
-                        data.put("ETCDUMMY1", "76");
                     }
                 } else {
                     data.put("SET_FG", "1");
