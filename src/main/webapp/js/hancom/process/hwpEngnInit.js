@@ -280,9 +280,13 @@ var engnInit = {
         const processResult = customKendo.fn_customAjax("/project/getProcessList2", {devSn: devMap.DEV_SN});
         /** 투자내역 */
         const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
-        /** 구매/비용내역 */
-        const resPurcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", data);
 
+        /** 구매/비용내역 */
+        const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", data);
+        /** 출장/비용내역 */
+        const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: map.PJT_SN});
+
+        /** 결과보고 데이터 */
         const resResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
         const resMap = resResult.result.map;
 
@@ -380,14 +384,16 @@ var engnInit = {
             let resInvSum = 0;
             for(let i=0; i<resPurcList.length; i++){
                 const map = resPurcList[i];
-                resInvSum += Number(map.ITEM_AMT);
-                console.log(map.ITEM_UNIT_AMT);
+                if(map.CLAIM_STATUS == "CAYSY"){
+                    resInvSum += Number(map.PURC_ITEM_AMT_SUM);
+                }
             }
-            const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
-            const trip = tripResult.map;
-            if(trip.COUNT != 0){
-                resInvSum += trip.BUSTRIP_EXNP_SUM;
-                console.log(map.BUSTRIP_EXNP_SUM);
+            const bustList = tripResult.list;
+            for(let i=0; i<bustList.length; i++){
+                const bustMap = bustList[i];
+                if(bustMap.RS_STATUS == "100"){
+                    resInvSum  += Number(bustMap.RES_EXNP_SUM);
+                }
             }
             hwpDocCtrl.putFieldText('RES_AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));
             hwpDocCtrl.putFieldText('RES_INV_AMT', resInvSum == 0 ? "0" : fn_numberWithCommas(resInvSum));

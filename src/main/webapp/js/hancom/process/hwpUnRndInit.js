@@ -347,10 +347,15 @@ var unRndInit = {
         /** 투자내역 */
         const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
         /** 구매/비용내역 */
-        const resPurcResult = customKendo.fn_customAjax("/purc/getProjectPurcList", {pjtSn: pjtSn});
+        const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", {pjtSn: pjtSn});
+        /** 출장/비용내역 */
+        const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: map.PJT_SN});
+
+        /** 사업예산 */
         const customG20Result = customKendo.fn_customAjax("/project/getProjectBudgetList.do", {pjtSn: pjtSn});
         const getResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
 
+        /** 결과보고 데이터 */
         const resResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
         const resMap = resResult.result.map;
 
@@ -454,18 +459,15 @@ var unRndInit = {
             let resInvSum = 0;
             for(let i=0; i<resPurcList.length; i++){
                 const map = resPurcList[i];
-                resInvSum += Number(map.ITEM_AMT);
+                if(map.CLAIM_STATUS == "CAYSY"){
+                    resInvSum += Number(map.PURC_ITEM_AMT_SUM);
+                }
             }
-            const tripResult = customKendo.fn_customAjax("/project/getBustResInfo", {pjtSn: map.PJT_SN});
-            const trip = tripResult.map;
-            if(trip.COUNT != 0){
-                resInvSum += trip.BUSTRIP_EXNP_SUM;
-            }
-            if(map.BUSN_CLASS == "R" || map.BUSN_CLASS == "S"){
-                const costList = customKendo.fn_customAjax("/payApp/getPjtExnpList", {pjtSn: map.PJT_SN}).list;
-                for(let i=0; i<costList.length; i++){
-                    const map = costList[i];
-                    resInvSum += map.COST_SUM;
+            const bustList = tripResult.list;
+            for(let i=0; i<bustList.length; i++){
+                const bustMap = bustList[i];
+                if(bustMap.RS_STATUS == "100"){
+                    resInvSum  += Number(bustMap.RES_EXNP_SUM);
                 }
             }
             hwpDocCtrl.putFieldText('RES_AMT1', map.PJT_AMT == 0 ? "0" : fn_numberWithCommas(map.PJT_AMT));

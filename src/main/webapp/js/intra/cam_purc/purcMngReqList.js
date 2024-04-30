@@ -80,14 +80,18 @@ var purcMngReqList = {
                 }, {
                     field: "PURC_REQ_DATE",
                     title: "요청일",
-                    width: 120,
+                    width: 100,
                     template : function(e){
                         return e.PURC_REQ_DATE.replaceAll(". ", "-");
                     }
                 }, {
+                    title: "요청부서",
+                    field: "DEPT_NAME",
+                    width: 130
+                }, {
                     title: "요청자",
                     field: "EMP_NAME_KR",
-                    width: 100
+                    width: 80
                 }, {
                     title: "목적",
                     field: "PURC_REQ_PURPOSE",

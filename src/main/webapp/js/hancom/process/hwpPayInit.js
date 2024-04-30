@@ -69,8 +69,26 @@ var payInit = {
             hwpDocCtrl.putFieldText("BS_TITLE", (pjtMap.BS_TITLE || ""));
             /** 과제명 */
             hwpDocCtrl.putFieldText("PJT_NM", pjtMap.PJT_NM);
+
+            let pjtDt = pjtMap.PJT_START_DT+" ~ "+pjtMap.PJT_END_DT;
+            if(pjtMap.YEAR_CLASS != null && pjtMap.YEAR_CLASS == "M"){
+                const pjtSn = pjtMap.PJT_SN;
+                let delvMap = null;
+
+                if(pjtMap.BUSN_CLASS == "R"){
+                    delvMap = customKendo.fn_customAjax("/projectRnd/getRndDetail", {pjtSn: pjtSn}).map;
+                }else if(pjtMap.BUSN_CLASS == "S"){
+                    delvMap = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: pjtSn}).map;
+                }
+
+                console.log("delvMapdelvMapdelvMap", delvMap);
+
+                if(delvMap != null && delvMap.NOW_STR_DE != null){
+                    pjtDt = delvMap.NOW_STR_DE+" ~ "+delvMap.NOW_END_DE;
+                }
+            }
             /** 연구기간 */
-            hwpDocCtrl.putFieldText("PJT_DT", pjtMap.PJT_START_DT+" ~ "+pjtMap.PJT_END_DT);
+            hwpDocCtrl.putFieldText("PJT_DT", pjtDt);
 
             /**PM 데이터 */
             const userInfo = customKendo.fn_customAjax("/user/getUserInfo", {

@@ -70,7 +70,7 @@ const personPrintPop = {
         personPrintPop.global.hwpCtrl.PutFieldText("LEC_TIME", lecMap.LEC_TIME + "시간");
 
         personPrintPop.global.hwpCtrl.PutFieldText("PRINT_NO", "제 CAMTIC EDU "+desiredValue+"-"+maxNum+"호");
-        personPrintPop.global.hwpCtrl.PutFieldText("REG_DT", fn_getNowDate(1));
+        personPrintPop.global.hwpCtrl.PutFieldText("REG_DT", lecMap.LEC_END_DE.substring(0, 4) + "년 " + lecMap.LEC_END_DE.substring(5, 7) + "월 " + lecMap.LEC_END_DE.substring(8, 10) + "일");
     },
 
     resize: function() {
