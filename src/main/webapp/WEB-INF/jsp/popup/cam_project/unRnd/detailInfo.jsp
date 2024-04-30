@@ -155,7 +155,7 @@
                     <input type="text" id="totResCost" name="totResCost" style="width: 32%;text-align: right" value="0" disabled/>
                 </td>
             </tr>
-            <tr id="nowYearBetween">
+            <tr class="nowYearBetween">
                 <th scope="row" class="text-center th-color">
                     <span class="red-star">*</span>당해년도 사업기간<br><span style="color: blue"></span>
                 </th>
