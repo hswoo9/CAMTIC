@@ -85,11 +85,19 @@ public class ProjectServiceImpl implements ProjectService {
             Map<String, Object> tempMap = projectRepository.getProjectCodeData(map);
 
             if(tempMap != null){
+                /** 사업비 분리사용 체크 Y면 분리사용임 */
+                if(tempMap.containsKey("SBJ_SEP") && "Y".equals(tempMap.get("SBJ_SEP").toString())){
+                    map.put("pjtSn", tempMap.get("PJT_SN"));
+
+                    Map<String, Object> amtMap = projectRepository.getCbAmtByAccount(map);
+                    map.put("PJT_AMT", amtMap.get("BUDGET_AMT"));
+                }else{
+                    map.put("PJT_AMT", tempMap.get("PJT_AMT"));
+                }
                 map.put("BUSN_CLASS", tempMap.get("BUSN_CLASS"));
                 map.put("BUSN_NM", tempMap.get("BUSN_NM"));
                 map.put("STR_DT", tempMap.get("STR_DT"));
                 map.put("END_DT", tempMap.get("END_DT"));
-                map.put("PJT_AMT", tempMap.get("PJT_AMT"));
                 map.put("PM", tempMap.get("PM"));
                 map.put("EMP_NAME", tempMap.get("EMP_NAME"));
                 map.put("PJT_STEP_NM", tempMap.get("PJT_STEP_NM"));

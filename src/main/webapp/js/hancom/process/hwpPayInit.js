@@ -153,7 +153,7 @@ var payInit = {
         html += '           <table border="5" style="border-collapse: collapse; margin: 0px;">';
         html += '               <tr>';
         html += '                   <td rowspan="2" style="height:30px;background-color:#FFFFDD; text-align:center; width: 151px;"><p style="font-size:13px;"><b>항 목</b></p></td>';
-        html += '                   <td colspan="5" style="height:30px;background-color:#FFFFDD; text-align:center; width: 565px;"><p style="font-size:13px;"><b>금 회 신 청 내 역</b></p></td>';
+        html += '                   <td colspan="5" style="height:30px;background-color:#FFFFDD; text-align:center; width: 567px;"><p style="font-size:13px;"><b>금 회 신 청 내 역</b></p></td>';
         html += '               </tr>';
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 113px;"><p style="font-size:12px;"><b>신청내용</b></p></td>';
@@ -176,10 +176,10 @@ var payInit = {
             sum += Number(map.TOT_COST);
         }
         html += '               <tr>';
-        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 113px;"><p style="font-size:12px;"><b>합계</b></p></td>';
-        html += '                   <td colspan="3" style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;">'+ fn_numberWithCommas(sum) +'</p></td>';
-        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
-        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;"></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 151px;"><p style="font-size:12px;"><b>합계</b></p></td>';
+        html += '                   <td colspan="3" style="height:30px;background-color:#FFFFFF; text-align:right;width: 329px;"><p style="font-size:12px;">'+ fn_numberWithCommas(sum) +'</p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;width: 125px;"><p style="font-size:12px;"></p></td>';
+        html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;width: 113px;"><p style="font-size:12px;"></p></td>';
         html += '               </tr>';
         html += '           </table>';
         html += '       </td>';

@@ -1214,6 +1214,7 @@ var regExnp = {
             success: function(rs){
                 if(rs.code == 200){
                     alert("삭제되었습니다.");
+                    opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
                     window.close();
                 } else {
                     alert("오류가 발생하였습니다.\n담당자에게 문의하세요.")

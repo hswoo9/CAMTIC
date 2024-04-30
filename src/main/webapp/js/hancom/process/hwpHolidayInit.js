@@ -20,9 +20,9 @@ var holidayInit = {
 
             hwpDocCtrl.putFieldText("holidayDate", ResultData.SUBHOLIDAY_ST_DT+" "+ResultData.SUBHOLIDAY_ST_TIME+" "+ResultData.SUBHOLIDAY_EN_DT+" "+ResultData.SUBHOLIDAY_EN_TIME);
 
-            hwpDocCtrl.putFieldText("approvalReason", ResultData.RMK);
+            hwpDocCtrl.putFieldText("approvalReason", ResultData.RMK.replaceAll("\n", "\r\n"));
 
-            hwpDocCtrl.putFieldText("rmkOther", ResultData.RMK_OTHER);
+            hwpDocCtrl.putFieldText("rmkOther", ResultData.RMK_OTHER.replaceAll("\n", "\r\n"));
 
             const explanationDT = ResultData.SUBHOLIDAY_USE_DAY;
             const explantion = "아래와 같은 사유로 ("+explanationDT+")일 휴가코자 합니다.";
@@ -134,7 +134,7 @@ var holidayInit = {
 
         hwpDocCtrl.putFieldText("toDate", fn_getNowDate(1));
 
-        hwpDocCtrl.putFieldText("rmk", ResultData.RMK);
+        hwpDocCtrl.putFieldText("rmk", ResultData.RMK.replaceAll("\n", "\r\n"));
 
         /** 초기화 */
         for(let i=0; i<list.length; i++){

@@ -30,7 +30,7 @@ var unRndDetail = {
             $("#nowStrDe").val($("#sbjStrDe").val())
             $("#nowEndDe").val($("#sbjEndDe").val())
 
-            $("#nowYearBetween").css("display", "none");
+            $(".nowYearBetween").css("display", "none");
         }
 
 

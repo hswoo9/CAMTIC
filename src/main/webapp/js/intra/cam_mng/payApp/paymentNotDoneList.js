@@ -53,14 +53,14 @@ var paymentNotDoneList = {
                 }, {
                     title: "결의번호",
                     field: "GISU_SQ",
-                    width: 110,
+                    width: 80,
                 }, {
                     title: "구분",
                     field: "DOCU_FG",
                     width: 120,
                 }, {
                     title: "프로젝트 명",
-                    width: 200,
+                    width: 240,
                     field: "MGT_NM"
                 }, {
                     title: "적요",
