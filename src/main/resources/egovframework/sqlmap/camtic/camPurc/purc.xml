@@ -135,6 +135,7 @@
                 MP.PURC_SN,
                 DI.DOC_NO,
                 DATE_FORMAT(MP.PURC_REQ_DATE, '%Y. %m. %d') AS PURC_REQ_DATE,
+                EI.DEPT_NAME,
                 EI.EMP_NAME_KR,
                 MP.PURC_REQ_PURPOSE,
                 DP.BUSN_CLASS,

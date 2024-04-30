@@ -164,7 +164,11 @@ var hwpInit = {
         let totCost2 = "금 "+fn_koreanNumber(rs.TOT_COST)+"정";
         hwpDocCtrl.putFieldText('TOT_COST', totCost1+""+totCost2);
         hwpDocCtrl.putFieldText('APP_TITLE', rs.EXNP_BRIEFS);
-        hwpDocCtrl.putFieldText('CRM_NM', ls[0].CRM_NM);
+        if(ls.length > 1){
+            hwpDocCtrl.putFieldText('CRM_NM', ls[0].CRM_NM + " 외 " + Number(ls.length - 1) + "건");
+        } else {
+            hwpDocCtrl.putFieldText('CRM_NM', ls[0].CRM_NM);
+        }
         hwpDocCtrl.putFieldText('REG_NO', ls[0].REG_NO.substring(0, 3)+"-"+ls[0].REG_NO.substring(3, 5)+"-"+ls[0].REG_NO.substring(5, 10));
         // hwpDocCtrl.putFieldText('ADDR', ls[0].CRM_NM);
 

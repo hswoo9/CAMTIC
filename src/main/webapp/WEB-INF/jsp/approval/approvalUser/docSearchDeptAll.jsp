@@ -10,7 +10,7 @@
     }
 </style>
 
-<script type="text/javascript" src='<c:url value="/js/intra/approval/approvalUser/approvalDocBox/docSearchDeptAll.js?v=6"></c:url>'></script>
+<script type="text/javascript" src='<c:url value="/js/intra/approval/approvalUser/approvalDocBox/docSearchDeptAll.js?v=${today}"></c:url>'></script>
 <body>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
