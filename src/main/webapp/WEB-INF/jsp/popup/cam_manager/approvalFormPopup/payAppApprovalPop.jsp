@@ -30,13 +30,13 @@
     let docTitle = "";
     let html = "";
     if(rs.PAY_APP_TYPE == 1){
-        docTitle = "[지급신청서]${loginVO.orgnztNm}-${loginVO.name}";
+        docTitle = "[지급신청서] "+rs.APP_TITLE;
     }else if(rs.PAY_APP_TYPE == 2){
-        docTitle = "[여입신청서]${loginVO.orgnztNm}-${loginVO.name}";
+        docTitle = "[여입신청서] "+rs.APP_TITLE;
     }else if(rs.PAY_APP_TYPE == 3){
-        docTitle = "[반납신청서]${loginVO.orgnztNm}-${loginVO.name}";
+        docTitle = "[반납신청서] "+rs.APP_TITLE;
     }else if(rs.PAY_APP_TYPE == 4){
-        docTitle = "[대체신청서]${loginVO.orgnztNm}-${loginVO.name}";
+        docTitle = "[대체신청서] "+rs.APP_TITLE;
     }
 
     approvalDataInit();
