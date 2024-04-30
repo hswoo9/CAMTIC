@@ -947,8 +947,8 @@ public class UserManageController {
     public String employmentPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         String hwpUrl = "";
         HttpSession session = request.getSession();
-        model.addAttribute("toDate", getCurrentDateTime());
-        model.addAttribute("loginVO", new Gson().toJson((LoginVO) session.getAttribute("LoginVO")));
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
 
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
             hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
@@ -957,9 +957,9 @@ public class UserManageController {
         }
         params.put("hwpUrl", hwpUrl);
         params.put("menuCd", "employment");
-
         model.addAttribute("hwpUrl", hwpUrl);
         model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
 
         return "popup/inside/employ/employmentPop";
     }

@@ -4,56 +4,46 @@
  * function / global variable / local variable setting
  */
 var employmentPop = {
-    global : {
-        params                  : "",
-        type                    : "",
-        hwpCtrl                 : "",
-        flag                    : false,
-        data                    : "",
-        loginVO : "",
-
-        /** 기안기 셋팅 옵션 (파일, editing mode)*/
-        templateFormFile : "",
-        templateFormOpt : "",
-        templateFormCustomField : "",
-        openFormat : "",
-        mod : "",
-
-        formData : new FormData(),
-        searchAjaxData : "",
+    global: {
+        hwpCtrl : "",
+        params : "",
     },
 
-    init : function(params, loginVO){
-        document.querySelector('body').style.overflow = 'hidden';
-        $("#loadingText").text("문서를 불러오는 중입니다.");
+    init : function(){
+        employmentPop.dataSet();
+    },
+
+    dataSet: function(){
+        employmentPop.loading();
         employmentPop.global.params = params;
-        employmentPop.global.loginVO = loginVO;
+        employmentPop.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", employmentPop.global.params.hwpUrl, function () {employmentPop.editorComplete();});
+    },
 
-        $(document).ready(function() {
-            employmentPop.global.hwpCtrl = BuildWebHwpCtrl("hwpApproveContent", employmentPop.global.params.hwpUrl, function () {employmentPop.editorComplete();});
-            window.onresize();
+    loading: function(){
+        $.LoadingOverlay("show", {
+            background       : "rgba(0, 0, 0, 0.5)",
+            image            : "",
+            maxSize          : 60,
+            fontawesome      : "fa fa-spinner fa-pulse fa-fw",
+            fontawesomeColor : "#FFFFFF",
         });
-
-        window.onresize = function () {employmentPop.resize()};
     },
 
     editorComplete : function() {
-        var uri = employmentPop.global.params.hwpUrl;
-        if(String(uri).indexOf("1.233.95.140") > -1){
-            employmentPop.open(
-                "http://218.158.231.186/upload/salaryForm/"+ "salaryCont.hwp",
-                "HWP",
-                "",
-                {"userData" : "success"}
-            )
-        }else if(String(uri).indexOf("10.10.10.112") > -1){
-            employmentPop.open(
-                "http://218.158.231.186/upload/salaryForm/"+ "salaryCont.hwp",
-                "HWP",
-                "",
-                {"userData" : "success"}
-            )
-        }
+        let filePath = "http://218.158.231.186/upload/salaryForm/salaryCont.hwp";
+        employmentPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
+            employmentPop.openCallBack();
+            employmentPop.global.hwpCtrl.EditMode = 0;
+            employmentPop.global.hwpCtrl.SetToolBar(1, "TOOLBAR_MENU");
+            employmentPop.global.hwpCtrl.SetToolBar(1, "TOOLBAR_STANDARD");
+            employmentPop.global.hwpCtrl.ShowRibbon(false);
+            employmentPop.global.hwpCtrl.ShowCaret(false);
+            employmentPop.global.hwpCtrl.ShowStatusBar(false);
+            employmentPop.global.hwpCtrl.SetFieldViewOption(1);
+        }, {"userData" : "success"});
+
+        employmentPop.resize();
+        $.LoadingOverlay("hide", {});
     },
 
     resize : function() {
@@ -62,32 +52,6 @@ var employmentPop = {
             document.getElementById("hwpctrl_frame").style.width = "100%";
             document.getElementById("hwpctrl_frame").style.height = pHeight;
         }
-    },
-
-    open : function(url, format, type, name) {
-        return employmentPop.global.hwpCtrl.Open(url, format, type,
-            function (res) {
-                if(res.result){
-                    employmentPop.viewOpenCallBack();
-                }else{
-                    alert("문서를 찾을 수 없습니다.");
-                }
-
-                $("#loadingDiv").hide();
-                document.querySelector('body').style.overflow = 'auto'
-
-            }, name);
-    },
-
-    viewOpenCallBack : function(){
-        employmentPop.openCallBack();
-        employmentPop.global.hwpCtrl.EditMode = 0;
-        employmentPop.global.hwpCtrl.SetToolBar(1, "TOOLBAR_MENU");
-        employmentPop.global.hwpCtrl.SetToolBar(1, "TOOLBAR_STANDARD");
-        employmentPop.global.hwpCtrl.ShowRibbon(false);
-        employmentPop.global.hwpCtrl.ShowCaret(false);
-        employmentPop.global.hwpCtrl.ShowStatusBar(false);
-        employmentPop.global.hwpCtrl.SetFieldViewOption(1);
     },
 
     openCallBack : function(){
