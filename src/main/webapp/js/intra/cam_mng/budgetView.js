@@ -202,8 +202,8 @@ var bgView = {
                                     subAm += Number(e.SUB_AM);
                                     subAmSum += Number(e.SUB_AM);
                                 } else {
-                                    subAm = Number(e.CALC_AM - e.WAIT_CK);
-                                    subAmSum += Number(e.CALC_AM - e.WAIT_CK);
+                                    subAm = Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK));
+                                    subAmSum += Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK));
                                 }
                             } else {
                                 subAmSum += Number(e.SUB_AM);
