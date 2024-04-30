@@ -1097,11 +1097,12 @@ var bustripResultPop = {
 
             var html = '';
             for (var i = 0; i <bustripResultPop.global.attFiles.length; i++) {
-                size = bustripResultPop.bytesToKB(bustripResultPop.global.attFiles[i].size);
+                size = fCommon.bytesToKB(bustripResultPop.global.attFiles[i].size);
                 html += '<tr style="text-align: center;" class="addFile">';
                 html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(0, bustripResultPop.global.attFiles[i].name.lastIndexOf(".")) + '</td>';
                 html += '   <td>' + bustripResultPop.global.attFiles[i].name.substring(bustripResultPop.global.attFiles[i].name.lastIndexOf(".")+1) + '</td>';
                 html += '   <td>' + size + '</td>';
+                html += '   <td></td>';
                 html += '   <td>';
                 html += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="bustripResultPop.fnUploadFile(' + i + ')">';
                 html += '   </td>';
@@ -1114,7 +1115,7 @@ var bustripResultPop = {
 
             if($("#fileGrid").find("tr").length == 0){
                 $("#fileGrid").html('<tr class="defultTr">' +
-                    '	<td colspan="4" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
+                    '	<td colspan="5" style="text-align: center;padding-top: 10px;">선택된 파일이 없습니다.</td>' +
                     '</tr>');
             }
         }
