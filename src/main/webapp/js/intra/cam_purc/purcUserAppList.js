@@ -185,6 +185,17 @@ var purcUserAppList = {
                         }
                     }
                 }, {
+                    title: "신청자",
+                    field: "F_EMP_NAME",
+                    width: 50,
+                    template: function(e){
+                        if(e.F_EMP_NAME != null){
+                            return e.F_EMP_NAME;
+                        } else {
+                            return e.REG_EMP_NAME;
+                        }
+                    }
+                }, {
                     title: "지출상태",
                     width: 60,
                     template: function(e){

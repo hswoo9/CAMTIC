@@ -1402,7 +1402,8 @@
             IFNULL((SELECT SUM(EXNP_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX), 0) AS EXNP_AMT,
             REPLACE((SELECT PATH_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.PURC_EMP_SEQ)), '|', ' ') AS DEPT_NAME,
             (SELECT DOC_NO FROM DJ_CAMTIC.A_DOC_INFO WHERE DOC_ID = B.DOC_ID) AS DOC_NO,
-            (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) AS REG_EMP_SEQ
+            (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN) AS REG_EMP_SEQ,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = (SELECT REG_EMP_SEQ FROM CAM_MNG.DJ_MNG_PURC WHERE PURC_SN = B.PURC_SN)) AS REG_EMP_NAME
         FROM
             CAM_MNG.DJ_CLAIM_EXNP A
         LEFT JOIN
@@ -1415,7 +1416,7 @@
                 WHEN B.PAYMENT_METHOD = 'A' THEN B.ORDER_DT IS NOT NULL
                 ELSE 1=1
             END
-        <if test='camProject == null or "".equals(camProject)'>
+        <if test='(camProject == null or "".equals(camProject)) and (searchDept != null and !"".equals(searchDept))'>
             AND
                 ((A.EMP_SEQ IS NULL AND B.PURC_EMP_SEQ = #{empSeq}) OR A.EMP_SEQ = #{empSeq})
         </if>
