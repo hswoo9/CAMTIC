@@ -8,7 +8,7 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_project/commonProject.js?v=${today}'/>"></script>
-<script type="text/javascript" src="/js/intra/cam_project/docPrint/personPrintPop.js"></script>
+<script type="text/javascript" src="/js/intra/cam_project/docPrint/personPrintPop.js?v=${today}"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <input type="hidden" id="pk" value="${data.pk}"/>
