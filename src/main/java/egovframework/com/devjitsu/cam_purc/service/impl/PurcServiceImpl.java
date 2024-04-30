@@ -880,25 +880,25 @@ public class PurcServiceImpl implements PurcService {
         }
 
         // 결재문서
-        List<String> docIdArr = new ArrayList<>();
-        if(params.containsKey("purcSn")){
+        /*List<String> docIdArr = new ArrayList<>();*/
+        /*if(params.containsKey("purcSn")){
             Map<String, Object> purcInfo = purcRepository.getPurcReq(params);
             docIdArr.add(purcInfo.get("DOC_ID").toString());
             params.put("docIdArr", docIdArr);
-        }
-        if(params.containsKey("claimSn")){
+        }*/
+        /*if(params.containsKey("claimSn")){
             Map<String, Object> claimInfo = purcRepository.getClaimData(params);
             docIdArr.add(claimInfo.get("DOC_ID").toString());
             params.put("docIdArr", docIdArr);
-        }
+        }*/
 
-        if(purcRepository.getPurcClaimDocId(params) != null){
+        /*if(purcRepository.getPurcClaimDocId(params) != null){
             for(Map<String, Object> map : purcRepository.getPurcClaimDocId(params)){
                 list.add(map);
             }
-        }
+        }*/
 
-        params.put("docIdArr", docIdArr);
+        /*params.put("docIdArr", docIdArr);*/
 
         return list;
     }
@@ -1155,6 +1155,13 @@ public class PurcServiceImpl implements PurcService {
     @Override
     public List<Map<String, Object>> getPurcClaimExnpList(Map<String, Object> params) {
         return purcRepository.getPurcClaimExnpList(params);
+    }
+
+    @Override
+    public Map<String, Object> getClaimExnpDataByPay(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<>();
+        result = purcRepository.getClaimExnpDataByPay(params);
+        return result;
     }
 
     @Override

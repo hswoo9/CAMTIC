@@ -2024,6 +2024,33 @@
             CLAIM_SN = #{claimSn}
     </select>
 
+    <select id="getClaimExnpDataByPay" parameterType="map" resultType="map">
+        /*getClaimExnpDataByPay*/
+        SELECT
+            A.*,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ) AS EMP_NAME_KR,
+
+            B.DOC_ID AS CLAIM_DOC_ID,
+            D.APPRO_KEY AS CLAIM_APPRO_KEY,
+            D.DOC_TITLE AS CLAIM_DOC_TITLE,
+            D.DOC_NO AS CLAIM_DOC_NO,
+
+            C.DOC_ID AS PURC_DOC_ID,
+            E.APPRO_KEY AS PURC_APPRO_KEY,
+            E.DOC_TITLE AS PURC_DOC_TITLE,
+            E.DOC_NO AS PURC_DOC_NO
+        FROM
+            CAM_MNG.DJ_CLAIM_EXNP A
+        LEFT JOIN CAM_MNG.DJ_PURC_CLAIM B ON A.CLAIM_SN = B.CLAIM_SN
+        LEFT JOIN CAM_MNG.DJ_MNG_PURC C ON B.PURC_SN = C.PURC_SN
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO D ON B.DOC_ID = D.DOC_ID
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO E ON C.DOC_ID = E.DOC_ID
+        WHERE
+            A.PAY_APP_SN = #{payAppSn}
+        ORDER BY A.REG_DATE DESC
+        limit 1
+    </select>
+
     <delete id="delClaimExnpData" parameterType="map">
         /*delClaimExnpData*/
         DELETE FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn}

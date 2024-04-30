@@ -290,6 +290,10 @@ public class PurcRepository extends AbstractDAO {
         return selectList("purc.getPurcClaimExnpList", params);
     }
 
+    public Map<String, Object> getClaimExnpDataByPay(Map<String, Object> map) {
+        return (Map<String, Object>) selectOne("purc.getClaimExnpDataByPay", map);
+    }
+
     public void delClaimExnpData(Map<String, Object> params) {
         delete("purc.delClaimExnpData", params);
     }

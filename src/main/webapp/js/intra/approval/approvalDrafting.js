@@ -340,6 +340,9 @@ var draft = {
             draft.global.templateFormOpt = draft.getDocFormReqOpt("A").formInfoReqOpt;
             draft.global.templateFormCustomField = draft.getDocFormReqOpt().formCustomFieldList;
 
+            /** 외부프로세스 참조문서 추가 */
+            draft.setOutProcessRefer();
+
             var optFlag = draft.global.flag;
             if(!optFlag){
                 alert("양식 정보가 존재하지 않습니다.\n관리자에게 문의하세요.");
@@ -1952,6 +1955,50 @@ var draft = {
                 }
                 draft.getDocFileSet(tempArr);
                 draft.setKendoUpload();
+            }
+        }
+    },
+
+    setOutProcessRefer: function(){
+        const data = draft.global.params;
+        if(data.menuCd != "payApp"){
+            return;
+        }
+
+        const payAppSn = data.approKey.split("_")[1];
+        const claimExnpResult = customKendo.fn_customAjax("/purc/getClaimExnpDataByPay", {
+            payAppSn : payAppSn
+        });
+        console.log("claimExnpResult", claimExnpResult);
+        const claimExnpMap = claimExnpResult.data;
+
+        if(claimExnpMap != null){
+            const referencesAll = new Array();
+            let count = 0;
+
+            if(claimExnpMap.PURC_DOC_ID != null){
+                referencesAll[count] = {
+                    referencesDocId : claimExnpMap.PURC_DOC_ID,
+                    referencesDocNo : claimExnpMap.PURC_DOC_NO,
+                    referencesDocApproKey : claimExnpMap.PURC_APPRO_KEY,
+                    referencesDocTitle : claimExnpMap.PURC_DOC_TITLE,
+                    REFERENCES_DOC_TITLE : claimExnpMap.PURC_DOC_TITLE
+                }
+                count++;
+            }
+
+            if(claimExnpMap.CLAIM_DOC_ID != null){
+                referencesAll[count] = {
+                    referencesDocId : claimExnpMap.CLAIM_DOC_ID,
+                    referencesDocNo : claimExnpMap.CLAIM_DOC_ID,
+                    referencesDocApproKey : claimExnpMap.CLAIM_APPRO_KEY,
+                    referencesDocTitle : claimExnpMap.CLAIM_DOC_TITLE,
+                    REFERENCES_DOC_TITLE : claimExnpMap.CLAIM_DOC_TITLE
+                }
+            }
+
+            if(referencesAll.length != 0){
+                draft.referencesListViewSetData(referencesAll);
             }
         }
     }

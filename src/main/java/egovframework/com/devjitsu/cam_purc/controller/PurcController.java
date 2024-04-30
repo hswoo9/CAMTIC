@@ -930,6 +930,16 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/getClaimExnpDataByPay")
+    public String getClaimExnpDataByPay(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = purcService.getClaimExnpDataByPay(params);
+
+        model.addAttribute("data", data);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/purc/delClaimExnpData")
     public String delClaimExnpData(@RequestParam Map<String, Object> params, Model model){
 
