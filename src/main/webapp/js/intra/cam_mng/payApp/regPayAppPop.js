@@ -449,13 +449,18 @@ var regPay = {
             var claimExnpData = customKendo.fn_customAjax("/purc/getClaimExnpData", data);
             var cem = claimExnpData.map;
 
-            console.log(claimExnpData)
+            console.log("claimExnpData", claimExnpData)
             // if($("#pjtSn").val != ""){
             //     $("#pjtSn").val(rs.PJT_SN);
             // }
-            if($("#pjtSn").val() != ""){
-                $("#pjtSn").val(claimExnpData.PJT_SN || "");
-                selectProject(claimExnpData.PJT_SN || "", claimExnpData.PJT_NM, claimExnpData.PJT_CD)
+            if(cem != null && cem.PJT_CD != ""){
+                if(cem.CLAIM_SET_SN == null){
+                    $("#pjtSn").val("");
+                    selectProject("", cem.PJT_NM, cem.PJT_CD)
+                }else{
+                    $("#pjtSn").val("");
+                    selectProject("", cem.PJT_NM2, cem.PJT_CD2)
+                }
             } else {
                 selectProject('', '[2024년]법인운영', 'Mm1m124010');
             }

@@ -1436,7 +1436,9 @@
             A.*,
             (SELECT SUM(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX) AS TOT_AMT,
             (SELECT COUNT(REQ_AMT) FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CE_GW_IDX = A.CE_GW_IDX) AS CNT,
-            B.*
+            B.*,
+            B.PJT_NM AS PJT_NM2,
+            B.PJT_CD AS PJT_CD2
         FROM
             CAM_MNG.DJ_CLAIM_EXNP A
         LEFT JOIN
