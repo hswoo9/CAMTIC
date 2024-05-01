@@ -159,7 +159,7 @@ var regExnp = {
                         if(data.RE_STAT == "N") {
                             buttonHtml += '<button type="button" id="approveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_approve()">결의서 승인</button>';
                         } else {
-                            buttonHtml += '<button type="button" id="approveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regExnp.fn_regExnpCancel('+data.PAY_APP_SN+', '+data.EXNP_SN+');">결의서 승인취소</button>';
+                            buttonHtml += '<button type="button" id="approveBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regExnp.fn_regExnpCancel('+data.PAY_APP_SN+', '+data.EXNP_SN+');">결의서 승인취소</button>';
                         }
                     }
                     buttonHtml += '<button type="button" id="viewBtn" style="margin-right: 5px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+data.DOC_ID+'\', \'camticExnp_'+data.EXNP_SN+'\', \'exnp\');">열람</button>';
@@ -1152,10 +1152,10 @@ var regExnp = {
     },
 
     fn_projectPop : function(){
-        var url = "/project/pop/projectView.do";
+        var url = "/project/pop/g20ProjectView.do?type=" + type;
 
         var name = "_blank";
-        var option = "width = 1100, height = 700, top = 100, left = 400, location = no";
+        var option = "width = 1100, height = 450, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
     },
 

@@ -68,7 +68,7 @@ var bgView = {
                         data.baseDate = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0')
                     }
 
-                    if($("#status").val() != "incp"){
+                    if($("#status").val() != "incp" && $("#status").val() != "re"){
                         data.temp = 2;
 
                         if($("#payAppType").val() == "4"){
@@ -202,8 +202,8 @@ var bgView = {
                                     subAm += Number(e.SUB_AM);
                                     subAmSum += Number(e.SUB_AM);
                                 } else {
-                                    subAm = Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK));
-                                    subAmSum += Number(e.CALC_AM - (e.ACCT_AM_2 + e.WAIT_CK));
+                                    subAm = Number(e.CALC_AM - (e.ACCT_AM_2 + (e.WAIT_CK || 0)));
+                                    subAmSum += Number(e.CALC_AM - (e.ACCT_AM_2 + (e.WAIT_CK||0)));
                                 }
                             } else {
                                 subAmSum += Number(e.SUB_AM);

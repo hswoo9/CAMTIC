@@ -676,6 +676,13 @@ public class PayAppServiceImpl implements PayAppService {
 
             for(Map<String, Object> data : list) {
 
+                if("3".equals(pkMap.get("PAY_APP_TYPE"))){
+                    data.put("ETCDUMMY1", "76");
+                }
+
+                if(data.get("REG_DT") == null){
+                    data.put("REG_DT", data.get("IN_DT"));
+                }
 //                int docNumber = 0;          // 전체 지출결의서 CNT
 //                docNumber = payAppRepository.getCountDoc(list.get(i));
 //                int userSq = docNumber + 1;
@@ -1846,27 +1853,42 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Override
     public void regExnpCancel(Map<String, Object> params) {
+        Map<String, Object> mainExnpData = payAppRepository.getExnpData(params);
 
         Map<String, Object> exnpMap = payAppRepository.getExnpDetOne(params);
         // EXNP_DE > IN_DT
         Map<String, Object> g20Map = new HashMap<>();
-        if(exnpMap.get("EVID_TYPE").equals("1") || exnpMap.get("EVID_TYPE").equals("2") || exnpMap.get("EVID_TYPE").equals("3")) {
-            g20Map = g20Repository.getExnpDocData(exnpMap);
+        if(mainExnpData.get("PAY_APP_TYPE").equals("1")) {
+            if(exnpMap.get("EVID_TYPE").equals("1") || exnpMap.get("EVID_TYPE").equals("2") || exnpMap.get("EVID_TYPE").equals("3")) {
+                g20Map = g20Repository.getExnpDocData(exnpMap);
 
-            List<Map<String, Object>> listMap = payAppRepository.getExnpDetailData(params);
+                List<Map<String, Object>> listMap = payAppRepository.getExnpDetailData(params);
 
-            g20Repository.execUspAncj080Delete00(g20Map);
+                g20Repository.execUspAncj080Delete00(g20Map);
 
-            for(Map<String, Object> map : listMap) {
-                g20Repository.delExnpReDocData(map);
-            }
+                for(Map<String, Object> map : listMap) {
+                    g20Repository.delExnpReDocData(map);
+                }
 //            g20Repository.delExnpDocData(g20Map);
 
 
-            payAppRepository.updExnpReStat(params);
+                payAppRepository.updExnpReStat(params);
 
+            } else {
+
+                g20Map = g20Repository.getExnpDocDataEtc(exnpMap);
+
+                List<Map<String, Object>> listMap = payAppRepository.getExnpDetailData(params);
+
+                g20Repository.execUspAncj080Delete00(g20Map);
+
+                for(Map<String, Object> map : listMap) {
+                    g20Repository.delExnpDocData(map);
+                }
+
+                payAppRepository.updExnpNullStat(params);
+            }
         } else {
-
             g20Map = g20Repository.getExnpDocDataEtc(exnpMap);
 
             List<Map<String, Object>> listMap = payAppRepository.getExnpDetailData(params);
@@ -1880,10 +1902,7 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updExnpNullStat(params);
         }
 
-
         payAppRepository.resolutionExnpReStatus(params);
-
-
     }
 
     @Override
