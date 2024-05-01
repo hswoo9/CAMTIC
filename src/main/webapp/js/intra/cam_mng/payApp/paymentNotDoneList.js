@@ -80,7 +80,7 @@ var paymentNotDoneList = {
                     title: "삭제",
                     width: 60,
                     template : function(e){
-                        return "-"
+                        return '<button type="button" class="k-button k-button-solid-error" onclick="paymentNotDoneList.fn_delG20Error('+e.GISU_DT+','+e.GISU_SQ+')">삭제</button>';
                     }
                 }
             ],
@@ -96,5 +96,30 @@ var paymentNotDoneList = {
         }
 
         paymentNotDoneList.mainGrid("/pay/getPaymentNotDoneList", paymentNotDoneList.global.searchAjaxData);
+    },
+
+
+    fn_delG20Error : function(isuDt, isuSq){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            isuDt : isuDt,
+            isuSq : isuSq
+        }
+        $.ajax({
+            url : "/payApp/delG20Error",
+            data: data,
+            type : "post",
+            dataType : "json",
+            success: function(rs){
+                if(rs.code == 200){
+                    alert("삭제되었습니다.");
+
+                    paymentNotDoneList.gridReload();
+                }
+            }
+        });
     }
 }

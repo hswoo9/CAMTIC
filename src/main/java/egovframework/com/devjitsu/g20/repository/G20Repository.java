@@ -157,4 +157,8 @@ public class G20Repository extends AbstractDAO {
     public List<Map<String, Object>> getPaymentNotDoneList(Map<String, Object> params) {
         return selectListMs("g20.getPaymentNotDoneList", params);
     }
+
+    public void delG20Error(Map<String, Object> params) {
+        insertMs("g20.delG20Error", params);
+    }
 }

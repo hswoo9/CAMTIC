@@ -1171,4 +1171,17 @@ public class PayAppController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/payApp/delG20Error")
+    public String delG20Error(@RequestParam Map<String, Object> params, Model model) {
+
+        try{
+            g20Service.delG20Error(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
 }

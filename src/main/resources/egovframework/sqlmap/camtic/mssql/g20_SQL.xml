@@ -830,4 +830,9 @@
         ]]>
     </select>
 
+
+    <insert id="delG20Error" parameterType="map">
+        /*delG20Error*/
+        Exec USP_ABDOCU_DELETE '1212',#{isuDt}, #{isuSq}
+    </insert>
 </mapper>

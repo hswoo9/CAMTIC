@@ -631,4 +631,9 @@ public class G20ServiceImpl implements G20Service {
         System.out.println(params);
         g20Repository.insEtcEmpInfo(params);
     }
+
+    @Override
+    public void delG20Error(Map<String, Object> params) {
+        g20Repository.delG20Error(params);
+    }
 }

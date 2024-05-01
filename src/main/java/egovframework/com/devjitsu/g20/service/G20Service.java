@@ -41,4 +41,6 @@ public interface G20Service {
     List<Map<String, Object>> getSbankList(Map<String, Object> params);
 
     void insEtcEmpInfo(Map<String, Object> params);
+
+    void delG20Error(Map<String, Object> params);
 }
