@@ -27,6 +27,7 @@ var alterList = {
         alterList.global.dropDownDataSource = [
             { text: "문서번호", value: "A" },
             { text: "적요", value: "B" },
+            { text: "거래처", value: "D" },
             { text: "프로젝트명", value: "C" },
         ]
 

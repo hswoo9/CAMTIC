@@ -405,6 +405,7 @@
                 B.DOC_NO,
                 C.TOT_COST,
                 C.ITEM_COUNT,
+                C.CRM_NM,
                 (SELECT REQ_END_DE FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = A.PAY_APP_SN ORDER BY EXNP_SN DESC LIMIT 1) AS REQ_END_DE,
                 D.EXNP_STATUS,
                 IFNULL(E.EXNP_DOC_STATUS, 0) AS EXNP_DOC_STATUS,
@@ -427,6 +428,7 @@
                 (SELECT
                     PAY_APP_SN,
                     SUM(TOT_COST) AS TOT_COST,
+                    GROUP_CONCAT(CRM_NM) AS CRM_NM,
                     COUNT(*) AS ITEM_COUNT
                 FROM CAM_MNG.DJ_PAY_APP_DET
                 GROUP BY PAY_APP_SN) C
@@ -477,6 +479,7 @@
             <if test='regEmpSeq != null and !"".equals(regEmpSeq)'>
                 AND A.REG_EMP_SEQ = #{regEmpSeq}
             </if>
+
         ) AA
         WHERE
             1=1
@@ -506,12 +509,17 @@
                     AND
                         AA.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
                 </when>
+                <when test='"D".equals(searchKeyword)'>
+                    AND
+                        AA.CRM_NM REGEXP #{searchValue}
+                </when>
                 <otherwise>
                     AND
                         (
                             AA.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
                             OR AA.APP_TITLE LIKE CONCAT('%', #{searchValue},'%')
                             OR AA.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                            OR AA.CRM_NM REGEXP #{searchValue}
                         )
                 </otherwise>
             </choose>
@@ -882,6 +890,7 @@
             (SELECT
                 EXNP_SN,
                 SUM(TOT_COST) TOT_COST,
+                GROUP_CONCAT(CRM_NM) AS CRM_NM,
                 BUDGET_NM,
                 EVID_TYPE
             FROM CAM_MNG.DJ_EXNP_DET
@@ -925,12 +934,17 @@
                 AND
                     A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
             </when>
+            <when test='"D".equals(searchKeyword)'>
+                AND
+                    D.CRM_NM REGEXP #{searchValue}
+            </when>
             <otherwise>
                 AND
                     (
                         B.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
                         OR A.EXNP_BRIEFS LIKE CONCAT('%', #{searchValue},'%')
                         OR A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                        OR D.CRM_NM REGEXP #{searchValue}
                     )
             </otherwise>
         </choose>
@@ -1132,7 +1146,8 @@
             (
                 SELECT
                     PAY_INCP_SN,
-                    SUM(TOT_COST) AS TOT_COST
+                    SUM(TOT_COST) AS TOT_COST,
+                    GROUP_CONCAT(CRM_NM) AS CRM_NM
                 FROM CAM_MNG.DJ_PAY_INCP_DET
                 GROUP BY PAY_INCP_SN
             ) C
@@ -1179,12 +1194,17 @@
                     AND
                     A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
                 </when>
+                <when test='"D".equals(searchKeyword)'>
+                    AND
+                        C.CRM_NM REGEXP #{searchValue}
+                </when>
                 <otherwise>
                     AND
                     (
                         B.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
                         OR A.APP_CONT LIKE CONCAT('%', #{searchValue},'%')
                         OR A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                        OR C.CRM_NM REGEXP #{searchValue}
                     )
                 </otherwise>
             </choose>
@@ -1202,7 +1222,8 @@
                 IFNULL(SUM(ID.TOT_COST), 0) AS TOT_COST,
                 '' AS PAY_INCP_RE_SN,
                 '' AS RE_APP_DE,
-                HEI.EMP_NAME_KR AS EMP_NAME
+                HEI.EMP_NAME_KR AS EMP_NAME,
+                GROUP_CONCAT(ID.CRM_NM) AS CRM_NM
             FROM
                 CAM_MNG.DJ_PAY_INCP_DET ID
             LEFT JOIN CAM_MNG.DJ_PAY_INCP I
@@ -1228,7 +1249,8 @@
                 IFNULL(B.TOT_COST, 0) AS TOT_COST,
                 B.PAY_INCP_RE_SN,
                 B.RE_APP_DE,
-                HEI.EMP_NAME_KR AS EMP_NAME
+                HEI.EMP_NAME_KR AS EMP_NAME,
+                CRM_NM
             FROM
                 CAM_MNG.DJ_PAY_INCP_RE B
             LEFT JOIN
@@ -1265,12 +1287,17 @@
                 AND
                 AB.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
             </when>
+            <when test='"D".equals(searchKeyword)'>
+                AND
+                    AB.CRM_NM REGEXP #{searchValue}
+            </when>
             <otherwise>
                 AND
                 (
                     AB.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
                     OR AB.APP_CONT LIKE CONCAT('%', #{searchValue},'%')
                     OR AB.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                    OR AB.CRM_NM REGEXP #{searchValue}
                 )
             </otherwise>
         </choose>
