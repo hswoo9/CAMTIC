@@ -292,6 +292,7 @@ public class PayAppController {
     public String getPayAppData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = payAppService.getPayAppReqData(params);
         List<Map<String, Object>> list = payAppService.getPayAppDetailData(params);
+        List<Map<String, Object>> list2 = payAppService.getPayAppDetailDataDupl(params);
 
         String[] fileNoAr = new String[list.size()];
         for(int i = 0; i < list.size(); i++){
@@ -307,6 +308,7 @@ public class PayAppController {
 
         model.addAttribute("map", map);
         model.addAttribute("list", list);
+        model.addAttribute("list2", list2);
         model.addAttribute("fileList", fileList);
 
         return "jsonView";

@@ -5,7 +5,7 @@ var payInit = {
             payAppSn: payAppSn
         });
         const rs = result.map;
-        const ls = result.list;
+        const ls = result.list2;
 
         /** 1. 지급신청서 데이터 */
         hwpDocCtrl.putFieldText("REG_DATE", rs.REG_DATE);
@@ -68,7 +68,7 @@ var payInit = {
             /** 사업명 */
             hwpDocCtrl.putFieldText("BS_TITLE", (pjtMap.BS_TITLE || ""));
             /** 과제명 */
-            hwpDocCtrl.putFieldText("PJT_NM", pjtMap.PJT_NM);
+            hwpDocCtrl.putFieldText("PJT_NM", rs.PJT_NM);
 
             let pjtDt = pjtMap.PJT_START_DT+" ~ "+pjtMap.PJT_END_DT;
             if(pjtMap.YEAR_CLASS != null && pjtMap.YEAR_CLASS == "M"){
@@ -191,7 +191,7 @@ var payInit = {
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_BNK_NM +'<br>'+ map.CRM_ACC_NO +'<br>'+ map.CRM_ACC_HOLDER +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.ETC +'</p></td>';
             html += '               </tr>';
-            sum += Number(map.TOT_COST);
+            sum += Number(map.TOT_SUM);
         }
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 151px;"><p style="font-size:12px;"><b>합계</b></p></td>';
@@ -235,7 +235,7 @@ var payInit = {
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_ACC_HOLDER +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.ETC +'</p></td>';
             html += '               </tr>';
-            sum += Number(map.TOT_COST);
+            sum += Number(map.TOT_SUM);
         }
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 113px;"><p style="font-size:12px;"><b>합계</b></p></td>';
@@ -278,7 +278,7 @@ var payInit = {
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_ACC_HOLDER +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.ETC +'</p></td>';
             html += '               </tr>';
-            sum += Number(map.TOT_COST);
+            sum += Number(map.TOT_SUM);
         }
         html += '               <tr>';
         html += '                   <td style="height:30px;background-color:#FFFFDD; text-align:center; width: 113px;"><p style="font-size:12px;"><b>합계</b></p></td>';

@@ -397,6 +397,14 @@
         WHERE PAD.PAY_APP_SN = #{payAppSn}
     </select>
 
+    <select id="getPayAppDetailDataDupl" parameterType="map" resultType="map">
+        /*getPayAppDetailDataDupl*/
+        SELECT PAD.*, FORMAT(SUM(TOT_COST) , 0) AS TOT_COST_COMMA, SUM(TOT_COST) AS TOT_SUM
+        FROM CAM_MNG.DJ_PAY_APP_DET PAD
+        WHERE PAD.PAY_APP_SN = #{payAppSn}
+        GROUP BY TR_CD, CRM_NM, CRM_ACC_HOLDER
+    </select>
+
     <select id="getPaymentList" parameterType="map" resultType="map">
         /*getPaymentList*/
         SELECT AA.* FROM (
@@ -1860,7 +1868,7 @@
     </select>
 
     <select id="getExnpDetailInfo" parameterType="map" resultType="map">
-        /*getPayAppDetailInfo*/
+        /*getExnpDetailInfo*/
         SELECT
             *, FORMAT(TOT_COST , 0) AS TOT_COST_COMMA
         FROM

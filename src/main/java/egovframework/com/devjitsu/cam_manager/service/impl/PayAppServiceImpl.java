@@ -328,6 +328,13 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getPayAppDetailDataDupl(Map<String, Object> params) {
+        List<Map<String, Object>> list = new ArrayList<>();
+        return payAppRepository.getPayAppDetailDataDupl(params);
+
+    }
+
+    @Override
     public List<Map<String, Object>> getPaymentList(Map<String, Object> params) {
         return payAppRepository.getPaymentList(params);
     }
