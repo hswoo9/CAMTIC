@@ -1652,6 +1652,9 @@
             CAM_PJT_MNG.DJ_PJT_DEV
         WHERE
             PJT_SN = #{pjtSn}
+        <if test='"Y".equals(lastCk)'>
+            AND STATUS IN (100, 101)
+        </if>
         ORDER BY DEV_SN DESC LIMIT 1
     </select>
 

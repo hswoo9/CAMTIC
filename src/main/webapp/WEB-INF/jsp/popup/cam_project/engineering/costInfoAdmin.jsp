@@ -99,15 +99,15 @@
                 <th style="text-align: center">예상 운영수익</th>
             </tr>
             <tr>
-                <td style="text-align: center"></td>
-                <td style="text-align: center"></td>
-                <td style="text-align: center"></td>
-                <td style="text-align: center"></td>
-                <td style="text-align: center"></td>
-                <td style="text-align: center"></td>
-                <td style="text-align: center"></td>
-                <td style="text-align: center"></td>
-                <td style="text-align: center"></td>
+                <td style="text-align: center">수주</td>
+                <td id="PJT_CD2" style="text-align: center"></td>
+                <td id="PM_DEPT" style="text-align: center"></td>
+                <td id="PM_TEAM" style="text-align: center"></td>
+                <td id="PJT_AMT2" style="text-align: right"></td>
+                <td id="RES_AMT" style="text-align: right"></td>
+                <td id="RES_NOT_INV_AMT" style="text-align: right"></td>
+                <td id="DEV_AMT" style="text-align: right"></td>
+                <td id="DEV_NOT_INV_AMT" style="text-align: right"></td>
             </tr>
             </thead>
         </table>

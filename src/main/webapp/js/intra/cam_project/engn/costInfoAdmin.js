@@ -21,11 +21,20 @@ var costInfo = {
         const delvMap = result.delvMap;
         $("#busnNm").val(pjtMap.BUSN_NM);
         $("#PJT_CD").text(pjtMap.PJT_CD);
+        $("#PJT_CD2").text(pjtMap.PJT_CD);
         $("#PJT_NM").text(pjtMap.PJT_NM);
         $("#PM").text(pjtMap.PM);
         $("#PJT_STR_DT").text(pjtMap.PJT_START_DT);
         $("#PJT_END_DT").text(pjtMap.PJT_EXP_END_DT);
         $("#PJT_AMT").text(fn_numberWithCommas(pjtMap.PJT_AMT));
+
+        if(pjtMap.PM_EMP_SEQ != null){
+            const pmInfo = getUser(pjtMap.PM_EMP_SEQ);
+            if(pmInfo != null){
+                $("#PM_DEPT").text(pmInfo.deptNm);
+                $("#PM_TEAM").text(pmInfo.teamNm);
+            }
+        }
 
         let sbjText = "미사용";
         if(pjtMap.SBJ_SEP != undefined){
@@ -64,6 +73,98 @@ var costInfo = {
             html += '</td>';
             html += '</tr>';
             //$("#pjtInfoRow").append(html);
+        }
+
+
+
+        /** 재무실적내역 */
+
+        /** 수행계획, 결과보고 체크해서 정산서에 뿌려줄내용 체크 */
+        const devResult = customKendo.fn_customAjax("/project/engn/getDevData", {pjtSn: pjtSn, lastCk: "Y"});
+        const resResult = customKendo.fn_customAjax("/project/engn/getResultInfo", {pjtSn: pjtSn});
+        let type = "";
+
+        const devMap = devResult.rs;
+        const resMap = resResult.result.map;
+        if(resMap == null && devMap != null){
+            type = "dev";
+        }else if(resMap != null){
+            type = "res";
+        }else{
+            type = "delv";
+        }
+
+        const pjtAmt = pjtMap.PJT_AMT;
+        const tmYn = pjtMap.TM_YN;
+
+        /** 엔지니어링/용역/기타*/
+        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V" || pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
+
+            if(type == "res"){
+
+                /** 구매/비용내역 */
+                const resPurcResult = customKendo.fn_customAjax("/purc/getPurcReqClaimList.do", {pjtSn: pjtSn});
+                /** 출장/비용내역 */
+                const tripResult = customKendo.fn_customAjax("/bustrip/getProjectBustList", {pjtSn: pjtSn});
+                let resInvSum = 0;
+                const resPurcList = resPurcResult.list;
+                for(let i=0; i<resPurcList.length; i++){
+                    const map = resPurcList[i];
+                    if(map.CLAIM_STATUS == "CAYSY"){
+                        resInvSum += Number(map.PURC_ITEM_AMT_SUM);
+                    }
+                }
+                const bustList = tripResult.list;
+                for(let i=0; i<bustList.length; i++){
+                    const bustMap = bustList[i];
+                    if(bustMap.RS_STATUS == "100"){
+                        resInvSum  += Number(bustMap.RES_EXNP_SUM);
+                    }
+                }
+
+                /** 투자내역 */
+                const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
+                const purcList = purcResult.list;
+                let invSum = 0;
+                for(let i=0; i<purcList.length; i++){
+                    const map = purcList[i];
+                    invSum += Number(map.EST_TOT_AMT);
+                }
+
+                /*if(tmYn != "Y"){
+
+                }*/
+                $("#PJT_AMT2").text(comma(pjtAmt));
+                $("#RES_AMT").text(comma(pjtAmt));
+                $("#RES_NOT_INV_AMT").text(comma(Number(pjtAmt)-resInvSum));
+                $("#DEV_AMT").text(comma(Number(pjtAmt)-invSum));
+                $("#DEV_NOT_INV_AMT").text(comma(Number(pjtAmt)-invSum));
+
+            }else if(type == "dev"){
+
+                /** 투자내역 */
+                const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
+                const purcList = purcResult.list;
+                let invSum = 0;
+                for(let i=0; i<purcList.length; i++){
+                    const map = purcList[i];
+                    invSum += Number(map.EST_TOT_AMT);
+                }
+
+                $("#PJT_AMT2").text(comma(pjtAmt));
+                $("#RES_AMT").text(comma(0));
+                $("#RES_NOT_INV_AMT").text(comma(0));
+                $("#DEV_AMT").text(comma(Number(pjtAmt)-invSum));
+                $("#DEV_NOT_INV_AMT").text(comma(Number(pjtAmt)-invSum));
+
+            }else{
+
+                $("#PJT_AMT2").text(comma(pjtAmt));
+                $("#RES_AMT").text(comma(0));
+                $("#RES_NOT_INV_AMT").text(comma(0));
+                $("#DEV_AMT").text(comma(0));
+                $("#DEV_NOT_INV_AMT").text(comma(0));
+            }
         }
     },
 
