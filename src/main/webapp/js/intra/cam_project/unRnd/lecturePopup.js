@@ -120,6 +120,12 @@ var lecturePop = {
             alert("수료증은 1명씩 출력가능합니다."); return;
         }
 
+        var dataItem = $("#personGrid").data("kendoGrid").dataItem($("input[name='person']:checked").closest("tr"));
+        if(dataItem.REQ_STATUS != 'O'){
+            alert("강의 수료전 수료증 발급이 불가능합니다.");
+            return;
+        }
+
         let url = "/project/pop/personPrintPop.do?pk="+$("#pk").val()+"&personReqSn="+$("#personReqSn"+$("input[name='person']:checked").val()).val();
         const name = "personReqPop";
         const option = "width=1680, height=870, scrollbars=no, top=200, left=200, resizable=no, toolbars=no, menubar=no";
