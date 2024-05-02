@@ -836,6 +836,9 @@ var hwpDocCtrl = {
             hwpDocCtrl.putFieldText("cApprText1", " ");
             hwpDocCtrl.putFieldText("cAppr0", " ");
             hwpDocCtrl.putFieldText("cAppr1", " ");
+            if($("#formId").val() == "147"){
+                hwpDocCtrl.putFieldText("paySign", " ");
+            }
             approvalLine.linkStart();
 
         }
