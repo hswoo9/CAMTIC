@@ -414,17 +414,17 @@ var reqCl = {
             if($("#vat").data("kendoRadioGroup").value() == "N"){
                 $("#purcSupAmt" + idx).val(comma(amount));
                 $("#purcVatAmt" + idx).val(comma(sum2));
-                $("#purcItemAmt" + idx).val(comma(amount+sum2));
+                // $("#purcItemAmt" + idx).val(comma(amount+sum2));
                 $("#itemAmt" + idx).val(comma(amount+sum2));
             }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
                 $("#purcSupAmt" + idx).val(comma(sum3));
                 $("#purcVatAmt" + idx).val(comma(sum4));
-                $("#purcItemAmt" + idx).val(comma(amount));
+                // $("#purcItemAmt" + idx).val(comma(amount));
                 $("#itemAmt" + idx).val(comma(amount));
             }else if($("#vat").data("kendoRadioGroup").value() == "D"){
                 $("#purcSupAmt" + idx).val(comma(amount));
                 $("#purcVatAmt" + idx).val("0");
-                $("#purcItemAmt" + idx).val(comma(amount));
+                // $("#purcItemAmt" + idx).val(comma(amount));
                 $("#itemAmt" + idx).val(comma(amount));
             }
         });
@@ -507,9 +507,9 @@ var reqCl = {
             '       <td>' +
             '           <input type="text" id="itemAmt' + reqCl.global.itemIndex + '" class="itemAmt" style="text-align: right" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             '       </td>' +
-            '       <td>' +
-            '           <input type="text" id="purcItemAmt' + reqCl.global.itemIndex + '" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-            '       </td>' +
+            // '       <td>' +
+            // '           <input type="text" id="purcItemAmt' + reqCl.global.itemIndex + '" class="purcItemAmt" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+            // '       </td>' +
             // '       <td>' +
             // '           <input id="difAmt' + reqCl.global.itemIndex + '" class="difAmt" value="'+comma(0)+'" style="text-align: right" onkeyup="reqCl.fn_calcN(\'' + reqCl.global.itemIndex + '\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
             // '       </td>' +
@@ -758,7 +758,7 @@ var reqCl = {
                 itemUnitAmt : uncommaN($("#itemUnitAmt" + index).val()),
                 itemUnit : $("#itemUnit" + index).val(),
                 itemAmt : uncommaN($("#itemAmt" + index).val()),
-                purcItemAmt : $("#purcItemAmt" + index).val() ? uncommaN($("#purcItemAmt" + i).val()) : 0,
+                // purcItemAmt : $("#purcItemAmt" + index).val() ? uncommaN($("#purcItemAmt" + i).val()) : 0,
                 // difAmt : uncommaN($("#difAmt" + index).val()),
                 itemEtc : $("#itemEtc" + index).val(),
                 purcItemType : $("#purcItemType" + index).val(),
@@ -908,9 +908,9 @@ var reqCl = {
                     '       <td>' +
                     '           <input type="text" id="itemAmt' + reqCl.global.itemIndex + '" class="itemAmt" style="text-align: right" value="' + comma(e.itemList[i].PURC_ITEM_AMT) + '" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     '       </td>' +
-                    '       <td>' +
-                    '           <input id="purcItemAmt' + reqCl.global.itemIndex + '" class="purcItemAmt" value="' + comma(e.itemList[i].PURC_ITEM_AMT) + '" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                    '       </td>' +
+                    // '       <td>' +
+                    // '           <input id="purcItemAmt' + reqCl.global.itemIndex + '" class="purcItemAmt" value="' + comma(e.itemList[i].PURC_ITEM_AMT) + '" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                    // '       </td>' +
                     // '       <td>' +
                     // '           <input id="difAmt' + reqCl.global.itemIndex + '" class="difAmt" value="' + comma(e.itemList[i].DISCOUNT_AMT) + '" style="text-align: right" onkeyup="reqCl.fn_calcN(\'' + reqCl.global.itemIndex + '\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                     // '       </td>' +
@@ -1051,9 +1051,9 @@ var reqCl = {
                 '       <td>' +
                 '           <input type="text" id="itemAmt'+reqCl.global.itemIndex+'" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                 '       </td>' +
-                '       <td>' +
-                '           <input type="text" id="purcItemAmt'+reqCl.global.itemIndex+'" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
-                '       </td>' +
+                // '       <td>' +
+                // '           <input type="text" id="purcItemAmt'+reqCl.global.itemIndex+'" class="purcItemAmt" value="'+comma(e.itemList[i].PURC_ITEM_AMT)+'" style="text-align: right" disabled onkeyup="inputNumberFormat(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
+                // '       </td>' +
                 // '       <td>' +
                 // '           <input type="text" id="difAmt'+reqCl.global.itemIndex+'" class="difAmt" value="'+comma(e.itemList[i].DIF_AMT)+'" style="text-align: right" onkeyup="reqCl.fn_calcN(\'' + reqCl.global.itemIndex + '\', this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
                 // '       </td>' +
