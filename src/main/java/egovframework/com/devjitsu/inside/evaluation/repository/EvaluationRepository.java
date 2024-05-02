@@ -24,7 +24,9 @@ public class EvaluationRepository extends AbstractDAO {
     public List<Map<String, Object>> getEvaluationEmpList(Map<String, Object> params) {
         return selectList("evaluation.getEvaluationEmpList", params);
     }
-
+    public Map<String, Object> getEvaluationEmpCount(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvaluationEmpCount", params);
+    }
 
     public List<Map<String, Object>> getEvalResultEmpList(Map<String, Object> params) {
         return selectList("evaluation.getEvalResultEmpList", params);
@@ -34,6 +36,10 @@ public class EvaluationRepository extends AbstractDAO {
     }
     public Map<String, Object> getEvaluationOneList(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("evaluation.getEvaluationOneList", params);
+    }
+
+    public Map<String, Object> getEvaluationSelf(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("evaluation.getEvaluationSelf", params);
     }
 
     public Map<String, Object> getEvaluationOne(Map<String, Object> params) {
@@ -98,9 +104,8 @@ public class EvaluationRepository extends AbstractDAO {
         insert("evaluation.insEvaluationAppBs", params);
     }
 
-    public void updEvaluation(Map<String, Object> params) {
-        insert("evaluation.updEvaluation", params);
-    }
+    public void updEvaluation(Map<String, Object> params) {insert("evaluation.updEvaluation", params);}
+    public void delEvaluation(Map<String, Object> params) {insert("evaluation.delEvaluation", params);}
 
     public void updEvaluationAppBt(Map<String, Object> params) {
         insert("evaluation.updEvaluationAppBt", params);

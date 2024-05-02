@@ -132,9 +132,6 @@
                             return "<input type='checkbox' id='empPk" + row.EMP_SEQ + "' name='empPk' class='empPk' onclick='chkCount();' value='" + row.EMP_SEQ + "'/>";
                         }
                     },
-
-
-                    /*template : "<input type='checkbox' id='empPk#=EMP_SEQ#' name='empPk' class='empPk' value='#=EMP_SEQ#'/>",*/
                     width: 50
                 }, {
                     field: "DEPT_NAME_OD",

@@ -57,9 +57,11 @@ public class EvaluationController {
     public String evalPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        params.put("bsYMD", params.get("bsYear")+"-12-31");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
+        model.addAttribute("empData", evaluationService.getUserPersonnelinformOne(params));
         return  "popup/inside/userManage/evalPop";
     }
 
@@ -79,7 +81,10 @@ public class EvaluationController {
     @RequestMapping("/evaluation/getEvaluationOneList")
     public String getEvaluationOneList(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
 
-        model.addAttribute("list", evaluationService.getEvaluationOneList(params));
+        model.addAttribute("list", evaluationService.getEvaluationOneList(params)); // 본인평가
+        model.addAttribute("self", evaluationService.getEvaluationSelf(params)); // 본인평가
+        model.addAttribute("first", evaluationService.getEvaluationEmpCountFirst(params)); // 1차평가
+        model.addAttribute("second", evaluationService.getEvaluationEmpCount(params)); // 2차평가
         return "jsonView";
     }
 
@@ -136,6 +141,7 @@ public class EvaluationController {
      * @param model
      * @return
      */
+
     @RequestMapping("/evaluation/pop/evalResultMng.do")
     public String evalResultMng(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
 
@@ -218,9 +224,9 @@ public class EvaluationController {
     public String getRequestEvaluationMemberTot(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
 
         List<Map<String, Object>> list = evaluationService.getRequestEvaluationMemberTot(params);
-    	model.addAttribute("list", list);
+        model.addAttribute("list", list);
 
-    	return "jsonView";
+        return "jsonView";
     }
 
 
@@ -242,6 +248,12 @@ public class EvaluationController {
 
         return "jsonView";
     }
+    @RequestMapping("/evaluation/delEvaluation")
+    public String delEvaluation(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        evaluationService.delEvaluation(params);
+        return "jsonView";
+    }
+
 
     @RequestMapping("/evaluation/setEvaluationItemCopy")
     public String setEvaluationItemCopy(@RequestParam Map<String, Object> params) {

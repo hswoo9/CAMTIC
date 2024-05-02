@@ -7,13 +7,17 @@ public interface EvaluationService {
     List<Map<String, Object>> getRequestEvaluationMemberTot(Map<String, Object> params);
     List<Map<String, Object>> getRequestEvaluationUser(Map<String, Object> params);
     Map<String, Object> getEvaluationOneList(Map<String, Object> params);
+    Map<String, Object> getEvaluationSelf(Map<String, Object> params);
     List<Map<String, Object>> getEvaluationList(Map<String, Object> params);
     List<Map<String, Object>> getEvaluationEmpList(Map<String, Object> params);
+    Map<String, Object> getEvaluationEmpCountFirst(Map<String, Object> params);
+    Map<String, Object> getEvaluationEmpCount(Map<String, Object> params);
     List<Map<String, Object>> getEvalResultEmpList(Map<String, Object> params);
     Map<String, Object> getEvaluationApp(Map<String, Object> params);
     Map<String, Object> getRequestEvaluationUserCnt(Map<String, Object> params);
     Map<String, Object> getUserPersonnelinformOne(Map<String, Object> params);
     void setEvaluation(Map<String, Object> params);
+    void delEvaluation(Map<String, Object> params);
     void setEvaluationItemCopy(Map<String, Object> params);
     void setEvalScoreTemSave(Map<String, Object> params);
     void setSaveMngScore(Map<String, Object> params);

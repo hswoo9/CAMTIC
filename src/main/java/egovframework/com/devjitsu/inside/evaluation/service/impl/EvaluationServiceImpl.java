@@ -34,8 +34,46 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Map<String, Object>> getEvaluationEmpList(Map<String, Object> params) {
         return evaluationRepository.getEvaluationEmpList(params);
     }
+    @Override
+    public Map<String, Object> getEvaluationEmpCountFirst(Map<String, Object> params) {
+        params.put("bsYMD", params.get("bsYear")+"-12-31");
 
+        if(params.get("duty").equals("4") || params.get("duty").equals("5")){
+            params.put("teamLeader", "N");
+            params.put("deptHeader", "N");
+            params.put("deptSeq", params.get("deptSeq"));
+        }else if(params.get("duty").equals("2") || params.get("duty").equals("3") || params.get("duty").equals("7")){
+            params.put("teamLeader", "Y");
+            params.put("deptHeader", "N");
+            params.put("pDeptSeq", params.get("deptSeq"));
+        }else if(params.get("duty").equals("1")){
+            params.put("teamLeader", "Y");
+            params.put("deptHeader", "N");
+            params.put("duty" ,"1");
+        }else{
+            params.put("self" ,"Y");
+        }
 
+        return evaluationRepository.getEvaluationEmpCount(params);
+    }
+    @Override
+    public Map<String, Object> getEvaluationEmpCount(Map<String, Object> params) {
+        params.put("bsYMD", params.get("bsYear")+"-12-31");
+
+        if(params.get("duty").equals("2") || params.get("duty").equals("3") || params.get("duty").equals("7")){
+            params.put("teamLeader", "N");
+            params.put("deptHeader", "N");
+            params.put("pDeptSeq", params.get("deptSeq"));
+        }else if(params.get("duty").equals("1")){
+            params.put("teamLeader", "Y");
+            params.put("deptHeader", "N");
+            params.put("duty" ,"1");
+        }else{
+            params.put("self" ,"Y");
+        }
+
+        return evaluationRepository.getEvaluationEmpCount(params);
+    }
     @Override
     public List<Map<String, Object>> getEvalResultEmpList(Map<String, Object> params) {
         return evaluationRepository.getEvalResultEmpList(params);
@@ -47,6 +85,10 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public Map<String, Object> getEvaluationOneList(Map<String, Object> params) {
         return evaluationRepository.getEvaluationOneList(params);
+    }
+    @Override
+    public Map<String, Object> getEvaluationSelf(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationSelf(params);
     }
 
     @Override
@@ -164,7 +206,10 @@ public class EvaluationServiceImpl implements EvaluationService {
 
     }
 
-
+    @Override
+    public void delEvaluation(Map<String, Object> params) {
+        evaluationRepository.delEvaluation(params);
+    }
 
     @Override
     public void setEvaluationItemCopy(Map<String, Object> params) {
