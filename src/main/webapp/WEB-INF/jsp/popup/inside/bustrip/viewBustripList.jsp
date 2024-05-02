@@ -24,16 +24,20 @@
                     <col width="10%">
                     <col width="25%">
                     <col width="10%">
-                    <col width="20%">
                     <col width="10%">
                     <col width="25%">
+                    <col width="10%">
                 </colgroup>
                 <tr>
                     <th class="text-center th-color">출장 기간</th>
-                    <td colspan="5">
+                    <td colspan="2">
                         <input type="text" id="start_date" style="width: 150px;">
                         ~
                         <input type="text" id="end_date" style="width: 150px;">
+                    </td>
+                    <th class="text-center th-color">출장지</th>
+                    <td colspan="2">
+                        <input type="text" id="visitLoc" style="width: 300px;" onkeypress="if(window.event.keyCode==13){popMainGrid()}">
                     </td>
                 </tr>
             </table>
@@ -46,6 +50,7 @@
 
     customKendo.fn_datePicker("start_date", 'month', "yyyy-MM-dd", new Date(bustrip.global.year, bustrip.global.month, 1));
     customKendo.fn_datePicker("end_date", 'month', "yyyy-MM-dd", new Date(bustrip.global.year, bustrip.global.afMonth, 0));
+    customKendo.fn_textBox(["visitLoc"]);
 
     popMainGrid();
     function popMainGrid(){
@@ -63,6 +68,7 @@
                     data.projectCd = $("#pjt_cd").val();
                     data.busnName = $("#busnName").val();
                     data.empSeq = $("#regEmpSeq").val();
+                    data.visitLoc = $("#visitLoc").val();
                     return data;
                 }
             },
@@ -96,7 +102,7 @@
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="bustripList.popGridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="popGridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
@@ -150,6 +156,7 @@
                 }, {
                     title: "",
                     template: function(row){
+                        console.log(row)
                         var busnName = "";
                         var project = "";
                         if(row.BUSN_NAME != "" && row.BUSN_NAME != null && row.BUSN_NAME != undefined){
@@ -163,7 +170,8 @@
                         if(row.VISIT_LOC_SUB != ""){
                             title += " (" + row.VISIT_LOC_SUB+")";
                         }
-                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="fn_selBustripInfo(\''+row.HR_BIZ_REQ_RESULT_ID+'\', \''+title+'\', \''+row.RESULT+'\', \''+ row.HR_BIZ_REQ_ID +'\');">선택</button>';
+                        var result = row.RESULT.replaceAll("\r\n", "<br>");
+                        return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="fn_selBustripInfo(\''+row.HR_BIZ_REQ_RESULT_ID+'\', \''+title+'\', \''+result+'\', \''+ row.HR_BIZ_REQ_ID +'\');">선택</button>';
                     },
                     width: 60
                 }
@@ -172,7 +180,7 @@
     }
 
      function fn_selBustripInfo(d, title, result, f){
-        opener.parent.$("#contEtc").val(result);
+        opener.parent.$("#contEtc").val(result.replaceAll("<br>", "\r\n"));
         opener.parent.$("#bustripReq").val(title)
         opener.parent.$("#hrBizReqResultId").val(d);
         opener.parent.$("#hrBizReqId").val(f);

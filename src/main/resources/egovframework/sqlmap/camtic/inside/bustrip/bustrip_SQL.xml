@@ -1532,6 +1532,7 @@
     </select>
 
     <select id="getPopBustripList" parameterType="map" resultType="map">
+        /*getPopBustripList*/
         SELECT *
         FROM
             CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT
@@ -1545,8 +1546,19 @@
             AND
                 PJT_SN IS NULL
         </if>
-
-
+        <if test='startDate != null and !"".equals(startDate)'>
+            <![CDATA[
+            AND TRIP_DAY_FR >= #{startDate}
+            ]]>
+        </if>
+        <if test='endDate != null and !"".equals(endDate)'>
+            <![CDATA[
+            AND TRIP_DAY_TO <= #{endDate}
+            ]]>
+        </if>
+        <if test='visitLoc != null and !"".equals(visitLoc)'>
+            AND (VISIT_CRM LIKE CONCAT('%',#{visitLoc},'%') OR VISIT_LOC LIKE CONCAT('%',#{visitLoc},'%'))
+        </if>
     </select>
 
     <select id="getProjectBustList" parameterType="map" resultType="map">
