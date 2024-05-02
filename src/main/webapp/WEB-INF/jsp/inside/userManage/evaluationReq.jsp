@@ -143,7 +143,7 @@
     }
 
     function evalPop(){
-        var url = "/Inside/pop/evalPop.do?bsYear="+bsYear+"&evalSn="+evalSn;
+        var url = "/Inside/pop/evalPop.do?bsYear="+bsYear+"&evalSn="+evalSn+"&empSeq="+$("#empSeq").val();
         var name = "evalPop";
         var option = "width=965, height=600, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
         var popup = window.open(url, name, option);

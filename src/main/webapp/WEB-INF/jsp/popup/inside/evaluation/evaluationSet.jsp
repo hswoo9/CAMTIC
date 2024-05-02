@@ -29,7 +29,9 @@
             </h3>
 
             <div id="btnDiv" class="btn-st popButton" style="font-size: 12px;">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="fn_save_chk()">등록</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" style="display: none;" onclick="fn_save_chk()">등록</button>
+                <button type="button" class="k-button k-button-solid-info" id="updBtn" style="display: none;" onclick="fn_save_chk()">수정</button>
+                <button type="button" class="k-button k-button-solid-error" onclick="fn_del()">삭제</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -465,8 +467,10 @@
     $(function (){
 
         if($("#evalSn").val() != "" && $("#evalSn").val() != null){
-
             $('#evalMng').css("display", "");
+            $('#updBtn').css("display", "");
+        }else{
+            $('#saveBtn').css("display", "");
         }
 
         CKEDITOR.replace('contents', {
@@ -474,11 +478,11 @@
         });
 
         customKendo.fn_textBox(["evalList", "idx0", "teamMemberA0", "teamMemberB0", "teamMemberC0", "teamManagerA0", "teamManagerB0", "teamManagerC0"
-                                , "deptManagerA0", "deptManagerB0", "deptManagerC0"
-                                , "achTeamMngA", "achTeamMngB", "achTotTeamMng", "achDeptMngA", "achDeptMngB", "achTotDeptMng"
-                                , "btSum", "btResult1", "btResult2", "bdResult1", "bdResult2", "bdSum", "bhResult1", "bhResult2", "bcResult1", "bcResult2", "bhSum"
-                                , "bsSum", "stResult1", "stResult2", "sdResult1", "sdResult2", "sdSum", "shResult1", "shResult2", "scResult1", "scResult2", "scSum"
-                                , "scClass0", "scLevel0", "scPerson0", "scScore1_0", "scScore2_0"]);
+            , "deptManagerA0", "deptManagerB0", "deptManagerC0"
+            , "achTeamMngA", "achTeamMngB", "achTotTeamMng", "achDeptMngA", "achDeptMngB", "achTotDeptMng"
+            , "btSum", "btResult1", "btResult2", "bdResult1", "bdResult2", "bdSum", "bhResult1", "bhResult2", "bcResult1", "bcResult2", "bhSum"
+            , "bsSum", "stResult1", "stResult2", "sdResult1", "sdResult2", "sdSum", "shResult1", "shResult2", "scResult1", "scResult2", "scSum"
+            , "scClass0", "scLevel0", "scPerson0", "scScore1_0", "scScore2_0"]);
 
         customKendo.fn_datePicker("condStrDt0", '', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("condEndDt0", '', "yyyy-MM-dd", new Date());
@@ -617,7 +621,8 @@
             type : "post",
             data : {
                 bsYear : $("#bsYear").val(), // 년도
-                evalNum : $("#evalNum").val() // 차수
+                evalNum : $("#evalNum").val(), // 차수
+                evalSn : $("#evalSn").val()
             },
             dataType : "json",
             async : false,
@@ -798,8 +803,36 @@
             async : false,
             dataType : "json",
             success : function (rs){
-                console.log(rs);
-                alert("등록이 완료 되었습니다.");
+                if($("#evalSn").val() != "" && $("#evalSn").val() != null){
+                    alert("수정이 완료 되었습니다.");
+                    window.close();
+                }else{
+                    alert("등록이 완료 되었습니다.");
+                    window.close();
+                }
+            }
+        });
+    }
+
+    function fn_del(){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+        $.ajax({
+            url : "/evaluation/delEvaluation",
+            type : "post",
+            data : {
+                evalSn : $("#evalSn").val()
+            },
+            dataType : "json",
+            async : false,
+            success : function(result){
+                alert("삭제되었습니다.");
+                window.opener.parent.location.reload();
+                window.close();
+            },
+            error : function(e) {
+                console.log(e);
             }
         });
     }
