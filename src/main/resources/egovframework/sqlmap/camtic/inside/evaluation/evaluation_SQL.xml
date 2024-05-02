@@ -85,8 +85,10 @@
             CAM_INSIDE.dj_evaluation_cap B ON A.EVAL_SN = B.EVAL_SN
         WHERE
             A.ACTIVE = 'Y'
+        <if test='year != null and !"".equals(year)'>
           AND
             A.BS_YEAR = #{year}
+        </if>
     </select>
 
 
@@ -97,8 +99,24 @@
             CAM_INSIDE.DJ_EVALUATION
         WHERE
             ACTIVE = 'Y'
+        AND
+            EVAL_STAT != 'W'
         ORDER BY EVAL_SN DESC
         LIMIT 1;
+    </select>
+
+
+    <select id="getEvaluationChk" parameterType="map" resultType="map">
+        SELECT
+            COUNT(*) AS evalChk
+        FROM
+            CAM_INSIDE.DJ_EVALUATION
+        WHERE
+            ACTIVE = 'Y'
+          AND
+            BS_YEAR = #{bsYear}
+          AND
+            EVAL_NUM = #{evalNum}
     </select>
 
     <select id="getEvaluationOneList" parameterType="map" resultType="map">
@@ -551,11 +569,15 @@
             EVAL_TITLE,
             EVAL_VAL,
             EVAL_STR_S,
+            EVAL_END_S,
             EVAL_STR_A,
+            EVAL_END_A,
             EVAL_STR_B,
             EVAL_END_B,
             EVAL_STR_C,
+            EVAL_END_C,
             EVAL_STR_D,
+            EVAL_END_D,
             REG_EMP_SEQ
         )
         VALUES
@@ -567,11 +589,15 @@
                 #{evalTitle},
                 #{evalVal},
                 #{gradeS_s},
+                #{gradeS_e},
                 #{gradeA_s},
+                #{gradeA_e},
                 #{gradeB_s},
                 #{gradeB_e},
                 #{gradeC_s},
+                #{gradeC_e},
                 #{gradeD_s},
+                #{gradeD_e},
                 #{empSeq}
             )
     </insert>

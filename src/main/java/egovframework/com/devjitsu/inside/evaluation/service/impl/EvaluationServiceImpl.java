@@ -53,6 +53,10 @@ public class EvaluationServiceImpl implements EvaluationService {
     public Map<String, Object> getEvaluationOne(Map<String, Object> params) {
         return evaluationRepository.getEvaluationOne(params);
     }
+    @Override
+    public Map<String, Object> getEvaluationChk(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationChk(params);
+    }
 
     @Override
     public Map<String, Object> getEvaluationView(Map<String, Object> params) {

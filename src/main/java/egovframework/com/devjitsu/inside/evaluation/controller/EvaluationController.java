@@ -46,6 +46,12 @@ public class EvaluationController {
         return "jsonView";
     }
 
+    @RequestMapping("/evaluation/getEvaluationChk")
+    public String getEvaluationChk(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        model.addAttribute("data", evaluationService.getEvaluationChk(params));
+        return "jsonView";
+    }
+
     //역량평가 하기
     @RequestMapping("/Inside/pop/evalPop.do")
     public String evalPop(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {

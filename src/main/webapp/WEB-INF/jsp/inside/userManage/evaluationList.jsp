@@ -37,8 +37,8 @@
 
 
         <div class="panel-body">
-            <div style="display: flex; justify-content: space-between; margin: 10px 5px;">
-                <input type="text" id="SearchYear" style="width: 110px;" onchange="getEvaluationList()">
+            <div style="float: right; margin: 10px 5px;">
+                <%--<input type="text" id="SearchYear" style="width: 110px;" onchange="getEvaluationList()">--%>
                 <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="evaluationList.fn_popEvaluationSet()">
                     <span class="k-button-text">등록</span>
                 </button>

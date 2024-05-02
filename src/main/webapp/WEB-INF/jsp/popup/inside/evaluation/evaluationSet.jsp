@@ -29,7 +29,7 @@
             </h3>
 
             <div id="btnDiv" class="btn-st popButton" style="font-size: 12px;">
-                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="fn_save()">등록</button>
+                <button type="button" class="k-button k-button-solid-info" id="saveBtn" onclick="fn_save_chk()">등록</button>
                 <button type="button" class="k-button k-button-solid-error" onclick="window.close()">닫기</button>
             </div>
         </div>
@@ -154,7 +154,7 @@
             </table>
 
             <div id="evalMng" style="display: none;">
-                <button class="k-button k-button-solid-info" style="margin: 20px 0 5px 0; float: right;" onclick="evalItemCopy()">전년도 평가표 복사</button>
+                <button class="k-button k-button-solid-info" style="margin: 20px 0 5px 0; float: right;" onclick="evalItemCopy()">평가표 복사</button>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col style="width: 10%">
@@ -611,6 +611,31 @@
 
     });
 
+    function fn_save_chk(){
+        $.ajax({
+            url : "/evaluation/getEvaluationChk",
+            type : "post",
+            data : {
+                bsYear : $("#bsYear").val(), // 년도
+                evalNum : $("#evalNum").val() // 차수
+            },
+            dataType : "json",
+            async : false,
+            success : function(result){
+                if(result.data.evalChk < 1){
+                    fn_save();
+                }else{
+                    alert($("#bsYear").val() + "년도" + $("#evalNum").val() + "차수는 이미 등록되어있습니다.");
+
+                }
+
+            },
+            error : function(e) {
+                console.log(e);
+            }
+        });
+    }
+
     function fn_save(){
         var formData = new FormData();
         var content = CKEDITOR.instances.contents.getData();
@@ -995,7 +1020,7 @@
     }
 
     function evalItemCopy(){
-        if(!confirm("전년도 평가표 복사 시 이전 평가표는 삭제됩니다. 복사하시겠습니까?")){
+        if(!confirm("평가표 복사 시 이전 평가표는 삭제됩니다. 복사하시겠습니까?")){
             return;
         }
 

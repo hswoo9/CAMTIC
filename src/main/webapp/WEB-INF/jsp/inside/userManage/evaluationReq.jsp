@@ -71,6 +71,7 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="evalStat" value=""/>
 
 
 
@@ -89,8 +90,8 @@
             </div>
 
             <div style="margin: 40px 0; display: flex; justify-content: center;">
-                <button class="k-button k-button-md k-button-solid k-button-solid-error" style="margin: 10px" onclick="evalPop()">역량평가 하기</button>
-                <button class="k-button k-button-md k-button-solid-info" style="margin: 10px" onclick="evalResultPop()">인사평가 결과 조회</button>
+                <button id="eval" class="k-button k-button-md k-button-solid k-button-solid-error" style="margin: 10px; display: none;" onclick="evalPop()">역량평가 하기</button>
+                <button id="evalResult" class="k-button k-button-md k-button-solid-info" style="margin: 10px; display: none;" onclick="evalResultPop()">인사평가 결과 조회</button>
             </div>
         </div>
     </div>
@@ -110,6 +111,7 @@
             dataType : "json",
             async : false,
             success : function(result){
+                $("#evalStat").val(result.data.EVAL_STAT);
                 bsYear = result.data.BS_YEAR
                 evalSn = result.data.EVAL_SN
                 fn_addNotice(result.data);
@@ -118,6 +120,18 @@
                 console.log(e);
             }
         });
+
+        if($("#evalStat").val() == "I"){
+            $("#eval").css("display" , "");
+            $("#evalResult").css("display" , "none");
+        }else if($("#evalStat").val() == "C"){
+            $("#eval").css("display" , "none");
+            $("#evalResult").css("display" , "");
+        }else{
+            $("#eval").css("display" , "none");
+            $("#evalResult").css("display" , "none");
+        }
+
 
 
     });
