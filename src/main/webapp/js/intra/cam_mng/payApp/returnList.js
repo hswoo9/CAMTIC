@@ -254,8 +254,8 @@ var returnList = {
         if(!confirm("승인하시겠습니까?")){
             return ;
         }
-
-        $("#div_ajax_load_image").show();
+        
+        $("#my-spinner").show();
         $("input[name=check]:checked").each(function(){
             var parameters = {
                 exnpSn : this.value,
@@ -268,7 +268,7 @@ var returnList = {
         });
 
         alert("승인되었습니다.");
-        $("#div_ajax_load_image").hide();
+        $("#my-spinner").hide();
 
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },

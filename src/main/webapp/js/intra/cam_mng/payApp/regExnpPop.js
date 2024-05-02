@@ -1052,20 +1052,34 @@ var regExnp = {
             return ;
         }
 
-        const result = customKendo.fn_customAjax("/pay/resolutionExnpAppr", parameters);
-        if(result.flag){
-            if(result.code == 200){
-                alert("승인이 완료되었습니다.");
-                try {
-                    opener.regExnp.gridReload();
-                }catch{
-                    // alert("새로 고침중 오류가 발생하였습니다.");
+        $.ajax({
+            url: "/pay/resolutionExnpAppr",
+            data: parameters,
+            type: "post",
+            dataType: "json",
+            beforeSend : function(request){
+                $("#my-spinner").show();
+            },
+            success: function(result) {
+                $("#my-spinner").hide();
+                if(result.code == 200){
+                    alert("승인이 완료되었습니다.");
+                    try {
+                        // opener.regExnp.gridReload();
+                        opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
+                    }catch{
+                        // alert("새로 고침중 오류가 발생하였습니다.");
+                    }
+                    window.close();
+                }else{
+                    alert("ERP 연동 중 오류가 발생하였습니다.");
                 }
-                window.close();
-            }else{
-                alert("ERP 연동 중 오류가 발생하였습니다.");
-            }
-        }
+            },
+            error: function (e) {
+                $("#my-spinner").hide();
+                console.log('error : ', e);
+            },
+        });
     },
 
     fn_regExnpCancel : function (payAppSn, exnpSn) {
@@ -1084,10 +1098,15 @@ var regExnp = {
             type : "POST",
             data: data,
             dataType : "json",
+            beforeSend : function(request){
+                $("#my-spinner").show();
+            },
             success : function(rs){
+                $("#my-spinner").hide();
                 if(rs.code == 200){
                     alert("승인이 취소되었습니다.");
-                    location.reload()
+                    location.reload();
+                    opener.parent.$("#mainGrid").data("kendoGrid").dataSource.read();
                 }
             }
         });

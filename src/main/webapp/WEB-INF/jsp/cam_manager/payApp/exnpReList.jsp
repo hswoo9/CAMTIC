@@ -18,14 +18,10 @@
         white-space: nowrap !important;
     }
 
-    #div_ajax_load_image{
-        z-index:9999;
-        margin:auto;
-        padding:0;
-        position:absolute;
-        top: 50%; left: 50%;
-        display:none;
-    }
+    #my-spinner { width: 100%; height: 100%; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
+    #my-spinner div { width: 100%; height: 100%; display: table; }
+    #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
+    #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
 </style>
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
 <input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
@@ -74,8 +70,12 @@
         </div>
     </div>
 </div><!-- col-md-9 -->
-<div id="div_ajax_load_image">
-    <img src="/images/ico/loading.gif" alt="">
+<div id='my-spinner'>
+    <div>
+    <span>
+    	<img src='//cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif'>
+    </span>
+    </div>
 </div>
 <script>
 

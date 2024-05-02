@@ -10,7 +10,12 @@
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/regExnpRePop.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/g20Callback.js?v=${today}'/>"></script>
-
+<style>
+    #my-spinner { width: 100%; height: 100%; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
+    #my-spinner div { width: 100%; height: 100%; display: table; }
+    #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }
+    #my-spinner img { background: white; padding: 1em; border-radius: .7em; }
+</style>
 <input type="hidden" id="item" name="item" value="${params.item}">
 <input type="hidden" id="payAppSn" name="payAppSn" value="${params.payAppSn}">
 <input type="hidden" id="exnpSn" name="exnpSn" value="${params.exnpSn}">
@@ -228,6 +233,13 @@
 
             </div>
         </div>
+    </div>
+</div>
+<div id='my-spinner'>
+    <div>
+    <span>
+    	<img src='//cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif'>
+    </span>
     </div>
 </div>
 <script type="text/javascript">

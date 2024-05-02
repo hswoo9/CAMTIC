@@ -232,7 +232,7 @@ var entryList = {
             return ;
         }
 
-        $("#div_ajax_load_image").show();
+        $("#my-spinner").show();
         $("input[name=check]:checked").each(function(){
             var parameters = {
                 exnpSn : this.value,
@@ -245,7 +245,7 @@ var entryList = {
         });
 
         alert("승인되었습니다.");
-        $("#div_ajax_load_image").hide();
+        $("#my-spinner").hide();
 
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
