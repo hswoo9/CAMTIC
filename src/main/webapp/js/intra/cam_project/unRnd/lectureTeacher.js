@@ -31,6 +31,7 @@ const lectureTeacher = {
                     data.notIn = $("#pk").val();
                     data.sEmpName = $("#sEmpName").val();
                     data.teacherType = $('input[name="teacherType"]:checked').val();
+                    data.reqPop = "Y";
                     return data;
                 }
             },
@@ -39,7 +40,7 @@ const lectureTeacher = {
                     return data.list;
                 },
                 total: function (data) {
-                    return data.list.length;z
+                    return data.list.length;
                 },
             }
         });
