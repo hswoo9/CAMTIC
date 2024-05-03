@@ -541,7 +541,7 @@ var rndBg = {
                     width: 80,
                     field: "REQ_END_DE",
                     template : function(e){
-                        return (e.R_DT || e.REQ_END_DE);
+                        return (e.R_DT || e.REQ_END_DE || "");
                     }
                 },{
                     title: "지출금액",
