@@ -90,7 +90,7 @@ var storageBoxReader = {
                             return "수주보고_비R&D";
                         } else if (e.DOC_MENU_CD == "rndDev"){
                             return "수행계획서_R&D";
-                        } else if (e.DOC_MENU_CD == "unRndDelv"){
+                        } else if (e.DOC_MENU_CD == "unRndDev"){
                             return "수행계획서_비R&D";
                         } else if (e.DOC_MENU_CD == "rndRes"){
                             return "결과보고서_R&D";
