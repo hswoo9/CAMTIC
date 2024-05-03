@@ -192,11 +192,11 @@ var payAppDoc = {
                 }
 
                 html += "" +
-                    '<div style="width: 100%; height: 100%; padding: 20px 30px; text-align: center;">';
-                if(i == 0){
+                    '<div style="width: 100%; padding: 20px 30px; text-align: center;">';
+                // if(i == 0){
                     html += '    <h1 style="font-size: 24px; margin-bottom: 10px;">부서운영비증빙자료</h1>';
-                }
-                html += '    <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 16px;">' +
+                // }
+                html += '<table style="width: 100%; height:100%; margin-top: 10px; border-collapse: collapse; text-align: center; font-size: 16px;">' +
                     '        <tbody>' +
                     '            <tr>' +
                     '                <th style="border: 1px solid black; padding: 10px 0;">관련근거</th>' +
@@ -232,7 +232,7 @@ var payAppDoc = {
                     '                </th>' +
                     '            </tr>' +
                     '            <tr>' +
-                    '                <td colspan="6" style="border: 1px solid black; padding: 20px 0;">' +
+                    '                <td colspan="6" style="border: 1px solid black; padding: 20px 0; height: 700px;">' +
                     // '                    ※ 카드(법인)사용 전표 등 부착' +
                                         receiptFile +
                     '                </td>' +
@@ -317,11 +317,11 @@ var payAppDoc = {
                 }
 
                 html += "" +
-                    '<div style="width: 100%; height: 100%; padding: 0 30px; text-align: center;">';
-                if(i == 0){
+                    '<div style="width: 100%; padding: 0 30px; text-align: center;">';
+                // if(i == 0){
                     html += '    <h1 style="font-size: 24px; margin-bottom: 10px;">영업활동비 증빙자료</h1>';
-                }
-                html += '    <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 16px;">' +
+                // }
+                html += '    <table style="width: 100%; height:100%; margin-top: 10px; border-collapse: collapse; text-align: center; font-size: 16px;">' +
                     '        <tbody>' +
                     '            <tr>' +
                     '                <th rowspan="2" style="border: 1px solid black; width: 100px; padding: 10px 0;">사용일시</th>' +
@@ -357,7 +357,7 @@ var payAppDoc = {
                     '                </th>' +
                     '            </tr>' +
                     '            <tr>' +
-                    '                <td colspan="4" style="border: 1px solid black; padding: 20px 0;">' +
+                    '                <td colspan="4" style="border: 1px solid black; padding: 20px 0; height: 700px;">' +
                     // '                    ※ 카드(법인)사용 전표 등 부착' +
                                         receiptFile +
                     '                </td>' +
@@ -389,11 +389,11 @@ var payAppDoc = {
                 }
 
                 html += "" +
-                    '<div style="width: 100%; height: 100%; padding: 20px 30px; text-align: center;">';
-                if(i == 0){
+                    '<div style="width: 100%; padding: 20px 30px; text-align: center;">';
+                // if(i == 0){
                     html += '    <h1 style="font-size: 24px; margin-bottom: 10px;">지 출 증 빙 자 료</h1>';
-                }
-                html += '    <table style="width: 100%; border-collapse: collapse; text-align: center; font-size: 16px;">' +
+                // }
+                html += '<table style="width: 100%; height:100%; margin-top: 10px; border-collapse: collapse; text-align: center; font-size: 16px;">' +
                     '        <tbody>' +
                     '            <tr>' +
                     '                <th style="border: 1px solid black; width: 110px; padding: 10px 0;">사용일자</th>' +
@@ -421,7 +421,7 @@ var payAppDoc = {
                     '                </th>' +
                     '            </tr>' +
                     '            <tr>' +
-                    '                <td colspan="4" style="border: 1px solid black; padding: 20px 0;">' +
+                    '                <td colspan="4" style="border: 1px solid black; padding: 20px 0; height: 700px;">' +
                     // '                    ※ 카드(법인)사용 전표 등 부착' +
                                         receiptFile +
                     '                </td>' +

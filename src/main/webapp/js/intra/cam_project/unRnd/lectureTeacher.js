@@ -31,6 +31,7 @@ const lectureTeacher = {
                     data.notIn = $("#pk").val();
                     data.sEmpName = $("#sEmpName").val();
                     data.teacherType = $('input[name="teacherType"]:checked').val();
+                    data.reqPop = "Y";
                     return data;
                 }
             },
@@ -39,7 +40,7 @@ const lectureTeacher = {
                     return data.list;
                 },
                 total: function (data) {
-                    return data.list.length;z
+                    return data.list.length;
                 },
             }
         });
@@ -109,7 +110,7 @@ const lectureTeacher = {
                             '<label class="k-radio-label">' +
                             '<input type="radio" name="teacherType" value="newTeacher" class="k-radio" >' +
                             '<span class="k-radio-wrapper"></span>' +
-                            '신강사' +
+                            '신전문가' +
                             '</label>' +
                             '<label class="k-radio-label">' ;
                     }
@@ -222,7 +223,7 @@ const lectureTeacher = {
         }*/
 
         if(arr.length == 0) {
-            alert("강사가 선택되지 않았습니다.");
+            alert("전문가가 선택되지 않았습니다.");
             return;
         }
         data.teacherList = JSON.stringify(arr);
@@ -259,7 +260,7 @@ const lectureTeacher = {
             teacherList: teacherArr.join()
         }
         if($("input[name=teacherS]:checked").length == 0) {
-            alert("강사가 선택되지 않았습니다.");
+            alert("전문가가 선택되지 않았습니다.");
             return;
         }
 

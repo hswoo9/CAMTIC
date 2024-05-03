@@ -373,6 +373,9 @@
         <if test="teacherType == 'existingTeacher' and teacherType != null and teacherType != ''">
             AND PERSON_SN = '0'
         </if>
+        <if test='"Y".equals(reqPop) and reqPop != null and reqPop != ""'>
+            AND APPACTIVE = 'Y'
+        </if>
         AND ACTIVE = 'Y'
         ORDER BY NAME
     </select>
@@ -402,6 +405,9 @@
         </if>
         <if test="teacherType == 'existingTeacher' and teacherType != null and teacherType != ''">
             AND PERSON_SN = '0'
+        </if>
+        <if test='"Y".equals(reqPop) and reqPop != null and reqPop != ""'>
+            AND APPACTIVE = 'Y'
         </if>
         AND ACTIVE = 'Y'
         ORDER BY NAME

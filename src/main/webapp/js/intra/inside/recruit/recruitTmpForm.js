@@ -637,29 +637,12 @@ var recruitTmp = {
             data.CAPS_NUM = $("#capsNumCaseC").val(); //CAPS 번호
         }
 
-
-
-        if($("#targetEmpSeq").val() != ""){
-            //업데이트
-            if($("#lunarYn").is(":checked")){
-                data.LUNAR_CAL = "Y"
-            }else {
-                data.LUNAR_CAL = "N"
-            }
-            data.BDAY = $("#bDay").val();
-        }else{
-            //신규
-            if($("#lunarYn1").is(":checked")){
-                data.LUNAR_CAL = "Y"
-            }else {
-                data.LUNAR_CAL = "N"
-            }
-            data.BDAY = $("#birthDay").val(); //생년월일
+        if($("#lunarYn1").is(":checked")){
+            data.LUNAR_CAL = "Y"
+        }else {
+            data.LUNAR_CAL = "N"
         }
-
-        if($("#targetEmpSeq").val() != ""){
-            data.TARGET_EMP_SEQ = $("#targetEmpSeq").val();
-        }
+        data.BDAY = $("#birthDay").val(); //생년월일
 
         if($("#deptTeamName").val() != '' && $("#deptTeamName").val() != null){
             data.DEPT_SEQ = $("#deptTeamName").val();
@@ -698,21 +681,14 @@ var recruitTmp = {
             return;
         }
 
-        if($("#targetEmpSeq").val() != ""){
-            if(data.LOGIN_PASSWD != "" || data.LOGIN_PASSWD != null){
-                data.PASSCHANGE = "true";
-            }
-        }else{
+        if(!idFlag){
+            alert("중복확인을 해주세요.")
+            return;
+        }
 
-            if(!idFlag){
-                alert("중복확인을 해주세요.")
-                return;
-            }
-
-            if(data.LOGIN_PASSWD == "" || data.LOGIN_PASSWD == null){
-                alert("비밀번호를 입력해주세요.");
-                return;
-            }
+        if(data.LOGIN_PASSWD == "" || data.LOGIN_PASSWD == null){
+            alert("비밀번호를 입력해주세요.");
+            return;
         }
 
         if($("#resRegisNum1").val().length != 6 || $("#resRegisNum2").val().length != 7){
@@ -755,30 +731,17 @@ var recruitTmp = {
         $.ajax({
             url : urlType,
             data : data,
-            dataType : "application/json",
-            type : "POST",
-            async : false,
+            type : "post",
+            async: false,
+            dataType : "json",
             success : function (result){
-                alert("단기직원 등록이 완료되었습니다.");
-                window.close();
-                //opener.userPersonList.gridReload();
-            },
-            complete : function (){
-                if($("#targetEmpSeq").val() != ""){
-                    location.href = "/Inside/pop/userViewPop.do?empSeq=" + $("#targetEmpSeq").val();
-                    if($("#divisDet").val() == '3' && $("#divis").val() == '4'){ /*계약직원 - 경비/환경*/
-                        location.href = "/Inside/pop/userViewContractPop.do?empSeq=" + $("#targetEmpSeq").val();
-                    }else if($("#divis").val() == '3' || $("#divis").val() == '1' || $("#divis").val() == '10'){ /*단기직원*/ /*위촉직원*/ /*기타*/
-                        location.href = "/Inside/pop/userViewContractPop.do?empSeq=" + $("#targetEmpSeq").val();
-                    }else if($("#divis").val() == '2') { /*연수생/학생연구원*/
-                        location.href = "/Inside/pop/userViewTraineePop.do?empSeq=" + $("#targetEmpSeq").val();
-                    }
-                }else{
+                console.log(result);
+                if(result.code == "200"){
+                    alert("단기직원 등록이 완료되었습니다.");
                     window.close();
                 }
-
+                //opener.userPersonList.gridReload();
             },
-
         })
     }
 

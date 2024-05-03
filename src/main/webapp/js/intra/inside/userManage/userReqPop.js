@@ -1091,10 +1091,11 @@ var userReqPop = {
         $.ajax({
             url : urlType,
             data : data,
-            dataType : "application/json",
-            type : "POST",
-            async : false,
+            type : "post",
+            async: false,
+            dataType : "json",
             success : function (result){
+                alert("등록되었습니다.");
                 window.close();
                 opener.userPersonList.gridReload();
                 opener.userPersonList.fn_reloadOpner();

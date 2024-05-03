@@ -1642,9 +1642,11 @@ var regPay = {
         dialog.open();
     },
 
-    fn_updReason : function(index){
-        if(index >= 0){
+    fn_updReason : function(index, type){
+        if(index >= 0 && type != "dataSet"){
             $("#reason" + index).val($("#appTitle").val());
+        }else if(index >= 0 && type == "dataSet"){
+            $("#reason" + $("#reasonIdx").val()).val($("#reasonPopText").val());
         }else{
             var dialog = $("#dialog").data("kendoWindow");
             $("#reason" + $("#reasonIdx").val()).val($("#reasonPopText").val());
@@ -1663,7 +1665,8 @@ var regPay = {
                 buttonHtml += '<button type="button" id="reqCancelBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+data.DOC_ID+'\', \'camticPayApp_'+data.PAY_APP_SN+'\', 1, \'retrieve\');">회수</button>';
             }else if(data.DOC_STATUS == "30" || data.DOC_STATUS == "40"){
                 buttonHtml += '<button type="button" id="saveBtn" style="margin-right: 5px;" class="k-button k-button-solid-info" onclick="regPay.fn_save(\'user\')">저장</button>';
-                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+data.DOC_ID+'\', \'payApp\', \'camticPayApp_'+data.PAY_APP_SN+'\', 2, \'reDrafting\');">재상신</button>';
+                buttonHtml += '<button type="button" id="reReqBtn" style="margin-right: 5px;" class="k-button k-button-solid-error" onclick="regPay.fn_popDateSetting(\'reDraft\');">재상신</button>';
+                $("#apprBtnBox").html('<button type="button" id="reReqBtn" style="float: right; margin-top:8px; font-size: 12px;" class="k-button k-button-solid-error" onclick="regPay.payAppReDrafting(\''+data.DOC_ID+'\', \'payApp\', \'camticPayApp_'+data.PAY_APP_SN+'\', 2, \'reDrafting\');">재상신</button>');
             }else if(data.DOC_STATUS == "100"){
                 if($("#auth").val() != 'user'){
                     buttonHtml += '<button type="button" id="reCallBtn" style="margin-right: 5px;" class="k-button k-button-solid-primary" onclick="regPay.fn_revertModal(\''+data.DOC_ID+'\')">반려</button>';
@@ -1761,6 +1764,55 @@ var regPay = {
                         this.method = 'POST';
                         this.target = '_self';
                     }).trigger("submit");
+                }
+            }
+        });
+    },
+
+    payAppReDrafting: function(docId, menuCd, approKey, linkageType, type){
+        regPay.fn_save("", "drafting");
+
+        var budgetFlag = false;
+        if($("#pjtCd").val().substring(0,1) == "M"){
+            var tmpBudgetSnAr = [];
+            $(".budgetSn").each(function(){
+                tmpBudgetSnAr.push($(this).val());
+            });
+
+            const setCollection = new Set(tmpBudgetSnAr);
+            budgetFlag = setCollection.size !== 1;
+        } else {
+
+        }
+
+        if(budgetFlag){
+            alert("예산비목이 다릅니다. 예산비목을 확인해주세요.");
+            return;
+        }
+
+        var data = {
+            payAppSn : $("#payAppSn").val(),
+            pjtCd : $("#pjtCd").val()
+        }
+
+        $.ajax({
+            url : "/payApp/getCheckBudget",
+            data : data,
+            type : "post",
+            dataType : "json",
+            success : function (rs){
+                var list = rs.list;
+                var flag = true;
+                for(var i = 0 ; i  < list.length ; i++){
+                    if(list[i].TOT_COST > list[i].BUDGET_AMT) {
+                        alert("예산잔액을 초과했습니다.");
+                        flag = false;
+                        return;
+                    }
+                }
+
+                if(flag){
+                    tempOrReDraftingPop(docId, menuCd, approKey, linkageType, type);
                 }
             }
         });
@@ -2001,8 +2053,7 @@ var regPay = {
             $("#appTeam" + itemIndex).data("kendoDropDownList").value(item.TEAM_SEQ);
             $("#eviType" + itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
-            regPay.fn_updReason(regPayDet.global.itemIndex); //페이지 로드 시 모든 내용 hidden값 부여
-
+            regPay.fn_updReason(regPayDet.global.itemIndex, "dataSet"); //페이지 로드 시 모든 내용 hidden값 부여
             regPayDet.global.itemIndex++;
         }
 
@@ -2041,7 +2092,7 @@ var regPay = {
         $("#totalAllCost").text(regPay.comma(totAllCost));
     },
 
-    fn_popDateSetting : function(){
+    fn_popDateSetting : function(type){
         var eviFlag = true;
         for (var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
             if($("#eviType" + i).val() == ""){

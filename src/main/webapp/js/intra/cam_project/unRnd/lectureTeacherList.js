@@ -17,8 +17,8 @@ var lectureTeacherList = {
             dataValueField: "value",
             dataSource: [
                 { text: "전체", value: "" },
-                { text: "신강사", value: "newTeacher" },
-                { text: "구강사", value: "existingTeacher" }
+                { text: "신전문가", value: "newTeacher" },
+                { text: "구전문가", value: "existingTeacher" }
             ],
             index: 0
         });
@@ -52,7 +52,7 @@ var lectureTeacherList = {
                     name: 'button',
                     template: function (e) {
                         return '<button type="button" class="k-button k-button-md k-button-solid k-button-solid-info" onclick="lecturePop.lectureTeacherMngPop()">' +
-                            '	<span class="k-button-text">신규 강사 추가</span>' +
+                            '	<span class="k-button-text">신규 전문가 추가</span>' +
                             '</button>';
                     }
                 }, {

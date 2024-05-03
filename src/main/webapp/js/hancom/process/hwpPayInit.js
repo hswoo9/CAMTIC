@@ -187,7 +187,7 @@ var payInit = {
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:left; padding: 3px"><p style="font-size:12px;">'+ map.BUDGET_NM.replace(/ \/ /g, ' - <br>') +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.REASON +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_NM +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;">'+ fn_numberWithCommas(map.TOT_COST) +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:right;"><p style="font-size:12px;">'+ fn_numberWithCommas(map.TOT_SUM) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_BNK_NM +'<br>'+ map.CRM_ACC_NO +'<br>'+ map.CRM_ACC_HOLDER +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.ETC +'</p></td>';
             html += '               </tr>';
@@ -229,7 +229,7 @@ var payInit = {
             const map = list[i];
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; padding: 3px"><p style="font-size:12px;">'+ map.CRM_NM +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.TOT_COST_COMMA +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ fn_numberWithCommas(map.TOT_SUM) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_BNK_NM +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_ACC_NO +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_ACC_HOLDER +'</p></td>';
@@ -272,7 +272,7 @@ var payInit = {
             const map = list[i];
             html += '               <tr>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center; padding: 3px"><p style="font-size:12px;">'+ map.CRM_NM +'</p></td>';
-            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.TOT_COST_COMMA +'</p></td>';
+            html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ fn_numberWithCommas(map.TOT_SUM) +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_BNK_NM +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_ACC_NO +'</p></td>';
             html += '                   <td style="height:30px;background-color:#FFFFFF; text-align:center;"><p style="font-size:12px;">'+ map.CRM_ACC_HOLDER +'</p></td>';

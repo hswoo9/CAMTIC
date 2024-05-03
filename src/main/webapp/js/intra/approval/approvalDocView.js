@@ -297,7 +297,7 @@ var docView = {
         }
 
         var attachmentGrid = $("#attachmentGrid").kendoGrid({
-            dataSource : customKendo.fn_gridDataSource2("/approval/getDocAttachmentList", docView.global.searchAjaxData),
+            dataSource : customKendo.fn_gridDataSource2("/approval/getDocAttachmentList", docView.global.searchAjaxData, 99),
             sortable: true,
             scrollable: true,
             noRecords: {
@@ -315,7 +315,7 @@ var docView = {
                                     "<span style='margin-left: 5px;cursor: pointer'>" +
                                         e.filename + "(" + formatBytes(e.FILE_SIZE, 3) + ")" +
                                     "</span>" +
-                                "</span>";;
+                                "</span>";
                     }
                 }, {
                     template : function(e){
@@ -1244,6 +1244,7 @@ var docView = {
                 dataURI: "/common/multiFileDownload.do?docId=" + docId + "&type=" + type + "&approKey=" + approKey
             });
         }else if(type == "single" && filePath != null && fileName != null){
+            var fileName = fileName.replaceAll("&", "%26");
             kendo.saveAs({
                 dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + fileName,
             });

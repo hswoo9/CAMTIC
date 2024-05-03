@@ -49,7 +49,7 @@
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-base" id="consultantBtn" style="display: none" onclick="lecturePop.consultingTeacherPop('${params.pk}');">컨설턴트관리</button>
-                <button type="button" class="k-button k-button-solid-base" id="teacherBtn" style="display: none" onclick="lecturePop.lectureTeacherPop('${params.pk}');">강사관리</button>
+                <button type="button" class="k-button k-button-solid-base" id="teacherBtn" style="display: none" onclick="lecturePop.lectureTeacherPop('${params.pk}');">전문가관리</button>
                 <%--<button type="button" class="k-button k-button-solid-base" id="personBtn" style="display: none" onclick="lecturePop.lecturePersonPop('${params.pk}');">수강신청관리</button>
                 <button type="button" class="k-button k-button-solid-base" id="eduBtn" style="display: none" onclick="lecturePop.lectureEduPop('${params.pk}');">이수관리</button>--%>
                 <button type="button" class="k-button k-button-solid-base" id="eduBtn" style="display: none" onclick="lecturePop.lectureEduPop('${params.pk}');">수강생관리</button>
@@ -78,7 +78,7 @@
         </div>--%>
 
         <div class="lecture" style="padding: 20px 30px;">
-            <input type="checkbox" id="etView" style="margin-left: 5px;">강사목록 보기
+            <input type="checkbox" id="etView" style="margin-left: 5px;">전문가목록 보기
             <div id="lecTeacherInfo" style="display: none;">
                 <table class="popTable table table-bordered mb-20">
                     <colgroup>
@@ -309,7 +309,7 @@
 
 
         <div class="consulting" style="padding: 20px 30px; display: none;">
-            <input type="checkbox" id="ctView" style="margin-left: 5px;">강사목록 보기
+            <input type="checkbox" id="ctView" style="margin-left: 5px;">전문가목록 보기
             <div id="conTeacher" style="display: none;">
             <div style="display: flex;">
                 <table class="popTable table table-bordered mb-10 mt--5" style="width: 16%;">

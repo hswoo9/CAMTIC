@@ -319,6 +319,7 @@
 </div><!--col-lg-12-->
 <script>
     recruitTmp.defaultScript();
+    var idFlag = false;
     var code = $("#chkType").val();
 
         $(function(){

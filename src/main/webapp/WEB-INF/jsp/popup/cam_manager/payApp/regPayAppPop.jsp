@@ -402,7 +402,10 @@
         </thead>
     </table>
 <%--    <button type="button" onclick="regPay.fn_save('user')" id="modalSaveBtn" class="k-button k-button-solid-info" style="float: right; margin-left: 5px; margin-top:8px; font-size: 12px; display: none;">저장</button>--%>
-    <button type="button" onclick="regPay.payAppDrafting()" class="k-button k-button-solid-info" style="float: right; margin-top:8px; font-size: 12px;">상신</button>
+
+    <span id="apprBtnBox">
+        <button type="button" onclick="regPay.payAppDrafting()" class="k-button k-button-solid-info" style="float: right; margin-top:8px; font-size: 12px;">상신</button>
+    </span>
     <button type="button" class="k-button k-button-solid-base" id="changeBtn" style="float: right; margin-top:8px; margin-right: 5px; font-size: 12px;" onclick="regPay.fn_exnpDeChange()">지출예정일 변경</button>
 </div>
 

@@ -11,6 +11,67 @@
         padding-left: 5px !important;
         padding-right: 5px !important;;
     }
+
+    .creditSlip{width:430px; background:url('../../images/bg/bg_creditSlip.png') repeat 0 0; background-position:0 16px;}
+
+    .fwb {font-weight:bold !important;}
+    .lh18{line-height:18px !important;}
+
+    .com_ta4 table{width:100%; text-align:center;box-sizing:border-box;} /* 디자인참고 : 수정설정 팝업 */
+    .com_ta4 table th, .com_ta4 table td {height:26px;color:#4a4a4a;border:1px solid #eaeaea; padding:5px 0;}
+    .com_ta4.rowHeight table th, .com_ta4.rowHeight table td {height:18px;word-break: break-all}
+    .com_ta4 table th {background:#f9f9f9;/*background:#f9fafc;*/font-weight:normal;}
+    .com_ta4 table .cen {text-align:center !important;padding:0px !important;}
+    .com_ta4 table .ri {text-align:right !important;padding-right:10px;}
+    .com_ta4 table .le {text-align:left !important;padding-left:10px;}
+    .com_ta4 table td.td_cen {text-align:center !important;padding:0px !important;}
+    .com_ta4 table td.td_ri {text-align:right !important;padding-right:10px;}
+    .com_ta4 table td.td_le {text-align:left !important;padding-left:10px;}
+    .com_ta4 table tr:hover td, .com_ta4 table tr.on td {background:#e6f4ff;}
+    .com_ta4 table tr.total td{background:#f9f9f9;}
+    .com_ta4 table tr.summary td{background:#fff1f1;}
+    .com_ta4 table tr.even{background-color:#f9f9f9;}
+    .com_ta4.hover_no table tr:hover td {background:none;}
+    .com_ta4.hover_no table tr:hover td.bg_blue { background: #f0f6fd;}
+    .com_ta4.hover_no table tr.on:hover td {background:#e6f4ff;}
+    .com_ta4.hover_no table tr.on:hover td.bg_blue {background: #e6f4ff;}
+    .com_ta4.hover_no table tr.total:hover  td{background:#f9f9f9;}
+    .com_ta4.ova_sc {overflow:auto;border-bottom:1px solid #eaeaea;}
+    .com_ta4.ova_sc table {border-top:none;}
+    .com_ta4.ova_sc table tr:first-child td {border-top:none;}
+    .com_ta4.ova_sc_all {overflow:auto;}
+    .com_ta4.ova_sc td {position:relative;}
+    .com_ta4.ova_sc2 {overflow-x:hidden; overflow-y:scroll;}
+    .com_ta4.ova_sc2 table td {border-top:none;}
+    .com_ta4.ova_line {overflow:auto;}
+    .com_ta4.ova_line table tr:first-child td {border-top:none;}
+    .com_ta4.bgtable {border-width:0 1px 1px 1px; border-style:solid; border-color:#eaeaea; overflow:auto;background-color:#fcfcfc;} /*팝업-근태관리단위설정-근무조수정 참고*/
+    .com_ta4.bgtable table td {border-width:0 0px 1px 0px; border-style:solid; border-color:#eaeaea; background-color:#fff !important;}
+    .com_ta4.bgtable.non_head {border-width:1px;}
+    .com_ta4.bgnth tr:nth-child(odd) td{background:#f4f4f4;}
+    .com_ta4.bgnth tr:nth-child(odd):hover td {background:#f4f4f4;}
+    .com_ta4.tdH20 table th, .com_ta4.tdH20 table td {height:20px !important;}
+
+    .com_ta4.bgtable2 {border-width:0 1px 1px 1px; border-style:solid; border-color:#eaeaea; overflow:auto;background-color:#fcfcfc;} /*팝업-게시판분류등록*/
+    .com_ta4.bgtable2 table {background:#fff;}
+    .com_ta4.bgtable2 table td {border-width:0 0px 1px 1px; border-style:solid; border-color:#eaeaea;}
+    .com_ta4.bgtable2 table td:first-child {border-left:none;}
+    .com_ta4.bgtable2 table th {border-width:1px 0px 0px 1px; border-style:solid; border-color:#eaeaea;}
+    .com_ta4.bgtable2 table th:first-child {border-left:none;}
+    .com_ta4.bgtable2 table th:last-child {border-right:none;}
+    .com_ta4.bgtable2.non_head {border-width:1px;}
+
+    .com_ta4.bgtable3 {border-width:0 1px 1px 1px; border-style:solid; border-color:#eaeaea; overflow:auto;background-color:#fcfcfc;} /*팝업-게시판분류등록*/
+    .com_ta4.bgtable3 table {background:#fff;}
+    .com_ta4.bgtable3 table td {border-width:0 0px 1px 1px; border-style:solid; border-color:#eaeaea; }
+    .com_ta4.bgtable3 table td:first-child {border-left:none;}
+    .com_ta4.bgtable3 table th:first-child {border-left:none;}
+    .com_ta4.bgtable3 table th:last-child {border-right:none;}
+
+    .com_ta4 .list_div {height:24px;line-height:24px; width:90%; border:1px solid #e1e1e1;position:relative;margin-left:10px;text-align:left;padding-left:10px;}
+    .com_ta4 .list_div .clo {position:absolute; right:10px; top:7px;}
+    .com_ta4 .list_div:hover {background:#fcfcfc;}
+    .com_ta4.cursor_p table tr:hover td {cursor:pointer;}
 </style>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
 <script type="text/javascript" src="/js/intra/inside/bustrip/bustripExnpPop2.js?v=${today}"></script>
