@@ -29,7 +29,7 @@
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;">강사 등록</span></h3>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;">전문가 등록</span></h3>
             <button type="button" id="saveBtn" style="float: right; top:5px" class="k-button k-button-solid-info" onclick="lectureTeacherMng.fn_save()">저장</button>
         </div>
 

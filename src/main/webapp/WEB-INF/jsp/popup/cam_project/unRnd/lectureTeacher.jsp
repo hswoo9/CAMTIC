@@ -31,7 +31,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;">
-                    강사 관리
+                    전문가 관리
                 </span>
             </h3>
             <div id="purcBtnDiv" class="btn-st popButton">
@@ -52,15 +52,15 @@
                     <td id="lecTitleBs"></td>
                 </tr>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>강사설정</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>전문가설정</th>
                     <td style="display: flex">
                         <div style="width: 47%">
-                            <b>전체강사</b>
+                            <b>전체 전문가</b>
                             <div id="teacherGridA"></div>
                         </div>
                         <div id="btnDiv" style="width: 6%"></div>
                         <div style="width: 47%">
-                            <b>선택된 강사</b>
+                            <b>선택된 전문가</b>
                             <div id="teacherGridS"></div>
                         </div>
                     </td>

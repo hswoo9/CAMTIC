@@ -15,8 +15,8 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">강사 관리</h4>
-            <div class="title-road">캠프로젝트 > 단위사업 &gt; 강사관리</div>
+            <h4 class="panel-title">전문가 관리</h4>
+            <div class="title-road">캠프로젝트 > 단위사업 &gt; 전문가관리</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
@@ -35,7 +35,7 @@
                         <td colspan="2">
                             <input type="text" id="sEmpName" onkeypress="if(event.keyCode==13){ gridReload(); }" style="width: 200px;">
                         </td>
-                        <th class="text-center th-color">강사구분</th>
+                        <th class="text-center th-color">전문가구분</th>
                         <td colspan="2">
                             <input type="text" id="teacherType" style="width: 200px;">
                         </td>
