@@ -297,7 +297,7 @@ var docView = {
         }
 
         var attachmentGrid = $("#attachmentGrid").kendoGrid({
-            dataSource : customKendo.fn_gridDataSource2("/approval/getDocAttachmentList", docView.global.searchAjaxData),
+            dataSource : customKendo.fn_gridDataSource2("/approval/getDocAttachmentList", docView.global.searchAjaxData, 99),
             sortable: true,
             scrollable: true,
             noRecords: {
