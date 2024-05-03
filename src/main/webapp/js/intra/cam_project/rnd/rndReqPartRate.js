@@ -96,6 +96,22 @@ var rndRPR = {
 
     fn_save : function (type){
 
+        if(type == "change"){
+            var parameters = {
+                partRateSn : $("#partRateSn").val(),
+                pjtSn : $("#pjtSn").val()
+            }
+
+            var result = customKendo.fn_customAjax("/projectRnd/getReqPartRateVerList", parameters);
+            var ls = result.list;
+
+            if(ls[ls.length - 1].MNG_STAT == "R"){
+                alert("이전 요청 건이 검토중입니다.");
+                return;
+            }
+
+        }
+
         var pjtAmt = uncomma($("#pjtExpAmt").val());
 
         if(pjtAmt < (Number(uncomma($("#payBudget").val())) + Number(uncomma($("#itemBudget").val())))){
@@ -180,6 +196,7 @@ var rndRPR = {
 
     },
     fn_reqPartRate : function() {
+
         if($("#partRateSn").val() == null || $("#partRateSn").val() == ""){
             alert("저장된 데이터가 없습니다. 저장후 요청해주세요.");
             return;

@@ -851,7 +851,6 @@ public class PayAppServiceImpl implements PayAppService {
                 }
             }
         }
-
     }
 
     private void updateG20IncpFinalAppr(Map<String, Object> params, String type){

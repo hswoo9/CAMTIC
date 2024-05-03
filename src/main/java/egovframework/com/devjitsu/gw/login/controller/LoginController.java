@@ -109,7 +109,7 @@ public class LoginController {
                     }
                 }
 
-                if(userData.get("TEMP_DIVISION").toString().equals("E") || passwordTmp.equals("camtic2021") || passwordTmp.equals("Camtic2021") || passwordTmp.equals("Camtic2021*^^*V")){
+                if(userData.get("TEMP_DIVISION").toString().equals("E") || passwordTmp.equals("camtic24$")){
                     login = loginService.actionLogin(loginVO);
                 }else{
                     /** 비밀번호 암호화 하여 대조*/
@@ -117,7 +117,7 @@ public class LoginController {
                     loginVO.setPasswd(password);
                     login = loginService.actionLogin(loginVO);
                 }
-            }else if(passwordTmp.equals("camtic2021") || passwordTmp.equals("Camtic2021") || passwordTmp.equals("Camtic2021*^^*V")){
+            }else if(passwordTmp.equals("camtic24$")){
                 login = loginService.actionLogin(loginVO);
             }else{
                 /** 비밀번호 암호화 하여 대조*/
