@@ -1274,7 +1274,11 @@ public class UserManageController {
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-        params.put("regEmpSeq", loginVO.getUniqId());
+        if(loginVO != null){
+            params.put("regEmpSeq", loginVO.getUniqId());
+        } else {
+            params.put("regEmpSeq", "1");
+        }
         String code = "";
         String message = "";
         try{

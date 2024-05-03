@@ -197,6 +197,12 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public void setUserReqDetailInsert(Map<String, Object> params) {
 
+        String passwordTmp = params.get("LOGIN_PASSWD").toString();
+        if(!passwordTmp.equals("")){
+            String password = Hashing.sha256().hashString(passwordTmp, StandardCharsets.UTF_8).toString();
+            params.put("LOGIN_PASSWD", password);
+        }
+
         if(params.get("division").equals("0") || (params.get("division").equals("4") && params.get("divisionSub").equals("1")) ||   // 정규직원, 계약직원8
             (params.get("division").equals("4") && params.get("divisionSub").equals("2")) || (params.get("division").equals("1") && params.get("divisionSub").equals("6")) ||   // 인턴직원, 위촉직원
             (params.get("division").equals("1") && params.get("divisionSub").equals("4"))   // 위촉연구원
