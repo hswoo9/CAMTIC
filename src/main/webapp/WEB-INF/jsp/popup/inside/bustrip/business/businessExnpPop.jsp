@@ -139,7 +139,7 @@
             </tr>
             <tr>
                 <th>구분</th>
-                <td id="duty">부서장이상</td>
+                <td id="duty">팀장이하</td>
             </tr>
             <tr>
                 <th>환율</th>

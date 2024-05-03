@@ -223,6 +223,7 @@ const busiExnp = {
             const map = companion[i];
             if(map.dutyName == "본부장" || map.dutyName == "사업부장" || map.dutyName == "원장"){
                 busyType = 1;
+                $("#duty").text("부서장이상");
             }
 
             if(i != 0){
