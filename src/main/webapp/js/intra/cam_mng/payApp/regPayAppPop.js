@@ -367,6 +367,14 @@ var regPay = {
                         $("#coCd" + idx).val(ls[i].CO_CD || "");
                         $("#taxTy" + idx).val(ls[i].TAX_TY || "");
 
+                        $("#expRate" + idx).val(ls[i].EXP_RATE || "");
+                        $("#taxRate" + idx).val(ls[i].TAX_RATE || "");
+                        $("#payAmt" + idx).val(ls[i].PAY_AMT || "");
+                        $("#incTax" + idx).val(ls[i].INC_TAX || "");
+                        $("#locIncTax" + idx).val(ls[i].LOC_INC_TAX || "");
+                        $("#subAmt" + idx).val(ls[i].SUB_AMT || "");
+                        $("#actPayAmt" + idx).val(ls[i].ACT_PAY_AMT || "");
+
                         $("#totCost" + idx).val(regPay.comma(ls[i].SUM_AM.toString().split(".")[0]));
                         $("#supCost" + idx).val(regPay.comma(ls[i].SUP_AM.toString().split(".")[0]));
                         $("#vatCost" + idx).val(regPay.comma(ls[i].VAT_AM.toString().split(".")[0]));
@@ -537,6 +545,14 @@ var regPay = {
                     $("#issNo" + i).val(ls[i].ISS_NO || "");
                     $("#coCd" + i).val(ls[i].CO_CD || "");
                     $("#taxTy" + i).val(ls[i].TAX_TY || "");
+
+                    $("#expRate" + idx).val(ls[i].EXP_RATE || "");
+                    $("#taxRate" + idx).val(ls[i].TAX_RATE || "");
+                    $("#payAmt" + idx).val(ls[i].PAY_AMT || "");
+                    $("#incTax" + idx).val(ls[i].INC_TAX || "");
+                    $("#locIncTax" + idx).val(ls[i].LOC_INC_TAX || "");
+                    $("#subAmt" + idx).val(ls[i].SUB_AMT || "");
+                    $("#actPayAmt" + idx).val(ls[i].ACT_PAY_AMT || "");
 
                     $("#totCost" + i).val(regPay.comma(ls[i].SUM_AM.toString().split(".")[0]));
                     $("#supCost" + i).val(regPay.comma(ls[i].SUP_AM.toString().split(".")[0]));
@@ -1924,6 +1940,13 @@ var regPay = {
                 '       <input type="hidden" id="issNo' + regPayDet.global.itemIndex + '" value="'+item.ISS_NO+'" class="issNo" style="width: 100%">' +
                 '       <input type="hidden" id="coCd' + regPayDet.global.itemIndex + '" value="'+item.CO_CD+'" class="coCd" style="width: 100%">' +
                 '       <input type="hidden" id="taxTy' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="taxTy" style="width: 100%">' +
+                '       <input type="hidden" id="expRate' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="expRate" style="width: 100%">' +
+                '       <input type="hidden" id="taxRate' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="taxRate" style="width: 100%">' +
+                '       <input type="hidden" id="payAmt' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="payAmt" style="width: 100%">' +
+                '       <input type="hidden" id="incTax' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="incTax" style="width: 100%">' +
+                '       <input type="hidden" id="locIncTax' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="locIncTax" style="width: 100%">' +
+                '       <input type="hidden" id="subAmt' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="subAmt" style="width: 100%">' +
+                '       <input type="hidden" id="actPayAmt' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="actPayAmt" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
                 '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
@@ -2377,6 +2400,13 @@ var regPay = {
                 issNo : $("#issNo" + index).val(),
                 coCd : $("#coCd" + index).val(),
                 taxTy : $("#taxTy" + index).val(),
+                expRate : ($("#expRate" + index).val() || 0),
+                taxRate : ($("#taxRate" + index).val() || 0),
+                payAmt : (regPay.uncommaN($("#payAmt" + index).val()) || 0),
+                incTax : (regPay.uncommaN($("#incTax" + index).val()) || 0),
+                locIncTax : (regPay.uncommaN($("#locIncTax" + index).val()) || 0),
+                subAmt : (regPay.uncommaN($("#subAmt" + index).val()) || 0),
+                actPayAmt : (regPay.uncommaN($("#actPayAmt" + index).val()) || 0),
                 crmNm : $("#crmNm" + index).val(),
                 regNo : $("#regNo" + index).val(),
                 trCd : $("#trCd" + index).val(),
@@ -2564,7 +2594,6 @@ var regPay = {
                     $("#supCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Number(regPay.uncommaN($("#vatCost" + index).val()))));
                 }
             }
-
         } else {
             if(obj.id.match("totCost")){
                 $("#vatCost" + index).val(regPay.comma(Number(regPay.uncommaN($("#totCost" + index).val())) - Math.round(Number(regPay.uncommaN($("#totCost" + index).val())) * 100 / 110)));
@@ -2808,6 +2837,13 @@ var regPayDet = {
             '       <input type="hidden" id="issNo' + regPayDet.global.itemIndex + '" class="issNo" style="width: 100%">' +
             '       <input type="hidden" id="coCd' + regPayDet.global.itemIndex + '" class="coCd" style="width: 100%">' +
             '       <input type="hidden" id="taxTy' + regPayDet.global.itemIndex + '" class="taxTy" style="width: 100%">' +
+            '       <input type="hidden" id="expRate' + regPayDet.global.itemIndex + '" class="expRate" style="width: 100%">' +
+            '       <input type="hidden" id="taxRate' + regPayDet.global.itemIndex + '" class="taxRate" style="width: 100%">' +
+            '       <input type="hidden" id="payAmt' + regPayDet.global.itemIndex + '" class="payAmt" style="width: 100%">' +
+            '       <input type="hidden" id="incTax' + regPayDet.global.itemIndex + '" class="incTax" style="width: 100%">' +
+            '       <input type="hidden" id="locIncTax' + regPayDet.global.itemIndex + '" class="locIncTax" style="width: 100%">' +
+            '       <input type="hidden" id="subAmt' + regPayDet.global.itemIndex + '" class="subAmt" style="width: 100%">' +
+            '       <input type="hidden" id="actPayAmt' + regPayDet.global.itemIndex + '" class="actPayAmt" style="width: 100%">' +
             '   </td>' +
             '   <td>' +
             '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regPayDet.fn_popRegDet(1, '+regPayDet.global.itemIndex+')"></i>' +
@@ -3070,6 +3106,13 @@ var regPayDet = {
         $("#issNo" + idx).val("");
         $("#coCd" + idx).val("");
         $("#taxTy" + idx).val("");
+        $("#expRate" + idx).val("");
+        $("#taxRate" + idx).val("");
+        $("#payAmt" + idx).val("");
+        $("#incTax" + idx).val("");
+        $("#locIncTax" + idx).val("");
+        $("#subAmt" + idx).val("");
+        $("#actPayAmt" + idx).val("");
         $("#crmNm" + idx).val("");
         $("#buySts" + idx).val("");
         $("#trCd" + idx).val("");

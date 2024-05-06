@@ -99,6 +99,16 @@ var spr = {
         opener.parent.$("#vatCost" + $("#index").val()).val($("#supAllAmt").val());
         opener.parent.$("#totCost" + $("#index").val()).val(comma(sumAmt));
 
+
+        opener.parent.$("#expRate" + $("#index").val()).val($("#bustAmt").val());
+        opener.parent.$("#taxRate" + $("#index").val()).val($("#vatAmt").val());
+
+        opener.parent.$("#payAmt" + $("#index").val()).val($("#supAmt").val());
+        opener.parent.$("#incTax" + $("#index").val()).val($("#incomeAmt").val());
+        opener.parent.$("#locIncTax" + $("#index").val()).val($("#locIncomeAmt").val());
+        opener.parent.$("#subAmt" + $("#index").val()).val($("#supAllAmt").val());
+        opener.parent.$("#actPayAmt" + $("#index").val()).val($("#totAmt").val());
+
         opener.parent.regPay.fn_changeAllCost();
         window.close();
     }
