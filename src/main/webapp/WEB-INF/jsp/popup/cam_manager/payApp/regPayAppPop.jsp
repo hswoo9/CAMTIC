@@ -287,6 +287,13 @@
                             <input type="hidden" id="issNo0" class="issNo">
                             <input type="hidden" id="coCd0" class="coCd">
                             <input type="hidden" id="taxTy0" class="taxTy">
+                            <input type="hidden" id="expRate0" class="expRate">
+                            <input type="hidden" id="taxRate0" class="taxRate">
+                            <input type="hidden" id="payAmt0" class="payAmt">
+                            <input type="hidden" id="incTax0" class="incTax">
+                            <input type="hidden" id="locIncTax0" class="locIncTax">
+                            <input type="hidden" id="subAmt0" class="subAmt">
+                            <input type="hidden" id="actPayAmt0" class="actPayAmt">
                         </td>
                         <td>
                             <i class="k-i-plus k-icon" style="cursor: pointer" id="plusIcon0"  onclick="regPayDet.fn_popRegDet(1, 0)"></i>

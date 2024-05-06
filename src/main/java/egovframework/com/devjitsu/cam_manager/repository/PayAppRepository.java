@@ -562,4 +562,12 @@ public class PayAppRepository extends AbstractDAO {
     public void delIncpRe(Map<String, Object> params) {
         delete("payApp.delIncpRe", params);
     }
+
+    public void insPayRate(Map<String, Object> map) {
+        insert("payApp.insPayRate", map);
+    }
+
+    public Map<String, Object> getTaxMap(Map<String, Object> data) {
+        return (Map<String, Object>) selectOne("payApp.getTaxMap", data);
+    }
 }

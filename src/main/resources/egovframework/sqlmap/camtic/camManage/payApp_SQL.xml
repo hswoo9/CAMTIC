@@ -292,6 +292,35 @@
                 #{iss},
                 #{advances}
             )
+        <selectKey keyProperty="payAppDetSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PAY_APP_DET'
+        </selectKey>
+    </insert>
+
+    <insert id="insPayRate" parameterType="map">
+        /*insPayRate*/
+        INSERT INTO CAM_MNG.DJ_PAY_RATE
+            (
+                PAY_APP_DET_SN,
+                EXP_RATE,
+                TAX_RATE,
+                PAY_AMT,
+                INC_TAX,
+                LOC_INC_TAX,
+                SUB_AMT,
+                ACT_PAY_AMT
+            )
+        VALUES
+            (
+                #{payAppDetSn},
+                #{expRate},
+                #{taxRate},
+                #{payAmt},
+                #{incTax},
+                #{locIncTax},
+                #{subAmt},
+                #{actPayAmt}
+            )
     </insert>
 
     <insert id="insExnpDetailData" parameterType="map">
@@ -738,7 +767,8 @@
             "" AS ETCACCT_NM,
             "" AS ETCRVRS_YM,
             "" AS ETCDIV_CD,
-            "" AS ETCDUMMY1
+            "" AS ETCDUMMY1,
+            (SELECT PAY_APP_DET_SN FROM CAM_MNG.DJ_PAY_APP_DET WHERE (EVID_TYPE = 5 OR EVID_TYPE = 9) AND PAY_APP_SN = D.PAY_APP_SN LIMIT 1) AS PAY_APP_DET_SN
         FROM
             CAM_MNG.DJ_EXNP_DET A
         LEFT JOIN
@@ -3087,4 +3117,14 @@
         WHERE
             PAY_INCP_RE_SN = #{payIncpReSn}
     </delete>
+
+    <select id="getTaxMap" parameterType="map" resultType="map">
+        /*getTaxMap*/
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_PAY_RATE
+        WHERE
+            PAY_APP_DET_SN = #{PAY_APP_DET_SN}
+    </select>
 </mapper>

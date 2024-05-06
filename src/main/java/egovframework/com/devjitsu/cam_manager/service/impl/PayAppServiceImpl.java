@@ -142,6 +142,8 @@ public class PayAppServiceImpl implements PayAppService {
 
             payAppRepository.insPayAppDetailData(map);
 
+//            payAppRepository.insPayRate(map);
+
             String filePath = "/upload/useCard/" + map.get("authNo") + "/" + map.get("authDd") + "/" + map.get("authHh") + "/" + map.get("cardNo").toString().replaceAll("-", "") + "/" + map.get("buySts") + "/";
             map.put("filePath", filePath);
 
@@ -749,6 +751,8 @@ public class PayAppServiceImpl implements PayAppService {
                 data.put("INTX_AM", 0);
                 data.put("RSTX_AM", 0);
 
+//                Map<String, Object> taxMap = payAppRepository.getTaxMap(data);
+
                 if(data.get("EVID_TYPE").toString().equals("1")){
                     data.put("SET_FG", "3");
                     data.put("VAT_FG", "3");
@@ -790,10 +794,12 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("TR_FG", "4");
                     data.put("TAX_DT", data.get("IN_DT"));
 
-                    data.put("NDEP_AM", data.get("SUP_AM"));
-
-                    data.put("INTX_AM", Integer.parseInt(data.get("VAT_AM").toString()) - (Integer.parseInt(data.get("VAT_AM").toString()) / 10));
-                    data.put("RSTX_AM", Integer.parseInt(data.get("VAT_AM").toString()) / 10);
+                    int totAmt = Integer.parseInt(data.get("SUP_AM").toString()) + Integer.parseInt(data.get("VAT_AM").toString());
+                    int ndepAm = (int) (totAmt * 0.6);
+                    data.put("NDEP_AM", ndepAm);
+                    data.put("INAD_AM", totAmt - ndepAm);
+                    data.put("INTX_AM", totAmt * 0.03);
+                    data.put("RSTX_AM", (totAmt * 0.03) / 10);
                     data.put("ETCDUMMY1", "76");
 
                     if(hearnerMap == null){
@@ -808,6 +814,14 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("VAT_FG", "3");
                     data.put("TR_FG", "4");
                     data.put("TAX_DT", data.get("IN_DT"));
+                    data.put("ETCDUMMY1", "76");
+
+                    int totAmt = Integer.parseInt(data.get("SUP_AM").toString()) + Integer.parseInt(data.get("VAT_AM").toString());
+                    int ndepAm = (int) (totAmt * 0.6);
+                    data.put("NDEP_AM", ndepAm);
+                    data.put("INAD_AM", totAmt - ndepAm);
+                    data.put("INTX_AM", totAmt * 0.2);
+                    data.put("RSTX_AM", (totAmt * 0.2) / 10);
                     data.put("ETCDUMMY1", "76");
 
                     if(hearnerMap == null){
