@@ -25,71 +25,50 @@
     </select>
     <select id="getPersonAttendList" parameterType="map" resultType="map">
         /* personAttendList */
-        WITH RECURSIVE APPLY_DATE AS (
-            SELECT #{startDt} AS START_DATE
-
-            UNION ALL
-
-            SELECT START_DATE + INTERVAL 1 DAY
-              FROM APPLY_DATE
+        WITH RECURSIVE DATE_RANGE AS (
+            SELECT #{startDt} as DATES
+            UNION
+            SELECT DATE_ADD(DATE_RANGE.DATES, INTERVAL 1 DAY) FROM DATE_RANGE
             <![CDATA[
-             WHERE START_DATE < #{endDt}
+                WHERE DATE_ADD(DATE_RANGE.DATES, INTERVAL 1 DAY) <= #{endDt}
             ]]>
         )
         SELECT
-            AD.START_DATE,
-            CASE DAYOFWEEK(AD.START_DATE)
-                WHEN '1' THEN '일요일' WHEN '2' THEN '월요일' WHEN '3' THEN '화요일' WHEN '4' THEN '수요일' WHEN '5' THEN '목요일' WHEN '6' THEN '금요일' WHEN '7' THEN '토요일'
-            END AS WEEK,
-            IFNULL((
+            DR.DATES AS START_DATE,
+            SUBSTR('일월화수목금토', DAYOFWEEK(DR.DATES), 1) AS WEEK,
+            EI.EMP_NAME_KR AS Name,
+            (
                 SELECT
-                    CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
+                    CONCAT(SUBSTR(InTime,1,2) , ':' , SUBSTR(InTime,3,2) , ':' , SUBSTR(InTime,5,2))
                 FROM
-                    CAM_COMMON.CAPSDATA scc
+                    CAM_HR.V_CAPS_DATA
                 WHERE
-                <![CDATA[
-                    SCC.INTIME >= '000000'
-                AND SCC.INTIME <= '235959'
-                ]]>
-                AND SCC.ISTYPE = '1'
-                AND SCC.USERUUID = #{empSeq}
-                AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
-            ), '기록 없음') AS START_TIME,
-            IFNULL((
+                    CapsNum = EI.CAPS_NUM
+                    <![CDATA[
+                    AND CONCAT(DATE_FORMAT(replace(InDate,' ',''), '%Y-%m-%d'),  ' ', SUBSTR(InTime,1,2), ':', SUBSTR(InTime,3,2), ':', SUBSTR(InTime,5,2)) >= CONCAT(DR.DATES, ' 08:00:00')
+                    AND CONCAT(DATE_FORMAT(replace(InDate,' ',''), '%Y-%m-%d'),  ' ', SUBSTR(InTime,1,2), ':', SUBSTR(InTime,3,2), ':', SUBSTR(InTime,5,2)) <= DATE_ADD(DR.DATES, INTERVAL 1 DAY)
+                    ]]>
+                    AND IsType = 1
+                LIMIT 1
+            ) AS START_TIME,
+            (
                 SELECT
-                    CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
+                    CONCAT(SUBSTR(InTime,1,2) , ':' , SUBSTR(InTime,3,2) , ':' , SUBSTR(InTime,5,2))
                 FROM
-                    CAM_COMMON.CAPSDATA SCC
+                    CAM_HR.V_CAPS_DATA
                 WHERE
-                <![CDATA[
-                    SCC.INTIME >= '000000'
-                AND SCC.INTIME <= '235959'
-                ]]>
-                AND SCC.ISTYPE = '2'
-                AND SCC.USERUUID = #{empSeq}
-                AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
-            ), '기록 없음') AS END_TIME,
+                    CapsNum = EI.CAPS_NUM
+                    <![CDATA[
+                    AND CONCAT(DATE_FORMAT(replace(InDate,' ',''), '%Y-%m-%d'),  ' ', SUBSTR(InTime,1,2), ':', SUBSTR(InTime,3,2), ':', SUBSTR(InTime,5,2)) >= CONCAT(DR.DATES, ' 00:00:00')
+                    AND CONCAT(DATE_FORMAT(replace(InDate,' ',''), '%Y-%m-%d'),  ' ', SUBSTR(InTime,1,2), ':', SUBSTR(InTime,3,2), ':', SUBSTR(InTime,5,2)) <= CONCAT(DR.DATES, ' 23:59:59')
+                    ]]>
+                    AND IsType = 2
+                ORDER BY InTime DESC
+                LIMIT 1
+            ) AS END_TIME
 
-            IFNULL((
-                SELECT SUBHOLIDAY_DT_CODE_NM FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
-                LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
-                WHERE AD.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
-                AND AD.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
-                AND SVUH.REG_EMP_SEQ = #{empSeq} AND SVUH.APPR_STAT = 'Y'
-                ORDER BY SVUH.REG_DATE DESC limit 1
-            ), '') AS HOLIDAY,
-
-            IFNULL((
-                SELECT IHRR.TRIP_CODE FROM CAM_INSIDE.DJ_HR_BIZ_REQ IHR
-                                               LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
-                                               LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
-                WHERE AD.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
-                  AND AD.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
-                  AND IHE.EMP_SEQ = #{empSeq} AND IHRR.STATUS = '100'
-                ORDER BY IHRR.CREATE_DATE DESC limit 1
-                ), '') AS BUSTRIP
-            FROM
-                APPLY_DATE AD
+        FROM DATE_RANGE DR
+        LEFT JOIN CAM_HR.DJ_EMP_INFO EI ON EI.EMP_SEQ = #{empSeq}
     </select>
 
     <select id="getPersonHrStatus" parameterType="map" resultType="map">
@@ -275,14 +254,14 @@
                            SELECT
                                CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
                            FROM
-                               CAM_COMMON.CAPSDATA scc
+                                CAM_HR.V_CAPS_DATA scc
                            WHERE
                     <![CDATA[
                                SCC.INTIME >= '000000'
                              AND SCC.INTIME <= '235959'
                     ]]>
-                    AND SCC.ISTYPE = '1'
-                             AND SCC.USERUUID = HEI.EMP_SEQ
+                            AND SCC.ISTYPE = '1'
+                             AND SCC.CapsNum = HEI.CAPS_NUM
                              AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
                     limit 1
                        ), '기록 없음') AS START_TIME,
@@ -290,14 +269,14 @@
                            SELECT
                                CONCAT(SUBSTRING(SCC.INTIME,1,2), ':', SUBSTRING(SCC.INTIME,3,2), ':', SUBSTRING(SCC.INTIME,5,2))
                            FROM
-                               CAM_COMMON.CAPSDATA SCC
+                                CAM_HR.V_CAPS_DATA SCC
                            WHERE
                     <![CDATA[
                                SCC.INTIME >= '000000'
                              AND SCC.INTIME <= '235959'
                     ]]>
-                    AND SCC.ISTYPE = '2'
-                             AND SCC.USERUUID = HEI.EMP_SEQ
+                            AND SCC.ISTYPE = '2'
+                             AND SCC.CapsNum = HEI.CAPS_NUM
                              AND SCC.INDATE = REPLACE(AD.START_DATE, '-', '')
                     limit 1
                        ), '기록 없음') AS END_TIME,

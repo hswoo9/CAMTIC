@@ -25,7 +25,7 @@ public class AttendServiceImpl implements AttendService {
         List<Map<String, Object>> returnList = new ArrayList<>();
 
         /** CapsData */
-        List<Map<String, Object>> g20List = prjRepository.getPersonAttendListG20(params);
+        List<Map<String, Object>> g20List = attendRepository.getPersonAttendList(params);
 
         /** 휴일근로 */
         List<Map<String, Object>> offDayList = new ArrayList<>();
