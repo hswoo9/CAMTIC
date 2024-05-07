@@ -149,10 +149,10 @@ var crmReg = {
             return;
         }
 
-        if($("email").val() == ""){
-            alert("이메일을 입력해주세요.");
-            return false;
-        }
+        // if($("email").val() == ""){
+        //     alert("이메일을 입력해주세요.");
+        //     return false;
+        // }
 
         var parameters = {
             crmNm : $("#crmNm").val(),

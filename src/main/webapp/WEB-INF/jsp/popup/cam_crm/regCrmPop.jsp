@@ -98,7 +98,7 @@
                         <span style="color: red">ex) 111-11-11111</span>
                     </td>
                     <th scope="row" class="text-center th-color">
-                        <span class="red-star">*</span>대표자 이메일
+                        <span class="red-star"></span>대표자 이메일
                     </th>
                     <td>
                         <input type="text" id="email" style="width: 90%;">
