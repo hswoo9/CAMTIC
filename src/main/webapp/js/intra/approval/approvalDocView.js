@@ -319,7 +319,8 @@ var docView = {
                     }
                 }, {
                     template : function(e){
-                        if(e.FILE_EXT == "pdf" || e.FILE_EXT == "png" || e.FILE_EXT == "PNG" || e.FILE_EXT == "jpg" || e.FILE_EXT == "JPG" || e.FILE_EXT == "JPEG" || e.FILE_EXT == "gif"){
+                        let fileExt = e.FILE_EXT.toLowerCase();
+                        if(fileExt == "pdf" || fileExt == "png" || fileExt == "jpg" ||fileExt == "jpeg" || fileExt == "gif"){
                             return '<button type="button" class="k-button k-rounded k-button-solid k-button-solid-base" onClick="docView.fileViewer(\'' + e.FILE_DOWN_PATH + e.fileUUID + '\', \'' + e.filename + '\')">' +
                                         '<span class="k-button-text">보기</span>' +
                                     '</button>'
