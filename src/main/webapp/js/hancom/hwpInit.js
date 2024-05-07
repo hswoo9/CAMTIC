@@ -151,7 +151,10 @@ var hwpInit = {
         }
         hwpDocCtrl.putFieldText('PJT_NM', pjtEx);
         hwpDocCtrl.putFieldText('EMP_NAME', rs.REG_EMP_NAME);
-        hwpDocCtrl.putFieldText('DEPT_NAME', "경영지원실");
+
+        const userInfo = getUser($("#empSeq").val());
+        const deptName = userInfo.deptNm;
+        hwpDocCtrl.putFieldText('DEPT_NAME', deptName);
         hwpDocCtrl.putFieldText('REG_ACC_NO', "("+rs.BNK_NM+") "+rs.ACC_NO+" "+rs.ACC_NM);
         let budgetArr = ls[0].BUDGET_NM.split(" / ");
         hwpDocCtrl.putFieldText('BUDGET_NM1', budgetArr[0]);
