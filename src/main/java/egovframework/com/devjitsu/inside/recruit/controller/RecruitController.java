@@ -290,7 +290,7 @@ public class RecruitController {
             }
 
             if (comparatorMatches(commissionerDeptSeq, newMap.get("deptSeq"))) {
-                if ("본부장".equals(commissionerDutyName)) {
+                if ("본부장".equals(commissionerDutyName) || "사업부장".equals(commissionerDutyName)) {
                     allMatchingDeptMaps.add(commissionerMap);
                     System.out.println("********allMatchingDeptMaps******* :" + allMatchingDeptMaps);
                 }
