@@ -1592,6 +1592,10 @@ public class PayAppServiceImpl implements PayAppService {
         for(int i = 0 ; i < params.length ; i++){
             payAppRepository.delPayApp(params[i]);
 
+
+            // 출장연결된 지급신청 건 삭제
+            payAppRepository.updHrBizReqResultByPayAppSnEqNull(params[i]);
+
             Map<String, Object> paraMap = new HashMap<>();
             paraMap.put("payAppSn", params[i]);
             paraMap.put("PAY_APP_SN", params[i]);

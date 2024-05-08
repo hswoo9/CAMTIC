@@ -3128,4 +3128,13 @@
         WHERE
             PAY_APP_DET_SN = #{PAY_APP_DET_SN}
     </select>
+
+    <update id="updHrBizReqResultByPayAppSnEqNull" parameterType="map">
+        /*updHrBizReqResultByPayAppSnEqNull*/
+        UPDATE CAM_HR.DJ_HR_BIZ_REQ_RESULT
+        SET
+            PAY_APP_SN = NULL
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
 </mapper>
