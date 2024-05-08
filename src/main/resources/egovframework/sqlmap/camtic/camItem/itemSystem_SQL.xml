@@ -317,22 +317,36 @@
         INSERT INTO CAM_ITEM.DJ_ITEM_MASTER
         (
             ITEM_NO,
+            CATEGORY_A_SN,
+            CATEGORY_B_SN,
+            CATEGORY_C_SN,
             ITEM_NAME,
             ITEM_UNIT_CD,
             STANDARD,
             ITEM_TYPE,
             WH_CD,
+            UNIT_PRICE,
+            COST_PRICE,
+            B2B_PRICE,
+            CONSUMER_PRICE,
             ACTIVE,
             REG_EMP_SEQ
         )
         VALUES
         (
             #{itemNo},
+            #{categoryA},
+            #{categoryB},
+            #{categoryC},
             #{itemName},
             #{itemUnitCd},
             #{standard},
             #{itemType},
             #{whCd},
+            #{unitPrice},
+            #{costPrice},
+            #{b2bPrice},
+            #{consumerPrice},
             #{active},
             #{empSeq}
         )
@@ -344,10 +358,17 @@
             CAM_ITEM.DJ_ITEM_MASTER
         SET
             ITEM_NO = #{itemNo},
+            CATEGORY_A_SN = #{categoryA},
+            CATEGORY_B_SN = #{categoryB},
+            CATEGORY_C_SN = #{categoryC},
             ITEM_NAME = #{itemName},
             ITEM_UNIT_CD = #{itemUnitCd},
             STANDARD = #{standard},
             WH_CD = #{whCd},
+            UNIT_PRICE = #{unitPrice},
+            COST_PRICE = #{costPrice},
+            B2B_PRICE = #{b2bPrice},
+            CONSUMER_PRICE = #{consumerPrice},
             ACTIVE = #{active},
             MOD_EMP_SEQ = #{empSeq},
             MOD_DT = NOW()
@@ -359,4 +380,90 @@
         /* setItemMasterDel */
         DELETE FROM CAM_ITEM.DJ_ITEM_MASTER WHERE MASTER_SN IN (${masterSn})
     </delete>
+
+    <select id="getItemCategoryList" parameterType="map" resultType="map">
+        /*getItemCategoryList*/
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_CATEGORY
+        WHERE
+            CATEGORY_TYPE = #{cgType}
+        <if test='parentCode != null and !"".equals(parentCode)'>
+          AND
+            PARENT_CODE = #{parentCode}
+        </if>
+          AND
+            ACTIVE = 'Y'
+    </select>
+
+    <select id="getItemCategoryOne" parameterType="map" resultType="map">
+        /*getItemCategoryOne*/
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_CATEGORY
+        WHERE
+            ITEM_CATEGORY_SN = #{itemCgSn}
+    </select>
+
+    <select id="getCgDuplicateChk" parameterType="map" resultType="boolean">
+        /* getCgDuplicateChk */
+        SELECT
+            CASE WHEN COUNT(*) > 0 THEN 1
+                 ELSE 0
+            END
+        FROM
+            CAM_ITEM.DJ_ITEM_CATEGORY
+        WHERE
+            CATEGORY_TYPE = #{cgType}
+          AND
+            CATEGORY_CODE = #{cgCode}
+        <if test='parentCode != null and !"".equals(parentCode)'>
+          AND
+            PARENT_CODE = #{parentCode}
+        </if>
+          AND
+            ACTIVE = 'Y'
+    </select>
+
+    <insert id="setItemCategoryReg" parameterType="map">
+        /*setItemCategoryReg*/
+        INSERT INTO CAM_ITEM.DJ_ITEM_CATEGORY
+        (
+            CATEGORY_TYPE,
+            CATEGORY_CODE,
+            PARENT_CODE,
+            PARENT_CODE_NM,
+            ACTIVE
+        )
+        VALUES
+        (
+            #{cgType},
+            #{cgCode},
+            #{parentCode},
+            #{parentCodeNm},
+            'Y'
+        )
+    </insert>
+
+    <update id="setItemCategoryRegUpd" parameterType="map">
+        /*setItemCategoryRegUpd*/
+        UPDATE
+            CAM_ITEM.DJ_ITEM_CATEGORY
+        SET
+            CATEGORY_CODE = #{cgCode}
+        WHERE
+            ITEM_CATEGORY_SN = #{itemCgSn}
+    </update>
+
+    <update id="setItemCategoryDel" parameterType="map">
+        /*setItemCategoryDel*/
+        UPDATE
+            CAM_ITEM.DJ_ITEM_CATEGORY
+        SET
+            ACTIVE = 'N'
+        WHERE
+            ITEM_CATEGORY_SN IN (${pk})
+    </update>
 </mapper>

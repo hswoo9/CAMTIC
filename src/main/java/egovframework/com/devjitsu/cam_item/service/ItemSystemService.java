@@ -22,4 +22,9 @@ public interface ItemSystemService {
     boolean getItemNoDuplicate(Map<String, Object> params);
     void setItemMasterReg(Map<String, Object> params);
     void setItemMasterDel(Map<String, Object> params);
+    List<Map<String, Object>> getItemCategoryList(Map<String, Object> params);
+    Map<String, Object> getItemCategoryOne(Map<String, Object> params);
+    boolean getCgDuplicateChk(Map<String, Object> params);
+    void setItemCategoryReg(Map<String, Object> params);
+    void setItemCategoryDel(Map<String, Object> params);
 }

@@ -52,7 +52,10 @@
                             <span class="red-star">*</span>품번
                         </th>
                         <td>
-                            <input type="text" id="itemNo" name="itemNo" style="width: 75%">
+                            <input type="text" id="itemNo" name="itemNo" style="display: none;">
+                            <input type="text" id="categoryA" name="categoryA" style="width: 120px">
+                            <input type="text" id="categoryB" name="categoryB" style="width: 120px">
+                            <input type="text" id="categoryC" name="categoryC" style="width: 120px">
                             <button type="button" class="k-button k-button-solid-base" onclick="inr.getItemNoDuplicate()">중복확인</button>
                         </td>
                         <th>
@@ -68,7 +71,7 @@
                         </th>
                         <td>
                             <input type="text" id="itemUnitCd" name="itemUnitCd" style="width: 120px">
-                            <input type="text" id="standard" name="standard" style="width: 58%">
+                            <input type="text" id="standard" name="standard" style="width: 65%">
                         </td>
                         <th>
                             <span class="red-star">*</span>품목구분
@@ -89,6 +92,34 @@
                         </th>
                         <td>
                             <input type="text" id="active" name="active" style="width: 150px">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span class="red-star">*</span>단가
+                        </th>
+                        <td>
+                            <input type="text" id="unitPrice" class="numberInput" name="unitPrice" style="width: 150px; text-align: right;"> 원
+                        </td>
+                        <th>
+                            <span class="red-star">*</span>원가
+                        </th>
+                        <td>
+                            <input type="text" id="costPrice" class="numberInput" name="costPrice" style="width: 150px; text-align: right;"> 원
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <span class="red-star">*</span>판매가(B2B)
+                        </th>
+                        <td>
+                            <input type="text" id="b2bPrice" class="numberInput" name="b2bPrice" style="width: 150px; text-align: right;"> 원
+                        </td>
+                        <th>
+                            <span class="red-star">*</span>판매가(소비자가)
+                        </th>
+                        <td>
+                            <input type="text" id="consumerPrice" class="numberInput" name="consumerPrice" style="width: 150px; text-align: right;"> 원
                         </td>
                     </tr>
                 </thead>
