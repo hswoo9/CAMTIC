@@ -74,7 +74,9 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         // 법인카드 증빙서류 생성
-        createPdf(params, serverDir, baseDir);
+        if(!params.get("htmlContents").equals("")){
+            createPdf(params, serverDir, baseDir);
+        }
 
         // 구매청구에서 지급신청시 claimSn Key 가져옴
 
