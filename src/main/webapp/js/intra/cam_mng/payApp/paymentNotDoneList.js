@@ -41,33 +41,33 @@ var paymentNotDoneList = {
                 }, {
                     title: "결의일자",
                     field: "GISU_DT",
-                    width: 120,
+                    width: 90,
                 }, {
                     title: "처리자",
                     field: "EMP_NM",
-                    width: 80,
+                    width: 60,
                 }, {
                     title: "사업장",
                     field: "DIV_CD",
-                    width: 80,
+                    width: 60,
                 }, {
                     title: "결의번호",
                     field: "GISU_SQ",
-                    width: 80,
+                    width: 50,
                 }, {
                     title: "구분",
                     field: "DOCU_FG",
-                    width: 120,
+                    width: 50,
                 }, {
                     title: "프로젝트 명",
-                    width: 240,
+                    width: 400,
                     field: "MGT_NM"
                 }, {
                     title: "적요",
                     field: "RMK_DC"
                 }, {
                     title: "금액",
-                    width: 120,
+                    width: 100,
                     template: function(e){
                         var cost = e.TOTAL_AM;
                         if(e.TOTAL_AM != null && e.TOTAL_AM != "" && e.TOTAL_AM != undefined){
