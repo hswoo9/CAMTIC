@@ -107,8 +107,34 @@ var personAttendStat = {
     },
 
     mainGrid: function (url, params) {
+        let dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read: {
+                    url: url,
+                    dataType: "json",
+                    type: "post"
+                },
+                parameterMap: function(data){
+                    for(var key in params){
+                        data[key] = params[key];
+                    }
+                    return data;
+                }
+            },
+            schema: {
+                data: function (data){
+                    return data.list;
+                },
+                total: function (data){
+                    return data.list.length;
+                },
+            },
+            pageSize: 10
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             scrollable: true,
             height: 489,

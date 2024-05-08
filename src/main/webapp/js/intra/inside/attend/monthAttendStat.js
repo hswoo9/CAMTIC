@@ -26,7 +26,6 @@ var monthAttendStat = {
             }
             monthAttendStat.fn_dataSet();
         })
-        $("#applyMonth").val("2023-08");
         $("#applyMonth").data("kendoDatePicker").trigger("change");
     },
 

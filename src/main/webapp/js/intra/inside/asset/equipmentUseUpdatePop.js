@@ -244,6 +244,15 @@ var equipmentUseUpdatePop = {
         return str.replace(/[^\d]+/g, '');
     },
 
+    fn_projectPop : function (){
+
+        var url = "/project/pop/projectView.do";
+
+        var name = "_blank";
+        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    },
+
     equipUpdate : function(){
         /** 사용대금 필수값 해제로 인하여 공백값일시 0원 들어가게 변경 */
         let useAmt = $("#useAmt").val().replace(/,/g, '');

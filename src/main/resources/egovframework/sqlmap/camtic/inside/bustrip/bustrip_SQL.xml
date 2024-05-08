@@ -2172,11 +2172,11 @@
         SELECT
             REPLACE(OIL_COST, ',', '') AS OIL_COST,
             REPLACE(TOLL_COST, ',', '') AS TOLL_COST,
-            SUM(REPLACE(OIL_COST, ',', '') + REPLACE(TOLL_COST, ',', '')) AS TOT_COST
+            IFNULL(SUM(REPLACE(OIL_COST, ',', '') + REPLACE(TOLL_COST, ',', '')), 0) AS TOT_COST
         FROM
             CAM_INSIDE.DJ_HR_BIZ_EXNP
         WHERE
-            HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+            HR_BIZ_REQ_RESULT_ID IN (${hrBizReqResultId})
         AND
             DIVISION = '3'
         AND

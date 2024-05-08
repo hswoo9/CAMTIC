@@ -636,6 +636,9 @@ var regPay = {
             const cardList = [];
 
             const corpCar = customKendo.fn_customAjax("/bustrip/getCorpCarExnpData", {hrBizReqResultId : hrBizReqResultId});
+            console.log("corpCar", corpCar);
+            const corpCarData = corpCar.map;
+            console.log("corpCarData", corpCarData);
 
             for(let i = 0 ; i < hrBizReqResultId.toString().split(",").length ; i++) {
                 let tempList = [];
@@ -821,18 +824,20 @@ var regPay = {
 
             if (exnpList.length > 0 && exnpList[0].PJT_SN != null) {
                 const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: exnpList[0].PJT_SN}).rs;
-                var busnClass = pjtMap.BUSN_CLASS; console.log(busnClass);
+                var busnClass = pjtMap.BUSN_CLASS; console.log("busnClass", busnClass);
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
                 if ($("#pjtSn").val() != "" && busnClass != "D" && busnClass != "V") {
                     selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
-                    if (corpCar != null && (corpCar.TOT_COST != null || corpCar.TOT_COST != "0")) {
+                    if (corpCarData != null && (corpCarData.TOT_COST != null || corpCarData.TOT_COST != "0")) {
                         const g20CardList = customKendo.fn_customAjax("/g20/getCardList", {
                             searchValue: '법인차량',
                             cardVal: 'P'
                         }).list
 
                         let index = count;
+
+                        console.log("g20CardList", g20CardList);
 
                         regPayDet.addRow();
 
@@ -872,9 +877,9 @@ var regPay = {
                         $("#crmAccNo" + index).val(baNb);
                         $("#crmAccHolder" + index).val(depositor);
 
-                        if (corpCar.map != null) {
-                            $("#totCost" + index).val(comma(corpCar.map.TOT_COST));
-                            $("#supCost" + index).val(comma(corpCar.map.TOT_COST));
+                        if (corpCarData != null) {
+                            $("#totCost" + index).val(comma(corpCarData.TOT_COST));
+                            $("#supCost" + index).val(comma(corpCarData.TOT_COST));
                         }
 
                         count++;
