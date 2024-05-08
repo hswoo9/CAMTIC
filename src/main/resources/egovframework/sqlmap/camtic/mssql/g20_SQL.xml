@@ -343,6 +343,17 @@
                 (TR_NM LIKE '%' + #{searchValue} + '%' OR BA_NB LIKE '%' + #{searchValue} + '%' OR REG_NB LIKE '%' + #{searchValue} + '%')
     </select>
 
+    <select id="getClientInfoOne" parameterType="map" resultType="map">
+        /*getClientInfoOne*/
+        SELECT
+            TOP 1
+            TR_CD, CEO_NM, REG_NB, JIRO_NM, BA_NB, DEPOSITOR, TR_NM
+        FROM ZA_TRADE_DAIKIN
+        WHERE TR_FG = '1'
+          AND REG_NB = #{REG_NO}
+        ORDER BY INSERT_DT DESC
+    </select>
+
     <select id="getCardList" parameterType="map" resultType="map">
         /*getCardList*/
         SELECT
