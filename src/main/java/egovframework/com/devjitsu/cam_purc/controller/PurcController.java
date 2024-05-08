@@ -503,6 +503,8 @@ public class PurcController {
         params.put("fileArray", fileArray);
 
         /** 메일 (업체) */
+        /** 구매청구자 추가 2024.04.27 */
+        /** 구매요청자 추가 2024.05.08 */
         HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("218.158.231.186")){
             params.put("fileServer", "http://218.158.231.186");
@@ -510,11 +512,14 @@ public class PurcController {
             params.put("fileServer", "http://218.158.231.184");
         }
 
+        Map<String, Object> claimMap = purcService.getPurcClaimData(params);
+        params.put("purcEml", claimMap.get("EMAIL_ADDR"));
+
         MailUtil mailUtil = new MailUtil();
         mailUtil.orderSendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
 
         /** 문자 (구매 담당자) */
-        Map<String, Object> claimMap = purcService.getPurcClaimData(params);
+//        Map<String, Object> claimMap = purcService.getPurcClaimData(params);
         Map<String, Object> messageParam = new HashMap<>();
         messageParam.put("dest_phone", claimMap.get("EMP_NAME_KR") + "^" + claimMap.get("MOBILE_TEL_NUM"));
 
