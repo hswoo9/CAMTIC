@@ -822,8 +822,16 @@ public class PayAppServiceImpl implements PayAppService {
                     int ndepAm = (int) (totAmt * 0.6);
                     data.put("NDEP_AM", ndepAm);
                     data.put("INAD_AM", totAmt - ndepAm);
-                    data.put("INTX_AM", totAmt * 0.2);
-                    data.put("RSTX_AM", (totAmt * 0.2) / 10);
+
+                    if(totAmt > 125000){
+                        int intxAm = (int) ((totAmt  - (totAmt * 0.6)) * 0.2);
+                        data.put("INTX_AM", intxAm);
+                        data.put("RSTX_AM", intxAm / 10);
+                    } else {
+                        data.put("INTX_AM", 0);
+                        data.put("RSTX_AM", 0);
+                    }
+
                     data.put("ETCDUMMY1", "76");
 
                     if(hearnerMap == null){
