@@ -295,7 +295,7 @@ var regExnp = {
                     '       <input style="width: 100%" id="appTeam' + regExnpDet.global.itemIndex + '" name="appTeam" class="appTeam">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="regExnpDet.fn_popRegDet(1, '+regExnpDet.global.itemIndex+')"></i>' +
+                    '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="regExnpDet.fn_popRegDet(1, '+regExnpDet.global.itemIndex+', \'Y\')"></i>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                     '       <input type="hidden" id="exnpDestSn' + regExnpDet.global.itemIndex + '" value="'+item.EXNP_DET_SN+'" name="exnpDestSn" class="exnpDestSn">' +
                     '       <input type="text" style="width: 80%;" id="crmNm' + regExnpDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
@@ -580,7 +580,7 @@ var regExnp = {
                     '       <input type="text" id="appTeam' + regExnpDet.global.itemIndex + '" class="appTeam" style="width: 100%">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, '+regExnpDet.global.itemIndex+')"></i>' +
+                    '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, '+regExnpDet.global.itemIndex+', \'Y\')"></i>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                     '       <input type="text" style="width: 80%;" id="crmNm' + regExnpDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
                     '       <input type="hidden" id="trCd' + regExnpDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
@@ -779,7 +779,7 @@ var regExnp = {
                     '       <input type="text" id="appTeam' + regExnpDet.global.itemIndex + '" class="appTeam" style="width: 100%">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, '+regExnpDet.global.itemIndex+')"></i>' +
+                    '       <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, '+regExnpDet.global.itemIndex+', \'Y\')"></i>' +
                     '       <input type="hidden" id="payDestSn' + regExnpDet.global.itemIndex + '" value="'+item.PAY_APP_DET_SN+'" name="payDestSn" class="payDestSn">' +
                     '       <input type="text" style="width: 80%;" id="crmNm' + regExnpDet.global.itemIndex + '" value="'+item.CRM_NM+'" class="crmNm">' +
                     '       <input type="hidden" id="trCd' + regExnpDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
@@ -1338,7 +1338,7 @@ var regExnpDet = {
                 '       <input type="text" id="appTeam' + clIdx + '" class="appTeam" style="width: 100%">' +
                 '   </td>' +
                 '   <td>' +
-                '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="regExnpDet.fn_popRegDet(1, '+clIdx+')"></i>' +
+                '       <i class="k-i-plus k-icon" style="cursor: pointer" onclick="regExnpDet.fn_popRegDet(1, '+clIdx+', \'Y\')"></i>' +
                 '       <input type="hidden" id="payDestSn' + clIdx + '" name="payDestSn" class="payDestSn">' +
                 '       <input type="hidden" id="exnpDestSn' + clIdx + '" name="exnpDestSn" class="exnpDestSn">' +
                 '       <input type="text" style="width: 80%;" id="crmNm' + clIdx + '" class="crmNm">' +
@@ -1470,8 +1470,15 @@ var regExnpDet = {
         }
     },
 
-    fn_popRegDet : function(v, i){
-        var url = "/mng/pop/paymentDetView.do?type=" + v + "&index=" + i;
+    fn_popRegDet : function(v, i, crmChk){
+        let evidType = $("#eviType" + i).val();
+        let type = v;
+
+        if(crmChk && (evidType == "4" || evidType == "5" || evidType == "9")){
+            type = evidType;
+        }
+
+        var url = "/mng/pop/paymentDetView.do?type=" + type + "&index=" + i;
 
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no";
