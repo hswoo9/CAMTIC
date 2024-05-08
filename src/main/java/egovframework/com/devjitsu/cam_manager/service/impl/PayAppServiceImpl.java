@@ -847,11 +847,15 @@ public class PayAppServiceImpl implements PayAppService {
                     data.put("TR_FG", "3");
                 }
 
-                if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3"))) {
+                if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3")) && type.equals("resolution")) {
                     if (data.get("DOCU_FG").toString().equals("1")) {
                         data.put("DOCU_FG", "99");
                     }
+                } else {
+                    data.put("IN_DT_TMP", data.get("IN_DT"));
+                }
 
+                if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3"))){
                     if(type.equals("resolution")){
                         data.put("IN_DT_TMP", data.get("IN_DT"));
                         data.put("IN_DT", data.get("EXEC_DT"));
@@ -859,9 +863,6 @@ public class PayAppServiceImpl implements PayAppService {
                         data.put("IN_DT_TMP", data.get("ACISU_DT"));
                         data.put("IN_DT", data.get("EXEC_DT"));
                     }
-
-                } else {
-                    data.put("IN_DT_TMP", data.get("IN_DT"));
                 }
 
 
