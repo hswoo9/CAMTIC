@@ -286,7 +286,7 @@ var bustList = {
                         /** 국내출장 해외출장 분기 */
                         if(e.TRIP_CODE != "4"){
                             if(e.RS_STATUS == 100 && e.EXP_STAT == 100 && e.PAY_APP_SN == null){
-                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">작성중</button>'
+                                return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">지급신청</button>'
                             }else if (e.PAY_APP_SN != null){
                                 if(e.DOC_STATUS == 100){
                                     return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">결재완료</button>'

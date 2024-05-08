@@ -570,4 +570,8 @@ public class PayAppRepository extends AbstractDAO {
     public Map<String, Object> getTaxMap(Map<String, Object> data) {
         return (Map<String, Object>) selectOne("payApp.getTaxMap", data);
     }
+
+    public void updHrBizReqResultByPayAppSnEqNull(int param) {
+        update("payApp.updHrBizReqResultByPayAppSnEqNull", param);
+    }
 }
