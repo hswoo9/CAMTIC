@@ -546,6 +546,11 @@ public class G20ServiceImpl implements G20Service {
     }
 
     @Override
+    public Map<String, Object> getClientInfoOne(Map<String, Object> params) {
+        return g20Repository.getClientInfoOne(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getCardList(Map<String, Object> params) {
         List<Map<String, Object>> listMap = new ArrayList<>();
         if(params.containsKey("cardVal")){

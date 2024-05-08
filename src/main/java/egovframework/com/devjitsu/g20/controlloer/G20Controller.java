@@ -140,6 +140,13 @@ public class G20Controller {
         return "jsonView";
     }
 
+    @RequestMapping("/g20/getClientInfoOne")
+    public String getClientInfoOne(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = g20Service.getClientInfoOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     @RequestMapping("/g20/getCardList")
     public String getCardList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
