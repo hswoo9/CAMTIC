@@ -144,13 +144,13 @@
                         CASE WHEN (
                             SELECT COUNT(-1) FROM CAM_HR.DJ_EMP_INFO
                             WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq})
-                            AND DUTY_CODE = '5'
+                            AND (DUTY_CODE = '5' || DUTY_CODE = '4')
                             AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
                             AND WORK_STATUS_CODE = 'Y'
                         ) > 0 THEN (
                             SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO
                             WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{regEmpSeq})
-                            AND DUTY_CODE = '5'
+                            AND (DUTY_CODE = '5' || DUTY_CODE = '4')
                             AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
                             AND WORK_STATUS_CODE = 'Y'
                             ORDER BY REG_DATE DESC LIMIT 1
@@ -212,13 +212,13 @@
                     CASE WHEN (
                         SELECT COUNT(-1) FROM CAM_HR.DJ_EMP_INFO
                         WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq})
-                        AND DUTY_CODE = '5'
+                        AND (DUTY_CODE = '5' || DUTY_CODE = '4')
                         AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
                         AND WORK_STATUS_CODE = 'Y'
                     ) > 0 THEN (
                         SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO
                         WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{tmPMSeq})
-                        AND DUTY_CODE = '5'
+                        AND (DUTY_CODE = '5' || DUTY_CODE = '4')
                         AND (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
                         AND WORK_STATUS_CODE = 'Y'
                         ORDER BY REG_DATE DESC LIMIT 1
