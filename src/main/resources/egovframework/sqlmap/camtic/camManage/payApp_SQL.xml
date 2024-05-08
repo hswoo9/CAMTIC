@@ -721,6 +721,7 @@
             REPLACE(A.TR_DE, "-", "") AS TAX_DT,
             REPLACE(D.APP_DE, "-", "") AS REG_DT,
             REPLACE(B.DT3, "-", "") AS EXEC_DT,
+            REPLACE(B.DT1, "-", "") AS ACISU_DT,
             DATE_FORMAT(now(), '%Y%m%d') AS TXT_DONE_DT,
             IFNULL(A.PMR_NO, "") AS RPMR_NO,
             A.TR_DE AS CNT_DT,
