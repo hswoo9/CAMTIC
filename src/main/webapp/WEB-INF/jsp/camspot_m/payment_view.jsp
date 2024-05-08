@@ -9,12 +9,11 @@
 
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
+<script type="text/javascript" src="/js/intra/common/common.js?${toDate}"></script>
 <script type="text/javascript" src="${hwpUrl}js/hwpctrlapp/utils/util.js"></script>
 <script type="text/javascript" src="${hwpUrl}js/webhwpctrl.js"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwp_DocCtrl.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/hwpCtrlApp.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDocView.js?v=${today}'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDocView.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/approvalDocView.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/approval/hwpApprovalLine.js?v=${today}'/>"></script>
