@@ -310,7 +310,8 @@ var docView = {
                     title: "첨부파일명",
                     attributes: { style: "text-align: left;"},
                     template : function(e){
-                        return '<span style="cursor: pointer" onClick="docView.docAttachmentDown(\'single\',\'' + e.FILE_DOWN_PATH + e.fileUUID+ '\', \'' + e.filename + '\')">' +
+                        let filename = e.filename.replaceAll("'", "\\'");
+                        return '<span style="cursor: pointer" onClick="docView.docAttachmentDown(\'single\',\'' + e.FILE_DOWN_PATH + e.fileUUID+ '\', \'' + filename + '\')">' +
                                     fileImgTag(e.FILE_EXT) +
                                     "<span style='margin-left: 5px;cursor: pointer'>" +
                                         e.filename + "(" + formatBytes(e.FILE_SIZE, 3) + ")" +
