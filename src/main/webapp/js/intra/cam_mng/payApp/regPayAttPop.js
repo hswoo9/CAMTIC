@@ -144,15 +144,9 @@ const regPayAtt = {
             var html = '';
             for (var i = 0; i < fileArray.length; i++) {
                 size = fCommon.bytesToKB(fileArray[i].size);
-                var fileName = "";
-                var fileExt = fileArray[i].name.split(".")[fileArray[i].name.split(".").length - 1];
-                for(var j = 0 ; j < fileArray[i].name.split(".").length - 1 ; j++){
-                    fileName += fileArray[i].name.split(".")[j];
+                var fileName = fileArray[i].name.substring(0, fileArray[i].name.lastIndexOf("."));
+                var fileExt = fileArray[i].name.substring(fileArray[i].name.lastIndexOf(".")+1);
 
-                    if(j != fileArray[i].name.split(".").length - 2){
-                        fileName += ".";
-                    }
-                }
                 // opener.parent.regPay.global.fileArray.push(fileArray[i]);
 
                 html += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
@@ -393,8 +387,8 @@ const regPayAtt = {
             for (var i = 0; i < attFiles.length; i++) {
                 size = fCommon.bytesToKB((attFiles[i].file_size || attFiles[i].size));
 
-                var fileName = (attFiles[i].file_org_name || attFiles[i].name.toString().split(".")[0]);
-                var fileExt = (attFiles[i].file_ext || attFiles[i].name.toString().split(".")[1]);
+                var fileName = (attFiles[i].file_org_name || attFiles[i].name.toString().substring(0, attFiles[i].name.toString().lastIndexOf(".")));
+                var fileExt = (attFiles[i].file_ext || attFiles[i].name.toString().substring(attFiles[i].name.toString().lastIndexOf(".")+1));
                 html2 += '<tr style="text-align: center;padding-top: 10px;" class="addFile">';
                 html2 += '   <td style="text-align: left">' + fileName + '</td>';
                 html2 += '   <td>' + fileExt + '</td>';
@@ -486,15 +480,8 @@ const regPayAtt = {
 
             var html = '';
             for (var i = 0; i <fileArray.length; i++) {
-                var fileName = "";
-                var fileExt = fileArray[i].name.split(".")[fileArray[i].name.split(".").length - 1];
-                for(var j = 0 ; j < fileArray[i].name.split(".").length - 1 ; j++){
-                    fileName += fileArray[i].name.split(".")[j];
-
-                    if(j != fileArray[i].name.split(".").length - 2){
-                        fileName += ".";
-                    }
-                }
+                var fileName = fileArray[i].name.substring(0, fileArray[i].name.lastIndexOf("."));
+                var fileExt = fileArray[i].name.substring(fileArray[i].name.lastIndexOf(".") + 1);
 
                 size = fCommon.bytesToKB(fileArray[i].size);
                 html += '<tr style="text-align: center;" class="addFile">';
