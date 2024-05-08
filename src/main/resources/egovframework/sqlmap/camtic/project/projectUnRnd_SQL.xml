@@ -32,6 +32,7 @@
             PJT_EXP_AMT,
             ALL_BUSN_COST,
             SECURITY,
+            PARENT_PJT_SN,
             REG_EMP_SEQ
         )
         VALUES
@@ -61,6 +62,7 @@
             #{pjtExpAmt},
             #{allBusnCost},
             #{security},
+            #{parentPjtSn},
             #{regEmpSeq}
         )
 
@@ -93,6 +95,7 @@
             CRM_PART_SN = #{crmPartSn},
             ALL_BUSN_COST = #{allBusnCost},
             SECURITY = #{security},
+            PARENT_PJT_SN = #{parentPjtSn},
             PJT_EXP_AMT = #{pjtExpAmt}
         WHERE
             PJT_SN = #{pjtSn}

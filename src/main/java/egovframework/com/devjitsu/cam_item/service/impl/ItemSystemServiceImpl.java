@@ -118,6 +118,35 @@ public class ItemSystemServiceImpl implements ItemSystemService {
         itemSystemRepository.setItemMasterDel(params);
     }
 
+    @Override
+    public List<Map<String, Object>> getItemCategoryList(Map<String, Object> params) {
+        return itemSystemRepository.getItemCategoryList(params);
+    }
+
+    @Override
+    public Map<String, Object> getItemCategoryOne(Map<String, Object> params) {
+        return itemSystemRepository.getItemCategoryOne(params);
+    }
+
+    @Override
+    public boolean getCgDuplicateChk(Map<String, Object> params) {
+        return itemSystemRepository.getCgDuplicateChk(params);
+    }
+
+    @Override
+    public void setItemCategoryReg(Map<String, Object> params) {
+        if(StringUtils.isEmpty(params.get("itemCgSn"))){
+            itemSystemRepository.setItemCategoryReg(params);
+        }else{
+            itemSystemRepository.setItemCategoryRegUpd(params);
+        }
+    }
+
+    @Override
+    public void setItemCategoryDel(Map<String, Object> params) {
+        itemSystemRepository.setItemCategoryDel(params);
+    }
+
     public String cellValueToString(XSSFCell cell){
         String txt = "";
 

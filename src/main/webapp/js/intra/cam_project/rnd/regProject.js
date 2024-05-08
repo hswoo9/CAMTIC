@@ -248,7 +248,7 @@ var regRnd = {
             $("#stopBtn").show();
         }
 
-        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt", "bsTitle", "allBusnCost", "pjtAmt2", "mngDeptName", "mngEmpName"]);
+        customKendo.fn_textBox(["empName", "deptName", "pjtNm", "rndCrmNm", "rndConCrmNm", "crmPartNm", "pjtExpAmt", "bsTitle", "allBusnCost", "pjtAmt2", "mngDeptName", "mngEmpName", "parentPjtNm"]);
 
         customKendo.fn_datePicker("sbjStrDe", "depth", "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("sbjEndDe", "depth", "yyyy-MM-dd", new Date());
@@ -259,6 +259,15 @@ var regRnd = {
             { text: "다년", value: "M" }  //multi
         ]
         customKendo.fn_dropDownList("yearClass", yearDataSource, "text", "value", 2);
+        $("#yearClass").data("kendoDropDownList").bind("change", function(){
+            const yearClass = $("#yearClass").val();
+            if(yearClass == "M"){
+                $("#mYearTr").show();
+            }else{
+                $("#mYearTr").hide();
+            }
+        });
+
         var data = {
             cmGroupCode : "RND_SUBJECT",
         }
@@ -310,6 +319,16 @@ var regRnd = {
 
             $("#bsTitle").val(e.BS_TITLE);
             $("#yearClass").data("kendoDropDownList").value(e.YEAR_CLASS);
+            if(e.PARENT_PJT_SN != null){
+                $("#mYearCk").val("Y");
+                $("#mYearTr").show();
+                $("#supDep").data("kendoDropDownList").trigger("change");
+                $("#parentPjtSn").val(e.PARENT_PJT_SN);
+
+                const parentPjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: e.PARENT_PJT_SN}).rs;
+                $("#parentPjtNm").val(parentPjtInfo.PJT_NM);
+
+            }
             $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
             //$("#sbjChar").data("kendoDropDownList").value(e.SBJ_CHAR);
             $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
@@ -418,6 +437,11 @@ var regRnd = {
                 parameters.security = this.value;
             }
         });
+
+        /** 다년이면서 2차년도 이상 프로젝트일때(프로젝트 선택했을때) */
+        if($("#mYearCk").val() == "Y"){
+            parameters.parentPjtSn = $("#parentPjtSn").val()
+        }
 
         if(parameters.yearClass == ""){
             alert("사업구분을 선택해주세요.");
@@ -528,6 +552,11 @@ var regRnd = {
             }
         });
 
+        /** 다년이면서 2차년도 이상 프로젝트일때(프로젝트 선택했을때) */
+        if($("#mYearCk").val() == "Y"){
+            parameters.parentPjtSn = $("#parentPjtSn").val()
+        }
+
         if(parameters.yearClass == ""){
             alert("사업구분을 선택해주세요.");
             return;
@@ -624,5 +653,12 @@ var regRnd = {
             regRnd.fn_setTab(setParameters);
             $("#pjtSecurityModal").data("kendoWindow").close();
         }
+    },
+
+    fn_projectPop: function(type){
+        var url = "/project/pop/projectView.do?openType=" + type+"&busnClass=R";
+        var name = "_blank";
+        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }

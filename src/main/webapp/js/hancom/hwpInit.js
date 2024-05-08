@@ -144,12 +144,7 @@ var hwpInit = {
         console.log(result);
 
         /** 1. 지출결의서 데이터 */
-        const pjtNm = rs.PJT_NM;
-        let pjtEx = rs.PJT_NM;
-        if(pjtNm.toString().length > 11){
-            pjtEx = pjtNm.toString().substring(0, 11);
-        }
-        hwpDocCtrl.putFieldText('PJT_NM', pjtEx);
+        hwpDocCtrl.putFieldText('PJT_NM', rs.PJT_NM);
         hwpDocCtrl.putFieldText('EMP_NAME', rs.REG_EMP_NAME);
 
         const userInfo = getUser($("#empSeq").val());

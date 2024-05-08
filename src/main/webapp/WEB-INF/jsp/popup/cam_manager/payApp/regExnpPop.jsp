@@ -250,7 +250,7 @@
                             <input id="appTeam0" class="appTeam" style="width: 100%">
                         </td>
                         <td>
-                            <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, 0)"></i>
+                            <i class="k-i-plus k-icon" style="cursor: pointer"  onclick="regExnpDet.fn_popRegDet(1, 0, 'Y')"></i>
                             <input type="text" style="width: 80%;" id="crmNm0" class="crmNm">
                             <input type="hidden" id="trCd0" class="trCd">
                         </td>

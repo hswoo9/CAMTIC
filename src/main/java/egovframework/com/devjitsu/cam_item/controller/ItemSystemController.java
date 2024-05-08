@@ -286,5 +286,60 @@ public class ItemSystemController {
         return "jsonView";
     }
 
+    /** 품목카테고리관리 */
+    @RequestMapping("/item/itemCategoryMng.do")
+    public String itemCategoryMng(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("loginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        return "cam_item/system/itemCategoryMa/itemCategoryMng";
+    }
+
+    /** 품목카테고리 리스트 */
+    @RequestMapping("/item/getItemCategoryList")
+    public String getItemCategoryList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        model.addAttribute("list", itemSystemService.getItemCategoryList(params));
+        return "jsonView";
+    }
+
+    /** 품목카테고리 조회(단일) */
+    @RequestMapping("/item/getItemCategoryOne")
+    public String getItemCategoryOne(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemSystemService.getItemCategoryOne(params));
+        return "jsonView";
+    }
+
+    /** 카테고리등록팝업 */
+    @RequestMapping("/item/pop/itemCategoryReg.do")
+    public String itemCategoryReg(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "popup/cam_item/itemCategoryReg";
+    }
+
+    /** 코드중복확인 */
+    @RequestMapping("/item/getCgDuplicateChk")
+    public String getCgDuplicateChk(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("rs", itemSystemService.getCgDuplicateChk(params));
+        return "jsonView";
+    }
+
+    /** 코드등록 */
+    @RequestMapping("/item/setItemCategoryReg")
+    public String setItemCategoryReg(@RequestParam Map<String, Object> params){
+        itemSystemService.setItemCategoryReg(params);
+        return "jsonView";
+    }
+
+    /** 코드 삭제 */
+    @RequestMapping("/item/setItemCategoryDel")
+    public String setItemCategoryDel(@RequestParam Map<String, Object> params) {
+        itemSystemService.setItemCategoryDel(params);
+        return "jsonView";
+    }
 
 }

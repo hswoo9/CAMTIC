@@ -78,6 +78,8 @@
 
 <input type="hidden" id="mainPjtSn" value="${params.pjtSn}" />
 
+<input type="hidden" id="mYearCk" value="N">
+
 <div style="padding:0;">
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
@@ -119,6 +121,19 @@
                     </th>
                     <td>
                         <input type="text" id="sbjClass" style="width: 20%;" value="">
+                    </td>
+                </tr>
+                <tr id="mYearTr" style="display: none">
+                    <th scope="row" class="text-center th-color">
+                        <span class="red-star">*</span>프로젝트 선택
+                    </th>
+                    <td colspan="3">
+                        <span>
+                            <input type="text" id="parentPjtNm" disabled value="${pjtData.AFT_PJT_NM}"  style="width: 40%;">
+                            <input type="hidden" id="parentPjtSn" value="${pjtData.AFT_PJT_SN}" />
+                            <input type="hidden" id="parentPjtCd" name="pjtCd" value="${pjtData.AFT_PJT_CD}">
+                            <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="regRnd.fn_projectPop('regRnd')">검색</button>
+                        </span>
                     </td>
                 </tr>
                 <tr style="display: none">
@@ -405,6 +420,53 @@
 
     function userSearch(p) {
         window.open("/common/deptListPop.do?params=" + p , "조직도", "width=750, height=650");
+    }
+
+    function selectProject(sn, nm, cd, baseYear){
+        $("#parentPjtSn").val(sn);
+        $("#parentPjtNm").val(nm);
+        $("#parentPjtCd").val(cd);
+        $("#mYearCk").val("Y");
+
+        const parentPjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: sn}).rs;
+        const e = parentPjtInfo;
+
+        $("#bsTitle").val(e.BS_TITLE);
+        $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
+        $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
+        $("#supDep").data("kendoDropDownList").trigger("change");
+        $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
+        $("#sbjStrDe").data("kendoDatePicker").value(new Date(e.STR_DT));
+        $("#sbjEndDe").data("kendoDatePicker").value(new Date(e.END_DT));
+        $("#rndCrmNm").val(e.CRM_NM);
+        $("#rndCrmSn").val(e.CRM_SN);
+        $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
+        $("#allBusnCost").val(comma(e.ALL_BUSN_COST));
+
+        if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
+            $("#rndConCrmNm").val(e.CRM_CON_SN);
+            $("#rndConCrmSn").val(e.CRM_CON_NM);
+        }
+
+        $("#deptName").val(e.DEPT_NAME);
+        $("#empName").val(e.EMP_NAME);
+        $("#empSeq").val(e.EMP_SEQ);
+        $("#deptSeq").val(e.DEPT_SEQ);
+
+        const pmUserInfo = getUser(e.PM_EMP_SEQ);
+        $("#mngDeptName").val(pmUserInfo.DEPT_NAME);
+        $("#mngDeptSeq").val(pmUserInfo.DEPT_SEQ);
+        $("#mngEmpName").val(e.PM);
+        $("#mngEmpSeq").val(e.PM_EMP_SEQ);
+
+        $("#pjtNm").val(e.PJT_NM);
+
+        if(e.SBJ_STAT_YN != undefined){
+            if(e.SBJ_STAT_YN == "Y"){
+                $("#rndStatYn").prop("checked", true);
+            }
+        }
+        $("input[name='securityYn'][value='" + e.SECURITY + "']").prop("checked", true);
     }
 
     regRnd.fn_defaultScript();
