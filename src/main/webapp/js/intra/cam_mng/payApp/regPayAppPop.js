@@ -2411,6 +2411,7 @@ var regPay = {
 
         var befAdvances = "";
         var budgetNmFlag = true;
+        var trCdFlag = true;
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).attr("id").replace(/[^0-9]/g, '');
 
@@ -2463,6 +2464,11 @@ var regPay = {
                 data.fileNo = $("#fileNo" + index).val();
             }
 
+            /** 사업소득자 또는 기타소득자일경우 trCd 필수값 */
+            if((data.evidType == "5" || data.evidType == "9") && (data.trCd == undefined || data.trCd == null || data.trCd == "" || data.trCd == "undefined")){
+                trCdFlag = false;
+            }
+
 
             // befAdvances = $("#advances" + index).is(':checked') ? "Y" : "N";
 
@@ -2487,6 +2493,11 @@ var regPay = {
         if(!budgetNmFlag){
             alert("예산비목을 선택해주세요.");
             return;
+        }
+
+        if(!trCdFlag){
+            alert("증빙유형이 사업소득자 및 기타소득자 일 경우 선택팝업창에서 정상적으로 선택을 해야 진행가능합니다.");
+            return ;
         }
 
         parameters.itemArr = JSON.stringify(itemArr);

@@ -288,7 +288,15 @@ var bustList = {
                             if(e.RS_STATUS == 100 && e.EXP_STAT == 100 && e.PAY_APP_SN == null){
                                 return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.HR_BIZ_REQ_RESULT_ID+')">작성중</button>'
                             }else if (e.PAY_APP_SN != null){
-                                return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">결재완료</button>'
+                                if(e.DOC_STATUS == 100){
+                                    return '<button type="button" class="k-button k-button-solid-info" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">결재완료</button>'
+                                }else if(e.DOC_STATUS == 10 || e.DOC_STATUS == 20 || e.DOC_STATUS == 50){
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">결재중</button>'
+                                }else if(e.DOC_STATUS == 30){
+                                    return '<button type="button" class="k-button k-button-solid-error" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">반려</button>'
+                                }else {
+                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustList.fn_reqRegPopup('+e.PAY_APP_SN+', 2)">작성중</button>'
+                                }
                             }else{
                                 return '-';
                             }
