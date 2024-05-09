@@ -559,27 +559,11 @@
         SELECT
             *
         FROM
-            (
-                SELECT
-                    file_no,
-                    file_cd,
-                    file_uuid,
-                    file_org_name,
-                    CASE
-                        WHEN file_path LIKE '/home/upload/%' THEN REPLACE(file_path, '/home/upload/', '/upload/')
-                        ELSE file_path
-                    END AS file_path,
-                    file_size,
-                    file_ext,
-                    content_id,
-                    ROW_NUMBER() OVER (PARTITION BY FILE_ORG_NAME, FILE_CD ORDER BY FILE_NO DESC) AS row_num
-                FROM
-                    CAM_COMMON.DJ_FILE_INFO
-                WHERE
-                        FILE_CD in ('bustripReq', 'bustripResReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc', 'corpCarToll')
-                  AND CONTENT_ID in (#{hrBizReqId}, #{hrBizReqResultId})
-            ) AS sub
-        WHERE row_num = 1;
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD in ('bustripReq', 'bustripResReq', 'exnpTraf', 'exnpRoom', 'exnpToll', 'exnpEat', 'exnpParking', 'exnpEtc', 'corpCarToll')
+          AND
+            CONTENT_ID in (#{hrBizReqId}, #{hrBizReqResultId})
     </select>
 
     <update id="updBustripReq" parameterType="map">
