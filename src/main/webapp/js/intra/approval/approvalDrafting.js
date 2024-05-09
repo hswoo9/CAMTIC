@@ -517,19 +517,20 @@ var draft = {
                         fileNo : docFile[i].FILE_NO == null ? docFile[i].file_no : docFile[i].FILE_NO,
                         name: docFile[i].filename == null ? docFile[i].file_org_name + "." + docFile[i].file_ext : docFile[i].filename,
                         size: docFile[i].FILE_SIZE == null ? docFile[i].file_size : docFile[i].FILE_SIZE,
-                        extension: docFile[i].FILE_EXT == null ? "." + docFile[i].file_ext : "." + docFile[i].FILE_EXT
+                        extension: docFile[i].FILE_EXT == null ? "." + docFile[i].file_ext : "." + docFile[i].FILE_EXT,
+                        fileUuid: docFile[i].FILE_UUID == null ? docFile[i].file_uuid : docFile[i].FILE_UUID
                     }
                     console.log("docFile data", data);
                     draft.global.fileUploaded.push(data);
                 }
             }
         }
-        draft.global.fileUploaded= ([...new Map(draft.global.fileUploaded.map((obj) => [obj["name"], obj])).values()]);
+        draft.global.fileUploaded= ([...new Map(draft.global.fileUploaded.map((obj) => [obj["fileUuid"], obj])).values()]);
     },
 
     setKendoUpload : function(){
 
-        const fileArr = ([...new Map(draft.global.fileUploaded.map((obj) => [obj["name"], obj])).values()]);
+        const fileArr = ([...new Map(draft.global.fileUploaded.map((obj) => [obj["fileUuid"], obj])).values()]);
 
         console.log("fileArr", fileArr)
         let upload = $("#files").data("kendoUpload");
