@@ -1070,7 +1070,7 @@
         </choose>
 
         GROUP BY E.EXNP_SN
-        ORDER BY E.EXNP_SN DESC
+        ORDER BY E.DT3 DESC
     </select>
 
     <select id="getExnpReListForExcelDown" parameterType="map" resultType="map">
@@ -1135,7 +1135,7 @@
             AND E.PJT_CD = #{pjtCd}
         </if>
         <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
-            AND E.R_DT
+            AND DT3
             BETWEEN #{startDt} AND #{endDt}
         </if>
         <if test='searchStatus != null and !"".equals(searchStatus)'>
@@ -1165,7 +1165,7 @@
             </otherwise>
         </choose>
 
-        ORDER BY E.EXNP_SN DESC
+        ORDER BY E.DT3 DESC
     </select>
 
     <select id="getIncpList" parameterType="map" resultType="map">
