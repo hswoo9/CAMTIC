@@ -166,7 +166,7 @@ var regExnpRe = {
         $("#exnpDe").text(rs.DT3);
 
 
-        $("#inDt").val(rs.EXNP_DE);
+        $("#inDt").val(rs.DT3);
 
         $("#pjtNm").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
