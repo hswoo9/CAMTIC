@@ -157,11 +157,15 @@ var regExnpRe = {
         $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD);
         $("#payAppType").data("kendoRadioGroup").value(rs.PAY_APP_TYPE);
 
-        if(ls[0].EVID_TYPE == "1" || ls[0].EVID_TYPE == "2" || ls[0].EVID_TYPE == "3"){
-            $("#exnpDe").text(rs.DT1);
-        } else {
-            $("#exnpDe").text(rs.DT3);
-        }
+        // if(ls[0].EVID_TYPE == "1" || ls[0].EVID_TYPE == "2" || ls[0].EVID_TYPE == "3"){
+        //     $("#exnpDe").text(rs.DT1);
+        // } else {
+        //     $("#exnpDe").text(rs.DT3);
+        // }
+
+        $("#exnpDe").text(rs.DT3);
+
+
         $("#inDt").val(rs.EXNP_DE);
 
         $("#pjtNm").val(rs.PJT_NM);
