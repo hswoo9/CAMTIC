@@ -361,8 +361,7 @@ var bustInfo = {
                         } else {
                             return '-';
                         }
-                    },
-                    footerTemplate: "출장완료 여비합계"
+                    }
                 }, {
                     title: "입금상태",
                     width: 60,
@@ -381,7 +380,8 @@ var bustInfo = {
                         } else {
                             return '-';
                         }
-                    }
+                    },
+                    footerTemplate: "출장완료 여비합계"
                 }, {
                     title: "지출일자",
                     width: 60,
