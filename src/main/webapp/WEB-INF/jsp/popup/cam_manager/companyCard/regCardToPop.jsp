@@ -10,6 +10,8 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/companyCard/regCardToPop.js?v=${today}'/>"></script>
 
+<script type="text/javascript" src="/js/intra/inside/bustrip/bustrip.js?v=${today}"></script>
+
 
 <style>
     .k-footer-template td:nth-child(4) {
