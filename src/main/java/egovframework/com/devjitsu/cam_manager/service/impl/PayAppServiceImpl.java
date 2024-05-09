@@ -861,7 +861,7 @@ public class PayAppServiceImpl implements PayAppService {
                         data.put("IN_DT", data.get("EXEC_DT"));
                     } else {
                         data.put("IN_DT_TMP", data.get("ACISU_DT"));
-                        data.put("IN_DT", data.get("EXEC_DT"));
+                        data.put("IN_DT", data.get("IN_DT"));
                     }
                 }
 
