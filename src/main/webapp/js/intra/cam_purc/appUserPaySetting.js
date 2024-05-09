@@ -552,6 +552,7 @@ const appUserPaySetting = {
                 pageSizes : [ 10, 20, 30, 50, 100 ],
                 buttonCount : 5
             },
+            resizable: true,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -563,7 +564,7 @@ const appUserPaySetting = {
                 }, {
                     field: "",
                     title: "증빙유형",
-                    width: 80,
+                    width: 150,
                     template: function (e){
                         if(e.EVID_TYPE == 1){
                             return "세금계산서";
@@ -575,21 +576,20 @@ const appUserPaySetting = {
                     }
                 }, {
                     field: "PJT_NM",
-                    title: "프로젝트명",
-                    width: 70
+                    title: "프로젝트명"
                 }, {
                     field: "PJT_CD",
                     title: "프로젝트코드",
-                    width: 70
+                    width: 150
                 }, {
                     title: "요청액",
-                    width: 70,
+                    width: 100,
                     template : function(e){
                         return '<div style="text-align: right;">'+comma(e.REQ_AMT)+'</div>';
                     }
                 }, {
                     title : "기타",
-                    width: 60,
+                    width: 100,
                     template: function(e){
                         if(e.PAY_APP_SN != null && e.PAY_APP_SN != undefined && e.PAY_APP_SN != ''){
                             return '';

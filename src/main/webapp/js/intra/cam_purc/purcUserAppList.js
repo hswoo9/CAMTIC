@@ -34,6 +34,7 @@ var purcUserAppList = {
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
+            resizable : true,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],

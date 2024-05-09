@@ -13,7 +13,7 @@
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">지출요청</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="pjtTitle">지출요청 <span id="etcStatus">(검수전)</span></span>
             </h3>
 
             <div id="payAppBtnDiv" class="btn-st popButton" style="font-size: 13px;">
