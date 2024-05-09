@@ -284,6 +284,7 @@ var regExnpRe = {
                 customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
+                $("#trDe" + regExnpDet.global.itemIndex).data("kendoDatePicker").value(item.TR_DE);
 
 
 
@@ -465,7 +466,7 @@ var regExnpRe = {
                 customKendo.fn_datePicker("trDe" + regExnpDet.global.itemIndex, "month", "yyyy-MM-dd", new Date());
 
                 $("#eviType" + regExnpDet.global.itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
-
+                $("#trDe" + regExnpDet.global.itemIndex).data("kendoDatePicker").value(item.TR_DE);
 
 
                 regExnpDet.global.itemIndex++;
