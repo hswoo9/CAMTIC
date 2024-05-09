@@ -235,6 +235,12 @@ public class SubHolidayController {
         return "jsonView";
     }
 
+    @RequestMapping("/subHoliday/getVacUseStatDetailList")
+    public String getVacUseStatDetailList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", subHolidayService.getVacUseStatDetailList(params));
+        return "jsonView";
+    }
+
     /**
      * 마이페이지 > 복무 > 근무상황 > 연차
      * 휴가사용내역 조회 only one

@@ -227,17 +227,23 @@ var subHolidayStat = {
                             title: "전년사용",
                             width: 45
                         }, {
-                            field: "ANNUAL",
                             title: "금년사용",
-                            width: 45
+                            width: 45,
+                            template: function(row){
+                                return '<span class="highlight" onclick="subHolidayStat.searchGrid(1, \''+row.EMP_NAME_KR+'\');">'+row.ANNUAL+'</span>';
+                            }
                         }, {
-                            field: "MORNING",
                             title: "오전반차",
-                            width: 45
+                            width: 45,
+                            template: function(row){
+                                return '<span class="highlight" onclick="subHolidayStat.searchGrid(3, \''+row.EMP_NAME_KR+'\');">'+row.MORNING+'</span>';
+                            }
                         }, {
-                            field: "AFTERNOON",
                             title: "오후반차",
-                            width: 45
+                            width: 45,
+                            template: function(row){
+                                return '<span class="highlight" onclick="subHolidayStat.searchGrid(4, \''+row.EMP_NAME_KR+'\');">'+row.AFTERNOON+'</span>';
+                            }
                         }, {
                             field: "REMAIN_VAC",
                             title: "잔여연차",
@@ -245,21 +251,29 @@ var subHolidayStat = {
                         }
                     ]
                 }, {
-                    field: "SICK",
                     title: "병가",
-                    width: 35
+                    width: 35,
+                    template: function(row){
+                        return '<span class="highlight" onclick="subHolidayStat.searchGrid(5, \''+row.EMP_NAME_KR+'\');">'+row.SICK+'</span>';
+                    }
                 }, {
-                    field: "PUBLICHOLI",
                     title: "공가",
-                    width: 35
+                    width: 35,
+                    template: function(row){
+                        return '<span class="highlight" onclick="subHolidayStat.searchGrid(6, \''+row.EMP_NAME_KR+'\');">'+row.PUBLICHOLI+'</span>';
+                    }
                 }, {
-                    field: "CONDOLENCES",
                     title: "경조휴가",
-                    width: 45
+                    width: 45,
+                    template: function(row){
+                        return '<span class="highlight" onclick="subHolidayStat.searchGrid(7, \''+row.EMP_NAME_KR+'\');">'+row.CONDOLENCES+'</span>';
+                    }
                 }, {
-                    field: "MATERNITY",
                     title: "출산휴가",
-                    width: 45
+                    width: 45,
+                    template: function(row){
+                        return '<span class="highlight" onclick="subHolidayStat.searchGrid(8, \''+row.EMP_NAME_KR+'\');">'+row.MATERNITY+'</span>';
+                    }
                 }, {
                     title: "대체휴가",
                     columns: [
@@ -268,15 +282,19 @@ var subHolidayStat = {
                             title: "발생일수",
                             width: 45
                         }, {
-                            field: "ALTERNATIVE",
                             title: "사용일수",
-                            width: 45
+                            width: 45,
+                            template: function(row){
+                                return '<span class="highlight" onclick="subHolidayStat.searchGrid(9, \''+row.EMP_NAME_KR+'\');">'+row.ALTERNATIVE+'</span>';
+                            }
                         }
                     ]
                 }, {
-                    field: "LONGAWARD",
                     title: "근속포상휴가",
-                    width: 65
+                    width: 65,
+                    template: function(row){
+                        return '<span class="highlight" onclick="subHolidayStat.searchGrid(10, \''+row.EMP_NAME_KR+'\');">'+row.LONGAWARD+'</span>';
+                    }
                 }
             ]
         }).data("kendoGrid");
@@ -287,11 +305,11 @@ var subHolidayStat = {
         grid.element.off('dbclick');
         subHolidayStat.global.selectEmpData = [];
 
-        grid.tbody.find("tr").click(function (e) {
+        /*grid.tbody.find("tr").click(function (e) {
             var dataItem = grid.dataItem($(this));
             subHolidayStat.global.selectEmpData = dataItem;
             $("#userVacSetting").data("kendoWindow").open();
-        });
+        });*/
     },
 
     gridReload : function(){
@@ -324,5 +342,175 @@ var subHolidayStat = {
         subHolidayStat.fn_makerGrid('/subHoliday/getUserVacListStat.do',subHolidayStat.global.searchAjaxData);
 
         // $("#mainGrid").data("kendoGrid").dataSource.read();
-    }
+    },
+
+    searchGrid : function(holidayCode, empName){
+        const params = new Object;
+        params.holidayYear = $('#holidayYear').val();
+        params.holidayCode = holidayCode;
+        params.empName = empName;
+
+        subHolidayStat.subGrid("/subHoliday/getVacUseStatDetailList", params);
+    },
+
+    subGrid : function(url, params){
+        $("#detailGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2(url, params),
+            height: 538,
+            sortable: true,
+            scrollable: true,
+            noRecords: {
+                template: "<div style='margin: auto;'>데이터가 존재하지 않습니다.</div>"
+            },
+            pageable: {
+                refresh: true,
+                pageSize : 10,
+                pageSizes: [10, 20, "ALL"],
+                buttonCount: 5,
+                messages: {
+                    display: "{0} - {1} of {2}",
+                    itemsPerPage: "",
+                    empty: "데이터가 없습니다.",
+                }
+            },
+            dataBound: function(e){
+                var grid = this;
+                grid.tbody.find("tr").each(function(){
+                    var delYn = $(this).find("input[name='delYn']").val();
+
+                    if(delYn == "Y"){
+                        $(this).css('text-decoration', 'line-through');
+                        $(this).css('color', 'red');
+                    }
+                });
+
+            },
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    template : function(e){
+                        if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
+                            if(e.DEL_YN == 'N'){
+                                return '<input type="checkbox" id="check" name="check" value="' + e.SUBHOLIDAY_USE_ID + '"/>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            return '';
+                        }
+                    },
+                    width: 50
+                }, {
+                    title: "순번",
+                    template: "#= --record #",
+                    width: 50
+                },{
+                    field: "EMP_NAME_KR",
+                    title: "이름",
+                    width: 150,
+                },{
+                    field: "SUBHOLIDAY_DT_CODE_NM",
+                    title: "휴가구분",
+                    width: 150,
+                }, {
+                    title: "기간",
+                    columns : [
+                        {
+                            field: "SUBHOLIDAY_ST_DT",
+                            title: "부터",
+                            width: 190,
+                            template: function(dataItem) {
+                                if (dataItem.SUBHOLIDAY_DT_CODE_NM === "휴일근로") {
+                                    return dataItem.SUBHOLIDAY_WORK_DAY;
+                                }
+                                else {
+                                    return dataItem.SUBHOLIDAY_ST_DT;
+                                }
+                            }
+                        }, {
+                            field: "SUBHOLIDAY_EN_DT",
+                            title: "까지",
+                            width: 190,
+                            template: function(dataItem) {
+                                if (dataItem.SUBHOLIDAY_DT_CODE_NM === "휴일근로") {
+                                    return dataItem.SUBHOLIDAY_WORK_DAY;
+                                }
+                                else {
+                                    return dataItem.SUBHOLIDAY_EN_DT;
+                                }
+                            }
+                        }, {
+                            field: "SUBHOLIDAY_USE_DAY",
+                            title: "일수",
+                            width: 100,
+                        }
+                    ]
+                }, {
+                    field: "RMK",
+                    title: "내용",
+                    align:"center",
+                    template : function(e){
+                        if(e.BF_YN != "Y"){
+                            return '' +
+                                '<div style="text-align: center">' +
+                                '   <a style="cursor: pointer;" onclick="subHolidayStat.fn_regPop(\'' + e.APPROVE_STAT_CODE + '\', \'' + e.SUBHOLIDAY_USE_ID + '\', \'' + e.APPR_STAT + '\', \'' + e.DOC_ID + '\', \'' + e.APPRO_KEY + '\', \'' + e.DOC_MENU_CD + '\');"><b>' + e.RMK + '</b></a>' +
+                                '   <input type="hidden" name="delYn" value="' + e.DEL_YN + '">' +
+                                '</div>';
+                        }else{
+                            return e.RMK;
+                        }
+                    }
+                }, {
+                    field: "REG_DT",
+                    title: "신청일자",
+                    align:"center",
+                    width: 100,
+                }, {
+                    field : "APPROVE_STAT_CODE",
+                    title : "결재상태",
+                    template : function(e){
+                        if(e.BF_YN != "Y"){
+                            if(e.APPROVE_STAT_CODE == '0' || e.APPROVE_STAT_CODE == '40' || e.APPROVE_STAT_CODE == '60'){
+                                return '작성중';
+                            } else if(e.APPROVE_STAT_CODE == '10' || e.APPROVE_STAT_CODE == '20' || e.APPROVE_STAT_CODE == '50') {
+                                return '결재중';
+                            } else if(e.APPROVE_STAT_CODE == '30') {
+                                return '반려';
+                            } else if(e.APPROVE_STAT_CODE == '100' || e.APPROVE_STAT_CODE == '101') {
+                                return '결재완료';
+                            } else {
+                                return '-';
+                            }
+                        }else{
+                            return '결재완료(이관)';
+                        }
+                    },
+                    width: 100,
+                }
+            ],
+            dataBinding: function(){
+                record = fn_getRowNum(this, 2);
+            },
+        }).data("kendoGrid");
+
+
+        $("#checkAll").click(function(){
+            if($(this).is(":checked")){
+                $("input[name='check']").prop("checked", true);
+            }else{
+                $("input[name='check']").prop("checked", false);
+            }
+        });
+    },
+
+    fn_regPop: function(APPROVE_STAT_CODE, SUBHOLIDAY_USE_ID, APPR_STAT, DOC_ID, APPRO_KEY, DOC_MENU_CD){
+        if(APPROVE_STAT_CODE == '0' || APPROVE_STAT_CODE == '40' || APPROVE_STAT_CODE == '60'){
+            var url = "/subHoliday/pop/subHolidayReqPop.do?subholidayUseId=" + SUBHOLIDAY_USE_ID + "&apprStat=" + APPR_STAT + "&mode=mng";
+            var name = "subHolidayReqPop";
+            var option = "width=1030, height=850, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }else{
+            approveDocView(DOC_ID, APPRO_KEY, DOC_MENU_CD);
+        }
+    },
 }

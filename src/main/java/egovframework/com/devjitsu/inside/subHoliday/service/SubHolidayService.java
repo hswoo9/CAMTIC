@@ -41,6 +41,7 @@ public interface SubHolidayService {
      * @return
      */
     List<Map<String, Object>> getVacUseHistoryListAdmin(Map<String, Object> params);
+    List<Map<String, Object>> getVacUseStatDetailList(Map<String, Object> params);
 
     /**
      * 사용자 휴가저장 단일 데이터

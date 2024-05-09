@@ -4,6 +4,15 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
 
+<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayStat.js?v=${today}"/></script>
+
+<style>
+    .highlight:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>
+
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
 <input type="hidden" id="positionCode" name="positionCode" value="${loginVO.positionCode}">
@@ -11,9 +20,7 @@
 <input type="hidden" id="dutyCode" name="dutyCode" value="${loginVO.dutyCode}">
 <input type="hidden" id="apprStat" value="N">
 <input type="hidden" id="vacUseHistId" value="">
-
-<script type="text/javascript" src="/js/intra/inside/subHoliday/subHolidayStat.js?v=${today}"/></script>
-
+<input type="hidden" id="apprMngStat" value="M">
 
 <div class="col-md-12 col-lg-12 dash-left">
     <div class="panel">
@@ -85,6 +92,8 @@
                     </tr>
                 </table>
                 <div id="mainGrid" style="margin:20px 0;"></div>
+
+                <div id="detailGrid" style="margin:20px 0;"></div>
             </div>
         </div>
     </div>
