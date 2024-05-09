@@ -658,236 +658,241 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     private void updateG20ExnpFinalAppr(Map<String, Object> params, String type){
-        List<Map<String, Object>> list = new ArrayList<>();
+        try{
+            List<Map<String, Object>> list = new ArrayList<>();
 
-        Map<String, Object> pkMap = payAppRepository.getExnpData(params);
+            Map<String, Object> pkMap = payAppRepository.getExnpData(params);
 
-        params.put("empSeq", pkMap.get("EMP_SEQ"));
+            params.put("empSeq", pkMap.get("EMP_SEQ"));
 
-        /** 1.지출결의서 일때 세금계산서, 계산서, 신용카드는 반제결의 승인시 g20 프로시저 호출 해야 함 */
-        if("1".equals(pkMap.get("PAY_APP_TYPE"))){
-            if(type.equals("resolution")){
-                params.put("evidTypeArr", "1,2,3,4,5,6,9");
+            /** 1.지출결의서 일때 세금계산서, 계산서, 신용카드는 반제결의 승인시 g20 프로시저 호출 해야 함 */
+            if("1".equals(pkMap.get("PAY_APP_TYPE"))){
+                if(type.equals("resolution")){
+                    params.put("evidTypeArr", "1,2,3,4,5,6,9");
+                    list = payAppRepository.getExnpG20List(params);
+                } else {
+                    params.put("evidTypeArr", "1,2,3");
+                    list = payAppRepository.getExnpG20List(params);
+                }
+            } else if("2".equals(pkMap.get("PAY_APP_TYPE"))){
                 list = payAppRepository.getExnpG20List(params);
-            } else {
-                params.put("evidTypeArr", "1,2,3");
+            } else if("3".equals(pkMap.get("PAY_APP_TYPE"))){
+                list = payAppRepository.getExnpG20List(params);
+            } else if("4".equals(pkMap.get("PAY_APP_TYPE"))){
                 list = payAppRepository.getExnpG20List(params);
             }
-        } else if("2".equals(pkMap.get("PAY_APP_TYPE"))){
-            list = payAppRepository.getExnpG20List(params);
-        } else if("3".equals(pkMap.get("PAY_APP_TYPE"))){
-            list = payAppRepository.getExnpG20List(params);
-        } else if("4".equals(pkMap.get("PAY_APP_TYPE"))){
-            list = payAppRepository.getExnpG20List(params);
-        }
 
 
-        if(list.size() != 0){
-            Map<String, Object> loginMap = payAppRepository.getEmpInfo(params);
-            Map<String, Object> execMap = new HashMap<>();
-            int i = 0;
+            if(list.size() != 0){
+                Map<String, Object> loginMap = payAppRepository.getEmpInfo(params);
+                Map<String, Object> execMap = new HashMap<>();
+                int i = 0;
 
-            int docNumber = 0;          // 전체 지출결의서 CNT
-            docNumber = payAppRepository.getCountDoc(list.get(i));
-            int userSq = docNumber + 1;
+                int docNumber = 0;          // 전체 지출결의서 CNT
+                docNumber = payAppRepository.getCountDoc(list.get(i));
+                int userSq = docNumber + 1;
 
-            for(Map<String, Object> data : list) {
+                for(Map<String, Object> data : list) {
 
-                if("3".equals(pkMap.get("PAY_APP_TYPE"))){
-                    data.put("ETCDUMMY1", "76");
-                }
+                    if("3".equals(pkMap.get("PAY_APP_TYPE"))){
+                        data.put("ETCDUMMY1", "76");
+                    }
 
-                if(data.get("REG_DT") == null){
-                    data.put("REG_DT", data.get("IN_DT"));
-                }
+                    if(data.get("REG_DT") == null){
+                        data.put("REG_DT", data.get("IN_DT"));
+                    }
 //                int docNumber = 0;          // 전체 지출결의서 CNT
 //                docNumber = payAppRepository.getCountDoc(list.get(i));
 //                int userSq = docNumber + 1;
 
-                int exnpDocNumber = 0;      // 같은 지출결의서 CNT
-                exnpDocNumber = payAppRepository.getExnpCountDoc(data);
-                data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
-
-                while (true){
-                    int duplCheck = payAppRepository.getExnpCheck(data);
-                    if (duplCheck == 0) {
-                        break;
-                    }
-
-                    exnpDocNumber++;
+                    int exnpDocNumber = 0;      // 같은 지출결의서 CNT
+                    exnpDocNumber = payAppRepository.getExnpCountDoc(data);
                     data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
-                }
+
+                    while (true){
+                        int duplCheck = payAppRepository.getExnpCheck(data);
+                        if (duplCheck == 0) {
+                            break;
+                        }
+
+                        exnpDocNumber++;
+                        data.put("PMR_NO", data.get("IN_DT") + "-" + String.format("%02d", userSq) + "-" + String.format("%02d", exnpDocNumber + 1));
+                    }
 
 //                userSq++;
 
-                data.put("USER_SQ", userSq);
+                    data.put("USER_SQ", userSq);
 
-                Map<String, Object> tradeMap = g20Repository.getTradeInfo(data);
-                Map<String, Object> hearnerMap = g20Repository.getHearnerInfo(data);
+                    Map<String, Object> tradeMap = g20Repository.getTradeInfo(data);
+                    Map<String, Object> hearnerMap = g20Repository.getHearnerInfo(data);
 
-                if(tradeMap != null) {
-                    data.put("REG_NB", tradeMap.get("REG_NB"));
-                    data.put("PPL_NB", tradeMap.get("PPL_NB"));
-                    data.put("CEO_NM", tradeMap.get("CEO_NM"));
-                    data.put("BUSINESS", tradeMap.get("BUSINESS"));
-                    data.put("JONGMOK", tradeMap.get("JONGMOK"));
-                    data.put("ZIP", tradeMap.get("ZIP"));
-                    data.put("DIV_ADDR1", tradeMap.get("DIV_ADDR1"));
-                    data.put("ADDR2", tradeMap.get("ADDR2"));
-                }
+                    if(tradeMap != null) {
+                        data.put("REG_NB", tradeMap.get("REG_NB"));
+                        data.put("PPL_NB", tradeMap.get("PPL_NB"));
+                        data.put("CEO_NM", tradeMap.get("CEO_NM"));
+                        data.put("BUSINESS", tradeMap.get("BUSINESS"));
+                        data.put("JONGMOK", tradeMap.get("JONGMOK"));
+                        data.put("ZIP", tradeMap.get("ZIP"));
+                        data.put("DIV_ADDR1", tradeMap.get("DIV_ADDR1"));
+                        data.put("ADDR2", tradeMap.get("ADDR2"));
+                    }
 
-                if(hearnerMap != null) {
-                    data.put("ETCDATA_CD", hearnerMap.get("DATA_CD"));
-                    data.put("ETCPER_CD", hearnerMap.get("PER_CD"));
-                    data.put("ETCREG_NO", hearnerMap.get("REG_NO"));
-                    data.put("ETCPER_NM", hearnerMap.get("PER_NM"));
-                    data.put("ETCZIP_CD", hearnerMap.get("ZIP_CD"));
-                    data.put("ETCADDR", hearnerMap.get("ADDR"));
-                    data.put("ETCPHONE", hearnerMap.get("PHONE"));
-                    data.put("ETCBANK_CD", "");
-                    data.put("ETCACCT_NO", hearnerMap.get("ACCT_NO"));
-                    data.put("ETCACCT_NM", hearnerMap.get("ACCT_NM"));
-                    data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
-                    data.put("ETCDUMMY1", hearnerMap.get("DUMMY1"));
+                    if(hearnerMap != null) {
+                        data.put("ETCDATA_CD", hearnerMap.get("DATA_CD"));
+                        data.put("ETCPER_CD", hearnerMap.get("PER_CD"));
+                        data.put("ETCREG_NO", hearnerMap.get("REG_NO"));
+                        data.put("ETCPER_NM", hearnerMap.get("PER_NM"));
+                        data.put("ETCZIP_CD", hearnerMap.get("ZIP_CD"));
+                        data.put("ETCADDR", hearnerMap.get("ADDR"));
+                        data.put("ETCPHONE", hearnerMap.get("PHONE"));
+                        data.put("ETCBANK_CD", "");
+                        data.put("ETCACCT_NO", hearnerMap.get("ACCT_NO"));
+                        data.put("ETCACCT_NM", hearnerMap.get("ACCT_NM"));
+                        data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
+                        data.put("ETCDUMMY1", hearnerMap.get("DUMMY1"));
 
-                    data.put("ETCDIV_CD", data.get("DIV_CD"));
+                        data.put("ETCDIV_CD", data.get("DIV_CD"));
 
-                }
+                    }
 
-                data.put("NDEP_AM", 0);
-                data.put("INAD_AM", 0);
-                data.put("INTX_AM", 0);
-                data.put("RSTX_AM", 0);
+                    data.put("NDEP_AM", 0);
+                    data.put("INAD_AM", 0);
+                    data.put("INTX_AM", 0);
+                    data.put("RSTX_AM", 0);
 
 //                Map<String, Object> taxMap = payAppRepository.getTaxMap(data);
 
-                if(data.get("EVID_TYPE").toString().equals("1")){
-                    data.put("SET_FG", "3");
-                    data.put("VAT_FG", "3");
-                    data.put("TR_FG", "1");
+                    if(data.get("EVID_TYPE").toString().equals("1")){
+                        data.put("SET_FG", "3");
+                        data.put("VAT_FG", "3");
+                        data.put("TR_FG", "1");
 
-                    if(!data.get("RPMR_NO").toString().equals("")){
-                        data.put("SET_FG", "1");
-                        data.put("VAT_FG", "1");
+                        if(!data.get("RPMR_NO").toString().equals("")){
+                            data.put("SET_FG", "1");
+                            data.put("VAT_FG", "1");
+                            data.put("TR_FG", "3");
+                        }
+                    } else if(data.get("EVID_TYPE").toString().equals("2")){
+                        data.put("SET_FG", "3");
+                        data.put("VAT_FG", "2");
+                        data.put("TR_FG", "1");
+
+                        if(!data.get("RPMR_NO").toString().equals("")){
+                            data.put("SET_FG", "1");
+                            data.put("VAT_FG", "1");
+                            data.put("TR_FG", "3");
+                        }
+                    } else if(data.get("EVID_TYPE").toString().equals("3")){
+                        data.put("SET_FG", "4");
+                        data.put("VAT_FG", "3");
                         data.put("TR_FG", "3");
-                    }
-                } else if(data.get("EVID_TYPE").toString().equals("2")){
-                    data.put("SET_FG", "3");
-                    data.put("VAT_FG", "2");
-                    data.put("TR_FG", "1");
 
-                    if(!data.get("RPMR_NO").toString().equals("")){
+                        if(!data.get("RPMR_NO").toString().equals("")){
+                            data.put("SET_FG", "1");
+                            data.put("VAT_FG", "3");
+                            data.put("TR_FG", "3");
+                        }
+                    } else if(data.get("EVID_TYPE").toString().equals("4")){
                         data.put("SET_FG", "1");
-                        data.put("VAT_FG", "1");
+                        data.put("VAT_FG", "3");
                         data.put("TR_FG", "3");
-                    }
-                } else if(data.get("EVID_TYPE").toString().equals("3")){
-                    data.put("SET_FG", "4");
-                    data.put("VAT_FG", "3");
-                    data.put("TR_FG", "3");
 
-                    if(!data.get("RPMR_NO").toString().equals("")){
+                    } else if(data.get("EVID_TYPE").toString().equals("5")){
+                        data.put("SET_FG", "1");
+                        data.put("VAT_FG", "3");
+                        data.put("TR_FG", "4");
+                        data.put("TAX_DT", data.get("IN_DT"));
+
+                        int totAmt = Integer.parseInt(data.get("SUP_AM").toString()) + Integer.parseInt(data.get("VAT_AM").toString());
+                        int ndepAm = (int) (totAmt * 0.6);
+                        data.put("NDEP_AM", ndepAm);
+                        data.put("INAD_AM", totAmt - ndepAm);
+                        data.put("INTX_AM", totAmt * 0.03);
+                        data.put("RSTX_AM", (totAmt * 0.03) / 10);
+                        data.put("ETCDUMMY1", "76");
+
+                        if(hearnerMap == null){
+                            data.put("ETCPER_NM", data.get("TR_NM"));
+                            data.put("ETCACCT_NO", data.get("CRM_ACC_NO"));
+                            data.put("ETCACCT_NM", data.get("CRM_ACC_HOLDER"));
+                            data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
+                            data.put("ETCDIV_CD", data.get("DIV_CD"));
+                        }
+                    } else if(data.get("EVID_TYPE").toString().equals("9")){
+                        data.put("SET_FG", "1");
+                        data.put("VAT_FG", "3");
+                        data.put("TR_FG", "4");
+                        data.put("TAX_DT", data.get("IN_DT"));
+                        data.put("ETCDUMMY1", "76");
+
+                        int totAmt = Integer.parseInt(data.get("SUP_AM").toString()) + Integer.parseInt(data.get("VAT_AM").toString());
+                        int ndepAm = (int) (totAmt * 0.6);
+                        data.put("NDEP_AM", ndepAm);
+                        data.put("INAD_AM", totAmt - ndepAm);
+
+                        if(totAmt > 125000){
+                            int intxAm = (int) ((totAmt  - (totAmt * 0.6)) * 0.2);
+                            data.put("INTX_AM", intxAm);
+                            data.put("RSTX_AM", intxAm / 10);
+                        } else {
+                            data.put("INTX_AM", 0);
+                            data.put("RSTX_AM", 0);
+                        }
+
+                        data.put("ETCDUMMY1", "76");
+
+                        if(hearnerMap == null){
+                            data.put("ETCPER_NM", data.get("TR_NM"));
+                            data.put("ETCACCT_NO", data.get("CRM_ACC_NO"));
+                            data.put("ETCACCT_NM", data.get("CRM_ACC_HOLDER"));
+                            data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
+                            data.put("ETCDIV_CD", data.get("DIV_CD"));
+                        }
+                    } else {
                         data.put("SET_FG", "1");
                         data.put("VAT_FG", "3");
                         data.put("TR_FG", "3");
                     }
-                } else if(data.get("EVID_TYPE").toString().equals("4")){
-                    data.put("SET_FG", "1");
-                    data.put("VAT_FG", "3");
-                    data.put("TR_FG", "3");
 
-                } else if(data.get("EVID_TYPE").toString().equals("5")){
-                    data.put("SET_FG", "1");
-                    data.put("VAT_FG", "3");
-                    data.put("TR_FG", "4");
-                    data.put("TAX_DT", data.get("IN_DT"));
-
-                    int totAmt = Integer.parseInt(data.get("SUP_AM").toString()) + Integer.parseInt(data.get("VAT_AM").toString());
-                    int ndepAm = (int) (totAmt * 0.6);
-                    data.put("NDEP_AM", ndepAm);
-                    data.put("INAD_AM", totAmt - ndepAm);
-                    data.put("INTX_AM", totAmt * 0.03);
-                    data.put("RSTX_AM", (totAmt * 0.03) / 10);
-                    data.put("ETCDUMMY1", "76");
-
-                    if(hearnerMap == null){
-                        data.put("ETCPER_NM", data.get("TR_NM"));
-                        data.put("ETCACCT_NO", data.get("CRM_ACC_NO"));
-                        data.put("ETCACCT_NM", data.get("CRM_ACC_HOLDER"));
-                        data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
-                        data.put("ETCDIV_CD", data.get("DIV_CD"));
-                    }
-                } else if(data.get("EVID_TYPE").toString().equals("9")){
-                    data.put("SET_FG", "1");
-                    data.put("VAT_FG", "3");
-                    data.put("TR_FG", "4");
-                    data.put("TAX_DT", data.get("IN_DT"));
-                    data.put("ETCDUMMY1", "76");
-
-                    int totAmt = Integer.parseInt(data.get("SUP_AM").toString()) + Integer.parseInt(data.get("VAT_AM").toString());
-                    int ndepAm = (int) (totAmt * 0.6);
-                    data.put("NDEP_AM", ndepAm);
-                    data.put("INAD_AM", totAmt - ndepAm);
-
-                    if(totAmt > 125000){
-                        int intxAm = (int) ((totAmt  - (totAmt * 0.6)) * 0.2);
-                        data.put("INTX_AM", intxAm);
-                        data.put("RSTX_AM", intxAm / 10);
+                    if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3")) && type.equals("resolution")) {
+                        if (data.get("DOCU_FG").toString().equals("1")) {
+                            data.put("DOCU_FG", "99");
+                        }
                     } else {
-                        data.put("INTX_AM", 0);
-                        data.put("RSTX_AM", 0);
-                    }
-
-                    data.put("ETCDUMMY1", "76");
-
-                    if(hearnerMap == null){
-                        data.put("ETCPER_NM", data.get("TR_NM"));
-                        data.put("ETCACCT_NO", data.get("CRM_ACC_NO"));
-                        data.put("ETCACCT_NM", data.get("CRM_ACC_HOLDER"));
-                        data.put("ETCRVRS_YM", data.get("IN_DT").toString().substring(0, 6));
-                        data.put("ETCDIV_CD", data.get("DIV_CD"));
-                    }
-                } else {
-                    data.put("SET_FG", "1");
-                    data.put("VAT_FG", "3");
-                    data.put("TR_FG", "3");
-                }
-
-                if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3")) && type.equals("resolution")) {
-                    if (data.get("DOCU_FG").toString().equals("1")) {
-                        data.put("DOCU_FG", "99");
-                    }
-                } else {
-                    data.put("IN_DT_TMP", data.get("IN_DT"));
-                }
-
-                if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3"))){
-                    if(type.equals("resolution")){
                         data.put("IN_DT_TMP", data.get("IN_DT"));
-                        data.put("IN_DT", data.get("EXEC_DT"));
-                    } else {
-                        data.put("IN_DT_TMP", data.get("ACISU_DT"));
-                        data.put("IN_DT", data.get("IN_DT"));
                     }
-                }
+
+                    if((data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3"))){
+                        if(type.equals("resolution")){
+                            data.put("IN_DT_TMP", data.get("IN_DT"));
+                            data.put("IN_DT", data.get("EXEC_DT"));
+                        } else {
+                            data.put("IN_DT_TMP", data.get("ACISU_DT"));
+                            data.put("IN_DT", data.get("IN_DT"));
+                        }
+                    }
 
 
-                g20Repository.insZnSautoabdocu(data);
+                    g20Repository.insZnSautoabdocu(data);
 
 
-                i++;
+                    i++;
 
-                payAppRepository.updExnpStat(data);
+                    payAppRepository.updExnpStat(data);
 
-                if(type.equals("resolution") || (data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3"))
-                    || "2".equals(pkMap.get("PAY_APP_TYPE")) || "3".equals(pkMap.get("PAY_APP_TYPE")) || "4".equals(pkMap.get("PAY_APP_TYPE"))) {
-                    if(list.size() == i) {
-                        data.put("LOGIN_EMP_CD", loginMap.get("ERP_EMP_SEQ"));
-                        g20Repository.execUspAncj080Insert00(data);
+                    if(type.equals("resolution") || (data.get("EVID_TYPE").toString().equals("1") || data.get("EVID_TYPE").toString().equals("2") || data.get("EVID_TYPE").toString().equals("3"))
+                            || "2".equals(pkMap.get("PAY_APP_TYPE")) || "3".equals(pkMap.get("PAY_APP_TYPE")) || "4".equals(pkMap.get("PAY_APP_TYPE"))) {
+                        if(list.size() == i) {
+                            data.put("LOGIN_EMP_CD", loginMap.get("ERP_EMP_SEQ"));
+                            g20Repository.execUspAncj080Insert00(data);
+                        }
                     }
                 }
             }
+        } catch (Exception e){
+            e.printStackTrace();
         }
+
     }
 
     private void updateG20IncpFinalAppr(Map<String, Object> params, String type){

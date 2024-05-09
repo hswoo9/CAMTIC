@@ -396,9 +396,18 @@ var payCardHist = {
 
         console.log(data);
 
+        var trParams = {}
+
+        trParams.REG_NO = data.MER_BIZNO;
+        var result = customKendo.fn_customAjax("/g20/getClientInfoOne", trParams);
+
+        var g20TrCd = "";
+        if(result.data != null){
+            g20TrCd = result.data.TR_CD;
+        }
         opener.parent.$("#crmNm" + index).val(data.MER_NM);
         opener.parent.$("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
-        opener.parent.$("#trCd" + index).val(data.TR_CD);
+        opener.parent.$("#trCd" + index).val(g20TrCd);
         opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));
         opener.parent.$("#supCost" + index).val(comma(data.SUPP_PRICE));
         opener.parent.$("#vatCost" + index).val(comma(data.SURTAX));

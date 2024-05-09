@@ -2412,11 +2412,16 @@ var regPay = {
         var befAdvances = "";
         var budgetNmFlag = true;
         var trCdFlag = true;
+        var tdFlag = true;
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).attr("id").replace(/[^0-9]/g, '');
 
             if(!$("#budgetNm" + index).val()) {
                 budgetNmFlag = false;
+            }
+
+            if(!$("#trCd" + index).val()) {
+                tdFlag = false;
             }
 
             var data = {
@@ -2475,15 +2480,9 @@ var regPay = {
             if(data.eviType == ""){
                 flag = false;
             }
-
-
-
-
+            
             itemArr.push(data);
         });
-
-
-
 
         if(!flag){
             alert("구분값을 선택해주세요.");
@@ -2492,6 +2491,11 @@ var regPay = {
 
         if(!budgetNmFlag){
             alert("예산비목을 선택해주세요.");
+            return;
+        }
+
+        if(!tdFlag) {
+            alert("G20 거래처가 등록되지 않았습니다.\n담당자에게 문의해주세요.")
             return;
         }
 

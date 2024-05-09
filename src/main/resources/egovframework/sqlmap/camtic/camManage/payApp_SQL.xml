@@ -1011,11 +1011,12 @@
                 WHEN ED.EVID_TYPE = 9 THEN '기타소득자'
                 WHEN ED.EVID_TYPE = 6 THEN '기타'
             END AS EVID_TYPE_TEXT,
-            CASE
-                WHEN ED.EVID_TYPE IN (1,2,3)
-                THEN E.DT1
-                ELSE E.DT3
-            END AS R_DT,
+--             CASE
+--                 WHEN ED.EVID_TYPE IN (1,2,3)
+--                 THEN E.DT1
+--                 ELSE E.DT3
+--             END AS R_DT,
+            E.DT3 AS R_DT,
             ED.BUDGET_NM AS BUDGET_NM_EX,
             DI.DOC_NO AS DOC_NO,
             DI.APPRO_KEY AS APPRO_KEY,
@@ -1038,7 +1039,7 @@
             AND E.PJT_CD = #{pjtCd}
         </if>
         <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
-            AND E.REQ_DE
+            AND E.DT3
             BETWEEN #{startDt} AND #{endDt}
         </if>
         <if test='searchStatus != null and !"".equals(searchStatus)'>
@@ -1073,7 +1074,7 @@
     </select>
 
     <select id="getExnpReListForExcelDown" parameterType="map" resultType="map">
-        /*getExnpReListForExcelDown*/
+        /* getExnpReListForExcelDown */
         SELECT
             E.EXNP_SN,
             CASE
@@ -1100,11 +1101,12 @@
                 WHEN ED.EVID_TYPE = 6 THEN '기타'
                 WHEN ED.EVID_TYPE = 9 THEN '기타소득자'
             END AS EVID_TYPE_TEXT,
-            CASE
-                WHEN ED.EVID_TYPE IN (1,2,3)
-                THEN DATE_FORMAT(E.DT1, '%Y-%m-%d')
-                ELSE DATE_FORMAT(E.DT3, '%Y-%m-%d')
-            END AS R_DT,
+            DATE_FORMAT(E.DT3, '%Y-%m-%d') AS R_DT,
+--             CASE
+--                 WHEN ED.EVID_TYPE IN (1,2,3)
+--                 THEN DATE_FORMAT(E.DT1, '%Y-%m-%d')
+--                 ELSE DATE_FORMAT(E.DT3, '%Y-%m-%d')
+--             END AS R_DT,
             E.REQ_EXNP_DE,
             ED.BUDGET_NM AS BUDGET_NM_EX,
             SUBSTRING_INDEX(ED.BUDGET_NM, ' / ', 1) AS BUDGET_NM_1,
@@ -1133,7 +1135,7 @@
             AND E.PJT_CD = #{pjtCd}
         </if>
         <if test='startDt != null and !"".equals(startDt) and endDt != null and !"".equals(endDt)'>
-            AND E.REQ_DE
+            AND E.R_DT
             BETWEEN #{startDt} AND #{endDt}
         </if>
         <if test='searchStatus != null and !"".equals(searchStatus)'>
