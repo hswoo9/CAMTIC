@@ -700,9 +700,9 @@ var reqCl = {
                 alert("구매링크를 입력해주세요."); return;
             }
         } else if(parameters.paymentMethod == "C"){
-            if(uncommaN($("#totAmt").val()) >= 300000){
-                alert("현장(카드)결제는 부가세 포함 30만원 미만만 가능합니다."); return;
-            }
+            // if(uncommaN($("#totAmt").val()) >= 300000){
+            //     alert("현장(카드)결제는 부가세 포함 30만원 미만만 가능합니다."); return;
+            // }
         }
 
 

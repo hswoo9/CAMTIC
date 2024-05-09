@@ -32,12 +32,44 @@ var prm = {
 
         customKendo.fn_dropDownList("inspectStat", prm.global.dropDownDataSource, "text", "value");
         $("#inspectStat").data("kendoDropDownList").bind("change", prm.gridReload);
-        prm.gridReload();
+        prm.mainGrid();
     },
 
     mainGrid : function(url, params){
+
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            transport: {
+                read : {
+                    url : '/purc/getPurcReqClaimEmpList',
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.empSeq = $("#regEmpSeq").val();
+                    data.eduYear = $("#eduYear").val();
+
+                    data.empSeq = $("#myEmpSeq").val();
+                    data.searchDept = $("#searchDept").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
+                    data.inspectStat = $("#inspectStat").data("kendoDropDownList").value()
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+            pageSize: 10,
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             selectable: "row",
             pageable: {
@@ -515,7 +547,9 @@ var prm = {
             inspectStat : $("#inspectStat").data("kendoDropDownList").value()
         }
 
-        prm.mainGrid("/purc/getPurcReqClaimEmpList", prm.global.searchAjaxData);
+        // prm.mainGrid("/purc/getPurcReqClaimEmpList", prm.global.searchAjaxData);
+
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     fn_reqRegPopup : function(key){
