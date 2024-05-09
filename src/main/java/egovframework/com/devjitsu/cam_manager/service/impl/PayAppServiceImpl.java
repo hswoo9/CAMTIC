@@ -261,7 +261,9 @@ public class PayAppServiceImpl implements PayAppService {
         Map<String, Object> fileInsMap = new HashMap<>();
 
         /** 지급신청서 관련 파일 정보 dj_pay_app_file에 저장  */
-        if(params.containsKey("payAppSn")){
+        if(params.containsKey("exnpSn")){
+
+        } else {
             List<Map<String, Object>> list = payAppRepository.getPayAppDetailData(params);
 
             String[] fileNoAr = new String[list.size()];
@@ -288,11 +290,15 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         if(fileList.length > 0){
-            params.put("menuCd", "payApp");
+            params.put("menuCd", params.get("menuCd"));
 
             List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
             for(int i = 0 ; i < list.size() ; i++){
-                list.get(i).put("contentId", params.get("payAppSn"));
+                if(params.containsKey("exnpSn")){
+                    list.get(i).put("contentId", params.get("exnpSn"));
+                } else {
+                    list.get(i).put("contentId", params.get("payAppSn"));
+                }
                 list.get(i).put("empSeq", params.get("empSeq"));
                 list.get(i).put("fileCd", params.get("menuCd"));
                 list.get(i).put("filePath", filePath(params, baseDir));

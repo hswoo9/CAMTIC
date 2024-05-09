@@ -546,8 +546,17 @@ const regPayAtt = {
             if(opener.parent.$("#payAppSn").val() != "" && opener.parent.$("#auth").val() == "mng"){
                 var parameters = {
                     payAppSn : opener.parent.$("#payAppSn").val(),
-                    empSeq : opener.parent.$("#empSeq").val()
+                    empSeq : opener.parent.$("#empSeq").val(),
+                    menuCd : "payApp"
                 }
+
+                if(opener.parent.$("#exnpSn").val() != ""){
+                    delete parameters.payAppSn;
+
+                    parameters.exnpSn = opener.parent.$("#exnpSn").val();
+                    parameters.menuCd = "exnp";
+                }
+
                 var fd = new FormData();
 
                 for(var key in parameters){
