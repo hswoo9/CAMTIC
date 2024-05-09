@@ -131,6 +131,7 @@ var regCardToPop = {
 
     fn_save : function (){
         var checkFlag = true;
+        var checkBustripFlag = true;
 
         $.ajax({
             url : '/card/getCardUseCheck',
@@ -154,10 +155,6 @@ var regCardToPop = {
 
         if(!checkFlag){return;}
 
-        if(!confirm("저장하시겠습니까?")){
-            return;
-        }
-
         var parameters = {
             trCd : $("#trCd").val(),
             trNm: $("#trNm").val(),
@@ -176,6 +173,10 @@ var regCardToPop = {
             regEmpSeq : $("#regEmpSeq").val(),
             frKey : null,
             visitCrm : $("#hrBizVisitCrm").val(),
+        }
+
+        if(!confirm("저장하시겠습니까?")){
+            return;
         }
 
         if($("#cardToPurpose").val() == "출장"){
@@ -229,6 +230,11 @@ var regCardToPop = {
                 return;
             }
             parameters.cardToPurpose = $("#cardToPurpose2").val()
+        }
+
+        checkBustripFlag = bustrip.getDuplBustrip(parameters);
+        if(!checkBustripFlag && $("#cardToPurpose").val() == "회의"){
+            alert("출장신청중에는 회의목적으로 사용할 수 없습니다."); return;
         }
 
         console.log(parameters.frKey);

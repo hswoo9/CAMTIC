@@ -533,10 +533,10 @@ var statementList = {
     },
 
     fn_updCardTi2 : function (key, toDe, cardBaNb){
-        var dialog = $("#dialog").data("kendoWindow");
+        var returnDialog = $("#returnDialog").data("kendoWindow");
 
-        dialog.center();
-        dialog.open();
+        returnDialog.center();
+        returnDialog.open();
 
         // $("#cardFromDe").val(toDe);
         $("#tmpCardToDe").val(toDe);
@@ -561,7 +561,7 @@ var statementList = {
         //         return;
         //     } else {
         //         statementList.fn_addCardHist(data.cardToSn, data.endDt);
-        //         $("#dialog").data("kendoWindow").close();
+        //         $("#returnDialog").data("kendoWindow").close();
         //     }
         // } else {
             if(!confirm("반납처리 하시겠습니까?")){
@@ -583,7 +583,7 @@ var statementList = {
                     if(rs.code == 200){
                         alert("반납처리 되었습니다.");
 
-                        $("#dialog").data("kendoWindow").close();
+                        $("#returnDialog").data("kendoWindow").close();
                         statementList.mainGrid();
                     }
                 }

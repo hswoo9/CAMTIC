@@ -2254,6 +2254,31 @@
         /*delBustripExternal*/
         DELETE FROM CAM_INSIDE.DJ_HR_EXT_MEM WHERE HR_BIZ_REQ_ID = #{hrBizReqId}
     </delete>
+
+    <select id="getDuplBustrip" parameterType="map" resultType="map">
+        /* getDuplBustrip */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_REQ IHBR
+        WHERE
+            CONCAT(#{cardToDe}, ' ', #{cardToTime}) BETWEEN CONCAT(IHBR.TRIP_DAY_FR, ' ', TRIP_TIME_FR) AND CONCAT(IHBR.TRIP_DAY_TO, ' ', TRIP_TIME_TO)
+        AND IHBR.REG_EMP_SEQ = #{regEmpSeq}
+        AND ACTIVE = 'Y'
+    </select>
+
+    <select id="getDuplMeetingCard" parameterType="map" resultType="map">
+        /* getDuplMeetingCard */
+        SELECT
+            *
+        FROM
+            CAM_MNG.DJ_CARD_TO
+        WHERE
+            CONCAT(CARD_TO_DE, ' ', CARD_TO_TIME) BETWEEN CONCAT(#{startDt}, ' ', #{startTime}) AND CONCAT(#{endDt}, ' ', #{endTime})
+        AND CARD_TO_PURPOSE = '회의'
+        AND REG_EMP_SEQ = #{regEmpSeq}
+        AND DEL_YN = 'N'
+    </select>
 </mapper>
 
 

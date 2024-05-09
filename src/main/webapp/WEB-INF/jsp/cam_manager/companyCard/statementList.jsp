@@ -71,7 +71,7 @@
     </div>
 </div><!-- col-md-9 -->
 
-<div id="dialog">
+<div id="returnDialog">
     <input type="text" id="cardFromDe" style="width: 50%" name="cardFromDe" value="">
     <input type="text" name="cardFromTime" id="cardFromTime" style="width: 30%;">
     <input type="hidden" id="tmpCardBaNb" />
@@ -82,7 +82,7 @@
 <script>
 
     $(function(){
-        $("#dialog").kendoWindow({
+        $("#returnDialog").kendoWindow({
             title: "반납",
             visible : false,
             resizable: false,
@@ -98,7 +98,7 @@
                     '    <input type="hidden" id="tmpCardToDe" />' +
                     '    <button type="button" id="updBtn" class="k-button k-button-solid-base" onclick="statementList.fn_updFromDe();">반납</button>';
 
-                $('#dialog').html(htmlStr);
+                $('#returnDialog').html(htmlStr);
 
 
                 customKendo.fn_datePicker("cardFromDe", "depth", "yyyy-MM-dd", new Date());

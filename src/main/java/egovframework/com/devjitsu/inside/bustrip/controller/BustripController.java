@@ -1313,4 +1313,18 @@ public class BustripController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    @RequestMapping("/bustrip/getDuplBustrip")
+    public String getDuplBustrip(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getDuplBustrip(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/bustrip/getDuplMeetingCard")
+    public String getDuplMeetingCard(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = bustripService.getDuplMeetingCard(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
 }

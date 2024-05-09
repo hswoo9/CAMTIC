@@ -379,4 +379,28 @@ var bustrip = {
             });
         }
     },
+
+    getDuplBustrip: function(data){
+        const result = customKendo.fn_customAjax("/bustrip/getDuplBustrip", data);
+        const list = result.list;
+
+        let flag = true;
+        if(list.length > 0){
+            flag = false
+        }
+
+        return flag;
+    },
+
+    getDuplMeetingCard: function(data){
+        const result = customKendo.fn_customAjax("/bustrip/getDuplMeetingCard", data);
+        const list = result.list;
+
+        let flag = true;
+        if(list.length > 0){
+            flag = false
+        }
+
+        return flag;
+    }
 }

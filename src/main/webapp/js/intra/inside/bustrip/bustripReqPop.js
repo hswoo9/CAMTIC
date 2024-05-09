@@ -404,6 +404,19 @@ const bustripReq = {
             flag = true;
         }
 
+        var checkMeetingCardFlag = true;
+        var parameters = {
+            startDt : $("#date1").val(),
+            endDt : $("#date2").val(),
+            startTime : $("#time1").val(),
+            endTime : $("#time2").val(),
+            regEmpSeq : $("#regEmpSeq").val()
+        }
+        checkMeetingCardFlag = bustrip.getDuplMeetingCard(parameters);
+        if(!checkMeetingCardFlag){
+            alert("회의목적으로 법인카드 반출/사용중에는 출장을 신청할 수 없습니다."); return;
+        }
+
         var extArr = [];
 
         if($("#externalName").val() != ""){
@@ -419,6 +432,7 @@ const bustripReq = {
                 }
             }
         }
+
 
         formData.append("externalArr", JSON.stringify(extArr));
 

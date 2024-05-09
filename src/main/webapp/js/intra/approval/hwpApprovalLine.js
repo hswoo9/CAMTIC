@@ -528,7 +528,11 @@ var hwpApprovalLine = {
                 if(docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ == pjtMap.PM_EMP_SEQ){
                     const signField = "paySign";
                     hwpApprovalLine.setTranscript(signField, pjtMap.PM_EMP_SEQ, userInfo.EMP_NAME_KR);
+
+                }else if(hwpApprovalLine.global.connectType == "mobile"){
+                    documentHwpSave()
                 }
+
             }else if(hwpApprovalLine.global.connectType == "mobile"){
                 documentHwpSave()
             }

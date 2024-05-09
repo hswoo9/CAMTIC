@@ -806,4 +806,14 @@ public class BustripServiceImpl implements BustripService {
     public List<Map<String, Object>> getBustripPopList(Map<String, Object> params) {
         return bustripRepository.getBustripPopList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getDuplBustrip(Map<String, Object> params) {
+        return bustripRepository.getDuplBustrip(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getDuplMeetingCard(Map<String, Object> params) {
+        return bustripRepository.getDuplMeetingCard(params);
+    }
 }
