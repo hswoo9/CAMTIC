@@ -632,12 +632,13 @@
             OR (CONTENT_ID = #{payIncpSn} AND file_cd = #{type})
             OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_INCP_FILE WHERE PAY_INCP_SN = #{payIncpSn}))
         </if>
-        <if test='type == "exnp" or "payApp".equals(exnp)'>
+        <if test='type == "exnp" or "exnp".equals(type)'>
             OR CONTENT_ID = #{payAppSn} AND file_cd = 'payApp'
             OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_DET WHERE PAY_APP_SN = #{payAppSn}))
             OR (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
+            OR (CONTENT_ID = #{exnpSn} AND FILE_CD = 'exnp')
         </if>
-        <if test='type == "exnpDetail" or "payApp".equals(exnpDetail)'>
+        <if test='type == "exnpDetail" or "exnpDetail".equals(exnp)'>
             OR (CONTENT_ID = #{payAppSn} AND FILE_CD = 'useCard' AND FILE_PATH = #{filePath})
         </if>
         <if test='type == "campus" or "campus".equals(type)'>

@@ -18,7 +18,7 @@ const regPayAtt = {
             parameterArray = opener.parent.regExnp.global.fileArray;
             regPayAtt.global.fileArray = parameterArray;
 
-            if(opener.parent.regExnp.global.result.DOC_STATUS == "100"){
+            if(opener.parent.regExnp.global.result.DOC_STATUS == "10" || opener.parent.regExnp.global.result.DOC_STATUS == "50" || opener.parent.regExnp.global.result.DOC_STATUS == "100") {
                 $("#saveBtn").hide();
                 $("label[for='payFileList']").hide();
             }
@@ -379,7 +379,7 @@ const regPayAtt = {
                 html1 += '   </td>';
                 // if($("#type").val() != "exnp"){
                     html1 += '   <td>';
-                if(opener.parent.regExnp.global.result.DOC_STATUS != "100"){
+                if(opener.parent.regExnp.global.result.DOC_STATUS != "100" && opener.parent.regExnp.global.result.DOC_STATUS != "10" && opener.parent.regExnp.global.result.DOC_STATUS != "50"){
                     html1 += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">'
                 }
                     html1 += '   </td>';
