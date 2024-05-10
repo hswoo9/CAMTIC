@@ -2398,7 +2398,7 @@ var regPay = {
                 budgetNmFlag = false;
             }
 
-            if(!$("#trCd" + index).val()) {
+            if(!$("#trCd" + index).val() && $("#eviType" + index).val() != "6") {
                 tdFlag = false;
             }
 
