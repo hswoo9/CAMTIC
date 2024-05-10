@@ -28,7 +28,7 @@ public interface PayAppService {
 
     void setPayAppDetCostApp(Map<String, Object> params);
 
-    void setExnpData(Map<String, Object> params);
+    void setExnpData(Map<String, Object> params, MultipartFile[] fileList, String SERVER_DIR, String BASE_DIR);
 
     Map<String, Object> getExnpData(Map<String, Object> params);
 

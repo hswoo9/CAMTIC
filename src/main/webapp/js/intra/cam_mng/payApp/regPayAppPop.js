@@ -2329,6 +2329,10 @@ var regPay = {
             if($("#bList").val() != ""){
                 parameters.bList = $("#bList").val();
             }
+
+            // 출장정산목록 pdf 생성
+            // var htmlContents = payAppDoc.fn_makeBustripExnpPdf();
+            // parameters.busExnpHtml = htmlContents;
         }
 
         if($("#reqType").val() == "business"){

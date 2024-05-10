@@ -2187,6 +2187,41 @@
         </if>
     </select>
 
+    <select id="getBustripExnpTotalData" parameterType="map" resultType="map">
+        /*getBustripExnpTotalData*/
+        SELECT
+            GROUP_CONCAT(IHBE.EMP_NAME) AS EXNP_NAME,
+            SUM(REPLACE(IHBE.TOT_COST,',','')) AS TOT_COST,
+            CASE
+                WHEN TRIP_CODE = 1 THEN '도내(시내)'
+                WHEN TRIP_CODE = 2 THEN '도내(시외)'
+                WHEN TRIP_CODE = 3 THEN '도내(도외)'
+                WHEN TRIP_CODE = 4 THEN '도내(해외)'
+                ELSE ''
+            END AS TRIP_TYPE,
+            CASE
+                WHEN VISIT_LOC_SUB = '' THEN VISIT_CRM
+                ELSE CONCAT(VISIT_CRM,'(',VISIT_LOC_SUB,')')
+            END AS VISIT_PLACE,
+            (
+                SELECT
+                    CASE
+                        WHEN CAR_CLASS_SN = 15 THEN CONCAT(CAR_CLASS_NAME,'(',BRR.USE_TRSPT_RMK,')')
+                        ELSE CAR_CLASS_NAME
+                    END
+                FROM
+                    CAM_INSIDE.DJ_HR_CAR_CODE
+                WHERE CAR_CLASS_SN = BRR.USE_TRSPT
+            ) AS CAR_CLASS_NAME,
+            BRR.*
+        FROM
+            CAM_INSIDE.DJ_HR_BIZ_EXNP IHBE
+                LEFT JOIN
+            CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT BRR ON IHBE.HR_BIZ_REQ_RESULT_ID = BRR.HR_BIZ_REQ_RESULT_ID
+        WHERE
+            IHBE.HR_BIZ_REQ_RESULT_ID = #{hrBizReqResultId}
+    </select>
+
     <select id="getExnpHistFileOne" parameterType="map" resultType="map">
         SELECT
             *

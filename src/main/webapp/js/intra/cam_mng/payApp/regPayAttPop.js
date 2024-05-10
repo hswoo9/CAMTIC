@@ -17,6 +17,11 @@ const regPayAtt = {
             regPayAtt.global.attFiles = opener.parent.regExnp.global.attFiles;
             parameterArray = opener.parent.regExnp.global.fileArray;
             regPayAtt.global.fileArray = parameterArray;
+
+            if(opener.parent.regExnp.global.result.DOC_STATUS == "100"){
+                $("#saveBtn").hide();
+                $("label[for='payFileList']").hide();
+            }
         }
         if(opener.parent.$("#payAppSn").val() != ""){
             if(parameterArray.length > 0){
@@ -374,7 +379,9 @@ const regPayAtt = {
                 html1 += '   </td>';
                 // if($("#type").val() != "exnp"){
                     html1 += '   <td>';
+                if(opener.parent.regExnp.global.result.DOC_STATUS != "100"){
                     html1 += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">'
+                }
                     html1 += '   </td>';
                 // }
 
@@ -592,7 +599,8 @@ const regPayAtt = {
 
             var parameters = {
                 payAppSn : opener.parent.$("#payAppSn").val(),
-                empSeq : opener.parent.$("#empSeq").val()
+                empSeq : opener.parent.$("#empSeq").val(),
+                menuCd : "exnp"
             }
             var fd = new FormData();
 
@@ -606,22 +614,24 @@ const regPayAtt = {
                 }
             }
 
-            $.ajax({
-                url : "/payApp/payAppMngFileSet",
-                data : fd,
-                type : "post",
-                dataType : "json",
-                contentType: false,
-                processData: false,
-                enctype : 'multipart/form-data',
-                async: false,
-                success : function(rs){
-                    if(rs.code == 200){
-                        window.close();
-                        opener.window.location.reload();
-                    }
-                }
-            });
+            window.close();
+
+            // $.ajax({
+            //     url : "/payApp/payAppMngFileSet",
+            //     data : fd,
+            //     type : "post",
+            //     dataType : "json",
+            //     contentType: false,
+            //     processData: false,
+            //     enctype : 'multipart/form-data',
+            //     async: false,
+            //     success : function(rs){
+            //         if(rs.code == 200){
+            //             window.close();
+            //             opener.window.location.reload();
+            //         }
+            //     }
+            // });
         }
     },
 

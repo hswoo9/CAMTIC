@@ -760,6 +760,11 @@ public class BustripServiceImpl implements BustripService {
     }
 
     @Override
+    public Map<String, Object> getBustripExnpTotalData(Map<String, Object> params) {
+        return bustripRepository.getBustripExnpTotalData(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getExnpHistFileList(Map<String, Object> params) {
         return bustripRepository.getExnpHistFileList(params);
     }

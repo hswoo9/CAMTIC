@@ -3,6 +3,7 @@ package egovframework.com.devjitsu.cam_manager.service.impl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorker;
 import com.itextpdf.tool.xml.XMLWorkerFontProvider;
@@ -73,8 +74,17 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updPayAppBsYm(params);
         }
 
+        // 출장정산목록 pdf 생성
+//        if(params.containsKey("busExnpHtml")){
+//            params.put("pdfFileOrgName", "출장정산목록");
+//            params.put("pdfHtmlContents", params.get("busExnpHtml"));
+//            createPdf(params, serverDir, baseDir);
+//        }
+
         // 법인카드 증빙서류 생성
         if(!params.get("htmlContents").equals("")){
+            params.put("pdfFileOrgName", "법인카드 지출증빙(지급신청서)");
+            params.put("pdfHtmlContents", params.get("htmlContents"));
             createPdf(params, serverDir, baseDir);
         }
 
@@ -501,7 +511,7 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
-    public void setExnpData(Map<String, Object> params) {
+    public void setExnpData(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
@@ -532,6 +542,25 @@ public class PayAppServiceImpl implements PayAppService {
                     payAppRepository.updPayAppDetailStatus(params);
                 }
             }
+        }
+
+        MainLib mainLib = new MainLib();
+        if(fileList.length > 0){
+            params.put("menuCd", "exnp");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("exnpSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
+
+                commonRepository.insFileInfoOne(list.get(i));
+//                commonRepository.insPayAppFileList(list.get(i));
+            }
+//            commonRepository.insFileInfo(list);
         }
 
     }
@@ -1735,22 +1764,22 @@ public class PayAppServiceImpl implements PayAppService {
         MainLib mainLib = new MainLib();
 
         /** 신청서 관련 파일 정보 dj_pay_app_file에 저장  */
-        List<Map<String, Object>> storedFileArr = payAppRepository.getPayExnpFileList(params);
-        payAppRepository.delPayAppFileList(params);
-
-        for(Map<String, Object> map : storedFileArr){
-            map.put("contentId", params.get("payAppSn"));
-            map.put("fileNo", map.get("file_no"));
-
-            commonRepository.insPayAppFileList(map);
-        }
+//        List<Map<String, Object>> storedFileArr = payAppRepository.getPayExnpFileList(params);
+//        payAppRepository.delPayAppFileList(params);
+//
+//        for(Map<String, Object> map : storedFileArr){
+//            map.put("contentId", params.get("payAppSn"));
+//            map.put("fileNo", map.get("file_no"));
+//
+//            commonRepository.insPayAppFileList(map);
+//        }
 
         if(fileList.length > 0){
-            params.put("menuCd", "payApp");
+            params.put("menuCd", "exnp");
 
             List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
             for(int i = 0 ; i < list.size() ; i++){
-                list.get(i).put("contentId", params.get("payAppSn"));
+                list.get(i).put("contentId", params.get("exnpSn"));
                 list.get(i).put("empSeq", params.get("empSeq"));
                 list.get(i).put("fileCd", params.get("menuCd"));
                 list.get(i).put("filePath", filePath(params, baseDir));
@@ -1758,7 +1787,7 @@ public class PayAppServiceImpl implements PayAppService {
                 list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
 
                 commonRepository.insFileInfoOne(list.get(i));
-                commonRepository.insPayAppFileList(list.get(i));
+//                commonRepository.insPayAppFileList(list.get(i));
             }
 //            commonRepository.insFileInfo(list);
         }
@@ -1810,14 +1839,15 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     public void createPdf(Map<String, Object> params, String serverDir, String baseDir) {
-        Document document = new Document();
+        Document document = new Document(PageSize.A4, 30, 30, 30, 30);
 
         try {
             // PDF 파일 생성
             String fileUUID = UUID.randomUUID().toString();
-            String fileOrgName = "법인카드 지출증빙(지급신청서)";
+            String fileOrgName = params.get("pdfFileOrgName").toString();
             String fileCd = "payApp";
             String fileExt = "pdf";
+            String htmlContents = params.get("pdfHtmlContents").toString();
 
             params.put("menuCd", fileCd);
             String filePathTxt = filePath(params, serverDir);
@@ -1832,7 +1862,7 @@ public class PayAppServiceImpl implements PayAppService {
             // PDF 파일 열기
             document.open();
 
-            String htmlStr = "<html><body style='font-family: batang;'>"+ params.get("htmlContents") +"</body></html>";
+            String htmlStr = "<html><body style='font-family: batang;'>"+ htmlContents +"</body></html>";
 
             XMLWorkerHelper helper = XMLWorkerHelper.getInstance();
 

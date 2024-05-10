@@ -563,10 +563,11 @@ public class PayAppController {
     }
 
     @RequestMapping("/payApp/setExnpData")
-    public String setExnpData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+    public String setExnpData(@RequestParam Map<String, Object> params, Model model, MultipartHttpServletRequest request) {
 
         try{
-            payAppService.setExnpData(params);
+            MultipartFile[] fileList = request.getFiles("fileList").toArray(new MultipartFile[0]);
+            payAppService.setExnpData(params, fileList, SERVER_DIR, BASE_DIR);
             model.addAttribute("code", 200);
             model.addAttribute("params", params);
         } catch (Exception e){

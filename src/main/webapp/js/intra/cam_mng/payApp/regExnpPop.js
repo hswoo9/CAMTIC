@@ -11,6 +11,7 @@ var regExnp = {
         saveAjaxData : "",
         fileArray : [],
         attFiles : [],
+        result : "",
     },
 
     fn_defaultScript : function(){
@@ -196,6 +197,7 @@ var regExnp = {
         var ls = result.list;
         var fileList = result.fileList;
         regExnp.global.fileArray = fileList;
+        regExnp.global.result = rs;
 
         var fileThumbText = "";
         for(let i=0; i<fileList.length; i++){
@@ -1015,11 +1017,28 @@ var regExnp = {
 
         parameters.itemArr = JSON.stringify(itemArr);
 
+        var fd = new FormData();
+
+        for(var key in parameters){
+            fd.append(key, parameters[key]);
+        }
+
+        regExnp.global.fileArray = regExnp.global.fileArray.concat(regExnp.global.attFiles);
+        if(regExnp.global.fileArray != null){
+            for(var i = 0; i < regExnp.global.fileArray.length; i++){
+                fd.append("fileList", regExnp.global.fileArray[i]);
+            }
+        }
+
         $.ajax({
             url : "/payApp/setExnpData",
-            data : parameters,
+            data : fd,
             type : "post",
             dataType : "json",
+            contentType: false,
+            processData: false,
+            enctype : 'multipart/form-data',
+            async: false,
             success : function(rs){
                 if(rs.code == 200){
                     var url = "";

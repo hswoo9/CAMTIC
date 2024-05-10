@@ -139,6 +139,7 @@ const regReListFilePop = {
     },
 
     fn_setFile : function(){
+        console.log("regReListFilePop.fn_setFile");
         var fileArray = [];
 
         var data = {
@@ -318,6 +319,7 @@ const regReListFilePop = {
         var formData = new FormData();
 
         formData.append("payAppSn", $("#payAppSn").val());
+        formData.append("exnpSn", $("#exnpSn").val());
         formData.append("empSeq", $("#regEmpSeq").val());
 
         if(regReListFilePop.global.attFiles != null){

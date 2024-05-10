@@ -421,7 +421,7 @@ var payAppDoc = {
                     '                </th>' +
                     '            </tr>' +
                     '            <tr>' +
-                    '                <td colspan="4" style="border: 1px solid black; padding: 20px 0; height: 700px;">' +
+                    '                <td colspan="4" style="border: 1px solid black; padding: 20px 0; height: 730px;">' +
                     // '                    ※ 카드(법인)사용 전표 등 부착' +
                                         receiptFile +
                     '                </td>' +
@@ -434,6 +434,75 @@ var payAppDoc = {
                 html +=    '</div>';
             }
         }
+
+        return html;
+    },
+
+    fn_makeBustripExnpPdf : function(){
+
+        const hrBizReqResultId = $("#hrBizReqResultId").val();
+        const exnpList = [];
+
+        let hostUrl = "";
+        if(window.location.host.indexOf("218.158.231.184") > -1 || window.location.host.indexOf("new.camtic.or.kr") > -1){
+            hostUrl = "http://218.158.231.184";
+        } else {
+            hostUrl = "http://218.158.231.186";
+        }
+
+        for(let i = 0 ; i < hrBizReqResultId.toString().split(",").length ; i++) {
+            const data = {
+                hrBizReqResultId: hrBizReqResultId.toString().split(",")[i]
+            };
+
+            const result = customKendo.fn_customAjax("/bustrip/getBustripExnpTotalData", data);
+            exnpList.push(result.data);
+        }
+
+        let bustripTotCost = 0;
+        let html = "";
+        html += "" +
+            '<div style="width: 100%; padding: 20px 30px; text-align: center;">';
+        html += '    <h1 style="font-size: 24px; margin-bottom: 10px;">출장정산목록</h1>';
+        html += '<table style="width: 100%; height:100%; margin-top: 10px; border-collapse: collapse; text-align: center; font-size: 11px;">' +
+            '        <tbody>' +
+            '            <tr>' +
+            '                <th style="border: 1px solid black; width: 30px; font-size: 11px; padding: 10px 5px; background-color: #ffe0e0;">번호</th>' +
+            '                <td style="border: 1px solid black; width: 60px; font-size: 11px; padding: 10px 5px; background-color: #ffe0e0;">구분</td>' +
+            '                <th style="border: 1px solid black; width: 110px; font-size: 11px; padding: 10px 5px; background-color: #ffe0e0;">프로젝트</th>' +
+            '                <td style="border: 1px solid black; width: 60px; font-size: 11px; padding: 10px 5px; background-color: #ffe0e0;">출장자</td>' +
+            '                <td style="border: 1px solid black; width: 100; font-size: 11px; padding: 10px 5px; background-color: #ffe0e0;">출장지(경유지)</td>' +
+            '                <td style="border: 1px solid black; width: 80px; font-size: 11px; padding: 10px 5px; background-color: #ffe0e0;">출발일시</td>' +
+            '                <td style="border: 1px solid black; width: 80px; font-size: 11px; padding: 10px 5px; background-color: #ffe0e0;">복귀일시</td>' +
+            '                <td style="border: 1px solid black; width: 60px; font-size: 11px; padding: 10px 5px; background-color: #ffe0e0;">차량</td>' +
+            '                <td style="border: 1px solid black; width: 80px; font-size: 11px; padding: 10px 5px; background-color: #ffe0e0;">여비</td>' +
+            '            </tr>';
+
+        for(let i=0; i<exnpList.length; i++){
+            bustripTotCost += Number(exnpList[i].TOT_COST);
+            html += "" +
+                '        <tr>' +
+                '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ (i+1) +'</td>' +
+                '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].TRIP_TYPE +'</td>' +
+                '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].BUSN_NAME +'</td>' +
+                '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].EXNP_NAME.replaceAll(",","<br></br>") +'</td>' +
+                '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].VISIT_PLACE +'</td>' +
+                '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].TRIP_DAY_FR +'<br></br>'+ exnpList[i].TRIP_TIME_FR +'</td>' +
+                '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].TRIP_DAY_TO +'<br></br>'+ exnpList[i].TRIP_TIME_TO +'</td>' +
+                '            <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px;">'+ exnpList[i].CAR_CLASS_NAME +'</td>' +
+                '            <td style="border: 1px solid black; padding: 10px 5px;  font-size: 11px; text-align: right">'+ comma(exnpList[i].TOT_COST) +'</td>' +
+                '        </tr>';
+        }
+
+        html += "" +
+            '            <tr>' +
+            '                <td colspan="8" style="border: 1px solid black; font-size: 11px; padding: 10px 5px; background-color: #ffe0e0;">출장여비 합계</td>' +
+            '                <td style="border: 1px solid black; padding: 10px 5px; font-size: 11px; text-align: right;">'+ comma(bustripTotCost) +'</td>' +
+            '            </tr>' +
+            '        </tbody>' +
+            '    </table>' +
+            '    <p style="font-size: 11px; text-align: left;">* 법인차량 이용금액은 법인운영예산에서 지출 불가</p>' +
+            '</div>';
 
         return html;
     }

@@ -1177,6 +1177,14 @@ public class BustripController {
         return "jsonView";
     }
 
+    /** 출장정산목록 데이터 */
+    @RequestMapping("/bustrip/getBustripExnpTotalData")
+    public String getBustripExnpTotalData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = bustripService.getBustripExnpTotalData(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     @RequestMapping("/bustrip/getExnpHistOne")
     public String getExnpHistOne(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = bustripService.getExnpHistOne(params);

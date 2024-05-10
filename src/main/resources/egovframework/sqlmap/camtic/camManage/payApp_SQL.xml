@@ -2297,6 +2297,9 @@
             #{type}
         </foreach>
         OR FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn})
+        <if test='exnpSn != null and !"".equals(exnpSn)'>
+            OR (CONTENT_ID = #{exnpSn} AND FILE_CD = 'exnp')
+        </if>
     </select>
 
     <select id="getPayAppDocFileList" parameterType="map" resultType="map">
@@ -2528,6 +2531,9 @@
             (CONTENT_ID = #{payAppSn} AND FILE_CD = 'payApp')
         OR
             (FILE_NO IN (SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}))
+        <if test='exnpSn != null and !"".equals(exnpSn)'>
+            OR (CONTENT_ID = #{exnpSn} AND FILE_CD = 'exnp')
+        </if>
     </select>
 
     <select id="getApprovalExnpFileData" parameterType="map" resultType="map">
@@ -2742,6 +2748,9 @@
         (
             SELECT FILE_NO FROM CAM_MNG.DJ_PAY_APP_FILE WHERE PAY_APP_SN = #{payAppSn}
         )
+        <if test='exnpSn != null and !"".equals(exnpSn)'>
+            OR (CONTENT_ID = #{exnpSn} AND FILE_CD = 'exnp');
+        </if>
     </select>
 
     <select id="getRegIncmReData" parameterType="map" resultType="map">
