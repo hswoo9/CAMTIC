@@ -170,29 +170,29 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     }
     if(baNb == null || baNb == "" || baNb == "undefined"){
         baNb = "";
-        $("#crmNm" + idx).css("border", "1px solid red");
-        $("#regNo" + idx).css("border", "1px solid red");
-    } else {
-        $("#crmNm" + idx).css("border", 0);
-        $("#regNo" + idx).css("border", 0);
+        // $("#crmNm" + idx).css("border", "1px solid red");
+        // $("#regNo" + idx).css("border", "1px solid red");
+    // } else {
+    //     $("#crmNm" + idx).css("border", 0);
+    //     $("#regNo" + idx).css("border", 0);
     }
 
     if(bankNm == null || bankNm == "" || bankNm == "undefined"){
         bankNm = "";
-        $("#crmNm" + idx).css("border", "1px solid red");
-        $("#regNo" + idx).css("border", "1px solid red");
-    }else {
-        $("#crmNm" + idx).css("border", 0);
-        $("#regNo" + idx).css("border", 0);
+        // $("#crmNm" + idx).css("border", "1px solid red");
+        // $("#regNo" + idx).css("border", "1px solid red");
+    // }else {
+    //     $("#crmNm" + idx).css("border", 0);
+    //     $("#regNo" + idx).css("border", 0);
     }
 
     if(depositor == null || depositor == "" || depositor == "undefined"){
         depositor = "";
-        $("#crmNm" + idx).css("border", "1px solid red");
-        $("#regNo" + idx).css("border", "1px solid red");
-    } else {
-        $("#crmNm" + idx).css("border", 0);
-        $("#regNo" + idx).css("border", 0);
+        // $("#crmNm" + idx).css("border", "1px solid red");
+        // $("#regNo" + idx).css("border", "1px solid red");
+    // } else {
+    //     $("#crmNm" + idx).css("border", 0);
+    //     $("#regNo" + idx).css("border", 0);
     }
 
     if(tradeDe != null && tradeDe != "" && tradeDe != "undefined"){
@@ -216,4 +216,5 @@ function fn_selEtaxInfo(trCd, trNm, isuDt, trregNb, supAm, vatAm, sumAm, issNo, 
     $("#crmAccHolder" + idx).val(depositor);
 
     regPay.fn_changeAllCost();
+    regPay.fn_g20ClientCheck();
 }

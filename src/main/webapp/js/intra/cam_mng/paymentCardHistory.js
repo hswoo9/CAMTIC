@@ -425,6 +425,7 @@ var payCardHist = {
 
         if(opener.parent.regPay){
             opener.parent.regPay.fn_changeAllCost();
+            opener.parent.regPay.fn_g20ClientCheck();
 
             if(opener.parent.$("#busnNm").val().indexOf("R&D") > -1){
                 opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));

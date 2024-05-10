@@ -2081,33 +2081,6 @@ var regPay = {
             $("#appTeam" + itemIndex).data("kendoDropDownList").value(item.TEAM_SEQ);
             $("#eviType" + itemIndex).data("kendoDropDownList").value(item.EVID_TYPE);
 
-            // 지급신청서 검토 - 사업자등록번호 등록여부 체크
-            if($("#auth").val() != "user" && (item.EVID_TYPE == "1" || item.EVID_TYPE == "2" || item.EVID_TYPE == "3") && item.REG_NO != null && item.REG_NO != "") {
-                if(item.TR_CD){
-                    var data = {
-                        REG_NO : item.REG_NO.replaceAll("-", "")
-                    }
-
-                    $.ajax({
-                        url : "/g20/getClientInfoOne",
-                        data :data,
-                        type : "post",
-                        dataType : "json",
-                        async : false,
-                        success : function (rs){
-                            var result = rs.data;
-                            if(result == null){
-                                $("#crmNm" + regPayDet.global.itemIndex).css("border", "1px solid red");
-                                $("#regNo" + regPayDet.global.itemIndex).css("border", "1px solid red");
-                            }
-                        }
-                    });
-                } else {
-                    $("#crmNm" + regPayDet.global.itemIndex).css("border", "1px solid red");
-                    $("#regNo" + regPayDet.global.itemIndex).css("border", "1px solid red");
-                }
-            }
-
             regPay.fn_updReason(regPayDet.global.itemIndex, "dataSet"); //페이지 로드 시 모든 내용 hidden값 부여
             regPayDet.global.itemIndex++;
         }
@@ -2145,6 +2118,7 @@ var regPay = {
         });
 
         $("#totalAllCost").text(regPay.comma(totAllCost));
+        regPay.fn_g20ClientCheck();
     },
 
     fn_popDateSetting : function(type){
@@ -2758,6 +2732,43 @@ var regPay = {
                     alert("반려되었습니다.");
 
                     $("#dialogRecall").data("kendoWindow").close();
+                }
+            }
+        });
+    },
+
+    fn_g20ClientCheck : function(){
+        console.log("fn_g20ClientCheck");
+        $.each($(".payDestInfo"), function(i, v){
+            var index = $(this).attr("id").replace(/[^0-9]/g, '');
+            var regNo = $("#regNo" + index).val();
+            var eviType = $("#eviType" + index).val();
+            var trCd = $("#trCd" + index).val();
+
+            // 지급신청서 검토 - 사업자등록번호 등록여부 체크
+            if((eviType == "1" || eviType == "2" ||eviType == "3") && regNo != null && regNo != "") {
+                if(trCd){
+                    var data = {
+                        REG_NO : regNo
+                    }
+
+                    $.ajax({
+                        url : "/g20/getClientInfoOne",
+                        data :data,
+                        type : "post",
+                        dataType : "json",
+                        async : false,
+                        success : function (rs){
+                            var result = rs.data;
+                            if(result == null){
+                                $("#crmNm" + index).css("border", "1px solid red");
+                                $("#regNo" + index).css("border", "1px solid red");
+                            }
+                        }
+                    });
+                } else {
+                    $("#crmNm" + index).css("border", "1px solid red");
+                    $("#regNo" + index).css("border", "1px solid red");
                 }
             }
         });
