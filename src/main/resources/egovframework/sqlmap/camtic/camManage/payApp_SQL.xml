@@ -528,15 +528,38 @@
                 AND
                     ITEM_COUNT != IFNULL(EXNP_STATUS, 0)
             </if>
-            <if test='searchDept == "1" or "1".equals(searchDept)'>
+            <if test='"1".equals(searchDept)'>
                 AND AA.DOC_STATUS IN (0,30,40)
             </if>
-            <if test='searchDept == "2" or "2".equals(searchDept)'>
+            <if test='"2".equals(searchDept)'>
                 AND AA.DOC_STATUS IN (10,20,50)
             </if>
-            <if test='searchDept == "3" or "3".equals(searchDept)'>
+            <if test='"3".equals(searchDept)'>
                 AND AA.DOC_STATUS IN (100,101)
             </if>
+            <if test='"4".equals(searchDept)'>
+                AND (
+                        AA.DOC_STATUS IN (100,101)
+                    AND AA.ITEM_COUNT = AA.EXNP_DOC_STATUS
+                    AND AA.EXNP_STATUS = AA.EXNP_DOC_STATUS
+                    AND AA.EXNP_STATUS != 0
+                    AND AA.RE_STAT = 'Y'
+                )
+            </if>
+            <if test='"5".equals(searchDept)'>
+                AND AA.DOC_STATUS IN (100,101)
+                AND !(
+                        AA.ITEM_COUNT = AA.EXNP_DOC_STATUS
+                    AND AA.EXNP_STATUS = AA.EXNP_DOC_STATUS
+                    AND AA.EXNP_STATUS != 0
+                    AND AA.RE_STAT = 'Y'
+                )
+                AND !(
+                        AA.ITEM_COUNT != AA.EXNP_DOC_STATUS
+                    AND AA.EXNP_DOC_STATUS != 0
+                )
+            </if>
+
             <choose>
                 <when test='"A".equals(searchKeyword)'>
                     AND

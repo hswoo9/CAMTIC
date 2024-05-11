@@ -9,9 +9,11 @@ var paymentMngList = {
     fn_defaultScript : function(){
 
         paymentMngList.global.dropDownDataSource = [
-            { text: "작성중", value: "0" },
-            { text: "결재대기", value: "10" },
-            { text: "결재완료", value: "100" },
+            { text: "작성중", value: "1" },
+            { text: "결재대기", value: "2" },
+            { text: "결재완료", value: "3" },
+            { text: "지출대기", value: "5" },
+            { text: "지출완료", value: "4" },
         ]
         customKendo.fn_dropDownList("searchDept", paymentMngList.global.dropDownDataSource, "text", "value");
 
@@ -58,8 +60,35 @@ var paymentMngList = {
     },
 
     mainGrid : function(url, params){
+        const dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 10,
+            transport: {
+                read : {
+                    url : url,
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data, operation) {
+                    for(var key in params){
+                        data[key] = params[key];
+                    }
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             selectable: "row",
             height: 525,

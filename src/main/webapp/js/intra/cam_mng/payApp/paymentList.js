@@ -9,9 +9,9 @@ var paymentList = {
     fn_defaultScript : function(){
 
         paymentList.global.dropDownDataSource = [
-            { text: "작성중", value: "0" },
-            { text: "결재대기", value: "10" },
-            { text: "결재완료", value: "100" },
+            { text: "작성중", value: "1" },
+            { text: "결재대기", value: "2" },
+            { text: "결재완료", value: "3" }
         ]
         customKendo.fn_dropDownList("searchDept", paymentList.global.dropDownDataSource, "text", "value");
 
