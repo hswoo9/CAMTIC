@@ -117,6 +117,23 @@ var purcInfo = {
                         for(let i=0; i<list.length; i++){
                             invSum += Number(list[i].EST_TOT_AMT);
                         }
+
+                        const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
+                        const pjtMap = pjtInfo.map;
+                        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "S"){
+                            const rs = customKendo.fn_customAjax("/project/engn/getEstData", {pjtSn: $("#pjtSn").val()});
+                            const res = rs.result;
+                            const estList = res.estList;
+                            let estMap = new Object();
+
+                            /** 현재 버전 견적 데이터 추출 */
+                            estMap = estList[(estList.length - 1)];
+                            console.log("estMap.VAT", estMap.VAT);
+
+                            if(estMap.VAT == "N"){
+                                invSum = Number(invSum * 1.1);
+                            }
+                        }
                         return "<div style='text-align: right'>"+comma(invSum)+"</div>";
                     }
                 }, {
@@ -174,6 +191,23 @@ var purcInfo = {
                         let invSum = 0;
                         for(let i=0; i<list.length; i++){
                             invSum += Number(list[i].EST_TOT_AMT);
+                        }
+
+                        const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
+                        const pjtMap = pjtInfo.map;
+                        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "S"){
+                            const rs = customKendo.fn_customAjax("/project/engn/getEstData", {pjtSn: $("#pjtSn").val()});
+                            const res = rs.result;
+                            const estList = res.estList;
+                            let estMap = new Object();
+
+                            /** 현재 버전 견적 데이터 추출 */
+                            estMap = estList[(estList.length - 1)];
+                            console.log("estMap.VAT", estMap.VAT);
+
+                            if(estMap.VAT == "N"){
+                                invSum = Number(invSum * 1.1);
+                            }
                         }
 
                         const leftList = customKendo.fn_customAjax("/purc/getProjectPurcReqList", {pjtSn: $("#pjtSn").val()}).list;

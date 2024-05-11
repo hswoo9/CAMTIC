@@ -896,11 +896,27 @@ var prp = {
         if($("#pjtSn").val() != ""){
             const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
             const pjtMap = pjtInfo.map;
+            console.log("pjtMap : ", pjtMap);
 
             const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val(), ck: '1'}).list;
             let invSum = 0;
             for(let i=0; i<list.length; i++){
                 invSum += Number(list[i].EST_TOT_AMT);
+            }
+
+            if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "S"){
+                const rs = customKendo.fn_customAjax("/project/engn/getEstData", {pjtSn: $("#pjtSn").val()});
+                const res = rs.result;
+                const estList = res.estList;
+                let estMap = new Object();
+
+                /** 현재 버전 견적 데이터 추출 */
+                estMap = estList[(estList.length - 1)];
+                console.log("estMap.VAT", estMap.VAT);
+
+                if(estMap.VAT == "N"){
+                    invSum = Number(invSum * 1.1);
+                }
             }
 
             const leftList = customKendo.fn_customAjax("/purc/getProjectPurcReqList", {pjtSn: $("#pjtSn").val()}).list;
@@ -916,14 +932,17 @@ var prp = {
              * purcSum = 프로젝트 전체 요청금액
              * leftSum = invSum - purcSum
              */
+            const sum2 = Math.round(sum/10);
 
             console.log("itemSum : "+Number(itemSum));
             console.log("invSum : "+Number(invSum));
             console.log("purcSum : "+Number(purcSum));
             console.log("leftSum : "+Number(leftSum));
+
             if(Number(leftSum) < Number(itemSum)){
                 alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다."); return;
             }
+            return;
         }
 
         $("#purcDraftFrm").one("submit", function() {
