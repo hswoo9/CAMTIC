@@ -210,7 +210,7 @@ var purcClaim = {
                                 return "검수미작성";
                             }
                         }else{
-                            if(e.GOODS_DT == null){
+                            if((((e.GOODS_DT == null || e.GOODS_DT == "") && e.ORDER_YN == "N") || e.ORDER_YN == null) || e.ORDER_YN == "N"){
                                 return "발주대기";
                             } else {
                                 if(e.INSPECT_STATUS != "100"){

@@ -45,14 +45,23 @@ var purcMngAppList = {
         $("#inspectStat").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
         $("#busnClass").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
         // $("#searchKeyword").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
-        purcMngAppList.gridReload();
+        purcMngAppList.mainGrid();
 
         customKendo.fn_datePicker("expDe", "depth", "yyyy-MM-dd", new Date());
     },
 
-    mainGrid : function(url, params){
+    mainGrid : function(){
+        purcMngAppList.global.searchAjaxData = {
+            empSeq : $("#myEmpSeq").val(),
+            searchDept : $("#searchDept").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
+            busnClass : $("#busnClass").val()
+        }
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: customKendo.fn_gridDataSource2("/purc/getMngPurcAppList", purcMngAppList.global.searchAjaxData),
             sortable: true,
             selectable: "row",
             pageable: {
@@ -165,6 +174,20 @@ var purcMngAppList = {
                 //     width: 100
                 // }
                 , {
+                    title: "비용지급방식",
+                    width: 62,
+                    template: function(e){
+                        let paymentMethod = "";
+                        if(e.PAYMENT_METHOD == "A"){
+                            paymentMethod = "계좌이체";
+                        }else if(e.PAYMENT_METHOD == "I"){
+                            paymentMethod = "인터넷구매";
+                        }else if(e.PAYMENT_METHOD == "C"){
+                            paymentMethod = "현장결제";
+                        }
+                        return paymentMethod;
+                    }
+                }, {
                     title: "금액",
                     width: 62,
                     template: function(e){
@@ -254,7 +277,7 @@ var purcMngAppList = {
             busnClass : $("#busnClass").val()
         }
 
-        purcMngAppList.mainGrid("/purc/getMngPurcAppList", purcMngAppList.global.searchAjaxData);
+        $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
     fn_reqRegPopup : function(key, stat){

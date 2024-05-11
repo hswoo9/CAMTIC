@@ -1087,15 +1087,6 @@ var regPay = {
 
             $("#fileText").text(resultFileName + ' | ' + docFileThumbText);
             $("#bList").val(resultBlist);
-
-
-            if($("#payDestTb").find("tr").length != 1){
-                for(var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
-                    if($("#totCost" + i).val() == 0){
-                        regPayDet.delRow(i)
-                    }
-                }
-            }
         }
 
 
@@ -1600,6 +1591,14 @@ var regPay = {
                 $("#pjtNm").val(pjtMap.PJT_NM);
                 if ($("#pjtSn").val() != "") {
                     selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
+                }
+            }
+        }
+
+        if($("#reqType").val() != "camproject" && $("#payDestTb").find("tr").length != 1){
+            for(var i = 0 ; i < $("#payDestTb").find("tr").length ; i++){
+                if($("#totCost" + i).val() == 0){
+                    regPayDet.delRow(i)
                 }
             }
         }

@@ -163,7 +163,7 @@ var paymentMngList = {
                     field: "EMP_NAME"
                 }, {
                     title: "신청일",
-                    width: 70,
+                    width: 80,
                     field: "APP_DE",
                     template: function(e){
 
@@ -171,7 +171,7 @@ var paymentMngList = {
                     }
                 }, {
                     title: "지출요청일",
-                    width: 80,
+                    width: 82,
                     field: "REQ_DE",
                     template : function(e){
                         if(e.EXNP_ISS != null && e.EXNP_ISS != "" && e.EXNP_ISS != undefined){

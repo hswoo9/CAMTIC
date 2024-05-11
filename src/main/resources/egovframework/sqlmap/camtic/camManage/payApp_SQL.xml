@@ -432,6 +432,9 @@
         FROM CAM_MNG.DJ_PAY_APP_DET PAD
         WHERE PAD.PAY_APP_SN = #{payAppSn}
         GROUP BY BUDGET_SN, TR_CD, CRM_NM, CRM_ACC_HOLDER, CRM_ACC_NO
+        <![CDATA[
+        HAVING TOT_COST > 0
+        ]]>
     </select>
 
     <select id="getPaymentList" parameterType="map" resultType="map">
