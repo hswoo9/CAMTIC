@@ -938,7 +938,8 @@
         SET
             EXNP_STAT = 'Y',
             EXNP_CNT = #{USER_SQ},
-            RE_STAT = 'Y'
+            RE_STAT = 'Y',
+            PMR_NO = #{PMR_NO}
         WHERE
             PAY_INCP_RE_SN = #{PAY_INCP_RE_SN}
     </update>
@@ -962,6 +963,8 @@
             D.TOT_COST,
             D.BUDGET_NM BUDGET_NM_EX,
             D.EVID_TYPE EVI_TYPE,
+            D.CRM_NAME,
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_EXNP_DET WHERE EXNP_SN = A.EXNP_SN) CNT,
             (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) AS REG_EMP_NAME
         FROM
             CAM_MNG.DJ_EXNP A
@@ -982,6 +985,7 @@
                 EXNP_SN,
                 SUM(TOT_COST) TOT_COST,
                 GROUP_CONCAT(CRM_NM) AS CRM_NM,
+                CRM_NM AS CRM_NAME,
                 BUDGET_NM,
                 EVID_TYPE
             FROM CAM_MNG.DJ_EXNP_DET
@@ -1086,7 +1090,6 @@
             DJ_CAMTIC.A_DOC_INFO DI ON E.DOC_ID = DI.DOC_ID
         WHERE (ED.EVID_TYPE IN (1, 2, 3) or ED.EVID_TYPE NOT IN (1, 2, 3))
         AND E.DOC_STATUS = '100'
-        AND E.PAY_APP_TYPE = 1
         <if test='pjtCd != null and !"".equals(pjtCd)'>
             AND E.PJT_CD = #{pjtCd}
         </if>
@@ -1182,7 +1185,7 @@
             CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE (ED.EVID_TYPE IN (1, 2, 3) or ED.EVID_TYPE NOT IN (1, 2, 3))
             AND E.DOC_STATUS = '100'
-            AND E.PAY_APP_TYPE = 1
+           -- AND E.PAY_APP_TYPE = 1
         <if test='pjtCd != null and !"".equals(pjtCd)'>
             AND E.PJT_CD = #{pjtCd}
         </if>
@@ -1224,6 +1227,7 @@
         /* getIncpList */
         SELECT
             A.*,
+            C.EVID_TYPE,
             IFNULL(D.EMP_NAME_KR, '') AS EMP_NAME,
             B.DOC_NO,
             C.TOT_COST,
@@ -1238,6 +1242,7 @@
         LEFT JOIN
             (
                 SELECT
+                    EVID_TYPE,
                     PAY_INCP_SN,
                     SUM(TOT_COST) AS TOT_COST,
                     GROUP_CONCAT(CRM_NM) AS CRM_NM
@@ -1381,8 +1386,10 @@
                 AB.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
             </when>
             <when test='"D".equals(searchKeyword)'>
-                AND
+                AND (
                     AB.CRM_NM REGEXP #{searchValue}
+                    OR AB.PAY_INCP_SN = ((SELECT PAY_INCP_SN FROM CAM_MNG.DJ_PAY_INCP_DET WHERE CRM_NM LIKE CONCAT('%', #{searchValue}, '%') LIMIT 1))
+                )
             </when>
             <otherwise>
                 AND
@@ -1391,6 +1398,7 @@
                     OR AB.APP_CONT LIKE CONCAT('%', #{searchValue},'%')
                     OR AB.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
                     OR AB.CRM_NM REGEXP #{searchValue}
+                    OR AB.PAY_INCP_SN = ((SELECT PAY_INCP_SN FROM CAM_MNG.DJ_PAY_INCP_DET WHERE CRM_NM LIKE CONCAT('%', #{searchValue}, '%') LIMIT 1))
                 )
             </otherwise>
         </choose>
@@ -3192,4 +3200,18 @@
         WHERE
             PAY_APP_SN = #{payAppSn}
     </update>
+
+    <select id="getDepoInfo" parameterType="map" resultType="map">
+        /*getDepoInfo*/
+        SELECT
+            A.*,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.REG_EMP_SEQ = EMP_SEQ) AS REG_EMP_NAME,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE A.MOD_EMP_SEQ = EMP_SEQ) AS MOD_EMP_NAME
+        FROM
+            CAM_MNG.DJ_DEPO_SETTING A
+        WHERE
+            PJT_CD = #{pjtCd}
+        ORDER BY DEPO_SET_SN DESC
+            LIMIT 1
+    </select>
 </mapper>

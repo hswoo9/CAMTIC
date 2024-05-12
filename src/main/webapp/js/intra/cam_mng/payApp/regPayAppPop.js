@@ -2131,7 +2131,9 @@ var regPay = {
             alert("증빙유형을 선택해주세요.");
             return;
         }
-        regPay.fn_save("", "drafting");
+        try{
+            regPay.fn_save("", "drafting");
+        } catch(e){return;}
         var trDe = $("#trDe0").val();
         var trDeAr = trDe.split("-");
 
@@ -2397,9 +2399,7 @@ var regPay = {
                 budgetNmFlag = false;
             }
 
-            if(!$("#trCd" + index).val() && $("#eviType" + index).val() != "6") {
-                tdFlag = false;
-            }
+
 
             var data = {
                 budgetNm : $("#budgetNm" + index).val(),
@@ -2446,9 +2446,15 @@ var regPay = {
                 data.fileNo = $("#fileNo" + index).val();
             }
 
-            /** 사업소득자 또는 기타소득자일경우 trCd 필수값 */
-            if((data.evidType == "5" || data.evidType == "9") && (data.trCd == undefined || data.trCd == null || data.trCd == "" || data.trCd == "undefined")){
-                trCdFlag = false;
+            if(type == "drafting"){
+                if((data.evidType == "1" || data.evidType == "2" || data.evidType == "3") && !data.trCd && $("#eviType" + index).val() != "6") {
+                    tdFlag = false;
+                }
+
+                /** 사업소득자 또는 기타소득자일경우 trCd 필수값 */
+                if((data.evidType == "5" || data.evidType == "9") && (data.trCd == undefined || data.trCd == null || data.trCd == "" || data.trCd == "undefined")){
+                    trCdFlag = false;
+                }
             }
 
 
@@ -2473,12 +2479,14 @@ var regPay = {
 
         if(!tdFlag) {
             alert("G20 거래처가 등록되지 않았습니다.\n담당자에게 문의해주세요.")
+            throw 'exit';
             return;
         }
 
         if(!trCdFlag){
-            alert("증빙유형이 사업소득자 및 기타소득자 일 경우 선택팝업창에서 정상적으로 선택을 해야 진행가능합니다.");
-            return ;
+            alert("증빙유형이 사업소득자 및 기타소득자 일 경우\n선택팝업창에서 정상적으로 선택을 해야 진행가능합니다.");
+            throw 'exit';
+            return;
         }
 
         parameters.itemArr = JSON.stringify(itemArr);
@@ -2745,8 +2753,8 @@ var regPay = {
             var trCd = $("#trCd" + index).val();
 
             // 지급신청서 검토 - 사업자등록번호 등록여부 체크
-            if((eviType == "1" || eviType == "2" ||eviType == "3") && regNo != null && regNo != "") {
-                if(trCd){
+            if((eviType == "1" || eviType == "2" ||eviType == "3") && regNo != null && regNo != "" || !trCd) {
+                if(trCd || regNo){
                     var data = {
                         REG_NO : regNo
                     }

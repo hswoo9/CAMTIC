@@ -71,12 +71,36 @@ var alterList = {
             ],
             columns: [
                 {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll"/>',
+                    width: 30,
+                    template : function(e){
+                        if(e.DOC_STATUS == "100"){
+                            if(e.RE_STAT == "N"){
+                                return '<input type="checkbox" name="check" value="'+e.EXNP_SN+'"/>';
+                            } else {
+                                return '';
+                            }
+                        } else {
+                            return '';
+                        }
+                    }
+                }, {
                     title: "번호",
-                    width: 40,
+                    width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "문서유형",
-                    width: 70,
+                    field: "DOC_NO",
+                    title: "문서번호",
+                    width: 120,
+                }, {
+                    title: "지출유형",
+                    width: 80,
+                    template : function(e){
+                        return '대체';
+                    }
+                }, {
+                    title: "증빙유형",
+                    width: 80,
                     template: function(e){
                         if(e.EVI_TYPE == 1){
                             return "세금계산서";
@@ -95,78 +119,57 @@ var alterList = {
                         }
                     }
                 }, {
-                    field: "DOC_NO",
-                    title: "문서번호",
-                    width: 120,
+                    title: "프로젝트 명",
+                    field: "PJT_NM",
+                    width: 200,
                 }, {
-                    title: "적요",
+                    title: "예산비목",
+                    field: "BUDGET_NM_EX",
+                    width: 200
+                }, {
+                    title: "거래처",
+                    width: 200,
+                    template: function(e){
+                        if(e.CNT > 1){
+                            return e.CRM_NAME + " 외 " + Number(e.CNT-1);
+                        } else {
+                            return e.CRM_NAME
+                        }
+                    }
+                }, {
+                    title: "적요(제목)",
                     field: "EXNP_BRIEFS",
                     width: 280,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="alterList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'alt\')">'+e.EXNP_BRIEFS+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="entryList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'in\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
-                    title: "프로젝트 명",
-                    field: "PJT_NM",
-                    width: 210,
-                    template: function (e){
-                        var pjtNm = e.PJT_NM.toString().substring(0, 25);
-                        return pjtNm + "...";
-                    }
-                }, {
-                    title: "세출과목",
-                    field: "BUDGET_NM_EX",
-                    width: 210
-                }, {
-                    title: "신청일",
-                    width: 70,
-                    field: "REG_DT",
-                    template: function(e){
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
-                    }
-                }, {
-                    title: "지출요청일",
-                    width: 70,
-                    field: "REQ_DE"
-                }, {
-                    title: "지출예정일",
-                    width: 70,
-                    field: "DT3"
-                }, {
-                    title: "지출완료일",
-                    width: 70,
-                    field: "REQ_END_DE"
-                }, {
-                    title: "지출금액",
+                    title: "대체금액",
                     width: 80,
                     template: function(e){
                         var cost = e.TOT_COST;
-                        if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
-                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
-                        } else {
-                            return '<div style="text-align: right">'+0+'</div>';
-                        }
+                        return '<div style="text-align: right">'+comma(cost)+'</div>';
+
+                        // if(e.RE_STAT == "Y"){
+                        //     return '<div style="text-align: right">'+comma(cost)+'</div>';
+                        // } else {
+                        //     return '<div style="text-align: right">'+0+'</div>';
+                        // }
                     }
+                }, {
+                    title: "결의일자",
+                    width: 80,
+                    field: "EXNP_DE",
                 }, {
                     title: "상태",
                     width: 60,
                     template: function(e){
-                        var status = "";
-                        if(e.DOC_STATUS == "100"){
-                            status = "결재완료";
-                            if(e.REQ_END_DE != null && e.REQ_END_DE != "" && e.REQ_END_DE != undefined){
-                                status = "승인";
-                            } else {
-                                status = "미결";
-                            }
-                        } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
-                            status = "결재중"
+                        if(e.RE_STAT == "N"){
+                            return "미승인"
                         } else {
-                            status = "작성중"
+                            return "승인"
                         }
-
-                        return status;
                     }
                 }
             ],

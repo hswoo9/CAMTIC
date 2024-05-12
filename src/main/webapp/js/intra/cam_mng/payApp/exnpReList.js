@@ -105,7 +105,20 @@ var exnpReList = {
                 }, {
                     title: "지출유형",
                     width: 80,
-                    field: "TYPE"
+                    field: "TYPE",
+                    template : function(e) {
+                        if(e.PAY_APP_TYPE != "1"){
+                            if(e.PAY_APP_TYPE == 2){
+                                return "여입";
+                            } else if(e.PAY_APP_TYPE == 3){
+                                return "반납";
+                            } else if(e.PAY_APP_TYPE == 4){
+                                return "대체";
+                            }
+                        } else {
+                            return e.TYPE;
+                        }
+                    }
                 }, {
                     title: "증빙유형",
                     width: 80,

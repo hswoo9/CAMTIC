@@ -829,7 +829,7 @@ public class PayAppServiceImpl implements PayAppService {
                     } else if(data.get("EVID_TYPE").toString().equals("5")){
                         data.put("SET_FG", "1");
                         data.put("VAT_FG", "3");
-                        data.put("TR_FG", "4");
+                        data.put("TR_FG", "9");
                         data.put("TAX_DT", data.get("IN_DT"));
 
                         int totAmt = Integer.parseInt(data.get("SUP_AM").toString()) + Integer.parseInt(data.get("VAT_AM").toString());
@@ -2026,5 +2026,10 @@ public class PayAppServiceImpl implements PayAppService {
     @Override
     public void delIncpRe(Map<String, Object> params) {
         payAppRepository.delIncpRe(params);
+    }
+
+    @Override
+    public Map<String, Object> getDepoInfo(Map<String, Object> params) {
+        return payAppRepository.getDepoInfo(params);
     }
 }

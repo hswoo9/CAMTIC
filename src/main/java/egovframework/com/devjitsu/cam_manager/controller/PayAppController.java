@@ -1187,4 +1187,12 @@ public class PayAppController {
 
         return "jsonView";
     }
+
+    @RequestMapping("/payApp/getDepoInfo")
+    public String getDepoInfo(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("data", payAppService.getDepoInfo(params)) ;
+
+        return "jsonView";
+    }
 }

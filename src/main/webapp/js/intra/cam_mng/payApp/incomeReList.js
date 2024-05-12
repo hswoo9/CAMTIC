@@ -108,7 +108,7 @@ var incomeReList = {
                     field: "EMP_NAME",
                     width: 80,
                 }, {
-                    title: "지출금액",
+                    title: "입금금액",
                     width: 100,
                     template: function(e){
                         var cost = e.TOT_COST;

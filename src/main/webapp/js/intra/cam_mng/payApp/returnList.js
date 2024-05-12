@@ -94,11 +94,21 @@ var returnList = {
                     }
                 }, {
                     title: "번호",
-                    width: 40,
+                    width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "문서유형",
-                    width: 70,
+                    field: "DOC_NO",
+                    title: "문서번호",
+                    width: 120,
+                }, {
+                    title: "지출유형",
+                    width: 80,
+                    template : function(e){
+                        return '반납';
+                    }
+                }, {
+                    title: "증빙유형",
+                    width: 80,
                     template: function(e){
                         if(e.EVI_TYPE == 1){
                             return "세금계산서";
@@ -110,82 +120,55 @@ var returnList = {
                             return "직원지급";
                         } else if(e.EVI_TYPE == 5){
                             return "사업소득자";
-                        } else if(e.EVI_TYPE == 6){
-                            return "기타";
-                        }else if(e.EVI_TYPE == 9){
+                        } else if(e.EVI_TYPE == 9){
                             return "기타소득자";
                         } else {
                             return "기타";
                         }
                     }
                 }, {
-                    field: "DOC_NO",
-                    title: "문서번호",
-                    width: 120,
-                }, {
-                    title: "적요",
-                    field: "EXNP_BRIEFS",
-                    width: 250,
-                    template: function(e){
-                        console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="returnList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'re\')">'+e.EXNP_BRIEFS+'</div>';
-                    }
-                }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
                     width: 200,
                 }, {
-                    title: "세출과목",
+                    title: "예산비목",
                     field: "BUDGET_NM_EX",
                     width: 200
                 }, {
-                    title: "신청일",
-                    width: 80,
-                    field: "REG_DT",
+                    title: "거래처",
+                    width: 200,
                     template: function(e){
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
+                        if(e.CNT > 1){
+                            return e.CRM_NAME + " 외 " + Number(e.CNT-1);
+                        } else {
+                            return e.CRM_NAME
+                        }
                     }
                 }, {
-                    title: "지출요청일",
-                    width: 80,
-                    field: "REQ_DE"
+                    title: "적요(제목)",
+                    field: "EXNP_BRIEFS",
+                    width: 280,
+                    template: function(e){
+                        console.log(e);
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="entryList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'in\')">'+e.EXNP_BRIEFS+'</div>';
+                    }
                 }, {
-                    title: "지출예정일",
+                    title: "반납금액",
                     width: 80,
-                    field: "DT3"
+                    template: function(e){
+                        var cost = e.TOT_COST;
+                        return '<div style="text-align: right">'+comma(cost)+'</div>';
+
+                        // if(e.RE_STAT == "Y"){
+                        //     return '<div style="text-align: right">'+comma(cost)+'</div>';
+                        // } else {
+                        //     return '<div style="text-align: right">'+0+'</div>';
+                        // }
+                    }
                 }, {
                     title: "결의일자",
                     width: 80,
                     field: "EXNP_DE",
-                    template : function(e){
-                        if(e.DOC_STATUS == "100"){
-                            return e.EXNP_DE;
-                        } else {
-                            return "";
-                        }
-                    }
-                }, {
-                    title: "지출완료일",
-                    width: 80,
-                    field: "REQ_END_DE",
-                    template : function(e){
-                        if(e.DOC_STATUS == "100"){
-                            return e.REQ_END_DE;
-                        } else {
-                            return "";
-                        }
-                    }
-                }, {
-                    title: "지출금액",
-                    width: 90,
-                    template: function(e){
-                        var cost = e.TOT_COST;
-                        if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
-                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
-                        } else {
-                            return '<div style="text-align: right">'+0+'</div>';
-                        }
-                    }
                 }, {
                     title: "상태",
                     width: 60,

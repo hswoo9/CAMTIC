@@ -13,6 +13,13 @@
         text-decoration: underline !important;
         cursor: pointer;
     }
+
+    .k-grid-content td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
     #my-spinner { width: 100%; height: 100%; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
     #my-spinner div { width: 100%; height: 100%; display: table; }
     #my-spinner span { display: table-cell; text-align: center; vertical-align: middle; }

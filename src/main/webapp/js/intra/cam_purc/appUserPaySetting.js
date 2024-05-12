@@ -78,10 +78,14 @@ const appUserPaySetting = {
             dataType : "json",
             success : function(rs){
                 console.log(rs.list);
+
                 var html = "";
                 $("#payTableBody").html(html);
                 var ls = rs.list;
 
+                if(ls[0].INSPECT_STATUS == 100){
+                    $("#etcStatus").text("(검수완료)")
+                }
                 for (var i = 0; i < ls.length; i++) {
                     html += '<tr id="tr'+ls[i].claimSn+'" value="'+i+'" class="payTr">';
                     html += '   <td style="text-align: center">';
@@ -574,6 +578,13 @@ const appUserPaySetting = {
                             return "";
                         }
                     }
+                }, {
+                    field: "EMP_NAME_KR",
+                    title: "요청자",
+                    width: 100
+                }, {
+                    field: "BUDGET_NM",
+                    title: "예산비목"
                 }, {
                     field: "PJT_NM",
                     title: "프로젝트명"

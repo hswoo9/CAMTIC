@@ -126,4 +126,6 @@ public interface PayAppService {
     void delIncpData(Map<String, Object> params);
 
     void delIncpRe(Map<String, Object> params);
+
+    Map<String, Object> getDepoInfo(Map<String, Object> params);
 }

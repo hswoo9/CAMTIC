@@ -401,16 +401,39 @@ var payCardHist = {
         trParams.REG_NO = data.MER_BIZNO;
         var result = customKendo.fn_customAjax("/g20/getClientInfoOne", trParams);
 
+
         var g20TrCd = "";
         if(result.data != null){
             g20TrCd = result.data.TR_CD;
         }
+
+        var pjtParams = {
+            pjtCd : opener.parent.$("#pjtCd").val()
+        }
+
+        var taxInfo = customKendo.fn_customAjax("/payApp/getDepoInfo", pjtParams);
+
+        var taxData = taxInfo.data;
+
         opener.parent.$("#crmNm" + index).val(data.MER_NM);
         opener.parent.$("#trDe" + index).val(data.AUTH_DD.substring(0,4) + "-" + data.AUTH_DD.substring(4,6) + "-" + data.AUTH_DD.substring(6,8));
         opener.parent.$("#trCd" + index).val(g20TrCd);
-        opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));
-        opener.parent.$("#supCost" + index).val(comma(data.SUPP_PRICE));
-        opener.parent.$("#vatCost" + index).val(comma(data.SURTAX));
+
+        if(taxData != null){
+            if(taxData.TAX_GUBUN == 1){
+                opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));
+                opener.parent.$("#supCost" + index).val(comma(data.SUPP_PRICE));
+                opener.parent.$("#vatCost" + index).val(comma(data.SURTAX));
+            } else {
+                opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));
+                opener.parent.$("#supCost" + index).val(comma(data.AUTH_AMT));
+                opener.parent.$("#vatCost" + index).val(comma(0));
+            }
+        } else {
+            opener.parent.$("#totCost" + index).val(comma(data.AUTH_AMT));
+            opener.parent.$("#supCost" + index).val(comma(data.SUPP_PRICE));
+            opener.parent.$("#vatCost" + index).val(comma(data.SURTAX));
+        }
         opener.parent.$("#cardNo" + index).val(data.CARD_NO.substring(0,4) + "-" + data.CARD_NO.substring(4,8) + "-" + data.CARD_NO.substring(8,12) + "-" + data.CARD_NO.substring(12,16));
         opener.parent.$("#card" + index).val(data.TR_NM);
         opener.parent.$("#buySts" + index).val(data.BUY_STS);

@@ -91,11 +91,21 @@ var entryList = {
                     }
                 }, {
                     title: "번호",
-                    width: 40,
+                    width: 50,
                     template: "#= --record #"
                 }, {
-                    title: "문서유형",
-                    width: 70,
+                    field: "DOC_NO",
+                    title: "문서번호",
+                    width: 120,
+                }, {
+                    title: "지출유형",
+                    width: 80,
+                    template : function(e){
+                        return '여입';
+                    }
+                }, {
+                    title: "증빙유형",
+                    width: 80,
                     template: function(e){
                         if(e.EVI_TYPE == 1){
                             return "세금계산서";
@@ -114,11 +124,25 @@ var entryList = {
                         }
                     }
                 }, {
-                    field: "DOC_NO",
-                    title: "문서번호",
-                    width: 120,
+                    title: "프로젝트 명",
+                    field: "PJT_NM",
+                    width: 200,
                 }, {
-                    title: "적요",
+                    title: "예산비목",
+                    field: "BUDGET_NM_EX",
+                    width: 200
+                }, {
+                    title: "거래처",
+                    width: 200,
+                    template: function(e){
+                        if(e.CNT > 1){
+                            return e.CRM_NAME + " 외 " + Number(e.CNT-1);
+                        } else {
+                            return e.CRM_NAME
+                        }
+                    }
+                }, {
+                    title: "적요(제목)",
                     field: "EXNP_BRIEFS",
                     width: 280,
                     template: function(e){
@@ -126,43 +150,22 @@ var entryList = {
                         return '<div style="cursor: pointer; font-weight: bold" onclick="entryList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'in\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
-                    title: "프로젝트 명",
-                    field: "PJT_NM",
-                    width: 210,
-                }, {
-                    title: "세출과목",
-                    field: "BUDGET_NM_EX",
-                    width: 210
-                }, {
-                    title: "신청일",
-                    width: 70,
-                    field: "REG_DT",
-                    template: function(e){
-                        return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
-                    }
-                }, {
-                    title: "입금요청일",
-                    width: 70,
-                    field: "REQ_DE"
-                }, {
-                    title: "입금예정일",
-                    width: 70,
-                    field: "DT3"
-                }, {
-                    title: "입금완료일",
-                    width: 70,
-                    field: "REQ_END_DE"
-                }, {
-                    title: "입금금액",
+                    title: "여입금액",
                     width: 80,
                     template: function(e){
                         var cost = e.TOT_COST;
-                        if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
-                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
-                        } else {
-                            return '<div style="text-align: right">'+0+'</div>';
-                        }
+                        return '<div style="text-align: right">'+comma(cost)+'</div>';
+
+                        // if(e.RE_STAT == "Y"){
+                        //     return '<div style="text-align: right">'+comma(cost)+'</div>';
+                        // } else {
+                        //     return '<div style="text-align: right">'+0+'</div>';
+                        // }
                     }
+                }, {
+                    title: "결의일자",
+                    width: 80,
+                    field: "EXNP_DE",
                 }, {
                     title: "상태",
                     width: 60,

@@ -89,7 +89,7 @@ var incomeList = {
                 }, {
                     title: "적요",
                     field: "APP_CONT",
-                    width: 280,
+                    width: 250,
                     template: function(e){
                         console.log(e);
                         return '<div style="cursor: pointer; font-weight: bold" onclick="incomeList.fn_reqRegPopup('+e.PAY_INCP_SN+');">'+e.APP_CONT+'</div>';
@@ -111,14 +111,37 @@ var incomeList = {
                     field: "EMP_NAME",
                     width: 80,
                 }, {
-                    title: "입금금액",
+                    title: "입금예정일",
+                    field: "PAY_EXNP_DE",
+                    width: 80,
+                }, {
+                    title: "승인금액",
                     width: 100,
                     template: function(e){
                         var cost = e.TOT_COST;
                         if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
-                            return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
+                            return '<div style="text-align: right; font-weight: bold">'+comma(e.TOT_COST)+'</div>';
                         } else {
                             return '<div style="text-align: right">'+0+'</div>';
+                        }
+                    }
+                }, {
+                    title: "입금총액",
+                    width: 100,
+                    template: function(e){
+                        var cost = e.TOT_COST;
+                        if(e.EVID_TYPE == 1 || e.EVID_TYPE == 3 || e.EVID_TYPE == 5) {
+                            if (e.RE_TOT_COST != null && e.RE_TOT_COST != "" && e.RE_TOT_COST != undefined) {
+                                return '<div style="text-align: right">' + comma(e.RE_TOT_COST) + '</div>';
+                            } else {
+                                return '<div style="text-align: right">' + 0 + '</div>';
+                            }
+                        } else {
+                            if (e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined) {
+                                return '<div style="text-align: right">' + comma(e.TOT_COST) + '</div>';
+                            } else {
+                                return '<div style="text-align: right">' + 0 + '</div>';
+                            }
                         }
                     }
                 }, {
@@ -128,19 +151,38 @@ var incomeList = {
                         var status = "";
                         if(e.DOC_STATUS == "100"){
                             status = "결재완료";
-                            if(e.RE_CNT != 0){
-                                if (e.RE_TOT_AMT != 0) {
-                                    if (e.RE_TOT_COST == e.TOT_COST) {
-                                        status = "입금완료"
-                                    } else {
-                                        status = "부분입금"
-                                    }
-                                }
-                            }
                         } else if(e.DOC_STATUS == "10" || e.DOC_STATUS == "50"){
                             status = "결재중"
                         } else {
                             status = "작성중"
+                        }
+
+                        return status;
+                    }
+                }, {
+                    title: "입금상태",
+                    width: 60,
+                    template : function(e){
+                        var status = "";
+                        if(e.DOC_STATUS == "100"){
+                            status = "입금대기";
+
+                            if(e.EVID_TYPE == 1 || e.EVID_TYPE == 3 || e.EVID_TYPE == 5){
+                                if(e.RE_CNT != 0){
+                                    if (e.RE_TOT_AMT != 0) {
+                                        if (e.RE_TOT_COST == e.TOT_COST) {
+                                            status = "입금완료"
+                                        } else {
+                                            status = "부분입금"
+                                        }
+                                    }
+                                }
+                            } else {
+                                status = "입금완료";
+                            }
+
+                        } else {
+                            status = "입금대기"
                         }
 
                         return status;
