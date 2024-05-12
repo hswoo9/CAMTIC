@@ -962,6 +962,11 @@ var regExnp = {
             return;
         }
 
+        if($("#budgetSn").val() == ""){
+            alert("예산비목을 선택해주세요.");
+            return;
+        }
+
         if(parameters.payAppSn == 'undefined'){
             parameters.payAppSn = null;
         }
