@@ -6,6 +6,25 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_purc/purcMngAppList.js?v=${today}'/>"></script>
 <style>
+    .k-footer-template td:nth-child(10) {
+        overflow: visible;
+        white-space: nowrap;
+        text-align: right;
+    }
+
+    .k-footer-template td:nth-child(1),
+    .k-footer-template td:nth-child(2),
+    .k-footer-template td:nth-child(3),
+    .k-footer-template td:nth-child(4),
+    .k-footer-template td:nth-child(5),
+    .k-footer-template td:nth-child(6),
+    .k-footer-template td:nth-child(7),
+    .k-footer-template td:nth-child(8),
+    .k-footer-template td:nth-child(9),
+    .k-footer-template td:nth-child(10) {
+        border-width: 0;
+    }
+
     a:hover {
         color: blue;
         text-decoration: underline !important;
