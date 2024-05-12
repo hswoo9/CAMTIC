@@ -33,21 +33,28 @@
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
-                        <col width="10%">
-                        <col width="25%">
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="25%">
+                        <col width="7%">
+                        <col width="21%">
+                        <col width="6%">
+                        <col width="7%">
+                        <col width="6%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="19%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">기간</th>
                         <td>
-                            <input type="text" id="exnpStrDe" style="width: 45%;"> ~ <input type="text" id="exnpEndDe" style="width: 45%;">
+                            <input type="text" id="searchDate" style="width: 30%;"/>
+                            <input type="text" id="exnpStrDe" style="width: 31%;"> ~ <input type="text" id="exnpEndDe" style="width: 31%;">
                         </td>
-                        <th class="text-center th-color">상태</th>
+                        <th class="text-center th-color">결의상태</th>
                         <td>
                             <input type="text" id="searchDept" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">승인상태</th>
+                        <td>
+                            <input type="text" id="searchDept2" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

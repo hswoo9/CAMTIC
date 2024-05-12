@@ -42,6 +42,8 @@ public interface PayAppService {
 
     List<Map<String, Object>> getIncpList(Map<String, Object> params);
 
+    List<Map<String, Object>> getIncpListForExcelDown(Map<String, Object> params);
+
     List<Map<String, Object>> getIncpReList(Map<String, Object> params);
 
     void payIncpSetData(Map<String, Object> params, MultipartFile[] fileList, String SERVER_DIR, String BASE_DIR);

@@ -993,8 +993,20 @@
         ON
             A.EXNP_SN = D.EXNP_SN
         WHERE
+            1=1
+        <choose>
+            <when test='"1".equals(searchDate)'>
+                AND A.EXNP_DE BETWEEN #{strDe} AND #{endDe}
+            </when>
+            <when test='"3".equals(searchDate)'>
+                AND A.RE_STAT = 'Y'
+                AND A.REQ_END_DE BETWEEN #{strDe} AND #{endDe}
+            </when>
+            <otherwise>
+                AND A.REQ_DE BETWEEN #{strDe} AND #{endDe}
+            </otherwise>
+        </choose>
             <![CDATA[
-                A.REQ_DE > #{strDe} AND A.REQ_DE <= #{endDe}
             ]]>
         <if test='!"".equals(payAppType) and payAppType != null'>
             AND
@@ -1016,6 +1028,16 @@
             AND
                 A.DOC_STATUS IN (100,101)
         </if>
+
+        <if test='"1".equals(searchDept2)'>
+            AND A.DOC_STATUS IN (100,101)
+            AND ((A.REQ_END_DE IS NOT NULL AND A.REQ_END_DE != '' AND A.RE_STAT = 'Y') OR (!(A.REQ_END_DE IS NOT NULL AND A.REQ_END_DE != '') AND D.EVID_TYPE IN ('1', '2', '3')))
+        </if>
+        <if test='"2".equals(searchDept2)'>
+            AND A.DOC_STATUS IN (100,101)
+            AND ((A.REQ_END_DE IS NOT NULL AND A.REQ_END_DE != '' AND A.RE_STAT != 'Y') OR (!(A.REQ_END_DE IS NOT NULL AND A.REQ_END_DE != '') AND D.EVID_TYPE NOT IN ('1', '2', '3')))
+        </if>
+
         <choose>
             <when test='"A".equals(searchKeyword)'>
                 AND
@@ -1032,6 +1054,14 @@
             <when test='"D".equals(searchKeyword)'>
                 AND
                     D.CRM_NM REGEXP #{searchValue}
+            </when>
+            <when test='"E".equals(searchKeyword)'>
+                AND
+                    (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"F".equals(searchKeyword)'>
+                AND
+                    A.BUDGET_NM LIKE CONCAT('%', #{searchValue},'%')
             </when>
             <otherwise>
                 AND
@@ -1306,6 +1336,94 @@
                     )
                 </otherwise>
             </choose>
+        ORDER BY A.PAY_INCP_SN DESC
+    </select>
+
+    <select id="getIncpListForExcelDown" parameterType="map" resultType="map">
+        /* getIncpListForExcelDown */
+        SELECT
+            C.CRM_NM,
+            C.EVID_TYPE AS EVID_TEXT,
+            A.APP_DE,
+            A.APP_CONT,
+            A.PJT_NM,
+            A.BUDGET_NM,
+            IFNULL(D.EMP_NAME_KR, '') AS EMP_NAME,
+            C.TOT_COST,
+            CASE
+                WHEN A.DOC_STATUS = '100' AND IFNULL(E.RE_CNT, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) = C.TOT_COST THEN '입금완료'
+                WHEN A.DOC_STATUS = '100' AND IFNULL(E.RE_CNT, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) != 0 AND IFNULL(E.RE_TOT_COST, 0) != C.TOT_COST THEN '부분입금'
+                WHEN A.DOC_STATUS = '100' AND IFNULL(E.RE_CNT, 0) = 0 THEN '결재완료'
+                WHEN A.DOC_STATUS IN ('10', '50') AND IFNULL(E.RE_CNT, 0) = 0 THEN '결재완료'
+                ELSE '작성중'
+            END AS DOC_STATUS_TEXT,
+            CASE
+                WHEN A.DOC_STATUS != '100' AND A.PAY_EXNP_DE IS NOT NULL THEN '입금예정'
+                WHEN A.DOC_STATUS = '100' THEN '입금완료'
+                ELSE '-'
+            END AS INCP_STATUS_TEXT
+        FROM
+            CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN DJ_CAMTIC.A_DOC_INFO B ON A.DOC_ID = B.DOC_ID
+        LEFT JOIN (
+            SELECT
+                PAY_INCP_SN,
+                SUM(TOT_COST) AS TOT_COST,
+                GROUP_CONCAT(DISTINCT CRM_NM) AS CRM_NM,
+                REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(GROUP_CONCAT(DISTINCT IFNULL(EVID_TYPE, '-')), '1', '세금계산서(청구)'), '2', '세금계산서(영수)'), '3', '계산서(청구)'), '4', '계산서(영수)'), '5', '신용카드(과세)'), '6', '신용카드(면세)'), '7', '증빙없음') AS EVID_TYPE
+            FROM CAM_MNG.DJ_PAY_INCP_DET
+            GROUP BY PAY_INCP_SN
+        ) C ON A.PAY_INCP_SN = C.PAY_INCP_SN
+        LEFT JOIN CAM_HR.DJ_EMP_INFO D ON A.EXNP_EMP_SEQ = D.EMP_SEQ
+        LEFT JOIN (
+            SELECT
+                PAY_INCP_SN,
+                SUM(TOT_COST) AS RE_TOT_COST,
+                COUNT(PAY_INCP_RE_SN) AS RE_CNT
+            FROM CAM_MNG.DJ_PAY_INCP_RE
+            WHERE RE_STAT = 'Y'
+            GROUP BY PAY_INCP_SN
+        ) E ON A.PAY_INCP_SN = E.PAY_INCP_SN
+        WHERE
+        <![CDATA[
+            A.APP_DE > #{startDt} AND A.APP_DE <= #{endDt}
+        ]]>
+        <if test='searchDept == "1" or "1".equals(searchDept)'>
+            AND A.DOC_STATUS IN (0,30,40)
+        </if>
+        <if test='searchDept == "2" or "2".equals(searchDept)'>
+            AND A.DOC_STATUS IN (10,20,50)
+        </if>
+        <if test='searchDept == "3" or "3".equals(searchDept)'>
+            AND A.DOC_STATUS IN (100,101)
+        </if>
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND
+                B.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"B".equals(searchKeyword)'>
+                AND
+                A.APP_CONT LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"C".equals(searchKeyword)'>
+                AND
+                A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+            </when>
+            <when test='"D".equals(searchKeyword)'>
+                AND
+                C.CRM_NM REGEXP #{searchValue}
+            </when>
+            <otherwise>
+                AND
+                (
+                B.DOC_NO LIKE CONCAT('%', #{searchValue},'%')
+                OR A.APP_CONT LIKE CONCAT('%', #{searchValue},'%')
+                OR A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
+                OR C.CRM_NM REGEXP #{searchValue}
+                )
+            </otherwise>
+        </choose>
         ORDER BY A.PAY_INCP_SN DESC
     </select>
 
