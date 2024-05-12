@@ -499,9 +499,7 @@
                 A.PAY_APP_SN = E.PAY_APP_SN
 
             WHERE
-            <![CDATA[
-                A.APP_DE > #{strDe} and A.APP_DE <= #{endDe}
-            ]]>
+                1=1
             <if test='payAppType == "1" or "1".equals(payAppType)'>
                 AND PAY_APP_TYPE = 1
             </if>
@@ -524,6 +522,29 @@
         ) AA
         WHERE
             1=1
+
+            <choose>
+                <when test='"2".equals(searchDate)'>
+                    AND AA.REQ_DE BETWEEN #{strDe} AND #{endDe}
+                </when>
+                <when test='"3".equals(searchDate)'>
+                    AND AA.PAY_EXNP_DE BETWEEN #{strDe} AND #{endDe}
+                </when>
+                <when test='"4".equals(searchDate)'>
+                    AND AA.REQ_END_DE BETWEEN #{strDe} AND #{endDe}
+                    AND (
+                            AA.DOC_STATUS IN (100,101)
+                        AND AA.ITEM_COUNT = AA.EXNP_DOC_STATUS
+                        AND AA.EXNP_STATUS = AA.EXNP_DOC_STATUS
+                        AND AA.EXNP_STATUS != 0
+                        AND AA.RE_STAT = 'Y'
+                    )
+                </when>
+                <otherwise>
+                    AND AA.APP_DE BETWEEN #{strDe} AND #{endDe}
+                </otherwise>
+            </choose>
+
             <if test='pageType != "USER" and !"USER".equals(pageType)'>
                 AND
                     ITEM_COUNT != IFNULL(EXNP_STATUS, 0)
@@ -576,6 +597,10 @@
                 <when test='"D".equals(searchKeyword)'>
                     AND
                         AA.CRM_NM REGEXP #{searchValue}
+                </when>
+                <when test='"E".equals(searchKeyword)'>
+                    AND
+                        AA.EMP_NAME LIKE CONCAT('%', #{searchValue},'%')
                 </when>
                 <otherwise>
                     AND

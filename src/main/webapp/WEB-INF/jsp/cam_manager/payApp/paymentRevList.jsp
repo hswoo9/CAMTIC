@@ -38,23 +38,18 @@
                         <col width="7%">
                         <col width="8%">
                         <col width="7%">
-                        <col width="8%">
-                        <col width="7%">
                         <col width="19%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">신청일자</th>
                         <td>
+                            <input type="text" id="searchDate" style="width: 120px;"/>
                             <input type="text" id="startDt" style="width: 120px;"> ~
                             <input type="text" id="endDt" style="width: 120px;">
                         </td>
                         <th class="text-center th-color">문서유형</th>
                         <td>
                             <input type="text" id="payAppType" style="width: 150px;">
-                        </td>
-                        <th class="text-center th-color">상태</th>
-                        <td>
-                            <input type="text" id="searchDept" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

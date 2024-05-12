@@ -1,3 +1,5 @@
+let amtSum = 0;
+
 var paymentMngList = {
 
     global : {
@@ -7,6 +9,13 @@ var paymentMngList = {
     },
 
     fn_defaultScript : function(){
+
+        paymentMngList.global.dropDownDataSource2 = [
+            { text: "신청일", value: "1" },
+            { text: "지출요청일", value: "2" },
+            { text: "지출예정일", value: "3" },
+            { text: "지출완료일", value: "4" }
+        ]
 
         paymentMngList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
@@ -22,6 +31,7 @@ var paymentMngList = {
             { text: "신청건명", value: "B" },
             { text: "거래처", value: "D" },
             { text: "프로젝트명", value: "C" },
+            { text: "신청자", value: "E" },
         ]
 
         $("#payAppType").kendoDropDownList({
@@ -43,6 +53,7 @@ var paymentMngList = {
 
         var bdStr = d.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2)
 
+        customKendo.fn_dropDownList("searchDate", paymentMngList.global.dropDownDataSource2, "text", "value", 3);
         customKendo.fn_datePicker("payAppStrDe", "depth", "yyyy-MM-dd", bdStr);
         customKendo.fn_datePicker("payAppEndDe", "depth", "yyyy-MM-dd", new Date());
 
@@ -122,7 +133,9 @@ var paymentMngList = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            dataBound: paymentMngList.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="paymentMngList.fn_checkAll(this)"/>',
@@ -227,6 +240,9 @@ var paymentMngList = {
                         } else {
                             return "";
                         }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>합계</div>";
                     }
                 },{
                     title: "지출금액",
@@ -234,10 +250,14 @@ var paymentMngList = {
                     template: function(e){
                         var cost = e.TOT_COST;
                         if(e.TOT_COST != null && e.TOT_COST != "" && e.TOT_COST != undefined){
+                            amtSum += Number(e.TOT_COST);
                             return '<div style="text-align: right">'+comma(e.TOT_COST)+'</div>';
                         } else {
                             return '<div style="text-align: right">'+0+'</div>';
                         }
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(amtSum)+"</div>";
                     }
                 }, {
                     title: "상태",
@@ -267,14 +287,10 @@ var paymentMngList = {
                 }, {
                     title : "삭제",
                     template : function(e){
-                        if(e.REG_EMP_SEQ == $("#myEmpSeq").val()){
-                            if(e.DOC_STATUS == 0){
-                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentMngList.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
-                                    '	<span class="k-button-text">삭제</span>' +
-                                    '</button>';
-                            } else {
-                                return "";
-                            }
+                        if(e.DOC_STATUS == 0){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="paymentMngList.fn_delReqReg('+e.PAY_APP_SN+', '+e.REG_EMP_SEQ+')">' +
+                                '	<span class="k-button-text">삭제</span>' +
+                                '</button>';
                         } else {
                             return "";
                         }
@@ -283,14 +299,10 @@ var paymentMngList = {
                 }, {
                     title : "결재선",
                     template : function(e){
-                        if(e.REG_EMP_SEQ == $("#myEmpSeq").val()){
-                            if(e.DOC_STATUS != 0){
-                                return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +
-                                    '	<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
-                                    '</button>';
-                            } else {
-                                return "";
-                            }
+                        if(e.DOC_STATUS != 0){
+                            return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docApproveLineView('+e.DOC_ID+');">' +
+                                '	<span class="k-icon k-i-hyperlink-open-sm k-button-icon"></span>' +
+                                '</button>';
                         } else {
                             return "";
                         }
@@ -309,10 +321,15 @@ var paymentMngList = {
             }
         }).data("kendoGrid");
     },
+    
+    onDataBound : function(){
+        amtSum = 0;
+    },
 
     gridReload : function(){
         paymentMngList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
+            searchDate : $("#searchDate").val(),
             searchDept : $("#searchDept").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),

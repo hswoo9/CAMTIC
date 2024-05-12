@@ -8,6 +8,26 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/paymentList.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/paymentMngList.js?v=${today}'/>"></script>
 <style>
+    .k-footer-template td:nth-child(11) {
+        overflow: visible;
+        white-space: nowrap;
+        text-align: right;
+    }
+
+    .k-footer-template td:nth-child(1),
+    .k-footer-template td:nth-child(2),
+    .k-footer-template td:nth-child(3),
+    .k-footer-template td:nth-child(4),
+    .k-footer-template td:nth-child(5),
+    .k-footer-template td:nth-child(6),
+    .k-footer-template td:nth-child(7),
+    .k-footer-template td:nth-child(8),
+    .k-footer-template td:nth-child(9),
+    .k-footer-template td:nth-child(10),
+    .k-footer-template td:nth-child(11) {
+        border-width: 0;
+    }
+
     a:hover {
         color: blue;
         text-decoration: underline !important;
@@ -36,26 +56,27 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="7%">
-                        <col width="20%">
+                        <col width="21%">
+                        <col width="6%">
                         <col width="7%">
-                        <col width="8%">
+                        <col width="6%">
                         <col width="7%">
-                        <col width="8%">
                         <col width="7%">
                         <col width="19%">
                     </colgroup>
                     <tr>
                         <th class="text-center th-color">기간</th>
                         <td>
-                            <input type="text" id="payAppStrDe" style="width: 45%;"> ~ <input type="text" id="payAppEndDe" style="width: 45%;">
+                            <input type="text" id="searchDate" style="width: 30%;"/>
+                            <input type="text" id="payAppStrDe" style="width: 31%;"> ~ <input type="text" id="payAppEndDe" style="width: 31%;">
                         </td>
                         <th class="text-center th-color">문서유형</th>
                         <td>
-                            <input type="text" id="payAppType" style="width: 150px;">
+                            <input type="text" id="payAppType" style="width: 125px;">
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>
-                            <input type="text" id="searchDept" style="width: 150px;">
+                            <input type="text" id="searchDept" style="width: 125px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>

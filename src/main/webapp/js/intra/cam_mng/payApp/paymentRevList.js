@@ -8,6 +8,13 @@ var paymentRevList = {
 
     fn_defaultScript : function (){
 
+        paymentRevList.global.dropDownDataSource2 = [
+            { text: "신청일", value: "1" },
+            { text: "지출요청일", value: "2" },
+            { text: "지출예정일", value: "3" }
+        ]
+
+        customKendo.fn_dropDownList("searchDate", paymentRevList.global.dropDownDataSource2, "text", "value", 3);
         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
@@ -23,18 +30,11 @@ var paymentRevList = {
         });
 
         paymentRevList.global.dropDownDataSource = [
-            { text: "작성중", value: "1" },
-            { text: "결재중", value: "2" },
-            { text: "결재완료", value: "3" },
-        ]
-        customKendo.fn_dropDownList("searchDept", paymentRevList.global.dropDownDataSource, "text", "value");
-        $("#searchDept").data("kendoDropDownList").bind("change", paymentRevList.gridReload);
-
-        paymentRevList.global.dropDownDataSource = [
             { text: "문서번호", value: "A" },
             { text: "신청건명", value: "B" },
             { text: "거래처", value: "D" },
             { text: "프로젝트명", value: "C" },
+            { text: "신청자", value: "E" },
         ]
 
         $("#payAppType").kendoDropDownList({
@@ -147,10 +147,6 @@ var paymentRevList = {
                     width: 80,
                     field: "PAY_EXNP_DE"
                 }, {
-                    title: "지출완료일",
-                    width: 80,
-                    field: "REQ_END_DE"
-                }, {
                     title: "지출금액",
                     width: 100,
                     template: function(e){
@@ -187,6 +183,7 @@ var paymentRevList = {
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             payAppType : $("#payAppType").val(),
+            searchDate : $("#searchDate").val(),
             strDe : $("#startDt").val(),
             endDe : $("#endDt").val(),
             docStatus : 100
