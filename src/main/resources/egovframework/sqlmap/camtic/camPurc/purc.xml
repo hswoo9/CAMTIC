@@ -1289,12 +1289,21 @@
         </choose>
         <choose>
             <when test='"1".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'N'
+                AND A.ORDER_YN = 'N'
             </when>
             <when test='"2".equals(inspectStat)'>
-                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '0'
+                AND A.ORDER_YN = 'Y' AND INSPECT_STATUS = '0'
             </when>
             <when test='"3".equals(inspectStat)'>
+                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+            </when>
+            <when test='"4".equals(inspectStat)'>
+                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+            </when>
+            <when test='"5".equals(inspectStat)'>
+                AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
+            </when>
+            <when test='"6".equals(inspectStat)'>
                 AND MP.INSPECT_YN = 'Y' AND INSPECT_STATUS = '100'
             </when>
         </choose>

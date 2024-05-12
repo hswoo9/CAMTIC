@@ -23,9 +23,12 @@ var purcMngAppList = {
         customKendo.fn_textBox(["searchValue"]);
 
         purcMngAppList.global.dropDownDataSource = [
-            { text: "검수 미작성", value: "1" },
-            { text: "검수 작성 및 미승인", value: "2" },
-            { text: "검수 작성 및 승인", value: "3" }
+            { text: "발주대기", value: "1" },
+            { text: "검수대기", value: "2" },
+            { text: "검수완료", value: "3" },
+            { text: "지출문서 작성중", value: "4" },
+            { text: "지출대기", value: "5" },
+            { text: "지출완료", value: "6" },
         ]
 
         $("#busnClass").kendoDropDownList({
@@ -64,9 +67,10 @@ var purcMngAppList = {
             dataSource: customKendo.fn_gridDataSource2("/purc/getMngPurcAppList", purcMngAppList.global.searchAjaxData),
             sortable: true,
             selectable: "row",
+            height: 525,
             pageable: {
                 refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
+                pageSizes: [ 10, 20, 30, 50, 100, 'All' ],
                 buttonCount: 5
             },
             resizable : true,
@@ -268,16 +272,8 @@ var purcMngAppList = {
     },
 
     gridReload : function(){
-        purcMngAppList.global.searchAjaxData = {
-            empSeq : $("#myEmpSeq").val(),
-            searchDept : $("#searchDept").val(),
-            searchKeyword : $("#searchKeyword").val(),
-            searchValue : $("#searchValue").val(),
-            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
-            busnClass : $("#busnClass").val()
-        }
-
-        $("#mainGrid").data("kendoGrid").dataSource.read();
+        $("#mainGrid").data("kendoGrid").destroy();
+        purcMngAppList.mainGrid();
     },
 
     fn_reqRegPopup : function(key, stat){
