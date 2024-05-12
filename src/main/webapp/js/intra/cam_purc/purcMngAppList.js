@@ -22,6 +22,8 @@ var purcMngAppList = {
             { text: "목적", value: "B" },
             { text: "품명", value: "C" },
             { text: "업체명", value: "D" },
+            { text: "구매요청자", value: "E" },
+            { text: "구매청구자", value: "F" },
         ]
 
         customKendo.fn_dropDownList("searchKeyword", purcMngAppList.global.dropDownDataSource, "text", "value");
@@ -53,9 +55,23 @@ var purcMngAppList = {
         $("#inspectStat").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
         $("#busnClass").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
         // $("#searchKeyword").data("kendoDropDownList").bind("change", purcMngAppList.gridReload);
-        purcMngAppList.mainGrid();
 
         customKendo.fn_datePicker("expDe", "depth", "yyyy-MM-dd", new Date());
+        customKendo.fn_datePicker("strDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
+        customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() + 1)));
+
+        $("#strDt").change(function (){
+            if($("#strDt").val() > $("#endDt").val()){
+                $("#endDt").val($("#strDt").val());
+            }
+        });
+        $("#endDt").change(function (){
+            if($("#strDt").val() > $("#endDt").val()){
+                $("#strDt").val($("#endDt").val());
+            }
+        });
+
+        purcMngAppList.mainGrid();
     },
 
     mainGrid : function(){
@@ -65,7 +81,9 @@ var purcMngAppList = {
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
-            busnClass : $("#busnClass").val()
+            busnClass : $("#busnClass").val(),
+            strDt : $("#strDt").val(),
+            endDt : $("#endDt").val(),
         }
 
         $("#mainGrid").kendoGrid({

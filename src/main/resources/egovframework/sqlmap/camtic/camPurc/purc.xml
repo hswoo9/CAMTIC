@@ -1278,13 +1278,21 @@
             <when test='searchKeyword != null and !"".equals(searchKeyword) and "D".equals(searchKeyword)'>
                 AND A.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
             </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "E".equals(searchKeyword)'>
+                AND (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ) LIKE CONCAT('%',#{searchValue},'%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "F".equals(searchKeyword)'>
+                AND (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.CLAIM_EMP_SEQ) LIKE CONCAT('%',#{searchValue},'%')
+            </when>
             <otherwise>
                 AND
                 (
                 DI.DOC_NO LIKE CONCAT('%',#{searchValue},'%') OR
                 MP.PURC_REQ_PURPOSE LIKE CONCAT('%',#{searchValue},'%') OR
                 PCI.ITEM_NM LIKE CONCAT('%',#{searchValue},'%') OR
-                A.CRM_NM LIKE CONCAT('%',#{searchValue},'%')
+                A.CRM_NM LIKE CONCAT('%',#{searchValue},'%') OR
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.PURC_EMP_SEQ) LIKE CONCAT('%',#{searchValue},'%') OR
+                (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.CLAIM_EMP_SEQ) LIKE CONCAT('%',#{searchValue},'%')
                 )
             </otherwise>
         </choose>
@@ -1317,6 +1325,9 @@
                 AND IFNULL((SELECT RE_STAT FROM CAM_MNG.DJ_EXNP WHERE PAY_APP_SN = (SELECT PAY_APP_SN FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_SN = A.CLAIM_SN ORDER BY CLAIM_EXNP_SN DESC LIMIT 1) ORDER BY EXNP_SN DESC LIMIT 1), 'N') = 'Y'
             </when>
         </choose>
+        <if test='strDt != null and !"".equals(strDt) and endDt != null and !"".equals(endDt)'>
+            AND EXP_DE BETWEEN #{strDt} AND #{endDt}
+        </if>
         GROUP BY CLAIM_SN
         ORDER BY CLAIM_SN DESC
     </select>
