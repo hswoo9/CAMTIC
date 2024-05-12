@@ -69,6 +69,14 @@ var incomeList = {
                 }, {
                     name: 'button',
                     template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="incomeList.fn_excelDownload()">' +
+                            '	<span class="k-icon k-i-file-excel k-button-icon"></span>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="incomeList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
@@ -195,6 +203,92 @@ var incomeList = {
         }).data("kendoGrid");
     },
 
+    hiddenGrid: function(url, params, pageSize){
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: pageSize == null ? 10 : pageSize,
+            transport: {
+                read : {
+                    url : url,
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data, operation) {
+                    for(var key in params){
+                        data[key] = params[key];
+                    }
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
+
+        $("#hiddenGrid").kendoGrid({
+            dataSource: dataSource,
+            sortable: true,
+            selectable: "row",
+            height : 525,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            columns: [
+                {
+                    title: "결의일자",
+                    width: 80,
+                    field: "APP_DE",
+                }, {
+                    title: "증빙유형",
+                    field: "EVID_TEXT",
+                    width: 280
+                }, {
+                    title: "적요",
+                    field: "APP_CONT",
+                    width: 280
+                }, {
+                    title: "프로젝트 명",
+                    field: "PJT_NM",
+                    width: 200,
+                }, {
+                    title: "거래처",
+                    field: "CRM_NM",
+                    width: 280
+                }, {
+                    title: "세입과목",
+                    field: "BUDGET_NM",
+                    width: 170,
+                }, {
+                    title: "작성자",
+                    field: "EMP_NAME",
+                    width: 80,
+                }, {
+                    title: "결의금액",
+                    field: "TOT_COST",
+                    width: 280
+                }, {
+                    title: "입금금액",
+                    field: "TOT_COST",
+                    width: 100,
+                }, {
+                    title: "수입결의 상태",
+                    field: "DOC_STATUS_TEXT",
+                    width: 60
+                }, {
+                    title: "입금상태",
+                    field: "INCP_STATUS_TEXT",
+                    width: 280
+                }
+            ]
+        }).data("kendoGrid");
+    },
+
     gridReload: function (){
         incomeList .global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
@@ -206,6 +300,15 @@ var incomeList = {
         }
 
         incomeList.mainGrid("/pay/getIncpList", incomeList.global.searchAjaxData);
+        incomeList.hiddenGrid("/pay/getIncpListForExcelDown", incomeList.global.searchAjaxData, 99999);
+    },
+
+    fn_excelDownload: function(){
+        var grid = $("#hiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "수입결의서 목록.xlsx";
+        });
+        grid.saveAsExcel();
     },
 
     fn_reqRegPopup : function (paySn){

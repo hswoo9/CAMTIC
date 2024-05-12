@@ -8,6 +8,12 @@ var exnpList = {
 
     fn_defaultScript : function (){
 
+        exnpList.global.dropDownDataSource2 = [
+            { text: "결의일자", value: "1" },
+            { text: "지출요청일", value: "" },
+            { text: "지출완료일", value: "3" }
+        ]
+
         exnpList.global.dropDownDataSource = [
             { text: "작성중", value: "1" },
             { text: "결재대기", value: "2" },
@@ -16,11 +22,21 @@ var exnpList = {
         customKendo.fn_dropDownList("searchDept", exnpList.global.dropDownDataSource, "text", "value");
         $("#searchDept").data("kendoDropDownList").bind("change", exnpList.gridReload);
 
+        exnpList.global.dropDownDataSource = [
+            { text: "승인", value: "1" },
+            { text: "미결", value: "2" },
+        ]
+        customKendo.fn_dropDownList("searchDept2", exnpList.global.dropDownDataSource, "text", "value");
+        $("#searchDept2").data("kendoDropDownList").bind("change", exnpList.gridReload);
+
         var d = new Date();
         var bd = new Date(d.setMonth(d.getMonth() - 2)); // 이전달
 
         var bdStr = d.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2)
 
+
+        customKendo.fn_dropDownList("searchDate", exnpList.global.dropDownDataSource2, "text", "value", 3);
+        $("#searchDate").data("kendoDropDownList").value("");
         customKendo.fn_datePicker("exnpStrDe", "depth", "yyyy-MM-dd", bdStr);
         customKendo.fn_datePicker("exnpEndDe", "depth", "yyyy-MM-dd", new Date());
 
@@ -29,6 +45,8 @@ var exnpList = {
             { text: "적요", value: "B" },
             { text: "거래처", value: "D" },
             { text: "프로젝트명", value: "C" },
+            { text: "작성자", value: "E" },
+            { text: "세출과목(장,관,항)", value: "F" },
         ]
         customKendo.fn_dropDownList("searchKeyword", exnpList.global.dropDownDataSource, "text", "value");
         $("#searchKeyword").data("kendoDropDownList").bind("change", exnpList.gridReload);
@@ -93,21 +111,21 @@ var exnpList = {
                 }, {
                     title: "적요",
                     field: "EXNP_BRIEFS",
-                    width: 230,
+                    width: 200,
                     template: function(e){
                         return '<div style="cursor: pointer; font-weight: bold" onclick="exnpList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'rev\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
                     title: "프로젝트 명",
                     field: "PJT_NM",
-                    width: 190,
+                    width: 180,
                     template: function (e){
                         return e.PJT_NM;
                     }
                 }, {
                     title: "세출과목",
                     field: "BUDGET_NM_EX",
-                    width: 190
+                    width: 160
                 }, {
                     title: "작성자",
                     field: "REG_EMP_NAME",
@@ -119,6 +137,10 @@ var exnpList = {
                     template: function(e){
                         return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     }
+                }, {
+                    title: "결의일자",
+                    width: 70,
+                    field: "EXNP_DE"
                 }, {
                     title: "지출요청일",
                     width: 70,
@@ -201,7 +223,9 @@ var exnpList = {
     gridReload: function (){
         exnpList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
+            searchDate : $("#searchDate").val(),
             searchDept : $("#searchDept").val(),
+            searchDept2 : $("#searchDept2").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             strDe : $("#exnpStrDe").val(),

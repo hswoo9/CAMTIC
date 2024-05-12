@@ -1,3 +1,8 @@
+let amt1 = 0;
+let amt2 = 0;
+let amt3 = 0;
+let amt4 = 0;
+
 var purcMngAppList = {
 
     global : {
@@ -106,7 +111,9 @@ var purcMngAppList = {
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
+            dataBound: purcMngAppList.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'clm\');"/>',
@@ -190,30 +197,47 @@ var purcMngAppList = {
                             paymentMethod = "현장결제";
                         }
                         return paymentMethod;
-                    }
+                    },
+                    footerTemplate: "합계"
                 }, {
                     title: "금액",
                     width: 62,
                     template: function(e){
+                        amt1 += Number(e.TOT_AMT);
                         return '<div style="text-align: right">'+comma(e.TOT_AMT)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(amt1)+"</div>";
                     }
                 }, {
                     title: "지출요청액",
                     width: 62,
                     template: function(e){
+                        amt2 += Number(e.REQ_AMT);
                         return '<div style="text-align: right">'+comma(e.REQ_AMT)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(amt2)+"</div>";
                     }
                 }, {
                     title: "지출액",
                     width: 62,
                     template: function(e){
+                        amt3 += Number(e.EXNP_AMT);
                         return '<div style="text-align: right">'+comma(e.EXNP_AMT)+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(amt3)+"</div>";
                     }
                 }, {
                     title: "미지급액",
                     width: 62,
                     template: function(e){
+                        amt4 += Number(e.TOT_AMT) - Number(e.EXNP_AMT);
                         return '<div style="text-align: right">'+comma(Number(e.TOT_AMT) - Number(e.EXNP_AMT))+'</div>';
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(amt4)+"</div>";
                     }
                 }, {
                     title: "지급설정",
@@ -269,6 +293,13 @@ var purcMngAppList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+    },
+
+    onDataBound : function(){
+        amt1 = 0;
+        amt2 = 0;
+        amt3 = 0;
+        amt4 = 0;
     },
 
     gridReload : function(){
