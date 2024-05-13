@@ -37,6 +37,14 @@ public class CompanyCardServiceImpl implements CompanyCardService {
 
         Map<String, Object> resultMap = companyCardRepository.useCardDetailInfo(params);
 
+        if(params.get("buySts").equals("01") && resultMap == null){
+            params.put("buySts", "03");
+            resultMap = companyCardRepository.useCardDetailInfo(params);
+        } else if(params.get("buySts").equals("03") && resultMap == null){
+            params.put("buySts", "01");
+            resultMap = companyCardRepository.useCardDetailInfo(params);
+        }
+
         if(params.containsKey("reqTypeZ")){
             List<Map<String, Object>> snackInfo =  documentRepository.getFileList(params);
 
