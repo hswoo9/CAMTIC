@@ -614,7 +614,7 @@ var recruitTmp = {
             data.CAPS_NUM = $("#capsNumCaseB").val(); //CAPS 번호
             data.DEGREE_CODE = $("#degreeCodeA").val(); //학위
             data.JOB_DETAIL = $("#jobDetailCaseB").val(); //직무사항
-            data.TEMP_DIVISION = "Y";
+            data.TEMP_DIVISION = "N";
         }
 
         if($("#divis").val() == '1'){ /*위촉직원*/
@@ -622,14 +622,14 @@ var recruitTmp = {
             data.BDAY = $("#birthDay").val(); //생년월일
             data.DEGREE_CODE = $("#degreeCodeA").val(); //학위
             data.JOB_DETAIL = $("#jobDetailCaseB").val(); //직무사항
-            data.TEMP_DIVISION = "Y";
+            data.TEMP_DIVISION = "N";
         }
         if($("#divis").val() == '2'){ /*연수생/학생연구원*/
             data.JOB_DETAIL = $("#jobDetailCaseA").val(); //직무사항
             data.CAPS_NUM = $("#capsNumCaseC").val(); //CAPS 번호
             data.JOIN_DAY = $("#regDateCaseB").val(); //입사일자
             data.NICK_NAME = $("#nicknameCaseA").val(); //호칭
-            data.TEMP_DIVISION = "Y";
+            data.TEMP_DIVISION = "N";
         }
 
         if($("#divis").val() == '10'){ /*기타*/
