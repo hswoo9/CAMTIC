@@ -11,6 +11,7 @@
 <input type="hidden" id="engnSn" value="${params.engnSn}" />
 <input type="hidden" id="estSn" value="${params.estSn}" />
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="resRegEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="busnClass" value="${hashMap.BUSN_CLASS}" />
 <form id="resDraftFrm" method="post">
     <input type="hidden" id="pjtSn" name="pjtSn" value="${params.pjtSn}" />

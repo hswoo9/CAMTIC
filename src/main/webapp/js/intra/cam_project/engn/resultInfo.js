@@ -87,7 +87,7 @@ var resultInfo = {
             buttonHtml += '<button type="button" id="resCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-error" onclick="docApprovalRetrieve(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', 1, \'retrieve\');">회수</button>';
         }else if(resMap.STATUS == "30" || resMap.STATUS == "40"){
             buttonHtml += '<button type="button" id="resSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
-            buttonHtml += '<button type="button" id="resCanBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-info" onclick="tempOrReDraftingPop(\''+resMap.DOC_ID+'\', \''+resMap.DOC_MENU_CD+'\', \''+resMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
+            buttonHtml += '<button type="button" id="resReBtn" style="float: right; margin-right: 5px;" class="k-button k-button-solid-error" onclick="tempOrReDraftingPop(\''+resMap.DOC_ID+'\', \''+resMap.DOC_MENU_CD+'\', \''+resMap.APPRO_KEY+'\', 2, \'reDrafting\');">재상신</button>';
         }else if(resMap.STATUS == "100"){
             buttonHtml += '<button type="button" id="resCanBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-base" onclick="approveDocView(\''+resMap.DOC_ID+'\', \''+resMap.APPRO_KEY+'\', \''+resMap.DOC_MENU_CD+'\');">열람</button>';
         }else if(resMap.STATUS == "111"){
@@ -96,6 +96,10 @@ var resultInfo = {
             buttonHtml += '<button type="button" id="resSaveBtn" style="float: right; margin-bottom: 10px;" class="k-button k-button-solid-info" onclick="resultInfo.fn_save()">저장</button>';
         }
         $("#resultBtnDiv").html(buttonHtml);
+
+        if(resMap != null && resMap.DOC_ID != null){
+            reDraftOnlyOne(resMap.DOC_ID, $("#resRegEmpSeq").val(), "resReBtn");
+        }
     },
 
     fn_save: function (){
