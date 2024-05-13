@@ -1158,7 +1158,9 @@
                     DRD.DOC_ID = #{docId}
                 AND
                     DRD.ACTIVE = 'Y'
+
                 UNION
+
                 SELECT
                     'camtic_new' AS GROUP_SEQ,
                     '1212' AS COMP_SEQ,
@@ -1186,7 +1188,17 @@
                     DRD2.ACTIVE = 'Y'
                 AND
                     DRD2.DOC_ID = #{docId}
+                AND (
+                    (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+                    OR (DIVISION IN(1) AND DIVISION_SUB IN(6))
+                    OR (DIVISION IN(1) AND DIVISION_SUB IN(6))
+                    OR (DIVISION IN(4) AND DIVISION_SUB IN(3))
+                )
+                AND WORK_STATUS_CODE = 'Y'
+                AND TEMP_DIVISION = 'N'
+
                 UNION
+
                 SELECT
                     'camtic_new' AS GROUP_SEQ,
                     '1212' AS COMP_SEQ,
