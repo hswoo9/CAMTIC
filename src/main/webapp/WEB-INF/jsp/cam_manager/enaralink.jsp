@@ -25,13 +25,43 @@
         </div>
         <div class="panel-body">
             <div>
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="7%">
+                        <col width="20%">
+                        <col width="7%">
+                        <col width="8%">
+                        <col width="7%">
+                        <col width="8%">
+                        <col width="7%">
+                        <col width="19%">
+                    </colgroup>
+                    <tr>
+                        <th class="text-center th-color">발의 기간</th>
+                        <td>
+                            <input type="text" id="fromMonth" style="width: 45%;"> ~ <input type="text" id="endMonth" style="width: 45%;">
+                        </td>
+                        <th class="text-center th-color">발의부서</th>
+                        <td>
+                            <input type="text" id="deptComp" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">발의자</th>
+                        <td>
+                            <input type="text" id="searchValue" style="width: 90%;">
+                        </td>
+                        <th class="text-center th-color">전송상태</th>
+                        <td>
+                            <input type="text" id="status" style="width: 150px;">
+                        </td>
+                    </tr>
+                </table>
 
-                <div id="mainGrid" style="margin:20px 0;"></div>
+                <div id="sendResolutionGrid" style="margin:20px 0;"></div>
             </div>
         </div>
     </div>
 </div><!-- col-md-9 -->
 
 <script>
-
+    enaralink.fn_defaultScript();
 </script>
