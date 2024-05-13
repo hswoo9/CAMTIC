@@ -19,7 +19,8 @@ var regPay = {
         saveAjaxData : "",
         fileArray : [],
         attFiles : [],
-        exnpFlag : false
+        exnpFlag : false,
+        result : "",
     },
 
     fn_defaultScript : function (){
@@ -1853,6 +1854,7 @@ var regPay = {
         var fileList = result.fileList;
 
         regPay.global.fileArray = fileList;
+        regPay.global.result = rs;
         regPay.payAppBtnSet(rs);
 
         console.log("rs", rs);
