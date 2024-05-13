@@ -120,7 +120,7 @@ var purcInfo = {
 
                         const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
                         const pjtMap = pjtInfo.map;
-                        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "S"){
+                        if(pjtMap.BUSN_CLASS == "D"/* || pjtMap.BUSN_CLASS == "S"*/){
                             const rs = customKendo.fn_customAjax("/project/engn/getEstData", {pjtSn: $("#pjtSn").val()});
                             const res = rs.result;
                             const estList = res.estList;
@@ -195,7 +195,7 @@ var purcInfo = {
 
                         const pjtInfo = customKendo.fn_customAjax("/project/getProjectInfo", {pjtSn: $("#pjtSn").val()});
                         const pjtMap = pjtInfo.map;
-                        if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "S"){
+                        if(pjtMap.BUSN_CLASS == "D"/* || pjtMap.BUSN_CLASS == "S"*/){
                             const rs = customKendo.fn_customAjax("/project/engn/getEstData", {pjtSn: $("#pjtSn").val()});
                             const res = rs.result;
                             const estList = res.estList;
