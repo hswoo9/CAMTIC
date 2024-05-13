@@ -720,6 +720,10 @@
                     <td class="fwb le" id="tradeName">  </td>
                 </tr>
                 <tr>
+                    <td class="ri">대표자명  <!--대표자명--></td>
+                    <td class="fwb le" id="ceoNm">  </td>
+                </tr>
+                <tr>
                     <td class="ri">사업자번호  <!--사업자번호--></td>
                     <td class="fwb le" id="tradeSeq">  </td>
                 </tr>
@@ -873,6 +877,7 @@
                 var authDate = cardInfo.AUTH_DD;
                 var authTime = cardInfo.AUTH_HH;
                 var authNum = cardInfo.AUTH_NO;
+                var ceoNm = cardInfo.MER_CEONM;
                 var tradeName = cardInfo.MER_NM;
                 var tradeSeq = cardInfo.MER_BIZNO;
                 var addr = cardInfo.MER_ADR1;
@@ -892,6 +897,7 @@
                 $('#authDate').html(fnGetAuthDate(authDate, authTime));
                 $('#mccName').html(mccName);
                 $('#authNum').html(authNum);
+                $('#ceoNm').html(ceoNm);
                 $('#tradeName').html(tradeName);
                 $('#tradeSeq').html(tradeSeq);
                 $('#addr').html(addr);

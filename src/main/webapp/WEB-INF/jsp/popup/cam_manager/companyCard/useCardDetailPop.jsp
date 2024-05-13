@@ -55,6 +55,10 @@
 							<td class="ri">가맹점명  <!--가맹점명--></td>
 							<td class="fwb le" id="tradeName">  </td>
 						</tr>
+						<tr>
+							<td class="ri">대표자명  <!--대표자명--></td>
+							<td class="fwb le" id="ceoNm">  </td>
+						</tr>
                         <tr>
 							<td class="ri">사업자번호  <!--사업자번호--></td>
 							<td class="fwb le" id="tradeSeq">  </td>
@@ -127,6 +131,7 @@
 		<c:set var="search" value="'" />
 		<c:set var="replace" value="`" />
 		<c:set var="cardTradeName" value="${fn:replace(cardInfo.mercName, search, replace)}"/>
+		var ceoNm = '${cardInfo.MER_CEONM}';
 		var tradeName = '${cardInfo.MER_NM}';
 		var tradeSeq = '${cardInfo.MER_BIZNO}';
 		var addr = '${cardInfo.MER_ADR1}';
@@ -147,6 +152,7 @@
 		$('#authDate').html(fnGetAuthDate(authDate, authTime));
 		$('#mccName').html(mccName);
 		$('#authNum').html(authNum);
+		$('#ceoNm').html(ceoNm);
 		$('#tradeName').html(tradeName);
 		$('#tradeSeq').html(tradeSeq);
 		$('#addr').html(addr);
