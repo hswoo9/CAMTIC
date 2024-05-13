@@ -942,7 +942,6 @@ var prp = {
             if(Number(leftSum) < Number(itemSum)){
                 alert("프로젝트 투자금액을 초과하여 구매요청을 작성하지 못합니다."); return;
             }
-            return;
         }
 
         $("#purcDraftFrm").one("submit", function() {
