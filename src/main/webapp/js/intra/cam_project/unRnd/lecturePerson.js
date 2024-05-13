@@ -198,6 +198,10 @@ let lecturePerson = {
     },
 
     fn_delBtn: function(){
+        if(!confirm("삭제하시겠습니까?")){
+            return;
+        }
+
         let personArr = [];
         $("input[name=person]:checked").each(function(i){
             personArr.push($(this).val());
@@ -216,6 +220,7 @@ let lecturePerson = {
         if(result.code != 200){
             alert("삭제 중 오류가 발생하였습니다.");
         }else{
+            alert("삭제되었습니다.");
             gridReload();
         }
     }
