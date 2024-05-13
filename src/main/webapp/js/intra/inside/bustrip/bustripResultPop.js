@@ -332,7 +332,7 @@ var bustripResultPop = {
                         "<span class='k-button-text'>회수</span>" +
                         "</button>";
                 } else if(resInfo.STATUS == 30 || resInfo.STATUS == 40){
-                    apprBtnBoxHtml = "<button type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripResList.bustripResReDrafting(\""+resInfo.DOC_ID+"\", \"bustripRes\", \""+resInfo.DOC_APPRO_KEY+"\", 2, \"reDrafting\");'>" +
+                    apprBtnBoxHtml = "<button id='bustripResReBtn' type='button' class='k-button k-button-md k-button-solid k-button-solid-base approvalPopup' onclick='bustripResList.bustripResReDrafting(\""+resInfo.DOC_ID+"\", \"bustripRes\", \""+resInfo.DOC_APPRO_KEY+"\", 2, \"reDrafting\");'>" +
                         "<span class='k-icon k-i-track-changes-accept k-button-icon'></span>" +
                         "<span class='k-button-text'>재상신</span>" +
                         "</button>";
@@ -352,6 +352,10 @@ var bustripResultPop = {
         }
 
         $("#apprBtnBox").html(apprBtnBoxHtml);
+
+        if(resInfo != null && resInfo.DOC_ID != null){
+            reDraftOnlyOne(resInfo.DOC_ID, $("#regEmpSeq").val(), "bustripResReBtn");
+        }
 
         $("#empSeq").val(resInfo.EMP_SEQ);
         $("#empName").val(resInfo.EMP_NAME);
