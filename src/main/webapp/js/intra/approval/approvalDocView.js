@@ -710,7 +710,7 @@ var docView = {
         }else if(menuCd == "claim") {   // 구매 청구
             const result = customKendo.fn_customAjax("/purc/getPurcClaimData", {claimSn: pk}).data;
 
-            let url = "/purc/pop/reqClaiming.do?claimSn=" + pk + "&purcSn" + result.PURC_SN;
+            let url = "/purc/pop/reqClaiming.do?claimSn=" + pk + "&purcSn=" + result.PURC_SN;
             let name = "_self";
             let option = "width=1200, height=700, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
             window.open(url, name, option);
