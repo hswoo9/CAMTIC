@@ -112,7 +112,14 @@ var rndRPR = {
 
         }
 
-        var pjtAmt = uncomma($("#pjtExpAmt").val());
+        var pjtAmt = 0;
+
+        if($("#pjtAmt2").val() != 0 && $("#pjtAmt2").val() != ""){
+            pjtAmt = uncomma($("#pjtAmt2").val());
+            alert(pjtAmt);
+        }else{
+            pjtAmt = uncomma($("#pjtExpAmt").val());
+        }
 
         if(pjtAmt < (Number(uncomma($("#payBudget").val())) + Number(uncomma($("#itemBudget").val())))){
             alert("인건비 예산이 초과되었습니다.");
