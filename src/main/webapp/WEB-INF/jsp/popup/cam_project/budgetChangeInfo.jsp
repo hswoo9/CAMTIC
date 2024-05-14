@@ -39,7 +39,9 @@
         window.open("/common/deptListPop.do", "조직도", "width=750, height=650");
     }
 
-    function openModal(){
+    function budgetChangeOpenModal(){
+        alert("열람자 지정 필수(예산담당자)");
+
         $("#dialog").data("kendoWindow").open();
     }
 

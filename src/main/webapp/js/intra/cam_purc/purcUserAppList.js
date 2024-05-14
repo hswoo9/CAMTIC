@@ -26,12 +26,42 @@ var purcUserAppList = {
             }
         }
 
-        purcUserAppList.gridReload();
+        purcUserAppList.mainGrid("/purc/getUserPurcAppList");
     },
 
-    mainGrid : function(url, params){
+    gridReload : function(){
+        $("#mainGrid").data("kendoGrid").dataSource.read();
+    },
+
+    mainGrid : function(url){
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 10,
+            transport: {
+                read : {
+                    url : url,
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    data.empSeq = $("#myEmpSeq").val();
+                    data.searchDept = $("#searchDept").val();
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             selectable: "row",
             resizable : true,
@@ -213,15 +243,6 @@ var purcUserAppList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
-    },
-
-    gridReload : function(){
-        purcUserAppList.global.searchAjaxData = {
-            empSeq : $("#myEmpSeq").val(),
-            searchDept : $("#searchDept").val()
-        }
-
-        purcUserAppList.mainGrid("/purc/getUserPurcAppList", purcUserAppList.global.searchAjaxData);
     },
 
     fn_reqRegPopup : function(key, stat){
