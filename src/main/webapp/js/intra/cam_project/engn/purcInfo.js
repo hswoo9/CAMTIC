@@ -65,6 +65,7 @@ var purcInfo = {
                 pageSizes: [ 10, 20, 30, 50, 100 ],
                 buttonCount: 5
             },
+            resizable : true,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },

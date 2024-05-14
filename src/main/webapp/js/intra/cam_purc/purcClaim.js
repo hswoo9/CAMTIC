@@ -48,7 +48,18 @@ var purcClaim = {
         $("#busnClass").data("kendoDropDownList").bind("change", purcClaim.gridReload);
         $("#inspectStat").data("kendoDropDownList").bind("change", purcClaim.gridReload);
         // $("#searchKeyword").data("kendoDropDownList").bind("change", purcClaim.gridReload);
-        purcClaim.gridReload();
+
+
+        purcClaim.global.searchAjaxData = {
+            empSeq : $("#myEmpSeq").val(),
+            searchDept : $("#searchDept").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
+            busnClass : $("#busnClass").val()
+        }
+
+        purcClaim.mainGrid("/purc/getPurcClaimList", purcClaim.global.searchAjaxData);
     },
 
     mainGrid: function(url, params){
@@ -158,7 +169,7 @@ var purcClaim = {
                         if(e.STATUS != null && e.STATUS != ""){
                             if(e.STATUS == 100 || e.STATUS == 101){
                                 return "구매청구완료";
-                            }else if(e.STATUS > 0 || (e.PURC_SN == null && e.STATUS == 0)){
+                            }else if(e.STATUS > 0 || (e.PURC_SN == null && e.STATUS == 0) || e.CLAIM_SN != null){
                                 return "구매청구작성중";
                             }else if(e.PURC_SN != null && e.STATUS == 0){
                                 return "구매요청완료";
@@ -241,6 +252,8 @@ var purcClaim = {
     },
 
     gridReload: function (){
+        $("#mainGrid").data("kendoGrid").destroy();
+
         purcClaim.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),

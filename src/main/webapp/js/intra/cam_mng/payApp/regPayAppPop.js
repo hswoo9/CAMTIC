@@ -208,6 +208,9 @@ var regPay = {
         if($("#reqType").val() == "claim"){
             var idx = 0;
 
+            var fileResult = new Array();
+            var fileResultTmp = new Array();
+
             for(var x = 0 ; x < $("#claimSn").val().toString().split(",").length ; x++){
                 var data = {
                     claimSn : $("#claimSn").val().toString().split(",")[x],
@@ -437,7 +440,28 @@ var regPay = {
 
                     idx++;
                 }
+
+                fileResultTmp.push(customKendo.fn_customAjax("/purc/purcFileList", data).listMap);
+
+                for(var z = 0 ; z < fileResultTmp[x].length ; z++){
+                    fileResult.push(fileResultTmp[x][z]);
+                }
             }
+
+            var fileList = fileResult;
+            var fileThumbText = "";
+
+            for(let k=0; k < fileList.length ; k++){
+                if(fileThumbText != ""){
+                    fileThumbText += " | ";
+                }
+                fileThumbText += fileList[k].file_org_name;
+                fileThumbText += "." + fileList[k].file_ext;
+            }
+
+            $("#fileText").text(fileThumbText);
+
+            regPay.global.fileArray = fileList;
         }
 
         if($("#reqType").val() == "claimExnp") {
@@ -614,8 +638,25 @@ var regPay = {
             }
 
 
-            var fileResult = customKendo.fn_customAjax("/purc/purcFileList", data);
-            var fileList = fileResult.listMap;
+            var data = {
+                claimExnpSn: $("#claimExnpSn").val(),
+                claimSn : $("#claimSn").val()
+            }
+
+            var fileResult = new Array();
+            var fileResultTmp = new Array();
+
+            for(let i = 0; i < data.claimExnpSn.toString().split(",").length; i++) {
+                data.claimExnpSn = data.claimExnpSn.toString().split(",")[i];
+                data.claimSn = data.claimSn.toString().split(",")[i];
+
+                fileResultTmp.push(customKendo.fn_customAjax("/purc/purcFileList", data).listMap);
+            }
+
+
+            fileResult = fileResultTmp[0];
+
+            var fileList = fileResult;
             var fileThumbText = "";
 
             for(let i=0; i<fileList.length; i++){
