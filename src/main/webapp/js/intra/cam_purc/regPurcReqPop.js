@@ -904,7 +904,7 @@ var prp = {
                 invSum += Number(list[i].EST_TOT_AMT);
             }
 
-            if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "S"){
+            if(pjtMap.BUSN_CLASS == "D" || pjtMap.BUSN_CLASS == "V"){
                 const rs = customKendo.fn_customAjax("/project/engn/getEstData", {pjtSn: $("#pjtSn").val()});
                 const res = rs.result;
                 const estList = res.estList;

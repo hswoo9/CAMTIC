@@ -632,9 +632,10 @@ var prm = {
         var url = "/purc/pop/regPurcReqPop.do";
         if(key != null && key != ""){
             url = "/purc/pop/regPurcReqPop.do?purcSn=" + key;
-            url = url + "&pjtSn=" + $("#pjtSn").val();
-        } else {
-            url = url + "?pjtSn=" + $("#pjtSn").val();
+        }
+
+        if($("#pjtSn").val() != null && $("#pjtSn").val() != undefined){
+            url += "&pjtSn=" + $("#pjtSn").val();
         }
 
 
