@@ -140,7 +140,7 @@
 		var stdAmt = '${cardInfo.SUPP_PRICE}';
 		var vatAmt = '${cardInfo.SURTAX}';
 		var serAmt = '${cardInfo.SVC_AMT}';
-		var amt = '${cardInfo.SUPP_PRICE + cardInfo.SURTAX}';
+		var amt = '${cardInfo.AUTH_AMT}';
 		
 		var mccName = '${cardInfo.BIZTYPE_NM}';
 		if(!mccName){
