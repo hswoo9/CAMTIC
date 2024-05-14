@@ -1544,7 +1544,7 @@
 
     <select id="getInsYList" parameterType="map" resultType="map">
         /*getInsYList*/
-        SELECT B.*
+        SELECT REPLACE(B.PURC_ITEM_QTY, ',', '') AS PURC_ITEM_QTY_UNCOMMA, B.*
         FROM CAM_MNG.DJ_MNG_PURC A
         LEFT JOIN
             CAM_MNG.DJ_MNG_PURC_ITEM B
@@ -1597,7 +1597,7 @@
                 #{CRM_SN},
                 '101',
                 'TMP',
-                #{PURC_ITEM_QTY},
+                #{PURC_ITEM_QTY_UNCOMMA},
                 #{PURC_ITEM_UNIT_PRICE},
                 #{PURC_ITEM_AMT},
                 'Y',
@@ -1626,10 +1626,10 @@
             (
                 #{ITEM_WH_SN},
                 #{CRM_SN},
-                #{PURC_ITEM_QTY},
+                #{PURC_ITEM_QTY_UNCOMMA},
                 '0',
                 #{PURC_ITEM_UNIT_PRICE},
-                (${PURC_ITEM_QTY} * ${PURC_ITEM_UNIT_PRICE}),
+                (${PURC_ITEM_QTY_UNCOMMA} * ${PURC_ITEM_UNIT_PRICE}),
                 DATE_FORMAT(now(), '%Y-%m-%d')
             )
     </insert>
