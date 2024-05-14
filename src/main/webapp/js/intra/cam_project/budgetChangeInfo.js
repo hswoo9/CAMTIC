@@ -35,7 +35,7 @@ var budgetChangeInfo = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="openModal()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="budgetChangeOpenModal()">' +
                             '	<span class="k-button-text">세세목 변경서 작성</span>' +
                             '</button>';
                     }
@@ -126,6 +126,8 @@ var budgetChangeInfo = {
     },
 
     reDrafting: function() {
+        alert("열람자 지정 필수(예산담당자)");
+
         $("#changeDraftFrm").one("submit", function() {
             var url = "/popup/cam_project/approvalFormPopup/reApprovalPop.do";
             var name = "reApprovalPop";
