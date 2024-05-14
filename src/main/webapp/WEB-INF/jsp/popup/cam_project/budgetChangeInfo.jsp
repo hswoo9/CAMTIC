@@ -114,7 +114,7 @@
                         '			<td>' +largeText+'			</td>' +
                         '			<td>' +mediumText+'			</td>' +
                         '			<td>' +g20Map.BGT_NM+'			</td>' +
-                        '			<td>' +fn_numberWithCommas(g20Map.SUB_AM)+'			</td>' +
+                        '			<td>' +fn_numberWithCommas(g20Map.CALC_AM)+'			</td>' +
                         '		</tr>';
                 }
             }
