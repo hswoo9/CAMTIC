@@ -335,12 +335,12 @@ var partRate = {
             inputNumberFormat(e);
         }
 
-        if(Number(uncomma($("#memChngSal" + i).val())) > Number(uncomma($("#totAmt" + i).val())) && partRate.global.flag){
+        /*if(Number(uncomma($("#memChngSal" + i).val())) > Number(uncomma($("#totAmt" + i).val())) && partRate.global.flag){
             alert("기준급여보다 클 수 없습니다.");
             //$("#memChngSal" + i).val(comma(bsSal));
             partRate.global.flag = false;
             return;
-        }
+        }*/
 
         if($.inArray($(e).attr("name"), ["itemRate", "totItemBudget", "payTotal"]) == -1){
             $("#memMon" + i).val(partRate.fn_monDiff($("#memStrDt" + i).val(), $("#memEndDt" + i).val()));                                  // 참여개월 계산
