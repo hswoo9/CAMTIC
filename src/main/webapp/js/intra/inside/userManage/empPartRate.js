@@ -513,7 +513,7 @@ var empPartRate = {
                         subClassText = rs[i].subClassText;
                     }
 
-                    bodyHtml += '<tr style="text-align: center;">';
+                    bodyHtml += '<tr style="text-align: center;" class="addData">';
                     bodyHtml += '   <td style="font-size:10px;padding: 0;">' + empName + '</td>';
                     bodyHtml += '   <td style="font-size:10px;padding: 0;">' + joinDay + '</td>';
                     bodyHtml += '   <td style="font-size:10px;padding: 0;">' + subClassText + '</td>';
@@ -578,15 +578,15 @@ var empPartRate = {
                                     if(monFinalStr == "ALL"){
                                         var finalStr = Number(itemMon[monPayStr + (colMonth)]) + Number(itemMon[monItemStr + (colMonth)]);
 
-                                        bodyHtml += '<td style="text-align: right">' + comma(finalStr) + '</td>';
+                                        bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(finalStr) + '</td>';
                                     }else {
-                                        bodyHtml += '<td style="text-align: right">' + comma(itemMon[monFinalStr + (colMonth)]) + '</td>';
+                                        bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(itemMon[monFinalStr + (colMonth)]) + '</td>';
                                     }
                                 }else {
                                     if(monFinalStr == "ALL"){
-                                        bodyHtml += '<td style="text-align: right">' + comma(Number(item.MON_SAL)) + '</td>';
+                                        bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(Number(item.MON_SAL)) + '</td>';
                                     }else {
-                                        bodyHtml += '<td style="text-align: right">' + comma(tot) + '</td>';
+                                        bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(tot) + '</td>';
                                     }
                                 }
                             } else {
@@ -681,6 +681,19 @@ var empPartRate = {
                 bodyHtml += '</tr>';
 
                 $("#userPartRateBody").html(bodyHtml);
+
+                /** 전부 0인 데이터는 삭제 */
+                $.each($(".addData"), function(){
+                    let amtSum = 0;
+                    $.each($(this).find(".amtCol"), function(e){
+                        const amt = isNaN(uncomma($(this).text())) ? 0 : $(this).text()
+                        amtSum += Number(amt);
+                    })
+
+                    if(amtSum == 0){
+                        $(this).remove();
+                    }
+                })
             }
         });
     },
