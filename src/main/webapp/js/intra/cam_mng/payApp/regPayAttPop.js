@@ -388,6 +388,10 @@ const regPayAtt = {
                     if(opener.parent.regExnp.global.result.DOC_STATUS != "100" && opener.parent.regExnp.global.result.DOC_STATUS != "10" && opener.parent.regExnp.global.result.DOC_STATUS != "50"){
                         html1 += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">'
                     }
+                } else {
+                    if(opener.parent.regPay.global.result.DOC_STATUS != "100" && opener.parent.regPay.global.result.DOC_STATUS != "10" && opener.parent.regPay.global.result.DOC_STATUS != "50"){
+                        html1 += '       <input type="button" value="삭제" class="k-button k-rounded k-button-solid k-button-solid-error" onclick="regPayAtt.fn_delFile(' + fileArray[i].file_no + ')">'
+                    }
                 }
                 html1 += '   </td>';
                 // }
