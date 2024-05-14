@@ -192,7 +192,7 @@
                     </td>
                     <td>
                         <div style="text-align: center">
-                            <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="regPayDet.delRow(0)">삭제</button>
+                            <button type="button" class="k-button k-button-solid-error" id="detDelBtn" onclick="appUserPaySetting.delRow(0)">삭제</button>
                         </div>
                     </td>
                 </tr>

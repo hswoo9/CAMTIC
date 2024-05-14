@@ -162,6 +162,7 @@ const appUserPaySetting = {
 
         var flag = true;
         var payFlag = true;
+        var itemFlag = true;
         var itemArr = new Array();
         $('input[name="reqAmt"]').each(function(){
             if(this.value == 0 || this.value == ""){
@@ -204,6 +205,10 @@ const appUserPaySetting = {
         $.each($(".payDestInfo"), function(i, v){
             var index = $(this).attr("id").replace(/[^0-9]/g, '');
 
+            if($("#eviType" + index).val() != "" && uncommaN($("#totCost" + index).val()) == ""){
+                itemFlag = false;
+            }
+
             var data = {
                 evidType : $("#eviType" + index).val(),
                 authNo : $("#authNo" + index).val(),
@@ -230,6 +235,11 @@ const appUserPaySetting = {
 
             payItemArr.push(data);
         });
+
+        if(!itemFlag) {
+            alert("증빙서류가 선택되지 않았습니다.");
+            return;
+        }
 
         formData.append("payItemArr", JSON.stringify(payItemArr));
 
