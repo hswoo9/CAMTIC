@@ -31,7 +31,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -1496,6 +1499,26 @@ public class AssetController {
 
         model.addAttribute("astMap", assetService.getastData(params));
         model.addAttribute("map", map);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/asset/setBarcodePrintA")
+    public String setBarcodePrintA(@RequestParam Map<String, Object> params, Model model) throws IOException {
+        Socket clientSocket = new Socket("218.158.231.248",9100);
+
+        DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream() );
+        //The data being sent in the lines below illustrate CPCL  one can change the data for the corresponding
+        //language being used (ZPL, EPL)
+
+        outToServer.writeBytes("! 0 200 200 203 1" + 'n' + "CENTER" + 'n');
+        outToServer.writeBytes("TEXT 0 3 10 50 JAVA TEST" + 'n' + "PRINT" + 'n');
+
+
+
+        clientSocket.close();
+
+        model.addAttribute("code", 200);
 
         return "jsonView";
     }

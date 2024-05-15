@@ -290,5 +290,24 @@ var astPdaInfoList = {
         kendo.saveAs({
             dataURI: "/asset/setAppApkDownLoad.do"
         });
+    },
+
+    setBarcodePrintA: function(){
+        var data = {
+
+        }
+        $.ajax({
+            url : "/asset/setBarcodePrintA",
+            data: data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+
+                if(rs.code == 200){
+                    alert("인쇄성공")
+                }
+            }
+        });
     }
 }
