@@ -128,7 +128,7 @@ var empPartRate = {
                     return data.list.length;
                 },
             },
-            pageSize: $("#rowNum").val()
+            pageSize: Number($("#rowNum").val())
         });
 
         var mainGrid = $("#mainGrid").kendoGrid({

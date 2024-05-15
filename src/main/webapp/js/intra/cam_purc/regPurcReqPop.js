@@ -915,7 +915,7 @@ var prp = {
                 console.log("estMap.VAT", estMap.VAT);
 
                 if(estMap.VAT == "N"){
-                    invSum = Number(invSum * 1.1);
+                    invSum = Number(Math.floor(invSum * 1.1));
                 }
             }
 
