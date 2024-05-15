@@ -77,7 +77,7 @@
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.setAppApkDownLoad()">재물조사 앱</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.getAssetList()">가져오기</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.setAssetUploadAll()">재물조사 업로드</button>
-                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(대)</button>
+                            <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="astPdaInfoList.setBarcodePrintA()">바코드 출력(대)</button>
                             <button type="button" class="k-button k-button-md k-button-solid k-button-solid-base" onclick="">바코드 출력(소)</button>
                         </td>
                     </tr>
