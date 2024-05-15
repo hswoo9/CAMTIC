@@ -477,7 +477,7 @@
         $("#busnNm").val(busnNm);
 
         var data = {
-            pjtCd : cd
+            pjtCd : (cd || "")
         }
 
         if(cd.substring(0, 1) == "M") {

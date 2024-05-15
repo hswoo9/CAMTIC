@@ -1139,9 +1139,9 @@ background:#f6fcff url('../../images/bg/sub_index_img.png') no-repeat 48px 114px
 .docu_search{padding:15px;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;border-bottom:1px solid #dcdcdc;}
 
 /* 품의서 -세금계산서 */
-.Taxtabel_layout.red{border-top: 2px solid red; border-left: 2px solid red;}
-.Taxtabel.red .Rline{border-right: 2px solid red !important; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
-.Taxtabel.red td{border-right: 1px solid red; border-bottom: 1px solid red; }
+.Taxtabel_layout.red{border-top: 2px solid blue; border-left: 2px solid blue;}
+.Taxtabel.red .Rline{border-right: 2px solid blue !important; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
+.Taxtabel.red td{border-right: 1px solid blue; border-bottom: 1px solid blue; }
 
 .Taxtabel_layout.blue{border-top: 2px solid blue; border-left: 2px solid blue;}
 .Taxtabel.blue .Rline{border-right: 2px solid blue !important; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}

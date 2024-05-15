@@ -486,7 +486,8 @@ var regPay = {
             // if($("#pjtSn").val != ""){
             //     $("#pjtSn").val(rs.PJT_SN);
             // }
-            if(cem != null && cem.PJT_CD != ""){
+            debugger
+            if(cem != null && cem.PJT_CD != "" && cem.PJT_CD != null && cem.PJT_CD != undefined){
                 if(cem.CLAIM_SET_SN == null){
                     $("#pjtSn").val("");
                     selectProject("", cem.PJT_NM, cem.PJT_CD)

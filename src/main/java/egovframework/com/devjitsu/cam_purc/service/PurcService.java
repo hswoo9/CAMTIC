@@ -111,4 +111,6 @@ public interface PurcService {
     void delClaimExnpData(Map<String, Object> params);
 
     void updClaimExpDe(Map<String, Object> params);
+
+    List<Map<String, Object>> getMngPurcAppListExcel(Map<String, Object> params);
 }

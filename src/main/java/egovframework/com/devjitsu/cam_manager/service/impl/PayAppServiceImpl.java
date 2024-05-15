@@ -136,11 +136,14 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         if(params.containsKey("claimExnpSn")){
-            List<Map<String, Object>> lsMap = payAppRepository.getClaimExnpData(params);
+            for(int i = 0 ; i < params.get("claimExnpSn").toString().split(",").length ; i++){
+                params.put("claimExnpSn", params.get("claimExnpSn").toString().split(",")[i]);
+                List<Map<String, Object>> lsMap = payAppRepository.getClaimExnpData(params);
 
-            for(Map<String, Object> map : lsMap){
-                params.put("claimExnpSn", map.get("CLAIM_EXNP_SN"));
-                payAppRepository.updClaimExnpSn(params);
+                for(Map<String, Object> map : lsMap){
+                    params.put("claimExnpSn", map.get("CLAIM_EXNP_SN"));
+                    payAppRepository.updClaimExnpSn(params);
+                }
             }
         } else if(params.containsKey("claimSn")){
             // 구매청구관리 지급신청 Key Insert

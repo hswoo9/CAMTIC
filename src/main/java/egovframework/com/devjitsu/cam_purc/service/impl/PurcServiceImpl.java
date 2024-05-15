@@ -833,6 +833,11 @@ public class PurcServiceImpl implements PurcService {
     }
 
     @Override
+    public List<Map<String, Object>> getMngPurcAppListExcel(Map<String, Object> params) {
+        return purcRepository.getMngPurcAppListExcel(params);
+    }
+
+    @Override
     public List<Map<String, Object>> purcFileList(Map<String, Object> params) {
         List<Map<String, Object>> list = new ArrayList<>();
 

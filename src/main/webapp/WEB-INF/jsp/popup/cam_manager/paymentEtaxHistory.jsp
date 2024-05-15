@@ -9,8 +9,8 @@
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/paymentDetView.js?v=${today}'/>"></script>
 
-<link rel="stylesheet" type="text/css" href='/css/pop/contents.css'>
-<link rel="stylesheet" type="text/css" href='/css/pop/common.css'>
+<link rel="stylesheet" type="text/css" href='/css/pop/contents.css?v=1'>
+<link rel="stylesheet" type="text/css" href='/css/pop/common.css?v=1'>
 
 
 <!-- 공통팝업 호출 -->

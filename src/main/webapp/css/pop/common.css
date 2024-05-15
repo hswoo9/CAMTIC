@@ -3,7 +3,7 @@
    IMPORT CSS
 **************************************************/
 @import url('layout.css'); /*layout.css*/ 
-@import url('contents.css?v=2'); /*contents.css*/
+@import url('contents.css?v=3'); /*contents.css*/
 @import url('mail.css'); /*contents.css*/ 
 @import url('main.css'); 
 @import url('recalendar.css?v=1');  /*풀캘린 더커스텀.css*/

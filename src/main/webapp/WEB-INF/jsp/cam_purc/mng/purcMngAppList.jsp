@@ -94,6 +94,7 @@
                 </table>
 
                 <div id="mainGrid" style="margin:20px 0;"></div>
+                <div id="hiddenGrid" style="display:none;"></div>
             </div>
         </div>
     </div>

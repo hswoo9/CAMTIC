@@ -72,6 +72,7 @@ var purcMngAppList = {
         });
 
         purcMngAppList.mainGrid();
+        purcMngAppList.hiddenGrid();
     },
 
     mainGrid : function(){
@@ -120,6 +121,14 @@ var purcMngAppList = {
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_appUserPaySetting(0)">' +
                             '	<span class="k-button-text">다건지출요청</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_excelDownload()">' +
+                            '	<span class="k-icon k-i-file-excel k-button-icon"></span>' +
+                            '	<span class="k-button-text">엑셀다운로드</span>' +
                             '</button>';
                     }
                 }, {
@@ -188,6 +197,10 @@ var purcMngAppList = {
                     field: "DOC_NO",
                     title: "문서번호",
                     width: 100
+                }, {
+                    field: "GOODS_DT",
+                    title: "납품예정일",
+                    width: 70
                 }, {
                     field: "ORDER_DT",
                     title: "발주일",
@@ -313,6 +326,155 @@ var purcMngAppList = {
         }).data("kendoGrid");
     },
 
+    hiddenGrid : function(){
+        purcMngAppList.global.searchAjaxData = {
+            empSeq : $("#myEmpSeq").val(),
+            searchDept : $("#searchDept").val(),
+            searchKeyword : $("#searchKeyword").val(),
+            searchValue : $("#searchValue").val(),
+            inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
+            busnClass : $("#busnClass").val(),
+            strDt : $("#strDt").val(),
+            endDt : $("#endDt").val(),
+        }
+
+        $("#hiddenGrid").kendoGrid({
+            dataSource: customKendo.fn_gridDataSource2("/purc/getMngPurcAppListExcel", purcMngAppList.global.searchAjaxData),
+            sortable: true,
+            selectable: "row",
+            height: 525,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100, 'All' ],
+                buttonCount: 5
+            },
+            resizable : true,
+            noRecords: {
+                template: "데이터가 존재하지 않습니다."
+            },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_claimExpDateChangeModal()">' +
+                            '	<span class="k-button-text">지급예정일 변경</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_purcBasicSettings()">' +
+                            '	<span class="k-button-text">지급설정</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_appUserPaySetting(0)">' +
+                            '	<span class="k-button-text">다건지출요청</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
+            dataBound: purcMngAppList.onDataBound,
+            columns: [
+                {
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'clm\');"/>',
+                    width: 30,
+                    template : function (e){
+                        console.log(e)
+                        var amt = (Number(e.TOT_AMT) - Number(e.EXNP_AMT));
+                        if(amt == 0){
+                            return "";
+                        } else {
+                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' setting='"+e.SETTING+"' value='"+e.CLAIM_SN+"' crm-sn='"+e.CRM_SN+"'/>";
+                        }
+                    }
+                }, {
+                    title: "번호",
+                    width: 40,
+                    template: "#= --record #"
+                }, {
+                    title: "요청부서",
+                    field: "DEPT_NAME",
+                    width: 120,
+                }, {
+                    title: "구매구분",
+                    width: 60,
+                    field: "PURC_NAME"
+                }, {
+                    title: "제목",
+                    field: "CLAIM_TITLE"
+                }, {
+                    field: "CRM_NM",
+                    title: "업체명",
+                    width: 100
+                }, {
+                    field: "DOC_NO",
+                    title: "문서번호",
+                    width: 100
+                }, {
+                    field: "ORDER_DT",
+                    title: "발주일",
+                    width: 70
+                }, {
+                    field: "EXP_DE",
+                    title: "지급예정일",
+                    width: 70
+                }
+                // , {
+                //     field: "EXNP_DE",
+                //     title: "지출예정일",
+                //     width: 100
+                // }
+                , {
+                    title: "비용지급방식",
+                    width: 62,
+                    field: "PAYMENT_METHOD_NM"
+                }, {
+                    title: "금액",
+                    width: 62,
+                    field : "TOT_AMT"
+                }, {
+                    title: "지출요청액",
+                    width: 62,
+                    field: "REQ_AMT"
+                }, {
+                    title: "지출액",
+                    width: 62,
+                    field: "EXNP_AMT"
+                }, {
+                    title: "미지급액",
+                    width: 62,
+                    field: "NOT_AMT"
+                }, {
+                    title: "지급설정",
+                    width: 60,
+                    field: "SETTING_NM"
+                },
+                // , {
+                //     title: "첨부",
+                //     width: 60,
+                //     template : function(e) {
+                //         return '<button type="button" class="k-button k-button-solid-base" onClick="purcMngAppList.fn_regPayAttPop('+e.PURC_SN+', '+e.CLAIM_SN+')">첨부</button>';
+                //     }
+                // }
+                {
+                    title: "상태",
+                    width: 70,
+                    field: "STATUS_NM"
+                }
+            ]
+        }).data("kendoGrid");
+    },
+
     onDataBound : function(){
         amt1 = 0;
         amt2 = 0;
@@ -322,7 +484,10 @@ var purcMngAppList = {
 
     gridReload : function(){
         $("#mainGrid").data("kendoGrid").destroy();
+        $("#hiddenGrid").data("kendoGrid").destroy();
+
         purcMngAppList.mainGrid();
+        purcMngAppList.hiddenGrid();
     },
 
     fn_reqRegPopup : function(key, stat){
@@ -523,5 +688,12 @@ var purcMngAppList = {
     },
 
 
+    fn_excelDownload : function (){
+        var grid = $("#hiddenGrid").data("kendoGrid");
+        grid.bind("excelExport", function(e) {
+            e.workbook.fileName = "구매지급관리 목록.xlsx";
+        });
+        grid.saveAsExcel();
+    }
 
 }

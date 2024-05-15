@@ -756,6 +756,16 @@ public class PurcController {
         return "jsonView";
     }
 
+    @RequestMapping("/purc/getMngPurcAppListExcel")
+    public String getMngPurcAppListExcel(@RequestParam Map<String, Object> params, Model model) {
+
+        List<Map<String, Object>> list = new ArrayList<>();
+        list = purcService.getMngPurcAppListExcel(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
     @RequestMapping("/purc/getUserPurcAppList")
     public String getUserPurcAppList(@RequestParam Map<String, Object> params, Model model) {
         List<Map<String, Object>> list = new ArrayList<>();

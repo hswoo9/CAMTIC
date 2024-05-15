@@ -135,7 +135,7 @@ var purcInfo = {
                                 invSum = Number(invSum * 1.1);
                             }
                         }
-                        return "<div style='text-align: right'>"+comma(invSum)+"</div>";
+                        return "<div style='text-align: right'>"+comma(Math.round(invSum))+"</div>";
                     }
                 }, {
                     title: "구매요청서",
@@ -218,7 +218,7 @@ var purcInfo = {
                             purcSum2 += Number(leftList[i].PURC_ITEM_AMT);
                         }
                         leftSum = invSum - purcSum2;
-                        return "<div style='text-align: right'>"+comma(leftSum)+"</div>";
+                        return "<div style='text-align: right'>"+comma(Math.round(leftSum))+"</div>";
                     }
                 }, {
                     title: "업체명",
