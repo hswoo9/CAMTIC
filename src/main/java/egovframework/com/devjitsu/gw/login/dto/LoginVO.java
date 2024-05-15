@@ -119,8 +119,18 @@ public class LoginVO {
     private String gradeNm;
 
     private String jobDetailNm;
+    private String engMa;
+
 
     public LoginVO() {
+    }
+
+    public String getEngMa() {
+        return engMa;
+    }
+
+    public void setEngMa(String engMa) {
+        this.engMa = engMa;
     }
 
     public String getPicFilePath() {

@@ -410,6 +410,30 @@
         AND
             ${userKind} LIKE CONCAT('%', #{kindContent}, '%')
         </if>
+
+        <if test='deptComp != null and !"".equals(deptComp)'>
+            AND
+                AA.DEPT_SEQ = #{deptComp}
+            <if test='deptTeam == deptTeam or "".equals(deptTeam)'>
+            OR
+                AA.DEPT_SEQ IN (
+                    SELECT
+                        DEPT_SEQ
+                    FROM
+                        CAM_HR.DJ_DEPT_INFO
+                    WHERE
+                        DEPT_SEQ = #{deptComp}
+                    OR
+                        PARENT_DEPT_SEQ = #{deptComp}
+                )
+            </if>
+        </if>
+
+        <if test='deptTeam != null and !"".equals(deptTeam)'>
+            AND
+                AA.DEPT_SEQ = #{deptTeam}
+        </if>
+
         ORDER BY AA.EMP_NAME_KR
     </select>
 

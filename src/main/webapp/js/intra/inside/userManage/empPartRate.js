@@ -1,6 +1,19 @@
 var empPartRate = {
 
     fn_defaultScript: function () {
+        empPartRate.dataSet();
+
+        if($("#empSeq").val() != "1" && !Boolean(Number($("#engMa").val()))){
+            if($("#dutyCode").val() == "2" || $("#dutyCode").val() == "3" || $("#dutyCode").val() == "4" || $("#dutyCode").val() == "5"){
+                $("#deptComp").data("kendoDropDownList").value($("#parentDeptSeq").val());
+                $("#deptComp").data("kendoDropDownList").trigger("change");
+                $("#deptComp").data("kendoDropDownList").enable(false);
+                if($("#dutyCode").val() == "5"){
+                    $("#deptTeam").data("kendoDropDownList").value($("#deptSeq").val());
+                    $("#deptTeam").data("kendoDropDownList").enable(false);
+                }
+            }
+        }
 
         $("#rowNum").kendoDropDownList({
             dataTextField: "text",
@@ -47,8 +60,6 @@ var empPartRate = {
             dataValueField: "value",
             dataSource: [
                 {text: "성명", value: "AA.EMP_NAME_KR"},
-                {text: "부서명", value: "AA.DEPT_NAME"},
-                {text: "팀명", value: "AA.DEPT_TEAM_NAME"},
                 {text: "사업참여", value: "ATTEND"}
             ],
             index: 0
@@ -98,11 +109,14 @@ var empPartRate = {
                     async: false
                 },
                 parameterMap: function (data) {
+                    data.deptComp = $('#deptComp').val();
+                    data.deptTeam = $('#deptTeam').val();
                     data.status = $('#status').val();
                     data.division = $('#division').val();
                     data.bsYear = $("#bsYear").val();
                     data.userKind = $('#userKind').val();
                     data.kindContent = $("#kindContent").val();
+
                     return data;
                 }
             },
@@ -714,7 +728,30 @@ var empPartRate = {
         var option = "width = 1800, height = 750, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);
-    }
+    },
+
+    dataSet : function(){
+        var data = {
+
+        }
+        data.deptLevel = 1;
+        var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
+
+        customKendo.fn_dropDownList("deptComp", deptDsA.rs, "dept_name", "dept_seq");
+
+        $("#deptComp").data("kendoDropDownList").bind("change", empPartRate.fn_chngDeptComp);
+        $("#deptComp").data("kendoDropDownList").select(0);
+        $("#deptComp").data("kendoDropDownList").trigger("change");
+    },
+
+    fn_chngDeptComp : function (){
+        var data = {}
+        data.deptLevel = 2;
+        data.parentDeptSeq = this.value();
+
+        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        customKendo.fn_dropDownList("deptTeam", ds.rs, "dept_name", "dept_seq")
+    },
 }
 
 function inputNumberFormat(obj) {

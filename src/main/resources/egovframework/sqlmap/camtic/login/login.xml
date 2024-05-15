@@ -34,7 +34,9 @@
             HEI.JOB_DETAIL AS jobDetailNm,
 
             /* 증명사진 파일 */
-            CONCAT(FI.file_path, FI.file_uuid)as picFilePath
+            CONCAT(FI.file_path, FI.file_uuid)as picFilePath,
+            /* 참여율 관리자 여부 */
+            (SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM CAM_COMMON.DJ_MENU_AUTHORITY_GRANT WHERE EMP_SEQ = HEI.EMP_SEQ AND AUTHORITY_GROUP_ID = '32') AS engMa
         FROM
             CAM_HR.DJ_EMP_INFO HEI
         LEFT JOIN

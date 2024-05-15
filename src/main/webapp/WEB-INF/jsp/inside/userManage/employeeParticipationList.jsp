@@ -7,8 +7,12 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/partRate/partRateCommon.js?v=${today}'/>"></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="parentDeptSeq" value="${loginVO.deptId}">
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
+<input type="hidden" id="dutyCode" value="${loginVO.dutyCode}">
+<input type="hidden" id="engMa" value="${loginVO.engMa}">
+
 <input type="hidden" id="tempEmpSeq" value=""/>
 <input type="hidden" id="tempEmpName" value=""/>
 <input type="hidden" id="tempJoinDay" value=""/>
@@ -39,11 +43,21 @@
                         <col width="8%">
                         <col width="10%">
                         <col width="8%">
-                        <col width="20%">
+                        <col width="10%">
+                        <col width="8%">
+                        <col width="10%">
                     </colgroup>
                     <tr>
                         <td>
                             <input type="text" id="rowNum" style="width: 100px;">
+                        </td>
+                        <th class="text-center th-color">부서</th>
+                        <td>
+                            <input type="text" id="deptComp" style="width: 150px;">
+                        </td>
+                        <th class="text-center th-color">팀</th>
+                        <td>
+                            <input type="text" id="deptTeam" style="width: 180px;">
                         </td>
                         <th class="text-center th-color">재직여부</th>
                         <td>
@@ -57,8 +71,12 @@
                         <td>
                             <input type="text" id="bsYear" style="width: 100px;">
                         </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
                         <th class="text-center th-color">검색어</th>
-                        <td colspan="3">
+                        <td colspan="9">
                             <input type="text" id="userKind" style="width: 100px;">
                             <input type="text" id="kindContent" style="width: 150px;" onkeypress="if(window.event.keyCode==13){empPartRate.fn_gridReload();}">
                         </td>
