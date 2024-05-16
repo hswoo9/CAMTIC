@@ -136,8 +136,9 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         if(params.containsKey("claimExnpSn")){
-            for(int i = 0 ; i < params.get("claimExnpSn").toString().split(",").length ; i++){
-                params.put("claimExnpSn", params.get("claimExnpSn").toString().split(",")[i]);
+            String [] claimExnpSnArr = params.get("claimExnpSn").toString().split(",");
+            for(int i = 0 ; i < claimExnpSnArr.length ; i++){
+                params.put("claimExnpSn", claimExnpSnArr[i]);
                 List<Map<String, Object>> lsMap = payAppRepository.getClaimExnpData(params);
 
                 for(Map<String, Object> map : lsMap){
