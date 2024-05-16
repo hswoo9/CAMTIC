@@ -118,8 +118,11 @@ var roomReq = {
             return;
         }
 
+        /** 사용 회의실 리스트 */
+        const dataList = roomReq.insertDataList();
+
         var result = customKendo.fn_customAjax("/inside/setRoomRequestInsert", {
-            dataList : JSON.stringify(roomReq.insertDataList())
+            dataList : JSON.stringify(dataList)
         });
 
         if(result.flag){
@@ -296,7 +299,7 @@ var roomReq = {
                 var data = roomReq.saveData();
                 data.startDt = $("#startDt").val();
                 data.endDt = $("#endDt").val();
-                data.roomClassSn = roomClassSn;
+                data.roomClassSn = String(roomClassSn);
                 data.roomClassText = roomClassText;
                 roomReq.searchDuplicateRoom(data);
                 if(!flag){
