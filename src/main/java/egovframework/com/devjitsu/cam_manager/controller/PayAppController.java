@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_manager.controller;
 
 import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
+import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class PayAppController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private PurcService purcService;
 
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
@@ -305,6 +309,12 @@ public class PayAppController {
         params.put("fileNoAr", fileNoAr);
 
         List<Map<String, Object>> fileList = payAppService.getPayAppFileList(params);
+
+        if(map.get("LINK_KEY_TYPE").equals("구매")){
+            params.put("claimExnpSn", map.get("LINK_KEY"));
+            params.put("claimSn", purcService.getClaimExnpData(params).get("CLAIM_SN"));
+            map.put("EXP_DE", purcService.getPurcClaimData(params).get("EXP_DE"));
+        }
 
         model.addAttribute("map", map);
         model.addAttribute("list", list);

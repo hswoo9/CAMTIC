@@ -102,7 +102,11 @@ var purcUserAppList = {
                     headerTemplate: '<input type="checkbox" id="clmCheckAll" name="clmCheckAll" onclick="fn_checkAll(\'clmCheckAll\', \'clm\');"/>',
                     width: 40,
                     template : function (e){
-                        return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"' claimExnpSn='"+e.CLAIM_EXNP_SN+"'/>";
+                        if(e.F_PAY_APP_SN == null){
+                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' value='"+e.CLAIM_SN+"' claimExnpSn='"+e.CLAIM_EXNP_SN+"'/>";
+                        } else {
+                            return "";
+                        }
                     }
                 }, {
                     title: "번호",
@@ -208,11 +212,10 @@ var purcUserAppList = {
                     width : 80,
                     template: function(e){
 
-                        // approveDocView('3770', 'payApp370', 'payApp');
-                        if(e.F_PAY_APP_SN == null){
-                            return '<button type="button" class="k-button k-button-solid-base" onClick="purcUserAppList.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
+                        if(e.F_DOC_STATUS != 0 && e.F_DOC_STATUS != 30 && e.F_DOC_STATUS != 40 && e.F_DOC_STATUS != null){
+                            return '<button type="button" class="k-button k-button-solid-info" onclick="purcUserAppList.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
                         } else {
-                            return '<button type="button" class="k-button k-button-solid-info" onClick="purcUserAppList.fn_reqPayAppPopup(' + e.PURC_SN + ', ' + e.CLAIM_SN + ', ' + e.CLAIM_EXNP_SN + ', ' + e.F_PAY_APP_SN + ')">지급신청</button>';
+                            return '<button type="button" class="k-button k-button-solid-base" onclick="purcUserAppList.fn_reqPayAppPopup('+e.PURC_SN+', '+e.CLAIM_SN+', '+e.CLAIM_EXNP_SN+', '+e.F_PAY_APP_SN+')">지급신청</button>';
                         }
                     }
                 }, {
