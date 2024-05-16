@@ -155,7 +155,7 @@ var approvalLine = {
         const userInfo = approvalLine.global.userInfo;
         let level = 0;
         if(userInfo.DUTY_CODE == "1"){
-
+            level = 99;
         }else if(userInfo.DUTY_CODE == "2" || userInfo.DUTY_CODE == "3" || userInfo.DUTY_CODE == "7"){
             level = approvalLine.global.headLevel;
         }else if(userInfo.DUTY_CODE == "4" || userInfo.DUTY_CODE == "5" || userInfo.DUTY_CODE == "6"){
