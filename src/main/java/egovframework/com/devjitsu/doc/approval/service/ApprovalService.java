@@ -109,6 +109,11 @@ public interface ApprovalService {
     void setDocApproveNReturn(Map<String, Object> params, String base_dir) throws IOException;
 
     /**
+     * 열람 저장
+     */
+    void setReaderSave(Map<String, Object> params, String base_dir) throws IOException;
+
+    /**
      * 문서 결재 취소
      */
     void setDocApproveCancel(Map<String, Object> params, String base_dir) throws IOException;

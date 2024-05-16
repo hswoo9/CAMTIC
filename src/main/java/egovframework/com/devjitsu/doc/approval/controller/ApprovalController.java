@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -307,6 +308,24 @@ public class ApprovalController {
     public Map<String, Object> setDocApproveNReturn(@RequestParam Map<String, Object> params, Model model) throws IOException {
         approvalService.setDocApproveNReturn(params, BASE_DIR);
         return params;
+    }
+
+    /** 결재문서 열람자 저장*/
+    @RequestMapping("/approval/setReaderSave")
+    public String setReaderSave(@RequestParam Map<String, Object> params, Model model) throws IOException {
+
+        Map<String, Object> result = new HashMap<>();
+        try {
+            approvalService.setReaderSave(params, BASE_DIR);
+            result.put("code", "200");
+            result.put("message", "결재선 저장이 완료되었습니다.");
+        } catch (Exception e) {
+            result.put("code", "500");
+            result.put("message", "결재선 저장 중 에러가 발생했습니다.");
+        }
+
+        model.addAttribute("result", result);
+        return "jsonView";
     }
 
     /** 결재문서 결재취소 */

@@ -1525,12 +1525,25 @@ var docView = {
         $("#readerNameTd").text(docView.global.rs.displayReaderName);
         $("#draftOpinTd").html(docView.global.rs.docInfo.DRAFT_OPIN.replace(/\n+/g, "<br>"));
 
-        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ
-            && docView.global.rs.docInfo.APPROVE_STAT_CODE != "100" && docView.global.rs.docInfo.APPROVE_STAT_CODE != "101"){
-            $("#readerNameTd").html('<input type="text" id="readerName" name="readerName" class="k-input k-textbox k-input-solid k-input-md" style="width: 93%; margin-right: 5px" onclick="docView.readerSelectPopup2()" readonly>' +
-                '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docView.readerSelectPopup2()" style="vertical-align: middle;">' +
-                '   <span class="k-button-text">선택</span>' +
-                '</button>');
+        if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){
+            let html = '';
+            let width = 93;
+            if(docView.global.rs.docInfo.APPROVE_STAT_CODE == "100" || docView.global.rs.docInfo.APPROVE_STAT_CODE == "101"){
+                width = 88
+            }
+
+            html += '<input type="text" id="readerName" name="readerName" class="k-input k-textbox k-input-solid k-input-md" style="width: '+width+'%; margin-right: 5px" onclick="docView.readerSelectPopup2()" readonly>'
+            html += '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docView.readerSelectPopup2()" style="vertical-align: middle;">'
+            html += '   <span class="k-button-text">선택</span>'
+            html += '</button>';
+            
+            if(docView.global.rs.docInfo.APPROVE_STAT_CODE == "100" || docView.global.rs.docInfo.APPROVE_STAT_CODE == "101"){
+                html += '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="docView.readerSave()" style="margin-left: 5px; vertical-align: middle;">'
+                html += '   <span class="k-button-text">저장</span>'
+                html += '</button>';
+            }
+
+            $("#readerNameTd").html(html);
             $("#readerName").val(docView.global.rs.displayReaderName);
         }
 
@@ -1549,6 +1562,26 @@ var docView = {
             /** 반려모달 hidden 값 */
             $("#returnEmpSeq").val(docView.global.loginVO.uniqId);
             $("#returnEmpName").val(docView.global.loginVO.name);
+        }
+    },
+
+    readerSave : function(){
+        if(!(docView.global.readersArr != null && docView.global.readersArr.length > 0)){
+            alert("열람자를 지정해주세요."); return;
+        }
+
+        const params = {
+            "docId" : docView.global.rs.docInfo.DOC_ID,
+            "readersArrUpd" : JSON.stringify(docView.global.readersArr),
+            "empSeq" : docView.global.loginVO.uniqId
+        }
+        var result = customKendo.fn_customAjax("/approval/setReaderSave", params);
+
+        if(result.result.code == "200"){
+            alert("저장이 완료되었습니다.");
+            location.reload();
+        }else{
+            alert("저장중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다.");
         }
     },
 
