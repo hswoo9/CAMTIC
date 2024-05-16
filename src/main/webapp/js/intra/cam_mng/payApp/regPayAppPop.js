@@ -527,6 +527,7 @@ var regPay = {
                     $("#authHh" + i).val(ls[i].AUTH_HH || "");
                     $("#authNo" + i).val(ls[i].AUTH_NO || "");
                     $("#buySts" + i).val(ls[i].BUY_STS || "");
+                    $("#trCd" + i).val(ls[i].TR_CD || "");
 
                     $("#card" + i).val(ls[i].TR_NM);
                     $("#cardNo" + i).val(ls[i].CARD_BA_NB);
@@ -571,6 +572,7 @@ var regPay = {
                     $("#issNo" + i).val(ls[i].ISS_NO || "");
                     $("#coCd" + i).val(ls[i].CO_CD || "");
                     $("#taxTy" + i).val(ls[i].TAX_TY || "");
+                    $("#trCd" + i).val(ls[i].TR_CD || "");
 
                     $("#expRate" + idx).val(ls[i].EXP_RATE || "");
                     $("#taxRate" + idx).val(ls[i].TAX_RATE || "");

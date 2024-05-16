@@ -7,6 +7,7 @@ import egovframework.com.devjitsu.cam_manager.repository.PayAppRepository;
 import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.cam_purc.service.PurcService;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.g20.repository.PRJRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,9 @@ public class PurcServiceImpl implements PurcService {
 
     @Autowired
     private PayAppRepository payAppRepository;
+
+    @Autowired
+    private G20Repository g20Repository;
 
     @Override
     public List<Map<String, Object>> getPurcReqList(Map<String, Object> params) {
@@ -1118,6 +1122,16 @@ public class PurcServiceImpl implements PurcService {
             map.put("buySts", map.get("BUY_STS"));
 
             Map<String, Object> cardMap = purcRepository.getDetailCardInfo(map);
+
+            params.put("REG_NO", cardMap.get("MER_BIZNO"));
+            Map<String, Object> tempMap = g20Repository.getClientInfoOne(params);
+
+            if(tempMap != null){
+                cardMap.put("TR_CD", tempMap.get("TR_CD"));
+            } else {
+                cardMap.put("TR_CD", "");
+            }
+
 
             rsList.add(cardMap);
         }
