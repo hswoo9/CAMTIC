@@ -140,7 +140,7 @@ var carReq = {
             var chkData = customKendo.fn_customAjax("/inside/carRequestCheck", data).cnt;
             if(chkData > 0){
                 alert("선택하신 일시에 해당 차량 신청건이 존재합니다");
-                return false;
+                return;
             }
         } else {
             flag = true;
@@ -183,13 +183,7 @@ var carReq = {
             if(realCount == 0){
                 carType = "B";
             }
-            if(!flag && data.type != "bustripReq"){
-                alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
-                flag = false;
-            } else {
-                flag = true;
-            }
-            if(!flag && carType == "A" && data.type == "bustripReq"){
+            if((!flag && data.type != "bustripReq") || (!flag && carType == "A" && data.type == "bustripReq")){
                 alert("선택하신 출장기간(시간)에 "+duplicateText+"님께서 사용등록 하셨습니다.");
                 flag = false;
             } else {
