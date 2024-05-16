@@ -150,6 +150,10 @@ var entryList = {
                         return '<div style="cursor: pointer; font-weight: bold" onclick="entryList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'in\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
+                    title : "작성자",
+                    width: 80,
+                    field: "REG_EMP_NAME"
+                }, {
                     title: "여입금액",
                     width: 80,
                     template: function(e){
@@ -175,6 +179,16 @@ var entryList = {
                         } else {
                             return "승인"
                         }
+                    }
+                }, {
+                    title: "첨부",
+                    width: 60,
+                    template: function(e){
+                        // if(e.RE_STAT == "N"){
+                        //     return ""
+                        // } else {
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="exnpReList.fn_regPayAttPop('+e.PAY_APP_SN+', '+e.EXNP_SN+')">첨부</button>';
+                        // }
                     }
                 }
             ],

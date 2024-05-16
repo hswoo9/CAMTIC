@@ -125,6 +125,7 @@ var regIncmRe = {
 
         var data = {
             payIncpSn : payIncpSn,
+            payIncpReSn : $("#payIncpReSn").val()
         }
 
         $.ajax({
@@ -164,9 +165,9 @@ var regIncmRe = {
         var ls = result.list;
 
         // debugger
-        // if($("#payIncpReSn").val() != ""){
-        //     regIncmRe.payAppBtnSet(rs);
-        // }
+        if($("#payIncpReSn").val() != ""){
+            regIncmRe.payAppBtnSet(rs);
+        }
         console.log(ls);
 
         $("#appDe").val(rs.APP_DE);

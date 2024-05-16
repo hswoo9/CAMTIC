@@ -130,6 +130,7 @@ var popUserPay = {
             ddl.list.width(200);
             ddl.value(list[count].SOCIAL_RATE_SN);
             ddl.bind("change", popUserPay.socialRateChange(count));
+            $("#basicSalary" + count).trigger("keyup");
             ddl.trigger("change");
             dataSource.list.shift();
         }

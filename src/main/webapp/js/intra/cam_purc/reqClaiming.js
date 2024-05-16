@@ -325,6 +325,11 @@ var reqCl = {
                 }
             }
         }
+
+        $("#vatAmt").change(function(){
+            $("#estAmt").val(comma(Number(uncomma($("#totAmt").val())) - Number(uncomma($("#vatAmt").val()))));
+            $("#totAmt").val(comma(Number(uncomma($("#estAmt").val())) + Number(uncomma($("#vatAmt").val()))));
+        });
     },
 
     vatCalc : function(){

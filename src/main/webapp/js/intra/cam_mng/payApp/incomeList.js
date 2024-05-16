@@ -31,6 +31,14 @@ var incomeList = {
         $("#searchDept").data("kendoDropDownList").bind("change", incomeList.gridReload);
 
         incomeList.global.dropDownDataSource = [
+            { text: "입금대기", value: "1" },
+            { text: "부분입금", value: "2" },
+            { text: "입금완료", value: "3" }
+        ]
+        customKendo.fn_dropDownList("searchDept2", incomeList.global.dropDownDataSource, "text", "value");
+        $("#searchDept2").data("kendoDropDownList").bind("change", incomeList.gridReload);
+
+        incomeList.global.dropDownDataSource = [
             { text: "문서번호", value: "A" },
             { text: "적요", value: "B" },
             { text: "거래처", value: "D" },
@@ -95,6 +103,27 @@ var incomeList = {
                     //     return new Date(e.REG_DT + 3240 * 10000).toISOString().split("T")[0];
                     // }
                 }, {
+                    title: "증빙유형",
+                    field: "EVID_TYPE",
+                    width: 120,
+                    template: function (e){
+                        if(e.EVID_TYPE == "1"){
+                            return "세금계산서(청구)";
+                        }else if(e.EVID_TYPE == "2"){
+                            return "세금계산서(영수)";
+                        }else if(e.EVID_TYPE == "3"){
+                            return "계산서(청구)";
+                        }else if(e.EVID_TYPE == "4"){
+                            return "계산서(영수)";
+                        } else if(e.EVID_TYPE == "5"){
+                            return "신용카드(과세)";
+                        } else if(e.EVID_TYPE == "6"){
+                            return "신용카드(면세)";
+                        } else if(e.EVID_TYPE == "7"){
+                            return "증빙없음";
+                        }
+                    }
+                }, {
                     title: "적요",
                     field: "APP_CONT",
                     width: 250,
@@ -109,6 +138,12 @@ var incomeList = {
                     template: function (e){
                         var pjtNm = e.PJT_NM.toString().substring(0, 25);
                         return e.PJT_NM;
+                    }
+                }, {
+                    title: "거래처",
+                    width: 120,
+                    template: function(e){
+                        return '<div>'+e.UNIT_CRM_NM+' 외 '+ (e.CRM_CNT - 1) +'</div>'
                     }
                 }, {
                     title: "세출과목",
@@ -293,6 +328,7 @@ var incomeList = {
         incomeList .global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
             searchDept : $("#searchDept").val(),
+            searchDept2 : $("#searchDept2").val(),
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             startDt : $("#startDt").val(),

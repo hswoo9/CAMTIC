@@ -39,8 +39,10 @@
                     <colgroup>
                         <col width="10%">
                         <col width="25%">
+                        <col width="7%">
                         <col width="10%">
-                        <col width="20%">
+                        <col width="7%">
+                        <col width="10%">
                         <col width="10%">
                         <col width="25%">
                     </colgroup>
@@ -51,7 +53,11 @@
                         </td>
                         <th class="text-center th-color">상태</th>
                         <td>
-                            <input type="text" id="searchDept" style="width: 150px;">
+                            <input type="text" id="searchDept" style="width: 100px;">
+                        </td>
+                        <th class="text-center th-color">입금상태</th>
+                        <td>
+                            <input type="text" id="searchDept2" style="width: 100px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
