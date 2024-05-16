@@ -236,7 +236,7 @@ var prjDepositMng = {
                             depoSetSn = e.DEPO_SET_SN;
                         }
 
-                        if(e.BUSN_CLASS == "D"){
+                        if(e.BUSN_CLASS == "D" || e.BUSN_CLASS == "V"){
                             if(e.BUDGET_SN != null && e.BUDGET_SN != "" && e.BUDGET_SN != undefined){
                                 style = 'style="background-color: #7aff00 !important"';
                             }

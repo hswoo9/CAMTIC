@@ -215,9 +215,13 @@ var rndBg = {
                     width: 150,
                     template: function(e){
                         if(e.DIV_FG_NM == "장"){
-                            acctAm2Sum += Number(e.ACCT_AM_2 - e.RETURN_AMT);
+                            acctAm2Sum += Number(e.ACCT_AM_3);
                         }
-                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.RETURN_AMT)+"</div>";
+                        return "<div style='text-align: right'>"+comma(e.ACCT_AM_3)+"</div>";
+                        // if(e.DIV_FG_NM == "장"){
+                        //     acctAm2Sum += Number(e.ACCT_AM_2 - e.RETURN_AMT);
+                        // }
+                        // return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.RETURN_AMT)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
@@ -242,11 +246,20 @@ var rndBg = {
                     title: "승인",
                     width: 150,
                     template: function(e){
+                        // if(e.FULL_WAIT_CK != null){
+                        //     return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.FULL_WAIT_CK - e.RETURN_AMT)+"</div>";
+                        // } else {
+                        //     return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.RETURN_AMT)+"</div>";
+                        // }
+                        var amtTxt = 0;
                         if(e.FULL_WAIT_CK != null){
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.FULL_WAIT_CK - e.RETURN_AMT)+"</div>";
+                            amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK);
                         } else {
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 - e.RETURN_AMT)+"</div>";
+                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK)+"</div>";
+                            amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK);
                         }
+
+                        return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bld.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\', \'B\')">'+amtTxt+'</a></div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum+acctAm1Sum)+"</div>";

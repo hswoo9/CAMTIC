@@ -445,6 +445,14 @@ var regExnp = {
         var data = {
             exnpSn : $("#exnpSn").val()
         }
+
+        if($("#status").val() == "in"){
+            if($("#budgetSn").val() == ""){
+                alert("예산비목을 선택해주세요.");
+                return;
+            }
+        }
+
         var result = customKendo.fn_customAjax("/payApp/pop/getExnpData", data);
         var ls = result.list;
 
@@ -968,7 +976,7 @@ var regExnp = {
         }
 
         if(parameters.payAppSn == 'undefined'){
-            parameters.payAppSn = null;
+            delete parameters.payAppSn;
         }
 
         var itemArr = new Array()

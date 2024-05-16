@@ -140,10 +140,10 @@ var bld = {
                     template: function(e){
                         var amtTxt = 0;
                         if(e.FULL_WAIT_CK != null){
-                            amtTxt = comma(e.ACCT_AM_2 + e.FULL_WAIT_CK);
+                            amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK);
                         } else {
                             return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK)+"</div>";
-                            amtTxt = comma(e.ACCT_AM_2 + e.FULL_WAIT_CK);
+                            amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK);
                         }
 
                         return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bld.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\', \'B\')">'+amtTxt+'</a></div>';
