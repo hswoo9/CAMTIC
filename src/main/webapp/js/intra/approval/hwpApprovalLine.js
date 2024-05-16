@@ -42,7 +42,9 @@ var hwpApprovalLine = {
                 /**원장 전결*/
                 if(empData.approveDutyName == "원장") {
                     const approveDutyName = draft.global.approversArr[0].approveDutyName;
-                    if (approveDutyName == "본부장" || approveDutyName == "사업부장" || approveDutyName == "실장") {
+                    if (approveDutyName == "원장"){
+                        appArr = ["공란", "공란", ""];
+                    }else if (approveDutyName == "본부장" || approveDutyName == "사업부장" || approveDutyName == "실장") {
                         appArr = ["공란", "공란", ""];
                     }else if(approveDutyName == "센터장" || approveDutyName == "팀장"){
                         appArr = ["공란", "", ""];

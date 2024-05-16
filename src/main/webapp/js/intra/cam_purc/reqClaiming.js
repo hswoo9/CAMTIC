@@ -358,6 +358,9 @@ var reqCl = {
 
     vatCalcN : function(){
         let sum = 0;
+        let estAmt = 0;
+        let vatAmt = 0;
+        let totAmt = 0;
         // var disAmt = 0;
 
         $.each($(".itemAmt"), function(i){
@@ -383,19 +386,19 @@ var reqCl = {
         const sum3 = Math.round(sum / 1.1);
         const sum4 = Number(sum) - Number(sum3);
 
-        if($("#vat").data("kendoRadioGroup").value() == "N"){
-            $("#estAmt").val(comma(sum));
-            $("#vatAmt").val(comma(sum2));
-            $("#totAmt").val(comma(Number(sum)+Number(sum2)));
-        }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
-            $("#estAmt").val(comma(sum3));
-            $("#vatAmt").val(comma(sum4));
-            $("#totAmt").val(comma(sum));
-        }else if($("#vat").data("kendoRadioGroup").value() == "D"){
-            $("#estAmt").val(comma(sum));
-            $("#vatAmt").val("0");
-            $("#totAmt").val(comma(sum));
-        }
+        // if($("#vat").data("kendoRadioGroup").value() == "N"){
+        //     $("#estAmt").val(comma(sum));
+        //     $("#vatAmt").val(comma(sum2));
+        //     $("#totAmt").val(comma(Number(sum)+Number(sum2)));
+        // }else if($("#vat").data("kendoRadioGroup").value() == "Y"){
+        //     $("#estAmt").val(comma(sum3));
+        //     $("#vatAmt").val(comma(sum4));
+        //     $("#totAmt").val(comma(sum));
+        // }else if($("#vat").data("kendoRadioGroup").value() == "D"){
+        //     $("#estAmt").val(comma(sum));
+        //     $("#vatAmt").val("0");
+        //     $("#totAmt").val(comma(sum));
+        // }
 
         $.each($(".claimItem"), function(i, v) {
             var idx = $(this).attr("id").replace(/[^0-9]/g, '');
@@ -427,7 +430,15 @@ var reqCl = {
                 // $("#purcItemAmt" + idx).val(comma(amount));
                 $("#itemAmt" + idx).val(comma(amount));
             }
+
+            estAmt += Number(uncommaN($("#purcSupAmt" + idx).val()));
+            vatAmt += Number(uncommaN($("#purcVatAmt" + idx).val()));
+            totAmt += Number(uncommaN($("#itemAmt" + idx).val()));
         });
+
+        $("#estAmt").val(comma(estAmt));
+        $("#vatAmt").val(comma(vatAmt));
+        $("#totAmt").val(comma(totAmt));
     },
 
     fn_amtCalculator : function(){

@@ -100,8 +100,10 @@
         </div>
         <div class="panel-body">
             <div>
-                <table class="totalTable table table-bordered" style="margin-bottom: 0px">
-                    <thead>
+                <button type="button" class="k-button k-button-solid-base" id="displayBtn" onclick="camPrj.fn_statTableShowHide();" style="margin-bottom: 5px">통계 ▲</button>
+                <div id="statTable" style="" view="Y">
+                    <table class="totalTable table table-bordered" style="margin-bottom: 0px">
+                        <thead>
                         <colgroup>
                             <col width="5%">
                             <col width="5%">
@@ -219,8 +221,10 @@
                             <td style="text-align: right;"><b id="totCount">0건</b></td>
                             <td style="text-align: right;"><b id="totSum">0백만원</b></td>
                         </tr>
-                    </thead>
-                </table>
+                        </thead>
+                    </table>
+                </div>
+
                 <div style="float: right; margin-bottom: 15px;" id="tooltip">
                     <span href="#" title="10만원 단위는 내림" id="projectTooltip"></span>
                 </div>

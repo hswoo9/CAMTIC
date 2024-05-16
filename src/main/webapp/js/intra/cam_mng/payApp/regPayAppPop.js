@@ -320,6 +320,7 @@ var regPay = {
                         $("#authHh" + idx).val(ls[i].AUTH_HH || "");
                         $("#authNo" + idx).val(ls[i].AUTH_NO || "");
                         $("#buySts" + idx).val(ls[i].BUY_STS || "");
+                        $("#trCd" + i).val(ls[i].TR_CD || "");
 
                         $("#card" + idx).val(ls[i].TR_NM);
                         $("#cardNo" + idx).val(ls[i].CARD_BA_NB);
@@ -370,6 +371,7 @@ var regPay = {
                         $("#issNo" + idx).val(ls[i].ISS_NO || "");
                         $("#coCd" + idx).val(ls[i].CO_CD || "");
                         $("#taxTy" + idx).val(ls[i].TAX_TY || "");
+                        $("#trCd" + i).val(ls[i].TR_CD || "");
 
                         $("#expRate" + idx).val(ls[i].EXP_RATE || "");
                         $("#taxRate" + idx).val(ls[i].TAX_RATE || "");
@@ -486,7 +488,6 @@ var regPay = {
             // if($("#pjtSn").val != ""){
             //     $("#pjtSn").val(rs.PJT_SN);
             // }
-            debugger
             if(cem != null && cem.PJT_CD != "" && cem.PJT_CD != null && cem.PJT_CD != undefined){
                 if(cem.CLAIM_SET_SN == null){
                     $("#pjtSn").val("");
@@ -2233,6 +2234,10 @@ var regPay = {
             }
         }
 
+        if(regPay.global.result.LINK_KEY_TYPE == "구매"){
+            $("#payExnpDe").val(regPay.global.result.EXP_DE);
+        }
+
         var dialog = $("#dialogDraft").data("kendoWindow");
 
         $("#payExnpDeText").text($("#payExnpDe").val());
@@ -2389,6 +2394,8 @@ var regPay = {
         if($("#claimExnpSn").val() != ""){
             parameters.claimExnpSn = $("#claimExnpSn").val();
             parameters.purcSn = $("#purcSn").val();
+            parameters.linkKey = $("#claimExnpSn").val().split(",")[0];
+            parameters.linkKeyType = "구매";
         }
 
 

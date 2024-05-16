@@ -647,6 +647,18 @@ var camPrj = {
         $("#searchValue2").data("kendoDropDownList").select(0);
         $("#searchText").val("");
         camPrj.gridReload();
+    },
+
+    fn_statTableShowHide : function(){
+        if($("#statTable").attr("view") == "Y"){
+            $("#statTable").attr("view", "N");
+            $("#statTable").hide();
+            $("#displayBtn").text("통계 ▼");
+        } else {
+            $("#statTable").attr("view", "Y");
+            $("#statTable").show();
+            $("#displayBtn").text("통계 ▲");
+        }
     }
 }
 
