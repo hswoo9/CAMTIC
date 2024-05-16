@@ -376,6 +376,40 @@ public class ApprovalController {
         return "popup/approval/popup/approvalDocView";
     }
 
+    /** 결재문서 상세보기 */
+    @RequestMapping("/approval/approvalDocView2.do")
+    public String approvalDocView2(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        String hwpUrl = "";
+
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        params.put("deptSeq", loginVO.getOrgnztId());
+
+        Map<String, Object> rs = approvalService.getDocInfoApproveRoute(params);
+        rs.put("approveNowRoute", approvalService.getDocApproveNowRoute(params));
+        rs.put("approvePrevRoute", approvalService.getDocApprovePrevRoute(params));
+
+        model.addAttribute("docContent", rs.get("docContent"));
+        rs.remove("docContent");
+        params.remove("absentUserQuery");
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        params.put("hwpUrl", hwpUrl);
+
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("rs", new Gson().toJson(rs));
+        model.addAttribute("loginVO", new Gson().toJson(loginVO));
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "popup/approval/popup/approvalDocView";
+    }
+
     /** 결재문서 rs */
     @RequestMapping("/approval/getDocViewRs")
     public String getDocViewRs(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){

@@ -425,6 +425,29 @@
 </script>
 
 <script>
+    function approveDocView(docId, approKey, menuCd, deleteFlag){
+        if(deleteFlag != null && deleteFlag == "Y"){
+            alert("삭제된 문서는 열 수 없습니다.");
+            return
+        }
+
+        var mod = "V";
+        var pop = "" ;
+        var url = '/approval/approvalDocView.do?docId='+docId+'&menuCd=' + menuCd + '&mod=' + mod + '&approKey='+approKey;
+
+        /** 관리자 페이지 일경우 파라미터에 mng 추가*/
+        if($("#apprMngStat").val() == "M"){
+            url += '&vType='+$("#apprMngStat").val();
+        }
+
+        var width = "1000";
+        var height = "950";
+        windowX = Math.ceil( (window.screen.width  - width) / 2 );
+        windowY = Math.ceil( (window.screen.height - height) / 2 );
+        pop = window.open(url, "_blank", "width=" + width + ", height=" + height + ", top="+ windowY +", left="+ windowX +", resizable=NO, scrollbars=NO");
+        //pop.focus();
+    }
+
     var today = "${toDate}";
     const serverName = '${pageContext.request.serverName}';
 
