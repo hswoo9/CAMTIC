@@ -42,10 +42,6 @@ body ::-webkit-scrollbar-thumb {
     min-height: 1rem;
 }
 
-.fc-scroller.fc-day-grid-container {
-    height: 490px !important;
-}
-
 .fc-widget-content {
     background-color: #ffffff;
 }
