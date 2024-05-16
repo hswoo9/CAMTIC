@@ -70,7 +70,7 @@ var rndBg = {
 
     gridReload : function (pjtCd){
         rndBg.global.searchAjaxData = {
-            pjtCd : $("#mgtCd").val(),
+            pjtCd : $("#budgetClass").data("kendoRadioGroup").value(),
             pageType : "USER",
             searchValue : '',
             strDe : '1900-01-01',
@@ -763,6 +763,11 @@ var rndBg = {
         }
         if(auth != null && auth != ""){
             url += "&auth=" + auth;
+        }
+
+        const cardPjtCd = $("#budgetClass").data("kendoRadioGroup").value()
+        if(cardPjtCd != null && cardPjtCd != "" && cardPjtCd != "undefined"){
+            url += "&cardPjtCd=" + cardPjtCd;
         }
         var name = "_blank";
         var option = "width = 1700, height = 820, top = 100, left = 400, location = no"

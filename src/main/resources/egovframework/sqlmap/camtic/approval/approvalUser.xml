@@ -54,11 +54,32 @@
 
     <select id="getUserDocStorageBoxList" parameterType="map" resultType="map">
         /* getUserDocStorageBoxList */
+        SELECT RRE.* FROM (
+
+        SELECT RE.*,
+            CASE
+                <![CDATA[
+                WHEN DOC_MENU_CD = 'rndDelv' THEN '수주보고_R&D'
+                WHEN DOC_MENU_CD = 'unRndDelv' THEN '수주보고_비R&D'
+                WHEN DOC_MENU_CD = 'rndDev' THEN '수행계획서_R&D'
+                WHEN DOC_MENU_CD = 'unRndDev' THEN '수행계획서_비R&D'
+                WHEN DOC_MENU_CD = 'rndRes' THEN '결과보고서_R&D'
+                WHEN DOC_MENU_CD = 'unRndRes' THEN '결과보고서_비R&D'
+                WHEN DOC_MENU_CD = 'delv' AND BUSN_CLASS = 'D' THEN '수주보고_엔지니어링'
+                WHEN DOC_MENU_CD = 'dev' AND BUSN_CLASS = 'D' THEN '수행계획서_엔지니어링'
+                WHEN DOC_MENU_CD = 'pjtRes' AND BUSN_CLASS = 'D' THEN '결과보고서_엔지니어링'
+                WHEN DOC_MENU_CD = 'delv' AND BUSN_CLASS = 'V' THEN '수주보고_용역/기타'
+                WHEN DOC_MENU_CD = 'dev' AND BUSN_CLASS = 'V' THEN '수주보고_용역/기타'
+                WHEN DOC_MENU_CD = 'pjtRes' AND BUSN_CLASS = 'V' THEN '수주보고_용역/기타'
+                ELSE FORM_NAME2
+                ]]>
+            END AS FORM_NAME
+        FROM (
 
         SELECT
             DI.DOC_ID,
             DO.SECURITY_TYPE,
-            FORM.FORM_NAME,
+            FORM.FORM_NAME AS FORM_NAME2,
             FORM.LINKAGE_TYPE,
             FORM.LINKAGE_PROCESS_ID,
             DI.DOC_MENU_CD,
@@ -135,10 +156,6 @@
                 (DI.APPROVE_STAT_CODE = '100' OR DI.APPROVE_STAT_CODE = '101') -- AND DI.LAST_APPROVE_EMP_SEQ = '32'
             )
         </if>
-        <if test='docTitle != null and !"".equals(docTitle)'>
-            AND
-                DI.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
-        </if>
         AND
             DI.ACTIVE = 'Y'
         AND
@@ -161,6 +178,35 @@
             </when>
             <otherwise>
                 ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
+            </otherwise>
+        </choose>
+
+        ) RE
+
+        ) RRE
+
+        WHERE
+            1=1
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND
+                    RRE.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+            </when>
+            <when test='"B".equals(searchKeyword)'>
+                AND
+                    RRE.DOC_NO LIKE CONCAT('%', #{docTitle},'%')
+            </when>
+            <when test='"C".equals(searchKeyword)'>
+                AND
+                    RRE.FORM_NAME LIKE CONCAT('%', #{docTitle},'%')
+            </when>
+            <otherwise>
+                AND
+                (
+                RRE.DOC_TITLE LIKE CONCAT('%', #{docTitle}, '%')
+                OR RRE.DOC_NO LIKE CONCAT('%', #{docTitle},'%')
+                OR RRE.FORM_NAME LIKE CONCAT('%', #{docTitle},'%')
+                )
             </otherwise>
         </choose>
     </select>

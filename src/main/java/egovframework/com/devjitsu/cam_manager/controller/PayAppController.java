@@ -310,7 +310,7 @@ public class PayAppController {
 
         List<Map<String, Object>> fileList = payAppService.getPayAppFileList(params);
 
-        if(map.get("LINK_KEY_TYPE").equals("구매")){
+        if(params.containsKey("LINK_KEY_TYPE") && map.get("LINK_KEY_TYPE").equals("구매")){
             params.put("claimExnpSn", map.get("LINK_KEY"));
             params.put("claimSn", purcService.getClaimExnpData(params).get("CLAIM_SN"));
             map.put("EXP_DE", purcService.getPurcClaimData(params).get("EXP_DE"));

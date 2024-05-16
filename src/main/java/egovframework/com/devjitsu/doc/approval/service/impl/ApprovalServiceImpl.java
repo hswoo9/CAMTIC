@@ -356,6 +356,29 @@ public class ApprovalServiceImpl implements ApprovalService {
 
     @Override
     @Transactional
+    public void setReaderSave(Map<String, Object> params, String base_dir) throws IOException {
+        /** 최종결재권자가 열람자 업데이트 가능 */
+        if (params.containsKey("readersArrUpd")){
+            Gson gson = new Gson();
+            List<Map<String, Object>> readersList = gson.fromJson((String) params.get("readersArrUpd"), new TypeToken<List<Map<String, Object>>>() {}.getType());
+
+            for(Map<String, Object> reader : readersList){
+                if(StringUtils.isEmpty(params.get("docId"))){
+                    reader.put("docId", params.get("DOC_ID"));
+                }else{
+                    reader.put("docId", params.get("docId"));
+                }
+                reader.put("empSeq", params.get("empSeq"));
+
+            }
+
+            approvalRepository.setDocReaderDel(params);
+            approvalRepository.setDocReader(readersList);
+        }
+    }
+
+    @Override
+    @Transactional
     public void setDocApproveCancel(Map<String, Object> params, String base_dir) {
         // 결재문서 데이터, 파일 수정
         setApprovalDocDataFileCancelUpd(params, base_dir);

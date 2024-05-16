@@ -116,7 +116,6 @@ var rndRPR = {
 
         if($("#pjtAmt2").val() != 0 && $("#pjtAmt2").val() != ""){
             pjtAmt = uncomma($("#pjtAmt2").val());
-            alert(pjtAmt);
         }else{
             pjtAmt = uncomma($("#pjtExpAmt").val());
         }

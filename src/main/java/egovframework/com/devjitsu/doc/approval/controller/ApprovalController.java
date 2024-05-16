@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -309,6 +310,24 @@ public class ApprovalController {
         return params;
     }
 
+    /** 결재문서 열람자 저장*/
+    @RequestMapping("/approval/setReaderSave")
+    public String setReaderSave(@RequestParam Map<String, Object> params, Model model) throws IOException {
+
+        Map<String, Object> result = new HashMap<>();
+        try {
+            approvalService.setReaderSave(params, BASE_DIR);
+            result.put("code", "200");
+            result.put("message", "결재선 저장이 완료되었습니다.");
+        } catch (Exception e) {
+            result.put("code", "500");
+            result.put("message", "결재선 저장 중 에러가 발생했습니다.");
+        }
+
+        model.addAttribute("result", result);
+        return "jsonView";
+    }
+
     /** 결재문서 결재취소 */
     @RequestMapping("/approval/setDocApproveCancel.do")
     public String setDocApproveCancel(@RequestParam Map<String, Object> params, Model model) throws IOException {
@@ -326,6 +345,40 @@ public class ApprovalController {
     /** 결재문서 상세보기 */
     @RequestMapping("/approval/approvalDocView.do")
     public String approvalDocView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        String hwpUrl = "";
+
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("empSeq", loginVO.getUniqId());
+        params.put("deptSeq", loginVO.getOrgnztId());
+
+        Map<String, Object> rs = approvalService.getDocInfoApproveRoute(params);
+        rs.put("approveNowRoute", approvalService.getDocApproveNowRoute(params));
+        rs.put("approvePrevRoute", approvalService.getDocApprovePrevRoute(params));
+
+        model.addAttribute("docContent", rs.get("docContent"));
+        rs.remove("docContent");
+        params.remove("absentUserQuery");
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+        params.put("hwpUrl", hwpUrl);
+
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("rs", new Gson().toJson(rs));
+        model.addAttribute("loginVO", new Gson().toJson(loginVO));
+        model.addAttribute("toDate", getCurrentDateTime());
+
+        return "popup/approval/popup/approvalDocView";
+    }
+
+    /** 결재문서 상세보기 */
+    @RequestMapping("/approval/approvalDocView2.do")
+    public String approvalDocView2(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         String hwpUrl = "";
 

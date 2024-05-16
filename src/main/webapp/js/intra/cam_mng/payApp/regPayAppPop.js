@@ -1631,12 +1631,14 @@ var regPay = {
         }
 
         if($("#reqType").val() == "camproject"){
+            const pjtCd = $("#cardPjtCd").val();
             const pjtMap = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#cardPjtSn").val()}).rs;
+
             if (pjtMap != null) {
                 $("#pjtSn").val(pjtMap.PJT_SN);
                 $("#pjtNm").val(pjtMap.PJT_NM);
                 if ($("#pjtSn").val() != "") {
-                    selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtMap.PJT_CD);
+                    selectProject(pjtMap.PJT_SN, pjtMap.PJT_NM, pjtCd);
                 }
             }
         }
