@@ -94,8 +94,15 @@ var roomReq = {
 
 
     saveBtn: function(){
+        const startDt = $("#startDt").val();
+        const endDt = $("#endDt").val();
+        const startTime = $("#startTime").val();
+        const endTime = $("#endTime").val();
+
+        if(startDt > endDt){ alert("사용일시를 확인해주세요."); return;}
+        if(startDt == endDt && startTime > endTime){ alert("사용일시를 확인해주세요."); return;}
         if($("#startDt").val() == "" || $("#endDt").val() == ""){
-            alert("운행일시가 작성되지 않았습니다.");
+            alert("사용일시가 작성되지 않았습니다.");
             return;
         }else if($("#roomClass").data("kendoMultiSelect").value().length == "0"){
             alert("사용회의실이 선택되지 않았습니다.");
