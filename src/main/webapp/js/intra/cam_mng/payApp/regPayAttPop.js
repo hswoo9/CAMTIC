@@ -681,6 +681,15 @@ const regPayAtt = {
 
             }
         })
-    }
+    },
 
+    fn_multiDownload : function (){
+        var fileArray = regPayAtt.global.fileArray;
+
+        if(fileArray.length > 0){
+            for(let i=0; i<fileArray.length; i++){
+                fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
+            }
+        }
+    }
 }

@@ -44,6 +44,7 @@
                     <span id="payFileName"></span>
                 </td>
             </c:if>
+            <button type="button" class="k-button k-button-solid-base" onclick="regReListFilePop.fn_multiDownload();" style="font-size: 13px;">일괄 다운로드</button>
             <table id="popTable" class="popTable table table-bordered mb-0">
                 <thead>
                 <tr>
