@@ -39,6 +39,7 @@
 </style>
 <body class="font-opensans" style="background-color:#fff;">
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmPop.js?v=${today}"/></script>
+<script type="text/javascript" src="/js/intra/cam_crm/crmHistViewPop.js?v=${today}"/></script>
 <script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/userReqPop.js?v=${today}'/>"></script>
 
@@ -191,6 +192,18 @@
 <%--                        <li>--%>
 <%--                            관심분야--%>
 <%--                        </li>--%>
+                        <li>
+                            엔지니어링
+                        </li>
+                        <li>
+                            R&D
+                        </li>
+                        <li>
+                            비R&D
+                        </li>
+                        <li>
+                            관계이력
+                        </li>
                     </ul>
                     <div>
                         <div>
@@ -239,6 +252,38 @@
 <%--                            <jsp:param name="regEmpSeq" value="${loginVO.uniqId}"/>--%>
 <%--                        </jsp:include>--%>
 <%--                    </div>--%>
+                    <div class="histListDiv">
+                        <div id="mainGrid1"></div>
+                    </div>
+                    <div class="histListDiv">
+                        <div id="mainGrid2"></div>
+                    </div>
+                    <div class="histListDiv">
+                        <div id="mainGrid3"></div>
+                    </div>
+
+                    <div class="histListDiv">
+                        <table class="childrenTable popTable table table-bordered mb-0 text-center" style="width: 99%;">
+                            <colgroup>
+                                <col style="width: 10%">
+                                <col style="width: 20%">
+                                <col style="width: 10%">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th scope="row" class="text-center th-color">순번</th>
+                                <th scope="row" class="text-center th-color">팀명</th>
+                                <th scope="row" class="text-center th-color">등록자</th>
+                                <th scope="row" class="text-center th-color">컨텍포인트</th>
+                                <th scope="row" class="text-center th-color">상담일시</th>c
+                                <th scope="row" class="text-center th-color">입력구분</th>
+                            </tr>
+                            </thead>
+                            <tbody id="histTb">
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

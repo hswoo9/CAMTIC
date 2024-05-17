@@ -25,19 +25,46 @@ var crmReg = {
             }
         }
 
+        /** 탭 두줄 */
+        var parser = new DOMParser();
+        var html = '<div style="width:100%;"></div>';
+        var doc = parser.parseFromString(html, 'text/html');
+        $("#tabstrip li")[5].after(doc.body.firstChild);
+
+        /** 첫줄에 고객관리 문구 추가 */
+        var html2 = '<div style="padding: 6px 12px"><b style="color: blue">고객관리</b></div>';
+        var doc2 = parser.parseFromString(html2, 'text/html');
+        $("#tabstrip li")[0].before(doc2.body.firstChild);
+
+        /** 둘째줄에 이력관리 문구 추가 */
+        var html3 = '<div style="padding: 6px 12px"><b style="color: blue">이력관리</b></div>';
+        var doc3 = parser.parseFromString(html3, 'text/html');
+        $("#tabstrip li")[6].before(doc3.body.firstChild);
+
+
+
         if($("#crmSn").val() != null && $("#crmSn").val() != ""){
             crmReg.fn_setData()
         }
 
-        crmSi.fn_defaultScript();
-        crmMi.fn_defaultScript();
-        crmIndustry.fn_defaultScript();
-        crmCert.fn_defaultScript();
-        crmA.fn_defaultScript();
-        crmMgScale.fn_defaultScript();
+        /** 고객관리 */
+        crmSi.fn_defaultScript();       // 부가정보
+        crmMi.fn_defaultScript();       // 담당자
+        crmIndustry.fn_defaultScript(); // 산업분야
+        crmCert.fn_defaultScript();     // 인증정보
+        crmA.fn_defaultScript();        // 회계정보
+        crmMgScale.fn_defaultScript();  // 최근 경영규모
+
         /** TODO. 관심분야 삭제 */
         // crmI.fn_defaultScript();
 
+        /** 이력관리 */
+        chv.mainGrid1();        // 엔지니어링
+        chv.mainGrid2();        // R&D
+        chv.mainGrid3();        // 비R&D
+        chv.mainGrid4();        // 관계이력
+
+        chv.getCrmHistDetailList();
 
     },
 
