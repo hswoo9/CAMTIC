@@ -1070,6 +1070,8 @@
                         OR A.EXNP_BRIEFS LIKE CONCAT('%', #{searchValue},'%')
                         OR A.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
                         OR D.CRM_NM REGEXP #{searchValue}
+                        OR (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.REG_EMP_SEQ) LIKE CONCAT('%', #{searchValue},'%')
+                        OR A.BUDGET_NM LIKE CONCAT('%', #{searchValue},'%')
                     )
             </otherwise>
         </choose>
