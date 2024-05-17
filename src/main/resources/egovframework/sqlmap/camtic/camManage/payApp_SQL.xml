@@ -254,6 +254,9 @@
                 BUY_STS,
                 ETC,
                 ISS,
+                <if test='!"".equals(payAmt)'>
+                    PAY_AMT,
+                </if>
                 ADVANCES
             )
         VALUES
@@ -290,6 +293,9 @@
                 #{buySts},
                 #{etc},
                 #{iss},
+                <if test='!"".equals(payAmt)'>
+                    #{payAmt},
+                </if>
                 #{advances}
             )
         <selectKey keyProperty="payAppDetSn" resultType="Integer" order="BEFORE">
