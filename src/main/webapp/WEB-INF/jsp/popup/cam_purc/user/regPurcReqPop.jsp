@@ -133,6 +133,7 @@
                                             <span class="k-button-text">파일첨부</span>
                                         </button>
                                         <input type="file" id="fileList" name="fileList" onchange="prp.addFileInfoTable();" multiple style="display: none"/>
+                                        <button type="button" class="k-button k-button-solid-base" onclick="prp.fn_multiDownload();" style="margin-left: 5px;">일괄 다운로드</button>
                                     </div>
                                 </div>
                             </div>

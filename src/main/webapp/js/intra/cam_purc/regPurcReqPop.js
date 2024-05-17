@@ -9,7 +9,8 @@ var prp = {
         crmSnId : "",
         crmNmId : "",
         saveAjaxData : "",
-        event : ""
+        event : "",
+        fileArray: [],
     },
 
     fn_defaultScript : function (){
@@ -774,6 +775,7 @@ var prp = {
 
             if(data.purcFile != null){
                 prp.settingTempFileDataInit(data.purcFile);
+                prp.global.fileArray = data.purcFile;
             }
 
             /*if(data.reqFile != null){
@@ -1342,5 +1344,15 @@ var prp = {
             hostUrl = "http://218.158.231.186";
         }
         var popup = window.open(hostUrl + path, name, option);
+    },
+
+    fn_multiDownload : function (){
+        var fileArray = prp.global.fileArray;
+
+        if(fileArray.length > 0){
+            for(let i=0; i<fileArray.length; i++){
+                fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
+            }
+        }
     },
 }

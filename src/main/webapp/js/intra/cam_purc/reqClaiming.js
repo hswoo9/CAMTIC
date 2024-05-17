@@ -4,6 +4,7 @@ var reqCl = {
         createHtmlStr : "",
         itemIndex : 0,
         cliamItemList : [],
+        fileArray: []
     },
 
     fn_defaultScript : function(){
@@ -107,6 +108,7 @@ var reqCl = {
 
             if(data.purcFile != null){
                 reqCl.settingTempFileDataInit(data.purcFile);
+                reqCl.global.fileArray = data.purcFile;
             }
 
             $("#vat").data("kendoRadioGroup").value(data.VAT);
@@ -212,6 +214,7 @@ var reqCl = {
 
             if(data.purcFile != null){
                 reqCl.settingTempFileDataInit(data.purcFile);
+                reqCl.global.fileArray = data.purcFile;
             }
 
             $("#claimDe").val(data.CLAIM_DE);
@@ -1268,5 +1271,15 @@ var reqCl = {
                 '	<td colspan="5" style="text-align: center">선택된 파일이 없습니다.</td>' +
                 '</tr>');
         }
-    }
+    },
+
+    fn_multiDownload : function (){
+        var fileArray = reqCl.global.fileArray;
+
+        if(fileArray.length > 0){
+            for(let i=0; i<fileArray.length; i++){
+                fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
+            }
+        }
+    },
 }

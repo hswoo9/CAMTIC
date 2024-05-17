@@ -486,6 +486,7 @@ var bustripResultPop = {
         // }
 
         bustripInit.settingTempFileDataInit(tempArr, 'result', bustripResultPop.global.data.STATUS);
+        bustrip.global.fileArray = tempArr;
 
         /** 상황에 따른 켄도 위젯 할성화/비활성화 */
         if(resInfo.STATUS == 100 || $("#mod").val() == "mng"){

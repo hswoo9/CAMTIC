@@ -5,7 +5,8 @@ var snackReq = {
         attFiles : new Array(),
         addAttFiles : new Array(),
         cardList : new Array(),
-        fileNoArr : new Array()
+        fileNoArr : new Array(),
+        fileArray : new Array()
     },
 
     init: function() {
@@ -108,6 +109,7 @@ var snackReq = {
 
             var returnData = customKendo.fn_customAjax("/snack/getFileList", snackSubmitData);
             var returnFileArr = returnData.fileList;
+            snackReq.global.fileArray = returnFileArr;
 
             for(let x=0; x < returnFileArr.length; x++){
                 if(snackData.STATUS == 100 && $("#mode").val() == "infoPop") {
@@ -777,6 +779,16 @@ var snackReq = {
         kendo.saveAs({
             dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent('식대지출증빙양식.hwp'),
         });
+    },
+
+    fn_multiDownload : function (){
+        var fileArray = snackReq.global.fileArray;
+
+        if(fileArray.length > 0){
+            for(let i=0; i<fileArray.length; i++){
+                fileDown(fileArray[i].file_path+fileArray[i].file_uuid, fileArray[i].file_org_name+'.'+fileArray[i].file_ext);
+            }
+        }
     },
 }
 

@@ -218,6 +218,7 @@
                         </button>
                         <input type="file" id="fileList" name="fileList" onchange="bustrip.addFileInfoTable();" multiple style="display: none"/>
                     </div>
+                    <button type="button" class="k-button k-button-solid-base" onclick="bustrip.fn_multiDownload();" style="margin-left: 5px;">일괄 다운로드</button>
                 </div>
             </div>
             <div class="table-responsive">
