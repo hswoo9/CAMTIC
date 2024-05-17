@@ -609,6 +609,7 @@
                             OR AA.APP_TITLE LIKE CONCAT('%', #{searchValue},'%')
                             OR AA.PJT_NM LIKE CONCAT('%', #{searchValue},'%')
                             OR AA.CRM_NM REGEXP #{searchValue}
+                            OR AA.EMP_NAME LIKE CONCAT('%', #{searchValue},'%')
                         )
                 </otherwise>
             </choose>
