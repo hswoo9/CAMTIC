@@ -538,13 +538,14 @@
                 </when>
                 <when test='"4".equals(searchDate)'>
                     AND AA.REQ_END_DE BETWEEN #{strDe} AND #{endDe}
+
+                    AND AA.DOC_STATUS IN (100,101)
                     AND (
-                            AA.DOC_STATUS IN (100,101)
-                        AND AA.ITEM_COUNT = AA.EXNP_DOC_STATUS
+                        AA.ITEM_COUNT = AA.EXNP_DOC_STATUS
                         AND AA.EXNP_STATUS = AA.EXNP_DOC_STATUS
-                        AND AA.EXNP_STATUS != 0
                         AND AA.RE_STAT = 'Y'
                     )
+                    AND AA.EXNP_STATUS IS NOT NULL
                 </when>
                 <otherwise>
                     AND AA.APP_DE BETWEEN #{strDe} AND #{endDe}
@@ -563,28 +564,25 @@
             </if>
             <if test='"3".equals(searchDept)'>
                 AND AA.DOC_STATUS IN (100,101)
+                AND AA.EXNP_STATUS IS NULL
             </if>
             <if test='"4".equals(searchDept)'>
+                AND AA.DOC_STATUS IN (100,101)
                 AND (
-                        AA.DOC_STATUS IN (100,101)
-                    AND AA.ITEM_COUNT = AA.EXNP_DOC_STATUS
+                        AA.ITEM_COUNT = AA.EXNP_DOC_STATUS
                     AND AA.EXNP_STATUS = AA.EXNP_DOC_STATUS
-                    AND AA.EXNP_STATUS != 0
                     AND AA.RE_STAT = 'Y'
                 )
+                AND AA.EXNP_STATUS IS NOT NULL
             </if>
             <if test='"5".equals(searchDept)'>
                 AND AA.DOC_STATUS IN (100,101)
-                AND !(
-                        AA.ITEM_COUNT = AA.EXNP_DOC_STATUS
-                    AND AA.EXNP_STATUS = AA.EXNP_DOC_STATUS
-                    AND AA.EXNP_STATUS != 0
-                    AND AA.RE_STAT = 'Y'
-                )
-                AND !(
+                AND (
                         AA.ITEM_COUNT != AA.EXNP_DOC_STATUS
-                    AND AA.EXNP_DOC_STATUS != 0
+                    OR AA.EXNP_STATUS != AA.EXNP_DOC_STATUS
+                    OR AA.RE_STAT != 'Y'
                 )
+                AND AA.EXNP_STATUS IS NOT NULL
             </if>
 
             <choose>
