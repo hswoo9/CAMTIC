@@ -1995,7 +1995,7 @@ var regPay = {
                 '       <input type="hidden" id="taxTy' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="taxTy" style="width: 100%">' +
                 '       <input type="hidden" id="expRate' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="expRate" style="width: 100%">' +
                 '       <input type="hidden" id="taxRate' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="taxRate" style="width: 100%">' +
-                '       <input type="hidden" id="payAmt' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="payAmt" style="width: 100%">' +
+                '       <input type="hidden" id="payAmt' + regPayDet.global.itemIndex + '" value="'+item.PAY_AMT+'" class="payAmt" style="width: 100%">' +
                 '       <input type="hidden" id="incTax' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="incTax" style="width: 100%">' +
                 '       <input type="hidden" id="locIncTax' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="locIncTax" style="width: 100%">' +
                 '       <input type="hidden" id="subAmt' + regPayDet.global.itemIndex + '" value="'+item.TAX_TY+'" class="subAmt" style="width: 100%">' +
@@ -2183,6 +2183,32 @@ var regPay = {
         try{
             regPay.fn_save("", "drafting");
         } catch(e){return;}
+
+        /** 사업소득자, 기타소득자일 경우 payAmt 값 있는지 체크 **/
+        var data = {
+            payAppSn : $("#payAppSn").val()
+        }
+        if($("#item").val() != "" && $("#item").val() != null){
+            data.payAppDetSn = $("#item").val();
+        }
+        var result = customKendo.fn_customAjax("/payApp/pop/getPayAppData", data);
+        var rs = result.map;
+        var ls = result.list;
+        var payFlag = true;
+        for(let i=0; i<ls.length; i++){
+            const item = ls[i];
+            if((item.EVID_TYPE == "5" || item.EVID_TYPE == "9") && item.PAY_AMT == 0){
+                payFlag = false;
+                break;
+            }
+        }
+
+        if(!payFlag){
+            alert("증빙유형이 사업소득자 및 기타소득자 일 경우\n입력팝업창에서 정상적으로 소득금액을 입력해야 진행가능합니다.");
+            return;
+        }
+
+
         var trDe = $("#trDe0").val();
         var trDeAr = trDe.split("-");
 
