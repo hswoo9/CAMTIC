@@ -27,7 +27,7 @@ var icr = {
             $(this).val(icr.comma(icr.uncomma($(this).val())));
         });
 
-        customKendo.fn_textBox(["cgCode"])
+        customKendo.fn_textBox(["cgCode", "cgName"])
 
         if($("#itemCgSn").val()){
             icr.getItemMaster();
@@ -57,7 +57,10 @@ var icr = {
     },
 
     setCategoryCodeReg : function(){
-        if(icr.global.duplicateFlag == "N"){
+        if(!$("#cgName").val()){
+            alert("코드명을 입력해주세요.");
+            return;
+        }else if(icr.global.duplicateFlag == "N"){
             alert("코드 중복확인을 체크해주세요.");
             return;
         }else if(icr.global.duplicateFlag){
@@ -71,6 +74,7 @@ var icr = {
         if(confirm("저장하시겠습니까?")){
             icr.global.saveAjaxData = {
                 itemCgSn : $("#itemCgSn").val(),
+                cgName : $("#cgName").val(),
                 cgCode : $("#cgCode").val(),
                 cgType : $("#cgType").val(),
                 parentCode : $("#parentCode").val(),
@@ -95,6 +99,7 @@ var icr = {
         if(result.flag){
             icr.global.duplicateFlag = false;
             $("#cgCode").val(result.rs.CATEGORY_CODE);
+            $("#cgName").val(result.rs.CATEGORY_CODE_NM);
         }
     },
 

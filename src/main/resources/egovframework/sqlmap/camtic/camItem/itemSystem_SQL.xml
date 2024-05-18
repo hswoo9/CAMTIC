@@ -300,16 +300,19 @@
         </choose>
     </select>
 
-    <select id="getItemNoDuplicate" parameterType="map" resultType="boolean">
+    <select id="getItemNoDuplicate" parameterType="map" resultType="map">
         /* getItemNoDuplicate */
         SELECT
+            ITEM_NO,
             CASE WHEN COUNT(*) > 0 THEN 1
                  ELSE 0
-            END
+            END AS CHK
         FROM
             CAM_ITEM.DJ_ITEM_MASTER
         WHERE
-            ITEM_NO = #{itemNo}
+            ITEM_NO = CONCAT( (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryA}),
+                              (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryB}),
+                              (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryC}) )
     </select>
 
     <insert id="setItemMasterReg" parameterType="map">
@@ -334,7 +337,9 @@
         )
         VALUES
         (
-            #{itemNo},
+            CONCAT( (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryA}),
+                    (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryB}),
+                    (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryC}) ),
             #{categoryA},
             #{categoryB},
             #{categoryC},
@@ -357,7 +362,9 @@
         UPDATE
             CAM_ITEM.DJ_ITEM_MASTER
         SET
-            ITEM_NO = #{itemNo},
+            ITEM_NO = CONCAT( (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryA}),
+                              (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryB}),
+                              (SELECT CATEGORY_CODE FROM CAM_ITEM.DJ_ITEM_CATEGORY WHERE ITEM_CATEGORY_SN = #{categoryC}) ),
             CATEGORY_A_SN = #{categoryA},
             CATEGORY_B_SN = #{categoryB},
             CATEGORY_C_SN = #{categoryC},
@@ -433,6 +440,7 @@
         (
             CATEGORY_TYPE,
             CATEGORY_CODE,
+            CATEGORY_CODE_NM,
             PARENT_CODE,
             PARENT_CODE_NM,
             ACTIVE
@@ -441,6 +449,7 @@
         (
             #{cgType},
             #{cgCode},
+            #{cgName},
             #{parentCode},
             #{parentCodeNm},
             'Y'
@@ -452,7 +461,8 @@
         UPDATE
             CAM_ITEM.DJ_ITEM_CATEGORY
         SET
-            CATEGORY_CODE = #{cgCode}
+            CATEGORY_CODE = #{cgCode},
+            CATEGORY_CODE_NM = #{cgName}
         WHERE
             ITEM_CATEGORY_SN = #{itemCgSn}
     </update>

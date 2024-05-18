@@ -19,7 +19,7 @@ public interface ItemSystemService {
     List<Map<String, Object>> selLgSmCode(Map<String, Object> params);
     List<Map<String, Object>> getItemMasterList(Map<String, Object> params);
     Map<String, Object> getItemMaster(Map<String, Object> params);
-    boolean getItemNoDuplicate(Map<String, Object> params);
+    Map<String, Object> getItemNoDuplicate(Map<String, Object> params);
     void setItemMasterReg(Map<String, Object> params);
     void setItemMasterDel(Map<String, Object> params);
     List<Map<String, Object>> getItemCategoryList(Map<String, Object> params);

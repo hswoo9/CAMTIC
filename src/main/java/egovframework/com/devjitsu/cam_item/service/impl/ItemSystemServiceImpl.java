@@ -100,7 +100,7 @@ public class ItemSystemServiceImpl implements ItemSystemService {
     }
 
     @Override
-    public boolean getItemNoDuplicate(Map<String, Object> params) {
+    public Map<String, Object> getItemNoDuplicate(Map<String, Object> params) {
         return itemSystemRepository.getItemNoDuplicate(params);
     }
 

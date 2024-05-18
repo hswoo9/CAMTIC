@@ -34,14 +34,14 @@ var inr = {
         });
 
         inr.global.dropDownDataSource = customKendo.fn_customAjax("/item/getItemCategoryList", {cgType : "A"}).list;
-        inr.global.dropDownDataSource.unshift({CATEGORY_CODE : "선택하세요", ITEM_CATEGORY_SN : ""});
+        inr.global.dropDownDataSource.unshift({CATEGORY_CODE_NM : "선택하세요", ITEM_CATEGORY_SN : ""});
         $("#categoryA").kendoDropDownList({
             dataSource : inr.global.dropDownDataSource,
-            dataTextField: "CATEGORY_CODE",
+            dataTextField: "CATEGORY_CODE_NM",
             dataValueField: "ITEM_CATEGORY_SN",
             change : function(){
                 inr.global.dropDownDataSource = customKendo.fn_customAjax("/item/getItemCategoryList", {cgType : "B", parentCode: $("#categoryA").val()}).list;
-                inr.global.dropDownDataSource.unshift({CATEGORY_CODE : "선택하세요", ITEM_CATEGORY_SN : ""});
+                inr.global.dropDownDataSource.unshift({CATEGORY_CODE_NM : "선택하세요", ITEM_CATEGORY_SN : ""});
 
                 if($("#categoryA").val() != ""){
                     $("#categoryC").kendoDropDownList({
@@ -55,16 +55,16 @@ var inr = {
 
                     $("#categoryB").kendoDropDownList({
                         dataSource : inr.global.dropDownDataSource,
-                        dataTextField: "CATEGORY_CODE",
+                        dataTextField: "CATEGORY_CODE_NM",
                         dataValueField: "ITEM_CATEGORY_SN",
                         change : function(){
                             inr.global.dropDownDataSource = customKendo.fn_customAjax("/item/getItemCategoryList", {cgType : "C", parentCode: $("#categoryB").val()}).list;
-                            inr.global.dropDownDataSource.unshift({CATEGORY_CODE : "선택하세요", ITEM_CATEGORY_SN : ""});
+                            inr.global.dropDownDataSource.unshift({CATEGORY_CODE_NM : "선택하세요", ITEM_CATEGORY_SN : ""});
 
                             if($("#categoryA").val() != "" && $("#categoryB").val() != ""){
                                 $("#categoryC").kendoDropDownList({
                                     dataSource : inr.global.dropDownDataSource,
-                                    dataTextField: "CATEGORY_CODE",
+                                    dataTextField: "CATEGORY_CODE_NM",
                                     dataValueField: "ITEM_CATEGORY_SN",
                                 });
                             }
@@ -132,14 +132,16 @@ var inr = {
         let itemNo = $("#categoryA").data("kendoDropDownList").text() + $("#categoryB").data("kendoDropDownList").text() + $("#categoryC").data("kendoDropDownList").text();
 
         inr.global.saveAjaxData = {
-            itemNo : itemNo
+            categoryA : $("#categoryA").data("kendoDropDownList").value(),
+            categoryB : $("#categoryB").data("kendoDropDownList").value(),
+            categoryC : $("#categoryC").data("kendoDropDownList").value(),
         }
         var result = customKendo.fn_customAjax("/item/getItemNoDuplicate.do", inr.global.saveAjaxData)
         if(result.flag){
-            inr.global.duplicateFlag = result.rs;
-            if(result.rs){
+            inr.global.duplicateFlag = result.rs.CHK;
+            if(result.rs.CHK){
                 if($("#masterSn").val()){
-                    if($("#itemNo").val() == itemNo){
+                    if($("#itemNo").val() == result.rs.ITEM_NO){
                         alert("등록 가능한 품번입니다.");
                         inr.global.duplicateFlag = false;
                     } else {

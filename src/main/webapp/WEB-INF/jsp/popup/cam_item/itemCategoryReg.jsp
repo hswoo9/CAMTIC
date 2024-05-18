@@ -22,9 +22,15 @@
         <input type="hidden" id="itemCgSn" name="itemCgSn" value="${params.pk}">
         <input type="hidden" id="parentCode" name="parentCode" value="${params.parentCode}">
         <input type="hidden" id="parentCodeNm" name="parentCodeNm" value="${params.parentCodeNm}">
+        <input type="hidden" id="cgType" value="${params.type}">
 
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">품번 카테고리 등록</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="popTitle">
+                품번 카테고리 등록
+                <c:if test="${params.type eq 'A'}">(대분류)</c:if>
+                <c:if test="${params.type eq 'B'}">(중분류)</c:if>
+                <c:if test="${params.type eq 'C'}">(소분류)</c:if>
+            </span>
             </h3>
             <div class="btn-st popButton">
                 <button type="button" class="k-button k-button-solid-info" onclick="icr.setCategoryCodeReg()">저장</button>
@@ -41,12 +47,11 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th>분류</th>
+                        <th>
+                            <span class="red-star">*</span>코드명
+                        </th>
                         <td style="line-height: 24px;">
-                            <input type="hidden" id="cgType" value="${params.type}">
-                            <c:if test="${params.type eq 'A'}">대분류</c:if>
-                            <c:if test="${params.type eq 'B'}">중분류</c:if>
-                            <c:if test="${params.type eq 'C'}">소분류</c:if>
+                            <input type="text" id="cgName" name="cgName" style="width: 100%;">
                         </td>
                         <th>
                             <span class="red-star">*</span>코드

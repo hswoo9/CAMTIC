@@ -86,6 +86,12 @@ var icm = {
                     icm.global.largeCategoryCodeNm = dataItem.CATEGORY_CODE;
                     gridReload("categoryGridB");
                     gridReload("categoryGridC");
+
+                    grid.tbody.find("tr").each(function (){
+                        $(this).css("background-color", "");
+                    });
+
+                    $(this).css("background-color", "#a7e1fc");
                 });
             },
             columns: [
@@ -98,8 +104,11 @@ var icm = {
                     title: "순번",
                     width: 50
                 }, {
-                    field: "CATEGORY_CODE",
+                    field: "CATEGORY_CODE_NM",
                     title: "코드명"
+                }, {
+                    field: "CATEGORY_CODE",
+                    title: "코드"
                 }
             ],
             dataBinding: function() {
@@ -179,6 +188,12 @@ var icm = {
                     icm.global.mediumCategoryCodeId = dataItem.ITEM_CATEGORY_SN;
                     icm.global.mediumCategoryCodeNm = dataItem.CATEGORY_CODE;
                     gridReload("categoryGridC");
+
+                    grid.tbody.find("tr").each(function (){
+                        $(this).css("background-color", "");
+                    });
+
+                    $(this).css("background-color", "#a7e1fc");
                 });
             },
             columns: [
@@ -191,8 +206,11 @@ var icm = {
                     title: "순번",
                     width: 50
                 }, {
-                    field: "CATEGORY_CODE",
+                    field: "CATEGORY_CODE_NM",
                     title: "코드명"
+                }, {
+                    field: "CATEGORY_CODE",
+                    title: "코드"
                 }
             ],
             dataBinding: function() {
@@ -274,8 +292,11 @@ var icm = {
                     title: "순번",
                     width: 50
                 }, {
-                    field: "CATEGORY_CODE",
+                    field: "CATEGORY_CODE_NM",
                     title: "코드명"
+                }, {
+                    field: "CATEGORY_CODE",
+                    title: "코드"
                 }
             ],
             dataBinding: function() {
