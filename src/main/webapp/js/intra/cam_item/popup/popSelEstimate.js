@@ -231,6 +231,14 @@ var popSelEstimate = {
         window.close();
     },
 
+    fn_sendMailPop : function(){
+        let crmSn = $("#crmSn").val();
+        var url = "/item/pop/estimateSendMailPop.do?crmSn="+crmSn;
+        var name = "sendMailPop";
+        var option = "width=960, height=620, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    },
+
     comma: function(str) {
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');

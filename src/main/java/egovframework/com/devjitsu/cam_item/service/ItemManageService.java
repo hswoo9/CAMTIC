@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.cam_item.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,4 +76,7 @@ public interface ItemManageService {
 
     void updItemManageRealCnt(Map<String, Object> params);
     void updateDocState(Map<String, Object> bodyMap) throws Exception;
+
+    void setEstimateSendMailInfo(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
+    List<Map<String, Object>> getEstimateSendFileList(Map<String, Object> params);
 }

@@ -6,8 +6,11 @@ import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.cam_item.service.ItemManageService;
 import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
+import egovframework.com.devjitsu.common.utiles.MailUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.inside.bustrip.controller.BustripController;
+import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
+import egovframework.com.devjitsu.system.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +20,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 public class ItemManageController {
@@ -43,11 +49,39 @@ public class ItemManageController {
     @Autowired
     private CrmService crmService;
 
+    @Autowired
+    private UserManageService userManageService;
+
+    @Autowired
+    private MessageService messageService;
+
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
 
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
+
+    @Value("#{properties['Dev.Mail.SMTPName']}")
+    private String SMTPName;
+
+    @Value("#{properties['Dev.Mail.SMTPMail']}")
+    private String SMTPMail;
+
+    @Value("#{properties['Dev.Mail.SMTPServer']}")
+    private String SMTPServer;
+
+    @Value("#{properties['Dev.Mail.SMTPPort']}")
+    private int SMTPPort;
+
+    @Value("#{properties['Dev.Mail.SMTPID']}")
+    private String SMTPID;
+
+    @Value("#{properties['Dev.Mail.SMTPPW']}")
+    private String SMTPPW;
+
+    @Value("#{properties['Dev.Mail.MailPath']}")
+    private String MailPath;
+
 
     /** 캠아이템 > 아이템관리 > 기준정보 */
 
@@ -349,6 +383,78 @@ public class ItemManageController {
     @RequestMapping("/item/getEstPrintSn.do")
     public String getEstPrintSn(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("rs", itemManageService.getEstPrintSn(params));
+        return "jsonView";
+    }
+
+    /**
+     * 견적서 메일전송
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/pop/estimateSendMailPop.do")
+    public String estimateSendMailPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/cam_item/estimateSendMailPop";
+    }
+
+    /**
+     * 메일전송 데이터 조회
+     * @param params
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/item/getEmpCrmData")
+    public String getEmpCrmData(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        model.addAttribute("data", crmService.getCrmInfo(params));
+        model.addAttribute("data2", userManageService.getEmpInfo(params));
+        model.addAttribute("fileInfo", crmService.getCrmFileInfo(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/item/estimateSendMail.do")
+    public String estimateSendMail(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model) throws MessagingException, IOException {
+
+        MultipartFile[] file = request.getFiles("fileList").toArray(new MultipartFile[0]);
+        itemManageService.setEstimateSendMailInfo(params, file, SERVER_DIR, BASE_DIR);
+
+        List<Map<String, Object>> fileArray = itemManageService.getEstimateSendFileList(params);
+        params.put("fileArray", fileArray);
+
+        /** 메일 (업체, 발송자) */
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("218.158.231.186")){
+            params.put("fileServer", "http://218.158.231.186");
+        } else{
+            params.put("fileServer", "http://218.158.231.184");
+        }
+
+        MailUtil mailUtil = new MailUtil();
+        params.put("mailType", "estimate");
+        mailUtil.orderSendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
+
+        /** 문자 (메일 발송자) */
+        params.put("empSeq", params.get("regEmpSeq"));
+        Map<String, Object> empInfoMap = userManageService.getEmpInfo(params);
+        Map<String, Object> messageParam = new HashMap<>();
+        messageParam.put("dest_phone", empInfoMap.get("EMP_NAME_KR") + "^" + empInfoMap.get("MOBILE_TEL_NUM"));
+
+        String msgContents = params.get("crmNm") + "(으)로 견적서가 발송되었습니다.";
+        messageParam.put("msg_content", msgContents);
+
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        messageParam.put("pkDate", dateFormat.format(currentDate));
+
+        messageParam.put("loginEmpSeq", "admin");
+        messageService.msgSend(messageParam);
+
+        model.addAttribute("rs", "SUCCESS");
         return "jsonView";
     }
 

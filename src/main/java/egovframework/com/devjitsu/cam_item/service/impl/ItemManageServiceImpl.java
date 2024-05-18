@@ -2,11 +2,13 @@ package egovframework.com.devjitsu.cam_item.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.cam_crm.repository.CrmRepository;
 import egovframework.com.devjitsu.cam_item.repository.ItemManageRepository;
 import egovframework.com.devjitsu.cam_item.repository.ItemSystemRepository;
 import egovframework.com.devjitsu.cam_item.service.ItemManageService;
 import egovframework.com.devjitsu.cam_item.service.ItemSystemService;
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -39,6 +41,9 @@ public class ItemManageServiceImpl implements ItemManageService {
 
     @Autowired
     private CrmRepository crmRepository;
+
+    @Autowired
+    private CommonRepository commonRepository;
 
     @Override
     public List<Map<String, Object>> getItemStandardUnitPriceList(Map<String, Object> params) {
@@ -1183,4 +1188,41 @@ public class ItemManageServiceImpl implements ItemManageService {
 
         }*/
     }
+
+    public void setEstimateSendMailInfo(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir) {
+
+        itemManageRepository.setEstimateSendMailInfo(params);
+
+        MainLib mainLib = new MainLib();
+        if(fileList.length > 0){
+            params.put("menuCd", "estimateMail");
+
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, serverDir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("mailSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, baseDir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
+
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    public List<Map<String, Object>> getEstimateSendFileList (Map<String, Object> params){
+        return itemManageRepository.getEstimateSendFileList(params);
+    }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+
+        return path;
+    }
+
 }

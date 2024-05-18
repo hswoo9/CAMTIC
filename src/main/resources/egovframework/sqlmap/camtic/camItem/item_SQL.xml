@@ -2112,4 +2112,42 @@
           AND
             CONFIRM_CHK != 'N'
     </update>
+
+    <insert id="setEstimateSendMailInfo" parameterType="map">
+        /*setEstimateSendMailInfo*/
+        INSERT INTO CAM_ITEM.DJ_ESTIMATE_MAIL_INFO
+        (
+            CRM_SN,
+            CRM_NM,
+            RECEIVE_MAIL,
+            SEND_MAIL,
+            MAIL_SUBJECT,
+            MAIL_CONTENT,
+            SEND_DATE
+        )
+        VALUES
+        (
+            #{crmSn},
+            #{crmNm},
+            #{receiveEml},
+            #{sendEml},
+            #{subject},
+            #{contents},
+            NOW()
+        )
+
+        <selectKey keyProperty="mailSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ITEM' AND TABLE_NAME = 'DJ_ESTIMATE_MAIL_INFO'
+        </selectKey>
+    </insert>
+
+    <select id="getEstimateSendFileList" parameterType="map" resultType="map">
+        /*getEstimateSendFileList*/
+        SELECT
+            *
+        FROM
+            CAM_COMMON.DJ_FILE_INFO
+        WHERE
+            FILE_CD = 'estimateMail' AND CONTENT_ID = #{mailSn}
+    </select>
 </mapper>

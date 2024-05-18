@@ -89,10 +89,18 @@ public class MailUtil {
         String password = SMTPPW;
 
         String recipient = params.get("receiveEml").toString();     // 수신자
-        InternetAddress[] recipientArr = new InternetAddress[3];
-        recipientArr[0] = new InternetAddress(params.get("receiveEml").toString());
-        recipientArr[1] = new InternetAddress(params.get("sendEml").toString());
-        recipientArr[2] = new InternetAddress(params.get("purcEml").toString());
+        InternetAddress[] recipientArr = new InternetAddress[0];
+
+        if(params.containsKey("mailType") && params.get("mailType").equals("estimate")) {
+            recipientArr = new InternetAddress[2];
+            recipientArr[0] = new InternetAddress(params.get("receiveEml").toString());
+            recipientArr[1] = new InternetAddress(params.get("sendEml").toString());
+        } else {
+            recipientArr = new InternetAddress[3];
+            recipientArr[0] = new InternetAddress(params.get("receiveEml").toString());
+            recipientArr[1] = new InternetAddress(params.get("sendEml").toString());
+            recipientArr[2] = new InternetAddress(params.get("purcEml").toString());
+        }
 
         String sender = params.get("sendEml").toString();           // 발신자
         String subject = params.get("subject").toString();          // 제목

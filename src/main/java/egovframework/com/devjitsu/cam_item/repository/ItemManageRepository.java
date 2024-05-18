@@ -135,4 +135,12 @@ public class ItemManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getIventDeadLineList(Map<String, Object> params) {
         return selectList("item.getIventDeadLineList", params);
     }
+
+    public void setEstimateSendMailInfo(Map<String, Object> params) {
+        insert("item.setEstimateSendMailInfo", params);
+    }
+
+    public List<Map<String, Object>> getEstimateSendFileList(Map<String, Object> params) {
+        return selectList("item.getEstimateSendFileList", params);
+    }
 }
