@@ -4,15 +4,15 @@ let acctAm1Sum = 0;
 let acctAm3Sum = 0;
 let subAmSum = 0;
 
-var bld = {
+var bcd = {
 
     fn_defaultScript: function (){
-        $("#carryoverCash, #carryoverPoint").kendoTextBox();
+        $("#carryoverCash ,#carryoverPoint").kendoTextBox();
 
-        bld.getCarryoverAmt();
-        bld.getCurrentAmountStatus();
-        bld.budgetMainGrid();
-        bld.budgetMainGrid2();
+        bcd.getCarryoverAmt();
+        bcd.getCurrentAmountStatus();
+        bcd.budgetMainGrid();
+        bcd.budgetMainGrid2();
     },
 
     budgetMainGrid : function(){
@@ -61,7 +61,7 @@ var bld = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: bld.onDataBound,
+            dataBound: bcd.onDataBound,
             columns: [
                 {
                     title: "장",
@@ -140,13 +140,13 @@ var bld = {
                     template: function(e){
                         var amtTxt = 0;
                         if(e.FULL_WAIT_CK != null){
-                            amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK);
+                            amtTxt = comma(Number(e.ACCT_AM_3 + e.FULL_WAIT_CK));
                         } else {
-                            return "<div style='text-align: right'>"+comma(e.ACCT_AM_2 + e.WAIT_CK)+"</div>";
-                            amtTxt = comma(e.ACCT_AM_3 + e.FULL_WAIT_CK);
+                            amtTxt = comma(Number(e.ACCT_AM_3 + e.WAIT_CK));
                         }
 
-                        return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bld.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\', \'B\')">'+amtTxt+'</a></div>';
+                        // return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bcd.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\', \'B\')">'+amtTxt+'</a></div>';
+                        return '<div style="text-align: right;font-weight: bold;">'+amtTxt+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum+acctAm1Sum)+"</div>";
@@ -155,10 +155,22 @@ var bld = {
                     title: "예산잔액",
                     width: 150,
                     template: function(e){
-                        if(e.DIV_FG_NM == "장"){
-                            subAmSum += Number(e.SUB_AM);
+                        var amtTxt = 0;
+                        if(e.FULL_WAIT_CK != null){
+                            amtTxt = comma(Number(e.CALC_AM - e.ACCT_AM_3 + e.FULL_WAIT_CK));
+                        } else {
+                            amtTxt = comma(Number(e.CALC_AM - e.ACCT_AM_3 + e.WAIT_CK));
                         }
-                        return "<div style='text-align: right'>"+comma(Number(e.SUB_AM))+"</div>";
+
+                        if(e.DIV_FG_NM == "장"){
+                            if(e.FULL_WAIT_CK != null){
+                                subAmSum += Number(e.CALC_AM - e.ACCT_AM_3 + e.FULL_WAIT_CK);
+                            } else {
+                                subAmSum += Number(e.CALC_AM - e.ACCT_AM_3 + e.FULL_WAIT_CK);
+                            }
+                        }
+
+                        return "<div style='text-align: right'>"+comma(amtTxt)+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(subAmSum)+"</div>";
@@ -218,7 +230,7 @@ var bld = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            dataBound: bld.onDataBound,
+            dataBound: bcd.onDataBound,
             columns: [
                 {
                     title: "장",
@@ -298,7 +310,8 @@ var bld = {
                         if(e.DIV_FG_NM == "장"){
                             acctAm2Sum  += Number(e.ACCT_AM_2 + e.WAIT_CK);
                         }
-                        return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bld.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\', \'A\')">'+comma(e.ACCT_AM_2 + e.WAIT_CK)+'</a></div>';
+                        // return '<div style="text-align: right;font-weight: bold;"><a href="javascript:void(0);" style="text-align: right;" onclick="bcd.fn_budgetDetailViewPop(\''+e.DIV_FG+'\', \''+e.BGT_CD+'\', \'A\')">'+comma(e.ACCT_AM_2 + e.WAIT_CK)+'</a></div>';
+                        return '<div style="text-align: right;font-weight: bold;">'+comma(e.ACCT_AM_2 + e.WAIT_CK)+'</div>';
                     },
                     footerTemplate: function(){
                         return "<div style='text-align: right'>"+comma(acctAm2Sum)+"</div>";
@@ -371,6 +384,7 @@ var bld = {
 
     fn_carryoverSave : function(e){
         var data = {
+            // carryoverAmt : uncommaN($("#carryoverAmt").val()),
             pjtCd : $("#pjtCd").val()
         }
 
@@ -380,7 +394,7 @@ var bld = {
                 return;
             }
 
-            if(!confirm("이월잔액(현금)을 저장 하시겠습니까?")){
+            if(!confirm("이월금액(현금)을 저장 하시겠습니까?")){
                 return;
             }
 
@@ -391,7 +405,7 @@ var bld = {
                 return;
             }
 
-            if(!confirm("이월잔액(포인트)을 저장 하시겠습니까?")){
+            if(!confirm("이월금액(포인트)을 저장 하시겠습니까?")){
                 return;
             }
 

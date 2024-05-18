@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_manager.controller;
 
 
 import egovframework.com.devjitsu.cam_manager.service.BudgetService;
+import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class BudgetController {
 
     @Autowired
     private G20Service g20Service;
+
+    @Autowired
+    private ProjectService projectService;
 
 
     /**
@@ -155,6 +159,14 @@ public class BudgetController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    /**
+     * 예산총괄현황
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
     @RequestMapping("/budget/budgetPreCondition.do")
     public String budgetPreCondition(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
 
@@ -196,5 +208,37 @@ public class BudgetController {
         return "jsonView";
     }
 
+
+    /**
+     * 사업비현황
+     * @param params
+     * @param model
+     * @param request
+     * @return
+     */
+    @RequestMapping("/budget/busnCostPreCondition.do")
+    public String busnCostPreCondition(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_manager/budget/busnCostPreCondition";
+    }
+
+    @RequestMapping("/budget/pop/busnCostDetailView.do")
+    public String busnCostDetailView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("g20Info", g20Service.getProjectInfo(params));
+        model.addAttribute("projectInfo", projectService.getProjectDataOne(params));
+        return "popup/cam_manager/budget/busnCostDetailView";
+    }
 
 }

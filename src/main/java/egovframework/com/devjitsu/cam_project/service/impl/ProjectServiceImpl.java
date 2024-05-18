@@ -77,6 +77,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> getProjectDataOne(Map<String, Object> params) {
+        return projectRepository.getProjectDataOne(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getG20ProjectList(Map<String, Object> params) {
         List<Map<String, Object>> g20List = g20Repository.getG20ProjectList(params);
 

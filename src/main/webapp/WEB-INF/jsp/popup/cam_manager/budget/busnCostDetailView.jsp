@@ -23,7 +23,7 @@
         border-width: 0 0 1px 1px !important;
     }
 </style>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/budgetListDetail.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/budget/busnCostDetailView.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>
 
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
@@ -45,7 +45,7 @@
     <div class="table-responsive">
         <input type="hidden" id="menuCd" name="menuCd" value="${menuCd}">
         <div class="card-header pop-header">
-            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="title">예산 현황</span>
+            <h3 class="card-title title_NM"><span style="position: relative; top: 3px;" id="title">사업비 현황</span>
 
             </h3>
 
@@ -69,15 +69,25 @@
                 </tr>
                 <tr>
                     <th colspan="2" scope="row" class="text-center th-color">
-                        프로젝트 코드
+                        예산코드
                     </th>
-                    <td>
+                    <td colspan="3">
                         ${g20Info.PJT_CD}
                     </td>
-                    <th scope="row" class="text-center th-color">
-                        프로젝트 명
+                </tr>
+                <tr>
+                    <th colspan="2" scope="row" class="text-center th-color">
+                        프로젝트명
                     </th>
-                    <td>
+                    <td colspan="3">
+                        ${projectInfo.PJT_NM}
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2" scope="row" class="text-center th-color">
+                        예산프로젝트명
+                    </th>
+                    <td colspan="3">
                         ${g20Info.PJT_NM}
                     </td>
                 </tr>
@@ -99,13 +109,13 @@
                 </tr>
                 <tr>
                     <th colspan="2" scope="row" class="text-center th-color">
-                        관리예금계좌
+                        관리예금계좌명
                     </th>
                     <td>
                         ${g20Info.ATPJT_NM}
                     </td>
                     <th scope="row" class="text-center th-color">
-                        관리예금계좌번호
+                        계좌번호
                     </th>
                     <td>
                         <input type="hidden" id="bankNB" value="${g20Info.BA_NB}">
@@ -114,14 +124,14 @@
                 </tr>
                 <tr>
                     <th rowspan="2" scope="row" class="text-center th-color">
-                        이월잔액
+                        이월금액
                     </th>
                     <th scope="row" class="text-center th-color">
                         현금
                     </th>
                     <td>
                         <input type="text" id="carryoverCash" style="width: 200px; text-align: right;" onkeyup="inputNumberFormatN(this)">
-                        <button class="k-button k-button-solid-base" onclick="bld.fn_carryoverSave('cash');">저장</button>
+                        <button class="k-button k-button-solid-base" onclick="bcd.fn_carryoverSave('cash');">저장</button>
                     </td>
                     <th rowspan="2" scope="row" class="text-center th-color">
                         시재현황
@@ -136,7 +146,62 @@
                     </th>
                     <td>
                         <input type="text" id="carryoverPoint" style="width: 200px; text-align: right;" onkeyup="inputNumberFormatN(this)">
-                        <button class="k-button k-button-solid-base" onclick="bld.fn_carryoverSave('point');">저장</button>
+                        <button class="k-button k-button-solid-base" onclick="bcd.fn_carryoverSave('point');">저장</button>
+                    </td>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div>
+            <table class="popTable table table-bordered mb-0">
+                <colgroup>
+                    <col width="15%">
+                    <col width="85%">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th style="font-weight: bold">수입지출 총괄</th>
+                    <td>
+                        <table class="popTable table table-bordered mb-0">
+                            <colgroup>
+                                <col width="10%">
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="20%">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th style="font-weight: bold">구분</th>
+                                <th style="font-weight: bold">수입</th>
+                                <th style="font-weight: bold">지출</th>
+                                <th style="font-weight: bold">계</th>
+                                <th style="font-weight: bold">설명</th>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center">예산반영</td>
+                                <td style="text-align: right"></td>
+                                <td style="text-align: right"></td>
+                                <td style="text-align: right"></td>
+                                <td style="">정상적 입출금</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center">예산미반영</td>
+                                <td style="text-align: right"></td>
+                                <td style="text-align: right"></td>
+                                <td style="text-align: right"></td>
+                                <td style="">타프로젝트 자금이 당계좌로 입출될 경우</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center">타계좌</td>
+                                <td style="text-align: right"></td>
+                                <td style="text-align: right"></td>
+                                <td style="text-align: right"></td>
+                                <td style="">해당프로젝트 자금이 타계좌로 입출될 경우</td>
+                            </tr>
+                            </thead>
+                        </table>
                     </td>
                 </tr>
                 </thead>
@@ -192,7 +257,7 @@
 </div>
 
 <script>
-    bld.fn_defaultScript();
+    bcd.fn_defaultScript();
 </script>
 </body>
 </html>
