@@ -764,6 +764,12 @@ public class ItemManageServiceImpl implements ItemManageService {
     public List<Map<String, Object>> getItemInvenAdminList(Map<String, Object> params) {
         return itemManageRepository.getItemInvenAdminList(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getItemInvenAdminListByMonth(Map<String, Object> params) {
+        return itemManageRepository.getItemInvenAdminListByMonth(params);
+    }
+
     @Override
     public List<Map<String, Object>> getItemInvenAdjustList(Map<String, Object> params) {
         return itemManageRepository.getItemInvenAdjustList(params);
@@ -1213,6 +1219,52 @@ public class ItemManageServiceImpl implements ItemManageService {
 
     public List<Map<String, Object>> getEstimateSendFileList (Map<String, Object> params){
         return itemManageRepository.getEstimateSendFileList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getItemApprovalInfo(Map<String, Object> params) {
+        return itemManageRepository.getItemApprovalInfo(params);
+    }
+
+    @Override
+    public void setItemApprovalInfo(Map<String, Object> params) {
+        itemManageRepository.setItemApprovalInfo(params);
+    }
+
+    @Override
+    public Map<String, Object> getItemApprovalInfoByPk(Map<String, Object> params) {
+        return itemManageRepository.getItemApprovalInfoByPk(params);
+    }
+
+    @Override
+    public void updateItemDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("itemApprovalSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            itemManageRepository.updateItemApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            itemManageRepository.updateItemApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결
+            params.put("approveStatCode", 100);
+            itemManageRepository.updateItemFinalApprStat(params);
+        }
     }
 
     private String filePath (Map<String, Object> params, String base_dir){

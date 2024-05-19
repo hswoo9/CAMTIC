@@ -66,7 +66,7 @@ var draft = {
         /** 문서 정보 조회하여 결재선 설정 미노출일시 hide 처리 */
         const formInfo = customKendo.fn_customAjax("/approval/getDocFormReqOpt", {formId : draft.global.params.formId});
         console.log(formInfo);
-        if(formInfo != null && formInfo.formInfoReqOpt.VISIBLE_APPR == "N" ){
+        if(formInfo != null && formInfo.formInfoReqOpt != null && formInfo.formInfoReqOpt.VISIBLE_APPR == "N" ){
             $("#apprBtn").hide();
         }
 

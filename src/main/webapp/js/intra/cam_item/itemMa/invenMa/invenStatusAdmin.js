@@ -60,7 +60,7 @@ var invenStAdmin = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.gridReload()" disabled>' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="invenStAdmin.itemResAppPop()">' +
                             '	<span class="k-button-text">결재</span>' +
                             '</button>';
                     }
@@ -369,16 +369,6 @@ var invenStAdmin = {
         if(!confirm("마감하시겠습니까?")){
             return;
         }
-
-        $("#invenDeadLineDraftFrm").one("submit", function() {
-            var url = "/item/pop/approvalFormPopup/invenDeadLineApprovalPop.do";
-            var name = "invenDeadLineApprovalPop";
-            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
-            var popup = window.open(url, name, option);
-            this.action = "/item/pop/approvalFormPopup/invenDeadLineApprovalPop.do";
-            this.method = 'POST';
-            this.target = 'invenDeadLineApprovalPop';
-        }).trigger("submit");
         /*var parameters = {
 
         }
@@ -404,5 +394,12 @@ var invenStAdmin = {
                 }
             }
         });*/
+    },
+
+    itemResAppPop : function(){
+        var url = "/item/pop/itemAppPop.do";
+        var name = "itemAppPop";
+        var option = "width = 540, height = 260, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }

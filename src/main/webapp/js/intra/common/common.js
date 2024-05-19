@@ -161,6 +161,13 @@ function comma(str) {
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 }
 
+function commaN(str) {
+    str = String(str);
+    return str.replace(/^(-?\d+)(\d{3})+/g, function(_, sign, rest) {
+        return sign + rest.replace(/\d{3}/g, ',$&');
+    });
+}
+
 function uncomma(str) {
     str = String(str);
     return str.replace(/[^\d]+/g, '');

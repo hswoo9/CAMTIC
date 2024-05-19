@@ -1259,6 +1259,11 @@ public class ItemManageController {
         model.addAttribute("list", itemManageService.getItemInvenAdminList(params));
         return "jsonView";
     }
+    @RequestMapping("/item/getItemInvenAdminListByMonth.do")
+    public String getItemInvenAdminListByMonth(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", itemManageService.getItemInvenAdminListByMonth(params));
+        return "jsonView";
+    }
 
     /**
      * 재고선택팝업
@@ -1548,6 +1553,7 @@ public class ItemManageController {
         LoginVO login = getLoginVO(request);
 
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         /*
         List<Map<String, Object>> list = bustripService.getBustripResTotInfo(params);
         model.addAttribute("list", list);
@@ -1578,6 +1584,59 @@ public class ItemManageController {
         String resultMessage = "성공하였습니다.";
         try{
             itemManageService.updateDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
+    /** 재고현황(관리자) 결재창 */
+    @RequestMapping("/item/pop/itemAppPop.do")
+    public String itemAppPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        LoginVO login = getLoginVO(request);
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/cam_item/itemAppPop";
+    }
+
+    /** 재고현황(관리자) 전자결재 중복조회 */
+    @RequestMapping("/item/getItemApprovalInfo")
+    public String getItemApprovalInfo(@RequestParam Map<String, Object> params, Model model) {
+        List<Map<String, Object>> list = itemManageService.getItemApprovalInfo(params);
+        model.addAttribute("flag", list.size() == 0 ? "true" : "false");
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 재고현황(관리자) 전자결재 저장 */
+    @RequestMapping("/item/setItemApprovalInfo")
+    public String setItemApprovalInfo(@RequestParam Map<String, Object> params, Model model) {
+        itemManageService.setItemApprovalInfo(params);
+        model.addAttribute("data", params);
+        return "jsonView";
+    }
+
+    @RequestMapping("/item/getItemApprovalInfoByPk")
+    public String getItemApprovalInfoByPk(@RequestParam Map<String, Object> params, Model model){
+
+        model.addAttribute("data", itemManageService.getItemApprovalInfoByPk(params));
+        return "jsonView";
+    }
+
+
+    /** 재고현황(관리자) 전자결재 결재 상태값에 따른 UPDATE 메서드 */
+    @RequestMapping(value = "/item/itemReqApp")
+    public String itemReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            itemManageService.updateItemDocState(bodyMap);
         }catch(Exception e){
             logger.error(e.getMessage());
             resultCode = "FAIL";

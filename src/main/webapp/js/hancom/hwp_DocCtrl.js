@@ -581,6 +581,10 @@ var hwpDocCtrl = {
             const metSn = data.approKey.split("_")[1];
             if (metSn == null || metSn == undefined || metSn == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
             meetingInit.meetingInit(metSn);
+        }else if(data.menuCd == "item") {
+            const ran = data.approKey.split("_")[1];
+            if (ran == null || ran == undefined || ran == "") { alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return; }
+            itemInit.itemInit(ran);
         }
 
         /** 문서제목 양식 최초 입력 */
@@ -814,6 +818,12 @@ var hwpDocCtrl = {
                 hwpDocCtrl.global.HwpCtrl.MoveToField('applyEmpName', true, true, false);
                 hwpDocCtrl.putFieldText('applyEmpName', ds.data.LOGIN_EMP_NAME_KR);
             }
+        } else if(data.menuCd == "item") {
+
+            const ran = pk;
+            if (ran == null || ran == undefined || ran == "") { alert(errorText); return; }
+            itemInit.itemInit(ran);
+
         }
 
         /** 재상신이면 사인 초기화 */

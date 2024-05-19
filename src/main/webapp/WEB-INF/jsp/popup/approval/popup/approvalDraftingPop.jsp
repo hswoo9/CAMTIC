@@ -28,6 +28,7 @@
 <script type="text/javascript" src="<c:url value='/js/hancom/process/hwpPurcInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/process/hwpRndInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/hancom/process/hwpUnRndInit.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/hancom/process/hwpItemInit.js?v=${today}'/>"></script>
 <script type="text/javascript" src="/js/loadingoverlay.min.js"/></script>
 
 <style>

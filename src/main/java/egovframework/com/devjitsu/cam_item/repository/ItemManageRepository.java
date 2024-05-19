@@ -72,6 +72,7 @@ public class ItemManageRepository extends AbstractDAO {
     public void setItemInvenUnitPriceUpd(Map<String, Object> params) { update("item.setItemInvenUnitPriceUpd", params);}
     public List<Map<String, Object>> getItemInvenList(Map<String, Object> params) { return selectList("item.getItemInvenList", params);}
     public List<Map<String, Object>> getItemInvenAdminList(Map<String, Object> params) { return selectList("item.getItemInvenAdminList", params);}
+    public List<Map<String, Object>> getItemInvenAdminListByMonth(Map<String, Object> params) { return selectList("item.getItemInvenAdminListByMonth", params);}
     public Map<String, Object> getItemInven(Map<String, Object> params){ return (Map<String, Object>) selectOne("item.getItemInven", params);}
     public void setInvenTransferReg(Map<String, Object> params) { insert("item.setInvenTransferReg", params);}
     public void setInvenTransferRegUpd(Map<String, Object> params) { update("item.setInvenTransferRegUpd", params);}
@@ -143,4 +144,12 @@ public class ItemManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getEstimateSendFileList(Map<String, Object> params) {
         return selectList("item.getEstimateSendFileList", params);
     }
+
+    public List<Map<String, Object>> getItemApprovalInfo(Map<String, Object> params) { return selectList("item.getItemApprovalInfo", params); }
+
+    public void setItemApprovalInfo(Map<String, Object> params) { insert("item.setItemApprovalInfo", params); }
+
+    public Map<String, Object> getItemApprovalInfoByPk(Map<String, Object> params) { return (Map<String, Object>) selectOne("item.getItemApprovalInfoByPk", params);}
+    public void updateItemApprStat(Map<String, Object> params) { update("item.updateItemApprStat", params); }
+    public void updateItemFinalApprStat(Map<String, Object> params) { update("item.updateItemFinalApprStat", params); }
 }

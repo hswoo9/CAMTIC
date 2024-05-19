@@ -1581,6 +1581,30 @@
         ]]>
     </select>
 
+    <select id="getItemInvenAdminListByMonth" parameterType="map" resultType="map">
+        /* getItemInvenAdminListByMonth */
+        <![CDATA[
+        SELECT
+            IM.ITEM_NAME,
+            IM.STANDARD,
+            IFNULL((SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m') BETWEEN #{befMonth} AND #{befMonth}), 0) AS BEF_TOT_CNT,
+            IFNULL((SELECT IFNULL(SUM(IN_CNT), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m') BETWEEN #{applyMonth} AND #{applyMonth}), 0) AS IN_CNT,
+            IFNULL((SELECT IFNULL(SUM(OUT_CNT), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m') BETWEEN #{applyMonth} AND #{applyMonth}), 0) AS OUT_CNT,
+            IFNULL((SELECT IFNULL((SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m') BETWEEN #{applyMonth} AND #{applyMonth}), 0) AS TOT_CNT,
+            IFNULL(ITEM_REAL_CNT, 0) AS REAL_CNT,
+            IFNULL(ITEM_REAL_CNT, 0) AS ITEM_CONF_CNT,
+            IFNULL((SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m') BETWEEN #{befMonth} AND #{befMonth}), 0) AS BEF_AMT,
+            IFNULL((SELECT IFNULL((SELECT UNIT_AMT FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND UNIT_AMT IS NOT NULL ORDER BY REG_DT DESC LIMIT 1) * (SUM(IN_CNT) - SUM(OUT_CNT)), 0) FROM CAM_ITEM.DJ_ITEM_HIST WHERE MASTER_SN = IM.MASTER_SN AND DATE_FORMAT(REG_DT, '%Y-%m') BETWEEN #{applyMonth} AND #{applyMonth}), 0) AS AMT,
+            IFNULL(INVEN_AJM_NOTE, '') AS INVEN_AJM_NOTE_TEXT
+        FROM
+            CAM_ITEM.DJ_ITEM_MASTER IM
+        WHERE 1=1
+          AND
+            IM.ACTIVE = 'Y'
+        ORDER BY IM.REG_DT DESC
+        ]]>
+    </select>
+
     <select id="getItemInven" parameterType="map" resultType="map">
         /* getItemInven */
         SELECT
@@ -2150,4 +2174,70 @@
         WHERE
             FILE_CD = 'estimateMail' AND CONTENT_ID = #{mailSn}
     </select>
+
+    <select id="getItemApprovalInfo" parameterType="map" resultType="map">
+        /* getItemApprovalInfo */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_APPROVAL
+        WHERE
+            APPLY_MONTH = #{searchDe}
+          AND STATUS != 0
+    </select>
+
+    <select id="getItemApprovalInfoByPk" parameterType="map" resultType="map">
+        /* getItemApprovalInfoByPk */
+        SELECT
+            *
+        FROM
+            CAM_ITEM.DJ_ITEM_APPROVAL
+        WHERE
+            ITEM_APPROVAL_SN = #{itemApprovalSn}
+    </select>
+
+    <insert id="setItemApprovalInfo" parameterType="map">
+        /* setItemApprovalInfo */
+        INSERT INTO CAM_ITEM.DJ_ITEM_APPROVAL
+        (
+        APPLY_MONTH,
+        STATUS,
+        REG_EMP_SEQ,
+        REG_EMP_NAME
+        )
+        VALUES
+        (
+        #{searchDe},
+        '0',
+        #{regEmpSeq},
+        #{regEmpName}
+        )
+
+        <selectKey keyProperty="itemApprovalSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_ITEM' AND TABLE_NAME = 'DJ_ITEM_APPROVAL'
+        </selectKey>
+    </insert>
+
+    <update id="updateItemApprStat" parameterType="map">
+        /* updateItemApprStat */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_APPROVAL
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            ITEM_APPROVAL_SN = #{itemApprovalSn}
+    </update>
+
+    <update id="updateItemFinalApprStat" parameterType="map">
+        /* updateItemFinalApprStat */
+        UPDATE
+            CAM_ITEM.DJ_ITEM_APPROVAL
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            ITEM_APPROVAL_SN = #{itemApprovalSn}
+    </update>
 </mapper>

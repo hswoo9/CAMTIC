@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
-<c:set var="ran"><%= java.lang.Math.round(java.lang.Math.random() * 12345) %></c:set>
 <body>
 <div id="approveDataPop">
     ...
@@ -14,19 +13,19 @@
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "182";
+        approvalParams.formId = "193";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.docTitle = "[재고마감]${loginVO.orgnztNm}-${loginVO.name}";
         approvalParams.content = $("#approveDataPop")[0].innerHTML;
         approvalParams.type = "drafting";
-        approvalParams.menuCd = "invenDeadLine";
+        approvalParams.menuCd = "item";
         approvalParams.docType = "A";
 
-        approvalParams.linkageProcessId = "7";
+        approvalParams.linkageProcessId = "50";
         approvalParams.linkageType = "2";
-        approvalParams.linkageProcessCode = "camticInvenDeadLine";
-        approvalParams.approKey = "camticInvenDeadLine_${ran}";
+        approvalParams.linkageProcessCode = "camticItem";
+        approvalParams.approKey = "camticItem_${params.itemApprovalSn}";
 
         linkageProcessOn(approvalParams);
     }

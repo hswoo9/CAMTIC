@@ -56,6 +56,7 @@ public interface ItemManageService {
     void setInspectionUpd(Map<String, Object> params);
     List<Map<String, Object>> getItemInvenList(Map<String, Object> params);
     List<Map<String, Object>> getItemInvenAdminList(Map<String, Object> params);
+    List<Map<String, Object>> getItemInvenAdminListByMonth(Map<String, Object> params);
     Map<String, Object> getItemInven(Map<String, Object> params);
     void setInvenTransferReg(Map<String, Object> params);
     List<Map<String, Object>> getInvenTransferHistoryList(Map<String, Object> params);
@@ -79,4 +80,9 @@ public interface ItemManageService {
 
     void setEstimateSendMailInfo(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
     List<Map<String, Object>> getEstimateSendFileList(Map<String, Object> params);
+
+    List<Map<String, Object>> getItemApprovalInfo(Map<String, Object> params);
+    void setItemApprovalInfo(Map<String, Object> params);
+    Map<String, Object> getItemApprovalInfoByPk(Map<String, Object> params);
+    void updateItemDocState(Map<String, Object> bodyMap) throws Exception;
 }
