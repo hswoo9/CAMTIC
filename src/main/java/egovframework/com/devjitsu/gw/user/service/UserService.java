@@ -35,4 +35,6 @@ public interface UserService {
     List<Map<String, Object>> getHistoryFileInfo(Map<String, Object> params);
 
     Map<String,Object> getUserInfoToId (Map<String,Object> params);
+
+    String getMasterKey();
 }

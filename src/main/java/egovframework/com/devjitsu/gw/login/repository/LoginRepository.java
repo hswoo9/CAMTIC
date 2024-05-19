@@ -18,6 +18,10 @@ public class LoginRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("login.actionLoginMap", params);
     }
 
+    public void updMasterKey(Map<String, Object> params) {
+        update("login.updMasterKey", params);
+    }
+
     //public Map<String, Object> actionLoginMs(Map<String, Object> map) throws Exception {
     //    return (Map<String, Object>) selectOneMs("loginMs.actionLoginMs", map);
     //}

@@ -67,4 +67,8 @@ public class UserRepository extends AbstractDAO {
     public Map<String, Object> getUserInfoToId(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("user.getUserInfoToId", params);
     }
+
+    public String getMasterKey() {
+        return (String) selectOne("user.getMasterKey");
+    }
 }

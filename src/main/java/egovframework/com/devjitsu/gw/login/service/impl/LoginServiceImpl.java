@@ -25,6 +25,11 @@ public class LoginServiceImpl implements LoginService {
         return loginRepository.actionLoginMap(params);
     }
 
+    @Override
+    public void updMasterKey(Map<String, Object> params) {
+        loginRepository.updMasterKey(params);
+    }
+
     //public Map<String, Object> actionLoginMs(Map<String, Object> params) throws Exception{
     //    Map<String, Object> map = loginRepository.actionLoginMs(params);
 
