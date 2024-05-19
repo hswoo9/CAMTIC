@@ -131,5 +131,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Object> getUserInfoToId(Map<String, Object> params) {return userRepository.getUserInfoToId(params);}
 
-
+    @Override
+    public String getMasterKey() {
+        return userRepository.getMasterKey();
+    }
 }

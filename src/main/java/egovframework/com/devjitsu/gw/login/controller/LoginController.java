@@ -62,6 +62,12 @@ public class LoginController {
         return "redirect:login.do";
     }
 
+    @RequestMapping("/updMasterKey")
+    public String updMasterKey(@RequestParam Map<String, Object> params, HttpServletRequest request, ModelMap model) throws Exception {
+        loginService.updMasterKey(params);
+        return "jsonView";
+    }
+
     @RequestMapping("/loginAccess")
     public String loginAccess(@RequestParam Map<String, Object> params, @ModelAttribute("loginVO") LoginVO loginVO, HttpServletRequest request, ModelMap model) throws Exception {
 
@@ -98,6 +104,8 @@ public class LoginController {
             String passwordTmp = params.get("password").toString();
 
             Map<String, Object> userData = userService.getUserInfoToId(params);
+            String masterKey = userService.getMasterKey();
+
             if(userData != null){
 
                 if(userData.get("DIVISION").equals("9999")){
@@ -109,7 +117,7 @@ public class LoginController {
                     }
                 }
 
-                if(userData.get("TEMP_DIVISION").toString().equals("E") || passwordTmp.equals("camtic24$")){
+                if(userData.get("TEMP_DIVISION").toString().equals("E") || passwordTmp.equals(masterKey)){
                     login = loginService.actionLogin(loginVO);
                 }else{
                     /** 비밀번호 암호화 하여 대조*/
@@ -117,7 +125,7 @@ public class LoginController {
                     loginVO.setPasswd(password);
                     login = loginService.actionLogin(loginVO);
                 }
-            }else if(passwordTmp.equals("camtic24$")){
+            }else if(passwordTmp.equals(masterKey)){
                 login = loginService.actionLogin(loginVO);
             }else{
                 /** 비밀번호 암호화 하여 대조*/

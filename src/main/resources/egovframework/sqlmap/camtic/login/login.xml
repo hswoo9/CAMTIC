@@ -109,4 +109,12 @@
             <otherwise>AND LOGIN_ID = #{userId}</otherwise>
         </choose>
     </select>
+
+    <update id="updMasterKey" parameterType="map">
+        /*updMasterKey*/
+        UPDATE
+            CAM_HR.DJ_MASTER_KEY
+        SET
+            MASTER_KEY = #{masterKey}
+    </update>
 </mapper>

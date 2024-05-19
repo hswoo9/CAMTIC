@@ -34,7 +34,10 @@ import java.awt.image.BufferedImage;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -1505,14 +1508,28 @@ public class AssetController {
 
     @RequestMapping("/asset/setBarcodePrintA")
     public String setBarcodePrintA(@RequestParam Map<String, Object> params, Model model) throws IOException {
-        Socket clientSocket = new Socket("218.158.231.248",9100);
+        Socket clientSocket = new Socket();
 
-        DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream() );
-        //The data being sent in the lines below illustrate CPCL  one can change the data for the corresponding
-        //language being used (ZPL, EPL)
+        SocketAddress address = new InetSocketAddress("218.158.231.248",9100);
 
-        outToServer.writeBytes("! 0 200 200 203 1" + 'n' + "CENTER" + 'n');
-        outToServer.writeBytes("TEXT 0 3 10 50 JAVA TEST" + 'n' + "PRINT" + 'n');
+        clientSocket.connect(address);
+
+        try {
+            if(clientSocket.isConnected()){
+                System.out.println(12312);
+            }
+            DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream() );
+            //The data being sent in the lines below illustrate CPCL  one can change the data for the corresponding
+            //language being used (ZPL, EPL)
+
+            outToServer.writeBytes("! 0 200 200 203 1" + 'n' + "CENTER" + 'n');
+            outToServer.writeBytes("TEXT 0 3 10 50 JAVA TEST" + 'n' + "PRINT" + 'n');
+
+
+
+        } catch(IOException ie){
+            ie.printStackTrace();
+        }
 
 
 

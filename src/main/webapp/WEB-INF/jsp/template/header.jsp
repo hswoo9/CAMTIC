@@ -39,6 +39,14 @@
                                     캠스팟2.0매뉴얼
                                 </button>
                             </a>
+                            <c:if test="${loginVO.uniqId == 1}">
+                            <a href="#">
+                                <button class="btn btn-notice" style="margin-left: 7px; color: white; float:left; font-size:12px; position: relative; top: 18px; right: 20px;
+                                                          border-radius: 5px; border:1px solid #ddd; height: 30px; padding: 5px;" onclick="updMasterPassword()">
+                                    마스터 비밀번호 변경
+                                </button>
+                            </a>
+                            </c:if>
 <%--                            <a href="javascript:void(0)">--%>
                             <select id="shortcuts" style="float: left;background-color: #3b4354;height:31px;color: white;margin: 17px 5px 0 0px;" onchange="pastPage(this)">
                                 <option value="">바로가기</option>
@@ -403,5 +411,24 @@
         var option = "";
         var popup = window.open(url, name, option);
     }
+
+    function updMasterPassword(){
+        var returnValue = prompt("변경하실 비밀번호를 입력해주세요.", "");
+
+        if(returnValue == null){
+            return false;
+        }
+
+        var data ={
+            masterKey : returnValue
+        }
+        var rs = customKendo.fn_customAjax("/updMasterKey", data);
+
+        if(rs.flag){
+            alert("변경 완료했습니다.");
+            location.reload();
+        }
+    }
+
 
 </script>

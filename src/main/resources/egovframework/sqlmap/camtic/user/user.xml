@@ -474,4 +474,13 @@
         /* getUserInfoToId */
         SELECT * FROM CAM_HR.DJ_EMP_INFO WHERE LOGIN_ID = #{id}
     </select>
+
+    <select id="getMasterKey" resultType="String">
+        /*getMasterKey*/
+        SELECT
+            MASTER_KEY
+        FROM
+            CAM_HR.DJ_MASTER_KEY
+        LIMIT 1
+    </select>
 </mapper>
