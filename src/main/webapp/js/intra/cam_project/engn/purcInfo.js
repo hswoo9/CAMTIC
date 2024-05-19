@@ -145,10 +145,14 @@ var purcInfo = {
                         var status = "";
                         if(e.ORG_YN == 'N'){
                             /** 구매요청서 */
-                            if(e.DOC_STATUS == "100"){
-                                status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                            if(e.PURC_SN != null){
+                                if(e.DOC_STATUS == "100"){
+                                    status = '<button type="button" class="k-button k-button-solid-info" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                                } else {
+                                    status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                                }
                             } else {
-                                status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqPurcRegPopup(' + e.PURC_SN + ')">구매요청서</button>';
+                                status = '';
                             }
                         } else {
                             status = '이관 데이터';
@@ -166,18 +170,30 @@ var purcInfo = {
                         var status = "";
                         if(e.ORG_YN == 'N'){
                             /** 구매요청서 */
-                            if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
+                            if(e.PURC_SN != null){
+                                if(e.DOC_STATUS == "100" || e.DOC_STATUS == "101"){
+                                    if(e.CLAIM_DOC_STATUS == "100"){
+                                        status = '<button type="button" class="k-button k-button-solid-info" onclick="approveDocView(' + e.CLAIM_DOC_ID + ', \''+e.APPRO_KEY+'\', \'claim\')">구매청구서</button>';
+                                    } else {
+                                        if(e.PAYMENT_METHOD == "C"){
+                                            if(e.CLAIM_SN != ""){
+                                                status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
+                                            } else {
+                                                status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
+                                            }
+                                        } else {
+                                            status = '';
+                                        }
+                                    }
+                                }
+                            } else {
                                 if(e.CLAIM_DOC_STATUS == "100"){
                                     status = '<button type="button" class="k-button k-button-solid-info" onclick="approveDocView(' + e.CLAIM_DOC_ID + ', \''+e.APPRO_KEY+'\', \'claim\')">구매청구서</button>';
                                 } else {
-                                    if(e.PAYMENT_METHOD == "C"){
-                                        if(e.CLAIM_SN != ""){
-                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
-                                        } else {
-                                            status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
-                                        }
+                                    if(e.CLAIM_SN != ""){
+                                        status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqClaiming(' + e.CLAIM_SN + ', \''+e.PURC_SN+'\')">구매청구서</button>';
                                     } else {
-                                        status = '';
+                                        status = '<button type="button" class="k-button k-button-solid-base" onclick="purcInfo.fn_reqRegClaimPopup('+e.PURC_SN+', \'v\')">구매청구서</button>';
                                     }
                                 }
                             }
@@ -453,6 +469,7 @@ var purcInfo = {
             dataSource: customKendo.fn_gridDataSource2(url, params),
             sortable: true,
             selectable: "row",
+            height : 525,
             pageable: {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
