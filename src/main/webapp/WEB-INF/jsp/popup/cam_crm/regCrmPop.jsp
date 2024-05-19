@@ -263,7 +263,8 @@
                     </div>
 
                     <div class="histListDiv">
-                        <table class="childrenTable popTable table table-bordered mb-0 text-center" style="width: 99%;">
+                        <button style="float: right; margin-bottom: 5px;" class="k-button k-button-solid-info" onclick="crmReg.fn_crmHistRegPop();">등록</button>
+                        <table class="childrenTable popTable table table-bordered mb-0 text-center" style="width: 100%;">
                             <colgroup>
                                 <col style="width: 10%">
                                 <col style="width: 20%">
@@ -275,7 +276,7 @@
                                 <th scope="row" class="text-center th-color">팀명</th>
                                 <th scope="row" class="text-center th-color">등록자</th>
                                 <th scope="row" class="text-center th-color">컨텍포인트</th>
-                                <th scope="row" class="text-center th-color">상담일시</th>c
+                                <th scope="row" class="text-center th-color">상담일시</th>
                                 <th scope="row" class="text-center th-color">입력구분</th>
                             </tr>
                             </thead>
