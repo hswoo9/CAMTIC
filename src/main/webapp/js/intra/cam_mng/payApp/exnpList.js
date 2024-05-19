@@ -56,8 +56,35 @@ var exnpList = {
     },
 
     mainGrid: function(url, params){
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 10,
+            transport: {
+                read : {
+                    url : url,
+                    dataType : "json",
+                    type : "post"
+                },
+                parameterMap: function(data) {
+                    for(var key in params){
+                        data[key] = params[key];
+                    }
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
+
         $("#mainGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2(url, params),
+            dataSource: dataSource,
             sortable: true,
             selectable: "row",
             height : 525,
@@ -192,20 +219,7 @@ var exnpList = {
                     template: function(e){
                         var status = "";
                         if(e.DOC_STATUS == "100"){
-                            status = "결재완료";
-                            if(e.REQ_END_DE != null && e.REQ_END_DE != "" && e.REQ_END_DE != undefined){
-                                if(e.RE_STAT == "Y"){
-                                    status = "승인";
-                                } else {
-                                    status = "미결";
-                                }
-                            } else {
-                                if(e.EVI_TYPE == 1 || e.EVI_TYPE == 2 || e.EVI_TYPE == 3){
-                                    status = "승인";
-                                } else {
-                                    status = "미결";
-                                }
-                            }
+                            status = "승인";
                         } else {
                             status = "미결";
                         }

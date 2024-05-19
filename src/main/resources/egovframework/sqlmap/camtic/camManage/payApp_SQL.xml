@@ -1036,11 +1036,9 @@
 
         <if test='"1".equals(searchDept2)'>
             AND A.DOC_STATUS IN (100,101)
-            AND ((A.REQ_END_DE IS NOT NULL AND A.REQ_END_DE != '' AND A.RE_STAT = 'Y') OR (!(A.REQ_END_DE IS NOT NULL AND A.REQ_END_DE != '') AND D.EVID_TYPE IN ('1', '2', '3')))
         </if>
         <if test='"2".equals(searchDept2)'>
-            AND A.DOC_STATUS IN (100,101)
-            AND ((A.REQ_END_DE IS NOT NULL AND A.REQ_END_DE != '' AND A.RE_STAT != 'Y') OR (!(A.REQ_END_DE IS NOT NULL AND A.REQ_END_DE != '') AND D.EVID_TYPE NOT IN ('1', '2', '3')))
+            AND A.DOC_STATUS NOT IN (100,101)
         </if>
 
         <choose>
