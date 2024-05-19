@@ -101,6 +101,6 @@
             });
         });
 
-        var socket =  new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");;
+        var socket =  new WebSocket("wss://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");;
     </script>
 </head>

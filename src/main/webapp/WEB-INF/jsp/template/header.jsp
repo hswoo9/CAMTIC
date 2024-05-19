@@ -157,7 +157,7 @@
     }
 
     function connectWS(){
-        sock = new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");
+        sock = new WebSocket("wss://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");
         socket = sock;
 
         sock.onopen = function(e) {
