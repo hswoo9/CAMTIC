@@ -359,7 +359,9 @@ var bustripResultPop = {
 
         $("#empSeq").val(resInfo.EMP_SEQ);
         $("#empName").val(resInfo.EMP_NAME);
-        $("#deptName").val(resInfo.DEPT_NAME);
+        $("#regEmpSeq").val(resInfo.REG_EMP_SEQ);
+        $("#regEmpName").val(resInfo.REG_EMP_NAME);
+        $("#deptName").val(resInfo.REG_DEPT_NAME);
         $("#reqDate").val(resInfo.REPORT_DATE);
 
         $("#tripCode").data("kendoRadioGroup").value(resInfo.TRIP_CODE);
@@ -690,10 +692,10 @@ var bustripResultPop = {
                 carTitleName : $("#bustObj").val(),
                 visitName : $("#visitLoc").val(),
                 waypointName : $("#visitLocSub").val(),
-                empSeq : $("#regEmpSeq").val(),
-                empName : $("#regEmpName").val(),
-                regEmpSeq : $("#regEmpSeq").val(),
-                regEmpName : $("#regEmpName").val(),
+                empSeq : $("#empSeq").val(),
+                empName : $("#empName").val(),
+                regEmpSeq : $("#empSeq").val(),
+                regEmpName : $("#empName").val(),
                 type: "bustripReq"
             }
 
