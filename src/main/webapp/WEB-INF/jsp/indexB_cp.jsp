@@ -17,7 +17,7 @@
     }
     #tcSpan {
         display: block;
-        line-height: 30px;
+        line-height: 25px;
         vertical-align: bottom;
         opacity: 0.8;
         margin-right: 20px;

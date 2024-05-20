@@ -481,7 +481,7 @@
         }
         html += '<div>';
         html += '<p class="btn_today_close" style="text-align:right;margin:0;">';
-        html += '<span id="tcSpan" style="letter-spacing:5px;">';
+        html += '<span id="tcSpan">';
         html += '<input type="checkbox" style="vertical-align:middle;" id="popupCloseCheck" onclick="rayerDayClose('+data.uuid+')">';
         html += '<span style="vertical-align:middle;margin-right:15px;">오늘 하루 열지 않음</span>';
         html += '<a href="" class="tcA" style="vertical-align:middle;" onclick="rayerClose('+data.uuid+');">닫기</a>';
