@@ -1,0 +1,533 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<jsp:useBean id="today" class="java.util.Date" />
+<jsp:include page="/WEB-INF/jsp/template/common2.jsp" flush="true"></jsp:include>
+<link rel="stylesheet" href="/css/quirk.css">
+<link rel="stylesheet" href="/css/style.css">
+<script type="text/javascript" src="<c:url value='/js/postcode.v2.js?autoload=false'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js?${today}'/>"></script>
+<script type="text/javascript" src="/js/intra/cam_mng/newResolutionSubmitPage.js?v=${today}"></script>
+<script type="text/javascript" src="/js/intra/common/solarToLunar.js?v=${today}"></script>
+
+<body class="font-opensans" style="background-color:#fff;">
+<div class="col-lg-12" style="padding:0;">
+	<div class="table-responsive">
+		<div class="card-header pop-header">
+			<h3 class="card-title title_NM">지출결의서 집행전송</h3>
+			<div class="btn-st popButton">
+				<button type="button" class="k-button k-button-solid-info" style="margin-right:5px;" onclick="">전송</button>
+				<button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="">전송취소</button>
+				<button type="button" class="k-button k-button-solid-error" style="margin-right:5px;" onclick="window.close();">닫기</button>
+			</div>
+		</div>
+		<form id="sendForm" style="padding: 20px 30px;">
+			<input type="hidden" name="C_DIKEYCODE" id="C_DIKEYCODE" value="${data.C_DIKEYCODE}" />
+			<table class="popTable table table-bordered mb-0" id="">
+				<colgroup>
+					<col width="13%">
+					<col width="37%">
+					<col width="13%">
+					<col width="37%">
+				</colgroup>
+				<thead>
+				<tr>
+					<th>발의자</th>
+					<td>
+						<input   type="text" id="korNm" style="width:50%;"  value="${data.KOR_NM}"  title="${data.KOR_NM}"readonly name = "KOR_NM" disabled/>
+						<input type="hidden" id="empSeq" value='${empSeq}'/>
+					</td>
+					<th>발의일자</th>
+					<td>
+						<input   type="text" style="width:70%" id="gisuDt" value='${data.GISU_DT}'  title="${data.GISU_DT}"readonly name = "GISU_DT" disabled/>
+					</td>
+				</tr>
+				<tr>
+					<th>발의번호</th>
+					<td>
+						<input type="text" id="gisuSeq" style="width:30%" value='${data.GISU_SQ}' title="${data.GISU_SQ}" readonly name = "GISU_SQ" disabled/> -
+						<input type="text" style="width:30%"  id="BG_SQ" value='${data.BG_SQ}' name = "BG_SQ" readonly disabled/>
+						<input type="hidden" id="stateYn" value="${data.KUKGO_STATE == '미전송' ? 'N' : 'Y'}"  name = "KUKGO_STATE_YN"/>
+					</td>
+					<th>문서번호</th>
+					<td>
+						<input type="text" style="width:70%"  id="docNumber" value='${data.DOC_NUMBER}'  title="${data.DOC_NUMBER}" readonly name="DOC_NUMBER" disabled/>
+						<input type="button" id="docView" value='문서보기' />
+					</td>
+				</tr>
+
+				<tr>
+					<th>제목</th>
+					<td colspan="3">
+						<input type="text"  style="width:50%" id="docTitle"  value="<c:out value='${data.DOC_TITLE}' />" value='${data.DOC_TITLE}' readonly name="DOC_TITLE" disabled/>
+					</td>
+				</tr>
+				<tr>
+					<th>e나라도움 사업명</th>
+					<td colspan="3">
+						<input type="text" style="width:50%"  id="kukgoPjtNm" value='${data.KUKGO_PJTNM}' title="${data.KUKGO_PJTNM}" readonly  name="KUKGO_PJTNM" disabled/>
+					</td>
+				</tr>
+				<tr>
+					<th>회계단위</th>
+					<td>
+						<input type="text" style="width:50%"  id="divNm"value='${data.DIV_NM}' title="${data.DIV_NM}" readonly name="DIV_NM" disabled/>
+					</td>
+					<th>프로젝트</th>
+					<td>
+						<input type="text" id="pjtNm" style="width:50%"  value='${data.PJT_NM}'  title="${data.PJT_NM}" readonly  name="PJT_NM" disabled/>
+					</td>
+				</tr>
+				<tr>
+					<th>예산과목</th>
+					<td>
+						<input type="text" id="abgtNm" style="width:50%" value='${data.ABGT_NM}'   title="${data.ABGT_NM}"readonly  name="ABGT_NM" disabled/>
+					</td>
+					<th>결재수단</th>
+					<td>
+						<input type="text" id="setFgNm" style="width:50%" value='${data.SET_FG_NM}'title="${data.SET_FG_NM}"  readonly  name="SET_FG_NM" disabled/>
+					</td>
+				</tr>
+				<tr>
+					<th>과세구분</th>
+					<td>
+						<input type="text" id="vatFgNm" style="width:50%" value='${data.VAT_FG_NM}' title="${data.VAT_FG_NM}" readonly  name="VAT_FG_NM" disabled/>
+					</td>
+					<th>금액</th>
+					<td>
+						<input type="text" id="unitAm" style="width:50%" value='${data.UNIT_AM}' title="${data.UNIT_AM}"  readonly  name="UNIT_AM" disabled/>
+					</td>
+				</tr>
+				</thead>
+			</table>
+
+			<table class="popTable table table-bordered mb-0" id="userReqPopDetail" style="border-left:none;">
+				<colgroup>
+					<col width="13%">
+					<col width="37%">
+					<col width="13%">
+					<col width="37%">
+				</colgroup>
+				<thead>
+				<tr>
+					<th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">집행 정보</th>
+				</tr>
+				<tr>
+					<th>보조세목</th>
+					<td>
+						<input type="text" id="ASSTN_TAXITM_CODE_NM" name="ASSTN_TAXITM_CODE_NM" value="${dataJson.ASSTN_TAXITM_CODE_NM }" style="width: 80%" readonly value=""  />
+						<input type="hidden" id="BSNSYEAR" name="BSNSYEAR" value='${dataJson.BSNSYEAR }'/>
+						<input type="hidden" id="FILE_ID" name="FILE_ID"  value='${dataJson.FILE_ID }'/>
+						<input type="hidden" id="DDTLBZ_ID" name="DDTLBZ_ID"  value='${dataJson.DDTLBZ_ID }'/>
+						<input type="hidden" id="EXC_INSTT_ID" name="EXC_INSTT_ID"  value='${dataJson.EXC_INSTT_ID }'/>
+
+						<!-- 집행정보 반영 -->
+						<input type="hidden" id="BCNC_ACNUT_NO_ENARA" name="BCNC_ACNUT_NO_ENARA" value="" />
+						<input type="hidden" id="PJT_CD" name="PJT_CD"  value="${dataJson.PJT_CD }"/>
+						<input type="hidden" id="APPLY_DIV" name="APPLY_DIV"  value="${dataJson.APPLY_DIV }"/>
+						<input type="hidden" id="INTRFC_ID" name=""  value="${dataJson.INTRFC_ID }"/>
+						<input type="hidden" id="EXCUT_TY_SE_CODE" name="EXCUT_TY_SE_CODE"  value="${dataJson.EXCUT_TY_SE_CODE }"/>
+						<input type="hidden" id="BCNC_BANK_CODE" name="BCNC_BANK_CODE"  value="${dataJson.BCNC_BANK_CODE }"/>
+						<input type="hidden" id="EXCUT_SPLPC" name="EXCUT_SPLPC"  value="${dataJson.EXCUT_SPLPC }"/>
+						<input type="hidden" id="EXCUT_VAT" name="EXCUT_VAT"  value="${dataJson.EXCUT_VAT }"/>
+						<input type="hidden" id="EXCUT_SUM_AMOUNT" name="EXCUT_SUM_AMOUNT"  value="${dataJson.EXCUT_SUM_AMOUNT }"/>
+						<input type="hidden" id="PREPAR" name="PREPAR"  value="${dataJson.PREPAR }"/>
+						<input type="hidden" id="EXCUT_EXPITM_TAXITM_CNT" name="EXCUT_EXPITM_TAXITM_CNT"  value="${dataJson.EXCUT_EXPITM_TAXITM_CNT }"/>
+						<input type="hidden" id="ASSTN_TAXITM_CODE" name="ASSTN_TAXITM_CODE"  value="${dataJson.ASSTN_TAXITM_CODE }"/>
+						<input type="hidden" id="EXCUT_TAXITM_CNTC_ID" name="EXCUT_TAXITM_CNTC_ID"  value="${dataJson.EXCUT_TAXITM_CNTC_ID }"/>
+						<input type="hidden" id="FNRSC_SE_CODE" name="FNRSC_SE_CODE"  value="${dataJson.FNRSC_SE_CODE }"/>
+						<input type="hidden" id="ACNUT_OWNER_NM" name="ACNUT_OWNER_NM" value="${dataJson.ACNUT_OWNER_NM }"/>
+
+						<input type="hidden" id="ETXBL_CONFM_NO" name="ETXBL_CONFM_NO"  value='${dataJson.ETXBL_CONFM_NO }'/>
+						<input type="hidden" id="LN_SQ" name="LN_SQ" value="${dataJson.LN_SQ }" />
+						<input type="hidden" id="attachLnSeq" name="attachLnSeq" value="${dataJson.attachLnSeq }" />
+						<input type="hidden" id="CO_CD" name="CO_CD"  value="${data.CO_CD}"/>
+						<input type="hidden" id="TRNSC_ID_TIME" name="TRNSC_ID_TIME"  value="${dataJson.TRNSC_ID_TIME }"/>
+						<input type="hidden" id="TRNSC_ID" name="TRNSC_ID"  value="${dataJson.TRNSC_ID }"/>
+						<input type="hidden" id="CNTC_CREAT_DT" name="CNTC_CREAT_DT"  value="${dataJson.CNTC_CREAT_DT }"/>
+						<input type="hidden" id="TAXITM_FNRSC_CNT" name="TAXITM_FNRSC_CNT"  value="${dataJson.TAXITM_FNRSC_CNT }"/>
+
+						<input type="hidden" id="KUKGO_STATE_YN" name=""  value="${data.KUKGO_STATE == '미전송' ? 'N' : 'Y'}"/>
+						<input type="hidden" id="attachGisuSeq" name="attachGisuSeq"  value=""/>
+
+						<input type="hidden" id="tempFileSeq" name=""  value=""/>
+						<input type="hidden" id="tempFileSeq1" name=""  value=""/>
+						<input type="hidden" id="tmpGisu" name=""  value=""/>
+						<input type="hidden" id="MD_DT" name="MD_DT" style="width: 150px" readonly value="${MD_DT }"  />
+					</td>
+					<th>집행용도</th>
+					<td>
+						<input style="width: 80%" type="text" id="EXCUT_PRPOS_CN" name="EXCUT_PROPOS_CN" value="${dataJson.EXCUT_PRPOS_CN }"/>
+					</td>
+				</tr>
+				<tr>
+					<th>품목</th>
+					<td>
+						<input style="width: 80%" type="text" id="PRDLST_NM" name="PRDLST_NM" value="${dataJson.PRDLST_NM }"/>
+					</td>
+					<th>증빙선택</th>
+					<td>
+						<input type="text" style="width: 50%" name="PRUF_SE_CODE" id="PRUF_SE_CODE" onchange="" placeholder="" value=""/>
+					</td>
+				</tr>
+				<tr>
+					<th>승인번호</th>
+					<td>
+						<input type="text" style="width: 50%" id="PRUF_SE_NO" name="PRUF_SE_NO"  value='${dataJson.PRUF_SE_NO }' readonly/>
+						<input type="button" id="" onclick="newResolutionSubmitPage.searchBtn();" value='조회' />
+					</td>
+					<th>정산서류 등록</th>
+					<td>
+						<input type="button" id="attachFile" name="attachFile" onclick="fileRow(this);" value='첨부' />
+					</td>
+				</tr>
+				<tr>
+					<th>증빙일자</th>
+					<td colspan="3">
+						<input type="text" style="width: 15%" id="EXCUT_REQUST_DE" name="EXCUT_REQUST_DE" value="${dataJson.EXCUT_REQUST_DE }"/>
+					</td>
+				</tr>
+				</thead>
+			</table>
+
+			<table class="popTable table table-bordered mb-0" id="" style="border-left:none;">
+				<colgroup>
+					<col width="8%">
+					<col width="20%">
+					<col width="8%">
+					<col width="20%">
+					<col width="8%">
+					<col width="20%">
+				</colgroup>
+				<thead>
+				<tr>
+					<th colspan="6" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">재원정보</th>
+				</tr>
+				<tr>
+					<th>합계금액</th>
+					<td>
+						<input type="text" id="SUM_AMOUNT" name="SUM_AMOUNT" style="width: 60%;"  value="${dataJson.SUM_AMOUNT }" readonly class= "money" disabled/>
+					</td>
+					<th>공급가액</th>
+					<td>
+						<input type="text" id="SPLPC" name="SPLPC" style="width: 60%;"  value="${dataJson.SPLPC }" readonly class= "money" disabled/>
+					</td>
+					<th>부가세액</th>
+					<td>
+						<input type="text" id="VAT" name="VAT" style="width: 60%;"  value="${dataJson.VAT }" readonly class= "money" disabled/>
+					</td>
+				</tr>
+				</thead>
+			</table>
+
+			<table class="popTable table table-bordered mb-0" id="userReqPop">
+				<colgroup>
+					<col width="13%">
+					<col width="37%">
+					<col width="13%">
+					<col width="37%">
+				</colgroup>
+				<thead>
+				<tr>
+					<th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">거래처 정보</th>
+				</tr>
+				<tr>
+					<th>거래처 구분</th>
+					<td>
+						<input type="text" id="BCNC_SE_CODE" name="BCNC_SE_CODE" style="width: 50%;"  value="" />
+					</td>
+					<th>거래처명</th>
+					<td>
+						<input style="width: 50%;" type="text" id="BCNC_CMPNY_NM" name="BCNC_CMPNY_NM" value="${dataJson.BCNC_CMPNY_NM }"/>
+					</td>
+				</tr>
+				<tr>
+					<th>사업자등록번호</th>
+					<td>
+					<input style="width: 30%;" type="text" id="BCNC_LSFT_NO" name="BCNC_LSFT_NO" value="${dataJson.BCNC_LSFT_NO }" />
+					<input style="width: 30%;" type="text" id="PIN_NO_1" name = "PIN_NO_1" maxlength="6" value=""/> - <input style="width: 30%;" type="text" id="PIN_NO_2" name = "PIN_NO_2" maxlength="1" value=""/>******
+					</td>
+					<th>대표자명</th>
+					<td>
+						<input style="width: 50%;" type="text" id="BCNC_RPRSNTV_NM" name="BCNC_RPRSNTV_NM" value="${dataJson.BCNC_RPRSNTV_NM }" />
+					</td>
+				</tr>
+
+				<tr>
+					<th>전화번호</th>
+					<td>
+						<input style="width: 50%;" type="text" id="BCNC_TELNO" name="BCNC_TELNO" value="${dataJson.BCNC_TELNO }" />
+					</td>
+				</tr>
+				<tr>
+					<th>업태</th>
+					<td>
+						<input type="text" style="width: 50%;" name="BCNC_BIZCND_NM" id="BCNC_BIZCND_NM" onchange="" placeholder="" value="${dataJson.BCNC_BIZCND_NM }"/>
+					</td>
+					<th>업종</th>
+					<td>
+						<input type="text" style="width: 50%;" name="BCNC_INDUTY_NM" id="BCNC_INDUTY_NM" onchange="" placeholder="" value="${dataJson.BCNC_INDUTY_NM }"/>
+					</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td>
+						<div>
+							<input type="text" style="width: 50%;" id="POST_CD" name="POST_CD" /><input type="button" style="margin-left:5px;"onclick="newResolutionSubmitPage.addrSearch();" value="검색">
+						</div>
+						<div  style="margin-top:5px;">
+							<input type="text" style="width: 90%;"  id="BCNC_ADRES" name="BCNC_ADRES" value="${dataJson.BCNC_ADRES }"/>
+							<input type="hidden"  id="ADDR_D" name="ADDR_D" />
+						</div>
+					</td>
+					<th>은행</th>
+					<td>
+						<input type="text" style="width: 50%;" id="BCNC_BANK_CODE_NM" name="BCNC_BANK_CODE_NM" value="${dataJson.BCNC_BANK_CODE_NM }" /><img id="" style="margin-left:5px;" src="/images/ico/ico_explain.png" onclick="newResolutionSubmitPage.fn_backClick();"/>
+					</td>
+				</tr>
+				<tr>
+					<th>계좌번호</th>
+					<td>
+						<input type="text" style="width: 50%;" id="BCNC_ACNUT_NO" name="BCNC_ACNUT_NO" value="${dataJson.BCNC_ACNUT_NO }"/>
+					</td>
+					<th>이체구분</th>
+					<td>
+						<input type="text" style="width: 30%;" id="TRANSFR_ACNUT_SE_CODE" name="TRANSFR_ACNUT_SE_CODE" value="${dataJson.TRANSFR_ACNUT_SE_CODE }"/>
+						<input type="text" style="width: 30%;" id="SBSACNT_TRFRSN_CODE" name="SBSACNT_TRFRSN_CODE" value="${dataJson.SBSACNT_TRFRSN_CODE }"/>
+						<input type="text" style="width: 30%;" id="SBSACNT_TRFRSN_CN" name="SBSACNT_TRFRSN_CN" value="${dataJson.SBSACNT_TRFRSN_CN }"/>
+					</td>
+				</tr>
+				<tr>
+					<th>내통장표시</th>
+					<td>
+						<input type="text" style="width: 50%;" id="SBSIDY_BNKB_INDICT_CN" name="SBSIDY_BNKB_INDICT_CN" value="${dataJson.SBSIDY_BNKB_INDICT_CN }"/>
+					</td>
+					<th>받는통장표시</th>
+					<td>
+						<input type="text" style="width: 50%;" id="BCNC_BNKB_INDICT_CN" name="BCNC_BNKB_INDICT_CN" value="${dataJson.BCNC_BNKB_INDICT_CN }"/>
+					</td>
+				</tr>
+				</thead>
+			</table>
+
+			<table class="popTable table table-bordered mb-0" id="">
+				<colgroup>
+					<col width="13%">
+					<col width="37%">
+					<col width="13%">
+					<col width="37%">
+				</colgroup>
+				<thead>
+				<tr>
+					<th colspan="4" style="font-size: 14px; font-weight:600;background-color: #00397f96; color: #fff;">전송결과</th>
+				</tr>
+				<tr>
+					<td colspan="4" style="text-align: center;">
+						<input style="width: 50%;" type="text" id="PROCESS_RESULT_MSSAGE" name="PROCESS_RESULT_MSSAGE" value="${dataJson.PROCESS_RESULT_MSSAGE }" />
+					</td>
+				</tr>
+
+				</thead>
+			</table>
+		</form>
+	</div>
+</div>
+
+<div>
+	<form id="submitPage" action="/CustomKCMF/kukgoh/resolutionSubmitPage" method="POST">
+		<input type="hidden" id="submitData" name = "submitData" value=""/>
+	</form>
+</div>
+
+<div class="pop_wrap_dir" id="filePop" style="width:800px; display: none;">
+
+	<div class="pop_con">
+		<form id="fileForm" method="post" enctype="multipart/form-data" >
+			<!-- 타이틀/버튼 -->
+			<div class="btn_div mt0">
+
+				<div class="right_div">
+					<input type="button" id = "insertFileBtn" onclick="upFile();" value="첨부파일 등록"/>
+				</div>
+
+			</div>
+			<div class="btn_div mt0">
+				<div class="left_div"  style="width: 120px;">
+					<h5><span id="popupTitle"></span> 첨부파일</h5>
+					<input type="hidden" id="loginEmpSeq" name="empSeq" value="${empSeq}" />
+				</div>
+				<div class=""  id="">
+					<table id="fileDiv"></table>
+				</div>
+			</div>
+			<div class="">
+
+				<span id="orgFile">
+					<input type="file" id="fileID" name="fileNm" value="" onChange="getFileNm(this);" class="hidden" />
+				</span>
+			</div>
+	</div>
+	</form>
+
+	<div class="pop_foot">
+		<div class="btn_cen pt12">
+			<input type="button" class="gray_btn" value="닫기" onclick="filepopClose();"/>
+		</div>
+	</div><!-- //pop_foot -->
+</div>
+</div>
+
+<div class="pop_wrap_dir" id="loadingPop" style="width: 443px;">
+	<div class="pop_con">
+		<table class="fwb ac" style="width:100%;">
+			<tr>
+				<td>
+					<span class=""><img src="<c:url value='/Images/ico/loading.gif'/>" alt="" />  &nbsp;&nbsp;&nbsp;데이터를 가져오는 중입니다.</span>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!-- //pop_con -->
+</div>
+<!-- 금융기관 코드 -->
+<div class="pop_wrap" id="subPopUp" style="min-width:400px; display:none;">
+	<div class="pop_con">
+		<!-- 컨트롤박스 -->
+		<div class="com_ta2">
+			<div id="bankGrid"></div>
+		</div>
+	</div><!-- //pop_con -->
+
+</div><!-- //pop_wrap -->
+
+<!-- 카드 승인 자료 선택 -->
+<div class="pop_wrap_dir" id="cardPopup" style='width: 1200px; display : none;'>
+	<div class="pop_head">
+		<h1>카드 승인 자료 선택</h1>
+	</div>
+	<div class="pop_con">
+		<div class="com_ta" style="">
+			<div class="top_box">
+				<dl>
+					<dt  class="ar" style="width:65px" >카드번호</dt>
+					<dd>
+						<div class="controll_btn p0">
+							<input type="text" onclick="cardChoiceFn()" id="cardNo"value="" disabled/>
+							<input type="button" onclick="cardChoiceFn()" id="searchButton"	value="검색" />
+						</div>
+					</dd>
+					<dt  class="ar" style="width:65px; padding-left: 85px;" >사용기간</dt>
+					<dd>
+						<div class="controll_btn p0">
+							<input type="text" id="prdUseStart"	value="" />
+							~
+							<input type="text" id="prdUseEnd"	value="" />
+						</div>
+					</dd>
+					<dt  class="ar" style="width:65px; padding-left: 60px;" >승인번호</dt>
+					<dd>
+						<div class="controll_btn p0">
+							<input type="text" id="confmNo" value="" />
+						</div>
+					</dd>
+				</dl>
+			</div>
+			<!-- 버튼 -->
+			<div class="btn_div mt10 cl">
+				<div class="right_div">
+					<div class="controll_btn p0">
+						<button type="button" id="" onclick="newResolutionSubmitPage.cardSearch();">조회</button>
+					</div>
+				</div>
+			</div>
+			<div class="com_ta2 mt15" >
+				<div id="cardGrid"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- // 카드 승인 자료 선택 -->
+
+<!-- 카드 번호 선택 -->
+<div class="pop_wrap_dir" id="cardNoPopup" style='width: 700px; display : none;'>
+	<div class="pop_head">
+		<h1>카드번호</h1>
+	</div>
+	<div class="pop_con">
+		<div class="com_ta" style="">
+			<div class="top_box">
+				<dl>
+					<dt  class="ar" style="width:65px" >카드명</dt>
+					<dd>
+						<div class="controll_btn p0">
+							<input type="text" id="cardName" value=""/>
+						</div>
+					</dd>
+					<dt  class="ar" style="width:130px;" >카드번호 끝 4자리</dt>
+					<dd>
+						<div class="controll_btn p0">
+							<input type="text" id="cardLast4Dgts""	value="" />
+						</div>
+						<div class="controll_btn p0">
+							<button type="button" id="" onclick="cardNoSearch();">조회</button>
+						</div>
+					</dd>
+				</dl>
+			</div>
+			<!-- 버튼 -->
+			<div class="com_ta2 mt15" >
+				<div id="cardNoGrid"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- //카드 번호 선택 -->
+
+<!-- 세금계산서 전송 화면 -->
+<div class="pop_wrap_dir" id="popUp" style="width: 1000px;">
+	<div class="pop_head">
+		<h1>전자(세금)계산서 승인번호 입력</h1>
+	</div>
+	<div class="pop_con">
+		<p class="tit_p mt5 mt20">전자(세금)계산서는 승인번호 전송 기준 10분~20분 후 e나라도움 연계 집행전송이 가능합니다</p>
+
+		<div class="com_ta mt15" style="">
+			<input type="hidden" id="BSNSYEAR"  />
+			<input type="hidden" id="DDTLBZ_ID"  />
+			<input type="hidden" id="EXC_INSTT_ID"  />
+			<input type="hidden" id="C_DIKEYCODE" />
+			<input type="hidden" id="GISU_DT"  />
+			<input type="hidden" id="GISU_SQ"  />
+			<input type="hidden" id="BG_SQ"  />
+			<div id="kukgohInvoiceInsertGrid"></div>
+		</div>
+	</div>
+	<!-- //pop_con -->
+
+	<div class="pop_foot">
+		<div class="btn_cen pt12">
+			<input type="button" class="gray_btn" id="cancle2" value="닫기" />
+		</div>
+	</div>
+	<!-- //pop_foot -->
+
+</div>
+<!-- 세금계산서 전송 화면 -->
+
+<script>
+	newResolutionSubmitPage.fn_defaultScript();
+
+	$(document).on('dblclick', '#bankGrid .k-grid-content tr', function(){
+		var subPopUpData = $("#bankGrid").data('kendoGrid').dataItem(this);
+		//프로젝트
+		$('#BCNC_BANK_CODE').val(subPopUpData.CMMN_DETAIL_CODE);
+		$('#BCNC_BANK_CODE_NM').val(subPopUpData.CMMN_DETAIL_CODE_NM);
+
+		$('#subPopUp').data("kendoWindow").close();
+	});
+</script>
+</body>
+</html>

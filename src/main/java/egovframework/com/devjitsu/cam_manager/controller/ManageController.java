@@ -1,10 +1,12 @@
 package egovframework.com.devjitsu.cam_manager.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import egovframework.com.devjitsu.cam_manager.service.ManageService;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.common.utiles.EgovUserDetailsHelper;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.apache.commons.codec.binary.Base64;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -203,6 +206,86 @@ public class ManageController {
         model.addAttribute("loginVO", loginVO);
 
         return "cam_manager/enaralink";
+    }
+
+    @RequestMapping("/mng/kukgohCommCodeView.do")
+    public String kukgohCommCodeView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/kukgohCommCodeView";
+    }
+
+    @RequestMapping("/mng/budgetConfigView.do")
+    public String budgetConfigView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/budgetConfigView";
+    }
+
+    @RequestMapping("/mng/projectConfigView.do")
+    public String projectConfigView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/projectConfigView";
+    }
+
+    @RequestMapping("/mng/submitInvoice.do")
+    public String submitInvoice(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/submitInvoice";
+    }
+
+    @RequestMapping("/mng/saveInterfacePage.do")
+    public String saveInterfacePage(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/saveInterfacePage";
+    }
+
+    @RequestMapping("/mng/enaraExceptList.do")
+    public String enaraExceptList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/enaraExceptList";
+    }
+
+    @RequestMapping("/kukgoh/newResolutionSubmitPage")
+    public String newResolutionSubmitPage(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/newResolutionSubmitPage";
+    }
+
+    @RequestMapping("/kukgoh/invoicePage")
+    public String invoicePage(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/invoicePage";
     }
 
     @RequestMapping("/mng/pop/userPartRate.do")

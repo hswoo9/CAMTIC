@@ -4,6 +4,7 @@ var enaralink = {
         dropDownDataSource: "",
         searchAjaxData: "",
         saveAjaxData: "",
+        selData: ""
     },
 
     fn_defaultScript: function () {
@@ -11,9 +12,9 @@ var enaralink = {
         var d = new Date();
         var bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
 
-        var bdStr = d.getFullYear() + "-" + ('0' + (bd.getMonth() + 1)).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2)
+        var bdStr = d.getFullYear() + "-" + ('0' + (bd.getMonth() + 1)).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2);
 
-        var data = {}
+        var data = {};
         data.deptLevel = 1;
         var deptDsA = customKendo.fn_customAjax("/dept/getDeptAList", data);
 
@@ -31,15 +32,66 @@ var enaralink = {
                 {text: "전송진행중", value: "2"},
                 {text: "전송", value: "1"}
             ],
-            index: 0
+            index: 0,
+            select : onSelect
         });
         $("#fromMonth, #endMonth").attr("readonly", true);
         $("#fromMonth").data("kendoDatePicker").bind("change", enaralink.gridReload);
         $("#endMonth").data("kendoDatePicker").bind("change", enaralink.gridReload);
 
+        $('#popUp').kendoWindow({
+            width : "1000px",
+            height : "450px",
+            visible : false,
+            modal : true,
+            actions : [ "Close" ]
+        }).data("kendoWindow").center();
+
+        $('#cancle2').on('click', function (){
+            $('#popUp').data('kendoWindow').close();
+        });
+
+        function onSelect(e) {
+            var dataItem = this.dataItem(e.item.index());
+
+            console.log(dataItem);
+        }
+
+        $("#btnGetPrufSeNo").on("click", function(){
+
+            data = {
+                ETXBL_CONFM_NO : $('#ETXBL_CONFM_NO2').val(),
+                OUT_YN : '1',
+                OUT_MSG : '1'
+            };
+
+            $.ajax({
+                url : "/kukgoh/invoiceValidation",
+                data : data,
+                type : 'POST',
+                success : function(result) {
+                    console.log(result);
+                    if (result.OUT_YN == 'Y'){
+                        enaralink.fn_requestInvoice("txtInvoice" + idSeq, idSeq);
+                    } else {
+                        alert(result.OUT_MSG);
+                        /*$('#btn'+idSeq).attr("disabled", false);*/
+                    }
+                }
+            });
+        });
+
+        $(document).on({
+            mouseenter : function() {
+                $(this).addClass("font-underline");
+            },
+            mouseleave : function() {
+                $(this).removeClass("font-underline");
+            }
+        }, '.grdCol');
+
         enaralink.mainGrid();
     },
-
 
     mainGrid: function () {
         var sendResolutionGrid = $("#sendResolutionGrid").kendoGrid({
@@ -52,7 +104,7 @@ var enaralink = {
                         dataType: "json",
                         type: 'post'
                     },
-                    parameterMap: function (data, operation) {
+                    parameterMap: function (data) {
                         data.fromMonth = $('#fromMonth').val().replace(/\-/g, '');
                         data.endMonth = $('#endMonth').val().replace(/\-/g, '');
 // 						data.erpDeptSeq 	= $("#erpEmpSeq").val() === ''
@@ -85,11 +137,22 @@ var enaralink = {
             resizable: true,
             persistSelection: true,
             selectable: "multiple",
-            /*toolbar : [
+            toolbar : [
                 {
                     name : 'button',
-                    template : function (e){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_AllcancelData();">' +
+                    template : function (){
+
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_openSubmitPage(this);">' +
+                            '	<span class="k-button-text">지출결의서 집행전송</span>' +
+                            '</button>'+
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_openInvoicePage(this);">' +
+                            '	<span class="k-button-text">세금계산서 그리드</span>' +
+                            '</button>'+
+
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_searchBtn();">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                         /* '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_AllcancelData();">' +
                             '	<span class="k-button-text">일괄 전송취소</span>' +
                             '</button>' +
                             '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_cancelData();">' +
@@ -101,21 +164,17 @@ var enaralink = {
                             '</button>' +
                             '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_sendAccountBatch();">' +
                             '	<span class="k-button-text">집행정보 일괄전송</span>' +
-                            '</button>' +
-                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="enaralink.fn_searchBtn();">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-
+                            '</button>' */
                     }
                 }
-            ],*/
+            ],
             columns: [
                 {
                     template: function (dataItem) {
                         if (dataItem.KUKGO_STATE === "전송완료" || dataItem.KUKGO_STATE === '전송진행중' || dataItem.KUKGO_STATE === '전송실패') {
-                            return '<input type="button" class="" style="" onclick="fn_openSubmitPage(this);" value="확인">';
+                            return '<input type="button" class="" style="" onclick="enaralink.fn_openSubmitPage(this);" value="확인">';
                         } else {
-                            return '<input type="button" class="" style="" onclick="fn_openSubmitPage(this);" value="전송">';
+                            return '<input type="button" class="" style="" onclick="enaralink.fn_openSubmitPage(this);" value="전송">';
                         }
                     },
                     title: "전송/확인", width: 70,
@@ -139,7 +198,7 @@ var enaralink = {
                                 color = 'text_green2';
                             }
 
-                            return '<input type="button" id="" class="' + color + '" onclick="fn_openInvoicePage(this);"value="' + msg + '"/>';
+                            return '<input type="button" id="" class="' + color + '" onclick="enaralink.fn_openInvoicePage(this);"value="' + msg + '"/>';
                         }
                     },
                     title: "전자(세금)</br> 계산서",
@@ -163,13 +222,13 @@ var enaralink = {
                         {field: "LN_SQ", title: "거래처<br>순번", width: 75, encoded: false},
                         {
                             template: function (dataItem) {
-                                return "<span class='grdCol' style='color: blue;' onclick='fn_docViewPop(" + dataItem.C_DIKEYCODE + ")'>" + dataItem.DOC_NUMBER + "</span>";
+                                return "<span class='grdCol' style='color: blue;' onclick='enaralink.fn_docViewPop(" + dataItem.C_DIKEYCODE + ")'>" + dataItem.DOC_NUMBER + "</span>";
                             },
                             title: "문서번호", width: 120
                         },
                         {
                             template: function (dataItem) {
-                                return "<span class='grdCol' style='color: blue;' onclick='fn_docViewPop(" + dataItem.C_DIKEYCODE + ")'>" + dataItem.DOC_TITLE + "</span>";
+                                return "<span class='grdCol' style='color: blue;' onclick='enaralink.fn_docViewPop(" + dataItem.C_DIKEYCODE + ")'>" + dataItem.DOC_TITLE + "</span>";
                             },
                             title: "문서제목", width: 140
                         },
@@ -318,13 +377,11 @@ var enaralink = {
 
             console.log(rowData);
 
-            necessaryDataColumn();
+            enaralink.necessaryDataColumn();
         }
 
-        var checkedIds = {};
-
         // 체크박스 전체선택
-        $("#checkboxAll").click(function (e) {
+        $("#checkboxAll").click(function () {
 
             if ($("#checkboxAll").is(":checked")) {
                 $(".Ybox").prop("checked", true);
@@ -345,14 +402,318 @@ var enaralink = {
         }
     },
 
+    necessaryDataColumn : function() {
+
+    },
+
+    fn_searchBtn : function(){
+        $('#sendResolutionGrid').data('kendoGrid').dataSource.page(1);
+    },
+
+    onDeptSeqSelect : function(e){
+        var dataItem = this.dataItem(e.item.index());
+        var selectDeptSeq = dataItem.dept_seq;
+        $('#deptSeq').val(selectDeptSeq);
+
+        if (selectDeptSeq === '99999') { // 전체
+            $('#selectedEmpName').val('');
+            $('#erpEmpSeq').val('');
+            $('#erpDeptSeq').val('');
+            return;
+        }
+
+        $.ajax({
+            url: "/kukgoh/getErpDeptNum",
+            dataType : 'json',
+            data : { deptSeq : selectDeptSeq },
+            type : 'POST',
+            async : false,
+            success: function(result){
+
+                if (result.erpDeptSeq === '') {
+                    alert("해당 부서에 아무도 없습니다.");
+                } else {
+                    $('#erpDeptSeq').val(result.erpDeptSeq);
+                }
+            }
+        });
+
+        $('#selectedEmpName').val('');
+        $('#erpEmpSeq').val('');
+    },
+
     fn_formatDate : function(str){
         return str.substring(0,4) + "-" + str.substring(4,6) + "-" + str.substring(6,8) ;
     },
 
-
     fn_formatMoney : function(str){
         str = String(str);
         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    }
+    },
+
+
+    pad : function(n, width) {
+        n = n + '';
+        return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+    },
+
+    fn_openSubmitPage : function(e){  //New 지출결의서 집행등록(일괄) --전송/확인
+		/*var flag = $(e).val() === "전송" ? 'S' : 'C'; // 전송 'S', 확인 'C'
+ 		var dataItem = $("#sendResolutionGrid").data("kendoGrid").dataItem($(e).closest("tr"));
+		dataItem.flag = flag;
+
+		// 이나라 파일 이름 구조 만들기
+		dataItem.targetId = dataItem.GISU_DT + enaralink.pad(dataItem.GISU_SQ, 4) + enaralink.pad(dataItem.LN_SQ, 2);
+		dataItem.intrfcId = 'IF-EXE-EFR-0074';
+
+        console.log(JSON.stringify(dataItem));*/
+
+		window.open("", "pop", "menubar=no,width=1550,height=770,toolbar=no, scrollbars=yes");
+		/*$('#submitData').val(JSON.stringify(dataItem));
+
+		console.log($("#submitData").val());*/
+
+        document.submitPage.action = "/kukgoh/newResolutionSubmitPage";
+		document.submitPage.target = "pop";
+		document.submitPage.method = "post";
+		document.submitPage.submit();
+
+	},
+
+    fn_makeSendData : function(dataJson) {
+        dataJson.BCNC_ACNUT_NO = dataJson.BCNC_ACNUT_NO.replace(/\-/g,'');
+
+        // 사업자등록번호 처리
+        if((dataJson.BCNC_SE_CODE == '003')) {
+
+            if (dataJson.BCNC_LSFT_NO.length == 7) {
+                dataJson.PIN_NO_1 = dataJson.BCNC_LSFT_NO.substring(0,1);
+                dataJson.PIN_NO_2 = dataJson.BCNC_LSFT_NO.substring(6,7);
+            } else if (dataJson.PIN_NO_1 == null) {
+                dataJson.PIN_NO_1 = "";
+                dataJson.PIN_NO_2 = "";
+            } else { // 개인 - 주민등록번호 있을 경우
+                dataJson.PIN_NO_2 = dataJson.PIN_NO_2.substring(0, 1);
+            }
+        } else {
+            dataJson.PIN_NO_1 = "";
+            dataJson.PIN_NO_2 = "";
+        }
+
+        // 승인번호 없을 경우 (기타)
+        if (typeof dataJson.PRUF_SE_NO === 'undefined') {
+            dataJson.PRUF_SE_NO = '';
+        }
+
+        if (dataJson.SBSACNT_TRFRSN_CODE === null || !dataJson.SBSACNT_TRFRSN_CODE) {
+            dataJson.SBSACNT_TRFRSN_CODE = "";
+        }
+
+        dataJson.EXCUT_PRPOS_CN = "[" + dataJson.DOC_NUMBER + "] " + dataJson.DOC_TITLE;
+        dataJson.PRDLST_NM = "[" + dataJson.DOC_NUMBER + "] " + dataJson.DOC_TITLE;
+
+        dataJson.SBSACNT_TRFRSN_CN = '';
+        dataJson.PIN_NO = dataJson.PIN_NO_1 + dataJson.PIN_NO_2 + "000000";
+        dataJson.APPLY_DIV = '★',
+        dataJson.INSERT_IP = '',
+        dataJson.INSERT_DT = '',
+        dataJson.OUT_TRNSC_ID = '',
+        dataJson.OUT_CNTC_SN = '',
+        dataJson.OUT_CNTC_CREAT_DT = '',
+        dataJson.OUT_YN = '',
+        dataJson.OUT_MSG = '',
+        dataJson.targetId = "" + dataJson.GISU_DT +  pad(dataJson.GISU_SQ, 4) + ""+ pad(dataJson.LN_SQ, 2);
+
+        return dataJson;
+    },
+
+    fn_sendAccountBatch : function() {
+        enaralink.startLoading();
+
+        var resolutionList = [];
+
+        $(".mainCheckBox:checked").each(function(i, v) {
+
+            var rows = $("#sendResolutionGrid").data("kendoGrid").dataItem($(v).closest("tr"));
+
+            rows = enaralink.fn_makeSendData(rows);
+
+            resolutionList.push(rows);
+        });
+
+        console.log(resolutionList);
+
+        $.ajax({
+            url : "/kukgoh/sendResolutionList",
+            data : { "param" : JSON.stringify(resolutionList) },
+            dataType : "json",
+            type : "POST",
+            success : function() {
+
+            },
+            complete : function(result) {
+                $('html').css("cursor", "auto");
+                $('#loadingPop').data("kendoWindow").close();
+
+                alert(result.OUT_MSG);
+                enaralink.fn_searchBtn();
+            }
+        });
+    },
+
+
+    upFile : function() {
+        $("#fileID").click();
+    },
+
+    getFileNm : function(e) {
+        var index = $(e).val().lastIndexOf('\\') + 1;
+        var valLength = $(e).val().length;
+        var row = $(e).closest('dl');
+        var fileNm = $(e).val().substr(index, valLength);
+        row.find('#fileText').text(fileNm).css({'color':'#0033FF','margin-left':'5px'});
+        enaralink.insertFile(fileNm);
+    },
+
+    delFile : function(attach_file_id, file_seq) {
+
+        var data = {
+            attach_file_id : attach_file_id,
+            fileSeq : file_seq
+        };
+
+        $.ajax({
+            url : "/kukgoh/deleteFile",
+            type : 'GET',
+            data : data
+        }).success(function(result) {
+            if(result.outYn == 'Y'){
+                $('#test'+result.attach_file_id).closest('tr').remove();
+            }else{
+            }
+        });
+    },
+
+    insertFile : function(fileNm){
+        var dt = attachDataItem.GISU_DT.replace(/\-/g,'');
+        var form = new FormData($("#fileForm")[0]);
+
+        form.append("C_DIKEYCODE", attachDataItem.C_DIKEYCODE);
+        form.append("targetId", dt+""+pad(attachDataItem.GISU_SQ, 4) + ""+ attachDataItem.LN_SQ);
+        form.append("fileNm",fileNm);
+        form.append("intrfcId", "IF-EXE-EFR-0074");
+
+        $.ajax({
+            url : "/kukgoh/insertAttachFile",
+            data : form,
+            type : 'post',
+            processData : false,
+            async: false,
+            contentType : false,
+            success : function(result) {
+
+                if(result.outYn == 'Y'){
+                    alert("첨부파일을 등록하였습니다.");
+                    $('#FILE_ID').val("1");
+                    $('#testDefault').remove();
+                    $('#fileDiv').append(
+                        '<tr id="test'+result.attach_file_id+'">'+
+                        '<td class="">'+
+                        '<span style=" display: block;" class="mr20">'+
+                        '<img src="<c:url value="/Images/ico/ico_clip02.png"/>" alt="" />&nbsp;'+
+                        '<a href="#n" style="line-height: 23px; cursor: pointer; color: #0033FF" id="fileText" onclick="kukgohFileDown(this);" class="file_name">'+result.fileNm+'.'+result.ext+'</a>&nbsp;'+
+                        '&nbsp;'+
+                        '<a href="javascript:delFile('+result.attach_file_id+','+result.file_seq+')"><img src="<c:url value="/Images/btn/btn_del_reply.gif"/>" /></a>' +
+                        '<input type="hidden" id="fileId" class = "fileId" value="'+result.attach_file_id+'" />'+
+                        '<input type="hidden" id="fileSeq" class = "fileSeq" value="'+result.file_seq+'" />'+
+
+                        '</span>'+
+                        '</td>'+
+                        '</tr>'
+                    );
+                }else{
+                    alert(result.outMsg);
+                }
+            },
+            error : function(error) {
+                console.log(error);
+                console.log(error.status);
+            }
+        });
+    },
+
+    startLoading : function() {
+        $('html').css("cursor", "wait");
+        $('#loadingPop').data("kendoWindow").open();
+    },
+
+    fn_docViewPop : function(dikeyCode){
+        enaralink.fn_viewDoc(dikeyCode);
+    },
+
+    fn_viewDoc : function(dikeyCode){
+        var hostUrl = "";
+
+        var url = hostUrl + "/ea/edoc/eapproval/docCommonDraftView.do?multiViewYN=Y&diSeqNum=undefined&miSeqNum=undefined&diKeyCode="+dikeyCode;
+        window.open(url,"viewer","width=965, height=950, resizable=yes, scrollbars=yes, status=no, top=50, left=50","newWindow");
+    },
+
+    fn_requestInvoice : function(e){
+
+        data = {
+            CO_CD : $('#CO_CD').val(),
+            GISU_DT : $('#GISU_DT').val(),
+            GISU_SQ : $('#GISU_SQ').val(),
+            BG_SQ : $('#BG_SQ').val(),
+            LN_SQ : $('#LN_SQ').val(),
+            BSNSYEAR : $('#BSNSYEAR').val(),
+            FILE_ID : "",
+            DDTLBZ_ID : $('#DDTLBZ_ID').val(),
+            EXC_INSTT_ID : $('#EXC_INSTT_ID').val(),
+            ETXBL_CONFM_NO : $('#'+e).val(),
+            EMP_SEQ : $('#loginSeq').val()
+        };
+
+        $.ajax({
+            url : "/kukgoh/requestInvoice",
+            data : data,
+            type : 'POST',
+            success : function(result) {
+
+                if (result.OUT_YN == 'Y') {
+                    alert("전자세금계산서 조회를 요청하였습니다. \n 10 ~ 20분 후 집행전송이 가능합니다.");
+                    $('#'+e).css('background-color','#c7c5c5');
+                    $('#popUp').data('kendoWindow').close();
+                } else {
+                    alert(result.OUT_MSG);
+                    /*$('#btn'+LN_SQ).attr("disabled", false);*/
+                }
+            }
+        });
+    },
+
+    //New 지출결의서 집행등록(일괄) --전송/확인
+    fn_openInvoicePage : function(e){
+       /* var row = $(e).closest("tr");
+       var grid = $('#sendResolutionGrid').data("kendoGrid");
+       var data = grid.dataItem(row);
+
+       selData = data;
+
+       $('#BSNSYEAR').val(data.BSNSYEAR);
+       $('#DDTLBZ_ID').val(data.DDTLBZ_ID);
+       $('#EXC_INSTT_ID').val(data.EXC_INSTT_ID);
+       $('#GISU_DT').val(data.GISU_DT);
+       $('#GISU_SQ').val(data.GISU_SQ);
+       $('#LN_SQ').val(data.LN_SQ);
+       $("#BG_SQ").val(data.BG_SQ);
+       $('#CO_CD').val(data.CO_CD); */
+
+        var url = "/kukgoh/invoicePage";
+        var name = "invoicePage";
+        var option = "width=1100 height=400, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+
+    },
 
 }
