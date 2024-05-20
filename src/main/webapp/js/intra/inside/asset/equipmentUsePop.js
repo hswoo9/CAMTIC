@@ -208,6 +208,9 @@ var equipmentUsePop = {
             }else if(data[0].custNm == null || data[0].custNm == '') {
                 alert("사용자를 선택하세요.")
                 return;
+            }else if(data[0].prtpcoGbnSn == null || data[0].prtpcoGbnSn == '') {
+                alert("업체구분을 선택하세요.")
+                return;
             }
 
             $.ajax({
@@ -421,6 +424,8 @@ var equipmentUsePop = {
             regDe : $("#regDe").val().replaceAll('-',''), //작성일자
             crtrSn : $("#regEmpSeq").val(), //생성자sn - 로그인한 계정
             clientPrtpcoName : $("#clientPrtpcoName").val(), //의뢰업체명
+            prtpcoGbnName : $("#prtpcoGbnName").data("kendoDropDownList").text(), //업체구분명
+            prtpcoGbnSn : $("#prtpcoGbnName").data("kendoDropDownList").value(), //업체구분 공통코드sn
             custNm : $("#custNm").val()
         }
         

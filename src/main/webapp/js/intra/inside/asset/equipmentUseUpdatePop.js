@@ -187,6 +187,7 @@ var equipmentUseUpdatePop = {
                 $("#operCn").val(rs.OPER_CN); //작업내용
                 $("#useTime").val(rs.USE_TIME); //사용시간
                 $("#useAmt").val(rs.USE_AMT == 0 ? 0 : equipmentUseUpdatePop.fn_comma(rs.USE_AMT)); //사용대금
+                $("#prtpcoGbnName").data("kendoDropDownList").value(rs.PRTPCO_GBN_SN); //업체구분 공통코드sn
                 $("#regDe").val(rs.REG_DE); //작성일자
                 $("#empSeq").val(rs.USER_SN);
                 $("#pjtSn").val(rs.PJT_SN);
@@ -198,6 +199,7 @@ var equipmentUseUpdatePop = {
                 $("#perAmt").val(rs.PER_AMT);
                 $("#perReason").val(rs.PER_REASON);
                 $("#custNm").val(rs.CUST_NM);
+                $("#clientPrtpcoName").val(rs.CLIENT_PRTPCO_NAME);
             }
         });
     },
@@ -282,6 +284,9 @@ var equipmentUseUpdatePop = {
                 operCn : $("#operCn").val(), //작업내용
                 useTime : $("#useTime").val(), //사용시간
                 useAmt : useAmt, //사용대금
+                clientPrtpcoName : $("#clientPrtpcoName").val(), //의뢰업체명
+                prtpcoGbnName : $("#prtpcoGbnName").data("kendoDropDownList").text(), //업체구분명
+                prtpcoGbnSn : $("#prtpcoGbnName").data("kendoDropDownList").value(), //업체구분 공통코드sn
                 perAmt : perAmt, //할인금액
                 perReason : $("#perReason").val(),
                 regDe : $("#regDe").val().replaceAll('-',''), //작성일자
@@ -317,6 +322,9 @@ var equipmentUseUpdatePop = {
                 return false;
             }else if(data.custNm == null || data.custNm == '') {
                 alert("사용자를 입력하세요.")
+                return false;
+            }else if(data.prtpcoGbnName == null || data.prtpcoGbnName == '') {
+                alert("업체구분을 선택하세요.")
                 return false;
             }
 
@@ -356,6 +364,13 @@ var equipmentUseUpdatePop = {
     // 시간당 사용대금 계산
     fn_EqipmnHUF : function (time){
         $("#useAmt").val(comma(time * $("#hourlyUsageFee").val()));
+    },
+
+    fn_popCamCrmList : function (){
+        var url = "/crm/pop/popCrmList.do";
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no";
+        var popup = window.open(url, name, option);
     }
 }
 
