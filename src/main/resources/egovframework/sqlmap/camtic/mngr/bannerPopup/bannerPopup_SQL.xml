@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="bannerPopup">
+
+    <select id="getPopupList" resultType="map" parameterType="map">
+        /*getPopupList*/
+        SELECT
+            *,
+            CONCAT(DATE_FORMAT(BANNER_POPUP_START_DT, '%Y-%m-%d'), ' ~ ', DATE_FORMAT(BANNER_POPUP_END_DT, '%Y-%m-%d')) popupPeriod
+        FROM
+            egov_cms.BANNER_POPUP
+        WHERE
+            GW_ID = 'camsPot'
+        AND
+            ACTIVE = 'Y'
+        AND
+            BANNER_POPUP_GROUP = 1
+        <if test="searchInput != null and searchInput != ''">
+        AND
+            BANNER_POPUP_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
+        ORDER BY BANNER_POPUP_UUID DESC
+    </select>
+
+    <select id="getMainPopupList" resultType="map" parameterType="map">
+        /*getMainPopupList*/
+        SELECT
+            AAA.BANNER_POPUP_UUID as uuid
+             ,AAA.BANNER_POPUP_GUBUN as bannerPopupGubun
+             ,AAA.BANNER_POPUP_WIDTH as bannerPopupWidth
+             ,AAA.BANNER_POPUP_HEIGHT as bannerPopupHeight
+             ,AAA.BANNER_POPUP_TOP as bannerPopupTop
+             ,AAA.BANNER_POPUP_LEFT as bannerPopupLeft
+             ,AAA.BANNER_POPUP_START_DT as bannerPopupStartDt
+             ,AAA.BANNER_POPUP_END_DT as bannerPopupEndDt
+             ,AAA.BANNER_POPUP_LINK as bannerPopupLink
+             ,AAA.BANNER_POPUP_TITLE as bannerPopupTitle
+             ,AAA.BANNER_POPUP_TARGET as bannerPopupTarget
+             ,AAA.USE_AT as useAt
+             ,AAA.CENTER_YN as centerYn
+             ,BBB.BANNER_POPUP_FILE_MASK as fileMask
+             ,BBB.BANNER_POPUP_FILE_NAME as fileName
+             ,BBB.BANNER_POPUP_FILE_PATH as filePath
+             ,BBB.BANNER_POPUP_FILE_EXTENTION as fileExt
+             ,BBB.BANNER_POPUP_UUID as file_uuid
+        FROM
+            egov_cms.BANNER_POPUP AAA
+        LEFT JOIN ( SELECT BBB.BANNER_POPUP_UUID ,MAX(BBB.REGIST_DT) as maxRegistDt FROM egov_cms.BANNER_POPUP_FILE BBB GROUP BY BBB.BANNER_POPUP_UUID ) Subquery
+        ON AAA.BANNER_POPUP_UUID = Subquery.BANNER_POPUP_UUID
+        LEFT JOIN egov_cms.BANNER_POPUP_FILE BBB ON Subquery.BANNER_POPUP_UUID = BBB.BANNER_POPUP_UUID AND Subquery.maxRegistDt = BBB.REGIST_DT
+        WHERE
+            AAA.GW_ID = 'camsPot'
+        AND
+            AAA.ACTIVE = 'Y'
+        AND
+            AAA.BANNER_POPUP_GROUP = 1
+        AND AAA.USE_AT = 0
+        AND
+            NOW() BETWEEN AAA.BANNER_POPUP_START_DT AND AAA.BANNER_POPUP_END_DT
+        ORDER BY AAA.BANNER_POPUP_START_DT
+    </select>
+
+    <select id="getBannerPopupOpenOne" resultType="map" parameterType="map">
+        /*getBannerPopupOpenOne*/
+        SELECT
+            AAA.BANNER_POPUP_UUID as uuid
+             ,AAA.BANNER_POPUP_GUBUN as bannerPopupGubun
+             ,AAA.BANNER_POPUP_LINK as bannerPopupLink
+             ,AAA.BANNER_POPUP_TITLE as bannerPopupTitle
+             ,AAA.BANNER_POPUP_TARGET as bannerPopupTarget
+             ,AAA.USE_AT as useAt
+             ,BBB.BANNER_POPUP_FILE_MASK as fileMask
+             ,BBB.BANNER_POPUP_FILE_NAME as fileName
+             ,BBB.BANNER_POPUP_FILE_PATH as filePath
+             ,BBB.BANNER_POPUP_FILE_EXTENTION as fileExt
+             ,BBB.BANNER_POPUP_UUID as file_uuid
+        FROM
+            egov_cms.BANNER_POPUP AAA
+        JOIN
+            (
+                SELECT * FROM egov_cms.BANNER_POPUP_FILE WHERE BANNER_POPUP_UUID = #{popId} ORDER BY REGIST_DT DESC LIMIT 1
+            ) BBB
+        ON AAA.BANNER_POPUP_UUID = BBB.BANNER_POPUP_UUID
+        WHERE
+            AAA.GW_ID = 'camsPot'
+        AND
+            AAA.ACTIVE = 'Y'
+        AND
+            AAA.BANNER_POPUP_UUID = #{popId}
+    </select>
+
+    <select id="getBannerPopupOne" resultType="map" parameterType="map">
+        /*getBannerPopupOne*/
+        SELECT
+            BANNER_POPUP_UUID as uuid
+            ,BANNER_POPUP_GROUP as bannerPopupGroup
+            ,BANNER_POPUP_GUBUN as bannerPopupGubun
+            ,BANNER_POPUP_WIDTH as bannerPopupWidth
+            ,BANNER_POPUP_HEIGHT as bannerPopupHeight
+            ,BANNER_POPUP_TOP as bannerPopupTop
+            ,BANNER_POPUP_LEFT as bannerPopupLeft
+            ,BANNER_POPUP_LINK as bannerPopupLink
+            ,BANNER_POPUP_START_DT as bannerPopupStartDt
+            ,BANNER_POPUP_END_DT as bannerPopupEndDt
+            ,DATE_FORMAT(BANNER_POPUP_START_DT, '%Y-%m-%d') as startDay
+            ,HOUR (BANNER_POPUP_START_DT) as startTime
+            ,DATE_FORMAT(BANNER_POPUP_END_DT, '%Y-%m-%d') as endDay
+            ,HOUR (BANNER_POPUP_END_DT) as endTime
+            ,BANNER_POPUP_TARGET as bannerPopupTarget
+            ,BANNER_POPUP_TITLE as bannerPopupTitle
+            ,USE_AT as useAt
+            ,CENTER_YN as centerYn
+        FROM
+            egov_cms.BANNER_POPUP
+        WHERE
+            BANNER_POPUP_UUID = #{uuid}
+    </select>
+
+    <select id="getBannerPopupFile" resultType="map" parameterType="map">
+        /*getBannerPopupFile*/
+        SELECT
+            *
+        FROM
+            egov_cms.BANNER_POPUP_FILE
+        WHERE
+            BANNER_POPUP_UUID = #{uuid}
+        ORDER BY REGIST_DT DESC
+        LIMIT 1
+    </select>
+
+    <insert id="setBannerPopupInsert" parameterType="map">
+        /*setBannerPopupInsert */
+        INSERT INTO egov_cms.BANNER_POPUP
+           (BANNER_POPUP_GROUP, BANNER_POPUP_GUBUN, BANNER_POPUP_WIDTH, BANNER_POPUP_HEIGHT, BANNER_POPUP_TOP, BANNER_POPUP_LEFT,
+            BANNER_POPUP_LINK, BANNER_POPUP_TARGET, BANNER_POPUP_START_DT, BANNER_POPUP_END_DT, BANNER_POPUP_TITLE, GW_ID, REGIST_DT, REGIST_ID, USE_AT, CENTER_YN)
+        VALUES
+           (#{bannerPopupGroup}, #{bannerPopupGubun}, #{bannerPopupWidth}, #{bannerPopupHeight}, #{bannerPopupTop}, #{bannerPopupLeft},
+            #{bannerPopupLink}, #{bannerPopupTarget}, #{bannerPopupStartDt}, #{bannerPopupEndDt}, #{bannerPopupTitle}, 'camsPot', NOW(), #{id}, #{useAt},#{centerYn})
+
+        <selectKey keyProperty="bannerPopupUuid" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'egov_cms' AND TABLE_NAME = 'BANNER_POPUP'
+        </selectKey>
+    </insert>
+
+    <update id="setBannerPopupUpdate" parameterType="map">
+        /*setBannerPopupUpdate*/
+        UPDATE
+            egov_cms.BANNER_POPUP
+        SET
+            BANNER_POPUP_GROUP = #{bannerPopupGroup}
+            ,BANNER_POPUP_GUBUN = #{bannerPopupGubun}
+            ,BANNER_POPUP_WIDTH = #{bannerPopupWidth}
+            ,BANNER_POPUP_HEIGHT = #{bannerPopupHeight}
+            ,BANNER_POPUP_TOP = #{bannerPopupTop}
+            ,BANNER_POPUP_LEFT = #{bannerPopupLeft}
+            ,BANNER_POPUP_LINK = #{bannerPopupLink}
+            ,BANNER_POPUP_TARGET = #{bannerPopupTarget}
+            ,BANNER_POPUP_START_DT = #{bannerPopupStartDt}
+            ,BANNER_POPUP_END_DT = #{bannerPopupEndDt}
+            ,BANNER_POPUP_TITLE = #{bannerPopupTitle}
+            ,MODIFY_DT = NOW()
+            ,MODIFY_ID = #{id}
+            ,USE_AT = #{useAt}
+            ,CENTER_YN = #{centerYn}
+        WHERE
+            BANNER_POPUP_UUID = #{uuid}
+    </update>
+
+    <insert id="setBannerPopupInsertFile" parameterType="list">
+        /*setBannerPopupInsertFile */
+
+        INSERT INTO egov_cms.BANNER_POPUP_FILE
+        (
+        BANNER_POPUP_FILE_MASK,
+        BANNER_POPUP_FILE_NAME,
+        BANNER_POPUP_FILE_PATH,
+        BANNER_POPUP_FILE_SIZE,
+        BANNER_POPUP_FILE_EXTENTION,
+        BANNER_POPUP_UUID,
+        REGIST_DT,
+        REGIST_ID
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.fileUUID},
+            #{item.fileOrgName},
+            #{item.filePath},
+            #{item.fileSize},
+            #{item.fileExt},
+            #{item.frKey},
+            now(),
+            #{item.registId}
+            )
+        </foreach>
+    </insert>
+
+    <update id="setBannerPopupDelete" parameterType="map">
+        /*setBannerPopupDelete*/
+        UPDATE egov_cms.BANNER_POPUP
+        SET ACTIVE = 'N'
+        WHERE BANNER_POPUP_UUID = #{uuid}
+    </update>
+
+    <select id="getPopupCancleList" parameterType="map" resultType="map">
+        /*getPopupCancleList*/
+        SELECT
+            BANNER_POPUP_UUID
+        FROM
+            egov_cms.BANNER_POPUP
+        WHERE
+            NOW() NOT BETWEEN BANNER_POPUP_START_DT AND BANNER_POPUP_END_DT
+        AND
+            USE_AT = 0
+        AND
+            BANNER_POPUP_GROUP = 1
+    </select>
+
+    <select id="getPopupAgreeList" parameterType="map" resultType="map">
+        /*getPopupAgreeList*/
+        SELECT
+            BANNER_POPUP_UUID
+        FROM
+            egov_cms.BANNER_POPUP
+        WHERE
+            NOW() BETWEEN BANNER_POPUP_START_DT AND BANNER_POPUP_END_DT
+        AND
+            USE_AT = 1
+        AND
+            BANNER_POPUP_GROUP = 1
+    </select>
+
+    <update id="setPopupCancleUpdate" parameterType="map">
+        /*setPopupCancleUpdate*/
+         UPDATE
+             egov_cms.BANNER_POPUP
+         SET
+             USE_AT = 1
+         WHERE
+             BANNER_POPUP_UUID = #{BANNER_POPUP_UUID}
+    </update>
+
+    <update id="setPopupAgreeUpdate" parameterType="map">
+        /*setPopupAgreeUpdate*/
+         UPDATE
+             egov_cms.BANNER_POPUP
+         SET
+             USE_AT = 0
+         WHERE
+             BANNER_POPUP_UUID = #{BANNER_POPUP_UUID}
+    </update>
+
+
+    <!--<select id="getBannerList" resultType="egovframework.com.devjitsu.hp.board.util.PostResponse" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*getBannerList*/
+        SELECT
+            BANNER_POPUP_UUID
+            ,BANNER_POPUP_GUBUN
+            ,BANNER_POPUP_WIDTH
+            ,BANNER_POPUP_HEIGHT
+            ,BANNER_POPUP_TITLE
+            ,USE_AT
+        FROM
+            egov_cms.BANNER_POPUP
+        WHERE
+            ACTIVE = 'Y'
+        AND
+            BANNER_POPUP_GROUP = 0
+        <if test="searchInput != null and searchInput != ''">
+            AND
+            BANNER_POPUP_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
+        ORDER BY BANNER_POPUP_UUID DESC
+
+        LIMIT #{pagination.limitStart}, #{recordSize}
+    </select>
+
+    <select id="getBannerListCnt" resultType="int" parameterType="egovframework.com.devjitsu.hp.board.util.ArticlePage">
+        /*getBannerListCnt*/
+        SELECT
+            COUNT(*)
+        FROM
+            egov_cms.BANNER_POPUP
+        WHERE
+            ACTIVE = 'Y'
+        AND
+            BANNER_POPUP_GROUP = 0
+        <if test="searchInput != null and searchInput != ''">
+            AND
+            BANNER_POPUP_TITLE LIKE CONCAT('%', #{searchInput}, '%')
+        </if>
+    </select>
+
+    <select id="getMainBannerList" resultType="map" parameterType="map">
+        /*getMainBannerList*/
+        SELECT
+            AAA.BANNER_POPUP_UUID as uuid
+             ,AAA.BANNER_POPUP_GUBUN as bannerPopupGubun
+             ,AAA.BANNER_POPUP_WIDTH as bannerPopupWidth
+             ,AAA.BANNER_POPUP_HEIGHT as bannerPopupHeight
+             ,AAA.BANNER_POPUP_LINK as bannerPopupLink
+             ,AAA.BANNER_POPUP_TITLE as bannerPopupTitle
+             ,AAA.BANNER_POPUP_TARGET as bannerPopupTarget
+             ,AAA.USE_AT as useAt
+             ,BBB.BANNER_POPUP_FILE_MASK as fileMask
+             ,BBB.BANNER_POPUP_FILE_NAME as fileName
+             ,BBB.BANNER_POPUP_FILE_PATH as filePath
+             ,BBB.BANNER_POPUP_FILE_EXTENTION as fileExt
+             ,BBB.BANNER_POPUP_UUID as file_uuid
+        FROM
+            egov_cms.BANNER_POPUP AAA
+                LEFT JOIN ( SELECT BBB.BANNER_POPUP_UUID ,MAX(BBB.REGIST_DT) as maxRegistDt FROM egov_cms.BANNER_POPUP_FILE BBB GROUP BY BBB.BANNER_POPUP_UUID ) Subquery
+                          ON AAA.BANNER_POPUP_UUID = Subquery.BANNER_POPUP_UUID
+                LEFT JOIN egov_cms.BANNER_POPUP_FILE BBB ON Subquery.BANNER_POPUP_UUID = BBB.BANNER_POPUP_UUID AND Subquery.maxRegistDt = BBB.REGIST_DT
+        WHERE
+            AAA.ACTIVE = 'Y'
+          AND
+            AAA.BANNER_POPUP_GROUP = 0
+          AND
+            AAA.BANNER_POPUP_GUBUN = 0
+          AND
+            AAA.USE_AT = 0
+        ORDER BY
+            AAA.REGIST_DT
+    </select>
+
+    <select id="getFootBannerList" resultType="map" parameterType="map">
+        /*getFootBannerList*/
+        SELECT
+            AAA.BANNER_POPUP_UUID as uuid
+             ,AAA.BANNER_POPUP_GUBUN as bannerPopupGubun
+             ,AAA.BANNER_POPUP_WIDTH as bannerPopupWidth
+             ,AAA.BANNER_POPUP_HEIGHT as bannerPopupHeight
+             ,AAA.BANNER_POPUP_LINK as bannerPopupLink
+             ,AAA.BANNER_POPUP_TITLE as bannerPopupTitle
+             ,AAA.BANNER_POPUP_TARGET as bannerPopupTarget
+             ,AAA.USE_AT as useAt
+             ,BBB.BANNER_POPUP_FILE_MASK as fileMask
+             ,BBB.BANNER_POPUP_FILE_NAME as fileName
+             ,BBB.BANNER_POPUP_FILE_PATH as filePath
+             ,BBB.BANNER_POPUP_FILE_EXTENTION as fileExt
+             ,BBB.BANNER_POPUP_UUID as file_uuid
+        FROM
+            egov_cms.BANNER_POPUP AAA
+                LEFT JOIN ( SELECT BBB.BANNER_POPUP_UUID ,MAX(BBB.REGIST_DT) as maxRegistDt FROM egov_cms.BANNER_POPUP_FILE BBB GROUP BY BBB.BANNER_POPUP_UUID ) Subquery
+                          ON AAA.BANNER_POPUP_UUID = Subquery.BANNER_POPUP_UUID
+                LEFT JOIN egov_cms.BANNER_POPUP_FILE BBB ON Subquery.BANNER_POPUP_UUID = BBB.BANNER_POPUP_UUID AND Subquery.maxRegistDt = BBB.REGIST_DT
+        WHERE
+            AAA.ACTIVE = 'Y'
+          AND
+            AAA.BANNER_POPUP_GROUP = 0
+          AND
+            AAA.BANNER_POPUP_GUBUN = 1
+          AND
+            AAA.USE_AT = 0
+        ORDER BY
+            AAA.REGIST_DT
+    </select>-->
+
+
+
+</mapper>
