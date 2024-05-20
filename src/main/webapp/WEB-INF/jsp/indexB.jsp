@@ -6,6 +6,41 @@
 <link href="/css/schedule/pignose.calendar.min.css" rel="stylesheet">
 
 <style>
+    .btn_today_close {
+        width: 100%;
+        height: 30px;
+        background-color: #333;
+        text-align: center;
+        color: #fff;
+        font-size: 14px;
+        display: block;
+    }
+    #tcSpan {
+        display: block;
+        line-height: 30px;
+        vertical-align: bottom;
+        opacity: 0.8;
+        margin-right: 20px;
+    }
+    .tcA{
+        color: #fff;
+        font-size: 14px;
+    }
+
+    .rayer {
+        position: fixed;
+        z-index : 9999;
+
+    }
+    .rayer .pop {
+        margin: 0;
+        background: #fff;
+    }
+
+    .rayer .pop input[type=checkbox] { -webkit-appearance: checkbox; }
+    .rayer .pop input[type=checkbox]:before { display: none; }
+
+
     .boxCss{width:190px; height:90px; color:#fff; background-color:#259dab; text-align:center;}
     .boxCss:hover{background-image: linear-gradient(to right, #259dab 0%, #2574ab 100%);}
     .popupTable th{padding:5px!important; vertical-align: middle!important; text-align: center; background-color: #bdc3d1ad;}
@@ -318,6 +353,7 @@
     </div>
 </div>
 </div>
+<div id="rayer-background"></div>
 <script>
     /*var currentDate = new Date();
     var currentYear = currentDate.getFullYear();
@@ -379,7 +415,52 @@
             var parent = $(this).parent();
             parent.append(transparentLink.cloneNode(true));
         });
+
+        fnPopupScript();
     });
+
+    var resultBannerPopup;
+    function fnPopupScript() {
+        $.ajax({
+            url: '/main/getMainList.do',
+            type: 'POST',
+            async: false,
+            success: function (rs) {
+                resultBannerPopup = rs.popupList;
+            }
+        });
+
+        for (var x = 0; x < resultBannerPopup.length; x++) {
+            if (resultBannerPopup[x].bannerPopupGubun == 1) {
+                if (resultBannerPopup[x].centerYn === 'Y') {
+                    // centerYn이 'Y'이면 중앙 정렬
+
+                    //window 크기계산 -> window.screen.width, height 사용
+                    var centerX = (window.screen.width - resultBannerPopup[x].bannerPopupWidth) / 2;
+                    var centerY = (window.screen.height - resultBannerPopup[x].bannerPopupHeight) / 2;
+
+                    mainOpenPopup(
+                        resultBannerPopup[x].uuid, resultBannerPopup[x].bannerPopupTitle,
+                        "scrollbar=no" + ",width=" + resultBannerPopup[x].bannerPopupWidth + ",height=" + resultBannerPopup[x].bannerPopupHeight +
+                        ",top=" + centerY + ",left=" + centerX
+                    );
+                }else {
+
+                    mainOpenPopup(
+                        resultBannerPopup[x].uuid, resultBannerPopup[x].bannerPopupTitle,
+                        "scrollbar=no" + ",width=" + resultBannerPopup[x].bannerPopupWidth + ",height=" + resultBannerPopup[x].bannerPopupHeight +
+                        ",top=" + resultBannerPopup[x].bannerPopupTop + ",left=" + resultBannerPopup[x].bannerPopupLeft
+                    );
+                }
+            } else {
+                rayerPopup(resultBannerPopup[x]);
+            }
+
+            console.log(resultBannerPopup[x].uuid, resultBannerPopup[x].bannerPopupTitle,
+                "scrollbar=no" + ",width=" + resultBannerPopup[x].bannerPopupWidth + ",height=" + resultBannerPopup[x].bannerPopupHeight +
+                ",top=" + resultBannerPopup[x].bannerPopupTop + ",left=" + resultBannerPopup[x].bannerPopupLeft);
+        }
+    }
 
     //대쉬보드 일정 표시
     function updateScheduleCont() {

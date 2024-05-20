@@ -1,6 +1,7 @@
 package egovframework.com.cms.bannerpopup.controller;
 
 import egovframework.com.cms.bannerpopup.service.BannerPopupMngrService;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class BannerPopupMngrController {
 	@Value("#{properties['File.Server.Dir']}")
 	private String SERVER_DIR;
 
-	@Value("#{properties['File.Base.Dir']}")
+	@Value("#{properties['File.Base.Directory']}")
 	private String BASE_DIR;
 
 	/**
@@ -80,9 +81,10 @@ public class BannerPopupMngrController {
 	public String register(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
 
 		HttpSession session = request.getSession();
-		model.addAttribute("loginVO", session.getAttribute("loginVO"));
+		LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
 
-		//String gubun = params.get("gubun") == null ? "" : params.get("gubun").toString();
+		model.addAttribute("loginVO", loginVO);
+
 		String mode = params.get("mode") == null ? "write" : params.get("mode").toString();
 
 		if(params.get("mode").equals("update")){

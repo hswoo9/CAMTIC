@@ -119,7 +119,7 @@ var popupList = {
 
         if(!confirm("팝업을 삭제하시겠습니까?\n삭제 후 복구할 수 없습니다.")){return false;}
 
-        var ds = customKendo.fn_customAjax("/dept/getDeptAList", data);
+        var ds = customKendo.fn_customAjax("/mngr/bannerpopup/delete", data);
         if(ds.flag){
             gridReload();
         }
