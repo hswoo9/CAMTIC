@@ -293,11 +293,67 @@ var astPdaInfoList = {
     },
 
     setBarcodePrintA: function(){
-        var data = {
 
+
+        if(!confirm("선택된 항목을 바코드(대) 출력 하시겠습니까?")){
+            return;
         }
+        var data = {
+            target : "pda",
+            astPdaSnArr : ""
+        }
+
+        $("input[name='apiChk']:checked").each(function(e, i){
+            data.astPdaSnArr += ',' + $(this).val()
+        });
+
+        data.astPdaSnArr = data.astPdaSnArr.substring(1);
+
+        if(data.astPdaSnArr == null){
+            alert("자산을 선택해주세요.");
+            return;
+        }
+
         $.ajax({
             url : "/asset/setBarcodePrintA",
+            data: data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+
+                if(rs.code == 200){
+                    alert("인쇄성공")
+                }
+            }
+        });
+    },
+
+    setBarcodePrintB : function (){
+
+        if(!confirm("선택된 항목을 바코드(소) 출력 하시겠습니까?")){
+            return;
+        }
+
+
+        var data = {
+            target : "pda",
+            astPdaSnArr : ""
+        }
+
+        $("input[name='apiChk']:checked").each(function(e, i){
+            data.astPdaSnArr += ',' + $(this).val()
+        });
+
+        data.astPdaSnArr = data.astPdaSnArr.substring(1);
+
+        if(data.astPdaSnArr == null){
+            alert("자산을 선택해주세요.");
+            return;
+        }
+
+        $.ajax({
+            url : "/asset/setBarcodePrintB",
             data: data,
             type : "post",
             dataType : "json",

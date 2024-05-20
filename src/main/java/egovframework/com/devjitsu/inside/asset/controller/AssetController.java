@@ -12,7 +12,6 @@ import egovframework.com.devjitsu.inside.asset.service.AssetService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,17 +30,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
+import java.io.*;
 import java.net.Socket;
-import java.net.SocketAddress;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -1508,34 +1502,193 @@ public class AssetController {
 
     @RequestMapping("/asset/setBarcodePrintA")
     public String setBarcodePrintA(@RequestParam Map<String, Object> params, Model model) throws IOException {
-        Socket clientSocket = new Socket();
 
-        SocketAddress address = new InetSocketAddress("218.158.231.248",9100);
+        String START_CMD = "^XA";
+        String END_CMD = "^XZ";
+        String POS_CMD = "^FO";
+        String FONT_CMD = "^Ax";
+        String KOR_DEF = "^SEE:UHANGUL.DAT^FS^CW1,E:KFONT3.FNT^FS^CW1,E:V53_16_6Z.ZPL^CI26^FS";
+        String KOR_FNT = "^A1";
+        String BAR_ATTR = "^BY";
+        String BAR_KIND_CMD = "^BC";
+        String DATA_START = "^FD";
+        String DATA_END = "^FS";
 
-        clientSocket.connect(address);
+        if(params.get("target").equals("asset")){
+            String[] astInfoSnAr = params.get("astSnArr").toString().split(",");
 
-        try {
-            if(clientSocket.isConnected()){
-                System.out.println(12312);
+            for(int i=0; i<astInfoSnAr.length; i++){
+                params.put("astInfoSn", astInfoSnAr[i]);
+                Map<String, Object> map = assetService.getAssetInfo(params);
+
+                try (Socket socket = new Socket("218.158.231.248",9100);
+                     OutputStream out = socket.getOutputStream()) {
+
+                    // Create a simple zebra pattern string (ZPL format for Zebra printers)
+                    String txBuff = START_CMD               // start cmd
+                            + POS_CMD + "290,400"            // position cmd
+                            + BAR_ATTR + "2,2,10"           // barcode attribute cmd
+                            + BAR_KIND_CMD + "N,80,Y,N,Y"   // barcode kind cmd
+                            + DATA_START + map.get("AST_NO").toString() + DATA_END;  // barcode data
+
+
+                    // 자산번호 출력 부분
+                    txBuff += POS_CMD + "290,200"               // position cmd
+                            + FONT_CMD + "E,N,20,20"           // alpanumeric size cmd
+                            + DATA_START + map.get("AST_NO").toString() + DATA_END;  // barcode data
+
+
+                    // 자산명 출력 부분
+                    txBuff += KOR_DEF                       // 한글 사용 + FONT
+                            + POS_CMD + "290,273"
+                            + KOR_FNT + "N,40,40"          // 한글 FONT
+                            + DATA_START + map.get("AST_NAME").toString() + DATA_END;  // barcode data
+
+
+                    // 취득일 출력 부분
+                    txBuff += POS_CMD + "290,349"            // position cmd
+                            + FONT_CMD + "E,N,20,20"        // alpanumeric size cmd
+                            + DATA_START + map.get("PURC_DATE") + DATA_END;  // barcode data
+
+                    // 위치 출력 부분
+                    txBuff += POS_CMD + "290,420"            // position cmd
+                            + FONT_CMD + "E,N,20,20"        // alpanumeric size cmd
+                            + DATA_START + "" + DATA_END  // barcode data
+                            + END_CMD;
+
+                    byte[] txBytes = txBuff.getBytes(Charset.forName("EUC-KR"));
+
+                    out.write(txBytes, 0, txBytes.length);
+
+                    out.flush();
+                    System.out.println("Print job sent successfully.");
+
+                    model.addAttribute("code", 200);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.err.println("Failed to send print job: " + e.getMessage());
+                }
             }
-            DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream() );
-            //The data being sent in the lines below illustrate CPCL  one can change the data for the corresponding
-            //language being used (ZPL, EPL)
+        } else if(params.get("target").equals("pda")){
+            String[] astPdaInfoSnAr = params.get("astPdaSnArr").toString().split(",");
 
-            outToServer.writeBytes("! 0 200 200 203 1" + 'n' + "CENTER" + 'n');
-            outToServer.writeBytes("TEXT 0 3 10 50 JAVA TEST" + 'n' + "PRINT" + 'n');
+            for(int i=0; i<astPdaInfoSnAr.length; i++){
+                params.put("astPdaInfoSn", astPdaInfoSnAr[i]);
+                Map<String, Object> map = assetService.getAssetPdaInfo(params);
+
+                try (Socket socket = new Socket("218.158.231.248",9100);
+                     OutputStream out = socket.getOutputStream()) {
+
+                    // Create a simple zebra pattern string (ZPL format for Zebra printers)
+                    String txBuff = START_CMD               // start cmd
+                            + POS_CMD + "290,400"            // position cmd
+                            + BAR_ATTR + "2,2,10"           // barcode attribute cmd
+                            + BAR_KIND_CMD + "N,80,Y,N,Y"   // barcode kind cmd
+                            + DATA_START + map.get("AST_NO").toString() + DATA_END;  // barcode data
 
 
+                    // 자산번호 출력 부분
+                    txBuff += POS_CMD + "290,200"               // position cmd
+                            + FONT_CMD + "E,N,20,20"           // alpanumeric size cmd
+                            + DATA_START + map.get("AST_NO").toString() + DATA_END;  // barcode data
 
-        } catch(IOException ie){
-            ie.printStackTrace();
+
+                    // 자산명 출력 부분
+                    txBuff += KOR_DEF                       // 한글 사용 + FONT
+                            + POS_CMD + "290,273"
+                            + KOR_FNT + "N,40,40"          // 한글 FONT
+                            + DATA_START + map.get("AST_NAME").toString() + DATA_END;  // barcode data
+
+
+                    // 취득일 출력 부분
+                    txBuff += POS_CMD + "290,349"            // position cmd
+                            + FONT_CMD + "E,N,20,20"        // alpanumeric size cmd
+                            + DATA_START + map.get("PURC_DATE") + DATA_END;  // barcode data
+
+                    // 위치 출력 부분
+                    txBuff += POS_CMD + "290,420"            // position cmd
+                            + FONT_CMD + "E,N,20,20"        // alpanumeric size cmd
+                            + DATA_START + "" + DATA_END  // barcode data
+                            + END_CMD;
+
+                    byte[] txBytes = txBuff.getBytes(Charset.forName("EUC-KR"));
+
+                    out.write(txBytes, 0, txBytes.length);
+
+                    out.flush();
+                    System.out.println("Print job sent successfully.");
+
+                    model.addAttribute("code", 200);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.err.println("Failed to send print job: " + e.getMessage());
+                }
+            }
         }
 
 
 
-        clientSocket.close();
 
-        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/asset/setBarcodePrintB")
+    public String setBarcodePrintB(@RequestParam Map<String, Object> params, Model model) throws IOException {
+
+        if(params.get("target").equals("pda")) {
+            String[] astPdaInfoSnAr = params.get("astPdaSnArr").toString().split(",");
+
+            for(int i=0; i<astPdaInfoSnAr.length; i++) {
+                params.put("astPdaInfoSn", astPdaInfoSnAr[i]);
+                Map<String, Object> map = assetService.getAssetPdaInfo(params);
+
+                try (Socket socket = new Socket("218.158.231.248",9100);
+                     OutputStream out = socket.getOutputStream()) {
+
+                    String cmd1 = "^XA^FO175,70^AxC,N,13,13^FD" + map.get("AST_NO").toString() + "^FS";
+                    String cmd3 = "^FO50,115^BY2,2,10^BCN,70,Y,N,Y^FD" + map.get("AST_NO").toString() + "^FS^XZ";
+
+                    byte[] txBytes = (cmd1 + cmd3).getBytes(Charset.forName("EUC-KR"));
+
+                    out.write(txBytes, 0, txBytes.length);
+
+                    out.flush();
+                    System.out.println("Print job sent successfully.");
+
+                    model.addAttribute("code", 200);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.err.println("Failed to send print job: " + e.getMessage());
+                }
+            }
+        } else if(params.get("target").equals("asset")) {
+            String[] astInfoSnAr = params.get("astSnArr").toString().split(",");
+
+            for(int i=0; i<astInfoSnAr.length; i++) {
+                params.put("astInfoSn", astInfoSnAr[i]);
+                Map<String, Object> map = assetService.getAssetInfo(params);
+
+                try (Socket socket = new Socket("218.158.231.248",9100);
+                     OutputStream out = socket.getOutputStream()) {
+
+                    String cmd1 = "^XA^FO175,70^AxC,N,13,13^FD" + map.get("AST_NO").toString() + "^FS";
+                    String cmd3 = "^FO50,115^BY2,2,10^BCN,70,Y,N,Y^FD" + map.get("AST_NO").toString() + "^FS^XZ";
+
+                    byte[] txBytes = (cmd1 + cmd3).getBytes(Charset.forName("EUC-KR"));
+
+                    out.write(txBytes, 0, txBytes.length);
+
+                    out.flush();
+                    System.out.println("Print job sent successfully.");
+
+                    model.addAttribute("code", 200);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.err.println("Failed to send print job: " + e.getMessage());
+                }
+            }
+        }
 
         return "jsonView";
     }

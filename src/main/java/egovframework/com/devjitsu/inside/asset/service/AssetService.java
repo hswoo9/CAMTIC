@@ -183,4 +183,6 @@ public interface AssetService {
     Map<String, Object> getastData(Map<String, Object> params);
 
     Map<String, Object> getastprint(Map<String, Object> params);
+
+    Map<String, Object> getAssetPdaInfo(Map<String, Object> params);
 }
