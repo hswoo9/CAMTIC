@@ -14,11 +14,27 @@ var viewAssetPop = {
         console.log("histItemList", histItemList);
 
         const astFile = assetMap.astFile;
-        if(astFile != null){
-            console.log(astFile);
+        const oldAstFile = assetMap.oldAstFile;
+        console.log("astFile", astFile);
+        console.log("oldAstFile", oldAstFile);
 
-            let imgHtml = '';
+        let imgHtml = '';
+
+        for(let i=0; i<oldAstFile.length; i++){
+            if(i != 0){
+                imgHtml += '<br>';
+            }
+            imgHtml += '<img src="'+oldAstFile.file_path+oldAstFile.file_uuid+'">';
+        }
+
+        for(let i=0; i<astFile.length; i++){
+            if(i != 0){
+                imgHtml += '<br>';
+            }
             imgHtml += '<img src="'+astFile.file_path+astFile.file_uuid+'">';
+        }
+
+        if(oldAstFile.length > 0 || astFile.length > 0){
             $("#assetImg").html(imgHtml);
         }
 
