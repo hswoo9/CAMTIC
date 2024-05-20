@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -83,7 +81,7 @@ public class BannerPopupMngrServiceImpl implements BannerPopupMngrService {
     }
 
     private String listFilePath (Map<String, Object> params, String base_dir){
-        String path = base_dir + "/" + params.get("menuCd").toString()+"File/";
+        String path = base_dir + params.get("menuCd").toString()+"File/";
 
         return path;
     }

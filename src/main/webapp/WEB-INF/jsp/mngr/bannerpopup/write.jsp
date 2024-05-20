@@ -180,7 +180,7 @@
 					<div class="__file">
 						<c:choose>
 							<c:when test="${!empty fileMap}">
-								<input type="text" id="inputFile" name="inputFile" style="width: 55%;" onclick="popupWrite.fileDown('${fileMap.BANNER_POPUP_FILE_PATH}${fileMap.BANNER_POPUP_FILE_MASK}','${fileMap.BANNER_POPUP_FILE_NAME}.${fileMap.BANNER_POPUP_FILE_EXTENTION}')" value="${fileMap.BANNER_POPUP_FILE_NAME}.${fileMap.BANNER_POPUP_FILE_EXTENTION}" readonly />
+								<input type="text" id="inputFile" name="inputFile" style="width: 55%; cursor: pointer;" onclick="popupWrite.fileDown('${fileMap.BANNER_POPUP_FILE_PATH}${fileMap.BANNER_POPUP_FILE_MASK}','${fileMap.BANNER_POPUP_FILE_NAME}.${fileMap.BANNER_POPUP_FILE_EXTENTION}')" value="${fileMap.BANNER_POPUP_FILE_NAME}.${fileMap.BANNER_POPUP_FILE_EXTENTION}" />
 								<button type="button" class="file k-button k-button-solid-base" onclick="$('#files').click()">파일선택</button>
 							</c:when>
 							<c:otherwise>

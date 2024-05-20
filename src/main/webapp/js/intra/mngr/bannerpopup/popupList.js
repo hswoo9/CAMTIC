@@ -72,8 +72,8 @@ var popupList = {
                 { field: "BANNER_POPUP_TOP", title: "위치(Top)", width: "100px" },
                 { field: "BANNER_POPUP_LEFT", title: "위치(Left)", width: "100px" },
                 { title: "팝업크기", template: "#= BANNER_POPUP_WIDTH # x #= BANNER_POPUP_HEIGHT #", width: "100px" },
-                { field: "BANNER_POPUP_GUBUN", title: "출력방식", width: "100px", template: "#= BANNER_POPUP_GUBUN == '0' ? '고정' : '팝업' #" },
-                { field: "USE_AT", title: "상태", width: "100px", template: "#= USE_AT == '0' ? '출력중' : '출력중X' #" },
+                { field: "BANNER_POPUP_GUBUN", title: "출력방식", width: "100px", template: "#= BANNER_POPUP_GUBUN == '0' ? '레이어' : '팝업' #" },
+                { field: "USE_AT", title: "상태", width: "100px", template: "#= USE_AT == '0' ? '출력중' : '출력중지' #" },
                 {
                     title: "관리",
                     width: "100px",
