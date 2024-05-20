@@ -465,9 +465,20 @@
         if(data.bannerPopupLink != ""){
             link = data.bannerPopupLink;
         }
+
+        var positonX = data.bannerPopupLeft;
+        var positonY = data.bannerPopupTop;
+        if (data.centerYn === 'Y') {
+            // centerYn이 'Y'이면 중앙 정렬
+
+            //window 크기계산 -> window.screen.width, height 사용
+            positonX = (window.screen.width - data.bannerPopupWidth) / 2;
+            positonY = (window.screen.height - data.bannerPopupHeight) / 2;
+        }
+
         let html = '';
 
-        html += '<div id="rayer'+data.uuid+'" class="rayer" style="top:'+data.bannerPopupTop+'px; left:'+data.bannerPopupLeft+'px;">';
+        html += '<div id="rayer'+data.uuid+'" class="rayer" style="top:'+positonY+'px; left:'+positonX+'px;">';
         html += '<div class="pop" style="width:'+data.bannerPopupWidth+'px; height:'+data.bannerPopupHeight+'px;">';
         html += '<div class="content" style="height:100%;display:flex;flex-direction:column;">';
         if(link == ""){

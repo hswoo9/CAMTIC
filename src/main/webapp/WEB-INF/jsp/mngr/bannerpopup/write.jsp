@@ -28,7 +28,7 @@
         padding: 25px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        z-index: 1;
+        z-index: 9999;
         max-width: 345px; /* 툴팁의 최대 너비 설정 */
     }
     /* 아이콘에 호버 시 툴팁 텍스트 표시 */
@@ -157,6 +157,12 @@
 					<input type="text" style="width:20%;" id="bannerPopupTop" value="${map.bannerPopupTop}" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"/>px
 					<span style="margin-right:10px; margin-left:30px;">왼쪽여백</span>
 					<input type="text" style="width:20%;" id="bannerPopupLeft" value="${map.bannerPopupLeft}" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"/>px
+
+					<%--<label class="__lab" >
+						<span style="margin-left:20px;">중앙정렬</span>
+						<input type="checkbox" id="chkCenter" name="chkCenter">
+						<i></i>
+					</label>--%>
 				</td>
 			</tr>
 			<tr>
@@ -211,6 +217,7 @@
 <input type="hidden" id="returnUseAt" value="${map.useAt}">
 <input type="hidden" id="returnGubun" value="${map.bannerPopupGubun}">
 <input type="hidden" id="returnTarget" value="${map.bannerPopupTarget}">
+<input type="hidden" id="returnCenterYn" value="${map.centerYn}">
 <input type="hidden" id="mode" value="${mode}">
 <script>
     popupWrite.fn_defaultScript();

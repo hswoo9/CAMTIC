@@ -64,19 +64,19 @@ var popupList = {
             columns: [
                 {
                     title: "번호",
-                    width: 50,
+                    width: "30px",
                     template: "#= --record #"
                 },
-                { field: "popupPeriod", title: "팝업설정 기간", width: "120px" },
+                { field: "popupPeriod", title: "팝업설정 기간", width: "150px" },
                 { field: "BANNER_POPUP_TITLE", title: "제목", width: "150px" },
-                { field: "BANNER_POPUP_TOP", title: "위치(Top)", width: "100px" },
-                { field: "BANNER_POPUP_LEFT", title: "위치(Left)", width: "100px" },
+                { field: "BANNER_POPUP_TOP", title: "위치(Top)", width: "50px" },
+                { field: "BANNER_POPUP_LEFT", title: "위치(Left)", width: "50px" },
                 { title: "팝업크기", template: "#= BANNER_POPUP_WIDTH # x #= BANNER_POPUP_HEIGHT #", width: "100px" },
-                { field: "BANNER_POPUP_GUBUN", title: "출력방식", width: "100px", template: "#= BANNER_POPUP_GUBUN == '0' ? '레이어' : '팝업' #" },
-                { field: "USE_AT", title: "상태", width: "100px", template: "#= USE_AT == '0' ? '출력중' : '출력중지' #" },
+                { field: "BANNER_POPUP_GUBUN", title: "출력방식", width: "50px", template: "#= BANNER_POPUP_GUBUN == '0' ? '레이어' : '팝업' #" },
+                { field: "USE_AT", title: "상태", width: "50px", template: "#= USE_AT == '0' ? '출력중' : '출력중지' #" },
                 {
                     title: "관리",
-                    width: "100px",
+                    width: "50px",
                     template : function (e) {
                         return "<button type='button' class='k-button k-button-solid-error' onclick='popupList.fn_del(\"" + e.BANNER_POPUP_UUID + "\")'>삭제</button>";
                     }

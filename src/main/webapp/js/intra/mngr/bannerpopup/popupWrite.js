@@ -75,6 +75,10 @@ var popupWrite = {
             $("#chkUseAt" + $("#returnUseAt").val()).prop("checked", true);
             $("#chkGubun" + $("#returnGubun").val()).prop("checked", true);
             $("#bannerPopupTarget").data("kendoDropDownList").select(Number($("#returnTarget").val()));
+
+            if ($("#returnCenterYn").val() == 'Y') {
+                $("#chkCenter").prop("checked", true);
+            }
         }else{
             $("#chkUseAt0").prop("checked", true);
             $("#chkGubun1").prop("checked", true);
@@ -181,6 +185,11 @@ var popupWrite = {
             formData.append("popupFile", popupWrite.global.popupFile);
             formData.append("gubun", $("#mode").val());
             formData.append("menuCd", "popup");
+
+            var chkCenterYn = $('#chkCenter').prop('checked');
+            var centerYn = chkCenterYn ? 'Y' : 'N';
+
+            formData.append("centerYn", centerYn);
 
             if ($("#uuid").val() != "" && $("#uuid").val() != null) {
                 formData.append("uuid", $("#uuid").val());
