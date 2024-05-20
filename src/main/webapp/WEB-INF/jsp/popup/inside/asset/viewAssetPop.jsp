@@ -21,8 +21,8 @@
                 <c:if test="${astInfo eq 'Y'}">
                     <button type="button" class="k-button k-button-solid-base" onclick="printAssetCard()">자산관리카드 인쇄</button>
                 </c:if>
-                <button type="button" class="k-button k-button-solid-base" onclick="">바코드 출력(대)</button>
-                <button type="button" class="k-button k-button-solid-base" onclick="">바코드 출력(소)</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="viewAssetPop.setBarcodePrintA()">바코드 출력(대)</button>
+                <button type="button" class="k-button k-button-solid-base" onclick="viewAssetPop.setBarcodePrintB()">바코드 출력(소)</button>
                 <c:if test="${astPdaInfo eq 'Y'}">
                     <button type="button" class="k-button k-button-solid-info" onclick="setAssetInspection()">저장</button>
                 </c:if>

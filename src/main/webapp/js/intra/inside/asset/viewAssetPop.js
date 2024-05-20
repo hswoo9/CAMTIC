@@ -74,5 +74,54 @@ var viewAssetPop = {
         if(html != ''){
             $("#historyData").html(html);
         }
+    },
+
+    setBarcodePrintA: function(){
+        if(!confirm("선택된 항목을 바코드(대) 출력 하시겠습니까?")){
+            return;
+        }
+        var data = {
+            target : "asset",
+            astSnArr : $("#astInfoSn").val()
+        }
+
+        $.ajax({
+            url : "/asset/setBarcodePrintA",
+            data: data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+
+                if(rs.code == 200){
+                    alert("인쇄성공")
+                }
+            }
+        });
+    },
+
+    setBarcodePrintB : function (){
+        if(!confirm("선택된 항목을 바코드(소) 출력 하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            target : "asset",
+            astSnArr : $("#astInfoSn").val()
+        }
+
+        $.ajax({
+            url : "/asset/setBarcodePrintB",
+            data: data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+
+                if(rs.code == 200){
+                    alert("인쇄성공")
+                }
+            }
+        });
     }
 }

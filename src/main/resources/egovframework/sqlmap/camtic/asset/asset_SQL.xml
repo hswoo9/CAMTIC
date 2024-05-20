@@ -2708,4 +2708,12 @@
         WHERE
             AI.AST_INFO_SN = #{astInfoSn}
     </select>
+
+    <select id="getAssetPdaInfo" parameterType="map" resultType="map">
+        /*getAssetPdaInfo*/
+        SELECT *
+        FROM
+            CAM_INSIDE.DJ_ASSET_PDA_INFO
+        WHERE AST_PDA_INFO_SN = #{astPdaInfoSn}
+    </select>
 </mapper>

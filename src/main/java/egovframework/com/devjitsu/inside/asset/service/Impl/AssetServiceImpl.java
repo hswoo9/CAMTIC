@@ -29,10 +29,8 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class AssetServiceImpl implements AssetService {
@@ -1448,5 +1446,11 @@ public class AssetServiceImpl implements AssetService {
 
         }
         return dispositionPrefix + encodedFilename;
+    }
+
+
+    @Override
+    public Map<String, Object> getAssetPdaInfo(Map<String, Object> params) {
+        return assetRepository.getAssetPdaInfo(params);
     }
 }
