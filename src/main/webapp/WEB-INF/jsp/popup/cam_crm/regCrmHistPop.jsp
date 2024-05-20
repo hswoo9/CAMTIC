@@ -12,7 +12,7 @@
 <script type="text/javascript" src="/js/intra/cam_crm/regCrmHistPop.js?v=${today}"/></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
 <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}" />
-<input type="hidden" id="crmSn" name="crmSn" />
+<input type="hidden" id="crmSn" name="crmSn" value="${params.crmSn}" />
 <input type="hidden" id="crmHistSn" value="${params.crmHistSn}" />
 <div style="padding:0;">
     <div class="table-responsive">
@@ -39,7 +39,7 @@
                     </th>
                     <td>
                         <input type="text" id="crmNm" style="width: 80%;" disabled>
-                        <button type="button" id="crmSelBtn" class="k-button k-button-solid-base" onclick="regCrmHist.fn_popCamCrmList();">검색</button>
+<%--                        <button type="button" id="crmSelBtn" class="k-button k-button-solid-base" onclick="regCrmHist.fn_popCamCrmList();">검색</button>--%>
                     </td>
                     <th scope="row" class="text-center th-color">
                         <span class="red-star">*</span>대표자

@@ -62,6 +62,28 @@ var regCrmHist = {
                 $("#pjtSelBtn").show();
             }
         })
+
+        if($("#crmSn").val()){
+            regCrmHist.fn_dataSet();
+        }
+    },
+
+    fn_dataSet : function (){
+        console.log("fn_dataSet");
+        var result = customKendo.fn_customAjax("/crm/getCrmData", { crmSn : $("#crmSn").val() });
+        var rs = result.rs;
+
+        $("#crmNm").val(rs.CRM_NM);
+        $("#crmCeo").val(rs.CRM_CEO);
+        $("#crmNo").val(rs.CRM_NO);
+        $("#crmEstNo").val(rs.CRM_EST_NO);
+        if(rs.POST != null && rs.POST != ""){
+            $("#addr").val("[" + rs.POST + "] " + rs.ADDR);
+        } else {
+            $("#addr").val(rs.ADDR);
+        }
+        $("#telNum").val(rs.TEL_NUM);
+        $("#fax").val(rs.FAX);
     },
 
     fn_save : function(){
@@ -114,7 +136,7 @@ var regCrmHist = {
         var result = customKendo.fn_customAjax("/crm/setCrmHist", regCrmHist.global.saveAjaxData);
         if(result.flag){
             alert("저장되었습니다.");
-            opener.parent.crmHist.gridReload();
+            opener.parent.location.reload();
             window.close();
         }
     },

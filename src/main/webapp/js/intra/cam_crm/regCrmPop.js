@@ -247,5 +247,11 @@ var crmReg = {
                 }
             }
         });
-    }
+    },
+
+    fn_crmHistRegPop: function (){
+        var name = "_blank";
+        var option = "width = 1300, height = 820, top = 100, left = 400, location = no"
+        var popup = window.open("/crm/pop/regCrmHistPop.do?crmSn=" + $("#crmSn").val(), name, option);
+    },
 }
