@@ -166,14 +166,6 @@
             </div>
         </div>
 
-        <div class="__botArea">
-            <div class="cen">
-                <div class="__paging">
-
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 <script type="text/javascript">
@@ -192,60 +184,12 @@
     var endPage;
     var page;
     var total = firstData.articlePage.pagination.totalRecordCount;
-
-
-    /** 최초의 데이터와 페이지 이동할 때의 데이터 구분 */
-    function dataChk(e, f) {
-        if(flag == false){
-            paginationData = firstData.articlePage.pagination;
-            startPage = paginationData.startPage;
-            endPage = paginationData.endPage;
-            page = firstData.articlePage.page;
-        }else if(flag == true){
-            paginationData = e.articlePage.pagination;
-            startPage = paginationData.startPage;
-            endPage = paginationData.endPage;
-            page = e.articlePage.page;
-            total = e.articlePage.pagination.totalRecordCount;
-        }
-    }
-
     var data = firstData.rs.list;
+
     $(function () {
-
         $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-
-        dataChk();
-
-        drawPage();
         drawTable(data);
     });
-
-    /**
-     * 페이지 이동
-     * page : 페이지
-     * recordSize : 리스트에 출력할 데이터 수
-     * pageSize : 페이징 넘버 수
-     * ArticlePage.java 참조
-     * */
-    function movePage(page){
-        const queryParams = {
-            page: (page) ? page : 1,
-            recordSize: 10,
-            pageSize: 10,
-            publicClass : $("#publicClass").val(),
-            selectedDate : $("#selectedDate").val(),
-            type : $("#type").val()
-        }
-        var inputText = $("#inputText").val();
-        var result = fn_customAjax("/spot/getMainScheduleList?" + new URLSearchParams(queryParams).toString() + '&recordSize=10&searchInput=' + inputText, "");
-        flag = true;
-
-        dataChk(result, flag);
-        drawTable(result.rs.list);
-        console.log(drawTable);
-        drawPage();
-    }
 
     //게시글 리스트 그리기
     function drawTable(data) {
@@ -255,18 +199,14 @@
             $("#tableBody").html('');
             return;
         }
+
         $("#tableBody").html('');
 
         let html = "";
 
         let num = total + 1;
-
-        if(page != 1){
-            num = num - ((page - 1) * 10);
-        }
         data.forEach((item, index) => {
             num = num - 1;
-
             var scheduleTypeList = {
                 "EV": "행사",
                 "ME": "회의",
@@ -311,23 +251,7 @@
                 html += '</tr>';
             }
         });
-        /*tableBody.innerHTML = html;*/
         $("#tableBody").append(html);
-    }
-
-    //페이징 그리기
-    function drawPage(){
-        let html = '';
-        html += '<a href="javascript:void(0);" onclick="movePage(' + (page - 1) + ')" class="arr prev"><span class="hide">이전 페이지</span></a>';
-
-        for (let i =startPage; i <= endPage; i++) {
-            html += (i !== page)
-                ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
-                : '<strong class="num active">' + i + '</strong>'
-        }
-
-        html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';
-        $(".__paging").html(html);
     }
 
     function searchOnEnter(event) {
@@ -342,11 +266,6 @@
         var result = fn_customAjax('/spot/getMainScheduleList?recordSize=10&searchInput=' + encodeURI(inputText, "UTF-8"),'');
 
         flag = true;
-
-        if(result.articlePage.pagination != null){
-            dataChk(result);
-            drawPage();
-        }
         drawTable(result.rs.list);
 
         $("#totalCnt").text(result.articlePage.pagination.totalRecordCount);
