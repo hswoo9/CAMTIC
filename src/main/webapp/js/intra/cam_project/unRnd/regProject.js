@@ -296,91 +296,143 @@ var regUnRnd = {
     fn_setData : function(e){
         $("#pjtTitle").text("프로젝트 - 비R&D");
 
-        if(e == null){
-            return;
-        }
+        if(e != null){
 
-        $("#saveBtn").css("display", "none");
-        $("#modBtn").css("display", "");
+            $("#saveBtn").css("display", "none");
+            $("#modBtn").css("display", "");
 
-        $("#bsTitle").val(e.BS_TITLE);
-        $("#yearClass").data("kendoDropDownList").value(e.YEAR_CLASS);
-        if(e.PARENT_PJT_SN != null){
+            $("#bsTitle").val(e.BS_TITLE);
+            $("#yearClass").data("kendoDropDownList").value(e.YEAR_CLASS);
+
+            if(e.PARENT_PJT_SN != null){
+                $("#mYearCk").val("Y");
+                $("#mYearTr").show();
+                $("#supDep").data("kendoDropDownList").trigger("change");
+                $("#parentPjtSn").val(e.PARENT_PJT_SN);
+
+                const parentPjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: e.PARENT_PJT_SN}).rs;
+                $("#parentPjtNm").val(parentPjtInfo.PJT_NM);
+
+            /** 다년이면서 1차년도 프로젝트()가 없을 때 다년 프로젝트 생성 버튼 보이게 */
+            }else if(e.YEAR_CLASS == "M"){
+                $("#nextPjtBtn").show();
+                $("#mYearTr").show();
+            }
+
+            $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
+            $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
+            $("#supDep").data("kendoDropDownList").trigger("change");
+            $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
+            $("#sbjStrDe").data("kendoDatePicker").value(new Date(e.STR_DT));
+            $("#sbjEndDe").data("kendoDatePicker").value(new Date(e.END_DT));
+
+            $("#rndCrmNm").val(e.CRM_NM);
+            $("#rndCrmSn").val(e.CRM_SN);
+            $("#allBusnCost").val(comma(e.ALL_BUSN_COST));
+
+            const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: $("#pjtSn").val()});
+            const delvMap = unRndInfo.map;
+            if(delvMap != null){
+                if(delvMap.STATUS == "100"){
+                    $("#pjtAmt2").val(comma(e.PJT_AMT));
+                }
+            }
+
+            if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
+                $("#rndConCrmNm").val(e.CRM_CON_SN);
+                $("#rndConCrmSn").val(e.CRM_CON_NM);
+            }
+
+            $("#deptName").val(e.DEPT_NAME);
+            $("#empName").val(e.EMP_NAME);
+            $("#empSeq").val(e.EMP_SEQ);
+            $("#deptSeq").val(e.DEPT_SEQ);
+
+            const pmUserInfo = getUser(e.PM_EMP_SEQ);
+            $("#mngDeptName").val(pmUserInfo.DEPT_NAME);
+            $("#mngDeptSeq").val(pmUserInfo.DEPT_SEQ);
+            $("#mngEmpName").val(e.PM);
+            $("#mngEmpSeq").val(e.PM_EMP_SEQ);
+
+            $("#pjtNm").val(e.PJT_NM);
+
+            if(e.SBJ_STAT_YN != undefined){
+                if(e.SBJ_STAT_YN == "Y"){
+                    $("#unRndStatYn").prop("checked", true);
+                }
+            }
+
+            $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
+
+            $("#pjtConYear").val(e.PJT_CON_YEAR);
+
+            $("input[name='securityYn'][value='" + e.SECURITY + "']").prop("checked", true);
+
+            if(e.TEAM_STAT == "Y"){
+                $("#mngText").text("협업담당자");
+                const mainPjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: e.PNT_PJT_SN}).rs;
+
+                $("#mngText").text("협업담당자");
+
+                $("#deptName").val(mainPjtInfo.DEPT_NAME);
+                $("#empName").val(mainPjtInfo.EMP_NAME);
+                $("#empSeq").val(mainPjtInfo.EMP_SEQ);
+                $("#deptSeq").val(mainPjtInfo.DEPT_SEQ);
+                $("#staffSelect").hide();
+                $("#allBusnCost").val(comma(mainPjtInfo.ALL_BUSN_COST));
+
+            }
+            
+        }else if($("#paramParentPjtSn").val() != ""){
+            $("#yearClass").data("kendoDropDownList").value("M");
             $("#mYearCk").val("Y");
             $("#mYearTr").show();
             $("#supDep").data("kendoDropDownList").trigger("change");
-            $("#parentPjtSn").val(e.PARENT_PJT_SN);
+            $("#parentPjtSn").val($("#paramParentPjtSn").val());
 
-            const parentPjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: e.PARENT_PJT_SN}).rs;
-            $("#parentPjtNm").val(parentPjtInfo.PJT_NM);
+            const e = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: $("#paramParentPjtSn").val()}).rs;
+            $("#parentPjtNm").val(e.PJT_NM);
 
-        }
-        $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
-        $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
-        $("#supDep").data("kendoDropDownList").trigger("change");
-        $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
-        $("#sbjStrDe").data("kendoDatePicker").value(new Date(e.STR_DT));
-        $("#sbjEndDe").data("kendoDatePicker").value(new Date(e.END_DT));
+            $("#bsTitle").val(e.BS_TITLE);
+            $("#sbjClass").data("kendoDropDownList").value(e.SBJ_CLASS);
+            $("#supDep").data("kendoDropDownList").value(e.SBJ_DEP);
+            $("#supDep").data("kendoDropDownList").trigger("change");
+            $("#supDepSub").data("kendoDropDownList").value(e.SBJ_DEP_SUB);
+            $("#sbjStrDe").data("kendoDatePicker").value(new Date(e.STR_DT));
+            $("#sbjEndDe").data("kendoDatePicker").value(new Date(e.END_DT));
+            $("#rndCrmNm").val(e.CRM_NM);
+            $("#rndCrmSn").val(e.CRM_SN);
+            $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
+            $("#allBusnCost").val(comma(e.ALL_BUSN_COST));
 
-        $("#rndCrmNm").val(e.CRM_NM);
-        $("#rndCrmSn").val(e.CRM_SN);
-        $("#allBusnCost").val(comma(e.ALL_BUSN_COST));
-
-        const unRndInfo = customKendo.fn_customAjax("/projectUnRnd/getUnRndDetail", {pjtSn: $("#pjtSn").val()});
-        console.log(unRndInfo);
-        const delvMap = unRndInfo.map;
-        if(delvMap != null){
-            if(delvMap.STATUS == "100"){
-                $("#pjtAmt2").val(comma(e.PJT_AMT));
+            if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
+                $("#rndConCrmNm").val(e.CRM_CON_SN);
+                $("#rndConCrmSn").val(e.CRM_CON_NM);
             }
-        }
 
-        if(e.CRM_CON_NM = null && e.CRM_CON_NM != ""){
-            $("#rndConCrmNm").val(e.CRM_CON_SN);
-            $("#rndConCrmSn").val(e.CRM_CON_NM);
-        }
+            $("#deptName").val(e.DEPT_NAME);
+            $("#empName").val(e.EMP_NAME);
+            $("#empSeq").val(e.EMP_SEQ);
+            $("#deptSeq").val(e.DEPT_SEQ);
 
-        $("#deptName").val(e.DEPT_NAME);
-        $("#empName").val(e.EMP_NAME);
-        $("#empSeq").val(e.EMP_SEQ);
-        $("#deptSeq").val(e.DEPT_SEQ);
+            const pmUserInfo = getUser(e.PM_EMP_SEQ);
+            $("#mngDeptName").val(pmUserInfo.DEPT_NAME);
+            $("#mngDeptSeq").val(pmUserInfo.DEPT_SEQ);
+            $("#mngEmpName").val(e.PM);
+            $("#mngEmpSeq").val(e.PM_EMP_SEQ);
 
-        const pmUserInfo = getUser(e.PM_EMP_SEQ);
-        $("#mngDeptName").val(pmUserInfo.DEPT_NAME);
-        $("#mngDeptSeq").val(pmUserInfo.DEPT_SEQ);
-        $("#mngEmpName").val(e.PM);
-        $("#mngEmpSeq").val(e.PM_EMP_SEQ);
+            $("#pjtNm").val(e.PJT_NM);
 
-        $("#pjtNm").val(e.PJT_NM);
-
-        if(e.SBJ_STAT_YN != undefined){
-            if(e.SBJ_STAT_YN == "Y"){
-                $("#unRndStatYn").prop("checked", true);
+            if(e.SBJ_STAT_YN != undefined){
+                if(e.SBJ_STAT_YN == "Y"){
+                    $("#unRndStatYn").prop("checked", true);
+                }
             }
-        }
-
-        $("#pjtExpAmt").val(comma(e.PJT_EXP_AMT));
-
-        $("#pjtConYear").val(e.PJT_CON_YEAR);
-
-        $("input[name='securityYn'][value='" + e.SECURITY + "']").prop("checked", true);
-
-        if(e.TEAM_STAT == "Y"){
-            $("#mngText").text("협업담당자");
-            const mainPjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: e.PNT_PJT_SN}).rs;
-
-            $("#mngText").text("협업담당자");
-
-            $("#deptName").val(mainPjtInfo.DEPT_NAME);
-            $("#empName").val(mainPjtInfo.EMP_NAME);
-            $("#empSeq").val(mainPjtInfo.EMP_SEQ);
-            $("#deptSeq").val(mainPjtInfo.DEPT_SEQ);
-            $("#staffSelect").hide();
-            $("#allBusnCost").val(comma(mainPjtInfo.ALL_BUSN_COST));
+            $("input[name='securityYn'][value='" + e.SECURITY + "']").prop("checked", true);
         }
     },
 
-    fn_save : function (){
+    fn_save : function(){
         var parameters = {
             busnClass : "S",
             busnNm : "비R&D",
@@ -644,9 +696,16 @@ var regUnRnd = {
     },
 
     fn_projectPop: function(type){
-        var url = "/project/pop/projectView.do?openType=" + type+"&busnClass=R";
+        var url = "/project/pop/projectView.do?openType=" + type+"&busnClass=S";
         var name = "_blank";
         var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
+    },
+
+    fn_nextPjt: function(i, key){
+        var url = "/projectUnRnd/pop/regProject.do?paramParentPjtSn="+$("#pjtSn").val();
+        var name = "_blank";
+        var option = "width = 1680, height = 850, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }

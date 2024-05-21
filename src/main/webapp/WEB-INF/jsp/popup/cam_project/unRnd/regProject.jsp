@@ -75,6 +75,7 @@
 <input type="hidden" id="tab" value="${params.tab}" />
 
 <input type="hidden" id="mainPjtSn" value="${params.pjtSn}" />
+<input type="hidden" id="paramParentPjtSn" value="${params.paramParentPjtSn}" />
 
 <input type="hidden" id="mYearCk" value="N">
 
@@ -90,6 +91,7 @@
 
             <div class="btn-st popButton">
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regUnRnd.fn_save()">저장</button>
+                <button type="button" id="nextPjtBtn" class="k-button k-button-solid-info" style="display: none;" onclick="regUnRnd.fn_nextPjt()">다년프로젝트 생성</button>
                 <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regUnRnd.fn_mod()">수정</button>
                 <c:if test="${loginVO.uniqId eq data.WRITER_EMP_SEQ}">
                     <button type="button" id="stopBtn" class="k-button k-button-solid-error" style="display: none;" onclick="regUnRnd.fn_stopModal()" /> 중단</button>
@@ -461,7 +463,7 @@
 
         if(e.SBJ_STAT_YN != undefined){
             if(e.SBJ_STAT_YN == "Y"){
-                $("#rndStatYn").prop("checked", true);
+                $("#unRndStatYn").prop("checked", true);
             }
         }
         $("input[name='securityYn'][value='" + e.SECURITY + "']").prop("checked", true);
