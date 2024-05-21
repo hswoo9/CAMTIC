@@ -622,6 +622,7 @@
         SELECT
             AM.APPLICATION_ID,
             AM.RECRUIT_INFO_SN,
+            AM.IN_AVOID,
             AI.JOB,
             CASE WHEN INSTR(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM') > 0 THEN REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'PM', '오후')
                  ELSE REPLACE(DATE_FORMAT(AM.SAVE_DATE, '%Y-%m-%d %p %h:%i'), 'AM', '오전')

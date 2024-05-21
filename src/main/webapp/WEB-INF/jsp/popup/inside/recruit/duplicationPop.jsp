@@ -104,8 +104,10 @@
           title: "면접심사(점수)",
           width : 120,
           template : function(e){
-            if(e.IN_SCREEN_AVERAGE != null){
+            if(e.IN_SCREEN_AVERAGE != null && e.IN_AVOID != "Y"){
               return e.IN_SCREEN_AVERAGE;
+            }else if(e.IN_AVOID == "Y"){
+              return "불참"
             }else{
               return "-"
             }
