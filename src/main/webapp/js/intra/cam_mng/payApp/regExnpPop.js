@@ -127,6 +127,10 @@ var regExnp = {
         })
 
         $("#payAppType").data("kendoRadioGroup").enable(false);
+
+        $("#exnpDe").change(function(){
+            $("#DT3").val($("#exnpDe").val());
+        });
     },
 
     payAppBtnSet : function(data, evidType){
