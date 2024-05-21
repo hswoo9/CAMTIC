@@ -3,7 +3,14 @@ var rndDetail = {
 
     global : {
         codeCk: "N",
-        taxCk: "N"
+        taxCk: "N",
+
+        bsPlanFileArray : [],
+        bsPlanAttFiles : [],
+        agreementFileArray : [],
+        agreementAttFiles : [],
+        etcFileArray : [],
+        etcAttFiles : [],
     },
 
     fn_defaultScript : function (){
@@ -91,6 +98,10 @@ var rndDetail = {
         var pjtMap = pjtInfo.map;
         var rs = result.map;
 
+        rndDetail.global.bsPlanFileArray = result.fileList.bsPlanFile;
+        rndDetail.global.agreementFileArray = result.fileList.agreementFile;
+        rndDetail.global.etcFileArray = result.fileList.etcFile;
+
         rndDetail.customBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
 
         /** 최초 저장 이후 데이터 세팅 */
@@ -112,10 +123,21 @@ var rndDetail = {
                 $("#rndObj").val(rs.RND_OBJ);
                 $("#rndEtc").val(rs.RND_ETC);
 
-                var fileHtml = "";
-                fileHtml += '<span style="cursor: pointer" onClick="fileDown(\''+rs.file_path+rs.file_uuid+ '\', \''+rs.file_org_name+'.'+rs.file_ext+'\')">'+rs.file_org_name+ '.' + rs.file_ext + '</span>'
-                if (rs.file_org_name != null) {
-                    $("#bsPlanFileName").html(fileHtml);
+                // var fileHtml = "";
+                // fileHtml += '<span style="cursor: pointer" onClick="fileDown(\''+rs.file_path+rs.file_uuid+ '\', \''+rs.file_org_name+'.'+rs.file_ext+'\')">'+rs.file_org_name+ '.' + rs.file_ext + '</span>'
+                // if (rs.file_org_name != null) {
+                //     $("#bsPlanFileName").html(fileHtml);
+                // }
+
+                var fileInfo = {
+                    file_path : rs.file_path,
+                    file_uuid : rs.file_uuid,
+                    file_org_name : rs.file_org_name,
+                    file_ext : rs.file_ext,
+                    file_no : rs.file_no
+                }
+                if(rs.file_org_name != null){
+                    rndDetail.global.bsPlanFileArray.push(fileInfo);
                 }
 
                 let AcResult = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {
@@ -211,6 +233,9 @@ var rndDetail = {
         if(map != null && map.TAX_GUBUN != null){
             rndDetail.global.taxCk = "Y";
         }
+
+        /** 첨부파일 세팅 */
+        rndDetail.fn_fileSet();
     },
 
     fn_save : function (){
@@ -282,8 +307,22 @@ var rndDetail = {
             fd.append(key, parameters[key]);
         }
 
-        if($("#bsPlanFile")[0].files.length == 1){
-            fd.append("bsPlanFile", $("#bsPlanFile")[0].files[0]);
+        if(rndDetail.global.bsPlanAttFiles != null){
+            for(var i = 0; i < rndDetail.global.bsPlanAttFiles.length; i++){
+                fd.append("bsPlanFileList", rndDetail.global.bsPlanAttFiles[i]);
+            }
+        }
+
+        if(rndDetail.global.agreementAttFiles != null){
+            for(var i = 0; i < rndDetail.global.agreementAttFiles.length; i++){
+                fd.append("agreementFileList", rndDetail.global.agreementAttFiles[i]);
+            }
+        }
+
+        if(rndDetail.global.etcAttFiles != null){
+            for(var i = 0; i < rndDetail.global.etcAttFiles.length; i++){
+                fd.append("etcFileList", rndDetail.global.etcAttFiles[i]);
+            }
         }
 
         if(parameters.peoResItem == ""){
@@ -291,7 +330,7 @@ var rndDetail = {
             return;
         }
 
-        if($("#bsPlanFileName").text() == ""){
+        if(rndDetail.global.bsPlanAttFiles.length == 0 && rndDetail.global.bsPlanFileArray.length == 0){
             alert("사업계획서를 등록해주세요.");
             return;
         }
@@ -646,8 +685,250 @@ var rndDetail = {
             });
         }
         rndDetail.fn_save();
-    }
+    },
 
+    fileChange : function(e){
+
+        if(e == "bsPlan"){
+            for(var i = 0; i < $("input[name='bsPlanFileList']")[0].files.length; i++){
+                rndDetail.global.bsPlanAttFiles.push($("input[name='bsPlanFileList']")[0].files[i]);
+            }
+
+            $("#bsPlanFileName").empty();
+            if(rndDetail.global.bsPlanAttFiles.length > 0){
+                var html = '';
+                for (var i = 0; i < rndDetail.global.bsPlanAttFiles.length; i++) {
+                    html += '<div>';
+                    html += rndDetail.global.bsPlanAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="rndDetail.fnUploadFile(\'bsPlan\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#bsPlanFileName").append(html);
+            }
+        } else if(e == "agreement"){
+            for(var i = 0; i < $("input[name='agreementFileList']")[0].files.length; i++){
+                rndDetail.global.agreementAttFiles.push($("input[name='agreementFileList']")[0].files[i]);
+            }
+
+            $("#agreementFileName").empty();
+            if(rndDetail.global.agreementAttFiles.length > 0){
+                var html = '';
+                for (var i = 0; i < rndDetail.global.agreementAttFiles.length; i++) {
+                    html += '<div>';
+                    html += rndDetail.global.agreementAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="rndDetail.fnUploadFile(\'agreement\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#agreementFileName").append(html);
+            }
+        } else if(e == "etc"){
+            for(var i = 0; i < $("input[name='etcFileList']")[0].files.length; i++){
+                rndDetail.global.etcAttFiles.push($("input[name='etcFileList']")[0].files[i]);
+            }
+
+            $("#etcFileName").empty();
+            if(rndDetail.global.etcAttFiles.length > 0){
+                var html = '';
+                for (var i = 0; i < rndDetail.global.etcAttFiles.length; i++) {
+                    html += '<div>';
+                    html += rndDetail.global.etcAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="rndDetail.fnUploadFile(\'etc\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#etcFileName").append(html);
+            }
+        }
+    },
+
+    fnUploadFile : function(e, i) {
+        if(e == "bsPlan"){
+            const dataTransfer = new DataTransfer();
+            let fileArray = Array.from(rndDetail.global.bsPlanAttFiles);
+            fileArray.splice(i, 1);
+            fileArray.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+
+            rndDetail.global.bsPlanAttFiles = dataTransfer.files;
+
+            if(rndDetail.global.bsPlanAttFiles.length > 0){
+                $("#bsPlanFileName").empty();
+
+                var html = '';
+                for (var i = 0; i < rndDetail.global.bsPlanAttFiles.length; i++) {
+                    html += '<div>';
+                    html += rndDetail.global.bsPlanAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="rndDetail.fnUploadFile(\'bsPlan\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#bsPlanFileName").append(html);
+            } else {
+                $("#bsPlanFileName").empty();
+            }
+
+            if(rndDetail.global.bsPlanAttFiles.length == 0){
+                rndDetail.global.bsPlanAttFiles = new Array();
+            }
+
+            rndDetail.global.bsPlanAttFiles = Array.from(rndDetail.global.bsPlanAttFiles);
+
+        } else if(e == "agreement"){
+            const dataTransfer = new DataTransfer();
+            let fileArray = Array.from(rndDetail.global.agreementAttFiles);
+            fileArray.splice(i, 1);
+            fileArray.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+
+            rndDetail.global.agreementAttFiles = dataTransfer.files;
+
+            if(rndDetail.global.agreementAttFiles.length > 0){
+                $("#agreementFileName").empty();
+
+                var html = '';
+                for (var i = 0; i < rndDetail.global.agreementAttFiles.length; i++) {
+                    html += '<div>';
+                    html += rndDetail.global.agreementAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="rndDetail.fnUploadFile(\'agreement\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#agreementFileName").append(html);
+            } else {
+                $("#agreementFileName").empty();
+            }
+
+            if(rndDetail.global.agreementAttFiles.length == 0){
+                rndDetail.global.agreementAttFiles = new Array();
+            }
+
+            rndDetail.global.agreementAttFiles = Array.from(rndDetail.global.agreementAttFiles);
+
+        } else if(e == "etc"){
+            const dataTransfer = new DataTransfer();
+            let fileArray = Array.from(rndDetail.global.etcAttFiles);
+            fileArray.splice(i, 1);
+            fileArray.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+
+            rndDetail.global.etcAttFiles = dataTransfer.files;
+
+            if(rndDetail.global.etcAttFiles.length > 0){
+                $("#etcFileName").empty();
+
+                var html = '';
+                for (var i = 0; i < rndDetail.global.etcAttFiles.length; i++) {
+                    html += '<div>';
+                    html += rndDetail.global.etcAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="rndDetail.fnUploadFile(\'etc\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#etcFileName").append(html);
+            } else {
+                $("#etcFileName").empty();
+            }
+
+            if(rndDetail.global.etcAttFiles.length == 0){
+                rndDetail.global.etcAttFiles = new Array();
+            }
+
+            rndDetail.global.etcAttFiles = Array.from(rndDetail.global.etcAttFiles);
+        }
+    },
+
+    fn_fileSet : function(){
+        if(rndDetail.global.bsPlanFileArray.length > 0){
+            var fileArray = rndDetail.global.bsPlanFileArray;
+            var html = '';
+
+            for (var i = 0; i < rndDetail.global.bsPlanFileArray.length; i++) {
+                html += '<div>';
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+fileArray[i].file_path+fileArray[i].file_uuid+ '\', \''+fileArray[i].file_org_name+'.'+fileArray[i].file_ext+'\')">'+fileArray[i].file_org_name+ '.' + fileArray[i].file_ext + '</span>';
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="rndDetail.commonFileDel(\'' + fileArray[i].file_no + '\', this, \'bsPlan\');">';
+                html += '</div>';
+            }
+
+            $("#bsPlanFileSetName").append(html);
+        }
+
+        if(rndDetail.global.agreementFileArray.length > 0){
+            var fileArray = rndDetail.global.agreementFileArray;
+            var html = '';
+
+            for (var i = 0; i < rndDetail.global.agreementFileArray.length; i++) {
+                html += '<div>';
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+fileArray[i].file_path+fileArray[i].file_uuid+ '\', \''+fileArray[i].file_org_name+'.'+fileArray[i].file_ext+'\')">'+fileArray[i].file_org_name+ '.' + fileArray[i].file_ext + '</span>';
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="rndDetail.commonFileDel(\'' + fileArray[i].file_no + '\', this, \'agreement\');">';
+                html += '</div>';
+            }
+
+            $("#agreementFileSetName").append(html);
+        }
+
+        if(rndDetail.global.etcFileArray.length > 0){
+            var fileArray = rndDetail.global.etcFileArray;
+            var html = '';
+
+            for (var i = 0; i < rndDetail.global.etcFileArray.length; i++) {
+                html += '<div>';
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+fileArray[i].file_path+fileArray[i].file_uuid+ '\', \''+fileArray[i].file_org_name+'.'+fileArray[i].file_ext+'\')">'+fileArray[i].file_org_name+ '.' + fileArray[i].file_ext + '</span>';
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="rndDetail.commonFileDel(\'' + fileArray[i].file_no + '\', this, \'etc\');">';
+                html += '</div>';
+            }
+
+            $("#etcFileSetName").append(html);
+        }
+    },
+
+    commonFileDel: function(e, v, type){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).parent().hide();
+
+                        if(type == "bsPlan"){
+                            rndDetail.global.bsPlanFileArray.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    rndDetail.global.bsPlanFileArray.splice(index, 1);
+                                }
+                            });
+                        }
+
+                        if(type == "agreement"){
+                            rndDetail.global.agreementFileArray.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    rndDetail.global.agreementFileArray.splice(index, 1);
+                                }
+                            });
+                        }
+
+                        if(type == "etc"){
+                            rndDetail.global.etcFileArray.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    rndDetail.global.etcFileArray.splice(index, 1);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    },
 
 }
 

@@ -486,7 +486,7 @@ public class ProjectRndController {
     @RequestMapping("/projectRnd/getRndDetail")
     public String getRndDetail(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("map", projectRndService.getRndDetail(params));
-
+        model.addAttribute("fileList", projectRndService.getRndFileList(params));
         return "jsonView";
     }
 
