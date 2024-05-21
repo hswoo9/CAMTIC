@@ -108,7 +108,7 @@ public class ProjectUnRndController {
     @RequestMapping("/projectUnRnd/getUnRndDetail")
     public String getUnRndDetail(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("map", projectUnRndService.getUnRndDetail(params));
-
+        model.addAttribute("fileList", projectUnRndService.getUnRndFileList(params));
         return "jsonView";
     }
 

@@ -211,6 +211,23 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     }
 
     @Override
+    public Map<String, Object> getRndFileList(Map<String, Object> params) {
+        Map<String, Object> resultMap = new HashMap<>();
+
+        params.put("fileCd", "unRnd");
+        params.put("contentId", params.get("pjtSn"));
+        resultMap.put("bsPlanFile", commonRepository.getFileList(params));
+
+        params.put("contentId", "agreement_" + params.get("pjtSn"));
+        resultMap.put("agreementFile", commonRepository.getFileList(params));
+
+        params.put("contentId", "etc_" + params.get("pjtSn"));
+        resultMap.put("etcFile", commonRepository.getFileList(params));
+
+        return resultMap;
+    }
+
+    @Override
     public void setRndDetail(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR) {
 
         if(params.get("stat") == "ins" || "ins".equals(params.get("stat"))){
@@ -232,22 +249,52 @@ public class ProjectRndServiceImpl implements ProjectRndService {
         MainLib mainLib = new MainLib();
         Map<String, Object> fileInsMap = new HashMap<>();
 
-        MultipartFile bsPlanFile = request.getFile("bsPlanFile");
-        if(bsPlanFile != null){
-            if(!bsPlanFile.isEmpty()){
-                params.put("menuCd", "unRnd");
-                fileInsMap = mainLib.fileUpload(bsPlanFile, filePath(params, SERVER_DIR));
-                fileInsMap.put("rndSn", params.get("rndSn"));
-                fileInsMap.put("fileCd", params.get("menuCd"));
-                fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
-                fileInsMap.put("empSeq", params.get("regEmpSeq"));
-                commonRepository.insOneFileInfo(fileInsMap);
+        MultipartFile[] bsPlanFileList = request.getFiles("bsPlanFileList").toArray(new MultipartFile[0]);
+        MultipartFile[] agreementFileList = request.getFiles("agreementFileList").toArray(new MultipartFile[0]);
+        MultipartFile[] etcFileList = request.getFiles("etcFileList").toArray(new MultipartFile[0]);
 
-                fileInsMap.put("file_no", fileInsMap.get("file_no"));
-                projectRndRepository.updRndFileSn(fileInsMap);
+        params.put("menuCd", "unRnd");
+
+        /* 사업계획서 첨부파일 */
+        if(bsPlanFileList.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(bsPlanFileList, filePath(params, SERVER_DIR));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("pjtSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, BASE_DIR));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
             }
+            commonRepository.insFileInfo(list);
+        }
+
+        /* 협약서 첨부파일 */
+        if(agreementFileList.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(agreementFileList, filePath(params, SERVER_DIR));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "agreement_" + params.get("pjtSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, BASE_DIR));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
+            }
+            commonRepository.insFileInfo(list);
+        }
+
+        /* 기타 첨부파일 */
+        if(etcFileList.length > 0){
+            List<Map<String, Object>> list = mainLib.multiFileUpload(etcFileList, filePath(params, SERVER_DIR));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", "etc_" + params.get("pjtSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, BASE_DIR));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
+            }
+            commonRepository.insFileInfo(list);
         }
 
         projectRepository.delCustomBudget(params);
@@ -447,7 +494,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
             projectRndRepository.updateRndDelvApprStat(params);
         }
 
-        if("10".equals(docSts)){
+        if("10".equals(docSts) || "50".equals(docSts)){
             /** STEP1. pjtSn 으로 rndData 호출 */
             Map<String, Object> rndMap = projectRndRepository.getRndDetail(params);
 
@@ -457,6 +504,28 @@ public class ProjectRndServiceImpl implements ProjectRndService {
                     params.put("fileNo", rndMap.get("RND_FILE_SN").toString());
                     projectRepository.setFileDocNm(params);
                 }
+            }
+
+            params.put("fileCd", "unRnd");
+            params.put("contentId", params.get("pjtSn"));
+            for(Map<String, Object> map : commonRepository.getFileList(params)){
+                map.put("fileNo", map.get("file_no"));
+                map.put("docId", params.get("docId"));
+                projectRepository.setFileDocNm(map);
+            }
+
+            params.put("contentId", "agreement_" + params.get("pjtSn"));
+            for(Map<String, Object> map : commonRepository.getFileList(params)){
+                map.put("fileNo", map.get("file_no"));
+                map.put("docId", params.get("docId"));
+                projectRepository.setFileDocNm(map);
+            }
+
+            params.put("contentId", "etc_" + params.get("pjtSn"));
+            for(Map<String, Object> map : commonRepository.getFileList(params)){
+                map.put("fileNo", map.get("file_no"));
+                map.put("docId", params.get("docId"));
+                projectRepository.setFileDocNm(map);
             }
         }
     }

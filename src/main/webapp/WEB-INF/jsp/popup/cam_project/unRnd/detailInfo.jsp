@@ -101,9 +101,32 @@
                     <span class="red-star">*</span>사업계획서
                 </th>
                 <td colspan="3">
-                    <label for="bsPlanFile" class="k-button k-button-solid-base">파일첨부</label>
-                    <input type="file" id="bsPlanFile" name="bsPlanFile" onchange="fileChange(this)" style="display: none">
+                    <label for="bsPlanFileList" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="bsPlanFileList" name="bsPlanFileList" onchange="unRndDetail.fileChange('bsPlan')" style="display: none" multiple>
+                    <span id="bsPlanFileSetName"></span>
                     <span id="bsPlanFileName"></span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    협약서
+                </th>
+                <td colspan="3">
+                    <label for="agreementFileList" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="agreementFileList" name="agreementFileList" onchange="unRndDetail.fileChange('agreement')" style="display: none" multiple>
+                    <span id="agreementFileSetName"></span>
+                    <span id="agreementFileName"></span>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row" class="text-center th-color">
+                    기타
+                </th>
+                <td colspan="3">
+                    <label for="etcFileList" class="k-button k-button-solid-base">파일첨부</label>
+                    <input type="file" id="etcFileList" name="etcFileList" onchange="unRndDetail.fileChange('etc')" style="display: none" multiple>
+                    <span id="etcFileSetName"></span>
+                    <span id="etcFileName"></span>
                 </td>
             </tr>
             <tr>

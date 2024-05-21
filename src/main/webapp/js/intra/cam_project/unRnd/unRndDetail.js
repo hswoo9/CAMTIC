@@ -3,7 +3,14 @@ var unRndDetail = {
 
     global : {
         codeCk: "N",
-        taxCk: "N"
+        taxCk: "N",
+
+        bsPlanFileArray : [],
+        bsPlanAttFiles : [],
+        agreementFileArray : [],
+        agreementAttFiles : [],
+        etcFileArray : [],
+        etcAttFiles : [],
     },
 
     fn_defaultScript : function(){
@@ -67,6 +74,10 @@ var unRndDetail = {
         var pjtMap = pjtInfo.map;
         var rs = result.map;
 
+        unRndDetail.global.bsPlanFileArray = result.fileList.bsPlanFile;
+        unRndDetail.global.agreementFileArray = result.fileList.agreementFile;
+        unRndDetail.global.etcFileArray = result.fileList.etcFile;
+
         unRndDetail.customBudgetGrid("/project/getProjectBudgetList.do", {pjtSn : $("#pjtSn").val()});
 
         /** 최초 저장 이후 데이터 세팅 */
@@ -88,10 +99,21 @@ var unRndDetail = {
                 $("#unRndObj").val(rs.UN_RND_OBJ);
                 $("#unRndEtc").val(rs.UN_RND_ETC);
 
-                var fileHtml = "";
-                fileHtml += '<span style="cursor: pointer" onClick="fileDown(\''+rs.file_path+rs.file_uuid+ '\', \''+rs.file_org_name+'.'+rs.file_ext+'\')">'+rs.file_org_name+ '.' + rs.file_ext + '</span>'
+                // var fileHtml = "";
+                // fileHtml += '<span style="cursor: pointer" onClick="fileDown(\''+rs.file_path+rs.file_uuid+ '\', \''+rs.file_org_name+'.'+rs.file_ext+'\')">'+rs.file_org_name+ '.' + rs.file_ext + '</span>';
+                // if(rs.file_org_name != null){
+                //     $("#bsPlanFileSetName").html(fileHtml);
+                // }
+
+                var fileInfo = {
+                    file_path : rs.file_path,
+                    file_uuid : rs.file_uuid,
+                    file_org_name : rs.file_org_name,
+                    file_ext : rs.file_ext,
+                    file_no : rs.file_no
+                }
                 if(rs.file_org_name != null){
-                    $("#bsPlanFileName").html(fileHtml);
+                    unRndDetail.global.bsPlanFileArray.push(fileInfo);
                 }
 
                 let AcResult = customKendo.fn_customAjax("/projectRnd/getAccountInfo", {
@@ -186,6 +208,9 @@ var unRndDetail = {
         if(map != null && map.TAX_GUBUN != null){
             unRndDetail.global.taxCk = "Y";
         }
+
+        /** 첨부파일 세팅 */
+        unRndDetail.fn_fileSet();
     },
 
     fn_save : function(){
@@ -243,8 +268,22 @@ var unRndDetail = {
             fd.append(key, parameters[key]);
         }
 
-        if($("#bsPlanFile")[0].files.length == 1){
-            fd.append("bsPlanFile", $("#bsPlanFile")[0].files[0]);
+        if(unRndDetail.global.bsPlanAttFiles != null){
+            for(var i = 0; i < unRndDetail.global.bsPlanAttFiles.length; i++){
+                fd.append("bsPlanFileList", unRndDetail.global.bsPlanAttFiles[i]);
+            }
+        }
+
+        if(unRndDetail.global.agreementAttFiles != null){
+            for(var i = 0; i < unRndDetail.global.agreementAttFiles.length; i++){
+                fd.append("agreementFileList", unRndDetail.global.agreementAttFiles[i]);
+            }
+        }
+
+        if(unRndDetail.global.etcAttFiles != null){
+            for(var i = 0; i < unRndDetail.global.etcAttFiles.length; i++){
+                fd.append("etcFileList", unRndDetail.global.etcAttFiles[i]);
+            }
         }
 
         if(parameters.peoResItem == ""){
@@ -252,7 +291,7 @@ var unRndDetail = {
             return;
         }
 
-        if($("#bsPlanFileName").text() == ""){
+        if(unRndDetail.global.bsPlanAttFiles.length == 0 && unRndDetail.global.bsPlanFileArray.length == 0 ){
             alert("사업계획서를 등록해주세요.");
             return;
         }
@@ -343,7 +382,7 @@ var unRndDetail = {
             return;
         }
         if(pjtStatSub == ""){
-            alert("사업성격2룰 선택해주세요.");
+            alert("사업성격2를 선택해주세요.");
             return;
         }
         commonProject.loading();
@@ -603,5 +642,248 @@ var unRndDetail = {
             });
         }
         unRndDetail.fn_save()
-    }
+    },
+
+    fileChange : function(e){
+
+        if(e == "bsPlan"){
+            for(var i = 0; i < $("input[name='bsPlanFileList']")[0].files.length; i++){
+                unRndDetail.global.bsPlanAttFiles.push($("input[name='bsPlanFileList']")[0].files[i]);
+            }
+
+            $("#bsPlanFileName").empty();
+            if(unRndDetail.global.bsPlanAttFiles.length > 0){
+                var html = '';
+                for (var i = 0; i < unRndDetail.global.bsPlanAttFiles.length; i++) {
+                    html += '<div>';
+                    html += unRndDetail.global.bsPlanAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="unRndDetail.fnUploadFile(\'bsPlan\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#bsPlanFileName").append(html);
+            }
+        } else if(e == "agreement"){
+            for(var i = 0; i < $("input[name='agreementFileList']")[0].files.length; i++){
+                unRndDetail.global.agreementAttFiles.push($("input[name='agreementFileList']")[0].files[i]);
+            }
+
+            $("#agreementFileName").empty();
+            if(unRndDetail.global.agreementAttFiles.length > 0){
+                var html = '';
+                for (var i = 0; i < unRndDetail.global.agreementAttFiles.length; i++) {
+                    html += '<div>';
+                    html += unRndDetail.global.agreementAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="unRndDetail.fnUploadFile(\'agreement\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#agreementFileName").append(html);
+            }
+        } else if(e == "etc"){
+            for(var i = 0; i < $("input[name='etcFileList']")[0].files.length; i++){
+                unRndDetail.global.etcAttFiles.push($("input[name='etcFileList']")[0].files[i]);
+            }
+
+            $("#etcFileName").empty();
+            if(unRndDetail.global.etcAttFiles.length > 0){
+                var html = '';
+                for (var i = 0; i < unRndDetail.global.etcAttFiles.length; i++) {
+                    html += '<div>';
+                    html += unRndDetail.global.etcAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="unRndDetail.fnUploadFile(\'etc\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#etcFileName").append(html);
+            }
+        }
+    },
+
+    fnUploadFile : function(e, i) {
+        if(e == "bsPlan"){
+            const dataTransfer = new DataTransfer();
+            let fileArray = Array.from(unRndDetail.global.bsPlanAttFiles);
+            fileArray.splice(i, 1);
+            fileArray.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+
+            unRndDetail.global.bsPlanAttFiles = dataTransfer.files;
+
+            if(unRndDetail.global.bsPlanAttFiles.length > 0){
+                $("#bsPlanFileName").empty();
+
+                var html = '';
+                for (var i = 0; i < unRndDetail.global.bsPlanAttFiles.length; i++) {
+                    html += '<div>';
+                    html += unRndDetail.global.bsPlanAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="unRndDetail.fnUploadFile(\'bsPlan\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#bsPlanFileName").append(html);
+            } else {
+                $("#bsPlanFileName").empty();
+            }
+
+            if(unRndDetail.global.bsPlanAttFiles.length == 0){
+                unRndDetail.global.bsPlanAttFiles = new Array();
+            }
+
+            unRndDetail.global.bsPlanAttFiles = Array.from(unRndDetail.global.bsPlanAttFiles);
+
+        } else if(e == "agreement"){
+            const dataTransfer = new DataTransfer();
+            let fileArray = Array.from(unRndDetail.global.agreementAttFiles);
+            fileArray.splice(i, 1);
+            fileArray.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+
+            unRndDetail.global.agreementAttFiles = dataTransfer.files;
+
+            if(unRndDetail.global.agreementAttFiles.length > 0){
+                $("#agreementFileName").empty();
+
+                var html = '';
+                for (var i = 0; i < unRndDetail.global.agreementAttFiles.length; i++) {
+                    html += '<div>';
+                    html += unRndDetail.global.agreementAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="unRndDetail.fnUploadFile(\'agreement\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#agreementFileName").append(html);
+            } else {
+                $("#agreementFileName").empty();
+            }
+
+            if(unRndDetail.global.agreementAttFiles.length == 0){
+                unRndDetail.global.agreementAttFiles = new Array();
+            }
+
+            unRndDetail.global.agreementAttFiles = Array.from(unRndDetail.global.agreementAttFiles);
+
+        } else if(e == "etc"){
+            const dataTransfer = new DataTransfer();
+            let fileArray = Array.from(unRndDetail.global.etcAttFiles);
+            fileArray.splice(i, 1);
+            fileArray.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+
+            unRndDetail.global.etcAttFiles = dataTransfer.files;
+
+            if(unRndDetail.global.etcAttFiles.length > 0){
+                $("#etcFileName").empty();
+
+                var html = '';
+                for (var i = 0; i < unRndDetail.global.etcAttFiles.length; i++) {
+                    html += '<div>';
+                    html += unRndDetail.global.etcAttFiles[i].name;
+                    html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="unRndDetail.fnUploadFile(\'etc\',' + i + ');">';
+                    html += '</div>';
+                }
+
+                $("#etcFileName").append(html);
+            } else {
+                $("#etcFileName").empty();
+            }
+
+            if(unRndDetail.global.etcAttFiles.length == 0){
+                unRndDetail.global.etcAttFiles = new Array();
+            }
+
+            unRndDetail.global.etcAttFiles = Array.from(unRndDetail.global.etcAttFiles);
+        }
+    },
+
+    fn_fileSet : function(){
+        if(unRndDetail.global.bsPlanFileArray.length > 0){
+            var fileArray = unRndDetail.global.bsPlanFileArray;
+            var html = '';
+
+            for (var i = 0; i < unRndDetail.global.bsPlanFileArray.length; i++) {
+                html += '<div>';
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+fileArray[i].file_path+fileArray[i].file_uuid+ '\', \''+fileArray[i].file_org_name+'.'+fileArray[i].file_ext+'\')">'+fileArray[i].file_org_name+ '.' + fileArray[i].file_ext + '</span>';
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="unRndDetail.commonFileDel(\'' + fileArray[i].file_no + '\', this, \'bsPlan\');">';
+                html += '</div>';
+            }
+
+            $("#bsPlanFileSetName").append(html);
+        }
+
+        if(unRndDetail.global.agreementFileArray.length > 0){
+            var fileArray = unRndDetail.global.agreementFileArray;
+            var html = '';
+
+            for (var i = 0; i < unRndDetail.global.agreementFileArray.length; i++) {
+                html += '<div>';
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+fileArray[i].file_path+fileArray[i].file_uuid+ '\', \''+fileArray[i].file_org_name+'.'+fileArray[i].file_ext+'\')">'+fileArray[i].file_org_name+ '.' + fileArray[i].file_ext + '</span>';
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="unRndDetail.commonFileDel(\'' + fileArray[i].file_no + '\', this, \'agreement\');">';
+                html += '</div>';
+            }
+
+            $("#agreementFileSetName").append(html);
+        }
+
+        if(unRndDetail.global.etcFileArray.length > 0){
+            var fileArray = unRndDetail.global.etcFileArray;
+            var html = '';
+
+            for (var i = 0; i < unRndDetail.global.etcFileArray.length; i++) {
+                html += '<div>';
+                html += '<span style="cursor: pointer" onclick="fileDown(\''+fileArray[i].file_path+fileArray[i].file_uuid+ '\', \''+fileArray[i].file_org_name+'.'+fileArray[i].file_ext+'\')">'+fileArray[i].file_org_name+ '.' + fileArray[i].file_ext + '</span>';
+                html += '<input type="button" value="X" class="" style="margin-left: 5px; border: none; background-color: transparent; color: red; font-weight: bold;" onclick="unRndDetail.commonFileDel(\'' + fileArray[i].file_no + '\', this, \'etc\');">';
+                html += '</div>';
+            }
+
+            $("#etcFileSetName").append(html);
+        }
+    },
+
+    commonFileDel: function(e, v, type){
+        if(confirm("삭제한 파일은 복구할 수 없습니다.\n그래도 삭제하시겠습니까?")){
+            $.ajax({
+                url: "/common/commonFileDel",
+                data: {
+                    fileNo: e
+                },
+                type: "post",
+                datatype: "json",
+                success: function (rs) {
+                    var rs = rs.rs;
+                    alert(rs.message);
+                    if(rs.code == "200"){
+                        $(v).parent().hide();
+
+                        if(type == "bsPlan"){
+                            unRndDetail.global.bsPlanFileArray.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    unRndDetail.global.bsPlanFileArray.splice(index, 1);
+                                }
+                            });
+                        }
+
+                        if(type == "agreement"){
+                            unRndDetail.global.agreementFileArray.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    unRndDetail.global.agreementFileArray.splice(index, 1);
+                                }
+                            });
+                        }
+
+                        if(type == "etc"){
+                            unRndDetail.global.etcFileArray.forEach((item, index) => {
+                                if(item.file_no == e){
+                                    unRndDetail.global.etcFileArray.splice(index, 1);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+    },
 }

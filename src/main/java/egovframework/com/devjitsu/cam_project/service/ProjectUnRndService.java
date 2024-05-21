@@ -10,6 +10,8 @@ public interface ProjectUnRndService {
 
     Map<String, Object> getUnRndDetail(Map<String, Object> params);
 
+    Map<String, Object> getUnRndFileList(Map<String, Object> params);
+
     Map<String,Object>getMemberIdCheck (Map<String,Object> params);
 
     void setUnRndDetail(Map<String, Object> params, MultipartHttpServletRequest request, String SERVER_DIR, String BASE_DIR);

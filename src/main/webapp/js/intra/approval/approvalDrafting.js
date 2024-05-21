@@ -1474,8 +1474,30 @@ var draft = {
                 pjtSn: data.pjtSn
             });
             console.log(result);
+
+            let fileList = result.fileList.bsPlanFile;
+            let fileList2 = result.fileList.agreementFile;
+            let fileList3 = result.fileList.etcFile;
+
+            let attCount = 0;
             let tempArr = [];
             tempArr[0] = result.map;
+
+            for(let j=0; j< fileList.length; j++){
+                tempArr[attCount] = fileList[j];
+                attCount++;
+            }
+
+            for(let j=0; j< fileList2.length; j++){
+                tempArr[attCount] = fileList2[j];
+                attCount++;
+            }
+
+            for(let j=0; j< fileList3.length; j++){
+                tempArr[attCount] = fileList3[j];
+                attCount++;
+            }
+
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
@@ -1486,8 +1508,30 @@ var draft = {
                 pjtSn: data.pjtSn
             });
             console.log(result);
+
+            let fileList = result.fileList.bsPlanFile;
+            let fileList2 = result.fileList.agreementFile;
+            let fileList3 = result.fileList.etcFile;
+
+            let attCount = 0;
             let tempArr = [];
             tempArr[0] = result.map;
+
+            for(let j=0; j< fileList.length; j++){
+                tempArr[attCount] = fileList[j];
+                attCount++;
+            }
+
+            for(let j=0; j< fileList2.length; j++){
+                tempArr[attCount] = fileList2[j];
+                attCount++;
+            }
+
+            for(let j=0; j< fileList3.length; j++){
+                tempArr[attCount] = fileList3[j];
+                attCount++;
+            }
+
             draft.getDocFileSet(tempArr);
             draft.setKendoUpload();
         }
