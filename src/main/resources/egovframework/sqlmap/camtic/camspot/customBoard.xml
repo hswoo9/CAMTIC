@@ -1006,7 +1006,7 @@
                 CAM_HR.FN_GetName('DEPT', DEI.DEPT_SEQ, 'KR') AS DEPT_NAME,
                 DEI.EMP_NAME_KR AS REG_EMP_NAME,
                 DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d') as start,
-                DATE_FORMAT(VUH.SUBHOLIDAY_ST_DT, '%Y-%m-%d') as end
+                DATE_FORMAT(VUH.SUBHOLIDAY_EN_DT, '%Y-%m-%d') as end
             FROM
                 CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST VUH
             JOIN
