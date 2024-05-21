@@ -77,6 +77,7 @@
 <input type="hidden" id="tab" value="${params.tab}" />
 
 <input type="hidden" id="mainPjtSn" value="${params.pjtSn}" />
+<input type="hidden" id="paramParentPjtSn" value="${params.paramParentPjtSn}" />
 
 <input type="hidden" id="mYearCk" value="N">
 
@@ -92,6 +93,7 @@
 
             <div class="btn-st popButton">
                 <button type="button" id="saveBtn" class="k-button k-button-solid-info" onclick="regRnd.fn_save()">저장</button>
+                <button type="button" id="nextPjtBtn" class="k-button k-button-solid-info" style="display: none;" onclick="regRnd.fn_nextPjt()">다년프로젝트 생성</button>
                 <button type="button" id="modBtn" class="k-button k-button-solid-primary" style="display: none;" onclick="regRnd.fn_mod()">수정</button>
                 <c:if test="${loginVO.uniqId eq data.WRITER_EMP_SEQ}">
                     <button type="button" id="stopBtn" class="k-button k-button-solid-error" style="display: none;" onclick="regRnd.fn_stopModal()" /> 중단</button>
