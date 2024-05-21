@@ -339,56 +339,20 @@ var purcMngAppList = {
         }
 
         $("#hiddenGrid").kendoGrid({
-            dataSource: customKendo.fn_gridDataSource2("/purc/getMngPurcAppListExcel", purcMngAppList.global.searchAjaxData),
+            dataSource: customKendo.fn_gridDataSource2("/purc/getMngPurcAppListExcel", purcMngAppList.global.searchAjaxData, 99999),
+            sortable: true,
+            selectable: "row",
             height: 525,
+            pageable: {
+                refresh: true,
+                pageSizes: [ 10, 20, 30, 50, 100, 'All' ],
+                buttonCount: 5
+            },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
-            toolbar: [
-                {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_claimExpDateChangeModal()">' +
-                            '	<span class="k-button-text">지급예정일 변경</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_purcBasicSettings()">' +
-                            '	<span class="k-button-text">지급설정</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.fn_appUserPaySetting(0)">' +
-                            '	<span class="k-button-text">다건지출요청</span>' +
-                            '</button>';
-                    }
-                }, {
-                    name: 'button',
-                    template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.hiddenGrid()">' +
-                            '	<span class="k-button-text">조회</span>' +
-                            '</button>';
-                    }
-                }
-            ],
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'clm\');"/>',
-                    width: 30,
-                    template : function (e){
-                        console.log(e)
-                        var amt = (Number(e.TOT_AMT) - Number(e.EXNP_AMT));
-                        if(amt == 0){
-                            return "";
-                        } else {
-                            return "<input type='checkbox' id='clm"+e.CLAIM_SN+"' name='clm' class='clm' setting='"+e.SETTING+"' value='"+e.CLAIM_SN+"' crm-sn='"+e.CRM_SN+"'/>";
-                        }
-                    }
-                }, {
                     title: "번호",
                     width: 40,
                     template: "#= --record #"
