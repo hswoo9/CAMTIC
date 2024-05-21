@@ -394,6 +394,9 @@
         AND (VUH.DOC_ID != 'AA' OR VUH.DOC_ID IS NULL)
         AND VUH.SUBHOLIDAY_CODE_ID = #{holidayCode}
         AND DEI.EMP_NAME_KR LIKE CONCAT('%',#{empName},'%')
+        <if test='"asc".equals(orderType)'>
+            ORDER BY SUBHOLIDAY_ST_DT ASC
+        </if>
     </select>
 
     <select id="getVacUseHistoryOne" resultType="map" parameterType="map">
