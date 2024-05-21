@@ -1714,4 +1714,10 @@ public class ProjectController {
         model.addAttribute("list", projectService.projectEnterMemberList(params));
         return "jsonView";
     }
+
+    @RequestMapping("/project/getPjtYear")
+    public String getPjtYear(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", projectService.getPjtYear(params));
+        return "jsonView";
+    }
 }

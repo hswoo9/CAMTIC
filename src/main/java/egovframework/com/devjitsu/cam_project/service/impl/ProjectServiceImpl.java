@@ -1722,6 +1722,11 @@ public class ProjectServiceImpl implements ProjectService {
 
         return result;
     }
+
+    @Override
+    public List<Map<String, Object>> getPjtYear(Map<String, Object> params) {
+        return projectRepository.getPjtYear(params);
+    }
 }
 
 

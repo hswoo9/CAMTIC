@@ -228,4 +228,6 @@ public interface ProjectService {
     void updInvestData(Map<String, Object> params);
 
     Map<String, Object> projectEnterMemberList(Map<String, Object> params);
+
+    List<Map<String, Object>> getPjtYear(Map<String, Object> params);
 }
