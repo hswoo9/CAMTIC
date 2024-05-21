@@ -169,18 +169,6 @@
         ]]>
         </if>
 
-        <choose>
-            <when test='approveStat != null and "result".equals(approveStat)'>
-                ORDER BY IFNULL(DI.LAST_APPROVE_DT, DI.DRAFT_DT) DESC
-            </when>
-            <when test='approveStat != null and "temp".equals(approveStat)'>
-                ORDER BY DI.DOC_ID DESC
-            </when>
-            <otherwise>
-                ORDER BY IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT) DESC
-            </otherwise>
-        </choose>
-
         ) RE
 
         ) RRE
@@ -207,6 +195,19 @@
                 OR RRE.DOC_NO LIKE CONCAT('%', #{docTitle},'%')
                 OR RRE.FORM_NAME LIKE CONCAT('%', #{docTitle},'%')
                 )
+            </otherwise>
+        </choose>
+
+
+        <choose>
+            <when test='approveStat != null and "result".equals(approveStat)'>
+                ORDER BY IFNULL(RRE.LAST_APPROVE_DT, RRE.DRAFT_DT) DESC
+            </when>
+            <when test='approveStat != null and "temp".equals(approveStat)'>
+                ORDER BY RRE.DOC_ID DESC
+            </when>
+            <otherwise>
+                ORDER BY IFNULL(RRE.REPTIT_DRFT_DT, RRE.DRAFT_DT) DESC
             </otherwise>
         </choose>
     </select>
