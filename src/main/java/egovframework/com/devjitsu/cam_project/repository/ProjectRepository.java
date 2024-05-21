@@ -807,4 +807,8 @@ public class ProjectRepository extends AbstractDAO {
     public List<Map<String, Object>> getTeamReaderList(Map<String, Object> params) {
         return selectList("project.getTeamReaderList", params);
     }
+
+    public List<Map<String, Object>> getPjtYear(Map<String, Object> params) {
+        return selectList("project.getPjtYear", params);
+    }
 }

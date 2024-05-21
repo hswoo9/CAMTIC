@@ -50,6 +50,10 @@
         WHERE
         1=1
         AND A.TEAM_STAT = "N"
+        <if test='pjtYear != null and pjtYear != ""'>
+            AND
+                DATE_FORMAT(A.STR_DT, '%Y') = #{pjtYear}
+        </if>
         <if test='busnClass != null and busnClass != ""'>
             AND
                 A.BUSN_CLASS = #{busnClass}
@@ -3594,5 +3598,11 @@
           AND C.DIVISION != 9999
     </select>
 
-
+    <select id="getPjtYear" parameterType="map" resultType="map">
+        /*getPjtYear*/
+        SELECT
+            DATE_FORMAT(STR_DT, '%Y') AS YEAR,
+            CONCAT(DATE_FORMAT(STR_DT, '%Y'), '년') AS TEXT
+        FROM CAM_PJT_MNG.DJ_PROJECT WHERE STR_DT IS NOT NULL GROUP BY DATE_FORMAT(STR_DT, '%Y') ORDER BY STR_DT DESC
+    </select>
 </mapper>

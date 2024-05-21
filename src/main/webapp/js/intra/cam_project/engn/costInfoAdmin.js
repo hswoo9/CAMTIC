@@ -223,14 +223,14 @@ var costInfo = {
         }
 
 
-        $("#purcSum").text(comma(purcSum));
-        $("#bustSum").text(comma(bustSum));
-        $("#costSum").text(comma(paySum));
-        $("#purcSumTemp").text(comma(purcSum));
-        $("#bustSumTemp").text(comma(bustSum));
-        $("#costSumTemp").text(comma(paySum));
+        $("#purcSum").text(comma(Math.round(purcSum)));
+        $("#bustSum").text(comma(Math.round(bustSum)));
+        $("#costSum").text(comma(Math.round(paySum)));
+        $("#purcSumTemp").text(comma(Math.round(purcSum)));
+        $("#bustSumTemp").text(comma(Math.round(bustSum)));
+        $("#costSumTemp").text(comma(Math.round(paySum)));
 
-        $("#invSum").text(comma(purcSum + bustSum + paySum));
+        $("#invSum").text(comma(Math.round(purcSum) + Math.round((bustSum)) + Math.round(paySum)));
     },
 
     grid2 : function (url, params){
@@ -347,7 +347,7 @@ var costInfo = {
                     title: "금액",
                     width: 100,
                     template: function(e){
-                        return "<div style='text-align: right'>"+comma(e.PURC_ITEM_AMT_SUM)+"</div>";
+                        return "<div style='text-align: right'>"+comma(Math.round(e.PURC_ITEM_AMT_SUM))+"</div>";
                     },
                     footerTemplate: function(){
                         return "<div id='purcSumTemp' style='text-align: right'></div>";

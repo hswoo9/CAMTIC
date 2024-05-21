@@ -239,6 +239,12 @@
                         <col width="25%">
                     </colgroup>
                     <tr>
+                        <th class="text-center th-color">연도선택</th>
+                        <td colspan="6">
+                            <input type="text" id="pjtYear" style="width: 150px;">
+                        </td>
+                    </tr>
+                    <tr>
                         <th class="text-center th-color">사업구분</th>
                         <td>
                             <input type="text" id="busnClass" style="width: 150px;">
