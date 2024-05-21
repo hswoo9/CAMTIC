@@ -21,17 +21,19 @@ var viewAssetPop = {
         let imgHtml = '';
 
         for(let i=0; i<oldAstFile.length; i++){
+            const map = oldAstFile[i];
             if(i != 0){
                 imgHtml += '<br>';
             }
-            imgHtml += '<img src="'+oldAstFile.file_path+oldAstFile.file_uuid+'">';
+            imgHtml += '<img src="'+map.file_path+map.file_uuid+'">';
         }
 
         for(let i=0; i<astFile.length; i++){
+            const map = astFile[i];
             if(i != 0){
                 imgHtml += '<br>';
             }
-            imgHtml += '<img src="'+astFile.file_path+astFile.file_uuid+'">';
+            imgHtml += '<img src="'+map.file_path+map.file_uuid+'">';
         }
 
         if(oldAstFile.length > 0 || astFile.length > 0){
