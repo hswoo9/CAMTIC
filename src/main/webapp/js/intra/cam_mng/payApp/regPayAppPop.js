@@ -463,6 +463,8 @@ var regPay = {
 
             $("#fileText").text(fileThumbText);
 
+            $(".totCost").trigger("change")
+
             regPay.global.fileArray = fileList;
         }
 
