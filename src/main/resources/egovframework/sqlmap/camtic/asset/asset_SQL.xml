@@ -1785,7 +1785,7 @@
             prtpco_gbn_name = #{prtpcoGbnName}, prtpco_gbn_sn = #{prtpcoGbnSn},
             reg_de = #{regDe}, updt_dt = NOW(), updusr_sn = #{updusrSn},
             str_time = #{time1}, end_time = #{time2}, per_amt = #{perAmt}, per_reason = #{perReason}, pjt_sn = #{pjtSn},
-            cust_nm = #{custNm}
+            cust_nm = #{custNm}, client_prtpco_name = #{clientPrtpcoName}
         WHERE
             eqipmn_use_sn = #{pk}
     </update>
@@ -1846,6 +1846,7 @@
             A.use_amt as USE_AMT,
             A.cust_nm as CUST_NM,
             A.client_prtpco_name as CLIENT_PRTPCO_NAME,
+            A.prtpco_gbn_sn as PRTPCO_GBN_SN,
             A.prtpco_gbn_name as PRTPCO_GBN_NAME,
             A.str_time as STR_TIME,
             A.end_time as END_TIME,
@@ -2707,5 +2708,13 @@
             ON AI.AST_STS_CODE = IC.INSIDE_DT_CODE AND IC.INSIDE_MD_CODE = '03'
         WHERE
             AI.AST_INFO_SN = #{astInfoSn}
+    </select>
+
+    <select id="getAssetPdaInfo" parameterType="map" resultType="map">
+        /*getAssetPdaInfo*/
+        SELECT *
+        FROM
+            CAM_INSIDE.DJ_ASSET_PDA_INFO
+        WHERE AST_PDA_INFO_SN = #{astPdaInfoSn}
     </select>
 </mapper>

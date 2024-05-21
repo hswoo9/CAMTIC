@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.gw.main.controller;
 
 import com.google.gson.Gson;
+import egovframework.com.cms.bannerpopup.service.BannerPopupMngrService;
 import egovframework.com.devjitsu.cams_pot.service.CustomBoardService;
 import egovframework.com.devjitsu.cams_pot.service.camsBoardService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
@@ -55,6 +56,10 @@ public class MainController {
 
     @Autowired
     private camsBoardService camsBoardService;
+
+    @Autowired
+    private BannerPopupMngrService bannerPopupMngrService;
+
     @RequestMapping("/")
     public String index(){
         return "indexA";
@@ -108,7 +113,6 @@ public class MainController {
             model.addAttribute("menuList", commonService.getMenuFullJsonString(loginVO));
             model.addAttribute("loginVO", loginVO);
 
-
             return "indexB";
         } else {
             return "login";
@@ -158,12 +162,25 @@ public class MainController {
         return "indexB_cp";
     }
 
+    @RequestMapping("/main/getMainList.do")
+    public String getMainList(@RequestParam Map<String ,Object> param,HttpServletRequest request, Model model){
+        List<Map<String, Object>> popupList = bannerPopupMngrService.getMainPopupList();
+        model.addAttribute("popupList", popupList);
+        return "jsonView";
+    }
+
+    @RequestMapping("/popup/mainPop.do")
+    public String mainPop(@RequestParam Map<String ,Object> param,HttpServletRequest request, Model model){
+        model.addAttribute("map", bannerPopupMngrService.getBannerPopupOpenOne(param));
+        return "popup/mainPop";
+    }
+
     @RequestMapping("/intro.do")
     public String intro(){
         return "intro";
     }
 
-    @RequestMapping("/main/getMainList.do")
+    /*@RequestMapping("/main/getMainList.do")
     public String getMainList(@RequestParam Map<String ,Object> param,HttpServletRequest request, Model model){
 
         List<Map<String, Object>> response = boardService.selectMainList(param);
@@ -178,7 +195,7 @@ public class MainController {
         model.addAttribute("list3", response3).addAttribute("list4", response4);
         model.addAttribute("list5", response5).addAttribute("list1", response1);
         return "jsonView";
-    }
+    }*/
 
     @RequestMapping("/main/getAlarmList.do")
     public String getAlarmList(@RequestParam Map<String ,Object> param,HttpServletRequest request, Model model){

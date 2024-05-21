@@ -2,6 +2,11 @@ let sum=0;
 var camPrj = {
 
     fn_defaultScript : function (){
+
+        var pjtYear = customKendo.fn_customAjax("/project/getPjtYear", {});
+        console.log("pjtYear", pjtYear);
+        customKendo.fn_dropDownList("pjtYear", pjtYear.list, "TEXT", "YEAR");
+
         customKendo.fn_textBox(["deptName", "searchText", "empName"]);
 
         var bcDsData = {
@@ -95,6 +100,7 @@ var camPrj = {
                     data.regEmpSeq = $("#regEmpSeq").val();
                     data.myDeptSeq = $("#myDeptSeq").val();
                     data.empName = $("#empName").val();
+                    data.pjtYear = $("#pjtYear").val();
                     return data;
                 }
 

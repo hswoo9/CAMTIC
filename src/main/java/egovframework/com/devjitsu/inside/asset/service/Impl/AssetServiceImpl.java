@@ -29,10 +29,8 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class AssetServiceImpl implements AssetService {
@@ -130,7 +128,7 @@ public class AssetServiceImpl implements AssetService {
         Map<String, Object> searchMap = new HashMap<>();
         searchMap.put("fileNo", returnMap.get("AST_FILE_NO"));
         searchMap.put("fileCd", "asset");
-        searchMap.put("contentId", "inspect_" + returnMap.get("AST_INFO_SN").toString());
+        searchMap.put("contentId", "ast_" + returnMap.get("AST_INFO_SN").toString());
         returnMap.put("astFile", commonRepository.getFileList(searchMap));
         searchMap.put("fileNo", returnMap.get("RELATED_FILE_NO"));
         returnMap.put("relatedFile", commonRepository.getContentFileOne(searchMap));
@@ -147,10 +145,13 @@ public class AssetServiceImpl implements AssetService {
         Map<String, Object> returnMap = assetRepository.getAssetInfoAll(params);
 
         Map<String, Object> searchMap = new HashMap<>();
-        searchMap.put("fileNo", returnMap.get("AST_FILE_NO"));
-        searchMap.put("fileSn", returnMap.get("AST_FILE_NO"));
+        searchMap.put("fileCd", "oldAsset1");
+        searchMap.put("contentId", "ast_" + returnMap.get("AST_INFO_SN").toString());
+        returnMap.put("oldAstFile", commonRepository.getFileList(searchMap));
+
         searchMap.put("fileCd", "asset");
-        returnMap.put("astFile", commonRepository.getFileData(searchMap));
+        searchMap.put("contentId", "ast_" + returnMap.get("AST_INFO_SN").toString());
+        returnMap.put("astFile", commonRepository.getFileList(searchMap));
         searchMap.put("fileNo", returnMap.get("RELATED_FILE_NO"));
         returnMap.put("relatedFile", commonRepository.getContentFileOne(searchMap));
         searchMap.put("contentId", "ast_" + params.get("AST_INFO_SN"));
@@ -1448,5 +1449,11 @@ public class AssetServiceImpl implements AssetService {
 
         }
         return dispositionPrefix + encodedFilename;
+    }
+
+
+    @Override
+    public Map<String, Object> getAssetPdaInfo(Map<String, Object> params) {
+        return assetRepository.getAssetPdaInfo(params);
     }
 }

@@ -843,11 +843,11 @@ public class PayAppServiceImpl implements PayAppService {
 
                         int totAmt = Integer.parseInt(data.get("SUP_AM").toString()) + Integer.parseInt(data.get("VAT_AM").toString());
                         int ndepAm = (int) (totAmt * 0.6);
-                        data.put("NDEP_AM", ndepAm);
-                        data.put("INAD_AM", totAmt - ndepAm);
+                        data.put("NDEP_AM", 0);
+                        data.put("INAD_AM", 0);
                         data.put("INTX_AM", totAmt * 0.03);
                         data.put("RSTX_AM", (totAmt * 0.03) / 10);
-                        data.put("ETCDUMMY1", "76");
+                        data.put("ETCDUMMY1", "");
 
                         if(hearnerMap == null){
                             data.put("ETCPER_NM", data.get("TR_NM"));

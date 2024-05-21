@@ -157,7 +157,7 @@
     }
 
     function connectWS(){
-        sock = new WebSocket("wss://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");
+        sock = new WebSocket("ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/websocket.do");
         socket = sock;
 
         sock.onopen = function(e) {
@@ -431,4 +431,115 @@
     }
 
 
+    /** 팝업 추가*/
+    // 쿠키 가져오기
+    var getCookie = function (cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0; i<ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1);
+                if (c.indexOf(name) != -1) return c.substring(name.length,c.length);
+            }
+            return "";
+    }
+
+    var mainOpenPopup = function(popId, popupName,style) {
+        var cookieValue = getCookie("popupClosed_" + popId);
+        if (cookieValue !== "true") {
+            window.open(
+                '/popup/mainPop.do?popId=' + popId,
+                popupName,
+                style
+            );
+        }
+    };
+
+    function rayerPopup(data){
+
+        if(getRayerCookie("rayer"+data.uuid) == 'Y'){
+            return false;
+        }
+        var link = "";
+
+        if(data.bannerPopupLink != ""){
+            link = data.bannerPopupLink;
+        }
+
+        var positonX = data.bannerPopupLeft;
+        var positonY = data.bannerPopupTop;
+        if (data.centerYn === 'Y') {
+            // centerYn이 'Y'이면 중앙 정렬
+
+            //window 크기계산 -> window.screen.width, height 사용
+            positonX = (window.screen.width - data.bannerPopupWidth) / 2;
+            positonY = (window.screen.height - data.bannerPopupHeight) / 2;
+        }
+
+        let html = '';
+
+        html += '<div id="rayer'+data.uuid+'" class="rayer" style="top:'+positonY+'px; left:'+positonX+'px;">';
+        html += '<div class="pop" style="width:'+data.bannerPopupWidth+'px; height:'+data.bannerPopupHeight+'px;">';
+        html += '<div class="content" style="height:100%;display:flex;flex-direction:column;">';
+        if(link == ""){
+            html += '<a id="imgA" style="background-image: url('+data.filePath+''+data.fileMask+'); background-size: 100% 100%; display: block; width: 100%;height: 100%" />';
+        }else{
+            if(data.bannerPopupTarget == 1) {
+                html += '<a href="' + link + '" target="_self" id="imgA" style="background-image: url(' + data.filePath + '' + data.fileMask + '); background-size: 100% 100%; display: block; width: 100%;height: 100%" />';
+            }else{
+                html += '<a href="' + link + '" target="_blank" id="imgA" style="background-image: url(' + data.filePath + '' + data.fileMask + '); background-size: 100% 100%; display: block; width: 100%;height: 100%" />';
+            }
+        }
+        html += '<div>';
+        html += '<p class="btn_today_close" style="text-align:right;margin:0;">';
+        html += '<span id="tcSpan">';
+        html += '<input type="checkbox" style="vertical-align:middle;" id="popupCloseCheck" onclick="rayerDayClose('+data.uuid+')">';
+        html += '<span style="vertical-align:middle;margin-right:15px;">오늘 하루 열지 않음</span>';
+        html += '<a href="" class="tcA" style="vertical-align:middle;" onclick="rayerClose('+data.uuid+');">닫기</a>';
+        html += '</span>';
+        html += '</p>';
+        html += '</div>';
+        html += '</div>';
+
+        $("#rayer-background").append(html);
+
+        $("#rayer"+data.uuid).show();
+    }
+
+    //레이어 팝업 닫기
+    function rayerClose(e){
+        event.preventDefault(); // 새로고침 방지
+        $("#rayer"+e).hide();
+    }
+
+    //레이어 팝업 하루종일 닫기
+    function rayerDayClose(key){
+        setRayerCookie('rayer'+key, 'Y', 1);
+
+        $("#rayer"+key).hide();
+    }
+
+    //레이어 팝업 쿠키 set
+    function setRayerCookie(name, value, expiredays) {
+        var today = new Date();
+        today.setDate(today.getDate() + expiredays);
+        document.cookie = name + '=' + escape(value) + '; path=/; expires = '+ today.toGMTString() + ';';
+    }
+
+    //레이어 팝업 쿠키 get
+    function getRayerCookie(name){
+        var obj = name + '=';
+        var x = 0;
+        while (x <= document.cookie.length ) {
+            var y = (x+obj.length);
+            if(document.cookie.substring(x,y) == obj) {
+                if((endOfCookie = document.cookie.indexOf(";",y)) == -1)
+                    endOfCookie = document.cookie.length;
+                return unescape(document.cookie.substring(y,endOfCookie));
+            }
+            x = document.cookie.indexOf(" ",x)+1;
+            if(x == 0) break;
+        }
+        return "";
+    }
 </script>

@@ -14,11 +14,29 @@ var viewAssetPop = {
         console.log("histItemList", histItemList);
 
         const astFile = assetMap.astFile;
-        if(astFile != null){
-            console.log(astFile);
+        const oldAstFile = assetMap.oldAstFile;
+        console.log("astFile", astFile);
+        console.log("oldAstFile", oldAstFile);
 
-            let imgHtml = '';
-            imgHtml += '<img src="'+astFile.file_path+astFile.file_uuid+'">';
+        let imgHtml = '';
+
+        for(let i=0; i<oldAstFile.length; i++){
+            const map = oldAstFile[i];
+            if(i != 0){
+                imgHtml += '<br>';
+            }
+            imgHtml += '<img src="'+map.file_path+map.file_uuid+'">';
+        }
+
+        for(let i=0; i<astFile.length; i++){
+            const map = astFile[i];
+            if(i != 0){
+                imgHtml += '<br>';
+            }
+            imgHtml += '<img src="'+map.file_path+map.file_uuid+'">';
+        }
+
+        if(oldAstFile.length > 0 || astFile.length > 0){
             $("#assetImg").html(imgHtml);
         }
 
@@ -74,5 +92,54 @@ var viewAssetPop = {
         if(html != ''){
             $("#historyData").html(html);
         }
+    },
+
+    setBarcodePrintA: function(){
+        if(!confirm("선택된 항목을 바코드(대) 출력 하시겠습니까?")){
+            return;
+        }
+        var data = {
+            target : "asset",
+            astSnArr : $("#astInfoSn").val()
+        }
+
+        $.ajax({
+            url : "/asset/setBarcodePrintA",
+            data: data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+
+                if(rs.code == 200){
+                    alert("인쇄성공")
+                }
+            }
+        });
+    },
+
+    setBarcodePrintB : function (){
+        if(!confirm("선택된 항목을 바코드(소) 출력 하시겠습니까?")){
+            return;
+        }
+
+        var data = {
+            target : "asset",
+            astSnArr : $("#astInfoSn").val()
+        }
+
+        $.ajax({
+            url : "/asset/setBarcodePrintB",
+            data: data,
+            type : "post",
+            dataType : "json",
+            success : function(rs){
+                console.log(rs);
+
+                if(rs.code == 200){
+                    alert("인쇄성공")
+                }
+            }
+        });
     }
 }
