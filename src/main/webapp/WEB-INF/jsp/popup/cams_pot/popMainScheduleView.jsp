@@ -166,14 +166,6 @@
             </div>
         </div>
 
-        <div class="__botArea">
-            <div class="cen">
-                <div class="__paging">
-
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 <script type="text/javascript">
@@ -214,10 +206,6 @@
     $(function () {
 
         $("#totalCnt").text(total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-
-        dataChk();
-
-        drawPage();
         drawTable(data);
     });
 
@@ -243,8 +231,6 @@
 
         dataChk(result, flag);
         drawTable(result.rs.list);
-        console.log(drawTable);
-        drawPage();
     }
 
     //게시글 리스트 그리기
@@ -255,18 +241,14 @@
             $("#tableBody").html('');
             return;
         }
+
         $("#tableBody").html('');
 
         let html = "";
 
         let num = total + 1;
-
-        if(page != 1){
-            num = num - ((page - 1) * 10);
-        }
         data.forEach((item, index) => {
             num = num - 1;
-
             var scheduleTypeList = {
                 "EV": "행사",
                 "ME": "회의",
@@ -311,23 +293,7 @@
                 html += '</tr>';
             }
         });
-        /*tableBody.innerHTML = html;*/
         $("#tableBody").append(html);
-    }
-
-    //페이징 그리기
-    function drawPage(){
-        let html = '';
-        html += '<a href="javascript:void(0);" onclick="movePage(' + (page - 1) + ')" class="arr prev"><span class="hide">이전 페이지</span></a>';
-
-        for (let i =startPage; i <= endPage; i++) {
-            html += (i !== page)
-                ? '<a href="javascript:void(0);" class="num" onclick="movePage('+i+');">'+ i +'</a>'
-                : '<strong class="num active">' + i + '</strong>'
-        }
-
-        html += '<a href="javascript:void(0);" onclick="movePage(' + (page + 1) + ');" class="arr next"><span class="hide">다음 페이지</span></a>';
-        $(".__paging").html(html);
     }
 
     function searchOnEnter(event) {
@@ -345,7 +311,6 @@
 
         if(result.articlePage.pagination != null){
             dataChk(result);
-            drawPage();
         }
         drawTable(result.rs.list);
 
