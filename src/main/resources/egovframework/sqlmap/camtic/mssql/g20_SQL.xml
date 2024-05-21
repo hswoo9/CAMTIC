@@ -760,12 +760,39 @@
             #{ip}
     </insert>
 
+    <insert id="insHearEmpInfo" parameterType="map">
+        /*insEtcEmpInfo*/
+        EXEC USP_SAUTOABDOCU_HEARNER_INSERT
+            1212,
+            'F',
+            #{pCD},
+            #{regNo},
+            #{empName},
+            #{post},
+            #{addr},
+            #{empTel},
+            #{jiroCd},
+            #{baNb},
+            #{depositor},
+            #{erpEmpCd},
+            #{ip}
+    </insert>
+
     <select id="getLastPCd" resultType="int">
         /*getLastPCd*/
         SELECT
             top 1 REPLACE(PER_CD,'T','') AS PER_CD
         FROM VN_G20HEARNER_INFO
         WHERE Per_CD LIKE 'T%'
+        ORDER BY PER_CD DESC
+    </select>
+
+    <select id="getLastFCd" resultType="int">
+        /*getLastPCd*/
+        SELECT
+            top 1 REPLACE(PER_CD,'S','') AS PER_CD
+        FROM VN_G20HEARNER_INFO
+        WHERE Per_CD LIKE 'S%'
         ORDER BY PER_CD DESC
     </select>
 
@@ -846,4 +873,14 @@
         /*delG20Error*/
         Exec USP_ABDOCU_DELETE '1212',#{isuDt}, #{isuSq}
     </insert>
+
+    <update id="updHearCode" parameterType="map">
+        /*updHearCode*/
+        UPDATE
+            HEARNER
+        SET
+            BIZTYPE_CD = '940903'
+        WHERE
+            PER_CD = #{pCD}
+    </update>
 </mapper>

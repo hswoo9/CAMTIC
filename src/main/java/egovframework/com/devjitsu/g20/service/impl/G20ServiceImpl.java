@@ -629,12 +629,22 @@ public class G20ServiceImpl implements G20Service {
 
     @Override
     public void insEtcEmpInfo(Map<String, Object> params) {
-        int lastPCd = g20Repository.getLastPCd() + 1;
+        int lastPCd = 0;
+        if(params.get("type").equals("5")){
+            lastPCd = g20Repository.getLastFCd() + 1;
 
-        params.put("pCD",  "T" + lastPCd);
+            String str = String.format("%07d", lastPCd);
+            params.put("pCD",  "S" + str);
 
-        System.out.println(params);
-        g20Repository.insEtcEmpInfo(params);
+            g20Repository.insHearEmpInfo(params);
+
+            g20Repository.updHearCode(params);
+        } else {
+            lastPCd = g20Repository.getLastPCd() + 1;
+            params.put("pCD",  "T" + lastPCd);
+
+            g20Repository.insEtcEmpInfo(params);
+        }
     }
 
     @Override
