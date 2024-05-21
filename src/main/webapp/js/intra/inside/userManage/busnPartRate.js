@@ -136,6 +136,7 @@ var busnPartRate = {
                                 }
                             });
 
+                            console.log(rs.list[i]);
                             var item = rs.list[i];
 
                             busnPartRate.global.onData.partEmpSeq = item.PART_EMP_SEQ;
@@ -544,11 +545,13 @@ var busnPartRate = {
         var groupArr = [];
         var monSalFlag = true;
 
-        console.log("payInfo :: " + payInfo);
 
         // 사용자 분리 --> 년도 분리
         for (var x = 0; x < payInfo.length; x++) {
             var itemX = payInfo[x];
+
+            console.log("payInfo :: ", itemX);
+
             var salArr = [];
 
             var preBsYearX = "";
@@ -593,7 +596,7 @@ var busnPartRate = {
                 salArr[cnt].monYear = bsYearX;
             }
 
-            if(monSal != Number($("#e" + x + "_" + itemX.partEmpSeq).val())){monSalFlag = false;}
+            // if(monSal != Number($("#e" + x + "_" + itemX.partEmpSeq).val())){monSalFlag = false;}
 
             if(!monSalFlag){alert("[" + itemX.empName + "] 인건비 예산합계와 맞지않습니다."); break;}
 

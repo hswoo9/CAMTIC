@@ -340,15 +340,7 @@ var purcMngAppList = {
 
         $("#hiddenGrid").kendoGrid({
             dataSource: customKendo.fn_gridDataSource2("/purc/getMngPurcAppListExcel", purcMngAppList.global.searchAjaxData),
-            sortable: true,
-            selectable: "row",
             height: 525,
-            pageable: {
-                refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100, 'All' ],
-                buttonCount: 5
-            },
-            resizable : true,
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
@@ -377,13 +369,12 @@ var purcMngAppList = {
                 }, {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="purcMngAppList.hiddenGrid()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
                 }
             ],
-            dataBound: purcMngAppList.onDataBound,
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'clm\');"/>',

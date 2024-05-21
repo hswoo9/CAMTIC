@@ -33,6 +33,8 @@ var userPartRate = {
             }
         });
 
+        $("#year").data("kendoDropDownList").value(2024);
+
         if(adminYn != ""){
             userPartRate.fn_setDataAdmin();
         }else{
