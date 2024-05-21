@@ -349,6 +349,7 @@ var subHolidayStat = {
         params.holidayYear = $('#holidayYear').val();
         params.holidayCode = holidayCode;
         params.empName = empName;
+        params.orderType = "asc";
 
         subHolidayStat.subGrid("/subHoliday/getVacUseStatDetailList", params);
     },
@@ -402,7 +403,7 @@ var subHolidayStat = {
                     width: 50
                 }, {
                     title: "순번",
-                    template: "#= --record #",
+                    template: "#= ++record #",
                     width: 50
                 },{
                     field: "EMP_NAME_KR",
@@ -489,7 +490,7 @@ var subHolidayStat = {
                 }
             ],
             dataBinding: function(){
-                record = fn_getRowNum(this, 2);
+                record = fn_getRowNum(this, 1);
             },
         }).data("kendoGrid");
 

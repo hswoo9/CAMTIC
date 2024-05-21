@@ -165,4 +165,16 @@ public class G20Repository extends AbstractDAO {
     public void delG20Error(Map<String, Object> params) {
         insertMs("g20.delG20Error", params);
     }
+
+    public int getLastFCd() {
+        return (int) selectOneMs("g20.getLastFCd");
+    }
+
+    public void updHearCode(Map<String, Object> params) {
+        insertMs("g20.updHearCode", params);
+    }
+
+    public void insHearEmpInfo(Map<String, Object> params) {
+        insertMs("g20.insHearEmpInfo", params);
+    }
 }

@@ -28,13 +28,16 @@
 %>
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="erpEmpCd" value="${loginVO.erpEmpCd}"/>
+<input type="hidden" id="type" value="${params.type}" />
 
 <input type="hidden" id="ip" value="<%=ipAddress%>" />
 <div>
     <div class="card-header pop-header">
         <h3 class="card-title title_NM">
             <span style="position: relative; top: 3px;">
-                기타소득자 등록
+                <c:if test="${params.type == '5'}">사업소득자</c:if>
+                <c:if test="${params.type == '9'}">기타소득자</c:if>
+                 등록
             </span>
         </h3>
         <div id="btnDiv" class="btn-st popButton" style="font-size: 12px;">
@@ -124,7 +127,8 @@
             addr : $("#addr").val(),
             jiroCd : $("#jiroCd").val(),
             baNb : $("#baNb").val(),
-            depositor : $("#depositor").val()
+            depositor : $("#depositor").val(),
+            type : $("#type").val(),
         };
 
         if(data.empName == ""){
