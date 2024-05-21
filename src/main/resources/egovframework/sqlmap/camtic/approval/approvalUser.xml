@@ -96,6 +96,9 @@
             DATE_FORMAT(DI.REPTIT_DRFT_DT,'%Y-%m-%d') AS REPTIT_DRFT_DT,
             DATE_FORMAT(DI.LAST_APPROVE_DT,'%Y-%m-%d') AS LAST_APPROVE_DT,
             DATE_FORMAT(DI.REG_DATE, '%Y-%m-%d') AS REG_DATE,
+            DI.DRAFT_DT AS DRAFT_DT2,
+            DI.REPTIT_DRFT_DT AS REPTIT_DRFT_DT2,
+            DI.LAST_APPROVE_DT AS LAST_APPROVE_DT2,
             CASE
                 WHEN DI.DOC_MENU_CD = 'dev'
                 THEN (SELECT BUSN_CLASS FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = (SELECT PJT_SN FROM CAM_PJT_MNG.DJ_PJT_DEV WHERE DEV_SN = SUBSTRING_INDEX(DI.APPRO_KEY, '_', -1)))
@@ -201,13 +204,13 @@
 
         <choose>
             <when test='approveStat != null and "result".equals(approveStat)'>
-                ORDER BY IFNULL(RRE.LAST_APPROVE_DT, RRE.DRAFT_DT) DESC
+                ORDER BY IFNULL(RRE.LAST_APPROVE_DT2, RRE.DRAFT_DT2) DESC
             </when>
             <when test='approveStat != null and "temp".equals(approveStat)'>
                 ORDER BY RRE.DOC_ID DESC
             </when>
             <otherwise>
-                ORDER BY IFNULL(RRE.REPTIT_DRFT_DT, RRE.DRAFT_DT) DESC
+                ORDER BY IFNULL(RRE.REPTIT_DRFT_DT2, RRE.DRAFT_DT2) DESC
             </otherwise>
         </choose>
     </select>
