@@ -29,7 +29,7 @@ const studyPrintPop = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186/upload/templateForm/studyPrintTmp.hwp";
+        let filePath = "http://218.158.231.184/upload/templateForm/studyPrintTmp.hwp";
         studyPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             studyPrintPop.openCallBack();
             studyPrintPop.global.hwpCtrl.EditMode = 0;

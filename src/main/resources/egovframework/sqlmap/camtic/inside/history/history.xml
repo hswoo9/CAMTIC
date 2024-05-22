@@ -625,8 +625,10 @@
                 A.GRADE_NAME = TRIM(SUBSTRING_INDEX(#{afPositionName}, '/', -1)),
             </if>
                 A.DUTY_CODE = #{afDutyCode},
-                A.DUTY_NAME = #{afDutyName},
-            A.JOB_DETAIL = #{afJobDetail}
+                A.DUTY_NAME = #{afDutyName}
+            <if test='afJobDetail != null'>
+                , A.JOB_DETAIL = #{afJobDetail}
+            </if>
         WHERE
             A.EMP_SEQ = #{empSeq}
     </update>
