@@ -1990,7 +1990,9 @@
         DEPT_NAME = #{DEPT_NAME},
         DEPT_SEQ = #{DEPT_SEQ},
         DEPT_TEAM_NAME = #{DEPT_TEAM_NAME},
-        JOB_DETAIL = #{JOB_DETAIL},
+        <if test="JOB_DETAIL != null">
+            JOB_DETAIL = #{JOB_DETAIL},
+        </if>
         ACCOUNT_HOLDER = #{ACCOUNT_HOLDER},
         <if test="BANK_NAME != null">
         BANK_NAME = #{BANK_NAME},

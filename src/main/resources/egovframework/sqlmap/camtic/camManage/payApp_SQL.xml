@@ -3254,7 +3254,7 @@
         /*updateExnpDe*/
         UPDATE CAM_MNG.DJ_EXNP
         SET
-            EXNP_DE = #{exnpDe}
+            DT3 = #{exnpDe}
         WHERE
             EXNP_SN = #{exnpSn}
     </update>
@@ -3295,13 +3295,31 @@
         SELECT A.PJT_CD, A.BUDGET_SN,
                SUBSTRING(A.BUDGET_SN, 1, 1) AS JANG_SN,
                SUBSTRING(A.BUDGET_SN, 1, 3) AS GWAN_SN,
-               B.*
+               PAY_INCP_RE_SN,
+               B.PAY_INCP_SN, B.BUDGET_SN, B.BUDGET_NM, EVID_TYPE, TR_CD,
+               CRM_NM, REG_NO, CRM_BNK_NM, CRM_ACC_NO, CRM_ACC_HOLDER, RE_APP_DE,
+               TR_DE, TOT_COST, SUP_COST, VAT_COST, CARD, CARD_NO, ETC, ISS,
+               DET_STAT, EXNP_STAT, EXNP_CNT, B.PMR_NO, B.RE_STAT
         FROM
             CAM_MNG.DJ_PAY_INCP A
         LEFT JOIN CAM_MNG.DJ_PAY_INCP_RE B ON A.PAY_INCP_SN = B.PAY_INCP_SN
         WHERE
             A.PJT_CD = #{mgtSeq}
-          AND A.DOC_STATUS = 100 AND B.PAY_INCP_RE_SN IS NOT NULL
+        AND A.DOC_STATUS = 100 AND PAY_INCP_RE_SN IS NOT NULL
+        UNION ALL
+        SELECT A.PJT_CD, A.BUDGET_SN,
+               SUBSTRING(A.BUDGET_SN, 1, 1) AS JANG_SN,
+               SUBSTRING(A.BUDGET_SN, 1, 3) AS GWAN_SN,
+               PAY_INCP_DET_SN AS PAY_INCP_RE_SN,
+               C.PAY_INCP_SN, C.BUDGET_SN, C.BUDGET_NM, EVID_TYPE, TR_CD,
+               CRM_NM, REG_NO, CRM_BNK_NM, CRM_ACC_NO, CRM_ACC_HOLDER, '' AS RE_APP_DE,
+               TR_DE, TOT_COST, SUP_COST, VAT_COST, CARD, CARD_NO, ETC, ISS,
+               DET_STAT, EXNP_STAT, EXNP_CNT, C.PMR_NO, '' AS RE_STAT
+        FROM CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET C ON A.PAY_INCP_SN = C.PAY_INCP_SN
+        WHERE
+            A.PJT_CD = #{mgtSeq}
+        AND A.DOC_STATUS = 100 AND C.PMR_NO IS NOT NULL
     </select>
 
     <delete id="delIncpData" parameterType="map">

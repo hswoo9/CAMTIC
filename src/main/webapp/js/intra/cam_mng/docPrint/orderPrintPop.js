@@ -25,7 +25,7 @@ const orderPrintPop = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186/upload/templateForm/orderPrintTmp.hwp";
+        let filePath = "http://218.158.231.184/upload/templateForm/orderPrintTmp.hwp";
         orderPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             orderPrintPop.openCallBack();
             orderPrintPop.global.hwpCtrl.EditMode = 0;

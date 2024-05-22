@@ -179,6 +179,28 @@ var hwpApprovalLine = {
             }
         }
         console.log("----- 양식 결재선 세팅 끝 -----");
+
+        $("#nowApprTr").show();
+
+        const list = draft.global.approversArr;
+        let nowApprText = "";
+
+        for(let i=0; i<list.length; i++){
+            const map = list[i];
+
+            if(i != 0){
+                nowApprText += " ";
+            }
+
+            const approveType = map.approveType;
+            let approveTypeText =
+                approveType == 3 ? "결재안함" :
+                    approveType == 2 ? "전결" :
+                        approveType == 1 ? "협조" :
+                            approveType == 0 && map.approveOrder == 0 ? "상신" : "결재";
+            nowApprText += map.approveOrder+". "+map.approveDeptName+" "+map.approveEmpName+" "+approveTypeText;
+        }
+        $("#nowApprSpan").text(nowApprText);
     },
 
     setHwpApprovalSignPut : function(){

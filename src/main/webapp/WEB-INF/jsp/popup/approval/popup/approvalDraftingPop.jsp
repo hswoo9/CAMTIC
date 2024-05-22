@@ -172,6 +172,12 @@
                     </button>
                 </td>
             </tr>
+            <tr id="nowApprTr" style="display: none">
+                <th class="th-color" style="text-align: right">결재선</th>
+                <td colspan="2">
+                    <span id="nowApprSpan" style="text-align: left"></span>
+                </td>
+            </tr>
             <tr class="text-right">
                 <th class="th-color">참조문서</th>
                 <td style="border-right: none">

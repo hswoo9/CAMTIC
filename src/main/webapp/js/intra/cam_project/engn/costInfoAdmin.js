@@ -122,23 +122,11 @@ var costInfo = {
                     }
                 }
 
-                /** 투자내역 */
-                const purcResult = customKendo.fn_customAjax("/project/getInvList", {devSn: devMap.DEV_SN});
-                const purcList = purcResult.list;
-                let invSum = 0;
-                for(let i=0; i<purcList.length; i++){
-                    const map = purcList[i];
-                    invSum += Number(map.EST_TOT_AMT);
-                }
-
-                /*if(tmYn != "Y"){
-
-                }*/
                 $("#PJT_AMT2").text(comma(pjtAmt));
                 $("#RES_AMT").text(comma(pjtAmt));
                 $("#RES_NOT_INV_AMT").text(comma(Number(pjtAmt)-resInvSum));
-                $("#DEV_AMT").text(comma(Number(pjtAmt)-invSum));
-                $("#DEV_NOT_INV_AMT").text(comma(Number(pjtAmt)-invSum));
+                $("#DEV_AMT").text(comma(0));
+                $("#DEV_NOT_INV_AMT").text(comma(0));
 
             }else if(type == "dev"){
 

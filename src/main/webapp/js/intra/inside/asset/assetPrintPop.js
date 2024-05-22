@@ -25,7 +25,7 @@ const assetPrint = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186/upload/templateForm/assetPrintTmp.hwp";
+        let filePath = "http://218.158.231.184/upload/templateForm/assetPrintTmp.hwp";
         console.log(filePath);
         assetPrint.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             assetPrint.openCallBack();

@@ -30,7 +30,7 @@ const propagPrintPop = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186/upload/templateForm/propagPrintTmp.hwp";
+        let filePath = "http://218.158.231.184/upload/templateForm/propagPrintTmp.hwp";
         propagPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             propagPrintPop.openCallBack();
             propagPrintPop.global.hwpCtrl.EditMode = 0;

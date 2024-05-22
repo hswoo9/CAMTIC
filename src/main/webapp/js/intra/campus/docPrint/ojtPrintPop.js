@@ -30,7 +30,7 @@ const ojtPrintPop = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186/upload/templateForm/ojtPrintTmp.hwp";
+        let filePath = "http://218.158.231.184/upload/templateForm/ojtPrintTmp.hwp";
         ojtPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             ojtPrintPop.openCallBack();
             ojtPrintPop.global.hwpCtrl.EditMode = 0;
