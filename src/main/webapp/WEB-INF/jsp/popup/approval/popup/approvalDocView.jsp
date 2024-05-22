@@ -434,11 +434,7 @@
         var mod = "V";
         var pop = "" ;
         var url = '/approval/approvalDocView.do?docId='+docId+'&menuCd=' + menuCd + '&mod=' + mod + '&approKey='+approKey;
-
-        /** 관리자 페이지 일경우 파라미터에 mng 추가*/
-        if($("#apprMngStat").val() == "M"){
-            url += '&vType='+$("#apprMngStat").val();
-        }
+        url += '&vType=M';
 
         var width = "1000";
         var height = "950";
