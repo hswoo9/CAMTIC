@@ -203,6 +203,9 @@
                             </button>
                         </c:if>
                     </c:if>
+                    <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="float: left" onclick="regPayDet.fn_budgetAll()">
+                        <span class="k-button-text">예산비목 설정</span>
+                    </button>
                     <button type="button" id="addBtn" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="regPayDet.addRow()">
                         <span class="k-button-text">추가</span>
                     </button>

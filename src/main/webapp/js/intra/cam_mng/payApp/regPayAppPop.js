@@ -2873,6 +2873,7 @@ var regPayDet = {
     global : {
         itemIndex : 0,
         createHtmlStr : "",
+        budgetAllData : {},
     },
 
     fn_defaultScript : function (){
@@ -3280,6 +3281,28 @@ var regPayDet = {
         $("#cardNo" + idx).val("");
         $("#etc" + idx).val("");
 
+    },
+
+
+
+    fn_budgetAll : function (){
+        regPay.fn_budgetPop("all");
+    },
+
+    fn_budgetChange : function(p){
+        console.log(p);
+
+        var bgtCd = p.bgtCd;
+        var bgtNm = p.bgtNm;
+        var subAm = p.subAm;
+
+        var len = $("#payDestTb").find("tr").length;
+
+        for(var i = 0 ; i < len ; i++){
+            $("#budgetSn" + i).val(bgtCd);
+            $("#budgetNm" + i).val(bgtNm);
+            $("#budgetAmt" + i).val(subAm);
+        }
     }
 }
 

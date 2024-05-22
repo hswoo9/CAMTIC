@@ -4,13 +4,23 @@
  * @param bgtCd
  */
 function fn_selBudgetInfo(bgtNm, bgtCd, idx, subAm){
-    if(idx == "N"){
-        $("#budgetSn").val(bgtCd);
-        $("#budgetNm").val(bgtNm);
-    }else{
-        $("#budgetSn" + idx).val(bgtCd);
-        $("#budgetNm" + idx).val(bgtNm);
-        $("#budgetAmt" + idx).val(subAm);
+    if(idx == "all"){
+        var parameters = {
+            bgtNm : bgtNm,
+            bgtCd : bgtCd,
+            subAm : subAm
+        }
+
+        regPayDet.fn_budgetChange(parameters);
+    } else {
+        if(idx == "N"){
+            $("#budgetSn").val(bgtCd);
+            $("#budgetNm").val(bgtNm);
+        }else{
+            $("#budgetSn" + idx).val(bgtCd);
+            $("#budgetNm" + idx).val(bgtNm);
+            $("#budgetAmt" + idx).val(subAm);
+        }
     }
 }
 
