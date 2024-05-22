@@ -19,6 +19,8 @@ var docView = {
         hwpFileTextData : "",
         htmlFileTextData : "",
         searchAjaxData : "",
+
+        fileArray: [],
     },
 
     fnDefaultScript : function(params, loginVO){
@@ -296,8 +298,37 @@ var docView = {
             }
         }
 
+        var dataSource = new kendo.data.DataSource({
+            serverPaging: false,
+            pageSize: 99,
+            transport: {
+                read : {
+                    url : "/approval/getDocAttachmentList",
+                    dataType : "json",
+                    type : "post",
+                    async : false
+                },
+                parameterMap: function(data) {
+                    for(var key in docView.global.searchAjaxData){
+                        data[key] = docView.global.searchAjaxData[key];
+                    }
+
+                    return data;
+                }
+            },
+            schema : {
+                data: function (data) {
+                    docView.global.fileArray = data.list;
+                    return data.list;
+                },
+                total: function (data) {
+                    return data.list.length;
+                },
+            },
+        });
+
         var attachmentGrid = $("#attachmentGrid").kendoGrid({
-            dataSource : customKendo.fn_gridDataSource2("/approval/getDocAttachmentList", docView.global.searchAjaxData, 99),
+            dataSource : dataSource,
             sortable: true,
             scrollable: true,
             noRecords: {
@@ -1242,14 +1273,28 @@ var docView = {
             }
 
         }else if(area == "attachment" && format == "zip"){
-            kendo.saveAs({
-                dataURI: "/common/multiFileDownload.do?docId=" + docId + "&type=" + type + "&approKey=" + approKey
-            });
+            // kendo.saveAs({
+            //     dataURI: "/common/multiFileDownload.do?docId=" + docId + "&type=" + type + "&approKey=" + approKey + "&docMenuCd=" + docView.global.rs.docInfo.DOC_MENU_CD
+            // });
+            docView.fn_multiDownload();
         }else if(type == "single" && filePath != null && fileName != null){
             var fileName = fileName.replaceAll("&", "%26");
             kendo.saveAs({
                 dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + fileName,
             });
+        }
+    },
+
+    fn_multiDownload : function (){
+        var fileArray = docView.global.fileArray;
+
+        if(fileArray.length > 0){
+            for(let i=0; i<fileArray.length; i++){
+                var fileName = fileArray[i].filename.replaceAll("&", "%26");
+                kendo.saveAs({
+                    dataURI: "/common/fileDownload.do?filePath=" + fileArray[i].FILE_DOWN_PATH + fileArray[i].fileUUID + "&fileName=" + fileName,
+                });
+            }
         }
     },
 
