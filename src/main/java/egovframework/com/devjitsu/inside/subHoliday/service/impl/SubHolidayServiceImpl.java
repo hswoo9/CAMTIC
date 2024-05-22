@@ -37,6 +37,18 @@ public class SubHolidayServiceImpl implements SubHolidayService {
     public int setVacUseHist(Map<String, Object> params) {
         int result = 0;
         if(params.containsKey("vacUseHistId")){
+            /** 업데이트 전에 대체휴가 였다가 다른 휴가로 바뀌면 targetSn 초기화 */
+            params.put("subholidayUseId", params.get("vacUseHistId"));
+            Map<String, Object> map = subHolidayRepository.getVacUseHistoryOne(params);
+
+            if(map.get("SUBHOLIDAY_CODE_ID").toString().equals("9") && !params.get("vacCodeId").toString().equals(map.get("SUBHOLIDAY_CODE_ID").toString())){
+
+                if(!"".equals(map.get("TARGET_ID").toString()) && map.get("TARGET_ID") != null){
+                    subHolidayRepository.setVacUseHistSubDel(map);
+                }
+                params.put("targetReset", "Y");
+            }
+
             subHolidayRepository.updateVacUseHist(params);
         }else{
             if(params.containsKey("checkUseYn")){

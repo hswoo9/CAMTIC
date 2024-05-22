@@ -165,6 +165,9 @@
         <if test='targetId != null and !"".equals(targetId)'>
             , TARGET_ID = #{targetId}
         </if>
+        <if test='"Y".equals(targetReset)'>
+            , TARGET_ID = null
+        </if>
         WHERE
         SUBHOLIDAY_USE_ID = #{vacUseHistId}
     </update>
