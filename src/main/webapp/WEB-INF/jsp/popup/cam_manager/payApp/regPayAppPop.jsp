@@ -480,7 +480,7 @@
             pjtCd : (cd || "")
         }
 
-        if(cd.substring(0, 1) == "M") {
+        if(cd.substring(0, 1) == "M" || (cd.substring(0, 1) == "Z" && busnNm == "")) {
             $("#reasonTh").css("display", "none");
             $(".reasonTr").css("display", "none");
             $("#reasonCol").css("display", "none");
