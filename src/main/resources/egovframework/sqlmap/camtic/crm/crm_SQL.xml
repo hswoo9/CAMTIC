@@ -230,7 +230,8 @@
             POST = #{post},
             ADDR = #{addr},
             CRM_OCC = #{crmOcc},
-            CRM_EVENT = #{crmEvent}
+            CRM_EVENT = #{crmEvent},
+            MON_CHECK = #{monCheck}
         WHERE
             CRM_SN = #{crmSn}
     </update>
@@ -250,7 +251,8 @@
                 POST,
                 ADDR,
                 CRM_OCC,
-                CRM_EVENT
+                CRM_EVENT,
+                MON_CHECK
             )
         VALUES
             (
@@ -265,7 +267,8 @@
                 #{post},
                 #{addr},
                 #{crmOcc},
-                #{crmEvent}
+                #{crmEvent},
+                #{monCheck}
             )
 
         <selectKey keyProperty="crmSn" resultType="Integer" order="BEFORE">

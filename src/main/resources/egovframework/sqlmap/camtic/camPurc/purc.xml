@@ -1248,6 +1248,9 @@
         LEFT JOIN CAM_MNG.DJ_PURC_CLAIM_ITEM PCI ON PCI.CLAIM_SN = A.CLAIM_SN
         WHERE
             A.STATUS = 100
+        <if test='monCheck != null and !"".equals(monCheck)'>
+            AND (SELECT MON_CHECK FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = A.CRM_SN) = #{monCheck}
+        </if>
         <choose>
             <when test='busnClass != null and !"".equals(busnClass) and "C".equals(busnClass)'>
                 AND A.PURC_TYPE = ''
@@ -1368,6 +1371,9 @@
         LEFT JOIN CAM_MNG.DJ_PURC_CLAIM_ITEM PCI ON PCI.CLAIM_SN = A.CLAIM_SN
         WHERE
         A.STATUS = 100
+        <if test='monCheck != null and !"".equals(monCheck)'>
+            AND (SELECT MON_CHECK FROM CAM_CRM.DJ_CRM_INFO WHERE CRM_SN = A.CRM_SN) = #{monCheck}
+        </if>
         <choose>
             <when test='busnClass != null and !"".equals(busnClass) and "C".equals(busnClass)'>
                 AND A.PURC_TYPE = ''

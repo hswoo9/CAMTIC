@@ -91,6 +91,12 @@
                             <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){purcMngAppList.gridReload();}"/>
                         </td>
                     </tr>
+                    <tr>
+                        <th>월마감업체</th>
+                        <td colspan="7">
+                            <input type="checkbox" class="k-checkbox" id="monCheck" />
+                        </td>
+                    </tr>
                 </table>
 
                 <div id="mainGrid" style="margin:20px 0;"></div>
