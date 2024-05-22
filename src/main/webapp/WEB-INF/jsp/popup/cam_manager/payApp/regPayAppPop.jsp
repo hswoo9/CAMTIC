@@ -477,8 +477,18 @@
         $("#busnNm").val(busnNm);
 
         var data = {
-            pjtCd : (cd || "")
+            pjtCd : (cd || ""),
+            PJT_CD : (cd || "")
         }
+
+        if(cd != null){
+            var g20Result = customKendo.fn_customAjax("/mng/getG20ProjectData", data);
+            var g20PjtData = g20Result.data;
+            if(g20PjtData != null && Object.entries(g20PjtData).length != 0 && g20PjtData.PJT_NM != null){
+                $("#pjtNm").val(g20PjtData.PJT_NM);
+            }
+        }
+
 
         if(cd.substring(0, 1) == "M" || (cd.substring(0, 1) == "Z" && busnNm == "")) {
             $("#reasonTh").css("display", "none");
