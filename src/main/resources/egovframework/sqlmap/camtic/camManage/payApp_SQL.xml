@@ -3254,7 +3254,7 @@
         /*updateExnpDe*/
         UPDATE CAM_MNG.DJ_EXNP
         SET
-            EXNP_DE = #{exnpDe}
+            DT3 = #{exnpDe}
         WHERE
             EXNP_SN = #{exnpSn}
     </update>
