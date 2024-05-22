@@ -27,7 +27,7 @@ const recruitPrintPop = {
     },
 
     editorComplete: function(){
-        let filePath = "http://218.158.231.186/upload/templateForm/recruitPrintPop.hwp";
+        let filePath = "http://218.158.231.184/upload/templateForm/recruitPrintPop.hwp";
         recruitPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             recruitPrintPop.openCallBack();
             recruitPrintPop.global.hwpCtrl.EditMode = 0;

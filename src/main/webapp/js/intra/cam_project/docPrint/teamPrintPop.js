@@ -32,9 +32,9 @@ const teamPrintPop = {
         const result = customKendo.fn_customAjax("/project/engn/getDelvData", data);
         const pjtMap = result.map;
 
-        let filePath = "http://218.158.231.186/upload/templateForm/teamPrintTmp.hwp";
+        let filePath = "http://218.158.231.184/upload/templateForm/teamPrintTmp.hwp";
         /*if(pjtMap.BUSN_CLASS == "R" || pjtMap.BUSN_CLASS == "S"){
-            filePath = "http://218.158.231.186/upload/templateForm/teamPrintTmpRnd.hwp";
+            filePath = "http://218.158.231.184/upload/templateForm/teamPrintTmpRnd.hwp";
         }*/
         teamPrintPop.global.hwpCtrl.Open(filePath, "HWP", "", function(){
             teamPrintPop.openCallBack();
