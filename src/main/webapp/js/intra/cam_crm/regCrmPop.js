@@ -160,6 +160,10 @@ var crmReg = {
                 if (file.crmFile[0] != 0 && file.crmFile[0] != null){
                     $("#crmFileText").text(file.crmFile[0].file_org_name + "." + file.crmFile[0].file_ext);
                 }
+
+                if(rs.MON_CHECK == "Y"){
+                    $("#monCheck").prop("checked", true);
+                }
             }
         });
     },
@@ -195,6 +199,13 @@ var crmReg = {
             crmOcc : $("#crmOcc").val(),
             crmEvent : $("#crmEvent").val(),
             data : "main",
+
+        }
+
+        if($("#monCheck").is(":checked")){
+            parameters.monCheck = "Y";
+        } else {
+            parameters.monCheck = "N";
         }
 
         var formData = new FormData();
@@ -214,7 +225,7 @@ var crmReg = {
         formData.append("crmOcc", parameters.crmOcc);
         formData.append("crmEvent", parameters.crmEvent);
         formData.append("data", "main");
-
+        formData.append("monCheck", parameters.monCheck);
         $.ajax({
             url : "/crm/crmReqCheck",
             data : formData,

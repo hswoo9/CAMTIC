@@ -158,6 +158,14 @@
                         <input type="text" id="crmEvent" style="width: 90%;">
                     </td>
                 </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color">
+                        월마감
+                    </th>
+                    <td colspan="3">
+                        <input type="checkbox" class="k-checkbox" id="monCheck" name="monCheck">
+                    </td>
+                </tr>
                 </thead>
             </table>
             <span style="font-weight: bold; font-size: 12px;">

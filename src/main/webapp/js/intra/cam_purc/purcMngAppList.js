@@ -84,7 +84,10 @@ var purcMngAppList = {
             inspectStat : $("#inspectStat").data("kendoDropDownList").value(),
             busnClass : $("#busnClass").val(),
             strDt : $("#strDt").val(),
-            endDt : $("#endDt").val(),
+            endDt : $("#endDt").val()
+        }
+        if($("#monCheck").is(":checked")){
+            purcMngAppList.global.searchAjaxData.monCheck = "Y";
         }
 
         $("#mainGrid").kendoGrid({
@@ -336,6 +339,9 @@ var purcMngAppList = {
             busnClass : $("#busnClass").val(),
             strDt : $("#strDt").val(),
             endDt : $("#endDt").val(),
+        }
+        if($("#monCheck").is(":checked")){
+            purcMngAppList.global.searchAjaxData.monCheck = "Y";
         }
 
         $("#hiddenGrid").kendoGrid({
