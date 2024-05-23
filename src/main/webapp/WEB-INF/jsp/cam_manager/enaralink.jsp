@@ -19,11 +19,12 @@
         <div class="panel-heading">
         </div>
         <div style="padding-left : 20px; padding-right: 20px;">
-            <h4 class="panel-title">e-나라도움</h4>
-            <div class="title-road">캠매니저 > e-나라도움</div>
+            <h4 class="panel-title">지출결의서 집행 연동</h4>
+            <div class="title-road">캠매니저 > e-나라도움 > 지출결의서 집행 연동</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
+            <input type='button' class='btnChoice' value='확인' onclick='enaralink.fn_openSubmitPage(this);'>
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
@@ -62,94 +63,6 @@
     </div>
 </div><!-- col-md-9 -->
 
-
-<div class="pop_wrap_dir" id="filePop" style="width:400px; display: none;">
-    <div class="pop_con">
-        <form id="fileForm" method="post" enctype="multipart/form-data" >
-            <!-- 타이틀/버튼 -->
-            <div class="btn_div mt0">
-                <input type="hidden" id="FILE_ID" name="FILE_ID"  value=''/>
-                <input type="hidden" id="KUKGO_STATE_YN" name="KUKGO_STATE_YN"  value=''/>
-                <div class="right_div">
-                    <input type="button" id = "insertFileBtn" onclick="upFile();" value="첨부파일 등록"/>
-                </div>
-            </div>
-            <div class="btn_div mt0">
-                <div class="left_div"  style="width: 120px;">
-                    <h5><span id="popupTitle"></span> 첨부파일</h5>
-                    <input type="hidden" id="loginEmpSeq" name="empSeq" value="${empSeq}" />
-                </div>
-                <div class="" style="fload : left;" id="">
-                    <table id="fileDiv"></table>
-                    <div class="le" id="addfileID">
-                    </div>
-                </div>
-                <div class="">
-
-				<span id="orgFile">
-					<input type="file" id="fileID" name="fileNm" value="" onChange="getFileNm(this);" class="hidden" />
-				</span>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="pop_foot">
-        <div class="btn_cen pt12">
-            <input type="button" class="gray_btn" value="닫기" onclick="filepopClose();"/>
-        </div>
-    </div><!-- //pop_foot -->
-</div>
-
-
-<div class="pop_wrap_dir" id="loadingPop" style="width: 443px;">
-    <div class="pop_con">
-        <table class="fwb ac" style="width:100%;">
-            <tr>
-                <td>
-                    <span class=""><img src="<c:url value='/images/ico/loading.gif'/>" alt="" />  &nbsp;&nbsp;&nbsp;지출결의서 전송 진행 중입니다. </span>
-                </td>
-            </tr>
-        </table>
-    </div>
-</div>
-
-
-<div>
-    <form id="submitPage" name="submitPage" action="/kukgoh/newResolutionSubmitPage" method="POST">
-        <input type="hidden" id="submitData" name = "submitData" value=""/>
-    </form>
-</div>
-
-
-<div class="pop_wrap_dir" id="popUp" style="width: 1000px;">
-    <div class="pop_head">
-        <h1>전자(세금)계산서 승인번호 입력</h1>
-    </div>
-    <div class="pop_con">
-        <p class="tit_p mt5 mt20">전자(세금)계산서는 승인번호 전송 기준 10분~20분 후 e나라도움 연계 집행전송이 가능합니다</p>
-
-        <div class="com_ta mt15" style="">
-            <input type="hidden" id="BSNSYEAR"  />
-            <input type="hidden" id="DDTLBZ_ID"  />
-            <input type="hidden" id="EXC_INSTT_ID"  />
-
-            <input type="hidden" id="GISU_DT"  />
-            <input type="hidden" id="GISU_SQ"  />
-            <input type="hidden" id="BG_SQ"  />
-            <input type="hidden" id="LN_SQ"  />
-            <input type="hidden" id="CO_CD"  />
-            <div id="kukgohInvoiceInsertGrid"></div>
-        </div>
-    </div>
-    <!-- //pop_con -->
-
-    <div class="pop_foot">
-        <div class="btn_cen pt12">
-            <input type="button" class="gray_btn" id="cancle2" value="닫기" />
-        </div>
-    </div>
-    <!-- //pop_foot -->
-</div>
 
 <script>
     enaralink.fn_defaultScript();
