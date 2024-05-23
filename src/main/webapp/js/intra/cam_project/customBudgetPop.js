@@ -33,7 +33,7 @@ var customBudgetPop = {
             height: 268,
             pageable : {
                 refresh : true,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             dataBound : customBudgetPop.aDataBound,
@@ -66,7 +66,7 @@ var customBudgetPop = {
             height: 268,
             pageable : {
                 refresh : true,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             noRecords: {
@@ -99,7 +99,7 @@ var customBudgetPop = {
             height: 268,
             pageable : {
                 refresh : true,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             toolbar : [

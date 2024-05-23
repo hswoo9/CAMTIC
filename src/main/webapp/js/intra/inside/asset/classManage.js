@@ -56,7 +56,7 @@ var classManage = {
             pageable: {
                 refresh: true,
                 pageSize : 10,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5,
                 messages: {
                     display: "{0} - {1} of {2}",
@@ -154,7 +154,7 @@ var classManage = {
             pageable: {
                 refresh: true,
                 pageSize : 10,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5,
                 messages: {
                     display: "{0} - {1} of {2}",
@@ -253,7 +253,7 @@ var classManage = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             toolbar : [
@@ -350,7 +350,7 @@ var classManage = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             toolbar : [
@@ -416,7 +416,7 @@ var classManage = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             toolbar : [
@@ -482,7 +482,7 @@ var classManage = {
             height: 508,
             pageable : {
                 refresh : true,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             toolbar : [
