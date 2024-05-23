@@ -24,7 +24,6 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
-            <input type='button' class='btnChoice' value='확인' onclick='enaralink.fn_openSubmitPage(this);'>
             <div>
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
