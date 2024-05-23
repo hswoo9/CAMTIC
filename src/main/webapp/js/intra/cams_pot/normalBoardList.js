@@ -2,6 +2,7 @@
 var normalArticleList = {
 	global : {
 		params : "",
+		nowPage : "",
 		boardInfo : "",
 		boardCategoryList : "",
 		articleList : "",
@@ -13,7 +14,7 @@ var normalArticleList = {
 		flag : false,
 	},
 
-	fnDefaultScript : function(){
+	fnDefaultScript : function(queryParams){
 		$(".panel-title").text($("a[onclick=\"open_in_frame('" + $("#menuNm").val() + "')\"]").attr("menuNameKr"));
 		$(".title-road").text($("a[onclick=\"open_in_frame('" + $("#menuNm").val() + "')\"]").attr("menuNamePath"));
 
@@ -25,7 +26,33 @@ var normalArticleList = {
 		customKendo.fn_dropDownList("searchColumn", normalArticleList.global.dropDownDataSource, "text", "value");
 		customKendo.fn_textBox(["searchContent", "articlePublicPassWord"]);
 
-		normalArticleList.gridReload();
+		$("#searchContent").on("keyup", function(key){
+			if(key.keyCode == 13){
+				normalArticleList.gridReload();
+			}
+		});
+
+		if(queryParams.boardId != null){
+			$("#boardId").val(queryParams.boardId);
+			delete queryParams.boardId;
+		}
+
+		if(queryParams.searchCategory != null){
+			$("#searchCategory").val(queryParams.searchCategory);
+			delete queryParams.searchCategory;
+		}
+
+		if(queryParams.searchColumn != null){
+			$("#searchColumn").val(queryParams.searchColumn);
+			delete queryParams.searchColumn;
+		}
+
+		if(queryParams.searchContent != null){
+			$("#searchContent").val(queryParams.searchContent);
+			delete queryParams.searchContent;
+		}
+
+		normalArticleList.gridReload(new URLSearchParams(queryParams).toString());
 	},
 
 	mainGrid : function(url, params){
@@ -56,6 +83,7 @@ var normalArticleList = {
 
 			var articleListStr = "";
 			$("#articleListTb tbody *").remove();
+			$(".pagination *").remove();
 			if(normalArticleList.global.articleList.list.length > 0){
                 var list = normalArticleList.global.articleList.list;
                 const pagination = normalArticleList.global.articleList.pagination;
@@ -96,7 +124,7 @@ var normalArticleList = {
 		}
 	},
 
-	gridReload : function() {
+	gridReload : function(queryParams) {
 		normalArticleList.global.searchAjaxData = {
 			boardId : $("#boardId").val(),
 			searchCategory : $("#searchCategory").val(),
@@ -104,14 +132,22 @@ var normalArticleList = {
 			searchContent : $("#searchContent").val(),
 		}
 
-		normalArticleList.mainGrid("/board/getCamsBoardArticleList.do", normalArticleList.global.searchAjaxData);
+		normalArticleList.mainGrid("/board/getCamsBoardArticleList.do?" + queryParams, normalArticleList.global.searchAjaxData);
 	},
 
 	detailPageMove : function(boardArticleId, publicYn, i){
 		var boardId = $("#boardId").val();
 
+		const queryParams = {
+			page: normalArticleList.global.nowPage == "" ? 1 : normalArticleList.global.nowPage,
+			boardArticleId : boardArticleId,
+			searchCategory : $("#searchCategory").val(),
+			searchColumn : $("#searchColumn").val(),
+			searchContent : $("#searchContent").val(),
+		}
+
 		if(publicYn == "N" && isAdmin){
-			open_in_frame('/board/normalBoardDetail.do?boardArticleId='+ boardArticleId + '&boardId=' + boardId);
+			open_in_frame('/board/normalBoardDetail.do?boardArticleId='+ boardArticleId + '&boardId=' + boardId + '&' + new URLSearchParams(queryParams).toString());
 		}else if(publicYn == "N" && !isAdmin){
 			normalArticleList.global.pasChkModal = $('<div id="articlePublicNArticlePass" class="pop_wrap_dir">' +
 				'				<div style="padding: 10px 0 15px 0;font-size: 12px;">' +
@@ -153,12 +189,19 @@ var normalArticleList = {
 			normalArticleList.global.pasChkModal.data("kendoWindow").open();
 			normalArticleList.global.articleSelIndex = i;
 		}else{
-			open_in_frame('/board/normalBoardDetail.do?boardArticleId='+ boardArticleId + '&boardId=' + boardId);
+			open_in_frame('/board/normalBoardDetail.do?boardArticleId='+ boardArticleId + '&boardId=' + boardId + '&' + new URLSearchParams(queryParams).toString());
 		}
 	},
 
 	writePageMove : function(){
-		open_in_frame('/board/normalBoardWrite.do?boardId=' + $("#boardId").val());
+		const queryParams = {
+			page: normalArticleList.global.nowPage == "" ? 1 : normalArticleList.global.nowPage,
+			searchCategory : $("#searchCategory").val(),
+			searchColumn : $("#searchColumn").val(),
+			searchContent : $("#searchContent").val(),
+		}
+
+		open_in_frame('/board/normalBoardWrite.do?boardId=' + $("#boardId").val() + '&' + new URLSearchParams(queryParams).toString());
 	},
 
 	articlePublicNPassWordChk : function(){
@@ -241,6 +284,7 @@ var normalArticleList = {
     },
 
     movePage : function (page){
+		normalArticleList.global.nowPage = page;
         const queryParams = {
             page: (page) ? page : 1,
             recordSize: 10,

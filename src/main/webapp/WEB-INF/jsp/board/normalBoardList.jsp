@@ -84,7 +84,7 @@
 
 
                 <div class="table-responsive">
-                    <input type="hidden" id="boardId" name="boardId" value="${params.boardId}">
+                    <input type="hidden" id="boardId" name="boardId" value="">
                     <input type="hidden" id="menuNm" name="menuNm" value="${menuNm}">
                     <input type="hidden" id="isAdmin" name="isAdmin" value="${isAdmin}">
 
@@ -128,7 +128,7 @@
 <script>
 	var isAdmin = "${isAdmin}" == "true" ? true : false;
 
-	normalArticleList.fnDefaultScript();
+	normalArticleList.fnDefaultScript(JSON.parse('${queryParams}'));
 </script>
 
 <%--</body>--%>

@@ -11,6 +11,7 @@ var wbr = {
 
 	fnDefaultScript : function(params){
 		wbr.global.params = params;
+		$("#page").val(wbr.global.params.page);
 
 		customKendo.fn_textBox(["boardArticleTitle"]);
 		CKEDITOR.replace('boardArticleContent', {
@@ -63,7 +64,7 @@ var wbr = {
 
 			if(result.flag){
 				alert("게시글이 등록되었습니다.");
-				open_in_frame("/spot/watchBoardList.do");
+				wbr.listPageMove();
 			}else{
 				alert("게시글 등록 중 오류가 발생했습니다.");
 			}
@@ -71,7 +72,8 @@ var wbr = {
 	},
 
 	listPageMove : function(){
-		open_in_frame("/spot/watchBoardList.do");
+		var url = "/spot/watchBoardList.do?page=" + $("#page").val();
+		open_in_frame(url);
 	},
 
 	fileChange : function(e){
