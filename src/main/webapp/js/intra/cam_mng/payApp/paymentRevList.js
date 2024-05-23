@@ -179,7 +179,7 @@ var paymentRevList = {
     gridReload: function (){
         paymentRevList.global.searchAjaxData = {
             empSeq : $("#myEmpSeq").val(),
-            searchDept : 3,
+            searchDept : 9,
             searchKeyword : $("#searchKeyword").val(),
             searchValue : $("#searchValue").val(),
             payAppType : $("#payAppType").val(),
