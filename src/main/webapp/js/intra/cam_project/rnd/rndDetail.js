@@ -482,6 +482,10 @@ var rndDetail = {
             }else{
                 buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
             }
+
+            if(status == "10" || status == "20" || status == "50" || status == "100"){
+                this.fn_kendoUIEnableSet()
+            }
         }else{
             buttonHtml += "<button type=\"button\" id=\"delvSaveBtn\" style=\"float: right; margin-right: 5px; margin-bottom: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"rndDetail.fn_save()\">저장</button>";
         }
@@ -490,6 +494,16 @@ var rndDetail = {
         if(rndMap != null && rndMap.DOC_ID != null){
             reDraftOnlyOne(rndMap.DOC_ID, $("#delvRegEmpSeq").val(), "delvReBtn");
         }
+    },
+
+    fn_kendoUIEnableSet : function(){
+        $('input[name="sbjSepYn"]').attr('disabled', true);
+        $('#rndObj').attr('disabled', true).css("opacity", ".6");
+        $('#rndEtc').attr('disabled', true).css("opacity", ".6");
+        $('#peoResItem').attr('disabled', true).css("opacity", ".6");
+        $('label[for="bsPlanFileList"]').attr('disabled', true);
+        $('label[for="agreementFileList"]').attr('disabled', true);
+        $('label[for="etcFileList"]').attr('disabled', true);
     },
 
     customBudgetGrid : function(url, params){
