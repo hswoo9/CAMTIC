@@ -156,10 +156,6 @@ var prjDepositMng = {
                     title: "프로젝트 명",
                     template: function(e){
                         var pjtNm = e.PJT_NM;
-                        if(e.BUSN_CLASS == "S"){
-                            pjtNm = e.BS_TITLE;
-                        }
-
                         return pjtNm;
                     }
                 }, {
