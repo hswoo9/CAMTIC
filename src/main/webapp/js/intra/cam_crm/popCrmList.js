@@ -160,6 +160,8 @@ var popCrmList = {
             opener.parent.$("#purcCrmSn").val(rs.CRM_SN);
             opener.parent.$("#purcCrmNm").val(rs.CRM_NM);
 
+            opener.parent.$("#crmMonCheck").val(rs.MON_CHECK);
+
             // opener.parent.$("#crmReqMem").val(rs.CRM_CEO);
             // opener.parent.$("#crmPhNum").val(rs.PH_NUM);
             opener.parent.$("#clientPrtpcoName").val(rs.CRM_NM);

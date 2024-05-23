@@ -185,6 +185,7 @@
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>구매업체</th>
                     <td>
                         <input type="hidden" id="crmSn" class="crmSn" value="${map.CRM_SN}">
+                        <input type="hidden" id="crmMonCheck" disabled class="crmMonCheck" value="">
                         <input type="text" id="crmNm" disabled class="crmNm" value="${map.CRM_NM}" style="width: 60%">
                         <button type="button" id="crmSelBtn" class="crmSelBtn k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="reqCl.fn_popCamCrmList();">업체선택</button>
                     </td>

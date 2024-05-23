@@ -1935,6 +1935,7 @@
             MPI.DISCOUNT_AMT,
             CI.CRM_SN,
             CI.CRM_NM,
+            CI.MON_CHECK,
             FORMAT(PURC_ITEM_UNIT_PRICE , 0) AS PURC_ITEM_UNIT_PRICE_COMMA,
             FORMAT(PURC_ITEM_AMT , 0) AS PURC_ITEM_AMT_COMMA
         FROM

@@ -106,6 +106,8 @@ var reqCl = {
             var rs = customKendo.fn_customAjax("/purc/getPurcReq.do", data);
             var data = rs.data;
 
+            $("#crmMonCheck").val(data.itemList[0].MON_CHECK);
+
             if(data.purcFile != null){
                 reqCl.settingTempFileDataInit(data.purcFile);
                 reqCl.global.fileArray = data.purcFile;
@@ -137,6 +139,7 @@ var reqCl = {
                 rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
                 data = rs.data;
 
+                $("#crmMonCheck").val(data.MON_CHECK);
                 $("#claimDe").val(data.CLAIM_DE);
                 $("#expDe").val(data.EXP_DE);
                 $("#claimTitle").val(data.CLAIM_TITLE);
@@ -217,6 +220,7 @@ var reqCl = {
                 reqCl.global.fileArray = data.purcFile;
             }
 
+            $("#crmMonCheck").val(data.MON_CHECK);
             $("#claimDe").val(data.CLAIM_DE);
             $("#expDe").val(data.EXP_DE);
             $("#claimTitle").val(data.CLAIM_TITLE);
@@ -755,6 +759,12 @@ var reqCl = {
         if(fCommon.global.attFiles.length == 0){
             alert("견적서를 등록해주세요.");
             return;
+        }
+
+        if($("#crmMonCheck").val() == "Y"){
+            if(!confirm("월마감 할인 적용 업체입니다. 할인율을 확인하세요.")){
+                return;
+            }
         }
 
         var len = $("#claimTbody > tr").length;
