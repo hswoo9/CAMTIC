@@ -26,7 +26,7 @@
 		</div>
 		<form id="sendForm" style="padding: 20px 30px;">
 			<input type="hidden" name="C_DIKEYCODE" id="C_DIKEYCODE" value="${data.C_DIKEYCODE}" />
-			<table class="popTable table table-bordered mb-0" id="">
+			<table class="popTable table table-bordered mb-0">
 				<colgroup>
 					<col width="13%">
 					<col width="37%">
@@ -170,30 +170,23 @@
 					</td>
 					<th>증빙선택</th>
 					<td>
-						<input type="text" style="width: 50%" name="PRUF_SE_CODE" id="PRUF_SE_CODE" onchange="" placeholder="" value=""/>
+						<input type="text" style="width: 45%" name="PRUF_SE_CODE" id="PRUF_SE_CODE" onchange="" placeholder="" value=""/>
 					</td>
 				</tr>
 				<tr>
-					<th>승인번호</th>
-					<td>
-						<input type="text" style="width: 50%" id="PRUF_SE_NO" name="PRUF_SE_NO"  value='${dataJson.PRUF_SE_NO }' readonly/>
-						<input type="button" id="" onclick="newResolutionSubmitPage.searchBtn();" value='조회' />
-					</td>
 					<th>정산서류 등록</th>
 					<td>
 						<input type="button" id="attachFile" name="attachFile" onclick="fileRow(this);" value='첨부' />
 					</td>
-				</tr>
-				<tr>
 					<th>증빙일자</th>
 					<td colspan="3">
-						<input type="text" style="width: 15%" id="EXCUT_REQUST_DE" name="EXCUT_REQUST_DE" value="${dataJson.EXCUT_REQUST_DE }"/>
+						<input type="text" style="width: 45%" id="EXCUT_REQUST_DE" name="EXCUT_REQUST_DE" value="${dataJson.EXCUT_REQUST_DE }"/>
 					</td>
 				</tr>
 				</thead>
 			</table>
 
-			<table class="popTable table table-bordered mb-0" id="" style="border-left:none;">
+			<table class="popTable table table-bordered mb-0" style="border-left:none;">
 				<colgroup>
 					<col width="8%">
 					<col width="20%">
@@ -247,16 +240,19 @@
 				<tr>
 					<th>사업자등록번호</th>
 					<td>
-					<input style="width: 30%;" type="text" id="BCNC_LSFT_NO" name="BCNC_LSFT_NO" value="${dataJson.BCNC_LSFT_NO }" />
+					<input style="width: 30%;margin-bottom: 3px;" type="text" id="BCNC_LSFT_NO" name="BCNC_LSFT_NO" value="${dataJson.BCNC_LSFT_NO }" />
+					</td>
+					<td colspan="2">
 					<input style="width: 30%;" type="text" id="PIN_NO_1" name = "PIN_NO_1" maxlength="6" value=""/> - <input style="width: 30%;" type="text" id="PIN_NO_2" name = "PIN_NO_2" maxlength="1" value=""/>******
 					</td>
+
+				</tr>
+
+				<tr>
 					<th>대표자명</th>
 					<td>
 						<input style="width: 50%;" type="text" id="BCNC_RPRSNTV_NM" name="BCNC_RPRSNTV_NM" value="${dataJson.BCNC_RPRSNTV_NM }" />
 					</td>
-				</tr>
-
-				<tr>
 					<th>전화번호</th>
 					<td>
 						<input style="width: 50%;" type="text" id="BCNC_TELNO" name="BCNC_TELNO" value="${dataJson.BCNC_TELNO }" />
@@ -285,7 +281,7 @@
 					</td>
 					<th>은행</th>
 					<td>
-						<input type="text" style="width: 50%;" id="BCNC_BANK_CODE_NM" name="BCNC_BANK_CODE_NM" value="${dataJson.BCNC_BANK_CODE_NM }" /><img id="" style="margin-left:5px;" src="/images/ico/ico_explain.png" onclick="newResolutionSubmitPage.fn_backClick();"/>
+						<input type="text" style="width: 50%;" id="BCNC_BANK_CODE_NM" name="BCNC_BANK_CODE_NM" value="${dataJson.BCNC_BANK_CODE_NM }" /><img style="margin-left:5px;" src="/images/ico/ico_explain.png" onclick="newResolutionSubmitPage.fn_backClick();"/>
 					</td>
 				</tr>
 				<tr>
@@ -329,193 +325,19 @@
 						<input style="width: 50%;" type="text" id="PROCESS_RESULT_MSSAGE" name="PROCESS_RESULT_MSSAGE" value="${dataJson.PROCESS_RESULT_MSSAGE }" />
 					</td>
 				</tr>
-
 				</thead>
 			</table>
 		</form>
 	</div>
 </div>
 
-<div>
-	<form id="submitPage" action="/CustomKCMF/kukgoh/resolutionSubmitPage" method="POST">
-		<input type="hidden" id="submitData" name = "submitData" value=""/>
-	</form>
-</div>
 
-<div class="pop_wrap_dir" id="filePop" style="width:800px; display: none;">
 
-	<div class="pop_con">
-		<form id="fileForm" method="post" enctype="multipart/form-data" >
-			<!-- 타이틀/버튼 -->
-			<div class="btn_div mt0">
 
-				<div class="right_div">
-					<input type="button" id = "insertFileBtn" onclick="upFile();" value="첨부파일 등록"/>
-				</div>
 
-			</div>
-			<div class="btn_div mt0">
-				<div class="left_div"  style="width: 120px;">
-					<h5><span id="popupTitle"></span> 첨부파일</h5>
-					<input type="hidden" id="loginEmpSeq" name="empSeq" value="${empSeq}" />
-				</div>
-				<div class=""  id="">
-					<table id="fileDiv"></table>
-				</div>
-			</div>
-			<div class="">
 
-				<span id="orgFile">
-					<input type="file" id="fileID" name="fileNm" value="" onChange="getFileNm(this);" class="hidden" />
-				</span>
-			</div>
-	</div>
-	</form>
 
-	<div class="pop_foot">
-		<div class="btn_cen pt12">
-			<input type="button" class="gray_btn" value="닫기" onclick="filepopClose();"/>
-		</div>
-	</div><!-- //pop_foot -->
-</div>
-</div>
 
-<div class="pop_wrap_dir" id="loadingPop" style="width: 443px;">
-	<div class="pop_con">
-		<table class="fwb ac" style="width:100%;">
-			<tr>
-				<td>
-					<span class=""><img src="<c:url value='/Images/ico/loading.gif'/>" alt="" />  &nbsp;&nbsp;&nbsp;데이터를 가져오는 중입니다.</span>
-				</td>
-			</tr>
-		</table>
-	</div>
-	<!-- //pop_con -->
-</div>
-<!-- 금융기관 코드 -->
-<div class="pop_wrap" id="subPopUp" style="min-width:400px; display:none;">
-	<div class="pop_con">
-		<!-- 컨트롤박스 -->
-		<div class="com_ta2">
-			<div id="bankGrid"></div>
-		</div>
-	</div><!-- //pop_con -->
-
-</div><!-- //pop_wrap -->
-
-<!-- 카드 승인 자료 선택 -->
-<div class="pop_wrap_dir" id="cardPopup" style='width: 1200px; display : none;'>
-	<div class="pop_head">
-		<h1>카드 승인 자료 선택</h1>
-	</div>
-	<div class="pop_con">
-		<div class="com_ta" style="">
-			<div class="top_box">
-				<dl>
-					<dt  class="ar" style="width:65px" >카드번호</dt>
-					<dd>
-						<div class="controll_btn p0">
-							<input type="text" onclick="cardChoiceFn()" id="cardNo"value="" disabled/>
-							<input type="button" onclick="cardChoiceFn()" id="searchButton"	value="검색" />
-						</div>
-					</dd>
-					<dt  class="ar" style="width:65px; padding-left: 85px;" >사용기간</dt>
-					<dd>
-						<div class="controll_btn p0">
-							<input type="text" id="prdUseStart"	value="" />
-							~
-							<input type="text" id="prdUseEnd"	value="" />
-						</div>
-					</dd>
-					<dt  class="ar" style="width:65px; padding-left: 60px;" >승인번호</dt>
-					<dd>
-						<div class="controll_btn p0">
-							<input type="text" id="confmNo" value="" />
-						</div>
-					</dd>
-				</dl>
-			</div>
-			<!-- 버튼 -->
-			<div class="btn_div mt10 cl">
-				<div class="right_div">
-					<div class="controll_btn p0">
-						<button type="button" id="" onclick="newResolutionSubmitPage.cardSearch();">조회</button>
-					</div>
-				</div>
-			</div>
-			<div class="com_ta2 mt15" >
-				<div id="cardGrid"></div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- // 카드 승인 자료 선택 -->
-
-<!-- 카드 번호 선택 -->
-<div class="pop_wrap_dir" id="cardNoPopup" style='width: 700px; display : none;'>
-	<div class="pop_head">
-		<h1>카드번호</h1>
-	</div>
-	<div class="pop_con">
-		<div class="com_ta" style="">
-			<div class="top_box">
-				<dl>
-					<dt  class="ar" style="width:65px" >카드명</dt>
-					<dd>
-						<div class="controll_btn p0">
-							<input type="text" id="cardName" value=""/>
-						</div>
-					</dd>
-					<dt  class="ar" style="width:130px;" >카드번호 끝 4자리</dt>
-					<dd>
-						<div class="controll_btn p0">
-							<input type="text" id="cardLast4Dgts""	value="" />
-						</div>
-						<div class="controll_btn p0">
-							<button type="button" id="" onclick="cardNoSearch();">조회</button>
-						</div>
-					</dd>
-				</dl>
-			</div>
-			<!-- 버튼 -->
-			<div class="com_ta2 mt15" >
-				<div id="cardNoGrid"></div>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- //카드 번호 선택 -->
-
-<!-- 세금계산서 전송 화면 -->
-<div class="pop_wrap_dir" id="popUp" style="width: 1000px;">
-	<div class="pop_head">
-		<h1>전자(세금)계산서 승인번호 입력</h1>
-	</div>
-	<div class="pop_con">
-		<p class="tit_p mt5 mt20">전자(세금)계산서는 승인번호 전송 기준 10분~20분 후 e나라도움 연계 집행전송이 가능합니다</p>
-
-		<div class="com_ta mt15" style="">
-			<input type="hidden" id="BSNSYEAR"  />
-			<input type="hidden" id="DDTLBZ_ID"  />
-			<input type="hidden" id="EXC_INSTT_ID"  />
-			<input type="hidden" id="C_DIKEYCODE" />
-			<input type="hidden" id="GISU_DT"  />
-			<input type="hidden" id="GISU_SQ"  />
-			<input type="hidden" id="BG_SQ"  />
-			<div id="kukgohInvoiceInsertGrid"></div>
-		</div>
-	</div>
-	<!-- //pop_con -->
-
-	<div class="pop_foot">
-		<div class="btn_cen pt12">
-			<input type="button" class="gray_btn" id="cancle2" value="닫기" />
-		</div>
-	</div>
-	<!-- //pop_foot -->
-
-</div>
-<!-- 세금계산서 전송 화면 -->
 
 <script>
 	newResolutionSubmitPage.fn_defaultScript();

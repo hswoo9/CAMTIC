@@ -23,7 +23,7 @@ var budgetConfigView = {
                 }
 
             },
-            pageSize: 10,
+            pageSize: 10
         });
 
         $("#budgetConfigViewGrid").kendoGrid({
@@ -56,46 +56,65 @@ var budgetConfigView = {
             persistSelection : true,
             columns: [
                 {
-                    field : "BGT_CD",
+                    field : "",
                     title : "예산코드",
                     width : 100
                 },
                 {
-                    field : "BGT_NM",
+                    field : "",
                     title : "예산명",
                     width : 100
                 },
                 {
-                    field : "HBGT_NM",
+                    field : "",
                     title : "상위예산명",
                     width : 90
                 },
                 {
-                    field : "ASSTN_EXPITM_TAXITM_CODE",
+                    field : "",
                     title : "보조비목세목코드",
-                    width : 150
+                    width : 150,
+                    template : function(dataItem) {
+                        return "<input type='button' id='btnChoice' style='width: 45%;' value='' onclick='budgetConfigView.fn_budgetChoice(this)' class='btnChoice' width='100' />";
+                    }
                 },
                 {
                     title : "설정취소",
-                    width : 90
+                    width : 90,
+                    template : function(dataItem) {
+                        return "<input type='button' class='btnChoice' value='설정취소' onclick='cnclSetting(this);'>";
+                    },
                 },
                 {
-                    field : "ASSTN_EXPITM_NM",
+                    field : "",
                     title : "보조비목명",
                     width : 90
                 },
                 {
-                    field : "ASSTN_TAXITM_NM",
+                    field : "",
                     title : "보조세목명",
                     width : 90
                 },
                 {
-                    field : "FSYR",
+                    field : "",
                     title : "회계연도",
                     width : 90
                 }]
         }).data("kendoGrid");
     },
 
+    fn_reqPopOnen : function(){
+        var url = "/mng/budgetConfigViewPop.do";
+        var name = "budgetConfigViewPop";
+        var option = "width=520, height=650, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    },
+
+    fn_budgetChoice : function(){
+        var url = "/mng/budgetChoicePop.do";
+        var name = "budgetChoicePop";
+        var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    },
 
 }

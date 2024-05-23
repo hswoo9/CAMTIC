@@ -55,46 +55,46 @@ var kukgohCommCodeView = {
             persistSelection : true,
             columns: [
                 {
-                    field : "CMMN_DETAIL_CODE",
+                    field : "",
                     title : "코드",
                     width : 100
                 },
                 {
-                    field : "CMMN_DETAIL_CODE_NM",
+                    field : "",
                     title : "코드명",
                     width : 150
                 },
                 {
-                    field : "CUSTOM_MANAGE1",
+                    field : "",
                     title : "관리항목1"
                 },
                 {
-                    field : "CUSTOM_MANAGE2",
+                    field : "",
                     title : "관리항목2"
                 },
                 {
-                    field : "CMMN_CODE_DC",
+                    field : "",
                     title : "코드설명",
                     width : 180
                 },
                 {
-                    field : "MANAGE_IEM_CN_1",
+                    field : "",
                     title : "e나라도움 관리항목1"
                 },
                 {
-                    field : "MANAGE_IEM_CN_2",
+                    field : "",
                     title : "e나라도움 관리항목2"
                 },
                 {
-                    field : "MANAGE_IEM_CN_3",
+                    field : "",
                     title : "e나라도움 관리항목3"
                 },
                 {
-                    field : "MANAGE_IEM_CN_4",
+                    field : "",
                     title : "e나라도움 관리항목4"
                 },
                 {
-                    field : "MANAGE_IEM_CN_5",
+                    field : "",
                     title : "e나라도움 관리항목5"
                 },
                 {
@@ -102,6 +102,13 @@ var kukgohCommCodeView = {
                     width : 100
                 }]
         }).data("kendoGrid");
+    },
+
+    fn_reqPopOnen : function(){
+        var url = "/mng/kukgohCommCodeViewPop.do";
+        var name = "kukgohCommCodeViewPop";
+        var option = "width=520, height=620, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
     },
 
 

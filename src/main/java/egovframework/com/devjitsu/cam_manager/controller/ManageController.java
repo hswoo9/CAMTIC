@@ -218,6 +218,31 @@ public class ManageController {
         return "cam_manager/kukgohCommCodeView";
     }
 
+
+    @RequestMapping("/mng/kukgohCommCodeViewPop.do")
+    public String kukgohCommCodeViewPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        return "cam_manager/kukgohCommCodeViewPop";
+    }
+
+    @RequestMapping("/mng/budgetConfigViewPop.do")
+    public String budgetConfigViewPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        return "cam_manager/budgetConfigViewPop";
+    }
+
+    @RequestMapping("/mng/budgetChoicePop.do")
+    public String budgetChoicePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        return "cam_manager/budgetChoicePop";
+    }
+
+    @RequestMapping("/mng/budgetPjtChoicePop.do")
+    public String budgetPjtChoicePop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+
+        return "cam_manager/budgetPjtChoicePop";
+    }
+
     @RequestMapping("/mng/budgetConfigView.do")
     public String budgetConfigView(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -268,7 +293,7 @@ public class ManageController {
         return "cam_manager/enaraExceptList";
     }
 
-    @RequestMapping("/kukgoh/newResolutionSubmitPage")
+    @RequestMapping("/mng/newResolutionSubmitPage")
     public String newResolutionSubmitPage(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         HttpSession session = request.getSession();
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
@@ -278,14 +303,10 @@ public class ManageController {
         return "cam_manager/newResolutionSubmitPage";
     }
 
-    @RequestMapping("/kukgoh/invoicePage")
-    public String invoicePage(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
-        HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+    @RequestMapping("/mng/bankCodeViewPop")
+    public String bankCodeViewPop(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
 
-        model.addAttribute("loginVO", loginVO);
-
-        return "cam_manager/invoicePage";
+        return "cam_manager/bankCodeViewPop";
     }
 
     @RequestMapping("/mng/pop/userPartRate.do")
