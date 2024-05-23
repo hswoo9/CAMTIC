@@ -144,10 +144,16 @@ var busInit = {
 
         const exnpList = customKendo.fn_customAjax("/inside/getBustripExnpInfo", { hrBizReqResultId: hrBizReqResultId }).list;
 
-        const costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", {
-            endDt: busInfo.TRIP_DAY_TO,
-            projectCd: '0'
-        }).data;
+        const params = {
+            endDt: busInfo.TRIP_DAY_TO
+        }
+        if(busInfo != null && busInfo.PJT_SN != null){
+            params.projectCd = busInfo.PJT_SN;
+        }else{
+            params.projectCd = "0";
+        }
+
+        const costInfo = customKendo.fn_customAjax("/bustrip/getRegFuelCost", params).data;
 
         console.log("exnpList", exnpList);
         //요청일

@@ -452,12 +452,12 @@ var bustripExnpReq = {
                 empSeq: empSeq
             }
             if(bustripInfo != null && bustripInfo.PJT_SN != null){
-                params.pjtSn = bustripInfo.PJT_SN
+                params.pjtSn = bustripInfo.PJT_SN;
             }else{
-                params.pjtSn = "0"
+                params.pjtSn = "0";
             }
 
-            let costInfo = customKendo.fn_customAjax("/bustrip/getBustripFuelCostInfo", params).data;
+            const costInfo = customKendo.fn_customAjax("/bustrip/getBustripFuelCostInfo", params).data;
 
             console.log("costInfo", costInfo);
             console.log("bustripInfo", bustripInfo);
