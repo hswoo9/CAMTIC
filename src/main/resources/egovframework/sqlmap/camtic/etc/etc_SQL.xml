@@ -29,6 +29,29 @@
         <if test="active != null and active != ''">
             AND CSI.ACTIVE = #{active}
         </if>
+        GROUP BY CSI.SIGN_SEQ
+        ORDER BY CSI.SIGN_SEQ ASC, CFI.REG_DATE DESC
+    </select>
+
+    <select id="getSignInfoOne" parameterType="map" resultType="map">
+        /* getSignInfoList */
+        SELECT
+            CSI.SIGN_SEQ AS SIGN_SEQ,
+            CSI.FORM_COMP_NAME AS FORM_COMP_NAME,
+            CSI.SI_NAME AS SI_NAME,
+            CSI.CI_KIND_VAL AS CI_KIND_VAL,
+            CSI.ACTIVE AS ACTIVE,
+            CSI.USE_FORM_VAL AS USE_FORM_VAL,
+            CSI.USE_FORM_NAME AS USE_FORM_NAME,
+            CSI.REMARK_VAL AS REMARK_VAL,
+            CONCAT(CFI.FILE_PATH, CFI.FILE_UUID) AS FILE_NO
+        FROM
+            CAM_COMMON.DJ_SIGN_INFO CSI
+        LEFT JOIN CAM_COMMON.DJ_FILE_INFO CFI ON CONCAT('sign_', CSI.SIGN_SEQ) = CFI.CONTENT_ID
+        WHERE
+            CSI.ACTIVE = 'Y'
+        ORDER BY CFI.REG_DATE DESC
+        LIMIT 1
     </select>
 
     <insert id="setSignInfoIns" parameterType="map">

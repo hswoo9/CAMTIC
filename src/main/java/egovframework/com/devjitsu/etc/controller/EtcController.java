@@ -61,6 +61,14 @@ public class EtcController {
         return "jsonView";
     }
 
+    /** 직인DATA */
+    @RequestMapping("/sign/getSignInfoOne")
+    public String getSignInfoOne(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = etcService.getSignInfoOne(params);
+        model.addAttribute("data", data);
+        return "jsonView";
+    }
+
     /** 직인 저장 */
     @RequestMapping("/sign/setSignInfo")
     public String setSignInfo(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
