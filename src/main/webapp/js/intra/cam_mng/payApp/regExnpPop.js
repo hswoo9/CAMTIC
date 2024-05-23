@@ -308,10 +308,10 @@ var regExnp = {
                     '       <input type="hidden" id="trCd' + regExnpDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="crmBnkNm' + regExnpDet.global.itemIndex + '" value="'+item.CRM_BNK_NM+'" class="crmBnkNm">' +
+                    '       <input type="text" id="regNo' + regExnpDet.global.itemIndex + '" value="'+item.REG_NO+'" class="regNo">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="regNo' + regExnpDet.global.itemIndex + '" value="'+item.REG_NO+'" class="regNo">' +
+                    '       <input type="text" id="crmBnkNm' + regExnpDet.global.itemIndex + '" value="'+item.CRM_BNK_NM+'" class="crmBnkNm">' +
                     '   </td>' +
                     '   <td>' +
                     '       <input type="text" id="crmAccNo' + regExnpDet.global.itemIndex + '" value="'+item.CRM_ACC_NO+'" class="crmAccNo">' +
@@ -600,10 +600,10 @@ var regExnp = {
                     '       <input type="hidden" id="trCd' + regExnpDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="crmBnkNm' + regExnpDet.global.itemIndex + '" value="'+item.CRM_BNK_NM+'" class="crmBnkNm">' +
+                    '       <input type="text" id="regNo' + regExnpDet.global.itemIndex + '" value="'+item.REG_NO+'" class="regNo">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="regNo' + regExnpDet.global.itemIndex + '" value="'+item.REG_NO+'" class="regNo">' +
+                    '       <input type="text" id="crmBnkNm' + regExnpDet.global.itemIndex + '" value="'+item.CRM_BNK_NM+'" class="crmBnkNm">' +
                     '   </td>' +
                     '   <td>' +
                     '       <input type="text" id="crmAccNo' + regExnpDet.global.itemIndex + '" value="'+item.CRM_ACC_NO+'" class="crmAccNo">' +
@@ -799,10 +799,10 @@ var regExnp = {
                     '       <input type="hidden" id="trCd' + regExnpDet.global.itemIndex + '" value="'+item.TR_CD+'" class="trCd">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="crmBnkNm' + regExnpDet.global.itemIndex + '" value="" class="crmBnkNm">' +
+                    '       <input type="text" id="regNo' + regExnpDet.global.itemIndex + '" value="" class="regNo">' +
                     '   </td>' +
                     '   <td>' +
-                    '       <input type="text" id="regNo' + regExnpDet.global.itemIndex + '" value="" class="regNo">' +
+                    '       <input type="text" id="crmBnkNm' + regExnpDet.global.itemIndex + '" value="" class="crmBnkNm">' +
                     '   </td>' +
                     '   <td>' +
                     '       <input type="text" id="crmAccNo' + regExnpDet.global.itemIndex + '" value="" class="crmAccNo">' +
@@ -1381,10 +1381,10 @@ var regExnpDet = {
                 '       <input type="hidden" id="trCd' + clIdx + '" class="trCd">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="crmBnkNm' + clIdx + '" class="crmBnkNm">' +
+                '       <input type="text" id="regNo' + clIdx + '" class="regNo">' +
                 '   </td>' +
                 '   <td>' +
-                '       <input type="text" id="regNo' + clIdx + '" class="regNo">' +
+                '       <input type="text" id="crmBnkNm' + clIdx + '" class="crmBnkNm">' +
                 '   </td>' +
                 '   <td>' +
                 '       <input type="text" id="crmAccNo' + clIdx + '" class="crmAccNo">' +
