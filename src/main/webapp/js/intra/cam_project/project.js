@@ -212,15 +212,14 @@ var camPrj = {
                         /*if(e.BUSN_CLASS == "S"){
                             pjtNm = e.BS_TITLE;
                         }*/
-                        var pjtEx = pjtNm;
-                        if(pjtNm.toString().length > 62){
-                            pjtEx = pjtNm.toString().substring(0, 62)+ "...";
-                        }
-                        if(e.TEAM_STAT == "N"){
-                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + pjtEx + "</a>";
-                        } else {
-                            return "<a href='javascript:void(0);' style='font-weight: bold' onclick='camPrj.fn_projectPopView("+e.PJT_SN+", \"" + e.BUSN_CLASS + "\")'>" + pjtEx + "</a>";
-                        }
+                        return '<div style="text-align: left; font-weight: bold; cursor: pointer" onclick="camPrj.fn_projectPopView('+e.PJT_SN+', \'' + e.BUSN_CLASS + '\')">' + pjtNm + '</div>';
+                    }
+                }, {
+                    field: "CRM_NM",
+                    title: "주관기관(업체명)",
+                    width: 120,
+                    template: function(e){
+                        return "<div style=\"text-align: left;\">" + (e.CRM_NM || '') + "</div>";
                     }
                 }, {
 

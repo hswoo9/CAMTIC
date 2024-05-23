@@ -88,8 +88,24 @@
         white-space: nowrap;
         text-align: right;
     }
+
+    .k-grid-content td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .k-grid-content div {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .pjtPage .k-grid td {
+        padding: .4em .3em;
+    }
 </style>
-<div class="mainCard">
+<div class="mainCard pjtPage">
     <div class="panel">
         <div class="panel-heading">
         </div>
