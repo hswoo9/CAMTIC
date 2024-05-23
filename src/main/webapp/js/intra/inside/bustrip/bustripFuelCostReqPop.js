@@ -11,14 +11,7 @@ const fuelCostReq = {
         customKendo.fn_datePicker("startDt", 'month', "yyyy-MM-dd", new Date());
         customKendo.fn_datePicker("endDt", 'month', "yyyy-MM-dd", new Date());
         $("#startDt").attr("readonly", true);
-        customKendo.fn_textBox(["distance", "costAmt"]);
-
-        let projectDataSource = [
-            { text: "전체", value: "0" },
-            { text: "테스트 프로젝트 A", value: "1" },
-            { text: "테스트 프로젝트 B", value: "2" }
-        ]
-        customKendo.fn_dropDownList("project", projectDataSource, "text", "value", 3);
+        customKendo.fn_textBox(["distance", "costAmt", "project"]);
     },
 
     setSaveData : function(){
@@ -29,7 +22,8 @@ const fuelCostReq = {
             $("#startDt").val(rs.START_DT);
             $("#distance").val(comma(rs.DISTANCE));
             $("#costAmt").val(comma(rs.COST_AMT));
-            $("#project").data("kendoDropDownList").value(rs.PROJECT_CD);
+            $("#projectCd").val(rs.PROJECT_CD);
+            $("#project").val(rs.PROJECT_NM);
 
             if(rs.END_DT) {
                 $("#endDt").val(rs.END_DT);
@@ -46,8 +40,9 @@ const fuelCostReq = {
         let regEmpSeq = $("#regEmpSeq").val();
         let regEmpName = $("#regEmpName").val();
 
-        let projectCd = $("#project").data("kendoDropDownList").value();
-        let projectText = $("#project").data("kendoDropDownList").text();
+        let projectCd =  $("#projectCd").val();
+        let projectText = $("#project").val();
+
 
         let data = {
             startDt: startDt,
@@ -102,6 +97,13 @@ const fuelCostReq = {
                 window.close();
             }
         });
+    },
+
+    fn_projectPop: function(type){
+        var url = "/project/pop/projectView.do?openType=" + type;
+        var name = "_blank";
+        var option = "width = 1100, height = 700, top = 100, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 }
 
@@ -117,4 +119,9 @@ function uncomma(str) {
 
 function inputNumberFormat (obj){
     obj.value = comma(uncomma(obj.value));
+}
+
+function selectProject(key, name, cd){
+    $("#projectCd").val(key);
+    $("#project").val(name);
 }

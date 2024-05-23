@@ -1492,12 +1492,15 @@
     <select id="getBustripFuelCostInfo" parameterType="map" resultType="map">
         /* getBustripFuelCostInfo */
         SELECT
-            IHFCI.*
-        FROM
-            CAM_INSIDE.DJ_HR_FUEL_COST_INFO IHFCI
+            *
+        FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO
         WHERE
-            1=1
-        ORDER BY IHFCI.REG_DT DESC limit 1
+            HR_FUEL_COST_INFO_SN =
+            IF(
+                (SELECT COUNT(-1) FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO WHERE PROJECT_CD = #{pjtSn}) > 0,
+                (SELECT HR_FUEL_COST_INFO_SN FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO IHFCI WHERE PROJECT_CD = #{pjtSn} ORDER BY IHFCI.REG_DT DESC LIMIT 1),
+                (SELECT HR_FUEL_COST_INFO_SN FROM CAM_INSIDE.DJ_HR_FUEL_COST_INFO IHFCI WHERE PROJECT_CD = '0' ORDER BY IHFCI.REG_DT DESC LIMIT 1)
+            )
     </select>
 
     <select id="getRegFuelCost" parameterType="map" resultType="map">
