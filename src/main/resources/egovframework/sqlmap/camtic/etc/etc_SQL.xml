@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="etc">
+
+    <select id="getSignInfoList" parameterType="map" resultType="map">
+        /* getSignInfoList */
+        SELECT
+            CSI.SIGN_SEQ AS SIGN_SEQ,
+            CSI.FORM_COMP_NAME AS FORM_COMP_NAME,
+            CSI.SI_NAME AS SI_NAME,
+            CSI.CI_KIND_VAL AS CI_KIND_VAL,
+            CSI.ACTIVE AS ACTIVE,
+            CSI.USE_FORM_VAL AS USE_FORM_VAL,
+            CSI.USE_FORM_NAME AS USE_FORM_NAME,
+            CSI.REMARK_VAL AS REMARK_VAL,
+            CONCAT(CFI.FILE_PATH, CFI.FILE_UUID) AS FILE_NO
+        FROM
+            CAM_COMMON.DJ_SIGN_INFO CSI
+        LEFT JOIN CAM_COMMON.DJ_FILE_INFO CFI ON CONCAT('sign_', CSI.SIGN_SEQ) = CFI.CONTENT_ID
+        WHERE
+            1=1
+        <if test="siName != null and siName != ''">
+            AND CSI.SI_NAME LIKE CONCAT('%', #{siName}, '%')
+        </if>
+        <if test="ciKindVal != null and ciKindVal != ''">
+            AND CSI.CI_KIND_VAL = #{ciKindVal}
+        </if>
+        <if test="active != null and active != ''">
+            AND CSI.ACTIVE = #{active}
+        </if>
+    </select>
+
+    <insert id="setSignInfoIns" parameterType="map">
+        /* setSignInfoIns */
+        INSERT INTO CAM_COMMON.DJ_SIGN_INFO
+            (
+                FORM_COMP_NAME,
+                SI_NAME,
+                CI_KIND_VAL,
+                ACTIVE,
+                USE_FORM_VAL,
+                USE_FORM_NAME,
+                REMARK_VAL
+            )
+        VALUES
+            (
+                #{formCompName},
+                #{siName},
+                #{ciKindVal},
+                #{active},
+                #{useFormVal},
+                #{useFormName},
+                #{remarkVal}
+            )
+
+        <selectKey keyProperty="signSeq" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_SIGN_INFO'
+        </selectKey>
+    </insert>
+
+    <update id="setSignInfoUpd" parameterType="map">
+        /* setSignInfoUpd */
+        UPDATE
+            CAM_COMMON.DJ_SIGN_INFO
+        SET
+            FORM_COMP_NAME = #{formCompName},
+            SI_NAME = #{siName},
+            CI_KIND_VAL = #{ciKindVal},
+            ACTIVE = #{active},
+            USE_FORM_VAL = #{useFormVal},
+            USE_FORM_NAME = #{useFormName},
+            REMARK_VAL = #{remarkVal}
+        WHERE
+            SIGN_SEQ = #{signSeq}
+    </update>
+</mapper>
+
+
+
