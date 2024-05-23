@@ -38,7 +38,7 @@ var yearDutyViewPop = {
             selectable: "row",
             pageable: {
                 refresh: true,
-                pageSizes: [10, 20, "ALL"],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
             noRecords: {
