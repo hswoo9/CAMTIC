@@ -554,6 +554,11 @@ var rndInit = {
         const pjtInfo = customKendo.fn_customAjax("/project/getProjectStep", {pjtSn: pjtSn});
         const map = pjtInfo.rs;
 
+        /** 사업명 */
+        hwpDocCtrl.putFieldText('BS_TITLE', map.BS_TITLE);
+        /** 과제명 */
+        hwpDocCtrl.putFieldText('PJT_NM', map.PJT_NM);
+
         const date = new Date();
         const year = date.getFullYear().toString().substring(2,4);
         const g20 = customKendo.fn_customAjax("/g20/getSubjectList", {
