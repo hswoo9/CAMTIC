@@ -584,6 +584,9 @@
                 )
                 AND AA.EXNP_STATUS IS NOT NULL
             </if>
+            <if test='"9".equals(searchDept)'>
+                AND AA.DOC_STATUS IN (100,101)
+            </if>
 
             <choose>
                 <when test='"A".equals(searchKeyword)'>
