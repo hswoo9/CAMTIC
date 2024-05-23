@@ -9,6 +9,8 @@ public interface EtcService {
 
     List<Map<String, Object>> getSignInfoList(Map<String, Object> params);
 
+    Map<String, Object> getSignInfoOne(Map<String, Object> params);
+
     void setSignInfo(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
 }

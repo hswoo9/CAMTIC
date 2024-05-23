@@ -415,6 +415,13 @@ function getManager(empSeq, deptLevel){
     return empInfo;
 }
 
+/** 부서장, 팀장 공석 체크 */
+function getSign(empSeq, deptLevel){
+    const signInfo = customKendo.fn_customAjax("/sign/getSignInfoOne", {}).data;
+    console.log("function getSign :",signInfo);
+    return signInfo;
+}
+
 /** 전자결재 버튼 공용 */
 function makeApprBtnHtml(dataInfo, onClick, type, target){
 

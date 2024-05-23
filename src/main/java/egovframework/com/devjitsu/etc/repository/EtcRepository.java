@@ -13,6 +13,10 @@ public class EtcRepository extends AbstractDAO {
         return selectList("etc.getSignInfoList", params);
     }
 
+    public Map<String, Object> getSignInfoOne(Map<String, Object> params) {
+        return (Map<String, Object>)selectOne("etc.getSignInfoOne", params);
+    }
+
     public void setSignInfoIns(Map<String, Object> params) {
         insert("etc.setSignInfoIns", params);
     }

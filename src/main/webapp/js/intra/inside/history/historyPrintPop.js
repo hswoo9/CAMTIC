@@ -74,10 +74,12 @@ const historyPrintPop = {
         }
 
         if(historyPrintPop.global.hwpCtrl.FieldExist("인")){
+            const signInfo = getSign();
+            const signUrl = "http://"+location.host+signInfo.FILE_NO;
             historyPrintPop.global.hwpCtrl.MoveToField('인', true, true, false);
             historyPrintPop.global.hwpCtrl.InsertBackgroundPicture(
                 "SelectedCell",
-                "http://"+location.host+"/upload/journeyman/companySignature.png",
+                signUrl,
                 1,
                 6,
                 0,

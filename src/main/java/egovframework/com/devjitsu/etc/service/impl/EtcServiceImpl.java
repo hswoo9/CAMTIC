@@ -29,6 +29,11 @@ public class EtcServiceImpl implements EtcService {
     }
 
     @Override
+    public Map<String, Object> getSignInfoOne(Map<String, Object> params) {
+        return etcRepository.getSignInfoOne(params);
+    }
+
+    @Override
     public void setSignInfo(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
 
         Map<String, Object> result = new HashMap<>();
