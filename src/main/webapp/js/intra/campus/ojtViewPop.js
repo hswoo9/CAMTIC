@@ -181,7 +181,7 @@ const ojtView = {
             height: 300,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             noRecords: {
@@ -240,7 +240,7 @@ const ojtView = {
             height: 300,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             noRecords: {
@@ -441,7 +441,7 @@ const ojtView = {
             height: 250,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             toolbar : [
@@ -520,7 +520,7 @@ const ojtView = {
             height: 250,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             toolbar : [

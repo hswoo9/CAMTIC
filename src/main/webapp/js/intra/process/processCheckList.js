@@ -42,7 +42,7 @@ var pcList = {
             height: 500,
             pageable: {
                 refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
+                pageSizes: [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
             noRecords: {

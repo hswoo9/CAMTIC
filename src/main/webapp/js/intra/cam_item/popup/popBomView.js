@@ -54,7 +54,7 @@ var popBomView = {
             pageable: {
                 refresh: true,
                 pageSize : 5,
-                pageSizes: [ 5, 10, 15, 20, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
             noRecords: {
