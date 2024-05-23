@@ -386,6 +386,9 @@ const busiExnp = {
 
         /** 환율에 콤마 찍어서 리턴 */
         // return fn_inputNumberFormat(e);
+
+        busiExnp.fn_setTableSum();
+
         return e;
     },
 
