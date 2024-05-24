@@ -123,7 +123,7 @@
                                     <tr style="display: none">
                                         <th class="text-center th-color">종류</th>
                                         <td colspan="2">
-                                            <span type="text" id="ciKind" name="ciKind" style="width: 100%;"></span>
+                                            <span type="text" id="ciKind" name="ciKind" style="width: 100%;"></span >
                                         </td>
                                     </tr>
                                     <tr>
