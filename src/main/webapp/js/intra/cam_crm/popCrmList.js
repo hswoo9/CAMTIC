@@ -209,6 +209,9 @@ var popCrmList = {
                     window.close();
                 }
             }
+        } else if($("#status").val() == "asset"){
+            opener.parent.$("#purcCompanyId").val(rs.CRM_SN);
+            opener.parent.$("#purcCompanyName").val(rs.CRM_NM);
         }
 
         if(opener.parent.fn_selCrmInfo != undefined){

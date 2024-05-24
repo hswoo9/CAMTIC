@@ -78,9 +78,9 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>구입 업체</th>
                     <td>
-                        <input type="hidden" id="purcCompanyId" style="width: 70%;" value="1">
-                        <input type="text" id="purcCompanyName" style="width: 70%;">
-                        <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
+                        <input type="hidden" id="purcCompanyId" style="width: 70%;" value="">
+                        <input type="text" id="purcCompanyName" style="width: 70%;" readonly>
+                        <button type="button" id="search" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="fn_popCamCrmList('asset')">
                             <span class="k-button-text">검색</span>
                         </button>
                     </td>
@@ -219,6 +219,13 @@
         $("#pjtSn").val(sn);
         $("#pjtNm").val(nm);
         $("#pjtCd").val(cd);
+    }
+
+    function fn_popCamCrmList(v){
+        var url = "/crm/pop/popCrmList.do?status=" + v;
+        var name = "_blank";
+        var option = "width = 1300, height = 670, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
     }
 </script>
 </body>

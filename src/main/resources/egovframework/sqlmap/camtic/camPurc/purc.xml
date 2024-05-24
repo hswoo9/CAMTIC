@@ -443,6 +443,8 @@
         SELECT
             PC.CLAIM_DE,
             PC.PURC_SN,
+            PC.CRM_SN,
+            PC.CRM_NM,
             PCI.*
         FROM
             CAM_MNG.DJ_PURC_CLAIM PC
