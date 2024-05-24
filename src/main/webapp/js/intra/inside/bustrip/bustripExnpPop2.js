@@ -457,14 +457,17 @@ const bustripExnpReq = {
             alert("수정이 완료되었습니다.");
             opener.window.location.reload();
             // window.close();
-            location.reload()
+            // location.reload()
         }else{
             var result = customKendo.fn_customAjax("/bustrip/setReqCert", data);
             alert("저장이 완료되었습니다.");
             opener.gridReload();
             // window.close();
-            location.reload()
+            // location.reload()
         }
+
+        window.close();
+        opener.bustripResList.popBustripRes(hrBizReqResultId,$("#hrBizReqId").val(),$("#tripType").val());
     },
 
     fn_setCertRep : function (p, key){

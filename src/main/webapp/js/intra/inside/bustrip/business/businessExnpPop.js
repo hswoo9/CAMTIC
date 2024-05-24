@@ -780,14 +780,17 @@ const busiExnp = {
             alert("수정이 완료되었습니다.");
             opener.window.location.reload();
             // window.close();
-            location.reload();
+            // location.reload();
         }else{
             var result = customKendo.fn_customAjax("/bustrip/setBusiCert", data);
             alert("저장이 완료되었습니다.");
             opener.gridReload();
             // window.close();
-            location.reload();
+            // location.reload();
         }
+
+        window.close();
+        window.open("/bustrip/pop/bustripReqPop.do?hrBizReqId=" + $("#hrBizReqId").val(), "bustripResListPop", "width=1200, height=795, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     },
 
     fn_exnpAttachCheck : function (e){

@@ -97,6 +97,7 @@
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
 <input type="hidden" id="hrBizReqResultId" value="${params.hrBizReqResultId}"/>
 <input type="hidden" id="hrBizReqId" value="${params.hrBizReqId}"/>
+<input type="hidden" id="tripType" value="${params.tripType}"/>
 <input type="hidden" id="mod" value="${params.mode}"/>
 <input type="hidden" id="type" value="${type}"/>
 <div class="table-responsive">
