@@ -534,9 +534,9 @@
                         WHEN MAX(SCHOOL_TYPE) = '5' THEN '석사'
                         WHEN MAX(SCHOOL_TYPE) = '6' THEN '박사'
                     END,
-                    CASE WHEN GRADUATE_TYPE = '1' THEN ''
-                        WHEN GRADUATE_TYPE = '2' THEN ' 졸업예정'
-                        WHEN GRADUATE_TYPE = '3' THEN ' 수료'
+                    CASE WHEN MAX(GRADUATE_TYPE) = '1' THEN ''
+                        WHEN MAX(GRADUATE_TYPE) = '2' THEN ' 졸업예정'
+                        WHEN MAX(GRADUATE_TYPE) = '3' THEN ' 수료'
                     END,
                     ')'
                 ) AS SCHOOL_NAME
