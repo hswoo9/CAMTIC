@@ -32,14 +32,9 @@
                         <col width="15%">
                         <col width="10%">
                         <col width="15%">
-                        <col width="10%">
-                        <col width="15%">
+                        <col width="50%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">종류</th>
-                        <td>
-                            <input type="text" id="kind" style="width: 120px;">
-                        </td>
                         <th class="text-center th-color">사용여부</th>
                         <td>
                             <input type="text" id="useYN" style="width: 90%"/>
@@ -47,6 +42,10 @@
                         <th class="text-center th-color">관인명</th>
                         <td>
                             <input type="text" id="txtSearch" style="width: 90%;">
+                        </td>
+                        <%--<th class="text-center th-color">종류</th>--%>
+                        <td style="display: none">
+                            <input type="text" id="kind" style="width: 120px;">
                         </td>
                     </tr>
                 </table>
@@ -121,7 +120,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr style="display: none">
                                         <th class="text-center th-color">종류</th>
                                         <td colspan="2">
                                             <span type="text" id="ciKind" name="ciKind" style="width: 100%;"></span>

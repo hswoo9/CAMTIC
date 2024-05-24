@@ -14,10 +14,9 @@
             CSI.USE_FORM_VAL AS USE_FORM_VAL,
             CSI.USE_FORM_NAME AS USE_FORM_NAME,
             CSI.REMARK_VAL AS REMARK_VAL,
-            CONCAT(CFI.FILE_PATH, CFI.FILE_UUID) AS FILE_NO
+            (SELECT CONCAT(CFI.FILE_PATH, CFI.FILE_UUID) FROM CAM_COMMON.DJ_FILE_INFO CFI WHERE CONCAT('sign_', CSI.SIGN_SEQ) = CFI.CONTENT_ID ORDER BY CFI.REG_DATE DESC LIMIT 1) AS FILE_NO
         FROM
             CAM_COMMON.DJ_SIGN_INFO CSI
-        LEFT JOIN CAM_COMMON.DJ_FILE_INFO CFI ON CONCAT('sign_', CSI.SIGN_SEQ) = CFI.CONTENT_ID
         WHERE
             1=1
         <if test="siName != null and siName != ''">
@@ -29,8 +28,7 @@
         <if test="active != null and active != ''">
             AND CSI.ACTIVE = #{active}
         </if>
-        GROUP BY CSI.SIGN_SEQ
-        ORDER BY CSI.SIGN_SEQ ASC, CFI.REG_DATE DESC
+        ORDER BY CSI.SIGN_SEQ DESC
     </select>
 
     <select id="getSignInfoOne" parameterType="map" resultType="map">
