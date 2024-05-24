@@ -513,12 +513,6 @@
         body.insertAdjacentHTML('beforebegin', shadowDiv);
 
         $(shadowRayerId).css("display", "block");
-
-        var shadowOverlay = document.getElementById(shadowRayerId);
-        shadowOverlay.addEventListener('click', function() {
-            shadowOverlay.style.display = 'none';
-            $(shadowRayerId).css("display", "none");
-        });
     }
 
     //레이어 팝업 닫기
