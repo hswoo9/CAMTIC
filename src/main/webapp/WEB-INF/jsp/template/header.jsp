@@ -147,7 +147,7 @@
     $(document).ready(function(){
         connectWS();
         showTestServer();
-    })
+    });
 
     function showTestServer(){
         const serverName = "${pageContext.request.serverName}";
@@ -473,7 +473,7 @@
 
             //window 크기계산 -> window.screen.width, height 사용
             positonX = (window.screen.width - data.bannerPopupWidth) / 2;
-            positonY = (window.screen.height - data.bannerPopupHeight) / 2;
+            positonY = (window.screen.height - data.bannerPopupHeight) / 2.5;
         }
 
         let html = '';
@@ -494,7 +494,7 @@
         html += '<p class="btn_today_close" style="text-align:right;margin:0;">';
         html += '<span id="tcSpan">';
         html += '<input type="checkbox" style="vertical-align:middle;" id="popupCloseCheck" onclick="rayerDayClose('+data.uuid+')">';
-        html += '<span style="vertical-align:middle;margin-right:15px;">오늘 하루 열지 않음</span>';
+        html += '<label for="popupCloseCheck" style="vertical-align:middle;margin-right:15px;margin-top:5px;cursor: pointer;">오늘 하루 열지 않음</label>';
         html += '<a href="" class="tcA" style="vertical-align:middle;" onclick="rayerClose('+data.uuid+');">닫기</a>';
         html += '</span>';
         html += '</p>';
@@ -504,12 +504,30 @@
         $("#rayer-background").append(html);
 
         $("#rayer"+data.uuid).show();
+
+        var body = document.getElementsByClassName('font-opensans')[0];
+        var shadowRayerId = "#shadowOverlay"+data.uuid;
+
+        var shadowDiv = '<div id="shadowOverlay'+data.uuid+'" class="shadowOverlay" onclick="rayerShadowClose('+data.uuid+')"></div>';
+
+        body.insertAdjacentHTML('beforebegin', shadowDiv);
+
+        $(shadowRayerId).css("display", "block");
+
+        var shadowOverlay = document.getElementById(shadowRayerId);
+        shadowOverlay.addEventListener('click', function() {
+            shadowOverlay.style.display = 'none';
+            $(shadowRayerId).css("display", "none");
+        });
     }
 
     //레이어 팝업 닫기
     function rayerClose(e){
         event.preventDefault(); // 새로고침 방지
         $("#rayer"+e).hide();
+
+        var shadowRayerId = "#shadowOverlay"+e;
+        $(shadowRayerId).css("display", "none");
     }
 
     //레이어 팝업 하루종일 닫기
@@ -517,6 +535,17 @@
         setRayerCookie('rayer'+key, 'Y', 1);
 
         $("#rayer"+key).hide();
+
+        var shadowRayerId = "#shadowOverlay"+key;
+        $(shadowRayerId).css("display", "none");
+    }
+
+    //레이어 팝업 그림자 닫기
+    function rayerShadowClose(key){
+        $("#rayer"+key).hide();
+
+        var shadowRayerId = "#shadowOverlay"+key;
+        $(shadowRayerId).css("display", "none");
     }
 
     //레이어 팝업 쿠키 set
