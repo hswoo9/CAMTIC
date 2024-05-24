@@ -15,8 +15,8 @@ var normalArticleList = {
 	},
 
 	fnDefaultScript : function(queryParams){
-		$(".panel-title").text($("a[onclick=\"open_in_frame('" + $("#menuNm").val() + "')\"]").attr("menuNameKr"));
-		$(".title-road").text($("a[onclick=\"open_in_frame('" + $("#menuNm").val() + "')\"]").attr("menuNamePath"));
+		$(".panel-title").text($("a[onclick=\"open_in_frame('" + $("#menuNm").val().split("&")[0] + "')\"]").attr("menuNameKr"));
+		$(".title-road").text($("a[onclick=\"open_in_frame('" + $("#menuNm").val().split("&")[0] + "')\"]").attr("menuNamePath"));
 
 		normalArticleList.global.dropDownDataSource = [
 			{ text: "제목", value: "2" },
@@ -50,6 +50,10 @@ var normalArticleList = {
 		if(queryParams.searchContent != null){
 			$("#searchContent").val(queryParams.searchContent);
 			delete queryParams.searchContent;
+		}
+
+		if(queryParams.page != null){
+			normalArticleList.global.nowPage = queryParams.page;
 		}
 
 		normalArticleList.gridReload(new URLSearchParams(queryParams).toString());

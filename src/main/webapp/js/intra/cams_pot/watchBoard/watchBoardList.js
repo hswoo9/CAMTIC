@@ -14,6 +14,10 @@ var wbl = {
 	},
 
 	fnDefaultScript : function(queryParams){
+		if(queryParams.page != null){
+			wbl.global.nowPage = queryParams.page;
+		}
+
 		wbl.gridReload(new URLSearchParams(queryParams).toString());
 	},
 
