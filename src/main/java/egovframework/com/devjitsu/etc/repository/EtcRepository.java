@@ -22,7 +22,11 @@ public class EtcRepository extends AbstractDAO {
     }
 
     public void setSignInfoUpd(Map<String, Object> params) {
-        insert("etc.setSignInfoUpd", params);
+        update("etc.setSignInfoUpd", params);
+    }
+
+    public void setSignInfoDel(Map<String, Object> params) {
+        update("etc.setSignInfoDel", params);
     }
 
 }

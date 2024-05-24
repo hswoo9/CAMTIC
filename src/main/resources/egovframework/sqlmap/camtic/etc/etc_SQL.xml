@@ -19,6 +19,7 @@
             CAM_COMMON.DJ_SIGN_INFO CSI
         WHERE
             1=1
+        AND CSI.VISIBLE = 'Y'
         <if test="siName != null and siName != ''">
             AND CSI.SI_NAME LIKE CONCAT('%', #{siName}, '%')
         </if>
@@ -48,6 +49,7 @@
         LEFT JOIN CAM_COMMON.DJ_FILE_INFO CFI ON CONCAT('sign_', CSI.SIGN_SEQ) = CFI.CONTENT_ID
         WHERE
             CSI.ACTIVE = 'Y'
+        AND CSI.VISIBLE = 'Y'
         ORDER BY CFI.REG_DATE DESC
         LIMIT 1
     </select>
@@ -92,6 +94,16 @@
             USE_FORM_VAL = #{useFormVal},
             USE_FORM_NAME = #{useFormName},
             REMARK_VAL = #{remarkVal}
+        WHERE
+            SIGN_SEQ = #{signSeq}
+    </update>
+
+    <update id="setSignInfoDel" parameterType="map">
+        /* setSignInfoDel */
+        UPDATE
+            CAM_COMMON.DJ_SIGN_INFO
+        SET
+            VISIBLE = 'N'
         WHERE
             SIGN_SEQ = #{signSeq}
     </update>

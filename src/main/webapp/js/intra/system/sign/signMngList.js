@@ -116,6 +116,14 @@ var signMngList = {
                             return "미사용"
                         }
                     }
+                }, {
+                    title : "삭제",
+                    template : function(e){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-error" onclick="signMngList.delBtn('+e.SIGN_SEQ+')">' +
+                            '	<span class="k-button-text">삭제</span>' +
+                            '</button>';
+                    },
+                    width: 60
                 }/*, {
                     field : "USE_FORM_NAME",
                     title : "사용범위",
@@ -195,6 +203,29 @@ var signMngList = {
             return;
         }
         signMngList.setSignInfo(formData);
+    },
+
+    delBtn : function(key){
+        if(!confirm("삭제하시겠습니까?")) {
+            return;
+        }
+
+        var data = {
+            signSeq : key,
+        }
+
+        $.ajax({
+            url : "/sign/setSignInfoDel",
+            type : "POST",
+            data : data,
+            dataType : 'json',
+            traditional : true,
+            success : function (rs){
+                alert("삭제되었습니다.");
+                signMngList.dataClear();
+                signMngList.gridReload();
+            }
+        });
     },
 
     setSignInfo : function(formData){

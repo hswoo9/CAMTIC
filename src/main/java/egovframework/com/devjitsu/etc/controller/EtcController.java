@@ -77,4 +77,12 @@ public class EtcController {
         model.addAttribute("rs", params);
         return "jsonView";
     }
+
+    /** 직인 삭제 */
+    @RequestMapping("/sign/setSignInfoDel")
+    public String setSignInfoDel(@RequestParam Map<String, Object> params, Model model){
+        etcService.setSignInfoDel(params);
+        model.addAttribute("rs", params);
+        return "jsonView";
+    }
 }

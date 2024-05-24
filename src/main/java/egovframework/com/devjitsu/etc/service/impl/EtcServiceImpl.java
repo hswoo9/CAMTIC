@@ -62,6 +62,11 @@ public class EtcServiceImpl implements EtcService {
         }
     }
 
+    @Override
+    public void setSignInfoDel(Map<String, Object> params) {
+        etcRepository.setSignInfoDel(params);
+    }
+
     private String filePath (Map<String, Object> params, String base_dir){
         LocalDate now = LocalDate.now();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");

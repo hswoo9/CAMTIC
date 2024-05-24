@@ -13,4 +13,6 @@ public interface EtcService {
 
     void setSignInfo(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
 
+    void setSignInfoDel(Map<String, Object> params);
+
 }
