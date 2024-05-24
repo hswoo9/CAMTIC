@@ -76,6 +76,10 @@ var rbl = {
 			delete queryParams.requestType;
 		}
 
+		if(queryParams.page != null){
+			rbl.global.nowPage = queryParams.page;
+		}
+
 		rbl.gridReload(new URLSearchParams(queryParams).toString());
 	},
 
