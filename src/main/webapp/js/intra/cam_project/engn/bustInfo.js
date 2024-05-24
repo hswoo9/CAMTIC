@@ -373,7 +373,11 @@ var bustInfo = {
                                             return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.businessExnp('+e.HR_BIZ_REQ_ID+')">사전정산 지급신청</button>'
                                         }
                                     }else {
-                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.businessExnp(' + e.HR_BIZ_REQ_ID + ')">사후정산 지급신청</button>'
+                                        if(e.OVER_TOT_COST == 0){
+                                            return '-';
+                                        } else {
+                                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.businessExnp(' + e.HR_BIZ_REQ_ID + ')">사후정산 지급신청</button>'
+                                        }
                                     }
                                 }else if (e.PAY_APP_SN != null){
                                     return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.businessExnp('+e.HR_BIZ_REQ_ID+', '+e.HR_BIZ_REQ_RESULT_ID+')">결재완료</button>'
