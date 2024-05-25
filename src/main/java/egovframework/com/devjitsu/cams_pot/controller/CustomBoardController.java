@@ -366,6 +366,7 @@ public class CustomBoardController {
     public String watchBoardList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         session.setAttribute("menuNm", request.getRequestURI());
+        model.addAttribute("queryParams", new Gson().toJson(params));
 
         return "camspot/watchBoard/watchBoardList";
     }

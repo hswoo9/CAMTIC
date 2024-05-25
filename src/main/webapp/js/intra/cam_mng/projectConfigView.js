@@ -68,41 +68,52 @@ var projectConfigView = {
                     width : 100
                 },
                 {
-                    field : "UPPER_BSNS_ID",
-                    title : "상위사업ID",
+                    field : "",
+                    title : "사업코드",
+                    width : 100,
+                    template : function(dataItem){
+                        return "<input type='button' class='btnChoice' value='선택' onclick='projectConfigView.fn_btnPjtChoice(this);'>";
+                    },
+                },
+                {
+                    field : "",
+                    title : "설젱취소",
                     width : 100
                 },
                 {
-                    field : "UPPER_BSNS_NM",
-                    title : "상위사업명",
-                    width : 90
-                },
-                {
-                    field : "DDTLBZ_ID",
+                    field : "",
                     title : "상세사업ID",
                     width : 90
                 },
                 {
-                    field : "DDTLBZ_NM",
+                    field : "",
                     title : "상세사업명",
                     width : 90
                 },
                 {
-                    field : "REQST_DE",
+                    field : "",
+                    title : "상위사업명",
+                    width : 90
+                },
+                {
+                    field : "",
+                    title : "회계연도",
+                    width : 90
+                },
+                {
+                    field : "",
                     title : "신청일자",
                     width : 90
-                },
-                {
-                    field : "REQST_MAN_NM",
-                    title : "신청자",
-                    width : 90
-                },
-                {
-                    title : "첨부파일",
-                    width : 70
-                }]
+                }
+               ]
         }).data("kendoGrid");
     },
 
+    fn_btnPjtChoice : function(){
+        var url = "/mng/budgetPjtChoicePop.do";
+        var name = "budgetChoicePop";
+        var option = "width=1200, height=800, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        var popup = window.open(url, name, option);
+    },
 
 }

@@ -57,6 +57,10 @@
 				<input type="hidden" id="boardId" name="boardId" value="${params.boardId}">
 				<input type="hidden" id="boardArticleId" name="boardArticleId" value="${params.boardArticleId}">
 
+				<input type="hidden" id="page" name="page" value="${params.page}">
+				<input type="hidden" id="searchCategory" name="searchCategory" value="${params.searchCategory}">
+				<input type="hidden" id="searchColumn" name="searchColumn" value="${params.searchColumn}">
+				<input type="hidden" id="searchContent" name="searchContent" value="${params.searchContent}">
 
 				<table class="searchTable table table-bordered mb-0" style="border: 1px solid #dedfdf;">  <%-- table mb-0 --%>
 					<colgroup>

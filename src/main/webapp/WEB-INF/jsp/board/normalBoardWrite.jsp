@@ -21,6 +21,10 @@
 
         <div class="panel-body">
             <input type="hidden" id="boardArticleId" name="boardArticleId">
+            <input type="hidden" id="page" name="page" value="">
+            <input type="hidden" id="searchCategory" name="searchCategory" value="">
+            <input type="hidden" id="searchColumn" name="searchColumn" value="">
+            <input type="hidden" id="searchContent" name="searchContent" value="">
             <%--<table class="table table-bordered mb-0" style="border: 1px solid #dedfdf;" style="width: 600px;">--%>
             <table class="searchTable table table-bordered mb-0" style="border: 1px solid #dedfdf;">
                 <colgroup>

@@ -89,7 +89,7 @@ var bustInfo = {
             height: 480,
             pageable: {
                 refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
             toolbar : [
@@ -305,8 +305,23 @@ var bustInfo = {
                                     return "-";
                                 }
                             }else{
-                                /** 사전정산 -> 지급신청 */
-                                if(e.BF_PAY_APP_SN != null){
+                                /** 사전정산 금액 0일때 */
+                                if(e.BF_PAY_APP_SN == null && e.BF_EXP_STAT == 100 && e.BF_OVER_TOT_COST == 0){
+                                    /** 결과보고 작성 -> 사후정산 -> -> 결과보고 전자결재 */
+                                    if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.DOC_STATUS == null && e.HR_BIZ_REQ_RESULT_ID == null){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">작성중</button>';
+                                    } else if(e.RS_STATUS == "0"){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">작성중</button>';
+                                    } else if(e.EXP_STAT == "0" || e.EXP_STAT == "10" || e.RS_STATUS == "10"){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">결재중</button>';
+                                    } else if(e.EXP_STAT == "100" && e.RS_STATUS != "100"){
+                                        return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">결재중</button>';
+                                    } else if(e.RS_STATUS == "100"){
+                                        return '<button type="button" class="k-button k-button-solid-info" onclick="bustripResList.popBustripRes('+e.HR_BIZ_REQ_RESULT_ID+', '+e.HR_BIZ_REQ_ID+', '+e.TRIP_CODE+')">결재완료</button>';
+                                    } else {
+                                        return "-";
+                                    }
+                                } else if(e.BF_PAY_APP_SN != null){   /** 사전정산 -> 지급신청 */
                                     /** 결과보고 작성 -> 사후정산 -> -> 결과보고 전자결재 */
                                     if(e.STATUS == "100" && e.BF_EXP_STAT == "100" && e.EXP_STAT == null){
                                         return '<button type="button" class="k-button k-button-solid-base" onclick="bustripResList.popBustripRes(\'N\', '+e.HR_BIZ_REQ_ID+')">작성중</button>';
@@ -329,7 +344,7 @@ var bustInfo = {
                     }
                 }, {
                     title : "지급신청",
-                    width: 70,
+                    width: 90,
                     template : function (e){
                         if(e.ORG_YN == 'N'){
                             /** 국내출장 해외출장 분기 */
@@ -351,7 +366,19 @@ var bustInfo = {
                                 }
                             }else{
                                 if(e.BF_EXP_STAT == "100" && e.PAY_APP_SN == null){
-                                    return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.businessExnp('+e.HR_BIZ_REQ_ID+')">작성중</button>'
+                                    if(e.RS_STATUS != "100"){
+                                        if(e.BF_EXP_STAT == 100 && e.BF_OVER_TOT_COST == 0){
+                                            return '-';
+                                        } else {
+                                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.businessExnp('+e.HR_BIZ_REQ_ID+')">사전정산 지급신청</button>'
+                                        }
+                                    }else {
+                                        if(e.OVER_TOT_COST == 0){
+                                            return '-';
+                                        } else {
+                                            return '<button type="button" class="k-button k-button-solid-base" onclick="bustInfo.businessExnp(' + e.HR_BIZ_REQ_ID + ')">사후정산 지급신청</button>'
+                                        }
+                                    }
                                 }else if (e.PAY_APP_SN != null){
                                     return '<button type="button" class="k-button k-button-solid-info" onclick="bustInfo.businessExnp('+e.HR_BIZ_REQ_ID+', '+e.HR_BIZ_REQ_RESULT_ID+')">결재완료</button>'
                                 }else{

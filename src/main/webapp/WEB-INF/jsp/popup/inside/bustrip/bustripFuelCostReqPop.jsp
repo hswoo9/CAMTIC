@@ -70,7 +70,9 @@
                     <span class="red-star"></span>적용 프로젝트
                 </th>
                 <td>
-                    <input id="project" style="width: 90%;">
+                    <input id="project" style="width: 80%;" value="전체" readonly>
+                    <input type="hidden" id="projectCd" value="0">
+                    <button type="button" class="k-button k-button-solid-base" id="pjtSelBtn" onclick="fuelCostReq.fn_projectPop('bustripFuel')">검색</button>
                 </td>
             </tr>
             </thead>

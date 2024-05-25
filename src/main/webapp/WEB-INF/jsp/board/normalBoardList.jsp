@@ -84,7 +84,7 @@
 
 
                 <div class="table-responsive">
-                    <input type="hidden" id="boardId" name="boardId" value="${params.boardId}">
+                    <input type="hidden" id="boardId" name="boardId" value="">
                     <input type="hidden" id="menuNm" name="menuNm" value="${menuNm}">
                     <input type="hidden" id="isAdmin" name="isAdmin" value="${isAdmin}">
 
@@ -114,7 +114,7 @@
                 </div>
                 <div class="btn-st" style="text-align:right;margin:15px 0 0 0;">
                     <button type="button" class="k-grid-button k-button k-button-md k-rounded-md k-button-solid k-button-solid-base" onclick="normalArticleList.writePageMove()" id="writeBtn" style="display: none">
-                        <span clas s="k-button-text">글쓰기</span>
+                        <span class="k-button-text">글쓰기</span>
                     </button>
                 </div>
                 </div>
@@ -128,7 +128,7 @@
 <script>
 	var isAdmin = "${isAdmin}" == "true" ? true : false;
 
-	normalArticleList.fnDefaultScript();
+	normalArticleList.fnDefaultScript(JSON.parse('${queryParams}'));
 </script>
 
 <%--</body>--%>

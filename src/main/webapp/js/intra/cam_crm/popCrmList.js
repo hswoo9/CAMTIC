@@ -50,7 +50,7 @@ var popCrmList = {
             height: 480,
             pageable: {
                 refresh: true,
-                pageSizes: [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount: 5
             },
             noRecords: {
@@ -160,6 +160,8 @@ var popCrmList = {
             opener.parent.$("#purcCrmSn").val(rs.CRM_SN);
             opener.parent.$("#purcCrmNm").val(rs.CRM_NM);
 
+            opener.parent.$("#crmMonCheck").val(rs.MON_CHECK);
+
             // opener.parent.$("#crmReqMem").val(rs.CRM_CEO);
             // opener.parent.$("#crmPhNum").val(rs.PH_NUM);
             opener.parent.$("#clientPrtpcoName").val(rs.CRM_NM);
@@ -207,6 +209,9 @@ var popCrmList = {
                     window.close();
                 }
             }
+        } else if($("#status").val() == "asset"){
+            opener.parent.$("#purcCompanyId").val(rs.CRM_SN);
+            opener.parent.$("#purcCompanyName").val(rs.CRM_NM);
         }
 
         if(opener.parent.fn_selCrmInfo != undefined){

@@ -21,6 +21,8 @@ var docView = {
         searchAjaxData : "",
 
         fileArray: [],
+
+        readersArr : new Array
     },
 
     fnDefaultScript : function(params, loginVO){
@@ -1253,10 +1255,12 @@ var docView = {
         if(area == "main" && type == "single"){
             if(docView.global.rs.docInfo.DOC_GBN == "001"){
                 if(hwpDocCtrl.global.HwpCtrl.FieldExist("인")){
+                    const signInfo = getSign();
+                    const signUrl = "http://"+location.host+signInfo.FILE_NO;
                     hwpDocCtrl.global.HwpCtrl.MoveToField('인', true, true, false);
                     hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
                         "SelectedCell",
-                        "http://" + location.host + "/upload/journeyman/companySignature.png",
+                        signInfo,
                         1,
                         6,
                         0,
@@ -1568,6 +1572,27 @@ var docView = {
         }
 
         $("#readerNameTd").text(docView.global.rs.displayReaderName);
+
+        for(var i = 0 ; i < docView.global.rs.readerAll.length ; i++){
+
+            const readerMap = docView.global.rs.readerAll[i];
+            if(readerMap != null){
+                var tmpData = {
+                    seqType: readerMap.SEQ_TYPE,
+                    readerEmpSeq: readerMap.READER_EMP_SEQ,
+                    readerEmpName: readerMap.READER_EMP_NAME,
+                    readerDeptSeq: readerMap.READER_DEPT_SEQ,
+                    readerDeptName: readerMap.READER_DEPT_NAME,
+                    readerDutyCode: readerMap.READER_DUTY_CODE,
+                    readerDutyName: readerMap.READER_DUTY_NAME,
+                    readerPositionCode: readerMap.READER_POSITION_CODE,
+                    readerPositionName: readerMap.READER_POSITION_NAME
+                }
+                docView.global.readersArr.push(tmpData);
+            }
+
+        }
+
         $("#draftOpinTd").html(docView.global.rs.docInfo.DRAFT_OPIN.replace(/\n+/g, "<br>"));
 
         if(docView.global.rs.approveNowRoute.LAST_APPROVE_EMP_SEQ == docView.global.rs.approveNowRoute.APPROVE_EMP_SEQ){

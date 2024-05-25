@@ -400,6 +400,7 @@
             MPI.DISCOUNT_AMT,
             CI.CRM_SN,
             CI.CRM_NM,
+            CI.MON_CHECK,
             CI.CRM_NO_TMP,
             CI.CRM_BN,
             CI.CRM_BN_NUM,
@@ -442,6 +443,8 @@
         SELECT
             PC.CLAIM_DE,
             PC.PURC_SN,
+            PC.CRM_SN,
+            PC.CRM_NM,
             PCI.*
         FROM
             CAM_MNG.DJ_PURC_CLAIM PC
@@ -672,6 +675,7 @@
             B.EMAIL AS CRM_EMAIL,
             B.TEL_NUM AS CRM_TEL_NUM,
             B.FAX AS CRM_FAX_NUM,
+            B.MON_CHECK,
             EI.EMP_SEQ,
             EI.EMP_NAME_KR,
             EI.POSITION_NAME,
@@ -1849,11 +1853,11 @@
                 LEFT JOIN
             CAM_MNG.DJ_USE_CARD_INFO C
             ON
-                A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.BUY_STS = C.BUY_STS AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
+                A.AUTH_NO = C.AUTH_NO AND A.AUTH_DD = C.AUTH_DD AND A.AUTH_HH = C.AUTH_HH AND A.CARD_NO = REPLACE(C.CARD_NO, "-", "")
                 LEFT JOIN
             CAM_MNG.DJ_CARD_TO_HIST D
             ON
-                A.AUTH_NO = D.AUTH_NO AND A.AUTH_DD = D.AUTH_DD AND A.AUTH_HH = D.AUTH_HH AND A.BUY_STS = D.BUY_STS AND A.CARD_NO = REPLACE(D.CARD_NO, "-", "")
+                A.AUTH_NO = D.AUTH_NO AND A.AUTH_DD = D.AUTH_DD AND A.AUTH_HH = D.AUTH_HH AND A.CARD_NO = REPLACE(D.CARD_NO, "-", "")
                 LEFT JOIN
             CAM_MNG.DJ_CARD_TO E
             ON
@@ -1868,7 +1872,7 @@
                 WHEN '1' IN (SELECT EMP_SEQ FROM CAM_MNG.DJ_CARD_AUTH_USER_MNG) THEN (BB.TR_CD IS NULL OR BC.TR_CD IS NOT NULL)
                 ELSE BB.TR_CD IS NULL
             END
-        AND A.AUTH_NO = #{authNo} AND A.AUTH_HH = #{authHh} AND A.AUTH_DD = #{authDd} AND A.CARD_NO = REPLACE(#{cardNo}, "-", "") AND A.BUY_STS = #{buySts}
+        AND A.AUTH_NO = #{authNo} AND A.AUTH_HH = #{authHh} AND A.AUTH_DD = #{authDd} AND A.CARD_NO = REPLACE(#{cardNo}, "-", "")
         LIMIT 1
     </select>
 

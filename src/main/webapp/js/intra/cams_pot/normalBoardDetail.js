@@ -135,7 +135,9 @@ var normalArticleDetail = {
 	},
 
 	listPageMove : function(){
-		open_in_frame('/board/normalBoardList.do?boardId=' + normalArticleDetail.global.articleDetailInfo.BOARD_ID);
+		var url = '/board/normalBoardList.do?boardId='+ normalArticleDetail.global.articleDetailInfo.BOARD_ID + "&page=" + $("#page").val() + "&searchColumn=" + $("#searchColumn").val() + "&searchContent=" + $("#searchContent").val() + "&searchCategory=" + $("#searchCategory").val();
+
+		open_in_frame(url);
 	},
 
 	getArticleReplyGrid : function(){

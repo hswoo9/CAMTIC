@@ -2606,6 +2606,18 @@ var regPay = {
                         alert("저장되었습니다.");
                     }
 
+                    if($("#reqType").val() != "business"){
+                        if($("#reqType").val() == "claimExnp" || $("#reqType").val() == "claim") {
+                            console.log("d")
+                            opener.parent.purcUserAppList.gridReload();
+                        } else {
+                            opener.parent.paymentList.gridReload();
+                        }
+                    }else{
+                        opener.location.reload();
+                        opener.opener.gridReload();
+                    }
+
                     if(type != "drafting"){
                         let status = "";
                         if($("#payAppType").data("kendoRadioGroup").value() == 1){
@@ -2623,13 +2635,6 @@ var regPay = {
                             url += "&auth=" + auth;
                         }
                         location.href = url;
-
-                        if($("#reqType").val() != "business"){
-                            opener.parent.paymentList.gridReload();
-                        }else{
-                            opener.location.reload();
-                            opener.opener.gridReload();
-                        }
                     }
                 }
             }

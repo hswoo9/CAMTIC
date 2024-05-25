@@ -105,7 +105,7 @@ var prjDepositMng = {
             height: 551,
             pageable : {
                 refresh : true,
-                pageSizes : [ 10, 20, 30, 50, 100 ],
+                pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
             toolbar: [
@@ -156,10 +156,6 @@ var prjDepositMng = {
                     title: "프로젝트 명",
                     template: function(e){
                         var pjtNm = e.PJT_NM;
-                        if(e.BUSN_CLASS == "S"){
-                            pjtNm = e.BS_TITLE;
-                        }
-
                         return pjtNm;
                     }
                 }, {

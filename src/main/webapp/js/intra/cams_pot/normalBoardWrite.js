@@ -11,6 +11,10 @@ var normalArticleWrite = {
 
 	fnDefaultScript : function(params){
 		normalArticleWrite.global.params = params;
+		$("#page").val(normalArticleWrite.global.params.page);
+		$("#searchCategory").val(normalArticleWrite.global.params.status);
+		$("#searchColumn").val(normalArticleWrite.global.params.searchColumn);
+		$("#searchContent").val(normalArticleWrite.global.params.searchContent);
 
 		$(".panel-title").text($("a[onclick=\"open_in_frame('/board/normalBoardList.do?boardId=" + normalArticleWrite.global.params.boardId + "')\"]").attr("menuNameKr"));
 		$(".title-road").text($("a[onclick=\"open_in_frame('/board/normalBoardList.do?boardId=" + normalArticleWrite.global.params.boardId + "')\"]").attr("menuNamePath"));
@@ -187,13 +191,15 @@ var normalArticleWrite = {
 			}
 
 			alert("게시글이 등록되었습니다.");
-			open_in_frame("/board/normalBoardList.do?boardId="+normalArticleWrite.global.params.boardId);
+			normalArticleWrite.listPageMove();
 		}else{
 			alert("게시글 등록 중 오류가 발생했습니다.");
 		}
 	},
 
 	listPageMove : function(){
-		open_in_frame('/board/normalBoardList.do?boardId='+normalArticleWrite.global.params.boardId);
+		var url = "/board/normalBoardList.do?boardId=" + normalArticleWrite.global.params.boardId + "&page=" + $("#page").val() + "&searchColumn=" + $("#searchColumn").val() + "&searchContent=" + $("#searchContent").val() + "&searchCategory=" + $("#searchCategory").val();
+
+		open_in_frame(url);
 	},
 }

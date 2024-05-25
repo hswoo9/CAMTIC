@@ -445,10 +445,12 @@ var hwpApprovalLine = {
                     /** 외부시행문서 일경우 직인 */
                     if(docInfo.DOC_GBN == "001"){
                         if(hwpDocCtrl.global.HwpCtrl.FieldExist("인")){
+                            const signInfo = getSign();
+                            const signUrl = "http://"+location.host+signInfo.FILE_NO;
                             hwpDocCtrl.global.HwpCtrl.MoveToField('인', true, true, false);
                             hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
                                 "SelectedCell",
-                                "http://" + location.host + "/upload/journeyman/companySignature.png",
+                                signUrl,
                                 1,
                                 6,
                                 0,

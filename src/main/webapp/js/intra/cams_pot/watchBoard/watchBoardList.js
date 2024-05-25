@@ -2,6 +2,7 @@
 var wbl = {
 	global : {
 		params : "",
+		nowPage : "",
 		articleList : "",
 		articleSelIndex : 0,
 		dropDownDataSource : "",
@@ -12,8 +13,12 @@ var wbl = {
 		now : new Date()
 	},
 
-	fnDefaultScript : function(){
-		wbl.gridReload();
+	fnDefaultScript : function(queryParams){
+		if(queryParams.page != null){
+			wbl.global.nowPage = queryParams.page;
+		}
+
+		wbl.gridReload(new URLSearchParams(queryParams).toString());
 	},
 
 	mainGrid : function(url, params){
@@ -29,6 +34,7 @@ var wbl = {
 
 			var articleListStr = "";
 			$("#listUl li").remove();
+			$(".pagination *").remove();
 			if(wbl.global.articleList.list.length > 0){
                 var list = wbl.global.articleList.list;
                 const pagination = wbl.global.articleList.pagination;
@@ -50,16 +56,24 @@ var wbl = {
 		}
 	},
 
-	gridReload : function() {
-		wbl.mainGrid("/spot/getWatchBoardList.do", {});
+	gridReload : function(queryParams) {
+		wbl.mainGrid("/spot/getWatchBoardList.do?" + queryParams, {});
 	},
 
 	detailPageMove : function(watchBoardId){
-		open_in_frame('/spot/watchBoardDetail.do?watchBoardId='+ watchBoardId);
+		const queryParams = {
+			page: wbl.global.nowPage == "" ? 1 : wbl.global.nowPage,
+		}
+
+		open_in_frame('/spot/watchBoardDetail.do?watchBoardId='+ watchBoardId + "&" + new URLSearchParams(queryParams).toString());
 	},
 
 	writePageMove : function(){
-		open_in_frame('/spot/watchBoardReg.do');
+		const queryParams = {
+			page: wbl.global.nowPage == "" ? 1 : wbl.global.nowPage,
+		}
+
+		open_in_frame('/spot/watchBoardReg.do?' + new URLSearchParams(queryParams).toString());
 	},
 
     drawList : function (list, num){
@@ -119,6 +133,7 @@ var wbl = {
     },
 
     movePage : function (page){
+		wbl.global.nowPage = page;
         const queryParams = {
             page: (page) ? page : 1,
             recordSize: 8,

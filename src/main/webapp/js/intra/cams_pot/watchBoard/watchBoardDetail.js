@@ -201,6 +201,7 @@ var wbd = {
 	},
 
 	listPageMove : function(){
-		open_in_frame('/spot/watchBoardList.do');
+		var url = "/spot/watchBoardList.do?page=" + $("#page").val();
+		open_in_frame(url);
 	},
 }

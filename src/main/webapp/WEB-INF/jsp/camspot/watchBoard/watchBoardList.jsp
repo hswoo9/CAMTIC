@@ -122,5 +122,5 @@
 <script>
 	var isAdmin = "${isAdmin}" == "true" ? true : false;
 
-    wbl.fnDefaultScript();
+    wbl.fnDefaultScript(JSON.parse('${queryParams}'));
 </script>

@@ -21,6 +21,7 @@
         /* getProjectList */
         SELECT
             A.*,
+            B.CRM_NM,
             DLP.DELV_EST_DE,
             (SELECT PNT_PJT_SN FROM CAM_PJT_MNG.DJ_PROJECT SP WHERE A.PJT_SN = SP.PNT_PJT_SN limit 1) AS PNT_PJT_SN_CK,
             R.PART_EMP_SEQ

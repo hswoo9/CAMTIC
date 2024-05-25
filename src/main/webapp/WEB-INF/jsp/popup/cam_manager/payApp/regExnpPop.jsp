@@ -217,8 +217,8 @@
                         <th>증빙유형</th>
                         <th>비용구분</th>
                         <th>상호</th>
-                        <th>은행명</th>
                         <th>사업자(주민)번호</th>
+                        <th>은행명</th>
                         <th>지급계좌</th>
                         <th>예금주</th>
                         <th>거래일</th>
@@ -255,10 +255,10 @@
                             <input type="hidden" id="trCd0" class="trCd">
                         </td>
                         <td>
-                            <input type="text" id="crmBnkNm0" class="crmBnkNm">
+                            <input type="text" id="regNo0" class="regNo">
                         </td>
                         <td>
-                            <input type="text" id="regNo0" class="regNo">
+                            <input type="text" id="crmBnkNm0" class="crmBnkNm">
                         </td>
                         <td>
                             <input type="text" id="crmAccNo0" class="crmAccNo">

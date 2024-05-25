@@ -21,6 +21,7 @@
 
         <div class="panel-body">
             <input type="hidden" id="watchBoardId" name="watchBoardId">
+            <input type="hidden" id="page" name="page">
             <table class="searchTable table table-bordered mb-0" style="border: 1px solid #dedfdf;">
                 <colgroup>
                     <col width="10%">

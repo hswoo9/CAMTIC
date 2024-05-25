@@ -20,6 +20,7 @@ var addAssetPop = {
             }
             const result = customKendo.fn_customAjax("/purc/getPurcClaimItemData", data);
             const itemMap = result.data;
+            console.log("itemMap", itemMap);
 
             $("#astName").val(itemMap.ITEM_NM);
             $("#purcDate").val(itemMap.CLAIM_DE);
@@ -29,6 +30,10 @@ var addAssetPop = {
             $("#unitText").removeAttr("disabled");
             $("#unitText").val(itemMap.ITEM_UNIT);
             $("#regType").data("kendoDropDownList").value("2");
+            if(itemMap.CRM_SN != null){
+                $("#purcCompanyId").val(itemMap.CRM_SN);
+                $("#purcCompanyName").val(itemMap.CRM_NM);
+            }
             if(itemMap.PURC_SN != null){
                 $("#purcSn").val(itemMap.PURC_SN);
             }

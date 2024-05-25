@@ -157,12 +157,8 @@
 					<input type="text" style="width:20%;" id="bannerPopupTop" value="${map.bannerPopupTop}" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"/>px
 					<span style="margin-right:10px; margin-left:30px;">왼쪽여백</span>
 					<input type="text" style="width:20%;" id="bannerPopupLeft" value="${map.bannerPopupLeft}" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="4"/>px
-
-					<%--<label class="__lab" >
-						<span style="margin-left:20px;">중앙정렬</span>
-						<input type="checkbox" id="chkCenter" name="chkCenter">
-						<i></i>
-					</label>--%>
+					<label style="margin-left:10px;" for="chkCenter">중앙정렬</label>
+					<input type="checkbox" id="chkCenter" name="chkCenter" style="margin: 6px 0 0 5px;" class="form-check-input">
 				</td>
 			</tr>
 			<tr>

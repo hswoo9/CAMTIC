@@ -68,6 +68,7 @@ public class camsBoardController {
 
         model.addAttribute("loginVO", loginVO);
         model.addAttribute("params", params);
+        model.addAttribute("queryParams", new Gson().toJson(params));
 
         return "board/normalBoardList";
     }
