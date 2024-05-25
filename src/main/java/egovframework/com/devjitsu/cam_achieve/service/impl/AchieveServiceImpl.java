@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -16,6 +18,123 @@ public class AchieveServiceImpl implements AchieveService {
 
     @Override
     public Map<String, Object> getAllPjtCalc(Map<String, Object> params) {
-        return achieveRepository.getAllPjtCalc(params);
+        Map<String, Object> result = new HashMap<>();
+
+        // 엔지니어링, 기타용역 수주, 예상수주금액
+        List<Map<String, Object>> engnPjtInfo = achieveRepository.getEngnPjtCalc(params);
+
+        // R&D, 비R&D 수주, 예상수주금액
+        List<Map<String, Object>> rndPjtInfo = achieveRepository.getRndPjtCalc(params);
+
+        long expEngnAmt = 0;
+        long expRndAmt = 0;
+        long engnAmt = 0;
+        long rndAmt = 0;
+
+        long saleRndAmt = 0;
+        long saleEngnAmt = 0;
+
+        long expSaleRndAmt = 0;
+        long expSaleEngnAmt = 0;
+
+        for(Map<String, Object> map : engnPjtInfo) {
+            if(map.get("DELV_STATUS") != null) {
+                if(map.get("DELV_STATUS").toString().equals("100")) {
+                    expEngnAmt += map.get("EXP_AMT") == null ? 0 : Long.parseLong(map.get("EXP_AMT").toString());
+                }
+            }
+
+            if(map.get("RESULT_STATUS") != null) {
+                if(map.get("RESULT_STATUS").toString().equals("100")) {
+                    saleEngnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+                }
+            }
+
+            if(map.get("RESULT_STATUS") != null) {
+                if(!map.get("RESULT_STATUS").toString().equals("100") && !map.get("RESULT_STATUS").toString().equals("101") && map.get("DELV_STATUS").toString().equals("100")) {
+                    expSaleEngnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+                }
+            }
+
+            engnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+        }
+
+        for(Map<String, Object> map : rndPjtInfo) {
+            expRndAmt += map.get("EXP_AMT") == null ? 0 : Long.parseLong(map.get("EXP_AMT").toString());
+            rndAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+        }
+
+        saleRndAmt = achieveRepository.getRndSaleAmt(params);
+        expSaleRndAmt = rndAmt - saleRndAmt;
+
+        // R&D, 비R&d 구매 정산 금액
+        long purcRndAmt = achieveRepository.getPurcRndAmt(params);
+
+        // R&D, 비R&d 출장 정산 금액
+        long bustripRndAmt = achieveRepository.getBustripRndAmt(params);
+
+        // R&D, 비R&d 지출 정산 금액
+        long exnpRndAmt = achieveRepository.getExnpRndAmt(params);
+
+        // 엔지니어링, 기타용역 구매 정산 금액
+        long purcEngnAmt = achieveRepository.getPurcEngnAmt(params);
+
+        // 엔지니어링, 기타용역 출장 정산 금액
+        long bustripEngnAmt = achieveRepository.getBustripEngnAmt(params);
+
+        // 연구개발 수익
+        long incpRndAmt = purcRndAmt + bustripRndAmt + exnpRndAmt;
+
+        // 개발일반 수익
+        long incpEngnAmt = purcEngnAmt + bustripEngnAmt;
+
+        // 전년도 체크
+        params.put("year", Integer.parseInt(params.get("year").toString()) - 1);
+
+        // 전년도 R&D, 비R&d 구매 정산 금액
+        long purcBefRndAmt = achieveRepository.getPurcRndAmt(params);
+
+        // 전년도 R&D, 비R&d 출장 정산 금액
+        long bustripBefRndAmt = achieveRepository.getBustripRndAmt(params);
+
+        // 전년도 R&D, 비R&d 지출 정산 금액
+        long exnpBefRndAmt = achieveRepository.getExnpRndAmt(params);
+
+        // 전년도 엔지니어링, 기타용역 구매 정산 금액
+        long purcBefEngnAmt = achieveRepository.getPurcEngnAmt(params);
+
+        // 전년도 엔지니어링, 기타용역 출장 정산 금액
+        long bustripBefEngnAmt = achieveRepository.getBustripEngnAmt(params);
+
+        // 전년도 연구개발 수익
+        long befIncpRndAmt = purcBefRndAmt + bustripBefRndAmt + exnpBefRndAmt;
+
+        // 전년도 개발일반 수익
+        long befIncpEngnAmt = purcBefEngnAmt + bustripBefEngnAmt;
+
+        // year + 1
+        params.put("year", Integer.parseInt(params.get("year").toString()) + 1);
+
+
+        // 연구개발 예상 수익 = 사업비 - 올해 예상수익 - 전년도 예상수익
+        result.put("expIncpRndAmt", rndAmt - incpRndAmt - befIncpRndAmt);
+        // 개발일반 예상 수익 = 사업비 - 올해 예상수익 - 전년도 예상수익
+        result.put("expIncpEngnAmt", saleEngnAmt - incpEngnAmt - befIncpEngnAmt);
+
+        result.put("incpRndAmt", rndAmt - incpRndAmt);
+        result.put("incpEngnAmt", saleEngnAmt - incpEngnAmt);
+
+        result.put("expSaleRndAmt", expSaleRndAmt);
+        result.put("expSaleEngnAmt", expSaleEngnAmt);
+
+        result.put("saleRndAmt", saleRndAmt);
+        result.put("saleEngnAmt", saleEngnAmt);
+
+        result.put("expEngnAmt", expEngnAmt);
+        result.put("expRndAmt", expRndAmt);
+        result.put("engnAmt", engnAmt);
+        result.put("rndAmt", rndAmt);
+
+        return result;
     }
 }

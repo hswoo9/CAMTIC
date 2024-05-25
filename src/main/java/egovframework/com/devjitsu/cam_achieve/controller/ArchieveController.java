@@ -41,6 +41,6 @@ public class ArchieveController {
         map = achieveService.getAllPjtCalc(params);
 
         model.addAttribute("map", map);
-        return "cam_achieve/getAllPjtCalc";
+        return "jsonView";
     }
 }
