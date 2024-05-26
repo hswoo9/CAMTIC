@@ -3363,6 +3363,15 @@
             PAY_APP_SN = #{payAppSn}
     </update>
 
+    <update id="updClaimExnpByPayAppSnEqNull" parameterType="map">
+        /*updClaimExnpByPayAppSnEqNull*/
+        UPDATE CAM_MNG.DJ_CLAIM_EXNP
+        SET
+            PAY_APP_SN = NULL
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
+
     <select id="getDepoInfo" parameterType="map" resultType="map">
         /*getDepoInfo*/
         SELECT
