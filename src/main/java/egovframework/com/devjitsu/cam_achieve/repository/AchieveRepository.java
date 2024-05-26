@@ -55,4 +55,9 @@ public class AchieveRepository extends AbstractDAO {
 
         return (long) selectOne("achieve.getBustripEngnAmt", params);
     }
+
+    public List<Map<String, Object>> getEngnList(Map<String, Object> params) {
+
+        return (List<Map<String, Object>>) selectList("achieve.getEngnList", params);
+    }
 }
