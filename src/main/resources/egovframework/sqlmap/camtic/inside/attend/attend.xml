@@ -64,7 +64,29 @@
                   AND DR.DATES BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
                   AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
                 ORDER BY IHRR.CREATE_DATE DESC LIMIT 1
-                ), '') AS BUSTRIP
+                ), '') AS BUSTRIP,
+
+                IFNULL((
+                    SELECT
+                        CONCAT(WORK_TIME, ':00')
+                    FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
+                    WHERE
+                        DR.DATES = HAA.TARGET_DATE
+                      AND HEI.EMP_SEQ = HAA.TARGET_EMP_SEQ
+                      AND HAA.TYPE = '1'
+                    ORDER BY HAA.REG_DATE DESC LIMIT 1
+                    ), '') AS ATTEND_ADJUSTMENT_START,
+
+                IFNULL((
+                    SELECT
+                        CONCAT(WORK_TIME, ':00')
+                    FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
+                    WHERE
+                        DR.DATES = HAA.TARGET_DATE
+                      AND HEI.EMP_SEQ = HAA.TARGET_EMP_SEQ
+                      AND HAA.TYPE = '2'
+                    ORDER BY HAA.REG_DATE DESC LIMIT 1
+                    ), '') AS ATTEND_ADJUSTMENT_END
 
         FROM DATE_RANGE DR
         LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = #{empSeq}
@@ -280,7 +302,29 @@
                 AND A.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
                 AND IHE.EMP_SEQ = A.EMP_SEQ AND IHRR.STATUS = '100'
                 ORDER BY IHRR.CREATE_DATE DESC limit 1
-            ), '') AS BUSTRIP
+            ), '') AS BUSTRIP,
+
+            IFNULL((
+                SELECT
+                    CONCAT(WORK_TIME, ':00')
+                FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
+                WHERE
+                    A.START_DATE = HAA.TARGET_DATE
+                    AND A.EMP_SEQ = HAA.TARGET_EMP_SEQ
+                    AND HAA.TYPE = '1'
+                ORDER BY HAA.REG_DATE DESC LIMIT 1
+            ), '') AS ATTEND_ADJUSTMENT_START,
+
+            IFNULL((
+            SELECT
+                CONCAT(WORK_TIME, ':00')
+            FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
+            WHERE
+                A.START_DATE = HAA.TARGET_DATE
+                AND A.EMP_SEQ = HAA.TARGET_EMP_SEQ
+                AND HAA.TYPE = '2'
+            ORDER BY HAA.REG_DATE DESC LIMIT 1
+            ), '') AS ATTEND_ADJUSTMENT_END
         FROM (
             SELECT
                 HEI.EMP_NAME_KR,
@@ -757,4 +801,31 @@
         GROUP BY M.HOLIDAY_WORK_MASTER_SN
         ORDER BY sm.APPLY_DATE DESC
     </select>
+
+    <insert id="setAttendAdjustment" parameterType="map">
+        /*setAttendAdjustment*/
+        INSERT INTO CAM_HR.DJ_ATTEND_ADJUSTMENT
+            (
+                TARGET_DATE,
+                TYPE,
+                TARGET_EMP_SEQ,
+                WORK_TIME,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{targetDate},
+                #{type},
+                #{targetEmpSeq},
+                <choose>
+                    <when test='"1".equals(type)'>
+                        #{workTime},
+                    </when>
+                    <otherwise>
+                        #{leaveTime},
+                    </otherwise>
+                </choose>
+                #{regEmpSeq}
+            )
+    </insert>
 </mapper>

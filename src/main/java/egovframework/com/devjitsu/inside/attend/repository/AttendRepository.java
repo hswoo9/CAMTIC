@@ -68,4 +68,8 @@ public class AttendRepository extends AbstractDAO {
         return selectList("attend.holidayWorkApplicationList", params);
     }
 
+    public void setAttendAdjustment(Map<String, Object> params) {
+        insert("attend.setAttendAdjustment", params);
+    }
+
 }

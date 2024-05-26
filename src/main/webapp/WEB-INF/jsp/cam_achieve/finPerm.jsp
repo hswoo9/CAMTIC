@@ -6,7 +6,7 @@
 <jsp:useBean id="today" class="java.util.Date" />
 
 <script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
-<script type="text/javascript" src="<c:url value='/js/intra/cam_project/project.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_achieve/finPerm.js?v=${today}'/>"></script>
 
 
 <input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
@@ -101,6 +101,14 @@
         <div class="panel-body">
             <div>
                 <button type="button" class="k-button k-button-solid-base" id="displayBtn" onclick="fn_statTableShowHide();" style="margin-bottom: 5px">통계 ▲</button>
+                <span style="bottom: 3px; position: relative;">
+                    <input type="text" id="year" style="width: 130px;" />
+                </span>
+                <span style="bottom: 3px; position: relative;">
+                    <input type="text" id="dept" style="width: 250px;" />
+                </span>
+                <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="finPerm.fn_searchData();" style="margin-bottom: 5px; float: right">조회</button>
+
                 <div id="statTable" style="" view="Y">
                     <table class="totalTable table table-bordered" style="margin-bottom: 0px">
                         <thead>
@@ -129,34 +137,34 @@
                             <td colspan="5" style="text-align: center;"><b>운영비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>개발일반</b></td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: center;"><b style="cursor: pointer">개발일반</b></td>
+                            <td style="text-align: right;" id="engnDelvAmt">0</td>
+                            <td style="text-align: right;" id="engnSaleAmt">0</td>
+                            <td style="text-align: right;" id="engnIncpAmt">0</td>
                             <td style="text-align: center; background-color: #abe3b1;" rowspan="3"><b>달성사업화지수</b></td>
-                            <td colspan="4" style="text-align: center; background-color: #abe3b1;" rowspan="2"><b>1~4월 운영비</b></td>
+                            <td colspan="4" style="text-align: center; background-color: #abe3b1;" rowspan="2"><b>운영비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>연구개발</b></td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: center;"><b style="cursor: pointer">연구개발</b></td>
+                            <td style="text-align: right;" id="rndDelvAmt">0</td>
+                            <td style="text-align: right;" id="rndSaleAmt">0</td>
+                            <td style="text-align: right;" id="rndIncpAmt">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
                             <td style="text-align: center;"><b>양산판매</b></td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
                             <td style="text-align: right;">0</td>
-                            <td style="text-align: center; background-color: #abe3b1;"><b>1월~4월 운영비</b></td>
+                            <td style="text-align: center; background-color: #abe3b1;"><b>운영비</b></td>
                             <td style="text-align: center; background-color: #abe3b1;"><b>인건비</b></td>
                             <td style="text-align: center; background-color: #abe3b1;"><b>자체경비</b></td>
                             <td style="text-align: center; background-color: #abe3b1;"><b>공통경비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
                             <td style="text-align: center; background-color: #abe3b1;"><b>달성실적</b></td>
-                            <td style="text-align: right; background-color: #abe3b1;"><b>0</b></td>
-                            <td style="text-align: right; background-color: #abe3b1;"><b>0</b></td>
-                            <td style="text-align: right; background-color: #abe3b1;"><b>0</b></td>
+                            <td style="text-align: right; background-color: #abe3b1;" id="delvTotAmt"><b>0</b></td>
+                            <td style="text-align: right; background-color: #abe3b1;" id="saleTotAmt"><b>0</b></td>
+                            <td style="text-align: right; background-color: #abe3b1;" id="incpTotAmt"><b>0</b></td>
                             <td style="text-align: center;"><b>28.6</b></td>
                             <td style="text-align: right;"><b>0</b></td>
                             <td style="text-align: right;"><b>0</b></td>
@@ -164,18 +172,18 @@
                             <td style="text-align: right;"><b>0</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>개발일반예상</b></td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: center;"><b style="cursor: pointer">개발일반예상</b></td>
+                            <td style="text-align: right;" id="expEngnAmt">0</td>
+                            <td style="text-align: right;" id="expSaleEngnAmt">0</td>
+                            <td style="text-align: right;" id="expIncpEngnAmt">0</td>
                             <td style="text-align: center; background-color: #eaed77;" rowspan="3"><b>예상사업화지수</b></td>
                             <td colspan="4" style="text-align: center; background-color: #eaed77;" rowspan="2"><b>2024년 예상 운영비_물량취합기준</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b>연구개발예상</b></td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
-                            <td style="text-align: right;">0</td>
+                            <td style="text-align: center;"><b style="cursor: pointer">연구개발예상</b></td>
+                            <td style="text-align: right;" id="expRndAmt">0</td>
+                            <td style="text-align: right;" id="expSaleRndAmt">0</td>
+                            <td style="text-align: right;" id="expIncpRndAmt">0</td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
                             <td style="text-align: center;"><b>양산판매예상</b></td>
@@ -189,9 +197,9 @@
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
                             <td style="text-align: center; background-color: #eaed77;"><b>TOTAL</b></td>
-                            <td style="text-align: right; background-color: #eaed77;"><b>0</b></td>
-                            <td style="text-align: right; background-color: #eaed77;"><b>0</b></td>
-                            <td style="text-align: right; background-color: #eaed77;"><b>0</b></td>
+                            <td style="text-align: right; background-color: #eaed77;"><b id="expTotAmt">0</b></td>
+                            <td style="text-align: right; background-color: #eaed77;"><b id="expSaleTotAmt">0</b></td>
+                            <td style="text-align: right; background-color: #eaed77;"><b id="expIncpTotAmt">0</b></td>
                             <td style="text-align: center;"><b>34.9</b></td>
                             <td style="text-align: right;"><b>0</b></td>
                             <td style="text-align: right;"><b>0</b></td>
@@ -231,12 +239,7 @@
 
 <script>
 
-    $(function(){
-        var rs = customKendo.fn_customAjax("/cam_achieve/getAllPjtCalc");
-
-
-        console.log(rs);
-    });
+    finPerm.fn_DefaultScript();
 
 
 
