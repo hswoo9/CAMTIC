@@ -215,4 +215,45 @@ public class SalaryManageController {
         model.addAttribute("list", list);
         return "jsonView";
     }
+
+    /**
+     * 급여대장관리
+     * @param request
+     * @param model
+     * @return
+     */
+    @RequestMapping("/inside/salaryManage/payRollLedgerMa.do")
+    public String payrollManage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        session.setAttribute("menuNm", request.getRequestURI());
+        return "inside/salaryManage/payRollLedgerMa";
+    }
+
+
+
+    /**
+     * 급여대장관리 데이터 리스트
+     * @param params
+     * @param model
+     * @return
+     */
+    @RequestMapping("/salaryManage/getPayRollLedgerList.do")
+    public String getPayRollLedgerList(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("list", salaryManageService.getPayRollLedgerList(params));
+        return "jsonView";
+    }
+
+    /**
+     * 급여대장 엑셀 업로드
+     * @param params
+     * @return
+     */
+    @RequestMapping("/inside/salaryManage/setExcelUpload.do")
+    public String setExcelUpload(@RequestParam Map<String,Object> params, MultipartHttpServletRequest request, Model model) throws Exception {
+        model.addAttribute("rs", salaryManageService.setExcelUpload(params, request));
+        return "jsonView";
+    }
 }

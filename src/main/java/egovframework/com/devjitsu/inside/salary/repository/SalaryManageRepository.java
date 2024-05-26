@@ -58,5 +58,19 @@ public class SalaryManageRepository extends AbstractDAO  {
     public int getExcelEmpSeq(Map<String, Object> dataMap) {
         return (int) selectOne("salaryManage.getExcelEmpSeq", dataMap);
     }
+
+    public String getEmpNameAndTeam(Map<String, Object> dataMap) {
+        return (String) selectOne("salaryManage.getEmpNameAndTeam", dataMap);
+    }
+
+    public List<Map<String, Object>> getPayRollLedgerList(Map<String, Object> params) {
+        return selectList("salaryManage.getPayRollLedgerList", params);
+    }
+    public List<Map<String, Object>> getPayRollLedgerStatusList(Map<String, Object> params) {
+        return selectList("salaryManage.getPayRollLedgerStatusList", params);
+    }
+
+    public void setPayRollLegerDel(Map<String, Object> params) { delete("salaryManage.setPayRollLegerDel", params);}
+    public void setPayRollLeger(List<Map<String, Object>> list) { insert("salaryManage.setPayRollLeger", list);}
 }
 

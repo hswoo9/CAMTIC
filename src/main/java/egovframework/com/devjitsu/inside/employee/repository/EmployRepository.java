@@ -34,4 +34,8 @@ public class EmployRepository extends AbstractDAO {
     public void delBusnPartRatePay(Map<String, Object> params) {
         delete("employM.delBusnPartRatePay", params);
     }
+
+    public List<Map<String, Object>> getCalcPartRate(Map<String, Object> params) {
+        return selectList("employM.getCalcPartRate", params);
+    }
 }

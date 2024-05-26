@@ -533,6 +533,33 @@
         DELETE FROM CAM_PJT_MNG.DJ_PART_PAY_MON WHERE PJT_SN = #{pjtSn}
     </delete>
 
+    <select id="getCalcPartRate" parameterType="map" resultType="map">
+        /*getCalcPartRate*/
+        SELECT
+            A.BS_YEAR,
+            B.BUSN_CLASS,
+            SUM(A.MON_PAY_1) AS SUM_MON_PAY_1,
+            SUM(A.MON_PAY_2) AS SUM_MON_PAY_2,
+            SUM(A.MON_PAY_3) AS SUM_MON_PAY_3,
+            SUM(A.MON_PAY_4) AS SUM_MON_PAY_4,
+            SUM(A.MON_PAY_5) AS SUM_MON_PAY_5,
+            SUM(A.MON_PAY_6) AS SUM_MON_PAY_6,
+            SUM(A.MON_PAY_7) AS SUM_MON_PAY_7,
+            SUM(A.MON_PAY_8) AS SUM_MON_PAY_8,
+            SUM(A.MON_PAY_9) AS SUM_MON_PAY_9,
+            SUM(A.MON_PAY_10) AS SUM_MON_PAY_10,
+            SUM(A.MON_PAY_11) AS SUM_MON_PAY_11,
+            SUM(A.MON_PAY_12) AS SUM_MON_PAY_12
+        FROM
+            CAM_PJT_MNG.DJ_PART_PAY_MON A
+        LEFT JOIN
+            CAM_PJT_MNG.DJ_PROJECT B
+        ON A.PJT_SN = B.PJT_SN
+        WHERE 1=1
+          AND
+            A.BS_YEAR = #{baseYear}
+        GROUP BY B.BUSN_CLASS
+    </select>
 </mapper>
 
 

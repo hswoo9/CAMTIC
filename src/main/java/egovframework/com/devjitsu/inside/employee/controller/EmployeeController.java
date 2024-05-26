@@ -4,6 +4,7 @@ import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.employee.service.EmployService;
+import egovframework.com.devjitsu.inside.salary.service.SalaryManageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class EmployeeController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private SalaryManageService salaryManageService;
 
     //참여율신청목록
     @RequestMapping("/inside/participationRateList.do")
@@ -113,6 +117,7 @@ public class EmployeeController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        session.setAttribute("menuNm", request.getRequestURI());
         return "inside/userManage/laborList";
     }
 
@@ -165,6 +170,13 @@ public class EmployeeController {
         }catch(Exception e){
             e.printStackTrace();
         }
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/getCalcPartRate")
+    public String getCalcPartRate(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", employService.getCalcPartRate(params));
+        model.addAttribute("list2", salaryManageService.getPayRollLedgerStatusList(params));
         return "jsonView";
     }
 }

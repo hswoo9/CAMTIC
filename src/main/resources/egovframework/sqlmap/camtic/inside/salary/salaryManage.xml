@@ -393,6 +393,141 @@
             ERP_EMP_SEQ = #{erpEmpSeq}
         LIMIT 1
     </select>
+
+    <select id="getPayRollLedgerList" parameterType="map" resultType="map">
+        /* getPayRollLedgerList */
+        SELECT
+            *
+        FROM
+            CAM_INSIDE.DJ_PAY_ROLL_LEGER
+        WHERE
+            BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+        <choose>
+            <when test='"empName".equals(searchKeyWord)'>
+                AND EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <when test='"deptName".equals(searchKeyWord)'>
+                AND DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <when test='"buisness".equals(searchKeyWord)'>
+                AND BUISNESS LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                AND (
+                    EMP_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                    DEPT_NAME LIKE CONCAT('%', #{searchValue}, '%') OR
+                    BUISNESS LIKE CONCAT('%', #{searchValue}, '%')
+                )
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getPayRollLedgerStatusList" parameterType="map" resultType="map">
+        /* getPayRollLedgerStatusList */
+        SELECT
+            SUBSTRING_INDEX(BASE_YEAR_MONTH, '-', -1) AS MONTH,
+            SUM(TOTAL_PAY) AS TOTAL_PAY,
+            SUM(DEDUCTION) AS DEDUCTION,
+            SUM(RETIREMENT_PEN) AS RETIREMENT_PEN
+        FROM
+            CAM_INSIDE.DJ_PAY_ROLL_LEGER
+        WHERE
+            BASE_YEAR_MONTH LIKE CONCAT(#{baseYear}, '%')
+        GROUP BY BASE_YEAR_MONTH
+    </select>
+
+    <select id="getEmpNameAndTeam" parameterType="map" resultType="String">
+        /* getEmpNameAndTeam */
+        SELECT
+            EMP_SEQ
+        FROM
+            CAM_HR.DJ_EMP_INFO A
+        JOIN
+            CAM_HR.DJ_DEPT_INFO B
+        ON A.DEPT_SEQ = B.DEPT_SEQ
+        WHERE
+            A.EMP_NAME_KR = #{empName}
+        <choose>
+            <when test='"원장".equals(deptName)'>
+                AND B.DEPT_NAME = '캠틱종합기술원'
+            </when>
+            <otherwise>
+                AND B.DEPT_NAME = #{deptName}
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <delete id="setPayRollLegerDel" parameterType="map">
+        /* setPayRollLegerDel */
+        DELETE FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER WHERE BASE_YEAR_MONTH = #{baseYearMonth}
+    </delete>
+
+    <insert id="setPayRollLeger" parameterType="list">
+        /* setPayRollLeger */
+        INSERT INTO CAM_INSIDE.DJ_PAY_ROLL_LEGER
+        (
+            BASE_YEAR_MONTH,
+            EMP_SEQ,
+            EMP_NAME,
+            DEPT_NAME,
+            JOIN_DATE,
+            BASIC_SALARY,
+            FOOD_PAY,
+            EXTRA_PAY,
+            BUISNESS,
+            RETIREMENT_PEN,
+            NATIONAL_PEN,
+            HEALTH_INS,
+            CARE_INS,
+            EMPLOY_INS,
+            SCIENCE_DEDUCTION,
+            MEMBERSHIP_FEE,
+            TRAVEL_FUND,
+            DORMITORY_FEE,
+            INCOME_TAX,
+            LOCAL_INCOME_TAX,
+            SOCIAL_INS,
+            YEAR_TAX,
+            YEAR_LOCAL_TAX,
+            DEDUCTION,
+            TOTAL_PAY,
+            ACTUAL_PAY,
+            REG_EMP_SEQ
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+        (
+            #{item.baseYearMonth},
+            #{item.empSeq},
+            #{item.empName},
+            #{item.deptName},
+            #{item.joinDate},
+            #{item.basicSalary},
+            #{item.foodPay},
+            #{item.extraPay},
+            #{item.buisness},
+            #{item.retirementPen},
+            #{item.nationalPen},
+            #{item.healthIns},
+            #{item.careIns},
+            #{item.employIns},
+            #{item.scienceDeduction},
+            #{item.membershipFee},
+            #{item.travelFund},
+            #{item.dormitoryFee},
+            #{item.incomeTax},
+            #{item.localIncomeTax},
+            #{item.socialIns},
+            #{item.yearTax},
+            #{item.yearLocalTax},
+            #{item.deduction},
+            #{item.totalPay},
+            #{item.actualPay},
+            #{item.loginEmpSeq}
+        )
+        </foreach>
+    </insert>
 </mapper>
 
 

@@ -25,4 +25,9 @@ public interface SalaryManageService {
 
     void esmRegTemplateDown(HttpServletRequest request, HttpServletResponse response) throws Exception;
     void esmExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
+
+    List<Map<String, Object>> getPayRollLedgerList(Map<String, Object> params);
+    Map<String, Object> setExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception;
+
+    List<Map<String, Object>> getPayRollLedgerStatusList(Map<String, Object> params);
 }

@@ -101,4 +101,9 @@ public class EmployeServiceImpl implements EmployService {
         }
 
     }
+
+    @Override
+    public List<Map<String, Object>> getCalcPartRate(Map<String, Object> params) {
+        return employRepository.getCalcPartRate(params);
+    }
 }

@@ -24,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -267,34 +268,36 @@ public class SalaryManageServiceImpl implements SalaryManageService {
             col7 = row.getCell(7);
 
             if(row != null){
-                if(cellValueToString(col0).equals("") || cellValueToString(col1).equals("") || cellValueToString(col2).equals("") ||
-                        cellValueToString(col4).equals("")){
+                if(cellValueToString(col0, workbook).equals("") ||
+                        cellValueToString(col1, workbook).equals("") ||
+                        cellValueToString(col2, workbook).equals("") ||
+                        cellValueToString(col4, workbook).equals("")){
                     return;
                 } else {
                     Map<String, Object> dataMap = new HashMap<>();
-                    dataMap.put("startDt", cellValueToString(col2));
+                    dataMap.put("startDt", cellValueToString(col2, workbook));
                     
                     if(col3 == null || "".equals(String.valueOf(col3))){
                         dataMap.put("endDt", "9999-12-31");
                     }else{
-                        dataMap.put("endDt", cellValueToString(col3));    
+                        dataMap.put("endDt", cellValueToString(col3, workbook));
                     }
 
                     int socialRateSn = Integer.parseInt(String.valueOf(salaryManageRepository.getsocialRateSn(dataMap)));
 
-                    dataMap.put("erpEmpSeq", cellValueToString(col0));
+                    dataMap.put("erpEmpSeq", cellValueToString(col0, workbook));
 
                     int empSeq = Integer.parseInt(String.valueOf(salaryManageRepository.getExcelEmpSeq(dataMap)));
 
                     salaryMap.put("socialRateSn", socialRateSn);
                     salaryMap.put("empSeq", empSeq);
-                    salaryMap.put("empName", cellValueToString(col1));
-                    salaryMap.put("startDt", cellValueToString(col2));
-                    salaryMap.put("endDt", cellValueToString(col3));
-                    salaryMap.put("basicSalary", cellValueToString(col4));
-                    salaryMap.put("foodPay", cellValueToString(col5));
-                    salaryMap.put("extraPay", cellValueToString(col6));
-                    salaryMap.put("bonus", cellValueToString(col7));
+                    salaryMap.put("empName", cellValueToString(col1, workbook));
+                    salaryMap.put("startDt", cellValueToString(col2, workbook));
+                    salaryMap.put("endDt", cellValueToString(col3, workbook));
+                    salaryMap.put("basicSalary", cellValueToString(col4, workbook));
+                    salaryMap.put("foodPay", cellValueToString(col5, workbook));
+                    salaryMap.put("extraPay", cellValueToString(col6, workbook));
+                    salaryMap.put("bonus", cellValueToString(col7, workbook));
                     salaryMap.put("loginEmpSeq", params.get("empSeq"));
 
                     String BEF_END_DT = LocalDate.parse(salaryMap.get("startDt").toString()).plusDays(-1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -308,7 +311,95 @@ public class SalaryManageServiceImpl implements SalaryManageService {
         }
     }
 
-    public String cellValueToString(XSSFCell cell){
+    @Override
+    public List<Map<String, Object>> getPayRollLedgerList(Map<String, Object> params) {
+        return salaryManageRepository.getPayRollLedgerList(params);
+    }
+
+    @Override
+    public Map<String, Object> setExcelUpload(Map<String, Object> params, MultipartHttpServletRequest request) throws Exception {
+        Map<String, Object> returnMap = new HashMap<>();
+        List<Map<String, Object>> dataList = new ArrayList<>();
+
+        MultipartFile fileNm = request.getFile("file");
+        File dest = new File(fileNm.getOriginalFilename());
+        fileNm.transferTo(dest);
+
+        XSSFRow row; // 로우값
+        XSSFCell col1;// 서고
+        XSSFCell col2;
+
+        FileInputStream inputStream = new FileInputStream(dest);
+
+        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+        XSSFSheet sheet = workbook.getSheetAt(0); // 첫번째 시트
+        int rows = sheet.getPhysicalNumberOfRows();
+        row = sheet.getRow(0);
+
+        String errorRow = "";
+        FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+        for (int i = 1; i < rows; i++) {
+            row = sheet.getRow(i);
+            col1 = row.getCell(0);
+
+            if (row != null) {
+                if (cellValueToString(col1, workbook).equals("")){
+
+                } else {
+                    Map<String, Object> map = new HashMap<>();
+
+                    int cells = sheet.getRow(i).getPhysicalNumberOfCells();
+                    map.put("baseYearMonth", params.get("baseYearMonth"));
+                    map.put("buisness", cellValueToString(row.getCell(0), workbook));
+                    map.put("retirementPen", removeCommas(cellValueToString(row.getCell(1), workbook)));
+                    map.put("deptName", cellValueToString(row.getCell(3), workbook).trim());
+                    map.put("empName", cellValueToString(row.getCell(4), workbook).trim());
+                    map.put("joinDate", cellValueToString(row.getCell(5), workbook));
+                    map.put("basicSalary", removeCommas(cellValueToString(row.getCell(6), workbook)));
+                    map.put("foodPay", removeCommas(cellValueToString(row.getCell(7), workbook)));
+                    map.put("extraPay", removeCommas(cellValueToString(row.getCell(8), workbook)));
+                    map.put("totalPay", removeCommas(cellValueToString(row.getCell(9), workbook)));
+                    map.put("nationalPen", removeCommas(cellValueToString(row.getCell(10), workbook)));
+                    map.put("healthIns", removeCommas(cellValueToString(row.getCell(11), workbook)));
+                    map.put("careIns", removeCommas(cellValueToString(row.getCell(12), workbook)));
+                    map.put("employIns", removeCommas(cellValueToString(row.getCell(13), workbook)));
+                    map.put("scienceDeduction", removeCommas(cellValueToString(row.getCell(14), workbook)));
+                    map.put("membershipFee", removeCommas(cellValueToString(row.getCell(15), workbook)));
+                    map.put("travelFund", removeCommas(cellValueToString(row.getCell(16), workbook)));
+                    map.put("dormitoryFee", removeCommas(cellValueToString(row.getCell(17), workbook)));
+                    map.put("incomeTax", removeCommas(cellValueToString(row.getCell(18), workbook)));
+                    map.put("localIncomeTax", removeCommas(cellValueToString(row.getCell(19), workbook)));
+                    map.put("socialIns", removeCommas(cellValueToString(row.getCell(20), workbook)));
+                    map.put("yearTax", removeCommas(cellValueToString(row.getCell(21), workbook)));
+                    map.put("yearLocalTax", removeCommas(cellValueToString(row.getCell(22), workbook)));
+                    map.put("deduction", removeCommas(cellValueToString(row.getCell(23), workbook)));
+                    map.put("actualPay", removeCommas(cellValueToString(row.getCell(24), workbook)));
+                    map.put("loginEmpSeq", params.get("loginEmpSeq"));
+
+                    String empSeq = salaryManageRepository.getEmpNameAndTeam(map);
+                    if(empSeq == null){
+                        errorRow +=  ", " + (cellValueToString(row.getCell(4), workbook).trim());
+                    }else{
+                        map.put("empSeq", empSeq);
+                    }
+                    dataList.add(map);
+                }
+            }
+        }
+
+        salaryManageRepository.setPayRollLegerDel(params);
+        salaryManageRepository.setPayRollLeger(dataList);
+
+        returnMap.put("errorRow", errorRow.substring(2));
+        return returnMap;
+    }
+
+    @Override
+    public List<Map<String, Object>> getPayRollLedgerStatusList(Map<String, Object> params) {
+        return salaryManageRepository.getPayRollLedgerStatusList(params);
+    }
+
+    public String cellValueToString(XSSFCell cell, XSSFWorkbook workbook){
         String txt = "";
 
         try {
@@ -322,7 +413,9 @@ public class SalaryManageServiceImpl implements SalaryManageService {
                     txt = String.valueOf( Math.round(cell.getNumericCellValue()) );
                 }
             }else if(cell.getCellType() == XSSFCell.CELL_TYPE_FORMULA){
-                txt = cell.getCellFormula();
+                FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+                DataFormatter dataFormatter = new DataFormatter();
+                txt =  dataFormatter.formatCellValue(evaluator.evaluateInCell(cell)); // 수식 결과
             }
         } catch (Exception e) {
 
@@ -369,5 +462,9 @@ public class SalaryManageServiceImpl implements SalaryManageService {
 
         }
         return dispositionPrefix + encodedFilename;
+    }
+
+    private static String removeCommas(String value) {
+        return value.replace(",", "");
     }
 }
