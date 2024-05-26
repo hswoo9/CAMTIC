@@ -65,6 +65,9 @@ var payRollLedgerMa = {
                             '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="$(\'#file\').click()">' +
                             '	<span class="k-button-text">파일선택</span>' +
                             '</button>' +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="payRollLedgerMa.templateDownload()">' +
+                            '	<span class="k-button-text">양식다운로드</span>' +
+                            '</button>' +
                             '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="payRollLedgerMa.fileUpload()">' +
                             '	<span class="k-button-text">업로드</span>' +
                             '</button>';
@@ -391,5 +394,13 @@ var payRollLedgerMa = {
             })
         }
     },
+
+    templateDownload : function(){
+        let filePath = "/upload/templateForm/payrollRegister.xlsx"
+        let fileName = "급여대장업로드양식.xlsx";
+        kendo.saveAs({
+            dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
+        });
+    }
 
 }
