@@ -298,6 +298,14 @@ public class PurcRepository extends AbstractDAO {
         delete("purc.delClaimExnpData", params);
     }
 
+    public void delClaimExnpUseCardInfo(Map<String, Object> params) {
+        delete("purc.delClaimExnpUseCardInfo", params);
+    }
+
+    public void delClaimExnpUseEtaxInfo(Map<String, Object> params) {
+        delete("purc.delClaimExnpUseEtaxInfo", params);
+    }
+
     public void updClaimExpDe(Map<String, Object> params) {
         delete("purc.updClaimExpDe", params);
     }

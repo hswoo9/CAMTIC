@@ -2219,6 +2219,16 @@
         DELETE FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn}
     </delete>
 
+    <delete id="delClaimExnpUseCardInfo" parameterType="map">
+        /*delClaimExnpUseCardInfo*/
+        DELETE FROM CAM_MNG.DJ_USE_CARD_INFO WHERE CE_GW_IDX = (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn})
+    </delete>
+
+    <delete id="delClaimExnpUseEtaxInfo" parameterType="map">
+        /*delClaimExnpUseEtaxInfo*/
+        DELETE FROM CAM_MNG.DJ_USE_ETAX_INFO WHERE CE_GW_IDX = (SELECT CE_GW_IDX FROM CAM_MNG.DJ_CLAIM_EXNP WHERE CLAIM_EXNP_SN = #{claimExnpSn})
+    </delete>
+
     <update id="updClaimExpDe" parameterType="map">
         /*updClaimExpDe*/
         UPDATE CAM_MNG.DJ_PURC_CLAIM
