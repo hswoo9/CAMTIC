@@ -8,4 +8,8 @@ public interface AchieveService {
     Map<String, Object> getAllPjtCalc(Map<String, Object> params);
 
     List<Map<String, Object>> getEngnList(Map<String, Object> params);
+
+    List<Map<String, Object>> getEngnDeptData(Map<String, Object> params);
+
+    Map<String, Object> getSaleByDeptData(Map<String, Object> params);
 }

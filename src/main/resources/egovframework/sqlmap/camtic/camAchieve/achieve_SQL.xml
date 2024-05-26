@@ -247,5 +247,72 @@
         </if>
     </select>
 
+    <select id="getEngnDeptData" parameterType="map" resultType="map">
+        /*getEngnDeptData*/
+        SELECT SUM(PJT_AMT) AS PJT_AMT, SUM(EXP_AMT) AS EXP_AMT, SUM(EXP_AMT2) AS EXP_AMT2, DEPT_SEQ
+        FROM (
+             SELECT
+                 A.PJT_AMT, B.TOT_RES_COST AS EXP_AMT, C.EXP_AMT AS EXP_AMT2,
+                 IF((SELECT DEPT_LEVEL FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1, DEPT_SEQ, (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ)) AS DEPT_SEQ
+             FROM
+                 CAM_PJT_MNG.DJ_PROJECT A
+             LEFT JOIN CAM_PJT_MNG.DJ_PJT_RND B
+             ON A.PJT_SN = B.PJT_SN
+             LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN C
+             ON A.PJT_SN = C.PJT_SN
+        ) AA
+        GROUP BY DEPT_SEQ
+    </select>
 
+    <select id="getEngnSaleList" parameterType="map" resultType="map">
+        /*getEngnSaleList*/
+        SELECT SUM(SUBSTRING_INDEX(PJT_AMT, '.', 1)) AS PJT_AMT, SUM(SUBSTRING_INDEX(EXP_AMT, '.', 1)) AS EXP_AMT, DEPT_SEQ
+        FROM
+            (
+                SELECT
+                    A.PJT_AMT,
+                    B.EXP_AMT,
+                    C.STATUS AS DELV_STATUS,
+                    D.STATUS AS RESULT_STATUS,
+                    IF((SELECT DEPT_LEVEL FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1, DEPT_SEQ, (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ)) AS DEPT_SEQ
+                FROM
+                    CAM_PJT_MNG.DJ_PROJECT A
+                LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
+                  ON A.PJT_SN = B.PJT_SN
+                LEFT JOIN CAM_PJT_MNG.DJ_PJT_DELV C
+                  ON A.PJT_SN = C.PJT_SN
+                LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT D
+                  ON A.PJT_SN = D.PJT_SN
+                WHERE
+                    (A.BUSN_CLASS = 'D' OR A.BUSN_CLASS = 'V') AND substr(A.STR_DT, 1, 4) = #{year} AND D.STATUS = 100
+            ) AA
+        GROUP BY DEPT_SEQ
+    </select>
+
+    <select id="getRndSaleList" parameterType="map" resultType="map">
+        /*getRndSaleList*/
+        SELECT SUM(SUBSTRING_INDEX(TOT_COST, '.', 1)) AS PJT_AMT, DEPT_SEQ
+        FROM
+            (
+                SELECT
+                    B.TOT_COST AS TOT_COST,
+                    IF((SELECT DEPT_LEVEL FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = P.DEPT_SEQ) = 1, DEPT_SEQ, (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = P.DEPT_SEQ)) AS DEPT_SEQ
+                FROM
+                    CAM_MNG.DJ_EXNP A
+                LEFT JOIN
+                    CAM_MNG.DJ_EXNP_DET B
+                ON
+                    A.EXNP_SN = B.EXNP_SN
+                LEFT JOIN
+                    CAM_PJT_MNG.DJ_PROJECT P
+                ON
+                    A.PJT_CD = P.PJT_CD
+                WHERE
+                    (substr(A.PJT_CD, 1, 1) = 'R' OR substr(A.PJT_CD, 1, 1) = 'S') AND substr(P.STR_DT, 1, 4) = #{year}
+                  AND
+                    DOC_STATUS IN (100, 101)
+                  AND B.BUDGET_SN IS NOT NULL
+            ) AA
+        GROUP BY DEPT_SEQ
+    </select>
 </mapper>

@@ -107,8 +107,9 @@
 
                 <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="weekMeet.fn_searchData();" style="margin-bottom: 5px; float: right">조회</button>
 
-                <div id="statTable" style="" view="Y">
-                    <table class="totalTable table table-bordered" style="margin-bottom: 0px">
+                <div id="statTable" style="width: 100%; overflow: auto;" view="Y">
+                    <div style="float: right">(단위 : 백만원)</div>
+                    <table class="totalTable table table-bordered" style="margin-bottom: 0px; white-space:nowrap; width: auto">
                         <thead>
                         <colgroup>
                             <col width="8%">
@@ -174,27 +175,27 @@
                         <c:forEach var="l" items="${list}" varStatus="status">
                             <tr style="background-color: white">
                                 <td style="text-align: center; font-weight: bold">${l.dept_name}</td>
-                                <td style="text-align: right" id="delvObj_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="delvAch_${l.dept_seq}"></td>
-                                <td style="text-align: center" id="delvAchPer_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="delvExp_${l.dept_seq}"></td>
-                                <td style="text-align: center" id="delvExpPer_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="delvSum_${l.dept_seq}"></td>
-                                <td style="text-align: center" id="delvSumPer_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="saleObj_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="saleAch_${l.dept_seq}"></td>
-                                <td style="text-align: center" id="saleAchPer_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="saleExp_${l.dept_seq}"></td>
-                                <td style="text-align: center" id="saleExpPer_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="saleSum_${l.dept_seq}"></td>
-                                <td style="text-align: center" id="saleSumPer_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="incpObj_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="incpAch_${l.dept_seq}"></td>
-                                <td style="text-align: center" id="incpAchPer_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="incpExp_${l.dept_seq}"></td>
-                                <td style="text-align: center" id="incpExpPer_${l.dept_seq}"></td>
-                                <td style="text-align: right" id="incpSum_${l.dept_seq}"></td>
-                                <td style="text-align: center" id="incpSumPer_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="delvObj_${l.dept_seq}" name="delvObj"></td>
+                                <td style="text-align: right" id="delvAch_${l.dept_seq}" name="delvAch"></td>
+                                <td style="text-align: center" id="delvAchPer_${l.dept_seq}" name="delvAchPer"></td>
+                                <td style="text-align: right" id="delvExp_${l.dept_seq}" name="delvExp"></td>
+                                <td style="text-align: center" id="delvExpPer_${l.dept_seq}" name="delvExpPer"></td>
+                                <td style="text-align: right" id="delvSum_${l.dept_seq}" name="delvSum"></td>
+                                <td style="text-align: center" id="delvSumPer_${l.dept_seq}" name="delvSumPer"></td>
+                                <td style="text-align: right" id="saleObj_${l.dept_seq}" name="saleObj"></td>
+                                <td style="text-align: right" id="saleAch_${l.dept_seq}" name="saleAch"></td>
+                                <td style="text-align: center" id="saleAchPer_${l.dept_seq}" name="saleAchPer"></td>
+                                <td style="text-align: right" id="saleExp_${l.dept_seq}" name="saleExp"></td>
+                                <td style="text-align: center" id="saleExpPer_${l.dept_seq}" name="saleExpPer"></td>
+                                <td style="text-align: right" id="saleSum_${l.dept_seq}" name="saleSum"></td>
+                                <td style="text-align: center" id="saleSumPer_${l.dept_seq}" name="saleSumPer"></td>
+                                <td style="text-align: right" id="incpObj_${l.dept_seq}" name="incpObj"></td>
+                                <td style="text-align: right" id="incpAch_${l.dept_seq}" name="incpAch"></td>
+                                <td style="text-align: center" id="incpAchPer_${l.dept_seq}" name="incpAchPer"></td>
+                                <td style="text-align: right" id="incpExp_${l.dept_seq}" name="incpExp"></td>
+                                <td style="text-align: center" id="incpExpPer_${l.dept_seq}" name="incpExpPer"></td>
+                                <td style="text-align: right" id="incpSum_${l.dept_seq}" name="incpSum"></td>
+                                <td style="text-align: center" id="incpSumPer_${l.dept_seq}" name="incpSumPer"></td>
                                 <td style="text-align: right"></td>
                                 <td style="text-align: right"></td>
                                 <td style="text-align: right"></td>

@@ -78,4 +78,12 @@ public class ArchieveController {
     	model.addAttribute("list", list);
     	return "jsonView";
     }
+
+    @RequestMapping("/cam_achieve/getEngnDeptData")
+    public String getEngnDeptData(@RequestParam Map<String, Object> params, Model model) {
+
+        model.addAttribute("ls", achieveService.getEngnDeptData(params));
+        model.addAttribute("saleLs", achieveService.getSaleByDeptData(params));
+        return "jsonView";
+    }
 }
