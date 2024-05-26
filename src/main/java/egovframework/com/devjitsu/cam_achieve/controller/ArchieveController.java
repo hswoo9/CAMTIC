@@ -2,6 +2,7 @@ package egovframework.com.devjitsu.cam_achieve.controller;
 
 
 import egovframework.com.devjitsu.cam_achieve.service.AchieveService;
+import egovframework.com.devjitsu.gw.dept.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,18 +21,40 @@ public class ArchieveController {
     @Autowired
     private AchieveService achieveService;
 
+    @Autowired
+    private DeptService deptService;
+
+    /**
+     * 캠어취브 > 재무성과(팀별)
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/cam_achieve/finPerm.do")
     public String finPerm(@RequestParam Map<String, Object> params, Model model) {
         return "cam_achieve/finPerm";
     }
 
+    /**
+     * 캠어취브 > 주간회의 (부서)
+     * @param params
+     * @param model
+     * @return
+     */
     @RequestMapping("/cam_achieve/weekMeet.do")
     public String weekMeet(@RequestParam Map<String, Object> params, Model model) {
+
+        params.put("deptLevel", "1");
+        List<Map<String, Object>> list = deptService.getDeptAList(params);
+
+        model.addAttribute("list", list);
+        
         return "cam_achieve/weekMeet";
     }
 
     @RequestMapping("/cam_achieve/monMeet.do")
     public String monMeet(@RequestParam Map<String, Object> params, Model model) {
+
         return "cam_achieve/monMeet";
     }
 

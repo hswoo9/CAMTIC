@@ -1,0 +1,232 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"       uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
+<jsp:useBean id="today" class="java.util.Date" />
+
+<script type="text/javascript" src="<c:url value='/js/intra/common/kendoSettings.js'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_achieve/weekMeet.js?v=${today}'/>"></script>
+
+
+<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
+<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
+
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Muli&display=swap");
+
+    :root {
+        --line-border-fill: #3498db;
+        --line-border-empty: #e0e0e0;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .totalTable td {
+        height: 38.14px;
+    }
+
+    #tooltip span {
+        cursor: pointer;
+        display: block;
+        margin-top : 12px;
+        width: 20px;
+        height: 20px;
+        background-image: url("../images/ico/ico_alert.png");
+        background-size: 20px;
+        -moz-border-radius: 30px;
+        -webkit-border-radius: 30px;
+        border: none;
+        -moz-box-shadow: 0 0 0 1px rgba(0,0,0,0.5);
+        /*-webkit-box-shadow: 0 0 0 1px rgba(0,0,0,0.5);*/
+        /*box-shadow: 0 0 0 1px rgba(0,0,0,0.5);*/
+        -moz-transition:  -moz-box-shadow .3s;
+        -webkit-transition:  -webkit-box-shadow .3s;
+        transition:  box-shadow .3s;
+    }
+
+    #tooltip span:hover {
+        -moz-box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        -webkit-box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        box-shadow: 0 0 0 15px rgba(0,0,0,0.5);
+        -moz-transition:  -moz-box-shadow .3s;
+        -webkit-transition:  -webkit-box-shadow .3s;
+        transition:  box-shadow .3s;
+    }
+
+    .hoverSpan:hover {
+        text-decoration: underline;
+    }
+
+    #projectTooltip:hover
+
+    .hide {
+        display: none;
+    }
+
+    .k-footer-template td:nth-child(1),
+    .k-footer-template td:nth-child(2),
+    .k-footer-template td:nth-child(3),
+    .k-footer-template td:nth-child(4),
+    .k-footer-template td:nth-child(5),
+    .k-footer-template td:nth-child(6),
+    .k-footer-template td:nth-child(7),
+    .k-footer-template td:nth-child(8) {
+        border-width: 0;
+        text-align: right;
+    }
+
+    .k-footer-template td:nth-child(11),
+    .k-footer-template td:nth-child(12) {
+        border-width: 0;
+    }
+
+    .k-footer-template td:nth-child(9){
+        overflow: visible;
+        white-space: nowrap;
+        text-align: right;
+    }
+</style>
+<div class="mainCard">
+    <div class="panel">
+        <div class="panel-heading">
+        </div>
+        <div style="padding-left : 20px; padding-right: 20px;">
+            <h4 class="panel-title">주간회의자료 (부서별)</h4>
+            <div class="title-road">캠어취브 > 캠어취브 &gt; 주간회의자료 (부서별)</div>
+            <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+        </div>
+        <div class="panel-body">
+            <div>
+                <button type="button" class="k-button k-button-solid-base" id="displayBtn" onclick="fn_statTableShowHide();" style="margin-bottom: 5px">통계 ▲</button>
+                <span style="bottom: 3px; position: relative;">
+                    <input type="text" id="year" style="width: 130px;" />
+                </span>
+
+                <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="weekMeet.fn_searchData();" style="margin-bottom: 5px; float: right">조회</button>
+
+                <div id="statTable" style="" view="Y">
+                    <table class="totalTable table table-bordered" style="margin-bottom: 0px">
+                        <thead>
+                        <colgroup>
+                            <col width="8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                            <col width="3.8%">
+                        </colgroup>
+                        <tr style="color : black ; background-color: #f0f6ff;">
+                            <td style="text-align: center;" rowspan="2"><b>구분</b></td>
+                            <td style="text-align: center;" colspan="7"><b>수주</b></td>
+                            <td style="text-align: center;" colspan="7"><b>매출</b></td>
+                            <td style="text-align: center;" colspan="10"><b>운영수익</b></td>
+                        </tr>
+                        <tr style="color : black ; background-color: #ffffff;">
+                            <td style="text-align: center;"><b>목표</b></td>
+                            <td style="text-align: center;"><b>달성</b></td>
+                            <td style="text-align: center;"><b>(%)</b></td>
+                            <td style="text-align: center;"><b>예상</b></td>
+                            <td style="text-align: center;"><b>(%)</b></td>
+                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: center;"><b>(%)</b></td>
+                            <td style="text-align: center;"><b>목표</b></td>
+                            <td style="text-align: center;"><b>달성</b></td>
+                            <td style="text-align: center;"><b>(%)</b></td>
+                            <td style="text-align: center;"><b>예상</b></td>
+                            <td style="text-align: center;"><b>(%)</b></td>
+                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: center;"><b>(%)</b></td>
+                            <td style="text-align: center;"><b>목표</b></td>
+                            <td style="text-align: center;"><b>달성</b></td>
+                            <td style="text-align: center;"><b>(%)</b></td>
+                            <td style="text-align: center;"><b>예상</b></td>
+                            <td style="text-align: center;"><b>(%)</b></td>
+                            <td style="text-align: center;"><b>합계</b></td>
+                            <td style="text-align: center;"><b>(%)</b></td>
+                            <td style="text-align: center; font-size: 10px"><b>운영비</b></td>
+                            <td style="text-align: center; font-size: 10px"><b>사업화지수</b></td>
+                            <td style="text-align: center; font-size: 10px"><b>사업화지수<br>예상</b></td>
+                        </tr>
+                        <c:forEach var="l" items="${list}" varStatus="status">
+                            <tr style="background-color: white">
+                                <td style="text-align: center; font-weight: bold">${l.dept_name}</td>
+                                <td style="text-align: right" id="delvObj_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="delvAch_${l.dept_seq}"></td>
+                                <td style="text-align: center" id="delvAchPer_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="delvExp_${l.dept_seq}"></td>
+                                <td style="text-align: center" id="delvExpPer_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="delvSum_${l.dept_seq}"></td>
+                                <td style="text-align: center" id="delvSumPer_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="saleObj_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="saleAch_${l.dept_seq}"></td>
+                                <td style="text-align: center" id="saleAchPer_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="saleExp_${l.dept_seq}"></td>
+                                <td style="text-align: center" id="saleExpPer_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="saleSum_${l.dept_seq}"></td>
+                                <td style="text-align: center" id="saleSumPer_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="incpObj_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="incpAch_${l.dept_seq}"></td>
+                                <td style="text-align: center" id="incpAchPer_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="incpExp_${l.dept_seq}"></td>
+                                <td style="text-align: center" id="incpExpPer_${l.dept_seq}"></td>
+                                <td style="text-align: right" id="incpSum_${l.dept_seq}"></td>
+                                <td style="text-align: center" id="incpSumPer_${l.dept_seq}"></td>
+                                <td style="text-align: right"></td>
+                                <td style="text-align: right"></td>
+                                <td style="text-align: right"></td>
+                            </tr>
+                        </c:forEach>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+
+        </div>
+    </div>
+</div><!-- col-md-9 -->
+
+<script>
+
+    weekMeet.fn_DefaultScript();
+
+
+
+
+    function fn_statTableShowHide(){
+        if($("#statTable").attr("view") == "Y"){
+            $("#statTable").attr("view", "N");
+            $("#statTable").hide();
+            $("#displayBtn").text("통계 ▼");
+        } else {
+            $("#statTable").attr("view", "Y");
+            $("#statTable").show();
+            $("#displayBtn").text("통계 ▲");
+        }
+    }
+</script>
