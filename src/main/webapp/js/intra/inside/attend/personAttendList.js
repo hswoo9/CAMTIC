@@ -148,9 +148,23 @@ var personAttend = {
                 }, {
                     field: "START_TIME",
                     title: "출근 시간",
+                    template: function(row){
+                        if(row.ATTEND_ADJUSTMENT_START != ""){
+                            return row.ATTEND_ADJUSTMENT_START;
+                        }else{
+                            return row.START_TIME || "";
+                        }
+                    }
                 }, {
                     field: "END_TIME",
                     title: "퇴근 시간",
+                    template: function(row){
+                        if(row.ATTEND_ADJUSTMENT_END != ""){
+                            return row.ATTEND_ADJUSTMENT_END;
+                        }else{
+                            return row.END_TIME || "";
+                        }
+                    }
                 }, {
                     title: "근태 항목",
                     template: function(row){

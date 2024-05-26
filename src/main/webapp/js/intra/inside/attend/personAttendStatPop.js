@@ -1,81 +1,69 @@
-/**
- * 2023.06.04
- * 작성자 : 김지혜
- * 내용 : 근태관리 - 근태조정 팝업페이지
- */
-var now = new Date();
-var personAttendStatPop = {
-    fn_defaultScript: function () {
+var attendAdjustment = {
 
-        $("#time").kendoTextBox();
-        $("#user").kendoTextBox();
+    fn_defaultScript : function (){
+        attendAdjustment.pageSet();
+        attendAdjustment.dataSet();
+    },
 
-        $("#attendanceItems").kendoDropDownList({
-            dataTextField: "text",
-            dataValueField: "value",
-            dataSource: [
-                {text: "전체", value: "" },
-                {text: "정상 출근", value: "정상 출근"},
-                {text: "지각", value: "지각"},
-                {text: "연가", value: "연가"},
-                {text: "오전 반차", value: "오전 반차"},
-                {text: "오후 반차", value: "오후 반차"},
-                {text: "병가", value: "병가"},
-                {text: "공가", value: "공가"},
-                {text: "경조 휴가", value: "경조 휴가"},
-                {text: "선택 근로", value: "선택 근로"},
-                {text: "출장", value: "출장"},
-                {text: "대체 휴가", value: "대체 휴가"},
-                {text: "휴일 근로", value: "휴일 근로"}
-            ],
-            index: 0
-        });
-
-        $("#work_time").kendoTimePicker({
-            culture : "ko-KR",
-            format : "HH:mm",
-            interval : 10,
-            value : "09:00"
-        });
-
-        $("#leave_time").kendoTimePicker({
-            culture : "ko-KR",
-            format : "HH:mm",
-            interval : 10,
-            value : "18:00"
-        });
+    pageSet : function(){
+        customKendo.fn_textBox(["targetDate", "userInfo"]);
+        customKendo.fn_timePicker("workTime", '10', "HH:mm", "09:00");
+        customKendo.fn_timePicker("leaveTime", '10', "HH:mm", "18:00");
 
         $("#UseReason").kendoTextBox();
+        $("#targetDate, #userInfo, #workTime, #leaveTime").attr("readonly", true);
+    },
 
-    }
-}
+    dataSet : function(){
+        let targetEmpSeq = $("#targetEmpSeq").val();
 
-var overWk = {
-    fn_defaultScript : function(){
+        if(targetEmpSeq == ""){
+            alert("데이터 조회 중 오류가 발생하였습니다."); return;
+        }
+        const userInfo = getUser(targetEmpSeq);
+        $("#userInfo").val(userInfo.EMP_NAME_KR+" / "+userInfo.DEPT_NAME+" / "+fn_getSpot(userInfo.DUTY_NAME, userInfo.POSITION_NAME));
 
-        $("#startDay").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth() - 1))
-        });
+        console.log("userInfo", userInfo);
+    },
 
-        $("#startDay2").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date(now.setMonth(now.getMonth()))
-        });
+    fn_save : function(){
+        const workCk = $('input[name=workAllChk]:checked').val();
+        const leaveCk = $('input[name=leaveAllChk]:checked').val();
 
-        $("#endDay").kendoDatePicker({
-            depth: "month",
-            start: "month",
-            culture : "ko-KR",
-            format : "yyyy-MM-dd",
-            value : new Date()
-        });
+        const params = {
+            workCk: workCk,
+            leaveCk: leaveCk,
+            targetDate: $("#targetDate").val(),
+            targetEmpSeq: $("#targetEmpSeq").val(),
+            workTime: $("#workTime").val(),
+            leaveTime: $("#leaveTime").val(),
+            regEmpSeq: $("#regEmpSeq").val()
+        }
 
+        const flag = attendAdjustment.fn_validationCheck(params);
+
+        if(!flag){
+            return;
+        }
+
+        const result = customKendo.fn_customAjax("/attend/setAttendAdjustment", params);
+
+        if(result.code != 200){
+            alert("저장 중 오류가 발생하였습니다.");
+            window.close();
+        }else{
+            alert("저장되었습니다.");
+            opener.personAttendStat.gridReload();
+            window.close();
+        }
+    },
+
+    fn_validationCheck : function(params){
+        let flag = true;
+        if(params.workCk != "Y" && params.leaveCk != "Y"){
+            alert("출/퇴근 시간 중 하나 이상 조정을 선택 해야합니다.");
+            flag = false;
+        }
+        return flag;
     }
 }

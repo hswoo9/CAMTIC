@@ -168,8 +168,8 @@ var personAttendStat = {
             },
             columns: [
                 {
-                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" class="k-checkbox checkbox"/>',
-                    template : "<input type='checkbox' id='ehiPk#=START_DATE#' name='ehiPk' value='#=START_DATE#' class='k-checkbox checkbox'/>",
+                    headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'empSeq\');" class="k-checkbox checkbox"/>',
+                    template : "<input type='checkbox' id='empSeq#=EMP_SEQ#' name='empSeq' value='#=EMP_SEQ#' class='k-checkbox checkbox'/>",
                     width: 50
                 }, {
                     field: "START_DATE",
@@ -199,9 +199,23 @@ var personAttendStat = {
                 }, {
                     field: "START_TIME",
                     title: "출근 시간",
+                    template: function(row){
+                        if(row.ATTEND_ADJUSTMENT_START != ""){
+                            return row.ATTEND_ADJUSTMENT_START;
+                        }else{
+                            return row.START_TIME || "";
+                        }
+                    }
                 }, {
                     field: "END_TIME",
                     title: "퇴근 시간",
+                    template: function(row){
+                        if(row.ATTEND_ADJUSTMENT_END != ""){
+                            return row.ATTEND_ADJUSTMENT_END;
+                        }else{
+                            return row.END_TIME || "";
+                        }
+                    }
                 }, {
                     title: "근태 항목",
                     template: function(row){
@@ -245,10 +259,22 @@ var personAttendStat = {
     },
 
     personAttendStatPopup : function(){
-        var url = "/Inside/Pop/personAttendStatPop.do";
+        if($("input[name='empSeq']:checked").length == 0){
+            alert("근태조정할 인원을 선택해주세요.");
+            return;
+        }else if($("input[name='empSeq']:checked").length > 1){
+            alert("근태조정은 한명만 가능합니다.");
+            return;
+        }
+
+        const dataItem = $("#mainGrid").data("kendoGrid").dataItem($("input[name='empSeq']:checked").closest("tr"));
+        const empSeq = $("input[name='empSeq']:checked").val();
+        const date = dataItem.START_DATE;
+
+        var url = "/Inside/Pop/personAttendStatPop.do?empSeq="+empSeq+"&date="+date;
         var name = "popup test";
-        var option = "width = 550, height = 360, top = 100, left = 200, location = no"
-        var popup = window.open(url, name, option);
+        var option = "width = 550, height = 360, top = 100, left = 200, location = no";
+        window.open(url, name, option);
     }
 }
 

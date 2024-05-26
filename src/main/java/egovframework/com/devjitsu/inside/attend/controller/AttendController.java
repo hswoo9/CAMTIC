@@ -128,12 +128,11 @@ public class AttendController {
 
     //근태 조정 팝업창
     @RequestMapping("/Inside/Pop/personAttendStatPop.do")
-    public String personAttendStatPop(HttpServletRequest request, Model model) {
+    public String personAttendStatPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
-        session.setAttribute("menuNm", request.getRequestURI());
-        model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
         return "popup/inside/attend/personAttendStatPop";
     }
 
@@ -304,6 +303,17 @@ public class AttendController {
     public String holidayWorkApplicationList(@RequestParam Map<String,Object> params, Model model) {
         List<Map<String, Object>> list = attendService.holidayWorkApplicationList(params);
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    @RequestMapping("/attend/setAttendAdjustment")
+    public String setAttendAdjustment(@RequestParam Map<String, Object> params, Model model){
+        try{
+            attendService.setAttendAdjustment(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
         return "jsonView";
     }
 }

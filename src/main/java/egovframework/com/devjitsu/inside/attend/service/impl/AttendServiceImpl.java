@@ -138,4 +138,17 @@ public class AttendServiceImpl implements AttendService {
     public List<Map<String, Object>> holidayWorkApplicationList(Map<String, Object> params) {
         return attendRepository.holidayWorkApplicationList(params);
     }
+
+    @Override
+    public void setAttendAdjustment(Map<String, Object> params) {
+        if("Y".equals(params.get("workCk"))){
+            params.put("type", "1");
+            attendRepository.setAttendAdjustment(params);
+        }
+
+        if("Y".equals(params.get("leaveCk"))){
+            params.put("type", "2");
+            attendRepository.setAttendAdjustment(params);
+        }
+    }
 }
