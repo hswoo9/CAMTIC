@@ -46,21 +46,26 @@ public class AchieveServiceImpl implements AchieveService {
 
             if(map.get("RESULT_STATUS") != null) {
                 if(map.get("RESULT_STATUS").toString().equals("100")) {
+                    // 개발일반 매출액
                     saleEngnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
                 }
             }
 
             if(map.get("RESULT_STATUS") != null) {
                 if(!map.get("RESULT_STATUS").toString().equals("100") && !map.get("RESULT_STATUS").toString().equals("101") && map.get("DELV_STATUS").toString().equals("100")) {
+                    // 개발일반 예상매출액
                     expSaleEngnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
                 }
             }
 
+            // 개발일반 수주액
             engnAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
         }
 
         for(Map<String, Object> map : rndPjtInfo) {
+            // 연구개발 예상수주
             expRndAmt += map.get("EXP_AMT") == null ? 0 : Long.parseLong(map.get("EXP_AMT").toString());
+            // 연구개발 수주금액
             rndAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
         }
 
@@ -136,5 +141,10 @@ public class AchieveServiceImpl implements AchieveService {
         result.put("rndAmt", rndAmt);
 
         return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getEngnList(Map<String, Object> params) {
+        return achieveRepository.getEngnList(params);
     }
 }

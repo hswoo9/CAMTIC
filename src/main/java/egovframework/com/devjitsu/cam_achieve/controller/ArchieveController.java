@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -42,5 +44,15 @@ public class ArchieveController {
 
         model.addAttribute("map", map);
         return "jsonView";
+    }
+
+    @RequestMapping("/cam_achieve/getEngnList")
+    public String getEngnList(@RequestParam Map<String, Object> params, Model model) {
+    	List<Map<String, Object>> list = new ArrayList<>();
+
+        list = achieveService.getEngnList(params);
+
+    	model.addAttribute("list", list);
+    	return "jsonView";
     }
 }

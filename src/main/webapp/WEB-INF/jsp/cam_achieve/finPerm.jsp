@@ -137,7 +137,7 @@
                             <td colspan="5" style="text-align: center;"><b>운영비</b></td>
                         </tr>
                         <tr style="color : black ; background-color: #ffffff;">
-                            <td style="text-align: center;"><b style="cursor: pointer">개발일반</b></td>
+                            <td style="text-align: center;"><b style="cursor: pointer" onclick="finPerm.fn_engnSearch();">개발일반</b></td>
                             <td style="text-align: right;" id="engnDelvAmt">0</td>
                             <td style="text-align: right;" id="engnSaleAmt">0</td>
                             <td style="text-align: right;" id="engnIncpAmt">0</td>
@@ -233,6 +233,9 @@
                     </table>
                 </div>
             </div>
+        </div>
+        <div class="panel-body">
+            <div id="engnGrid"></div>
         </div>
     </div>
 </div><!-- col-md-9 -->

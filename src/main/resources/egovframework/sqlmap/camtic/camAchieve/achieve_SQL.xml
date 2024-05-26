@@ -182,5 +182,70 @@
             ) RE
     </select>
 
+    <select id="getEngnList" parameterType="map" resultType="map">
+        /*getEngnList*/
+        SELECT
+            A.PJT_NM,
+            CASE
+                WHEN A.TEAM_STAT = 'Y' THEN '협업'
+                WHEN C.STATUS = '100' THEN '수주'
+                ELSE '예상'
+            END AS STAT_A,
+            A.TEAM_STAT,
+            C.DELV_EST_DE,
+            A.DELV_DE,
+            E.CRM_NM,
+            IFNULL(F.PURC_TOT_AMT, 0) AS PURC_TOT_AMT,
+            IFNULL(G.RES_EXNP_SUM, 0) AS RES_EXNP_SUM,
+            A.PJT_AMT,
+            B.EXP_AMT,
+            C.STATUS AS DELV_STATUS,
+            D.STATUS AS RESULT_STATUS
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_ENGN B
+        ON A.PJT_SN = B.PJT_SN
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_DELV C
+        ON A.PJT_SN = C.PJT_SN
+        LEFT JOIN CAM_PJT_MNG.DJ_PJT_RESULT D
+        ON A.PJT_SN = D.PJT_SN
+        LEFT JOIN CAM_CRM.DJ_CRM_INFO E
+        ON A.CRM_SN = E.CRM_SN
+        LEFT JOIN
+            (SELECT
+                SUM(AB.ITEM_AMT) AS PURC_TOT_AMT, AA.PJT_SN
+            FROM
+                CAM_MNG.DJ_PURC_CLAIM AA
+            LEFT JOIN
+                CAM_MNG.DJ_PURC_CLAIM_ITEM AB
+            ON
+                AA.CLAIM_SN = AB.CLAIM_SN
+            GROUP BY AB.CLAIM_SN) F
+        ON
+            A.PJT_SN = F.PJT_SN
+        LEFT JOIN
+            (SELECT
+                SUM(REPLACE(TOT_COST, ',', '')) AS RES_EXNP_SUM,
+                A.PJT_SN
+            FROM
+                CAM_INSIDE.DJ_HR_BIZ_REQ A
+            LEFT JOIN
+                CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT B
+            ON
+                A.HR_BIZ_REQ_ID = B.HR_BIZ_REQ_ID
+            LEFT JOIN
+                CAM_INSIDE.DJ_HR_BIZ_EXNP BE
+            ON
+                B.HR_BIZ_REQ_RESULT_ID = BE.HR_BIZ_REQ_RESULT_ID
+            GROUP BY A.PJT_SN) G
+        ON
+            A.PJT_SN = G.PJT_SN
+        WHERE
+            (A.BUSN_CLASS = 'D' OR A.BUSN_CLASS = 'V') AND substr(A.STR_DT, 1, 4) = 2024
+        <if test='deptSeq != null and deptSeq != ""'>
+            AND A.DEPT_SEQ = #{deptSeq}
+        </if>
+    </select>
+
 
 </mapper>
