@@ -75,11 +75,11 @@ public class PayAppServiceImpl implements PayAppService {
         }
 
         // 출장정산목록 pdf 생성
-//        if(params.containsKey("busExnpHtml")){
-//            params.put("pdfFileOrgName", "출장정산목록");
-//            params.put("pdfHtmlContents", params.get("busExnpHtml"));
-//            createPdf(params, serverDir, baseDir);
-//        }
+        if(params.containsKey("busExnpHtml")){
+            params.put("pdfFileOrgName", "출장정산목록");
+            params.put("pdfHtmlContents", params.get("busExnpHtml"));
+            createPdf(params, serverDir, baseDir);
+        }
 
         // 법인카드 증빙서류 생성
         if(!params.get("htmlContents").equals("")){

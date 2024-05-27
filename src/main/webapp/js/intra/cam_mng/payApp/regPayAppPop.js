@@ -2387,8 +2387,8 @@ var regPay = {
             }
 
             // 출장정산목록 pdf 생성
-            // var htmlContents = payAppDoc.fn_makeBustripExnpPdf();
-            // parameters.busExnpHtml = htmlContents;
+            var htmlContents = payAppDoc.fn_makeBustripExnpPdf();
+            parameters.busExnpHtml = htmlContents;
         }
 
         if($("#reqType").val() == "business"){
@@ -2606,7 +2606,7 @@ var regPay = {
                         alert("저장되었습니다.");
                     }
 
-                    if($("#reqType").val() != "business"){
+                    if($("#reqType").val() != "business" && $("#reqType").val() != "bustrip") {
                         if($("#reqType").val() == "claimExnp" || $("#reqType").val() == "claim") {
                             console.log("d")
                             opener.parent.purcUserAppList.gridReload();
@@ -2615,7 +2615,7 @@ var regPay = {
                         }
                     }else{
                         opener.location.reload();
-                        opener.opener.gridReload();
+                        opener.parent.gridReload();
                     }
 
                     if(type != "drafting"){
