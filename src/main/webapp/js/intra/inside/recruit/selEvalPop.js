@@ -257,6 +257,10 @@ var selEvalPop = {
         }
     },
 
+    setInEvalOutLogin : function(){
+        window.open("/user/pop/outUserMultiSelectPop.do","조직도","width=475, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+    },
+
     setInEvalLogin : function(e){
         // if(!$("#recruitAreaInfoSn").val()){
         //     alert("채용분야를 선택해주세요.");
@@ -300,8 +304,6 @@ var selEvalPop = {
         //     }
         // }
         window.open("/user/pop/userMultiSelectPop.do","조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
-
-
     },
 
     onActivate : function (){

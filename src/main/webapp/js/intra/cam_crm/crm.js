@@ -37,7 +37,6 @@ var crm = {
 
         crm.gridReload();
 
-        regEmpSeq
         var rs = customKendo.fn_customAjax("/system/getAuthorityGroupUserList.do", {authorityGroupId: 1});
 
         for(var i = 0 ; i < rs.rs.length ; i++){
