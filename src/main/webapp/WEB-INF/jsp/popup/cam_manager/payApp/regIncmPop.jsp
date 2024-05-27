@@ -16,9 +16,6 @@
     <input type="hidden" id="menuCd" name="menuCd" value="incp">
     <input type="hidden" id="type" name="type" value="drafting">
     <input type="hidden" id="nowUrl" name="nowUrl" />
-
-    <input type="hidden" id="docId" name="docId" value="">
-    <input type="hidden" id="approKey" name="approKey" value="">
 </form>
 
 <input type="hidden" id="status" name="status" value="${params.status}" />

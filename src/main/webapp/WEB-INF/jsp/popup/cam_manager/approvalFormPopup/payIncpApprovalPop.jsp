@@ -42,9 +42,7 @@
 </div>
 <script>
     window.resizeTo(965, 900);
-
     approvalDataInit();
-
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
@@ -62,18 +60,8 @@
         approvalParams.linkageProcessCode = "camticIncp";
         approvalParams.approKey = "camticIncp_${params.payIncpSn}";
 
-        console.log('${params}');
-
-        if(${params.type eq 'reDrafting'}){
-            approvalParams.mod = "RW";
-            approvalParams.type = "${params.type}";
-            approvalParams.docId = "${params.docId}";
-
-        }
-
         linkageProcessOn(approvalParams);
     }
-
 </script>
 </body>
 </html>
