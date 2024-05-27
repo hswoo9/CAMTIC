@@ -6,7 +6,7 @@ var payRollLedgerMa = {
     },
 
     fn_defaultScript : function(){
-        customKendo.fn_datePicker("searchYear", "decade", "yyyy", new Date());
+        customKendo.fn_datePicker("searchYear", "year", "yyyy-MM", new Date());
 
         $("#searchKeyWord").kendoDropDownList({
             dataTextField: "text",
