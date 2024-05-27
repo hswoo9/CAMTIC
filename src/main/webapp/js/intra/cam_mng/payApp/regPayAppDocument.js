@@ -381,11 +381,14 @@ var payAppDoc = {
                     let data2 = {
                         fileNo : payAppDoc.global.document3[i].fileNo
                     };
+
                     corpCardHistFile = customKendo.fn_customAjax("/common/getFileInfo", data2).data;
 
-                    receiptFile = '<div style="width: 100%; text-align: center; margin: 0 auto;">' +
-                        '<img src="' + hostUrl + corpCardHistFile.file_path + corpCardHistFile.file_uuid + '" style="display: block;"/>' +
-                        '</div>';
+                    if(corpCardHistFile != null){
+                        receiptFile = '<div style="width: 100%; text-align: center; margin: 0 auto;">' +
+                            '<img src="' + hostUrl + corpCardHistFile.file_path + corpCardHistFile.file_uuid + '" style="display: block;"/>' +
+                            '</div>';
+                    }
                 }
 
                 html += "" +
