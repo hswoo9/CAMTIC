@@ -84,7 +84,7 @@ var userMultiSel = {
                         data.sEmpName = $("#sEmpName").val();
                     }
 
-                    if($("#type").val() != "partRate"){
+                    if($("#type").val() != "partRate" && $("#type").val() != "temp"){
                         data.fullTime2 = "1";
                     }
 

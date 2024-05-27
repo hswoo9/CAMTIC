@@ -139,7 +139,7 @@ var outUserMultiSel = {
                 }, {
                     width: "70px",
                     template: function(e){
-                        return '<button type="button" class="k-button k-button-solid-base" onclick="outUserMultiSel.gridChoose(\'' + e.EMP_SEQ + '\', \'' + e.EMP_NAME + '\', \'' + e.DEPT_NAME + '\')">선택</button>'
+                        return '<button type="button" class="k-button k-button-solid-base" onclick="outUserMultiSel.gridChoose(\'' + e.EMP_SEQ + '\', \'' + e.EMP_NAME + '\', \'' + e.DEPT_NAME + '\', this)">선택</button>'
                     },
                 }],
         }).data("kendoGrid");
@@ -149,14 +149,43 @@ var outUserMultiSel = {
         $("#mainGrid").data("kendoGrid").dataSource.read();
     },
 
-    gridChoose : function (empSeq, empName, deptName) {
+    gridChoose : function (empSeq, empName, deptName, e) {
 
-        opener.parent.$("#regtrName").val(empName);
-        opener.parent.$("#userName").val(empName);
-        //emp_seq, dept_seq, dept_name
-        opener.parent.$("#empSeq").val(empSeq);
-        opener.parent.$("#deptSeq").val();
-        opener.parent.$("#deptName").val(deptName);
+        if($("#type").val() == "recruit"){
+            let userArr = [];
+
+            let empNameArr = "";
+            let empSeqArr = "";
+
+            let flag = true;
+            /** 결재선 */
+            const dataItem = $("#userList").data("kendoGrid").dataItem(e.closest("tr"));
+            console.log("dataItem", dataItem);
+
+            const data = {
+                empSeq : dataItem.EMP_SEQ,
+                empName : dataItem.EMP_NAME,
+                positionName : dataItem.POSITION_NAME,
+                dutyName : dataItem.DUTY_NAME,
+                deptSeq : dataItem.DEPT_SEQ,
+                deptName : dataItem.DEPT_NAME,
+                loginId : dataItem.LOGIN_ID
+            }
+
+            empNameArr += data.empName + ",";
+            empSeqArr += data.empSeq + ",";
+
+            userArr.push(data);
+
+            opener.parent.userDataSet(userArr, empNameArr, empSeqArr, "");
+        }else{
+            opener.parent.$("#regtrName").val(empName);
+            opener.parent.$("#userName").val(empName);
+            //emp_seq, dept_seq, dept_name
+            opener.parent.$("#empSeq").val(empSeq);
+            opener.parent.$("#deptSeq").val();
+            opener.parent.$("#deptName").val(deptName);
+        }
 
         window.close();
     },
