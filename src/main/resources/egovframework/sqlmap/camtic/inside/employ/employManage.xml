@@ -467,6 +467,7 @@
             (
                  PJT_SN
                 ,BS_YEAR
+                ,DEPT_SEQ
                 ,EMP_SEQ
                 ,BS_SAL
                 ,MON_SAL
@@ -499,6 +500,7 @@
             (
                 #{pjtSn}
                 ,#{bsYear}
+                ,(SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = #{empSeq})
                 ,#{empSeq}
                 ,#{empSal}
                 ,#{monSal}
