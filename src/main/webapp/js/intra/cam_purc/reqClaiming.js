@@ -139,6 +139,8 @@ var reqCl = {
                 rs = customKendo.fn_customAjax("/purc/getPurcClaimData", data);
                 data = rs.data;
 
+                console.log(data);
+
                 $("#crmMonCheck").val(data.MON_CHECK);
                 $("#claimDe").val(data.CLAIM_DE);
                 $("#expDe").val(data.EXP_DE);
@@ -525,7 +527,7 @@ var reqCl = {
             '           <input type="text" id="purcSupAmt' + reqCl.global.itemIndex + '" class="purcSupAmt" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" style="text-align: right">' +
             '       </td>' +
             '       <td>' +
-            '           <input type="text" id="purcVatAmt' + reqCl.global.itemIndex + '" class="purcVatAmt" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" style="text-align: right">' +
+            '           <input type="text" id="purcVatAmt' + reqCl.global.itemIndex + '" class="purcVatAmt" disabled onkeyup="reqCl.fn_vatChange('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
             '       </td>' +
             '       <td>' +
             '           <input type="text" id="itemAmt' + reqCl.global.itemIndex + '" class="itemAmt" style="text-align: right" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
@@ -787,6 +789,8 @@ var reqCl = {
                 itemUnitAmt : uncommaN($("#itemUnitAmt" + index).val()),
                 itemUnit : $("#itemUnit" + index).val(),
                 itemAmt : uncommaN($("#itemAmt" + index).val()),
+                purcSupAmt : uncommaN($("#purcSupAmt" + index).val()),
+                purcVatAmt : uncommaN($("#purcVatAmt" + index).val()),
                 // purcItemAmt : $("#purcItemAmt" + index).val() ? uncommaN($("#purcItemAmt" + i).val()) : 0,
                 // difAmt : uncommaN($("#difAmt" + index).val()),
                 itemEtc : $("#itemEtc" + index).val(),
@@ -932,7 +936,7 @@ var reqCl = {
                     '           <input type="text" id="purcSupAmt' + reqCl.global.itemIndex + '" class="purcSupAmt" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" style="text-align: right">' +
                     '       </td>' +
                     '       <td>' +
-                    '           <input type="text" id="purcVatAmt' + reqCl.global.itemIndex + '" class="purcVatAmt" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" style="text-align: right">' +
+                    '           <input type="text" id="purcVatAmt' + reqCl.global.itemIndex + '" class="purcVatAmt" disabled onkeyup="reqCl.fn_vatChange('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
                     '       </td>' +
                     '       <td>' +
                     '           <input type="text" id="itemAmt' + reqCl.global.itemIndex + '" class="itemAmt" style="text-align: right" value="' + comma(e.itemList[i].PURC_ITEM_AMT) + '" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
@@ -1072,10 +1076,10 @@ var reqCl = {
                 '           <input type="text" id="itemUnit'+reqCl.global.itemIndex+'" class="itemUnit" value="'+e.itemList[i].ITEM_UNIT+'">' +
                 '       </td>' +
                 '       <td>' +
-                '           <input type="text" id="purcSupAmt' + reqCl.global.itemIndex + '" class="purcSupAmt" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" style="text-align: right">' +
+                '           <input type="text" id="purcSupAmt' + reqCl.global.itemIndex + '" class="purcSupAmt" value="'+comma(e.itemList[i].PURC_SUP_AMT)+'" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
                 '       </td>' +
                 '       <td>' +
-                '           <input type="text" id="purcVatAmt' + reqCl.global.itemIndex + '" class="purcVatAmt" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\..*)\./g, \'$1\');" style="text-align: right">' +
+                '           <input type="text" id="purcVatAmt' + reqCl.global.itemIndex + '" class="purcVatAmt" value="'+comma(e.itemList[i].PURC_VAT_AMT)+'" disabled onkeyup="reqCl.fn_vatChange('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^-0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');" style="text-align: right">' +
                 '       </td>' +
                 '       <td>' +
                 '           <input type="text" id="itemAmt'+reqCl.global.itemIndex+'" class="itemAmt" value="'+comma(e.itemList[i].ITEM_AMT)+'" style="text-align: right" disabled onkeyup="reqCl.fn_calc('+reqCl.global.itemIndex+')" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">' +
@@ -1108,6 +1112,8 @@ var reqCl = {
             { label: "자산", value: "A" },
             { label: "유지보수", value: "E" },
         ]
+        var flag = true;
+
         for(var i = 0 ; i < tLen ; i++){
             if(i == 0){
                 customKendo.fn_textBox(["itemNm0", "itemStd0", "itemEa0", "itemUnitAmt0", "itemUnit0", "purcSupAmt0", "purcVatAmt0", "itemAmt0", "purcItemAmt0", "difAmt0", "itemEtc0"]);
@@ -1178,10 +1184,17 @@ var reqCl = {
                 }
             }
 
-
+            if(e.itemList[i].PURC_VAT_AMT != null){
+                flag = false;
+            }
         }
 
-        this.fn_amtCalculator();
+
+        if(flag){
+            this.fn_amtCalculator();
+        }
+
+        this.fn_vatChange();
     },
 
     fn_kendoUIEnableSet : function(claimMap){
@@ -1256,6 +1269,24 @@ var reqCl = {
 
             $("#fileGrid").append(html);
         }
+    },
+
+    fn_vatChange : function(e){
+
+        $("#purcVatAmt" + e).val(comma(uncommaN($("#purcVatAmt" + e).val())));
+
+        var vatAmtVal = 0;
+        $(".purcVatAmt").each(function(){
+            vatAmtVal += Number(uncommaN(this.value));
+        })
+
+        if($("#vat").data("kendoRadioGroup").value() == 'Y'){
+            $("#purcSupAmt" + e).val(comma(Number(uncommaN($("#itemAmt" + e).val())) - Number(uncommaN($("#purcVatAmt" + e).val()))));
+        }
+
+
+        $("#vatAmt").val(comma(vatAmtVal));
+        $("#vatAmt").trigger("change")
     },
 
     /** 첨부파일 데이터 세팅 */
