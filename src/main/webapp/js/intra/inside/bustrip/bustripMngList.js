@@ -160,7 +160,7 @@ var bustripMngList = {
                             return "자가";
                         } else if (e.USE_TRSPT == 0){
                             return "대중교통";
-                        } else if (e.USE_TRSPT == 15){
+                        } else if (e.USE_TRSPT == 11){
                             return "기타(" + e.USE_TRSPT_RMK + ")";
                         } else {
                             return "-";
