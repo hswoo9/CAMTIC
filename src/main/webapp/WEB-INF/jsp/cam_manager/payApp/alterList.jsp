@@ -7,6 +7,7 @@
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/camMng.js?v=${today}'/>"></script>
 
 <script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/alterList.js?v=${today}'/>"></script>
+<script type="text/javascript" src="<c:url value='/js/intra/cam_mng/payApp/entryList.js?v=${today}'/>"></script>
 <style>
     a:hover {
         color: blue;

@@ -142,7 +142,7 @@ var alterList = {
                     width: 280,
                     template: function(e){
                         console.log(e);
-                        return '<div style="cursor: pointer; font-weight: bold" onclick="entryList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'in\')">'+e.EXNP_BRIEFS+'</div>';
+                        return '<div style="cursor: pointer; font-weight: bold" onclick="entryList.fn_reqRegPopup('+e.EXNP_SN+', \''+e.PAY_APP_SN+'\', \'alt\')">'+e.EXNP_BRIEFS+'</div>';
                     }
                 }, {
                     title : "작성자",
