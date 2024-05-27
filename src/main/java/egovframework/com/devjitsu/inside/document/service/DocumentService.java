@@ -179,4 +179,6 @@ public interface DocumentService {
     List<Map<String, Object>> getCardList(Map<String, Object> params);
     List<Map<String, Object>> getFileList(Map<String, Object> params);
 
+    void updateInComeDocState(Map<String, Object> bodyMap) throws Exception;
+
 }

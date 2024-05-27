@@ -104,8 +104,8 @@
                 <span style="bottom: 3px; position: relative;">
                     <input type="text" id="year" style="width: 130px;" />
                 </span>
-
                 <button type="button" class="k-button k-button-solid-base" id="searchBtn" onclick="weekMeet.fn_searchData();" style="margin-bottom: 5px; float: right">조회</button>
+                <button type="button" class="k-button k-button-solid-base" id="objSetting" onclick="" style="margin-bottom: 5px; margin-right:5px; float: right">목표설정</button>
 
                 <div id="statTable" style="width: 100%; overflow: auto;" view="Y">
                     <div style="float: right">(단위 : 백만원)</div>

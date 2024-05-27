@@ -82,9 +82,14 @@
                                 <input type="checkbox" name="dutyCode" class="k-checkbox" id="mainGridDutyCode4" value="4" style="margin-left: 5px" onchange="selEvalPop.gridReload('mainGrid')"><label for="mainGridDutyCode4">센터장</label>
                                 <input type="checkbox" name="dutyCode" class="k-checkbox" id="mainGridDutyCode5" value="5" style="margin-left: 5px" onchange="selEvalPop.gridReload('mainGrid')"><label for="mainGridDutyCode5">팀장</label>
                             </div>
-                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="margin-left: 5px;" onclick="selEvalPop.setInEvalLogin();">
-                                <span class="k-button-text">평가위원 선발</span>
-                            </button>
+                            <div>
+                                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="margin-left: 5px;" onclick="selEvalPop.setInEvalOutLogin();">
+                                    <span class="k-button-text">외부평가위원 선발</span>
+                                </button>
+                                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="margin-left: 5px;" onclick="selEvalPop.setInEvalLogin();">
+                                    <span class="k-button-text">평가위원 선발</span>
+                                </button>
+                            </div>
                         </div>
                         <div id="mainGrid" style="margin-top: 5px"></div>
                     </div>
@@ -95,9 +100,14 @@
                                 <input type="checkbox" name="dutyCode" class="k-checkbox" id="mainGrid2DutyCode4" value="4" style="margin-left: 5px" onchange="selEvalPop.gridReload('mainGrid2')"><label for="mainGrid2DutyCode4">센터장</label>
                                 <input type="checkbox" name="dutyCode" class="k-checkbox" id="mainGrid2DutyCode5" value="5" style="margin-left: 5px" onchange="selEvalPop.gridReload('mainGrid2')"><label for="mainGrid2DutyCode5">팀장</label>
                             </div>
-                            <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="margin-left: 5px;" onclick="selEvalPop.setInEvalLogin();">
-                                <span class="k-button-text">평가위원 선발</span>
-                            </button>
+                            <div>
+                                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="margin-left: 5px;" onclick="selEvalPop.setInEvalOutLogin();">
+                                    <span class="k-button-text">외부평가위원 선발</span>
+                                </button>
+                                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" style="margin-left: 5px;" onclick="selEvalPop.setInEvalLogin();">
+                                    <span class="k-button-text">평가위원 선발</span>
+                                </button>
+                            </div>
                         </div>
                         <div id="mainGrid2" style="margin-top: 5px"></div>
                         <input type="hidden" id="divId" />

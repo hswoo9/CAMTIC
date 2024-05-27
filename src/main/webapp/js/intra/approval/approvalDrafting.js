@@ -1989,6 +1989,27 @@ var draft = {
             }
         }
 
+        if(params.menuCd == "inCome"){
+            let result = customKendo.fn_customAjax("/common/getFileList", {
+                contentId : params.APPRO_KEY.split("_")[1],
+                fileCd : "inCome"
+            });
+            console.log("항목 리스트 조회");
+            console.log(result);
+            const fileList = result.list;
+
+            if(fileList != null){
+                let attCount = 0;
+                let tempArr = [];
+                for(let j=0; j< fileList.length; j++){
+                    tempArr[attCount] = fileList[j];
+                    attCount++;
+                }
+                draft.getDocFileSet(tempArr);
+                draft.setKendoUpload();
+            }
+        }
+
         if(params.type == "reDrafting"){
             const fileList = customKendo.fn_customAjax("/approval/getDocAttachmentList", {
                 docId : params.docId

@@ -1045,11 +1045,15 @@
             CFI.file_size,
             IFNULL(CFI.file_no, 0) AS file_no,
             CFI.file_path,
-            CFI.file_uuid
+            CFI.file_uuid,
+            DI.APPRO_KEY,
+            DI.DOC_MENU_CD
         FROM
             CAM_COMMON.DJ_CAMTIC_DOCUMENT CCD
         LEFT JOIN
             CAM_COMMON.DJ_FILE_INFO CFI ON CCD.DOCUMENT_SN = CFI.CONTENT_ID AND CFI.FILE_CD = 'inCome'
+        LEFT JOIN
+            DJ_CAMTIC.A_DOC_INFO DI ON CCD.DOC_ID = DI.DOC_ID
         WHERE
             DOCUMENT_SN = #{documentSn}
     </select>
@@ -1138,4 +1142,35 @@
         WHERE
             CONTENT_ID = #{migKey}
     </select>
+
+    <update id="updateInComeApprStat" parameterType="map">
+        /* updateInComeApprStat */
+        UPDATE CAM_COMMON.DJ_CAMTIC_DOCUMENT
+        SET
+            STATUS = #{approveStatCode},
+            DOC_ID = #{docId}
+        WHERE
+            DOCUMENT_SN = #{documentSn}
+    </update>
+
+    <update id="updateInComeFinalApprStat" parameterType="map">
+        /* updateInComeFinalApprStat */
+        UPDATE CAM_COMMON.DJ_CAMTIC_DOCUMENT
+        SET
+            STATUS = #{approveStatCode},
+            APPROVAL_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d'),
+            APPROVAL_EMP_SEQ = #{empSeq}
+        WHERE
+            DOCUMENT_SN = #{documentSn}
+    </update>
+
+    <update id="setIncomeFileDocNm" parameterType="map">
+        /* setIncomeFileDocNm */
+        UPDATE CAM_COMMON.DJ_FILE_INFO
+        SET
+            DOC_ID = #{docId}
+        WHERE
+            file_no = #{file_no}
+        AND file_cd = #{file_cd}
+    </update>
 </mapper>
