@@ -14,4 +14,10 @@ public interface EmployService {
     void setBusnPartRatePay(Map<String, Object> params);
 
     List<Map<String, Object>> getCalcPartRate(Map<String, Object> params);
+
+    List<Map<String, Object>> getMonthlyCalcPartRate(Map<String, Object> params);
+
+    List<Map<String, Object>> getMonthlyPayRollLedgerList(Map<String, Object> params);
+
+    List<Map<String, Object>> getDeptList(Map<String, Object> params);
 }

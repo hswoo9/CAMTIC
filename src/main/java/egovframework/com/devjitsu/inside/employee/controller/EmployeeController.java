@@ -107,6 +107,7 @@ public class EmployeeController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
+        session.setAttribute("menuNm", request.getRequestURI());
         return "inside/userManage/monthlyPayList";
     }
 
@@ -177,6 +178,14 @@ public class EmployeeController {
     public String getCalcPartRate(@RequestParam Map<String, Object> params, Model model) {
         model.addAttribute("list", employService.getCalcPartRate(params));
         model.addAttribute("list2", salaryManageService.getPayRollLedgerStatusList(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/inside/getMonthlyCalcPartRate")
+    public String getMonthlyCalcPartRate(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("deptList", employService.getDeptList(params));
+        model.addAttribute("list", employService.getMonthlyCalcPartRate(params));
+        model.addAttribute("list2", employService.getMonthlyPayRollLedgerList(params));
         return "jsonView";
     }
 }

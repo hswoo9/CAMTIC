@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <jsp:useBean id="today" class="java.util.Date" />
+<script type="text/javascript" src="<c:url value='/js/intra/inside/userManage/monthlyPayList.js?v=${today}'/>"></script>
 
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
@@ -18,11 +19,39 @@
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
         </div>
         <div class="panel-body">
+            <div>
+                <table class="searchTable table table-bordered mb-0">
+                    <colgroup>
+                        <col width="10%">
+                        <col width="20%">
+                        <col width="10%">
+                        <col width="25%">
+                        <col width="30%">
+                        <col width="5%">
+                    </colgroup>
+                    <tr>
+                        <th class="text-center th-color">연도</th>
+                        <td>
+                            <input type="text" id="baseYear" style="width: 150px;">
+                            <button class="k-button k-button-solid-base" onclick="monPayList.fn_calcReset();">조회</button>
+                        </td>
+                        <td colspan="4">
 
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
+        <div class="panel-body">
+            <div>
+                <table class="totalTable table table-bordered" style="margin-bottom: 0px; text-align: center" id="statusTb">
 
+                </table>
+            </div>
+        </div>
     </div>
 </div><!-- col-md-9 -->
 
 <script type="text/javascript">
+    monPayList.fn_defaultScript();
 </script>

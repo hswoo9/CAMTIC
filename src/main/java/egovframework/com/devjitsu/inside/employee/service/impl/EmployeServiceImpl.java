@@ -106,4 +106,19 @@ public class EmployeServiceImpl implements EmployService {
     public List<Map<String, Object>> getCalcPartRate(Map<String, Object> params) {
         return employRepository.getCalcPartRate(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getMonthlyCalcPartRate(Map<String, Object> params) {
+        return employRepository.getMonthlyCalcPartRate(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMonthlyPayRollLedgerList(Map<String, Object> params) {
+        return employRepository.getMonthlyPayRollLedgerList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getDeptList(Map<String, Object> params) {
+        return employRepository.getDeptList(params);
+    }
 }

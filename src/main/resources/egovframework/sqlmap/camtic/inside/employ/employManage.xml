@@ -562,6 +562,87 @@
             A.BS_YEAR = #{baseYear}
         GROUP BY B.BUSN_CLASS
     </select>
+
+    <select id="getMonthlyCalcPartRate" parameterType="map" resultType="map">
+        /*getMonthlyCalcPartRate*/
+        SELECT
+            DEPT_SEQ,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = aa.DEPT_SEQ) AS DEPT_NAME,
+            BS_YEAR,
+            BUSN_CLASS,
+            SUM(SUM_MON_PAY_1) AS SUM_MON_PAY_1,
+            SUM(SUM_MON_PAY_2) AS SUM_MON_PAY_2,
+            SUM(SUM_MON_PAY_3) AS SUM_MON_PAY_3,
+            SUM(SUM_MON_PAY_4) AS SUM_MON_PAY_4,
+            SUM(SUM_MON_PAY_5) AS SUM_MON_PAY_5,
+            SUM(SUM_MON_PAY_6) AS SUM_MON_PAY_6,
+            SUM(SUM_MON_PAY_7) AS SUM_MON_PAY_7,
+            SUM(SUM_MON_PAY_8) AS SUM_MON_PAY_8,
+            SUM(SUM_MON_PAY_9) AS SUM_MON_PAY_9,
+            SUM(SUM_MON_PAY_10) AS SUM_MON_PAY_10,
+            SUM(SUM_MON_PAY_11) AS SUM_MON_PAY_11,
+            SUM(SUM_MON_PAY_12) AS SUM_MON_PAY_12
+        FROM
+            (
+                SELECT
+                    A.BS_YEAR,
+                    B.BUSN_CLASS,
+                    A.EMP_SEQ,
+                    IF(
+                        (SELECT DEPT_LEVEL FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1,
+                        A.DEPT_SEQ,
+                        (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ)
+                    ) AS DEPT_SEQ,
+                    SUM(A.MON_PAY_1) AS SUM_MON_PAY_1,
+                    SUM(A.MON_PAY_2) AS SUM_MON_PAY_2,
+                    SUM(A.MON_PAY_3) AS SUM_MON_PAY_3,
+                    SUM(A.MON_PAY_4) AS SUM_MON_PAY_4,
+                    SUM(A.MON_PAY_5) AS SUM_MON_PAY_5,
+                    SUM(A.MON_PAY_6) AS SUM_MON_PAY_6,
+                    SUM(A.MON_PAY_7) AS SUM_MON_PAY_7,
+                    SUM(A.MON_PAY_8) AS SUM_MON_PAY_8,
+                    SUM(A.MON_PAY_9) AS SUM_MON_PAY_9,
+                    SUM(A.MON_PAY_10) AS SUM_MON_PAY_10,
+                    SUM(A.MON_PAY_11) AS SUM_MON_PAY_11,
+                    SUM(A.MON_PAY_12) AS SUM_MON_PAY_12
+                FROM
+                    CAM_PJT_MNG.DJ_PART_PAY_MON A
+                LEFT JOIN
+                    CAM_PJT_MNG.DJ_PROJECT B
+                ON A.PJT_SN = B.PJT_SN
+                WHERE 1=1
+                  AND
+                    A.BS_YEAR = #{baseYear}
+                GROUP BY A.EMP_SEQ
+            ) aa
+        GROUP BY DEPT_SEQ, BUSN_CLASS
+    </select>
+
+    <select id="getMonthlyPayRollLedgerList" parameterType="map" resultType="map">
+        /*getMonthlyPayRollLedgerList*/
+        SELECT
+            SUM(TOTAL_PAY) AS TOT_PAY,
+            (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = b.DEPT_SEQ) AS DEPT_NAME,
+            DEPT_SEQ
+        FROM
+            (
+                SELECT
+                    A.*,
+                    IF(
+                        (SELECT DEPT_LEVEL FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ)) = 1,
+                        (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ),
+                        (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = A.EMP_SEQ))
+                    ) AS DEPT_SEQ
+                FROM CAM_INSIDE.DJ_PAY_ROLL_LEGER A
+                WHERE BASE_YEAR_MONTH = #{searchYear}
+            ) B
+        GROUP BY DEPT_SEQ
+    </select>
+
+    <select id="getDeptList" parameterType="map" resultType="map">
+        /*getDeptList*/
+        SELECT * FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_LEVEL = 1 AND USE_YN = 'Y' GROUP BY DEPT_SEQ
+    </select>
 </mapper>
 
 
