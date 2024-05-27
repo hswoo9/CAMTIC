@@ -258,7 +258,7 @@ var selEvalPop = {
     },
 
     setInEvalOutLogin : function(){
-        window.open("/user/pop/outUserMultiSelectPop.do","조직도","width=475, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        window.open("/user/pop/outUserMultiSelectPop.do?type=recruit","조직도","width=475, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
     },
 
     setInEvalLogin : function(e){

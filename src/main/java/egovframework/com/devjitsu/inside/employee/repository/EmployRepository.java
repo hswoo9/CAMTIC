@@ -38,4 +38,16 @@ public class EmployRepository extends AbstractDAO {
     public List<Map<String, Object>> getCalcPartRate(Map<String, Object> params) {
         return selectList("employM.getCalcPartRate", params);
     }
+
+    public List<Map<String, Object>> getMonthlyCalcPartRate(Map<String, Object> params) {
+        return selectList("employM.getMonthlyCalcPartRate", params);
+    }
+
+    public List<Map<String, Object>> getMonthlyPayRollLedgerList(Map<String, Object> params) {
+        return selectList("employM.getMonthlyPayRollLedgerList", params);
+    }
+
+    public List<Map<String, Object>> getDeptList(Map<String, Object> params) {
+        return selectList("employM.getDeptList", params);
+    }
 }

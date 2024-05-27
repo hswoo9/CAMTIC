@@ -335,7 +335,23 @@ var costInfo = {
                     title: "금액",
                     width: 100,
                     template: function(e){
-                        return "<div style='text-align: right'>"+comma(Math.round(e.PURC_ITEM_AMT_SUM))+"</div>";
+                        if(e.ORG_YN == 'N'){
+                            return "<div style='text-align: right'>"+comma(Math.round(e.PURC_ITEM_AMT_SUM))+"</div>";
+                        } else {
+                            let amt = Number(e.PURC_ITEM_AMT_SUM);
+                            let amt2 = Math.round(amt/10);
+                            let itemAmt = 0;
+
+                            if(e.InTax == "0"){     // 부가세 미포함
+                                itemAmt = amt + amt2;
+                            } else if(e.InTax == "1"){  // 부가세 포함
+                                itemAmt = amt;
+                            } else  if(e.InTax == "2"){ // 면세
+                                itemAmt = amt
+                            }
+
+                            return "<div style='text-align: right'>"+comma(Math.round(itemAmt))+"</div>";
+                        }
                     },
                     footerTemplate: function(){
                         return "<div id='purcSumTemp' style='text-align: right'></div>";

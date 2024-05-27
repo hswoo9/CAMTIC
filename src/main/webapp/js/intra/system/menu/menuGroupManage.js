@@ -231,6 +231,9 @@ var menuGM = {
 
         /** TODO. 사용자 선택 팝업 없는 것 같음 */
         var url = "/user/pop/userMultiSelectPop.do";
+        if($("#authorityGroupName").text() == "평가위원"){
+            url += "?type=temp";
+        }
         var name = "userMultiSelectPop";
         var option = "width=1365, height=647, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
 
