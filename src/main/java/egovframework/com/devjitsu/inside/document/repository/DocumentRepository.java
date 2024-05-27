@@ -164,4 +164,14 @@ public class DocumentRepository extends AbstractDAO {
     public Map<String, Object> migFileInfo(Map<String, Object> map) {
         return (Map<String,Object>)selectOne("document.migFileInfo", map);
     }
+
+    public void updateInComeApprStat(Map<String, Object> params) {
+        update("document.updateInComeApprStat", params);
+    }
+    public void updateInComeFinalApprStat(Map<String, Object> params) {
+        update("document.updateInComeFinalApprStat", params);
+    }
+    public void setIncomeFileDocNm(Map<String, Object> params) {
+        update("document.setIncomeFileDocNm", params);
+    }
 }

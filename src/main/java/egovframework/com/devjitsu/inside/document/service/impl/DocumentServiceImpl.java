@@ -531,4 +531,53 @@ public class DocumentServiceImpl implements DocumentService {
     public List<Map<String, Object>> getFileList(Map<String, Object> params) {
         return documentRepository.getFileList(params);
     }
+
+    @Override
+    public void updateInComeDocState(Map<String, Object> bodyMap) throws Exception {
+        bodyMap.put("docSts", bodyMap.get("approveStatCode"));
+        String docSts = String.valueOf(bodyMap.get("docSts"));
+        String approKey = String.valueOf(bodyMap.get("approKey"));
+        String docId = String.valueOf(bodyMap.get("docId"));
+        String processId = String.valueOf(bodyMap.get("processId"));
+        String empSeq = String.valueOf(bodyMap.get("empSeq"));
+        approKey = approKey.split("_")[1];
+        System.out.println(approKey);
+        System.out.println(processId);
+        bodyMap.put("approKey", approKey);
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("documentSn", approKey);
+        params.put("docName", bodyMap.get("formName"));
+        params.put("docId", docId);
+        params.put("docTitle", bodyMap.get("docTitle"));
+        params.put("approveStatCode", docSts);
+        params.put("empSeq", empSeq);
+
+        if("10".equals(docSts) || "50".equals(docSts)) { // 상신 - 결재
+            documentRepository.updateInComeApprStat(params);
+        }else if("20".equals(docSts)) { // 중간결재
+            documentRepository.updateInComeApprStat(params);
+        }else if("30".equals(docSts) || "40".equals(docSts)) { // 반려 - 회수
+            documentRepository.updateInComeApprStat(params);
+        }else if("100".equals(docSts) || "101".equals(docSts)) { // 종결 - 전결
+            params.put("approveStatCode", 100);
+            documentRepository.updateInComeFinalApprStat(params);
+        }else if("111".equals(docSts)){ // 임시저장
+            documentRepository.updateInComeApprStat(params);
+        }
+
+        if("10".equals(docSts)){
+            /** STEP1. pjtSn 으로 delvData 호출 */
+            params.put("contentId", approKey);
+            params.put("fileCd", "inCome");
+            List<Map<String, Object>> fileList = commonRepository.getFileList(params);
+
+            if(fileList.size() > 0){
+                for(Map<String, Object> data : fileList){
+                    data.put("docId", params.get("docId"));
+                    documentRepository.setIncomeFileDocNm(data);
+                }
+            }
+        }
+    }
 }
