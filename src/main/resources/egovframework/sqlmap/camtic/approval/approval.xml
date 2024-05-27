@@ -649,6 +649,10 @@
                 OR (CONTENT_ID = #{contentId} AND FILE_CD = 'eduRes')
             </if>
         </if>
+
+        <if test='type == "inCome" or "inCome".equals(type)'>
+            OR (FI.CONTENT_ID = #{documentSn} AND file_cd in ('inCome'))
+        </if>
     </select>
 
     <select id="getOnnaraDocAttachmentList" parameterType="map" resultType="map">

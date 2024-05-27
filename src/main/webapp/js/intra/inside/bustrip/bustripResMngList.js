@@ -176,7 +176,7 @@ var bustripResMngList = {
                                 return "사용 (자가)";
                             } else if (row.USE_TRSPT == 0){
                                 return "사용 (대중교통)";
-                            } else if (row.USE_TRSPT == 15){
+                            } else if (row.USE_TRSPT == 11){
                                 return "사용 (기타(" + row.USE_TRSPT_RMK + "))";
                             } else {
                                 return "사용";

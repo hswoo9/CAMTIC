@@ -575,5 +575,32 @@ public class DocumentController {
         return "jsonView";
     }
 
+    @RequestMapping("/popup/inside/approvalFormPopup/inComeApprovalPop.do")
+    public String inComeApprovalPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("params", params);
+        model.addAttribute("loginVO", login);
+        return "popup/inside/document/approvalFormPopup/inComeApprovalPop";
+    }
+
+    @RequestMapping(value = "/inside/inComeReqApp")
+    public String inComeReqApp(@RequestParam Map<String, Object> bodyMap, Model model) {
+        System.out.println("bodyMap");
+        System.out.println(bodyMap);
+        String resultCode = "SUCCESS";
+        String resultMessage = "성공하였습니다.";
+        try{
+            documentService.updateInComeDocState(bodyMap);
+        }catch(Exception e){
+            logger.error(e.getMessage());
+            resultCode = "FAIL";
+            resultMessage = "연계 정보 갱신 오류 발생("+e.getMessage()+")";
+        }
+        model.addAttribute("resultCode", resultCode);
+        model.addAttribute("resultMessage", resultMessage);
+        return "jsonView";
+    }
+
 
 }

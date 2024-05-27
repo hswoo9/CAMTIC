@@ -21,12 +21,22 @@
 <input type="hidden" id="regDutyName" value="${loginVO.dutyNm}"/>
 <input type="hidden" id="regGradeCode" value="${loginVO.gradeCode}"/>
 <input type="hidden" id="regGradeName" value="${loginVO.gradeNm}"/>
-<input type="hidden" id="documentSn" value="${params.documentSn}"/>
+
+<form id="inComeDraftFrm" method="post">
+    <input type="hidden" id="documentSn" name="documentSn" value="${params.documentSn}">
+    <input type="hidden" id="menuCd" name="menuCd" value="inCome">
+    <input type="hidden" id="type" name="type" value="drafting">
+    <input type="hidden" id="nowUrl" name="nowUrl" />
+</form>
+
 <div style="padding:0;">
     <div class="table-responsive">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">문서 접수 대장</h3>
             <div class="btn-st popButton">
+                <span id="inComeApprBtnBox">
+
+                </span>
                 <button type="button" class="k-button k-button-solid-info" onclick="regisReq.saveBtn();">저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;"
                         onclick="window.close()">닫기

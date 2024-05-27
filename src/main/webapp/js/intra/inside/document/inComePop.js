@@ -37,8 +37,30 @@ var regisReq = {
                     data = rs.data;
                 }
             });
-            console.log(data);
+            console.log("data", data);
             regisReq.settingTempFileDataInit(data);
+            regisReq.btnSet(data);
+    },
+
+    btnSet : function(inComeMap){
+        let html = makeApprBtnHtml(inComeMap, 'regisReq.inComeDrafting()');
+        $("#inComeApprBtnBox").html(html);
+
+        if(inComeMap != null && inComeMap.DOC_ID != null){
+            reDraftOnlyOne(inComeMap.DOC_ID, $("#regEmpSeq").val(), "reBtn");
+        }
+    },
+
+    inComeDrafting : function(){
+        $("#inComeDraftFrm").one("submit", function() {
+            var url = "/popup/inside/approvalFormPopup/inComeApprovalPop.do";
+            var name = "_self";
+            var option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=yes, scrollbars = yes, status=no, top=50, left=50"
+            window.open(url, name, option);
+            this.action = "/popup/inside/approvalFormPopup/inComeApprovalPop.do";
+            this.method = 'POST';
+            this.target = '_self';
+        }).trigger("submit");
     },
 
     settingTempFileDataInit : function(e, p){
