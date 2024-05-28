@@ -2606,21 +2606,21 @@ var regPay = {
                         alert("저장되었습니다.");
                     }
 
-                    if($("#reqType").val() != "business" && $("#reqType").val() != "bustrip") {
-                        if($("#reqType").val() == "claimExnp" || $("#reqType").val() == "claim") {
-                            console.log("d")
-                            opener.parent.purcUserAppList.gridReload();
-                        }else if($("#apprMngStat").val() == "M"){
-                            opener.parent.paymentMngList.gridReload();
-                        }else{
-                            opener.parent.paymentList.gridReload();
-                        }
-                    }else{
-                        opener.location.reload();
-                        opener.parent.gridReload();
-                    }
-
                     if(type != "drafting"){
+                        if($("#reqType").val() != "business" && $("#reqType").val() != "bustrip") {
+                            if($("#reqType").val() == "claimExnp" || $("#reqType").val() == "claim") {
+                                console.log("d")
+                                opener.parent.purcUserAppList.gridReload();
+                            }else if($("#apprMngStat").val() == "M"){
+                                opener.parent.paymentMngList.gridReload();
+                            }else{
+                                opener.parent.paymentList.gridReload();
+                            }
+                        }else{
+                            opener.location.reload();
+                            opener.parent.gridReload();
+                        }
+
                         let status = "";
                         if($("#payAppType").data("kendoRadioGroup").value() == 1){
                             status = "rev";
