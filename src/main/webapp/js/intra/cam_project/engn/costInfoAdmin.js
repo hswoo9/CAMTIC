@@ -191,7 +191,23 @@ var costInfo = {
         for(let i=0; i<purcList.length; i++){
             const purcMap = purcList[i];
             if(purcMap.CLAIM_STATUS == "CAYSY"){
-                purcSum  += Number(purcMap.PURC_ITEM_AMT_SUM);
+                if(purcMap.ORG_YN == 'N'){
+                    purcSum += Number(purcMap.PURC_ITEM_AMT_SUM);
+                } else {
+                    let amt = Number(purcMap.PURC_ITEM_AMT_SUM);
+                    let amt2 = Math.round(amt/10);
+                    let itemAmt = 0;
+
+                    if(purcMap.InTax == "0"){     // 부가세 미포함
+                        itemAmt = amt + amt2;
+                    } else if(purcMap.InTax == "1"){  // 부가세 포함
+                        itemAmt = amt;
+                    } else  if(purcMap.InTax == "2"){ // 면세
+                        itemAmt = amt
+                    }
+
+                    purcSum += Number(itemAmt);
+                }
             }
         }
 
