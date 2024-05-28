@@ -315,4 +315,60 @@
             ) AA
         GROUP BY DEPT_SEQ
     </select>
+
+    <insert id="insDeptObjSetting" parameterType="map">
+        /*insDeptObjSetting*/
+        INSERT INTO CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING
+        (
+            BASE_YEAR,
+            DEPT_SEQ,
+            DELV_OBJ,
+            SALE_OBJ,
+            INCP_OBJ,
+            REG_EMP_SEQ,
+            REG_DT
+        )
+        VALUES
+        (
+            #{baseYear},
+            #{deptSeq},
+            #{delvObj},
+            #{saleObj},
+            #{incpObj},
+            #{empSeq},
+            NOW()
+        )
+    </insert>
+
+    <update id="updDeptObjSetting" parameterType="map">
+        /*updDeptObjSetting*/
+        UPDATE CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING
+        SET
+            DELV_OBJ = #{delvObj},
+            SALE_OBJ = #{saleObj},
+            INCP_OBJ = #{incpObj},
+            MOD_EMP_SEQ = #{empSeq},
+            MOD_DT = NOW()
+        WHERE
+            BASE_YEAR = #{baseYear}
+        AND
+            DEPT_SEQ = #{deptSeq}
+    </update>
+
+    <select id="getDeptObjList" parameterType="map" resultType="map">
+        /*getDeptObjList*/
+        SELECT
+            A.OBJ_SN,
+            A.BASE_YEAR,
+            A.DEPT_SEQ as dept_seq,
+            B.DEPT_NAME as dept_name,
+            FORMAT(A.DELV_OBJ, 0) AS DELV_OBJ,
+            FORMAT(A.SALE_OBJ, 0) AS SALE_OBJ,
+            FORMAT(A.INCP_OBJ, 0) AS INCP_OBJ
+        FROM
+            CAM_PJT_MNG.DJ_DEPT_OBJ_SETTING A
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO B
+          ON A.DEPT_SEQ = B.DEPT_SEQ
+        WHERE BASE_YEAR = #{year}
+    </select>
 </mapper>

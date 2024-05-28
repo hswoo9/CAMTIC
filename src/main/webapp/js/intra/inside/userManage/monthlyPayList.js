@@ -70,7 +70,7 @@ var monPayList = {
             html += '   <td style="text-align: right; background-color: #fff;"><span id="d'+ deptList[i].dept_seq +'">0</span></td>';
         }
         html += '   <td style="text-align: right; background-color: #fff;"><span id="dSum">0</span></td>';
-        html += '   <td style="text-align: right; background-color: #fff;"><span id="dRate" class="payRate">0</span></td>';
+        html += '   <td style="text-align: right; background-color: #fff;"><span id="dRate" class="payRate">0%</span></td>';
         html += '</tr>';
 
         html += '<tr>';
@@ -79,7 +79,7 @@ var monPayList = {
             html += '   <td style="text-align: right; background-color: #fff;"><span id="v'+ deptList[i].dept_seq +'">0</span></td>';
         }
         html += '   <td style="text-align: right; background-color: #fff;"><span id="vSum">0</span></td>';
-        html += '   <td style="text-align: right; background-color: #fff;"><span id="vRate" class="payRate">0</span></td>';
+        html += '   <td style="text-align: right; background-color: #fff;"><span id="vRate" class="payRate">0%</span></td>';
         html += '</tr>';
 
         html += '<tr>';
@@ -180,12 +180,23 @@ var monPayList = {
         var deptList = monPayList.global.deptList;
 
         for(var i=0; i<deptList.length; i++){
-            $("#rate" + deptList[i].dept_seq).text((Number(uncomma($("#tot" + deptList[i].dept_seq).text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
+            if($("#totSum").text() == 0){
+                $("#rate" + deptList[i].dept_seq).text("0%");
+            } else {
+                $("#rate" + deptList[i].dept_seq).text((Number(uncomma($("#tot" + deptList[i].dept_seq).text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
+            }
         }
 
-        $("#rRate").text((Number(uncomma($("#rSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
-        $("#sRate").text((Number(uncomma($("#sSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
-        $("#busnRate").text((Number(uncomma($("#busnSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
-        $("#mRate").text((Number(uncomma($("#mSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
+        if($("#totSum").text() == 0){
+            $("#rRate").text("0%");
+            $("#sRate").text("0%");
+            $("#busnRate").text("0%");
+            $("#mRate").text("0%");
+        } else {
+            $("#rRate").text((Number(uncomma($("#rSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
+            $("#sRate").text((Number(uncomma($("#sSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
+            $("#busnRate").text((Number(uncomma($("#busnSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
+            $("#mRate").text((Number(uncomma($("#mSum").text())) / Number(uncomma($("#totSum").text())) * 100).toFixed(2) + "%");
+        }
     }
 }
