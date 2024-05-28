@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.cam_achieve.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import egovframework.com.devjitsu.cam_achieve.repository.AchieveRepository;
 import egovframework.com.devjitsu.cam_achieve.service.AchieveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,5 +166,28 @@ public class AchieveServiceImpl implements AchieveService {
         result.put("rndSaleList", rndSaleList);
 
         return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getDeptObjList(Map<String, Object> params) {
+        List<Map<String, Object>> resultMap = achieveRepository.getDeptObjList(params);
+        return achieveRepository.getDeptObjList(params);
+    }
+
+    @Override
+    public void insDeptObjSetting(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> objArr = gson.fromJson((String) params.get("objArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+
+        if(params.get("type").equals("upd")){
+            for(Map<String, Object> map : objArr) {
+                achieveRepository.updDeptObjSetting(map);
+            }
+        } else {
+            for(Map<String, Object> map : objArr) {
+                achieveRepository.insDeptObjSetting(map);
+            }
+        }
+
     }
 }

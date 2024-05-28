@@ -12,4 +12,8 @@ public interface AchieveService {
     List<Map<String, Object>> getEngnDeptData(Map<String, Object> params);
 
     Map<String, Object> getSaleByDeptData(Map<String, Object> params);
+
+    List<Map<String, Object>> getDeptObjList(Map<String, Object> params);
+
+    void insDeptObjSetting(Map<String, Object> params);
 }

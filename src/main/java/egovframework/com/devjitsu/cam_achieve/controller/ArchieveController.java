@@ -3,12 +3,15 @@ package egovframework.com.devjitsu.cam_achieve.controller;
 
 import egovframework.com.devjitsu.cam_achieve.service.AchieveService;
 import egovframework.com.devjitsu.gw.dept.service.DeptService;
+import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +55,34 @@ public class ArchieveController {
         return "cam_achieve/weekMeet";
     }
 
+    @RequestMapping("/cam_achieve/popObjSetting.do")
+    public String popObjSetting(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        params.put("deptLevel", "1");
+        List<Map<String, Object>> list = new ArrayList<>();
+        if(achieveService.getDeptObjList(params).size() > 0){
+            list = achieveService.getDeptObjList(params);
+            params.put("type", "upd");
+        } else {
+            list = deptService.getDeptAList(params);
+            params.put("type", "ins");
+        }
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("list", list);
+        model.addAttribute("params", params);
+    	return "popup/cam_achieve/popObjSetting";
+    }
+
+    @RequestMapping("/achieve/insDeptObjSetting")
+    public String insDeptObjSetting(@RequestParam Map<String, Object> params, Model model) {
+        achieveService.insDeptObjSetting(params);
+        model.addAttribute("code", 200);
+        return "jsonView";
+    }
+
+
     @RequestMapping("/cam_achieve/monMeet.do")
     public String monMeet(@RequestParam Map<String, Object> params, Model model) {
 
@@ -84,6 +115,7 @@ public class ArchieveController {
 
         model.addAttribute("ls", achieveService.getEngnDeptData(params));
         model.addAttribute("saleLs", achieveService.getSaleByDeptData(params));
+        model.addAttribute("objLs", achieveService.getDeptObjList(params));
         return "jsonView";
     }
 }

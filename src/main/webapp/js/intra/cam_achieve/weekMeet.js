@@ -22,6 +22,7 @@ var weekMeet = {
         var ls = rs.ls;
         var engnSaleList = rs.saleLs.engnSaleList;
         var rndSaleList = rs.saleLs.rndSaleList;
+        var objList = rs.objLs;
 
         for(var i = 0 ; i < ls.length ; i++){
             $("td[name='delvAch']").each(function(){
@@ -85,9 +86,46 @@ var weekMeet = {
                     $("#saleSum_" + ls[i].DEPT_SEQ).text(comma((Math.floor((Number(uncomma($("#saleSum_" + ls[i].DEPT_SEQ).text()))) + (ls[i].PJT_AMT + (saleEngnExpSum || 0) + (ls[i].PJT_AMT - (saleRndExpSum || 0))) / 1000000)) || 0));
                 }
             });
+
+            $("td[name='delvObj']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    for (var j = 0; j < objList.length; j++) {
+                        if ($(this).attr("id").split("_")[1] == objList[j].dept_seq) {
+                            $(this).text(comma(objList[j].DELV_OBJ || 0));
+                        }
+                    }
+                }
+            });
+
+            $("td[name='saleObj']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    for (var j = 0; j < objList.length; j++) {
+                        if ($(this).attr("id").split("_")[1] == objList[j].dept_seq) {
+                            $(this).text(comma(objList[j].SALE_OBJ || 0));
+                        }
+                    }
+                }
+            });
+
+            $("td[name='incpObj']").each(function() {
+                if ($(this).attr("id").split("_")[1] == ls[i].DEPT_SEQ) {
+                    for (var j = 0; j < objList.length; j++) {
+                        if ($(this).attr("id").split("_")[1] == objList[j].dept_seq) {
+                            $(this).text(comma(objList[j].INCP_OBJ || 0));
+                        }
+                    }
+                }
+            });
         }
         
     },
+
+    fn_objSetting : function(){
+        var url = "/cam_achieve/popObjSetting.do?year=" + $("#year").val();
+        var name = "_blank";
+        var option = "width = 680, height = 500, top = 200, left = 400, location = no"
+        var popup = window.open(url, name, option);
+    }
 
 }
 
