@@ -4,9 +4,34 @@ var pcList = {
 
 
     fn_defaultScript : function (){
-
-
+        pcList.pageSet();
         pcList.mainGrid();
+    },
+
+    pageSet : function (){
+        const d = new Date();
+        const bd = new Date(d.setMonth(d.getMonth() - 1)); // 이전달
+        const bdStr = d.getFullYear() + "-" + ('0' + (bd.getMonth() +  1 )).slice(-2) + "-" + ('0' + bd.getDate()).slice(-2)
+        customKendo.fn_datePicker("strDe", "depth", "yyyy-MM-dd", bdStr);
+        customKendo.fn_datePicker("endDe", "depth", "yyyy-MM-dd", new Date());
+
+        const statDataSource = [
+            { text: "미승인", value: "N" },
+            { text: "승인", value: "Y" }
+        ]
+        customKendo.fn_dropDownList("inspectStat", statDataSource, "text", "value");
+
+        const searchDataSource = [
+            { text: "구분", value: "A" },
+            { text: "요청부서", value: "B" },
+            { text: "요청자", value: "C" }
+        ]
+        customKendo.fn_dropDownList("searchKeyword", searchDataSource, "text", "value");
+        customKendo.fn_textBox(["searchValue"]);
+    },
+
+    gridReload : function(){
+        $("#processMainGrid").data("kendoGrid").dataSource.read();
     },
 
     mainGrid : function (){
@@ -19,7 +44,12 @@ var pcList = {
                     type: "post"
                 },
                 parameterMap: function(data){
-                    data.empSeq = $("#myEmpSeq").val();
+                    data.empSeq = $("#regEmpSeq").val();
+                    data.strDe = $("#strDe").val();
+                    data.endDe = $("#endDe").val();
+                    data.inspectStat = $("#inspectStat").val();
+                    data.searchKeyword = $("#searchKeyword").val();
+                    data.searchValue = $("#searchValue").val();
                     return data;
                 }
             },
@@ -34,7 +64,7 @@ var pcList = {
             pageSize: 10,
         });
 
-        $("#mainGrid").kendoGrid({
+        $("#processMainGrid").kendoGrid({
             dataSource: dataSource,
             sortable: true,
             scrollable: true,
@@ -48,6 +78,16 @@ var pcList = {
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
             },
+            toolbar: [
+                {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="pcList.gridReload()">' +
+                            '	<span class="k-button-text">조회</span>' +
+                            '</button>';
+                    }
+                }
+            ],
             columns: [
                 {
                     title: "번호",

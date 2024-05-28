@@ -13,9 +13,6 @@
     }
 </style>
 
-<input type="hidden" id="myDeptSeq" name="myDeptSeq" value="${loginVO.orgnztId}">
-<input type="hidden" id="myEmpSeq" name="myEmpSeq" value="${loginVO.uniqId}">
-
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -37,23 +34,23 @@
                         <col width="24%">
                     </colgroup>
                     <tr>
-                        <th class="text-center th-color">조회유형</th>
+                        <th class="text-center th-color">요청일시</th>
                         <td>
-                            <input type="text" id="searchDept" style="width: 150px;">
+                            <input type="text" id="strDe" style="width: 45%;"> ~ <input type="text" id="endDe" style="width: 45%;">
                         </td>
                         <th class="text-center th-color">승인상태</th>
                         <td>
-                            <input type="text" id="inspectStat" style="width: 150px;">
+                            <input id="inspectStat" style="width: 150px;">
                         </td>
                         <th class="text-center th-color">검색어</th>
                         <td>
-                            <input type="text" id="searchKeyword" style="width: 30%;"/>
-                            <input type="text" id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){pcList.gridReload()}"/>
+                            <input id="searchKeyword" style="width: 30%;"/>
+                            <input id="searchValue" style="width: 60%;" onkeypress="if(window.event.keyCode==13){pcList.gridReload()}"/>
                         </td>
                     </tr>
                 </table>
 
-                <div id="mainGrid" style="margin:20px 0;"></div>
+                <div id="processMainGrid" style="margin:20px 0;"></div>
             </div>
         </div>
     </div>
