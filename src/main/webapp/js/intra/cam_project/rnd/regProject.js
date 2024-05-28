@@ -330,7 +330,7 @@ var regRnd = {
                 $("#parentPjtNm").val(parentPjtInfo.PJT_NM);
 
             /** 다년이면서 1차년도 프로젝트()가 없을 때 다년 프로젝트 생성 버튼 보이게 */
-            }else if(e.YEAR_CLASS == "M"){
+            }else if(e.YEAR_CLASS == "M" && e.PJT_CD != null){
                 $("#nextPjtBtn").show();
                 $("#mYearTr").show();
             }
