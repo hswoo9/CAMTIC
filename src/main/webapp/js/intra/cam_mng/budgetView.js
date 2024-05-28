@@ -71,7 +71,7 @@ var bgView = {
                     if($("#status").val() != "incp" && $("#status").val() != "re"){
                         data.temp = 2;
 
-                        if($("#payAppType").val() == "4"){
+                        if($("#payAppType").val() == "4" || $("#payAppType").val() == "3"){
                             data.temp = 1;
                         }
                     }else{

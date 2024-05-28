@@ -1,5 +1,6 @@
 package egovframework.com.devjitsu.inside.certificate.service.impl;
 
+import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.certificate.repository.CertificateRepository;
 import egovframework.com.devjitsu.inside.certificate.service.CertificateService;
@@ -24,6 +25,8 @@ public class CertificateServiceImpl implements CertificateService {
 
     @Autowired
     private MenuManagementService menuManagementService;
+    @Autowired
+    private CampusRepository campusRepository;
 
 
     @Override
@@ -129,5 +132,9 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public void setReqCert(Map<String, Object> params) {
         certificateRepository.setReqCert(params);
+
+        params.put("type", "증명서");
+        params.put("frKey", params.get("userProofSn"));
+        campusRepository.updPsStatus(params);
     }
 }
