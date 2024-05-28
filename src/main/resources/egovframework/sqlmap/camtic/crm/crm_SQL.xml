@@ -1595,4 +1595,13 @@
             FR_KEY = #{mouArgSn}
         AND file_cd = 'crm'
     </select>
+
+    <select id="getCustomerCondition" parameterType="map" resultType="map">
+        /*getCustomerCondition*/
+        SELECT AA.*, COUNT(CRM_NATION) AS CNT FROM
+            (
+                SELECT A.*, SUBSTRING_INDEX(A.CRM_LOC, " ", 1) AS CRM_NATION FROM CAM_CRM.DJ_CRM_INFO A
+            ) AA
+        GROUP BY CRM_NATION
+    </select>
 </mapper>

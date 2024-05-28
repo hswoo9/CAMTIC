@@ -66,4 +66,6 @@ public interface CrmService {
     void setMouCrmSnDel(Map<String, Object> params);
     Map<String, Object> getMouArgInfo(Map<String, Object> params);
     List<Map<String, Object>> getMouAgrFileInfo(Map<String, Object> params);
+
+    List<Map<String, Object>> getCustomerCondition();
 }

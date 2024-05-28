@@ -819,6 +819,7 @@ public class CrmController {
 
         model.addAttribute("loginVO", loginVO);
 
+        model.addAttribute("crmData", crmService.getCustomerCondition());
         return "/cam_crm/customerCondition";
     }
 

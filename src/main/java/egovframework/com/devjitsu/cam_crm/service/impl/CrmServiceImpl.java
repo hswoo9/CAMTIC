@@ -985,4 +985,9 @@ public class CrmServiceImpl implements CrmService {
         }
         return txt;
     }
+
+    @Override
+    public List<Map<String, Object>> getCustomerCondition() {
+        return crmRepository.getCustomerCondition();
+    }
 }
