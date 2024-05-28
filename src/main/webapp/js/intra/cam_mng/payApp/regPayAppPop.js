@@ -2610,7 +2610,9 @@ var regPay = {
                         if($("#reqType").val() == "claimExnp" || $("#reqType").val() == "claim") {
                             console.log("d")
                             opener.parent.purcUserAppList.gridReload();
-                        } else {
+                        }else if($("#apprMngStat").val() == "M"){
+                            opener.parent.paymentMngList.gridReload();
+                        }else{
                             opener.parent.paymentList.gridReload();
                         }
                     }else{
