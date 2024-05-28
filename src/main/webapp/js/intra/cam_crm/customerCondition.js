@@ -6,5 +6,9 @@ var customerCondition = {
         dropDownDataSource : "",
     },
 
+    fn_defaultScript : function (){
+
+    }
+
 
 }

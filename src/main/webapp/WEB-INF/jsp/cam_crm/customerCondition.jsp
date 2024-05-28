@@ -26,8 +26,27 @@
         </div>
         <div class="panel-body">
             <div>
-
-                <div id="mainGrid" style="margin:20px 0;"></div>
+                <div style="font-weight: bold">◎ 지역별 고객현황</div>
+                <table class="totalTable table table-bordered" style="margin-bottom: 0px">
+                    <thead>
+                    <colgroup>
+                        <col width="16%">
+                        <col width="16%">
+                        <col width="16%">
+                        <col width="16%">
+                        <col width="16%">
+                        <col width="16%">
+                    </colgroup>
+                    <tr>
+                        <th>지역명</th>
+                        <th>건수</th>
+                        <th>지역명</th>
+                        <th>건수</th>
+                        <th>지역명</th>
+                        <th>건수</th>
+                    </tr>
+                    
+                </table>
             </div>
         </div>
     </div>
