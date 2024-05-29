@@ -24,8 +24,8 @@
                                     <input id="applyMonth" style="width: 120px; margin-left: 10px;">
                                 </div>
                                 <div>
-                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="">
-                                        <span>검색</span>
+                                    <button class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="monthAttendStat.attendPrintPop();">
+                                        <span>인쇄</span>
                                     </button>
                                 </div>
                             </div>

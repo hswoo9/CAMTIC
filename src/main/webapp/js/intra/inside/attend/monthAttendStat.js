@@ -5,19 +5,6 @@ var monthAttendStat = {
     },
 
     fn_pageSet: function(){
-        /** 조회기간 및 제목 설정 */
-        monthAttendStat.fn_datePickerSet();
-    },
-
-    fn_dataSet: function(){
-        monthAttendStat.fn_personalStatSet();
-
-        monthAttendStat.fn_deptStatSet();
-
-        monthAttendStat.fn_allStatSet();
-    },
-
-    fn_datePickerSet: function(){
         customKendo.fn_datePicker("applyMonth", 'year', "yyyy-MM", new Date());
         $("#applyMonth").attr("readonly", true);
         $("#applyMonth").data("kendoDatePicker").bind("change", function(){
@@ -28,6 +15,14 @@ var monthAttendStat = {
             monthAttendStat.fn_dataSet();
         })
         $("#applyMonth").data("kendoDatePicker").trigger("change");
+    },
+
+    fn_dataSet: function(){
+        monthAttendStat.fn_personalStatSet();
+
+        monthAttendStat.fn_deptStatSet();
+
+        monthAttendStat.fn_allStatSet();
     },
 
     fn_allStatSet: function(){
@@ -114,5 +109,13 @@ var monthAttendStat = {
             html += '</tr>';
         }
         $("#personalStatTable").html(html);
+    },
+
+    attendPrintPop : function() {
+        const applyMonth = $("#applyMonth").val();
+        let url = "/attend/pop/attendPrintPop.do?applyMonth="+applyMonth;
+        const name = "attendPrintPop";
+        const option = "width=965, height=900, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no";
+        window.open(url, name, option);
     }
 }
