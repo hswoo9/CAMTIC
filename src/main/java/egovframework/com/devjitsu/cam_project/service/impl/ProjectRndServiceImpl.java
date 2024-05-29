@@ -12,8 +12,10 @@ import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.doc.approval.repository.ApprovalRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
 import egovframework.com.devjitsu.gw.user.repository.UserRepository;
+import egovframework.com.devjitsu.system.service.MenuManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -50,6 +52,12 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Autowired
     private PurcRepository purcRepository;
+
+    @Autowired
+    private MenuManagementService menuManagementService;
+
+    @Autowired
+    private ApprovalRepository approvalRepository;
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
@@ -527,6 +535,30 @@ public class ProjectRndServiceImpl implements ProjectRndService {
                 map.put("docId", params.get("docId"));
                 projectRepository.setFileDocNm(map);
             }
+        }
+
+        /** 승인함 */
+        if("100".equals(docSts) || "101".equals(docSts)){
+            /** 상신자 정보 조회 */
+            Map<String, Object> result = approvalRepository.getDraftEmpSeq(params);
+
+            params.put("authorityGroupId", "28");
+            List<Map<String, Object>> authUser = menuManagementService.getAuthorityGroupUserList(params);
+            String recEmpSeq = "|";
+            for(Map<String, Object> map : authUser){
+                recEmpSeq += map.get("EMP_SEQ") + "|";
+            }
+
+            params.put("sdEmpSeq", result.get("DRAFT_EMP_SEQ"));           // 요청자 사번
+            params.put("SND_EMP_NM", result.get("DRAFT_EMP_NAME"));        // 요청자 성명
+            params.put("SND_DEPT_SEQ", result.get("DRAFT_DEPT_SEQ"));      // 요청자 부서
+            params.put("SND_DEPT_NM", result.get("DRAFT_DEPT_NAME"));      // 요청자 부서
+            params.put("recEmpSeq", recEmpSeq);              // 승인자
+            params.put("ntUrl", "/setManagement/projectCorpMng.do");   // url
+            params.put("frKey", approKey);
+            params.put("psType", "프로젝트 수주승인요청");
+
+            commonRepository.setPsCheck(params);
         }
     }
 

@@ -819,8 +819,15 @@ public class CrmController {
 
         model.addAttribute("loginVO", loginVO);
 
-        model.addAttribute("crmData", crmService.getCustomerCondition());
+//        model.addAttribute("crmData", crmService.getCustomerCondition());
         return "/cam_crm/customerCondition";
+    }
+
+    @RequestMapping("/crm/getCustomerCondition.do")
+    public String getCustomerCondition(Model model){
+        model.addAttribute("list", crmService.getCustomerCondition());
+        model.addAttribute("list2", crmService.getCustomerIndustryCondition());
+        return "jsonView";
     }
 
     @RequestMapping("/crm/variousCondition.do")

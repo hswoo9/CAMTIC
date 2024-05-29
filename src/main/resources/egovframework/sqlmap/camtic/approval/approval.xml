@@ -1508,7 +1508,7 @@
     <select id="getDraftEmpSeq" parameterType="map" resultType="map">
         /* getDraftEmpSeq */
         SELECT
-            DRAFT_EMP_SEQ
+            DRAFT_EMP_SEQ, DRAFT_EMP_NAME, DRAFT_DEPT_SEQ, DRAFT_DEPT_NAME
         FROM
             DJ_CAMTIC.A_DOC_INFO DI
         WHERE
