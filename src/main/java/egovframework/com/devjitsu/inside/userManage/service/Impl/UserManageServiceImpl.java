@@ -2,9 +2,12 @@ package egovframework.com.devjitsu.inside.userManage.service.Impl;
 
 import com.google.common.hash.Hashing;
 import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
+import egovframework.com.devjitsu.doc.approval.repository.ApprovalRepository;
 import egovframework.com.devjitsu.inside.userManage.repository.UserManageRepository;
 import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
+import egovframework.com.devjitsu.system.service.MenuManagementService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -36,6 +39,11 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Autowired
     private CommonRepository commonRepository;
+
+    @Autowired
+    private MenuManagementService menuManagementService;
+    @Autowired
+    private CampusRepository campusRepository;
 
     @Override
     public Map<String, Object> getUserPersonnelRecordList(Map<String, Object> map) {
@@ -264,6 +272,25 @@ public class UserManageServiceImpl implements UserManageService {
                 userManageRepository.setInScoreFileNoUpd(fileInsMap);
             }
         }
+
+        /** 승인함 */
+        params.put("authorityGroupId", "17");
+        List<Map<String, Object>> authUser = menuManagementService.getAuthorityGroupUserList(params);
+        String recEmpSeq = "|";
+        for(Map<String, Object> map : authUser){
+            recEmpSeq += map.get("EMP_SEQ") + "|";
+        }
+
+        params.put("sdEmpSeq", params.get("EMP_SEQ"));           // 요청자 사번
+        params.put("SND_EMP_NM", params.get("EMP_NAME"));        // 요청자 성명
+        params.put("SND_DEPT_SEQ", params.get("regOrgnztId"));      // 요청자 부서
+        params.put("SND_DEPT_NM", params.get("regOrgnztNm"));      // 요청자 부서
+        params.put("recEmpSeq", recEmpSeq);              // 승인자
+        params.put("ntUrl", "/Inside/userInfoMod.do");   // url
+        params.put("frKey", params.get("educationalId"));
+        params.put("psType", "인사정보변경신청");
+
+        commonRepository.setPsCheck(params);
     }
 
     @Override
@@ -415,6 +442,10 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public void setUpdateUserInfoModY(Map<String,Object> map) {
         userManageRepository.setUpdateUserInfoModY(map);
+
+        map.put("type", "인사정보변경신청");
+        map.put("frKey", map.get("ID"));
+        campusRepository.updPsStatus(map);
     }
     @Override
     public void setUpdateUserInfoModN(Map<String,Object> map) {
@@ -753,6 +784,24 @@ public class UserManageServiceImpl implements UserManageService {
     public void setEduDeleteTmp(Map<String, Object> map) {
             userManageRepository.setEduDeleteTmp(map);
 
+            /** 승인함 */
+            map.put("authorityGroupId", "17");
+            List<Map<String, Object>> authUser = menuManagementService.getAuthorityGroupUserList(map);
+            String recEmpSeq = "|";
+            for(Map<String, Object> map2 : authUser){
+                recEmpSeq += map2.get("EMP_SEQ") + "|";
+            }
+
+            map.put("sdEmpSeq", map.get("EMP_SEQ"));           // 요청자 사번
+            map.put("SND_EMP_NM", map.get("EMP_NAME"));        // 요청자 성명
+            map.put("SND_DEPT_SEQ", map.get("regOrgnztId"));      // 요청자 부서
+            map.put("SND_DEPT_NM", map.get("regOrgnztNm"));      // 요청자 부서
+            map.put("recEmpSeq", recEmpSeq);              // 승인자
+            map.put("ntUrl", "/Inside/userInfoMod.do");   // url
+            map.put("frKey", map.get("educationalId"));
+            map.put("psType", "인사정보변경신청");
+
+            commonRepository.setPsCheck(map);
     }
 
     //인사기록카드 - 학력사항 삭제

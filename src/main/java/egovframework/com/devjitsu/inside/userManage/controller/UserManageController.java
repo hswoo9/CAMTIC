@@ -1152,6 +1152,9 @@ public class UserManageController {
         params.put("regDeptName", login.getDeptNm());
         params.put("regTeamSeq", login.getTeamId());
         params.put("regTeamName", login.getTeamNm());
+        params.put("regOrgnztId", login.getOrgnztId());
+        params.put("regOrgnztNm", login.getOrgnztNm());
+
 
         params.putAll(map);
         switch(params.get("type").toString()) {
@@ -1766,6 +1769,16 @@ public class UserManageController {
         System.out.println(eduDataList);
 
         for (Map<String, Object> eduData : eduDataList) {
+            eduData.put("EMP_SEQ", login.getUniqId());
+            eduData.put("EMP_NAME", login.getName());
+
+            eduData.put("regErpEmpCd", login.getErpEmpCd());
+            eduData.put("regDeptSeq", login.getDeptId());
+            eduData.put("regDeptName", login.getDeptNm());
+            eduData.put("regTeamSeq", login.getTeamId());
+            eduData.put("regTeamName", login.getTeamNm());
+            eduData.put("regOrgnztId", login.getOrgnztId());
+            eduData.put("regOrgnztNm", login.getOrgnztNm());
             userManageService.setEduDeleteTmp(eduData);
         }
 
