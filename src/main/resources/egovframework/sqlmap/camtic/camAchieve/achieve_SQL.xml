@@ -10,10 +10,16 @@
 
     <select id="getRndPjtCalc" parameterType="map" resultType="map">
         /*getRndPjtCalc*/
-        SELECT A.PJT_AMT, B.TOT_RES_COST AS EXP_AMT
+        SELECT A.PJT_AMT, B.TOT_RES_COST AS EXP_AMT, B.STATUS
         FROM
-            CAM_PJT_MNG.DJ_PROJECT A
-        LEFT JOIN CAM_PJT_MNG.DJ_PJT_RND B
+        CAM_PJT_MNG.DJ_PROJECT A
+        LEFT JOIN (
+            SELECT PJT_SN, TOT_RES_COST, STATUS
+            FROM CAM_PJT_MNG.DJ_PJT_RND
+            UNION
+            SELECT PJT_SN, TOT_RES_COST, STATUS
+            FROM CAM_PJT_MNG.DJ_PJT_UNRND
+        ) B
         ON A.PJT_SN = B.PJT_SN
         WHERE
             (A.BUSN_CLASS = 'S' OR A.BUSN_CLASS = 'R') AND substr(A.STR_DT, 1, 4) = #{year}

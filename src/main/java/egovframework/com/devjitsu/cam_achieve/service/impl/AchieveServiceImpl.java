@@ -65,10 +65,18 @@ public class AchieveServiceImpl implements AchieveService {
         }
 
         for(Map<String, Object> map : rndPjtInfo) {
-            // 연구개발 예상수주
-            expRndAmt += map.get("EXP_AMT") == null ? 0 : Long.parseLong(map.get("EXP_AMT").toString());
-            // 연구개발 수주금액
-            rndAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+            if(map.get("STATUS") != null) {
+                if(map.get("STATUS").toString().equals("100")) {
+                    // 연구개발 수주금액
+                    rndAmt += map.get("PJT_AMT") == null ? 0 : Long.parseLong(map.get("PJT_AMT").toString());
+                } else {
+                    // 연구개발 예상수주
+                    expRndAmt += map.get("EXP_AMT") == null ? 0 : Long.parseLong(map.get("EXP_AMT").toString());
+                }
+            } else {
+                // 연구개발 예상수주
+                expRndAmt += map.get("EXP_AMT") == null ? 0 : Long.parseLong(map.get("EXP_AMT").toString());
+            }
         }
 
         saleRndAmt = achieveRepository.getRndSaleAmt(params);
