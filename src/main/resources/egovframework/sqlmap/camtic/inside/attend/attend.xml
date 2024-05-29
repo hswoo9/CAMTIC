@@ -489,114 +489,170 @@
     <select id="getAttendAllCountMonthly" parameterType="map" resultType="map">
         /* getAttendAllCountMonthly */
         SELECT
-            IFNULL(DATE_FORMAT(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(END_TIME, START_TIME)))), '%H:%m:%s'), '00:00:00') AS AVG_OFFICE_HOUR,
-            (SELECT COUNT(-1) FROM CAM_HR.DJ_EMP_INFO HEI WHERE (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3)) AND WORK_STATUS_CODE = 'Y') AS HUMAN_COUNT,
-            (SELECT IFNULL(COUNT(-1), 0) FROM (SELECT REG_EMP_SEQ FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth} GROUP BY REG_EMP_SEQ) SSVUH) AS HOLIDAY_HUMAN_COUNT,
-            (SELECT COUNT(-1) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth}) AS HOLIDAY_COUNT
-        FROM
+            IFNULL(DATE_FORMAT(SEC_TO_TIME(AVG_OFFICE_HOUR_2), '%H:%i:%s'), '00:00:00') AS AVG_OFFICE_HOUR,
+            COUNT(-1) AS HUMAN_COUNT,
+            (SELECT COUNT(-1) FROM (SELECT SVUH.REG_EMP_SEQ, HEI.DEPT_NAME FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON SVUH.REG_EMP_SEQ = HEI.EMP_SEQ WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth} AND SUBHOLIDAY_CODE_ID != '11' GROUP BY SVUH.REG_EMP_SEQ) SSVUH WHERE SSVUH.DEPT_NAME = RE.DEPT_NAME) AS HOLIDAY_HUMAN_COUNT,
+            (SELECT COUNT(-1) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON SVUH.REG_EMP_SEQ = HEI.EMP_SEQ WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth} AND HEI.DEPT_NAME = RE.DEPT_NAME AND SUBHOLIDAY_CODE_ID != '11') AS HOLIDAY_COUNT,
+            SUM(LATE) AS LATE,
+            SUM(FRI_DAY) AS FRI_DAY,
+            <![CDATA[
+            COUNT(IF(LATE > 0, 1, NULL)) AS LATE_COUNT,
+            COUNT(IF(FRI_DAY > 0, 1, NULL)) AS FRI_DAY_COUNT
+            ]]>
+        FROM (
+            SELECT
+            DEPT_NAME,
+            deptNm,
+            teamNm,
+            EMP_NAME,
+            START_TIME,
+            END_TIME,
+            AVG(TIME_TO_SEC(TIMEDIFF(END_TIME, START_TIME))) AS AVG_OFFICE_HOUR_2,
+                <![CDATA[
+            SUM(IF(START_TIME >= '09:00:00' && START_TIME < '15:00:00', 1, 0)) AS LATE,
+            SUM(IF((START_TIME > '08:00:00' AND START_TIME <= '08:30:00') AND WEEK = '금', 1, 0)) AS FRI_DAY
+                ]]>
+            FROM
             (
-                WITH RECURSIVE DATE_RANGE AS (
-                    SELECT CONCAT(#{applyMonth}, '-01') AS DATES
+            WITH RECURSIVE DATE_RANGE AS (
+            SELECT CONCAT(#{applyMonth}, '-01') AS DATES
 
-                    UNION ALL
+            UNION ALL
 
-                    SELECT DATES + INTERVAL 1 DAY
-                    FROM DATE_RANGE
-                    <![CDATA[
-                    WHERE DATES < CONCAT(#{applyMonth}, '-31')
-                    ]]>
-                )
-                SELECT
-                    HEI.EMP_NAME_KR,
-                    DR.DATES AS START_DATE,
-                    HEI.EMP_NAME_KR AS REG_EMP_NAME,
-                    CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS REG_DEPT_NAME,
-                    CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS REG_TEAM_NAME,
-                    HEI.POSITION_NAME AS REG_POSITION_NAME,
-                    HEI.DUTY_NAME AS REG_DUTY_NAME,
-                    SUBSTR('일월화수목금토', DAYOFWEEK(DR.DATES), 1) AS WEEK,
-                    CONCAT(SUBSTR(RCD.START_TIME,1,2) , ':' , SUBSTR(RCD.START_TIME,3,2) , ':' , SUBSTR(RCD.START_TIME,5,2)) AS START_TIME,
-                    CONCAT(SUBSTR(RCD.END_TIME,1,2) , ':' , SUBSTR(RCD.END_TIME,3,2) , ':' , SUBSTR(RCD.END_TIME,5,2)) AS END_TIME
-                FROM
-                    CAM_HR.DJ_EMP_INFO HEI
-                JOIN
-                    DATE_RANGE DR
-                LEFT JOIN
-                    CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-                LEFT JOIN (
-                    SELECT
-                        CapsNum,
-                        InDate,
-                        MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
-                        MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
-                    FROM CAM_HR.V_CAPS_DATA CD
-                    GROUP BY InDate, CapsNum
-                ) RCD ON RCD.InDate = DATE_FORMAT(DR.DATES, '%Y%m%d') AND HEI.CAPS_NUM = RCD.CapsNum
-                WHERE
-                    (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
-                AND WORK_STATUS_CODE = 'Y'
-                GROUP BY DR.DATES, HEI.EMP_SEQ
+            SELECT DATES + INTERVAL 1 DAY
+            FROM DATE_RANGE
+                        <![CDATA[
+            WHERE DATES < CONCAT(#{applyMonth}, '-31')
+                        ]]>
+                    )
+            SELECT
+            HEI.EMP_SEQ,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HDI.DEPT_NAME ELSE HEI.DEPT_NAME END AS DEPT_NAME,
+            HEI.EMP_NAME_KR AS EMP_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HDI.DEPT_NAME ELSE "" END AS teamNm,
+            CASE WHEN HEI.DUTY_NAME IS NULL THEN IFNULL(HEI.POSITION_NAME, "") ELSE HEI.DUTY_NAME END AS positionNm,
+            HEI.EMP_NAME_KR,
+            DR.DATES AS START_DATE,
+            HEI.EMP_NAME_KR AS REG_EMP_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS REG_DEPT_NAME,
+            CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS REG_TEAM_NAME,
+            HEI.POSITION_NAME AS REG_POSITION_NAME,
+            HEI.DUTY_NAME AS REG_DUTY_NAME,
+            SUBSTR('일월화수목금토', DAYOFWEEK(DR.DATES), 1) AS WEEK,
+            CONCAT(SUBSTR(RCD.START_TIME,1,2) , ':' , SUBSTR(RCD.START_TIME,3,2) , ':' , SUBSTR(RCD.START_TIME,5,2)) AS START_TIME,
+            CONCAT(SUBSTR(RCD.END_TIME,1,2) , ':' , SUBSTR(RCD.END_TIME,3,2) , ':' , SUBSTR(RCD.END_TIME,5,2)) AS END_TIME
+            FROM
+            CAM_HR.DJ_EMP_INFO HEI
+            JOIN
+            DATE_RANGE DR
+            LEFT JOIN
+            CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+            LEFT JOIN (
+            SELECT
+            CapsNum,
+            InDate,
+            MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
+            MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
+            FROM CAM_HR.V_CAPS_DATA CD
+            GROUP BY InDate, CapsNum
+            ) RCD ON RCD.InDate = DATE_FORMAT(DR.DATES, '%Y%m%d') AND HEI.CAPS_NUM = RCD.CapsNum
+            WHERE
+            (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+            AND WORK_STATUS_CODE = 'Y'
+            GROUP BY DR.DATES, HEI.EMP_SEQ
             ) R
-        WHERE START_TIME != '기록 없음' AND END_TIME != '기록 없음'
-        AND timediff(END_TIME, START_TIME) > 0
+            WHERE START_TIME != '기록 없음' AND END_TIME != '기록 없음'
+            AND timediff(END_TIME, START_TIME) > 0
+            GROUP BY EMP_NAME
+        ) RE
     </select>
 
     <select id="getAttendDeptCountMonthly" parameterType="map" resultType="map">
         /* getAttendDeptCountMonthly */
         SELECT
             DEPT_NAME,
-            IFNULL(DATE_FORMAT(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(END_TIME, START_TIME)))), '%H:%m:%s'), '00:00:00') AS AVG_OFFICE_HOUR,
-            (SELECT COUNT(-1) FROM CAM_HR.DJ_EMP_INFO HEI WHERE (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3)) AND WORK_STATUS_CODE = 'Y' AND HEI.DEPT_NAME = R.DEPT_NAME) AS HUMAN_COUNT,
-            (SELECT COUNT(-1) FROM (SELECT SVUH.REG_EMP_SEQ, HEI.DEPT_NAME FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON SVUH.REG_EMP_SEQ = HEI.EMP_SEQ WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth} GROUP BY SVUH.REG_EMP_SEQ) SSVUH WHERE SSVUH.DEPT_NAME = R.DEPT_NAME) AS HOLIDAY_HUMAN_COUNT,
-            (SELECT COUNT(-1) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON SVUH.REG_EMP_SEQ = HEI.EMP_SEQ WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth} AND HEI.DEPT_NAME = R.DEPT_NAME) AS HOLIDAY_COUNT
-        FROM
-            (
-                WITH RECURSIVE DATE_RANGE AS (
-                    SELECT CONCAT(#{applyMonth}, '-01') AS DATES
+            deptNm,
+            teamNm,
+            IFNULL(DATE_FORMAT(SEC_TO_TIME(AVG_OFFICE_HOUR_2), '%H:%i:%s'), '00:00:00') AS AVG_OFFICE_HOUR,
+            COUNT(-1) AS HUMAN_COUNT,
+            (SELECT COUNT(-1) FROM (SELECT SVUH.REG_EMP_SEQ, HEI.DEPT_NAME FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON SVUH.REG_EMP_SEQ = HEI.EMP_SEQ WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth} AND SUBHOLIDAY_CODE_ID != '11' GROUP BY SVUH.REG_EMP_SEQ) SSVUH WHERE SSVUH.DEPT_NAME = RE.DEPT_NAME) AS HOLIDAY_HUMAN_COUNT,
+            (SELECT COUNT(-1) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON SVUH.REG_EMP_SEQ = HEI.EMP_SEQ WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth} AND HEI.DEPT_NAME = RE.DEPT_NAME AND SUBHOLIDAY_CODE_ID != '11') AS HOLIDAY_COUNT,
+            SUM(LATE) AS LATE,
+            SUM(FRI_DAY) AS FRI_DAY,
+            <![CDATA[
+            COUNT(IF(LATE > 0, 1, NULL)) AS LATE_COUNT,
+            COUNT(IF(FRI_DAY > 0, 1, NULL)) AS FRI_DAY_COUNT
+            ]]>
+        FROM (
+            SELECT
+                DEPT_NAME,
+                deptNm,
+                teamNm,
+                EMP_NAME,
+                START_TIME,
+                END_TIME,
+                AVG(TIME_TO_SEC(TIMEDIFF(END_TIME, START_TIME))) AS AVG_OFFICE_HOUR_2,
+                <![CDATA[
+                SUM(IF(START_TIME >= '09:00:00' && START_TIME < '15:00:00', 1, 0)) AS LATE,
+                SUM(IF((START_TIME > '08:00:00' AND START_TIME <= '08:30:00') AND WEEK = '금', 1, 0)) AS FRI_DAY
+                ]]>
+            FROM
+                (
+                    WITH RECURSIVE DATE_RANGE AS (
+                        SELECT CONCAT(#{applyMonth}, '-01') AS DATES
 
-                    UNION ALL
+                        UNION ALL
 
-                    SELECT DATES + INTERVAL 1 DAY
-                    FROM DATE_RANGE
-                    <![CDATA[
-                    WHERE DATES < CONCAT(#{applyMonth}, '-31')
-                    ]]>
-                )
-                SELECT
-                    HEI.DEPT_NAME,
-                    HEI.EMP_NAME_KR,
-                    DR.DATES AS START_DATE,
-                    HEI.EMP_NAME_KR AS REG_EMP_NAME,
-                    CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS REG_DEPT_NAME,
-                    CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS REG_TEAM_NAME,
-                    HEI.POSITION_NAME AS REG_POSITION_NAME,
-                    HEI.DUTY_NAME AS REG_DUTY_NAME,
-                    SUBSTR('일월화수목금토', DAYOFWEEK(DR.DATES), 1) AS WEEK,
-                    CONCAT(SUBSTR(RCD.START_TIME,1,2) , ':' , SUBSTR(RCD.START_TIME,3,2) , ':' , SUBSTR(RCD.START_TIME,5,2)) AS START_TIME,
-                    CONCAT(SUBSTR(RCD.END_TIME,1,2) , ':' , SUBSTR(RCD.END_TIME,3,2) , ':' , SUBSTR(RCD.END_TIME,5,2)) AS END_TIME
-                FROM
-                    CAM_HR.DJ_EMP_INFO HEI
-                JOIN
-                    DATE_RANGE DR
-                LEFT JOIN
-                    CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-                LEFT JOIN (
+                        SELECT DATES + INTERVAL 1 DAY
+                        FROM DATE_RANGE
+                        <![CDATA[
+                        WHERE DATES < CONCAT(#{applyMonth}, '-31')
+                        ]]>
+                    )
                     SELECT
-                        CapsNum,
-                        InDate,
-                        MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
-                        MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
-                    FROM CAM_HR.V_CAPS_DATA CD
-                    GROUP BY InDate, CapsNum
-                ) RCD ON RCD.InDate = DATE_FORMAT(DR.DATES, '%Y%m%d') AND HEI.CAPS_NUM = RCD.CapsNum
-                WHERE
-                    (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
-                AND WORK_STATUS_CODE = 'Y'
-                GROUP BY DR.DATES, HEI.EMP_SEQ
-            ) R
-        WHERE START_TIME != '기록 없음' AND END_TIME != '기록 없음'
-          AND timediff(END_TIME, START_TIME) > 0
+                        HEI.EMP_SEQ,
+                        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HDI.DEPT_NAME ELSE HEI.DEPT_NAME END AS DEPT_NAME,
+                        HEI.EMP_NAME_KR AS EMP_NAME,
+                        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
+                        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HDI.DEPT_NAME ELSE "" END AS teamNm,
+                        CASE WHEN HEI.DUTY_NAME IS NULL THEN IFNULL(HEI.POSITION_NAME, "") ELSE HEI.DUTY_NAME END AS positionNm,
+                        HEI.EMP_NAME_KR,
+                        DR.DATES AS START_DATE,
+                        HEI.EMP_NAME_KR AS REG_EMP_NAME,
+                        CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS REG_DEPT_NAME,
+                        CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS REG_TEAM_NAME,
+                        HEI.POSITION_NAME AS REG_POSITION_NAME,
+                        HEI.DUTY_NAME AS REG_DUTY_NAME,
+                        SUBSTR('일월화수목금토', DAYOFWEEK(DR.DATES), 1) AS WEEK,
+                        CONCAT(SUBSTR(RCD.START_TIME,1,2) , ':' , SUBSTR(RCD.START_TIME,3,2) , ':' , SUBSTR(RCD.START_TIME,5,2)) AS START_TIME,
+                        CONCAT(SUBSTR(RCD.END_TIME,1,2) , ':' , SUBSTR(RCD.END_TIME,3,2) , ':' , SUBSTR(RCD.END_TIME,5,2)) AS END_TIME
+                    FROM
+                        CAM_HR.DJ_EMP_INFO HEI
+                    JOIN
+                        DATE_RANGE DR
+                    LEFT JOIN
+                        CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+                    LEFT JOIN (
+                        SELECT
+                            CapsNum,
+                            InDate,
+                            MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
+                            MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
+                        FROM CAM_HR.V_CAPS_DATA CD
+                        GROUP BY InDate, CapsNum
+                    ) RCD ON RCD.InDate = DATE_FORMAT(DR.DATES, '%Y%m%d') AND HEI.CAPS_NUM = RCD.CapsNum
+                    WHERE
+                        (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
+                    AND WORK_STATUS_CODE = 'Y'
+                    GROUP BY DR.DATES, HEI.EMP_SEQ
+                ) R
+            WHERE START_TIME != '기록 없음' AND END_TIME != '기록 없음'
+              AND timediff(END_TIME, START_TIME) > 0
+            GROUP BY EMP_NAME
+        ) RE
         GROUP BY DEPT_NAME
+        ORDER BY deptNm, teamNm
     </select>
 
     <select id="getAttendPersonalCountMonthly" parameterType="map" resultType="map">
@@ -606,8 +662,12 @@
             deptNm,
             teamNm,
             positionNm,
-            IFNULL(DATE_FORMAT(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(END_TIME, START_TIME)))), '%H:%m:%s'), '00:00:00') AS AVG_OFFICE_HOUR,
-            (SELECT COUNT(-1) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON SVUH.REG_EMP_SEQ = HEI.EMP_SEQ WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth} AND SVUH.REG_EMP_SEQ = R.EMP_SEQ) AS HOLIDAY_COUNT
+            IFNULL(DATE_FORMAT(SEC_TO_TIME(AVG(TIME_TO_SEC(TIMEDIFF(END_TIME, START_TIME)))), '%H:%i:%s'), '00:00:00') AS AVG_OFFICE_HOUR,
+            (SELECT COUNT(-1) FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON SVUH.REG_EMP_SEQ = HEI.EMP_SEQ WHERE DATE_FORMAT(SVUH.SUBHOLIDAY_ST_DT, '%Y-%m') = #{applyMonth} AND SVUH.REG_EMP_SEQ = R.EMP_SEQ) AS HOLIDAY_COUNT,
+            <![CDATA[
+            SUM(IF(START_TIME >= '09:00:00' && START_TIME < '15:00:00', 1, 0)) AS LATE,
+            SUM(IF((START_TIME > '08:00:00' AND START_TIME <= '08:30:00') AND WEEK = '금', 1, 0)) AS FRI_DAY
+            ]]>
         FROM
             (
                 WITH RECURSIVE DATE_RANGE AS (
@@ -625,13 +685,14 @@
                     HEI.EMP_SEQ,
                     HEI.EMP_NAME_KR AS EMP_NAME,
                     CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS deptNm,
-                    CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS teamNm,
+                    CASE WHEN HDI.DEPT_LEVEL = 2 THEN HDI.DEPT_NAME ELSE "" END AS teamNm,
                     CASE WHEN HEI.DUTY_NAME IS NULL THEN IFNULL(HEI.POSITION_NAME, "") ELSE HEI.DUTY_NAME END AS positionNm,
                     HEI.EMP_NAME_KR,
                     DR.DATES AS START_DATE,
                     HEI.EMP_NAME_KR AS REG_EMP_NAME,
                     CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS REG_DEPT_NAME,
                     CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_NAME ELSE "" END AS REG_TEAM_NAME,
+                    HEI.POSITION_CODE AS POSITION_CODE,
                     HEI.POSITION_NAME AS REG_POSITION_NAME,
                     HEI.DUTY_NAME AS REG_DUTY_NAME,
                     SUBSTR('일월화수목금토', DAYOFWEEK(DR.DATES), 1) AS WEEK,
@@ -660,6 +721,7 @@
         WHERE START_TIME != '기록 없음' AND END_TIME != '기록 없음'
           AND timediff(END_TIME, START_TIME) > 0
         GROUP BY EMP_NAME
+        ORDER BY deptNm, teamNm, REG_DUTY_NAME DESC, POSITION_CODE, EMP_NAME_KR
     </select>
 
 <!--    휴가 근로 신청-->

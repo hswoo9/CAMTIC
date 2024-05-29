@@ -10,10 +10,11 @@ var monthAttendStat = {
     },
 
     fn_dataSet: function(){
-        /** 전체 현황 표 */
-        monthAttendStat.fn_allStatSet();
-        monthAttendStat.fn_deptStatSet();
         monthAttendStat.fn_personalStatSet();
+
+        monthAttendStat.fn_deptStatSet();
+
+        monthAttendStat.fn_allStatSet();
     },
 
     fn_datePickerSet: function(){
@@ -48,10 +49,10 @@ var monthAttendStat = {
         html += '   <td style="text-align: center;">0</td>';
         html += '   <td style="text-align: center;">0</td>';
         html += '   <td style="text-align: center;">0</td>';
-        html += '   <td style="text-align: center;">0</td>';
-        html += '   <td style="text-align: center;">0</td>';
-        html += '   <td style="text-align: center;">0</td>';
-        html += '   <td style="text-align: center;">0</td>';
+        html += '   <td style="text-align: center;">'+allCountMonthly.LATE_COUNT+'</td>';
+        html += '   <td style="text-align: center;">'+allCountMonthly.LATE+'</td>';
+        html += '   <td style="text-align: center;">'+allCountMonthly.FRI_DAY_COUNT+'</td>';
+        html += '   <td style="text-align: center;">'+allCountMonthly.FRI_DAY+'</td>';
         html += '</tr>';
         $("#allStatTable").html(html);
     },
@@ -67,20 +68,21 @@ var monthAttendStat = {
 
         let html = "";
         for(let i=0; i<deptCountMonthly.length; i++){
+            const deptMap = deptCountMonthly[i];
             html += '<tr>';
-            html += '   <td style="text-align: center;">'+deptCountMonthly[i].DEPT_NAME+'</td>';
-            html += '   <td style="text-align: center;">'+deptCountMonthly[i].HUMAN_COUNT+'</td>';
-            html += '   <td style="text-align: center;">'+deptCountMonthly[i].AVG_OFFICE_HOUR+'</td>';
-            html += '   <td style="text-align: center;">'+deptCountMonthly[i].HOLIDAY_HUMAN_COUNT+'</td>';
-            html += '   <td style="text-align: center;">'+deptCountMonthly[i].HOLIDAY_COUNT+'</td>';
+            html += '   <td style="text-align: center;">'+deptMap.DEPT_NAME+'</td>';
+            html += '   <td style="text-align: center;">'+deptMap.HUMAN_COUNT+'</td>';
+            html += '   <td style="text-align: center;">'+deptMap.AVG_OFFICE_HOUR+'</td>';
+            html += '   <td style="text-align: center;">'+deptMap.HOLIDAY_HUMAN_COUNT+'</td>';
+            html += '   <td style="text-align: center;">'+deptMap.HOLIDAY_COUNT+'</td>';
             html += '   <td style="text-align: center;">0</td>';
             html += '   <td style="text-align: center;">0</td>';
             html += '   <td style="text-align: center;">0</td>';
             html += '   <td style="text-align: center;">0</td>';
-            html += '   <td style="text-align: center;">0</td>';
-            html += '   <td style="text-align: center;">0</td>';
-            html += '   <td style="text-align: center;">0</td>';
-            html += '   <td style="text-align: center;">0</td>';
+            html += '   <td style="text-align: center;">'+deptMap.LATE_COUNT+'</td>';
+            html += '   <td style="text-align: center;">'+deptMap.LATE+'</td>';
+            html += '   <td style="text-align: center;">'+deptMap.FRI_DAY_COUNT+'</td>';
+            html += '   <td style="text-align: center;">'+deptMap.FRI_DAY+'</td>';
             html += '</tr>';
         }
         $("#deptStatTable").html(html);
@@ -93,21 +95,22 @@ var monthAttendStat = {
         let data = { applyMonth: applyMonth };
         let personalCountMonthly = customKendo.fn_customAjax(url, data).list;
 
-        console.log(personalCountMonthly);
+        console.log("personalCountMonthly", personalCountMonthly);
 
         let html = "";
         for(let i=0; i<personalCountMonthly.length; i++){
+            const personMap = personalCountMonthly[i];
             html += '<tr>';
-            html += '   <td style="text-align: center;">'+personalCountMonthly[i].deptNm+'</td>';
-            html += '   <td style="text-align: center;">'+personalCountMonthly[i].teamNm+'</td>';
-            html += '   <td style="text-align: center;">'+personalCountMonthly[i].EMP_NAME+'</td>';
-            html += '   <td style="text-align: center;">'+personalCountMonthly[i].positionNm+'</td>';
-            html += '   <td style="text-align: center;">'+personalCountMonthly[i].AVG_OFFICE_HOUR+'</td>';
-            html += '   <td style="text-align: center;">'+personalCountMonthly[i].HOLIDAY_COUNT+'</td>';
+            html += '   <td style="text-align: center;">'+personMap.deptNm+'</td>';
+            html += '   <td style="text-align: center;">'+personMap.teamNm+'</td>';
+            html += '   <td style="text-align: center;">'+personMap.EMP_NAME+'</td>';
+            html += '   <td style="text-align: center;">'+personMap.positionNm+'</td>';
+            html += '   <td style="text-align: center;">'+personMap.AVG_OFFICE_HOUR+'</td>';
+            html += '   <td style="text-align: center;">'+personMap.HOLIDAY_COUNT+'</td>';
             html += '   <td style="text-align: center;">0</td>';
             html += '   <td style="text-align: center;">0</td>';
-            html += '   <td style="text-align: center;">0</td>';
-            html += '   <td style="text-align: center;">0</td>';
+            html += '   <td style="text-align: center;">'+personMap.LATE+'</td>';
+            html += '   <td style="text-align: center;">'+personMap.FRI_DAY+'</td>';
             html += '</tr>';
         }
         $("#personalStatTable").html(html);

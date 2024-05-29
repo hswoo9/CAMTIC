@@ -108,7 +108,7 @@ public class LoginController {
 
             if(userData != null){
 
-                if(userData.get("DIVISION").equals("9999")){
+                if(userData.containsKey("DIVISION") && userData.get("DIVISION").equals("9999")){
                     model.addAttribute("message", "퇴사한 계정입니다.");
                     if(params.containsKey("deviceType")){
                         return "forward:m/login.do";

@@ -135,7 +135,11 @@ var normalArticleDetail = {
 	},
 
 	listPageMove : function(){
-		var url = '/board/normalBoardList.do?boardId='+ normalArticleDetail.global.articleDetailInfo.BOARD_ID + "&page=" + $("#page").val() + "&searchColumn=" + $("#searchColumn").val() + "&searchContent=" + $("#searchContent").val() + "&searchCategory=" + $("#searchCategory").val();
+		var url = '/board/normalBoardList.do?boardId='+ normalArticleDetail.global.articleDetailInfo.BOARD_ID;
+
+		if($("#page").val() != ""){
+			url += "&page=" + $("#page").val() + "&searchColumn=" + $("#searchColumn").val() + "&searchContent=" + $("#searchContent").val() + "&searchCategory=" + $("#searchCategory").val();
+		}
 
 		open_in_frame(url);
 	},
