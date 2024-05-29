@@ -1604,4 +1604,15 @@
             ) AA
         GROUP BY CRM_NATION
     </select>
+
+    <select id="getCustomerIndustryCondition" parameterType="map" resultType="map">
+        /*getCustomerIndustryCondition*/
+        SELECT
+            AA.MAIN_CODE, COUNT(AA.MAIN_CODE) AS CNT FROM
+            (
+                SELECT A.*, IFNULL(B.MAIN_CODE, "") AS MAIN_CODE FROM CAM_CRM.DJ_CRM_INFO A
+                LEFT JOIN CAM_CRM.DJ_CRM_INDUSTRY B ON A.CRM_SN = B.CRM_SN
+            ) AA
+        GROUP BY AA.MAIN_CODE
+    </select>
 </mapper>

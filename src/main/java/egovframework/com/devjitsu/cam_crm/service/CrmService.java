@@ -68,4 +68,6 @@ public interface CrmService {
     List<Map<String, Object>> getMouAgrFileInfo(Map<String, Object> params);
 
     List<Map<String, Object>> getCustomerCondition();
+
+    List<Map<String, Object>> getCustomerIndustryCondition();
 }
