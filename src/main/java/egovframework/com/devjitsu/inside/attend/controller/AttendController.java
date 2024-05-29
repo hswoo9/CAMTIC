@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.inside.attend.controller;
 
+import com.google.gson.Gson;
+import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.gw.user.service.UserService;
 import egovframework.com.devjitsu.inside.attend.service.AttendService;
@@ -27,6 +29,9 @@ public class AttendController {
 
     @Autowired
     private AttendService attendService;
+
+    @Autowired
+    private CommonCodeService commonCodeService;
 
     /** 개인근태현황 페이지 */
     @RequestMapping("/Inside/personAttendList.do")
@@ -145,6 +150,28 @@ public class AttendController {
         model.addAttribute("toDate", getCurrentDateTime());
         model.addAttribute("loginVO", login);
         return "inside/attend/monthAttendStat";
+    }
+
+    @RequestMapping("/attend/pop/attendPrintPop.do")
+    public String attendPrintPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        String hwpUrl = "";
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1")){
+            hwpUrl = commonCodeService.getHwpCtrlUrl("l_hwpUrl");
+        }else{
+            hwpUrl = commonCodeService.getHwpCtrlUrl("s_hwpUrl");
+        }
+
+        params.put("hwpUrl", hwpUrl);
+        model.addAttribute("hwpUrl", hwpUrl);
+        model.addAttribute("params", new Gson().toJson(params));
+        model.addAttribute("data", params);
+
+
+        return "popup/inside/attend/attendPrintPop";
     }
 
     @RequestMapping("/inside/getAttendAllCountMonthly")
