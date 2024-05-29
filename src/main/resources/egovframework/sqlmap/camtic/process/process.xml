@@ -12,7 +12,7 @@
             FROM
                 CAM_COMMON.DJ_PS_CHECK A
             WHERE
-                RCV_EMP_SEQ LIKE CONCAT('|', #{empSeq}, '|')
+                RCV_EMP_SEQ LIKE CONCAT('%|', #{empSeq}, '|%')
             AND DATE_FORMAT(A.REG_DT, '%Y-%m-%d') BETWEEN #{strDe} AND  #{endDe}
             <if test='!"".equals(inspectStat)'>
                 AND PS_STAT = #{inspectStat}
