@@ -11,6 +11,7 @@ import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectRndRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectRndService;
 import egovframework.com.devjitsu.cam_purc.repository.PurcRepository;
+import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.doc.approval.repository.ApprovalRepository;
 import egovframework.com.devjitsu.g20.repository.G20Repository;
@@ -58,6 +59,9 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
     @Autowired
     private ApprovalRepository approvalRepository;
+
+    @Autowired
+    private CampusRepository campusRepository;
 
     @Override
     public void setSubjectInfo(Map<String, Object> params) {
@@ -412,6 +416,7 @@ public class ProjectRndServiceImpl implements ProjectRndService {
 
         projectRndRepository.insPartRateDetBef(map);
 
+        setPsCheck(params, "32", "/inside/participationRateList.do", "참여율요청", map.get("partRateVerSn").toString());
     }
 
     @Override
@@ -444,6 +449,8 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     public void setReqPartRateStatus(Map<String, Object> params) {
         projectRndRepository.updReqPartRateStatus(params);
         projectRndRepository.updReqPartRateVerToReqPartRate(params);
+
+        setPsAppr(params, params.get("partRateVerSn").toString());
     }
 
     @Override
@@ -809,6 +816,34 @@ public class ProjectRndServiceImpl implements ProjectRndService {
     @Override
     public void delDevSch(Map<String, Object> params) {
         projectRndRepository.delDevSch(params);
+    }
+
+    private void setPsCheck(Map<String, Object> params, String menuGroupId, String url, String type, String pk) {
+        /** 승인함 */
+        params.put("authorityGroupId", menuGroupId);
+        List<Map<String, Object>> authUser = menuManagementService.getAuthorityGroupUserList(params);
+        String recEmpSeq = "|";
+        for(Map<String, Object> map : authUser){
+            recEmpSeq += map.get("EMP_SEQ") + "|";
+        }
+
+        params.put("sdEmpSeq", params.get("regEmpSeq"));           // 요청자 사번
+        params.put("SND_EMP_NM", params.get("regEmpName"));        // 요청자 성명
+        params.put("SND_DEPT_SEQ", params.get("regOrgnztId"));      // 요청자 부서
+        params.put("SND_DEPT_NM", params.get("regOrgnztNm"));      // 요청자 부서
+        params.put("recEmpSeq", recEmpSeq);              // 승인자
+        params.put("ntUrl", url);   // url
+        params.put("frKey", pk);
+        params.put("psType", type);
+
+        commonRepository.setPsCheck(params);
+    }
+
+    private void setPsAppr(Map<String, Object> params, String pk) {
+        /** 승인함 승인 */
+        params.put("type", "참여율요청");
+        params.put("frKey", pk);
+        campusRepository.updPsStatus(params);
     }
 }
 
