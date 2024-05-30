@@ -77,6 +77,7 @@ var certificateReqPop = {
             usageName : usageName,
             remarkName : remarkName,
             empSeq : empSeq,
+            regEmpName : $("#regEmpName").val(),
             deptSeq : $("#deptSeq").val(),
             userProofSn : userProofSn
         }

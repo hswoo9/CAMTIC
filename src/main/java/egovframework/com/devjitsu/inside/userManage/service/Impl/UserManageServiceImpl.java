@@ -273,24 +273,7 @@ public class UserManageServiceImpl implements UserManageService {
             }
         }
 
-        /** 승인함 */
-        params.put("authorityGroupId", "17");
-        List<Map<String, Object>> authUser = menuManagementService.getAuthorityGroupUserList(params);
-        String recEmpSeq = "|";
-        for(Map<String, Object> map : authUser){
-            recEmpSeq += map.get("EMP_SEQ") + "|";
-        }
-
-        params.put("sdEmpSeq", params.get("EMP_SEQ"));           // 요청자 사번
-        params.put("SND_EMP_NM", params.get("EMP_NAME"));        // 요청자 성명
-        params.put("SND_DEPT_SEQ", params.get("regOrgnztId"));      // 요청자 부서
-        params.put("SND_DEPT_NM", params.get("regOrgnztNm"));      // 요청자 부서
-        params.put("recEmpSeq", recEmpSeq);              // 승인자
-        params.put("ntUrl", "/Inside/userInfoMod.do");   // url
-        params.put("frKey", params.get("educationalId"));
-        params.put("psType", "인사정보변경신청");
-
-        commonRepository.setPsCheck(params);
+        setPsCheck(params);
     }
 
     @Override
@@ -318,6 +301,8 @@ public class UserManageServiceImpl implements UserManageService {
                 userManageRepository.setInAddFileNoUpd(fileInsMap);
             }
         }
+
+        setPsCheck(params);
     }
 
     /*@Override
@@ -331,12 +316,16 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public void setMilitaryInfo(Map<String, Object> params) {
-            userManageRepository.setMilitaryInfo(params);
+        userManageRepository.setMilitaryInfo(params);
+
+        setPsCheck(params);
     }
 
     @Override
     public void setFmailyInfo(Map<String, Object> map) {
         userManageRepository.setFmailyInfo(map);
+
+        setPsCheck(map);
     }
 
     @Override
@@ -364,11 +353,15 @@ public class UserManageServiceImpl implements UserManageService {
                 userManageRepository.setInCertificateFileNoUpd(fileInsMap);
             }
         }
+
+        setPsCheck(params);
     }
 
     @Override
     public void setJobInfo(Map<String, Object> map) {
         userManageRepository.setJobInfo(map);
+
+        setPsCheck(map);
     }
 
     @Override
@@ -402,6 +395,8 @@ public class UserManageServiceImpl implements UserManageService {
                 userManageRepository.setInRewardAddFileNoUpd(fileInsMap);
             }
         }
+
+        setPsCheck(params);
     }
 
     @Override
@@ -417,6 +412,8 @@ public class UserManageServiceImpl implements UserManageService {
     @Override
     public void setProposalInfo(Map<String, Object> map) {
         userManageRepository.setProposalInfo(map);
+
+        setPsCheck(map);
     }
 
     private String filePath (Map<String, Object> params, String base_dir){
@@ -784,24 +781,7 @@ public class UserManageServiceImpl implements UserManageService {
     public void setEduDeleteTmp(Map<String, Object> map) {
             userManageRepository.setEduDeleteTmp(map);
 
-            /** 승인함 */
-            map.put("authorityGroupId", "17");
-            List<Map<String, Object>> authUser = menuManagementService.getAuthorityGroupUserList(map);
-            String recEmpSeq = "|";
-            for(Map<String, Object> map2 : authUser){
-                recEmpSeq += map2.get("EMP_SEQ") + "|";
-            }
-
-            map.put("sdEmpSeq", map.get("EMP_SEQ"));           // 요청자 사번
-            map.put("SND_EMP_NM", map.get("EMP_NAME"));        // 요청자 성명
-            map.put("SND_DEPT_SEQ", map.get("regOrgnztId"));      // 요청자 부서
-            map.put("SND_DEPT_NM", map.get("regOrgnztNm"));      // 요청자 부서
-            map.put("recEmpSeq", recEmpSeq);              // 승인자
-            map.put("ntUrl", "/Inside/userInfoMod.do");   // url
-            map.put("frKey", map.get("educationalId"));
-            map.put("psType", "인사정보변경신청");
-
-            commonRepository.setPsCheck(map);
+            setPsCheck(map);
     }
 
     //인사기록카드 - 학력사항 삭제
@@ -1949,6 +1929,27 @@ public class UserManageServiceImpl implements UserManageService {
     public List<Map<String, Object>> getAllDutyList(Map<String ,Object> params){
         List<Map<String, Object>> list = userManageRepository.getAllDutyList(params);
         return list;
+    }
+
+    private void setPsCheck(Map<String, Object> params) {
+        /** 승인함 */
+        params.put("authorityGroupId", "17");
+        List<Map<String, Object>> authUser = menuManagementService.getAuthorityGroupUserList(params);
+        String recEmpSeq = "|";
+        for(Map<String, Object> map : authUser){
+            recEmpSeq += map.get("EMP_SEQ") + "|";
+        }
+
+        params.put("sdEmpSeq", params.get("EMP_SEQ"));           // 요청자 사번
+        params.put("SND_EMP_NM", params.get("EMP_NAME"));        // 요청자 성명
+        params.put("SND_DEPT_SEQ", params.get("regOrgnztId"));      // 요청자 부서
+        params.put("SND_DEPT_NM", params.get("regOrgnztNm"));      // 요청자 부서
+        params.put("recEmpSeq", recEmpSeq);              // 승인자
+        params.put("ntUrl", "/Inside/userInfoMod.do");   // url
+        params.put("frKey", params.get("educationalId"));
+        params.put("psType", "인사정보변경신청");
+
+        commonRepository.setPsCheck(params);
     }
 
 }

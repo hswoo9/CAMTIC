@@ -72,13 +72,13 @@ public class CertificateServiceImpl implements CertificateService {
         }
 
         params.put("sdEmpSeq", params.get("empSeq"));           // 요청자 사번
-        params.put("SND_EMP_NM", params.get("REG_EMP_NAME"));        // 요청자 성명
+        params.put("SND_EMP_NM", params.get("regEmpName"));        // 요청자 성명
         params.put("SND_DEPT_SEQ", params.get("deptSeq"));      // 요청자 부서
         params.put("SND_DEPT_NM", params.get("regDeptName"));      // 요청자 부서
         params.put("recEmpSeq", recEmpSeq);              // 승인자
         params.put("ntUrl", "/Inside/certificateAdmin.do");   // url
         params.put("frKey", params.get("userProofSn"));
-        params.put("psType", "증명서");
+        params.put("psType", "증명서 신청");
 
         commonRepository.setPsCheck(params);
     }
@@ -133,7 +133,7 @@ public class CertificateServiceImpl implements CertificateService {
     public void setReqCert(Map<String, Object> params) {
         certificateRepository.setReqCert(params);
 
-        params.put("type", "증명서");
+        params.put("type", "증명서 신청");
         params.put("frKey", params.get("userProofSn"));
         campusRepository.updPsStatus(params);
     }
