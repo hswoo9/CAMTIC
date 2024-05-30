@@ -9,6 +9,7 @@
 <script type="text/javascript" src="/js/intra/inside/certificate/certificateReqPop.js?v=${todate}"></script>
 <body class="font-opensans" style="background-color:#fff;">
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="regEmpName" value="${loginVO.name}"/>
 <input type="hidden" id="empName" value="${loginVO.name}"/>
 <input type="hidden" id="deptSeq" value="${loginVO.orgnztId}"/>
 <input type="hidden" id="deptName" value="${loginVO.orgnztNm}"/>
