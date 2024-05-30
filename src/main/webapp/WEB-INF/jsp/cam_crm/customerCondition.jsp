@@ -26,6 +26,7 @@
         </div>
         <div class="panel-body">
             <div>
+                <div id="localCustomChart"></div>
                 <div style="font-weight: bold">◎ 지역별 고객현황</div>
                 <table class="totalTable table table-bordered" style="margin-bottom: 0px">
                     <thead>
@@ -87,6 +88,8 @@
                     </tr>
                 </table>
             </div>
+
+            <div id="depthCustomChart"></div>
             <div style="margin: 50px 0;">
                 <div style="font-weight: bold">◎ 분야별 고객현황</div>
                 <table class="totalTable table table-bordered" style="margin-bottom: 0px">

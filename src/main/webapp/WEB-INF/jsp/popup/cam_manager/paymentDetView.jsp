@@ -79,14 +79,14 @@
                         * 명칭, 사업(주민)자번호, 계좌(카드)번호 검색 가능</span>
                         <button type="button" style="font-size: 12px; float: right" class="k-button k-button-sm k-button-solid-info" id="addBtn" onclick="payDetView.fn_popAddData('${params.type}')">거래처 등록</button>
                     </c:when>
-                    <c:when test="${params.type eq '3' || params.type eq '8' }">
+                    <c:when test="${params.type eq '3' || params.type eq '8' }"> 
                         * 명칭, 카드번호(ex. 끝4자리) 검색가능</span>
                     </c:when>
                     <c:when test="${params.type eq '4' }">
                         * 명칭, 주민번호, 계좌번호 검색 가능</span>
                     </c:when>
                     <c:when test="${params.type eq '5' }">
-                        * 명칭, 사업(주민)자번호, 계좌(카드)번호 검색 가능 <br>사업소득자가 조회되지 않는 경우, 재무회계팀에 문의해 주세요.(소득자명, 주민등록번호 확인) </span>
+                        * 명칭, 사업(주민)자번호, 계좌(카드)번호 검색 가능</span>
                         <button type="button" style="font-size: 12px; float: right;" class="k-button k-button-sm k-button-solid-info" id="addBtn" onclick="payDetView.fn_popAddData('${params.type}')">사업소득자 등록</button>
                     </c:when>
                     <c:when test="${params.type eq '9' }">
