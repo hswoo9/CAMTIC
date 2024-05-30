@@ -157,6 +157,14 @@ function fn_selOtherInfo(trCd, bankName,  accountHolder, accountNum, empNameKr, 
     $("#crmAccHolder" + idx).val(accountHolder);
     $("#regNo" + idx).val(regNo);
 
+    if(type != null && type != "" && type != "undefined"){
+        if(type == "5"){
+            $("#etc" + idx).val("사업소득자");
+        } else if(type == "9"){
+            $("#etc" + idx).val("기타소득자");
+        }
+    }
+
 
     var url = "/payApp/pop/setPayRequest.do?idx=" + idx + "&type=" + type + "&trCd=" + trCd + "&empNameKr=" + empNameKr + "&bankName=" + bankName + "&accountNum=" + accountNum + "&accountHolder=" + accountHolder + "&regNo=" + regNo;
 
