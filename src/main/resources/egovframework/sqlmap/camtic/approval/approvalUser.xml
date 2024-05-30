@@ -562,9 +562,9 @@
         <if test='startDay != null and !"".equals(startDay)'>
             <![CDATA[
              AND
-                 DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+                 DATE_FORMAT(#{startDay}, '%Y%m%d') <= DATE_FORMAT(IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT), '%Y%m%d')
              AND
-                 DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(DI.REG_DATE, '%Y%m%d')
+                 DATE_FORMAT(#{endDay}, '%Y%m%d') >= DATE_FORMAT(IFNULL(DI.REPTIT_DRFT_DT, DI.DRAFT_DT), '%Y%m%d')
              ]]>
         </if>
 

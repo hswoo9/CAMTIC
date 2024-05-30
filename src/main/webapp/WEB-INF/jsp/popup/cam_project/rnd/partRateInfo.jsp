@@ -16,6 +16,8 @@
 <input type="hidden" id="empSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="verEmpSeq" value="${loginVO.uniqId}"/>
 <input type="hidden" id="verEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="verOrgnztId" value="${loginVO.orgnztId}"/>
+<input type="hidden" id="verOrgnztNm" value="${loginVO.orgnztNm}"/>
 <input type="hidden" id="partRateSn" name="partRateSn" value="" />
 <form id="rateDraftFrm" method="post">
     <input type="hidden" id="partRateVerSn" name="partRateVerSn" value="" />

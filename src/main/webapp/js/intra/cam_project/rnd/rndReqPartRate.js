@@ -214,7 +214,11 @@ var rndRPR = {
             joinMemberSn : $("#joinMemberSn").val(),
             joinMemNm : $("#joinMemberPart").val(),
             empName : $("#verEmpName").val(),
-            empSeq : $("#verEmpSeq").val()
+            empSeq : $("#verEmpSeq").val(),
+            regEmpSeq : $("#verEmpName").val(),
+            regEmpName : $("#verEmpSeq").val(),
+            regOrgnztId : $("#verOrgnztId").val(),
+            regOrgnztNm : $("#verOrgnztNm").val()
         }
 
         var rs = customKendo.fn_customAjax("/projectRnd/setPartRateRequest", parameters);

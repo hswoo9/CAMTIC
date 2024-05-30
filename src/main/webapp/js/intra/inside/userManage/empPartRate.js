@@ -589,13 +589,18 @@ var empPartRate = {
                             if ($("#rateFlag").val() == "B") {
                                 if(monYn == 'Y'){
                                     var itemMon = itemMonMap[colYear]; // 년 선택
+                                    console.log(itemMon);
                                     if(monFinalStr == "ALL"){
                                         var finalStr = Number(itemMon[monPayStr + (colMonth)]) + Number(itemMon[monItemStr + (colMonth)]);
 
                                         bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(finalStr) + '</td>';
+
                                     }else {
                                         bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(itemMon[monFinalStr + (colMonth)]) + '</td>';
                                     }
+
+                                    console.log(itemMon.MON_PAY_1);
+
                                 }else {
                                     if(monFinalStr == "ALL"){
                                         bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(Number(item.MON_SAL)) + '</td>';
@@ -632,6 +637,7 @@ var empPartRate = {
                         }
 
                         date.setMonth(date.getMonth() + 1);
+                        colMonth++;
                     }
 
                     bodyHtml += '</tr>';
