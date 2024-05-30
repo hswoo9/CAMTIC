@@ -2089,12 +2089,16 @@
         ON
             A.PURC_SN = B.PURC_SN
         LEFT JOIN
+            CAM_MNG.DJ_CLAIM_EXNP C
+        ON
+            A.CLAIM_SN = C.CLAIM_SN AND C.PAY_APP_SN IS NOT NULL
+        LEFT JOIN
             DJ_CAMTIC.A_DOC_INFO DI
         ON
             B.DOC_ID = DI.DOC_ID
         LEFT JOIN
             CAM_MNG.DJ_PAY_APP PA
-        ON PA.LINK_KEY = B.PURC_SN
+        ON PA.PAY_APP_SN = C.PAY_APP_SN
         UNION ALL
         SELECT
             DI.DOC_NO,
@@ -2132,9 +2136,11 @@
             B.DOC_ID = DI.DOC_ID
         LEFT JOIN
             CAM_MNG.DJ_PAY_APP PA
-        ON PA.LINK_KEY = B.PURC_SN
+        ON PA.LINK_KEY = B.PURC_SN AND PA.LINK_KEY_TYPE = '구매'
         WHERE
-            (SELECT COUNT(*) FROM CAM_MNG.DJ_PURC_CLAIM WHERE PURC_SN = B.PURC_SN) = 0 ) RE
+            (SELECT COUNT(*) FROM CAM_MNG.DJ_PURC_CLAIM WHERE PURC_SN = B.PURC_SN) = 0
+
+        ) RE
         WHERE
             1=1
             <choose>
