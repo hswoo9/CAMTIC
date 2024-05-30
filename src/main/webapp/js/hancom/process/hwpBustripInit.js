@@ -217,7 +217,7 @@ var busInit = {
         }
         let car = "";
 
-        if(costInfo != null && tripCode != 1){
+        if(costInfo != null && tripCode != 1 && carList != 11){
             car = carText + "(" + busInfo.MOVE_DST + "Km, 10km당 기준유가 "+comma(costInfo.REG_COST_AMT)+"원 반영)";
         }else{
             car = carText + "(" + busInfo.MOVE_DST + "Km)";
