@@ -8,6 +8,7 @@ import egovframework.com.devjitsu.cam_project.repository.ProjectRepository;
 import egovframework.com.devjitsu.cam_project.repository.ProjectTeamRepository;
 import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.cam_project.service.ProjectTeamService;
+import egovframework.com.devjitsu.campus.repository.CampusRepository;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     private BustripRepository bustripRepository;
     @Autowired
     private CrmRepository crmRepository;
+    @Autowired
+    private CampusRepository campusRepository;
 
     @Override
     public List<Map<String, Object>> getTeamVersion(Map<String, Object> params) {
@@ -165,6 +168,53 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
         }else{
             projectTeamRepository.updTeamVersionAppStat(params);
         }
+
+        /** 승인함 */
+        if(params.get("stat").equals("10")){
+
+            List<Map<String, Object>> list = projectTeamRepository.getTeamList(params);
+            for(Map<String, Object> data : list){
+                /* TM_TYPE이 0(수주부서)이면 팀장에게만, 협업부서이면 PM, 팀장에게 승인요청 발송 */
+                if("0".equals(data.get("TM_TYPE").toString())){
+                    params.put("recEmpSeq", "|"+data.get("TEAM_EMP_SEQ").toString()+"|");
+                    setPsCheck(params);
+                }else{
+                    params.put("recEmpSeq", "|"+data.get("PM_EMP_SEQ").toString()+"|");
+                    setPsCheck(params);
+
+                    params.put("recEmpSeq", "|"+data.get("TEAM_EMP_SEQ").toString()+"|");
+                    setPsCheck(params);
+                }
+            }
+
+        }
+
+        /** 승인함 승인 */
+        if(params.get("stat").equals("100")){
+            setPsAppr(params);
+        }
+    }
+
+    private void setPsCheck(Map<String, Object> params) {
+        /** 승인함 */
+        params.put("sdEmpSeq", params.get("regEmpSeq"));           // 요청자 사번
+        params.put("SND_EMP_NM", params.get("regEmpName"));        // 요청자 성명
+        params.put("SND_DEPT_SEQ", params.get("regOrgnztId"));      // 요청자 부서
+        params.put("SND_DEPT_NM", params.get("regOrgnztNm"));      // 요청자 부서
+        params.put("recEmpSeq", params.get("recEmpSeq"));              // 승인자
+        params.put("ntUrl", "/intra/cam_project/teamMng.do");   // url
+        params.put("frKey", params.get("teamVersionSn"));
+        params.put("psType", "협업승인요청");
+
+        commonRepository.setPsCheck(params);
+    }
+
+    private void setPsAppr(Map<String, Object> params) {
+        /** 승인함 승인 */
+        params.put("type", "협업승인요청");
+        params.put("frKey", params.get("teamVersionSn"));
+        params.put("targetEmpSeq", params.get("regEmpSeq"));
+        campusRepository.updPsStatus(params);
     }
 
     private String filePath(Map<String, Object> params, String base_dir){
