@@ -995,4 +995,10 @@ public class CrmServiceImpl implements CrmService {
     public List<Map<String, Object>> getCustomerIndustryCondition() {
         return crmRepository.getCustomerIndustryCondition();
     }
+
+
+    @Override
+    public List<Map<String, Object>> getDeptRelationList(Map<String, Object> params) {
+        return crmRepository.getDeptRelationList(params);
+    }
 }

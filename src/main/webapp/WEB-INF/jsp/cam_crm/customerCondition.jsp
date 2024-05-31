@@ -144,6 +144,49 @@
                     </tr>
                 </table>
             </div>
+
+            <div id="deptRelationChart"></div>
+            <div style="margin: 50px 0;">
+                <div style="font-weight: bold">◎ 부서별 관계이력 현황</div>
+                <table class="totalTable table table-bordered" style="margin-bottom: 0px">
+                    <thead>
+                    <colgroup>
+                        <col width="10%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="7%">
+                        <col width="7%">
+                    </colgroup>
+                    <tr style="text-align: center;">
+                        <th style="text-align: center;">부서명</th>
+                        <th style="text-align: center;">1월</th>
+                        <th style="text-align: center;">2월</th>
+                        <th style="text-align: center;">3월</th>
+                        <th style="text-align: center;">4월</th>
+                        <th style="text-align: center;">5월</th>
+                        <th style="text-align: center;">6월</th>
+                        <th style="text-align: center;">7월</th>
+                        <th style="text-align: center;">8월</th>
+                        <th style="text-align: center;">9월</th>
+                        <th style="text-align: center;">10월</th>
+                        <th style="text-align: center;">11월</th>
+                        <th style="text-align: center;">12월</th>
+                    </tr>
+                    </thead>
+                    <tbody id="deptRelation">
+
+                    </tbody>
+
+                </table>
+            </div>
         </div>
     </div>
 </div><!-- col-md-9 -->

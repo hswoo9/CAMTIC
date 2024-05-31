@@ -1615,4 +1615,33 @@
             ) AA
         GROUP BY AA.MAIN_CODE
     </select>
+
+    <select id="getDeptRelationList" parameterType="map" resultType="map">
+        /*getDeptRelationList*/
+        SELECT
+                (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = R.DEPT_SEQ) AS DEPT_NAME,
+                DEPT_SEQ,
+                COUNT(DEPT_SEQ) AS CNT
+        FROM (
+                 SELECT
+                     IF((SELECT DEPT_LEVEL FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.EMP_SEQ)) = 1, (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.EMP_SEQ), (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = B.EMP_SEQ))) AS DEPT_SEQ,
+                     DATE_FORMAT(A.REG_DT, '%Y%m%d') AS REG_DT,
+                     DATE_FORMAT(A.REG_DT, '%m') AS MON
+                 FROM
+                     CAM_CRM.DJ_CRM_HIST A
+                         LEFT JOIN
+                     CAM_HR.DJ_EMP_INFO B
+                     ON A.REG_EMP_SEQ = B.EMP_SEQ
+                 UNION ALL
+
+                 select
+                     IF((SELECT DEPT_LEVEL FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = CUID)) = 1, (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = CUID), (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = (SELECT DEPT_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE EMP_SEQ = CUID))) AS DEPT_SEQ,
+                     DATE_FORMAT(RegDate, '%Y%m%d') AS REG_DT,
+                     DATE_FORMAT(RegDate, '%m') AS MON
+                 from
+                     cam_crm.crm_hist
+             ) R
+        WHERE REG_DT like concat(#{year}, '%') AND MON = #{mon}
+        GROUP BY DEPT_SEQ
+    </select>
 </mapper>
