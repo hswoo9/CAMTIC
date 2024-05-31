@@ -258,6 +258,37 @@
             BS_YEAR = #{bsYear},
             EVAL_NUM = #{evalNum},
             EVAL_STAT = #{evalStat},
+            EVAL_COM_PER = #{evalComPer},
+            EVAL_ACH_PER = #{evalAhcPer},
+            EVAL_CONTENT = #{content},
+            MOD_EMP_SEQ =  #{regEmpSeq}
+        WHERE
+            EVAL_SN = #{evalSn}
+    </update>
+
+    <update id="updReqEvaluation" parameterType="map">
+        /*updReqEvaluation*/
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATION
+        SET
+            BS_YEAR = #{bsYear},
+            EVAL_NUM = #{evalNum},
+            EVAL_STAT = #{evalStat},
+            EVAL_COM_PER = #{evalComPer},
+            EVAL_ACH_PER = #{evalAhcPer},
+            MOD_EMP_SEQ =  #{regEmpSeq}
+        WHERE
+            EVAL_SN = #{evalSn}
+    </update>
+
+    <update id="updComEvaluation" parameterType="map">
+        /*updComEvaluation*/
+        UPDATE
+            CAM_INSIDE.DJ_EVALUATION
+        SET
+            BS_YEAR = #{bsYear},
+            EVAL_NUM = #{evalNum},
+            EVAL_STAT = #{evalStat},
             EVAL_CONTENT = #{content},
             MOD_EMP_SEQ =  #{regEmpSeq}
         WHERE

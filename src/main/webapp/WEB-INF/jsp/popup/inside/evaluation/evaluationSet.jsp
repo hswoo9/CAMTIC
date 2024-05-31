@@ -855,7 +855,7 @@
             return;
         }
 
-        window.open("/evaluation/pop/requestEvaluationUsers.do?pk="+ $("#evalSn").val() +"&bsYear=" + $("#bsYear").val(),"조직도","width=1365, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        window.open("/evaluation/pop/requestEvaluationUsers.do?pk="+ $("#evalSn").val() +"&bsYear=" + $("#bsYear").val(),"조직도","width=1500, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
         newWindow.empSeqArr = empSeqArr;
         newWindow.chkEmpSeqArr = chkEmpSeqArr;
     }
