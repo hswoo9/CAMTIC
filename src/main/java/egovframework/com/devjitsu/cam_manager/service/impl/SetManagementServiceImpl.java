@@ -122,4 +122,18 @@ public class SetManagementServiceImpl implements SetManagementService {
     public void delExnpDeChangeRs(Map<String, Object> params) {
         setManagementRepository.delExnpDeChangeRs(params);
     }
+
+    @Override
+    public void setRndProjectPrevNextAmt(Map<String, Object> params) {
+        if(params.containsKey("govtPjtSn")){
+            setManagementRepository.updRndProjectPrevNextAmt(params);
+        } else {
+            setManagementRepository.setRndProjectPrevNextAmt(params);
+        }
+    }
+
+    @Override
+    public Map<String, Object> getRndProjectPrevNextAmt(Map<String, Object> params) {
+        return setManagementRepository.getRndProjectPrevNextAmt(params);
+    }
 }

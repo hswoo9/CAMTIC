@@ -88,6 +88,13 @@ public class ProjectController {
         return "jsonView";
     }
 
+    /** 정부사업 리스트 */
+    @RequestMapping("/project/getRndProjectList")
+    public String getRndProjectList(@RequestParam Map<String, Object> params, Model model) {
+        model.addAttribute("list", projectService.getRndProjectList(params));
+        return "jsonView";
+    }
+
 
     /** 법인프로젝트 포함 프로젝트 선택 리스 */
     @RequestMapping("/project/getAllProjectList")

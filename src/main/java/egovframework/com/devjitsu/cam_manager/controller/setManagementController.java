@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.cam_manager.controller;
 
 import egovframework.com.devjitsu.cam_manager.service.SetManagementService;
+import egovframework.com.devjitsu.cam_project.service.ProjectService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ public class setManagementController {
 
     @Autowired
     private SetManagementService setManagementService;
+
+    @Autowired
+    private ProjectService projectService;
 
     @RequestMapping("/setManagement/projectDepositManagement.do")
     public String projectDepositManagement(Model model, HttpServletRequest request){
@@ -206,6 +210,48 @@ public class setManagementController {
             e.printStackTrace();
         }
 
+        return "jsonView";
+    }
+
+    @RequestMapping("/setManagement/rndProjectOperationStatus.do")
+    public String rndProjectOperationStatus(Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+
+        return "cam_manager/setManagement/rndProjectOperationStatus";
+    }
+
+    @RequestMapping("/setManagement/pop/updRndProjectAmt.do")
+    public String updRndProjectAmt(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+        model.addAttribute("data", projectService.getProjectInfo(params));
+
+        return "popup/cam_manager/setManagement/updRndProjectAmt";
+    }
+
+    @RequestMapping("/setManagement/setRndProjectPrevNextAmt")
+    public String setRndProjectPrevNextAmt(@RequestParam Map<String, Object> params, Model model){
+        try{
+            setManagementService.setRndProjectPrevNextAmt(params);
+            model.addAttribute("code", 200);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/setManagement/getRndProjectPrevNextAmt")
+    public String getRndProjectPrevNextAmt(@RequestParam Map<String, Object> params, Model model){
+        model.addAttribute("data", setManagementService.getRndProjectPrevNextAmt(params));
         return "jsonView";
     }
 }

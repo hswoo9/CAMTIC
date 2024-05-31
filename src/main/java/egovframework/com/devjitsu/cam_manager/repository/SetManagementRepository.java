@@ -54,4 +54,16 @@ public class SetManagementRepository extends AbstractDAO {
     public void delExnpDeChangeRs(Map<String, Object> params) {
         delete("manage.delExnpDeChangeRs", params);
     }
+
+    public void setRndProjectPrevNextAmt(Map<String, Object> params) {
+        insert("manage.setRndProjectPrevNextAmt", params);
+    }
+
+    public void updRndProjectPrevNextAmt(Map<String, Object> params) {
+        update("manage.updRndProjectPrevNextAmt", params);
+    }
+
+    public Map<String, Object> getRndProjectPrevNextAmt(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.getRndProjectPrevNextAmt", params);
+    }
 }

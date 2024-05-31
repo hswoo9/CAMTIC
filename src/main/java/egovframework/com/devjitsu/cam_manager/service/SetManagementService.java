@@ -21,4 +21,8 @@ public interface SetManagementService {
     void setExnpDeChangeRs(Map<String, Object> params);
 
     void delExnpDeChangeRs(Map<String, Object> params);
+
+    void setRndProjectPrevNextAmt(Map<String, Object> params);
+
+    Map<String, Object> getRndProjectPrevNextAmt(Map<String, Object> params);
 }

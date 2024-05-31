@@ -768,4 +768,47 @@
         WHERE
             CORP_PJT_CD = #{pjtCd}
     </update>
+
+    <insert id="setRndProjectPrevNextAmt" parameterType="map">
+        /*setRndProjectPrevNextAmt*/
+        INSERT INTO CAM_PJT_MNG.DJ_GOVT_PROJECT_AMT
+        (
+            PJT_SN,
+            PREV_SALE_AMT,
+            PREV_INCP_AMT,
+            NEXT_SALE_AMT,
+            NEXT_INCP_AMT,
+            REG_EMP_SEQ,
+            REG_DT
+        )
+        VALUES
+        (
+            #{pjtSn},
+            #{prevSaleAmt},
+            #{prevIncpAmt},
+            #{nextSaleAmt},
+            #{nextIncpAmt},
+            #{regEmpSeq},
+             NOW()
+        )
+    </insert>
+
+    <update id="updRndProjectPrevNextAmt" parameterType="map">
+        /*updRndProjectPrevNextAmt*/
+        UPDATE CAM_PJT_MNG.DJ_GOVT_PROJECT_AMT
+        SET
+            PREV_SALE_AMT = #{prevSaleAmt},
+            PREV_INCP_AMT = #{prevIncpAmt},
+            NEXT_SALE_AMT = #{nextSaleAmt},
+            NEXT_INCP_AMT = #{nextIncpAmt},
+            MOD_EMP_SEQ = #{regEmpSeq},
+            MOD_DT = NOW()
+        WHERE
+            GOVT_PJT_SN = #{govtPjtSn}
+    </update>
+
+    <select id="getRndProjectPrevNextAmt" parameterType="map" resultType="map">
+        /*getRndProjectPrevNextAmt*/
+        SELECT * FROM CAM_PJT_MNG.DJ_GOVT_PROJECT_AMT WHERE GOVT_PJT_SN = #{govtPjtSn}
+    </select>
 </mapper>

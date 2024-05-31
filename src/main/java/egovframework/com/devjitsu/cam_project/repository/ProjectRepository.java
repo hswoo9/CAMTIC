@@ -17,6 +17,11 @@ public class ProjectRepository extends AbstractDAO {
     public List<Map<String, Object>> getProjectList(Map<String, Object> params) {
         return selectList("project.getProjectList", params);
     }
+
+    public List<Map<String, Object>> getRndProjectList(Map<String, Object> params) {
+        return selectList("project.getRndProjectList", params);
+    }
+
     public List<Map<String, Object>> getDepoManageProjectList(Map<String, Object> params) {
         return selectList("project.getDepoManageProjectList", params);
     }
