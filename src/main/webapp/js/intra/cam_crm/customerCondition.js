@@ -212,6 +212,102 @@ var customerCondition = {
                 }
             });
         }
+
+
+        var parameters = {
+            year : "2024"
+        }
+        var rs = customKendo.fn_customAjax("/crm/getDeptRelationList", parameters);
+        var deptList = rs.deptList;
+        var rs = rs.rs;
+        var deptHtml = "";
+
+        for(var i = 0 ; i < deptList.length; i++){
+            var dept = deptList[i];
+
+            deptHtml += '<tr>';
+            deptHtml += '   <td>'+dept.deptName+'</td>';
+            for(var j = 1 ; j <= 12; j++){
+                deptHtml += '<td id="mon'+j+'_'+dept.deptSeq+'" style="background-color: white"></td>';
+            }
+            deptHtml += '</tr>';
+        }
+
+
+        $("#deptRelation").html(deptHtml);
+
+        for(var i = 1 ; i < 13 ; i++){
+            var monData = rs["mon" + i];
+
+
+            if(monData.length != 0){
+                for(var j = 0 ; j < monData.length; j++){
+
+                    var dept = monData[j];
+                    $("#mon"+i+"_"+dept.DEPT_SEQ).text(dept.CNT);
+                    $("#mon"+i+"_"+dept.DEPT_SEQ).css("font-weight", "bold");
+                }
+            }
+        }
+
+        $("#deptRelation").find("td").each(function(){
+            if($(this).text() == ""){
+                $(this).text("0");
+            }
+        });
+
+        var arr = [];
+        var dataMap = {}
+
+        var data = [];
+        for(var i = 0 ; i < deptList.length; i++){
+            dataMap.name = deptList[i].deptName;
+
+            console.log(rs);
+            for(var j = 1 ; j <= 12; j++){
+                var monData = rs["mon" + j];
+
+                
+                for(var k = 0 ; k < monData.length; k++){
+                    if(deptList[i].deptSeq == monData[k].DEPT_SEQ){
+                        data.push(monData[k].CNT);
+                    } else {
+                        data.push(0);
+                    }
+                }
+
+            }
+
+            dataMap.data = data;
+            arr.push(dataMap);
+            dataMap = {};
+            data = [];
+        }
+
+        console.log(arr);
+
+
+        $("#deptRelationChart").kendoChart({
+            title: {
+                text: "부서별 관계이력 현황"
+            },
+            legend: {
+                position: "bottom"
+            },
+            seriesDefaults: {
+                type: "line"
+            },
+            series: arr,
+            valueAxis: {
+                labels: {
+                    format: "{0}"
+                }
+            },
+            categoryAxis: {
+                categories: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+            }
+        });
+
     }
 
 

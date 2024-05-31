@@ -70,4 +70,6 @@ public interface CrmService {
     List<Map<String, Object>> getCustomerCondition();
 
     List<Map<String, Object>> getCustomerIndustryCondition();
+
+    List<Map<String, Object>> getDeptRelationList(Map<String, Object> params);
 }
