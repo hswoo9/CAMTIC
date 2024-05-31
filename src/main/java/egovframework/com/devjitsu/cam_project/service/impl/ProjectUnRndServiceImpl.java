@@ -523,17 +523,18 @@ public class ProjectUnRndServiceImpl implements ProjectUnRndService {
                 commonRepository.getContentFileDelOne(params);
             }
             StringBuilder lecApplSnBuilder = new StringBuilder();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file2, filePath(params, SERVER_DIR));
             for(int i = 0 ; i < fileList.size() ; i++){
-                //fileInsMap = mainLib.fileUpload(file2, filePath(params, SERVER_DIR));
-                fileInsMap.put("empSeq", params.get("regEmpSeq"));
-                fileInsMap.put("fileCd", "lecApplSn");
-                fileInsMap.put("filePath", filePath(params, BASE_DIR));
-                fileInsMap.put("fileOrgName", fileInsMap.get("orgFilename").toString().substring(0, fileInsMap.get("orgFilename").toString().lastIndexOf('.')));
-                fileInsMap.put("fileExt", fileInsMap.get("orgFilename").toString().substring(fileInsMap.get("orgFilename").toString().lastIndexOf('.') + 1));
-                fileInsMap.put("fileUUID", fileList.get(i).get("fileUUID"));
-                fileInsMap.put("fileSize", fileList.get(i).get("fileSize"));
-                commonRepository.insOneFileInfo(fileInsMap);
-                lecApplSnBuilder.append(',').append(fileInsMap.get("file_no"));  // file_no 추가
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", "lecApplSn");
+                list.get(i).put("filePath", filePath(params, BASE_DIR));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf('.')));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf('.') + 1));
+                list.get(i).put("fileUUID", fileList.get(i).get("fileUUID"));
+                list.get(i).put("fileSize", fileList.get(i).get("fileSize"));
+
+                commonRepository.insOneFileInfo(list.get(i));
+                lecApplSnBuilder.append(',').append(list.get(i).get("file_no"));  // file_no 추가
             }
             String lecApplSn = lecApplSnBuilder.length() > 0 ? lecApplSnBuilder.substring(1) : "";
             params.put("lecApplSn", lecApplSn);
