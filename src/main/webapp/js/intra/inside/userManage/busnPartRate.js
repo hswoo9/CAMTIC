@@ -1,6 +1,7 @@
 var busnPartRate = {
 
     global : {
+        mngStat : "",
         diffMonth : 0,
         memCnt : 0,
         partRateAr : {
@@ -49,6 +50,7 @@ var busnPartRate = {
                     type : "post",
                     dataType : "json",
                     success : function(rs){
+                        busnPartRate.global.mngStat = rs.list[0].MNG_STAT;
                         var monYn = "";
                         var monPayStr = "MON_PAY_";
                         var monItemStr = "MON_ITEM_";
@@ -518,6 +520,11 @@ var busnPartRate = {
 
     fn_reqRegPopup : function (key){
 
+        if(busnPartRate.global.mngStat != "C"){
+            alert("참여율이 확정되지 않았습니다.");
+            return;
+        }
+
         if($("#pjtCd").val() == ""){
             alert("프로젝트 코드가 생성되지 않았습니다.");
             return;
@@ -540,6 +547,11 @@ var busnPartRate = {
     },
 
     fn_save : function (){
+        if(busnPartRate.global.mngStat != "C"){
+            alert("참여율이 확정되지 않았습니다.");
+            return;
+        }
+
         var payInfo= busnPartRate.global.partRateAr.payInfo;
 
         var groupArr = [];
