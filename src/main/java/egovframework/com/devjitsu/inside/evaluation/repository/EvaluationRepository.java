@@ -105,6 +105,8 @@ public class EvaluationRepository extends AbstractDAO {
     }
 
     public void updEvaluation(Map<String, Object> params) {insert("evaluation.updEvaluation", params);}
+    public void updReqEvaluation(Map<String, Object> params) {insert("evaluation.updEvaluation", params);}
+    public void updComEvaluation(Map<String, Object> params) {insert("evaluation.updEvaluation", params);}
     public void delEvaluation(Map<String, Object> params) {insert("evaluation.delEvaluation", params);}
 
     public void updEvaluationAppBt(Map<String, Object> params) {

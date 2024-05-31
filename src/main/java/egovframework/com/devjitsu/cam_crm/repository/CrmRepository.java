@@ -96,4 +96,8 @@ public class CrmRepository extends AbstractDAO {
     public List<Map<String, Object>> getCustomerIndustryCondition() {
         return selectList("crm.getCustomerIndustryCondition");
     }
+
+    public List<Map<String, Object>> getDeptRelationList(Map<String, Object> params) {
+        return selectList("crm.getDeptRelationList", params);
+    }
 }

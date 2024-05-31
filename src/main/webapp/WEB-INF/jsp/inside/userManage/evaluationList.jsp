@@ -47,14 +47,16 @@
                 <table class="searchTable table table-bordered mb-0">
                     <colgroup>
                         <col width="5%">
+                        <col width="7%">
                         <col width="5%">
-                        <col width="5%">
+                        <col width="7%">
                         <col width="7%">
                         <col width="15%">
                         <col width="5%">
                         <col width="5%">
                         <col width="5%">
                         <col width="5%">
+                        <col width="7%">
                         <col width="15%">
                         <col width="5%">
                         <col width="5%">
@@ -66,18 +68,20 @@
                         <th rowspan="3" class="text-center th-color">년도</th>
                         <th rowspan="3" class="text-center th-color">차수</th>
                         <th rowspan="3" class="text-center th-color">평가 인원</th>
-                        <th colspan="10" class="text-center th-color">평가 결과</th>
+                        <th colspan="12" class="text-center th-color">평가 결과</th>
                     </tr>
                     <tr>
-                        <td colspan="5" class="pink">역량 평가</td>
-                        <td colspan="5" class="yellow">업적 평가</td>
+                        <td colspan="6" class="pink">역량 평가</td>
+                        <td colspan="6" class="yellow">업적 평가</td>
                     </tr>
                     <tr>
+                        <td class="pink">평가 설정</td>
                         <td class="pink">역량 평가</td>
                         <td class="pink">S</td>
                         <td class="pink">A</td>
                         <td class="pink">B</td>
                         <td class="pink">C</td>
+                        <td class="yellow">평가 설정</td>
                         <td class="yellow">업적 평가</td>
                         <td class="yellow">S</td>
                         <td class="yellow">A</td>
@@ -90,11 +94,17 @@
                         <td>2023년</td>
                         <td>1차</td>
                         <td>86명</td>
+                        <td style="padding: 0px;">
+                            <button type="button" onclick="" style="width:90%;font-size: 11px;">역량평가설정</button>
+                        </td>
                         <td>1차(23/07/04~23/07/10)</td>
                         <td>31</td>
                         <td>39</td>
                         <td>16</td>
                         <td>0</td>
+                        <td style="padding: 0px;">
+                            <button type="button" onclick="" style="width:90%;font-size: 11px;">업적평가설정</button>
+                        </td>
                         <td>2023/01/01 ~ 2023/12/31</td>
                         <td>0</td>
                         <td>0</td>
@@ -150,14 +160,20 @@
             for(var i = 0; i < list.length; i++){
                 html += "<tr style='text-align: center;'>";
                 html += "     <td>" + (i+1) + "</td>";
-                html += "     <td onclick='evalModify("+ list[i].EVAL_SN +")' style='cursor: pointer;'>" + list[i].BS_YEAR + "</td>";
+                html += "     <td onclick='evalReqModify("+ list[i].EVAL_SN +")' style='cursor: pointer;'>" + list[i].BS_YEAR + "</td>";
                 html += "     <td>" + list[i].EVAL_NUM + " 차</td>";
                 html += "     <td>" + list[i].EVAL_MEM + " 명</td>";
+                html += "     <td style='padding: 0px;'>";
+                html += "         <button type='button' onclick='evalComModify("+ list[i].EVAL_SN +")'  style='width:90%;font-size: 11px;'>역량평가설정</button>";
+                html += "     </td>";
                 html += "     <td onclick='empList("+ list[i].EVAL_SN +")' style='cursor: pointer;'>" + list[i].EVAL_STR_DT + " ~ " + list[i].EVAL_END_DT + "</td>";
                 html += "     <td></td>";
                 html += "     <td></td>";
                 html += "     <td></td>";
                 html += "     <td></td>";
+                html += "     <td style='padding: 0px;'>";
+                html += "         <button type='button' onclick='evalModify("+ list[i].EVAL_SN +")'  style='width:90%;font-size: 11px;'>업적평가설정</button>";
+                html += "     </td>";
                 html += "     <td>-</td>";
                 html += "     <td>-</td>";
                 html += "     <td>-</td>";
@@ -178,6 +194,21 @@
 
         var name = "_blank";
         var option = "width = 1500, height = 820, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    }
+
+    function evalReqModify(pk){
+        var url = "/evaluation/pop/evaluationReq.do?pk="+pk;
+
+        var name = "_blank";
+        var option = "width = 1000, height = 800, top = 100, left = 400, location = no";
+        var popup = window.open(url, name, option);
+    }
+    function evalComModify(pk){
+        var url = "/evaluation/pop/evaluationCom.do?pk="+pk;
+
+        var name = "_blank";
+        var option = "width = 1500, height = 800, top = 100, left = 400, location = no";
         var popup = window.open(url, name, option);
     }
 

@@ -136,11 +136,11 @@
                 }, {
                     field: "DEPT_NAME_OD",
                     title: "부서",
-                    width: 120
+                    width: 110
                 }, {
                     field: "TEAM_NAME",
                     title: "팀",
-                    width: 120
+                    width: 110
                 }, {
                     field : "EMP_NAME_KR",
                     title: "성명",
@@ -152,20 +152,20 @@
                     field: "DUTY_POSITION_NAME"
                 }, {
                     title: "1차 평가자",
-                    width: 120,
+                    width: 100,
                     field: "T1"
                 }, {
                     title: "2차 평가자",
-                    width: 120,
+                    width: 100,
                     field: "T2"
                 }, {
                     title: "직군",
-                    width: 120,
+                    width: 100,
                     field: "OCC_NM"
 
                 }, {
                     title: "입사일",
-                    width: 120,
+                    width: 100,
                     template: function (row){
                         var joinDay = row.JOIN_DAY;
                         var date = new Date(joinDay);
@@ -179,15 +179,25 @@
                 },
                 {
                     title: "현직경력",
-                    width: 120,
+                    width: 100,
                     template: function (row){
                         return row.hire + " 년 " + row.hire_mon + " 개월";
                     }
                 },{
                     field: "",
+                    title: "당해년도 근속월",
+                    width: 100,
+                }, {
+                    field: "",
                     title: "비고",
-                    width: 50,
-
+                    width: 100,
+                    template: function(e){
+                        if(e.rmk != null) {
+                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk" value="' + e.RMK + '">';
+                        }else{
+                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk">';
+                        }
+                    },
                 }
             ]
         }).data("kendoGrid");

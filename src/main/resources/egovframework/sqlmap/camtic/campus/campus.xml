@@ -3743,6 +3743,9 @@
             PS_STAT = 'Y'
         WHERE
             FR_KEY = #{frKey} AND TYPE = #{type}
+        <if test='targetEmpSeq != null and !"".equals(targetEmpSeq)'>
+            AND RCV_EMP_SEQ LIKE CONCAT('%|', #{targetEmpSeq}, '|%')
+        </if>
     </update>
 
 </mapper>

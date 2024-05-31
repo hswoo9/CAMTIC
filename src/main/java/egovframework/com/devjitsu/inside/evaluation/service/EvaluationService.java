@@ -17,6 +17,8 @@ public interface EvaluationService {
     Map<String, Object> getRequestEvaluationUserCnt(Map<String, Object> params);
     Map<String, Object> getUserPersonnelinformOne(Map<String, Object> params);
     void setEvaluation(Map<String, Object> params);
+    void setUpdReqEvaluation(Map<String, Object> params);
+    void setUpdComEvaluation(Map<String, Object> params);
     void delEvaluation(Map<String, Object> params);
     void setEvaluationItemCopy(Map<String, Object> params);
     void setEvalScoreTemSave(Map<String, Object> params);

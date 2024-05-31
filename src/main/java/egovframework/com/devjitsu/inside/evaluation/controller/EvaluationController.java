@@ -135,6 +135,28 @@ public class EvaluationController {
         return "popup/inside/evaluation/evaluationSet";
     }
 
+    @RequestMapping("/evaluation/pop/evaluationReq.do")  // 인사평가 등록 팝업
+    public String evaluationReq(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/inside/evaluation/evaluationReq";
+    }
+
+    @RequestMapping("/evaluation/pop/evaluationCom.do")  // 역량평가 설정 팝업
+    public String evaluationCom(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("toDate", getCurrentDateTime());
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/inside/evaluation/evaluationCom";
+    }
+
     /**
      * 평가결과 팝업창
      * @param request
@@ -241,6 +263,32 @@ public class EvaluationController {
 
         try{
             evaluationService.setEvaluation(params);
+            model.addAttribute("params", params);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/evaluation/setUpdReqEvaluation")
+    public String setUpdReqEvaluation(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        try{
+            evaluationService.setUpdReqEvaluation(params);
+            model.addAttribute("params", params);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/evaluation/setUpdComEvaluation")
+    public String setUpdComEvaluation(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+
+        try{
+            evaluationService.setUpdComEvaluation(params);
             model.addAttribute("params", params);
         } catch(Exception e) {
             e.printStackTrace();

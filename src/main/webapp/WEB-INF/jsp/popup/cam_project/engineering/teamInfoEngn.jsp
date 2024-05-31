@@ -11,6 +11,11 @@
 <input type="hidden" id="pjtSn" value="${params.pjtSn}" />
 <input type="hidden" id="regEmpSeq" value="${loginVO.uniqId}"/>
 
+<input type="hidden" id="teamEmpSeq" value="${loginVO.uniqId}"/>
+<input type="hidden" id="teamEmpName" value="${loginVO.name}"/>
+<input type="hidden" id="teamOrgnztId" value="${loginVO.orgnztId}"/>
+<input type="hidden" id="teamOrgnztNm" value="${loginVO.orgnztNm}"/>
+
 <input type="hidden" id="teamVersionSn" value=""/>
 <input type="hidden" id="myTmSn" value=""/>
 <div style="padding: 10px">

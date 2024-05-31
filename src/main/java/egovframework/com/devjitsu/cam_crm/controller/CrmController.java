@@ -4,6 +4,7 @@ import egovframework.com.devjitsu.cam_crm.service.CrmService;
 import egovframework.com.devjitsu.common.service.CommonCodeService;
 import egovframework.com.devjitsu.common.service.CommonService;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
+import egovframework.com.devjitsu.inside.userManage.service.UserManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +32,9 @@ public class CrmController {
 
     @Autowired
     private CommonCodeService commonCodeService;
+
+    @Autowired
+    private UserManageService userManageService;
 
     @Autowired
     private CommonService commonService;
@@ -821,6 +826,24 @@ public class CrmController {
 
 //        model.addAttribute("crmData", crmService.getCustomerCondition());
         return "/cam_crm/customerCondition";
+    }
+
+    @RequestMapping("/crm/getDeptRelationList")
+    public String getDeptRelationList(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> map = new HashMap<>();
+
+        for(int i = 1 ; i < 13 ; i++){
+            List<Map<String, Object>> list = new ArrayList<>();
+            params.put("mon", i);
+            list = crmService.getDeptRelationList(params);
+
+            map.put("mon" +i, list);
+        }
+
+        model.addAttribute("rs", map);
+        model.addAttribute("deptList", userManageService.getDeptCodeList2(params));
+        return "jsonView";
     }
 
     @RequestMapping("/crm/getCustomerCondition.do")

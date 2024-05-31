@@ -205,6 +205,49 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
 
     }
+    @Override
+    public void setUpdReqEvaluation(Map<String, Object> params) {
+        if(params.get("evalSn") != null && !params.get("evalSn").equals("")){
+            evaluationRepository.updReqEvaluation(params);
+        }else{
+            evaluationRepository.insEvaluation(params);
+        }
+
+        if(params.containsKey("empSeqArr")){
+            params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
+            evaluationRepository.delEvaluationEmp(params);
+            evaluationRepository.insEvaluationEmp(params);
+        }
+        // 평가 등급별 수준 및 점수 insert / update
+        Gson gson = new Gson();
+        List<Map<String, Object>> scoreBodyArr = gson.fromJson((String) params.get("scoreBodyArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        evaluationRepository.delEvaluationScore(params);
+        for(Map<String, Object> scoreBody : scoreBodyArr){
+            scoreBody.put("evalSn", params.get("evalSn"));
+            evaluationRepository.insEvaluationScore(scoreBody);
+        }
+
+    }
+
+    @Override
+    public void setUpdComEvaluation(Map<String, Object> params) {
+        if(params.get("evalSn") != null && !params.get("evalSn").equals("")){
+            evaluationRepository.updComEvaluation(params);
+        }else{
+            evaluationRepository.insEvaluation(params);
+        }
+
+        // 역량평가 데이터 insert / update
+        Gson gson = new Gson();
+        List<Map<String, Object>> capBodyArr = gson.fromJson((String) params.get("capBodyArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        evaluationRepository.delEvaluationCap(params);
+        for(Map<String, Object> capBody : capBodyArr){
+            capBody.put("evalSn", params.get("evalSn"));
+            evaluationRepository.insEvaluationCap(capBody);
+        }
+    }
+
+
 
     @Override
     public void delEvaluation(Map<String, Object> params) {
