@@ -15,12 +15,12 @@
         <div class="headerbar" style="width:88%;">
             <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
             <div class="searchpanel">
-                <div class="input-group">
-                    <input type="text" id="menuSearchToobar" class="form-control" placeholder="메뉴를 검색하세요" onkeydown="if(window.event.keyCode==13){fn_searchMenu()}">
-                    <span class="input-group-btn">
-            <button class="btn btn-default" type="button" onclick="fn_searchMenu();"><i class="fa fa-search" ></i></button>
-          </span>
-                </div>
+<%--                <div class="input-group">--%>
+<%--                    <input type="text" id="menuSearchToobar" class="form-control" placeholder="메뉴를 검색하세요" onkeydown="if(window.event.keyCode==13){fn_searchMenu()}">--%>
+<%--                    <span class="input-group-btn">--%>
+<%--            <button class="btn btn-default" type="button" onclick="fn_searchMenu();"><i class="fa fa-search" ></i></button>--%>
+<%--          </span>--%>
+<%--                </div>--%>
             </div><!-- input-group -->
             <div class="searchpanel2" style="display: none">
                 <div class="input-group" style="float: left">
@@ -315,55 +315,6 @@
         var name = "popup test";
         var option = "width = 980, height = 807, top = 100, left = 200, location = no"
         var popup = window.open(url, name, option);
-    }
-
-    function fn_searchMenu(){
-        var searchData = {
-            menuName : $("#menuSearchToobar").val(),
-        }
-        var ds = customKendo.fn_customAjax("/main/getSearchMenu", searchData);
-        if(ds.flag){
-            console.log(ds.ds);
-
-            var menuKendoWindowTemplate = $('<div class="pop_wrap" id="biz_type_popupEnroll" style="min-width:400px; display:none;">\n' +
-                '<div class="pop_con">\n' +
-                '<div class="com_ta2" id="menuSearchDiv">\n' +
-                '</div>\n' +
-                '</div>\n' +
-                '</div>');
-
-            menuKendoWindowTemplate.kendoWindow({
-                width: "450px;",
-                height: "250px;",
-                title: "메뉴 검색",
-                visible: false,
-                modal : true,
-                close: function () {
-                    menuKendoWindowTemplate.remove();
-                }
-            }).data("kendoWindow");
-
-            var html = "";
-            if(ds.ds != null){
-                if(ds.ds.length > 0){
-                    for(var i = 0 ; i < ds.ds.length ; i++){
-                        html += '<div style="border-bottom: 1px solid lightgray; margin-top: 3px;">';
-                        html += "   <a href='#' style=\"display:flex;\" class=\"searchMenuATag\" menuPath=\""+ ds.ds[i].MENU_PATH +"\" menuNamePath='홈 > " + ds.ds[i].MENU_NAME_PATH + "' menuNameKr='" + ds.ds[i].MENU_NAME + "'>\n";
-                        html += ds.ds[i].MENU_NAME_PATH;
-                        html += '</a>';
-                        html += '</div>';
-                    }
-                }
-            }
-            $("#menuSearchDiv").append(html);
-            $(".searchMenuATag").on("click", function(){
-                var menuPath = $(this).attr("menuPath");
-                menuKendoWindowTemplate.data("kendoWindow").close();
-                $("#menuSearchToobar").val("");
-                open_in_frame(menuPath);
-            });
-            menuKendoWindowTemplate.data("kendoWindow").center().open();
-        }
     }
 
     /* function openPopup(url) {

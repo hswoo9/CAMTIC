@@ -70,6 +70,9 @@
         <if test='upperMenuId != null and !"".equals(upperMenuId)'>
             AND UPPER_MENU_ID = #{upperMenuId}
         </if>
+        <if test='type != null and !"".equals(type) and "fv".equals(type)'>
+            AND MENU_TYPE = 'a'
+        </if>
         ORDER BY MENU_FULL_PATH
     </select>
 

@@ -179,8 +179,11 @@ public class CommonServiceImpl implements CommonService {
     @Override
     public String getMenuFullJsonString(LoginVO loginVO) {
         List<Map<String, Object>> treeList = new ArrayList<>();
+        Map<String, Object> params = new HashMap<>();
+        params.put("empSeq", loginVO.getUniqId());
 
         List<Map<String, Object>> getMenuList = menuManagementRepository.getMainMenuList(loginVO);
+        List<Map<String, Object>> getFvMenuList = commonRepository.getFvMenu(params);
         for(Map<String, Object> parent : getMenuList){
             if(parent.get("MENU_DEPTH").equals("0")){
                 parent.put("MENU_FULL_PATH", "epis|" + parent.get("MENU_FULL_PATH"));
@@ -197,6 +200,27 @@ public class CommonServiceImpl implements CommonService {
                     }else{
                         childrenMenu.add(children);
                         parent.put("childrenMenu", childrenMenu);
+                    }
+                }
+            }
+
+            if(parent.get("MENU_DEPTH").equals("1") && parent.get("MENU_TYPE").equals("a")){
+                parent.put("MENU_CHILDREN_YN", "Y");
+            }
+
+            for(Map<String, Object> fvMenuList : getFvMenuList){
+                if(parent.get("MENU_ID").equals(fvMenuList.get("UPPER_MENU_ID"))){
+                    List<Map<String, Object>> fnMenu = new ArrayList<>();
+                    fvMenuList.put("MENU_DEPTH", "2");
+                    fvMenuList.put("MENU_CHILDREN_YN", "N");
+
+                    if(parent.containsKey("childrenMenu")){
+                        fnMenu = (List<Map<String, Object>>) parent.get("childrenMenu");
+                        fnMenu.add(fvMenuList);
+                        parent.put("childrenMenu", fnMenu);
+                    }else{
+                        fnMenu.add(fvMenuList);
+                        parent.put("childrenMenu", fnMenu);
                     }
                 }
             }

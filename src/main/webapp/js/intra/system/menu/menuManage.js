@@ -38,11 +38,12 @@ var menuM = {
             dataSource: [
                 { text: "선택", value: "" },
                 { text: "일반", value: "c" },
-                { text: "게시판", value: "b" }
+                { text: "게시판", value: "b" },
+                { text: "즐겨찾기", value: "a" }
             ],
             index: 0,
             change : function(){
-                if(this.value() == "" || this.value() == "c"){
+                if(this.value() == "" || this.value() == "c" || this.value() == "a"){
                     $("#boardId").data("kendoDropDownList").value("");
                     $("#menuPath").val("");
                     $("#menuPath").data("kendoTextBox").enable(true);

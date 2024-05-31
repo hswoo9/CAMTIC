@@ -94,6 +94,12 @@
     <div class="leftpanel">
         <div class="leftpanelinner">
             <div class="tab-content">
+                <div class="input-group">
+                    <input type="text" id="menuSearchToobar" class="form-control" placeholder="메뉴를 검색하세요" onkeydown="if(window.event.keyCode==13){fn_searchMenu()}">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="fn_searchMenu();"><i class="fa fa-search" ></i></button>
+                    </span>
+                </div>
                 <!-- ################# MAIN MENU ################### -->
                 <div class="" id="mainmenu">
                     <h5 class="sidebar-title">업무</h5>
@@ -195,6 +201,141 @@
                     return x
                 })
             }
+        }
+
+        function fn_searchMenu(){
+            var searchData = {
+                regEmpSeq : $("#empSeq").val(),
+                menuName : $("#menuSearchToobar").val(),
+            }
+            var ds = customKendo.fn_customAjax("/main/getSearchMenu", searchData);
+            if(ds.flag){
+                var menuKendoWindowTemplate = $('<div class="pop_wrap" id="biz_type_popupEnroll" style="min-width:550px; display:none;">' +
+                    '<div class="pop_con">' +
+                    '<div class="com_ta2" id="menuSearchDiv">' +
+                    '<input type="hidden" id="changeChk" value="N">' +
+                    '<input type="text" id="menuSearchModal" class="form-control" style="width: 480px; height:auto; margin-bottom:15px; " placeholder="메뉴를 검색하세요" onkeypress="getSelectMenu2();">' +
+                    '<div id="menuListDiv"></div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>');
+
+                menuKendoWindowTemplate.kendoWindow({
+                    width: "550px;",
+                    height: "350px;",
+                    title: "메뉴 검색",
+                    visible: false,
+                    modal : true,
+                    close: function () {
+                        if($("#changeChk").val() == "Y"){
+                            location.reload();
+                        }
+                        menuKendoWindowTemplate.remove();
+                    }
+                }).data("kendoWindow");
+
+                var html = "";
+                $("#menuListDiv").empty();
+                if(ds.ds != null){
+                    if(ds.ds.length > 0){
+                        for(var i = 0 ; i < ds.ds.length ; i++){
+                            let imgId = 'fvImg_' + ds.ds[i].MENU_ID;
+                            let menuId = ds.ds[i].FV_MENU_ID == null ? ds.ds[i].MENU_ID : ds.ds[i].FV_MENU_ID;
+                            let imgSrc = ds.ds[i].FV_MENU_ID ? "/images/ico/ico_book01_on.png" : "/images/ico/ico_book01.png";
+                            let imgClass = ds.ds[i].FV_MENU_ID ? "favorite" : "" ;
+
+                            html += '<div style="border-bottom: 1px solid lightgray; margin-top: 3px;">';
+                            html += '   <a href="javascript:void(0);" onclick="verificationFvMenu(' + menuId + ', \'' + imgId + '\')">';
+                            html += '       <img id="' + imgId + '" src="' + imgSrc + '" class="'+imgClass+'" >';
+                            html += '   </a>';
+
+                            html += "   <a href='#' class=\"searchMenuATag\" menuPath=\""+ ds.ds[i].MENU_PATH +"\" menuNamePath='홈 > " + ds.ds[i].MENU_NAME_PATH + "' menuNameKr='" + ds.ds[i].MENU_NAME + "'>\n";
+                            html += ds.ds[i].MENU_NAME_PATH;
+                            html += '</a>';
+                            html += '</div>';
+                        }
+                    }
+                }
+                $("#menuListDiv").append(html);
+                $(".searchMenuATag").on("click", function(){
+                    var menuPath = $(this).attr("menuPath");
+                    menuKendoWindowTemplate.data("kendoWindow").close();
+                    $("#menuSearchToobar").val("");
+                    open_in_frame(menuPath);
+                });
+                menuKendoWindowTemplate.data("kendoWindow").center().open();
+            }
+        }
+
+        // 메뉴 즐겨찾기 저장
+        function verificationFvMenu(menuID, imgId) {
+            var isFavorite = $("#" + imgId).hasClass("favorite");
+            if (isFavorite) {
+                $.ajax({
+                    url : "/main/setDelFvMenu",
+                    type : "GET",
+                    data : {
+                        empSeq : $("#regEmpSeq").val(),
+                        menuID : menuID
+                    },
+                    success : function (data){
+                        $("#" + imgId).attr("src", "/images/ico/ico_book01.png").removeClass("favorite");
+                        $("#changeChk").val("Y")
+                    },
+                });
+            } else {
+                $.ajax({
+                    url : "/main/getSearchMenuCnt",
+                    type : "GET",
+                    data : {
+                        empSeq : $("#regEmpSeq").val(),
+                        menuID : menuID
+                    },
+                    success : function (data){
+                        if(data.rs.status == 200){
+                            $("#" + imgId).attr("src", "/images/ico/ico_book01_on.png").addClass("favorite");
+                            $("#changeChk").val("Y")
+                        }
+                    },
+                });
+            }
+        }
+
+        // 모달창에서 검색
+        function getSelectMenu2() {
+            $.ajax({
+                url: "/main/getSearchMenu",
+                type: 'GET',
+                data: {
+                    empSeq : $("#empSeq").val(),
+                    menuName : $("#menuSearchModal").val()
+                },
+                success: function (ds) {
+                    var html = "";
+                    $("#menuListDiv").empty();
+                    if(ds.ds != null){
+                        if(ds.ds.length > 0){
+                            for(var i = 0 ; i < ds.ds.length ; i++){
+                                let imgId = 'fvImg_' + ds.ds[i].MENU_ID;
+                                let menuId = ds.ds[i].FV_MENU_ID == null ? ds.ds[i].MENU_ID : ds.ds[i].FV_MENU_ID;
+                                let imgSrc = ds.ds[i].FV_MENU_ID ? "/images/ico/ico_book01_on.png" : "/images/ico/ico_book01.png";
+                                let imgClass = ds.ds[i].FV_MENU_ID ? "favorite" : "" ;
+
+                                html += '<div style="border-bottom: 1px solid lightgray; margin-top: 3px;">';
+                                html += '   <a href="javascript:void(0);" onclick="verificationFvMenu(' + menuId + ', \'' + imgId + '\')">';
+                                html += '       <img id="' + imgId + '" src="' + imgSrc + '" class="'+imgClass+'" >';
+                                html += '   </a>';
+
+                                html += "   <a href='#' class=\"searchMenuATag\" menuPath=\""+ ds.ds[i].MENU_PATH +"\" menuNamePath='홈 > " + ds.ds[i].MENU_NAME_PATH + "' menuNameKr='" + ds.ds[i].MENU_NAME + "'>\n";
+                                html += ds.ds[i].MENU_NAME_PATH;
+                                html += '</a>';
+                                html += '</div>';
+                            }
+                        }
+                    }
+                    $("#menuListDiv").append(html);
+                },
+            });
         }
     </script>
 
