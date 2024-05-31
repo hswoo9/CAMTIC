@@ -614,3 +614,37 @@ function fileDown(filePath, fileName){
         dataURI: "/common/fileDownload.do?filePath=" + filePath + "&fileName=" + encodeURIComponent(fileName),
     });
 }
+
+function openModalSelect(){
+    $("#lecReqSelectModal").data("kendoWindow").open();
+}
+
+function fileChange(e){
+    $(e).next().text($(e)[0].files[0].name);
+}
+
+function fileChange2(e) {
+    const files = $(e)[0].files;
+    var fileNames = "";
+
+    for (const file of files) {
+        fileNames += '<div>'+ file.name +'<span style="color:red; cursor:pointer; font-weight: bold;" onclick="removeFile(this)">&nbsp;&nbsp;X</span></div>';
+    }
+    $("#file2Name").html(fileNames);
+}
+
+function removeFile(e) {
+    const fileName = $(e).parent().data('file');
+    const fileInput = $('#file2')[0];
+    const dataTransfer = new DataTransfer();
+
+    for (let i = 0; i < fileInput.files.length; i++) {
+        const file = fileInput.files[i];
+        if (file.name !== fileName) {
+            dataTransfer.items.add(file);
+        }
+    }
+    fileInput.files = dataTransfer.files;
+
+    $(e).parent().remove();
+}
