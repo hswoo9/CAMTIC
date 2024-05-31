@@ -469,6 +469,8 @@ var empPartRate = {
                     monFinalStr = monPayStr;
                 }else if($("#itemCheck").is(":checked")){
                     monFinalStr = monItemStr;
+                } else if(!$("#payCheck").is(":checked") && !$("#itemCheck").is(":checked")){
+                    monFinalStr = "NOT";
                 }
 
                 for (var i = 0; i < rs.length; i++) {
@@ -581,6 +583,10 @@ var empPartRate = {
 
                         var tot = Math.round((Number(item.MON_SAL) * Number(rate)) / 100);
 
+                        if(Number(item.MON_SAL) == 0 || Number(tot) == 0){
+                            tot = 0;
+                        }
+
                         userChangeSalaryArr[i][j] = 0;
                         userMonthSalaryArr[i][j] = 0;
                         userTotRateArr[i][j] = 0;
@@ -595,7 +601,9 @@ var empPartRate = {
 
                                         bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(finalStr) + '</td>';
 
-                                    }else {
+                                    }else if(monFinalStr == "NOT"){
+                                        bodyHtml += '<td class="amtCol" style="text-align: right"></td>';
+                                    } else {
                                         bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(itemMon[monFinalStr + (colMonth)]) + '</td>';
                                     }
 
@@ -604,17 +612,21 @@ var empPartRate = {
                                 }else {
                                     if(monFinalStr == "ALL"){
                                         bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(Number(item.MON_SAL)) + '</td>';
-                                    }else {
+                                    }else if(monFinalStr == "NOT"){
+                                        bodyHtml += '<td class="amtCol" style="text-align: right"></td>';
+                                    } else {
                                         bodyHtml += '<td class="amtCol" style="text-align: right">' + comma(tot) + '</td>';
                                     }
                                 }
                             } else {
                                 if(monFinalStr == "ALL") {
-                                    bodyHtml += '<td>' + totalRate + '%</td>';
+                                    bodyHtml += '<td class="perCol">' + totalRate + '%</td>';
                                 }else if (monFinalStr == monPayStr) {
-                                    bodyHtml += '<td>' + payRate + '%</td>';
-                                }else{
-                                    bodyHtml += '<td>' + itemRate + '%</td>';
+                                    bodyHtml += '<td class="perCol">' + payRate + '%</td>';
+                                }else if (monFinalStr == monItemStr){
+                                    bodyHtml += '<td class="perCol">' + itemRate + '%</td>';
+                                }else {
+                                    bodyHtml += '<td class="perCol"></td>';
                                 }
                             }
 
@@ -627,7 +639,7 @@ var empPartRate = {
                             }else if (monFinalStr == monPayStr) {
                                 userMonthSalaryArr[i][j] = tot;
                                 userTotRateArr[i][j] = payRate;
-                            }else{
+                            }else if (monFinalStr == monItemStr){
                                 userMonthSalaryArr[i][j] = tot;
                                 userTotRateArr[i][j] = itemRate;
                             }
@@ -703,17 +715,31 @@ var empPartRate = {
                 $("#userPartRateBody").html(bodyHtml);
 
                 /** 전부 0인 데이터는 삭제 */
-                $.each($(".addData"), function(){
-                    let amtSum = 0;
-                    $.each($(this).find(".amtCol"), function(e){
-                        const amt = isNaN(uncomma($(this).text())) ? 0 : $(this).text()
-                        amtSum += Number(amt);
-                    })
+                if ($("#rateFlag").val() == 'B'){   // 월지급액
+                    $.each($(".addData"), function(){
+                        let amtSum = 0;
+                        $.each($(this).find(".amtCol"), function(e){
+                            const amt = isNaN(uncomma($(this).text())) ? 0 : $(this).text()
+                            amtSum += Number(amt);
+                        })
 
-                    if(amtSum == 0){
-                        $(this).remove();
-                    }
-                })
+                        if(amtSum == 0){
+                            $(this).remove();
+                        }
+                    })
+                } else if($("#rateFlag").val() == 'A'){     // 참여율
+                    $.each($(".addData"), function(){
+                        let perSum = 0;
+                        $.each($(this).find(".perCol"), function(e){
+                            const per = isNaN(uncomma($(this).text().split('%')[0])) ? 0 : $(this).text().split('%')[0]
+                            perSum += Number(per);
+                        })
+
+                        if(perSum == 0){
+                            $(this).remove();
+                        }
+                    })
+                }
             }
         });
     },
