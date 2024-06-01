@@ -33,6 +33,7 @@
         <input type="hidden" id="masterSn" name="masterSn" value="${params.masterSn}">
         <input type="hidden" id="busClass" name="busClass" value="${params.busClass}">
         <input type="hidden" id="crmItemSn" name="crmItemSn" value="${params.crmItemSn}">
+        <input type="hidden" id="costPrice" name="costPrice" value="${item.COST_PRICE}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;" id="popTitle">
@@ -73,6 +74,7 @@
                 <colgroup>
                     <col style="width: 3%">
                     <col style="width: 15%">
+                    <col style="width: 15%">
                     <col style="width: 18%">
                     <col style="width: 18%">
                     <col>
@@ -82,6 +84,7 @@
                     <th>
                         <input type="checkbox" id="checkAll">
                     </th>
+                    <th>원가</th>
                     <th>단가</th>
                     <th>적용시작일자</th>
                     <th>적용종료일자</th>

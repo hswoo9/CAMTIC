@@ -30,6 +30,7 @@
         <input type="hidden" id="empSeq" name="empSeq" value="${loginVO.uniqId}">
         <input type="hidden" id="empName" name="empName" value="${loginVO.name}">
         <input type="hidden" id="masterSn" name="masterSn" value="${item.MASTER_SN}">
+        <input type="hidden" id="costPrice" name="costPrice" value="${item.COST_PRICE}">
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">
                 <span style="position: relative; top: 3px;" id="popTitle">표준단가관리</span>
@@ -62,6 +63,7 @@
                     <col style="width: 3%">
                     <col style="width: 7%">
                     <col style="width: 15%">
+                    <col style="width: 15%">
                     <col style="width: 18%">
                     <col style="width: 18%">
                     <col>
@@ -72,6 +74,7 @@
                         <input type="checkbox" id="checkAll">
                     </th>
                     <th>순번</th>
+                    <th>원가</th>
                     <th>단가</th>
                     <th>적용시작일자</th>
                     <th>적용종료일자</th>
