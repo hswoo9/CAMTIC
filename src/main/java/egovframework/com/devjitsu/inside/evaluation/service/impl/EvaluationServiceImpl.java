@@ -196,16 +196,17 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
 
         if(params.containsKey("empSeqArr")){
-            /* params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
-            evaluationRepository.insEvaluationEmp(params);*/
-            evaluationRepository.delEvaluationEmp(params);
             Gson gson = new Gson();
             List<Map<String, Object>> empSeqArr = gson.fromJson((String) params.get("empSeqArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
-            for(Map<String, Object> empSeq: empSeqArr){
-                empSeq.put("evalSn", params.get("evalSn"));
-                evaluationRepository.insEvaluationEmp(empSeq);
+            if(!empSeqArr.isEmpty()){
+            /* params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
+                evaluationRepository.insEvaluationEmp(params);*/
+                evaluationRepository.delEvaluationEmp(params);
+                for(Map<String, Object> empSeq: empSeqArr){
+                    empSeq.put("evalSn", params.get("evalSn"));
+                    evaluationRepository.insEvaluationEmp(empSeq);
+                }
             }
-
         }
 
         // 평가 등급별 수준 및 점수 insert / update
