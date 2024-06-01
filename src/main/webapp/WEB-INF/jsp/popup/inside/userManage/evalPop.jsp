@@ -58,9 +58,7 @@
             data : {
                 evalSn : $("#evalSn").val(),
                 empSeq : $("#empSeq").val(),
-                duty : $("#duty").val(),
-                occupation : $("#occupation").val(),
-                deptSeq : $("#deptSeq").val(),
+                key : $("#empSeq").val(),
                 bsYear : $("#bsYear").val()
             },
             dataType : "json",

@@ -37,40 +37,14 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public Map<String, Object> getEvaluationEmpCountFirst(Map<String, Object> params) {
         params.put("bsYMD", params.get("bsYear")+"-12-31");
-
-        if(params.get("duty").equals("4") || params.get("duty").equals("5")){
-            params.put("teamLeader", "N");
-            params.put("deptHeader", "N");
-            params.put("deptSeq", params.get("deptSeq"));
-        }else if(params.get("duty").equals("2") || params.get("duty").equals("3") || params.get("duty").equals("7")){
-            params.put("teamLeader", "Y");
-            params.put("deptHeader", "N");
-            params.put("pDeptSeq", params.get("deptSeq"));
-        }else if(params.get("duty").equals("1")){
-            params.put("teamLeader", "Y");
-            params.put("deptHeader", "N");
-            params.put("duty" ,"1");
-        }else{
-            params.put("self" ,"Y");
-        }
+        params.put("key", "1");
 
         return evaluationRepository.getEvaluationEmpCount(params);
     }
     @Override
     public Map<String, Object> getEvaluationEmpCount(Map<String, Object> params) {
         params.put("bsYMD", params.get("bsYear")+"-12-31");
-
-        if(params.get("duty").equals("2") || params.get("duty").equals("3") || params.get("duty").equals("7")){
-            params.put("teamLeader", "N");
-            params.put("deptHeader", "N");
-            params.put("pDeptSeq", params.get("deptSeq"));
-        }else if(params.get("duty").equals("1")){
-            params.put("teamLeader", "Y");
-            params.put("deptHeader", "N");
-            params.put("duty" ,"1");
-        }else{
-            params.put("self" ,"Y");
-        }
+        params.put("key", "2");
 
         return evaluationRepository.getEvaluationEmpCount(params);
     }

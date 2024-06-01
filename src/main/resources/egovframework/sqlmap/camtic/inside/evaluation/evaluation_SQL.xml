@@ -888,26 +888,8 @@
                AND
                  OCCUPATION_CODE IN (1,2,3)
             ]]>
-             <if test='"N".equals(teamLeader) and "N".equals(deptHeader) and deptSeq != null and deptSeq != ""'>
-               AND B.DEPT_SEQ = #{deptSeq}
-               AND DUTY_CODE NOT IN (1,2,3,4,5,7)
-             </if>
-             <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
-               AND PARENT_DEPT_SEQ = #{pDeptSeq}
-               AND DUTY_CODE IN (4,5)
-
-             </if>
-            <if test='"N".equals(teamLeader) and "Y".equals(deptHeader) and "1".equals(duty)'>
-                AND DUTY_CODE IN (2,3,7)
-            </if>
-
-             <if test='"N".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
-               AND PARENT_DEPT_SEQ = #{pDeptSeq}
-               AND DUTY_CODE NOT IN (1,2,3,4,5,7)
-             </if>
-            <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and "1".equals(duty)'>
-                AND DUTY_CODE IN (4,5)
-            </if>
+            <if test='"1".equals(key)'> AND EVAL_EVAL_F_SEQ = #{empSeq} </if>
+            <if test='"2".equals(key)'> AND EVAL_EVAL_S_SEQ = #{empSeq} </if>
         <![CDATA[
             ) Z
         ORDER BY
@@ -963,29 +945,8 @@
                AND
                  OCCUPATION_CODE IN (1,2,3)
             ]]>
-        <if test='"N".equals(teamLeader) and "N".equals(deptHeader) and deptSeq != null and deptSeq != ""'>
-            AND B.DEPT_SEQ = #{deptSeq}
-            AND DUTY_CODE NOT IN (1,2,3,4,5,7)
-        </if>
-        <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
-            AND PARENT_DEPT_SEQ = #{pDeptSeq}
-            AND DUTY_CODE IN (4,5)
-
-        </if>
-        <if test='"N".equals(teamLeader) and "Y".equals(deptHeader) and "1".equals(duty)'>
-            AND DUTY_CODE IN (2,3,7)
-        </if>
-
-        <if test='"N".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
-            AND PARENT_DEPT_SEQ = #{pDeptSeq}
-            AND DUTY_CODE NOT IN (1,2,3,4,5,7)
-        </if>
-        <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and "1".equals(duty)'>
-            AND DUTY_CODE IN (4,5)
-        </if>
-        <if test='"Y".equals(self) and self != null'>
-            AND DUTY_CODE IN (100)
-        </if>
+        <if test='"1".equals(key)'> AND EVAL_EVAL_F_SEQ = #{empSeq} </if>
+        <if test='"2".equals(key)'> AND EVAL_EVAL_S_SEQ = #{empSeq} </if>
         <![CDATA[
             ) Z
         ORDER BY
