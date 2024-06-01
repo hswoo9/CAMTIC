@@ -123,6 +123,18 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="panel-body" style="padding-top: unset">
+            <div class="card-header">
+                <h4 style="position: relative; top:7px">
+                    평가등급별 인원비율 표 (팀원평가)
+                </h4>
+            </div>
+            <div>
+                <textarea class="txt_area_01" id="contents"></textarea>
+            </div>
+
+        </div>
     </div>
 </div><!-- col-md-9 -->
 
@@ -136,6 +148,10 @@
         }else{
             $('#saveBtn').css("display", "");
         }
+
+        CKEDITOR.replace('contents', {
+            height: 250
+        });
 
         customKendo.fn_textBox(["evalComPer", "evalAhcPer"]);
         customKendo.fn_datePicker("bsYear", 'decade', "yyyy", new Date());
@@ -192,6 +208,8 @@
                 var scItem = scList[i];
                 fn_scAddRow(scItem);
             }
+
+            CKEDITOR.instances.contents.setData(evalMap.EVAL_PER_CONTNET);
         }
     });
 
@@ -223,6 +241,8 @@
     function fn_save(){
         var formData = new FormData();
 
+        var perContnet = CKEDITOR.instances.contents.getData();
+
         formData.append("evalSn" , $("#evalSn").val());
         formData.append("bsYear" , $("#bsYear").val()); // 년도
         formData.append("evalNum" , $("#evalNum").val()); // 차수
@@ -231,6 +251,7 @@
         formData.append("evalAhcPer" , $("#evalAhcPer").val()); // 업적평가 가중치
         formData.append("empSeqArr" , JSON.stringify(empSeqArr));  // 평가대상
         formData.append("regEmpSeq", $("#empSeq").val());
+        formData.append("perContnet" , perContnet);
 
         var scoreBodyArr = [];
         var scoreLen = $("#scoreList").find("tr").length;

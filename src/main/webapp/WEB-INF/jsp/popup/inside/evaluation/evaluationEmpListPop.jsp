@@ -36,6 +36,9 @@
     <div class="panel">
         <div class="panel-body">
             <div style="margin-bottom:10px;">
+
+                팀원평가 상단 평가등급별 인원비율 표
+
                 <div id="mainGrid" style="margin:20px 0;"></div>
             </div>
         </div>

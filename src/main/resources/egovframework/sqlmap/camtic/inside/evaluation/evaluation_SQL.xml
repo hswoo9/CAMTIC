@@ -291,6 +291,7 @@
             BS_YEAR = #{bsYear},
             EVAL_NUM = #{evalNum},
             EVAL_STAT = #{evalStat},
+            EVAL_PER_CONTNET = #{perContnet},
             EVAL_COM_PER = #{evalComPer},
             EVAL_ACH_PER = #{evalAhcPer},
             MOD_EMP_SEQ =  #{regEmpSeq}
