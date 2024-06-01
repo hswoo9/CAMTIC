@@ -1,3 +1,5 @@
+let useTimeSum = 0;
+let useAmtSum = 0;
 var equipInfo = {
 
     global : {
@@ -27,6 +29,10 @@ var equipInfo = {
                 refresh: true,
                 pageSizes: [ 10, 20, 30, 50, 100 ],
                 buttonCount: 5
+            },
+            dataBound: function(){
+                useAmtSum = 0;
+                useTimeSum = 0;
             },
             noRecords: {
                 template: "데이터가 존재하지 않습니다."
@@ -71,15 +77,27 @@ var equipInfo = {
                     title: "사용자"
                 }, {
                     field: "OPER_CN",
-                    title: "작업내용"
+                    title: "작업내용",
+                    footerTemplate: "합계"
                 }, {
                     field: "USE_TIME",
-                    title: "총 사용시간"
+                    title: "총 사용시간",
+                    template: function(e){
+                        useTimeSum += e.USE_TIME;
+                        return e.USE_TIME;
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(useTimeSum)+"</div>";
+                    }
                 }, {
                     field: "USE_AMT",
                     title: "사용대금",
                     template :function(e){
-                        return comma(e.USE_AMT);
+                        useAmtSum += e.USE_AMT;
+                        return "<div style='text-align: right'>"+comma(e.USE_AMT)+"</div>";
+                    },
+                    footerTemplate: function(){
+                        return "<div style='text-align: right'>"+comma(useAmtSum)+"</div>";
                     }
                 }, {
                     field: "CLIENT_PRTPCO_NAME",
