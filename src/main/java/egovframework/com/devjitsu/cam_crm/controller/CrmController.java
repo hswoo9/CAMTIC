@@ -19,10 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CrmController {
@@ -833,16 +830,26 @@ public class CrmController {
 
         Map<String, Object> map = new HashMap<>();
 
-        for(int i = 1 ; i < 13 ; i++){
-            List<Map<String, Object>> list = new ArrayList<>();
-            params.put("mon", i);
-            list = crmService.getDeptRelationList(params);
+        List<Map<String, Object>> deptList = new ArrayList<>();
+        deptList = userManageService.getDeptCodeList2(params);
 
-            map.put("mon" +i, list);
+        for(Map<String, Object> dept : deptList){
+            params.put("deptSeq", dept.get("deptSeq"));
+            for(int i = 1 ; i < 13 ; i++){
+                params.put("mon", i);
+                Integer monCnt = 0;
+                try{
+                    monCnt =crmService.getDeptRelationCnt(params);
+                } catch (Exception e){
+                    monCnt = 0;
+                }
+
+                dept.put("mon" +i, monCnt);
+            }
         }
 
         model.addAttribute("rs", map);
-        model.addAttribute("deptList", userManageService.getDeptCodeList2(params));
+        model.addAttribute("deptList", deptList);
         return "jsonView";
     }
 

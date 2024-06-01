@@ -72,4 +72,6 @@ public interface CrmService {
     List<Map<String, Object>> getCustomerIndustryCondition();
 
     List<Map<String, Object>> getDeptRelationList(Map<String, Object> params);
+
+    Integer getDeptRelationCnt(Map<String, Object> params);
 }
