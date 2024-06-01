@@ -1001,4 +1001,9 @@ public class CrmServiceImpl implements CrmService {
     public List<Map<String, Object>> getDeptRelationList(Map<String, Object> params) {
         return crmRepository.getDeptRelationList(params);
     }
+
+    @Override
+    public Integer getDeptRelationCnt(Map<String, Object> params) {
+        return crmRepository.getDeptRelationCnt(params);
+    }
 }

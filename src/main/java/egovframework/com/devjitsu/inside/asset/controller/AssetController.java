@@ -1503,16 +1503,16 @@ public class AssetController {
     @RequestMapping("/asset/setBarcodePrintA")
     public String setBarcodePrintA(@RequestParam Map<String, Object> params, Model model) throws IOException {
 
-        String START_CMD = "^XA";
-        String END_CMD = "^XZ";
-        String POS_CMD = "^FO";
-        String FONT_CMD = "^Ax";
-        String KOR_DEF = "^SEE:UHANGUL.DAT^FS^CW1,E:KFONT3.FNT^FS^CW1,E:V53_16_6Z.ZPL^CI26^FS";
-        String KOR_FNT = "^A1";
-        String BAR_ATTR = "^BY";
-        String BAR_KIND_CMD = "^BC";
-        String DATA_START = "^FD";
-        String DATA_END = "^FS";
+        String START_CMD = "^XA";   // 시작명령어
+        String END_CMD = "^XZ";     // 종료명령어
+        String POS_CMD = "^FO";     // 텍스트 위치 지정
+        String FONT_CMD = "^Ax";    // 글꼴 설정
+        String KOR_DEF = "^SEE:UHANGUL.DAT^FS^CW1,E:KFONT3.FNT^FS^CW1,E:V53_16_6Z.ZPL^CI26^FS"; // 한글 폰트 설정
+        String KOR_FNT = "^A1";     // 한글 폰트 지정
+        String BAR_ATTR = "^BY";    // 바코드 속성 설정 (너비, 비율, 높이)
+        String BAR_KIND_CMD = "^BC";// 바코드 종류 설정 (Code 128)
+        String DATA_START = "^FD";  // 데이터 시작
+        String DATA_END = "^FS";    // 데이터 종료
 
         if(params.get("target").equals("asset")){
             String[] astInfoSnAr = params.get("astSnArr").toString().split(",");

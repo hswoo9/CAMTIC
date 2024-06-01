@@ -100,4 +100,8 @@ public class CrmRepository extends AbstractDAO {
     public List<Map<String, Object>> getDeptRelationList(Map<String, Object> params) {
         return selectList("crm.getDeptRelationList", params);
     }
+
+    public int getDeptRelationCnt(Map<String, Object> params) {
+        return (Integer) selectOne("crm.getDeptRelationCnt", params);
+    }
 }
