@@ -47,14 +47,24 @@
             chkEmpSeqArr = window.opener.chkEmpSeqArr.map(function(value) {
                 return parseInt(value, 10);
             });
-        }else{
+        }/*else{
             chkEmpSeqArr = window.opener.empSeqArr.split(',').filter(function(value) {
                 return value.trim() !== "";
             }).map(function(value) {
                 return parseInt(value, 10);
             });
+        }*/
+         else {
+            chkEmpSeqArr = window.opener.empSeqArr.map(function(value) {
+                if (typeof value === 'object' && value !== null && 'empSeq' in value) {
+                    return parseInt(value.empSeq, 10);
+                } else if (typeof value === 'string') {
+                    return parseInt(value, 10);
+                }
+            }).filter(function(value) {
+                return !isNaN(value);
+            });
         }
-
 
         customKendo.fn_datePicker("bsYMD", '', "yyyy-MM-dd", new Date($("#bsYear").val()+"-12-31"));
         requestEvaluationMainGrid();
@@ -153,11 +163,21 @@
                 }, {
                     title: "1차 평가자",
                     width: 100,
-                    field: "T1"
+                    field: "T1",
+                    template: function (row){
+                        return '<a href="javascript:void(0);" onclick="userSearch(\''+row.EMP_SEQ+'\', 1);" >' +
+                            '<span id="t1_'+row.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + row.T1 + '</span>' +
+                            '</a>';
+                    }
                 }, {
                     title: "2차 평가자",
                     width: 100,
-                    field: "T2"
+                    field: "T2",
+                    template: function (row){
+                        return '<a href="javascript:void(0);" onclick="userSearch(\''+row.EMP_SEQ+'\', 2);" >' +
+                            '<span id="t2_'+row.EMP_SEQ+'" style="display: inline-block; width: 100%; height: 100%;">' + row.T2 + '</span>' +
+                            '</a>';
+                    }
                 }, {
                     title: "직군",
                     width: 100,
@@ -190,12 +210,16 @@
                 }, {
                     field: "",
                     title: "비고",
-                    width: 100,
+                    width: 150,
                     template: function(e){
-                        if(e.rmk != null) {
-                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk" value="' + e.RMK + '">';
+                        if(e.RMK != null) {
+                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk" value="' + e.RMK + '" style="width: 100%">' +
+                                '<input type="hidden" id="t1seq'+e.EMP_SEQ+'" value="' + e.T1_SEQ + '">' +
+                                '<input type="hidden" id="t2seq'+e.EMP_SEQ+'" value="' + e.T2_SEQ + '">';
                         }else{
-                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk">';
+                            return '<input type="text" id="rmk'+e.EMP_SEQ+'" name="rmk" class="rmk" value=""  style="width: 100%">' +
+                                '<input type="hidden" id="t1seq'+e.EMP_SEQ+'"  value="' + e.T1_SEQ + '">' +
+                                '<input type="hidden" id="t2seq'+e.EMP_SEQ+'"  value="' + e.T2_SEQ + '">';
                         }
                     },
                 }
@@ -203,7 +227,7 @@
         }).data("kendoGrid");
     }
 
-    function fn_sendReqUsers(){
+    /*function fn_sendReqUsers(){
 
         let grid = $("#mainGrid").data("kendoGrid");
 
@@ -220,8 +244,71 @@
             empSeqs += $(this).val() + ",";
         });
 
+
+
         opener.parent.fn_userMultiSelectPopCallBack(empSeqs);
         window.close();
+    }*/
+
+    function fn_sendReqUsers() {
+        let grid = $("#mainGrid").data("kendoGrid");
+
+        let checked = grid.tbody.find("input[name=empPk]:checked");
+
+        if (checked.length == 0) {
+            alert("평가대상 인원을 선택하세요.");
+            return;
+        }
+
+        let empSeqsArray = [];
+
+        checked.each(function() {
+            let empSeq = $(this).val();
+            let rmk = $("#rmk" + empSeq).val();
+            let t1seq = $("#t1seq" + empSeq).val();
+            let t2seq = $("#t2seq" + empSeq).val();
+            let t1Name = $("#t1_"+empSeq).text();
+            let t2Name = $("#t2_"+empSeq).text();
+
+            empSeqsArray.push({
+                empSeq : empSeq,
+                rmk : rmk,
+                t1seq : t1seq,
+                t2seq : t2seq,
+                t1Name : t1Name,
+                t2Name : t2Name
+            });
+        });
+
+        opener.parent.fn_userMultiSelectPopCallBack(empSeqsArray);
+        window.close();
+    }
+
+    function userSearch(empSeq , eval) {
+        if(eval == 1){
+            var url = "/common/deptListPop.do?pk="+empSeq+"&type=eval&params=1";
+            var name = "deptListPop";
+            var option = "width=750, height=650, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }else if(eval == 2){
+            var url = "/common/deptListPop.do?pk="+empSeq+"&type=eval&params=2";
+            var name = "deptListPop";
+            var option = "width=750, height=650, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no"
+            var popup = window.open(url, name, option);
+        }
+
+    }
+
+    function userSearchCallBack(empSeq , empNameKr, dutyName, pk, status) {
+
+        if(status == 1){  // 1차 평가자
+            $("#t1seq"+pk).val(empSeq);
+            $("#t1_"+pk).text(empNameKr +" "+dutyName);
+            dutyName
+        }else if(status == 2){  // 2차 평가자
+            $("#t2seq"+pk).val(empSeq);
+            $("#t2_"+pk).text(empNameKr +" "+dutyName);
+        }
     }
 </script>
 </body>

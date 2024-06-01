@@ -229,7 +229,7 @@
         formData.append("evalStat" , $("#evalStat").data("kendoRadioGroup").value());  // 작성중, 평가중, 평가완료
         formData.append("evalComPer" , $("#evalComPer").val()); // 역량평가 가중치
         formData.append("evalAhcPer" , $("#evalAhcPer").val()); // 업적평가 가중치
-        formData.append("empSeqArr" , empSeqArr);  // 평가대상
+        formData.append("empSeqArr" , JSON.stringify(empSeqArr));  // 평가대상
         formData.append("regEmpSeq", $("#empSeq").val());
 
         var scoreBodyArr = [];
@@ -316,7 +316,7 @@
             return;
         }
 
-        window.open("/evaluation/pop/requestEvaluationUsers.do?pk="+ $("#evalSn").val() +"&bsYear=" + $("#bsYear").val(),"조직도","width=1500, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        window.open("/evaluation/pop/requestEvaluationUsers.do?pk="+ $("#evalSn").val() +"&bsYear=" + $("#bsYear").val(),"조직도","width=1700, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
         newWindow.empSeqArr = empSeqArr;
         newWindow.chkEmpSeqArr = chkEmpSeqArr;
     }
@@ -324,13 +324,14 @@
     function fn_userMultiSelectPopCallBack(e){
         var seqArr = [];
         empSeqArr = e;
-        e = e.split(",");
+        console.log(empSeqArr)
+        // e = e.split(",");
 
-        for(var i = 0; i < e.length; i++){
-            seqArr.push(e[i]);
-        }
+        /* for(var i = 0; i < e.length; i++){
+             seqArr.push(e[i]);
+         }*/
 
-        $("#evaluationMemberCnt").text(seqArr.length - 1);
+        $("#evaluationMemberCnt").text(empSeqArr.length);
     }
 
 

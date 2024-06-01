@@ -650,7 +650,7 @@
         formData.append("bsYear" , $("#bsYear").val()); // 년도
         formData.append("evalNum" , $("#evalNum").val()); // 차수
         formData.append("evalStat" , $("#evalStat").data("kendoRadioGroup").value());  // 작성중, 평가중, 평가완료
-        formData.append("empSeqArr" , empSeqArr);  // 평가대상
+        formData.append("empSeqArr" , JSON.stringify(empSeqArr));  // 평가대상
         formData.append("regEmpSeq", $("#empSeq").val());
 
         // 평가항목 및 가중치 - 사업인원
@@ -855,7 +855,7 @@
             return;
         }
 
-        window.open("/evaluation/pop/requestEvaluationUsers.do?pk="+ $("#evalSn").val() +"&bsYear=" + $("#bsYear").val(),"조직도","width=1500, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
+        window.open("/evaluation/pop/requestEvaluationUsers.do?pk="+ $("#evalSn").val() +"&bsYear=" + $("#bsYear").val(),"조직도","width=1700, height=610, scrollbars=no, top=100, left=200, resizable=no, toolbars=no, menubar=no");
         newWindow.empSeqArr = empSeqArr;
         newWindow.chkEmpSeqArr = chkEmpSeqArr;
     }
@@ -863,13 +863,14 @@
     function fn_userMultiSelectPopCallBack(e){
         var seqArr = [];
         empSeqArr = e;
-        e = e.split(",");
+        console.log(empSeqArr)
+        // e = e.split(",");
 
-        for(var i = 0; i < e.length; i++){
+       /* for(var i = 0; i < e.length; i++){
             seqArr.push(e[i]);
-        }
+        }*/
 
-        $("#evaluationMemberCnt").text(seqArr.length - 1);
+        $("#evaluationMemberCnt").text(empSeqArr.length);
     }
 
     function fn_capAddRow() {
