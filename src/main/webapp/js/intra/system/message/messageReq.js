@@ -277,5 +277,12 @@ var messageReq = {
                 alert("사용자 삭제 중 에러가 발생했습니다.");
             }
         }
-    }
+    },
+
+    fn_faxSendPopup : function(key, status, auth){
+        var url = "/system/pop/faxSendPop.do";
+        var name = "faxSendPop";
+        var option = "width=400, height=400, scrollbars=no, top=200, left=600, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
 }

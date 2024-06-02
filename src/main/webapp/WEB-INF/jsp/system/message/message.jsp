@@ -8,7 +8,6 @@
 <style>
     td{background-color: #fff;}
     th{background-color: #dee2e6;}
-    body{background-color:#fff;}
     .tab{width:100%; padding: 10px;}
     .tabnav{font-size:0; width:100%; border:1px solid #ddd; padding:0;}
     .tabnav li{display: inline-block;  height:46px; text-align:center; border-right:1px solid #ddd;}
@@ -131,6 +130,9 @@
         width: 95%;
     }
 </style>
+
+<body class="font-opensans">
+
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -139,8 +141,11 @@
             <h4 class="panel-title">문자함</h4>
             <div class="title-road">시스템관리 > 문자 &gt; 문자함</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+            <div style="float: right; padding: 0 0 10px 0;">
+                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="messageReq.fn_faxSendPopup()" disabled>팩스 발송</button>
+            </div>
         </div>
-        <div class="tab" style="padding-left: 20px; padding-right: 20px;">
+        <div class="tab" style="padding-top: 30px; padding-left: 20px; padding-right: 20px;">
             <div id="tab03">
                 <div>
                     <table>

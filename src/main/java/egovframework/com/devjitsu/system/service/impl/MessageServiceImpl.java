@@ -44,7 +44,16 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @Transactional
     public void msgSend(Map<String, Object> params) {
-        messageRepository.msgSend(params);
+        /** 콘텐츠 바이트 크기 구하기 */
+        int length = getByteLength(params.get("msg_content"));
+        System.out.println("msg content length : " + length + " Bytes");
+
+        /** 만약 바이트가 80보다 작으면 SMS, 크면 MMS (둘이 건당 요금이 다름) */
+        if(length < 80){
+            messageRepository.msgSendSMS(params);
+        }else{
+            messageRepository.msgSendMMS(params);
+        }
     }
 
 
@@ -94,5 +103,20 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void setUserDel(Map<String, Object> params) {
         messageRepository.setUserDel(params);
+    }
+
+    private int getByteLength(Object strO) {
+        try {
+            String str = strO.toString();
+            return str.getBytes("euc-kr").length;
+        } catch (Exception e) {
+            try {
+                String str = strO.toString();
+                return str.getBytes().length;
+            } catch (Exception f) {
+                f.printStackTrace();
+            }
+        }
+        return 80;
     }
 }

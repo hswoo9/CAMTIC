@@ -48,12 +48,22 @@ public class messageController {
 
     /** 문자 전송 팝업 */
     @RequestMapping("/system/pop/messageSendPop.do")
-    public String userReqPopImage(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    public String messageSendPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         model.addAttribute("params", params);
         return "popup/system/message/messageSendPop";
+    }
+
+    /** 팩스 전송 팝업 */
+    @RequestMapping("/system/pop/faxSendPop.do")
+    public String faxSendPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/system/message/faxSendPop";
     }
 
 
