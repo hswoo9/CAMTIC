@@ -87,11 +87,13 @@ var messageReq = {
             var dest_phone = $("#dest_phone"+i).val();
             var name = $("#dest_phone"+i).attr('cname');
             var msg_content = $("#tBox_Msg").val();
+            var callBack = $("#callBack").val();
             var pkDate = sdf;
             data.messages.push({
                 dest_phone: name+"^"+dest_phone,
                 msg_content: msg_content,
-                pkDate: pkDate
+                pkDate: pkDate,
+                callBack: callBack
             });
         }
 

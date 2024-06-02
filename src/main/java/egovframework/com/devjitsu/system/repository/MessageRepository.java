@@ -10,6 +10,9 @@ public class MessageRepository extends AbstractDAO {
 
     public List<Map<String, Object>> getMenuList(Map<String, Object> params) { return selectList("message.getMenuList", params); }
     public List<Map<String, Object>> getMenuListUser(Map<String, Object> params) { return selectList("message.getMenuListUser", params); }
+    public List<Map<String, Object>> getMessageHistList(Map<String, Object> params) {
+        return selectListPrjMs("messagePrj.getMessageHistList", params);
+    }
 
 
     public List<Map<String, Object>> test(Map<String, Object> params) { return selectList("messagePrj.test", params); }

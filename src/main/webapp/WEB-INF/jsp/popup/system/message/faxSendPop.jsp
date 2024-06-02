@@ -14,6 +14,7 @@
         <div class="card-header pop-header">
             <h3 class="card-title title_NM">팩스전송</h3>
             <div>
+                <button type="button" class="k-button k-button-solid-info" style="margin-right:5px;margin-top: 8px;" onclick="faxSendPop.sendFax();" disabled>저장</button>
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;margin-top: 8px;" onclick="window.close();">닫기</button>
             </div>
         </div>
@@ -54,7 +55,7 @@
                     <td>
                         <input type="hidden" id="fileSn" name="fileSn">
                         <label for="file" id="fileLabel" class="k-button k-button-solid-base">파일첨부</label>
-                        <input type="file" id="file" name="file" onchange="paxSendPop.fileChange(this)" style="display: none">
+                        <input type="file" id="file" name="file" onchange="faxSendPop.fileChange(this)" style="display: none">
                         <span id="fileName"></span>
                     </td>
                 </tr>

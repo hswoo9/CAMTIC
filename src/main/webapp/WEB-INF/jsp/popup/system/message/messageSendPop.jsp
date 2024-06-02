@@ -34,6 +34,20 @@
                 <button type="button" class="k-button k-button-solid-error" style="margin-right:5px;margin-top: 8px;" onclick="window.close();">닫기</button>
             </div>
         </div>
+        <table class="popTable table table-bordered mb-0">
+            <colgroup>
+                <col width="30%">
+                <col width="70%">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>보내는사람</th>
+                    <td colspan="3">
+                        <input name="callBack" id="callBack" oninput="onlyNumber(this);" maxlength="13" placeholder="숫자만입력하세요!" style="width:95%; border: 1px solid black; padding: 3px; margin: 5px 0; font-weight: bold" value="0632190300">
+                    </td>
+                </tr>
+            </thead>
+        </table>
         <div class="msg_con_wrap" style="height: 505px; display:flex; margin-top: 20px;">
             <div class="msg_mms_box" style="margin: 0 30px;" >
                 <textarea name="tBox_Msg" class="MsgBox ImeMode" id="tBox_Msg" placeholder="[메시지입력창]" rows="12" cols="20"></textarea>

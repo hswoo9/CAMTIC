@@ -649,7 +649,7 @@ var userPersonList2 = {
 
         var url = "/system/pop/messageSendPop.do?userList="+joinSn+"&type=userList";
         var name = "messageSendPop";
-        var option = "width=315, height=600, scrollbars=no, top=200, left=600, resizable=no, toolbars=no, menubar=no";
+        var option = "width=315, height=660, scrollbars=no, top=200, left=600, resizable=no, toolbars=no, menubar=no";
         var popup = window.open(url, name, option);
     }
 }

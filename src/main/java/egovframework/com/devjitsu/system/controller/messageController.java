@@ -36,14 +36,14 @@ public class messageController {
         return "system/message/message";
     }
 
-    /** 전화번호부 리스트 */
-    @RequestMapping("/message/makeTreeView")
-    public String makeTreeView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+    /** 문자함 */
+    @RequestMapping("/message/messageHistList.do")
+    public String messageHistList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
-        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
-        params.put("loginEmpSeq", loginVO.getUniqId());
-        model.addAttribute("rs", messageService.getStringMenuList(params));
-        return "jsonView";
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        return "system/message/messageHistList";
     }
 
     /** 문자 전송 팝업 */
@@ -67,6 +67,25 @@ public class messageController {
     }
 
 
+    /** 전화번호부 리스트 */
+    @RequestMapping("/message/makeTreeView")
+    public String makeTreeView(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        params.put("loginEmpSeq", loginVO.getUniqId());
+        model.addAttribute("rs", messageService.getStringMenuList(params));
+        return "jsonView";
+    }
+
+    /** 문자이력 리스트 */
+    @RequestMapping("/message/getMessageHistList")
+    public String getMessageHistList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = messageService.getMessageHistList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+
     /** 문자 메세지 전송 */
     @RequestMapping("/message/sendMsg")
     public String sendMsg(@RequestBody Map<String, List<Map<String, Object>>> params, HttpServletRequest request, Model model){
@@ -84,6 +103,7 @@ public class messageController {
                 map.put("dest_phone", message.get("dest_phone"));
                 map.put("msg_content", message.get("msg_content"));
                 map.put("pkDate", message.get("pkDate"));
+                map.put("callBack", message.get("callBack"));
                 map.put("loginEmpSeq", loginVO.getUniqId());
 
                 messageService.msgSend(map);
@@ -101,9 +121,6 @@ public class messageController {
 
         return "jsonView";
     }
-
-
-
 
 
     /** 그룹 저장 */

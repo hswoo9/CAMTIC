@@ -40,6 +40,11 @@ public class MessageServiceImpl implements MessageService {
         return menuList;
     }
 
+    @Override
+    public List<Map<String, Object>> getMessageHistList(Map<String, Object> params) {
+        return messageRepository.getMessageHistList(params);
+    }
+
 
     @Override
     @Transactional
@@ -47,6 +52,10 @@ public class MessageServiceImpl implements MessageService {
         /** 콘텐츠 바이트 크기 구하기 */
         int length = getByteLength(params.get("msg_content"));
         System.out.println("msg content length : " + length + " Bytes");
+
+        if(!params.containsKey("callBack")){
+            params.put("callBack", "0632190300");
+        }
 
         /** 만약 바이트가 80보다 작으면 SMS, 크면 MMS (둘이 건당 요금이 다름) */
         if(length < 80){

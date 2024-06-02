@@ -5,10 +5,9 @@ import java.util.Map;
 
 public interface MessageService {
     List<Map<String, Object>> getStringMenuList(Map<String, Object> params);
-
+    List<Map<String, Object>> getMessageHistList(Map<String, Object> params);
 
     void msgSend(Map<String, Object> params);
-
 
     void setGroup(Map<String, Object> params);
     void setGroupMod(Map<String, Object> params);
