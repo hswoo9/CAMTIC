@@ -205,6 +205,20 @@ var deptListPop = {
                         }
                     }
                 });
+            }else if($("#type").val() == "eval"){
+                var tr = $(e).closest("tr");
+                var row = $('#userList').data("kendoGrid").dataItem(tr);
+                var pk = $("#pk").val();
+                var status = $("#status").val();
+                var duty_position = "";
+                if(row.DUTY_NAME != "" && row.DUTY_NAME != undefined && row.DUTY_NAME != null){
+                    duty_position = row.DUTY_NAME;
+                }else if(row.POSITION_NAME != "" && row.POSITION_NAME != undefined && row.POSITION_NAME != null){
+                    duty_position = row.POSITION_NAME;
+                }
+
+                opener.parent.userSearchCallBack(row.EMP_SEQ, row.EMP_NAME_KR, duty_position, pk, status);
+                window.close();
             }else {
                 var tr = $(e).closest("tr");
                 var row = $('#userList').data("kendoGrid").dataItem(tr);

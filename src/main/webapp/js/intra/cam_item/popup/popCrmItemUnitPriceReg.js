@@ -4,6 +4,7 @@ var ciupR = {
         ciupIndex : 0,
         saveAjaxData : {},
         dropDownDataSource : "",
+        costPrice: "",
     },
 
     fn_defaultScript : function(){
@@ -53,6 +54,9 @@ var ciupR = {
         }
 
         html += '</td>' +
+                '<td style="text-align: right;">' +
+                    '<span id="costPrice' + ciupR.global.ciupIndex + '">' + comma($("#costPrice").val()) + '</span>' +
+                '</td>' +
                 '<td>' +
                     '<input type="text" id="unitPrice' + ciupR.global.ciupIndex + '" class="numberInput" style="text-align: right"/>' +
                 '</td>' +

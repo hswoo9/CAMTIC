@@ -20,7 +20,11 @@ var evaluationEmpListPop = {
                 },
                 parameterMap: function(data) {
                     data.evalSn = $("#evalSn").val();
-                    if($("#key").val() == "1"){ // 1차평가
+                    data.bsYMD = $("#bsYear").val()+"-12-31";
+                    data.empSeq = $("#empSeq").val();
+                    data.key = $("#key").val();
+
+                    /*if($("#key").val() == "1"){ // 1차평가
                         if($("#duty").val() == "4" || $("#duty").val() == "5"){// 팀장 -> 팀원
                             data.bsYMD = $("#bsYear").val()+"-12-31";
                             data.teamLeader = "N";
@@ -59,7 +63,7 @@ var evaluationEmpListPop = {
 
                         }
 
-                    }
+                    }*/
 
                     return data;
                 }

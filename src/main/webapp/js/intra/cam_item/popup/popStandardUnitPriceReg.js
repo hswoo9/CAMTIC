@@ -60,6 +60,9 @@ var sdupR = {
         }
 
         html += '</td>' +
+                '<td style="text-align: right;">' +
+                    '<span id="costPrice' + sdupR.global.sdUpIndex + '">' + comma($("#costPrice").val()) + '</span>' +
+                '</td>' +
                 '<td>' +
                     '<input type="text" id="unitPrice' + sdupR.global.sdUpIndex + '" class="numberInput" style="text-align: right"/>' +
                 '</td>' +

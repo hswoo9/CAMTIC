@@ -37,40 +37,14 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public Map<String, Object> getEvaluationEmpCountFirst(Map<String, Object> params) {
         params.put("bsYMD", params.get("bsYear")+"-12-31");
-
-        if(params.get("duty").equals("4") || params.get("duty").equals("5")){
-            params.put("teamLeader", "N");
-            params.put("deptHeader", "N");
-            params.put("deptSeq", params.get("deptSeq"));
-        }else if(params.get("duty").equals("2") || params.get("duty").equals("3") || params.get("duty").equals("7")){
-            params.put("teamLeader", "Y");
-            params.put("deptHeader", "N");
-            params.put("pDeptSeq", params.get("deptSeq"));
-        }else if(params.get("duty").equals("1")){
-            params.put("teamLeader", "Y");
-            params.put("deptHeader", "N");
-            params.put("duty" ,"1");
-        }else{
-            params.put("self" ,"Y");
-        }
+        params.put("key", "1");
 
         return evaluationRepository.getEvaluationEmpCount(params);
     }
     @Override
     public Map<String, Object> getEvaluationEmpCount(Map<String, Object> params) {
         params.put("bsYMD", params.get("bsYear")+"-12-31");
-
-        if(params.get("duty").equals("2") || params.get("duty").equals("3") || params.get("duty").equals("7")){
-            params.put("teamLeader", "N");
-            params.put("deptHeader", "N");
-            params.put("pDeptSeq", params.get("deptSeq"));
-        }else if(params.get("duty").equals("1")){
-            params.put("teamLeader", "Y");
-            params.put("deptHeader", "N");
-            params.put("duty" ,"1");
-        }else{
-            params.put("self" ,"Y");
-        }
+        params.put("key", "2");
 
         return evaluationRepository.getEvaluationEmpCount(params);
     }
@@ -166,9 +140,17 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
 
         if(params.containsKey("empSeqArr")){
-            params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
+           /* params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
+            evaluationRepository.insEvaluationEmp(params);*/
             evaluationRepository.delEvaluationEmp(params);
-            evaluationRepository.insEvaluationEmp(params);
+
+            Gson gson = new Gson();
+            List<Map<String, Object>> empSeqArr = gson.fromJson((String) params.get("empSeqArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            for(Map<String, Object> empSeq: empSeqArr){
+                empSeq.put("evalSn", params.get("evalSn"));
+                evaluationRepository.insEvaluationEmp(empSeq);
+            }
+
         }
 
         // 역량평가 데이터 insert / update
@@ -214,10 +196,19 @@ public class EvaluationServiceImpl implements EvaluationService {
         }
 
         if(params.containsKey("empSeqArr")){
-            params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
-            evaluationRepository.delEvaluationEmp(params);
-            evaluationRepository.insEvaluationEmp(params);
+            Gson gson = new Gson();
+            List<Map<String, Object>> empSeqArr = gson.fromJson((String) params.get("empSeqArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+            if(!empSeqArr.isEmpty()){
+            /* params.put("empSeqArr", params.get("empSeqArr").toString().split(","));
+                evaluationRepository.insEvaluationEmp(params);*/
+                evaluationRepository.delEvaluationEmp(params);
+                for(Map<String, Object> empSeq: empSeqArr){
+                    empSeq.put("evalSn", params.get("evalSn"));
+                    evaluationRepository.insEvaluationEmp(empSeq);
+                }
+            }
         }
+
         // 평가 등급별 수준 및 점수 insert / update
         Gson gson = new Gson();
         List<Map<String, Object>> scoreBodyArr = gson.fromJson((String) params.get("scoreBodyArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());

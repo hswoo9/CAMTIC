@@ -8,8 +8,13 @@
         <![CDATA[
         SELECT
             IF(DUTY_NAME = '' || DUTY_NAME IS NULL, POSITION_NAME, DUTY_NAME) AS DUTY_POSITION_NAME,
-            IF(T1_A = '' || T1_A IS NULL, T1_B, T1_A) AS T1,
-            IF(T2_A = '' || T2_A IS NULL, T2_B, T2_A) AS T2,
+            IF(T1_EVAL_NAME IS NOT NULL AND T1_EVAL_NAME != '', T1_EVAL_NAME, IF(T1_A = '' || T1_A IS NULL, T1_B, T1_A)) AS T1,
+            IF(T2_EVAL_NAME IS NOT NULL AND T2_EVAL_NAME != '', T2_EVAL_NAME, IF(T2_A = '' || T2_A IS NULL, T2_B, T2_A)) AS T2,
+
+
+
+            IF(T1_EVAL_SEQ IS NOT NULL AND T1_EVAL_SEQ != '', T1_EVAL_SEQ, IF(T1_A_SEQ = '' || T1_A_SEQ IS NULL, T1_B_SEQ, T1_A_SEQ)) AS T1_SEQ,
+            IF(T2_EVAL_SEQ IS NOT NULL AND T2_EVAL_SEQ != '', T2_EVAL_SEQ, IF(T2_A_SEQ = '' || T2_A_SEQ IS NULL, T2_B_SEQ, T2_A_SEQ)) AS T2_SEQ,
             CASE
                 WHEN OCCUPATION_NM = 'P&M' THEN CONCAT('경영관리(', OCCUPATION_NM,')')
                 WHEN OCCUPATION_NM = 'A&C' THEN CONCAT('기업지원(', OCCUPATION_NM,')')
@@ -21,11 +26,18 @@
             (SELECT
                 IF(A.DUTY_CODE = '2', '노상흡 원장', '') AS T1_A
                 , IF(A.DUTY_CODE = '', IFNULL(
-                                            (SELECT CONCAT(EMP_NAME_KR, ' 팀장') FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = A.DEPT_SEQ AND DUTY_CODE IN ('4', '5'))
-                                            , (SELECT CONCAT(EMP_NAME_KR, ' 실장') FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AND DUTY_CODE = '7'))
+                                             (SELECT CONCAT(EMP_NAME_KR, ' 팀장') FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = A.DEPT_SEQ AND DUTY_CODE IN ('4', '5') LIMIT 1 )
+                                            ,(SELECT CONCAT(EMP_NAME_KR, ' 실장') FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AND DUTY_CODE = '7'))
                     , (SELECT CONCAT(EMP_NAME_KR, ' ', DUTY_NAME) FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AND DUTY_CODE IN ('2','3','7'))) AS T1_B
+                , IF(A.DUTY_CODE = '2', '32', '') AS T1_A_SEQ
+                , IF(A.DUTY_CODE = '', IFNULL(
+                      (SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = A.DEPT_SEQ AND DUTY_CODE IN ('4', '5') LIMIT 1 )
+                    , (SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AND DUTY_CODE = '7'))
+                    , (SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AND DUTY_CODE IN ('2','3','7'))) AS T1_B_SEQ
                 , IF(A.DUTY_CODE = '5', '노상흡 원장', '') AS T2_A
                 , IF(A.DUTY_CODE = '', (SELECT CONCAT(EMP_NAME_KR, ' ', DUTY_NAME) FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AND DUTY_CODE IN ('2','3','7')), '') AS T2_B
+                , IF(A.DUTY_CODE = '5', '32', '') AS T2_A_SEQ
+                , IF(A.DUTY_CODE = '', (SELECT EMP_SEQ FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AND DUTY_CODE IN ('2','3','7')), '') AS T2_B_SEQ
                 , A.DUTY_NAME AS T2_NAME
                 , (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = IF((SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) = 1000, A.DEPT_SEQ, (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ))) AS DEPT_NAME_OD
                 , (SELECT CM_CODE_NM FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 9 AND CM_CODE = A.OCCUPATION_CODE) AS OCCUPATION_NM
@@ -34,6 +46,11 @@
                 ,A.*
                 ,SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', 1) AS hire
                 ,CONCAT(SUBSTRING_INDEX(TRUNCATE(TIMESTAMPDIFF(month, A.JOIN_DAY, DATE_FORMAT(NOW(), '%Y-%m-%d')) / 12, 1), '.', -1) + 1) AS hire_mon
+                , (SELECT EVAL_EVAL_F_NAME FROM cam_inside.dj_evaluation_mem WHERE EVAL_EMP_SEQ = A.EMP_SEQ AND EVAL_SN= #{evalSn} LIMIT 1) AS T1_EVAL_NAME
+                , (SELECT EVAL_EVAL_S_NAME FROM cam_inside.dj_evaluation_mem WHERE EVAL_EMP_SEQ = A.EMP_SEQ AND EVAL_SN= #{evalSn} LIMIT 1) AS T2_EVAL_NAME
+                , (SELECT EVAL_EVAL_F_SEQ FROM cam_inside.dj_evaluation_mem WHERE EVAL_EMP_SEQ = A.EMP_SEQ AND EVAL_SN= #{evalSn} LIMIT 1) AS T1_EVAL_SEQ
+                , (SELECT EVAL_EVAL_S_SEQ FROM cam_inside.dj_evaluation_mem WHERE EVAL_EMP_SEQ = A.EMP_SEQ AND EVAL_SN= #{evalSn} LIMIT 1) AS T2_EVAL_SEQ
+                , (SELECT RMK FROM cam_inside.dj_evaluation_mem WHERE EVAL_EMP_SEQ = A.EMP_SEQ AND EVAL_SN= #{evalSn} LIMIT 1) AS RMK
             FROM
                 CAM_HR.DJ_EMP_INFO A
             LEFT JOIN
@@ -274,6 +291,7 @@
             BS_YEAR = #{bsYear},
             EVAL_NUM = #{evalNum},
             EVAL_STAT = #{evalStat},
+            EVAL_PER_CONTNET = #{perContnet},
             EVAL_COM_PER = #{evalComPer},
             EVAL_ACH_PER = #{evalAhcPer},
             MOD_EMP_SEQ =  #{regEmpSeq}
@@ -437,16 +455,24 @@
         /*insEvaluationEmp*/
         INSERT INTO CAM_INSIDE.DJ_EVALUATION_MEM
             (
-                 EVAL_SN,
-                 EVAL_EMP_SEQ
+                EVAL_SN,
+                EVAL_EMP_SEQ,
+                EVAL_EVAL_F_SEQ,
+                EVAL_EVAL_F_NAME,
+                EVAL_EVAL_S_SEQ,
+                EVAL_EVAL_S_NAME,
+                RMK
             )
         VALUES
-        <foreach collection="empSeqArr" item="item" separator=",">
             (
                 #{evalSn},
-                #{item}
+                #{empSeq},
+                #{t1seq},
+                #{t1Name},
+                #{t2seq},
+                #{t2Name},
+                #{rmk}
             )
-        </foreach>
     </insert>
 
     <insert id="delEvaluationEmp" parameterType="map">
@@ -863,26 +889,8 @@
                AND
                  OCCUPATION_CODE IN (1,2,3)
             ]]>
-             <if test='"N".equals(teamLeader) and "N".equals(deptHeader) and deptSeq != null and deptSeq != ""'>
-               AND B.DEPT_SEQ = #{deptSeq}
-               AND DUTY_CODE NOT IN (1,2,3,4,5,7)
-             </if>
-             <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
-               AND PARENT_DEPT_SEQ = #{pDeptSeq}
-               AND DUTY_CODE IN (4,5)
-
-             </if>
-            <if test='"N".equals(teamLeader) and "Y".equals(deptHeader) and "1".equals(duty)'>
-                AND DUTY_CODE IN (2,3,7)
-            </if>
-
-             <if test='"N".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
-               AND PARENT_DEPT_SEQ = #{pDeptSeq}
-               AND DUTY_CODE NOT IN (1,2,3,4,5,7)
-             </if>
-            <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and "1".equals(duty)'>
-                AND DUTY_CODE IN (4,5)
-            </if>
+            <if test='"1".equals(key)'> AND EVAL_EVAL_F_SEQ = #{empSeq} </if>
+            <if test='"2".equals(key)'> AND EVAL_EVAL_S_SEQ = #{empSeq} </if>
         <![CDATA[
             ) Z
         ORDER BY
@@ -938,29 +946,8 @@
                AND
                  OCCUPATION_CODE IN (1,2,3)
             ]]>
-        <if test='"N".equals(teamLeader) and "N".equals(deptHeader) and deptSeq != null and deptSeq != ""'>
-            AND B.DEPT_SEQ = #{deptSeq}
-            AND DUTY_CODE NOT IN (1,2,3,4,5,7)
-        </if>
-        <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
-            AND PARENT_DEPT_SEQ = #{pDeptSeq}
-            AND DUTY_CODE IN (4,5)
-
-        </if>
-        <if test='"N".equals(teamLeader) and "Y".equals(deptHeader) and "1".equals(duty)'>
-            AND DUTY_CODE IN (2,3,7)
-        </if>
-
-        <if test='"N".equals(teamLeader) and "N".equals(deptHeader) and pDeptSeq != null and pDeptSeq != ""'>
-            AND PARENT_DEPT_SEQ = #{pDeptSeq}
-            AND DUTY_CODE NOT IN (1,2,3,4,5,7)
-        </if>
-        <if test='"Y".equals(teamLeader) and "N".equals(deptHeader) and "1".equals(duty)'>
-            AND DUTY_CODE IN (4,5)
-        </if>
-        <if test='"Y".equals(self) and self != null'>
-            AND DUTY_CODE IN (100)
-        </if>
+        <if test='"1".equals(key)'> AND EVAL_EVAL_F_SEQ = #{empSeq} </if>
+        <if test='"2".equals(key)'> AND EVAL_EVAL_S_SEQ = #{empSeq} </if>
         <![CDATA[
             ) Z
         ORDER BY
