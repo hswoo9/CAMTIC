@@ -1,4 +1,4 @@
-var messageHistList = {
+var mailHistList = {
 
     global : {
         dropDownDataSource : "",
@@ -7,8 +7,8 @@ var messageHistList = {
     },
 
     fn_defaultScript : function(){
-        messageHistList.pageSet();
-        messageHistList.gridReload();
+        mailHistList.pageSet();
+        mailHistList.gridReload();
     },
 
     pageSet : function(){
@@ -18,12 +18,6 @@ var messageHistList = {
         customKendo.fn_datePicker("strDe", "depth", "yyyy-MM-dd", bdStr);
         customKendo.fn_datePicker("endDe", "depth", "yyyy-MM-dd", new Date());
 
-        const dropDownDataSource = [
-            { text: "SMS", value: "SMS" },
-            { text: "MMS", value: "MMS" }
-        ]
-        customKendo.fn_dropDownList("searchType", dropDownDataSource, "text", "value");
-
         const dropDownDataSource1 = [
             { text: "제목", value: "A" },
             { text: "내용", value: "B" }
@@ -32,13 +26,12 @@ var messageHistList = {
         customKendo.fn_textBox(["searchValue"]);
 
         $("#strDe, #endDe").attr("readonly", true);
-        $("#strDe").data("kendoDatePicker").bind("change", messageHistList.gridReload);
-        $("#endDe").data("kendoDatePicker").bind("change", messageHistList.gridReload);
-        $("#searchType").data("kendoDropDownList").bind("change", messageHistList.gridReload);
+        $("#strDe").data("kendoDatePicker").bind("change", mailHistList.gridReload);
+        $("#endDe").data("kendoDatePicker").bind("change", mailHistList.gridReload);
     },
 
     gridReload : function(){
-        messageHistList.global.searchAjaxData = {
+        mailHistList.global.searchAjaxData = {
             strDe : $("#strDe").val(),
             endDe : $("#endDe").val(),
             empSeq : $("#regEmpSeq").val(),
@@ -52,7 +45,7 @@ var messageHistList = {
             return;
         }
 
-        messageHistList.mainGrid("/message/getMessageHistList", messageHistList.global.searchAjaxData);
+        mailHistList.mainGrid("/message/getMailHistList", mailHistList.global.searchAjaxData);
     },
 
     mainGrid : function(url, params){
@@ -73,11 +66,19 @@ var messageHistList = {
                 {
                     name: 'button',
                     template: function(){
-                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="messageHistList.gridReload()">' +
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="mailHistList.fn_mailReqPopup()">' +
+                            '	<span class="k-button-text">메일발송</span>' +
+                            '</button>';
+                    }
+                }, {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mailHistList.gridReload()">' +
                             '	<span class="k-button-text">조회</span>' +
                             '</button>';
                     }
-                }],
+                }
+            ],
             columns: [
                 {
                     title: "번호",
@@ -125,5 +126,15 @@ var messageHistList = {
                 record = fn_getRowNum(this, 2);
             }
         }).data("kendoGrid");
+    },
+
+    fn_mailReqPopup: function(mailHistSn){
+        let url = "/system/pop/mailReqPop.do";
+        if(mailHistSn != null && mailHistSn != ""){
+            url += "?mailHistSn="+mailHistSn;
+        }
+        const name = "mailReqPop";
+        const option = "width = 720, height = 644, top = 100, left = 300, location = no";
+        window.open(url, name, option);
     }
 }

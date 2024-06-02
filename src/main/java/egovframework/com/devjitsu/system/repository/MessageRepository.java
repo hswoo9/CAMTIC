@@ -13,6 +13,12 @@ public class MessageRepository extends AbstractDAO {
     public List<Map<String, Object>> getMessageHistList(Map<String, Object> params) {
         return selectListPrjMs("messagePrj.getMessageHistList", params);
     }
+    public List<Map<String, Object>> getMailHistList(Map<String, Object> params) {
+        return selectList("message.getMailHistList", params);
+    }
+    public Map<String, Object> getMailHistData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("message.getMailHistData", params);
+    }
 
 
     public List<Map<String, Object>> test(Map<String, Object> params) { return selectList("messagePrj.test", params); }
@@ -27,4 +33,5 @@ public class MessageRepository extends AbstractDAO {
     public void setUser(Map<String, Object> params) { insert("message.setUser", params); }
     public void setUserMod(Map<String, Object> params) { update("message.setUserMod", params); }
     public void setUserDel(Map<String, Object> params) { update("message.setUserDel", params); }
+    public void setMailHist(Map<String, Object> params) { insert("message.setMailHist", params); }
 }

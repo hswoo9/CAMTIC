@@ -179,7 +179,7 @@
                             <td rowspan="2" style="background-color: white">
                                 <div style="border:1px solid #ddd; margin-left:10px;margin-bottom:10px; width:259px; text-align: center">
                                     <div style="background-color:#eee; height:30px; line-height: 30px; text-align: center;">
-                                        보내는사람
+                                        발신번호
                                     </div>
                                     <input name="callBack" id="callBack" oninput="onlyNumber(this);" maxlength="13" placeholder="숫자만입력하세요!" style="width:95%; margin: 5px 0" value="0632190300">
                                 </div>

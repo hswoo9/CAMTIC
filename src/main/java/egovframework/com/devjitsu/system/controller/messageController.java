@@ -6,11 +6,15 @@ import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,6 +30,12 @@ public class messageController {
     @Autowired
     private MessageService messageService;
 
+    @Value("#{properties['File.Server.Dir']}")
+    private String SERVER_DIR;
+
+    @Value("#{properties['File.Base.Directory']}")
+    private String BASE_DIR;
+
     /** 문자함 */
     @RequestMapping("/message/message.do")
     public String menuManagement(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
@@ -36,7 +46,7 @@ public class messageController {
         return "system/message/message";
     }
 
-    /** 문자함 */
+    /** 문자이력 */
     @RequestMapping("/message/messageHistList.do")
     public String messageHistList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
         HttpSession session = request.getSession();
@@ -44,6 +54,16 @@ public class messageController {
         LoginVO login = (LoginVO) session.getAttribute("LoginVO");
         model.addAttribute("loginVO", login);
         return "system/message/messageHistList";
+    }
+
+    /** 메일이력 */
+    @RequestMapping("/message/mailHistList.do")
+    public String mailHistList(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        return "system/message/mailHistList";
     }
 
     /** 문자 전송 팝업 */
@@ -66,6 +86,16 @@ public class messageController {
         return "popup/system/message/faxSendPop";
     }
 
+    /** 메일 전송 팝업 */
+    @RequestMapping("/system/pop/mailReqPop.do")
+    public String mailReqPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/system/message/mailReqPop";
+    }
+
 
     /** 전화번호부 리스트 */
     @RequestMapping("/message/makeTreeView")
@@ -82,6 +112,22 @@ public class messageController {
     public String getMessageHistList(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = messageService.getMessageHistList(params);
         model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 메일이력 리스트 */
+    @RequestMapping("/message/getMailHistList")
+    public String getMailHistList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = messageService.getMailHistList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+    /** 메일이력 DATA */
+    @RequestMapping("/message/getMailHistData")
+    public String getMailHistData(@RequestParam Map<String, Object> params, Model model){
+        Map<String, Object> data = messageService.getMailHistData(params);
+        model.addAttribute("data", data);
         return "jsonView";
     }
 
@@ -180,6 +226,23 @@ public class messageController {
         LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
         params.put("loginEmpSeq", loginVO.getUniqId());
         messageService.setUserDel(params);
+        return "jsonView";
+    }
+
+    /** 메일 저장 */
+    @RequestMapping("/system/setMailHist")
+    public String setMailHist(@RequestParam Map<String, Object> params, MultipartHttpServletRequest request, Model model){
+        Map<String, Object> result = new HashMap<>();
+
+        try {
+            MultipartFile[] file = request.getFiles("fileList").toArray(new MultipartFile[0]);
+            messageService.setMailHist(params, file, SERVER_DIR, BASE_DIR);
+            result.put("mailHistSn", params.get("mailHistSn"));
+            result.put("code", "200");
+        } catch (Exception e) {
+            result.put("code", "500");
+        }
+        model.addAttribute("result", result);
         return "jsonView";
     }
 }

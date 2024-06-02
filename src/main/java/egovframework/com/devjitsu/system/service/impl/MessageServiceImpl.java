@@ -1,12 +1,17 @@
 package egovframework.com.devjitsu.system.service.impl;
 
+import dev_jitsu.MainLib;
+import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.system.repository.MessageRepository;
 import egovframework.com.devjitsu.system.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +22,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private CommonRepository commonRepository;
 
     @Override
     public List<Map<String, Object>> getStringMenuList(Map<String, Object> params) {
@@ -43,6 +51,16 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<Map<String, Object>> getMessageHistList(Map<String, Object> params) {
         return messageRepository.getMessageHistList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getMailHistList(Map<String, Object> params) {
+        return messageRepository.getMailHistList(params);
+    }
+
+    @Override
+    public Map<String, Object> getMailHistData(Map<String, Object> params) {
+        return messageRepository.getMailHistData(params);
     }
 
 
@@ -127,5 +145,36 @@ public class MessageServiceImpl implements MessageService {
             }
         }
         return 80;
+    }
+
+    @Override
+    public void setMailHist(Map<String, Object> params, MultipartFile[] fileList, String server_dir, String base_dir) {
+        if(!params.containsKey("mailHistSn")){
+            messageRepository.setMailHist(params);
+        } else {
+
+        }
+
+        if(fileList.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("mailHistSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", "mailHist");
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    private String filePath (Map<String, Object> params, String base_dir){
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        String fmtNow = now.format(fmt);
+        String path = base_dir + params.get("menuCd").toString()+"/" + fmtNow + "/";
+        return path;
     }
 }

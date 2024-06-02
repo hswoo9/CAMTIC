@@ -41,7 +41,7 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>보내는사람</th>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>발신번호</th>
                     <td colspan="3">
                         <input name="callBack" id="callBack" oninput="onlyNumber(this);" maxlength="13" placeholder="숫자만입력하세요!" style="width:95%; border: 1px solid black; padding: 3px; margin: 5px 0; font-weight: bold" value="0632190300">
                     </td>
