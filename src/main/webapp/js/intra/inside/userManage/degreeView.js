@@ -52,7 +52,10 @@ var degreeView = {
             var degreeName = data[i].DEGREE_CODE;
             var color = degreeView.getColorForIndex(i); //그래프 바의 색깔 함수 호출
             var percentageWidth = (((data[i].emp_count  / totalEmpCount) * 100).toFixed(1))*9;
-            var percentage = ((data[i].emp_count  / totalEmpCount) * 100).toFixed(1)
+            var percentage = ((data[i].emp_count  / totalEmpCount) * 100).toFixed(1);
+            if(isNaN(percentage)){
+                percentage = 0;
+            }
             console.log("percentage : ",percentage);
             console.log("percentageWidth : ",percentageWidth);
             html += '<tr>' +

@@ -85,6 +85,9 @@ var depView = {
             var color = depView.getColorForIndex(i);
             var percentageWidth = (((data[i].DeptEmployeesCount / totalEmpCount) * 100).toFixed(1))*9;
             var percentage = ((data[i].DeptEmployeesCount / totalEmpCount) * 100).toFixed(1)
+            if(isNaN(percentage)){
+                percentage = 0;
+            }
             //console.log("percentage : ",percentage);
             //console.log("percentageWidth : ",percentageWidth);
             html += '<tr>' +
@@ -128,7 +131,10 @@ var depView = {
             var teamID = data[i].TeamID;
             var color = depView.getColorForIndex(i);
             var percentageWidth = (((data[i].TeamEmployeesCount / totalEmpCount) * 100).toFixed(1))*9;
-            var percentage = ((data[i].TeamEmployeesCount / totalEmpCount) * 100).toFixed(1)
+            var percentage = ((data[i].TeamEmployeesCount / totalEmpCount) * 100).toFixed(1);
+            if(isNaN(percentage)){
+                percentage = 0;
+            }
             //console.log("percentage : ",percentage);
             //console.log("percentageWidth : ",percentageWidth);
             html += '<tr>' +

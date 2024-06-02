@@ -696,7 +696,8 @@ var userPersonList = {
             kindContent : $("#kindContent").val(),
             userGender : $("#userGender").val(),
             deptComp : $("#deptComp").val(),
-            deptTeam : $("#deptTeam").val()
+            deptTeam : $("#deptTeam").val(),
+            fullTime2 : "1"
         }
         var arr = "";
 
@@ -714,6 +715,9 @@ var userPersonList = {
 
         if($("#dsI").is(":checked")){
             userPersonList.global.searchAjaxData.dsI = "Y";
+        }
+        if($("#dsJ").is(":checked")){
+            userPersonList.global.searchAjaxData.dsJ = "Y";
         }
 
 

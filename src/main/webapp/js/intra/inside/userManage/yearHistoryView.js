@@ -59,7 +59,26 @@ var yearHistoryView = {
         }
 
 // Set을 배열로 변환하여 정렬
-        var uniqueApntsArray = Array.from(uniqueApnts).sort();
+        var uniqueApntsArray = [
+            "임용 (정규직)",
+            "승진 (직급)",
+            "전보",
+            "겸직",
+            "직무 대리",
+            "파견",
+            "면직",
+            "강등",
+            "조직 개편",
+            "호칭 변경",
+            "기타",
+            "임용 (계약직)",
+            "임용 (인턴 사원)",
+            "임용 (단기 직원)",
+            "임용 (위촉 직원)",
+            "임용 (경비 / 환경)",
+            "임용 (직위)",
+        ];
+
 
 // 각 position_name 출력
         for (var j = 0; j < uniqueApntsArray.length; j++) {

@@ -516,7 +516,9 @@ var userPersonList2 = {
             kindContent : $("#kindContent").val(),
             userGender : $("#userGender").val(),
             deptComp : $("#deptComp").val(),
-            deptTeam : $("#deptTeam").val()
+            deptTeam : $("#deptTeam").val(),
+            deptTeam : $("#deptTeam").val(),
+            fullTime2 : "1"
         }
 
         var arr = "";
