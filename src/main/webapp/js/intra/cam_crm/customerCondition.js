@@ -222,70 +222,32 @@ var customerCondition = {
         var rs = rs.rs;
         var deptHtml = "";
 
+        console.log(deptList);
+
+        var arr = [];
+
         for(var i = 0 ; i < deptList.length; i++){
+            var chartData = {};
+
             var dept = deptList[i];
 
             deptHtml += '<tr>';
             deptHtml += '   <td>'+dept.deptName+'</td>';
+            chartData.name = dept.deptName;
+            chartData.data = [];
             for(var j = 1 ; j <= 12; j++){
-                deptHtml += '<td id="mon'+j+'_'+dept.deptSeq+'" style="background-color: white"></td>';
+                deptHtml += '<td id="mon'+j+'_'+dept.deptSeq+'" style="background-color: white">'+dept["mon"+j]+'</td>';
+                chartData.data.push(dept["mon"+j]);
             }
             deptHtml += '</tr>';
+
+            arr.push(chartData);
         }
 
 
         $("#deptRelation").html(deptHtml);
 
-        for(var i = 1 ; i < 13 ; i++){
-            var monData = rs["mon" + i];
-
-
-            if(monData.length != 0){
-                for(var j = 0 ; j < monData.length; j++){
-
-                    var dept = monData[j];
-                    $("#mon"+i+"_"+dept.DEPT_SEQ).text(dept.CNT);
-                    $("#mon"+i+"_"+dept.DEPT_SEQ).css("font-weight", "bold");
-                }
-            }
-        }
-
-        $("#deptRelation").find("td").each(function(){
-            if($(this).text() == ""){
-                $(this).text("0");
-            }
-        });
-
-        var arr = [];
-        var dataMap = {}
-
-        var data = [];
-        for(var i = 0 ; i < deptList.length; i++){
-            dataMap.name = deptList[i].deptName;
-
-            console.log(rs);
-            for(var j = 1 ; j <= 12; j++){
-                var monData = rs["mon" + j];
-
-                
-                for(var k = 0 ; k < monData.length; k++){
-                    if(deptList[i].deptSeq == monData[k].DEPT_SEQ){
-                        data.push(monData[k].CNT);
-                    } else {
-                        data.push(0);
-                    }
-                }
-
-            }
-
-            dataMap.data = data;
-            arr.push(dataMap);
-            dataMap = {};
-            data = [];
-        }
-
         console.log(arr);
-
 
         $("#deptRelationChart").kendoChart({
             title: {

@@ -3,8 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
        xmlns:websocket="http://www.springframework.org/schema/websocket"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- 웹 소켓핸들러 -->
     <websocket:handlers>
@@ -16,6 +17,16 @@
     </websocket:handlers>
     <bean id="WebSocketHandler" class="egovframework.com.cmm.config.WebSocketHandler" />
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/index.do"/>
+            <mvc:mapping path="/purc/**"/>
+            <mvc:mapping path="/payApp/**"/>
+            <mvc:mapping path="/pay/**"/>
+            <mvc:mapping path="/project/**"/>
+            <bean class="egovframework.com.devjitsu.common.DjInterCeptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <bean id="urlBasedViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />

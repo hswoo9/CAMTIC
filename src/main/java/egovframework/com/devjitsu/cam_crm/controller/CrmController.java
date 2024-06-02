@@ -848,7 +848,6 @@ public class CrmController {
             }
         }
 
-        model.addAttribute("rs", map);
         model.addAttribute("deptList", deptList);
         return "jsonView";
     }
