@@ -122,6 +122,18 @@
         LIMIT 1;
     </select>
 
+    <select id="getEvaluationPerOne" parameterType="map" resultType="map">
+        SELECT
+            EVAL_PER_CONTNET
+        FROM
+            CAM_INSIDE.DJ_EVALUATION
+        WHERE
+            ACTIVE = 'Y'
+          AND
+            EVAL_SN = #{evalSn}
+
+    </select>
+
 
     <select id="getEvaluationChk" parameterType="map" resultType="map">
         SELECT

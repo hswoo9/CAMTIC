@@ -3,10 +3,29 @@ var evaluationEmpListPop = {
 
     fn_defaultScript : function (){
         evaluationEmpListPop.mainGrid();
+        evaluationEmpListPop.evalContent();
     },
 
     gridReload : function (){
         evaluationEmpListPop.mainGrid();
+    },
+
+    evalContent: function(){
+        $.ajax({
+            url: "/evaluation/getEvaluationPerOne",
+            type: "post",
+            data: {evalSn: $("#evalSn").val()},
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                var html = "";
+                html += result.data.EVAL_PER_CONTNET ;
+                $('#evalContent').append(html);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
     },
 
     mainGrid: function(){
