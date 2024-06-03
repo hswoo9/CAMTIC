@@ -583,6 +583,10 @@ public class PayAppRepository extends AbstractDAO {
         update("payApp.updClaimExnpByPayAppSnEqNull", param);
     }
 
+    public void updSnackByPayAppSnEqNull(int param) {
+        update("payApp.updSnackByPayAppSnEqNull", param);
+    }
+
     public Map<String, Object> getDepoInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("payApp.getDepoInfo", params);
     }

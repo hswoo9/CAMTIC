@@ -1497,17 +1497,15 @@ var regPay = {
                 var fileList = fileResult.fileList;
 
                 for(let i=0; i<fileList.length; i++){
-                    if(fileList[i].file_cd != 'useCard'){
-                        if(slist != ""){
-                            slist += ",";
-                        }
-                        if(fileThumbText != ""){
-                            fileThumbText += " | ";
-                        }
-                        slist += fileList[i].file_no;
-                        fileThumbText += fileList[i].file_org_name;
-                        fileThumbText += "." + fileList[i].file_ext;
+                    if(slist != ""){
+                        slist += ",";
                     }
+                    if(fileThumbText != ""){
+                        fileThumbText += " | ";
+                    }
+                    slist += fileList[i].file_no;
+                    fileThumbText += fileList[i].file_org_name;
+                    fileThumbText += "." + fileList[i].file_ext;
                 }
 
                 $("#fileText").text(fileThumbText);
@@ -2617,6 +2615,8 @@ var regPay = {
                                 opener.parent.purcUserAppList.gridReload();
                             }else if($("#apprMngStat").val() == "M"){
                                 opener.parent.paymentMngList.gridReload();
+                            }else if($("#reqType").val() == "snack"){
+                               opener.parent.snackList.mainGrid();
                             }else{
                                 opener.parent.paymentList.gridReload();
                             }
