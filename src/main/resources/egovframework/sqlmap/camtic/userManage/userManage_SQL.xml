@@ -3580,18 +3580,24 @@
 
 <!--    년도별 직급 현황-->
     <select id="getPositionNameByYear" parameterType="map" resultType="map">
-        SELECT COUNT(*) AS emp_count, position_name, YEAR(join_day) AS join_year
-        FROM cam_hr.dj_emp_info
-        WHERE POSITION_CODE IS NOT NULL AND POSITION_CODE != ''
+        SELECT
+            COUNT(DISTINCT HEI.EMP_SEQ) AS emp_count,
+            SUBSTRING_INDEX(HAI.AF_POSITION_NAME, ' /', 1) AS position_name,
+            LEFT(HAI.HISTORY_DT, 4) AS join_year
+        FROM
+            CAM_HR.DJ_APNT_INFO HAI
+        LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
+        WHERE
+            1=1
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
                 ${item}
             </foreach>
         </if>
-        AND TEMP_DIVISION != 'Y'
-        GROUP BY join_year, position_name
-        ORDER BY join_year DESC, CAST(POSITION_CODE AS UNSIGNED)
+        AND HEI.TEMP_DIVISION != 'Y'
+        GROUP BY LEFT(HAI.HISTORY_DT, 4), SUBSTRING_INDEX(HAI.AF_POSITION_NAME, ' /', 1)
+        ORDER BY LEFT(HAI.HISTORY_DT, 4) DESC
     </select>
 
     <select id="getPositionListByYear" parameterType="map" resultType="map">
@@ -3609,16 +3615,20 @@
                  WHEN HEI.POSITION_CODE IS NOT NULL THEN (SELECT SORT FROM CAM_COMMON.dj_com_code WHERE CM_GROUP_CODE_ID = 4 AND CM_CODE = HEI.POSITION_CODE)
                  ELSE 999 END SORT
         FROM
-            CAM_HR.DJ_EMP_INFO AS HEI
+            CAM_HR.DJ_APNT_INFO HAI
+        LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON HAI.EMP_SEQ = HEI.EMP_SEQ
         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
-        where year(HEI.join_day) = #{year}
-          and position_name = #{positionName}
+        WHERE
+            LEFT(HAI.HISTORY_DT, 4) = #{year}
+        AND HEI.TEMP_DIVISION != 'Y'
+        AND SUBSTRING_INDEX(HAI.AF_POSITION_NAME, ' /', 1) = #{positionName}
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
                 ${item}
             </foreach>
         </if>
+        GROUP BY HEI.EMP_SEQ
     </select>
 
     <select id="getApntNameByYear" parameterType="map" resultType="map">
