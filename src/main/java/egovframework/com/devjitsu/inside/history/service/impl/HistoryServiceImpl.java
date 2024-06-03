@@ -82,6 +82,11 @@ public class HistoryServiceImpl implements HistoryService {
         appointmentEmpInfoUpd(params);
     }
 
+    @Override
+    public void setHistoryDelete(Map<String, Object> params) {
+        historyRepository.setHistoryDelete(params);
+    }
+
     /*
     @Override
     public void setRewardInsert(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {

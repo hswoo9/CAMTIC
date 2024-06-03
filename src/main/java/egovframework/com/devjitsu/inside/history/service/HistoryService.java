@@ -56,6 +56,8 @@ public interface HistoryService {
      */
     void setHistoryUpdate(Map<String, Object> params);
 
+    void setHistoryDelete(Map<String, Object> params);
+
     /**
      * 포상등록
      * @param params

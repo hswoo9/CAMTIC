@@ -267,6 +267,12 @@ public class HistoryController {
         return "jsonView";
     }
 
+    @RequestMapping("/inside/setHistoryDelete")
+    public String setHistoryDelete(@RequestParam Map<String, Object> params) {
+        historyService.setHistoryDelete(params);
+        return "jsonView";
+    }
+
     /**
      * 수동발령
      * @param params
