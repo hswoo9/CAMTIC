@@ -1,5 +1,57 @@
 var messageSendPop = {
 
+    fn_defaultScript : function(){
+        messageSendPop.fn_pageSet();
+    },
+
+    fn_pageSet : function(){
+        if($("#userList").val() != ""){
+            let html = '';
+            const userList = $("#userList").val().split(",");
+            for (let i=0; i<userList.length; i++) {
+                if(i == 10){
+                    break;
+                }
+                if(i != 0){
+                    html += ", ";
+                }
+
+                const type = $("#type").val();
+                if(type == "userList"){
+                    const empSeq = userList[i];
+                    const empInfo = customKendo.fn_customAjax("/user/getUserInfo", {empSeq: empSeq});
+
+                    if(empInfo != null){
+                        const name = empInfo.EMP_NAME_KR;
+                        html += name;
+                    }
+                }else if(type == "lecture"){
+                    const empSeq = userList[i];
+                    const empInfo = customKendo.fn_customAjax("/projectUnRnd/getPersonData", {personSn: empSeq}).data;
+
+                    if(empInfo != null){
+                        const name = empInfo.NAME;
+                        html += name;
+                    }
+                }else if(type == "recruit"){
+                    const applicationId = userList[i];
+                    const empInfo = customKendo.fn_customAjax("/application/getApplicationForm1.do", {applicationId: applicationId}).data;
+
+                    if(empInfo != null){
+                        const name = empInfo.USER_NAME;
+                        html += name;
+                    }
+                }
+            }
+
+            if(userList.length > 10){
+                html += "외 " + (userList.length - 10) + "명"
+            }
+            console.log("html", html);
+            $("#userListText").text(html);
+        }
+    },
+
     sendMessage : function(){
         if($("#userList").val() == ""){
             alert("데이터 조회 중 오류가 발생하였습니다. 로그아웃 후 재시도 바랍니다."); return;
