@@ -825,6 +825,28 @@ public class CrmController {
         return "/cam_crm/customerCondition";
     }
 
+    @RequestMapping("/crm/customerIndustryCondition.do")
+    public String customerIndustryCondition(Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        return "/cam_crm/customerIndustryCondition";
+    }
+
+    @RequestMapping("/crm/customerDeptRelation.do")
+    public String customerDeptRelation(Model model, HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("menuNm", request.getRequestURI());
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        model.addAttribute("loginVO", loginVO);
+        return "/cam_crm/customerDeptRelation";
+    }
+
     @RequestMapping("/crm/getDeptRelationList")
     public String getDeptRelationList(@RequestParam Map<String, Object> params, Model model){
 
@@ -855,7 +877,12 @@ public class CrmController {
     @RequestMapping("/crm/getCustomerCondition.do")
     public String getCustomerCondition(Model model){
         model.addAttribute("list", crmService.getCustomerCondition());
-        model.addAttribute("list2", crmService.getCustomerIndustryCondition());
+        return "jsonView";
+    }
+
+    @RequestMapping("/crm/getCustomerIndustryCondition.do")
+    public String getCustomerIndustryCondition(Model model){
+        model.addAttribute("list", crmService.getCustomerIndustryCondition());
         return "jsonView";
     }
 
