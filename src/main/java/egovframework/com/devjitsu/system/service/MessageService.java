@@ -22,4 +22,5 @@ public interface MessageService {
     void setUserDel(Map<String, Object> params);
     void setMailHist(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
     void setMailDet(Map<String, Object> params);
+    void setMailDetCom(Map<String, Object> params);
 }

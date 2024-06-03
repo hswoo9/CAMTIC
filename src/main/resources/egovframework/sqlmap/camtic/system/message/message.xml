@@ -39,7 +39,11 @@
     <select id="getMailHistList" resultType="map" parameterType="map">
         /* getMailHistList */
         SELECT
-            CMH.*
+            CMH.*,
+            (SELECT EMP_NAME_KR FROM CAM_HR.DJ_EMP_INFO WHERE CMH.REG_EMP_SEQ = EMP_SEQ) AS REG_EMP_NAME,
+            (SELECT COUNT(-1) FROM CAM_COMMON.DJ_MAIL_HIST_DET CMHD WHERE CMHD.MAIL_HIST_SN = CMH.MAIL_HIST_SN) AS ALL_CNT,
+            (SELECT COUNT(-1) FROM CAM_COMMON.DJ_MAIL_HIST_DET CMHD WHERE CMHD.MAIL_HIST_SN = CMH.MAIL_HIST_SN AND SEND_YN = 'Y') AS SEND_CNT,
+            (SELECT COUNT(-1) FROM CAM_COMMON.DJ_MAIL_HIST_DET CMHD WHERE CMHD.MAIL_HIST_SN = CMH.MAIL_HIST_SN AND SEND_YN = 'N') AS N_SEND_CNT
         FROM
             CAM_COMMON.DJ_MAIL_HIST CMH
         WHERE
@@ -69,9 +73,14 @@
         WHERE
             CMHD.MAIL_HIST_SN = #{mailHistSn}
         AND CMHD.ACTIVE = 'Y'
-        <if test='mailArr != null and !"".equals(mailArr)'>
-            AND CMHD.MAIL_HIST_DET_SN IN (${mailArr})
-        </if>
+        <choose>
+            <when test='mailArr != null and !"".equals(mailArr)'>
+                AND MAIL_HIST_DET_SN IN (${mailArr})
+            </when>
+            <when test='"All".equals(ck)'>
+                AND SEND_YN = 'N'
+            </when>
+        </choose>
     </select>
 
 
@@ -187,4 +196,22 @@
                 #{email}
             )
     </insert>
+
+    <update id="setMailDetCom" parameterType="map">
+        /* setMailDetCom */
+        UPDATE CAM_COMMON.DJ_MAIL_HIST_DET
+        SET
+            SEND_YN = 'Y',
+            SEND_DATE = DATE_FORMAT(NOW(), '%Y-%m-%d')
+        WHERE
+            MAIL_HIST_SN = #{mailHistSn}
+        <choose>
+            <when test='mailArr != null and !"".equals(mailArr)'>
+                AND MAIL_HIST_DET_SN IN (${mailArr})
+            </when>
+            <otherwise>
+                AND SEND_YN = 'N' AND ACTIVE = 'Y'
+            </otherwise>
+        </choose>
+    </update>
 </mapper>

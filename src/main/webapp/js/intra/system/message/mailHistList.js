@@ -97,16 +97,12 @@ var mailHistList = {
                     title: "발송자",
                     width: 230
                 }, {
-                    field: "",
+                    field: "ALL_CNT",
                     title: "등록",
                     width: 70
                 }, {
-                    field: "",
+                    field: "SEND_CNT",
                     title: "발송",
-                    width: 70
-                }, {
-                    field: "",
-                    title: "실패",
                     width: 70
                 }, {
                     title: "처리 명령",

@@ -178,6 +178,11 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
+    @Override
+    public void setMailDetCom(Map<String, Object> params) {
+        messageRepository.setMailDetCom(params);
+    }
+
     private int getByteLength(Object strO) {
         try {
             String str = strO.toString();

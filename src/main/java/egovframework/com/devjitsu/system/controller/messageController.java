@@ -337,6 +337,8 @@ public class messageController {
         mailUtil.orderSendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
         model.addAttribute("rs", "SUCCESS");
 
+        messageService.setMailDetCom(params);
+
         return "jsonView";
     }
 }

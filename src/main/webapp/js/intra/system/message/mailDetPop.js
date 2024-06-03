@@ -56,8 +56,14 @@ var mailDetPop = {
             columns: [
                 {
                     headerTemplate: '<input type="checkbox" id="checkAll" name="checkAll" onclick="fn_checkAll(\'checkAll\', \'mailHistDetSn\');"/>',
-                    template : "<input type='checkbox' id='mailHistDetSn#=MAIL_HIST_DET_SN#' name='mailHistDetSn' class='mailHistDetSn' value='#=MAIL_HIST_DET_SN#'/>",
-                    width: 50
+                    width: 50,
+                    template: function(row){
+                        if(row.SEND_YN == "N"){
+                            return "<input type='checkbox' id='mailHistDetSn"+row.MAIL_HIST_DET_SN+"' name='mailHistDetSn' class='mailHistDetSn' value='"+row.MAIL_HIST_DET_SN+"'/>";
+                        }else{
+                            return "";
+                        }
+                    }
                 }, {
                     title: "번호",
                     width: 50,
@@ -75,9 +81,15 @@ var mailDetPop = {
                     title: "메일주소",
                     width: 150
                 }, {
-                    field: "",
                     title: "발송상태",
-                    width: 150
+                    width: 150,
+                    template: function(row){
+                        if(row.SEND_YN == "N"){
+                            return "미발송";
+                        }else{
+                            return "발송 "+row.SEND_DATE;
+                        }
+                    }
                 }
 
             ],
@@ -227,5 +239,26 @@ var mailDetPop = {
 
     fn_sendMailAll: function(){
         const mailHistSn = $("#mailHistSn").val();
+        const data = {
+            mailHistSn: mailHistSn,
+            ck: "All"
+        }
+        const resultList = customKendo.fn_customAjax("/message/getMailDetList", data);
+        const list = resultList.list;
+        console.log("AllList", list);
+
+        if(list.length == 0){
+            alert("발송가능한 수신자가 없습니다."); return;
+        }
+
+        const result = customKendo.fn_customAjax("/system/sendMailSel", data);
+        if(result.flag){
+            var rs = result.rs;
+            if(rs == "SUCCESS"){
+                alert("전송되었습니다.");
+                mailDetPop.gridReload();
+            }
+        }
+
     }
 }
