@@ -17,16 +17,16 @@
     </websocket:handlers>
     <bean id="WebSocketHandler" class="egovframework.com.cmm.config.WebSocketHandler" />
 
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/index.do"/>
-            <mvc:mapping path="/purc/**"/>
-            <mvc:mapping path="/payApp/**"/>
-            <mvc:mapping path="/pay/**"/>
-            <mvc:mapping path="/project/**"/>
-            <bean class="egovframework.com.devjitsu.common.DjInterCeptor" />
-        </mvc:interceptor>
-    </mvc:interceptors>
+<!--    <mvc:interceptors>-->
+<!--        <mvc:interceptor>-->
+<!--            <mvc:mapping path="/index.do"/>-->
+<!--            <mvc:mapping path="/purc/**"/>-->
+<!--            <mvc:mapping path="/payApp/**"/>-->
+<!--            <mvc:mapping path="/pay/**"/>-->
+<!--            <mvc:mapping path="/project/**"/>-->
+<!--            <bean class="egovframework.com.devjitsu.common.DjInterCeptor" />-->
+<!--        </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
 
     <bean id="urlBasedViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />

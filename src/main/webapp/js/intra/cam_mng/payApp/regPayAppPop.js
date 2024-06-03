@@ -2213,8 +2213,12 @@ var regPay = {
 
         var trDe = $("#trDe0").val();
         var trDeAr = trDe.split("-");
+        var trDay = trDeAr[2];
+        if(trDeAr[2] == 31){
+            trDay = 30
+        }
+        var trDate = new Date(trDeAr[0], trDeAr[1] - 1, trDay);
 
-        var trDate = new Date(trDeAr[0], trDeAr[1] - 1, trDeAr[2]);
 
         var eviType = $("#eviType0").val();
         if(trDe != "" && trDe != null && trDe != undefined){
