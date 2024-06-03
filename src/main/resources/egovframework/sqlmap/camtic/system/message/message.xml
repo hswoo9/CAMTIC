@@ -57,6 +57,23 @@
             MAIL_HIST_SN = #{mailHistSn}
     </select>
 
+    <select id="getMailDetList" resultType="map" parameterType="map">
+        /* getMailDetList */
+        SELECT
+            CMHD.*,
+            CMH.MAIL_TILE
+        FROM
+            CAM_COMMON.DJ_MAIL_HIST_DET CMHD
+        LEFT JOIN
+            CAM_COMMON.DJ_MAIL_HIST CMH ON CMHD.MAIL_HIST_SN = CMH.MAIL_HIST_SN
+        WHERE
+            CMHD.MAIL_HIST_SN = #{mailHistSn}
+        AND CMHD.ACTIVE = 'Y'
+        <if test='mailArr != null and !"".equals(mailArr)'>
+            AND CMHD.MAIL_HIST_DET_SN IN (${mailArr})
+        </if>
+    </select>
+
 
 
 
@@ -153,5 +170,21 @@
         <selectKey keyProperty="mailHistSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_MAIL_HIST'
         </selectKey>
+    </insert>
+
+    <insert id="setMailDetIns" parameterType="map">
+        /* setMailDetIns */
+        INSERT INTO CAM_COMMON.DJ_MAIL_HIST_DET
+            (
+                MAIL_HIST_SN,
+                NAME,
+                EMAIL
+            )
+        VALUES
+            (
+                #{mailHistSn},
+                #{name},
+                #{email}
+            )
     </insert>
 </mapper>

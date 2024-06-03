@@ -10,6 +10,7 @@ public interface MessageService {
     List<Map<String, Object>> getMessageHistList(Map<String, Object> params);
     List<Map<String, Object>> getMailHistList(Map<String, Object> params);
     Map<String, Object> getMailHistData(Map<String, Object> params);
+    List<Map<String, Object>> getMailDetList(Map<String, Object> params);
 
     void msgSend(Map<String, Object> params);
 
@@ -19,5 +20,6 @@ public interface MessageService {
     void setUser(Map<String, Object> params);
     void setUserMod(Map<String, Object> params);
     void setUserDel(Map<String, Object> params);
-    void setMailHist(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
+    void setMailHist(Map<String, Object> params, MultipartFile[] file, String serverDir, String baseDir);
+    void setMailDet(Map<String, Object> params);
 }

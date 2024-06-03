@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.system.controller;
 
+import egovframework.com.devjitsu.common.service.CommonService;
+import egovframework.com.devjitsu.common.utiles.MailUtil;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import egovframework.com.devjitsu.system.service.MessageService;
 import net.sf.json.JSONObject;
@@ -13,11 +15,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +38,26 @@ public class messageController {
     @Autowired
     private MessageService messageService;
 
+    @Autowired
+    private CommonService commonService;
+
     @Value("#{properties['File.Server.Dir']}")
     private String SERVER_DIR;
 
     @Value("#{properties['File.Base.Directory']}")
     private String BASE_DIR;
+
+    @Value("#{properties['Dev.Mail.SMTPServer']}")
+    private String SMTPServer;
+
+    @Value("#{properties['Dev.Mail.SMTPPort']}")
+    private int SMTPPort;
+
+    @Value("#{properties['Dev.Mail.SMTPID']}")
+    private String SMTPID;
+
+    @Value("#{properties['Dev.Mail.SMTPPW']}")
+    private String SMTPPW;
 
     /** 문자함 */
     @RequestMapping("/message/message.do")
@@ -96,6 +119,16 @@ public class messageController {
         return "popup/system/message/mailReqPop";
     }
 
+    /** 주소등록 및 발송 팝업 */
+    @RequestMapping("/system/pop/mailDetPop.do")
+    public String mailDetPop(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        LoginVO login = (LoginVO) session.getAttribute("LoginVO");
+        model.addAttribute("loginVO", login);
+        model.addAttribute("params", params);
+        return "popup/system/message/mailDetPop";
+    }
+
 
     /** 전화번호부 리스트 */
     @RequestMapping("/message/makeTreeView")
@@ -128,6 +161,14 @@ public class messageController {
     public String getMailHistData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> data = messageService.getMailHistData(params);
         model.addAttribute("data", data);
+        return "jsonView";
+    }
+
+    /** 메일주소 리스트 */
+    @RequestMapping("/message/getMailDetList")
+    public String getMailDetList(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = messageService.getMailDetList(params);
+        model.addAttribute("list", list);
         return "jsonView";
     }
 
@@ -235,14 +276,67 @@ public class messageController {
         Map<String, Object> result = new HashMap<>();
 
         try {
-            MultipartFile[] file = request.getFiles("fileList").toArray(new MultipartFile[0]);
+            MultipartFile[] file = request.getFiles("file").toArray(new MultipartFile[0]);
             messageService.setMailHist(params, file, SERVER_DIR, BASE_DIR);
             result.put("mailHistSn", params.get("mailHistSn"));
             result.put("code", "200");
-        } catch (Exception e) {
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
             result.put("code", "500");
         }
         model.addAttribute("result", result);
+        return "jsonView";
+    }
+
+    /** 메일 주소 저장 */
+    @RequestMapping("/system/setMailDet")
+    public String setMailDet(@RequestParam Map<String, Object> params, Model model) {
+        try {
+            messageService.setMailDet(params);
+            params.put("code", "200");
+        } catch (ArithmeticException e) {
+            System.out.println(e.getMessage());
+            params.put("code", "500");
+        }
+        model.addAttribute("params", params);
+        return "jsonView";
+    }
+
+
+    /** 선택자 메일 전송 */
+    @RequestMapping("/system/sendMailSel")
+    public String sendMailSel(@RequestParam Map<String, Object> params, HttpServletRequest request, Model model) throws MessagingException, IOException {
+
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("fileCd", "mailHist");
+        searchMap.put("contentId", params.get("mailHistSn"));
+
+        List<Map<String, Object>> fileArray = commonService.getFileList(searchMap);
+        params.put("fileArray", fileArray);
+
+        Map<String, Object> data = messageService.getMailHistData(params);
+        params.put("receiveEml", data.get("SEND_EMAIL"));
+        params.put("sendEml", data.get("SEND_EMAIL"));
+        params.put("subject", data.get("MAIL_TILE"));
+        params.put("contents", data.get("MAIL_CONTENT"));
+
+        List<Map<String, Object>> list = messageService.getMailDetList(params);
+        params.put("recipientList", list);
+
+        /** 메일 */
+        HttpServletRequest servletRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        if(request.getServerName().contains("localhost") || request.getServerName().contains("127.0.0.1") || servletRequest.getServerName().contains("218.158.231.186")){
+            params.put("fileServer", "http://218.158.231.186");
+        } else{
+            params.put("fileServer", "http://218.158.231.184");
+        }
+
+        MailUtil mailUtil = new MailUtil();
+        params.put("mailType", "mailHist");
+
+        mailUtil.orderSendMail(params, SMTPServer, SMTPPort, SMTPID, SMTPPW);
+        model.addAttribute("rs", "SUCCESS");
+
         return "jsonView";
     }
 }

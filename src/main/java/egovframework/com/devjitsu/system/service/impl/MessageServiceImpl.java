@@ -1,5 +1,7 @@
 package egovframework.com.devjitsu.system.service.impl;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import dev_jitsu.MainLib;
 import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.system.repository.MessageRepository;
@@ -60,7 +62,18 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Map<String, Object> getMailHistData(Map<String, Object> params) {
-        return messageRepository.getMailHistData(params);
+        Map<String, Object> result = messageRepository.getMailHistData(params);
+        Map<String, Object> searchMap = new HashMap<>();
+        searchMap.put("fileCd", "mailHist");
+        searchMap.put("contentId", params.get("mailHistSn"));
+
+        result.put("fileList", commonRepository.getFileList(searchMap));
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getMailDetList(Map<String, Object> params) {
+        return messageRepository.getMailDetList(params);
     }
 
 
@@ -132,6 +145,39 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.setUserDel(params);
     }
 
+    @Override
+    public void setMailHist(Map<String, Object> params, MultipartFile[] file, String server_dir, String base_dir) {
+        if(!params.containsKey("mailHistSn")){
+            messageRepository.setMailHist(params);
+        } else {
+
+        }
+
+        if(file.length > 0){
+            MainLib mainLib = new MainLib();
+            List<Map<String, Object>> list = mainLib.multiFileUpload(file, filePath(params, server_dir));
+            for(int i = 0 ; i < list.size() ; i++){
+                list.get(i).put("contentId", params.get("mailHistSn"));
+                list.get(i).put("empSeq", params.get("regEmpSeq"));
+                list.get(i).put("fileCd", params.get("menuCd"));
+                list.get(i).put("filePath", filePath(params, base_dir));
+                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
+                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
+            }
+            commonRepository.insFileInfo(list);
+        }
+    }
+
+    @Override
+    public void setMailDet(Map<String, Object> params) {
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
+        for(Map<String, Object> map : itemArr){
+            map.put("mailHistSn", params.get("mailHistSn"));
+            messageRepository.setMailDetIns(map);
+        }
+    }
+
     private int getByteLength(Object strO) {
         try {
             String str = strO.toString();
@@ -145,29 +191,6 @@ public class MessageServiceImpl implements MessageService {
             }
         }
         return 80;
-    }
-
-    @Override
-    public void setMailHist(Map<String, Object> params, MultipartFile[] fileList, String server_dir, String base_dir) {
-        if(!params.containsKey("mailHistSn")){
-            messageRepository.setMailHist(params);
-        } else {
-
-        }
-
-        if(fileList.length > 0){
-            MainLib mainLib = new MainLib();
-            List<Map<String, Object>> list = mainLib.multiFileUpload(fileList, filePath(params, server_dir));
-            for(int i = 0 ; i < list.size() ; i++){
-                list.get(i).put("contentId", params.get("mailHistSn"));
-                list.get(i).put("empSeq", params.get("regEmpSeq"));
-                list.get(i).put("fileCd", "mailHist");
-                list.get(i).put("filePath", filePath(params, base_dir));
-                list.get(i).put("fileOrgName", list.get(i).get("orgFilename").toString().substring(0, list.get(i).get("orgFilename").toString().lastIndexOf(".")));
-                list.get(i).put("fileExt", list.get(i).get("orgFilename").toString().substring(list.get(i).get("orgFilename").toString().lastIndexOf(".") + 1));
-            }
-            commonRepository.insFileInfo(list);
-        }
     }
 
     private String filePath (Map<String, Object> params, String base_dir){

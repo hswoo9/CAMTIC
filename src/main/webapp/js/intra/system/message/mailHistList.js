@@ -85,40 +85,40 @@ var mailHistList = {
                     width: 50,
                     template: "#= --record #"
                 }, {
-                    field: "TYPE",
-                    title: "문자유형",
-                    width: 90
-                }, {
-                    field: "SUBJECT",
+                    field: "MAIL_TILE",
                     title: "제목",
+                    width: 230
+                }, {
+                    field: "SEND_DATE",
+                    title: "발신일",
                     width: 150,
                 }, {
-                    field: "MSG",
-                    title: "내용",
-                    width: 280,
-                    template: function(e){
-                        return '<div style="cursor: pointer; font-weight: bold">'+e.MSG+'</div>';
-                    }
+                    field: "REG_EMP_NAME",
+                    title: "발송자",
+                    width: 230
                 }, {
-                    title: "전송날짜",
-                    field: "SEND_DATE",
-                    width: 150
+                    field: "",
+                    title: "등록",
+                    width: 70
                 }, {
-                    title: "받은사람",
-                    width: 240,
-                    field: "APP_DE",
-                    template: function(e){
-                        let returnHtml = '';
-                        const destArr = e.DEST_INFO.split("|");
-                        for(let i=0; i<destArr.length; i++){
-                            if(i != 0){
-                                returnHtml += ", ";
-                            }
-                            const destMap = destArr[i];
-                            const destData = destMap.replace("^", "");
-                            returnHtml += destData;
-                        }
-                        return returnHtml;
+                    field: "",
+                    title: "발송",
+                    width: 70
+                }, {
+                    field: "",
+                    title: "실패",
+                    width: 70
+                }, {
+                    title: "처리 명령",
+                    width: 230,
+                    template: function(row){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" style="margin-right: 5px" onclick="mailHistList.fn_mailDetPopup('+row.MAIL_HIST_SN+')">' +
+                            '	<span class="k-button-text">주소등록</span>' +
+                            '</button>'
+                            +
+                            '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="mailHistList.fn_mailReqPopup('+row.MAIL_HIST_SN+')">' +
+                            '	<span class="k-button-text">미리보기</span>' +
+                            '</button>';
                     }
                 }
             ],
@@ -134,7 +134,17 @@ var mailHistList = {
             url += "?mailHistSn="+mailHistSn;
         }
         const name = "mailReqPop";
-        const option = "width = 720, height = 644, top = 100, left = 300, location = no";
+        const option = "width = 720, height = 666, top = 100, left = 300, location = no";
+        window.open(url, name, option);
+    },
+
+    fn_mailDetPopup: function(mailHistSn){
+        let url = "/system/pop/mailDetPop.do";
+        if(mailHistSn != null && mailHistSn != ""){
+            url += "?mailHistSn="+mailHistSn;
+        }
+        const name = "mailReqPop";
+        const option = "width = 1080, height = 588, top = 100, left = 300, location = no";
         window.open(url, name, option);
     }
 }
