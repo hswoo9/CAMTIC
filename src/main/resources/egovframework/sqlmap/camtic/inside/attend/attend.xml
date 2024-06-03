@@ -266,65 +266,37 @@
         )
         SELECT
             A.*,
-            IFNULL((
-                SELECT
-                    WPA.WORK_TIME_CODE_ID
-                FROM
-                    CAM_INSIDE.DJ_WORK_PLAN_APPROVAL WPA
-                JOIN CAM_INSIDE.DJ_WORK_PLAN_APPROVAL_DETAIL WPAD ON WPAD.WORK_PLAN_APPROVAL_ID = WPA.WORK_PLAN_APPROVAL_ID
-                WHERE
-                    WPA.ADMIN_APPR_STAT = 'Y'
-                AND WPA.APPLY_SEQ = A.EMP_SEQ
-                AND WPAD.WORK_DAY = A.START_DATE
-                ORDER BY WPAD.REG_DATE DESC LIMIT 1
-            ), '') AS WORK_PALN,
-            IFNULL((
-                SELECT
-                    SUBHOLIDAY_DT_CODE_NM
-                FROM
-                    CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
-                LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
-                WHERE
-                    A.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
-                AND A.START_DATE BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
-                AND SVUH.REG_EMP_SEQ = A.EMP_SEQ AND SVUH.APPR_STAT = 'Y'
-                ORDER BY SVUH.REG_DATE DESC limit 1
-            ), '') AS HOLIDAY,
 
-            IFNULL((
-                SELECT
-                    IHRR.TRIP_CODE
-                FROM CAM_INSIDE.DJ_HR_BIZ_REQ IHR
-                LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
-                LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
-                WHERE
-                    A.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
-                AND A.START_DATE BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
-                AND IHE.EMP_SEQ = A.EMP_SEQ AND IHRR.STATUS = '100'
-                ORDER BY IHRR.CREATE_DATE DESC limit 1
-            ), '') AS BUSTRIP,
+            IF(REG_DUTY_NAME = '', REG_POSITION_NAME, REG_DUTY_NAME) AS SPOT,
 
-            IFNULL((
+            CASE
+                WHEN HOLIDAY IS NOT NULL AND BUSTRIP IS NOT NULL THEN CONCAT(HOLIDAY, ', ', BUSTRIP)
+                WHEN HOLIDAY IS NOT NULL AND BUSTRIP IS NULL THEN HOLIDAY
+                WHEN HOLIDAY IS NULL AND BUSTRIP IS NOT NULL THEN BUSTRIP
+                ELSE ''
+            END AS ATTEND_TEXT,
+
+            IFNULL(IFNULL((
                 SELECT
                     CONCAT(WORK_TIME, ':00')
                 FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
                 WHERE
                     A.START_DATE = HAA.TARGET_DATE
-                    AND A.EMP_SEQ = HAA.TARGET_EMP_SEQ
-                    AND HAA.TYPE = '1'
+                AND A.EMP_SEQ = HAA.TARGET_EMP_SEQ
+                AND HAA.TYPE = '1'
                 ORDER BY HAA.REG_DATE DESC LIMIT 1
-            ), '') AS ATTEND_ADJUSTMENT_START,
+            ), START_TIME), '') AS ATTEND_ADJUSTMENT_START,
 
-            IFNULL((
-            SELECT
-                CONCAT(WORK_TIME, ':00')
-            FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
-            WHERE
-                A.START_DATE = HAA.TARGET_DATE
+            IFNULL(IFNULL((
+                SELECT
+                    CONCAT(WORK_TIME, ':00')
+                FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
+                WHERE
+                    A.START_DATE = HAA.TARGET_DATE
                 AND A.EMP_SEQ = HAA.TARGET_EMP_SEQ
                 AND HAA.TYPE = '2'
-            ORDER BY HAA.REG_DATE DESC LIMIT 1
-            ), '') AS ATTEND_ADJUSTMENT_END
+                ORDER BY HAA.REG_DATE DESC LIMIT 1
+            ), END_TIME), '') AS ATTEND_ADJUSTMENT_END
         FROM (
             SELECT
                 HEI.EMP_NAME_KR,
@@ -338,7 +310,36 @@
                 HEI.DUTY_NAME AS REG_DUTY_NAME,
                 SUBSTR('일월화수목금토', DAYOFWEEK(DR.DATES), 1) AS WEEK,
                 CONCAT(SUBSTR(RCD.START_TIME,1,2) , ':' , SUBSTR(RCD.START_TIME,3,2) , ':' , SUBSTR(RCD.START_TIME,5,2)) AS START_TIME,
-                CONCAT(SUBSTR(RCD.END_TIME,1,2) , ':' , SUBSTR(RCD.END_TIME,3,2) , ':' , SUBSTR(RCD.END_TIME,5,2)) AS END_TIME
+                CONCAT(SUBSTR(RCD.END_TIME,1,2) , ':' , SUBSTR(RCD.END_TIME,3,2) , ':' , SUBSTR(RCD.END_TIME,5,2)) AS END_TIME,
+                (
+                SELECT
+                    SUBHOLIDAY_DT_CODE_NM
+                FROM
+                    CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
+                LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
+                WHERE
+                    DR.DATES BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
+                    AND SVUH.REG_EMP_SEQ = HEI.EMP_SEQ AND SVUH.APPR_STAT = 'Y'
+                ORDER BY SVUH.REG_DATE DESC LIMIT 1
+                ) AS HOLIDAY,
+
+                (
+                SELECT
+                    CASE
+                        WHEN IHRR.TRIP_CODE = '1' THEN '출장(도내/시내)'
+                        WHEN IHRR.TRIP_CODE = '2' THEN '출장(도내/시외)'
+                        WHEN IHRR.TRIP_CODE = '3' THEN '도외'
+                        WHEN IHRR.TRIP_CODE = '4' THEN '해외'
+                        ELSE NULL
+                    END
+                FROM CAM_INSIDE.DJ_HR_BIZ_REQ IHR
+                LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
+                LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
+                WHERE
+                    DR.DATES BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
+                    AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
+                ORDER BY IHRR.CREATE_DATE DESC LIMIT 1
+                ) AS BUSTRIP
             FROM
                 CAM_HR.DJ_EMP_INFO HEI
             JOIN
@@ -358,6 +359,8 @@
                 (DIVISION = 0 OR (DIVISION = 4 AND DIVISION_SUB != 3))
             AND
                 WORK_STATUS_CODE = 'Y'
+            AND TEMP_DIVISION != 'Y'
+            AND EMP_SEQ != '1'
             <if test='dept != null and !"".equals(dept)'>
                 AND (
                     HEI.DEPT_SEQ = #{dept} OR
