@@ -70,6 +70,10 @@ public class EvaluationServiceImpl implements EvaluationService {
         return evaluationRepository.getEvaluationOne(params);
     }
     @Override
+    public Map<String, Object> getEvaluationPerOne(Map<String, Object> params) {
+        return evaluationRepository.getEvaluationPerOne(params);
+    }
+    @Override
     public Map<String, Object> getEvaluationChk(Map<String, Object> params) {
         return evaluationRepository.getEvaluationChk(params);
     }

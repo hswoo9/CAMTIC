@@ -1077,7 +1077,7 @@ public class UserManageServiceImpl implements UserManageService {
             for(int i = 0; i < arr.length; i++){
                 String[] arrL = arr[i].split("&");
 
-                String returnTxt = "(DIVISION IN(" + arrL[0] + ",9999)";
+                String returnTxt = "(DIVISION IN(" + arrL[0] + ", 9999)";
                 if(arrL.length > 1){
                     if(!arrL[1].equals("N")){
                         returnTxt += " AND DIVISION_SUB IN(" + arrL[1] + ")";

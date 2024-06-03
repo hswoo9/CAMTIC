@@ -65,6 +65,7 @@ var yearDutyView = {
         html += '<td>년도</td>';
         html += '<td>합계</td>';
         var uniquePositions = new Set();
+        console.log("positionList", positionList);
 
 // 중복 제거 및 Set에 position_name 추가
         for (var i = 0; i < positionList.length; i++) {
@@ -73,7 +74,23 @@ var yearDutyView = {
         }
 
 // Set을 배열로 변환하여 정렬
-        var uniquePositionsArray = Array.from(uniquePositions).sort();
+        var uniquePositionsArray = [
+            "수석연구원",
+            "수석매니저",
+            "수석행정원",
+            "책임매니저",
+            "책임매니저",
+            "책임연구원",
+            "선임연구원",
+            "선임매니저",
+            "선임행정원",
+            "주임행정원",
+            "행정원",
+            "주임매니저",
+            "매니저",
+            "주임연구원",
+            "연구원"
+        ];
 
 // 각 position_name 출력
         for (var j = 0; j < uniquePositionsArray.length; j++) {
@@ -135,8 +152,8 @@ var yearDutyView = {
             totalTd += "<td>" + positionCode[i].count + "명</td>";
         }
 
-        $("#totalTr").append(totalTr);
-        $("#totalTd").append(totalTd);
+        /*$("#totalTr").append(totalTr);
+        $("#totalTd").append(totalTd);*/
     },
 
     transformedArr : function (e){

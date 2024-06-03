@@ -33,10 +33,12 @@ var messageSendPop = {
                     const name = empInfo.EMP_NAME_KR;
                     const msg_content = $("#tBox_Msg").val();
                     const pkDate = sdf;
+                    const callBack = $("#callBack").val();
                     data.messages.push({
                         dest_phone: name+"^"+dest_phone,
                         msg_content: msg_content,
-                        pkDate: pkDate
+                        pkDate: pkDate,
+                        callBack: callBack
                     });
                 }
             }else if(type == "lecture"){
@@ -48,10 +50,12 @@ var messageSendPop = {
                     const name = empInfo.NAME;
                     const msg_content = $("#tBox_Msg").val();
                     const pkDate = sdf;
+                    const callBack = $("#callBack").val();
                     data.messages.push({
                         dest_phone: name+"^"+dest_phone,
                         msg_content: msg_content,
-                        pkDate: pkDate
+                        pkDate: pkDate,
+                        callBack: callBack
                     });
                 }
             }else if(type == "recruit"){
@@ -63,10 +67,12 @@ var messageSendPop = {
                     const name = empInfo.USER_NAME;
                     const msg_content = $("#tBox_Msg").val();
                     const pkDate = sdf;
+                    const callBack = $("#callBack").val();
                     data.messages.push({
                         dest_phone: name+"^"+dest_phone,
                         msg_content: msg_content,
-                        pkDate: pkDate
+                        pkDate: pkDate,
+                        callBack: callBack
                     });
                 }
             }

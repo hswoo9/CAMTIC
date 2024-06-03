@@ -17,11 +17,15 @@ var joinLeaveView = {
     gridReload : function(){
         var requestArr = "";
         if($(".detailSearch:checked").length == 0){
-            requestArr += "|999&N"
+            $("#countTable *").remove();
+            $("#mainTable *").remove();
+            joinLeaveView.getTotalEmpCountTable1([]);
+            joinLeaveView.getTotalEmpCountTable2([], []);
+            return;
         }else{
             $(".detailSearch:checked").each(function(){
                 if($(this).attr("id") == "dsA"){
-                    requestArr += "|0&N|4&1,2"
+                    requestArr += "|0&N|4&1,2";
                 }else{
                     requestArr += "|" + $(this).attr("division") + '&' + ($(this).attr("divisionSub") == null ? "N" : $(this).attr("divisionSub"));
                 }

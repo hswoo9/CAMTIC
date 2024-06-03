@@ -3,8 +3,87 @@
 
 <mapper namespace="messagePrj">
 
-    <insert id="msgSend" parameterType="map">
-        /*msgSend*/
+    <select id="getMessageHistList" parameterType="map" resultType="map">
+        /*getMessageHistList*/
+        SELECT * FROM (
+            SELECT
+                'SMS' AS TYPE,
+                SUBJECT,
+                SMS_MSG AS MSG,
+                SUBSTRING(SEND_DATE, 1, 4) + '-' + SUBSTRING(SEND_DATE, 5, 2) + '-' + SUBSTRING(SEND_DATE, 7, 2) AS SEND_DATE,
+                SEND_DATE AS SEND_DT,
+                CALLBACK,
+                DEST_INFO
+            FROM
+                SDK_SMS_REPORT
+
+            UNION ALL
+
+            SELECT
+                'MMS' AS TYPE,
+                SUBJECT,
+                MMS_MSG AS MSG,
+                SUBSTRING(SEND_DATE, 1, 4) + '-' + SUBSTRING(SEND_DATE, 5, 2) + '-' + SUBSTRING(SEND_DATE, 7, 2) AS SEND_DATE,
+                SEND_DATE AS SEND_DT,
+                CALLBACK,
+                DEST_INFO
+            FROM
+                SDK_MMS_REPORT
+        ) RE
+        WHERE
+            RE.SEND_DATE BETWEEN #{strDe} AND #{endDe}
+        <if test='searchType != null and !"".equals(searchType)'>
+            AND RE.TYPE = #{searchType}
+        </if>
+        <choose>
+            <when test='"A".equals(searchKeyword)'>
+                AND RE.SUBJECT LIKE ('%' + #{searchValue} + '%')
+            </when>
+            <when test='"B".equals(searchKeyword)'>
+                AND RE.MSG LIKE ('%' + #{searchValue} + '%')
+            </when>
+            <otherwise>
+                AND (
+                    RE.SUBJECT LIKE ('%' + #{searchValue} + '%')
+                    OR RE.MSG LIKE ('%' + #{searchValue} + '%')
+                )
+            </otherwise>
+        </choose>
+        ORDER BY RE.SEND_DT DESC
+    </select>
+
+    <insert id="msgSendSMS" parameterType="map">
+        /*msgSendSMS*/
+        INSERT INTO SDK_SMS_SEND
+            (
+                USER_ID,
+                SCHEDULE_TYPE,
+                SUBJECT,
+                NOW_DATE,
+                SEND_DATE,
+
+                CALLBACK,
+                DEST_COUNT,
+                DEST_INFO,
+                SMS_MSG
+            )
+        VALUES
+            (
+                'camtic',
+                '0',
+                'CAMTIC SMS 서비스',
+                #{pkDate},
+                #{pkDate},
+
+                #{callBack},
+                '1',
+                #{dest_phone},
+                #{msg_content}
+            )
+    </insert>
+
+    <insert id="msgSendMMS" parameterType="map">
+        /*msgSendMMS*/
         INSERT INTO SDK_MMS_SEND
             (
                 USER_ID,

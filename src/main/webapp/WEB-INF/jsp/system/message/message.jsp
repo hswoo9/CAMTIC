@@ -8,7 +8,6 @@
 <style>
     td{background-color: #fff;}
     th{background-color: #dee2e6;}
-    body{background-color:#fff;}
     .tab{width:100%; padding: 10px;}
     .tabnav{font-size:0; width:100%; border:1px solid #ddd; padding:0;}
     .tabnav li{display: inline-block;  height:46px; text-align:center; border-right:1px solid #ddd;}
@@ -131,6 +130,9 @@
         width: 95%;
     }
 </style>
+
+<body class="font-opensans">
+
 <div class="mainCard">
     <div class="panel">
         <div class="panel-heading">
@@ -139,8 +141,11 @@
             <h4 class="panel-title">문자함</h4>
             <div class="title-road">시스템관리 > 문자 &gt; 문자함</div>
             <div id="startView" style="padding: 10px 0 0 0; border-top: 2px solid #dfdfdf;"></div>
+            <div style="float: right; padding: 0 0 10px 0;">
+                <button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-info" onclick="messageReq.fn_faxSendPopup()">팩스 발송</button>
+            </div>
         </div>
-        <div class="tab" style="padding-left: 20px; padding-right: 20px;">
+        <div class="tab" style="padding-top: 30px; padding-left: 20px; padding-right: 20px;">
             <div id="tab03">
                 <div>
                     <table>
@@ -172,6 +177,12 @@
                                 </div>
                             </td>
                             <td rowspan="2" style="background-color: white">
+                                <div style="border:1px solid #ddd; margin-left:10px;margin-bottom:10px; width:259px; text-align: center">
+                                    <div style="background-color:#eee; height:30px; line-height: 30px; text-align: center;">
+                                        발신번호
+                                    </div>
+                                    <input name="callBack" id="callBack" oninput="onlyNumber(this);" maxlength="13" placeholder="숫자만입력하세요!" style="width:95%; margin: 5px 0" value="0632190300">
+                                </div>
                                 <div class="msg_con_wrap" style="height: 520px; display:flex;">
                                     <div style="border:1px solid #ddd; margin-left:10px; width:100%; text-align: center">
                                         <div style="background-color:#eee; height:30px;text-align: center; padding-top: 5px; margin-bottom: 10px;">받는사람</div>

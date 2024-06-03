@@ -87,11 +87,13 @@ var messageReq = {
             var dest_phone = $("#dest_phone"+i).val();
             var name = $("#dest_phone"+i).attr('cname');
             var msg_content = $("#tBox_Msg").val();
+            var callBack = $("#callBack").val();
             var pkDate = sdf;
             data.messages.push({
                 dest_phone: name+"^"+dest_phone,
                 msg_content: msg_content,
-                pkDate: pkDate
+                pkDate: pkDate,
+                callBack: callBack
             });
         }
 
@@ -277,5 +279,12 @@ var messageReq = {
                 alert("사용자 삭제 중 에러가 발생했습니다.");
             }
         }
-    }
+    },
+
+    fn_faxSendPopup : function(key, status, auth){
+        var url = "/system/pop/faxSendPop.do";
+        var name = "faxSendPop";
+        var option = "width=400, height=400, scrollbars=no, top=200, left=600, resizable=no, toolbars=no, menubar=no"
+        var popup = window.open(url, name, option);
+    },
 }

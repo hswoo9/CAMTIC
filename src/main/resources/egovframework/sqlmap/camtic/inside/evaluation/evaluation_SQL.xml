@@ -26,7 +26,7 @@
             (SELECT
                 IF(A.DUTY_CODE = '2', '노상흡 원장', '') AS T1_A
                 , IF(A.DUTY_CODE = '', IFNULL(
-                                             (SELECT CONCAT(EMP_NAME_KR, ' 팀장') FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = A.DEPT_SEQ AND DUTY_CODE IN ('4', '5') LIMIT 1 )
+                                             (SELECT CONCAT(EMP_NAME_KR, ' 팀장') FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = A.DEPT_SEQ AND DUTY_CODE IN ('4', '5'))
                                             ,(SELECT CONCAT(EMP_NAME_KR, ' 실장') FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AND DUTY_CODE = '7'))
                     , (SELECT CONCAT(EMP_NAME_KR, ' ', DUTY_NAME) FROM CAM_HR.DJ_EMP_INFO WHERE DEPT_SEQ = (SELECT PARENT_DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO WHERE DEPT_SEQ = A.DEPT_SEQ) AND DUTY_CODE IN ('2','3','7'))) AS T1_B
                 , IF(A.DUTY_CODE = '2', '32', '') AS T1_A_SEQ
@@ -120,6 +120,18 @@
             EVAL_STAT != 'W'
         ORDER BY EVAL_SN DESC
         LIMIT 1;
+    </select>
+
+    <select id="getEvaluationPerOne" parameterType="map" resultType="map">
+        SELECT
+            EVAL_PER_CONTNET
+        FROM
+            CAM_INSIDE.DJ_EVALUATION
+        WHERE
+            ACTIVE = 'Y'
+          AND
+            EVAL_SN = #{evalSn}
+
     </select>
 
 

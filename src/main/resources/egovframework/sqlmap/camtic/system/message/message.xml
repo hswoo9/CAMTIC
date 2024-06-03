@@ -36,6 +36,27 @@
         AND b.GROUP_ID = #{userGroupId}
     </select>
 
+    <select id="getMailHistList" resultType="map" parameterType="map">
+        /* getMailHistList */
+        SELECT
+            CMH.*
+        FROM
+            CAM_COMMON.DJ_MAIL_HIST CMH
+        WHERE
+            1=1
+        ORDER BY MAIL_HIST_SN DESC
+    </select>
+
+    <select id="getMailHistData" resultType="map" parameterType="map">
+        /* getMailHistData */
+        SELECT
+            CMH.*
+        FROM
+            CAM_COMMON.DJ_MAIL_HIST CMH
+        WHERE
+            MAIL_HIST_SN = #{mailHistSn}
+    </select>
+
 
 
 
@@ -110,4 +131,27 @@
         WHERE
             PHONE_USER_ID = #{phoneUserId}
     </delete>
+
+    <insert id="setMailHist" parameterType="map">
+        /* setMailHist */
+        INSERT INTO CAM_COMMON.DJ_MAIL_HIST
+            (
+                MAIL_TILE,
+                MAIL_CONTENT,
+                SEND_DATE,
+                SEND_EMAIL,
+                REG_EMP_SEQ
+            )
+        VALUES
+            (
+                #{subject},
+                #{contents},
+                #{sendDate},
+                #{sendEml},
+                #{regEmpSeq}
+            )
+        <selectKey keyProperty="mailHistSn" resultType="Integer" order="BEFORE">
+            SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_COMMON' AND TABLE_NAME = 'DJ_MAIL_HIST'
+        </selectKey>
+    </insert>
 </mapper>

@@ -649,6 +649,9 @@
         CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
             HEI.ACTIVE = 'Y'
+        <if test='!"Y".equals(dsJ)'>
+            AND HEI.WORK_STATUS_CODE = 'Y'
+        </if>
         <if test='userGender != null and !"".equals(userGender)'>
         AND
             HEI.GENDER_CODE = #{userGender}
@@ -686,7 +689,7 @@
             AND
             HEI.DEPT_SEQ = #{deptTeam}
         </if>
-        <if test='arr != null and !"".equals(arr)'>
+        <if test='arr != null and !"".equals(arr) and !"Y".equals(dsJ)'>
         AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
                 ${item}
@@ -697,6 +700,10 @@
                 TEMP_DIVISION = "Y"
             AND
                 WORK_STATUS_CODE = "Y"
+        </if>
+        <if test='"Y".equals(dsJ)'>
+            AND
+                WORK_STATUS_CODE = "N"
         </if>
         <if test='dsI == null or "".equals(dsI)'>
             AND
@@ -1831,7 +1838,6 @@
             CAM_HR.DJ_EMP_INFO
         SET
             WORK_STATUS_CODE = 'N',
-            DIVISION = '9999',
             RESIGN_DAY = #{resignDay},
             RESIGN_REASON = #{resignReason},
             MOD_DATE = NOW(),
@@ -2936,35 +2942,35 @@
 
     <!--인사관리(관리자) -->
     <select id="getCountForDsA" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 0 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND HEI.WORK_STATUS_CODE = 'Y' AND DIVISION = 0 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsB" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = '1' AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND HEI.WORK_STATUS_CODE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = '1' AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsC" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = '2' AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND HEI.WORK_STATUS_CODE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = '2' AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsD" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = 3 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND HEI.WORK_STATUS_CODE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = 3 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsE" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 3 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND HEI.WORK_STATUS_CODE = 'Y' AND DIVISION = 3 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsF" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 1 AND DIVISION_SUB = 6 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND HEI.WORK_STATUS_CODE = 'Y' AND DIVISION = 1 AND DIVISION_SUB = 6 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsG" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 2 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND HEI.WORK_STATUS_CODE = 'Y' AND DIVISION = 2 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsH" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 10 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND HEI.WORK_STATUS_CODE = 'Y' AND DIVISION = 10 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsI" resultType="int" parameterType="map">
@@ -2995,32 +3001,32 @@
     </select>
 
     <select id="getCountForDsJ" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 9999 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND HEI.WORK_STATUS_CODE != 'Y' AND TEMP_DIVISION = 'N';
     </select>
 
     <!--인사관리 -->
     <select id="getCountForDsA2" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND ((DIVISION IN (0)) OR(DIVISION IN (4) AND DIVISION_SUB IN (1, 2))) AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y'  AND HEI.WORK_STATUS_CODE = 'Y'AND ((DIVISION IN (0)) OR(DIVISION IN (4) AND DIVISION_SUB IN (1, 2))) AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsB2" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 3 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y'  AND HEI.WORK_STATUS_CODE = 'Y'AND DIVISION = 3 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsC2" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 1 AND DIVISION_SUB = 6 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y'  AND HEI.WORK_STATUS_CODE = 'Y'AND DIVISION = 1 AND DIVISION_SUB = 6 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsD2" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 4 AND DIVISION_SUB = 3 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y'  AND HEI.WORK_STATUS_CODE = 'Y'AND DIVISION = 4 AND DIVISION_SUB = 3 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsE2" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 10 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y'  AND HEI.WORK_STATUS_CODE = 'Y'AND DIVISION = 10 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getCountForDsG2" resultType="int" parameterType="java.util.Map">
-        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND DIVISION = 2 AND TEMP_DIVISION = 'N';
+        SELECT COUNT(*) FROM CAM_HR.DJ_EMP_INFO	AS HEI LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ WHERE HEI.ACTIVE = 'Y' AND HEI.WORK_STATUS_CODE = 'Y' AND DIVISION = 2 AND TEMP_DIVISION = 'N';
     </select>
 
     <select id="getTotalEmpCount" parameterType="java.util.Map" resultType="map">
@@ -3031,59 +3037,62 @@
             employees_resigned,
             active_emp_count
         FROM (
-                 SELECT
-                     YEAR(JOIN_DAY) AS join_year,
-                     COUNT(*) AS employees_joined
-                 FROM
-                     cam_hr.dj_emp_info
-                 WHERE
-                     JOIN_DAY IS NOT NULL AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2023
+            SELECT
+                YEAR(JOIN_DAY) AS join_year,
+                COUNT(*) AS employees_joined
+            FROM
+                cam_hr.dj_emp_info
+            WHERE
+                JOIN_DAY IS NOT NULL
+            AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2024
+            AND TEMP_DIVISION != 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
                 ${item}
             </foreach>
         </if>
-                 GROUP BY
-                     join_year
-             ) AS joined
-                 LEFT JOIN (
+            GROUP BY join_year
+        ) AS joined
+
+        LEFT JOIN (
             SELECT
                 YEAR(RESIGN_DAY) AS resign_year,
                 COUNT(*) AS employees_resigned
             FROM
                 cam_hr.dj_emp_info
             WHERE
-                RESIGN_DAY IS NOT NULL AND YEAR(RESIGN_DAY) BETWEEN 1999 AND 2023
+                RESIGN_DAY IS NOT NULL
+            AND YEAR(RESIGN_DAY) BETWEEN 1999 AND 2024
+            AND TEMP_DIVISION != 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
                 ${item}
             </foreach>
         </if>
-            GROUP BY
-                resign_year
+            GROUP BY resign_year
         ) AS resigned ON joined.join_year = resigned.resign_year
-                 LEFT JOIN (
+
+        LEFT JOIN (
             SELECT
                 YEAR(JOIN_DAY) AS active_year,
                 COUNT(*) AS active_emp_count
             FROM
                 cam_hr.dj_emp_info
             WHERE
-                JOIN_DAY IS NOT NULL AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2023
-              AND WORK_STATUS_CODE = 'Y'
+                JOIN_DAY IS NOT NULL AND YEAR(JOIN_DAY) BETWEEN 1999 AND 2024
+            AND WORK_STATUS_CODE = 'Y'
+            AND TEMP_DIVISION != 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator=" OR " open="(" close=")">
                 ${item}
             </foreach>
         </if>
-            GROUP BY
-                active_year
+            GROUP BY active_year
         ) AS active ON joined.join_year = active.active_year
-        ORDER BY
-            join_year desc
+        ORDER BY join_year desc
     </select>
 
     <select id="getJoinResignEmpList" parameterType="map" resultType="map">
@@ -3103,14 +3112,15 @@
                  ELSE 999 END SORT
         FROM
             CAM_HR.DJ_EMP_INFO AS HEI
-                LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
+        LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         WHERE
+            TEMP_DIVISION != 'Y'
         <choose>
         <when test='joinYear != null and joinYear != ""'>
-            YEAR(HEI.JOIN_DAY) = #{joinYear}
+            AND YEAR(HEI.JOIN_DAY) = #{joinYear}
         </when>
         <when test='resignDay != null and resignDay != ""'>
-            YEAR(HEI.RESIGN_DAY) = #{resignDay}
+            AND YEAR(HEI.RESIGN_DAY) = #{resignDay}
         </when>
         </choose>
         <if test='arr != null and !"".equals(arr)'>
@@ -3533,8 +3543,11 @@
         </if>
         WHERE
         dept.DEPT_LEVEL = 1
+        AND dept.DEPT_SEQ NOT IN (1, 2)
+        AND dept.use_yn = 'Y'
         GROUP BY
         dept.DEPT_SEQ, dept.DEPT_NAME
+        ORDER BY dept.path
     </select>
 
     <!-- 인사통계 - 소속현황 :  팀 정보 조회 (부서 레벨 2) -->
@@ -3558,27 +3571,27 @@
         </if>
         WHERE
         dept.DEPT_LEVEL = 2
+        AND dept.DEPT_SEQ NOT IN (1, 2)
+        AND dept.use_yn = 'Y'
         GROUP BY
         dept.PARENT_DEPT_SEQ, dept.DEPT_NAME
+        ORDER BY dept.path
     </select>
 
 <!--    년도별 직급 현황-->
     <select id="getPositionNameByYear" parameterType="map" resultType="map">
         SELECT COUNT(*) AS emp_count, position_name, YEAR(join_day) AS join_year
         FROM cam_hr.dj_emp_info
-        WHERE position_name IN (
-        '수석연구원', '수석매니저', '수석행정원', '책임행정원', '책임매니저', '책임연구원',
-        '선임연구원', '선임매니저', '선임행정원', '주임행정원', '행정원', '주임매니저',
-        '매니저', '주임연구원', '연구원'
-        )
+        WHERE POSITION_CODE IS NOT NULL AND POSITION_CODE != ''
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
                 ${item}
             </foreach>
         </if>
+        AND TEMP_DIVISION != 'Y'
         GROUP BY join_year, position_name
-        ORDER BY join_year DESC, (SELECT SORT FROM CAM_COMMON.DJ_COM_CODE WHERE CM_GROUP_CODE_ID = 4 AND TRIM(SUBSTRING_INDEX(CM_CODE_NM, '/', 1)) = POSITION_NAME)
+        ORDER BY join_year DESC, CAST(POSITION_CODE AS UNSIGNED)
     </select>
 
     <select id="getPositionListByYear" parameterType="map" resultType="map">
@@ -3623,8 +3636,9 @@
                 ${item}
             </foreach>
         </if>
+        AND TEMP_DIVISION != 'Y'
         GROUP BY YEAR(a.HISTORY_DT), a.apnt_name
-        ORDER BY YEAR(a.HISTORY_DT)
+        ORDER BY YEAR(a.HISTORY_DT) DESC
     </select>
 
     <select id="getApntListByYear" parameterType="map" resultType="map">
@@ -3741,25 +3755,40 @@
     </select>
 
     <select id="getDegreeCount" parameterType="map" resultType="map">
-        select
-            DEGREE_CODE,
-            COUNT(*) as emp_count
-        from
-            cam_hr.dj_emp_info dei
-        where
-            WORK_STATUS_CODE = 'Y'
+
+        SELECT
+            CM_CODE_NM AS DEGREE_CODE,
+            COUNT(EMP_SEQ) AS emp_count
+        FROM (
+            SELECT
+                CM_CODE_NM, SORT, CM_CODE_ID
+            FROM
+                CAM_COMMON.DJ_COM_CODE CC
+            WHERE
+                1=1
+            AND
+                CC.CM_GROUP_CODE_ID = '41'
+        ) R
+
+        LEFT JOIN CAM_HR.DJ_EMP_INFO DEI
+        ON R.CM_CODE_NM = DEI.DEGREE_CODE
+        AND WORK_STATUS_CODE = 'Y'
+        AND TEMP_DIVISION != 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
                 ${item}
             </foreach>
         </if>
-        group by
-            DEGREE_CODE
+
+        GROUP BY R.CM_CODE_NM
+        ORDER BY R.SORT, R.CM_CODE_ID
     </select>
 
     <select id="getDeptListByCount" parameterType="map" resultType="map">
         SELECT HEI.*,
+        SUBSTRING_INDEX(TRUNCATE(CAM_HR.FN_GET_CAREERMONTH(HEI.JOIN_DAY) / 12, 1), '.', 1) AS hire,
+        SUBSTRING_INDEX(TRUNCATE(CAM_HR.FN_GET_CAREERMONTH(HEI.JOIN_DAY) / 12, 1), '.', -1) + 1 AS hire_mon,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
@@ -3773,6 +3802,8 @@
         WHERE DEPT_SEQ = #{deptID}
         OR PARENT_DEPT_SEQ = #{deptID}
         )
+        AND WORK_STATUS_CODE = 'Y'
+        AND TEMP_DIVISION != 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
@@ -3784,6 +3815,8 @@
     <select id="getTeamListByCount" parameterType="map" resultType="map">
         SELECT
         HEI.*,
+        SUBSTRING_INDEX(TRUNCATE(CAM_HR.FN_GET_CAREERMONTH(HEI.JOIN_DAY) / 12, 1), '.', 1) AS hire,
+        SUBSTRING_INDEX(TRUNCATE(CAM_HR.FN_GET_CAREERMONTH(HEI.JOIN_DAY) / 12, 1), '.', -1) + 1 AS hire_mon,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
@@ -3793,6 +3826,7 @@
         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         where HEI.DEPT_SEQ = #{teamID}
         and WORK_STATUS_CODE = 'Y'
+        AND TEMP_DIVISION != 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
@@ -3804,6 +3838,8 @@
     <select id="getPositionListByCount" parameterType="map" resultType="map">
         SELECT
         HEI.*,
+        SUBSTRING_INDEX(TRUNCATE(CAM_HR.FN_GET_CAREERMONTH(HEI.JOIN_DAY) / 12, 1), '.', 1) AS hire,
+        SUBSTRING_INDEX(TRUNCATE(CAM_HR.FN_GET_CAREERMONTH(HEI.JOIN_DAY) / 12, 1), '.', -1) + 1 AS hire_mon,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
@@ -3814,6 +3850,7 @@
         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         where POSITION_NAME = #{positionName}
         and work_status_code = 'Y'
+        AND TEMP_DIVISION != 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
@@ -3825,6 +3862,8 @@
     <select id="getGenderListByCount" parameterType="map" resultType="map">
         SELECT
             HEI.*,
+            SUBSTRING_INDEX(TRUNCATE(CAM_HR.FN_GET_CAREERMONTH(HEI.JOIN_DAY) / 12, 1), '.', 1) AS hire,
+            SUBSTRING_INDEX(TRUNCATE(CAM_HR.FN_GET_CAREERMONTH(HEI.JOIN_DAY) / 12, 1), '.', -1) + 1 AS hire_mon,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
             CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
@@ -3834,7 +3873,8 @@
             CAM_HR.DJ_EMP_INFO AS HEI
             LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         where gender_code = #{genderName}
-          and work_status_code = 'Y'
+        and work_status_code = 'Y'
+        AND TEMP_DIVISION != 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">
@@ -3887,6 +3927,8 @@
     <select id="getDegreeListByCount" parameterType="map" resultType="map">
         SELECT
         HEI.*,
+        SUBSTRING_INDEX(TRUNCATE(CAM_HR.FN_GET_CAREERMONTH(HEI.JOIN_DAY) / 12, 1), '.', 1) AS hire,
+        SUBSTRING_INDEX(TRUNCATE(CAM_HR.FN_GET_CAREERMONTH(HEI.JOIN_DAY) / 12, 1), '.', -1) + 1 AS hire_mon,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_SEQ FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_SEQ END AS DEPT_SEQ,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN (SELECT DEPT_NAME FROM CAM_HR.DJ_DEPT_INFO DI WHERE HDI.PARENT_DEPT_SEQ = DI.DEPT_SEQ) ELSE HEI.DEPT_NAME END AS DEPT_NAME1,
         CASE WHEN HDI.DEPT_LEVEL = 2 THEN HEI.DEPT_SEQ ELSE "" END AS TEAM_SEQ,
@@ -3898,6 +3940,7 @@
         LEFT JOIN CAM_HR.DJ_DEPT_INFO HDI ON HEI.DEPT_SEQ = HDI.DEPT_SEQ
         where degree_code = #{degreeName}
         and work_status_code = 'Y'
+        AND TEMP_DIVISION != 'Y'
         <if test='arr != null and !"".equals(arr)'>
             AND
             <foreach collection="arr" item="item" separator="OR" open="(" close=")">

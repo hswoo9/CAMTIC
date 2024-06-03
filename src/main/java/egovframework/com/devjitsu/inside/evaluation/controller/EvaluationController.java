@@ -45,6 +45,11 @@ public class EvaluationController {
         model.addAttribute("data", evaluationService.getEvaluationOne(params));
         return "jsonView";
     }
+    @RequestMapping("/evaluation/getEvaluationPerOne")
+    public String getEvaluationPerOne(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
+        model.addAttribute("data", evaluationService.getEvaluationPerOne(params));
+        return "jsonView";
+    }
 
     @RequestMapping("/evaluation/getEvaluationChk")
     public String getEvaluationChk(HttpServletRequest request, Model model, @RequestParam Map<String, Object> params) {
