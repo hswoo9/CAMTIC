@@ -350,7 +350,7 @@
             TR_CD, CEO_NM, REG_NB, JIRO_NM, BA_NB, DEPOSITOR, TR_NM
         FROM ZA_TRADE_DAIKIN
         WHERE TR_FG = '1'
-          AND REG_NB = #{REG_NO}
+          AND REG_NB LIKE '%' + #{REG_NO} + '%'
         ORDER BY INSERT_DT DESC
     </select>
 
