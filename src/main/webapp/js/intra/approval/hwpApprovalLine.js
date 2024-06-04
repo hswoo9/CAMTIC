@@ -212,7 +212,7 @@ var hwpApprovalLine = {
 
         let ip = "";
         if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
-            ip = "http://218.158.231.184"
+            ip = "https://new.camtic.or.kr"
         }else{
             ip = "http://218.158.231.186"
         }
@@ -503,7 +503,7 @@ var hwpApprovalLine = {
 
         let ip = "";
         if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
-            ip = "http://218.158.231.184";
+            ip = "https://new.camtic.or.kr";
         }else{
             ip = "http://218.158.231.186";
         }
@@ -571,7 +571,7 @@ var hwpApprovalLine = {
     setTranscript : function(fieldName, empSeq, empName, type){
         let ip = "";
         if(serverName == "218.158.231.184" || serverName == "new.camtic.or.kr"){
-            ip = "http://218.158.231.184";
+            ip = "https://new.camtic.or.kr";
         }else{
             ip = "http://218.158.231.186";
         }
