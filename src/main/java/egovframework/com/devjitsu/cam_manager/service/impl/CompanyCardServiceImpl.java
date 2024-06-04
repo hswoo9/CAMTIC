@@ -52,8 +52,7 @@ public class CompanyCardServiceImpl implements CompanyCardService {
                 String[] filePathArr = map.get("file_path").toString().split("/");
 
                 if(filePathArr[3].equals(resultMap.get("AUTH_NO").toString()) && filePathArr[4].equals(resultMap.get("AUTH_DD").toString()) &&
-                        filePathArr[5].equals(resultMap.get("AUTH_HH").toString()) && filePathArr[6].equals(resultMap.get("CARD_NO").toString()) &&
-                        filePathArr[7].equals(resultMap.get("BUY_STS").toString()))
+                        filePathArr[5].equals(resultMap.get("AUTH_HH").toString()) && filePathArr[6].equals(resultMap.get("CARD_NO").toString()))
                 {
                     resultMap.put("FILE_NO", map.get("file_no"));
                 }
