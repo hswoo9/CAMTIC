@@ -352,7 +352,7 @@ var partRate = {
         }
         $("#memMonSal" + i).val(comma(memMonSal));         // 월 인건비 계산 (인건비 총액 / 참여개월)
 
-        var memTotRate = Math.ceil(Number(uncomma($("#memPayTotal" + i).val())) / (Number(uncomma($("#memChngSal" + i).val())) * $("#memMon" + i).val()) * 100 * 10) / 10;
+        var memTotRate = Math.round(Number(uncomma($("#memPayTotal" + i).val())) / (Number(uncomma($("#memChngSal" + i).val())) * $("#memMon" + i).val()) * 100 * 10) / 10;
         if(!isNaN(memTotRate)){
             $("#memTotRate" + i).val(memTotRate);    // 총 참여율(%) (인건비 총액 / (기준급여 변경 * 참여개월)) * 100
         }
@@ -687,7 +687,7 @@ var partRate = {
         $("#memMonSal" + i).val(comma(memMonSal));
 
         /** 총 참여율(%) (인건비 총액 / (기준급여 변경 * 참여개월)) * 100 */
-        var memTotRate = Math.ceil(Number(uncomma($("#memPayTotal" + i).val())) / (Number(uncomma($("#memChngSal" + i).val())) * memMon) * 100 * 10) / 10;
+        var memTotRate = Math.round(Number(uncomma($("#memPayTotal" + i).val())) / (Number(uncomma($("#memChngSal" + i).val())) * memMon) * 100 * 10) / 10;
         if(!isNaN(memTotRate)){
             $("#memTotRate" + i).val(memTotRate);
         }
