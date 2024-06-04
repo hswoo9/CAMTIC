@@ -71,6 +71,9 @@ var outUseList = {
                 pageSizes : [ 10, 20, 50, "ALL" ],
                 buttonCount : 5
             },
+            dataBound : function(){
+                calcAmSum = 0;
+            },
             toolbar: [
                 {
                     name : 'button',
