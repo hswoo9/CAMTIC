@@ -12,7 +12,7 @@
     function approvalDataInit(){
         var approvalParams = {};
         approvalParams.mod = "W";
-        approvalParams.formId = "1";
+        approvalParams.formId = "194";
         approvalParams.compSeq = "1000";
         approvalParams.empSeq = "${loginVO.uniqId}";
         approvalParams.docTitle = "[접수대장]${loginVO.orgnztNm}-${loginVO.name}";

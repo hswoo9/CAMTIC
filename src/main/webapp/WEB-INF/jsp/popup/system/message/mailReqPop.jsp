@@ -72,7 +72,7 @@
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>발송메일 주소</th>
                     <td>
-                        <input id="sendEml" value="liveokde1004@dev-jitsu.com" style="width: 100%">
+                        <input id="sendEml" value="camtic-send@camtic.or.kr" style="width: 100%">
                     </td>
                 </tr>
                 </thead>

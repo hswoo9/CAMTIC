@@ -215,8 +215,8 @@ var rndRPR = {
             joinMemNm : $("#joinMemberPart").val(),
             empName : $("#verEmpName").val(),
             empSeq : $("#verEmpSeq").val(),
-            regEmpSeq : $("#verEmpName").val(),
-            regEmpName : $("#verEmpSeq").val(),
+            regEmpSeq : $("#verEmpSeq").val(),
+            regEmpName : $("#verEmpName").val(),
             regOrgnztId : $("#verOrgnztId").val(),
             regOrgnztNm : $("#verOrgnztNm").val()
         }
