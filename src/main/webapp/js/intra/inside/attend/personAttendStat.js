@@ -187,58 +187,22 @@ var personAttendStat = {
                     title: "팀",
                     width: "7.5%"
                 }, {
+                    field: "SPOT",
                     title: "직위",
-                    width: "7.5%",
-                    template: function(row){
-                        return row.REG_DUTY_NAME == "" ? row.REG_POSITION_NAME : row.REG_DUTY_NAME;
-                    }
+                    width: "7.5%"
                 }, {
                     field: "REG_EMP_NAME",
                     title: "성명",
                     width: "7.5%"
                 }, {
-                    field: "START_TIME",
-                    title: "출근 시간",
-                    template: function(row){
-                        if(row.ATTEND_ADJUSTMENT_START != ""){
-                            return row.ATTEND_ADJUSTMENT_START;
-                        }else{
-                            return row.START_TIME || "";
-                        }
-                    }
+                    field: "ATTEND_ADJUSTMENT_START",
+                    title: "출근 시간"
                 }, {
-                    field: "END_TIME",
-                    title: "퇴근 시간",
-                    template: function(row){
-                        if(row.ATTEND_ADJUSTMENT_END != ""){
-                            return row.ATTEND_ADJUSTMENT_END;
-                        }else{
-                            return row.END_TIME || "";
-                        }
-                    }
+                    field: "ATTEND_ADJUSTMENT_END",
+                    title: "퇴근 시간"
                 }, {
-                    title: "근태 항목",
-                    template: function(row){
-                        let text = "";
-                        if(row.HOLIDAY != ""){
-                            text += row.HOLIDAY
-                        }
-                        if(row.BUSTRIP != ""){
-                            if(text != ""){
-                                text += ", ";
-                            }
-                            if (row.BUSTRIP == "1") {
-                                text += "도내(시내)";
-                            }else if (row.BUSTRIP == "2") {
-                                text += "도내(시외)";
-                            }else if (row.BUSTRIP == "3") {
-                                text += "도외";
-                            }else if (row.BUSTRIP == "4") {
-                                text += "해외";
-                            }
-                        }
-                        return text;
-                    }
+                    field: "ATTEND_TEXT",
+                    title: "근태 항목"
                 }
             ]
         }).data("kendoGrid");

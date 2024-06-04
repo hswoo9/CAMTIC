@@ -42,9 +42,13 @@
             <thead>
                 <tr>
                     <th scope="row" class="text-center th-color"><span class="red-star">*</span>발신번호</th>
-                    <td colspan="3">
+                    <td>
                         <input name="callBack" id="callBack" oninput="onlyNumber(this);" maxlength="13" placeholder="숫자만입력하세요!" style="width:95%; border: 1px solid black; padding: 3px; margin: 5px 0; font-weight: bold" value="0632190300">
                     </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="text-center th-color"><span class="red-star">*</span>수신자</th>
+                    <td style="white-space: unset;"><span id="userListText" style="word-break:break-all"></span></td>
                 </tr>
             </thead>
         </table>
@@ -59,5 +63,6 @@
     </div>
 </div>
 <script>
+    messageSendPop.fn_defaultScript();
 </script>
 </body>

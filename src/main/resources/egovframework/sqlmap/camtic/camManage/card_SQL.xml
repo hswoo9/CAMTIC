@@ -249,18 +249,23 @@
             AND
                 DATE_FORMAT(#{endDt}, '%Y%m%d') >= DATE_FORMAT(A.CARD_TO_DE, '%Y%m%d')
         ]]>
-        <if test='searchKeyword != null and !"".equals(searchKeyword)'>
-            <choose>
-                <when test='"CARD_NUM".equals(searchKeyword)'>
-                    AND
-                        SUBSTRING_INDEX(A.CARD_BA_NB,'-',-1) LIKE CONCAT('%', #{searchValue}, '%')
-                </when>
-                <when test='"USER_NAME".equals(searchKeyword)'>
-                    AND
+        <choose>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "CARD_NUM".equals(searchKeyword)'>
+                AND
+                    SUBSTRING_INDEX(A.CARD_BA_NB,'-',-1) LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <when test='searchKeyword != null and !"".equals(searchKeyword) and "USER_NAME".equals(searchKeyword)'>
+                AND
+                    A.USE_EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
+            </when>
+            <otherwise>
+                AND
+                    (
+                        SUBSTRING_INDEX(A.CARD_BA_NB,'-',-1) LIKE CONCAT('%', #{searchValue}, '%') OR
                         A.USE_EMP_NAME LIKE CONCAT('%', #{searchValue}, '%')
-                </when>
-            </choose>
-        </if>
+                    )
+            </otherwise>
+        </choose>
         <if test='regHistYn != null and !"".equals(regHistYn)'>
             <choose>
                 <when test='"Y".equals(regHistYn)'>

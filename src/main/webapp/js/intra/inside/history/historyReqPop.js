@@ -5,6 +5,7 @@ const historyReq = {
         hwpCtrl: "",
         params: "",
         editDataSource: {},
+        delArr: [],
         test: [],
         index : 0,
     },
@@ -791,6 +792,24 @@ const historyReq = {
             }
         });
 
+        if(historyReq.global.delArr.length > 0){
+            var apntArr = "";
+            for(var i=0; i<historyReq.global.delArr.length; i++){
+                apntArr += "," + historyReq.global.delArr[i];
+            }
+
+            $.ajax({
+                url : "/inside/setHistoryDelete",
+                type : "POST",
+                data : {
+                    "apntArr" : apntArr.substring(1)
+                },
+                success : function(){
+                    console.log("success");
+                }
+            })
+        }
+
 
         alert("인사발령이 완료됐습니다.");
         opener.historyList.gridReload();
@@ -938,6 +957,9 @@ const historyReq = {
 
         $("#popMainGrid").find("input[name='checkUser']:checked").each(function(){
             dataItemAr.push(grid.dataItem($(this).closest("tr")));
+            if(grid.dataItem($(this).closest("tr")).APNT_SN){
+                historyReq.global.delArr.push(grid.dataItem($(this).closest("tr")).APNT_SN);
+            }
         });
 
         for(let i = 0; i < dataItemAr.length; i++){

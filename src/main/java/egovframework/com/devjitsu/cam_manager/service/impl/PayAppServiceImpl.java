@@ -130,10 +130,10 @@ public class PayAppServiceImpl implements PayAppService {
             }
         }
         // 영수증, 전표등 있을 시 첨부파일 복사
-        if(params.containsKey("sList")){
+//        if(params.containsKey("sList")){
             // 스낵 지급신청 Key Insert
-            payAppRepository.updSnackExnpFileCopy(params);
-        }
+//            payAppRepository.updSnackExnpFileCopy(params);
+//        }
 
         if(params.containsKey("claimExnpSn")){
             String [] claimExnpSnArr = params.get("claimExnpSn").toString().split(",");
@@ -151,7 +151,7 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updPurcClaimByPayAppSn(params);
         }
 
-        commonRepository.updFileOwnerNull(params);
+        //        commonRepository.updFileOwnerNull(params);
 
         for(Map<String, Object> map : itemArr){
             map.put("payAppSn", params.get("payAppSn"));
@@ -163,7 +163,7 @@ public class PayAppServiceImpl implements PayAppService {
             String filePath = "/upload/useCard/" + map.get("authNo") + "/" + map.get("authDd") + "/" + map.get("authHh") + "/" + map.get("cardNo").toString().replaceAll("-", "") + "/" + map.get("buySts") + "/";
             map.put("filePath", filePath);
 
-            commonRepository.updFileOwner(map);
+//                commonRepository.updFileOwner(map);
         }
 
         // 세금계산서, 법인카드 사용내역 저장
@@ -228,7 +228,7 @@ public class PayAppServiceImpl implements PayAppService {
             List<Map<String, Object>> storedFileArr = new ArrayList<>();
             if(params.containsKey("snackInfoSn")){
                 params.put("snackInfoSnArr", params.get("snackInfoSn").toString().split(","));
-//                storedFileArr = documentRepository.getFileList(params);
+                storedFileArr = documentRepository.getFileList(params);
             } else if(params.containsKey("claimExnpSn")){
                 storedFileArr = purcService.purcFileList(params);
             } else {
@@ -1646,6 +1646,8 @@ public class PayAppServiceImpl implements PayAppService {
             payAppRepository.updHrBizReqResultByPayAppSnEqNull(params[i]);
             // 구매지급요청 삭제
             payAppRepository.updClaimExnpByPayAppSnEqNull(params[i]);
+            // 식대 지급신청건 삭제
+            payAppRepository.updSnackByPayAppSnEqNull(params[i]);
 
             Map<String, Object> paraMap = new HashMap<>();
             paraMap.put("payAppSn", params[i]);

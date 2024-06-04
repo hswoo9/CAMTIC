@@ -95,6 +95,12 @@ public class MailUtil {
             recipientArr = new InternetAddress[2];
             recipientArr[0] = new InternetAddress(params.get("receiveEml").toString());
             recipientArr[1] = new InternetAddress(params.get("sendEml").toString());
+        } else if(params.containsKey("mailType") && params.get("mailType").equals("mailHist")) {
+            List<Map<String, Object>> list = (List<Map<String, Object>>) params.get("recipientList");
+            recipientArr = new InternetAddress[list.size()];
+            for(int i=0; i<list.size(); i++){
+                recipientArr[i] = new InternetAddress(list.get(i).get("EMAIL").toString());
+            }
         } else {
             recipientArr = new InternetAddress[3];
             recipientArr[0] = new InternetAddress(params.get("receiveEml").toString());

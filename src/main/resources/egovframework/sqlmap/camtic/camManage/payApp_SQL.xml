@@ -2566,8 +2566,6 @@
           AND
             CARD_NO = #{CARD_NO}
           AND
-            BUY_STS = #{BUY_STS}
-          AND
             PAY_APP_SN IS NULL
     </select>
 
@@ -3366,6 +3364,15 @@
     <update id="updClaimExnpByPayAppSnEqNull" parameterType="map">
         /*updClaimExnpByPayAppSnEqNull*/
         UPDATE CAM_MNG.DJ_CLAIM_EXNP
+        SET
+            PAY_APP_SN = NULL
+        WHERE
+            PAY_APP_SN = #{payAppSn}
+    </update>
+
+    <update id="updSnackByPayAppSnEqNull" parameterType="map">
+        /*updSnackByPayAppSnEqNull*/
+        UPDATE CAM_INSIDE.DJ_SNACK_INFO
         SET
             PAY_APP_SN = NULL
         WHERE

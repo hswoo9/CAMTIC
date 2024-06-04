@@ -1246,7 +1246,7 @@ var draft = {
             /** 외부시행문서 일경우 직인 */
             if(hwpDocCtrl.global.HwpCtrl.FieldExist("인")){
                 const signInfo = getSign();
-                const signUrl = "http://http://218.158.231.184"+signInfo.FILE_NO;
+                const signUrl = "https://new.camtic.or.kr"+signInfo.FILE_NO;
                 hwpDocCtrl.global.HwpCtrl.MoveToField('인', true, true, false);
                 hwpDocCtrl.global.HwpCtrl.InsertBackgroundPicture(
                     "SelectedCell",

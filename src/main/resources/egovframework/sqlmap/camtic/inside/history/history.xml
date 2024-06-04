@@ -483,6 +483,11 @@
             APNT_SN = #{apntSn}
     </update>
 
+    <delete id="setHistoryDelete" parameterType="map">
+        /*setHistoryDelete*/
+        DELETE FROM CAM_HR.DJ_APNT_INFO WHERE APNT_SN IN (${apntArr})
+    </delete>
+
     <insert id="setRewardInsert" parameterType="map">
         /* setRewardInsert */
         INSERT INTO CAM_HR.DJ_EMP_REWORD
