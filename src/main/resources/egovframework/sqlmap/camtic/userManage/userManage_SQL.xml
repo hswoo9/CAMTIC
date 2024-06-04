@@ -3545,6 +3545,7 @@
         dept.DEPT_LEVEL = 1
         AND dept.DEPT_SEQ NOT IN (1, 2)
         AND dept.use_yn = 'Y'
+        AND emp.TEMP_DIVISION != 'Y'
         GROUP BY
         dept.DEPT_SEQ, dept.DEPT_NAME
         ORDER BY dept.path
@@ -3573,6 +3574,7 @@
         dept.DEPT_LEVEL = 2
         AND dept.DEPT_SEQ NOT IN (1, 2)
         AND dept.use_yn = 'Y'
+        AND emp.TEMP_DIVISION != 'Y'
         GROUP BY
         dept.PARENT_DEPT_SEQ, dept.DEPT_NAME
         ORDER BY dept.path
