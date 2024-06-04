@@ -739,11 +739,11 @@ var rndBg = {
                     title: "첨부",
                     width: 60,
                     template: function(e){
-                        if(e.RE_STAT == "N"){
-                            return ""
-                        } else {
+                        // if(e.RE_STAT == "N"){
+                        //     return ""
+                        // } else {
                             return '<button type="button" class="k-button k-button-solid-base" onclick="rndBg.fn_regPayAttPop('+e.PAY_APP_SN+', '+e.EXNP_SN+')">첨부</button>';
-                        }
+                        // }
                     }
                 }
             ],
