@@ -3320,7 +3320,7 @@
         LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET C ON A.PAY_INCP_SN = C.PAY_INCP_SN
         WHERE
             A.PJT_CD = #{mgtSeq}
-        AND A.DOC_STATUS = 100 AND C.PMR_NO IS NOT NULL
+        AND A.DOC_STATUS = 100 AND C.PMR_NO IS NOT NULL AND EVID_TYPE IN (2,4,6,7)
     </select>
 
     <delete id="delIncpData" parameterType="map">
