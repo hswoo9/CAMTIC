@@ -99,7 +99,11 @@ public class MainController {
             int strStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
             int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
             /*int scheduleStatus = customBoardService.getTodayScheduleList(params).size();*/
+
+            params.put("inspectStat", "");
+            params.put("searchValue", "");
             Map<String, Object> ckCheck = processService.getAuthorityPsCheck(params);
+
             int ckStatus = processService.getPsCheckList(params).size();
             params.put("approveStat", "returnRetrieve");
             int retStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
@@ -148,7 +152,11 @@ public class MainController {
         int waitStatus = approvalUserService.getApproveDocBoxList(params).size();
         /*int scheduleStatus = customBoardService.getTodayScheduleList(params).size();*/
         Map<String, Object> ckCheck = processService.getAuthorityPsCheck(params);
+
+        params.put("inspectStat", "");
+        params.put("searchValue", "");
         int ckStatus = processService.getPsCheckList(params).size();
+
         params.put("approveStat", "returnRetrieve");
         int retStatus = approvalUserService.getMainUserDocStorageBoxList(params).size();
 

@@ -15,7 +15,7 @@ var paymentRevList = {
         ]
 
         customKendo.fn_dropDownList("searchDate", paymentRevList.global.dropDownDataSource2, "text", "value", 3);
-        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(new Date().setMonth(new Date().getMonth() - 2)));
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(new Date().setFullYear(new Date().getFullYear(),0,1)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
 
         $("#startDt").change(function (){
