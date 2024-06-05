@@ -1489,7 +1489,7 @@
                 DI.DOC_NO,
                 DI.APPRO_KEY AS APPRO_KEY,
                 DI.DOC_MENU_CD AS DOC_MENU_CD,
-                IFNULL(B.TOT_COST, 0) AS TOT_COST,
+                IFNULL((B.TOT_COST), 0) + IFNULL((SELECT TOT_COST FROM CAM_MNG.DJ_PAY_INCP_RE WHERE B.PAY_INCP_RE_SN = GROUP_KEY), 0) AS TOT_COST,
                 B.PAY_INCP_RE_SN,
                 B.PAY_INCP_DET_SN,
                 B.RE_APP_DE,

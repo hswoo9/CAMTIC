@@ -172,31 +172,32 @@ var regIncpRe = {
 
                 itemArr.push(data);
             });
+
         } else {
-            var index = $("#payIncpDetSn").val();
 
-            var data = {
-                payIncpSn : $("#payIncpSn").val(),
-                payIncpDetSn : $("#payIncpDetSn").val(),
-                payIncpReSn : $("#payIncpReSn").val(),
-                reAppDe : $("#appDe").val(),
-                inDt : $("#inDt" + index).val(),
-                totAmt : regIncpRe.uncomma($("#totAmt" + index).val() == "" ? 0 : $("#totAmt" + index).val()),
-                supAmt : regIncpRe.uncomma($("#supAmt" + index).val() == "" ? 0 : $("#supAmt" + index).val()),
-                vatAmt : regIncpRe.uncomma($("#vatAmt" + index).val() == "" ? 0 : $("#vatAmt" + index).val()),
-            }
+            $.each($(".incpDetTr"), function(i, v){
+                var index = $(this).attr("id").replace(/[^0-9]/g, '');
 
-            console.log(data)
+                var data = {
+                    payIncpSn : $("#payIncpSn").val(),
+                    payIncpReSn : $(this).attr("id").replace(/[^0-9]/g, ''),
+                    reAppDe : $("#appDe").val(),
+                    inDt : $("#inDt" + index).val(),
+                    totAmt : regIncpRe.uncomma($("#totAmt" + index).val() == "" ? 0 : $("#totAmt" + index).val()),
+                    supAmt : regIncpRe.uncomma($("#supAmt" + index).val() == "" ? 0 : $("#supAmt" + index).val()),
+                    vatAmt : regIncpRe.uncomma($("#vatAmt" + index).val() == "" ? 0 : $("#vatAmt" + index).val()),
+                }
 
-            if(data.totAmt > (Number($("#redyAmt" + index).val()))) {
-                amtFlag = true;
-            }
+                // if(data.totAmt > (Number($("#redyAmt" + index).val()))) {
+                //     amtFlag = true;
+                // }
 
-            if(data.totAmt == 0) {
-                amtFlag2 = true;
-            }
+                if(data.totAmt == 0) {
+                    amtFlag2 = true;
+                }
 
-            itemArr.push(data);
+                itemArr.push(data);
+            });
         }
 
         if(amtFlag){
@@ -307,17 +308,17 @@ var regIncpRe = {
             var tRs = rs[i];
 
             html += "";
-            html += '<tr class="incpDetTr" id="det'+ tRs.PAY_INCP_DET_SN +'">';
+            html += '<tr class="incpDetTr" id="det'+ tRs.PAY_INCP_RE_SN +'">';
             html += '   <td>';
-            html += '       <input type="text" id="crmNm'+ tRs.PAY_INCP_DET_SN +'" class="crmNm" disabled style="width: 100%;" value="'+ tRs.CRM_NM +'"/>';
+            html += '       <input type="text" id="crmNm'+ tRs.PAY_INCP_RE_SN +'" class="crmNm" disabled style="width: 100%;" value="'+ tRs.CRM_NM +'"/>';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="inDt'+ tRs.PAY_INCP_DET_SN +'" class="inDt" disabled style="width: 100%;" value="'+ tRs.TR_DE +'">';
+            html += '       <input type="text" id="inDt'+ tRs.PAY_INCP_RE_SN +'" class="inDt" disabled style="width: 100%;" value="'+ tRs.TR_DE +'">';
             html += '   </td>';
             html += '   <td>';
-            html += '       <input type="text" id="totAmt'+ tRs.PAY_INCP_DET_SN +'" class="totAmt" style="width: 100%; text-align: right" value="'+ regIncpRe.comma(Number(tRs.TOT_COST)) +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
-            html += '       <input type="hidden" id="supAmt'+ tRs.PAY_INCP_DET_SN +'" style="width: 100%; text-align: right" value="'+ tRs.SUP_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
-            html += '       <input type="hidden" id="vatAmt'+ tRs.PAY_INCP_DET_SN +'" style="width: 100%; text-align: right" value="'+ tRs.VAT_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+            html += '       <input type="text" id="totAmt'+ tRs.PAY_INCP_RE_SN +'" class="totAmt" style="width: 100%; text-align: right" value="'+ regIncpRe.comma(Number(tRs.TOT_COST)) +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+            html += '       <input type="hidden" id="supAmt'+ tRs.PAY_INCP_RE_SN +'" style="width: 100%; text-align: right" value="'+ tRs.SUP_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+            html += '       <input type="hidden" id="vatAmt'+ tRs.PAY_INCP_RE_SN +'" style="width: 100%; text-align: right" value="'+ tRs.VAT_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
             html += '   </td>';
             html += '</tr>';
         }
