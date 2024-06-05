@@ -1816,10 +1816,16 @@ public class PayAppServiceImpl implements PayAppService {
         Gson gson = new Gson();
         List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
+        int i = 0;
+        Integer groupKey = null;
         for(Map<String, Object> map : itemArr){
             Map<String, Object> paramsMap = new HashMap<>();
             paramsMap = payAppRepository.getPayIncpReqData(map);
             List<Map<String, Object>> list = payAppRepository.getPayIncpDetailData(map);
+
+            if(i != 0){
+                paramsMap.put("groupKey", groupKey);
+            }
 
             paramsMap.put("PAY_INCP_DET_SN", list.get(0).get("PAY_INCP_DET_SN"));
             paramsMap.put("TR_DE", map.get("inDt"));
@@ -1845,6 +1851,12 @@ public class PayAppServiceImpl implements PayAppService {
                 payAppRepository.updIncpRe(paramsMap);
             } else {
                 payAppRepository.insIncpRe(paramsMap);
+
+                if(i == 0){
+                    groupKey = Integer.parseInt(paramsMap.get("payIncpReSn").toString());
+                }
+
+                i++;
             }
         }
 
@@ -1852,7 +1864,7 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
-    public Map<String, Object> getPayIncpReData(Map<String, Object> params) {
+    public List<Map<String, Object>> getPayIncpReData(Map<String, Object> params) {
         return payAppRepository.getPayIncpReData(params);
     }
 

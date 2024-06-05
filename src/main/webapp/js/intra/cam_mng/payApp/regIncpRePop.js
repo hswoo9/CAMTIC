@@ -81,6 +81,7 @@ var regIncpRe = {
     },
 
     payAppBtnSet: function (data){
+        console.log(data);
         let buttonHtml = "";
         if($("#type").val() != "new"){
             if(data.RE_STAT == "N"){
@@ -272,25 +273,26 @@ var regIncpRe = {
         var ls = result.list;
         var rs = result.data;
 
-        regIncpRe.payAppBtnSet(rs);
+        console.log(rs);
+        regIncpRe.payAppBtnSet(rs[0]);
         console.log(tmpRs);
 
-        $("#redyAmt").val(tmpRs.TOT_COST - rs.TOT_COST);
-        $("#appDe").val(rs.RE_APP_DE);
-        $("#pjtNm").val(rs.PJT_NM ? rs.PJT_NM : tmpRs.PJT_NM);
-        $("#pjtNm2").val(rs.PJT_NM ? rs.PJT_NM : tmpRs.PJT_NM);
-        $("#pjtSn").val(rs.PJT_SN ? rs.PJT_SN : tmpRs.PJT_SN);
-        $("#pjtCd").val(rs.PJT_CD ? rs.PJT_CD : tmpRs.PJT_CD);
-        $("#budgetNm").val(rs.BUDGET_NM ? rs.BUDGET_NM : tmpRs.BUDGET_NM);
-        $("#budgetSn").val(rs.BUDGET_SN ? rs.BUDGET_SN : tmpRs.BUDGET_SN);
-        $("#appCont").val(rs.APP_CONT ? rs.APP_CONT : tmpRs.APP_CONT);
-        $("#busnCd").data("kendoDropDownList").value(rs.BUSN_CD ? rs.BUSN_CD : tmpRs.BUSN_CD);
-        $("#busnExCd").data("kendoDropDownList").value(rs.BUSN_EX_CD ? rs.BUSN_EX_CD : tmpRs.BUSN_EX_CD);
+        $("#redyAmt").val(tmpRs.TOT_COST - rs[0].TOT_COST);
+        $("#appDe").val(rs[0].RE_APP_DE);
+        $("#pjtNm").val(rs[0].PJT_NM ? rs[0].PJT_NM : tmpRs.PJT_NM);
+        $("#pjtNm2").val(rs[0].PJT_NM ? rs[0].PJT_NM : tmpRs.PJT_NM);
+        $("#pjtSn").val(rs[0].PJT_SN ? rs[0].PJT_SN : tmpRs.PJT_SN);
+        $("#pjtCd").val(rs[0].PJT_CD ? rs[0].PJT_CD : tmpRs.PJT_CD);
+        $("#budgetNm").val(rs[0].BUDGET_NM ? rs[0].BUDGET_NM : tmpRs.BUDGET_NM);
+        $("#budgetSn").val(rs[0].BUDGET_SN ? rs[0].BUDGET_SN : tmpRs.BUDGET_SN);
+        $("#appCont").val(rs[0].APP_CONT ? rs[0].APP_CONT : tmpRs.APP_CONT);
+        $("#busnCd").data("kendoDropDownList").value(rs[0].BUSN_CD ? rs[0].BUSN_CD : tmpRs.BUSN_CD);
+        $("#busnExCd").data("kendoDropDownList").value(rs[0].BUSN_EX_CD ? rs[0].BUSN_EX_CD : tmpRs.BUSN_EX_CD);
 
-        $("#bnkSn").val(rs.BNK_SN ? rs.BNK_SN : tmpRs.BNK_SN);
-        $("#bnkNm").val(rs.BNK_NM ? rs.BNK_NM : tmpRs.BNK_NM);
-        $("#accNm").val(rs.ACC_NM ? rs.ACC_NM : tmpRs.ACC_NM);
-        $("#accNo").val(rs.ACC_NO ? rs.ACC_NO : tmpRs.ACC_NO);
+        $("#bnkSn").val(rs[0].BNK_SN ? rs[0].BNK_SN : tmpRs.BNK_SN);
+        $("#bnkNm").val(rs[0].BNK_NM ? rs[0].BNK_NM : tmpRs.BNK_NM);
+        $("#accNm").val(rs[0].ACC_NM ? rs[0].ACC_NM : tmpRs.ACC_NM);
+        $("#accNo").val(rs[0].ACC_NO ? rs[0].ACC_NO : tmpRs.ACC_NO);
 
         $("#g20EmpCd").val(tmpRs.G20_EMP_CD);
         $("#g20DeptCd").val(tmpRs.G20_DEPT_CD);
@@ -300,24 +302,29 @@ var regIncpRe = {
         $("#exnpDeptSeq").val(tmpRs.REG_DEPT_SEQ);
 
         var html = "";
-        html += "";
-        html += '<tr class="incpDetTr" id="det'+ rs.PAY_INCP_DET_SN +'">';
-        html += '   <td>';
-        html += '       <input type="text" id="crmNm'+ rs.PAY_INCP_DET_SN +'" class="crmNm" disabled style="width: 100%;" value="'+ rs.CRM_NM +'"/>';
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="text" id="inDt'+ rs.PAY_INCP_DET_SN +'" class="inDt" disabled style="width: 100%;" value="'+ rs.TR_DE +'">';
-        html += '   </td>';
-        html += '   <td>';
-        html += '       <input type="hidden" id="incpTotAmt'+ rs.PAY_INCP_DET_SN +'" value="'+ ls[0].TOT_COST +'" />';
-        html += '       <input type="hidden" id="redyAmt'+ rs.PAY_INCP_DET_SN +'" value="'+ Number(ls[0].TOT_COST - ls[0].PAY_TOT_COST + rs.TOT_COST) +'" />';
-        html += '       <input type="text" id="totAmt'+ rs.PAY_INCP_DET_SN +'" class="totAmt" style="width: 100%; text-align: right" value="'+ regIncpRe.comma(Number(rs.TOT_COST)) +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
-        html += '       <input type="hidden" id="supAmt'+ rs.PAY_INCP_DET_SN +'" style="width: 100%; text-align: right" value="'+ rs.SUP_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
-        html += '       <input type="hidden" id="vatAmt'+ rs.PAY_INCP_DET_SN +'" style="width: 100%; text-align: right" value="'+ rs.VAT_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
-        html += '   </td>';
-        html += '</tr>';
+        console.log(rs.length);
+        for(var i = 0; i < rs.length ; i++){
+            var tRs = rs[i];
+
+            html += "";
+            html += '<tr class="incpDetTr" id="det'+ tRs.PAY_INCP_DET_SN +'">';
+            html += '   <td>';
+            html += '       <input type="text" id="crmNm'+ tRs.PAY_INCP_DET_SN +'" class="crmNm" disabled style="width: 100%;" value="'+ tRs.CRM_NM +'"/>';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="inDt'+ tRs.PAY_INCP_DET_SN +'" class="inDt" disabled style="width: 100%;" value="'+ tRs.TR_DE +'">';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="totAmt'+ tRs.PAY_INCP_DET_SN +'" class="totAmt" style="width: 100%; text-align: right" value="'+ regIncpRe.comma(Number(tRs.TOT_COST)) +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+            html += '       <input type="hidden" id="supAmt'+ tRs.PAY_INCP_DET_SN +'" style="width: 100%; text-align: right" value="'+ tRs.SUP_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+            html += '       <input type="hidden" id="vatAmt'+ tRs.PAY_INCP_DET_SN +'" style="width: 100%; text-align: right" value="'+ tRs.VAT_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+            html += '   </td>';
+            html += '</tr>';
+        }
 
 
+
+        console.log(html);
         $("#reBody").html(html);
 
         $(".crmNm, .inDt, .totAmt").kendoTextBox();

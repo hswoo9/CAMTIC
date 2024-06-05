@@ -1504,7 +1504,8 @@
             LEFT JOIN DJ_CAMTIC.A_DOC_INFO DI
             ON A.DOC_ID = DI.DOC_ID
             LEFT JOIN CAM_HR.DJ_EMP_INFO HEI
-                ON HEI.EMP_SEQ = A.EXNP_EMP_SEQ) AB
+                ON HEI.EMP_SEQ = A.EXNP_EMP_SEQ
+            WHERE GROUP_KEY IS NULL) AB
         WHERE
         <![CDATA[
             AB.APP_DE > #{startDt} AND AB.APP_DE <= #{endDt}
@@ -2095,7 +2096,7 @@
         ON
             B.PJT_SN = C.PJT_SN
         WHERE
-            A.PAY_INCP_RE_SN = #{payIncpReSn}
+            A.PAY_INCP_RE_SN = #{payIncpReSn} OR A.GROUP_KEY = #{payIncpReSn}
         <if test='evidTypeArr != null and !"".equals(evidTypeArr)'>
             AND
                 A.EVID_TYPE in (${evidTypeArr})
@@ -2995,7 +2996,8 @@
                 CARD,
                 CARD_NO,
                 ETC,
-                ISS
+                ISS,
+                GROUP_KEY
             )
         VALUES
             (
@@ -3018,7 +3020,8 @@
                 #{CARD},
                 #{CARD_NO},
                 #{ETC},
-                #{ISS}
+                #{ISS},
+                #{groupKey}
             )
         <selectKey keyProperty="payIncpReSn" resultType="Integer" order="BEFORE">
             SELECT AUTO_INCREMENT FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = 'CAM_MNG' AND TABLE_NAME = 'DJ_PAY_INCP_RE'
@@ -3044,7 +3047,7 @@
         FROM
             CAM_MNG.DJ_PAY_INCP_RE
         WHERE
-            PAY_INCP_RE_SN = #{payIncpReSn}
+            PAY_INCP_RE_SN = #{payIncpReSn} OR GROUP_KEY = #{payIncpReSn}
     </select>
 
     <update id="updIncpMasterStat" parameterType="map">

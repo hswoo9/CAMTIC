@@ -109,7 +109,7 @@ public interface PayAppService {
 
     Map<String, Object> setIncpRe(Map<String, Object> params);
 
-    Map<String, Object> getPayIncpReData(Map<String, Object> params);
+    List<Map<String, Object>> getPayIncpReData(Map<String, Object> params);
 
     void payAppMngFileSet(Map<String, Object> params, MultipartFile[] fileList, String serverDir, String baseDir);
 

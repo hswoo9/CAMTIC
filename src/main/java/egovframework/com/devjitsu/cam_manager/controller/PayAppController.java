@@ -753,7 +753,7 @@ public class PayAppController {
     public String getPayIncpReData(@RequestParam Map<String, Object> params, Model model){
         Map<String, Object> map = payAppService.getPayIncpReqData(params);
         List<Map<String, Object>> list = payAppService.getPayIncpDetailData(params);
-        Map<String, Object> data = payAppService.getPayIncpReData(params);
+        List<Map<String, Object>> data = payAppService.getPayIncpReData(params);
         model.addAttribute("map", map);
         model.addAttribute("list", list);
         model.addAttribute("data", data);

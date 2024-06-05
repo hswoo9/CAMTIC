@@ -454,8 +454,8 @@ public class PayAppRepository extends AbstractDAO {
         update("payApp.updIncpRe", params);
     }
 
-    public Map<String, Object> getPayIncpReData(Map<String, Object> params) {
-        return (Map<String, Object>) selectOne("payApp.getPayIncpReData", params);
+    public List<Map<String, Object>> getPayIncpReData(Map<String, Object> params) {
+        return selectList("payApp.getPayIncpReData", params);
     }
 
     public void updIncpReStat(Map<String, Object> data) {
