@@ -138,22 +138,78 @@ var regIncpRe = {
     },
 
     fn_save : function(){
-        var data = {
-            payIncpSn : $("#payIncpSn").val(),
-            reAppDe : $("#appDe").val(),
-            inDt : $("#inDt").val(),
-            totAmt : regIncpRe.uncomma($("#totAmt").val() == "" ? 0 : $("#totAmt").val()),
-            supAmt : regIncpRe.uncomma($("#supAmt").val() == "" ? 0 : $("#supAmt").val()),
-            vatAmt : regIncpRe.uncomma($("#vatAmt").val() == "" ? 0 : $("#vatAmt").val()),
+        var itemArr = [];
+        var amtFlag = false;
+        var amtFlag2 = false;
+
+        if($("#type").val() == "new"){
+            if($("input[name='incpDetSn']:checked").length == 0){
+                alert("선택된 항목이 없습니다.");
+                return;
+            }
+
+            $.each($("input[name='incpDetSn']:checked"), function(i, v){
+                var index = $(this).attr("id").replace(/[^0-9]/g, '');
+
+                var data = {
+                    payIncpSn : $("#payIncpSn").val(),
+                    payIncpDetSn : $(this).attr("id"),
+                    reAppDe : $("#appDe").val(),
+                    inDt : $("#inDt" + index).val(),
+                    totAmt : regIncpRe.uncomma($("#totAmt" + index).val() == "" ? 0 : $("#totAmt" + index).val()),
+                    supAmt : regIncpRe.uncomma($("#supAmt" + index).val() == "" ? 0 : $("#supAmt" + index).val()),
+                    vatAmt : regIncpRe.uncomma($("#vatAmt" + index).val() == "" ? 0 : $("#vatAmt" + index).val()),
+                }
+
+                if(data.totAmt > (Number($("#redyAmt" + index).val()))) {
+                    amtFlag = true;
+                }
+
+                if(data.totAmt == 0) {
+                    amtFlag2 = true;
+                }
+
+                itemArr.push(data);
+            });
+        } else {
+            var index = $("#payIncpDetSn").val();
+
+            var data = {
+                payIncpSn : $("#payIncpSn").val(),
+                payIncpDetSn : $("#payIncpDetSn").val(),
+                payIncpReSn : $("#payIncpReSn").val(),
+                reAppDe : $("#appDe").val(),
+                inDt : $("#inDt" + index).val(),
+                totAmt : regIncpRe.uncomma($("#totAmt" + index).val() == "" ? 0 : $("#totAmt" + index).val()),
+                supAmt : regIncpRe.uncomma($("#supAmt" + index).val() == "" ? 0 : $("#supAmt" + index).val()),
+                vatAmt : regIncpRe.uncomma($("#vatAmt" + index).val() == "" ? 0 : $("#vatAmt" + index).val()),
+            }
+
+            console.log(data)
+
+            if(data.totAmt > (Number($("#redyAmt" + index).val()))) {
+                amtFlag = true;
+            }
+
+            if(data.totAmt == 0) {
+                amtFlag2 = true;
+            }
+
+            itemArr.push(data);
         }
 
-        if(data.totAmt > (Number($("#incpTotAmt").val()) - Number($("#redyAmt").val()))) {
+        if(amtFlag){
             alert("입금 잔액을 초과하였습니다.");
             return;
         }
 
-        if($("#payIncpReSn").val() != ""){
-            data.payIncpReSn = $("#payIncpReSn").val();
+        if(amtFlag2){
+            alert("입금액을 입력해주세요.");
+            return;
+        }
+
+        var data = {
+            itemArr : JSON.stringify(itemArr)
         }
 
         $.ajax({
@@ -164,12 +220,10 @@ var regIncpRe = {
             success : function(rs){
                 if(rs.code == 200){
                     alert("저장되었습니다.");
-
-                    location.href="/payApp/pop/regIncpRePop.do?payIncpSn=" + data.payIncpSn + "&payIncpReSn=" + rs.rs.payIncpReSn;
+                    window.close();
                 }
             }
         })
-
     },
 
     fn_del : function (){
@@ -209,7 +263,8 @@ var regIncpRe = {
         console.log("setData");
         var data = {
             payIncpSn : $("#payIncpSn").val(),
-            payIncpReSn : $("#payIncpReSn").val()
+            payIncpReSn : $("#payIncpReSn").val(),
+            payIncpDetSn : $("#payIncpDetSn").val(),
         }
 
         var result = customKendo.fn_customAjax("/payApp/pop/getPayIncpReData", data);
@@ -217,18 +272,10 @@ var regIncpRe = {
         var ls = result.list;
         var rs = result.data;
 
-        $("#inDt").val(ls[0].TR_DE);
-
-        var incpTotAmt = 0;
-        for(var i = 0 ; i < ls.length ; i++){
-            incpTotAmt += Number(ls[i].TOT_COST);
-        }
-
         regIncpRe.payAppBtnSet(rs);
         console.log(tmpRs);
 
         $("#redyAmt").val(tmpRs.TOT_COST - rs.TOT_COST);
-        $("#incpTotAmt").val(incpTotAmt);
         $("#appDe").val(rs.RE_APP_DE);
         $("#pjtNm").val(rs.PJT_NM ? rs.PJT_NM : tmpRs.PJT_NM);
         $("#pjtNm2").val(rs.PJT_NM ? rs.PJT_NM : tmpRs.PJT_NM);
@@ -245,16 +292,35 @@ var regIncpRe = {
         $("#accNm").val(rs.ACC_NM ? rs.ACC_NM : tmpRs.ACC_NM);
         $("#accNo").val(rs.ACC_NO ? rs.ACC_NO : tmpRs.ACC_NO);
 
-        $("#totAmt").val(rs.TOT_COST ? regIncpRe.comma(rs.TOT_COST) : 0);
-        $("#supAmt").val(rs.SUP_COST ? regIncpRe.comma(rs.SUP_COST) : 0);
-        $("#vatAmt").val(rs.VAT_COST ? regIncpRe.comma(rs.VAT_COST) : 0);
-
         $("#g20EmpCd").val(tmpRs.G20_EMP_CD);
         $("#g20DeptCd").val(tmpRs.G20_DEPT_CD);
         $("#exnpEmpNm").val(tmpRs.REG_EMP_NAME);
         $("#exnpEmpSeq").val(tmpRs.REG_EMP_SEQ);
         $("#exnpDeptNm").val(tmpRs.REG_DEPT_NAME);
         $("#exnpDeptSeq").val(tmpRs.REG_DEPT_SEQ);
+
+        var html = "";
+        html += "";
+        html += '<tr class="incpDetTr" id="det'+ rs.PAY_INCP_DET_SN +'">';
+        html += '   <td>';
+        html += '       <input type="text" id="crmNm'+ rs.PAY_INCP_DET_SN +'" class="crmNm" disabled style="width: 100%;" value="'+ rs.CRM_NM +'"/>';
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="text" id="inDt'+ rs.PAY_INCP_DET_SN +'" class="inDt" disabled style="width: 100%;" value="'+ rs.TR_DE +'">';
+        html += '   </td>';
+        html += '   <td>';
+        html += '       <input type="hidden" id="incpTotAmt'+ rs.PAY_INCP_DET_SN +'" value="'+ ls[0].TOT_COST +'" />';
+        html += '       <input type="hidden" id="redyAmt'+ rs.PAY_INCP_DET_SN +'" value="'+ Number(ls[0].TOT_COST - ls[0].PAY_TOT_COST + rs.TOT_COST) +'" />';
+        html += '       <input type="text" id="totAmt'+ rs.PAY_INCP_DET_SN +'" class="totAmt" style="width: 100%; text-align: right" value="'+ regIncpRe.comma(Number(rs.TOT_COST)) +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+        html += '       <input type="hidden" id="supAmt'+ rs.PAY_INCP_DET_SN +'" style="width: 100%; text-align: right" value="'+ rs.SUP_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+        html += '       <input type="hidden" id="vatAmt'+ rs.PAY_INCP_DET_SN +'" style="width: 100%; text-align: right" value="'+ rs.VAT_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+        html += '   </td>';
+        html += '</tr>';
+
+
+        $("#reBody").html(html);
+
+        $(".crmNm, .inDt, .totAmt").kendoTextBox();
     },
 
     setData2 : function (){
@@ -267,21 +333,11 @@ var regIncpRe = {
         var rs = result.map;
         var ls = result.list;
 
-        var incpTotAmt = 0;
-        for(var i = 0 ; i < ls.length ; i++){
-            incpTotAmt += Number(ls[i].TOT_COST);
-        }
-
-        $("#inDt").val(ls[0].TR_DE);
-
         console.log(result);
 
         regIncpRe.payAppBtnSet(rs);
 
-        $("#redyAmt").val(rs.TOT_COST);
-        $("#incpTotAmt").val(incpTotAmt);
         $("#pjtNm").val(rs.PJT_NM);
-        $("#pjtNm2").val(rs.PJT_NM);
         $("#pjtSn").val(rs.PJT_SN);
         $("#pjtCd").val(rs.PJT_CD);
         $("#budgetNm").val(rs.BUDGET_NM);
@@ -294,7 +350,6 @@ var regIncpRe = {
         $("#bnkNm").val(rs.BNK_NM);
         $("#accNm").val(rs.ACC_NM);
         $("#accNo").val(rs.ACC_NO);
-        $("#totAmt").val(regIncpRe.comma(rs.TOT_DET_AMT - rs.TOT_COST));
 
         $("#g20EmpCd").val(rs.G20_EMP_CD);
         $("#g20DeptCd").val(rs.G20_DEPT_CD);
@@ -302,6 +357,38 @@ var regIncpRe = {
         $("#exnpEmpSeq").val(rs.REG_EMP_SEQ);
         $("#exnpDeptNm").val(rs.REG_DEPT_NAME);
         $("#exnpDeptSeq").val(rs.REG_DEPT_SEQ);
+
+        var html = "";
+        var incpTotAmt = 0;
+        for(var i = 0 ; i < ls.length ; i++){
+            incpTotAmt += Number(ls[i].TOT_COST);
+
+            html += "";
+            html += '<tr class="incpDetTr" id="det'+ ls[i].PAY_INCP_DET_SN +'">';
+            html += '   <td style="text-align: center; vertical-align: middle;">';
+                    if(Number(ls[i].TOT_COST - ls[i].PAY_TOT_COST) > 0){
+                        html += '<input type="checkbox" id="'+ ls[i].PAY_INCP_DET_SN +'" class="k-checkbox" name="incpDetSn" />';
+                    }
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="crmNm'+ ls[i].PAY_INCP_DET_SN +'" class="crmNm" disabled style="width: 100%;" value="'+ ls[i].CRM_NM +'"/>';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="text" id="inDt'+ ls[i].PAY_INCP_DET_SN +'" class="inDt" disabled style="width: 100%;" value="'+ ls[i].TR_DE +'">';
+            html += '   </td>';
+            html += '   <td>';
+            html += '       <input type="hidden" id="incpTotAmt'+ ls[i].PAY_INCP_DET_SN +'"  value="'+ ls[i].TOT_COST +'" />';
+            html += '       <input type="hidden" id="redyAmt'+ ls[i].PAY_INCP_DET_SN +'"  value="'+ Number(ls[i].TOT_COST - ls[i].PAY_TOT_COST) +'" />';
+            html += '       <input type="text" id="totAmt'+ ls[i].PAY_INCP_DET_SN +'" class="totAmt" style="width: 100%; text-align: right" value="'+ regIncpRe.comma(Number(ls[i].TOT_COST) - Number(ls[i].PAY_TOT_COST)) +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+            html += '       <input type="hidden" id="supAmt'+ ls[i].PAY_INCP_DET_SN +'" style="width: 100%; text-align: right" value="'+ ls[i].SUP_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+            html += '       <input type="hidden" id="vatAmt'+ ls[i].PAY_INCP_DET_SN +'" style="width: 100%; text-align: right" value="'+ ls[i].VAT_COST +'" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, \'\').replace(/(\\..*)\\./g, \'$1\');">';
+            html += '   </td>';
+            html += '</tr>';
+        }
+
+        $("#reBody").html(html);
+
+        $(".crmNm, .inDt, .totAmt").kendoTextBox();
     },
 
     fn_viewStat: function (){
@@ -348,16 +435,15 @@ var regIncpRe = {
     },
 
     fn_calCost: function(obj){
+        var index = obj.id.replace(/[^0-9]/g, '');
+        if(obj.id.match("totAmt")){
 
-        var index = obj.id.substring(obj.id.length - 1);
-        if(obj.id.match("totCost")){
-
-            $("#vatCost" + index).val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totCost" + index).val())) - Math.round(Number(regIncpRe.uncomma($("#totCost" + index).val())) * 100 / 110)));
-            $("#supCost" + index).val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totCost" + index).val())) - Number(regIncpRe.uncomma($("#vatCost" + index).val()))));
-        } else if(obj.id.match("supCost")){
-            $("#vatCost" + index).val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totCost" + index).val())) - Number(regIncpRe.uncomma($("#supCost" + index).val()))));
-        } else if (obj.id.match("vatCost")){
-            $("#supCost" + index).val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totCost" + index).val())) - Number(regIncpRe.uncomma($("#vatCost" + index).val()))));
+            $("#vatAmt" + index).val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totAmt" + index).val())) - Math.round(Number(regIncpRe.uncomma($("#totAmt" + index).val())) * 100 / 110)));
+            $("#supAmt" + index).val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totAmt" + index).val())) - Number(regIncpRe.uncomma($("#vatAmt" + index).val()))));
+        } else if(obj.id.match("supAmt")){
+            $("#vatAmt" + index).val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totAmt" + index).val())) - Number(regIncpRe.uncomma($("#supAmt" + index).val()))));
+        } else if (obj.id.match("vatAmt")){
+            $("#supAmt" + index).val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totAmt" + index).val())) - Number(regIncpRe.uncomma($("#vatAmt" + index).val()))));
         }
 
         regIncpRe.inputNumberFormat(obj);
@@ -407,33 +493,6 @@ var regIncpRe = {
         var name = "_blank";
         var option = "width = 1100, height = 650, top = 100, left = 400, location = no"
         var popup = window.open(url, name, option);
-    },
-
-    fn_calCost: function(obj){
-        if(obj.id.match("totAmt")){
-            $("#vatAmt").val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totAmt").val())) - Math.round(Number(regIncpRe.uncomma($("#totAmt").val())) * 100 / 110)));
-            $("#supAmt").val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totAmt").val())) - Number(regIncpRe.uncomma($("#vatAmt").val()))));
-        } else if(obj.id.match("supAmt")){
-            $("#vatAmt").val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totAmt").val())) - Number(regIncpRe.uncomma($("#supAmt").val()))));
-        } else if (obj.id.match("vatAmt")){
-            $("#supAmt").val(regIncpRe.comma(Number(regIncpRe.uncomma($("#totAmt").val())) - Number(regIncpRe.uncomma($("#vatAmt").val()))));
-        }
-
-        regIncpRe.inputNumberFormat(obj);
-    },
-
-    inputNumberFormat : function (obj){
-        obj.value = regIncpRe.comma(regIncpRe.uncomma(obj.value));
-    },
-
-    comma: function(str) {
-        str = String(str);
-        return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-    },
-
-    uncomma: function(str) {
-        str = String(str);
-        return str.replace(/[^\d]+/g, '');
     },
 
     fn_regExnpCancel : function (payIncpSn) {

@@ -1463,6 +1463,7 @@
                 DI.DOC_MENU_CD AS DOC_MENU_CD,
                 IFNULL(SUM(ID.TOT_COST), 0) AS TOT_COST,
                 '' AS PAY_INCP_RE_SN,
+                '' AS PAY_INCP_DET_SN,
                 '' AS RE_APP_DE,
                 HEI.EMP_NAME_KR AS EMP_NAME,
                 GROUP_CONCAT(ID.CRM_NM) AS CRM_NM
@@ -1490,6 +1491,7 @@
                 DI.DOC_MENU_CD AS DOC_MENU_CD,
                 IFNULL(B.TOT_COST, 0) AS TOT_COST,
                 B.PAY_INCP_RE_SN,
+                B.PAY_INCP_DET_SN,
                 B.RE_APP_DE,
                 HEI.EMP_NAME_KR AS EMP_NAME,
                 CRM_NM
@@ -1925,10 +1927,16 @@
 
     <select id="getPayIncpDetailData" parameterType="map" resultType="map">
         /*getPayIncpDetailData*/
-        SELECT A.*, FORMAT(A.TOT_COST,0) AS TOT_COST_COMMA
+        SELECT
+            A.*,
+            FORMAT(A.TOT_COST,0) AS TOT_COST_COMMA,
+            IFNULL((SELECT SUM(TOT_COST) FROM CAM_MNG.DJ_PAY_INCP_RE WHERE PAY_INCP_DET_SN = A.PAY_INCP_DET_SN), 0) AS PAY_TOT_COST
         FROM CAM_MNG.DJ_PAY_INCP_DET A
 
         WHERE A.PAY_INCP_SN = #{payIncpSn}
+        <if test='payIncpDetSn != null and !"".equals(payIncpDetSn)'>
+            AND A.PAY_INCP_DET_SN = #{payIncpDetSn}
+        </if>
     </select>
 
     <select id="getIncpData" parameterType="map" resultType="map">
@@ -2969,6 +2977,7 @@
         INSERT INTO CAM_MNG.DJ_PAY_INCP_RE
             (
                 PAY_INCP_SN,
+                PAY_INCP_DET_SN,
                 BUDGET_SN,
                 BUDGET_NM,
                 EVID_TYPE,
@@ -2991,6 +3000,7 @@
         VALUES
             (
                 #{PAY_INCP_SN},
+                #{PAY_INCP_DET_SN},
                 #{BUDGET_SN},
                 #{BUDGET_NM},
                 #{EVID_TYPE},

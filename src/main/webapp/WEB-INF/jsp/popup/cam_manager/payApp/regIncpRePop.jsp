@@ -19,6 +19,7 @@
 <input type="hidden" id="status" name="status" value="${params.status}" />
 <input type="hidden" id="payIncpSn" name="status" value="${params.payIncpSn}" />
 <input type="hidden" id="payIncpReSn" name="payIncpReSn" value="${params.payIncpReSn}" />
+<input type="hidden" id="payIncpDetSn" name="payIncpDetSn" value="${params.payIncpDetSn}" />
 <input type="hidden" id="type" name="type" value="${params.type}" />
 
 
@@ -133,31 +134,25 @@
 
             <table class="popTable table table-bordered mb-0" id="reTable">
                 <colgroup>
+                    <c:if test="${params.type eq 'new'}">
+                        <col width="2%">
+                    </c:if>
                     <col width="30%">
                     <col width="10%">
                     <col width="20%">
                 </colgroup>
                 <thead>
                 <tr>
+                    <c:if test="${params.type eq 'new'}">
+                        <th></th>
+                    </c:if>
                     <th>상호</th>
                     <th>거래일</th>
                     <th>입금액</th>
                 </tr>
                 </thead>
                 <tbody id="reBody">
-                    <td>
-                        <input type="text" id="pjtNm2" disabled style="width: 100%;">
-                    </td>
-                    <td>
-                        <input type="text" id="inDt" disabled style="width: 100%;">
-                    </td>
-                    <td>
-                        <input type="hidden" id="incpTotAmt" />
-                        <input type="hidden" id="redyAmt" />
-                        <input type="text" id="totAmt" style="width: 100%; text-align: right" value="0" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                        <input type="hidden" id="supAmt" style="width: 100%; text-align: right" value="0" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                        <input type="hidden" id="vatAmt" style="width: 100%; text-align: right" value="0" onkeyup="regIncpRe.fn_calCost(this)" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-                    </td>
+
                 </tbody>
             </table>
         </div>

@@ -1813,37 +1813,42 @@ public class PayAppServiceImpl implements PayAppService {
 
     @Override
     public Map<String, Object> setIncpRe(Map<String, Object> params) {
-        Map<String, Object> map = new HashMap<>();
-        map = payAppRepository.getPayIncpReqData(params);
-        List<Map<String, Object>> list = payAppRepository.getPayIncpDetailData(params);
+        Gson gson = new Gson();
+        List<Map<String, Object>> itemArr = gson.fromJson((String) params.get("itemArr"), new TypeToken<List<Map<String, Object>>>(){}.getType());
 
+        for(Map<String, Object> map : itemArr){
+            Map<String, Object> paramsMap = new HashMap<>();
+            paramsMap = payAppRepository.getPayIncpReqData(map);
+            List<Map<String, Object>> list = payAppRepository.getPayIncpDetailData(map);
 
-        map.put("TR_DE", params.get("inDt"));
-        map.put("TOT_AMT", params.get("totAmt"));
-        map.put("SUP_AMT", params.get("supAmt"));
-        map.put("VAT_AMT", params.get("vatAmt"));
-        map.put("EVID_TYPE", list.get(0).get("EVID_TYPE"));
-        map.put("TR_CD", list.get(0).get("TR_CD"));
-        map.put("CRM_NM", list.get(0).get("CRM_NM"));
-        map.put("REG_NO", list.get(0).get("REG_NO"));
-        map.put("CRM_BNK_NM", list.get(0).get("CRM_BNK_NM"));
-        map.put("CRM_ACC_NO", list.get(0).get("CRM_ACC_NO"));
-        map.put("CRM_ACC_HOLDER", list.get(0).get("CRM_ACC_HOLDER"));
-        map.put("CARD", list.get(0).get("CARD"));
-        map.put("CARD_NO", list.get(0).get("CARD_NO"));
-        map.put("ETC", list.get(0).get("ETC"));
-        map.put("ISS", list.get(0).get("ISS"));
-        map.put("RE_APP_DE", params.get("reAppDe"));
+            paramsMap.put("PAY_INCP_DET_SN", list.get(0).get("PAY_INCP_DET_SN"));
+            paramsMap.put("TR_DE", map.get("inDt"));
+            paramsMap.put("TOT_AMT", map.get("totAmt"));
+            paramsMap.put("SUP_AMT", map.get("supAmt"));
+            paramsMap.put("VAT_AMT", map.get("vatAmt"));
+            paramsMap.put("EVID_TYPE", list.get(0).get("EVID_TYPE"));
+            paramsMap.put("TR_CD", list.get(0).get("TR_CD"));
+            paramsMap.put("CRM_NM", list.get(0).get("CRM_NM"));
+            paramsMap.put("REG_NO", list.get(0).get("REG_NO"));
+            paramsMap.put("CRM_BNK_NM", list.get(0).get("CRM_BNK_NM"));
+            paramsMap.put("CRM_ACC_NO", list.get(0).get("CRM_ACC_NO"));
+            paramsMap.put("CRM_ACC_HOLDER", list.get(0).get("CRM_ACC_HOLDER"));
+            paramsMap.put("CARD", list.get(0).get("CARD"));
+            paramsMap.put("CARD_NO", list.get(0).get("CARD_NO"));
+            paramsMap.put("ETC", list.get(0).get("ETC"));
+            paramsMap.put("ISS", list.get(0).get("ISS"));
+            paramsMap.put("RE_APP_DE", map.get("reAppDe"));
 
-        if(params.containsKey("payIncpReSn")){
-            map.put("PAY_INCP_RE_SN", params.get("payIncpReSn"));
-            map.put("payIncpReSn", params.get("payIncpReSn"));
-            payAppRepository.updIncpRe(map);
-        } else {
-            payAppRepository.insIncpRe(map);
+            if(map.containsKey("payIncpReSn")){
+                paramsMap.put("PAY_INCP_RE_SN", map.get("payIncpReSn"));
+                paramsMap.put("payIncpReSn", map.get("payIncpReSn"));
+                payAppRepository.updIncpRe(paramsMap);
+            } else {
+                payAppRepository.insIncpRe(paramsMap);
+            }
         }
 
-        return map;
+        return params;
     }
 
     @Override
