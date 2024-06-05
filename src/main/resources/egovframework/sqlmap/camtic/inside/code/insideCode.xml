@@ -697,8 +697,8 @@
 
         <choose>
             <when test='startDt.equals(endDt)'>
-                AND (START_DT = #{startDt} AND #{startTime} BETWEEN START_TIME AND END_TIME)
-                OR  (END_DT = #{endDt} AND #{endDt} BETWEEN START_TIME AND END_TIME)
+                AND ((START_DT = #{startDt} AND #{startTime} BETWEEN START_TIME AND END_TIME) OR
+                    (END_DT = #{endDt} AND #{endTime} BETWEEN START_TIME AND END_TIME))
             </when>
             <otherwise>
                 AND #{startDt} BETWEEN START_DT AND END_DT
