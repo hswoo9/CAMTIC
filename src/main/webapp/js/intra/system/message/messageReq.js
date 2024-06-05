@@ -13,6 +13,11 @@ var messageReq = {
 
     fn_pageSet : function(){
         customKendo.fn_textBox(["menuSearch", "groupId", "groupName", "phoneNameUser", "phoneUserNum", "phoneUserId", "userGroupId"]);
+
+        const sendNumberCode = customKendo.fn_customAjax("/common/commonCodeList", {
+            cmGroupCode : "SMS_SEND_NUM",
+        }).rs;
+        customKendo.fn_dropDownList("callBack", sendNumberCode, "CM_CODE_NM", "CM_CODE", 3);
     },
 
     fn_tabSet : function(){
