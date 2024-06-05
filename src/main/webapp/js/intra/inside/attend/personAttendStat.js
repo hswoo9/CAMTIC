@@ -196,10 +196,24 @@ var personAttendStat = {
                     width: "7.5%"
                 }, {
                     field: "ATTEND_ADJUSTMENT_START",
-                    title: "출근 시간"
+                    title: "출근 시간",
+                    template: function(row){
+                        if((row.WEEK == "토" || row.WEEK == "일") && row.ATTEND_ADJUSTMENT_START == ""){
+                            return "휴일";
+                        }else{
+                            return row.ATTEND_ADJUSTMENT_START;
+                        }
+                    }
                 }, {
                     field: "ATTEND_ADJUSTMENT_END",
-                    title: "퇴근 시간"
+                    title: "퇴근 시간",
+                    template: function(row){
+                        if((row.WEEK == "토" || row.WEEK == "일") && row.ATTEND_ADJUSTMENT_END == ""){
+                            return "휴일";
+                        }else{
+                            return row.ATTEND_ADJUSTMENT_END;
+                        }
+                    }
                 }, {
                     field: "ATTEND_TEXT",
                     title: "근태 항목"
