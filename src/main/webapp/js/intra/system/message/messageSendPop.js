@@ -5,6 +5,11 @@ var messageSendPop = {
     },
 
     fn_pageSet : function(){
+        const sendNumberCode = customKendo.fn_customAjax("/common/commonCodeList", {
+            cmGroupCode : "SMS_SEND_NUM",
+        }).rs;
+        customKendo.fn_dropDownList("callBack", sendNumberCode, "CM_CODE_NM", "CM_CODE", 3);
+
         if($("#userList").val() != ""){
             let html = '';
             const userList = $("#userList").val().split(",");
