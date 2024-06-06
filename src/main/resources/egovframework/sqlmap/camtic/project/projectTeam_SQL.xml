@@ -52,6 +52,21 @@
         GROUP BY B.TEAM_VERSION_SN
     </select>
 
+    <select id="getTeamListAll" parameterType="map" resultType="map">
+        /* getTeamListAll */
+        SELECT
+            P.*,
+            PTV.TEAM_VERSION_SN,
+            PTV.STATUS AS TEAM_STATUS,
+            DATE_FORMAT(PTV.REG_DT, '%Y-%m-%d') AS TEAM_REG_DATE
+        FROM
+            CAM_PJT_MNG.DJ_PJT_TEAM_VERSION PTV
+        INNER JOIN CAM_PJT_MNG.DJ_PROJECT P ON PTV.PJT_SN = P.PJT_SN
+        WHERE
+            PTV.TEAM_VERSION_SN IN ( SELECT MAX(SPTV.TEAM_VERSION_SN) FROM CAM_PJT_MNG.DJ_PJT_TEAM_VERSION SPTV GROUP BY SPTV.PJT_SN )
+        ORDER BY PTV.TEAM_VERSION_SN DESC
+    </select>
+
     <select id="getTeamBudgetList" parameterType="map" resultType="map">
         /* getTeamBudgetList */
         SELECT

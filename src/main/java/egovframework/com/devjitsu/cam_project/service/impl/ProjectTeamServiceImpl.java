@@ -13,6 +13,7 @@ import egovframework.com.devjitsu.common.repository.CommonRepository;
 import egovframework.com.devjitsu.inside.bustrip.repository.BustripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -49,6 +50,23 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     @Override
     public List<Map<String, Object>> getTeamMngList(Map<String, Object> params) {
         return projectTeamRepository.getTeamMngList(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTeamListAll(Map<String, Object> params) {
+        List<Map<String, Object>> teamList = projectTeamRepository.getTeamListAll(params);
+        if(teamList.size() > 0){
+            for(int i = 0 ; i < teamList.size() ; i++){
+                Map<String, Object> serachMap = new HashMap<>();
+                serachMap.put("pjtSn", teamList.get(i).get("PJT_SN"));
+                serachMap.put("teamVersionSn", teamList.get(i).get("TEAM_VERSION_SN"));
+                List<Map<String, Object>> getTeamList = projectTeamRepository.getTeamList(serachMap);
+                if(getTeamList.size() > 0){
+                    teamList.get(i).put("teamDetailList", getTeamList);
+                }
+            }
+        }
+        return teamList;
     }
 
     @Override
