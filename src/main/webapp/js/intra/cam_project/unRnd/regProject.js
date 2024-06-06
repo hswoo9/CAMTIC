@@ -12,11 +12,13 @@ var regUnRnd = {
         if(setParameters != null && setParameters.SECURITY == "Y"){
             regUnRnd.fn_setPage(setParameters);
             regUnRnd.fn_setData(setParameters);
+            regUnRnd.fn_multiPjtSet(setParameters);
             openSecurityModal();
         }else{
             regUnRnd.fn_setPage(setParameters);
             regUnRnd.fn_setTab(setParameters);
             regUnRnd.fn_setData(setParameters);
+            regUnRnd.fn_multiPjtSet(setParameters);
         }
     },
 
@@ -73,7 +75,7 @@ var regUnRnd = {
             ]
         } else {
             dataSource = [
-                {name: "사업정보", url: tab0Url, imageUrl: "/images/ico/etc_01_1.png"},
+                {name: setParameters.PARENT_PJT_SN == null ? "사업정보" : "연차보고", url: tab0Url, imageUrl: "/images/ico/etc_01_1.png"},
                 //{name: "참여인력", url: tab1Url},
                 {name: "참여율관리", url: tab3Url},
                 {name: "수행계획", url: tab4Url, imageUrl: "/images/ico/etc_01_1.png"},
@@ -314,7 +316,7 @@ var regUnRnd = {
                 $("#parentPjtNm").val(parentPjtInfo.PJT_NM);
 
             /** 다년이면서 1차년도 프로젝트()가 없을 때 다년 프로젝트 생성 버튼 보이게 */
-            }else if(e.YEAR_CLASS == "M" && e.PJT_CD != null){
+            }else if(e.YEAR_CLASS == "M" && e.PJT_CD != null && e.PARENT_PJT_SN == null){
                 $("#nextPjtBtn").show();
                 $("#mYearTr").show();
             }
@@ -430,6 +432,53 @@ var regUnRnd = {
             }
             $("input[name='securityYn'][value='" + e.SECURITY + "']").prop("checked", true);
         }
+    },
+
+    fn_multiPjtSet: function(e){
+        if(e == null || e.YEAR_CLASS != "M"){
+            return;
+        }
+        const params = {
+            pjtSn: $("#mainPjtSn").val(),
+            multiParentPjtSn: e.PARENT_PJT_SN == null ? $("#mainPjtSn").val() : e.PARENT_PJT_SN
+        }
+        const multiPjtResult = customKendo.fn_customAjax("/project/getMultiPjtList", params);
+        const list = multiPjtResult.list;
+        const len = list.length;
+
+        /** 다년 사업이 존재 할 때 */
+        if(list != null && len > 1){
+            let html = "";
+
+            html += '<ul style="font-size: 12px; padding-bottom: 2px" class="k-tabstrip-items k-reset" role="none">';
+            html += '   <div style="padding: 6px 12px"><b>년차선택</b></div>';
+            for(let i=0; i<len; i++){
+                const map = list[i];
+                console.log("map ["+i+"] : ", map);
+                if(map.PJT_SN == $("#pjtSn").val()){
+                    html += '   <li class="k-tabstrip-item k-item k-first k-tab-on-top k-state-active">';
+                }else{
+                    html += '   <li class="k-tabstrip-item k-item k-first k-tab-on-top">';
+                }
+                html += '       <span class="k-loading k-complete k-progress"></span>';
+                if(map.PJT_SN == $("#pjtSn").val()){
+                    html += '       <span class="k-link" style="cursor: default !important;">'+(i+1)+'차년도</span>';
+                }else{
+                    html += '       <span class="k-link" onclick="regUnRnd.fn_changePrj('+map.PJT_SN+', '+map.PARENT_PJT_SN+')">'+(i+1)+'차년도</span>';
+                }
+                html += '   </li>';
+            }
+            html += '   <li class="k-tabstrip-item k-item k-first k-tab-on-top">';
+            html += '       <span class="k-loading k-complete k-progress"></span>';
+            html += '   </li>';
+            html += '</ul>';
+            $("#multiPrjBar").html(html);
+            $("#multiPrjBar").show();
+        }
+    },
+
+    fn_changePrj: function(key, parentKey){
+        location.href="/projectUnRnd/pop/regProject.do?pjtSn=" + key;
     },
 
     fn_save : function(){

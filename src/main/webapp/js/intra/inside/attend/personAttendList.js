@@ -6,12 +6,11 @@ var personAttend = {
 
     fn_defaultScript: function(){
         personAttend.pageSet();
-        // personAttend.dataSet();
         personAttend.gridReload();
     },
 
     pageSet: function(){
-         customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttend.global.now.setMonth(personAttend.global.now.getMonth() - 1)));
+        customKendo.fn_datePicker("startDt", '', "yyyy-MM-dd", new Date(personAttend.global.now.setMonth(personAttend.global.now.getMonth() - 1)));
         customKendo.fn_datePicker("endDt", '', "yyyy-MM-dd", new Date());
         $("#startDt, #endDt").attr("readonly", true);
 
@@ -59,10 +58,6 @@ var personAttend = {
         };
         let holidayData = customKendo.fn_customAjax(url, data).holidayData;
         let hrData = customKendo.fn_customAjax(url, data).hrData;
-        console.log("hrData");
-        console.log(hrData);
-        console.log("holidayData");
-        console.log(holidayData);
 
         $("#normal").text("0일");
         $("#late").text("0일");
@@ -83,13 +78,14 @@ var personAttend = {
     },
 
     gridReload: function(){
-        personAttend.dataSet();
         personAttend.global.searchAjaxData = {
             startDt: $("#startDt").val(),
             endDt: $("#endDt").val(),
             empSeq: $("#regEmpSeq").val()
         }
         personAttend.mainGrid("/inside/getPersonAttendList", personAttend.global.searchAjaxData);
+
+        personAttend.dataSet();
     },
 
     mainGrid: function(url, params){

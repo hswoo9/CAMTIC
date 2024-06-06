@@ -198,7 +198,7 @@ var unRndDetail = {
         }
 
         /** 버튼 세팅 */
-        unRndDetail.fn_buttonSet(rs);
+        unRndDetail.fn_buttonSet(rs, pjtMap);
 
         const pjtInfo2 = customKendo.fn_customAjax("/project/getProjectStep", parameters);
         const map = pjtInfo2.rs;
@@ -406,10 +406,10 @@ var unRndDetail = {
         });
     },
 
-    fn_buttonSet : function(unRndMap){
+    fn_buttonSet : function(unRndMap, pjtMap){
         $(".budgetBtn").show();
         let buttonHtml = "";
-        if(unRndMap != null){
+        if(unRndMap != null && pjtMap.PARENT_PJT_SN == null){
             let status = unRndMap.STATUS
             if(status == "0" && unRndMap.PEO_RES_COST != null){
                 buttonHtml += "<button type=\"button\" id=\"delvApp2Btn\" style=\"float: right; margin-right: 5px;\" class=\"k-button k-button-solid-info\" onclick=\"openModalUnRnd()\">상신</button>";
