@@ -25,7 +25,7 @@
     </select>
 
     <select id="getPersonAttendList" parameterType="map" resultType="map">
-        /* personAttendList */
+        /* getPersonAttendList */
         WITH RECURSIVE DATE_RANGE AS (
             SELECT #{startDt} as DATES
             UNION
@@ -35,72 +35,80 @@
             ]]>
         )
         SELECT
-            DR.DATES AS START_DATE,
-            SUBSTR('일월화수목금토', DAYOFWEEK(DR.DATES), 1) AS WEEK,
-            HEI.EMP_NAME_KR AS Name,
-            CONCAT(SUBSTR(RCD.START_TIME,1,2) , ':' , SUBSTR(RCD.START_TIME,3,2) , ':' , SUBSTR(RCD.START_TIME,5,2)) AS START_TIME,
-            CONCAT(SUBSTR(RCD.END_TIME,1,2) , ':' , SUBSTR(RCD.END_TIME,3,2) , ':' , SUBSTR(RCD.END_TIME,5,2)) AS END_TIME,
+            A.*,
 
-            IFNULL((
+            IFNULL(IFNULL((
                 SELECT
-                    SUBHOLIDAY_DT_CODE_NM
-                FROM
-                    CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
-                LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
-                WHERE DR.DATES BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
-                  AND DR.DATES BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
-                  AND SVUH.REG_EMP_SEQ = HEI.EMP_SEQ AND SVUH.APPR_STAT = 'Y'
-                ORDER BY SVUH.REG_DATE DESC LIMIT 1
-                ), '') AS HOLIDAY,
+                    CONCAT(WORK_TIME, ':00')
+                FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
+                WHERE
+                    A.START_DATE = HAA.TARGET_DATE
+                AND A.EMP_SEQ = HAA.TARGET_EMP_SEQ
+                AND HAA.TYPE = '1'
+                ORDER BY HAA.REG_DATE DESC LIMIT 1
+            ), START_TIME), '') AS ATTEND_ADJUSTMENT_START,
 
-            IFNULL((
+            IFNULL(IFNULL((
                 SELECT
-                    IHRR.TRIP_CODE
-                FROM
-                    CAM_INSIDE.DJ_HR_BIZ_REQ IHR
-                LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
-                LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
-                WHERE DR.DATES BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
-                  AND DR.DATES BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
-                  AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
-                ORDER BY IHRR.CREATE_DATE DESC LIMIT 1
-                ), '') AS BUSTRIP,
-
-                IFNULL((
-                    SELECT
-                        CONCAT(WORK_TIME, ':00')
-                    FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
-                    WHERE
-                        DR.DATES = HAA.TARGET_DATE
-                      AND HEI.EMP_SEQ = HAA.TARGET_EMP_SEQ
-                      AND HAA.TYPE = '1'
-                    ORDER BY HAA.REG_DATE DESC LIMIT 1
-                    ), '') AS ATTEND_ADJUSTMENT_START,
-
-                IFNULL((
-                    SELECT
-                        CONCAT(WORK_TIME, ':00')
-                    FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
-                    WHERE
-                        DR.DATES = HAA.TARGET_DATE
-                      AND HEI.EMP_SEQ = HAA.TARGET_EMP_SEQ
-                      AND HAA.TYPE = '2'
-                    ORDER BY HAA.REG_DATE DESC LIMIT 1
-                    ), '') AS ATTEND_ADJUSTMENT_END
-
-        FROM DATE_RANGE DR
-        LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = #{empSeq}
-        LEFT JOIN (
+                    CONCAT(WORK_TIME, ':00')
+                FROM CAM_HR.DJ_ATTEND_ADJUSTMENT HAA
+                WHERE
+                    A.START_DATE = HAA.TARGET_DATE
+                AND A.EMP_SEQ = HAA.TARGET_EMP_SEQ
+                AND HAA.TYPE = '2'
+                ORDER BY HAA.REG_DATE DESC LIMIT 1
+            ), END_TIME), '') AS ATTEND_ADJUSTMENT_END
+        FROM (
             SELECT
-                CapsNum,
-                InDate,
-                MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
-                MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
-            FROM CAM_HR.V_CAPS_DATA CD
-            GROUP BY InDate, CapsNum
-        ) RCD ON RCD.InDate = DATE_FORMAT(DR.DATES, '%Y%m%d') AND HEI.CAPS_NUM = RCD.CapsNum
-        GROUP BY DR.DATES
-        ORDER BY DR.DATES DESC
+                HEI.EMP_NAME_KR AS Name,
+                DR.DATES AS START_DATE,
+                HEI.EMP_SEQ AS EMP_SEQ,
+                SUBSTR('일월화수목금토', DAYOFWEEK(DR.DATES), 1) AS WEEK,
+                CONCAT(SUBSTR(RCD.START_TIME,1,2) , ':' , SUBSTR(RCD.START_TIME,3,2) , ':' , SUBSTR(RCD.START_TIME,5,2)) AS START_TIME,
+                CONCAT(SUBSTR(RCD.END_TIME,1,2) , ':' , SUBSTR(RCD.END_TIME,3,2) , ':' , SUBSTR(RCD.END_TIME,5,2)) AS END_TIME,
+                (
+                    SELECT
+                        SUBHOLIDAY_DT_CODE_NM
+                    FROM CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
+                    LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
+                    WHERE
+                        DR.DATES BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
+                    AND SVUH.REG_EMP_SEQ = HEI.EMP_SEQ AND SVUH.APPR_STAT = 'Y'
+                    ORDER BY SVUH.REG_DATE DESC LIMIT 1
+                ) AS HOLIDAY,
+
+                (
+                    SELECT
+                        CASE
+                            WHEN IHRR.TRIP_CODE = '1' THEN '출장(도내/시내)'
+                            WHEN IHRR.TRIP_CODE = '2' THEN '출장(도내/시외)'
+                            WHEN IHRR.TRIP_CODE = '3' THEN '도외'
+                            WHEN IHRR.TRIP_CODE = '4' THEN '해외'
+                            ELSE NULL
+                        END
+                    FROM CAM_INSIDE.DJ_HR_BIZ_REQ IHR
+                    LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
+                    LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
+                    WHERE
+                        DR.DATES BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
+                    AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
+                    ORDER BY IHRR.CREATE_DATE DESC LIMIT 1
+                ) AS BUSTRIP
+
+            FROM DATE_RANGE DR
+            LEFT JOIN CAM_HR.DJ_EMP_INFO HEI ON HEI.EMP_SEQ = #{empSeq}
+            LEFT JOIN (
+                SELECT
+                    CapsNum,
+                    InDate,
+                    MIN(CASE WHEN CD.IsType = 1 AND CD.InTime >= '080000' THEN CD.InTime ELSE NULL END) AS START_TIME,
+                    MAX(CASE WHEN CD.IsType = 2 THEN CD.InTime ELSE NULL END) AS END_TIME
+                FROM CAM_HR.V_CAPS_DATA CD
+                GROUP BY InDate, CapsNum
+            ) RCD ON RCD.InDate = DATE_FORMAT(DR.DATES, '%Y%m%d') AND HEI.CAPS_NUM = RCD.CapsNum
+            GROUP BY DR.DATES
+        ) A
+        ORDER BY A.START_DATE DESC
     </select>
 
     <select id="getPersonHrStatus" parameterType="map" resultType="map">
@@ -312,33 +320,33 @@
                 CONCAT(SUBSTR(RCD.START_TIME,1,2) , ':' , SUBSTR(RCD.START_TIME,3,2) , ':' , SUBSTR(RCD.START_TIME,5,2)) AS START_TIME,
                 CONCAT(SUBSTR(RCD.END_TIME,1,2) , ':' , SUBSTR(RCD.END_TIME,3,2) , ':' , SUBSTR(RCD.END_TIME,5,2)) AS END_TIME,
                 (
-                SELECT
-                    SUBHOLIDAY_DT_CODE_NM
-                FROM
-                    CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
-                LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
-                WHERE
-                    DR.DATES BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
-                    AND SVUH.REG_EMP_SEQ = HEI.EMP_SEQ AND SVUH.APPR_STAT = 'Y'
-                ORDER BY SVUH.REG_DATE DESC LIMIT 1
+                    SELECT
+                        SUBHOLIDAY_DT_CODE_NM
+                    FROM
+                        CAM_INSIDE.DJ_SUBHOLIDAY_USE_HIST SVUH
+                    LEFT JOIN CAM_INSIDE.DJ_SUBHOLIDAY_CODE SVCD ON SVUH.SUBHOLIDAY_CODE_ID = SVCD.SUBHOLIDAY_CODE_ID
+                    WHERE
+                        DR.DATES BETWEEN SVUH.SUBHOLIDAY_ST_DT AND SVUH.SUBHOLIDAY_EN_DT
+                        AND SVUH.REG_EMP_SEQ = HEI.EMP_SEQ AND SVUH.APPR_STAT = 'Y'
+                    ORDER BY SVUH.REG_DATE DESC LIMIT 1
                 ) AS HOLIDAY,
 
                 (
-                SELECT
-                    CASE
-                        WHEN IHRR.TRIP_CODE = '1' THEN '출장(도내/시내)'
-                        WHEN IHRR.TRIP_CODE = '2' THEN '출장(도내/시외)'
-                        WHEN IHRR.TRIP_CODE = '3' THEN '도외'
-                        WHEN IHRR.TRIP_CODE = '4' THEN '해외'
-                        ELSE NULL
-                    END
-                FROM CAM_INSIDE.DJ_HR_BIZ_REQ IHR
-                LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
-                LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
-                WHERE
-                    DR.DATES BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
-                    AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
-                ORDER BY IHRR.CREATE_DATE DESC LIMIT 1
+                    SELECT
+                        CASE
+                            WHEN IHRR.TRIP_CODE = '1' THEN '출장(도내/시내)'
+                            WHEN IHRR.TRIP_CODE = '2' THEN '출장(도내/시외)'
+                            WHEN IHRR.TRIP_CODE = '3' THEN '도외'
+                            WHEN IHRR.TRIP_CODE = '4' THEN '해외'
+                            ELSE NULL
+                        END
+                    FROM CAM_INSIDE.DJ_HR_BIZ_REQ IHR
+                    LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_REQ_RESULT IHRR ON IHR.HR_BIZ_REQ_ID = IHRR.HR_BIZ_REQ_ID
+                    LEFT JOIN CAM_INSIDE.DJ_HR_BIZ_EXNP IHE ON IHRR.HR_BIZ_REQ_RESULT_ID = IHE.HR_BIZ_REQ_RESULT_ID
+                    WHERE
+                        DR.DATES BETWEEN IHRR.TRIP_DAY_FR AND IHRR.TRIP_DAY_TO
+                        AND IHE.EMP_SEQ = HEI.EMP_SEQ AND IHRR.STATUS = '100'
+                    ORDER BY IHRR.CREATE_DATE DESC LIMIT 1
                 ) AS BUSTRIP
             FROM
                 CAM_HR.DJ_EMP_INFO HEI

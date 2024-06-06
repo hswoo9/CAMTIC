@@ -861,6 +861,14 @@
             RPMR_NO = #{PMR_NO}
     </delete>
 
+    <delete id="delIncpReDocData" parameterType="map">
+        DELETE
+        FROM
+            ZN_SAUTOABDOCU
+        WHERE
+            PMR_NO = #{PMR_NO}
+    </delete>
+
     <select id="getPaymentNotDoneList" parameterType="map" resultType="map">
         /*getPaymentNotDoneList*/
         <![CDATA[

@@ -2028,9 +2028,9 @@ public class PayAppServiceImpl implements PayAppService {
 
         g20Repository.execUspAncj080Delete00(g20Map);
 
-        for(Map<String, Object> map : listMap) {
-            g20Repository.delExnpReDocData(map);
-        }
+//        for(Map<String, Object> map : listMap) {
+            g20Repository.delIncpReDocData(incpMap);
+//        }
         payAppRepository.resolutionIncpReStatus(params);
 //        g20Repository.delExnpDocData(g20Map);
     }
