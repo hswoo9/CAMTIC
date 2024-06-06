@@ -651,4 +651,9 @@ public class G20ServiceImpl implements G20Service {
     public void delG20Error(Map<String, Object> params) {
         g20Repository.delG20Error(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getG20BudgetSum(Map<String, Object> params) {
+        return g20Repository.getG20BudgetSum(params);
+    }
 }

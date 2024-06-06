@@ -130,4 +130,16 @@ public interface PayAppService {
     void delIncpRe(Map<String, Object> params);
 
     Map<String, Object> getDepoInfo(Map<String, Object> params);
+
+    Map<String, Object> getApproveIncpAmt(Map<String, Object> params);
+
+    Map<String, Object> getApproveExnpAmtTp2(Map<String, Object> params);
+
+    Map<String, Object> getApproveExnpAmtTp1(Map<String, Object> params);
+
+    Map<String, Object> getWaitExnp(Map<String, Object> params);
+
+    Map<String, Object> getReturnPayAmt(Map<String, Object> params);
+
+    Map<String, Object> getWaitIncp(Map<String, Object> params);
 }

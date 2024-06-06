@@ -736,9 +736,11 @@
 
     <select id="getCarryoverAmt" parameterType="map" resultType="map">
         /*getCarryoverAmt*/
-        SELECT CARRYOVER_CASH, CARRYOVER_POINT FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_CD = #{pjtCd}
-        UNION
-        SELECT CARRYOVER_CASH, CARRYOVER_POINT FROM CAM_PJT_MNG.DJ_CORP_PROJECT WHERE CORP_PJT_CD = #{pjtCd}
+        SELECT
+            OVER_CASH AS CARRYOVER_CASH,
+            OVER_POINT AS CARRYOVER_POINT
+        FROM CAM_PJT_MNG.DJ_OVER_PAY
+        WHERE PJT_CD = #{pjtCd}
     </select>
 
     <update id="updProjectCarryoverAmt" parameterType="map">
@@ -817,4 +819,177 @@
         SELECT * FROM CAM_PJT_MNG.DJ_CORP_PROJECT WHERE CORP_PJT_CD = #{corpPjtCd};
 
     </select>
+
+    <select id="getExistProject" parameterType="map" resultType="map">
+        /*getExistProject*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_OVER_PAY
+        WHERE
+            PJT_CD = #{pjtCd}
+    </select>
+
+    <insert id="insOverCash" parameterType="map">
+        /*insOverPay*/
+        INSERT INTO CAM_PJT_MNG.DJ_OVER_PAY
+        (
+            PJT_CD,
+            OVER_CASH,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{pjtCd},
+            #{carryoverCash},
+            #{empSeq}
+        )
+    </insert>
+
+    <insert id="insOverPoint" parameterType="map">
+        /*insOverPoint*/
+        INSERT INTO CAM_PJT_MNG.DJ_OVER_PAY
+        (
+            PJT_CD,
+            OVER_POINT,
+            REG_EMP_SEQ
+        )
+        VALUES
+        (
+            #{pjtCd},
+            #{carryoverPoint},
+            #{empSeq}
+        )
+    </insert>
+
+    <update id="updOverCash" parameterType="map">
+        /*updOverCash*/
+        UPDATE CAM_PJT_MNG.DJ_OVER_PAY
+        SET
+            OVER_CASH = #{carryoverCash},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_CD = #{pjtCd}
+    </update>
+
+    <update id="updOverPoint" parameterType="map">
+        /*updOverPoint*/
+        UPDATE CAM_PJT_MNG.DJ_OVER_PAY
+        SET
+            OVER_POINT = #{carryoverPoint},
+            MOD_EMP_SEQ = #{empSeq}
+        WHERE
+            PJT_CD = #{pjtCd}
+    </update>
+
+    <select id="getIncpACost" parameterType="map" resultType="map">
+        /*getIncpACost*/
+        SELECT
+            IFNULL(SUM(TOT_COST), 0) AS TOT_COST
+        FROM CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET B
+            ON A.PAY_INCP_SN = B.PAY_INCP_SN
+        WHERE
+            ((B.EVID_TYPE IN (2,4,6,7) AND A.DOC_STATUS IN (100, 101)) OR (B.EVID_TYPE IN (1,3,5) AND A.RE_STAT = 'Y'))
+          AND
+            A.PJT_CD = #{pjtCd} AND REPLACE(A.ACC_NO, '-', '') = #{baNb}
+    </select>
+
+    <select id="getIncpBCost" parameterType="map" resultType="map">
+        /*getIncpBCost*/
+        SELECT
+            IFNULL(SUM(TOT_COST), 0) AS TOT_COST
+        FROM CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET B
+            ON A.PAY_INCP_SN = B.PAY_INCP_SN
+        WHERE
+            ((B.EVID_TYPE IN (2,4,6,7) AND A.DOC_STATUS IN (100, 101)) OR (B.EVID_TYPE IN (1,3,5) AND A.RE_STAT = 'Y'))
+          AND
+            A.PJT_CD != #{pjtCd} AND REPLACE(A.ACC_NO, '-', '') = #{baNb}
+    </select>
+
+    <select id="getIncpCCost" parameterType="map" resultType="map">
+        /*getIncpCCost*/
+        SELECT
+            IFNULL(SUM(TOT_COST), 0) AS TOT_COST
+        FROM CAM_MNG.DJ_PAY_INCP A
+        LEFT JOIN CAM_MNG.DJ_PAY_INCP_DET B
+            ON A.PAY_INCP_SN = B.PAY_INCP_SN
+        WHERE
+            ((B.EVID_TYPE IN (2,4,6,7) AND A.DOC_STATUS IN (100, 101)) OR (B.EVID_TYPE IN (1,3,5) AND A.RE_STAT = 'Y'))
+          AND
+            A.PJT_CD = #{pjtCd} AND REPLACE(A.ACC_NO, '-', '') != #{baNb}
+    </select>
+
+    <select id="getExnpACost" parameterType="map" resultType="map">
+        /*getExnpACost*/
+        SELECT
+            IFNULL(SUM(TOT_COST), 0) AS TOT_COST
+        FROM CAM_MNG.DJ_EXNP A
+        LEFT JOIN CAM_MNG.DJ_EXNP_DET B
+            ON A.EXNP_SN = B.EXNP_SN
+        WHERE
+            A.RE_STAT = 'Y'
+        AND
+            A.PJT_CD = #{pjtCd} AND REPLACE(A.ACC_NO, '-', '') = #{baNb}
+    </select>
+
+    <select id="getExnpBCost" parameterType="map" resultType="map">
+        /*getExnpBCost*/
+        SELECT
+            IFNULL(SUM(TOT_COST), 0) AS TOT_COST
+        FROM CAM_MNG.DJ_EXNP A
+        LEFT JOIN CAM_MNG.DJ_EXNP_DET B
+            ON A.EXNP_SN = B.EXNP_SN
+        WHERE
+            A.RE_STAT = 'Y'
+        AND
+            A.PJT_CD != #{pjtCd} AND REPLACE(A.ACC_NO, '-', '') = #{baNb}
+    </select>
+
+    <select id="getExnpCCost" parameterType="map" resultType="map">
+        /*getExnpBCost*/
+        SELECT
+            IFNULL(SUM(TOT_COST), 0) AS TOT_COST
+        FROM CAM_MNG.DJ_EXNP A
+        LEFT JOIN CAM_MNG.DJ_EXNP_DET B
+            ON A.EXNP_SN = B.EXNP_SN
+        WHERE
+            A.RE_STAT = 'Y'
+        AND
+            A.PJT_CD = #{pjtCd} AND REPLACE(A.ACC_NO, '-', '') != #{baNb}
+    </select>
+
+    <select id="getExistProjectPayData" parameterType="map" resultType="map">
+        /*getExistProjectPayData*/
+        SELECT
+            *
+        FROM
+            CAM_PJT_MNG.DJ_PROJECT_PAY
+        WHERE
+            PJT_CD = #{pjtCd}
+    </select>
+
+    <insert id="insProjectPayAsync" parameterType="map">
+        /*insProjectPayAsync*/
+        INSERT INTO CAM_PJT_MNG.DJ_PROJECT_PAY
+        (
+            PJT_CD,
+            PJT_PAY
+        )
+        VALUES
+        (
+            #{pjtCd},
+            #{pjtPay}
+        )
+    </insert>
+
+    <update id="updProjectPayAsync" parameterType="map">
+        /*updProjectPayAsync*/
+        UPDATE CAM_PJT_MNG.DJ_PROJECT_PAY
+        SET
+            PJT_PAY = #{pjtPay}
+        WHERE
+            PJT_CD = #{pjtCd}
+    </update>
 </mapper>

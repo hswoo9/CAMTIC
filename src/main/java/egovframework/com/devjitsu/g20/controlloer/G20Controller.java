@@ -1,6 +1,8 @@
 package egovframework.com.devjitsu.g20.controlloer;
 
 import com.google.gson.Gson;
+import egovframework.com.devjitsu.cam_manager.service.ManageService;
+import egovframework.com.devjitsu.cam_manager.service.PayAppService;
 import egovframework.com.devjitsu.cam_manager.service.SetManagementService;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
@@ -22,6 +24,13 @@ public class G20Controller {
 
     @Autowired
     private G20Service g20Service;
+
+    @Autowired
+    private ManageService manageService;
+
+    @Autowired
+    private PayAppService payAppService;
+
 
 
     @Autowired
@@ -66,19 +75,42 @@ public class G20Controller {
         List<Map<String, Object>> list = g20Service.getProjectList(params);
 
         for(Map<String, Object> map : list){
-            params.put("corpPjtCd", map.get("pjtSeq"));
-            Map<String, Object> corpPjtInfo = setManagementService.getCorpProjectDataByCd(params);
+            params.put("pjtCd", map.get("pjtSeq"));
+            params.put("mgtSeq", map.get("pjtSeq"));
+            params.put("erpCompSeq", "1212");
+
+            Map<String, Object> corpPjtInfo = manageService.getExistProject(params);
 
             if(corpPjtInfo != null) {
-                map.put("carryoverCash", corpPjtInfo.get("CARRYOVER_CASH") == null ? "" : corpPjtInfo.get("CARRYOVER_CASH"));
-                map.put("carryoverPoint", corpPjtInfo.get("CARRYOVER_POINT") == null ? "" : corpPjtInfo.get("CARRYOVER_POINT"));
+                map.put("carryoverCash", corpPjtInfo.get("OVER_CASH") == null ? 0 : corpPjtInfo.get("OVER_CASH"));
+                map.put("carryoverPoint", corpPjtInfo.get("OVER_POINT") == null ? 0 : corpPjtInfo.get("OVER_POINT"));
             } else {
-                map.put("carryoverCash", "");
-                map.put("carryoverPoint", "");
+                map.put("carryoverCash", 0);
+                map.put("carryoverPoint", 0);
+            }
+
+
+            List<Map<String, Object>> g20BudgetSum = g20Service.getG20BudgetSum(params);
+
+            for(Map<String, Object> map2 : g20BudgetSum){
+                if(map2.get("DRCR_FG").equals("2")){
+                    map.put("g20IncpBgtAmt", map2.get("TOT_COST") == null ? 0 : map2.get("TOT_COST"));
+                } else {
+                    map.put("g20exnpBgtAmt", map2.get("TOT_COST") == null ? 0 : map2.get("TOT_COST"));
+                }
+            }
+
+
+            params.put("bankNB", map.get("bankNumber").toString().replaceAll("-", ""));
+            Map<String, Object> ibranchMap = manageService.getCurrentAmountStatus(params);
+
+            if(ibranchMap != null){
+                map.put("ibranchAmt", ibranchMap.get("TX_CUR_BAL") == null ? 0 : ibranchMap.get("TX_CUR_BAL"));
+            } else {
+                map.put("ibranchAmt", 0);
             }
 
         }
-
 
         model.addAttribute("list", list);
         return "jsonView";

@@ -891,4 +891,9 @@
         WHERE
             PER_CD = #{pCD}
     </update>
+
+    <select id="getG20BudgetSum" parameterType="map" resultType="map">
+        /*getG20BudgetSum*/
+        SELECT SUM(PROP_AM) AS TOT_COST, DRCR_FG FROM DZICUBE.DBO.ABGT A LEFT JOIN DZICUBE.DBO.SBGTCD B ON A.BGT_CD = B.BGT_CD WHERE A.MGT_CD = #{pjtCd} GROUP BY B.DRCR_FG
+    </select>
 </mapper>

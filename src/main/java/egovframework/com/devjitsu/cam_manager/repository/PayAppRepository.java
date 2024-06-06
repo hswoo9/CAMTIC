@@ -590,4 +590,28 @@ public class PayAppRepository extends AbstractDAO {
     public Map<String, Object> getDepoInfo(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("payApp.getDepoInfo", params);
     }
+
+    public Map<String, Object> getApproveIncpAmt(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getApproveIncpAmt", params);
+    }
+
+    public Map<String, Object> getApproveExnpAmtTp1(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getApproveExnpAmtTp1", params);
+    }
+
+    public Map<String, Object> getApproveExnpAmtTp2(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getApproveExnpAmtTp2", params);
+    }
+
+    public Map<String, Object> getWaitExnp(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getWaitExnp", params);
+    }
+
+    public Map<String, Object> getReturnPayAmt(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getReturnPayAmt", params);
+    }
+
+    public Map<String, Object> getWaitIncp(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("payApp.getWaitIncp", params);
+    }
 }

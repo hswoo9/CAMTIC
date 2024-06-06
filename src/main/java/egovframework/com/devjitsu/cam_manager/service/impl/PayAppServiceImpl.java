@@ -2062,4 +2062,34 @@ public class PayAppServiceImpl implements PayAppService {
     public Map<String, Object> getDepoInfo(Map<String, Object> params) {
         return payAppRepository.getDepoInfo(params);
     }
+
+    @Override
+    public Map<String, Object> getApproveIncpAmt(Map<String, Object> params) {
+        return payAppRepository.getApproveIncpAmt(params);
+    }
+
+    @Override
+    public Map<String, Object> getApproveExnpAmtTp1(Map<String, Object> params) {
+        return payAppRepository.getApproveExnpAmtTp1(params);
+    }
+
+    @Override
+    public Map<String, Object> getApproveExnpAmtTp2(Map<String, Object> params) {
+        return payAppRepository.getApproveExnpAmtTp2(params);
+    }
+
+    @Override
+    public Map<String, Object> getWaitExnp(Map<String, Object> params) {
+        return payAppRepository.getWaitExnp(params);
+    }
+
+    @Override
+    public Map<String, Object> getReturnPayAmt(Map<String, Object> params) {
+        return payAppRepository.getReturnPayAmt(params);
+    }
+
+    @Override
+    public Map<String, Object> getWaitIncp(Map<String, Object> params) {
+        return payAppRepository.getWaitIncp(params);
+    }
 }

@@ -47,6 +47,7 @@ var busnCostPreCon = {
                     data.pjtToDate = $("#endDate").val();
                     data.searchKeyword = $("#searchKeyword").val();
                     data.searchValue = $("#searchValue").val();
+
                     return data;
                 }
             },
@@ -77,6 +78,13 @@ var busnCostPreCon = {
             },
             toolbar: [
                 {
+                    name: 'button',
+                    template: function(){
+                        return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="busnCostPreCon.fn_asyncCall()">' +
+                            '	<span class="k-button-text">동기화</span>' +
+                            '</button>';
+                    }
+                }, {
                     name: 'button',
                     template: function(){
                         return '<button type="button" class="k-grid-button k-button k-button-md k-button-solid k-button-solid-base" onclick="busnCostPreCon.gridReload()">' +
@@ -123,6 +131,7 @@ var busnCostPreCon = {
                     title: "시재",
                     width: 80,
                     template: function (e){
+                        console.log(e)
                         var cash = 0;
                         var point = 0;
                         if(e.carryoverCash != ''){
@@ -134,29 +143,40 @@ var busnCostPreCon = {
                         return '<div style="text-align: right">'+comma(cash + point)+'</div>';
                     }
                 }, {
-                    field: "",
                     title: "수입예산",
                     width: 80,
+                    template: function(e){
+                        return '<div style="text-align: right">'+comma(e.g20IncpBgtAmt || 0)+'</div>';
+                    }
                 }, {
-                    field: "",
                     title: "수입예산잔액",
                     width: 80,
+                    template: function(e){
+                        return '<div style="text-align: right">'+comma(Number(e.g20IncpBgtAmt || 0) - Number(e.approveIncpAmt || 0))+'</div>';
+                    }
                 }, {
-                    field: "",
                     title: "지출예산",
                     width: 80,
+                    template: function(e){
+                        return '<div style="text-align: right">'+comma(Number(e.g20exnpBgtAmt || 0))+'</div>';
+                    }
                 }, {
-                    field: "",
                     title: "지출예산잔액",
                     width: 80,
+                    template: function(e){
+                        return '<div style="text-align: right">'+comma(Number(e.g20exnpBgtAmt || 0) - Number(e.approveExnpAmt || 0))+'</div>';
+                    }
                 }, {
                     field: "",
                     title: "집행률",
                     width: 50,
                 }, {
-                    field: "",
+                    field: "ibranchAmt",
                     title: "금융CM연동시재",
                     width: 80,
+                    template: function(e){
+                        return '<div style="text-align : right">'+comma(e.ibranchAmt)+'</div>'
+                    }
                 }
             ],
             dataBinding: function(){
@@ -175,5 +195,29 @@ var busnCostPreCon = {
         var option = "width = 1800, height = 750, top = 100, left = 200, location = no";
 
         var popup = window.open(url, name, option);
+    },
+
+    fn_asyncCall: function(){
+        var data= {
+            searchDept: $("#searchDept").val(),
+            pjtFromDate: $("#strDate").val(),
+            pjtToDate: $("#endDate").val(),
+            searchKeyword: $("#searchKeyword").val(),
+            searchValue: $("#searchValue").val()
+        }
+
+        $.ajax({
+            url: "/mng/updProjectPayAsync",
+            type: "POST",
+            data: data,
+            beforeSend : function(request){
+                $("#my-spinner").show();
+            },
+            success: function () {
+                alert("동기화가 완료되었습니다.");
+                busnCostPreCon.gridReload();
+                $("#my-spinner").hide();
+            }
+        })
     }
 }

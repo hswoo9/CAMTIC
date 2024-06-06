@@ -45,4 +45,6 @@ public interface G20Service {
     void insEtcEmpInfo(Map<String, Object> params);
 
     void delG20Error(Map<String, Object> params);
+
+    List<Map<String, Object>> getG20BudgetSum(Map<String, Object> params);
 }

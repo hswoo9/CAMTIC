@@ -182,4 +182,8 @@ public class G20Repository extends AbstractDAO {
     public void insHearEmpInfo(Map<String, Object> params) {
         insertMs("g20.insHearEmpInfo", params);
     }
+
+    public List<Map<String, Object>> getG20BudgetSum(Map<String, Object> params) {
+        return selectListMs("g20.getG20BudgetSum", params);
+    }
 }

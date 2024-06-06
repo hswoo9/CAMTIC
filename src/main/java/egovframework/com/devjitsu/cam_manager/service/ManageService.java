@@ -42,4 +42,10 @@ public interface ManageService {
     List<Map<String, Object>> getIncpBudgetDetailViewData(Map<String, Object> params);
 
     Map<String, Object> getBudgetCodeData(Map<String, Object> params);
+
+    Map<String, Object> getIncpExnpAmt(Map<String, Object> params);
+
+    void updProjectPayAsync(Map<String, Object> params);
+
+    Map<String, Object> getExistProject(Map<String, Object> params);
 }

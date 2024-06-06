@@ -104,11 +104,13 @@ public class ManageRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("manage.getCarryoverAmt", params);
     }
 
+    @Deprecated
     public void updProjectCarryoverAmt(Map<String, Object> params) {
 
         update("manage.updProjectCarryoverAmt", params);
     }
 
+    @Deprecated
     public void updCorpProjectCarryoverAmt(Map<String, Object> params) {
 
         update("manage.updCorpProjectCarryoverAmt", params);
@@ -122,5 +124,71 @@ public class ManageRepository extends AbstractDAO {
     public List<Map<String, Object>> getIncpBudgetDetailViewData(Map<String, Object> params) {
 
         return selectList("manage.getIncpBudgetDetailViewData", params);
+    }
+
+    public Map<String, Object> getExistProject(Map<String, Object> params) {
+
+        return (Map<String, Object>) selectOne("manage.getExistProject", params);
+    }
+
+    public void insOverCash(Map<String, Object> params) {
+
+        insert("manage.insOverCash", params);
+    }
+
+    public void insOverPoint(Map<String, Object> params) {
+
+        insert("manage.insOverPoint", params);
+    }
+
+    public void updOverCash(Map<String, Object> params) {
+
+        update("manage.updOverCash", params);
+    }
+
+    public void updOverPoint(Map<String, Object> params) {
+
+        update("manage.updOverPoint", params);
+    }
+
+    public Map<String, Object> getIncpACost(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.getIncpACost", params);
+    }
+
+
+    public Map<String, Object> getIncpBCost(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.getIncpBCost", params);
+    }
+
+    public Map<String, Object> getIncpCCost(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.getIncpCCost", params);
+    }
+
+    public Map<String, Object> getExnpACost(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.getExnpACost", params);
+    }
+
+    public Map<String, Object> getExnpBCost(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.getExnpBCost", params);
+    }
+
+
+    public Map<String, Object> getExnpCCost(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.getExnpCCost", params);
+    }
+
+
+    public Map<String, Object> getExistProjectPayData(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.getExistProjectPayData", params);
+    }
+
+    public void insProjectPayAsync(Map<String, Object> params) {
+
+        update("manage.insProjectPayAsync", params);
+    }
+
+    public void updProjectPayAsync(Map<String, Object> params) {
+
+        update("manage.updProjectPayAsync", params);
     }
 }

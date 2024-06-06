@@ -445,7 +445,11 @@ public class ManageController {
     }
 
     @RequestMapping("/mng/updCarryoverAmt")
-    public String updCarryoverAmt(@RequestParam Map<String, Object> params){
+    public String updCarryoverAmt(@RequestParam Map<String, Object> params, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+
+        params.put("empSeq", loginVO.getUniqId());
         manageService.updCarryoverAmt(params);
         return "jsonView";
     }
@@ -606,6 +610,24 @@ public class ManageController {
     @RequestMapping("/mng/getAccountInfoOne")
     public String getAccountInfoOne(@RequestParam Map<String, Object> params, Model model){
         model.addAttribute("rs", manageService.getAccountInfoOne(params));
+        return "jsonView";
+    }
+
+    @RequestMapping("/mng/getIncpExnpAmt")
+    public String getIncpExnpAmt(@RequestParam Map<String, Object> params, Model model){
+
+        Map<String, Object> data = new HashMap<>();
+
+        data = manageService.getIncpExnpAmt(params);
+
+        model.addAttribute("rs", data);
+
+        return "jsonView";
+    }
+
+    @RequestMapping("/mng/updProjectPayAsync")
+    public String updProjectPayAsync(@RequestParam Map<String, Object> params, Model model){
+        manageService.updProjectPayAsync(params);
         return "jsonView";
     }
 }

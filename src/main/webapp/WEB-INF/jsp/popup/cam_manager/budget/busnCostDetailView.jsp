@@ -181,23 +181,23 @@
                             </tr>
                             <tr>
                                 <td style="text-align: center">예산반영</td>
-                                <td style="text-align: right"></td>
-                                <td style="text-align: right"></td>
-                                <td style="text-align: right"></td>
+                                <td style="text-align: right" id="incpA"></td>
+                                <td style="text-align: right" id="exnpA"></td>
+                                <td style="text-align: right" id="sumA"></td>
                                 <td style="">정상적 입출금</td>
                             </tr>
                             <tr>
                                 <td style="text-align: center">예산미반영</td>
-                                <td style="text-align: right"></td>
-                                <td style="text-align: right"></td>
-                                <td style="text-align: right"></td>
+                                <td style="text-align: right" id="incpB"></td>
+                                <td style="text-align: right" id="exnpB"></td>
+                                <td style="text-align: right" id="sumB"></td>
                                 <td style="">타프로젝트 자금이 당계좌로 입출될 경우</td>
                             </tr>
                             <tr>
                                 <td style="text-align: center">타계좌</td>
-                                <td style="text-align: right"></td>
-                                <td style="text-align: right"></td>
-                                <td style="text-align: right"></td>
+                                <td style="text-align: right" id="incpC"></td>
+                                <td style="text-align: right" id="exnpC"></td>
+                                <td style="text-align: right" id="sumC"></td>
                                 <td style="">해당프로젝트 자금이 타계좌로 입출될 경우</td>
                             </tr>
                             </thead>
