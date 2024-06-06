@@ -811,4 +811,10 @@
         /*getRndProjectPrevNextAmt*/
         SELECT * FROM CAM_PJT_MNG.DJ_GOVT_PROJECT_AMT WHERE GOVT_PJT_SN = #{govtPjtSn}
     </select>
+
+    <select id="getCorpProjectDataByCd" parameterType="map" resultType="map">
+        /*getCorpProjectDataByCd*/
+        SELECT * FROM CAM_PJT_MNG.DJ_CORP_PROJECT WHERE CORP_PJT_CD = #{corpPjtCd};
+
+    </select>
 </mapper>

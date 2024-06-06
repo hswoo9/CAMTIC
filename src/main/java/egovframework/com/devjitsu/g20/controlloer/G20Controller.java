@@ -1,6 +1,7 @@
 package egovframework.com.devjitsu.g20.controlloer;
 
 import com.google.gson.Gson;
+import egovframework.com.devjitsu.cam_manager.service.SetManagementService;
 import egovframework.com.devjitsu.g20.service.G20Service;
 import egovframework.com.devjitsu.gw.login.dto.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ public class G20Controller {
 
     @Autowired
     private G20Service g20Service;
+
+
+    @Autowired
+    private SetManagementService setManagementService;
 
 
     @RequestMapping("/g20/getProjectView")
@@ -49,6 +54,30 @@ public class G20Controller {
     @RequestMapping("/g20/getProjectList")
     public String getProject(@RequestParam Map<String, Object> params, Model model){
         List<Map<String, Object>> list = g20Service.getProjectList(params);
+
+
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
+
+    @RequestMapping("/g20/getProjectList2")
+    public String getProjectList2(@RequestParam Map<String, Object> params, Model model){
+        List<Map<String, Object>> list = g20Service.getProjectList(params);
+
+        for(Map<String, Object> map : list){
+            params.put("corpPjtCd", map.get("pjtSeq"));
+            Map<String, Object> corpPjtInfo = setManagementService.getCorpProjectDataByCd(params);
+
+            if(corpPjtInfo != null) {
+                map.put("carryoverCash", corpPjtInfo.get("CARRYOVER_CASH") == null ? "" : corpPjtInfo.get("CARRYOVER_CASH"));
+                map.put("carryoverPoint", corpPjtInfo.get("CARRYOVER_POINT") == null ? "" : corpPjtInfo.get("CARRYOVER_POINT"));
+            } else {
+                map.put("carryoverCash", "");
+                map.put("carryoverPoint", "");
+            }
+
+        }
 
 
         model.addAttribute("list", list);

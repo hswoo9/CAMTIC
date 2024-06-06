@@ -36,7 +36,7 @@ var busnCostPreCon = {
             serverPaging: false,
             transport: {
                 read : {
-                    url: '/g20/getProjectList',
+                    url: '/g20/getProjectList2',
                     dataType: "json",
                     type: "post",
                     async: false
@@ -120,9 +120,19 @@ var busnCostPreCon = {
                         }
                     }
                 }, {
-                    field: "",
                     title: "시재",
                     width: 80,
+                    template: function (e){
+                        var cash = 0;
+                        var point = 0;
+                        if(e.carryoverCash != ''){
+                            cash = e.carryoverCash;
+                        }
+                        if(e.carryoverPoint != ''){
+                            point = e.carryoverPoint;
+                        }
+                        return '<div style="text-align: right">'+comma(cash + point)+'</div>';
+                    }
                 }, {
                     field: "",
                     title: "수입예산",

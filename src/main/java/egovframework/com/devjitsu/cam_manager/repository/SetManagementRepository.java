@@ -66,4 +66,8 @@ public class SetManagementRepository extends AbstractDAO {
     public Map<String, Object> getRndProjectPrevNextAmt(Map<String, Object> params) {
         return (Map<String, Object>) selectOne("manage.getRndProjectPrevNextAmt", params);
     }
+
+    public Map<String, Object> getCorpProjectDataByCd(Map<String, Object> params) {
+        return (Map<String, Object>) selectOne("manage.getCorpProjectDataByCd", params);
+    }
 }

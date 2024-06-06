@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -135,5 +136,10 @@ public class SetManagementServiceImpl implements SetManagementService {
     @Override
     public Map<String, Object> getRndProjectPrevNextAmt(Map<String, Object> params) {
         return setManagementRepository.getRndProjectPrevNextAmt(params);
+    }
+
+    @Override
+    public Map<String, Object> getCorpProjectDataByCd(Map<String, Object> params) {
+        return setManagementRepository.getCorpProjectDataByCd(params);
     }
 }

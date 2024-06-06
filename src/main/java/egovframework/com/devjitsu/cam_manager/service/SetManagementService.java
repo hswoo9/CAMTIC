@@ -25,4 +25,6 @@ public interface SetManagementService {
     void setRndProjectPrevNextAmt(Map<String, Object> params);
 
     Map<String, Object> getRndProjectPrevNextAmt(Map<String, Object> params);
+
+    Map<String, Object> getCorpProjectDataByCd(Map<String, Object> params);
 }
