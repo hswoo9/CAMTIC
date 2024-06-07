@@ -60,9 +60,9 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
                 Map<String, Object> serachMap = new HashMap<>();
                 serachMap.put("pjtSn", teamList.get(i).get("PJT_SN"));
                 serachMap.put("teamVersionSn", teamList.get(i).get("TEAM_VERSION_SN"));
-                List<Map<String, Object>> getTeamList = projectTeamRepository.getTeamList(serachMap);
-                if(getTeamList.size() > 0){
-                    teamList.get(i).put("teamDetailList", getTeamList);
+                List<Map<String, Object>> teamDetailList = projectTeamRepository.getTeamDetailList(serachMap);
+                if(teamDetailList.size() > 0){
+                    teamList.get(i).put("teamDetailList", teamDetailList);
                 }
             }
         }

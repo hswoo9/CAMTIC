@@ -109,8 +109,60 @@ var teamList = {
             pageable: false,
             columns: [
                 {
-                    field: "TM_TEAM_SEQ",
+                    title: "총예산",
+                    template: function (row){
+                        return "<div style='text-align: right'>"+comma(row.REAL_PJT_AMT)+"</div>";
+                    }
+                }, {
+                    field: "TEAM_NAME",
                     title: "팀",
+                }, {
+                    title: "협업예산",
+                    template: function (row){
+                        if(row.STATUS == "100"){
+                            return "<div style='text-align: right'>"+comma(row.TM_AMT)+"</div>";
+                        }else{
+                            return "<div style='text-align: center'>작성중</div>";
+                        }
+                    }
+                }, {
+                    title: "배분비율",
+                    template: function (row){
+                        if(row.STATUS == "100"){
+                            const per = Math.round(Number(row.TM_AMT) / Number(row.REAL_PJT_AMT) * 100) + "%";
+                            return "<div style='text-align: right'>"+per+"</div>";
+                        }else{
+                            return "<div style='text-align: center'>작성중</div>";
+                        }
+                    }
+                }, {
+                    title: "예상비용",
+                    template: function (row){
+                        if(row.STATUS == "100"){
+                            return "<div style='text-align: right'>"+comma(row.TM_INV_AMT)+"</div>";
+                        }else{
+                            return "<div style='text-align: center'>작성중</div>";
+                        }
+                    }
+                }, {
+                    title: "예상수익",
+                    template: function (row){
+                        if(row.STATUS == "100"){
+                            const per = Math.round(100 - Number(row.TM_INV_AMT / uncomma(row.REAL_PJT_AMT) * 100)) + "%";
+                            return "<div style='text-align: right'>"+per+"</div>";
+                        }else{
+                            return "<div style='text-align: center'>작성중</div>";
+                        }
+                    }
+                }, {
+                    title: "협업보고서",
+                    template: function (row){
+                        if(row.PJT_NM == "0"){
+                            return row.REAL_PJT_AMT;
+                        }else{
+                            return '<button type="button" class="k-button k-button-solid-info" onclick="teamEngn.teamPrintPop('+row.TEAM_VERSION_SN+', '+row.TM_SN+')">협업보고서</button></td>';
+                        }
+                    }
                 }
             ]
         });
