@@ -51,6 +51,7 @@
         WHERE
         1=1
         AND A.TEAM_STAT = "N"
+        AND A.PARENT_PJT_SN IS NULL
         <if test='pjtYear != null and pjtYear != ""'>
             AND
                 DATE_FORMAT(A.STR_DT, '%Y') = #{pjtYear}
@@ -205,6 +206,7 @@
         WHERE
         1=1
         AND A.TEAM_STAT = "N"
+        AND A.PARENT_PJT_SN IS NULL
         AND A.PJT_STEP in (${busnSubClass})
         <![CDATA[ AND ((YEAR(STR_DT) <= #{year} AND YEAR(END_DT) >= #{year}) OR (YEAR(CONSULT_DT) <= #{year} AND YEAR(CONSULT_DT) >= #{year})) ]]>
         <if test='busnClass != null and busnClass != ""'>
@@ -272,6 +274,7 @@
             WHERE
                 1=1
             AND A.TEAM_STAT = "N"
+            AND A.PARENT_PJT_SN IS NULL
 
             UNION ALL
 
@@ -352,6 +355,15 @@
             A.PJT_SN = DDS.FR_PJT_SN
         WHERE
             A.PJT_SN = #{pjtSn}
+    </select>
+
+    <select id="getMultiPjtList" parameterType="map" resultType="map">
+        /*getMultiPjtList*/
+        SELECT PJT_SN, PARENT_PJT_SN, BS_TITLE, PJT_NM FROM CAM_PJT_MNG.DJ_PROJECT WHERE PJT_SN = #{multiParentPjtSn}
+
+        UNION ALL
+
+        SELECT PJT_SN, PARENT_PJT_SN, BS_TITLE, PJT_NM FROM CAM_PJT_MNG.DJ_PROJECT WHERE PARENT_PJT_SN = #{multiParentPjtSn}
     </select>
 
     <insert id="insProject" parameterType="map">

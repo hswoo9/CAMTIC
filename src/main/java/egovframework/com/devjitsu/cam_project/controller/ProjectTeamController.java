@@ -84,6 +84,19 @@ public class ProjectTeamController {
         return "cam_project/teamMng";
     }
 
+    /** 협업 리스트 */
+    @RequestMapping("/intra/cam_project/teamList.do")
+    public String teamList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        LoginVO loginVO = (LoginVO) session.getAttribute("LoginVO");
+        session.setAttribute("menuNm", request.getRequestURI());
+
+        model.addAttribute("loginVO", loginVO);
+        model.addAttribute("params", params);
+
+        return "cam_project/teamList";
+    }
+
     /** new 엔지니어링 협업등록 */
     @RequestMapping("/intra/cam_project/setTeamProject.do")
     public String setTeamProject(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
@@ -140,6 +153,15 @@ public class ProjectTeamController {
     @RequestMapping("/project/team/getTeamMngList")
     public String getTeamMngList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
         List<Map<String, Object>> list = projectTeamService.getTeamMngList(params);
+        model.addAttribute("list", list);
+
+        return "jsonView";
+    }
+
+    /** 프로젝트 전체 협업 리스트 */
+    @RequestMapping("/project/team/getTeamListAll")
+    public String getTeamListAll(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        List<Map<String, Object>> list = projectTeamService.getTeamListAll(params);
         model.addAttribute("list", list);
 
         return "jsonView";

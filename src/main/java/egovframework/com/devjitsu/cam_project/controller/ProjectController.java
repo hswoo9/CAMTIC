@@ -461,6 +461,13 @@ public class ProjectController {
         return "jsonView";
     }
 
+    @RequestMapping("/project/getMultiPjtList")
+    public String getMultiPjtList(@RequestParam Map<String, Object> params, Model model, HttpServletRequest request){
+        List<Map<String, Object>> list = projectService.getMultiPjtList(params);
+        model.addAttribute("list", list);
+        return "jsonView";
+    }
+
     /**
      * 프로젝트 등록 > 업체정보 Get Data
      * @param params

@@ -168,7 +168,14 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Map<String, Object> getProjectStep(Map<String, Object> params) {
-        return projectRepository.getProjectStep(params);
+        Map<String, Object> result = new HashMap<>();
+        result = projectRepository.getProjectStep(params);
+        return result;
+    }
+
+    @Override
+    public List<Map<String, Object>> getMultiPjtList(Map<String, Object> params) {
+        return projectRepository.getMultiPjtList(params);
     }
 
     @Override

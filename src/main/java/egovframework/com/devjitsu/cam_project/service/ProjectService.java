@@ -21,6 +21,7 @@ public interface ProjectService {
     void setProject(Map<String, Object> params);
 
     Map<String, Object> getProjectStep(Map<String, Object> params);
+    List<Map<String, Object>> getMultiPjtList(Map<String, Object> params);
 
     void delProject(Map<String, Object> params);
 

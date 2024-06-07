@@ -38,6 +38,10 @@ public class ProjectRepository extends AbstractDAO {
         return (Map<String, Object>) selectOne("project.getProjectStep", params);
     }
 
+    public List<Map<String, Object>> getMultiPjtList(Map<String, Object> params) {
+        return selectList("project.getMultiPjtList", params);
+    }
+
     public void insProject(Map<String, Object> params) {
         insert("project.insProject", params);
     }
