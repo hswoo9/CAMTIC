@@ -192,7 +192,7 @@ var busnCostPreCon = {
                 record = fn_getRowNum(this, 2);
             },
             dataBound: function(){
-                $(".diffPay").closest("tr").css("border", "2px solid red");
+                $(".diffPay").closest("tr").css("color", "red");
             }
         }).data("kendoGrid");
     },
