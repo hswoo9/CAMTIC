@@ -46,6 +46,8 @@
                 HANG_CD,
                 HANG_NM,
                 BUDGET_AMT,
+                BUDGET_TYPE_CD,
+                BUDGET_TYPE,
                 CD_REG_DE,
                 REG_EMP_SEQ
             )
@@ -60,6 +62,8 @@
                 #{hangCd},
                 #{hang},
                 #{budgetAmt},
+                #{budgetTypeCd},
+                #{budgetType},
                 #{regDt},
                 #{regEmpSeq}
             )
@@ -104,7 +108,7 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_BUDGET_A
         WHERE
-            BS_YEAR = #{baseYear} AND JANG_CD = #{jangCd} AND GWAN_CD = #{gwanCd} AND HANG_CD = #{hangCd}
+            BS_YEAR = #{baseYear} AND JANG_CD = #{jangCd} AND GWAN_CD = #{gwanCd} AND HANG_CD = #{hangCd} AND BUDGET_TYPE_CD = #{budgetTypeCd}
     </select>
 
     <select id="getBudgetBCdCheck" parameterType="map" resultType="int">
@@ -114,7 +118,7 @@
         FROM
             CAM_PJT_MNG.DJ_PJT_BUDGET_B
         WHERE
-            BS_YEAR = #{baseYear} AND JANG_CD = #{jangCd} AND GWAN_CD = #{gwanCd} AND HANG_CD = #{hangCd}
+            BS_YEAR = #{baseYear} AND JANG_CD = #{jangCd} AND GWAN_CD = #{gwanCd} AND HANG_CD = #{hangCd} AND BUDGET_TYPE_CD = #{budgetTypeCd}
     </select>
 
     <select id="getBudgetAData" parameterType="map" resultType="map">
@@ -147,6 +151,8 @@
             HANG_NM = #{hang},
             MOD_EMP_SEQ = #{regEmpSeq},
             BUDGET_AMT = #{budgetAmt},
+            BUDGET_TYPE_CD = #{budgetTypeCd},
+            BUDGET_TYPE = #{budgetType},
             MOD_DT = now()
         WHERE
             PJT_BUDGET_SN = #{pjtBudgetSn}
@@ -184,6 +190,8 @@
                 HANG_CD,
                 HANG_NM,
                 BUDGET_AMT,
+                BUDGET_TYPE_CD,
+                BUDGET_TYPE,
                 DD_LINE_STAT,
                 CD_REG_DE,
                 REG_DT,
@@ -209,6 +217,8 @@
                  HANG_CD,
                  HANG_NM,
                  BUDGET_AMT,
+                 BUDGET_TYPE_CD,
+                 BUDGET_TYPE,
                  DD_LINE_STAT,
                  CD_REG_DE,
                  REG_DT,

@@ -35,6 +35,8 @@ public class BudgetServiceImpl implements BudgetService {
                 params.put("gwanCd", item.get("gwanCd"));
                 params.put("hangCd", item.get("hangCd"));
                 params.put("budgetAmt", item.get("budgetAmt"));
+                params.put("budgetType", item.get("budgetType"));
+                params.put("budgetTypeCd", item.get("budgetTypeCd"));
 
                 if(params.get("type").equals("M")){
                     params.put("pjtBudgetSn", item.get("pjtBudgetSn"));
@@ -60,6 +62,8 @@ public class BudgetServiceImpl implements BudgetService {
                 params.put("gwanCd", item.get("gwanCd"));
                 params.put("hangCd", item.get("hangCd"));
                 params.put("budgetAmt", item.get("budgetAmt"));
+                params.put("budgetType", item.get("budgetType"));
+                params.put("budgetTypeCd", item.get("budgetTypeCd"));
 
                 if(params.get("type").equals("M")){
                     params.put("pjtBudgetSn", item.get("pjtBudgetSn"));
@@ -99,6 +103,8 @@ public class BudgetServiceImpl implements BudgetService {
                     params.put("gwanCd", item.get("gwanCd"));
                     params.put("hangCd", item.get("hangCd"));
                     params.put("budgetAmt", item.get("budgetAmt"));
+                    params.put("budgetType", item.get("budgetType"));
+                    params.put("budgetTypeCd", item.get("budgetTypeCd"));
 
                     cnt = budgetRepository.getBudgetACdCheck(params);
                 }
@@ -120,6 +126,8 @@ public class BudgetServiceImpl implements BudgetService {
                     params.put("gwanCd", item.get("gwanCd"));
                     params.put("hangCd", item.get("hangCd"));
                     params.put("budgetAmt", item.get("budgetAmt"));
+                    params.put("budgetType", item.get("budgetType"));
+                    params.put("budgetTypeCd", item.get("budgetTypeCd"));
 
                     cnt = budgetRepository.getBudgetBCdCheck(params);
                 }
