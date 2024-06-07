@@ -132,6 +132,8 @@ var busnCostPreCon = {
                     width: 80,
                     template: function (e){
                         console.log(e)
+
+                        var rs = e.rs;
                         var cash = 0;
                         var point = 0;
                         if(e.carryoverCash != ''){
@@ -140,7 +142,11 @@ var busnCostPreCon = {
                         if(e.carryoverPoint != ''){
                             point = e.carryoverPoint;
                         }
-                        return '<div style="text-align: right">'+comma(cash + point)+'</div>';
+                        var overPay = (cash + point);
+
+                        var totPay = overPay + Number(rs.incpA) - Number(rs.exnpA) + Number(rs.incpB) - Number(rs.exnpB);
+
+                        return '<div style="text-align: right">'+comma(totPay)+'</div>';
                     }
                 }, {
                     title: "수입예산",

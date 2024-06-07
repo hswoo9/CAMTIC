@@ -102,6 +102,10 @@ public class G20Controller {
 
 
             params.put("bankNB", map.get("bankNumber").toString().replaceAll("-", ""));
+            params.put("baNb", params.get("bankNB"));
+
+            Map<String, Object> incpExnpMap = manageService.getIncpExnpAmt(params);
+
             Map<String, Object> ibranchMap = manageService.getCurrentAmountStatus(params);
 
             if(ibranchMap != null){
@@ -109,6 +113,8 @@ public class G20Controller {
             } else {
                 map.put("ibranchAmt", 0);
             }
+
+            map.put("rs", incpExnpMap);
 
         }
 

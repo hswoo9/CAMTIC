@@ -900,7 +900,13 @@ var prp = {
             const pjtMap = pjtInfo.map;
             console.log("pjtMap : ", pjtMap);
 
-            const list = customKendo.fn_customAjax("/project/getTeamInvList", {pjtSn: $("#pjtSn").val(), ck: '1'}).list;
+            const params = {pjtSn: $("#pjtSn").val()}
+            if(pjtMap.TM_YN == "N"){
+                params.ck = "1";
+            }else if(pjtMap.TM_YN == "Y"){
+                params.ck = "2";
+            }
+            const list = customKendo.fn_customAjax("/project/getTeamInvList", params).list;
             let invSum = 0;
             for(let i=0; i<list.length; i++){
                 invSum += Number(list[i].EST_TOT_AMT);

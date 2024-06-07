@@ -580,6 +580,11 @@ public class PayAppServiceImpl implements PayAppService {
     }
 
     @Override
+    public List<Map<String, Object>> getExnpDetailDataDupl(Map<String, Object> params) {
+        return payAppRepository.getExnpDetailDataDupl(params);
+    }
+
+    @Override
     public List<Map<String, Object>> getExnpList(Map<String, Object> params) {
         return payAppRepository.getExnpList(params);
     }

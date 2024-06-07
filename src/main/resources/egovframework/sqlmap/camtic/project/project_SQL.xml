@@ -1121,9 +1121,12 @@
         SELECT * FROM
             CAM_PJT_MNG.DJ_PJT_INV
         WHERE
-            DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD WHERE SPD.PJT_SN = #{pjtSn}
-            <if test='ck != null and !"".equals(ck)'>
+            DEV_SN = (SELECT SPD.DEV_SN FROM CAM_PJT_MNG.DJ_PJT_DEV SPD LEFT JOIN CAM_PJT_MNG.DJ_PROJECT SP ON SPD.PJT_SN = SP.PJT_SN WHERE SPD.PJT_SN = #{pjtSn}
+            <if test='ck != null and "1".equals(ck)'>
                 AND SPD.STATUS = '100'
+            </if>
+            <if test='ck != null and "2".equals(ck)'>
+                AND SP.DEV_TEAM_CK = 'Y'
             </if>
             ORDER BY SPD.DEV_SN DESC LIMIT 1)
     </select>
